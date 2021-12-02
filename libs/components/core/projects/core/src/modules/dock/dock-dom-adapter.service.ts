@@ -3,29 +3,20 @@ import {
   Injectable,
   OnDestroy,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  fromEvent as observableFromEvent,
-  Subject
-} from 'rxjs';
+import { fromEvent as observableFromEvent, Subject } from 'rxjs';
 
-import {
-  debounceTime,
-  takeUntil
-} from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import {
-  MutationObserverService
-} from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '../mutation/mutation-observer-service';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyDockDomAdapterService implements OnDestroy {
-
   private currentDockHeight: number;
 
   private ngUnsubscribe = new Subject<void>();
@@ -54,9 +45,10 @@ export class SkyDockDomAdapterService implements OnDestroy {
     }
 
     this.currentDockHeight =
-    this.ngUnsubscribe =
-    this.observer =
-    this.styleElement = undefined;
+      this.ngUnsubscribe =
+      this.observer =
+      this.styleElement =
+        undefined;
   }
 
   public setSticky(elementRef: ElementRef): void {
@@ -80,14 +72,11 @@ export class SkyDockDomAdapterService implements OnDestroy {
       attributes: true,
       childList: true,
       characterData: true,
-      subtree: true
+      subtree: true,
     });
 
     observableFromEvent(window, 'resize')
-      .pipe(
-        debounceTime(250),
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(debounceTime(250), takeUntil(this.ngUnsubscribe))
       .subscribe(() => this.adjustBodyStyles(elementRef));
   }
 
@@ -99,7 +88,9 @@ export class SkyDockDomAdapterService implements OnDestroy {
 
     // Create a style element to avoid overwriting any existing inline body styles.
     const styleElement = this.renderer.createElement('style');
-    const textNode = this.renderer.createText(`body { margin-bottom: ${dockHeight}px; }`);
+    const textNode = this.renderer.createText(
+      `body { margin-bottom: ${dockHeight}px; }`
+    );
 
     // Apply a `data-` attribute to make unit testing easier.
     this.renderer.setAttribute(

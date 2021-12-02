@@ -1,27 +1,17 @@
-import {
-  Component,
-  TemplateRef,
-  ViewChild
-} from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
-import {
-  SkyOverlayService
-} from '../overlay.service';
+import { SkyOverlayService } from '../overlay.service';
 
 @Component({
   selector: 'sky-overlay-test',
-  templateUrl: './overlay.component.fixture.html'
+  templateUrl: './overlay.component.fixture.html',
 })
 export class OverlayFixtureComponent {
-
   @ViewChild('myTemplate', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public myTemplate: TemplateRef<any>;
 
-  constructor(
-    public overlayService: SkyOverlayService
-  ) { }
-
+  constructor(public overlayService: SkyOverlayService) {}
 }

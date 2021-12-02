@@ -1,6 +1,4 @@
-import {
-  MutationObserverService
-} from './mutation-observer-service';
+import { MutationObserverService } from './mutation-observer-service';
 
 describe('Mutation observer service', () => {
   it('should return a new instance of a mutation observer', () => {

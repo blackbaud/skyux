@@ -1,53 +1,30 @@
-import {
-  ComponentRef,
-  Injectable,
-  Type
-} from '@angular/core';
+import { ComponentRef, Injectable, Type } from '@angular/core';
 
-import {
-  SkyDockItem
-} from './dock-item';
+import { SkyDockItem } from './dock-item';
 
-import {
-  SkyDockComponent
-} from './dock.component';
+import { SkyDockComponent } from './dock.component';
 
-import {
-  SkyDockInsertComponentConfig
-} from './dock-insert-component-config';
+import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
 
-import {
-  SkyDockLocation
-} from './dock-location';
+import { SkyDockLocation } from './dock-location';
 
-import {
-  SkyDockOptions
-} from './dock-options';
+import { SkyDockOptions } from './dock-options';
 
-import {
-  SkyDynamicComponentLocation
-} from '../dynamic-component/dynamic-component-location';
+import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
 
-import {
-  SkyDynamicComponentOptions
-} from '../dynamic-component/dynamic-component-options';
+import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
 
-import {
-  SkyDynamicComponentService
-} from '../dynamic-component/dynamic-component.service';
+import { SkyDynamicComponentService } from '../dynamic-component/dynamic-component.service';
 
-import {
-  sortByStackOrder
-} from './sort-by-stack-order';
+import { sortByStackOrder } from './sort-by-stack-order';
 
 /**
  * This service docks components to specific areas on the page.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyDockService {
-
   /**
    * Returns all docked items.
    */
@@ -61,22 +38,26 @@ export class SkyDockService {
 
   private _items: SkyDockItem<any>[] = [];
 
-  constructor(
-    private dynamicComponentService: SkyDynamicComponentService
-  ) { }
+  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
 
   /**
    * Docks a component to the bottom of the page.
    * @param component The component to dock.
    * @param config Options that affect the docking action.
    */
-  public insertComponent<T>(component: Type<T>, config?: SkyDockInsertComponentConfig): SkyDockItem<T> {
+  public insertComponent<T>(
+    component: Type<T>,
+    config?: SkyDockInsertComponentConfig
+  ): SkyDockItem<T> {
     if (!this.dockRef) {
       this.createDock();
     }
 
     const itemRef = this.dockRef.instance.insertComponent(component, config);
-    const item = new SkyDockItem(itemRef.componentRef.instance, itemRef.stackOrder);
+    const item = new SkyDockItem(
+      itemRef.componentRef.instance,
+      itemRef.stackOrder
+    );
 
     item.destroyed.subscribe(() => {
       this.dockRef.instance.removeItem(itemRef);
@@ -122,11 +103,14 @@ export class SkyDockService {
 
       dockOptions = {
         location: dynamicLocation,
-        referenceEl: this.options.referenceEl
+        referenceEl: this.options.referenceEl,
       };
     }
 
-    this.dockRef = this.dynamicComponentService.createComponent(SkyDockComponent, dockOptions);
+    this.dockRef = this.dynamicComponentService.createComponent(
+      SkyDockComponent,
+      dockOptions
+    );
     this.dockRef.instance.setOptions(this.options);
   }
 
@@ -134,5 +118,4 @@ export class SkyDockService {
     this.dynamicComponentService.removeComponent(this.dockRef);
     this.dockRef = undefined;
   }
-
 }

@@ -1,8 +1,6 @@
 <h1>Adapter service fixture</h1>
 
-<div
-  id="focusable-children-container"
->
+<div id="focusable-children-container">
   <p>Hello world</p>
   <input
     id="not-autofocus-input"
@@ -12,86 +10,69 @@
     [disabled]="disableInput"
   />
   <p>Here's a <a href="#">link</a> that doesn't have autofocus.</p>
-  <input
-    autofocus
-    id="autofocus-input"
-    name="autofocus-input"
-    type="text"
-  />
+  <input autofocus id="autofocus-input" name="autofocus-input" type="text" />
   <p>Here's another <a href="#">link</a> that doesn't have autofocus.</p>
   <p>Goodbye!</p>
 
   <!-- DIV with height but no width -->
-  <div tabindex="0" style="width:0;height:10px;"></div>
+  <div tabindex="0" style="width: 0; height: 10px"></div>
 
   <!-- DIV with no height and no width -->
-  <div tabindex="0" style="width:0;height:0;"></div>
+  <div tabindex="0" style="width: 0; height: 0"></div>
 </div>
 
-<div
-  id="hidden-container"
-  style="display:none; visibility: hidden;"
->
+<div id="hidden-container" style="display: none; visibility: hidden">
   <p>You shouldn't see this <a href="#">link</a>!</p>
 </div>
 
-<div
-  id="paragraph-container"
-  tabindex="0"
-  #paragraphContainer
->
+<div id="paragraph-container" tabindex="0" #paragraphContainer>
   <h2>I'm a responsive container!</h2>
-  <p>Humblebrag wolf hot chicken tumeric four dollar toast 3 wolf moon gochujang vinyl VHS cray street art authentic. Deep v skateboard la croix master cleanse DIY ramps ennui marfa slow-carb. Asymmetrical roof party farm-to-table Topico Chico espresso with 3 wolf moon subway tile, offal +1 meggings neutra ramps normcore. Quinoa jean shorts +1, skateboard copper mug sustainable lumberjack. Man bun food truck street art vinyl whatever slow-carb migas sartorial beard locavore. Neutra blue bottle ugh hot chicken trust fund, artisan YOLO activated charcoal XOXO freegan roof party prism blog fixie.</p>
+  <p>
+    Humblebrag wolf hot chicken tumeric four dollar toast 3 wolf moon gochujang
+    vinyl VHS cray street art authentic. Deep v skateboard la croix master
+    cleanse DIY ramps ennui marfa slow-carb. Asymmetrical roof party
+    farm-to-table Topico Chico espresso with 3 wolf moon subway tile, offal +1
+    meggings neutra ramps normcore. Quinoa jean shorts +1, skateboard copper mug
+    sustainable lumberjack. Man bun food truck street art vinyl whatever
+    slow-carb migas sartorial beard locavore. Neutra blue bottle ugh hot chicken
+    trust fund, artisan YOLO activated charcoal XOXO freegan roof party prism
+    blog fixie.
+  </p>
 </div>
 
-<div
-  id="iframe-container"
->
+<div id="iframe-container">
   <iframe>
     <h2>I'm an iFrame!</h2>
   </iframe>
 </div>
 
-<div
-  id="z-index-container"
-></div>
+<div id="z-index-container"></div>
 
-<div
-  id="height-sync-container"
-  style="width:300px;"
-  #syncHeightContainer
->
+<div id="height-sync-container" style="width: 300px" #syncHeightContainer>
   <div>
     <p>
-      Humblebrag wolf hot chicken tumeric four dollar toast 3 wolf moon gochujang vinyl VHS cray street art authentic.
+      Humblebrag wolf hot chicken tumeric four dollar toast 3 wolf moon
+      gochujang vinyl VHS cray street art authentic.
     </p>
   </div>
   <div>
-    <p>
-      Artisan YOLO activated charcoal.
-    </p>
+    <p>Artisan YOLO activated charcoal.</p>
   </div>
   <div>
     <p>
-      Deep v skateboard la croix master cleanse DIY ramps ennui marfa slow-carb. Asymmetrical roof party farm-to-table Topico Chico espresso with 3 wolf moon subway tile, offal +1 meggings neutra ramps normcore.
+      Deep v skateboard la croix master cleanse DIY ramps ennui marfa slow-carb.
+      Asymmetrical roof party farm-to-table Topico Chico espresso with 3 wolf
+      moon subway tile, offal +1 meggings neutra ramps normcore.
     </p>
   </div>
   <div>
-    <p>
-      Asymmetrical roof party.
-    </p>
+    <p>Asymmetrical roof party.</p>
   </div>
   <div>
-    <p>
-      Farm-to-table Topico Chico.
-    </p>
+    <p>Farm-to-table Topico Chico.</p>
   </div>
 </div>
 
-<div
-  id="get-width-container"
-  style="width:300px;"
-  #getWidthContainer
->
+<div id="get-width-container" style="width: 300px" #getWidthContainer>
   <p>I should always be 300px!</p>
 </div>

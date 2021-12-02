@@ -1,5 +1,4 @@
 export interface SkyOverlayConfig {
-
   /**
    * Specifies if the overlay should be closed after a navigation change.
    */
@@ -29,5 +28,4 @@ export interface SkyOverlayConfig {
    * Specifies extra CSS classes to be added to the overlay's wrapper element.
    */
   wrapperClass?: string;
-
 }

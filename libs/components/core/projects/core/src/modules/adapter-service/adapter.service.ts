@@ -2,16 +2,12 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints
-} from '../media-query/media-breakpoints';
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
-import {
-  SkyFocusableChildrenOptions
-} from './focusable-children-options';
+import { SkyFocusableChildrenOptions } from './focusable-children-options';
 
 const SKY_TABBABLE_SELECTOR = [
   'a[href]',
@@ -24,19 +20,16 @@ const SKY_TABBABLE_SELECTOR = [
   'object',
   'embed',
   '*[contenteditable=true]:not([disabled])',
-  '*[tabindex]:not([disabled])'
+  '*[tabindex]:not([disabled])',
 ].join(', ');
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyCoreAdapterService {
-
   private renderer: Renderer2;
 
-  constructor(
-    private rendererFactory: RendererFactory2
-  ) {
+  constructor(private rendererFactory: RendererFactory2) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
@@ -47,7 +40,10 @@ export class SkyCoreAdapterService {
    * @param breakpoint - The SkyMediaBreakpoint will determine which class
    * gets set. For example a SkyMediaBreakpoint of `xs` will set a CSS class of `sky-responsive-container-xs`.
    */
-  public setResponsiveContainerClass(elementRef: ElementRef, breakpoint: SkyMediaBreakpoints): void {
+  public setResponsiveContainerClass(
+    elementRef: ElementRef,
+    breakpoint: SkyMediaBreakpoints
+  ): void {
     const nativeEl: HTMLElement = elementRef.nativeElement;
 
     this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
@@ -100,7 +96,8 @@ export class SkyCoreAdapterService {
    * @return Returns `true` if a child element with autofocus is found.
    */
   public applyAutoFocus(elementRef: ElementRef): boolean {
-    const elementWithAutoFocus = elementRef.nativeElement.querySelector('[autofocus]');
+    const elementWithAutoFocus =
+      elementRef.nativeElement.querySelector('[autofocus]');
 
     // Child was found with the autofocus property. Set focus and return true.
     if (elementWithAutoFocus) {
@@ -128,11 +125,15 @@ export class SkyCoreAdapterService {
     containerSelector: string,
     focusOnContainerIfNoChildrenFound: boolean = false
   ): void {
-    const containerElement = elementRef.nativeElement.querySelector(containerSelector);
+    const containerElement =
+      elementRef.nativeElement.querySelector(containerSelector);
     const focusableChildren = this.getFocusableChildren(containerElement);
 
     // Focus first focusable child if available. Otherwise, set focus on container.
-    if (!this.focusFirstElement(focusableChildren) && focusOnContainerIfNoChildrenFound) {
+    if (
+      !this.focusFirstElement(focusableChildren) &&
+      focusOnContainerIfNoChildrenFound
+    ) {
       containerElement.focus();
     }
   }
@@ -143,8 +144,13 @@ export class SkyCoreAdapterService {
    * @param element - The HTMLElement to search within.
    * @param options - Options for getting focusable children.
    */
-  public getFocusableChildren(element: HTMLElement, options?: SkyFocusableChildrenOptions): HTMLElement[] {
-    let elements = Array.prototype.slice.call(element.querySelectorAll(SKY_TABBABLE_SELECTOR));
+  public getFocusableChildren(
+    element: HTMLElement,
+    options?: SkyFocusableChildrenOptions
+  ): HTMLElement[] {
+    let elements = Array.prototype.slice.call(
+      element.querySelectorAll(SKY_TABBABLE_SELECTOR)
+    );
 
     // Unless ignoreTabIndex = true, filter out elements with tabindex = -1.
     if (!options || !options.ignoreTabIndex) {
@@ -176,7 +182,10 @@ export class SkyCoreAdapterService {
    * @param target The event target element.
    * @param element The element to test against. A z-index must be explicitly set for this element.
    */
-  public isTargetAboveElement(target: EventTarget, element: HTMLElement): boolean {
+  public isTargetAboveElement(
+    target: EventTarget,
+    element: HTMLElement
+  ): boolean {
     const zIndex: string = getComputedStyle(element).zIndex;
 
     let el: HTMLElement = target as HTMLElement;

@@ -1,6 +1,4 @@
-import {
-  SkyMediaBreakpoints
-} from './media-breakpoints';
+import { SkyMediaBreakpoints } from './media-breakpoints';
 
 /**
  * Specifies a funciton that is called when the breakpoints change. It is called

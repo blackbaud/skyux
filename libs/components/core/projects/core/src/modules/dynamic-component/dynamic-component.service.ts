@@ -7,20 +7,14 @@ import {
   Injector,
   Renderer2,
   RendererFactory2,
-  Type
+  Type,
 } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '../window/window-ref';
+import { SkyAppWindowRef } from '../window/window-ref';
 
-import {
-  SkyDynamicComponentLocation
-} from './dynamic-component-location';
+import { SkyDynamicComponentLocation } from './dynamic-component-location';
 
-import {
-  SkyDynamicComponentOptions
-} from './dynamic-component-options';
+import { SkyDynamicComponentOptions } from './dynamic-component-options';
 
 /**
  * Angular service for creating and rendering a dynamic component.
@@ -29,7 +23,7 @@ import {
   // Must be 'any' so that the component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
   // injector and may loose context if the component is created within a lazy-loaded module.
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDynamicComponentService {
   private renderer: Renderer2;
@@ -58,7 +52,7 @@ export class SkyDynamicComponentService {
     options?: SkyDynamicComponentOptions
   ): ComponentRef<T> {
     options = options || {
-      location: SkyDynamicComponentLocation.BodyBottom
+      location: SkyDynamicComponentLocation.BodyBottom,
     };
 
     const componentRef = this.componentFactoryResolver
@@ -73,10 +67,18 @@ export class SkyDynamicComponentService {
 
     switch (options.location) {
       case SkyDynamicComponentLocation.BeforeElement:
-        this.renderer.insertBefore(options.referenceEl.parentElement, el, options.referenceEl);
+        this.renderer.insertBefore(
+          options.referenceEl.parentElement,
+          el,
+          options.referenceEl
+        );
         break;
       case SkyDynamicComponentLocation.ElementTop:
-        this.renderer.insertBefore(options.referenceEl, el, options.referenceEl.firstChild);
+        this.renderer.insertBefore(
+          options.referenceEl,
+          el,
+          options.referenceEl.firstChild
+        );
         break;
       case SkyDynamicComponentLocation.ElementBottom:
         this.renderer.appendChild(options.referenceEl, el);
@@ -110,5 +112,4 @@ export class SkyDynamicComponentService {
     // https://malcoded.com/posts/angular-dynamic-components
     return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];
   }
-
 }

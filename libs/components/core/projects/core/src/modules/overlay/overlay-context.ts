@@ -1,15 +1,9 @@
-import {
-  SkyOverlayConfig
-} from './overlay-config';
+import { SkyOverlayConfig } from './overlay-config';
 
 /**
  * Provides contextual information to each overlay created.
  * @internal
  */
 export class SkyOverlayContext {
-
-  constructor(
-    public readonly config: SkyOverlayConfig
-  ) { }
-
+  constructor(public readonly config: SkyOverlayConfig) {}
 }

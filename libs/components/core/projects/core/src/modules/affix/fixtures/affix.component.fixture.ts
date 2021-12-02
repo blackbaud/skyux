@@ -1,44 +1,25 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import {
-  SkyAffixAutoFitContext
-} from '../affix-auto-fit-context';
+import { SkyAffixAutoFitContext } from '../affix-auto-fit-context';
 
-import {
-  SkyAffixHorizontalAlignment
-} from '../affix-horizontal-alignment';
+import { SkyAffixHorizontalAlignment } from '../affix-horizontal-alignment';
 
-import {
-  SkyAffixOffset
-} from '../affix-offset';
+import { SkyAffixOffset } from '../affix-offset';
 
-import {
-  SkyAffixPlacement
-} from '../affix-placement';
+import { SkyAffixPlacement } from '../affix-placement';
 
-import {
-  SkyAffixPlacementChange
-} from '../affix-placement-change';
+import { SkyAffixPlacementChange } from '../affix-placement-change';
 
-import {
-  SkyAffixVerticalAlignment
-} from '../affix-vertical-alignment';
+import { SkyAffixVerticalAlignment } from '../affix-vertical-alignment';
 
-import {
-  SkyAffixDirective
-} from '../affix.directive';
+import { SkyAffixDirective } from '../affix.directive';
 
 @Component({
   selector: 'sky-affix-test',
   templateUrl: './affix.component.fixture.html',
-  styleUrls: ['./affix.component.fixture.scss']
+  styleUrls: ['./affix.component.fixture.scss'],
 })
 export class AffixFixtureComponent {
-
   // #region directive properties
 
   public autoFitContext: SkyAffixAutoFitContext;
@@ -59,25 +40,25 @@ export class AffixFixtureComponent {
 
   @ViewChild(SkyAffixDirective, {
     read: SkyAffixDirective,
-    static: true
+    static: true,
   })
   public affixDirective: SkyAffixDirective;
 
   @ViewChild('affixedRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public affixedRef: ElementRef;
 
   @ViewChild('overflowParentRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public overflowParentRef: ElementRef;
 
   @ViewChild('baseRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public baseRef: ElementRef;
 
@@ -89,7 +70,7 @@ export class AffixFixtureComponent {
 
   public onAffixOverflowScroll(): void {}
 
-  public onAffixPlacementChange(change: SkyAffixPlacementChange): void { }
+  public onAffixPlacementChange(change: SkyAffixPlacementChange): void {}
 
   public scrollTargetToLeft(offset: number = 0): void {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
@@ -105,7 +86,12 @@ export class AffixFixtureComponent {
     const overflowRect = overflowParent.getBoundingClientRect();
 
     overflowParent.scrollTop = this.getParentCenterY();
-    overflowParent.scrollLeft = (baseElement.offsetLeft + baseRect.width) - overflowParent.offsetLeft - overflowRect.width + offset;
+    overflowParent.scrollLeft =
+      baseElement.offsetLeft +
+      baseRect.width -
+      overflowParent.offsetLeft -
+      overflowRect.width +
+      offset;
   }
 
   public scrollTargetToTop(offset: number = 0): void {
@@ -120,7 +106,8 @@ export class AffixFixtureComponent {
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
     const top = baseElement.offsetTop;
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
-    overflowParent.scrollTop = top +
+    overflowParent.scrollTop =
+      top +
       baseElement.clientHeight -
       overflowParent.getBoundingClientRect().height -
       offset;
@@ -136,19 +123,22 @@ export class AffixFixtureComponent {
   private getParentCenterX(): number {
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
-    return baseElement.offsetLeft -
+    return (
+      baseElement.offsetLeft -
       overflowParent.offsetLeft -
-      (overflowParent.getBoundingClientRect().width / 2) +
-      (baseElement.getBoundingClientRect().width / 2);
+      overflowParent.getBoundingClientRect().width / 2 +
+      baseElement.getBoundingClientRect().width / 2
+    );
   }
 
   private getParentCenterY(): number {
     const overflowParent: HTMLDivElement = this.overflowParentRef.nativeElement;
     const baseElement: HTMLDivElement = this.baseRef.nativeElement;
-    return baseElement.offsetTop -
+    return (
+      baseElement.offsetTop -
       overflowParent.offsetTop -
-      (overflowParent.clientHeight / 2) +
-      (baseElement.clientHeight / 2);
+      overflowParent.clientHeight / 2 +
+      baseElement.clientHeight / 2
+    );
   }
-
 }

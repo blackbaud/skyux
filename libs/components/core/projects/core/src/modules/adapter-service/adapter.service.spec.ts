@@ -1,28 +1,14 @@
-import {
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyMediaBreakpoints
-} from '../media-query/media-breakpoints';
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
-import {
-  AdapterServiceFixtureComponent
-} from './fixtures/adapter-service.fixture';
+import { AdapterServiceFixtureComponent } from './fixtures/adapter-service.fixture';
 
-import {
-  SkyAdapterServiceFixturesModule
-} from './fixtures/adapter-service.fixtures.module';
+import { SkyAdapterServiceFixturesModule } from './fixtures/adapter-service.fixtures.module';
 
-import {
-  SkyCoreAdapterService
-} from './adapter.service';
+import { SkyCoreAdapterService } from './adapter.service';
 
 describe('Core adapter service', () => {
   let fixture: ComponentFixture<AdapterServiceFixtureComponent>;
@@ -31,9 +17,7 @@ describe('Core adapter service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyAdapterServiceFixturesModule
-      ]
+      imports: [SkyAdapterServiceFixturesModule],
     });
     fixture = TestBed.createComponent(AdapterServiceFixtureComponent);
     component = fixture.componentInstance;
@@ -75,7 +59,9 @@ describe('Core adapter service', () => {
       inputs[0].tabIndex = '-1';
       links[0].tabIndex = '-1';
 
-      const actual = component.getFocusableChildren(nativeElement, {ignoreTabIndex: true});
+      const actual = component.getFocusableChildren(nativeElement, {
+        ignoreTabIndex: true,
+      });
       expect(actual.length).toEqual(8);
     });
 
@@ -86,16 +72,23 @@ describe('Core adapter service', () => {
     });
 
     it('should return hidden elements when ignoreVisibility = true', () => {
-      const actual = component.getFocusableChildren(nativeElement, {ignoreVisibility: true});
+      const actual = component.getFocusableChildren(nativeElement, {
+        ignoreVisibility: true,
+      });
       expect(actual.length).toEqual(9);
     });
   });
 
   describe('getFocusableChildrenAndApplyFocus', () => {
     it('should apply focus to the first element', () => {
-      const firstFocussableElement = nativeElement.querySelector('#not-autofocus-input');
+      const firstFocussableElement = nativeElement.querySelector(
+        '#not-autofocus-input'
+      );
 
-      component.getFocusableChildrenAndApplyFocus(fixture, '#focusable-children-container');
+      component.getFocusableChildrenAndApplyFocus(
+        fixture,
+        '#focusable-children-container'
+      );
 
       expect(document.activeElement).toEqual(firstFocussableElement);
     });
@@ -103,7 +96,11 @@ describe('Core adapter service', () => {
     it('should apply focus to the container if no focussable element is found', () => {
       const container = nativeElement.querySelector('#paragraph-container');
 
-      component.getFocusableChildrenAndApplyFocus(fixture, '#paragraph-container', true);
+      component.getFocusableChildrenAndApplyFocus(
+        fixture,
+        '#paragraph-container',
+        true
+      );
 
       expect(document.activeElement).toEqual(container);
     });
@@ -111,7 +108,9 @@ describe('Core adapter service', () => {
 
   describe('applyAutoFocus', () => {
     it('should apply focus to the first autofocus element and return true', () => {
-      const nonAutoFocusInput = nativeElement.querySelector('#not-autofocus-input');
+      const nonAutoFocusInput = nativeElement.querySelector(
+        '#not-autofocus-input'
+      );
       const autoFocusElement = nativeElement.querySelector('#autofocus-input');
 
       // Set focus to something else for a baseline.
@@ -127,7 +126,9 @@ describe('Core adapter service', () => {
     });
 
     it('should not apply focus if no autofocus element is found and return false', () => {
-      const nonAutoFocusInput = nativeElement.querySelector('#not-autofocus-input');
+      const nonAutoFocusInput = nativeElement.querySelector(
+        '#not-autofocus-input'
+      );
       const autoFocusElement = nativeElement.querySelector('#autofocus-input');
 
       // Set focus to something else for a baseline.
@@ -221,13 +222,15 @@ describe('Core adapter service', () => {
     beforeEach(() => {
       fixture.detectChanges();
       const children = document.querySelectorAll('#height-sync-container div');
-      childrenArray = Array.prototype.slice.call(children) as Array<HTMLElement>;
+      childrenArray = Array.prototype.slice.call(
+        children
+      ) as Array<HTMLElement>;
     });
 
     //#region helpers
     function heightsSynced(children: HTMLElement[]): boolean {
       let height = children[0].clientHeight;
-      return children.every(element => {
+      return children.every((element) => {
         return element.clientHeight === height;
       });
     }
@@ -257,7 +260,9 @@ describe('Core adapter service', () => {
       for (let index = 0; index < childrenArray.length; index++) {
         const element = childrenArray[index];
         // IE11 will result in 'height:;'. Remove that before running expectation.
-        const heightAttribute = element.getAttribute('style').replace('height:;', '');
+        const heightAttribute = element
+          .getAttribute('style')
+          .replace('height:;', '');
         expect(heightAttribute).toBe('');
       }
     });
@@ -268,26 +273,29 @@ describe('Core adapter service', () => {
     let container: HTMLDivElement;
 
     beforeEach(inject(
-      [SkyCoreAdapterService], (_adapter: SkyCoreAdapterService) => {
+      [SkyCoreAdapterService],
+      (_adapter: SkyCoreAdapterService) => {
         adapter = _adapter;
-        container = document.getElementById('z-index-container') as HTMLDivElement;
+        container = document.getElementById(
+          'z-index-container'
+        ) as HTMLDivElement;
       }
     ));
 
     it('should check if event target is above element', () => {
-        const div1 = document.createElement('div');
-        div1.style.position = 'fixed';
-        div1.style.zIndex = '1';
+      const div1 = document.createElement('div');
+      div1.style.position = 'fixed';
+      div1.style.zIndex = '1';
 
-        const div2 = document.createElement('div');
-        div2.style.position = 'fixed';
-        div2.style.zIndex = '2';
+      const div2 = document.createElement('div');
+      div2.style.position = 'fixed';
+      div2.style.zIndex = '2';
 
-        container.appendChild(div1);
-        container.appendChild(div2); // Higher z-index added last.
+      container.appendChild(div1);
+      container.appendChild(div2); // Higher z-index added last.
 
-        const result = adapter.isTargetAboveElement(div2, div1);
-        expect(result).toEqual(true);
+      const result = adapter.isTargetAboveElement(div2, div1);
+      expect(result).toEqual(true);
     });
 
     it('should handle elements that do not exist in the DOM', () => {
@@ -338,5 +346,4 @@ describe('Core adapter service', () => {
       expect(result).toEqual(false);
     });
   });
-
 });

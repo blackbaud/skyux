@@ -1,31 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  MutationObserverService
-} from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '../mutation/mutation-observer-service';
 
-import {
-  SkyViewkeeperModule
-} from './viewkeeper.module';
+import { SkyViewkeeperModule } from './viewkeeper.module';
 
-import {
-  SkyViewkeeperService
-} from './viewkeeper.service';
+import { SkyViewkeeperService } from './viewkeeper.service';
 
-import {
-  ViewkeeperTestComponent
-} from './fixtures/viewkeeper-test.component';
+import { ViewkeeperTestComponent } from './fixtures/viewkeeper-test.component';
 
-import {
-  ViewkeeperEmptyTestComponent
-} from './fixtures/viewkeeper-empty-test.component';
+import { ViewkeeperEmptyTestComponent } from './fixtures/viewkeeper-empty-test.component';
 
 describe('Viewkeeper directive', () => {
   let mockViewkeeperSvc: any;
@@ -33,15 +18,22 @@ describe('Viewkeeper directive', () => {
   let mutationCallbacks: any[];
   let mockMutationObserver: any;
 
-  function getBoundaryEl(fixture: ComponentFixture<ViewkeeperTestComponent>): void {
+  function getBoundaryEl(
+    fixture: ComponentFixture<ViewkeeperTestComponent>
+  ): void {
     return fixture.debugElement.query(By.css('.boundary-el')).nativeElement;
   }
 
-  function getScrollableHostEl(fixture: ComponentFixture<ViewkeeperTestComponent>): void {
-    return fixture.debugElement.query(By.css('.scrollable-host'))?.nativeElement;
+  function getScrollableHostEl(
+    fixture: ComponentFixture<ViewkeeperTestComponent>
+  ): void {
+    return fixture.debugElement.query(By.css('.scrollable-host'))
+      ?.nativeElement;
   }
 
-  function validateViewkeepersCreated(fixture: ComponentFixture<ViewkeeperTestComponent>): void {
+  function validateViewkeepersCreated(
+    fixture: ComponentFixture<ViewkeeperTestComponent>
+  ): void {
     const boundaryEl = getBoundaryEl(fixture);
     const scrollabeHost = getScrollableHostEl(fixture);
 
@@ -62,7 +54,7 @@ describe('Viewkeeper directive', () => {
       el: document.querySelector('.el1'),
       setWidth: true,
       scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
-      verticalOffsetEl: undefined
+      verticalOffsetEl: undefined,
     });
 
     expect(mockViewkeeperSvc.create).toHaveBeenCalledWith({
@@ -70,7 +62,7 @@ describe('Viewkeeper directive', () => {
       el: document.querySelector('.el2'),
       setWidth: true,
       scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
-      verticalOffsetEl: document.querySelector('.el1')
+      verticalOffsetEl: document.querySelector('.el1'),
     });
 
     if (fixture.componentInstance.showEl3) {
@@ -79,7 +71,7 @@ describe('Viewkeeper directive', () => {
         el: document.querySelector('.el3'),
         setWidth: true,
         scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
-        verticalOffsetEl: document.querySelector('.el2')
+        verticalOffsetEl: document.querySelector('.el2'),
       });
     }
 
@@ -90,10 +82,8 @@ describe('Viewkeeper directive', () => {
         setWidth: true,
         scrollableHost: scrollabeHost !== undefined ? scrollabeHost : undefined,
         verticalOffsetEl: document.querySelector(
-          fixture.componentInstance.showEl3 ?
-            '.el3' :
-            '.el2'
-        )
+          fixture.componentInstance.showEl3 ? '.el3' : '.el2'
+        ),
       });
     }
   }
@@ -109,39 +99,34 @@ describe('Viewkeeper directive', () => {
 
     mockViewkeeperSvc = {
       create: jasmine.createSpy('create'),
-      destroy: jasmine.createSpy('destroy')
+      destroy: jasmine.createSpy('destroy'),
     };
 
     mockMutationObserver = {
       observe: jasmine.createSpy('observe'),
-      disconnect: jasmine.createSpy('disconnect')
+      disconnect: jasmine.createSpy('disconnect'),
     };
 
     mockMutationObserverSvc = {
       create: jasmine.createSpy('create').and.callFake((callback: any) => {
         mutationCallbacks.push(callback);
         return mockMutationObserver;
-      })
+      }),
     };
 
     TestBed.configureTestingModule({
-      declarations: [
-        ViewkeeperTestComponent,
-        ViewkeeperEmptyTestComponent
-      ],
-      imports: [
-        SkyViewkeeperModule
-      ],
+      declarations: [ViewkeeperTestComponent, ViewkeeperEmptyTestComponent],
+      imports: [SkyViewkeeperModule],
       providers: [
         {
           provide: SkyViewkeeperService,
-          useValue: mockViewkeeperSvc
+          useValue: mockViewkeeperSvc,
         },
         {
           provide: MutationObserverService,
-          useValue: mockMutationObserverSvc
-        }
-      ]
+          useValue: mockMutationObserverSvc,
+        },
+      ],
     });
   });
 
@@ -159,7 +144,7 @@ describe('Viewkeeper directive', () => {
       getBoundaryEl(fixture),
       {
         childList: true,
-        subtree: true
+        subtree: true,
       }
     );
 
@@ -250,7 +235,7 @@ describe('Viewkeeper directive', () => {
       getBoundaryEl(fixture),
       {
         childList: true,
-        subtree: true
+        subtree: true,
       }
     );
 
@@ -263,5 +248,4 @@ describe('Viewkeeper directive', () => {
 
     expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
   });
-
 });

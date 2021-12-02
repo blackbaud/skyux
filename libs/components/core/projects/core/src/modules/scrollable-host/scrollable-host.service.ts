@@ -1,8 +1,8 @@
-import { ElementRef, Injectable } from "@angular/core";
-import { fromEvent, Observable, Subject, Subscriber, Subscription } from "rxjs";
-import { takeUntil } from "rxjs/operators";
-import { MutationObserverService } from "../mutation/mutation-observer-service";
-import { SkyAppWindowRef } from "../window/window-ref";
+import { ElementRef, Injectable } from '@angular/core';
+import { fromEvent, Observable, Subject, Subscriber, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyAppWindowRef } from '../window/window-ref';
 
 function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
   for (const subscriber of subscribers) {
@@ -11,14 +11,13 @@ function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyScrollableHostService {
-
   constructor(
     private mutationObserverSvc: MutationObserverService,
     private windowRef: SkyAppWindowRef
-  ) { }
+  ) {}
 
   /**
    * Returns the given element's current scrollable host
@@ -36,7 +35,9 @@ export class SkyScrollableHostService {
    * @returns An observable which emits the current scrollable host
    * @internal
    */
-  public watchScrollableHost(elementRef: ElementRef): Observable<HTMLElement | Window> {
+  public watchScrollableHost(
+    elementRef: ElementRef
+  ): Observable<HTMLElement | Window> {
     let subscribers: Subscriber<HTMLElement | Window>[] = [];
     let mutationObserver: MutationObserver;
 
@@ -45,13 +46,17 @@ export class SkyScrollableHostService {
 
       let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
       if (subscribers.length === 1) {
-
         mutationObserver = this.mutationObserverSvc.create(() => {
-          let newScrollableHost = this.findScrollableHost(elementRef.nativeElement);
+          let newScrollableHost = this.findScrollableHost(
+            elementRef.nativeElement
+          );
 
           if (newScrollableHost !== scrollableHost) {
             scrollableHost = newScrollableHost;
-            this.observeForScrollableHostChanges(scrollableHost, mutationObserver);
+            this.observeForScrollableHostChanges(
+              scrollableHost,
+              mutationObserver
+            );
 
             notifySubscribers(subscribers, scrollableHost);
           }
@@ -72,7 +77,7 @@ export class SkyScrollableHostService {
         if (subscribers.length === 0) {
           mutationObserver.disconnect();
         }
-      })
+      });
     });
   }
 
@@ -82,7 +87,9 @@ export class SkyScrollableHostService {
    * @param completionObservable An observable which alerts the internal observers that they should complete
    * @returns An observable which emits the scroll events from the given element's scrollable host
    */
-  public watchScrollableHostScrollEvents(elementRef: ElementRef): Observable<void> {
+  public watchScrollableHostScrollEvents(
+    elementRef: ElementRef
+  ): Observable<void> {
     let subscribers: Subscriber<void>[] = [];
 
     let newScrollableHostObservable = new Subject();
@@ -92,19 +99,18 @@ export class SkyScrollableHostService {
       subscribers.push(subscriber);
 
       if (subscribers.length === 1) {
-        scrollableHostSubscription = this.watchScrollableHost(elementRef)
-          .subscribe((scrollableHost) => {
-            newScrollableHostObservable.next();
-            newScrollableHostObservable.complete();
-            newScrollableHostObservable = new Subject();
-            scrollEventSubscription = fromEvent(scrollableHost, 'scroll')
-              .pipe(
-                takeUntil(newScrollableHostObservable)
-              )
-              .subscribe(() => {
-                notifySubscribers(subscribers);
-              });
-          });
+        scrollableHostSubscription = this.watchScrollableHost(
+          elementRef
+        ).subscribe((scrollableHost) => {
+          newScrollableHostObservable.next();
+          newScrollableHostObservable.complete();
+          newScrollableHostObservable = new Subject();
+          scrollEventSubscription = fromEvent(scrollableHost, 'scroll')
+            .pipe(takeUntil(newScrollableHostObservable))
+            .subscribe(() => {
+              notifySubscribers(subscribers);
+            });
+        });
       }
 
       subscriber.add(() => {
@@ -121,7 +127,7 @@ export class SkyScrollableHostService {
           scrollEventSubscription.unsubscribe();
           newScrollableHostObservable.complete();
         }
-      })
+      });
     });
   }
 
@@ -143,7 +149,7 @@ export class SkyScrollableHostService {
 
       /* Sanity check for if this function is called for an element which has been removed from the DOM */
       if (!(parent instanceof HTMLElement)) {
-        return windowObj
+        return windowObj;
       }
 
       style = windowObj.getComputedStyle(parent);
@@ -160,21 +166,23 @@ export class SkyScrollableHostService {
     return parent;
   }
 
-  private observeForScrollableHostChanges(element: HTMLElement | Window, mutationObserver: MutationObserver) {
+  private observeForScrollableHostChanges(
+    element: HTMLElement | Window,
+    mutationObserver: MutationObserver
+  ) {
     mutationObserver.disconnect();
     if (element instanceof HTMLElement) {
       mutationObserver.observe(element, {
         attributes: true,
-        attributeFilter: ["class", "style.overflow", "style.overflow-y"],
-        subtree: true
+        attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        subtree: true,
       });
     } else {
       mutationObserver.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ["class", "style.overflow", "style.overflow-y"],
-        subtree: true
+        attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        subtree: true,
       });
     }
   }
-
 }

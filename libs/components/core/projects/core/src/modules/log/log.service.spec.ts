@@ -1,18 +1,11 @@
-import {
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import {
-  SkyLogService
-} from './log.service';
+import { SkyLogService } from './log.service';
 
 describe('Log service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        SkyLogService
-      ]
+      providers: [SkyLogService],
     });
   });
 
@@ -23,7 +16,10 @@ describe('Log service', () => {
 
       logService.warn('This is the message', 'an optional parameter');
 
-      expect(warnSpy).toHaveBeenCalledWith('This is the message', 'an optional parameter');
+      expect(warnSpy).toHaveBeenCalledWith(
+        'This is the message',
+        'an optional parameter'
+      );
     }
   ));
 });

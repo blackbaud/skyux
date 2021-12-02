@@ -1,14 +1,11 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-viewkeeper-test',
   templateUrl: './viewkeeper-test.component.html',
-  styleUrls: ['./viewkeeper-test.component.scss']
+  styleUrls: ['./viewkeeper-test.component.scss'],
 })
 export class ViewkeeperTestComponent {
-
   public scrollableHost = false;
 
   public showEl1 = true;
@@ -18,5 +15,4 @@ export class ViewkeeperTestComponent {
   public showEl3 = false;
 
   public showEl4 = false;
-
 }

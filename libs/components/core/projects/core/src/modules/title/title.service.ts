@@ -1,24 +1,17 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  Title
-} from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 
-import {
-  SkyAppSetTitleArgs
-} from './set-title-args';
+import { SkyAppSetTitleArgs } from './set-title-args';
 
 /**
  * Provides a method for setting a formatted title on the current window.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyAppTitleService {
-
-  constructor(private title: Title) { }
+  constructor(private title: Title) {}
 
   /**
    * Sets the title on the current window.
@@ -30,5 +23,4 @@ export class SkyAppTitleService {
       this.title.setTitle(args.titleParts.join(' - '));
     }
   }
-
 }

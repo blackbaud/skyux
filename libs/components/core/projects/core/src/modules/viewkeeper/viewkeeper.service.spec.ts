@@ -1,9 +1,6 @@
-import {
-  SkyViewkeeperService
-} from './viewkeeper.service';
+import { SkyViewkeeperService } from './viewkeeper.service';
 
 describe('Viewkeeper service', () => {
-
   it('should create and destroy viewkeeper instances', () => {
     const testEl = document.createElement('div');
     const testBoundaryEl = document.createElement('div');
@@ -12,13 +9,13 @@ describe('Viewkeeper service', () => {
 
     const viewkeeper = svc.create({
       boundaryEl: testBoundaryEl,
-      el: testEl
+      el: testEl,
     });
 
     expect(viewkeeper).toEqual(
       jasmine.objectContaining({
         boundaryEl: testBoundaryEl,
-        el: testEl
+        el: testEl,
       } as any)
     );
 
@@ -35,13 +32,13 @@ describe('Viewkeeper service', () => {
 
     const svc = new SkyViewkeeperService({
       setWidth: false,
-      viewportMarginTop: 50
+      viewportMarginTop: 50,
     });
 
     const viewkeeper = svc.create({
       boundaryEl: testBoundaryEl,
       el: testEl,
-      setWidth: true
+      setWidth: true,
     });
 
     expect(viewkeeper).toEqual(
@@ -49,11 +46,10 @@ describe('Viewkeeper service', () => {
         boundaryEl: testBoundaryEl,
         el: testEl,
         setWidth: true,
-        viewportMarginTop: 50
+        viewportMarginTop: 50,
       } as any)
     );
 
     svc.destroy(viewkeeper);
   });
-
 });

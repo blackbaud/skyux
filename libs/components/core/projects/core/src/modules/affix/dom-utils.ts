@@ -1,6 +1,4 @@
-import {
-  SkyAffixOffset
-} from './affix-offset';
+import { SkyAffixOffset } from './affix-offset';
 
 /**
  * Returns the offset values of a given element.
@@ -11,7 +9,6 @@ export function getElementOffset(
   element: HTMLElement,
   bufferOffset: SkyAffixOffset = {}
 ): SkyAffixOffset {
-
   const bufferOffsetBottom = bufferOffset.bottom || 0;
   const bufferOffsetLeft = bufferOffset.left || 0;
   const bufferOffsetRight = bufferOffset.right || 0;
@@ -44,7 +41,7 @@ export function getElementOffset(
     bottom,
     left,
     right,
-    top
+    top,
   };
 }
 
@@ -61,8 +58,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   ) {
     const overflowY = window
       .getComputedStyle(parentElement, undefined)
-      .overflowY
-      .toLowerCase();
+      .overflowY.toLowerCase();
 
     if (
       overflowY === 'auto' ||

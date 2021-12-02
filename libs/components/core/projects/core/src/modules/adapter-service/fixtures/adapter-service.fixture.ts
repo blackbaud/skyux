@@ -1,50 +1,37 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints
-} from '../../media-query/media-breakpoints';
+import { SkyMediaBreakpoints } from '../../media-query/media-breakpoints';
 
-import {
-  SkyCoreAdapterService
-} from '../adapter.service';
+import { SkyCoreAdapterService } from '../adapter.service';
 
-import {
-  SkyFocusableChildrenOptions
-} from '../focusable-children-options';
+import { SkyFocusableChildrenOptions } from '../focusable-children-options';
 
 @Component({
   selector: 'sky-adapter-service-fixture',
-  templateUrl: './adapter-service.fixture.html'
+  templateUrl: './adapter-service.fixture.html',
 })
 export class AdapterServiceFixtureComponent {
-
   @ViewChild('getWidthContainer', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public getWidthContainer: ElementRef;
 
   @ViewChild('paragraphContainer', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public paragraphContainer: ElementRef;
 
   @ViewChild('syncHeightContainer', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public syncHeightContainer: ElementRef;
 
   public disableInput: boolean = false;
 
-  constructor(
-    private adapterService: SkyCoreAdapterService
-  ) {}
+  constructor(private adapterService: SkyCoreAdapterService) {}
 
   public applyAutoFocus(elementRef: ElementRef): boolean {
     return this.adapterService.applyAutoFocus(elementRef);
@@ -66,7 +53,10 @@ export class AdapterServiceFixtureComponent {
     );
   }
 
-  public getFocusableChildren(element: HTMLElement, options?: SkyFocusableChildrenOptions): any[] {
+  public getFocusableChildren(
+    element: HTMLElement,
+    options?: SkyFocusableChildrenOptions
+  ): any[] {
     return this.adapterService.getFocusableChildren(element, options);
   }
 
@@ -83,7 +73,9 @@ export class AdapterServiceFixtureComponent {
   }
 
   public setParagraphContainerClass(breakpoint: SkyMediaBreakpoints): void {
-    this.adapterService.setResponsiveContainerClass(this.paragraphContainer, breakpoint);
+    this.adapterService.setResponsiveContainerClass(
+      this.paragraphContainer,
+      breakpoint
+    );
   }
-
 }

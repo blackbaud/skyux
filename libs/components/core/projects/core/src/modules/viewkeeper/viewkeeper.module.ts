@@ -1,17 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyViewkeeperDirective
-} from './viewkeeper.directive';
+import { SkyViewkeeperDirective } from './viewkeeper.directive';
 
 @NgModule({
-  declarations: [
-    SkyViewkeeperDirective
-  ],
-  exports: [
-    SkyViewkeeperDirective
-  ]
+  declarations: [SkyViewkeeperDirective],
+  exports: [SkyViewkeeperDirective],
 })
-export class SkyViewkeeperModule { }
+export class SkyViewkeeperModule {}

@@ -1,6 +1,4 @@
-import {
-  SkyAppFormat
-} from './app-format';
+import { SkyAppFormat } from './app-format';
 
 describe('SkyAppFormat', () => {
   it('should replace the templated string with the correct parameters', () => {

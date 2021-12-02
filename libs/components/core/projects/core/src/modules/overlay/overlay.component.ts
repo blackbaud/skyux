@@ -14,36 +14,20 @@ import {
   TemplateRef,
   Type,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  NavigationStart,
-  Router
-} from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 
-import {
-  fromEvent,
-  Observable,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyCoreAdapterService
-} from '../adapter-service/adapter.service';
+import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 
-import {
-  SkyOverlayConfig
-} from './overlay-config';
+import { SkyOverlayConfig } from './overlay-config';
 
-import {
-  SkyOverlayContext
-} from './overlay-context';
+import { SkyOverlayContext } from './overlay-context';
 
 /**
  * Omnibar is 1000.
@@ -67,10 +51,9 @@ let uniqueZIndex = 5000;
   selector: 'sky-overlay',
   templateUrl: './overlay.component.html',
   styleUrls: ['./overlay.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyOverlayComponent implements OnInit, OnDestroy {
-
   public wrapperClass = '';
 
   public get backdropClick(): Observable<void> {
@@ -89,19 +72,19 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private overlayContentRef: ElementRef;
 
   @ViewChild('overlayRef', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private overlayRef: ElementRef;
 
   @ViewChild('target', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private targetRef: ViewContainerRef;
 
@@ -120,7 +103,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private context: SkyOverlayContext,
     @Optional() private router?: Router
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.applyConfig(this.context.config);
@@ -145,16 +128,23 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this._closed.complete();
   }
 
-  public attachComponent<C>(component: Type<C>, providers: StaticProvider[] = []): ComponentRef<C> {
+  public attachComponent<C>(
+    component: Type<C>,
+    providers: StaticProvider[] = []
+  ): ComponentRef<C> {
     this.targetRef.clear();
 
     const factory = this.resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers,
-      parent: this.injector
+      parent: this.injector,
     });
 
-    const componentRef = this.targetRef.createComponent<C>(factory, undefined, injector);
+    const componentRef = this.targetRef.createComponent<C>(
+      factory,
+      undefined,
+      injector
+    );
 
     // Run an initial change detection cycle after the component has been created.
     componentRef.changeDetectorRef.detectChanges();
@@ -162,7 +152,10 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     return componentRef;
   }
 
-  public attachTemplate<T>(templateRef: TemplateRef<T>, context: T): EmbeddedViewRef<T> {
+  public attachTemplate<T>(
+    templateRef: TemplateRef<T>,
+    context: T
+  ): EmbeddedViewRef<T> {
     this.targetRef.clear();
 
     return this.targetRef.createEmbeddedView(templateRef, context);
@@ -179,7 +172,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     fromEvent(window.document, 'click')
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: MouseEvent) => {
-        const isChild = this.overlayContentRef.nativeElement.contains(event.target);
+        const isChild = this.overlayContentRef.nativeElement.contains(
+          event.target
+        );
         const isAbove = this.coreAdapter.isTargetAboveElement(
           event.target,
           this.overlayRef.nativeElement
@@ -198,7 +193,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   private addRouteListener(): void {
     /*istanbul ignore else*/
     if (this.router) {
-      this.routerSubscription = this.router.events.subscribe(event => {
+      this.routerSubscription = this.router.events.subscribe((event) => {
         /* istanbul ignore else */
         if (event instanceof NavigationStart) {
           this._closed.next();

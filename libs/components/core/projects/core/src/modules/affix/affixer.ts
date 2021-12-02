@@ -1,48 +1,26 @@
-import {
-  Renderer2
-} from '@angular/core';
+import { Renderer2 } from '@angular/core';
 
-import {
-  fromEvent,
-  Observable,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
 
-import {
-  SkyAffixAutoFitContext
-} from './affix-auto-fit-context';
+import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 
-import {
-  SkyAffixOffsetChange
-} from './affix-offset-change';
+import { SkyAffixOffsetChange } from './affix-offset-change';
 
-import {
-  SkyAffixOffset
-} from './affix-offset';
+import { SkyAffixOffset } from './affix-offset';
 
-import {
-  SkyAffixConfig
-} from './affix-config';
+import { SkyAffixConfig } from './affix-config';
 
-import {
-  SkyAffixPlacement
-} from './affix-placement';
+import { SkyAffixPlacement } from './affix-placement';
 
-import {
-  SkyAffixPlacementChange
-} from './affix-placement-change';
+import { SkyAffixPlacementChange } from './affix-placement-change';
 
-import {
-  getInversePlacement,
-  getNextPlacement
-} from './affix-utils';
+import { getInversePlacement, getNextPlacement } from './affix-utils';
 
 import {
   getElementOffset,
   getOverflowParents,
   isOffsetFullyVisibleWithinParent,
-  isOffsetPartiallyVisibleWithinParent
+  isOffsetPartiallyVisibleWithinParent,
 } from './dom-utils';
 
 const DEFAULT_AFFIX_CONFIG: SkyAffixConfig = {
@@ -50,11 +28,10 @@ const DEFAULT_AFFIX_CONFIG: SkyAffixConfig = {
   enableAutoFit: false,
   horizontalAlignment: 'center',
   isSticky: false,
-  placement: 'above'
+  placement: 'above',
 };
 
 export class SkyAffixer {
-
   /**
    * Fires when the affixed element's offset changes.
    */
@@ -84,7 +61,7 @@ export class SkyAffixer {
   }
 
   private set config(value: SkyAffixConfig) {
-    const merged = {...DEFAULT_AFFIX_CONFIG, ...value};
+    const merged = { ...DEFAULT_AFFIX_CONFIG, ...value };
 
     // Make sure none of the values are undefined.
     Object.keys(merged).forEach((k: keyof SkyAffixConfig) => {
@@ -123,7 +100,7 @@ export class SkyAffixer {
   constructor(
     private affixedElement: HTMLElement,
     private renderer: Renderer2
-  ) { }
+  ) {}
 
   /**
    * Affixes an element to a base element.
@@ -131,7 +108,6 @@ export class SkyAffixer {
    * @param config Configuration for the affix action.
    */
   public affixTo(baseElement: HTMLElement, config?: SkyAffixConfig): void {
-
     this.reset();
 
     this.config = config;
@@ -166,7 +142,8 @@ export class SkyAffixer {
 
     this._offsetChange =
       this._placementChange =
-      this._overflowScroll = undefined;
+      this._overflowScroll =
+        undefined;
   }
 
   private affix(): void {
@@ -205,9 +182,10 @@ export class SkyAffixer {
       }
 
       if (!isAffixedElementFullyVisible) {
-        placement = (attempts % 2 === 0)
-          ? getInversePlacement(placement)
-          : getNextPlacement(placement);
+        placement =
+          attempts % 2 === 0
+            ? getInversePlacement(placement)
+            : getNextPlacement(placement);
       }
 
       attempts++;
@@ -253,7 +231,7 @@ export class SkyAffixer {
             top = top + affixedRect.height;
             break;
           case 'middle':
-            top = top + (affixedRect.height / 2);
+            top = top + affixedRect.height / 2;
             break;
           case 'bottom':
           default:
@@ -267,7 +245,7 @@ export class SkyAffixer {
           default:
             break;
           case 'middle':
-            top = top - (affixedRect.height / 2);
+            top = top - affixedRect.height / 2;
             break;
           case 'bottom':
             top = top - affixedRect.height;
@@ -282,7 +260,7 @@ export class SkyAffixer {
 
         case 'center':
         default:
-          left = baseRect.left + (baseRect.width / 2) - (affixedRect.width / 2);
+          left = baseRect.left + baseRect.width / 2 - affixedRect.width / 2;
           break;
 
         case 'right':
@@ -303,7 +281,7 @@ export class SkyAffixer {
 
         case 'middle':
         default:
-          top = baseRect.top + (baseRect.height / 2) - (affixedRect.height / 2);
+          top = baseRect.top + baseRect.height / 2 - affixedRect.height / 2;
           break;
 
         case 'bottom':
@@ -314,7 +292,7 @@ export class SkyAffixer {
 
     let offset: SkyAffixOffset = { left, top };
     if (enableAutoFit) {
-      offset = this.adjustOffsetToOverflowParent({...offset}, placement);
+      offset = this.adjustOffsetToOverflowParent({ ...offset }, placement);
     }
 
     offset.bottom = offset.top + affixedRect.height;
@@ -332,7 +310,10 @@ export class SkyAffixer {
     placement: SkyAffixPlacement
   ): SkyAffixOffset {
     const parent = this.getAutoFitContextParent();
-    const parentOffset = getElementOffset(parent, this.config.autoFitOverflowOffset);
+    const parentOffset = getElementOffset(
+      parent,
+      this.config.autoFitOverflowOffset
+    );
 
     const affixedRect = this.affixedRect;
     const baseRect = this.baseRect;
@@ -351,7 +332,6 @@ export class SkyAffixer {
     switch (placement) {
       case 'above':
       case 'below':
-
         // Keep the affixed element within the overflow parent.
         if (offset.left < parentOffset.left) {
           offset.left = parentOffset.left;
@@ -360,10 +340,7 @@ export class SkyAffixer {
         }
 
         // Use a smaller pixel tolerance if the base element width is less than the default.
-        pixelTolerance = Math.min(
-          defaultPixelTolerance,
-          baseRect.width
-        );
+        pixelTolerance = Math.min(defaultPixelTolerance, baseRect.width);
 
         // Make sure the affixed element never detaches from the base element.
         if (
@@ -377,7 +354,6 @@ export class SkyAffixer {
 
       case 'left':
       case 'right':
-
         // Keep the affixed element within the overflow parent.
         if (offset.top < parentOffset.top) {
           offset.top = parentOffset.top;
@@ -386,10 +362,7 @@ export class SkyAffixer {
         }
 
         // Use a smaller pixel tolerance if the base element height is less than the default.
-        pixelTolerance = Math.min(
-          defaultPixelTolerance,
-          baseRect.height
-        );
+        pixelTolerance = Math.min(defaultPixelTolerance, baseRect.height);
 
         // Make sure the affixed element never detaches from the base element.
         if (
@@ -412,7 +385,7 @@ export class SkyAffixer {
   private getAutoFitContextParent(): HTMLElement {
     const bodyElement = this.overflowParents[0];
 
-    return (this.config.autoFitContext === SkyAffixAutoFitContext.OverflowParent)
+    return this.config.autoFitContext === SkyAffixAutoFitContext.OverflowParent
       ? this.getImmediateOverflowParent()
       : bodyElement;
   }
@@ -421,7 +394,7 @@ export class SkyAffixer {
     if (this.currentPlacement !== placement) {
       this.currentPlacement = placement;
       this._placementChange.next({
-        placement
+        placement,
       });
     }
   }
@@ -436,7 +409,8 @@ export class SkyAffixer {
       this.baseRect =
       this.currentPlacement =
       this.currentOffset =
-      this.overflowParents = undefined;
+      this.overflowParents =
+        undefined;
   }
 
   private isNewOffset(offset: SkyAffixOffset): boolean {
@@ -464,7 +438,7 @@ export class SkyAffixer {
         top: this.baseRect.top,
         left: this.baseRect.left,
         right: this.baseRect.right,
-        bottom: this.baseRect.bottom
+        bottom: this.baseRect.bottom,
       },
       this.config.autoFitOverflowOffset
     );
@@ -472,7 +446,8 @@ export class SkyAffixer {
 
   private addScrollListeners(): void {
     this.scrollListeners = this.overflowParents.map((parentElement) => {
-      const overflow = (parentElement === document.body) ? 'window' : parentElement;
+      const overflow =
+        parentElement === document.body ? 'window' : parentElement;
       return this.renderer.listen(overflow, 'scroll', () => {
         this.affix();
         this._overflowScroll.next();
@@ -481,8 +456,9 @@ export class SkyAffixer {
   }
 
   private addResizeListener(): void {
-    this.resizeListener = fromEvent(window, 'resize')
-      .subscribe(() => this.affix());
+    this.resizeListener = fromEvent(window, 'resize').subscribe(() =>
+      this.affix()
+    );
   }
 
   private removeResizeListener(): void {
@@ -496,9 +472,8 @@ export class SkyAffixer {
     if (this.scrollListeners) {
       // Remove renderer-generated listeners by calling the listener itself.
       // https://github.com/angular/angular/issues/9368#issuecomment-227199778
-      this.scrollListeners.forEach(listener => listener());
+      this.scrollListeners.forEach((listener) => listener());
       this.scrollListeners = undefined;
     }
   }
-
 }

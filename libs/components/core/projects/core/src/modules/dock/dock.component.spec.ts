@@ -1,49 +1,32 @@
-import {
-  StaticProvider
-} from '@angular/core';
+import { StaticProvider } from '@angular/core';
 
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  DockFixtureComponent
-} from './fixtures/dock.component.fixture';
+import { DockFixtureComponent } from './fixtures/dock.component.fixture';
 
-import {
-  DockFixturesModule
-} from './fixtures/dock.module.fixture';
+import { DockFixturesModule } from './fixtures/dock.module.fixture';
 
-import {
-  DockItemFixtureContext
-} from './fixtures/dock-item-context.fixture';
+import { DockItemFixtureContext } from './fixtures/dock-item-context.fixture';
 
-import {
-  SkyDockInsertComponentConfig
-} from './dock-insert-component-config';
+import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
 
-import {
-  SkyDockLocation
-} from './dock-location';
+import { SkyDockLocation } from './dock-location';
 
-import {
-  MutationObserverService
-} from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '../mutation/mutation-observer-service';
 
-const STYLE_ELEMENT_SELECTOR = '[data-test-selector="sky-layout-dock-bottom-styles"]';
+const STYLE_ELEMENT_SELECTOR =
+  '[data-test-selector="sky-layout-dock-bottom-styles"]';
 
 const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
 describe('Dock component', () => {
-
   let fixture: ComponentFixture<DockFixtureComponent>;
   let mutationCallbacks: Function[];
 
@@ -59,7 +42,9 @@ describe('Dock component', () => {
    * Takes an array of sorted stack orders and checks them against the dock's items.
    */
   function verifyStackOrder(expected: number[]): void {
-    const currentStackOrder = fixture.componentInstance.dockService.items.map(i => i.stackOrder);
+    const currentStackOrder = fixture.componentInstance.dockService.items.map(
+      (i) => i.stackOrder
+    );
     currentStackOrder.forEach((actual, i) => {
       expect(actual).toEqual(expected[i]);
     });
@@ -86,40 +71,44 @@ describe('Dock component', () => {
   }
 
   function getStyleElement(): HTMLStyleElement {
-    return document.getElementsByTagName('head')[0].querySelector(STYLE_ELEMENT_SELECTOR);
+    return document
+      .getElementsByTagName('head')[0]
+      .querySelector(STYLE_ELEMENT_SELECTOR);
   }
 
   function getProviders(args: any): StaticProvider[] {
     return [
       {
         provide: DockItemFixtureContext,
-        useValue: new DockItemFixtureContext(args)
-      }
+        useValue: new DockItemFixtureContext(args),
+      },
     ];
   }
 
   function getDockStyle(): CSSStyleDeclaration {
-    const dock: HTMLElement = document.getElementsByTagName('sky-dock')[0] as HTMLElement;
+    const dock: HTMLElement = document.getElementsByTagName(
+      'sky-dock'
+    )[0] as HTMLElement;
     return window.getComputedStyle(dock);
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        DockFixturesModule
+      imports: [DockFixturesModule],
+      providers: [
+        {
+          provide: MutationObserverService,
+          useValue: {
+            create: function (callback: Function): any {
+              mutationCallbacks.push(callback);
+              return {
+                observe() {},
+                disconnect() {},
+              };
+            },
+          },
+        },
       ],
-      providers: [{
-        provide: MutationObserverService,
-        useValue: {
-          create: function (callback: Function): any {
-            mutationCallbacks.push(callback);
-            return {
-              observe() { },
-              disconnect() { }
-            };
-          }
-        }
-      }]
     });
 
     mutationCallbacks = [];
@@ -138,30 +127,30 @@ describe('Dock component', () => {
   it('should add elements to the dock in the proper stack order', fakeAsync(() => {
     resetDockItems([
       {
-        stackOrder: 0
+        stackOrder: 0,
       },
       {
-        stackOrder: 100
+        stackOrder: 100,
       },
       {
-        stackOrder: -10
+        stackOrder: -10,
       },
       {
-        stackOrder: 3
+        stackOrder: 3,
       },
       {
-        stackOrder: 3
+        stackOrder: 3,
       },
       {
-        stackOrder: 0
+        stackOrder: 0,
       },
       {
         // tslint:disable-next-line:no-null-keyword
-        stackOrder: null // Should default to top of stack.
+        stackOrder: null, // Should default to top of stack.
       },
       {
-        stackOrder: undefined // Should default to top of stack.
-      }
+        stackOrder: undefined, // Should default to top of stack.
+      },
     ]);
 
     verifyStackOrder([102, 101, 100, 3, 3, 0, 0, -10]);
@@ -170,12 +159,12 @@ describe('Dock component', () => {
   it('should default to placing new items at the top of the stack', fakeAsync(() => {
     resetDockItems([
       {
-        stackOrder: 0
+        stackOrder: 0,
       },
       {
-        stackOrder: 10
+        stackOrder: 10,
       },
-      undefined // Empty options should generate a stack order of +1
+      undefined, // Empty options should generate a stack order of +1
     ]);
 
     verifyStackOrder([11, 10, 0]);
@@ -194,48 +183,52 @@ describe('Dock component', () => {
 
       resetDockItems([
         {
-          providers: getProviders({ height: 10 })
+          providers: getProviders({ height: 10 }),
         },
         {
-          providers: getProviders({ height: 20 })
+          providers: getProviders({ height: 20 }),
         },
         {
-          providers: getProviders({ height: 30 })
-        }
+          providers: getProviders({ height: 30 }),
+        },
       ]);
 
       triggerMutationChange();
 
       const styleElement = getStyleElement();
 
-      expect(styleElement.textContent).toContain(`body { margin-bottom: 60px; }`);
+      expect(styleElement.textContent).toContain(
+        `body { margin-bottom: 60px; }`
+      );
     }));
 
     it('should adjust `body` margin if window resized', fakeAsync(() => {
       resetDockItems([
         {
-          providers: getProviders({ height: 10 })
+          providers: getProviders({ height: 10 }),
         },
         {
-          providers: getProviders({ height: 20 })
+          providers: getProviders({ height: 20 }),
         },
         {
-          providers: getProviders({ height: 30 })
-        }
+          providers: getProviders({ height: 30 }),
+        },
       ]);
 
       triggerWindowResize();
 
       const styleElement = getStyleElement();
 
-      expect(styleElement.textContent).toContain(`body { margin-bottom: 60px; }`);
+      expect(styleElement.textContent).toContain(
+        `body { margin-bottom: 60px; }`
+      );
     }));
 
     it('should not adjust `body` margin if dock height unchanged', fakeAsync(() => {
       resetDockItems([
         {
-          providers: getProviders({ height: 10 })
-        }
+          providers: getProviders({ height: 10 }),
+        },
       ]);
 
       triggerMutationChange();
@@ -253,8 +246,8 @@ describe('Dock component', () => {
     it('should remove old style elements on changes', fakeAsync(() => {
       resetDockItems([
         {
-          providers: getProviders({ height: 10 })
-        }
+          providers: getProviders({ height: 10 }),
+        },
       ]);
 
       triggerMutationChange();
@@ -263,7 +256,7 @@ describe('Dock component', () => {
 
       // Add a dock item to affect the dock's height.
       fixture.componentInstance.addItem({
-        providers: getProviders({ height: 40 })
+        providers: getProviders({ height: 40 }),
       });
 
       fixture.detectChanges();
@@ -279,8 +272,8 @@ describe('Dock component', () => {
     it('should apply the correct positioning styles to a dock which is bound to the body bottom', fakeAsync(() => {
       resetDockItems([
         {
-          stackOrder: 0
-        }
+          stackOrder: 0,
+        },
       ]);
 
       fixture.detectChanges();
@@ -303,13 +296,13 @@ describe('Dock component', () => {
         const innerDiv: HTMLElement = document.querySelector('#innerDiv');
         fixture.componentInstance.setOptions({
           location: SkyDockLocation.ElementBottom,
-          referenceEl: innerDiv
+          referenceEl: innerDiv,
         });
 
         resetDockItems([
           {
-            stackOrder: 0
-          }
+            stackOrder: 0,
+          },
         ]);
 
         fixture.detectChanges();
@@ -331,13 +324,13 @@ describe('Dock component', () => {
       const innerDiv: HTMLElement = document.querySelector('#innerDiv');
       fixture.componentInstance.setOptions({
         location: SkyDockLocation.BeforeElement,
-        referenceEl: innerDiv
+        referenceEl: innerDiv,
       });
 
       resetDockItems([
         {
-          stackOrder: 0
-        }
+          stackOrder: 0,
+        },
       ]);
 
       fixture.detectChanges();
@@ -355,13 +348,13 @@ describe('Dock component', () => {
 
   it('should set the z-index if given via a dock service option', fakeAsync(() => {
     fixture.componentInstance.setOptions({
-      zIndex: 5
+      zIndex: 5,
     });
 
     resetDockItems([
       {
-        stackOrder: 0
-      }
+        stackOrder: 0,
+      },
     ]);
 
     fixture.detectChanges();
@@ -370,5 +363,4 @@ describe('Dock component', () => {
     /// The `toString` is needed for IE
     expect((<any>getDockStyle().zIndex).toString()).toBe('5');
   }));
-
 });

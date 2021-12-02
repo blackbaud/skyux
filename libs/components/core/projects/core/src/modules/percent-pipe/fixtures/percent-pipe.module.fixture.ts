@@ -1,29 +1,14 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyPercentPipeModule
-} from '../percent-pipe.module';
+import { SkyPercentPipeModule } from '../percent-pipe.module';
 
-import {
-  PercentPipeTestComponent
-} from './percent-pipe.component.fixture';
+import { PercentPipeTestComponent } from './percent-pipe.component.fixture';
 
 @NgModule({
-  declarations: [
-    PercentPipeTestComponent
-  ],
-  exports: [
-    PercentPipeTestComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyPercentPipeModule
-  ]
+  declarations: [PercentPipeTestComponent],
+  exports: [PercentPipeTestComponent],
+  imports: [CommonModule, SkyPercentPipeModule],
 })
-export class PercentPipeTestModule { }
+export class PercentPipeTestModule {}

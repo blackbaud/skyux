@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-id-demo',
-  templateUrl: './id-demo.component.html'
+  templateUrl: './id-demo.component.html',
 })
-export class IdDemoComponent { }
+export class IdDemoComponent {}

@@ -7,16 +7,8 @@
   }"
   #overlayRef
 >
-  <div
-    class="sky-overlay-content"
-    #overlayContentRef
-  >
-    <ng-template
-      #target
-    >
-    </ng-template>
+  <div class="sky-overlay-content" #overlayContentRef>
+    <ng-template #target> </ng-template>
   </div>
-  <div *ngIf="showBackdrop"
-    class="sky-overlay-backdrop"
-  ></div>
+  <div *ngIf="showBackdrop" class="sky-overlay-backdrop"></div>
 </div>

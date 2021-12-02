@@ -6,61 +6,38 @@ import {
   OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyAffixAutoFitContext
-} from './affix-auto-fit-context';
+import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
 
-import {
-  SkyAffixHorizontalAlignment
-} from './affix-horizontal-alignment';
+import { SkyAffixHorizontalAlignment } from './affix-horizontal-alignment';
 
-import {
-  SkyAffixPlacement
-} from './affix-placement';
+import { SkyAffixPlacement } from './affix-placement';
 
-import {
-  SkyAffixPlacementChange
-} from './affix-placement-change';
+import { SkyAffixPlacementChange } from './affix-placement-change';
 
-import {
-  SkyAffixVerticalAlignment
-} from './affix-vertical-alignment';
+import { SkyAffixVerticalAlignment } from './affix-vertical-alignment';
 
-import {
-  SkyAffixService
-} from './affix.service';
+import { SkyAffixService } from './affix.service';
 
-import {
-  SkyAffixOffsetChange
-} from './affix-offset-change';
+import { SkyAffixOffsetChange } from './affix-offset-change';
 
-import {
-  SkyAffixOffset
-} from './affix-offset';
+import { SkyAffixOffset } from './affix-offset';
 
-import {
-  SkyAffixer
-} from './affixer';
+import { SkyAffixer } from './affixer';
 
 /**
  * Affixes the host element to a base element.
  */
 @Directive({
-  selector: '[skyAffixTo]'
+  selector: '[skyAffixTo]',
 })
 export class SkyAffixDirective implements OnChanges, OnDestroy {
-
   /**
    * The base element to affix the host element.
    */
@@ -131,10 +108,7 @@ export class SkyAffixDirective implements OnChanges, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    elementRef: ElementRef,
-    private affixService: SkyAffixService
-  ) {
+  constructor(elementRef: ElementRef, private affixService: SkyAffixService) {
     this.affixer = this.affixService.createAffixer(elementRef);
 
     this.affixer.offsetChange
@@ -182,8 +156,7 @@ export class SkyAffixDirective implements OnChanges, OnDestroy {
       horizontalAlignment: this.affixHorizontalAlignment,
       isSticky: this.affixIsSticky,
       placement: this.affixPlacement,
-      verticalAlignment: this.affixVerticalAlignment
+      verticalAlignment: this.affixVerticalAlignment,
     });
   }
-
 }

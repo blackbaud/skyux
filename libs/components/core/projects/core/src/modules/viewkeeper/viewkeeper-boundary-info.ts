@@ -1,6 +1,4 @@
-import {
-  SkyViewkeeperOffset
-} from './viewkeeper-offset';
+import { SkyViewkeeperOffset } from './viewkeeper-offset';
 
 export interface SkyViewkeeperBoundaryInfo {
   elHeight: number;

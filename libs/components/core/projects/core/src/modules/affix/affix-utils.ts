@@ -1,14 +1,9 @@
-import {
-  SkyAffixPlacement
-} from './affix-placement';
+import { SkyAffixPlacement } from './affix-placement';
 
-export function getNextPlacement(placement: SkyAffixPlacement): SkyAffixPlacement {
-  const placements: SkyAffixPlacement[] = [
-    'above',
-    'right',
-    'below',
-    'left'
-  ];
+export function getNextPlacement(
+  placement: SkyAffixPlacement
+): SkyAffixPlacement {
+  const placements: SkyAffixPlacement[] = ['above', 'right', 'below', 'left'];
 
   let index = placements.indexOf(placement) + 1;
   if (index >= placements.length) {
@@ -18,12 +13,14 @@ export function getNextPlacement(placement: SkyAffixPlacement): SkyAffixPlacemen
   return placements[index];
 }
 
-export function getInversePlacement(placement: SkyAffixPlacement): SkyAffixPlacement {
-  const pairings: {[_: string]: SkyAffixPlacement} = {
+export function getInversePlacement(
+  placement: SkyAffixPlacement
+): SkyAffixPlacement {
+  const pairings: { [_: string]: SkyAffixPlacement } = {
     above: 'below',
     below: 'above',
     right: 'left',
-    left: 'right'
+    left: 'right',
   };
 
   return pairings[placement];

@@ -7,32 +7,20 @@ import {
   Injector,
   Type,
   ViewChild,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  SkyDockDomAdapterService
-} from './dock-dom-adapter.service';
+import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
 
-import {
-  SkyDockInsertComponentConfig
-} from './dock-insert-component-config';
+import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
 
-import {
-  SkyDockItemReference
-} from './dock-item-reference';
+import { SkyDockItemReference } from './dock-item-reference';
 
-import {
-  SkyDockLocation
-} from './dock-location';
+import { SkyDockLocation } from './dock-location';
 
-import {
-  SkyDockOptions
-} from './dock-options';
+import { SkyDockOptions } from './dock-options';
 
-import {
-  sortByStackOrder
-} from './sort-by-stack-order';
+import { sortByStackOrder } from './sort-by-stack-order';
 
 /**
  * @internal
@@ -41,18 +29,15 @@ import {
   selector: 'sky-dock',
   templateUrl: './dock.component.html',
   styleUrls: ['./dock.component.scss'],
-  providers: [
-    SkyDockDomAdapterService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkyDockDomAdapterService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDockComponent {
-
   private options: SkyDockOptions;
 
   @ViewChild('target', {
     read: ViewContainerRef,
-    static: true
+    static: true,
   })
   private target: ViewContainerRef;
 
@@ -64,7 +49,7 @@ export class SkyDockComponent {
     private elementRef: ElementRef,
     private injector: Injector,
     private domAdapter: SkyDockDomAdapterService
-  ) { }
+  ) {}
 
   public insertComponent<T>(
     component: Type<T>,
@@ -73,17 +58,22 @@ export class SkyDockComponent {
     const factory = this.resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers: config.providers || [],
-      parent: this.injector
+      parent: this.injector,
     });
 
-    const componentRef = this.target.createComponent<T>(factory, undefined, injector);
-    const stackOrder = (config.stackOrder !== null && config.stackOrder !== undefined)
-      ? config.stackOrder
-      : this.getHighestStackOrder();
+    const componentRef = this.target.createComponent<T>(
+      factory,
+      undefined,
+      injector
+    );
+    const stackOrder =
+      config.stackOrder !== null && config.stackOrder !== undefined
+        ? config.stackOrder
+        : this.getHighestStackOrder();
 
     this.itemRefs.push({
       componentRef,
-      stackOrder
+      stackOrder,
     });
 
     this.sortItemsByStackOrder();
@@ -92,7 +82,7 @@ export class SkyDockComponent {
 
     return {
       componentRef,
-      stackOrder
+      stackOrder,
     };
   }
 
@@ -100,7 +90,9 @@ export class SkyDockComponent {
     const viewRef = item.componentRef.hostView;
     this.target.remove(this.target.indexOf(viewRef));
 
-    const found = this.itemRefs.find(i => i.componentRef.hostView === viewRef);
+    const found = this.itemRefs.find(
+      (i) => i.componentRef.hostView === viewRef
+    );
     this.itemRefs.splice(this.itemRefs.indexOf(found), 1);
   }
 
@@ -129,7 +121,9 @@ export class SkyDockComponent {
     this.itemRefs.sort(sortByStackOrder);
 
     // Reassign the correct index for each view.
-    this.itemRefs.forEach((item, i) => this.target.move(item.componentRef.hostView, i));
+    this.itemRefs.forEach((item, i) =>
+      this.target.move(item.componentRef.hostView, i)
+    );
   }
 
   private getHighestStackOrder(): number {
@@ -139,5 +133,4 @@ export class SkyDockComponent {
 
     return this.itemRefs[0].stackOrder + 1;
   }
-
 }

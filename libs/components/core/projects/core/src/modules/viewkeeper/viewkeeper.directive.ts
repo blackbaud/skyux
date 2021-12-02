@@ -4,29 +4,22 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import {
-  MutationObserverService
-} from '../mutation/mutation-observer-service';
+import { MutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
 
-import {
-  SkyViewkeeper
-} from './viewkeeper';
+import { SkyViewkeeper } from './viewkeeper';
 
-import {
-  SkyViewkeeperService
-} from './viewkeeper.service';
+import { SkyViewkeeperService } from './viewkeeper.service';
 
 @Directive({
-  selector: '[skyViewkeeper]'
+  selector: '[skyViewkeeper]',
 })
 export class SkyViewkeeperDirective implements OnInit, OnDestroy {
-
   @Input()
   public set skyViewkeeper(value: string[]) {
     this._skyViewkeeper = value;
@@ -53,18 +46,17 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     private mutationObserverSvc: MutationObserverService,
     private viewkeeperSvc: SkyViewkeeperService,
     @Optional() private scrollableHostService: SkyScrollableHostService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.observer = this.mutationObserverSvc.create(() => this.detectElements());
-
-    this.observer.observe(
-      this.el.nativeElement,
-      {
-        childList: true,
-        subtree: true
-      }
+    this.observer = this.mutationObserverSvc.create(() =>
+      this.detectElements()
     );
+
+    this.observer.observe(this.el.nativeElement, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   public ngOnDestroy(): void {
@@ -123,7 +115,6 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     let viewkeeperEls = this.getViewkeeperEls();
 
     if (this.viewkeeperElsChanged(viewkeeperEls)) {
-
       if (this.scrollableHostWatchUnsubscribe) {
         this.scrollableHostWatchUnsubscribe.next();
         this.scrollableHostWatchUnsubscribe = new Subject();
@@ -131,30 +122,31 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
         this.scrollableHostWatchUnsubscribe = new Subject();
       }
 
-      this.scrollableHostService.watchScrollableHost(this.el)
+      this.scrollableHostService
+        .watchScrollableHost(this.el)
         .pipe(takeUntil(this.scrollableHostWatchUnsubscribe))
-        .subscribe(scrollableHost => {
+        .subscribe((scrollableHost) => {
           this.destroyViewkeepers();
 
           let previousViewkeeperEl: HTMLElement;
 
           for (const viewkeeperEl of viewkeeperEls) {
             this.viewkeepers.push(
-              this.viewkeeperSvc.create(
-                {
-                  boundaryEl: this.el.nativeElement,
-                  scrollableHost: scrollableHost instanceof HTMLElement ? scrollableHost : undefined,
-                  el: viewkeeperEl,
-                  setWidth: true,
-                  verticalOffsetEl: previousViewkeeperEl
-                }
-              )
+              this.viewkeeperSvc.create({
+                boundaryEl: this.el.nativeElement,
+                scrollableHost:
+                  scrollableHost instanceof HTMLElement
+                    ? scrollableHost
+                    : undefined,
+                el: viewkeeperEl,
+                setWidth: true,
+                verticalOffsetEl: previousViewkeeperEl,
+              })
             );
 
             previousViewkeeperEl = viewkeeperEl;
           }
         });
-
 
       this.currentViewkeeperEls = viewkeeperEls;
     }

@@ -1,25 +1,17 @@
-
-import {
-  Injectable,
-  Renderer2,
-  RendererFactory2
-} from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyOverlayAdapterService {
-
   private renderer: Renderer2;
 
   private styleElement: HTMLStyleElement;
 
-  constructor(
-    rendererFactory: RendererFactory2
-  ) {
+  constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(undefined, undefined);
   }
 

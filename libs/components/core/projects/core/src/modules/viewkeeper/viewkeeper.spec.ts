@@ -1,10 +1,6 @@
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyViewkeeper
-} from './viewkeeper';
+import { SkyViewkeeper } from './viewkeeper';
 
 describe('Viewkeeper', () => {
   let boundaryEl: HTMLElement;
@@ -47,7 +43,6 @@ describe('Viewkeeper', () => {
   }
 
   describe('page viewkeepers', () => {
-
     beforeEach(() => {
       vks = [];
 
@@ -58,7 +53,7 @@ describe('Viewkeeper', () => {
       boundaryEl = document.createElement('div');
       boundaryEl.style.marginTop = '10px';
       boundaryEl.style.width = '500px';
-      boundaryEl.style.height = (window.innerHeight + 100) + 'px';
+      boundaryEl.style.height = window.innerHeight + 100 + 'px';
 
       boundaryEl.appendChild(el);
 
@@ -80,7 +75,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el,
           boundaryEl,
-          viewportMarginTop: 5
+          viewportMarginTop: 5,
         })
       );
 
@@ -93,13 +88,13 @@ describe('Viewkeeper', () => {
       validatePinned(el, false);
     });
 
-    it('should set the viewkeeper element`\s width when configured to do so', () => {
+    it('should set the viewkeeper element`s width when configured to do so', () => {
       vks.push(
         new SkyViewkeeper({
           el,
           boundaryEl,
           setWidth: true,
-          viewportMarginTop: 5
+          viewportMarginTop: 5,
         })
       );
 
@@ -107,14 +102,16 @@ describe('Viewkeeper', () => {
 
       validatePinned(el, true, 0, 5);
 
-      expect(getComputedStyle(el).width).toBe(getComputedStyle(boundaryEl).width);
+      expect(getComputedStyle(el).width).toBe(
+        getComputedStyle(boundaryEl).width
+      );
     });
 
     it('should not pin an item to the top of its boundary element if it is not visible', () => {
       vks.push(
         new SkyViewkeeper({
           el,
-          boundaryEl
+          boundaryEl,
         })
       );
 
@@ -135,7 +132,7 @@ describe('Viewkeeper', () => {
       vks.push(
         new SkyViewkeeper({
           el: verticalOffsetEl,
-          boundaryEl
+          boundaryEl,
         })
       );
 
@@ -143,7 +140,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el,
           boundaryEl,
-          verticalOffsetEl
+          verticalOffsetEl,
         })
       );
 
@@ -162,10 +159,13 @@ describe('Viewkeeper', () => {
       const vk = new SkyViewkeeper({
         el,
         boundaryEl,
-        viewportMarginTop: 5
+        viewportMarginTop: 5,
       });
 
-      const removeEventListenerSpy = spyOn(window, 'removeEventListener').and.callThrough();
+      const removeEventListenerSpy = spyOn(
+        window,
+        'removeEventListener'
+      ).and.callThrough();
 
       const syncElPositionHandler = (vk as any).syncElPositionHandler;
 
@@ -196,11 +196,9 @@ describe('Viewkeeper', () => {
 
       expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
-
   });
 
   describe('scrollable parent viewkeepers', () => {
-
     beforeEach(() => {
       vks = [];
 
@@ -212,13 +210,12 @@ describe('Viewkeeper', () => {
       scrollableHostEl.style.overflowY = 'scroll';
       scrollableHostEl.style.marginTop = '10px';
       scrollableHostEl.style.width = '500px';
-      scrollableHostEl.style.height = (window.innerHeight + 50) + 'px';
-
+      scrollableHostEl.style.height = window.innerHeight + 50 + 'px';
 
       boundaryEl = document.createElement('div');
       boundaryEl.style.marginTop = '10px';
       boundaryEl.style.width = '500px';
-      boundaryEl.style.height = (window.innerHeight + 100) + 'px';
+      boundaryEl.style.height = window.innerHeight + 100 + 'px';
 
       scrollableHostEl.appendChild(boundaryEl);
       boundaryEl.appendChild(el);
@@ -242,7 +239,7 @@ describe('Viewkeeper', () => {
           el,
           boundaryEl,
           scrollableHost: scrollableHostEl,
-          viewportMarginTop: 5
+          viewportMarginTop: 5,
         })
       );
 
@@ -264,14 +261,14 @@ describe('Viewkeeper', () => {
       validatePinned(el, false);
     });
 
-    it('should set the viewkeeper element`\s width when configured to do so', () => {
+    it('should set the viewkeeper element`s width when configured to do so', () => {
       vks.push(
         new SkyViewkeeper({
           el,
           boundaryEl,
           setWidth: true,
           scrollableHost: scrollableHostEl,
-          viewportMarginTop: 5
+          viewportMarginTop: 5,
         })
       );
 
@@ -279,7 +276,9 @@ describe('Viewkeeper', () => {
 
       validatePinned(el, true, 10, 5);
 
-      expect(getComputedStyle(el).width).toBe(getComputedStyle(boundaryEl).width);
+      expect(getComputedStyle(el).width).toBe(
+        getComputedStyle(boundaryEl).width
+      );
     });
 
     it('should not pin an item to the top of its boundary element if it is not visible', () => {
@@ -287,7 +286,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el,
           boundaryEl,
-          scrollableHost: scrollableHostEl
+          scrollableHost: scrollableHostEl,
         })
       );
 
@@ -309,7 +308,7 @@ describe('Viewkeeper', () => {
         new SkyViewkeeper({
           el: verticalOffsetEl,
           boundaryEl,
-          scrollableHost: scrollableHostEl
+          scrollableHost: scrollableHostEl,
         })
       );
 
@@ -318,7 +317,7 @@ describe('Viewkeeper', () => {
           el,
           boundaryEl,
           verticalOffsetEl,
-          scrollableHost: scrollableHostEl
+          scrollableHost: scrollableHostEl,
         })
       );
 
@@ -338,10 +337,13 @@ describe('Viewkeeper', () => {
         el,
         boundaryEl,
         scrollableHost: scrollableHostEl,
-        viewportMarginTop: 5
+        viewportMarginTop: 5,
       });
 
-      const removeEventListenerSpy = spyOn(window, 'removeEventListener').and.callThrough();
+      const removeEventListenerSpy = spyOn(
+        window,
+        'removeEventListener'
+      ).and.callThrough();
 
       const syncElPositionHandler = (vk as any).syncElPositionHandler;
 
@@ -372,7 +374,5 @@ describe('Viewkeeper', () => {
 
       expect(removeEventListenerSpy).not.toHaveBeenCalled();
     });
-
   });
-
 });

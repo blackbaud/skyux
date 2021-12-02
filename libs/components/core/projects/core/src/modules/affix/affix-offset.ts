@@ -2,7 +2,6 @@
  * @internal
  */
 export interface SkyAffixOffset {
-
   bottom?: number;
 
   left?: number;
@@ -10,5 +9,4 @@ export interface SkyAffixOffset {
   right?: number;
 
   top?: number;
-
 }

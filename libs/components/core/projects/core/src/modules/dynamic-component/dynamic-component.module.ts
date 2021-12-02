@@ -1,6 +1,4 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
 /**
  * Provides services required to create dynamic components on the page.
@@ -8,4 +6,4 @@ import {
  * The `SkyDynamicComponentModule` can be removed from your project.
  */
 @NgModule({})
-export class SkyDynamicComponentModule { }
+export class SkyDynamicComponentModule {}

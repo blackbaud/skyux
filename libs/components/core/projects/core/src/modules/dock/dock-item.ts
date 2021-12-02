@@ -1,13 +1,9 @@
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 /**
  * Represents a single item added to the dock.
  */
 export class SkyDockItem<T> {
-
   /**
    * An event that emits when the item is removed from the dock.
    */
@@ -24,7 +20,7 @@ export class SkyDockItem<T> {
   constructor(
     public readonly componentInstance: T,
     public readonly stackOrder: number
-  ) { }
+  ) {}
 
   /**
    * Removes the item from the dock.
@@ -33,5 +29,4 @@ export class SkyDockItem<T> {
     this._destroyed.next();
     this._destroyed.complete();
   }
-
 }

@@ -1,3 +1,7 @@
+# 5.2.1 (2021-12-02)
+
+- Added support for Prettier code formatting. [#276](https://github.com/blackbaud/skyux-core/pull/276)
+
 # 5.2.0 (2021-12-2)
 
 - Added the ability to watch for scroll events from a scrollable host. [#273](https://github.com/blackbaud/skyux-core/pull/273)
@@ -46,7 +50,6 @@
 # 5.0.0-beta.10 (2021-09-09)
 
 - Migrated to Angular CLI. [#248](https://github.com/blackbaud/skyux-core/pull/248)
-
 
 # 4.7.0 (2021-09-08)
 

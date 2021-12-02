@@ -2,7 +2,6 @@
  * The location on the page where the dynamic component should be rendered.
  */
 export enum SkyDynamicComponentLocation {
-
   /**
    * Renders the dynamic component before a given element.
    */
@@ -26,6 +25,5 @@ export enum SkyDynamicComponentLocation {
   /**
    * Renders the dynamic component as the first element inside a given element.
    */
-  ElementTop
-
+  ElementTop,
 }

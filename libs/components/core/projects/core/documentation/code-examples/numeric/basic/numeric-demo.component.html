@@ -1,13 +1,9 @@
-<sky-definition-list
-  labelWidth="200px"
->
+<sky-definition-list labelWidth="200px">
   <sky-definition-list-content>
     <p>
-      <sky-definition-list-label>
-        1 with 0 digits:
-      </sky-definition-list-label>
+      <sky-definition-list-label> 1 with 0 digits: </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1 | skyNumeric:{digits: 0} }}
+        {{ 1 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -15,7 +11,7 @@
         1000 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1000 | skyNumeric:{digits: 0} }}
+        {{ 1000 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -23,7 +19,7 @@
         1000 with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1000 | skyNumeric}}
+        {{ 1000 | skyNumeric }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -31,7 +27,7 @@
         1100 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1100 | skyNumeric:{digits: 0} }}
+        {{ 1100 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -39,7 +35,7 @@
         1100 with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1100 | skyNumeric}}
+        {{ 1100 | skyNumeric }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -47,7 +43,7 @@
         1500 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1500 | skyNumeric:{digits: 0} }}
+        {{ 1500 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -55,7 +51,7 @@
         1500 with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1500 | skyNumeric}}
+        {{ 1500 | skyNumeric }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -63,7 +59,7 @@
         1000000 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1000000 | skyNumeric:{digits: 0} }}
+        {{ 1000000 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -71,7 +67,7 @@
         1000000000 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1000000000 | skyNumeric:{digits: 0} }}
+        {{ 1000000000 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -79,7 +75,7 @@
         1000000000000 with 0 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1000000000000 | skyNumeric:{digits: 0} }}
+        {{ 1000000000000 | skyNumeric: { digits: 0 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -87,7 +83,7 @@
         1234000 with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1234000 | skyNumeric:{digits: 2} }}
+        {{ 1234000 | skyNumeric: { digits: 2 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -95,7 +91,7 @@
         1235000000 with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1235000000 | skyNumeric:{digits: 2} }}
+        {{ 1235000000 | skyNumeric: { digits: 2 } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -103,7 +99,7 @@
         1.45 with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1.45 | skyNumeric}}
+        {{ 1.45 | skyNumeric }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -111,7 +107,7 @@
         1234567 with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1234567 | skyNumeric}}
+        {{ 1234567 | skyNumeric }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -119,7 +115,7 @@
         1234567 without truncation
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1234567 | skyNumeric:{truncate: false} }}
+        {{ 1234567 | skyNumeric: { truncate: false } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -127,7 +123,7 @@
         15.50 as US dollar currency with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{15.50 | skyNumeric:{digits: 2, format: 'currency', iso: 'USD'} }}
+        {{ 15.5 | skyNumeric: { digits: 2, format: 'currency', iso: 'USD' } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -135,7 +131,7 @@
         -15.50 as US dollar currency with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{-15.50 | skyNumeric:{digits: 2, format: 'currency', iso: 'USD'} }}
+        {{ -15.5 | skyNumeric: { digits: 2, format: 'currency', iso: 'USD' } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -143,7 +139,9 @@
         1234567 as Euro currency with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1234567 | skyNumeric:{digits: 2, format: 'currency', iso: 'EUR'} }}
+        {{
+          1234567 | skyNumeric: { digits: 2, format: 'currency', iso: 'EUR' }
+        }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -151,7 +149,7 @@
         1450 as UK pound currency with 2 digits:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1450 | skyNumeric:{digits: 2, format: 'currency', iso: 'GBP'} }}
+        {{ 1450 | skyNumeric: { digits: 2, format: 'currency', iso: 'GBP' } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -159,7 +157,7 @@
         1750 as Hong Kong dollar currency with 1 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1750 | skyNumeric:{digits: 1, format: 'currency', iso: 'HKD'} }}
+        {{ 1750 | skyNumeric: { digits: 1, format: 'currency', iso: 'HKD' } }}
       </sky-definition-list-value>
     </p>
     <p>
@@ -167,7 +165,9 @@
         1234567 as Japanese yen currency with 3 digit:
       </sky-definition-list-label>
       <sky-definition-list-value>
-        {{1234567 | skyNumeric:{digits: 3, format: 'currency', iso: 'JPY'} }}
+        {{
+          1234567 | skyNumeric: { digits: 3, format: 'currency', iso: 'JPY' }
+        }}
       </sky-definition-list-value>
     </p>
   </sky-definition-list-content>

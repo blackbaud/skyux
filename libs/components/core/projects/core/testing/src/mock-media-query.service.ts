@@ -1,18 +1,12 @@
-import {
-  Injectable,
-  NgZone
-} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryListener,
-  SkyMediaQueryService
+  SkyMediaQueryService,
 } from '@skyux/core';
 
-import {
-  BehaviorSubject,
-  Subscription
-} from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Injectable()
 export class MockSkyMediaQueryService extends SkyMediaQueryService {
@@ -29,26 +23,26 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
     this._currentBreakpoints = breakpoints;
   }
 
-  public currentMockSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
+  public currentMockSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+    this.current
+  );
 
   private _currentBreakpoints = SkyMediaBreakpoints.md;
 
   constructor() {
     super(
       new NgZone({
-        enableLongStackTrace: true
+        enableLongStackTrace: true,
       })
     );
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentMockSubject.subscribe(
-      {
-        next: (breakpoints: SkyMediaBreakpoints) => {
-          listener(breakpoints);
-        }
-      }
-    );
+    return this.currentMockSubject.subscribe({
+      next: (breakpoints: SkyMediaBreakpoints) => {
+        listener(breakpoints);
+      },
+    });
   }
 
   public fire(args: SkyMediaBreakpoints): void {

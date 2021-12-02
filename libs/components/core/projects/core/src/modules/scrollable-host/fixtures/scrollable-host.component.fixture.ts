@@ -1,15 +1,14 @@
-import { Component, ElementRef, ViewChild } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { SkyScrollableHostService } from "../scrollable-host.service";
+import { SkyScrollableHostService } from '../scrollable-host.service';
 
 @Component({
   selector: 'sky-scrollable-host-fixture',
   styleUrls: ['./scrollable-host.component.fixture.scss'],
-  templateUrl: './scrollable-host.component.fixture.html'
+  templateUrl: './scrollable-host.component.fixture.html',
 })
 export class ScrollableHostFixtureComponent {
-
   public isParentScrollable: boolean = true;
   public isGrandparentScrollable: boolean = false;
 
@@ -22,18 +21,27 @@ export class ScrollableHostFixtureComponent {
   @ViewChild('target')
   public target: ElementRef;
 
-  constructor(private scrollableHostService: SkyScrollableHostService) { }
+  constructor(private scrollableHostService: SkyScrollableHostService) {}
 
   public getScrollableHost(alernative?: ElementRef): HTMLElement | Window {
-    return this.scrollableHostService.getScrollableHost(alernative || this.target);
+    return this.scrollableHostService.getScrollableHost(
+      alernative || this.target
+    );
   }
 
-  public watchScrollableHost(alternative?: ElementRef): Observable<HTMLElement | Window> {
-    return this.scrollableHostService.watchScrollableHost(alternative || this.target);
+  public watchScrollableHost(
+    alternative?: ElementRef
+  ): Observable<HTMLElement | Window> {
+    return this.scrollableHostService.watchScrollableHost(
+      alternative || this.target
+    );
   }
 
-  public watchScrollableHostScrollEvents(alternative?: ElementRef): Observable<void> {
-    return this.scrollableHostService.watchScrollableHostScrollEvents(alternative || this.target);
+  public watchScrollableHostScrollEvents(
+    alternative?: ElementRef
+  ): Observable<void> {
+    return this.scrollableHostService.watchScrollableHostScrollEvents(
+      alternative || this.target
+    );
   }
-
 }

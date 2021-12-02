@@ -2,7 +2,6 @@
  * Provides arguments for the number to format.
  */
 export class NumericOptions {
-
   /**
    * Specifies the maximum number of digits after the decimal separator.
    * @default 1

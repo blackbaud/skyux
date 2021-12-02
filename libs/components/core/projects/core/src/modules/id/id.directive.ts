@@ -1,8 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  Renderer2
-} from '@angular/core';
+import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
 let idIndex = 0;
 
@@ -19,31 +15,22 @@ function generateId(): string {
  */
 @Directive({
   selector: '[skyId]',
-  exportAs: 'skyId'
+  exportAs: 'skyId',
 })
 export class SkyIdDirective {
-
   public get id(): string {
     return this._id;
   }
 
   private _id: string;
 
-  constructor(
-    elRef: ElementRef,
-    renderer: Renderer2
-  ) {
+  constructor(elRef: ElementRef, renderer: Renderer2) {
     // Generate and apply the ID before the template is rendered
     // to avoid a changed-after-checked error.
     const id = generateId();
 
-    renderer.setAttribute(
-      elRef.nativeElement,
-      'id',
-      id
-    );
+    renderer.setAttribute(elRef.nativeElement, 'id', id);
 
     this._id = id;
   }
-
 }

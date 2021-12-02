@@ -1,29 +1,16 @@
-import {
-  ComponentRef,
-  StaticProvider,
-  TemplateRef,
-  Type
-} from '@angular/core';
+import { ComponentRef, StaticProvider, TemplateRef, Type } from '@angular/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  SkyOverlayComponent
-} from './overlay.component';
+import { SkyOverlayComponent } from './overlay.component';
 
-import {
-  SkyOverlayConfig
-} from './overlay-config';
+import { SkyOverlayConfig } from './overlay-config';
 
 /**
  * Represents a new overlay instance. It is used to manage the "closed" state of the overlay,
  * and access any public members on the appended content component instance.
  */
 export class SkyOverlayInstance {
-
   /**
    * Emits when the overlay is clicked (but not its content).
    */
@@ -69,7 +56,10 @@ export class SkyOverlayInstance {
     component: Type<C>,
     providers?: StaticProvider[]
   ): C {
-    const componentRef = this.componentRef.instance.attachComponent(component, providers);
+    const componentRef = this.componentRef.instance.attachComponent(
+      component,
+      providers
+    );
     return componentRef.instance;
   }
 
@@ -78,11 +68,7 @@ export class SkyOverlayInstance {
    * @param templateRef The `TemplateRef` to attach.
    * @param context The context to provide to the template.
    */
-  public attachTemplate<T>(
-    templateRef: TemplateRef<T>,
-    context?: T
-  ): void {
+  public attachTemplate<T>(templateRef: TemplateRef<T>, context?: T): void {
     this.componentRef.instance.attachTemplate(templateRef, context);
   }
-
 }

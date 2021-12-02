@@ -1,18 +1,10 @@
-import {
-  inject
-} from '@angular/core/testing';
+import { inject } from '@angular/core/testing';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  SkyMediaBreakpoints
-} from './media-breakpoints';
+import { SkyMediaBreakpoints } from './media-breakpoints';
 
-import {
-  SkyMediaQueryService
-} from './media-query.service';
+import { SkyMediaQueryService } from './media-query.service';
 
 describe('Media query service', () => {
   let mediaQueryListPrototype: any;
@@ -24,8 +16,8 @@ describe('Media query service', () => {
   let matchMediaSpy: jasmine.Spy;
 
   function setUpListeners(): void {
-    spyOn(mediaQueryListPrototype, 'addListener')
-      .and.callFake((serviceListener: Function) => {
+    spyOn(mediaQueryListPrototype, 'addListener').and.callFake(
+      (serviceListener: Function) => {
         if (listenerCount === 0) {
           xsListener = serviceListener;
         } else if (listenerCount === 1) {
@@ -43,19 +35,19 @@ describe('Media query service', () => {
 
   function callBreakpoint(breakpoints: SkyMediaBreakpoints): void {
     xsListener({
-      matches: (breakpoints === SkyMediaBreakpoints.xs)
+      matches: breakpoints === SkyMediaBreakpoints.xs,
     });
 
     smListener({
-      matches: (breakpoints === SkyMediaBreakpoints.sm)
+      matches: breakpoints === SkyMediaBreakpoints.sm,
     });
 
     mdListener({
-      matches: (breakpoints === SkyMediaBreakpoints.md)
+      matches: breakpoints === SkyMediaBreakpoints.md,
     });
 
     lgListener({
-      matches: (breakpoints === SkyMediaBreakpoints.lg)
+      matches: breakpoints === SkyMediaBreakpoints.lg,
     });
   }
 
@@ -63,29 +55,33 @@ describe('Media query service', () => {
     beforeEach(() => {
       // Safari doesn't put MediaQueryList on the global window object so we
       // have to pick it off here.
-      mediaQueryListPrototype = Object.getPrototypeOf(matchMedia(SkyMediaQueryService.sm));
+      mediaQueryListPrototype = Object.getPrototypeOf(
+        matchMedia(SkyMediaQueryService.sm)
+      );
 
-      matchMediaSpy = spyOn(window as any, 'matchMedia').and.callFake((args: string) => {
-        if (args === '(max-width: 767px)') {
-          return {
-            matches: true,
-            addListener: () => {
-              return;
-            },
-            removeListener: () => {
-              return;
-            }
-          };
-        } else {
-          return {
-            matches: false,
-            addListener: () => { },
-            removeListener: () => {
-              return;
-            }
-          };
+      matchMediaSpy = spyOn(window as any, 'matchMedia').and.callFake(
+        (args: string) => {
+          if (args === '(max-width: 767px)') {
+            return {
+              matches: true,
+              addListener: () => {
+                return;
+              },
+              removeListener: () => {
+                return;
+              },
+            };
+          } else {
+            return {
+              matches: false,
+              addListener: () => {},
+              removeListener: () => {
+                return;
+              },
+            };
+          }
         }
-      });
+      );
 
       setUpListeners();
     });
@@ -120,7 +116,9 @@ describe('Media query service', () => {
     beforeEach(() => {
       // Safari doesn't put MediaQueryList on the global window object so we
       // have to pick it off here.
-      mediaQueryListPrototype = Object.getPrototypeOf(matchMedia(SkyMediaQueryService.sm));
+      mediaQueryListPrototype = Object.getPrototypeOf(
+        matchMedia(SkyMediaQueryService.sm)
+      );
 
       matchMediaSpy = spyOn(window, 'matchMedia').and.callThrough();
       listenerCount = 0;
@@ -153,13 +151,14 @@ describe('Media query service', () => {
     it('should stop listening for media query breakpoints on destroy', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
-        const removeListenerSpy = spyOn(mediaQueryListPrototype, 'removeListener');
+        const removeListenerSpy = spyOn(
+          mediaQueryListPrototype,
+          'removeListener'
+        );
         let subscription: Subscription;
 
         subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {
-
-          }
+          (args: SkyMediaBreakpoints) => {}
         );
 
         mediaQueryService.destroy();

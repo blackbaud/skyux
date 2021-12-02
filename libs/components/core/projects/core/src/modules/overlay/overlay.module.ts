@@ -1,24 +1,12 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyOverlayComponent
-} from './overlay.component';
+import { SkyOverlayComponent } from './overlay.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    SkyOverlayComponent
-  ],
-  entryComponents: [
-    SkyOverlayComponent
-  ]
+  imports: [CommonModule],
+  declarations: [SkyOverlayComponent],
+  entryComponents: [SkyOverlayComponent],
 })
-export class SkyOverlayModule { }
+export class SkyOverlayModule {}

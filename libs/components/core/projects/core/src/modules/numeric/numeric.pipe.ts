@@ -2,28 +2,18 @@ import {
   Pipe,
   PipeTransform,
   OnDestroy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import {
-  SkyAppLocaleProvider
-} from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyNumericService
-} from './numeric.service';
+import { SkyNumericService } from './numeric.service';
 
-import {
-  NumericOptions
-} from './numeric.options';
+import { NumericOptions } from './numeric.options';
 
 /**
  * Shorten numbers to rounded numbers and abbreviation characters such as K for thousands,
@@ -37,10 +27,9 @@ import {
  */
 @Pipe({
   name: 'skyNumeric',
-  pure: false
+  pure: false,
 })
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
-
   private cacheKey: string;
   private formattedValue: string;
   private lastTransformLocale: string;
@@ -54,7 +43,8 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     private readonly numericService: SkyNumericService,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.localeProvider.getLocaleInfo()
+    this.localeProvider
+      .getLocaleInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo) => {
         this.providerLocale = localeInfo.locale;
@@ -69,8 +59,9 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   }
 
   public transform(value: number, config?: NumericOptions): string {
-
-    let newCacheKey = (config ? JSON.stringify(config, Object.keys(config).sort()) : '') + `${value}_${config?.locale || this.providerLocale}`;
+    let newCacheKey =
+      (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
+      `${value}_${config?.locale || this.providerLocale}`;
 
     /* If the value and locale are the same as the last transform then return the previous value
     instead of reformatting. */
@@ -82,11 +73,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
 
     // The default number of digits is `1`. When truncate is disabled, set digits
     // to `0` to avoid the unnecessary addition of `.0` at the end of the formatted number.
-    if (
-      config &&
-      config.truncate === false &&
-      config.digits === undefined
-    ) {
+    if (config && config.truncate === false && config.digits === undefined) {
       options.digits = 0;
     }
 
@@ -101,12 +88,8 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
         'The `digits` property must be greater than or equal to the `minDigits` property'
       );
 
-    // If there is a minimum digits given but not a maximum then default the maximum to the minimum
-    } else if (
-      config &&
-      config.minDigits &&
-      !config.digits
-    ) {
+      // If there is a minimum digits given but not a maximum then default the maximum to the minimum
+    } else if (config && config.minDigits && !config.digits) {
       options.digits = config.minDigits;
     }
 
