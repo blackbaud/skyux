@@ -1,3 +1,5 @@
-<div [ngClass]="{ 'scrollable-host': isParentScrollable }" #parent>
-  <div #target></div>
+<div [ngClass]="{ 'scrollable-host': isGrandparentScrollable }" #grandparent>
+  <div [ngClass]="{ 'scrollable-host': isParentScrollable }" #parent>
+    <div #target></div>
+  </div>
 </div>

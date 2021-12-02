@@ -131,7 +131,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
         this.scrollableHostWatchUnsubscribe = new Subject();
       }
 
-      this.scrollableHostService.watchScrollableHost(this.el, this.scrollableHostWatchUnsubscribe)
+      this.scrollableHostService.watchScrollableHost(this.el)
         .pipe(takeUntil(this.scrollableHostWatchUnsubscribe))
         .subscribe(scrollableHost => {
           this.destroyViewkeepers();
