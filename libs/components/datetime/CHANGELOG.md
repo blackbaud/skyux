@@ -1,3 +1,7 @@
+# 5.0.3 (2021-12-02)
+
+- Moved `SkyDateRangeService` to be provided in `SkyDateRangePickerModule` so the same instance of the service is shared between the datepicker component and the consuming module. [#296](https://github.com/blackbaud/skyux-datetime/pull/296)
+
 # 5.0.2 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#294](https://github.com/blackbaud/skyux-datetime/pull/294)

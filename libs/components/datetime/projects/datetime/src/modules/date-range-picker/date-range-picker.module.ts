@@ -22,11 +22,18 @@ import {
 import {
   SkyDatepickerModule
 } from '../datepicker/datepicker.module';
-import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+
+import {
+  SkyDatetimeResourcesModule
+} from '../shared/sky-datetime-resources.module';
 
 import {
   SkyDateRangePickerComponent
 } from './date-range-picker.component';
+
+import {
+  SkyDateRangeService
+} from './date-range.service';
 
 @NgModule({
   declarations: [
@@ -43,6 +50,7 @@ import {
   ],
   exports: [
     SkyDateRangePickerComponent
-  ]
+  ],
+  providers: [SkyDateRangeService]
 })
 export class SkyDateRangePickerModule { }
