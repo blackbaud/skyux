@@ -1,3 +1,7 @@
+# 5.2.0 (2021-12-2)
+
+- Added the ability to watch for scroll events from a scrollable host. [#273](https://github.com/blackbaud/skyux-core/pull/273)
+
 # 5.1.3 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#274](https://github.com/blackbaud/skyux-core/pull/274)
