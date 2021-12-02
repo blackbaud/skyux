@@ -1,3 +1,7 @@
+# 5.1.4 (2021-12-02)
+
+- Updated column reorder handling to address performance for drag and drop. [#170](https://github.com/blackbaud/skyux-ag-grid/pull/170)
+
 # 5.1.3 (2021-11-19)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#169](https://github.com/blackbaud/skyux-ag-grid/pull/169)
