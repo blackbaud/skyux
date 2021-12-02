@@ -1,3 +1,7 @@
+# 5.1.0 (2021-12-02)
+
+- Updated the text highlight component to match a single string or an array of strings. [#198](https://github.com/blackbaud/skyux-indicators/pull/198)
+
 # 5.0.3 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#199](https://github.com/blackbaud/skyux-indicators/pull/199)
