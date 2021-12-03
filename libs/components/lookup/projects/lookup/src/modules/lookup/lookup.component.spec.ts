@@ -22,6 +22,9 @@ import { SkyLookupTestComponent } from './fixtures/lookup.component.fixture';
 import { SkyLookupTemplateTestComponent } from './fixtures/lookup-template.component.fixture';
 
 import { SkyLookupInputBoxTestComponent } from './fixtures/lookup-input-box.component.fixture';
+import { SkyAffixService } from '@skyux/core';
+import { SkyAutocompleteComponent } from '../autocomplete/autocomplete.component';
+import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
 
 const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
@@ -575,6 +578,34 @@ if (!isIE) {
           fixture.detectChanges();
 
           expect(lookupComponent.value).toEqual([{ name: 'Rachel' }]);
+        }));
+
+        it('should call for the dropdown to be repositioned when tokens change', fakeAsync(() => {
+          const spy = spyOn(
+            lookupComponent.autocompleteController,
+            'next'
+          ).and.stub();
+          fixture.detectChanges();
+
+          // Add one token
+          performSearch('r', fixture);
+          selectSearchResult(0, fixture);
+
+          // Activate search to show dropdown
+          performSearch('r', fixture);
+
+          // Remove a token with the dropdown still open
+          const closeTokenButton = fixture.nativeElement.querySelector(
+            '.sky-token-btn-close'
+          );
+          closeTokenButton.click();
+          fixture.detectChanges();
+          tick();
+
+          // Should send message to dropdown to reposition.
+          expect(spy).toHaveBeenCalledWith({
+            type: SkyAutocompleteMessageType.RepositionDropdown,
+          });
         }));
 
         describe('form control interactions', function () {

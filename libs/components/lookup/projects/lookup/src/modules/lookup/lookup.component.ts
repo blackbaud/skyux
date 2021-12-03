@@ -377,6 +377,9 @@ export class SkyLookupComponent
       });
       this.tokens = change;
 
+      this.sendAutocompleteMessage(
+        SkyAutocompleteMessageType.RepositionDropdown
+      );
       this.onChange(this._value);
       this.onTouched();
     }

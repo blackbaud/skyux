@@ -832,6 +832,15 @@ export class SkyAutocompleteComponent
             case SkyAutocompleteMessageType.CloseDropdown:
               this.closeDropdown();
               break;
+            case SkyAutocompleteMessageType.RepositionDropdown:
+              // Settimeout waits for changes in DOM (e.g., tokens being removed)
+              setTimeout(() => {
+                /* istanbul ignore else */
+                if (this.affixer) {
+                  this.affixer.reaffix();
+                }
+              });
+              break;
           }
         });
     }
