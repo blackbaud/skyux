@@ -5,6 +5,7 @@ import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search
 import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
 
 import { SkyAutocompleteDefaultSearchFunctionOptions } from './types/autocomplete-default-search-function-options';
+import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
 export function skyAutocompleteDefaultSearchFunction(
   options: SkyAutocompleteDefaultSearchFunctionOptions
@@ -38,14 +39,16 @@ export function skyAutocompleteDefaultSearchFunction(
       return results;
     }
 
-    const searchTextUpper = searchText.toUpperCase();
+    const searchTextNormalized = normalizeDiacritics(searchText).toUpperCase();
+
     const filteredData = filterData(searchText, data);
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
       const result = filteredData[i];
       const isMatch = options.propertiesToSearch.find((property: string) => {
-        const value = (result[property] || '').toString().toUpperCase();
-        return value.indexOf(searchTextUpper) > -1;
+        let value = (result[property] || '').toString();
+        value = normalizeDiacritics(value).toUpperCase();
+        return value.indexOf(searchTextNormalized) > -1;
       });
 
       if (isMatch) {
