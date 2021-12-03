@@ -1,3 +1,7 @@
+# 5.89.0 (2021-12-03)
+
+- `@skyux/core@5.2.2` [Release notes](https://github.com/blackbaud/skyux-core/blob/5.2.2/CHANGELOG.md)
+
 # 5.88.0 (2021-12-03)
 
 - `@skyux/lookup@5.1.0` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.1.0/CHANGELOG.md)
