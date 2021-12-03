@@ -1,3 +1,8 @@
+# 5.1.0 (2021-12-03)
+
+- Updated the autocomplete component to ignore diacritical characters when looking for matches. [#241](https://github.com/blackbaud/skyux-lookup/pull/241)
+- Fixed the lookup component to properly position the dropdown when the tokens change. [#242](https://github.com/blackbaud/skyux-lookup/pull/242)
+
 # 5.0.4 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#240](https://github.com/blackbaud/skyux-lookup/pull/240)
