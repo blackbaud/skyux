@@ -1,3 +1,7 @@
+# 5.2.2 (2021-12-03)
+
+- Fixed the viewkeeper direct to ignore the viewport margin when attaching to a scrollable host. [#277](https://github.com/blackbaud/skyux-core/pull/277)
+
 # 5.2.1 (2021-12-02)
 
 - Added support for Prettier code formatting. [#276](https://github.com/blackbaud/skyux-core/pull/276)
