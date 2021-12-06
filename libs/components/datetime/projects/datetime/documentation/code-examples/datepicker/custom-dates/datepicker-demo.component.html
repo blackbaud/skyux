@@ -1,0 +1,29 @@
+<form
+  novalidate
+  [formGroup]="myForm"
+>
+  <sky-input-box>
+    <label
+      class="sky-control-label"
+      [for]="dateInput.id"
+    >
+      Date
+    </label>
+    <sky-datepicker
+      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+    >
+      <input
+        formControlName="myDate"
+        id="myDate"
+        skyDatepickerInput
+        skyId
+        type="text"
+        #dateInput="skyId"
+      />
+    </sky-datepicker>
+  </sky-input-box>
+</form>
+
+<p>
+  Selected date: <code>{{ myForm.value.myDate }}</code>
+</p>
