@@ -1,7 +1,14 @@
 import {
   Component,
-  OnInit
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
+import { Subject } from 'rxjs';
 import {
   SkyDatepickerCalendarInnerComponent
 } from './datepicker-calendar-inner.component';
@@ -11,6 +18,18 @@ import {
 } from './datepicker-date';
 
 /**
+ * Helper interface to compare date ranges.
+ * @internal
+ */
+ interface SkyDateRange {
+
+  endDate: Date;
+
+  startDate: Date;
+
+}
+
+/**
  * @internal
  */
 @Component({
@@ -18,8 +37,23 @@ import {
   templateUrl: 'daypicker.component.html',
   styleUrls: ['./daypicker.component.scss']
 })
-export class SkyDayPickerComponent implements OnInit {
+export class SkyDayPickerComponent implements OnDestroy, OnInit {
 
+  @Input()
+  public set customDates(value: SkyDatepickerCustomDate[]) {
+    /* istanbul ignore else */
+    if (value) {
+      this.applyCustomDates(value, this.rows);
+    }
+  }
+
+  @Output()
+  public calendarDateRangeChange: EventEmitter<SkyDatepickerCalendarChange> = new EventEmitter<SkyDatepickerCalendarChange>();
+
+  @Input()
+  public isWaiting: boolean = false;
+
+  public activeDateHasChanged: boolean = false;
   public labels: any[] = [];
   public title: string;
   public rows: Array<Array<SkyDatepickerDate>> = [];
@@ -28,6 +62,8 @@ export class SkyDayPickerComponent implements OnInit {
   public CURRENT_THEME_TEMPLATE: any;
 
   private daysInMonth: Array<number> = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  private initialDate: number;
+  private ngUnsubscribe = new Subject<void>();
 
   public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;
@@ -36,6 +72,7 @@ export class SkyDayPickerComponent implements OnInit {
   public ngOnInit(): void {
 
     this.datepicker.stepDay = {months: 1};
+    this.initialDate = this.datepicker.activeDate.getDate();
 
     this.datepicker.setRefreshViewHandler(() => {
       this.refreshDayView();
@@ -48,6 +85,11 @@ export class SkyDayPickerComponent implements OnInit {
     }, 'day');
 
     this.datepicker.refreshView();
+  }
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   protected getDates(startDate: Date, n: number): Date[] {
@@ -80,6 +122,10 @@ export class SkyDayPickerComponent implements OnInit {
       : -difference;
     let firstDate = new Date(firstDayOfMonth.getTime());
 
+    if (this.datepicker.activeDate.getDate() !== this.initialDate) {
+      this.activeDateHasChanged = true;
+    }
+
     /* istanbul ignore else */
     /* sanity check */
     if (numDisplayedFromPreviousMonth > 0) {
@@ -109,7 +155,17 @@ export class SkyDayPickerComponent implements OnInit {
 
     this.title =
       this.datepicker.dateFilter(this.datepicker.activeDate, this.datepicker.formatDayTitle);
+
+    const oldDateRange = this.getDateRange(this.rows);
     this.rows = this.datepicker.createCalendarRows(pickerDates, 7);
+    const newDateRange = this.getDateRange(this.rows);
+
+    if (!this.dateRangeRowsAreEqual(oldDateRange, newDateRange)) {
+      this.calendarDateRangeChange.next({
+        startDate: newDateRange.startDate,
+        endDate: newDateRange.endDate
+      });
+    }
   }
 
   private keydownDays(key: string, event: KeyboardEvent) {
@@ -148,6 +204,70 @@ export class SkyDayPickerComponent implements OnInit {
   private getDaysInMonth(year: number, month: number) {
     return month === 1 && year % 4 === 0 &&
       (year % 400 === 0 || year % 100 !== 0) ? 29 : this.daysInMonth[month];
+  }
+
+  /**
+   * Applies custom date properties to the existing dates displayed in the calendar.
+   */
+    private applyCustomDates(
+    customDates: SkyDatepickerCustomDate[],
+    dateRows: SkyDatepickerDate[][]
+  ): void {
+    let date: SkyDatepickerDate;
+    let newDate: SkyDatepickerDate;
+    let dateIndex: number;
+
+    /* istanbul ignore else */
+    if (customDates && dateRows) {
+      customDates.forEach(customDate => {
+        dateIndex = -1;
+        dateRows.forEach(row => {
+          if (dateIndex === -1) {
+            dateIndex = row.findIndex(d => {
+              return d.date.getTime() === customDate.date.getTime();
+            });
+            if (dateIndex > -1) {
+              date = row[dateIndex];
+              // Replace the date with a new instance so the display gets updated.
+              newDate = {
+                current: date.current,
+                date: date.date,
+                disabled: !!date.disabled || !!customDate.disabled,
+                keyDate: !!customDate.keyDate || !!date.keyDate,
+                keyDateText: customDate.keyDateText || date.keyDateText,
+                label: date.label,
+                secondary: date.secondary,
+                selected: date.selected,
+                uid: date.uid
+              };
+              row[dateIndex] = newDate;
+            }
+          }
+        });
+      });
+    }
+  }
+
+  private dateRangeRowsAreEqual(rangeA: SkyDateRange, rangeB: SkyDateRange): boolean | undefined {
+    /* istanbul ignore if */
+    if (!rangeA && !rangeB) {
+      return true;
+    } else if ((rangeA && !rangeB) || (!rangeA && rangeB)) {
+      return false;
+    }
+
+    return this.compareDays(rangeA.startDate, rangeB.startDate) === 0 &&
+            this.compareDays(rangeA.endDate, rangeB.endDate) === 0;
+  }
+
+  private getDateRange(rows: Array<Array<SkyDatepickerDate>>): SkyDateRange | undefined {
+    /* istanbul ignore else */
+    if (rows && rows.length > 0) {
+      return {
+        startDate: rows[0][0].date,
+        endDate: rows[rows.length - 1][rows[rows.length - 1].length - 1].date
+      };
+    }
   }
 
 }

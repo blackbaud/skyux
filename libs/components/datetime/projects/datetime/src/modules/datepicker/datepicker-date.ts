@@ -9,4 +9,6 @@ export interface SkyDatepickerDate {
   current: boolean;
   secondary: boolean;
   uid: string;
+  keyDate?: boolean;
+  keyDateText?: Array<string>;
 }

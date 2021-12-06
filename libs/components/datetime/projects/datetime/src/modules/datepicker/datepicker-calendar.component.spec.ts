@@ -722,5 +722,57 @@ describe('datepicker calendar', () => {
       });
 
     });
+
+
+    describe('custom disabled dates', () => {
+
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should not select active date when selected date is disabled', () => {
+        component.selectedDate = new Date('4/4/2017');
+
+        fixture.detectChanges();
+        clickNextArrow(nativeElement);
+
+        component.customDates = [
+          {
+            date: new Date(2017, 4, 1),
+            disabled: true,
+            keyDate: false,
+            keyDateText: []
+          }
+        ];
+        fixture.detectChanges();
+
+        triggerKeydown(fixture, { which: 13 });
+        verifyDatepicker(nativeElement, 'May 2017', '', '01', '');
+        expect(component.selectedDate).toEqual(new Date('4/4/2017'));
+      });
+
+      it('should select active date when selected date is not disabled', () => {
+        component.selectedDate = new Date('4/4/2017');
+
+        fixture.detectChanges();
+        clickNextArrow(nativeElement);
+
+        component.customDates = [
+          {
+            date: new Date(2017, 4, 1),
+            disabled: false,
+            keyDate: true,
+            keyDateText: []
+          }
+        ];
+        fixture.detectChanges();
+
+        triggerKeydown(fixture, { which: 13 });
+        verifyDatepicker(nativeElement, 'May 2017', '01', '01', '');
+        expect(component.selectedDate).toEqual(new Date('5/1/2017'));
+      });
+
+    });
+
   });
 });

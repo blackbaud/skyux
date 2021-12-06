@@ -20,7 +20,7 @@ import {
 } from '@skyux/i18n';
 
 import {
-  SkyIconModule
+  SkyIconModule, SkyWaitModule
 } from '@skyux/indicators';
 
 import {
@@ -59,6 +59,10 @@ import {
   SkyFuzzyDatepickerInputDirective
 } from './datepicker-input-fuzzy.directive';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+import { SkyDayPickerButtonComponent } from './daypicker-button.component';
+import { SkyDayPickerCellComponent } from './daypicker-cell.component';
+import { SkyPopoverModule } from '@skyux/popovers';
+import { SkyDatepickerService } from './datepicker.service';
 
 @NgModule({
   declarations: [
@@ -69,7 +73,9 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
     SkyYearPickerComponent,
     SkyDatepickerComponent,
     SkyDatepickerInputDirective,
-    SkyFuzzyDatepickerInputDirective
+    SkyFuzzyDatepickerInputDirective,
+    SkyDayPickerCellComponent,
+    SkyDayPickerButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -79,13 +85,18 @@ import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.mod
     SkyDatetimeResourcesModule,
     SkyAffixModule,
     SkyOverlayModule,
-    SkyThemeModule
+    SkyThemeModule,
+    SkyPopoverModule,
+    SkyWaitModule,
   ],
   exports: [
     SkyDatepickerCalendarComponent,
     SkyDatepickerComponent,
     SkyDatepickerInputDirective,
-    SkyFuzzyDatepickerInputDirective
+    SkyFuzzyDatepickerInputDirective,
+  ],
+  providers: [
+    SkyDatepickerService
   ]
 })
 export class SkyDatepickerModule { }

@@ -82,34 +82,31 @@
       </tr>
     </thead>
     <tbody>
-      <ng-template
-        ngFor
-        [ngForOf]="rows"
-        let-row="$implicit"
-        let-index="index"
-        >
-        <tr role="row">
-          <td
-            *ngFor="let date of row"
-            class="sky-datepicker-center"
-            role="gridcell"
-            [id]="date.uid"
+      <!-- Wait indicator for async custom date stream -->
+      <sky-wait
+        [isWaiting]="isWaiting"
+      >
+      </sky-wait>
+        <ng-template
+          ngFor
+          [ngForOf]="rows"
+          let-row="$implicit"
+          let-index="index"
+          >
+          <tr role="row">
+            <td *ngFor="let date of row"
+              class="sky-datepicker-center"
+              role="gridcell"
+              [id]="date.uid"
             >
-            <button
-              type="button"
-              class="sky-btn sky-btn-sm sky-btn-default sky-datepicker-btn-date"
-              [ngClass]="{ 'sky-datepicker-btn-selected': date.selected, 'sky-btn-disabled': date.disabled, 'sky-btn-active': datepicker.isActive(date)}"
-              [disabled]="date.disabled"
-              (click)="datepicker.selectCalendar($event, date.date, true)"
-              tabindex="-1"
-              >
-              <span
-                [ngClass]="{'sky-datepicker-secondary': date.secondary }"
-                >{{date.label}}</span>
-            </button>
+            <sky-daypicker-cell
+              [activeDateHasChanged]="activeDateHasChanged"
+              [date]="date"
+            >
+            </sky-daypicker-cell>
           </td>
         </tr>
-      </ng-template>
+        </ng-template>
     </tbody>
   </table>
 </div>

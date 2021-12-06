@@ -9,7 +9,8 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild
+  ViewChild,
+  Output
 } from '@angular/core';
 
 import {
@@ -20,6 +21,8 @@ import {
   SkyOverlayInstance,
   SkyOverlayService
 } from '@skyux/core';
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 
 import {
   SkyInputBoxHostService
@@ -36,6 +39,7 @@ import {
 } from 'rxjs';
 
 import {
+  debounceTime,
   takeUntil
 } from 'rxjs/operators';
 
@@ -117,9 +121,21 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     }
   }
 
+  /**
+   * Fires when the range of displayed dates in the calendar changes. Provides the
+   * current range of displayed dates and a mutable `customDate` property consumers can use
+   * to modify individual dates on the calendar.
+   */
+  @Output()
+  public calendarDateRangeChange = new EventEmitter<SkyDatepickerCalendarChange>();
+
   public calendarId: string;
 
+  public customDates: SkyDatepickerCustomDate[];
+
   public dateChange = new EventEmitter<Date>();
+
+  public isDaypickerWaiting: boolean = false;
 
   public isOpen: boolean = false;
 
@@ -194,6 +210,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   private calendarUnsubscribe: Subject<void>;
 
+  private customDatesSubscription: Subscription;
+
   private ngUnsubscribe = new Subject();
 
   private overlay: SkyOverlayInstance;
@@ -263,6 +281,38 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       this.closePicker();
     } else {
       this.openPicker();
+    }
+  }
+
+  public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
+    /* istanbul ignore else */
+    if (event) {
+      this.cancelCustomDatesSubscription();
+
+      const args: SkyDatepickerCalendarChange = {
+        startDate: event.startDate,
+        endDate: event.endDate,
+        customDates: undefined
+      };
+      this.calendarDateRangeChange.emit(args);
+      // If consumer has added an observable to the args, watch for incoming custom dates.
+      /* istanbul ignore else */
+      if (args.customDates) {
+
+        this.isDaypickerWaiting = true;
+        // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
+        this.changeDetector.detectChanges();
+
+        this.customDatesSubscription = args.customDates
+          .pipe(debounceTime(250))
+          .subscribe((result) => {
+            this.customDates = result;
+            this.isDaypickerWaiting = false;
+
+            // Trigger change detection in child components to show changes in the calendar.
+            this.changeDetector.markForCheck();
+        });
+      }
     }
   }
 
@@ -367,5 +417,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       this.calendarUnsubscribe = undefined;
     }
     this.overlayKeydownListner?.unsubscribe();
+  }
+
+  private cancelCustomDatesSubscription(): void {
+    if (this.customDatesSubscription) {
+      this.customDatesSubscription.unsubscribe();
+      this.customDatesSubscription = undefined;
+    }
   }
 }

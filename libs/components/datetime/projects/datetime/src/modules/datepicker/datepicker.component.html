@@ -55,9 +55,12 @@
     #calendarRef
   >
     <sky-datepicker-calendar
+      [customDates]="customDates"
+      [isDaypickerWaiting]="isDaypickerWaiting"
       [maxDate]="maxDate"
       [minDate]="minDate"
       [startingDay]="startingDay"
+      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
       (calendarModeChange)="onCalendarModeChange()"
       (selectedDateChange)="onSelectedDateChange($event)"
     >
