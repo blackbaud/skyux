@@ -1,3 +1,7 @@
+# 5.91.0 (2021-12-06)
+
+- `@skyux/datetime@5.1.0` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.1.0/CHANGELOG.md)
+
 # 5.90.0 (2021-12-06)
 
 - `@skyux/docs-tools@5.0.0-beta.7` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.7/CHANGELOG.md)
