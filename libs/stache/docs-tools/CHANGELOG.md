@@ -1,3 +1,7 @@
+# 5.0.0-beta.7 (2021-12-06)
+
+- Fixed the `SkyDocsCodeExamplesEditorService` to set wildcard versions (e.g. '*') of SKY UX packages to `^5`. [#189](https://github.com/blackbaud/skyux-docs-tools/pull/189)
+
 # 5.0.0-beta.6 (2021-12-01)
 
 - Fixed the code example editor to handle trailing commas in the demo module's `exports` section. [#186](https://github.com/blackbaud/skyux-docs-tools/pull/186)
