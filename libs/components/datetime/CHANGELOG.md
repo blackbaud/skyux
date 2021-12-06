@@ -1,3 +1,7 @@
+# 5.1.0 (2021-12-06)
+
+- Added the `calendarDateRangeChange` event to the datepicker component to allow consumers to listen for changes to the calendar and push back `customDates` that show key dates or disabled dates in the datepicker's calendar. [#297](https://github.com/blackbaud/skyux-datetime/pull/297)
+
 # 5.0.3 (2021-12-02)
 
 - Moved `SkyDateRangeService` to be provided in `SkyDateRangePickerModule` so the same instance of the service is shared between the datepicker component and the consuming module. [#296](https://github.com/blackbaud/skyux-datetime/pull/296)
