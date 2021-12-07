@@ -892,6 +892,40 @@ describe('datepicker', () => {
         expect(component.datepicker.customDates).not.toBeUndefined();
       });
 
+      it('should remove custom dates when they exist from a prior event, but then the latest event does not have a defined customDates arg', fakeAsync(() => {
+        component.showCustomDates = true;
+
+        clickTrigger(fixture);
+        tick(2000); // Trigger 2s fake async call in fixture.
+        fixture.detectChanges();
+
+        const disabledButtons: NodeListOf<HTMLElement> =
+          document.querySelectorAll('.sky-datepicker-btn-disabled');
+        const keyDateButtons: NodeListOf<HTMLElement> =
+          document.querySelectorAll('.sky-datepicker-btn-key-date');
+
+        expect(disabledButtons.length).toBeGreaterThan(0);
+        expect(keyDateButtons.length).toBeGreaterThan(0);
+
+        // Click document body to close the picker.
+        document.body.click();
+
+        // Turn off custom dates.
+        component.showCustomDates = false;
+
+        clickTrigger(fixture);
+        tick(2000); // Trigger 2s fake async call in fixture.
+        fixture.detectChanges();
+
+        const disabledButtonsNew: NodeListOf<HTMLElement> =
+          document.querySelectorAll('.sky-datepicker-btn-disabled');
+        const keyDateButtonsNew: NodeListOf<HTMLElement> =
+          document.querySelectorAll('.sky-datepicker-btn-key-date');
+
+        expect(disabledButtonsNew.length).toEqual(0);
+        expect(keyDateButtonsNew.length).toEqual(0);
+      }));
+
       it('should not add disabled and key-date CSS classes when custom date is not set', fakeAsync(() => {
         component.showCustomDates = false;
 

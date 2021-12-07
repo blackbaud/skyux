@@ -131,7 +131,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public calendarId: string;
 
-  public customDates: SkyDatepickerCustomDate[];
+  public customDates: SkyDatepickerCustomDate[] | undefined;
 
   public dateChange = new EventEmitter<Date>();
 
@@ -312,6 +312,15 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
             // Trigger change detection in child components to show changes in the calendar.
             this.changeDetector.markForCheck();
         });
+      } else {
+
+        // If consumer returns an undefined value after custom dates have
+        // already ben established, remove custom dates.
+        if (this.customDates) {
+          this.customDates = undefined;
+          // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
+          this.changeDetector.detectChanges();
+        }
       }
     }
   }
