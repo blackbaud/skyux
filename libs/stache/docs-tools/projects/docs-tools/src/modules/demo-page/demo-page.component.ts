@@ -71,6 +71,12 @@ import {
 export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, AfterViewInit {
 
   /**
+   * Specifies the local path to any other relevant source code. The values are relative to the root directory.
+   */
+  @Input()
+  public additionalSourceCodePaths: string[];
+
+  /**
    * Specifies the URL to the repo that stores the module's source code.
    * @required
    */

@@ -24,6 +24,9 @@ import {
 export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
 
   @Input()
+  public additionalSourceCodePaths: string[];
+
+  @Input()
   public moduleSourceCodePath: string;
 
   public types: SkyDocsTypeDefinitions;
@@ -35,7 +38,7 @@ export class SkyDocsDemoPageTypeDefinitionsComponent implements OnInit {
   public ngOnInit(): void {
     if (this.moduleSourceCodePath) {
       this.types = this.typeDefinitionService.getTypeDefinitions(
-        this.moduleSourceCodePath
+        this.moduleSourceCodePath, this.additionalSourceCodePaths
       );
     }
   }
