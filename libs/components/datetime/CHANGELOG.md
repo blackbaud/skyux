@@ -1,3 +1,7 @@
+# 5.1.1 (2021-12-08)
+
+- Fixed the datepicker component to allow the removal of custom dates when the `customDates` argument is `undefined`. [#301](https://github.com/blackbaud/skyux-datetime/pull/301)
+
 # 5.1.0 (2021-12-06)
 
 - Added the `calendarDateRangeChange` event to the datepicker component to allow consumers to listen for changes to the calendar and push back `customDates` that show key dates or disabled dates in the datepicker's calendar. [#297](https://github.com/blackbaud/skyux-datetime/pull/297)
