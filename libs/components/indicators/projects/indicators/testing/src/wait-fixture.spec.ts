@@ -7,7 +7,7 @@ import { SkyWaitModule } from '@skyux/indicators';
 import { SkyWaitFixture } from './wait-fixture';
 
 @Component({
-  selector: 'wait-test',
+  selector: 'sky-wait-test',
   template: `
     <sky-wait
       [isWaiting]="isWaiting"

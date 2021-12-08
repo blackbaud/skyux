@@ -8,7 +8,7 @@ import { SkyLabelFixture } from './label-fixture';
 
 //#region Test component
 @Component({
-  selector: 'label-test',
+  selector: 'sky-label-test',
   template: `
     <sky-label [labelType]="labelType" data-sky-id="test-label">
       This is a sample label.

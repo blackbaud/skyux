@@ -8,7 +8,7 @@ import { SkyAlertFixture } from './alert-fixture';
 
 //#region Test component
 @Component({
-  selector: 'alert-test',
+  selector: 'sky-alert-test',
   template: `
     <sky-alert
       [alertType]="alertType"
