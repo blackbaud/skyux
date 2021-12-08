@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
-@import "scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import 'scss/variables';
 
 .sky-toolbar-container {
   min-height: $sky-toolbar-min-height;
@@ -49,7 +49,6 @@
 /* clean-css ignore:end */
 
 @include sky-theme-modern {
-
   .sky-toolbar-container {
     background-color: transparent;
     border: none;

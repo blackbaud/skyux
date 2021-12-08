@@ -1,10 +1,6 @@
-import {
-  TestBed, async
-} from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import { SkyDefinitionListTestComponent } from './fixtures/definition-list.component.fixture';
 import { SkyDefinitionListFixturesModule } from './fixtures/definition-list-fixtures.module';
@@ -12,9 +8,7 @@ import { SkyDefinitionListFixturesModule } from './fixtures/definition-list-fixt
 describe('Definition list component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyDefinitionListFixturesModule
-      ]
+      imports: [SkyDefinitionListFixturesModule],
     });
   });
 
@@ -23,11 +17,15 @@ describe('Definition list component', () => {
   }
 
   function getLabelEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll('sky-definition-list-label .sky-definition-list-label');
+    return listEl.querySelectorAll(
+      'sky-definition-list-label .sky-definition-list-label'
+    );
   }
 
   function getValueEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll('sky-definition-list-value .sky-definition-list-value');
+    return listEl.querySelectorAll(
+      'sky-definition-list-value .sky-definition-list-value'
+    );
   }
 
   function getDefaultValueEl(valueEl: Element): Element {
@@ -42,8 +40,9 @@ describe('Definition list component', () => {
 
     let list1El = getListEl(el, 1);
 
-    let headingEl =
-      list1El.querySelector('sky-definition-list-heading .sky-definition-list-heading');
+    let headingEl = list1El.querySelector(
+      'sky-definition-list-heading .sky-definition-list-heading'
+    );
 
     expect(headingEl).toHaveText('Personal information');
     expect(headingEl).toHaveCssClass('sky-subsection-heading');

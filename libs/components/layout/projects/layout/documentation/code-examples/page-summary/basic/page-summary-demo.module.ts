@@ -1,36 +1,22 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyAvatarModule
-} from '@skyux/avatar';
+import { SkyAvatarModule } from '@skyux/avatar';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
 import {
   SkyAlertModule,
   SkyKeyInfoModule,
-  SkyLabelModule
+  SkyLabelModule,
 } from '@skyux/indicators';
 
-import {
-  SkyPageSummaryModule
-} from 'projects/layout/src/public-api';
+import { SkyPageSummaryModule } from 'projects/layout/src/public-api';
 
-import {
-  PageSummaryDemoComponent
-} from './page-summary-demo.component';
+import { PageSummaryDemoComponent } from './page-summary-demo.component';
 
 @NgModule({
   imports: [
@@ -41,13 +27,9 @@ import {
     SkyAvatarModule,
     SkyCheckboxModule,
     SkyLabelModule,
-    SkyKeyInfoModule
+    SkyKeyInfoModule,
   ],
-  declarations: [
-    PageSummaryDemoComponent
-  ],
-  exports: [
-    PageSummaryDemoComponent
-  ]
+  declarations: [PageSummaryDemoComponent],
+  exports: [PageSummaryDemoComponent],
 })
-export class PageSummaryDemoModule { }
+export class PageSummaryDemoModule {}

@@ -1,42 +1,28 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyToolbarComponent
-} from './toolbar.component';
+import { SkyToolbarComponent } from './toolbar.component';
 
-import {
-  SkyToolbarItemComponent
-} from './toolbar-item.component';
+import { SkyToolbarItemComponent } from './toolbar-item.component';
 
-import {
-  SkyToolbarSectionComponent
-} from './toolbar-section.component';
+import { SkyToolbarSectionComponent } from './toolbar-section.component';
 
-import {
-  SkyToolbarViewActionsComponent
-} from './toolbar-view-actions.component';
+import { SkyToolbarViewActionsComponent } from './toolbar-view-actions.component';
 
 @NgModule({
   declarations: [
     SkyToolbarComponent,
     SkyToolbarItemComponent,
     SkyToolbarSectionComponent,
-    SkyToolbarViewActionsComponent
+    SkyToolbarViewActionsComponent,
   ],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     SkyToolbarComponent,
     SkyToolbarItemComponent,
     SkyToolbarSectionComponent,
-    SkyToolbarViewActionsComponent
-  ]
+    SkyToolbarViewActionsComponent,
+  ],
 })
-export class SkyToolbarModule { }
+export class SkyToolbarModule {}

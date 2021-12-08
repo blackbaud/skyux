@@ -1,27 +1,14 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  FluidGridTestComponent
-} from './fixtures/fluid-grid.component.fixture';
+import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
 
-import {
-  FluidGridTestModule
-} from './fixtures/fluid-grid.module.fixture';
+import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
 
-import {
-  SkyFluidGridGutterSize
-} from './fluid-grid-gutter-size';
+import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
 
-import {
-  SkyFluidGridGutterSizeType
-} from './types/fluid-grid-gutter-size-type';
+import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 // #region helpers
 function getFluidGrid(fixture: ComponentFixture<any>): HTMLElement {
@@ -36,9 +23,10 @@ describe('SkyFluidGridComponent', () => {
   function validateGutterSize(
     fluidGrid: HTMLElement,
     gutterSize: SkyFluidGridGutterSizeType,
-    expectedGutterSizeClass: 'sky-fluid-grid-gutter-size-small' |
-      'sky-fluid-grid-gutter-size-medium' |
-      'sky-fluid-grid-gutter-size-large'
+    expectedGutterSizeClass:
+      | 'sky-fluid-grid-gutter-size-small'
+      | 'sky-fluid-grid-gutter-size-medium'
+      | 'sky-fluid-grid-gutter-size-large'
   ): void {
     component.gutterSize = gutterSize;
     fixture.detectChanges();
@@ -46,7 +34,7 @@ describe('SkyFluidGridComponent', () => {
     const gutterSizeClasses: string[] = [
       'sky-fluid-grid-gutter-size-small',
       'sky-fluid-grid-gutter-size-medium',
-      'sky-fluid-grid-gutter-size-large'
+      'sky-fluid-grid-gutter-size-large',
     ];
 
     for (let gutterSizeClass of gutterSizeClasses) {
@@ -60,11 +48,8 @@ describe('SkyFluidGridComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FluidGridTestModule
-      ]
-    })
-    .compileComponents();
+      imports: [FluidGridTestModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FluidGridTestComponent);
     component = fixture.componentInstance;
@@ -82,11 +67,7 @@ describe('SkyFluidGridComponent', () => {
   it('should change CSS class when gutterSize is updated', () => {
     const fluidGrid = getFluidGrid(fixture);
 
-    validateGutterSize(
-      fluidGrid,
-      'small',
-      'sky-fluid-grid-gutter-size-small'
-    );
+    validateGutterSize(fluidGrid, 'small', 'sky-fluid-grid-gutter-size-small');
     validateGutterSize(
       fluidGrid,
       SkyFluidGridGutterSize.Small,
@@ -104,11 +85,7 @@ describe('SkyFluidGridComponent', () => {
       'sky-fluid-grid-gutter-size-medium'
     );
 
-    validateGutterSize(
-      fluidGrid,
-      'large',
-      'sky-fluid-grid-gutter-size-large'
-    );
+    validateGutterSize(fluidGrid, 'large', 'sky-fluid-grid-gutter-size-large');
     validateGutterSize(
       fluidGrid,
       SkyFluidGridGutterSize.Large,

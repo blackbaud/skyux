@@ -1,10 +1,14 @@
 <div
   class="sky-text-expand-container"
   (transitionend)="animationEnd()"
-   #container>
+  #container
+>
   <span class="sky-text-expand-text" [id]="contentSectionId" #text></span>
-  <span class="sky-text-expand-ellipsis" *ngIf="!isExpanded && expandable">... </span>
-  <button *ngIf="expandable"
+  <span class="sky-text-expand-ellipsis" *ngIf="!isExpanded && expandable"
+    >...
+  </span>
+  <button
+    *ngIf="expandable"
     type="button"
     class="sky-btn sky-btn-link-inline sky-text-expand-see-more"
     [attr.aria-expanded]="isModal ? undefined : isExpanded"
@@ -12,6 +16,6 @@
     [attr.aria-haspopup]="isModal ? 'dialog' : undefined"
     (click)="textExpand()"
   >
-    {{buttonText}}
+    {{ buttonText }}
   </button>
 </div>

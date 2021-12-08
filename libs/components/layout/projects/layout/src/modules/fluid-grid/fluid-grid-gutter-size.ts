@@ -14,5 +14,5 @@ export enum SkyFluidGridGutterSize {
   /**
    * Specifies a large gutter.
    */
-  Large
+  Large,
 }

@@ -2,22 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
 
-import {
-  SkyFormatItem
-} from './format-item';
+import { SkyFormatItem } from './format-item';
 
 const tokenRegex = /(\{\d+\})/;
 
 @Component({
   selector: 'sky-format',
   templateUrl: './format.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormatComponent {
-
   public itemsForDisplay: SkyFormatItem[];
 
   /**
@@ -76,5 +73,4 @@ export class SkyFormatComponent {
       }
     }
   }
-
 }

@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
 
@@ -19,19 +17,15 @@ import { SkyDefinitionListValueComponent } from './definition-list-value.compone
     SkyDefinitionListContentComponent,
     SkyDefinitionListHeadingComponent,
     SkyDefinitionListLabelComponent,
-    SkyDefinitionListValueComponent
+    SkyDefinitionListValueComponent,
   ],
-  imports: [
-    CommonModule,
-    SkyI18nModule,
-    SkyLayoutResourcesModule
-  ],
+  imports: [CommonModule, SkyI18nModule, SkyLayoutResourcesModule],
   exports: [
     SkyDefinitionListComponent,
     SkyDefinitionListContentComponent,
     SkyDefinitionListHeadingComponent,
     SkyDefinitionListLabelComponent,
-    SkyDefinitionListValueComponent
-  ]
+    SkyDefinitionListValueComponent,
+  ],
 })
-export class SkyDefinitionListModule { }
+export class SkyDefinitionListModule {}

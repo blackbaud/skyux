@@ -1,46 +1,24 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  RouterModule
-} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyHrefModule
-} from '@skyux/router';
+import { SkyHrefModule } from '@skyux/router';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyActionButtonContainerComponent
-} from './action-button-container.component';
+import { SkyActionButtonContainerComponent } from './action-button-container.component';
 
-import {
-  SkyActionButtonDetailsComponent
-} from './action-button-details.component';
+import { SkyActionButtonDetailsComponent } from './action-button-details.component';
 
-import {
-  SkyActionButtonHeaderComponent
-} from './action-button-header.component';
+import { SkyActionButtonHeaderComponent } from './action-button-header.component';
 
-import {
-  SkyActionButtonIconComponent
-} from './action-button-icon.component';
+import { SkyActionButtonIconComponent } from './action-button-icon.component';
 
-import {
-  SkyActionButtonComponent
-} from './action-button.component';
+import { SkyActionButtonComponent } from './action-button.component';
 
 @NgModule({
   declarations: [
@@ -48,21 +26,21 @@ import {
     SkyActionButtonContainerComponent,
     SkyActionButtonDetailsComponent,
     SkyActionButtonHeaderComponent,
-    SkyActionButtonIconComponent
+    SkyActionButtonIconComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     SkyHrefModule,
     SkyIconModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
   exports: [
     SkyActionButtonComponent,
     SkyActionButtonContainerComponent,
     SkyActionButtonDetailsComponent,
     SkyActionButtonHeaderComponent,
-    SkyActionButtonIconComponent
-  ]
+    SkyActionButtonIconComponent,
+  ],
 })
-export class SkyActionButtonModule { }
+export class SkyActionButtonModule {}

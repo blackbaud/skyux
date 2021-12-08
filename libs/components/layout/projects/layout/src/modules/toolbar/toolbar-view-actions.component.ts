@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Adds a section on the right side of the toolbar for items that substantially alter
@@ -11,6 +8,6 @@ import {
   selector: 'sky-toolbar-view-actions',
   templateUrl: './toolbar-view-actions.component.html',
   styleUrls: ['./toolbar-view-actions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyToolbarViewActionsComponent { }
+export class SkyToolbarViewActionsComponent {}

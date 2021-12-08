@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyTextExpandRepeaterModule
-} from 'projects/layout/src/public-api';
+import { SkyTextExpandRepeaterModule } from 'projects/layout/src/public-api';
 
-import {
-  TextExpandRepeaterDemoComponent
-} from './text-expand-repeater-demo.component';
+import { TextExpandRepeaterDemoComponent } from './text-expand-repeater-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyTextExpandRepeaterModule
-  ],
-  declarations: [
-    TextExpandRepeaterDemoComponent
-  ],
-  exports: [
-    TextExpandRepeaterDemoComponent
-  ]
+  imports: [CommonModule, SkyTextExpandRepeaterModule],
+  declarations: [TextExpandRepeaterDemoComponent],
+  exports: [TextExpandRepeaterDemoComponent],
 })
-export class TextExpandRepeaterDemoModule { }
+export class TextExpandRepeaterDemoModule {}

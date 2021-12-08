@@ -1,35 +1,19 @@
-import {
-  ElementRef,
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  fromEvent,
-  Observable,
-  Subject
-} from 'rxjs';
+import { fromEvent, Observable, Subject } from 'rxjs';
 
-import {
-  map,
-  takeUntil
-} from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyBackToTopDomAdapterService implements OnDestroy {
-
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private windowRef: SkyAppWindowRef
-  ) { }
+  constructor(private windowRef: SkyAppWindowRef) {}
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
@@ -43,17 +27,16 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
   public elementInViewOnScroll(elementRef: ElementRef): Observable<boolean> {
     const parent = this.findScrollableParent(elementRef.nativeElement);
 
-    return fromEvent(parent, 'scroll')
-      .pipe(
-        takeUntil(this.ngUnsubscribe),
-        map(() => {
-          const isInView = this.isElementScrolledInView(
-            elementRef.nativeElement,
-            parent
-          );
-          return isInView;
-        })
-      );
+    return fromEvent(parent, 'scroll').pipe(
+      takeUntil(this.ngUnsubscribe),
+      map(() => {
+        const isInView = this.isElementScrolledInView(
+          elementRef.nativeElement,
+          parent
+        );
+        return isInView;
+      })
+    );
   }
 
   /**
@@ -72,8 +55,12 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
 
     if (parent === windowObj) {
       // Scroll to top of window, but account for the body margin that allows for the omnibar if it exists.
-      const bodyMarginOffset = parseInt(getComputedStyle(document.body).marginTop, 10);
-      const newOffsetTop = elementRef.nativeElement.offsetTop - bodyMarginOffset;
+      const bodyMarginOffset = parseInt(
+        getComputedStyle(document.body).marginTop,
+        10
+      );
+      const newOffsetTop =
+        elementRef.nativeElement.offsetTop - bodyMarginOffset;
       this.windowRef.nativeWindow.scrollTo(
         elementRef.nativeElement.offsetLeft,
         newOffsetTop
@@ -108,20 +95,17 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
     return parent;
   }
 
-  public isElementScrolledInView(
-    element: any,
-    parentElement: any
-  ): boolean {
+  public isElementScrolledInView(element: any, parentElement: any): boolean {
     const buffer = 25;
     const windowObj = this.windowRef.nativeWindow;
     const elementRect = element.getBoundingClientRect();
 
     /* istanbul ignore else */
     if (parentElement === windowObj) {
-      return (elementRect.top > -buffer);
+      return elementRect.top > -buffer;
     } else {
       const parentRect = parentElement.getBoundingClientRect();
-      return (elementRect.top > parentRect.top - buffer);
+      return elementRect.top > parentRect.top - buffer;
     }
   }
 }

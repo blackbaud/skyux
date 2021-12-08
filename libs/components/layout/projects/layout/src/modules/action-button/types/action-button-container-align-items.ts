@@ -3,7 +3,6 @@
  * @internal
  */
 export const enum SkyActionButtonContainerAlignItems {
-
   /**
    * Displays the action buttons as center-aligned.
    */
@@ -12,6 +11,5 @@ export const enum SkyActionButtonContainerAlignItems {
   /**
    * Displays the action buttons as left-aligned.
    */
-  Left = 'left'
-
+  Left = 'left',
 }

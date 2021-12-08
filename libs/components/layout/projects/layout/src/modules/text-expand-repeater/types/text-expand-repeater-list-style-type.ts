@@ -1,1 +1,4 @@
-export type SkyTextExpandRepeaterListStyleType = 'unordered' | 'ordered' | 'unstyled';
+export type SkyTextExpandRepeaterListStyleType =
+  | 'unordered'
+  | 'ordered'
+  | 'unstyled';

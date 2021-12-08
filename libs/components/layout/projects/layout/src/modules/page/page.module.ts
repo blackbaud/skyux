@@ -1,17 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyPageComponent
-} from './page.component';
+import { SkyPageComponent } from './page.component';
 
 @NgModule({
-  declarations: [
-    SkyPageComponent
-  ],
-  exports: [
-    SkyPageComponent
-  ]
+  declarations: [SkyPageComponent],
+  exports: [SkyPageComponent],
 })
-export class SkyPageModule { }
+export class SkyPageModule {}

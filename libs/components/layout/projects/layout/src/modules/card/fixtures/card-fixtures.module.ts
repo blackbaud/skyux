@@ -1,39 +1,23 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkyInlineDeleteModule
-} from '../../inline-delete/inline-delete.module';
+import { SkyInlineDeleteModule } from '../../inline-delete/inline-delete.module';
 
-import {
-  SkyCardModule
-} from '../card.module';
+import { SkyCardModule } from '../card.module';
 
-import {
-  CardTestComponent
-} from './card.component.fixture';
+import { CardTestComponent } from './card.component.fixture';
 
 @NgModule({
-  declarations: [
-    CardTestComponent
-  ],
+  declarations: [CardTestComponent],
   imports: [
     CommonModule,
     SkyCardModule,
     SkyInlineDeleteModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
   ],
-  exports: [
-    CardTestComponent
-  ]
+  exports: [CardTestComponent],
 })
-export class SkyCardFixturesModule { }
+export class SkyCardFixturesModule {}

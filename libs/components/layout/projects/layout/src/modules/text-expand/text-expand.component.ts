@@ -3,36 +3,22 @@ import {
   Component,
   ElementRef,
   Input,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
-import {
-  forkJoin as observableForkJoin
-} from 'rxjs';
+import { forkJoin as observableForkJoin } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyTextExpandAdapterService
-} from './text-expand-adapter.service';
+import { SkyTextExpandAdapterService } from './text-expand-adapter.service';
 
-import {
-  SkyTextExpandModalComponent
-} from './text-expand-modal.component';
+import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 
-import {
-  SkyTextExpandModalContext
-} from './text-expand-modal-context';
+import { SkyTextExpandModalContext } from './text-expand-modal-context';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand components.
@@ -43,12 +29,9 @@ let nextId = 0;
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
-  providers: [
-    SkyTextExpandAdapterService
-  ]
+  providers: [SkyTextExpandAdapterService],
 })
 export class SkyTextExpandComponent implements AfterContentInit {
-
   /**
    * Specifies a title to display when the component expands the full text in a modal.
    * @default 'Expanded view'
@@ -121,13 +104,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   @ViewChild('container', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private containerEl: ElementRef;
 
   @ViewChild('text', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private textEl: ElementRef;
 
@@ -149,7 +132,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     private resources: SkyLibResourcesService,
     private modalService: SkyModalService,
     private textExpandAdapter: SkyTextExpandAdapterService
-  ) { }
+  ) {}
 
   public textExpand(): void {
     if (this.isModal) {
@@ -157,18 +140,15 @@ export class SkyTextExpandComponent implements AfterContentInit {
       /* istanbul ignore else */
       /* sanity check */
       if (!this.isExpanded) {
-        this.modalService.open(
-          SkyTextExpandModalComponent,
-          [
-            {
-              provide: SkyTextExpandModalContext,
-              useValue: {
-                header: this.expandModalTitle,
-                text: this.expandedText
-              }
-            }
-          ]
-        );
+        this.modalService.open(SkyTextExpandModalComponent, [
+          {
+            provide: SkyTextExpandModalContext,
+            useValue: {
+              header: this.expandModalTitle,
+              text: this.expandedText,
+            },
+          },
+        ]);
       }
     } else {
       // Normal View
@@ -176,16 +156,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
         this.setContainerMaxHeight();
         setTimeout(() => {
           this.isExpanded = true;
-          this
-            .animateText(this.collapsedText, this.expandedText, true);
+          this.animateText(this.collapsedText, this.expandedText, true);
         }, 10);
-
       } else {
         this.setContainerMaxHeight();
         setTimeout(() => {
           this.isExpanded = false;
-          this
-            .animateText(this.expandedText, this.collapsedText, false);
+          this.animateText(this.expandedText, this.collapsedText, false);
         }, 10);
       }
     }
@@ -201,19 +178,20 @@ export class SkyTextExpandComponent implements AfterContentInit {
   public ngAfterContentInit(): void {
     observableForkJoin([
       this.resources.getString('skyux_text_expand_see_more'),
-      this.resources.getString('skyux_text_expand_see_less')
+      this.resources.getString('skyux_text_expand_see_less'),
     ])
       .pipe(take(1))
-      .subscribe(resources => {
+      .subscribe((resources) => {
         this.seeMoreText = resources[0];
         this.seeLessText = resources[1];
         this.setup(this.expandedText);
 
         /* istanbul ignore else */
         if (!this.expandModalTitle) {
-          this.resources.getString('skyux_text_expand_modal_title')
+          this.resources
+            .getString('skyux_text_expand_modal_title')
             .pipe(take(1))
-            .subscribe(resource => {
+            .subscribe((resource) => {
               this.expandModalTitle = resource;
             });
         }
@@ -225,8 +203,13 @@ export class SkyTextExpandComponent implements AfterContentInit {
     this.animationEnd();
     /* Before animation is kicked off, ensure that a maxHeight exists */
     /* Once we have support for angular v4 animations with parameters we can use that instead */
-    let currentHeight = this.textExpandAdapter.getContainerHeight(this.containerEl);
-    this.textExpandAdapter.setContainerHeight(this.containerEl, `${currentHeight}px`);
+    let currentHeight = this.textExpandAdapter.getContainerHeight(
+      this.containerEl
+    );
+    this.textExpandAdapter.setContainerHeight(
+      this.containerEl,
+      `${currentHeight}px`
+    );
   }
 
   private setup(value: string): void {
@@ -238,8 +221,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
         this.buttonText = this.seeMoreText;
         this.isExpanded = false;
         this.expandable = true;
-        this.isModal = this.newlineCount > this.maxExpandedNewlines
-          || this.expandedText.length > this.maxExpandedLength;
+        this.isModal =
+          this.newlineCount > this.maxExpandedNewlines ||
+          this.expandedText.length > this.maxExpandedLength;
       } else {
         this.expandable = false;
       }
@@ -280,8 +264,11 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return value.substr(0, length);
   }
 
-  private animateText(previousText: string, newText: string, expanding: boolean): void {
-
+  private animateText(
+    previousText: string,
+    newText: string,
+    expanding: boolean
+  ): void {
     let adapter = this.textExpandAdapter;
     let container = this.containerEl;
     // Reset max height

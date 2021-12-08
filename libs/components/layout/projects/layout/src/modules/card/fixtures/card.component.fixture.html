@@ -4,21 +4,13 @@
   [size]="cardSize"
   [(selected)]="cardSelected"
 >
-  <sky-card-title *ngIf="showTitle">
-    Title
-  </sky-card-title>
-  <sky-card-content>
-    Content
-  </sky-card-content>
+  <sky-card-title *ngIf="showTitle"> Title </sky-card-title>
+  <sky-card-content> Content </sky-card-content>
   <sky-card-actions *ngIf="showActions">
-    <button
-      type="button"
-      class="btn btn-default"
-    >
-      Button
-    </button>
+    <button type="button" class="btn btn-default">Button</button>
   </sky-card-actions>
-  <sky-inline-delete *ngIf="showDelete"
+  <sky-inline-delete
+    *ngIf="showDelete"
     [pending]="deletePending"
   ></sky-inline-delete>
 </sky-card>

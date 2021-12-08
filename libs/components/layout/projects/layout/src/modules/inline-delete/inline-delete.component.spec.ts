@@ -3,25 +3,16 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  InlineDeleteTestComponent
-} from './fixtures/inline-delete.component.fixture';
+import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
 
-import {
-  SkyInlineDeleteFixturesModule
-} from './fixtures/inline-delete-fixtures.module';
+import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';
 
-import {
-  SkyInlineDeleteType
-} from './inline-delete-type';
+import { SkyInlineDeleteType } from './inline-delete-type';
 import { By } from '@angular/platform-browser';
 
 describe('Inline delete component', () => {
@@ -31,9 +22,7 @@ describe('Inline delete component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyInlineDeleteFixturesModule
-      ]
+      imports: [SkyInlineDeleteFixturesModule],
     });
 
     fixture = TestBed.createComponent(InlineDeleteTestComponent);
@@ -71,32 +60,46 @@ describe('Inline delete component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
-      .classList.contains('sky-inline-delete-standard')).toBeTruthy();
-    expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
-      .classList.contains('sky-inline-delete-card')).toBeFalsy();
+    expect(
+      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
+        'sky-inline-delete-standard'
+      )
+    ).toBeTruthy();
+    expect(
+      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
+        'sky-inline-delete-card'
+      )
+    ).toBeFalsy();
     cmp.inlineDelete.setType(SkyInlineDeleteType.Card);
     fixture.detectChanges();
-    expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
-      .classList.contains('sky-inline-delete-standard')).toBeFalsy();
-    expect((<HTMLElement>el.querySelector('.sky-inline-delete'))
-      .classList.contains('sky-inline-delete-card')).toBeTruthy();
+    expect(
+      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
+        'sky-inline-delete-standard'
+      )
+    ).toBeFalsy();
+    expect(
+      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
+        'sky-inline-delete-card'
+      )
+    ).toBeTruthy();
   }));
 
   it('should show the sky wait when pending mode is on', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    expect((<HTMLElement>el.querySelector('.sky-wait-mask'))).toBeNull();
+    expect(<HTMLElement>el.querySelector('.sky-wait-mask')).toBeNull();
     cmp.pending = true;
     fixture.detectChanges();
-    expect((<HTMLElement>el.querySelector('.sky-wait-mask'))).not.toBeNull();
+    expect(<HTMLElement>el.querySelector('.sky-wait-mask')).not.toBeNull();
   }));
 
   describe('focus handling', () => {
     it('should focus the delete button on load', async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
+        expect(document.activeElement).toBe(
+          el.querySelector('.sky-btn-danger')
+        );
       });
     }));
 
@@ -106,11 +109,15 @@ describe('Inline delete component', () => {
       tick();
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#noop-button-1')).focus();
-      SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
-        customEventInit: {
-          relatedTarget: document.body
+      SkyAppTestUtility.fireDomEvent(
+        el.querySelector('#covered-button'),
+        'focusin',
+        {
+          customEventInit: {
+            relatedTarget: document.body,
+          },
         }
-      });
+      );
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
     }));
@@ -120,29 +127,38 @@ describe('Inline delete component', () => {
       fixture.detectChanges();
       tick();
       (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-      SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
-        customEventInit: {
-          relatedTarget: el.querySelector('.sky-btn-danger')
+      SkyAppTestUtility.fireDomEvent(
+        el.querySelector('#covered-button'),
+        'focusin',
+        {
+          customEventInit: {
+            relatedTarget: el.querySelector('.sky-btn-danger'),
+          },
         }
-      });
+      );
       fixture.detectChanges();
       expect(document.activeElement).toBe(el.querySelector('#noop-button-1'));
     }));
 
-    it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards',
-      fakeAsync(() => {
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-        (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
-        SkyAppTestUtility.fireDomEvent(el.querySelector('#covered-button'), 'focusin', {
+    it('should wrap around to the next focusable item on the screen when no direct item is found and tabbing backwards', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
+      SkyAppTestUtility.fireDomEvent(
+        el.querySelector('#covered-button'),
+        'focusin',
+        {
           customEventInit: {
-            relatedTarget: el.querySelector('.sky-btn-danger')
-          }
-        });
-        fixture.detectChanges();
-        expect(document.activeElement).toBe(el.querySelector('.sky-inline-delete .sky-btn-default'));
-      }));
+            relatedTarget: el.querySelector('.sky-btn-danger'),
+          },
+        }
+      );
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(
+        el.querySelector('.sky-inline-delete .sky-btn-default')
+      );
+    }));
 
     it('should leave focus on the parent if it is focused', fakeAsync(() => {
       fixture.componentInstance.parentTabIndex = 0;
@@ -150,13 +166,19 @@ describe('Inline delete component', () => {
       tick();
       fixture.detectChanges();
       (<HTMLElement>el.querySelector('#inline-delete-fixture')).focus();
-      SkyAppTestUtility.fireDomEvent(el.querySelector('#inline-delete-fixture'), 'focusin', {
-        customEventInit: {
-          relatedTarget: el.querySelector('.sky-btn-danger')
+      SkyAppTestUtility.fireDomEvent(
+        el.querySelector('#inline-delete-fixture'),
+        'focusin',
+        {
+          customEventInit: {
+            relatedTarget: el.querySelector('.sky-btn-danger'),
+          },
         }
-      });
+      );
       fixture.detectChanges();
-      expect(document.activeElement).toBe(el.querySelector('#inline-delete-fixture'));
+      expect(document.activeElement).toBe(
+        el.querySelector('#inline-delete-fixture')
+      );
     }));
   });
 
@@ -188,8 +210,9 @@ describe('Inline delete component', () => {
         // NOTE: For some reason the color contrast rule fails on IE and Edge but passes all other
         // browsers. A manual test was done and nothing is different in these browsers so I am just
         // disabling the color contrast rule for this test for now.
-        expect(fixture.nativeElement)
-          .toBeAccessible(() => { }, { rules: { 'color-contrast': { enabled: false } } });
+        expect(fixture.nativeElement).toBeAccessible(() => {}, {
+          rules: { 'color-contrast': { enabled: false } },
+        });
       });
     }));
   });

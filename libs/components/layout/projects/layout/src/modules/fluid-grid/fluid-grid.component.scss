@@ -1,4 +1,4 @@
-@import "scss/variables";
+@import 'scss/variables';
 
 @mixin create_gutters($gutter-size) {
   .sky-fluid-grid-gutter-size-#{$gutter-size} {

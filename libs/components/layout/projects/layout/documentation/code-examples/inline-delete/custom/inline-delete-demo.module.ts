@@ -1,34 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyInlineDeleteModule
-} from 'projects/layout/src/public-api';
+import { SkyInlineDeleteModule } from 'projects/layout/src/public-api';
 
-import {
-  InlineDeleteDemoComponent
-} from './inilne-delete-demo.component';
+import { InlineDeleteDemoComponent } from './inilne-delete-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyIconModule,
-    SkyInlineDeleteModule
-  ],
-  declarations: [
-    InlineDeleteDemoComponent
-  ],
-  exports: [
-    InlineDeleteDemoComponent
-  ]
+  imports: [CommonModule, SkyIconModule, SkyInlineDeleteModule],
+  declarations: [InlineDeleteDemoComponent],
+  exports: [InlineDeleteDemoComponent],
 })
-export class InlineDeleteDemoModule { }
+export class InlineDeleteDemoModule {}

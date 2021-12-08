@@ -1,47 +1,35 @@
-<sky-repeater
-  style="width: 100%"
->
+<sky-repeater style="width: 100%">
   <sky-repeater-item *ngFor="let item of repeaterDemoItems">
     <sky-repeater-item-context-menu>
-      <sky-dropdown
-        buttonType="context-menu"
-      >
+      <sky-dropdown buttonType="context-menu">
         <sky-dropdown-menu>
           <sky-dropdown-item>
-            <button
-              type="button"
-              (click)="showInlineDelete(item.title)"
-            >
+            <button type="button" (click)="showInlineDelete(item.title)">
               Delete
             </button>
           </sky-dropdown-item>
         </sky-dropdown-menu>
       </sky-dropdown>
     </sky-repeater-item-context-menu>
-    <sky-repeater-item-title
-      class="sky-demo-inline-delete-flex"
-    >
+    <sky-repeater-item-title class="sky-demo-inline-delete-flex">
       <div>
-        {{item.title}}
+        {{ item.title }}
       </div>
       <div>
-        {{item.cost}}
+        {{ item.cost }}
       </div>
     </sky-repeater-item-title>
     <sky-repeater-item-content>
-      {{item.description}}
+      {{ item.description }}
     </sky-repeater-item-content>
-    <sky-inline-delete *ngIf="repeaterDemoShownInlineDeletes.indexOf(item.title) >= 0"
+    <sky-inline-delete
+      *ngIf="repeaterDemoShownInlineDeletes.indexOf(item.title) >= 0"
       (cancelTriggered)="cancelDeletion(item.title)"
       (deleteTriggered)="deleteItem(item.title)"
     ></sky-inline-delete>
   </sky-repeater-item>
 </sky-repeater>
 
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="onResetClick()"
->
+<button class="sky-btn sky-btn-primary" type="button" (click)="onResetClick()">
   Reset Repeater
 </button>

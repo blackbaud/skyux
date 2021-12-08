@@ -1,15 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ColumnTestComponent
-} from './fixtures/column.component.fixture';
-import {
-  SkyColumnComponent
-} from './column.component';
+import { ColumnTestComponent } from './fixtures/column.component.fixture';
+import { SkyColumnComponent } from './column.component';
 
 describe('SkyColumnComponent', () => {
   let component: ColumnTestComponent;
@@ -18,12 +12,8 @@ describe('SkyColumnComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyColumnComponent,
-        ColumnTestComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [SkyColumnComponent, ColumnTestComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ColumnTestComponent);
     component = fixture.componentInstance;

@@ -7,28 +7,19 @@
     'sky-card-selected': selectable &amp;&amp; selected
   }"
 >
-  <ng-content
-    select="sky-inline-delete"
-  ></ng-content>
+  <ng-content select="sky-inline-delete"></ng-content>
   <header>
-    <div *ngIf="selectable || showTitle"
+    <div
+      *ngIf="selectable || showTitle"
       class="sky-card-header"
       (click)="contentClick()"
     >
-      <div
-        class="sky-card-heading-middle"
-      >
-        <h1 *ngIf="showTitle"
-          class="sky-card-title sky-section-heading"
-        >
-          <ng-content
-            select="sky-card-title"
-          ></ng-content>
+      <div class="sky-card-heading-middle">
+        <h1 *ngIf="showTitle" class="sky-card-title sky-section-heading">
+          <ng-content select="sky-card-title"></ng-content>
         </h1>
       </div>
-      <div *ngIf="selectable"
-        class="sky-card-check"
-      >
+      <div *ngIf="selectable" class="sky-card-check">
         <sky-checkbox
           [label]="'skyux_card_checkbox_label' | skyLibResources"
           [ngModel]="selected"
@@ -42,17 +33,13 @@
     class="sky-card-content sky-padding-even-default"
     (click)="contentClick()"
   >
-    <ng-content
-      select="sky-card-content"
-    ></ng-content>
+    <ng-content select="sky-card-content"></ng-content>
   </div>
   <div
     class="sky-card-actions"
     [hidden]="actionsEl.children.length === 0"
     #actionsEl
   >
-    <ng-content
-      select="sky-card-actions"
-    ></ng-content>
+    <ng-content select="sky-card-actions"></ng-content>
   </div>
 </section>

@@ -1,24 +1,12 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyFormatComponent
-} from './format.component';
+import { SkyFormatComponent } from './format.component';
 
 @NgModule({
-  declarations: [
-    SkyFormatComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    SkyFormatComponent
-  ]
+  declarations: [SkyFormatComponent],
+  imports: [CommonModule],
+  exports: [SkyFormatComponent],
 })
-export class SkyFormatModule { }
+export class SkyFormatModule {}

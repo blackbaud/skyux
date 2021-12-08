@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-page-summary {
   background-color: #fff;
@@ -27,7 +27,6 @@
 }
 
 @include sky-host-responsive-container-sm-min() {
-
   .sky-page-summary-with-key-info {
     .sky-page-summary-left {
       flex-basis: 75%;

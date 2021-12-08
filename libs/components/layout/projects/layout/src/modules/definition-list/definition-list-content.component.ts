@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Wraps the label-value pairs in the definition list.
@@ -10,6 +7,6 @@ import {
   selector: 'sky-definition-list-content',
   templateUrl: './definition-list-content.component.html',
   styleUrls: ['./definition-list-content.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDefinitionListContentComponent { }
+export class SkyDefinitionListContentComponent {}

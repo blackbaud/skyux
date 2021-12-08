@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import {
-  SkyPageThemeAdapterService
-} from './page-theme-adapter.service';
+import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
  * Resets the SPA's background to white and adds the `sky-theme-default` CSS class to the host
@@ -16,11 +10,10 @@ import {
 @Component({
   selector: 'sky-page',
   templateUrl: './page.component.html',
-  providers: [SkyPageThemeAdapterService]
+  providers: [SkyPageThemeAdapterService],
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
-
-  constructor(private themeAdapter: SkyPageThemeAdapterService) { }
+  constructor(private themeAdapter: SkyPageThemeAdapterService) {}
 
   public ngOnInit(): void {
     this.themeAdapter.addTheme();
@@ -29,5 +22,4 @@ export class SkyPageComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.themeAdapter.removeTheme();
   }
-
 }

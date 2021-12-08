@@ -12,11 +12,26 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_back_to_top":{"message":"Back to top"},"skyux_card_checkbox_label":{"message":"Select card"},"skyux_definition_list_none_found":{"message":"None found"},"skyux_description_list_none_found":{"message":"None found"},"skyux_inline_delete_assistive_text":{"message":"Are you sure you want to delete this item?"},"skyux_inline_delete_cancel":{"message":"Cancel"},"skyux_inline_delete_confirm_deletion":{"message":"Confirm deletion"},"skyux_inline_delete_delete":{"message":"Delete"},"skyux_text_expand_close_text":{"message":"Close"},"skyux_text_expand_modal_title":{"message":"Expanded view"},"skyux_text_expand_see_less":{"message":"See less"},"skyux_text_expand_see_more":{"message":"See more"}},
+  'EN-US': {
+    skyux_back_to_top: { message: 'Back to top' },
+    skyux_card_checkbox_label: { message: 'Select card' },
+    skyux_definition_list_none_found: { message: 'None found' },
+    skyux_description_list_none_found: { message: 'None found' },
+    skyux_inline_delete_assistive_text: {
+      message: 'Are you sure you want to delete this item?',
+    },
+    skyux_inline_delete_cancel: { message: 'Cancel' },
+    skyux_inline_delete_confirm_deletion: { message: 'Confirm deletion' },
+    skyux_inline_delete_delete: { message: 'Delete' },
+    skyux_text_expand_close_text: { message: 'Close' },
+    skyux_text_expand_modal_title: { message: 'Expanded view' },
+    skyux_text_expand_see_less: { message: 'See less' },
+    skyux_text_expand_see_more: { message: 'See more' },
+  },
 };
 
 export class SkyLayoutResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +45,12 @@ export class SkyLayoutResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyLayoutResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyLayoutResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyLayoutResourcesModule { }
+export class SkyLayoutResourcesModule {}

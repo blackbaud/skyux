@@ -1,12 +1,6 @@
-<sky-card
-  [selectable]="'false'"
->
-  <sky-card-title>
-    Card title
-  </sky-card-title>
-  <sky-card-content>
-    Card content
-  </sky-card-content>
+<sky-card [selectable]="'false'">
+  <sky-card-title> Card title </sky-card-title>
+  <sky-card-content> Card content </sky-card-content>
   <sky-card-actions>
     <button
       class="sky-btn sky-btn-danger"
@@ -17,7 +11,8 @@
       Delete
     </button>
   </sky-card-actions>
-  <sky-inline-delete *ngIf="deleting"
+  <sky-inline-delete
+    *ngIf="deleting"
     [pending]="pending"
     (cancelTriggered)="onCancelTriggered()"
     (deleteTriggered)="onDeleteTriggered()"

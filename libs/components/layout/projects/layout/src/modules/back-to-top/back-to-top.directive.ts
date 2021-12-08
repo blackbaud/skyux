@@ -3,41 +3,24 @@ import {
   Directive,
   ElementRef,
   Input,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
-import {
-  SkyDockItem,
-  SkyDockService
-} from '@skyux/core';
+import { SkyDockItem, SkyDockService } from '@skyux/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyBackToTopDomAdapterService
-} from './back-to-top-adapter.service';
+import { SkyBackToTopDomAdapterService } from './back-to-top-adapter.service';
 
-import {
-  SkyBackToTopComponent
-} from './back-to-top.component';
+import { SkyBackToTopComponent } from './back-to-top.component';
 
-import {
-  SkyBackToTopMessage
-} from './models/back-to-top-message';
+import { SkyBackToTopMessage } from './models/back-to-top-message';
 
-import {
-  SkyBackToTopMessageType
-} from './models/back-to-top-message-type';
+import { SkyBackToTopMessageType } from './models/back-to-top-message-type';
 
-import {
-  SkyBackToTopOptions
-} from './models/back-to-top-options';
+import { SkyBackToTopOptions } from './models/back-to-top-options';
 
 /**
  * Associates a button with an element on the page and displays that button
@@ -45,12 +28,9 @@ import {
  */
 @Directive({
   selector: '[skyBackToTop]',
-  providers: [
-    SkyBackToTopDomAdapterService
-  ]
+  providers: [SkyBackToTopDomAdapterService],
 })
 export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
-
   /**
    * Specifies configuration options for the back to top component.
    */
@@ -73,7 +53,9 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
     this._skyBackToTopMessageStream = value;
     this._skyBackToTopMessageStream
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((message: SkyBackToTopMessage) => this.handleIncomingMessages(message));
+      .subscribe((message: SkyBackToTopMessage) =>
+        this.handleIncomingMessages(message)
+      );
   }
 
   private buttonHidden = false;
@@ -90,8 +72,13 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   ) {}
 
   public ngAfterViewInit(): void {
-    const scrollableParent = this.domAdapter.findScrollableParent(this.element.nativeElement);
-    this.elementInView = this.domAdapter.isElementScrolledInView(this.element.nativeElement, scrollableParent);
+    const scrollableParent = this.domAdapter.findScrollableParent(
+      this.element.nativeElement
+    );
+    this.elementInView = this.domAdapter.isElementScrolledInView(
+      this.element.nativeElement,
+      scrollableParent
+    );
 
     this.handleBackToTopButton(this.elementInView);
     this.setBackToTopListeners();
@@ -105,7 +92,12 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
 
   private handleBackToTopButton(elementInView: boolean): void {
     // Add back to top button if user scrolls down and button is not hidden.
-    if (!this.dockItem && elementInView !== undefined && !elementInView && !this.buttonHidden) {
+    if (
+      !this.dockItem &&
+      elementInView !== undefined &&
+      !elementInView &&
+      !this.buttonHidden
+    ) {
       this.addBackToTop();
     }
     // Remove back to top button if user scrolls back up.
@@ -135,13 +127,14 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   private setBackToTopListeners(): void {
     /* istanbul ignore else */
     if (this.element) {
-      this.domAdapter.elementInViewOnScroll(this.element)
+      this.domAdapter
+        .elementInViewOnScroll(this.element)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((elementInView: boolean) => {
           this.elementInView = elementInView;
 
           this.handleBackToTopButton(elementInView);
-      });
+        });
     }
   }
 

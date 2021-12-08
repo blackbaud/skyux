@@ -1,9 +1,11 @@
 <sky-modal>
-  <sky-modal-header>{{context.header}}</sky-modal-header>
-  <sky-modal-content class="sky-text-expand-modal-content">{{context.text}}</sky-modal-content>
+  <sky-modal-header>{{ context.header }}</sky-modal-header>
+  <sky-modal-content class="sky-text-expand-modal-content">{{
+    context.text
+  }}</sky-modal-content>
   <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-link"
-      (click)="close()">{{'skyux_text_expand_close_text' | skyLibResources}}</button>
+    <button class="sky-btn sky-btn-link" (click)="close()">
+      {{ 'skyux_text_expand_close_text' | skyLibResources }}
+    </button>
   </sky-modal-footer>
 </sky-modal>

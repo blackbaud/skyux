@@ -1,40 +1,25 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyActionButtonAdapterService
-} from './action-button-adapter-service';
+import { SkyActionButtonAdapterService } from './action-button-adapter-service';
 
 @Component({
   selector: 'sky-test-cmp',
   template: `
-    <div
-      [style.width]="parentWidth"
-    >
-      <div #el>
-        Hello world
-      </div>
+    <div [style.width]="parentWidth">
+      <div #el>Hello world</div>
     </div>
-  `
+  `,
 })
 class SkyActionButtonAdapterTestComponent {
-
   public parentWidth: string;
 
   @ViewChild('el', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public input: ElementRef;
-
 }
 
 describe('Action button adapter service', () => {
@@ -44,12 +29,8 @@ describe('Action button adapter service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyActionButtonAdapterTestComponent
-      ],
-      providers: [
-        SkyActionButtonAdapterService
-      ]
+      declarations: [SkyActionButtonAdapterTestComponent],
+      providers: [SkyActionButtonAdapterService],
     });
 
     fixture = TestBed.createComponent(SkyActionButtonAdapterTestComponent);
@@ -69,27 +50,44 @@ describe('Action button adapter service', () => {
     adapter.setResponsiveClass(inputRef, 911);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).toHaveClass('sky-action-button-container-sm');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-md');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-lg');
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-action-button-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-lg'
+    );
   });
 
   it('should set responsive md class when width is between 912 and 1398 pixels', () => {
     adapter.setResponsiveClass(inputRef, 1377);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-sm');
-    expect(inputRef.nativeElement).toHaveClass('sky-action-button-container-md');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-lg');
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-sm'
+    );
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-action-button-container-md'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-lg'
+    );
   });
 
   it('should set responsive lg class when width is greater than or equal to 1378 pixels', () => {
     adapter.setResponsiveClass(inputRef, 1378);
     fixture.detectChanges();
 
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-sm');
-    expect(inputRef.nativeElement).not.toHaveClass('sky-action-button-container-md');
-    expect(inputRef.nativeElement).toHaveClass('sky-action-button-container-lg');
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-sm'
+    );
+    expect(inputRef.nativeElement).not.toHaveClass(
+      'sky-action-button-container-md'
+    );
+    expect(inputRef.nativeElement).toHaveClass(
+      'sky-action-button-container-lg'
+    );
   });
-
 });

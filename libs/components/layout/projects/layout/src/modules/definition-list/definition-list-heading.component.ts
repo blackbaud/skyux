@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Specifies a title for the definition list.
@@ -10,6 +7,6 @@ import {
   selector: 'sky-definition-list-heading',
   templateUrl: './definition-list-heading.component.html',
   styleUrls: ['./definition-list-heading.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDefinitionListHeadingComponent { }
+export class SkyDefinitionListHeadingComponent {}

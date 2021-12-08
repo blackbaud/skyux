@@ -5,15 +5,8 @@ import { SkyDefinitionListModule } from '../definition-list.module';
 import { SkyDefinitionListTestComponent } from './definition-list.component.fixture';
 
 @NgModule({
-  declarations: [
-    SkyDefinitionListTestComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyDefinitionListModule
-  ],
-  exports: [
-    SkyDefinitionListTestComponent
-  ]
+  declarations: [SkyDefinitionListTestComponent],
+  imports: [CommonModule, SkyDefinitionListModule],
+  exports: [SkyDefinitionListTestComponent],
 })
-export class SkyDefinitionListFixturesModule { }
+export class SkyDefinitionListFixturesModule {}

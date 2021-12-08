@@ -4,25 +4,16 @@ import {
   ContentChildren,
   ElementRef,
   OnDestroy,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  SkyPageSummaryAdapterService
-} from './page-summary-adapter.service';
+import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
 
-import {
-  SkyPageSummaryKeyInfoComponent
-} from './page-summary-key-info.component';
+import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
 
 /**
  * Specifies the components to display in the page summary.
@@ -31,14 +22,16 @@ import {
   selector: 'sky-page-summary',
   templateUrl: './page-summary.component.html',
   styleUrls: ['./page-summary.component.scss'],
-  providers: [SkyPageSummaryAdapterService]
+  providers: [SkyPageSummaryAdapterService],
 })
 export class SkyPageSummaryComponent implements OnDestroy, AfterViewInit {
   public get hasKeyInfo(): boolean {
-    return (this.keyInfoComponents.length > 0);
+    return this.keyInfoComponents.length > 0;
   }
 
-  @ContentChildren(SkyPageSummaryKeyInfoComponent, { read: SkyPageSummaryKeyInfoComponent })
+  @ContentChildren(SkyPageSummaryKeyInfoComponent, {
+    read: SkyPageSummaryKeyInfoComponent,
+  })
   private keyInfoComponents: QueryList<SkyPageSummaryKeyInfoComponent>;
 
   private breakpointSubscription: Subscription;
@@ -47,12 +40,15 @@ export class SkyPageSummaryComponent implements OnDestroy, AfterViewInit {
     private elRef: ElementRef,
     private adapter: SkyPageSummaryAdapterService,
     private mediaQueryService: SkyMediaQueryService
-  ) { }
+  ) {}
 
   public ngAfterViewInit() {
     this.breakpointSubscription = this.mediaQueryService.subscribe(
       (args: SkyMediaBreakpoints) => {
-        this.adapter.updateKeyInfoLocation(this.elRef, args === SkyMediaBreakpoints.xs);
+        this.adapter.updateKeyInfoLocation(
+          this.elRef,
+          args === SkyMediaBreakpoints.xs
+        );
       }
     );
   }

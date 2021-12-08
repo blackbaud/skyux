@@ -1,49 +1,24 @@
-<sky-action-button-container
-  [alignItems]="alignItems"
->
+<sky-action-button-container [alignItems]="alignItems">
   <sky-action-button
     [style.height]="firstButtonHeight"
     (actionClick)="buttonClicked()"
   >
-    <sky-action-button-icon
-      iconType="filter"
-    >
-    </sky-action-button-icon>
-    <sky-action-button-header>
-      Build a new list
-    </sky-action-button-header>
+    <sky-action-button-icon iconType="filter"> </sky-action-button-icon>
+    <sky-action-button-header> Build a new list </sky-action-button-header>
     <sky-action-button-details>
       Start from scratch and fine-tune with filters
     </sky-action-button-details>
   </sky-action-button>
 
-  <sky-action-button
-    [permalink]="permalink1"
-  >
-    <sky-action-button-icon
-      iconType="link"
-    >
-    </sky-action-button-icon>
-    <sky-action-button-header>
-      Open a link
-    </sky-action-button-header>
-    <sky-action-button-details>
-      Open a link
-    </sky-action-button-details>
+  <sky-action-button [permalink]="permalink1">
+    <sky-action-button-icon iconType="link"> </sky-action-button-icon>
+    <sky-action-button-header> Open a link </sky-action-button-header>
+    <sky-action-button-details> Open a link </sky-action-button-details>
   </sky-action-button>
 
-  <sky-action-button
-    [permalink]="permalink2"
-  >
-    <sky-action-button-icon
-      iconType="link"
-    >
-    </sky-action-button-icon>
-    <sky-action-button-header>
-      Open a route link
-    </sky-action-button-header>
-    <sky-action-button-details>
-      Open a route link
-    </sky-action-button-details>
+  <sky-action-button [permalink]="permalink2">
+    <sky-action-button-icon iconType="link"> </sky-action-button-icon>
+    <sky-action-button-header> Open a route link </sky-action-button-header>
+    <sky-action-button-details> Open a route link </sky-action-button-details>
   </sky-action-button>
 </sky-action-button-container>

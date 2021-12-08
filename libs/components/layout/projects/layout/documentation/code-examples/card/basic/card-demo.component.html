@@ -1,46 +1,27 @@
-<sky-card
-  [selectable]="showCheckbox"
->
-  <sky-card-title *ngIf="showTitle">
-    Large card
-  </sky-card-title>
+<sky-card [selectable]="showCheckbox">
+  <sky-card-title *ngIf="showTitle"> Large card </sky-card-title>
   <sky-card-content *ngIf="showContent">
-    This card demonstrates the amount of space that is available for a card that uses
-    the default large size. If the content does not require this much space, you can
-    set the card size to small. The type of content to display in the body of a card
-    varies based on what the card represents and whether it prompts users to action.
+    This card demonstrates the amount of space that is available for a card that
+    uses the default large size. If the content does not require this much
+    space, you can set the card size to small. The type of content to display in
+    the body of a card varies based on what the card represents and whether it
+    prompts users to action.
   </sky-card-content>
   <sky-card-actions *ngIf="showAction">
-    <button
-      class="sky-btn sky-btn-default"
-      type="button"
-    >
-      Action
-    </button>
+    <button class="sky-btn sky-btn-default" type="button">Action</button>
   </sky-card-actions>
-  </sky-card>
-  <sky-card
-    size="small"
-    [selectable]="showCheckbox"
-  >
-  <sky-card-title *ngIf="showTitle">
-    Small card
-  </sky-card-title>
+</sky-card>
+<sky-card size="small" [selectable]="showCheckbox">
+  <sky-card-title *ngIf="showTitle"> Small card </sky-card-title>
   <sky-card-content *ngIf="showContent">
-    This card demonstrates the reduced amount of space that is available when you
-    set the card size to small.
+    This card demonstrates the reduced amount of space that is available when
+    you set the card size to small.
   </sky-card-content>
   <sky-card-actions *ngIf="showAction">
-    <sky-dropdown
-      buttonType="context-menu"
-    >
+    <sky-dropdown buttonType="context-menu">
       <sky-dropdown-menu>
         <sky-dropdown-item>
-          <button
-            type="button"
-          >
-            Action
-          </button>
+          <button type="button">Action</button>
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>

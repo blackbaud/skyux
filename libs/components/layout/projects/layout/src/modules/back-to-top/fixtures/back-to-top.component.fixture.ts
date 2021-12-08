@@ -1,25 +1,16 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyBackToTopMessage
-} from '../models/back-to-top-message';
+import { SkyBackToTopMessage } from '../models/back-to-top-message';
 
-import {
-  SkyBackToTopOptions
-} from '../models/back-to-top-options';
+import { SkyBackToTopOptions } from '../models/back-to-top-options';
 
 @Component({
   selector: 'sky-back-to-top-fixture',
-  templateUrl: './back-to-top.component.fixture.html'
+  templateUrl: './back-to-top.component.fixture.html',
 })
 export class SkyBackToTopFixtureComponent {
-
   public height: number;
 
   public scrollableParent: boolean;
@@ -27,6 +18,6 @@ export class SkyBackToTopFixtureComponent {
   public backToTopController: Subject<SkyBackToTopMessage> = new Subject();
 
   public backToTopOptions: SkyBackToTopOptions = {
-    buttonHidden: false
+    buttonHidden: false,
   };
 }

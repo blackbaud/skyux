@@ -1,16 +1,18 @@
-<ng-template
-  #descriptionTemplateRef
->
+<ng-template #descriptionTemplateRef>
   <span #valueEl>
     <ng-content></ng-content>
   </span>
-  <span *ngIf="!valueEl.textContent.trim()"
+  <span
+    *ngIf="!valueEl.textContent.trim()"
     data-sky-id="sky-description-list-default-value"
     [skyThemeClass]="{
       'sky-font-deemphasized': 'modern',
       'sky-deemphasized': 'default'
     }"
   >
-    {{ (service.defaultDescription | async) || ('skyux_description_list_none_found' | skyLibResources) }}
+    {{
+      (service.defaultDescription | async) ||
+        ('skyux_description_list_none_found' | skyLibResources)
+    }}
   </span>
 </ng-template>

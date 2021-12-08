@@ -1,15 +1,8 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {
-  SkyFluidGridGutterSize
-} from './fluid-grid-gutter-size';
+import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
 
-import {
-  SkyFluidGridGutterSizeType
-} from './types/fluid-grid-gutter-size-type';
+import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 /**
  * Wraps the fluid grid to ensure proper spacing. Without the wrapper, the
@@ -18,12 +11,9 @@ import {
 @Component({
   selector: 'sky-fluid-grid',
   templateUrl: './fluid-grid.component.html',
-  styleUrls: [
-    './fluid-grid.component.scss'
-  ]
+  styleUrls: ['./fluid-grid.component.scss'],
 })
 export class SkyFluidGridComponent {
-
   /**
    * Disables the outer left and right margin of the fluid grid container.
    * @default false
@@ -75,5 +65,4 @@ export class SkyFluidGridComponent {
   private _disableMargin: boolean;
 
   private _gutterSize: SkyFluidGridGutterSizeType;
-
 }

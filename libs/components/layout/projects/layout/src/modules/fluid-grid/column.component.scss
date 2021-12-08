@@ -1,4 +1,4 @@
-@import "scss/variables";
+@import 'scss/variables';
 
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $sky-fluid-grid-columns {
@@ -16,7 +16,9 @@
 }
 
 @mixin create_column_gutters_modern($gutter-size) {
-  .sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size} sky-column.sky-column {
+  .sky-theme-modern
+    .sky-fluid-grid-gutter-size-#{$gutter-size}
+    sky-column.sky-column {
     padding-right: map-get($gutter-sizes-modern, $gutter-size);
     padding-left: map-get($gutter-sizes-modern, $gutter-size);
   }
@@ -48,7 +50,7 @@ sky-column.sky-column {
   // This is needed for operation inside a reactive container. Without it the media breakpoint
   // will be used and the screen size version takes over.
   @for $i from 1 through $sky-fluid-grid-columns {
-    sky-column:not([class*="sky-column-xs-"]) {
+    sky-column:not([class*='sky-column-xs-']) {
       width: 100%;
     }
   }

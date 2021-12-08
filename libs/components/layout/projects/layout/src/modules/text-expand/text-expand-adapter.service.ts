@@ -2,7 +2,7 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
 /**
@@ -10,12 +10,9 @@ import {
  */
 @Injectable()
 export class SkyTextExpandAdapterService {
-
   private renderer: Renderer2;
 
-  constructor(
-    private rendererFactory: RendererFactory2
-  ) {
+  constructor(private rendererFactory: RendererFactory2) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 

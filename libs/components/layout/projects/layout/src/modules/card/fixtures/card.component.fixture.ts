@@ -1,21 +1,15 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyCardComponent
-} from '../card.component';
+import { SkyCardComponent } from '../card.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './card.component.fixture.html'
+  templateUrl: './card.component.fixture.html',
 })
 export class CardTestComponent {
-
   @ViewChild(SkyCardComponent, {
     read: SkyCardComponent,
-    static: false
+    static: false,
   })
   public card: SkyCardComponent;
 

@@ -1,30 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyCardModule
-} from 'projects/layout/src/public-api';
+import { SkyCardModule } from 'projects/layout/src/public-api';
 
-import {
-  SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  CardDemoComponent
-} from './card-demo.component';
+import { CardDemoComponent } from './card-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     FormsModule,
     SkyCardModule,
     SkyCheckboxModule,
-    SkyDropdownModule
+    SkyDropdownModule,
   ],
-  declarations: [
-    CardDemoComponent
-  ],
-  exports: [
-    CardDemoComponent
-  ]
+  declarations: [CardDemoComponent],
+  exports: [CardDemoComponent],
 })
-export class CardDemoModule { }
+export class CardDemoModule {}

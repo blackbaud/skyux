@@ -1,8 +1,5 @@
 <span class="format-test">
-  <sky-format
-    [text]="text"
-    [args]="[value1, value2]"
-  ></sky-format>
+  <sky-format [text]="text" [args]="[value1, value2]"></sky-format>
 </span>
 
 <ng-template #value1>
@@ -10,14 +7,8 @@
 </ng-template>
 
 <ng-template #value2>
-  <button
-    class="sky-btn sky-btn-primary"
-    type="button"
-    (click)="testClick()"
-  >
-    One
-  </button>&nbsp;
-  <sky-label>
-    Hi
-  </sky-label>
+  <button class="sky-btn sky-btn-primary" type="button" (click)="testClick()">
+    One</button
+  >&nbsp;
+  <sky-label> Hi </sky-label>
 </ng-template>

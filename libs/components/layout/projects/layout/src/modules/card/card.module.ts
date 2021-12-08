@@ -1,50 +1,30 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  SkyCheckboxModule
-} from '@skyux/forms';
+import { SkyCheckboxModule } from '@skyux/forms';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyInlineDeleteModule
-} from '../inline-delete/inline-delete.module';
+import { SkyInlineDeleteModule } from '../inline-delete/inline-delete.module';
 import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
 
-import {
-  SkyCardActionsComponent
-} from './card-actions.component';
+import { SkyCardActionsComponent } from './card-actions.component';
 
-import {
-  SkyCardContentComponent
-} from './card-content.component';
+import { SkyCardContentComponent } from './card-content.component';
 
-import {
-  SkyCardTitleComponent
-} from './card-title.component';
+import { SkyCardTitleComponent } from './card-title.component';
 
-import {
-  SkyCardComponent
-} from './card.component';
+import { SkyCardComponent } from './card.component';
 
 @NgModule({
   declarations: [
     SkyCardActionsComponent,
     SkyCardComponent,
     SkyCardContentComponent,
-    SkyCardTitleComponent
+    SkyCardTitleComponent,
   ],
   imports: [
     CommonModule,
@@ -52,13 +32,13 @@ import {
     SkyCheckboxModule,
     SkyI18nModule,
     SkyLayoutResourcesModule,
-    SkyInlineDeleteModule
+    SkyInlineDeleteModule,
   ],
   exports: [
     SkyCardActionsComponent,
     SkyCardComponent,
     SkyCardContentComponent,
-    SkyCardTitleComponent
-  ]
+    SkyCardTitleComponent,
+  ],
 })
-export class SkyCardModule { }
+export class SkyCardModule {}

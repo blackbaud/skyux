@@ -1,46 +1,27 @@
-<div
-  class="sky-description-list-test-1"
->
-  <sky-description-list
-    [listItemWidth]="listItemWidth"
-    [mode]="mode"
-  >
+<div class="sky-description-list-test-1">
+  <sky-description-list [listItemWidth]="listItemWidth" [mode]="mode">
     <sky-description-list-content *ngFor="let item of personalInfo">
-      <sky-description-list-term>
-        {{item.term}}
-      </sky-description-list-term>
+      <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description}}
       </sky-description-list-description>
     </sky-description-list-content>
   </sky-description-list>
 </div>
-<div
-  class="sky-description-list-test-2"
->
-  <sky-description-list
-    defaultDescription="No information found"
-  >
+<div class="sky-description-list-test-2">
+  <sky-description-list defaultDescription="No information found">
     <sky-description-list-content *ngFor="let item of systemInfo">
-      <sky-description-list-term>
-        {{item.term}}
-      </sky-description-list-term>
+      <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description}}
       </sky-description-list-description>
     </sky-description-list-content>
   </sky-description-list>
 </div>
-<div
-  class="sky-description-list-test-3"
->
-  <sky-description-list
-    defaultDescription="Not yet loaded"
-  >
+<div class="sky-description-list-test-3">
+  <sky-description-list defaultDescription="Not yet loaded">
     <sky-description-list-content *ngFor="let item of asyncInfo">
-      <sky-description-list-term>
-        {{item.term}}
-      </sky-description-list-term>
+      <sky-description-list-term> {{item.term}} </sky-description-list-term>
       <sky-description-list-description>
         {{item.description | async}}
       </sky-description-list-description>

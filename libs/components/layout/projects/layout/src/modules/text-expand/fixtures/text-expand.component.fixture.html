@@ -1,11 +1,6 @@
-<div
-  [@.disabled]="true"
->
+<div [@.disabled]="true">
   <div *ngIf="maxLength">
-    <sky-text-expand
-      [maxLength]="maxLength"
-      [text]="text"
-    ></sky-text-expand>
+    <sky-text-expand [maxLength]="maxLength" [text]="text"></sky-text-expand>
   </div>
   <div *ngIf="!maxLength">
     <sky-text-expand

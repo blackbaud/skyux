@@ -1,33 +1,21 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
-import {
-  ComponentFixture,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
-import {
-  SkyDescriptionListAdapterService
-} from './description-list-adapter-service';
+import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 
 @Component({
   selector: 'sky-test-cmp',
-  template: `<div [style.width]="width" #el>Hello world</div>`
+  template: `<div [style.width]="width" #el>Hello world</div>`,
 })
 class SkyDescriptionListAdapterTestComponent {
-
   public width: string;
 
   @ViewChild('el', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   public input: ElementRef;
-
 }
 
 describe('Description list adapter service', () => {
@@ -36,12 +24,8 @@ describe('Description list adapter service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyDescriptionListAdapterTestComponent
-      ],
-      providers: [
-        SkyDescriptionListAdapterService
-      ]
+      declarations: [SkyDescriptionListAdapterTestComponent],
+      providers: [SkyDescriptionListAdapterService],
     });
 
     fixture = TestBed.createComponent(SkyDescriptionListAdapterTestComponent);
@@ -67,8 +51,12 @@ describe('Description list adapter service', () => {
       fixture.detectChanges();
 
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-xs');
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-sm');
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-md');
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-sm'
+      );
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-md'
+      );
     }
   ));
 
@@ -80,25 +68,31 @@ describe('Description list adapter service', () => {
       adapter.setResponsiveClass(inputRef);
       fixture.detectChanges();
 
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-xs');
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-xs'
+      );
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-sm');
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-md');
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-md'
+      );
     }
   ));
 
   it('should set responsive md class when width is 768px and above', inject(
     [SkyDescriptionListAdapterService],
     (adapter: SkyDescriptionListAdapterService) => {
-
       fixture.componentInstance.width = '768px';
       fixture.detectChanges();
       adapter.setResponsiveClass(inputRef);
       fixture.detectChanges();
 
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-xs');
-      expect(inputRef.nativeElement).not.toHaveClass('sky-responsive-container-sm');
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-xs'
+      );
+      expect(inputRef.nativeElement).not.toHaveClass(
+        'sky-responsive-container-sm'
+      );
       expect(inputRef.nativeElement).toHaveClass('sky-responsive-container-md');
     }
   ));
-
 });

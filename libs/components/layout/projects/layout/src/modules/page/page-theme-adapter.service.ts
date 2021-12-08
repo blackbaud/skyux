@@ -1,19 +1,18 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyPageThemeAdapterService {
-
   private styleEl: HTMLStyleElement;
 
   public addTheme(): void {
     if (!this.styleEl) {
       this.styleEl = document.createElement('style');
-      this.styleEl.appendChild(document.createTextNode('body { background-color: #fff; }'));
+      this.styleEl.appendChild(
+        document.createTextNode('body { background-color: #fff; }')
+      );
 
       document.head.appendChild(this.styleEl);
     }
@@ -25,5 +24,4 @@ export class SkyPageThemeAdapterService {
       this.styleEl = undefined;
     }
   }
-
 }

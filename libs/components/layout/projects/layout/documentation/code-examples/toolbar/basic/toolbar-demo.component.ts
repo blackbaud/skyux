@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar-demo',
-  templateUrl: './toolbar-demo.component.html'
+  templateUrl: './toolbar-demo.component.html',
 })
-export class ToolbarDemoComponent { }
+export class ToolbarDemoComponent {}

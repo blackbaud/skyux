@@ -1,3 +1,7 @@
+# 5.1.1 (2021-12-08)
+
+- Added support for Prettier code formatting. [#268](https://github.com/blackbaud/skyux-layout/pull/268)
+
 # 5.1.0 (2021-11-23)
 
 - Added the ability to set the list style on the text expand repeater. [#266](https://github.com/blackbaud/skyux-layout/pull/266) (Thanks [@Blackbaud-SpencerMurphy](https://github.com/Blackbaud-SpencerMurphy)!)

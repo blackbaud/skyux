@@ -4,7 +4,6 @@
  * Specifies how to display the term-description pairs within a description list.
  */
 export enum SkyDescriptionListMode {
-
   /**
    * Displays term-description pairs side by side in a horizontal list.
    * This mode provides a responsive layout.
@@ -21,6 +20,5 @@ export enum SkyDescriptionListMode {
   /**
    * Displays term-description pairs in a vertical list.
    */
-  vertical = 'vertical'
-
+  vertical = 'vertical',
 }

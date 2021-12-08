@@ -1,30 +1,23 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX page summary component.
  */
 export class SkyPageSummaryFixture {
-
   /**
    * The page summary's current title text.
    */
   public get titleText(): string {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('sky-page-summary-title .sky-page-summary-title'))
+      this.debugEl.query(
+        By.css('sky-page-summary-title .sky-page-summary-title')
+      )
     );
   }
 
@@ -33,7 +26,9 @@ export class SkyPageSummaryFixture {
    */
   public get subtitleText(): string {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('sky-page-summary-subtitle .sky-page-summary-subtitle'))
+      this.debugEl.query(
+        By.css('sky-page-summary-subtitle .sky-page-summary-subtitle')
+      )
     );
   }
 
@@ -42,21 +37,19 @@ export class SkyPageSummaryFixture {
    */
   public get contentText(): string {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('sky-page-summary-content .sky-page-summary-content'))
+      this.debugEl.query(
+        By.css('sky-page-summary-content .sky-page-summary-content')
+      )
     );
   }
 
   private debugEl: DebugElement;
 
-  constructor(
-    fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-page-summary'
     );
   }
-
 }

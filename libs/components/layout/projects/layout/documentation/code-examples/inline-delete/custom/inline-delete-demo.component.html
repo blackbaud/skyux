@@ -1,6 +1,4 @@
-<div
-  id="inline-delete-container"
->
+<div id="inline-delete-container">
   <div>
     <button
       class="sky-btn sky-btn-danger"
@@ -8,12 +6,11 @@
       type="button"
       (click)="deleteItem()"
     >
-      <sky-icon
-        icon="trash"
-      ></sky-icon>
+      <sky-icon icon="trash"></sky-icon>
     </button>
   </div>
-  <sky-inline-delete *ngIf="deleting"
+  <sky-inline-delete
+    *ngIf="deleting"
     [pending]="pending"
     (cancelTriggered)="onCancelTriggered()"
     (deleteTriggered)="onDeleteTriggered()"

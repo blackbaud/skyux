@@ -1,13 +1,8 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyPageThemeAdapterService
-} from './page-theme-adapter.service';
+import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 describe('Page theme service', () => {
-
   it('should not add the theme stylesheet twice', () => {
     const appendChildSpy = spyOn(document.head, 'appendChild');
 

@@ -1,13 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-page-summary-demo',
-  templateUrl: './page-summary-demo.component.html'
+  templateUrl: './page-summary-demo.component.html',
 })
 export class PageSummaryDemoComponent {
-
   public name = 'Robert C. Hernandez';
 
   public showAlert = true;
@@ -23,5 +20,4 @@ export class PageSummaryDemoComponent {
   public showSubtitle = true;
 
   public showTitle = true;
-
 }

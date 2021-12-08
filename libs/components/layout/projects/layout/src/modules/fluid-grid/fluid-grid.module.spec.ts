@@ -1,6 +1,4 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import { SkyFluidGridModule } from './fluid-grid.module';
 

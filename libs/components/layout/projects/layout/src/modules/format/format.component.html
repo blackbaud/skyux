@@ -2,5 +2,7 @@
   <!--
     The following ng-container must be on one line so no extra whitespace is introduced.
   -->
-  <ng-container *ngIf="item.text else item.templateRef">{{ item.text }}</ng-container>
+  <ng-container *ngIf="item.text; else item.templateRef">{{
+    item.text
+  }}</ng-container>
 </ng-container>

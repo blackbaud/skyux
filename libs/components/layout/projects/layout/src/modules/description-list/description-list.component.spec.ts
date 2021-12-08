@@ -2,47 +2,30 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  BehaviorSubject,
-  of
-} from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
-import {
-  SkyDescriptionListTestComponent
-} from './fixtures/description-list.component.fixture';
+import { SkyDescriptionListTestComponent } from './fixtures/description-list.component.fixture';
 
-import {
-  SkyDescriptionListFixturesModule
-} from './fixtures/description-list-fixtures.module';
+import { SkyDescriptionListFixturesModule } from './fixtures/description-list-fixtures.module';
 
-import {
-  SkyDescriptionListAdapterService
-} from './description-list-adapter-service';
+import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 
-import {
-  SkyDescriptionListComponent
-} from './description-list.component';
+import { SkyDescriptionListComponent } from './description-list.component';
 
-import {
-  SkyDescriptionListService
-} from './description-list.service';
+import { SkyDescriptionListService } from './description-list.service';
 
 class MockAdapter {
   public getWidth() {}
@@ -52,45 +35,38 @@ class MockAdapter {
 describe('Description list component', () => {
   let fixture: ComponentFixture<SkyDescriptionListTestComponent>;
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
   let mockAdapter: MockAdapter;
 
   beforeEach(fakeAsync(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
     mockAdapter = new MockAdapter();
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyDescriptionListFixturesModule
-      ],
+      imports: [SkyDescriptionListFixturesModule],
       providers: [
         {
           provide: SkyThemeService,
-          useValue: mockThemeSvc
-        }
-      ]
-    }).overrideComponent(
-      SkyDescriptionListComponent,
-      {
-        set: {
-          providers: [
-            SkyDescriptionListService,
-            { provide: SkyDescriptionListAdapterService, useValue: mockAdapter }
-          ]
-        }
-      }
-    );
+          useValue: mockThemeSvc,
+        },
+      ],
+    }).overrideComponent(SkyDescriptionListComponent, {
+      set: {
+        providers: [
+          SkyDescriptionListService,
+          { provide: SkyDescriptionListAdapterService, useValue: mockAdapter },
+        ],
+      },
+    });
 
     fixture = TestBed.createComponent(SkyDescriptionListTestComponent);
 
@@ -122,13 +98,17 @@ describe('Description list component', () => {
 
     expect(dlEls[0]).toHaveCssClass('sky-description-list-vertical-mode');
     expect(dlEls[0]).not.toHaveCssClass('sky-description-list-horizontal-mode');
-    expect(dlEls[0]).not.toHaveCssClass('sky-description-list-long-description-mode');
+    expect(dlEls[0]).not.toHaveCssClass(
+      'sky-description-list-long-description-mode'
+    );
   });
 
   it('should set list item width when in horizontal mode', () => {
     fixture.componentInstance.mode = 'horizontal';
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector('.sky-description-list-content');
+    const listItemContent = dlEls[0].querySelector(
+      '.sky-description-list-content'
+    );
     expect(listItemContent.clientWidth).not.toEqual(300);
 
     fixture.componentInstance.listItemWidth = '300px';
@@ -142,7 +122,9 @@ describe('Description list component', () => {
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector('.sky-description-list-content');
+    const listItemContent = dlEls[0].querySelector(
+      '.sky-description-list-content'
+    );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
 
@@ -154,7 +136,9 @@ describe('Description list component', () => {
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector('.sky-description-list-content');
+    const listItemContent = dlEls[0].querySelector(
+      '.sky-description-list-content'
+    );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
 
@@ -188,8 +172,8 @@ describe('Description list component', () => {
     fixture.componentInstance.personalInfo = [
       {
         term: 'foo',
-        description: 'bar'
-      }
+        description: 'bar',
+      },
     ];
     fixture.detectChanges();
     list1El = getListEl(fixture.nativeElement, 1);
@@ -219,7 +203,9 @@ describe('Description list component', () => {
 
   it('should use proper classes in modern theme', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
-    const spans = list1El.querySelectorAll('[data-sky-id*="sky-description-list-default-value"]');
+    const spans = list1El.querySelectorAll(
+      '[data-sky-id*="sky-description-list-default-value"]'
+    );
 
     for (let i = 0; i < spans.length; i++) {
       expect(spans[i]).toHaveCssClass('sky-deemphasized');
@@ -230,7 +216,7 @@ describe('Description list component', () => {
         SkyTheme.presets.modern,
         SkyThemeMode.presets.light
       ),
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
     });
     fixture.detectChanges();
 
@@ -240,7 +226,9 @@ describe('Description list component', () => {
   });
 
   it('should be accessible', async () => {
-    const asyncFixture = TestBed.createComponent(SkyDescriptionListTestComponent);
+    const asyncFixture = TestBed.createComponent(
+      SkyDescriptionListTestComponent
+    );
     asyncFixture.detectChanges();
     await asyncFixture.whenStable().then(async () => {
       await expectAsync(asyncFixture.nativeElement).toBeAccessible();
@@ -259,8 +247,8 @@ describe('Description list component', () => {
     fixture.componentInstance.asyncInfo = [
       {
         term: 'boo',
-        description: of('far')
-      }
+        description: of('far'),
+      },
     ];
     fixture.detectChanges();
     list3El = getListEl(fixture.nativeElement, 3);
@@ -272,5 +260,4 @@ describe('Description list component', () => {
     expect(termEls[0]).toHaveText('boo');
     expect(descriptionEls[0]).toHaveText('far');
   });
-
 });

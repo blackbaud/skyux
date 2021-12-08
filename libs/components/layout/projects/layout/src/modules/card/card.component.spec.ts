@@ -1,26 +1,18 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  CardTestComponent
-} from './fixtures/card.component.fixture';
+import { CardTestComponent } from './fixtures/card.component.fixture';
 
-import {
-  SkyCardFixturesModule
-} from './fixtures/card-fixtures.module';
+import { SkyCardFixturesModule } from './fixtures/card-fixtures.module';
 
-import {
-  SkyInlineDeleteType
-} from '../inline-delete/inline-delete-type';
+import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
 
-function validateCardSelected(cmp: CardTestComponent, cardEl: any, selected: boolean) {
+function validateCardSelected(
+  cmp: CardTestComponent,
+  cardEl: any,
+  selected: boolean
+) {
   let selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
   if (selected) {
@@ -39,9 +31,7 @@ describe('Card component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyCardFixturesModule
-      ]
+      imports: [SkyCardFixturesModule],
     });
 
     fixture = TestBed.createComponent(CardTestComponent);
@@ -54,8 +44,12 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    expect(el.querySelector('.sky-card-title sky-card-title')).toHaveText('Title');
-    expect(el.querySelector('.sky-card-content sky-card-content')).toHaveText('Content');
+    expect(el.querySelector('.sky-card-title sky-card-title')).toHaveText(
+      'Title'
+    );
+    expect(el.querySelector('.sky-card-content sky-card-content')).toHaveText(
+      'Content'
+    );
     expect(el.querySelector('.sky-card-actions button')).toHaveText('Button');
   });
 
@@ -64,7 +58,9 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    expect(el.querySelector('section.sky-card')).toHaveCssClass('sky-card-small');
+    expect(el.querySelector('section.sky-card')).toHaveCssClass(
+      'sky-card-small'
+    );
   });
 
   it('should display a checkbox when the selectable attribute is set to true', () => {
@@ -82,27 +78,27 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement> el.querySelector('.sky-card-content')).click();
+    (<HTMLElement>el.querySelector('.sky-card-content')).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, true);
 
-    (<HTMLElement> el.querySelector('.sky-card-header')).click();
+    (<HTMLElement>el.querySelector('.sky-card-header')).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, false);
 
-    let labelEl = <HTMLLabelElement>el
-      .querySelector('label.sky-checkbox-wrapper');
+    let labelEl = <HTMLLabelElement>(
+      el.querySelector('label.sky-checkbox-wrapper')
+    );
 
     labelEl.click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, true);
-
   });
 
   it('should only emit the selectedChange event if the checkbox changes to a new value', () => {
@@ -135,7 +131,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement> el.querySelector('.sky-card-content')).click();
+    (<HTMLElement>el.querySelector('.sky-card-content')).click();
 
     fixture.detectChanges();
 
@@ -198,7 +194,9 @@ describe('Card component', () => {
     fixture.whenStable().then(() => {
       expect(el.querySelector('sky-inline-delete')).not.toBeNull();
       expect(cmp.card.inlineDeleteComponent.length).toBe(1);
-      expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
+      expect(cmp.card.inlineDeleteComponent.first.type).toBe(
+        SkyInlineDeleteType.Card
+      );
     });
   }));
 
@@ -213,7 +211,9 @@ describe('Card component', () => {
       fixture.whenStable().then(() => {
         expect(el.querySelector('sky-inline-delete')).not.toBeNull();
         expect(cmp.card.inlineDeleteComponent.length).toBe(1);
-        expect(cmp.card.inlineDeleteComponent.first.type).toBe(SkyInlineDeleteType.Card);
+        expect(cmp.card.inlineDeleteComponent.first.type).toBe(
+          SkyInlineDeleteType.Card
+        );
       });
     });
   }));

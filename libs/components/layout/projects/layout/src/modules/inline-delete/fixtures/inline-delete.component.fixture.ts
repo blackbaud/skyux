@@ -1,29 +1,25 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyInlineDeleteComponent
-} from '../inline-delete.component';
+import { SkyInlineDeleteComponent } from '../inline-delete.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './inline-delete.component.fixture.html',
-  styles: [`
-    #inline-delete-fixture {
-      height: 400px;
-      position: relative;
-      width: 400px;
-    }
+  styles: [
+    `
+      #inline-delete-fixture {
+        height: 400px;
+        position: relative;
+        width: 400px;
+      }
 
-    #hidden-button {
-      visibility: hidden;
-    }
-  `]
+      #hidden-button {
+        visibility: hidden;
+      }
+    `,
+  ],
 })
 export class InlineDeleteTestComponent {
-
   public parentTabIndex: number;
 
   public pending = false;
@@ -36,7 +32,7 @@ export class InlineDeleteTestComponent {
 
   @ViewChild(SkyInlineDeleteComponent, {
     read: SkyInlineDeleteComponent,
-    static: false
+    static: false,
   })
   public inlineDelete: SkyInlineDeleteComponent;
 
@@ -47,5 +43,4 @@ export class InlineDeleteTestComponent {
   public onDeleteTriggered(): void {
     this.showDelete = false;
   }
-
 }

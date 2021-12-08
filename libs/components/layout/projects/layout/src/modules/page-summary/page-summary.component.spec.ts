@@ -1,13 +1,6 @@
-import {
-  TestBed,
-  async,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
 
@@ -20,9 +13,7 @@ import { SkyPageSummaryComponent } from './page-summary.component';
 describe('Page summary component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyPageSummaryFixturesModule
-      ]
+      imports: [SkyPageSummaryFixturesModule],
     });
   });
 
@@ -33,21 +24,16 @@ describe('Page summary component', () => {
 
     let mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed
-      .overrideComponent(
-        SkyPageSummaryComponent,
-        {
-          add: {
-            providers: [
-              {
-                provide: SkyMediaQueryService,
-                useValue: mockQueryService
-              }
-            ]
-          }
-        }
-      )
-      .createComponent(SkyPageSummaryTestComponent);
+    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyMediaQueryService,
+            useValue: mockQueryService,
+          },
+        ],
+      },
+    }).createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
 
@@ -68,21 +54,16 @@ describe('Page summary component', () => {
   it('should have appropriate class when key info is present', fakeAsync(() => {
     let mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed
-      .overrideComponent(
-        SkyPageSummaryComponent,
-        {
-          add: {
-            providers: [
-              {
-                provide: SkyMediaQueryService,
-                useValue: mockQueryService
-              }
-            ]
-          }
-        }
-      )
-      .createComponent(SkyPageSummaryTestComponent);
+    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyMediaQueryService,
+            useValue: mockQueryService,
+          },
+        ],
+      },
+    }).createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
     tick();
@@ -103,21 +84,16 @@ describe('Page summary component', () => {
   it('should be accessible', async(() => {
     let mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed
-      .overrideComponent(
-        SkyPageSummaryComponent,
-        {
-          add: {
-            providers: [
-              {
-                provide: SkyMediaQueryService,
-                useValue: mockQueryService
-              }
-            ]
-          }
-        }
-      )
-      .createComponent(SkyPageSummaryTestComponent);
+    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+      add: {
+        providers: [
+          {
+            provide: SkyMediaQueryService,
+            useValue: mockQueryService,
+          },
+        ],
+      },
+    }).createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
     fixture.whenStable().then(() => {

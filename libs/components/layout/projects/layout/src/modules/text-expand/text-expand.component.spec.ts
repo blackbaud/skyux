@@ -4,34 +4,31 @@ import {
   fakeAsync,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  TextExpandTestComponent
-} from './fixtures/text-expand.component.fixture';
+import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
 
-import {
-  TextExpandFixturesModule
-} from './fixtures/text-expand.module.fixture';
+import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
 
 describe('Text expand component', () => {
-
   // tslint:disable
-  const SHORT_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
-  const SHORT_TEXT_WITH_NEWLINES = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\nAenean commodo ligula eget dolor. Aenean massa.\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
-  const LONG_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
-  const LONGER_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec foo bar.';
-  const VERY_LONG_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies';
-  const COLLAPSED_TEXT = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec';
+  const SHORT_TEXT =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
+  const SHORT_TEXT_WITH_NEWLINES =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\nAenean commodo ligula eget dolor. Aenean massa.\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
+  const LONG_TEXT =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
+  const LONGER_TEXT =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec foo bar.';
+  const VERY_LONG_TEXT =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies';
+  const COLLAPSED_TEXT =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec';
   // tslint:enable
 
   let fixture: ComponentFixture<TextExpandTestComponent>;
@@ -49,9 +46,7 @@ describe('Text expand component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TextExpandFixturesModule
-      ]
+      imports: [TextExpandFixturesModule],
     });
 
     fixture = TestBed.createComponent(TextExpandTestComponent);
@@ -59,36 +54,32 @@ describe('Text expand component', () => {
     el = fixture.nativeElement as HTMLElement;
   });
 
-  beforeEach(
-    inject(
-      [
-        SkyModalService
-      ],
-      (
-        _modalService: SkyModalService
-      ) => {
-        _modalService.dispose();
-      }
-    )
-  );
+  beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
+    _modalService.dispose();
+  }));
 
   describe('basic behaviors', () => {
-
     it('should have necessary aria properties', fakeAsync(() => {
       // tslint:disable-next-line
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
-      const buttonElem = <HTMLElement>el.querySelector('.sky-text-expand-see-more');
+      const buttonElem = <HTMLElement>(
+        el.querySelector('.sky-text-expand-see-more')
+      );
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('false');
-      expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
+      expect(buttonElem.getAttribute('aria-controls')).toBe(
+        cmp.textExpand.contentSectionId
+      );
       expect(buttonElem.getAttribute('aria-haspopup')).toBeNull();
 
       clickTextExpandButton(buttonElem);
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
-      expect(buttonElem.getAttribute('aria-controls')).toBe(cmp.textExpand.contentSectionId);
+      expect(buttonElem.getAttribute('aria-controls')).toBe(
+        cmp.textExpand.contentSectionId
+      );
       expect(buttonElem.getAttribute('aria-haspopup')).toBeNull();
 
       // tslint:disable-next-line
@@ -217,7 +208,9 @@ describe('Text expand component', () => {
 
       let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      let textArea: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-text');
+      let textArea: HTMLElement = <HTMLElement>(
+        el.querySelector('.sky-text-expand-text')
+      );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
       expect(textArea.innerText.trim()).toBe('');
@@ -247,8 +240,12 @@ describe('Text expand component', () => {
 
       let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      let textArea: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-text');
-      let container: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-container');
+      let textArea: HTMLElement = <HTMLElement>(
+        el.querySelector('.sky-text-expand-text')
+      );
+      let container: HTMLElement = <HTMLElement>(
+        el.querySelector('.sky-text-expand-container')
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(textArea.innerText.trim()).toBe(collapsedText);
@@ -259,8 +256,7 @@ describe('Text expand component', () => {
       textArea = <HTMLElement>el.querySelector('.sky-text-expand-text');
 
       expect(container.style.maxHeight).toBe('');
-      expect(seeMoreButton.innerText.trim())
-        .toBe('See less');
+      expect(seeMoreButton.innerText.trim()).toBe('See less');
       expect(ellipsis).toBeNull();
       expect(textArea.innerText.trim()).toBe(expandedText);
 
@@ -270,11 +266,9 @@ describe('Text expand component', () => {
       textArea = <HTMLElement>el.querySelector('.sky-text-expand-text');
 
       expect(container.style.maxHeight).toBe('');
-      expect(seeMoreButton.innerText.trim())
-        .toBe('See more');
+      expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea.innerText.trim()).toBe(collapsedText);
-
     }));
 
     it('should render newlines if requested', () => {
@@ -304,7 +298,9 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      expect(el.textContent.trim()).toContain(cmp.text.replace(/(?:\r\n|\r|\n)/g, ' '));
+      expect(el.textContent.trim()).toContain(
+        cmp.text.replace(/(?:\r\n|\r|\n)/g, ' ')
+      );
     });
 
     it('should be accessible', async(() => {
@@ -327,7 +323,9 @@ describe('Text expand component', () => {
 
       let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
       let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      let textArea: HTMLElement = <HTMLElement>el.querySelector('.sky-text-expand-text');
+      let textArea: HTMLElement = <HTMLElement>(
+        el.querySelector('.sky-text-expand-text')
+      );
       let modal = document.querySelector('.sky-modal');
 
       expect(ellipsis).not.toBeNull();
@@ -339,16 +337,19 @@ describe('Text expand component', () => {
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
-      let modalHeader: HTMLElement = <HTMLElement>document.querySelector('sky-modal-header');
-      let modalContent: HTMLElement = <HTMLElement>document.querySelector('sky-modal-content');
-      let closeButton: HTMLElement =
-        <HTMLElement>document.querySelector('sky-modal-footer button');
+      let modalHeader: HTMLElement = <HTMLElement>(
+        document.querySelector('sky-modal-header')
+      );
+      let modalContent: HTMLElement = <HTMLElement>(
+        document.querySelector('sky-modal-content')
+      );
+      let closeButton: HTMLElement = <HTMLElement>(
+        document.querySelector('sky-modal-footer button')
+      );
 
       expect(modal).not.toBeNull();
-      expect(modalHeader.innerText.trim())
-        .toBe('Expanded view');
-      expect(modalContent.innerText.trim())
-        .toBe(expandedText);
+      expect(modalHeader.innerText.trim()).toBe('Expanded view');
+      expect(modalContent.innerText.trim()).toBe(expandedText);
       expect(closeButton.innerText.trim()).toBe('Close');
 
       closeButton.click();

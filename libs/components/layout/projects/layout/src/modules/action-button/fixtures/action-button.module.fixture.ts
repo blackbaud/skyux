@@ -1,36 +1,17 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  SkyActionButtonModule
-} from '../action-button.module';
+import { SkyActionButtonModule } from '../action-button.module';
 
-import {
-  ActionButtonNgforTestComponent
-} from './action-button-ngfor.component.fixture';
+import { ActionButtonNgforTestComponent } from './action-button-ngfor.component.fixture';
 
-import {
-  ActionButtonTestComponent
-} from './action-button.component.fixture';
+import { ActionButtonTestComponent } from './action-button.component.fixture';
 
 @NgModule({
-  declarations: [
-    ActionButtonTestComponent,
-    ActionButtonNgforTestComponent
-  ],
-  imports: [
-    CommonModule,
-    RouterTestingModule,
-    SkyActionButtonModule
-  ]
+  declarations: [ActionButtonTestComponent, ActionButtonNgforTestComponent],
+  imports: [CommonModule, RouterTestingModule, SkyActionButtonModule],
 })
-export class SkyActionButtonFixturesModule { }
+export class SkyActionButtonFixturesModule {}

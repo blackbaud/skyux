@@ -1,30 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyLabelModule
-} from '@skyux/indicators';
+import { SkyLabelModule } from '@skyux/indicators';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyFormatModule
-} from './format.module';
+import { SkyFormatModule } from './format.module';
 
-import {
-  FormatFixtureComponent
-} from './fixtures/format.component.fixture';
+import { FormatFixtureComponent } from './fixtures/format.component.fixture';
 
 describe('Format component', () => {
-
   function validateFormattedText(
     fixture: ComponentFixture<FormatFixtureComponent>,
     expectedText: string
@@ -37,13 +23,8 @@ describe('Format component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        FormatFixtureComponent
-      ],
-      imports: [
-        SkyFormatModule,
-        SkyLabelModule
-      ]
+      declarations: [FormatFixtureComponent],
+      imports: [SkyFormatModule, SkyLabelModule],
     });
   });
 
@@ -81,5 +62,4 @@ describe('Format component', () => {
 
     expect(testClickSpy).toHaveBeenCalled();
   });
-
 });

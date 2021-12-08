@@ -1,30 +1,20 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyActionButtonContainerComponent
-} from '../action-button-container.component';
+import { SkyActionButtonContainerComponent } from '../action-button-container.component';
 
-import {
-  SkyActionButtonPermalink
-} from '../action-button-permalink';
+import { SkyActionButtonPermalink } from '../action-button-permalink';
 
-import {
-  SkyActionButtonContainerAlignItemsType
-} from '../types/action-button-container-align-items-type';
+import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-container-align-items-type';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './action-button.component.fixture.html'
+  templateUrl: './action-button.component.fixture.html',
 })
 export class ActionButtonTestComponent {
-
   public firstButtonHeight: string;
 
   public permalink1: SkyActionButtonPermalink = {
-    url: 'https://developer.blackbaud.com/skyux/components'
+    url: 'https://developer.blackbaud.com/skyux/components',
   };
 
   public permalink2: SkyActionButtonPermalink = {
@@ -33,11 +23,11 @@ export class ActionButtonTestComponent {
       extras: {
         fragment: 'fragment',
         queryParams: {
-          page: 1
+          page: 1,
         },
-        queryParamsHandling: 'merge'
-      }
-    }
+        queryParamsHandling: 'merge',
+      },
+    },
   };
 
   public buttonIsClicked: boolean = false;
@@ -46,7 +36,7 @@ export class ActionButtonTestComponent {
 
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,
-    static: true
+    static: true,
   })
   public actionButtonContainer: SkyActionButtonContainerComponent;
 

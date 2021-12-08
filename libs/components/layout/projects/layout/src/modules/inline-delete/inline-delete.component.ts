@@ -5,7 +5,7 @@ import {
   query,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
 import {
@@ -17,20 +17,14 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyCoreAdapterService
-} from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 
-import {
-  SkyInlineDeleteAdapterService
-} from './inline-delete-adapter.service';
+import { SkyInlineDeleteAdapterService } from './inline-delete-adapter.service';
 
-import {
-  SkyInlineDeleteType
-} from './inline-delete-type';
+import { SkyInlineDeleteType } from './inline-delete-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for inline delete components.
@@ -45,38 +39,53 @@ let nextId = 0;
     trigger('inlineDeleteAnimation', [
       transition('* => shown', [
         style({
-          opacity: 0
+          opacity: 0,
         }),
-        query('.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(0.0)' })),
+        query(
+          '.sky-inline-delete-content-animation-container',
+          style({ transform: 'scale(0.0)' })
+        ),
         group([
           animate('300ms ease-in-out', style({ opacity: 1 })),
-          query('.sky-inline-delete-content-animation-container', animate('300ms ease-in-out', style({
-            transform: 'scale(1)'
-          })))
-        ])
+          query(
+            '.sky-inline-delete-content-animation-container',
+            animate(
+              '300ms ease-in-out',
+              style({
+                transform: 'scale(1)',
+              })
+            )
+          ),
+        ]),
       ]),
       transition(`shown <=> *`, [
-        query('.sky-inline-delete-content-animation-container',
-          style({ transform: 'scale(1)' })),
+        query(
+          '.sky-inline-delete-content-animation-container',
+          style({ transform: 'scale(1)' })
+        ),
         group([
-          animate('300ms ease-in-out', style({
-            opacity: 0
-          })),
-          query('.sky-inline-delete-content-animation-container', animate('300ms ease-in-out', style({
-            transform: 'scale(0.0)'
-          })))
-        ])
-      ])
-    ])
+          animate(
+            '300ms ease-in-out',
+            style({
+              opacity: 0,
+            })
+          ),
+          query(
+            '.sky-inline-delete-content-animation-container',
+            animate(
+              '300ms ease-in-out',
+              style({
+                transform: 'scale(0.0)',
+              })
+            )
+          ),
+        ]),
+      ]),
+    ]),
   ],
-  providers: [
-    SkyCoreAdapterService,
-    SkyInlineDeleteAdapterService
-  ]
+  providers: [SkyCoreAdapterService, SkyInlineDeleteAdapterService],
 })
 export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
-
   /**
    * Indicates whether the deletion is pending.
    * @default "false"
@@ -104,7 +113,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
 
   @ViewChild('delete', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   private deleteButton: ElementRef;
 
@@ -112,8 +121,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     private adapterService: SkyInlineDeleteAdapterService,
     private changeDetector: ChangeDetectorRef,
     private elRef: ElementRef
-  ) {
-  }
+  ) {}
 
   /**
    * Initialization lifecycle hook
@@ -173,5 +181,4 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
       }
     }
   }
-
 }

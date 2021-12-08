@@ -1,6 +1,4 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Specifies a container for an item in the toolbar.
@@ -8,8 +6,6 @@ import {
 @Component({
   selector: 'sky-toolbar-item',
   styleUrls: ['./toolbar-item.component.scss'],
-  templateUrl: './toolbar-item.component.html'
+  templateUrl: './toolbar-item.component.html',
 })
-export class SkyToolbarItemComponent {
-
-}
+export class SkyToolbarItemComponent {}

@@ -5,24 +5,16 @@ import {
   OnDestroy,
   OnInit,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDescriptionListService
-} from './description-list.service';
+import { SkyDescriptionListService } from './description-list.service';
 
 /**
  * Specifies the description in a term-description pair.
@@ -30,17 +22,18 @@ import {
 @Component({
   selector: 'sky-description-list-description',
   templateUrl: './description-list-description.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDescriptionListDescriptionComponent implements OnDestroy, OnInit {
-
+export class SkyDescriptionListDescriptionComponent
+  implements OnDestroy, OnInit
+{
   public defaultDescription: string;
 
   public themeName: string;
 
   @ViewChild('descriptionTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public templateRef: TemplateRef<any>;
 
@@ -56,9 +49,7 @@ export class SkyDescriptionListDescriptionComponent implements OnDestroy, OnInit
     /* istanbul ignore else */
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((themeSettings) => {
           this.themeName = themeSettings.currentSettings.theme.name;
           this.changeRef.markForCheck();
@@ -70,5 +61,4 @@ export class SkyDescriptionListDescriptionComponent implements OnDestroy, OnInit
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }

@@ -1,4 +1,4 @@
-@import "scss/variables";
+@import 'scss/variables';
 
 .sky-row {
   display: flex;
@@ -33,9 +33,8 @@
       margin-right: -(map-get($gutter-sizes-modern, $gutter-size));
     }
   }
-  :host-context(
-    .sky-theme-modern .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin
-  ) {
+  :host-context(.sky-theme-modern
+      .sky-fluid-grid-gutter-size-#{$gutter-size}.sky-fluid-grid-no-margin) {
     .sky-row {
       margin-left: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;
       margin-right: -(map-get($gutter-sizes-modern, $gutter-size)) * 2;

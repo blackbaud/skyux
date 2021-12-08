@@ -1,35 +1,21 @@
-
 import {
   async,
   ComponentFixture,
   fakeAsync,
-  TestBed
+  TestBed,
 } from '@angular/core/testing';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyBackToTopFixtureComponent
-} from './fixtures/back-to-top.component.fixture';
+import { SkyBackToTopFixtureComponent } from './fixtures/back-to-top.component.fixture';
 
-import {
-  SkyBackToTopFixturesModule
-} from './fixtures/back-to-top.module.fixture';
+import { SkyBackToTopFixturesModule } from './fixtures/back-to-top.module.fixture';
 
-import {
-  SkyBackToTopMessage
-} from './models/back-to-top-message';
+import { SkyBackToTopMessage } from './models/back-to-top-message';
 
-import {
-  SkyBackToTopMessageType
-} from './models/back-to-top-message-type';
+import { SkyBackToTopMessageType } from './models/back-to-top-message-type';
 
 //#region helpers
 function scrollWindowToBottom(fixture: ComponentFixture<any>): void {
@@ -63,7 +49,7 @@ function getBackToTopTarget(): HTMLElement {
 
 function isElementInView(element: HTMLElement): boolean {
   const elementRect = element.getBoundingClientRect();
-  return (elementRect.top >= 0) && (elementRect.bottom <= window.innerHeight);
+  return elementRect.top >= 0 && elementRect.bottom <= window.innerHeight;
 }
 
 function scrollElement(
@@ -82,9 +68,7 @@ describe('back to top component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyBackToTopFixturesModule
-      ]
+      imports: [SkyBackToTopFixturesModule],
     });
 
     fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
@@ -172,7 +156,9 @@ describe('back to top component', () => {
       fixture.componentInstance.height = 200;
       fixture.componentInstance.scrollableParent = true;
       fixture.detectChanges();
-      parentElement = document.querySelector('#back-to-top-parent') as HTMLElement;
+      parentElement = document.querySelector(
+        '#back-to-top-parent'
+      ) as HTMLElement;
     });
 
     it('should show when backToTopTarget is defined and the target element is scrolled out of view', fakeAsync(() => {
@@ -213,7 +199,9 @@ describe('back to top component', () => {
 
       expect(isElementInView(backToTopTarget)).toBe(false);
 
-      fixture.componentInstance.backToTopController.next({ type: SkyBackToTopMessageType.BackToTop });
+      fixture.componentInstance.backToTopController.next({
+        type: SkyBackToTopMessageType.BackToTop,
+      });
 
       expect(isElementInView(backToTopTarget)).toBe(true);
     });

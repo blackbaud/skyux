@@ -1,12 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 /**
  * @internal
@@ -14,13 +8,10 @@ import {
 @Component({
   selector: 'sky-back-to-top',
   templateUrl: './back-to-top.component.html',
-  styleUrls: [
-    './back-to-top.component.scss'
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./back-to-top.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyBackToTopComponent {
-
   public get scrollToTopClick(): Observable<void> {
     return this._scrollToTopClick.asObservable();
   }
@@ -31,5 +22,4 @@ export class SkyBackToTopComponent {
     this._scrollToTopClick.next();
     this._scrollToTopClick.complete();
   }
-
 }

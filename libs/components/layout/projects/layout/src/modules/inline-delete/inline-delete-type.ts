@@ -10,5 +10,5 @@ export enum SkyInlineDeleteType {
   /**
    * The styling for inline delete components which are used in card components.
    */
-  Card = 'card'
+  Card = 'card',
 }

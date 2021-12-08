@@ -1,10 +1,6 @@
-import {
-  TestBed, async
-} from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import { ToolbarTestComponent } from './fixtures/toolbar.component.fixture';
 import { ToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
@@ -13,14 +9,10 @@ import { SkyToolbarModule } from './toolbar.module';
 
 describe('toolbar component', () => {
   describe('standard', () => {
-     beforeEach(() => {
+    beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ToolbarTestComponent
-        ],
-        imports: [
-          SkyToolbarModule
-        ]
+        declarations: [ToolbarTestComponent],
+        imports: [SkyToolbarModule],
       });
     });
 
@@ -30,11 +22,12 @@ describe('toolbar component', () => {
 
       fixture.detectChanges();
 
-      let buttonEls = el.querySelectorAll('.sky-toolbar-container .sky-toolbar-item .sky-btn');
+      let buttonEls = el.querySelectorAll(
+        '.sky-toolbar-container .sky-toolbar-item .sky-btn'
+      );
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
       expect(buttonEls.item(1)).toHaveText('Button 2');
-
     });
 
     it('should be accessible', async(() => {
@@ -47,14 +40,10 @@ describe('toolbar component', () => {
   });
 
   describe('sectioned', () => {
-     beforeEach(() => {
+    beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ToolbarSectionedTestComponent
-        ],
-        imports: [
-          SkyToolbarModule
-        ]
+        declarations: [ToolbarSectionedTestComponent],
+        imports: [SkyToolbarModule],
       });
     });
 
@@ -64,14 +53,16 @@ describe('toolbar component', () => {
 
       fixture.detectChanges();
 
-      let buttonEls =
-      el.querySelectorAll('.sky-toolbar-container .sky-toolbar-section .sky-toolbar-item .sky-btn');
+      let buttonEls = el.querySelectorAll(
+        '.sky-toolbar-container .sky-toolbar-section .sky-toolbar-item .sky-btn'
+      );
 
       expect(buttonEls.item(0)).toHaveText('Button 1');
       expect(buttonEls.item(1)).toHaveText('Button 2');
 
-      expect(el.querySelector('.sky-toolbar-container')).toHaveCssClass('sky-toolbar-sectioned');
-
+      expect(el.querySelector('.sky-toolbar-container')).toHaveCssClass(
+        'sky-toolbar-sectioned'
+      );
     });
 
     it('should be accessible', async(() => {

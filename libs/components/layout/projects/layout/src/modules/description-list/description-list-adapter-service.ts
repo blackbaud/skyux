@@ -2,7 +2,7 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
 /**
@@ -10,12 +10,9 @@ import {
  */
 @Injectable()
 export class SkyDescriptionListAdapterService {
-
   private renderer: Renderer2;
 
-  constructor(
-    rendererFactory: RendererFactory2
-  ) {
+  constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(undefined, undefined);
   }
 
@@ -42,11 +39,13 @@ export class SkyDescriptionListAdapterService {
 
     if (width <= xsBreakpointMaxPixels) {
       return 'sky-responsive-container-xs';
-    } else if (width >= smBreakpointMinPixels && width <= smBreakpointMaxPixels) {
+    } else if (
+      width >= smBreakpointMinPixels &&
+      width <= smBreakpointMaxPixels
+    ) {
       return 'sky-responsive-container-sm';
     } else {
       return 'sky-responsive-container-md';
     }
   }
-
 }

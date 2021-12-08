@@ -2,7 +2,7 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
 const RESPONSIVE_CLASS_SM = 'sky-action-button-container-sm';
@@ -17,12 +17,9 @@ const BREAKPOINT_LG = 1378;
  */
 @Injectable()
 export class SkyActionButtonAdapterService {
-
   private renderer: Renderer2;
 
-  constructor(
-    rendererFactory: RendererFactory2
-  ) {
+  constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(undefined, undefined);
   }
 
@@ -50,5 +47,4 @@ export class SkyActionButtonAdapterService {
       return RESPONSIVE_CLASS_LG;
     }
   }
-
 }

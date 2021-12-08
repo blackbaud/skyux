@@ -1,14 +1,11 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-inline-delete-demo',
   templateUrl: './inline-delete-demo.component.html',
-  styleUrls: ['./inline-delete-demo.component.scss']
+  styleUrls: ['./inline-delete-demo.component.scss'],
 })
 export class InlineDeleteDemoComponent {
-
   public deleting: boolean = false;
 
   public pending: boolean = false;

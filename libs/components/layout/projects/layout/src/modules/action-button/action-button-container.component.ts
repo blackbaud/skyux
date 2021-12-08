@@ -12,37 +12,22 @@ import {
   Optional,
   QueryList,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  MutationObserverService,
-  SkyCoreAdapterService
-} from '@skyux/core';
+import { MutationObserverService, SkyCoreAdapterService } from '@skyux/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyActionButtonContainerAlignItemsType
-} from './types/action-button-container-align-items-type';
+import { SkyActionButtonContainerAlignItemsType } from './types/action-button-container-align-items-type';
 
-import {
-  SkyActionButtonAdapterService
-} from './action-button-adapter-service';
+import { SkyActionButtonAdapterService } from './action-button-adapter-service';
 
-import {
-  SkyActionButtonComponent
-} from './action-button.component';
+import { SkyActionButtonComponent } from './action-button.component';
 
 /**
  * Wraps action buttons to ensures that they have consistent height and spacing.
@@ -52,13 +37,12 @@ import {
   selector: 'sky-action-button-container',
   styleUrls: ['./action-button-container.component.scss'],
   templateUrl: './action-button-container.component.html',
-  providers: [
-    SkyActionButtonAdapterService
-  ],
-  encapsulation: ViewEncapsulation.None
+  providers: [SkyActionButtonAdapterService],
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkyActionButtonContainerComponent implements AfterContentInit, OnDestroy, OnInit {
-
+export class SkyActionButtonContainerComponent
+  implements AfterContentInit, OnDestroy, OnInit
+{
   /**
    * Specifies how to display the action buttons inside the action button container.
    * @default 'center'
@@ -77,7 +61,7 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
 
   @ViewChild('container', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private containerRef: ElementRef<any>;
 
@@ -103,15 +87,13 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
     private mutationObserverSvc: MutationObserverService,
     private ngZone: NgZone,
     @Optional() private themeSvc?: SkyThemeService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     /* istanbul ignore else */
     if (this.themeSvc) {
       this.themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((themeSettings) => {
           this.themeName = themeSettings.currentSettings.theme.name;
           this.changeRef.markForCheck();
@@ -129,9 +111,7 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
     /* istanbul ignore else */
     if (this.actionButtons) {
       this.actionButtons.changes
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.updateHeight();
         });
@@ -165,13 +145,10 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
           this.updateHeight();
         });
 
-        this.mutationObserver.observe(
-          el,
-          {
-            characterData: true,
-            subtree: true
-          }
-        );
+        this.mutationObserver.observe(el, {
+          characterData: true,
+          subtree: true,
+        });
       });
     }
   }
@@ -184,18 +161,28 @@ export class SkyActionButtonContainerComponent implements AfterContentInit, OnDe
   }
 
   private updateHeight(): void {
-    this.coreAdapterService.resetHeight(this.containerRef, '.sky-action-button');
+    this.coreAdapterService.resetHeight(
+      this.containerRef,
+      '.sky-action-button'
+    );
     if (this._themeName === 'modern') {
       // Wait for children components to complete rendering before height is determined.
       setTimeout(() => {
-        this.coreAdapterService.syncMaxHeight(this.containerRef, '.sky-action-button');
+        this.coreAdapterService.syncMaxHeight(
+          this.containerRef,
+          '.sky-action-button'
+        );
       });
     }
   }
 
   private updateResponsiveClass(): void {
-    const parentWidth = this.actionButtonAdapterService.getParentWidth(this.hostElRef);
-    this.actionButtonAdapterService.setResponsiveClass(this.containerRef, parentWidth);
+    const parentWidth = this.actionButtonAdapterService.getParentWidth(
+      this.hostElRef
+    );
+    this.actionButtonAdapterService.setResponsiveClass(
+      this.containerRef,
+      parentWidth
+    );
   }
-
 }

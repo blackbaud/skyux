@@ -10,36 +10,22 @@ import {
   Input,
   OnDestroy,
   QueryList,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  MutationObserverService
-} from '@skyux/core';
+import { MutationObserverService } from '@skyux/core';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDescriptionListModeType
-} from './types/description-list-mode-type';
+import { SkyDescriptionListModeType } from './types/description-list-mode-type';
 
-import {
-  SkyDescriptionListAdapterService
-} from './description-list-adapter-service';
+import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 
-import {
-  SkyDescriptionListContentComponent
-} from './description-list-content.component';
+import { SkyDescriptionListContentComponent } from './description-list-content.component';
 
-import {
-  SkyDescriptionListService
-} from './description-list.service';
+import { SkyDescriptionListService } from './description-list.service';
 
 /**
  * Creates a description list to display term-description pairs.
@@ -48,18 +34,17 @@ import {
   selector: 'sky-description-list',
   templateUrl: './description-list.component.html',
   styleUrls: ['./description-list.component.scss'],
-  providers: [
-    SkyDescriptionListAdapterService,
-    SkyDescriptionListService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkyDescriptionListAdapterService, SkyDescriptionListService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDescriptionListComponent implements AfterContentInit, AfterViewInit, OnDestroy {
-/**
- * Specifies a default description to display when no description is provided
- * for a term-description pair.
- * @default 'None found'
- */
+export class SkyDescriptionListComponent
+  implements AfterContentInit, AfterViewInit, OnDestroy
+{
+  /**
+   * Specifies a default description to display when no description is provided
+   * for a term-description pair.
+   * @default 'None found'
+   */
   @Input()
   public set defaultDescription(value: string) {
     this.descriptionListService.updateDefaultDescription(value);
@@ -92,7 +77,7 @@ export class SkyDescriptionListComponent implements AfterContentInit, AfterViewI
 
   @ViewChild('descriptionListElement', {
     read: ElementRef,
-    static: true
+    static: true,
   })
   private elementRef: ElementRef;
 
@@ -105,10 +90,9 @@ export class SkyDescriptionListComponent implements AfterContentInit, AfterViewI
     private changeDetector: ChangeDetectorRef,
     private descriptionListService: SkyDescriptionListService,
     private mutationSvc: MutationObserverService
-  ) { }
+  ) {}
 
   public ngAfterContentInit(): void {
-
     // Wait for all content to render before detecting parent width.
     setTimeout(() => {
       this.updateResponsiveClass();
@@ -128,7 +112,7 @@ export class SkyDescriptionListComponent implements AfterContentInit, AfterViewI
     this.contentObserver.observe(this.elementRef.nativeElement, {
       childList: true,
       characterData: true,
-      subtree: true
+      subtree: true,
     });
   }
 

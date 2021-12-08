@@ -1,39 +1,18 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyBackToTopModule
-} from 'projects/layout/src/public-api';
+import { SkyBackToTopModule } from 'projects/layout/src/public-api';
 
-import {
-  SkyRepeaterModule
-} from '@skyux/lists';
+import { SkyRepeaterModule } from '@skyux/lists';
 
-import {
-  SkyTabsModule
-} from '@skyux/tabs';
+import { SkyTabsModule } from '@skyux/tabs';
 
-import {
-  BackToTopDemoComponent
-} from './back-to-top-demo.component';
+import { BackToTopDemoComponent } from './back-to-top-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyBackToTopModule,
-    SkyRepeaterModule,
-    SkyTabsModule
-  ],
-  declarations: [
-    BackToTopDemoComponent
-  ],
-  exports: [
-    BackToTopDemoComponent
-  ]
+  imports: [CommonModule, SkyBackToTopModule, SkyRepeaterModule, SkyTabsModule],
+  declarations: [BackToTopDemoComponent],
+  exports: [BackToTopDemoComponent],
 })
-export class BackToTopDemoModule { }
+export class BackToTopDemoModule {}

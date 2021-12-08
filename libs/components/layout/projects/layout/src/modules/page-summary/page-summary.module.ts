@@ -1,42 +1,22 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyPageSummaryAlertComponent
-} from './page-summary-alert.component';
+import { SkyPageSummaryAlertComponent } from './page-summary-alert.component';
 
-import {
-  SkyPageSummaryContentComponent
-} from './page-summary-content.component';
+import { SkyPageSummaryContentComponent } from './page-summary-content.component';
 
-import {
-  SkyPageSummaryImageComponent
-} from './page-summary-image.component';
+import { SkyPageSummaryImageComponent } from './page-summary-image.component';
 
-import {
-  SkyPageSummaryKeyInfoComponent
-} from './page-summary-key-info.component';
+import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
 
-import {
-  SkyPageSummaryStatusComponent
-} from './page-summary-status.component';
+import { SkyPageSummaryStatusComponent } from './page-summary-status.component';
 
-import {
-  SkyPageSummarySubtitleComponent
-} from './page-summary-subtitle.component';
+import { SkyPageSummarySubtitleComponent } from './page-summary-subtitle.component';
 
-import {
-  SkyPageSummaryTitleComponent
-} from './page-summary-title.component';
+import { SkyPageSummaryTitleComponent } from './page-summary-title.component';
 
-import {
-SkyPageSummaryComponent
-} from './page-summary.component';
+import { SkyPageSummaryComponent } from './page-summary.component';
 
 @NgModule({
   declarations: [
@@ -47,11 +27,9 @@ SkyPageSummaryComponent
     SkyPageSummaryKeyInfoComponent,
     SkyPageSummaryStatusComponent,
     SkyPageSummarySubtitleComponent,
-    SkyPageSummaryTitleComponent
+    SkyPageSummaryTitleComponent,
   ],
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [
     SkyPageSummaryAlertComponent,
     SkyPageSummaryComponent,
@@ -60,7 +38,7 @@ SkyPageSummaryComponent
     SkyPageSummaryKeyInfoComponent,
     SkyPageSummaryStatusComponent,
     SkyPageSummarySubtitleComponent,
-    SkyPageSummaryTitleComponent
-  ]
+    SkyPageSummaryTitleComponent,
+  ],
 })
-export class SkyPageSummaryModule { }
+export class SkyPageSummaryModule {}

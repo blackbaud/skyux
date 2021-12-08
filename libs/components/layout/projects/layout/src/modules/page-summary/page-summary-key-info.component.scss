@@ -1,9 +1,9 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 @include sky-host-responsive-container-xs-min() {
   .sky-page-summary-key-info {
-      margin-top: $sky-margin-double;
+    margin-top: $sky-margin-double;
   }
 }
 

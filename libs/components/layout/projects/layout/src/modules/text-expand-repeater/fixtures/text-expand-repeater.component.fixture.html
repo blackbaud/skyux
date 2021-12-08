@@ -1,6 +1,4 @@
-<div
-  [@.disabled]="true"
->
+<div [@.disabled]="true">
   <sky-text-expand-repeater
     [data]="data"
     [maxItems]="numItems"
@@ -13,13 +11,8 @@
     [maxItems]="numItems"
     [listStyle]="listStyle"
   >
-    <ng-template
-      let-item
-      #myTemplate
-    >
-      <div
-        class="sky-test-custom-template"
-      >
+    <ng-template let-item #myTemplate>
+      <div class="sky-test-custom-template">
         {{ item.text }} {{ item.number }}
       </div>
     </ng-template>

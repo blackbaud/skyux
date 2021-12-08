@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   TemplateRef,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 /**
@@ -11,14 +11,12 @@ import {
 @Component({
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListTermComponent {
-
   @ViewChild('termTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   public templateRef: TemplateRef<any>;
-
 }
