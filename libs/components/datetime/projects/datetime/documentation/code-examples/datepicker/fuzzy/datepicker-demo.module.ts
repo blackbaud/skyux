@@ -1,30 +1,16 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyIdModule
-} from '@skyux/core';
+import { SkyIdModule } from '@skyux/core';
 
-import {
-  SkyDatepickerModule
-} from 'projects/datetime/src/public-api';
+import { SkyDatepickerModule } from 'projects/datetime/src/public-api';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  DatepickerDemoComponent
-} from './datepicker-demo.component';
+import { DatepickerDemoComponent } from './datepicker-demo.component';
 
 @NgModule({
   imports: [
@@ -32,13 +18,9 @@ import {
     ReactiveFormsModule,
     SkyDatepickerModule,
     SkyIdModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  exports: [
-    DatepickerDemoComponent
-  ],
-  declarations: [
-    DatepickerDemoComponent
-  ]
+  exports: [DatepickerDemoComponent],
+  declarations: [DatepickerDemoComponent],
 })
-export class DatepickerDemoModule { }
+export class DatepickerDemoModule {}

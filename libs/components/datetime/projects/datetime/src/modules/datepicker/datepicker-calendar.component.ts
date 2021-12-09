@@ -5,24 +5,16 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyDatepickerAdapterService
-} from './datepicker-adapter.service';
+import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 
-import {
-  SkyDatepickerCalendarInnerComponent
-} from './datepicker-calendar-inner.component';
+import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 
-import {
-  SkyDatepickerConfigService
-} from './datepicker-config.service';
+import { SkyDatepickerConfigService } from './datepicker-config.service';
 
-import {
-  SkyDateFormatter
-} from './date-formatter';
+import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 
@@ -33,10 +25,9 @@ import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
   selector: 'sky-datepicker-calendar',
   templateUrl: './datepicker-calendar.component.html',
   styleUrls: ['./datepicker-calendar.component.scss'],
-  providers: [SkyDatepickerAdapterService]
+  providers: [SkyDatepickerAdapterService],
 })
 export class SkyDatepickerCalendarComponent implements AfterViewInit {
-
   @Input()
   public customDates: SkyDatepickerCustomDate[];
 
@@ -70,7 +61,9 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
 
   @Output()
-  public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(undefined);
+  public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(
+    undefined
+  );
 
   /**
    * @internal
@@ -82,7 +75,7 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   @ViewChild(SkyDatepickerCalendarInnerComponent, {
     read: SkyDatepickerCalendarInnerComponent,
-    static: true
+    static: true,
   })
   public _datepicker: SkyDatepickerCalendarInnerComponent;
 
@@ -95,7 +88,8 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
   public constructor(
     private adapter: SkyDatepickerAdapterService,
     private config: SkyDatepickerConfigService,
-    private elementRef: ElementRef) {
+    private elementRef: ElementRef
+  ) {
     this.configureOptions();
   }
 
@@ -120,10 +114,12 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
   }
 
   public writeValue(value: Date): void {
-    if (value !== undefined
-      && this.formatter.dateIsValid(value)
-      && this.selectedDate !== undefined
-      && this._datepicker.compareHandlerDay(value, this.selectedDate) === 0) {
+    if (
+      value !== undefined &&
+      this.formatter.dateIsValid(value) &&
+      this.selectedDate !== undefined &&
+      this._datepicker.compareHandlerDay(value, this.selectedDate) === 0
+    ) {
       return;
     }
 
@@ -134,6 +130,5 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
       this.selectedDate = new Date();
       this._datepicker.select(new Date(), false);
     }
-
   }
 }

@@ -1,6 +1,4 @@
-import {
-  SkyDateRange
-} from './date-range';
+import { SkyDateRange } from './date-range';
 
 /**
  * @internal

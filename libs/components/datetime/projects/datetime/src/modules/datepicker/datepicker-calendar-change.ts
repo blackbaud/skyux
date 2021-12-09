@@ -1,13 +1,10 @@
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
 /**
  * Specifies changes in the datepicker calendar.
  */
 export interface SkyDatepickerCalendarChange {
-
   /**
    * The end date.
    */
@@ -27,5 +24,4 @@ export interface SkyDatepickerCalendarChange {
    * disabled dates in the text input.
    */
   customDates?: Observable<SkyDatepickerCustomDate[]>;
-
 }

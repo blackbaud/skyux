@@ -1,57 +1,36 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  BehaviorSubject,
-  forkJoin,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 
-import {
-  first,
-  map
-} from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
-import {
-  SkyDateRangeCalculatorConfig
-} from './types/date-range-calculator-config';
+import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
 
-import {
-  SkyDateRangeCalculatorId
-} from './types/date-range-calculator-id';
+import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 
-import {
-  SkyDateRangeCalculator
-} from './types/date-range-calculator';
+import { SkyDateRangeCalculator } from './types/date-range-calculator';
 
-import {
-  SKY_DEFAULT_CALCULATOR_CONFIGS
-} from './types/date-range-default-calculator-configs';
+import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calculator-configs';
 
 /**
  * Creates and manages `SkyDateRangeCalculator` instances.
  */
 @Injectable()
 export class SkyDateRangeService {
-
   // Start the count higher than the number of available values
   // provided in the SkyDateRangeCalculatorId enum.
   private static lastId = 1000;
 
   private calculatorReadyStream = new BehaviorSubject<boolean>(false);
 
-  private calculatorConfigs: {[id: number]: SkyDateRangeCalculatorConfig} = {};
+  private calculatorConfigs: { [id: number]: SkyDateRangeCalculatorConfig } =
+    {};
 
   private calculators: SkyDateRangeCalculator[] = [];
 
-  constructor(
-    private resourcesService: SkyLibResourcesService
-  ) {
+  constructor(private resourcesService: SkyLibResourcesService) {
     this.createDefaultCalculators();
   }
 
@@ -59,7 +38,9 @@ export class SkyDateRangeService {
    * Creates a custom date range calculator.
    * @param config The calculator config.
    */
-  public createCalculator(config: SkyDateRangeCalculatorConfig): SkyDateRangeCalculator {
+  public createCalculator(
+    config: SkyDateRangeCalculatorConfig
+  ): SkyDateRangeCalculator {
     const newId = SkyDateRangeService.lastId++;
     const calculator = new SkyDateRangeCalculator(newId, config);
 
@@ -72,7 +53,9 @@ export class SkyDateRangeService {
    * Returns calculators from an array of calculator IDs.
    * @param ids The array of calculator IDs.
    */
-  public getCalculators(ids: SkyDateRangeCalculatorId[]): Promise<SkyDateRangeCalculator[]> {
+  public getCalculators(
+    ids: SkyDateRangeCalculatorId[]
+  ): Promise<SkyDateRangeCalculator[]> {
     const promises = ids.map((id) => {
       return this.getCalculatorById(id);
     });
@@ -84,25 +67,23 @@ export class SkyDateRangeService {
    * Returns a calculator from a calculator ID.
    * @param id The calculator ID.
    */
-  public getCalculatorById(id: SkyDateRangeCalculatorId): Promise<SkyDateRangeCalculator> {
+  public getCalculatorById(
+    id: SkyDateRangeCalculatorId
+  ): Promise<SkyDateRangeCalculator> {
     const calculatorId = parseInt(id as any, 10);
     const found = this.calculators.find((calculator) => {
-      return (calculator.calculatorId === calculatorId);
+      return calculator.calculatorId === calculatorId;
     });
 
     return new Promise((resolve, reject) => {
       if (!found) {
-        reject(
-          new Error(`A calculator with the ID ${id} was not found.`)
-        );
+        reject(new Error(`A calculator with the ID ${id} was not found.`));
         return;
       }
 
-      this.calculatorReadyStream
-        .pipe(first())
-        .subscribe(() => {
-          resolve(found);
-        });
+      this.calculatorReadyStream.pipe(first()).subscribe(() => {
+        resolve(found);
+      });
     });
   }
 
@@ -115,7 +96,7 @@ export class SkyDateRangeService {
         getValue: defaultConfig.getValue,
         validate: defaultConfig.validate,
         shortDescription: '',
-        type: defaultConfig.type
+        type: defaultConfig.type,
       };
 
       tasks.push(

@@ -1,25 +1,14 @@
-import {
-  Component,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import {
-  SkyFuzzyDatepickerInputDirective
-} from '../datepicker-input-fuzzy.directive';
+import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
 
 @Component({
-  selector: 'fuzzy-datepicker-reactive-test',
-  templateUrl: './fuzzy-datepicker-reactive.component.fixture.html'
+  selector: 'sky-fuzzy-datepicker-reactive-test',
+  templateUrl: './fuzzy-datepicker-reactive.component.fixture.html',
 })
 export class FuzzyDatepickerReactiveTestComponent implements OnInit {
-
   public futureDisabled: boolean;
 
   public dateControl: FormControl;
@@ -45,15 +34,13 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
   @ViewChild(SkyFuzzyDatepickerInputDirective)
   public inputDirective: SkyFuzzyDatepickerInputDirective;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.dateControl = new FormControl(this.initialValue);
 
     this.datepickerForm = this.formBuilder.group({
-      date: this.dateControl
+      date: this.dateControl,
     });
   }
 }

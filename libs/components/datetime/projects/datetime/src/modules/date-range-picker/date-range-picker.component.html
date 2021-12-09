@@ -1,10 +1,5 @@
-<div *ngIf="isReady"
-  class="sky-date-range-picker"
-  [formGroup]="formGroup"
->
-  <div
-    class="sky-date-range-picker-form-group"
-  >
+<div *ngIf="isReady" class="sky-date-range-picker" [formGroup]="formGroup">
+  <div class="sky-date-range-picker-form-group">
     <sky-input-box>
       <label
         class="sky-control-label"
@@ -18,7 +13,8 @@
         [attr.id]="dateRangePickerId + '-select-calculator'"
         (blur)="onFieldBlur()"
       >
-        <option *ngFor="let calculator of calculators"
+        <option
+          *ngFor="let calculator of calculators"
           [value]="calculator.calculatorId"
         >
           {{ calculator.shortDescription }}
@@ -27,15 +23,12 @@
     </sky-input-box>
   </div>
 
-  <div
-    class="sky-date-range-picker-form-group"
-    [hidden]="!showStartDatePicker"
-  >
+  <div class="sky-date-range-picker-form-group" [hidden]="!showStartDatePicker">
     <sky-input-box>
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-start-date'"
-        [ngClass]="{ 'sky-control-label-required' : startDateRequired }"
+        [ngClass]="{ 'sky-control-label-required': startDateRequired }"
       >
         {{ startDateLabelResourceKey | skyLibResources }}
       </label>
@@ -55,15 +48,12 @@
     </sky-input-box>
   </div>
 
-  <div
-    class="sky-date-range-picker-form-group"
-    [hidden]="!showEndDatePicker"
-  >
+  <div class="sky-date-range-picker-form-group" [hidden]="!showEndDatePicker">
     <sky-input-box>
       <label
         class="sky-control-label"
         [attr.for]="dateRangePickerId + '-end-date'"
-        [ngClass]="{ 'sky-control-label-required' : endDateRequired }"
+        [ngClass]="{ 'sky-control-label-required': endDateRequired }"
       >
         {{ endDateLabelResourceKey | skyLibResources }}
       </label>

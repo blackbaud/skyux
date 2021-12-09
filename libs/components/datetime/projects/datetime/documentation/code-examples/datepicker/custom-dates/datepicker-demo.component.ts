@@ -1,32 +1,25 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup
-} from '@angular/forms';
-import { SkyDatepickerCalendarChange, SkyDatepickerCustomDate } from '@skyux/datetime';
+  SkyDatepickerCalendarChange,
+  SkyDatepickerCustomDate,
+} from '@skyux/datetime';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datepicker-demo',
-  templateUrl: './datepicker-demo.component.html'
+  templateUrl: './datepicker-demo.component.html',
 })
 export class DatepickerDemoComponent implements OnInit {
-
   public myForm: FormGroup;
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      myDate: new FormControl(new Date(1999, 10, 5))
+      myDate: new FormControl(new Date(1999, 10, 5)),
     });
   }
 
@@ -42,71 +35,72 @@ export class DatepickerDemoComponent implements OnInit {
    * Generate fake custom dates based on the date range returned from the event.
    * This is for demonstration purposes only.
    */
-  private getCustomDates(event: SkyDatepickerCalendarChange): Observable<SkyDatepickerCustomDate[]> {
-    const getNextDate = function(startDate: Date, daystoAdd: number): Date {
+  private getCustomDates(
+    event: SkyDatepickerCalendarChange
+  ): Observable<SkyDatepickerCustomDate[]> {
+    const getNextDate = function (startDate: Date, daystoAdd: number): Date {
       let newDate = new Date(startDate);
       newDate.setDate(newDate.getDate() + daystoAdd);
       return newDate;
-    }
+    };
 
     const customDates: SkyDatepickerCustomDate[] = [];
     customDates.push({
       date: event.startDate,
       disabled: false,
       keyDate: true,
-      keyDateText: ['First date']
+      keyDateText: ['First date'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 8),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Important']
+      keyDateText: ['Important'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 9),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Also Important']
+      keyDateText: ['Also Important'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 10),
       disabled: true,
       keyDate: true,
-      keyDateText: ['Disabled']
+      keyDateText: ['Disabled'],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 11),
       disabled: true,
       keyDate: false,
-      keyDateText: []
+      keyDateText: [],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 12),
       disabled: false,
       keyDate: true,
-      keyDateText: []
+      keyDateText: [],
     });
 
     customDates.push({
       date: getNextDate(event.startDate, 13),
       disabled: false,
       keyDate: true,
-      keyDateText: ['Multiple', 'Messages']
+      keyDateText: ['Multiple', 'Messages'],
     });
 
     customDates.push({
       date: event.endDate,
       disabled: false,
       keyDate: true,
-      keyDateText: ['Last date']
+      keyDateText: ['Last date'],
     });
 
     return of(customDates);
   }
-
 }

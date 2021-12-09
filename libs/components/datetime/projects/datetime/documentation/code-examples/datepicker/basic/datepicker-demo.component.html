@@ -1,14 +1,6 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
+<form novalidate [formGroup]="myForm">
   <sky-input-box>
-    <label
-      class="sky-control-label"
-      [for]="dateInput.id"
-    >
-      Date
-    </label>
+    <label class="sky-control-label" [for]="dateInput.id"> Date </label>
     <sky-datepicker>
       <input
         formControlName="myDate"

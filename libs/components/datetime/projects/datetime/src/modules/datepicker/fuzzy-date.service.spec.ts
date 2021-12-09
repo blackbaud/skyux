@@ -1,30 +1,16 @@
-import {
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyAppLocaleProvider
-} from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyFuzzyDateService
-} from './fuzzy-date.service';
+import { SkyFuzzyDateService } from './fuzzy-date.service';
 
-import {
-  SkyFuzzyDate
-} from './fuzzy-date';
+import { SkyFuzzyDate } from './fuzzy-date';
 
-import moment from "moment"
+import moment from 'moment';
 
 describe('SkyFuzzyDateservice', () => {
   let service: SkyFuzzyDateService;
@@ -34,16 +20,14 @@ describe('SkyFuzzyDateservice', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        SkyAppLocaleProvider,
-        SkyFuzzyDateService
-      ]
+      providers: [SkyAppLocaleProvider, SkyFuzzyDateService],
     });
 
     service = TestBed.inject(SkyFuzzyDateService);
     tick();
 
-    appProvider.getLocaleInfo()
+    appProvider
+      .getLocaleInfo()
       .pipe(take(1))
       .subscribe((localeInfo) => {
         currentLocale = localeInfo.locale;
@@ -60,7 +44,9 @@ describe('SkyFuzzyDateservice', () => {
   describe('getLocaleShortFormat', () => {
     it(`should return the browser's default locale when no locale argument is provided`, () => {
       const actualFormat = service.getLocaleShortFormat();
-      const expectedFormat = moment.localeData(currentLocale).longDateFormat('L');
+      const expectedFormat = moment
+        .localeData(currentLocale)
+        .longDateFormat('L');
 
       expect(actualFormat).toEqual(expectedFormat);
     });
@@ -72,7 +58,9 @@ describe('SkyFuzzyDateservice', () => {
       expect(actualFrenchFormat).toEqual(expectedFrenchFormat);
 
       const actualCanadianFormat = service.getLocaleShortFormat('ca');
-      const expectedCanadianFormat = moment.localeData('ca').longDateFormat('L');
+      const expectedCanadianFormat = moment
+        .localeData('ca')
+        .longDateFormat('L');
 
       expect(actualCanadianFormat).toEqual(expectedCanadianFormat);
     });
@@ -87,28 +75,44 @@ describe('SkyFuzzyDateservice', () => {
 
     it(`should return an empty string if the fuzzy date is invalid`, () => {
       const fuzzyDateEmpty = {};
-      const fuzzyDateDayOnly = {day: 1};
-      const fuzzyDateMonthOnly = {month: 1};
+      const fuzzyDateDayOnly = { day: 1 };
+      const fuzzyDateMonthOnly = { month: 1 };
       const expected = '';
 
-      const actualWithInvalidDate1 = service.format(fuzzyDateEmpty, currentShortFormat, currentLocale);
+      const actualWithInvalidDate1 = service.format(
+        fuzzyDateEmpty,
+        currentShortFormat,
+        currentLocale
+      );
       expect(actualWithInvalidDate1).toEqual(expected);
 
-      const actualWithInvalidDate2 = service.format(fuzzyDateDayOnly, currentShortFormat, currentLocale);
+      const actualWithInvalidDate2 = service.format(
+        fuzzyDateDayOnly,
+        currentShortFormat,
+        currentLocale
+      );
       expect(actualWithInvalidDate2).toEqual(expected);
 
-      const actualWithInvalidDate3 = service.format(fuzzyDateMonthOnly, currentShortFormat, currentLocale);
+      const actualWithInvalidDate3 = service.format(
+        fuzzyDateMonthOnly,
+        currentShortFormat,
+        currentLocale
+      );
       expect(actualWithInvalidDate3).toEqual(expected);
     });
 
     it(`should return an empty string if format is empty or undefined`, () => {
-      const fuzzyDate = {year: 1999};
+      const fuzzyDate = { year: 1999 };
       const actual = service.format(fuzzyDate, '', currentLocale);
       const expected = '';
 
       expect(actual).toEqual(expected);
 
-      const actualWithUndefined = service.format(fuzzyDate, undefined, currentLocale);
+      const actualWithUndefined = service.format(
+        fuzzyDate,
+        undefined,
+        currentLocale
+      );
 
       expect(actualWithUndefined).toEqual(expected);
     });
@@ -121,8 +125,12 @@ describe('SkyFuzzyDateservice', () => {
      */
     it(`should return formatted string, based on default browser locale`, () => {
       const spy = spyOn(service, 'getMomentFromFuzzyDate').and.callThrough();
-      const fuzzyDate = {month: 11, day: 5, year: 1955};
-      const actual = service.format(fuzzyDate, currentShortFormat, currentLocale);
+      const fuzzyDate = { month: 11, day: 5, year: 1955 };
+      const actual = service.format(
+        fuzzyDate,
+        currentShortFormat,
+        currentLocale
+      );
       const expected = moment('11/5/1955').format('L');
 
       expect(actual).toEqual(expected);
@@ -132,7 +140,7 @@ describe('SkyFuzzyDateservice', () => {
 
     it(`should return formatted string, based on default browser locale when no locale is given`, () => {
       const spy = spyOn(service, 'getMomentFromFuzzyDate').and.callThrough();
-      const fuzzyDate = {month: 11, day: 5, year: 1955};
+      const fuzzyDate = { month: 11, day: 5, year: 1955 };
       const actual = service.format(fuzzyDate, currentShortFormat);
       const expected = moment('11/5/1955').format('L');
 
@@ -143,7 +151,7 @@ describe('SkyFuzzyDateservice', () => {
 
     it(`should return formatted string, when providing custom format and locale`, () => {
       const frenchLongFormat = moment.localeData('fr').longDateFormat('LL');
-      const fuzzyDate = {month: 11, day: 5, year: 1955};
+      const fuzzyDate = { month: 11, day: 5, year: 1955 };
       const actual = service.format(fuzzyDate, frenchLongFormat, 'fr');
       const expected = moment('11/5/1955').locale('fr').format('LL');
 
@@ -151,7 +159,7 @@ describe('SkyFuzzyDateservice', () => {
     });
 
     it(`should not return years when the fuzzy date does not include a year`, () => {
-      const fuzzyDate = {month: 11, day: 5};
+      const fuzzyDate = { month: 11, day: 5 };
       const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
       const expected = '11/05';
 
@@ -159,7 +167,7 @@ describe('SkyFuzzyDateservice', () => {
     });
 
     it(`should not return month or days when the fuzzy date does not include a month or day`, () => {
-      const fuzzyDate = {year: 1955};
+      const fuzzyDate = { year: 1955 };
       const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
       const expected = '1955';
 
@@ -167,7 +175,7 @@ describe('SkyFuzzyDateservice', () => {
     });
 
     it(`should not return days when the fuzzy date does not include a day`, () => {
-      const fuzzyDate = {month: 11, year: 1955};
+      const fuzzyDate = { month: 11, year: 1955 };
       const actual = service.format(fuzzyDate, 'MM/DD/YYYY', 'en-US');
       const expected = '11/1955';
 
@@ -176,22 +184,31 @@ describe('SkyFuzzyDateservice', () => {
   });
 
   describe('getFuzzyDateFromSelectedDate', () => {
-
     it('returns a fuzzy date object when provided a date object and the default date format', () => {
       const expectedMonth = 5;
       const expectedDay = 12;
       const expectedYear = 2017;
       const selectedDate = new Date('5/12/2017');
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(selectedDate, defaultDateFormat);
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        selectedDate,
+        defaultDateFormat
+      );
 
-      expect(fuzzyDate).toEqual({ year: expectedYear, month: expectedMonth, day: expectedDay });
+      expect(fuzzyDate).toEqual({
+        year: expectedYear,
+        month: expectedMonth,
+        day: expectedDay,
+      });
     });
 
     it('returns a fuzzy date object when provided a date object and a date format excluding year', () => {
       const expectedMonth = 5;
       const expectedDay = 12;
       const selectedDate = new Date('5/12/2017');
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(selectedDate, 'MM/DD');
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        selectedDate,
+        'MM/DD'
+      );
 
       expect(fuzzyDate).toEqual({ month: expectedMonth, day: expectedDay });
     });
@@ -200,7 +217,10 @@ describe('SkyFuzzyDateservice', () => {
       const expectedMonth = 5;
       const expectedYear = 2017;
       const selectedDate = new Date('5/12/2017');
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(selectedDate, 'MM/YYYY');
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        selectedDate,
+        'MM/YYYY'
+      );
 
       expect(fuzzyDate).toEqual({ year: expectedYear, month: expectedMonth });
     });
@@ -210,13 +230,19 @@ describe('SkyFuzzyDateservice', () => {
       const expectedDay = 12;
       const expectedYear = 2017;
       const selectedDate = new Date('5/12/2017');
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(selectedDate, 'DD/YYYY');
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        selectedDate,
+        'DD/YYYY'
+      );
 
       expect(fuzzyDate).toEqual({ year: expectedYear, day: expectedDay });
     });
 
     it('returns an undefined fuzzy date object when provided an undefined date object', () => {
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(undefined, defaultDateFormat);
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        undefined,
+        defaultDateFormat
+      );
 
       expect(fuzzyDate).toBeUndefined();
     });
@@ -226,7 +252,10 @@ describe('SkyFuzzyDateservice', () => {
       const expectedDay = 12;
       const expectedYear = 2017;
       const selectedDate = new Date(expectedYear, expectedMonth, expectedDay);
-      const fuzzyDate = service.getFuzzyDateFromSelectedDate(selectedDate, undefined);
+      const fuzzyDate = service.getFuzzyDateFromSelectedDate(
+        selectedDate,
+        undefined
+      );
 
       expect(fuzzyDate).toBeUndefined();
     });
@@ -236,10 +265,16 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a fuzzy date object when provided with a valid full date string.', () => {
       // arrange
       const expected = { month: 1, day: 29, year: 1990 };
-      const stringDate = service.getStringFromFuzzyDate(expected, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        expected,
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expected);
@@ -261,10 +296,16 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a fuzzy date object when provided with a valid month year date string.', () => {
       // arrange
       const expected: SkyFuzzyDate = { day: undefined, month: 1, year: 1989 };
-      const stringDate = service.getStringFromFuzzyDate(expected, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        expected,
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expected);
@@ -325,10 +366,16 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a fuzzy date object when provided with a valid month day date string.', () => {
       // arrange
       const expected: SkyFuzzyDate = { year: undefined, month: 2, day: 12 };
-      const stringDate = service.getStringFromFuzzyDate(expected, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        expected,
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expected);
@@ -349,7 +396,11 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns a fuzzy date object when provided with a valid year date string.', () => {
       // arrange
-      const expected: SkyFuzzyDate = { year: 2017, month: undefined, day: undefined };
+      const expected: SkyFuzzyDate = {
+        year: 2017,
+        month: undefined,
+        day: undefined,
+      };
       const dateFormat = 'YYYY';
       const stringDate = service.getStringFromFuzzyDate(expected, dateFormat);
 
@@ -366,7 +417,10 @@ describe('SkyFuzzyDateservice', () => {
       const stringDate = 'November 18';
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expected);
@@ -377,7 +431,10 @@ describe('SkyFuzzyDateservice', () => {
       const stringDate = 'fsfsafd';
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toBeUndefined();
@@ -386,10 +443,16 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a fuzzy date object when provided with a valid leap year date string.', () => {
       // arrange
       const expected = { month: 2, day: 29, year: 2000 };
-      const stringDate = service.getStringFromFuzzyDate(expected, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        expected,
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expected);
@@ -397,11 +460,21 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns a fuzzy date object if 2/29 is provided excluding year.', () => {
       // arrange
-      const expectedFuzzyDate: SkyFuzzyDate = { month: 2, day: 29, year: undefined };
-      const stringDate = service.getStringFromFuzzyDate(expectedFuzzyDate, defaultDateFormat);
+      const expectedFuzzyDate: SkyFuzzyDate = {
+        month: 2,
+        day: 29,
+        year: undefined,
+      };
+      const stringDate = service.getStringFromFuzzyDate(
+        expectedFuzzyDate,
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual(expectedFuzzyDate);
@@ -409,10 +482,16 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns null if 2/29 is provided as a full date including a non-leap-year.', () => {
       // arrange
-      const stringDate = service.getStringFromFuzzyDate({ month: 2, day: 29, year: 2001 }, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        { month: 2, day: 29, year: 2001 },
+        defaultDateFormat
+      );
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toBeUndefined();
@@ -423,7 +502,10 @@ describe('SkyFuzzyDateservice', () => {
       const stringDate = '01/02/2003/4';
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toBeUndefined();
@@ -435,7 +517,10 @@ describe('SkyFuzzyDateservice', () => {
       moment.locale('en');
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toEqual({ month: 1, day: 1, year: 2003 });
@@ -447,7 +532,10 @@ describe('SkyFuzzyDateservice', () => {
       moment.locale('en');
 
       // act
-      const actual = service.getFuzzyDateFromString(stringDate, defaultDateFormat);
+      const actual = service.getFuzzyDateFromString(
+        stringDate,
+        defaultDateFormat
+      );
 
       // assert
       expect(actual).toBeUndefined();
@@ -455,7 +543,10 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns null if an undefined date format provided.', () => {
       // arrange
-      const stringDate = service.getStringFromFuzzyDate({ month: 5, day: 12, year: 2017 }, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        { month: 5, day: 12, year: 2017 },
+        defaultDateFormat
+      );
 
       // act
       const actual = service.getFuzzyDateFromString(stringDate, undefined);
@@ -466,7 +557,10 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns null if an empty string date format provided.', () => {
       // arrange
-      const stringDate = service.getStringFromFuzzyDate({ month: 5, day: 12, year: 2017 }, defaultDateFormat);
+      const stringDate = service.getStringFromFuzzyDate(
+        { month: 5, day: 12, year: 2017 },
+        defaultDateFormat
+      );
 
       // act
       const actual = service.getFuzzyDateFromString(stringDate, '');
@@ -502,7 +596,8 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a valid date string based on the provided fuzzy date', () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 2, day: 14, year: 1960 };
-      const expected = fuzzyDate.month + '/' + fuzzyDate.day + '/' + fuzzyDate.year;
+      const expected =
+        fuzzyDate.month + '/' + fuzzyDate.day + '/' + fuzzyDate.year;
 
       // act
       const actual = service.getStringFromFuzzyDate(fuzzyDate, 'MM/DD/YYYY');
@@ -563,7 +658,11 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a valid moment object based on the provided fuzzy date', () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 11, day: 5, year: 1850 };
-      const expected = moment([fuzzyDate.year, fuzzyDate.month - 1, fuzzyDate.day]);
+      const expected = moment([
+        fuzzyDate.year,
+        fuzzyDate.month - 1,
+        fuzzyDate.day,
+      ]);
 
       // act
       const actual = service.getMomentFromFuzzyDate(fuzzyDate);
@@ -572,11 +671,15 @@ describe('SkyFuzzyDateservice', () => {
       expect(actual).toEqual(expected);
     });
 
-    it('defaults the year to the current year with fuzzy date\'s not having a year', () => {
+    it("defaults the year to the current year with fuzzy date's not having a year", () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 11, day: 5 };
       const currentYear = new Date().getFullYear();
-      const expected = moment([currentYear, fuzzyDate.month - 1, fuzzyDate.day]);
+      const expected = moment([
+        currentYear,
+        fuzzyDate.month - 1,
+        fuzzyDate.day,
+      ]);
 
       // act
       const actual = service.getMomentFromFuzzyDate(fuzzyDate);
@@ -617,7 +720,7 @@ describe('SkyFuzzyDateservice', () => {
       // arrange
       const fuzzyDate: SkyFuzzyDate = { month: 0, day: 0, year: 2009 };
       // January 1, 2009
-      const expected = moment([fuzzyDate.year, 0, 1 ]);
+      const expected = moment([fuzzyDate.year, 0, 1]);
 
       // act
       const actual = service.getMomentFromFuzzyDate(fuzzyDate);
@@ -628,9 +731,13 @@ describe('SkyFuzzyDateservice', () => {
 
     it('returns a valid moment object based on fuzzy date with undefined month and day', () => {
       // arrange
-      const fuzzyDate: SkyFuzzyDate = { month: undefined, day: undefined, year: 2009 };
+      const fuzzyDate: SkyFuzzyDate = {
+        month: undefined,
+        day: undefined,
+        year: 2009,
+      };
       // January 1, 2009
-      const expected = moment([fuzzyDate.year, 0, 1 ]);
+      const expected = moment([fuzzyDate.year, 0, 1]);
 
       // act
       const actual = service.getMomentFromFuzzyDate(fuzzyDate);
@@ -697,7 +804,11 @@ describe('SkyFuzzyDateservice', () => {
     it('returns a full fuzzy date that coincides with the date of today.', () => {
       // arrange
       const currentDate = new Date();
-      const expected: SkyFuzzyDate = { month: currentDate.getMonth() + 1, day: currentDate.getDate(), year: currentDate.getFullYear() };
+      const expected: SkyFuzzyDate = {
+        month: currentDate.getMonth() + 1,
+        day: currentDate.getDate(),
+        year: currentDate.getFullYear(),
+      };
 
       // act
       const actual = service.getCurrentFuzzyDate();

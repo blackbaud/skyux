@@ -1,17 +1,11 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
-import {
-  SkyFuzzyDatepickerInputDirective
-} from '../datepicker-input-fuzzy.directive';
+import { Component, ViewChild } from '@angular/core';
+import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
 
 @Component({
-  selector: 'fuzzy-datepicker-test',
-  templateUrl: './fuzzy-datepicker.component.fixture.html'
+  selector: 'sky-fuzzy-datepicker-test',
+  templateUrl: './fuzzy-datepicker.component.fixture.html',
 })
 export class FuzzyDatepickerTestComponent {
-
   public futureDisabled: boolean;
 
   public dateFormat: string;

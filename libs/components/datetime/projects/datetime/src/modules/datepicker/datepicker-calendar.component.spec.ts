@@ -2,27 +2,20 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyDatepickerModule
-} from './datepicker.module';
+import { SkyDatepickerModule } from './datepicker.module';
 
-import {
-  DatepickerCalendarTestComponent
-} from './fixtures/datepicker-calendar.component.fixture';
+import { DatepickerCalendarTestComponent } from './fixtures/datepicker-calendar.component.fixture';
 
 import { By } from '@angular/platform-browser';
 
-import moment from "moment"
+import moment from 'moment';
 
 describe('datepicker calendar', () => {
-
   let fixture: ComponentFixture<DatepickerCalendarTestComponent>;
   let component: DatepickerCalendarTestComponent;
   let nativeElement: HTMLElement;
@@ -36,36 +29,39 @@ describe('datepicker calendar', () => {
   ) {
     // Daypicker
     // verify month and year header
-    expect(element.querySelector('.sky-datepicker-calendar-title'))
-      .toHaveText(header);
+    expect(element.querySelector('.sky-datepicker-calendar-title')).toHaveText(
+      header
+    );
 
     // verify selected date
     if (selectedLabel !== '') {
-       expect(element.querySelector('td .sky-datepicker-btn-selected'))
-      .toHaveText(selectedLabel);
+      expect(
+        element.querySelector('td .sky-datepicker-btn-selected')
+      ).toHaveText(selectedLabel);
     } else {
-      expect(element.querySelector('td .sky-datepicker-btn-selected')).toBeNull();
+      expect(
+        element.querySelector('td .sky-datepicker-btn-selected')
+      ).toBeNull();
     }
 
     // verify active date
-    expect(element.querySelector('td .sky-btn-active'))
-      .toHaveText(activeLabel);
+    expect(element.querySelector('td .sky-btn-active')).toHaveText(activeLabel);
 
     // verify secondary date
     if (firstSecondaryDate !== '') {
       let secondaryEl = element.querySelector('tbody tr td .sky-btn-sm');
-      expect(secondaryEl)
-        .toHaveText(firstSecondaryDate);
+      expect(secondaryEl).toHaveText(firstSecondaryDate);
 
-      expect(secondaryEl.querySelector('span'))
-        .toHaveCssClass('sky-datepicker-secondary');
+      expect(secondaryEl.querySelector('span')).toHaveCssClass(
+        'sky-datepicker-secondary'
+      );
     }
-
   }
 
   function clickDatepickerTitle(element: HTMLElement) {
-    let monthTrigger
-      = element.querySelector('.sky-datepicker-calendar-title') as HTMLButtonElement;
+    let monthTrigger = element.querySelector(
+      '.sky-datepicker-calendar-title'
+    ) as HTMLButtonElement;
 
     monthTrigger.click();
 
@@ -73,23 +69,27 @@ describe('datepicker calendar', () => {
   }
 
   function clickNextArrow(element: HTMLElement) {
-    let nextArrowEl = element.querySelector('.sky-datepicker-btn-next') as HTMLButtonElement;
+    let nextArrowEl = element.querySelector(
+      '.sky-datepicker-btn-next'
+    ) as HTMLButtonElement;
 
     nextArrowEl.click();
     fixture.detectChanges();
   }
 
   function clickPreviousArrow(element: HTMLElement) {
-    let previousArrowEl
-      = element.querySelector('.sky-datepicker-btn-previous') as HTMLButtonElement;
+    let previousArrowEl = element.querySelector(
+      '.sky-datepicker-btn-previous'
+    ) as HTMLButtonElement;
 
     previousArrowEl.click();
     fixture.detectChanges();
   }
 
   function clickNthDate(element: HTMLElement, index: number) {
-    let dateButtonEl
-      = element.querySelectorAll('tbody tr td .sky-btn-default').item(index) as HTMLButtonElement;
+    let dateButtonEl = element
+      .querySelectorAll('tbody tr td .sky-btn-default')
+      .item(index) as HTMLButtonElement;
 
     dateButtonEl.click();
     fixture.detectChanges();
@@ -102,25 +102,28 @@ describe('datepicker calendar', () => {
     selectedLabel: string,
     activeLabel: string,
     firstSecondaryDate: string
-    ) {
-    let dateButtonEl
-      = element.querySelectorAll('tbody tr td .sky-btn-default').item(index) as HTMLButtonElement;
+  ) {
+    let dateButtonEl = element
+      .querySelectorAll('tbody tr td .sky-btn-default')
+      .item(index) as HTMLButtonElement;
 
     expect(dateButtonEl).toHaveCssClass('sky-btn-disabled');
 
     dateButtonEl.click();
     fixture.detectChanges();
-    verifyDatepicker(element, header, selectedLabel, activeLabel, firstSecondaryDate);
+    verifyDatepicker(
+      element,
+      header,
+      selectedLabel,
+      activeLabel,
+      firstSecondaryDate
+    );
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DatepickerCalendarTestComponent
-      ],
-      imports: [
-        SkyDatepickerModule
-      ]
+      declarations: [DatepickerCalendarTestComponent],
+      imports: [SkyDatepickerModule],
     });
 
     fixture = TestBed.createComponent(DatepickerCalendarTestComponent);
@@ -134,7 +137,6 @@ describe('datepicker calendar', () => {
   });
 
   it('should show the appropriate daypicker with the selected date', () => {
-
     component.selectedDate = new Date('4/4/2017');
 
     fixture.detectChanges();
@@ -181,7 +183,6 @@ describe('datepicker calendar', () => {
     expect(component.selectedDate).toEqual(new Date('4/2/2017'));
 
     verifyDatepicker(nativeElement, 'April 2017', '02', '02', '26');
-
   });
 
   it('should move to another day in the next month in daypicker', () => {
@@ -213,8 +214,7 @@ describe('datepicker calendar', () => {
     verifyDatepicker(nativeElement, 'March 2017', '04', '01', '26');
   });
 
-  it('should move to the next month and move to daypicker when clicking a month in monthpicker',
-  () => {
+  it('should move to the next month and move to daypicker when clicking a month in monthpicker', () => {
     component.selectedDate = new Date('4/4/2017');
     fixture.detectChanges();
 
@@ -234,7 +234,6 @@ describe('datepicker calendar', () => {
     clickNextArrow(nativeElement);
 
     verifyDatepicker(nativeElement, '2018', '', 'April', '');
-
   });
 
   it('should move to the previous year when clicking arrows in monthpicker', () => {
@@ -248,8 +247,7 @@ describe('datepicker calendar', () => {
     verifyDatepicker(nativeElement, '2016', '', 'April', '');
   });
 
-  it('should move to the next year and move to monthpicker when clicking year in yearpicker',
-  () => {
+  it('should move to the next year and move to monthpicker when clicking year in yearpicker', () => {
     component.selectedDate = new Date('4/4/2017');
     fixture.detectChanges();
 
@@ -259,7 +257,6 @@ describe('datepicker calendar', () => {
     clickNthDate(nativeElement, 3);
 
     verifyDatepicker(nativeElement, '2004', '', 'January', '');
-
   });
 
   it('should move to the next set of years when clicking arrows in yearpicker', () => {
@@ -287,13 +284,11 @@ describe('datepicker calendar', () => {
   });
 
   it('should handle minDate in daypicker', () => {
-
     component.selectedDate = new Date('4/4/2017');
     component.minDate = new Date('4/2/2017');
     fixture.detectChanges();
 
     verifyNthDateDisabled(nativeElement, 6, 'April 2017', '04', '04', '');
-
   });
 
   it('should handle maxDate in daypicker', () => {
@@ -338,7 +333,6 @@ describe('datepicker calendar', () => {
     clickNextArrow(nativeElement);
 
     verifyDatepicker(nativeElement, '2001 - 2020', '2017', '2017', '');
-
   });
 
   it('should handle maxDate in yearpicker', () => {
@@ -351,7 +345,10 @@ describe('datepicker calendar', () => {
     verifyNthDateDisabled(nativeElement, 19, '2001 - 2020', '2017', '2017', '');
   });
 
-  function verifyTodayDayPicker(element: HTMLElement, todaySelected: boolean = false) {
+  function verifyTodayDayPicker(
+    element: HTMLElement,
+    todaySelected: boolean = false
+  ) {
     let today = new Date();
 
     let monthLabel = moment(today.getTime()).format('MMMM');
@@ -423,7 +420,6 @@ describe('datepicker calendar', () => {
     component.datepicker.writeValue(new Date('4/4/2017'));
     fixture.detectChanges();
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
-
   });
 
   it('should handle selected date being set after initialization', fakeAsync(function () {
@@ -443,32 +439,27 @@ describe('datepicker calendar', () => {
   }));
 
   describe('keyboard behaviors', () => {
-
     function triggerKeydown(
       componentFixture: ComponentFixture<DatepickerCalendarTestComponent>,
       eventObj: any
     ) {
       Object.assign(eventObj, {
-        stopPropagation: function () {
-
-        },
-        preventDefault: function () {
-
-        }
+        stopPropagation: function () {},
+        preventDefault: function () {},
       });
 
-      componentFixture.debugElement.query(By.css('.sky-datepicker-calendar-inner'))
+      componentFixture.debugElement
+        .query(By.css('.sky-datepicker-calendar-inner'))
         .triggerEventHandler('keydown', eventObj);
       componentFixture.detectChanges();
     }
     it('should do nothing on shift or alt', () => {
-
       component.selectedDate = new Date('4/4/2017');
       fixture.detectChanges();
       triggerKeydown(fixture, { which: 13, shiftKey: true });
       verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
 
-      triggerKeydown(fixture, { which: 13, altKey: true});
+      triggerKeydown(fixture, { which: 13, altKey: true });
       verifyDatepicker(nativeElement, 'April 2017', '04', '04', '');
     });
 
@@ -485,7 +476,6 @@ describe('datepicker calendar', () => {
       triggerKeydown(fixture, { which: 32 });
       verifyDatepicker(nativeElement, 'April 2017', '01', '01', '');
       expect(component.selectedDate).toEqual(new Date('4/1/2017'));
-
     });
 
     it('should not select active date when active date is disabled', () => {
@@ -503,7 +493,6 @@ describe('datepicker calendar', () => {
       fixture.detectChanges();
       triggerKeydown(fixture, { which: 38, ctrlKey: true });
       verifyDatepicker(nativeElement, '2017', 'April', 'April', '');
-
     });
 
     it('should toggle mode down when doing ctrl + down', () => {
@@ -643,7 +632,6 @@ describe('datepicker calendar', () => {
         triggerKeydown(fixture, { which: 35 });
         verifyDatepicker(nativeElement, '2017', 'April', 'December', '');
       });
-
     });
 
     describe('year accessibility', () => {
@@ -690,7 +678,6 @@ describe('datepicker calendar', () => {
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { which: 34 });
         verifyDatepicker(nativeElement, '2021 - 2040', '', '2037', '');
-
       });
 
       it('should move to the previous set of year with pageup', () => {
@@ -700,7 +687,6 @@ describe('datepicker calendar', () => {
         clickDatepickerTitle(nativeElement);
         triggerKeydown(fixture, { which: 33 });
         verifyDatepicker(nativeElement, '1981 - 2000', '', '1997', '');
-
       });
 
       it('should move to first year in grid when home button is pressed', () => {
@@ -720,12 +706,9 @@ describe('datepicker calendar', () => {
         triggerKeydown(fixture, { which: 35 });
         verifyDatepicker(nativeElement, '2001 - 2020', '2017', '2020', '');
       });
-
     });
 
-
     describe('custom disabled dates', () => {
-
       beforeEach(() => {
         fixture.detectChanges();
       });
@@ -741,8 +724,8 @@ describe('datepicker calendar', () => {
             date: new Date(2017, 4, 1),
             disabled: true,
             keyDate: false,
-            keyDateText: []
-          }
+            keyDateText: [],
+          },
         ];
         fixture.detectChanges();
 
@@ -762,8 +745,8 @@ describe('datepicker calendar', () => {
             date: new Date(2017, 4, 1),
             disabled: false,
             keyDate: true,
-            keyDateText: []
-          }
+            keyDateText: [],
+          },
         ];
         fixture.detectChanges();
 
@@ -771,8 +754,6 @@ describe('datepicker calendar', () => {
         verifyDatepicker(nativeElement, 'May 2017', '01', '01', '');
         expect(component.selectedDate).toEqual(new Date('5/1/2017'));
       });
-
     });
-
   });
 });

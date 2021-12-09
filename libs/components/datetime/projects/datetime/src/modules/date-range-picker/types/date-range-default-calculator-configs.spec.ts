@@ -1,71 +1,65 @@
-import {
-  SkyDateRangeCalculatorId
-} from './date-range-calculator-id';
+import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
 
-import {
-  SKY_DEFAULT_CALCULATOR_CONFIGS as configs
-} from './date-range-default-calculator-configs';
+import { SKY_DEFAULT_CALCULATOR_CONFIGS as configs } from './date-range-default-calculator-configs';
 
-import {
-  SkyDateRangeRelativeValue
-} from './date-range-relative-value';
+import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
 describe('Default calculator configs', function () {
   const expectations: any = {
     [SkyDateRangeCalculatorId.Today]: {
-      getValue: 'today'
+      getValue: 'today',
     },
     [SkyDateRangeCalculatorId.Tomorrow]: {
-      getValue: 'tomorrow'
+      getValue: 'tomorrow',
     },
     [SkyDateRangeCalculatorId.Yesterday]: {
-      getValue: 'yesterday'
+      getValue: 'yesterday',
     },
     [SkyDateRangeCalculatorId.LastFiscalYear]: {
-      getValue: 'lastFiscalYear'
+      getValue: 'lastFiscalYear',
     },
     [SkyDateRangeCalculatorId.LastMonth]: {
-      getValue: 'lastMonth'
+      getValue: 'lastMonth',
     },
     [SkyDateRangeCalculatorId.LastQuarter]: {
-      getValue: 'lastQuarter'
+      getValue: 'lastQuarter',
     },
     [SkyDateRangeCalculatorId.LastWeek]: {
-      getValue: 'lastWeek'
+      getValue: 'lastWeek',
     },
     [SkyDateRangeCalculatorId.LastCalendarYear]: {
-      getValue: 'lastCalendarYear'
+      getValue: 'lastCalendarYear',
     },
     [SkyDateRangeCalculatorId.ThisFiscalYear]: {
-      getValue: 'thisFiscalYear'
+      getValue: 'thisFiscalYear',
     },
     [SkyDateRangeCalculatorId.ThisMonth]: {
-      getValue: 'thisMonth'
+      getValue: 'thisMonth',
     },
     [SkyDateRangeCalculatorId.ThisQuarter]: {
-      getValue: 'thisQuarter'
+      getValue: 'thisQuarter',
     },
     [SkyDateRangeCalculatorId.ThisWeek]: {
-      getValue: 'thisWeek'
+      getValue: 'thisWeek',
     },
     [SkyDateRangeCalculatorId.ThisCalendarYear]: {
-      getValue: 'thisCalendarYear'
+      getValue: 'thisCalendarYear',
     },
     [SkyDateRangeCalculatorId.NextFiscalYear]: {
-      getValue: 'nextFiscalYear'
+      getValue: 'nextFiscalYear',
     },
     [SkyDateRangeCalculatorId.NextMonth]: {
-      getValue: 'nextMonth'
+      getValue: 'nextMonth',
     },
     [SkyDateRangeCalculatorId.NextQuarter]: {
-      getValue: 'nextQuarter'
+      getValue: 'nextQuarter',
     },
     [SkyDateRangeCalculatorId.NextWeek]: {
-      getValue: 'nextWeek'
+      getValue: 'nextWeek',
     },
     [SkyDateRangeCalculatorId.NextCalendarYear]: {
-      getValue: 'nextCalendarYear'
-    }
+      getValue: 'nextCalendarYear',
+    },
   };
 
   it('should call specific functions from Relative Value', function () {

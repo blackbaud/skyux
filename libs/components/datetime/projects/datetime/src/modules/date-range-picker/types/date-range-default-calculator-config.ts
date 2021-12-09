@@ -1,24 +1,15 @@
-import {
-  SkyDateRangeCalculatorGetValueFunction
-} from './date-range-calculator-date-range-function';
+import { SkyDateRangeCalculatorGetValueFunction } from './date-range-calculator-date-range-function';
 
-import {
-  SkyDateRangeCalculatorId
-} from './date-range-calculator-id';
+import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
 
-import {
-  SkyDateRangeCalculatorType
-} from './date-range-calculator-type';
+import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
 
-import {
-  SkyDateRangeCalculatorValidateFunction
-} from './date-range-calculator-validate-function';
+import { SkyDateRangeCalculatorValidateFunction } from './date-range-calculator-validate-function';
 
 /**
  * @internal
  */
 export interface SkyDateRangeDefaultCalculatorConfig {
-
   calculatorId: SkyDateRangeCalculatorId;
 
   shortDescriptionResourceKey: string;
@@ -28,5 +19,4 @@ export interface SkyDateRangeDefaultCalculatorConfig {
   getValue: SkyDateRangeCalculatorGetValueFunction;
 
   validate?: SkyDateRangeCalculatorValidateFunction;
-
 }

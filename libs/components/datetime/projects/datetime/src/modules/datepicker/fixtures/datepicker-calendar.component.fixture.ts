@@ -1,19 +1,13 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
-import {
-  SkyDatepickerCalendarComponent
-} from '../datepicker-calendar.component';
+import { SkyDatepickerCalendarComponent } from '../datepicker-calendar.component';
 
 @Component({
   selector: 'sky-datepicker-calendar-test',
-  templateUrl: './datepicker-calendar.component.fixture.html'
+  templateUrl: './datepicker-calendar.component.fixture.html',
 })
 export class DatepickerCalendarTestComponent {
-
   public customDates: SkyDatepickerCustomDate[];
 
   public minDate: Date;
@@ -24,6 +18,6 @@ export class DatepickerCalendarTestComponent {
 
   public startingDay: number;
 
-   @ViewChild(SkyDatepickerCalendarComponent)
-   public datepicker: SkyDatepickerCalendarComponent;
+  @ViewChild(SkyDatepickerCalendarComponent)
+  public datepicker: SkyDatepickerCalendarComponent;
 }

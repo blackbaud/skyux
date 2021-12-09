@@ -1,44 +1,23 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyDatepickerModule
-} from '../datepicker/datepicker.module';
+import { SkyDatepickerModule } from '../datepicker/datepicker.module';
 
-import {
-  SkyDatetimeResourcesModule
-} from '../shared/sky-datetime-resources.module';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
-import {
-  SkyDateRangePickerComponent
-} from './date-range-picker.component';
+import { SkyDateRangePickerComponent } from './date-range-picker.component';
 
-import {
-  SkyDateRangeService
-} from './date-range.service';
+import { SkyDateRangeService } from './date-range.service';
 
 @NgModule({
-  declarations: [
-    SkyDateRangePickerComponent
-  ],
+  declarations: [SkyDateRangePickerComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -46,11 +25,9 @@ import {
     SkyI18nModule,
     SkyDatepickerModule,
     SkyDatetimeResourcesModule,
-    SkyInputBoxModule
+    SkyInputBoxModule,
   ],
-  exports: [
-    SkyDateRangePickerComponent
-  ],
-  providers: [SkyDateRangeService]
+  exports: [SkyDateRangePickerComponent],
+  providers: [SkyDateRangeService],
 })
-export class SkyDateRangePickerModule { }
+export class SkyDateRangePickerModule {}

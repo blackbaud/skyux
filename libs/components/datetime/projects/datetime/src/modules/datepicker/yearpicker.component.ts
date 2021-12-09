@@ -1,15 +1,8 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import {
-  SkyDatepickerCalendarInnerComponent
-} from './datepicker-calendar-inner.component';
+import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 
-import {
-  SkyDatepickerDate
-} from './datepicker-date';
+import { SkyDatepickerDate } from './datepicker-date';
 
 /**
  * @internal
@@ -17,10 +10,9 @@ import {
 @Component({
   selector: 'sky-yearpicker',
   templateUrl: 'yearpicker.component.html',
-  styleUrls: ['./yearpicker.component.scss']
+  styleUrls: ['./yearpicker.component.scss'],
 })
 export class SkyYearPickerComponent implements OnInit {
-
   public datepicker: SkyDatepickerCalendarInnerComponent;
 
   public rows: Array<Array<SkyDatepickerDate>> = [];
@@ -32,8 +24,7 @@ export class SkyYearPickerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
-    this.datepicker.stepYear = {years: this.datepicker.yearRange};
+    this.datepicker.stepYear = { years: this.datepicker.yearRange };
 
     this.datepicker.setRefreshViewHandler(() => {
       this.refreshYearView();
@@ -49,7 +40,11 @@ export class SkyYearPickerComponent implements OnInit {
   }
 
   protected getStartingYear(year: number): number {
-    return Math.floor((year - 1) / this.datepicker.yearRange) * this.datepicker.yearRange + 1;
+    return (
+      Math.floor((year - 1) / this.datepicker.yearRange) *
+        this.datepicker.yearRange +
+      1
+    );
   }
 
   private compareYears(date1: Date, date2: Date): number {
@@ -65,18 +60,22 @@ export class SkyYearPickerComponent implements OnInit {
       date = new Date(this.datepicker.activeDate);
       date.setFullYear(start + i, 0, 1);
 
-      years[i] =
-        this.datepicker.createDateObject(
-          date,
-          this.datepicker.formatYear,
-          false,
-          this.datepicker.datepickerId + '-' + i
-        );
+      years[i] = this.datepicker.createDateObject(
+        date,
+        this.datepicker.formatYear,
+        false,
+        this.datepicker.datepickerId + '-' + i
+      );
     }
 
-    this.title = [years[0].label,
-      years[this.datepicker.yearRange - 1].label].join(' - ');
-    this.rows = this.datepicker.createCalendarRows(years, this.datepicker.yearColLimit);
+    this.title = [
+      years[0].label,
+      years[this.datepicker.yearRange - 1].label,
+    ].join(' - ');
+    this.rows = this.datepicker.createCalendarRows(
+      years,
+      this.datepicker.yearColLimit
+    );
   }
 
   private keydownYears(key: string, event: KeyboardEvent) {
@@ -93,16 +92,15 @@ export class SkyYearPickerComponent implements OnInit {
     } else if (key === 'down') {
       date = date + this.datepicker.yearColLimit;
     } else if (key === 'pageup' || key === 'pagedown') {
-      date += (key === 'pageup' ? - 1 : 1) * this.datepicker.yearRange;
+      date += (key === 'pageup' ? -1 : 1) * this.datepicker.yearRange;
     } else if (key === 'home') {
       date = this.getStartingYear(this.datepicker.activeDate.getFullYear());
     } else if (key === 'end') {
-      date
-        = this.getStartingYear(
-          this.datepicker.activeDate.getFullYear()
-          ) + this.datepicker.yearRange - 1;
+      date =
+        this.getStartingYear(this.datepicker.activeDate.getFullYear()) +
+        this.datepicker.yearRange -
+        1;
     }
     this.datepicker.activeDate.setFullYear(date);
-
   }
 }

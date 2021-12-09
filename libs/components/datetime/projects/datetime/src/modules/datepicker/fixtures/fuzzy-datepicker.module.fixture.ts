@@ -1,61 +1,40 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkyDatepickerModule
-} from '../datepicker.module';
+import { SkyDatepickerModule } from '../datepicker.module';
 
-import {
-  SkyFuzzyDateService
-} from '../fuzzy-date.service';
+import { SkyFuzzyDateService } from '../fuzzy-date.service';
 
-import {
-  DatepickerCalendarTestComponent
-} from './datepicker-calendar.component.fixture';
+import { DatepickerCalendarTestComponent } from './datepicker-calendar.component.fixture';
 
-import {
-  FuzzyDatepickerTestComponent
-} from './fuzzy-datepicker.component.fixture';
+import { FuzzyDatepickerTestComponent } from './fuzzy-datepicker.component.fixture';
 
-import {
-  FuzzyDatepickerNoFormatTestComponent
-} from './fuzzy-datepicker-noformat.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from './fuzzy-datepicker-noformat.component.fixture';
 
-import {
-  FuzzyDatepickerReactiveTestComponent
-} from './fuzzy-datepicker-reactive.component.fixture';
+import { FuzzyDatepickerReactiveTestComponent } from './fuzzy-datepicker-reactive.component.fixture';
 
 @NgModule({
   declarations: [
     DatepickerCalendarTestComponent,
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
-    FuzzyDatepickerTestComponent
+    FuzzyDatepickerTestComponent,
   ],
   imports: [
     SkyDatepickerModule,
     NoopAnimationsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  providers: [
-    SkyFuzzyDateService
-  ],
+  providers: [SkyFuzzyDateService],
   exports: [
     DatepickerCalendarTestComponent,
     FuzzyDatepickerNoFormatTestComponent,
     FuzzyDatepickerReactiveTestComponent,
-    FuzzyDatepickerTestComponent
-  ]
+    FuzzyDatepickerTestComponent,
+  ],
 })
-export class FuzzyDatepickerTestModule { }
+export class FuzzyDatepickerTestModule {}

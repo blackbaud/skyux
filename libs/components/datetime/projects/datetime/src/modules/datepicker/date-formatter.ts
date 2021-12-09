@@ -1,7 +1,6 @@
-import moment from "moment"
+import moment from 'moment';
 
 export class SkyDateFormatter {
-
   private static defaultLocale: string = 'en-US';
 
   private static defaultShortDateFormat: string = 'MM/DD/YYYY';
@@ -18,7 +17,10 @@ export class SkyDateFormatter {
    */
   public static getPreferredShortDateFormat(): string {
     /* istanbul ignore next */
-    return moment.localeData().longDateFormat('L') || SkyDateFormatter.defaultShortDateFormat;
+    return (
+      moment.localeData().longDateFormat('L') ||
+      SkyDateFormatter.defaultShortDateFormat
+    );
   }
 
   public format(date: Date, format: string): string {

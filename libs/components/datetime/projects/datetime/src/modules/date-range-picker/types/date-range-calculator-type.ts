@@ -2,7 +2,6 @@
  * Indicates the types of calculations available for a date range calculator.
  */
 export enum SkyDateRangeCalculatorType {
-
   /**
    * Includes an input for a date after the current date.
    */
@@ -21,6 +20,5 @@ export enum SkyDateRangeCalculatorType {
   /**
    * Does not accept any input but calculates a specific range based on the current date.
    */
-  Relative
-
+  Relative,
 }

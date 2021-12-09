@@ -1,15 +1,13 @@
-<table *ngIf="datepicker.datepickerMode==='year'" role="grid">
+<table *ngIf="datepicker.datepickerMode === 'year'" role="grid">
   <thead>
     <tr>
-      <th
-        class="sky-datepicker-header-left"
-      >
+      <th class="sky-datepicker-header-left">
         <button
           type="button"
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
           (click)="datepicker.moveCalendar($event, -1)"
           tabindex="-1"
-          >
+        >
           <sky-icon
             class="sky-datepicker-chevron-default"
             icon="chevron-left"
@@ -21,29 +19,35 @@
           ></sky-icon>
         </button>
       </th>
-      <th [attr.colspan]="((datepicker.yearColLimit - 2) <= 0) ? 1 : datepicker.yearColLimit - 2">
+      <th
+        [attr.colspan]="
+          datepicker.yearColLimit - 2 <= 0 ? 1 : datepicker.yearColLimit - 2
+        "
+      >
         <button
           [id]="datepicker.datepickerId + '-title'"
           role="heading"
           type="button"
-          class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
+          class="
+            sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title
+          "
           (click)="datepicker.toggleModeCalendar($event)"
           [disabled]="datepicker.datepickerMode === datepicker.maxMode"
-          [ngClass]="{'sky-btn-disabled': datepicker.datepickerMode === datepicker.maxMode}"
+          [ngClass]="{
+            'sky-btn-disabled': datepicker.datepickerMode === datepicker.maxMode
+          }"
           tabindex="-1"
-          >
-          <strong>{{title}}</strong>
+        >
+          <strong>{{ title }}</strong>
         </button>
       </th>
-      <th
-        class="sky-datepicker-header-right"
-      >
+      <th class="sky-datepicker-header-right">
         <button
           type="button"
           class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
           (click)="datepicker.moveCalendar($event, 1)"
           tabindex="-1"
-          >
+        >
           <sky-icon
             class="sky-datepicker-chevron-default"
             icon="chevron-right"
@@ -59,21 +63,22 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of rows">
-      <td
-        *ngFor="let date of row"
-        class="sky-datepicker-row"
-        role="gridcell"
-        >
+      <td *ngFor="let date of row" class="sky-datepicker-row" role="gridcell">
         <button
           type="button"
           class="sky-btn sky-btn-default sky-datepicker-btn-date"
-          [ngClass]="{'sky-datepicker-btn-selected': date.selected, 'sky-btn-disabled': date.disabled, 'sky-btn-active': datepicker.isActive(date)}"
+          [ngClass]="{
+            'sky-datepicker-btn-selected': date.selected,
+            'sky-btn-disabled': date.disabled,
+            'sky-btn-active': datepicker.isActive(date)
+          }"
           [disabled]="date.disabled"
           (click)="datepicker.selectCalendar($event, date.date)"
           tabindex="-1"
-          >
-          <span
-            [ngClass]="{'sky-datepicker-current': date.current }">{{date.label}}</span>
+        >
+          <span [ngClass]="{ 'sky-datepicker-current': date.current }">{{
+            date.label
+          }}</span>
         </button>
       </td>
     </tr>

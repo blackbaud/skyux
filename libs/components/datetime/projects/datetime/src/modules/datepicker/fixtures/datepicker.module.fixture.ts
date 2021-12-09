@@ -1,47 +1,24 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyDatepickerModule
-} from '../datepicker.module';
+import { SkyDatepickerModule } from '../datepicker.module';
 
-import {
-  DatepickerCalendarTestComponent
-} from './datepicker-calendar.component.fixture';
+import { DatepickerCalendarTestComponent } from './datepicker-calendar.component.fixture';
 
-import {
-  DatepickerInputBoxTestComponent
-} from './datepicker-input-box.component.fixture';
+import { DatepickerInputBoxTestComponent } from './datepicker-input-box.component.fixture';
 
-import {
-  DatepickerNoFormatTestComponent
-} from './datepicker-noformat.component.fixture';
+import { DatepickerNoFormatTestComponent } from './datepicker-noformat.component.fixture';
 
-import {
-  DatepickerReactiveTestComponent
-} from './datepicker-reactive.component.fixture';
+import { DatepickerReactiveTestComponent } from './datepicker-reactive.component.fixture';
 
-import {
-  DatepickerTestComponent
-} from './datepicker.component.fixture';
+import { DatepickerTestComponent } from './datepicker.component.fixture';
 
 @NgModule({
   declarations: [
@@ -49,7 +26,7 @@ import {
     DatepickerInputBoxTestComponent,
     DatepickerNoFormatTestComponent,
     DatepickerReactiveTestComponent,
-    DatepickerTestComponent
+    DatepickerTestComponent,
   ],
   imports: [
     SkyDatepickerModule,
@@ -57,14 +34,14 @@ import {
     FormsModule,
     ReactiveFormsModule,
     SkyInputBoxModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
   exports: [
     DatepickerCalendarTestComponent,
     DatepickerInputBoxTestComponent,
     DatepickerNoFormatTestComponent,
     DatepickerReactiveTestComponent,
-    DatepickerTestComponent
-  ]
+    DatepickerTestComponent,
+  ],
 })
-export class DatepickerTestModule { }
+export class DatepickerTestModule {}

@@ -1,13 +1,8 @@
-import {
-  SkyDateRangeRelativeValue
-} from './date-range-relative-value';
+import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
-import {
-  SkyDateRange
-} from './date-range';
+import { SkyDateRange } from './date-range';
 
 describe('Date range relative values', function () {
-
   beforeEach(function () {
     // Set base date to enforce test-case consistency.
     const now = new Date(2000, 0, 1);
@@ -44,31 +39,19 @@ describe('Date range relative values', function () {
   it('should return today', function () {
     const today = new Date('1/1/2000');
 
-    verifyRange(
-      SkyDateRangeRelativeValue.today,
-      today,
-      today
-    );
+    verifyRange(SkyDateRangeRelativeValue.today, today, today);
   });
 
   it('should return tomorrow', function () {
     const tomorrow = new Date('1/2/2000');
 
-    verifyRange(
-      SkyDateRangeRelativeValue.tomorrow,
-      tomorrow,
-      tomorrow
-    );
+    verifyRange(SkyDateRangeRelativeValue.tomorrow, tomorrow, tomorrow);
   });
 
   it('should return yesterday', function () {
     const yesterday = new Date('12/31/1999');
 
-    verifyRange(
-      SkyDateRangeRelativeValue.yesterday,
-      yesterday,
-      yesterday
-    );
+    verifyRange(SkyDateRangeRelativeValue.yesterday, yesterday, yesterday);
   });
 
   it('should return this week', function () {

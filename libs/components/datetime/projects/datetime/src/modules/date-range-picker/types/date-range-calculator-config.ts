@@ -1,20 +1,13 @@
-import {
-  SkyDateRangeCalculatorGetValueFunction
-} from './date-range-calculator-date-range-function';
+import { SkyDateRangeCalculatorGetValueFunction } from './date-range-calculator-date-range-function';
 
-import {
-  SkyDateRangeCalculatorType
-} from './date-range-calculator-type';
+import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
 
-import {
-  SkyDateRangeCalculatorValidateFunction
-} from './date-range-calculator-validate-function';
+import { SkyDateRangeCalculatorValidateFunction } from './date-range-calculator-validate-function';
 
 /**
  * The configuration for a date range calculator.
  */
 export interface SkyDateRangeCalculatorConfig {
-
   /**
    * Text to display within the calculator select menu to represent your calculator.
    */
@@ -35,5 +28,4 @@ export interface SkyDateRangeCalculatorConfig {
    * Returning an Angular `ValidationErrors` value invalidates the date range form control.
    */
   validate?: SkyDateRangeCalculatorValidateFunction;
-
 }

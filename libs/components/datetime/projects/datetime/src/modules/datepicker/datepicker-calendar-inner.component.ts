@@ -7,16 +7,14 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { Subject } from 'rxjs';
 
 import { SkyDateFormatter } from './date-formatter';
 
-import {
-  SkyDatepickerDate
-} from './datepicker-date';
+import { SkyDatepickerDate } from './datepicker-date';
 
 let nextDatepickerId = 0;
 
@@ -27,10 +25,11 @@ let nextDatepickerId = 0;
   selector: 'sky-datepicker-inner',
   templateUrl: './datepicker-calendar-inner.component.html',
   styleUrls: ['./datepicker-calendar-inner.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, OnChanges {
-
+export class SkyDatepickerCalendarInnerComponent
+  implements OnDestroy, OnInit, OnChanges
+{
   @Input()
   public customDates: SkyDatepickerCustomDate[];
 
@@ -56,7 +55,9 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
   }
 
   @Output()
-  public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(undefined);
+  public selectedDateChange: EventEmitter<Date> = new EventEmitter<Date>(
+    undefined
+  );
 
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
@@ -108,7 +109,7 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     37: 'left',
     38: 'up',
     39: 'right',
-    40: 'down'
+    40: 'down',
   };
 
   private ngUnsubscribe = new Subject();
@@ -116,7 +117,6 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
   private _selectedDate: Date;
 
   public ngOnInit(): void {
-
     if (this.selectedDate) {
       this.activeDate = new Date(this.selectedDate);
     } else {
@@ -165,7 +165,6 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     if (this.datepickerMode === 'year' && this.compareHandlerYear) {
       return this.compareHandlerYear(date1, date2);
     }
-
   }
 
   public setRefreshViewHandler(handler: Function, type: string): void {
@@ -264,8 +263,8 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     date: Date,
     format: string,
     isSecondary: boolean,
-    id: string): SkyDatepickerDate {
-
+    id: string
+  ): SkyDatepickerDate {
     const customDateMatch = this.getCustomDate(date);
 
     let dateObject: SkyDatepickerDate = {
@@ -277,7 +276,7 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
       secondary: isSecondary,
       uid: id,
       keyDate: customDateMatch ? customDateMatch.keyDate : undefined,
-      keyDateText: customDateMatch ? customDateMatch.keyDateText : []
+      keyDateText: customDateMatch ? customDateMatch.keyDateText : [],
     };
 
     return dateObject;
@@ -287,7 +286,6 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     dates: Array<SkyDatepickerDate>,
     size: number
   ): Array<Array<SkyDatepickerDate>> {
-
     let rows: Array<Array<SkyDatepickerDate>> = [];
     while (dates.length > 0) {
       rows.push(dates.splice(0, size));
@@ -300,15 +298,16 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
   */
   public fixTimeZone(date: Date): Date {
     let newDate = new Date(date);
-    newDate.setFullYear(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate());
+    newDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
 
     return newDate;
   }
 
-  public selectCalendar(event: Event, date: Date, closePicker: boolean = false) {
+  public selectCalendar(
+    event: Event,
+    date: Date,
+    closePicker: boolean = false
+  ) {
     if (!closePicker) {
       event.preventDefault();
       event.stopPropagation();
@@ -317,8 +316,11 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
   }
 
   public select(date: Date, isManual: boolean = true): void {
-
-    this.activeDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    this.activeDate = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
 
     /*
         Only actually select date if in minmode (day picker mode).
@@ -329,9 +331,9 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
       if (isManual) {
         this.selectedDateChange.emit(this.selectedDate);
       }
-
     } else {
-      this.datepickerMode = this.modes[this.modes.indexOf(this.datepickerMode) - 1];
+      this.datepickerMode =
+        this.modes[this.modes.indexOf(this.datepickerMode) - 1];
       this.calendarModeChange.emit(this.datepickerMode);
     }
 
@@ -345,7 +347,6 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
   }
 
   public move(direction: number): void {
-
     let expectedStep: any;
     if (this.datepickerMode === 'day') {
       expectedStep = this.stepDay;
@@ -362,8 +363,10 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     /* istanbul ignore else */
     /* sanity check */
     if (expectedStep) {
-      let year = this.activeDate.getFullYear() + (direction * (expectedStep.years || 0));
-      let month = this.activeDate.getMonth() + (direction * (expectedStep.months || 0));
+      let year =
+        this.activeDate.getFullYear() + direction * (expectedStep.years || 0);
+      let month =
+        this.activeDate.getMonth() + direction * (expectedStep.months || 0);
 
       this.activeDate = new Date(year, month, 1);
 
@@ -383,9 +386,12 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
 
     /* istanbul ignore else */
     /* sanity check */
-    if (!(direction === 1 && this.datepickerMode === this.maxMode) &&
-      !(this.datepickerMode === this.minMode && direction === -1)) {
-      this.datepickerMode = this.modes[this.modes.indexOf(this.datepickerMode) + direction];
+    if (
+      !(direction === 1 && this.datepickerMode === this.maxMode) &&
+      !(this.datepickerMode === this.minMode && direction === -1)
+    ) {
+      this.datepickerMode =
+        this.modes[this.modes.indexOf(this.datepickerMode) + direction];
       this.calendarModeChange.emit(this.datepickerMode);
       this.refreshView();
     }
@@ -400,8 +406,9 @@ export class SkyDatepickerCalendarInnerComponent implements OnDestroy, OnInit, O
     const customDate = this.getCustomDate(date);
     return (
       (this.minDate && this.compare(date, this.minDate) < 0) ||
-      (this.maxDate && this.compare(date, this.maxDate) > 0)) ||
-      (customDate && customDate.disabled);
+      (this.maxDate && this.compare(date, this.maxDate) > 0) ||
+      (customDate && customDate.disabled)
+    );
   }
   private getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
     if (this.customDates) {

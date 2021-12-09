@@ -5,56 +5,32 @@ import {
   flush,
   inject,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  NgModel
-} from '@angular/forms';
+import { NgModel } from '@angular/forms';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppLocaleProvider
-} from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  of
-} from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  SkyDatepickerConfigService
-} from './datepicker-config.service';
+import { SkyDatepickerConfigService } from './datepicker-config.service';
 
-import {
-  SkyDatepickerComponent
-} from './datepicker.component';
+import { SkyDatepickerComponent } from './datepicker.component';
 
-import {
-  FuzzyDatepickerTestComponent
-} from './fixtures/fuzzy-datepicker.component.fixture';
+import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
 
-import {
-  FuzzyDatepickerTestModule
-} from './fixtures/fuzzy-datepicker.module.fixture';
+import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
 
-import {
-  FuzzyDatepickerNoFormatTestComponent
-} from './fixtures/fuzzy-datepicker-noformat.component.fixture';
+import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-noformat.component.fixture';
 
-import {
-  FuzzyDatepickerReactiveTestComponent
-} from './fixtures/fuzzy-datepicker-reactive.component.fixture';
+import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
 
-import moment from "moment"
+import moment from 'moment';
 
 // #region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
@@ -65,21 +41,34 @@ function detectChanges(fixture: ComponentFixture<any>): void {
 }
 
 function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
-  return fixture.nativeElement.querySelector('.sky-input-group-datepicker-btn') as HTMLButtonElement;
+  return fixture.nativeElement.querySelector(
+    '.sky-input-group-datepicker-btn'
+  ) as HTMLButtonElement;
 }
 
-function clickDatepickerButton(fixture: ComponentFixture<any>, isfakeAsync: boolean = true): void {
+function clickDatepickerButton(
+  fixture: ComponentFixture<any>,
+  isfakeAsync: boolean = true
+): void {
   getTriggerButton(fixture).click();
   if (isfakeAsync) {
     detectChanges(fixture);
   }
 }
-function setInputProperty(value: any, component: any, fixture: ComponentFixture<any>): void {
+function setInputProperty(
+  value: any,
+  component: any,
+  fixture: ComponentFixture<any>
+): void {
   component.selectedDate = value;
   detectChanges(fixture);
 }
 
-function setInputElementValue(element: HTMLElement, text: string, fixture: ComponentFixture<any>): void {
+function setInputElementValue(
+  element: HTMLElement,
+  text: string,
+  fixture: ComponentFixture<any>
+): void {
   const inputEl = element.querySelector('input');
   inputEl.value = text;
   fixture.detectChanges();
@@ -93,7 +82,11 @@ function blurInput(element: HTMLElement, fixture: ComponentFixture<any>): void {
   detectChanges(fixture);
 }
 
-function setFormControlProperty(value: any, component: any, fixture: ComponentFixture<any>): void {
+function setFormControlProperty(
+  value: any,
+  component: any,
+  fixture: ComponentFixture<any>
+): void {
   component.dateControl.setValue(value);
   detectChanges(fixture);
 }
@@ -106,21 +99,33 @@ function getInputElementValue(fixture: ComponentFixture<any>): string {
   return getInputElement(fixture).value;
 }
 
-function getCalendarDayButton(index: number, fixture: ComponentFixture<any>): HTMLButtonElement {
-  return document.querySelectorAll('tbody tr td .sky-btn-default').item(index) as HTMLButtonElement;
+function getCalendarDayButton(
+  index: number,
+  fixture: ComponentFixture<any>
+): HTMLButtonElement {
+  return document
+    .querySelectorAll('tbody tr td .sky-btn-default')
+    .item(index) as HTMLButtonElement;
 }
 
-function clickCalendarDateButton(index: number, fixture: ComponentFixture<any>): void {
+function clickCalendarDateButton(
+  index: number,
+  fixture: ComponentFixture<any>
+): void {
   getCalendarDayButton(index, fixture).click();
   detectChanges(fixture);
 }
 
 function getCalendarColumn(index: number): HTMLElement {
-  return document.querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays').item(index) as HTMLElement;
+  return document
+    .querySelectorAll('.sky-datepicker-center.sky-datepicker-weekdays')
+    .item(index) as HTMLElement;
 }
 
 function getCalendarTitle(): HTMLElement {
-  return document.querySelector('.sky-datepicker-calendar-title') as HTMLElement;
+  return document.querySelector(
+    '.sky-datepicker-calendar-title'
+  ) as HTMLElement;
 }
 
 function clickCalendarTitle(fixture: ComponentFixture<any>): void {
@@ -130,7 +135,9 @@ function clickCalendarTitle(fixture: ComponentFixture<any>): void {
 
 function getSelectedCalendarItem(): HTMLElement {
   const datepicker = getDatepicker();
-  return datepicker.querySelector('td .sky-datepicker-btn-selected') as HTMLElement;
+  return datepicker.querySelector(
+    'td .sky-datepicker-btn-selected'
+  ) as HTMLElement;
 }
 
 function getDatepicker(): HTMLElement {
@@ -139,12 +146,9 @@ function getDatepicker(): HTMLElement {
 // #endregion
 
 describe('fuzzy datepicker input', () => {
-
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        FuzzyDatepickerTestModule
-      ]
+      imports: [FuzzyDatepickerTestModule],
     });
   });
 
@@ -160,11 +164,11 @@ describe('fuzzy datepicker input', () => {
             {
               provide: SkyDatepickerConfigService,
               useValue: {
-                dateFormat: 'DD/MM/YYYY'
-              }
-            }
-          ]
-        }
+                dateFormat: 'DD/MM/YYYY',
+              },
+            },
+          ],
+        },
       }).createComponent(FuzzyDatepickerNoFormatTestComponent);
 
       nativeElement = fixture.nativeElement as HTMLElement;
@@ -198,11 +202,11 @@ describe('fuzzy datepicker input', () => {
               useValue: {
                 dateFormat: 'MM/DD/YYYY',
                 maxDate: new Date('5/28/2017'),
-                minDate: new Date('5/2/2017')
-              }
-            }
-          ]
-        }
+                minDate: new Date('5/2/2017'),
+              },
+            },
+          ],
+        },
       }).createComponent(FuzzyDatepickerTestComponent);
 
       nativeElement = fixture.nativeElement as HTMLElement;
@@ -255,10 +259,15 @@ describe('fuzzy datepicker input', () => {
     });
 
     it('should not overwrite aria-label on the datepicker input when one is provided', () => {
-      getInputElement(fixture).setAttribute('aria-label', 'This is a date field.');
+      getInputElement(fixture).setAttribute(
+        'aria-label',
+        'This is a date field.'
+      );
       fixture.detectChanges();
 
-      expect(getInputElement(fixture).getAttribute('aria-label')).toBe('This is a date field.');
+      expect(getInputElement(fixture).getAttribute('aria-label')).toBe(
+        'This is a date field.'
+      );
     });
 
     it('should keep the calendar open on mode change', fakeAsync(() => {
@@ -312,7 +321,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty({ month: 5, day: 12, year: 2017 }, component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -339,7 +352,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty(new Date('5/12/2017'), component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -348,7 +365,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty('5/12/2017', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -357,7 +378,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty('5/12/17', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -397,7 +422,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/2017', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -417,7 +446,11 @@ describe('fuzzy datepicker input', () => {
       it('should handle input change with an ISO string with offset', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(nativeElement, '1994-11-05T08:15:30-05:00', fixture);
+        setInputElementValue(
+          nativeElement,
+          '1994-11-05T08:15:30-05:00',
+          fixture
+        );
 
         expect(getInputElementValue(fixture)).toBe('1994-11-05T08:15:30-05:00');
         expect(getInputElement(fixture)).toHaveCssClass('ng-invalid');
@@ -432,7 +465,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/98', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
 
         flush();
       }));
@@ -496,13 +533,21 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/2017', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 5, month: 12, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 5,
+          month: 12,
+          year: 2017,
+        });
 
         component.dateFormat = 'MM/DD/YYYY';
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('12/05/2017');
-        expect(component.selectedDate).toEqual({ day: 5, month: 12, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 5,
+          month: 12,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -514,7 +559,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: undefined });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: undefined,
+        });
 
         flush();
       }));
@@ -526,7 +575,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '12/5', fixture);
 
         expect(getInputElementValue(fixture)).toBe('12/05');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: undefined });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: undefined,
+        });
 
         flush();
       }));
@@ -538,7 +591,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/2017', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/2017');
-        expect(component.selectedDate).toEqual({ month: 5, year: 2017, day: undefined });
+        expect(component.selectedDate).toEqual({
+          month: 5,
+          year: 2017,
+          day: undefined,
+        });
 
         flush();
       }));
@@ -550,7 +607,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '2017/5', fixture);
 
         expect(getInputElementValue(fixture)).toBe('2017/05');
-        expect(component.selectedDate).toEqual({ month: 5, year: 2017, day: undefined });
+        expect(component.selectedDate).toEqual({
+          month: 5,
+          year: 2017,
+          day: undefined,
+        });
 
         flush();
       }));
@@ -562,7 +623,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/17', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/17');
-        expect(component.selectedDate).toEqual({ month: 5, year: 2017, day: undefined });
+        expect(component.selectedDate).toEqual({
+          month: 5,
+          year: 2017,
+          day: undefined,
+        });
 
         flush();
       }));
@@ -575,7 +640,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '17/5', fixture);
 
         expect(getInputElementValue(fixture)).toBe('17/05');
-        expect(component.selectedDate).toEqual({ month: 5, year: 2017, day: undefined });
+        expect(component.selectedDate).toEqual({
+          month: 5,
+          year: 2017,
+          day: undefined,
+        });
 
         flush();
       }));
@@ -620,7 +689,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty('5/12/2017', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -650,7 +723,11 @@ describe('fuzzy datepicker input', () => {
         setInputProperty('5/12/98', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.selectedDate).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
 
         flush();
       }));
@@ -703,7 +780,6 @@ describe('fuzzy datepicker input', () => {
         expect(ngModel.valid).toBe(false);
 
         flush();
-
       }));
 
       it('should validate properly when input changed to empty string', fakeAsync(() => {
@@ -726,7 +802,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
-        expect(component.selectedDate).toEqual({ day: 12, month: 2, year: 2015 });
+        expect(component.selectedDate).toEqual({
+          day: 12,
+          month: 2,
+          year: 2015,
+        });
         expect(ngModel.valid).toBe(true);
 
         flush();
@@ -824,56 +904,61 @@ describe('fuzzy datepicker input', () => {
     });
 
     describe('min max fuzzy date', () => {
-
       let ngModel: NgModel;
       beforeEach(() => {
         let inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 
-      it('should validate properly when the date is passed through input change'
-        + ' beyond the max fuzzy date', fakeAsync(() => {
-        fixture.componentInstance.maxDate = { month: 2, day: 15, year: 2015 };
-        detectChanges(fixture);
+      it(
+        'should validate properly when the date is passed through input change' +
+          ' beyond the max fuzzy date',
+        fakeAsync(() => {
+          fixture.componentInstance.maxDate = { month: 2, day: 15, year: 2015 };
+          detectChanges(fixture);
 
-        setInputElementValue(nativeElement, '2/16/2015', fixture);
+          setInputElementValue(nativeElement, '2/16/2015', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('02/16/2015');
-        expect(ngModel.valid).toBe(false);
-        expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors.skyFuzzyDate.maxDate).toBeTruthy();
+          expect(getInputElementValue(fixture)).toBe('02/16/2015');
+          expect(ngModel.valid).toBe(false);
+          expect(ngModel.touched).toBe(true);
+          expect(ngModel.errors.skyFuzzyDate.maxDate).toBeTruthy();
 
-        setInputElementValue(nativeElement, '2/15/2015', fixture);
+          setInputElementValue(nativeElement, '2/15/2015', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('02/15/2015');
-        expect(ngModel.valid).toBe(true);
-        expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors).toBeNull();
+          expect(getInputElementValue(fixture)).toBe('02/15/2015');
+          expect(ngModel.valid).toBe(true);
+          expect(ngModel.touched).toBe(true);
+          expect(ngModel.errors).toBeNull();
 
-        flush();
-      }));
+          flush();
+        })
+      );
 
-      it('should validate properly when the date is passed through input change'
-        + ' prior to the min fuzzy date', fakeAsync(() => {
-        fixture.componentInstance.minDate = { month: 2, day: 15, year: 2015 };
-        detectChanges(fixture);
+      it(
+        'should validate properly when the date is passed through input change' +
+          ' prior to the min fuzzy date',
+        fakeAsync(() => {
+          fixture.componentInstance.minDate = { month: 2, day: 15, year: 2015 };
+          detectChanges(fixture);
 
-        setInputElementValue(nativeElement, '2/14/2015', fixture);
+          setInputElementValue(nativeElement, '2/14/2015', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('02/14/2015');
-        expect(ngModel.valid).toBe(false);
-        expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors.skyFuzzyDate.minDate).toBeTruthy();
+          expect(getInputElementValue(fixture)).toBe('02/14/2015');
+          expect(ngModel.valid).toBe(false);
+          expect(ngModel.touched).toBe(true);
+          expect(ngModel.errors.skyFuzzyDate.minDate).toBeTruthy();
 
-        setInputElementValue(nativeElement, '2/15/2015', fixture);
+          setInputElementValue(nativeElement, '2/15/2015', fixture);
 
-        expect(getInputElementValue(fixture)).toBe('02/15/2015');
-        expect(ngModel.valid).toBe(true);
-        expect(ngModel.touched).toBe(true);
-        expect(ngModel.errors).toBeNull();
+          expect(getInputElementValue(fixture)).toBe('02/15/2015');
+          expect(ngModel.valid).toBe(true);
+          expect(ngModel.touched).toBe(true);
+          expect(ngModel.errors).toBeNull();
 
-        flush();
-      }));
+          flush();
+        })
+      );
 
       it('should handle model change above max fuzzy fuzzy date', fakeAsync(() => {
         setInputProperty(new Date('5/21/2017'), component, fixture);
@@ -976,13 +1061,21 @@ describe('fuzzy datepicker input', () => {
         setInputProperty(initialDate, component, fixture);
 
         expect(getInputElementValue(fixture)).toBe(initialDate);
-        expect(component.selectedDate).toEqual({ month: 1, day: 1, year: 2019 });
+        expect(component.selectedDate).toEqual({
+          month: 1,
+          day: 1,
+          year: 2019,
+        });
 
         inputEl.value = newDate;
         component.inputDirective.detectInputValueChange();
 
         expect(getInputElementValue(fixture)).toBe(newDate);
-        expect(component.selectedDate).toEqual({ month: 12, day: 31, year: 2019 });
+        expect(component.selectedDate).toEqual({
+          month: 12,
+          day: 31,
+          year: 2019,
+        });
 
         flush();
       }));
@@ -994,7 +1087,9 @@ describe('fuzzy datepicker input', () => {
         detectChanges(fixture);
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
+        expect(
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+        ).toBeTruthy();
         expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
         flush();
@@ -1005,7 +1100,9 @@ describe('fuzzy datepicker input', () => {
         detectChanges(fixture);
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
+        expect(
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+        ).toBeFalsy();
         expect(getTriggerButton(fixture).disabled).toBeFalsy();
 
         flush();
@@ -1027,11 +1124,11 @@ describe('fuzzy datepicker input', () => {
               useValue: {
                 dateFormat: 'MM/DD/YYYY',
                 maxDate: new Date('5/28/2017'),
-                minDate: new Date('5/2/2017')
-              }
-            }
-          ]
-        }
+                minDate: new Date('5/2/2017'),
+              },
+            },
+          ],
+        },
       }).createComponent(FuzzyDatepickerReactiveTestComponent);
 
       nativeElement = fixture.nativeElement as HTMLElement;
@@ -1048,7 +1145,11 @@ describe('fuzzy datepicker input', () => {
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -1068,7 +1169,11 @@ describe('fuzzy datepicker input', () => {
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 0 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 0,
+        });
 
         flush();
       }));
@@ -1078,7 +1183,11 @@ describe('fuzzy datepicker input', () => {
         detectChanges(fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -1091,7 +1200,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/2017', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -1110,7 +1223,11 @@ describe('fuzzy datepicker input', () => {
       it('should be invalid following input change with an ISO string with offset', fakeAsync(() => {
         detectChanges(fixture);
 
-        setInputElementValue(nativeElement, '1994-11-05T08:15:30-05:00', fixture);
+        setInputElementValue(
+          nativeElement,
+          '1994-11-05T08:15:30-05:00',
+          fixture
+        );
 
         expect(getInputElementValue(fixture)).toBe('1994-11-05T08:15:30-05:00');
         expect(getInputElement(fixture)).toHaveCssClass('ng-invalid');
@@ -1127,7 +1244,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/98', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
         expect(getInputElement(fixture)).not.toHaveCssClass('ng-invalid');
 
         flush();
@@ -1139,7 +1260,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '5/12/98', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
 
         flush();
       }));
@@ -1150,12 +1275,20 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(nativeElement, '2017', fixture);
 
         expect(getInputElementValue(fixture)).toBe('2017');
-        expect(component.dateControl.value).toEqual({ day: undefined, month: undefined, year: 2017 });
+        expect(component.dateControl.value).toEqual({
+          day: undefined,
+          month: undefined,
+          year: 2017,
+        });
 
         setInputElementValue(nativeElement, '5/12/98', fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
 
         flush();
       }));
@@ -1200,7 +1333,11 @@ describe('fuzzy datepicker input', () => {
         setFormControlProperty('5/12/2017', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 2017 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 2017,
+        });
 
         flush();
       }));
@@ -1230,7 +1367,11 @@ describe('fuzzy datepicker input', () => {
         setFormControlProperty('5/12/98', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('05/12/1998');
-        expect(component.dateControl.value).toEqual({ day: 12, month: 5, year: 1998 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 5,
+          year: 1998,
+        });
 
         flush();
       }));
@@ -1297,7 +1438,6 @@ describe('fuzzy datepicker input', () => {
     });
 
     describe('validation', () => {
-
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
         fixture.detectChanges();
         tick();
@@ -1362,7 +1502,11 @@ describe('fuzzy datepicker input', () => {
         setInputElementValue(fixture.nativeElement, '2/12/2015', fixture);
 
         expect(getInputElementValue(fixture)).toBe('02/12/2015');
-        expect(component.dateControl.value).toEqual( { day: 12, month: 2, year: 2015 });
+        expect(component.dateControl.value).toEqual({
+          day: 12,
+          month: 2,
+          year: 2015,
+        });
         expect(component.dateControl.valid).toBe(true);
 
         flush();
@@ -1411,7 +1555,9 @@ describe('fuzzy datepicker input', () => {
         expect(component.dateControl.valid).toBe(false);
         expect(component.dateControl.pristine).toBe(false);
         expect(component.dateControl.touched).toBe(true);
-        expect(component.dateControl.errors.skyFuzzyDate.futureDisabled).toBeTruthy();
+        expect(
+          component.dateControl.errors.skyFuzzyDate.futureDisabled
+        ).toBeTruthy();
 
         const todayDateString = moment().format('L');
         setInputElementValue(nativeElement, todayDateString, fixture);
@@ -1426,26 +1572,28 @@ describe('fuzzy datepicker input', () => {
       }));
 
       it('should validate properly when year is required and values are passed through input change', fakeAsync(() => {
-          fixture.componentInstance.yearRequired = true;
-          detectChanges(fixture);
-          setInputElementValue(nativeElement, '2/12', fixture);
+        fixture.componentInstance.yearRequired = true;
+        detectChanges(fixture);
+        setInputElementValue(nativeElement, '2/12', fixture);
 
-          expect(getInputElementValue(fixture)).toBe('02/12');
-          expect(component.dateControl.valid).toBe(false);
-          expect(component.dateControl.pristine).toBe(false);
-          expect(component.dateControl.touched).toBe(true);
-          expect(component.dateControl.errors.skyFuzzyDate.yearRequired).toBeTruthy();
+        expect(getInputElementValue(fixture)).toBe('02/12');
+        expect(component.dateControl.valid).toBe(false);
+        expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
+        expect(
+          component.dateControl.errors.skyFuzzyDate.yearRequired
+        ).toBeTruthy();
 
-          setInputElementValue(nativeElement, '2/12/2015', fixture);
+        setInputElementValue(nativeElement, '2/12/2015', fixture);
 
-          expect(getInputElementValue(fixture)).toBe('02/12/2015');
-          expect(component.dateControl.errors).toBeNull();
-          expect(component.dateControl.valid).toBe(true);
-          expect(component.dateControl.pristine).toBe(false);
-          expect(component.dateControl.touched).toBe(true);
+        expect(getInputElementValue(fixture)).toBe('02/12/2015');
+        expect(component.dateControl.errors).toBeNull();
+        expect(component.dateControl.valid).toBe(true);
+        expect(component.dateControl.pristine).toBe(false);
+        expect(component.dateControl.touched).toBe(true);
 
-          flush();
-        }));
+        flush();
+      }));
 
       it('should handle noValidate property', fakeAsync(() => {
         component.noValidate = true;
@@ -1610,7 +1758,9 @@ describe('fuzzy datepicker input', () => {
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeTruthy();
-        expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
+        expect(
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+        ).toBeTruthy();
         expect(getTriggerButton(fixture).disabled).toBeTruthy();
       });
 
@@ -1620,7 +1770,9 @@ describe('fuzzy datepicker input', () => {
         fixture.detectChanges();
 
         expect(fixture.componentInstance.inputDirective.disabled).toBeFalsy();
-        expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
+        expect(
+          fixture.debugElement.query(By.css('input')).nativeElement.disabled
+        ).toBeFalsy();
         expect(getTriggerButton(fixture).disabled).toBeFalsy();
       });
     });
@@ -1638,7 +1790,7 @@ describe('fuzzy datepicker input', () => {
     it('should display formatted date based on locale by default', fakeAsync(() => {
       spyOn(localeProvider, 'getLocaleInfo').and.returnValue(
         of({
-          locale: 'es' // Set locale to Spanish.
+          locale: 'es', // Set locale to Spanish.
         })
       );
       fixture = TestBed.createComponent(FuzzyDatepickerNoFormatTestComponent);
@@ -1666,12 +1818,13 @@ describe('fuzzy datepicker input', () => {
         component.dateFormat = 'MM/DD';
         detectChanges(fixture);
       } catch (err) {
-        expect(err.message).toEqual('You have configured conflicting settings. Year is required and dateFormat does not include year.');
+        expect(err.message).toEqual(
+          'You have configured conflicting settings. Year is required and dateFormat does not include year.'
+        );
         errorThrown = true;
       }
 
       expect(errorThrown).toBeTrue();
     }));
   });
-
 });

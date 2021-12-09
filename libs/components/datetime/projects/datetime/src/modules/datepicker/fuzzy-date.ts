@@ -1,5 +1,4 @@
 export interface SkyFuzzyDate {
-
   /**
    * Specifies the day in a fuzzy date, where `1` sets the day
    * to the first day of the specified month.

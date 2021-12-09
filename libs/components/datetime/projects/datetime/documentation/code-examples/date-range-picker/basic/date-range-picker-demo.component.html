@@ -1,7 +1,4 @@
-<form
-  novalidate
-  [formGroup]="reactiveForm"
->
+<form novalidate [formGroup]="reactiveForm">
   <div class="sky-form-group">
     <sky-date-range-picker
       formControlName="lastDonation"
@@ -12,23 +9,20 @@
     </sky-date-range-picker>
 
     <ng-container *ngIf="reactiveRange.errors && reactiveRange.touched">
-      <div *ngIf="reactiveRange.errors.skyDateRange?.errors.endDateBeforeStartDate"
+      <div
+        *ngIf="reactiveRange.errors.skyDateRange?.errors.endDateBeforeStartDate"
         class="sky-error-label"
       >
         Change the date range so that the from date is on or before the to date.
       </div>
-      <div *ngIf="reactiveRange.errors.skyDate"
-        class="sky-error-label"
-      >
+      <div *ngIf="reactiveRange.errors.skyDate" class="sky-error-label">
         Enter valid dates.
       </div>
     </ng-container>
   </div>
 </form>
 
-<h3>
-  Form control statuses
-</h3>
+<h3>Form control statuses</h3>
 
 <table>
   <tr>
@@ -45,24 +39,20 @@
   </tr>
 </table>
 
-<h3>
-  Form control value
-</h3>
+<h3>Form control value</h3>
 
 <pre><code style="display:block;">calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
 startDate: {{ reactiveForm.value.lastDonation?.startDate | date }}
 endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
 
-<h3>
-  Manipulate value and state
-</h3>
+<h3>Manipulate value and state</h3>
 
 <button
   class="sky-btn sky-btn-default sky-margin-inline-default"
   type="button"
   (click)="toggleDisabled()"
 >
-  {{ reactiveForm.disabled ? 'Enable' : 'Disable'}} picker
+  {{ reactiveForm.disabled ? 'Enable' : 'Disable' }} picker
 </button>
 
 <button
@@ -105,10 +95,6 @@ endDate: {{ reactiveForm.value.lastDonation?.endDate | date }}</code></pre>
   Set custom calculators
 </button>
 
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="setDateFormat()"
->
+<button class="sky-btn sky-btn-default" type="button" (click)="setDateFormat()">
   Set date format
 </button>

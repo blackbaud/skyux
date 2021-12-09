@@ -4,9 +4,9 @@
     "message": "Date"
   },
   "skyux_datepicker_trigger_button_label": {
-     "_description": "Label for the trigger button of the datepicker",
-     "message": "Select date"
-   },
+    "_description": "Label for the trigger button of the datepicker",
+    "message": "Select date"
+  },
   "skyux_timepicker_button_label": {
     "_description": "Screen reader text for the timepicker trigger button",
     "message": "Choose time"

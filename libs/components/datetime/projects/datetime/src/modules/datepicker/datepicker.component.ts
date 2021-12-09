@@ -10,7 +10,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
-  Output
+  Output,
 } from '@angular/core';
 
 import {
@@ -19,33 +19,20 @@ import {
   SkyAffixService,
   SkyCoreAdapterService,
   SkyOverlayInstance,
-  SkyOverlayService
+  SkyOverlayService,
 } from '@skyux/core';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 
-import {
-  SkyInputBoxHostService
-} from '@skyux/forms';
+import { SkyInputBoxHostService } from '@skyux/forms';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  fromEvent,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 
-import {
-  debounceTime,
-  takeUntil
-} from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDatepickerCalendarComponent
-} from './datepicker-calendar.component';
+import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
 
 let nextId = 0;
 
@@ -57,10 +44,9 @@ let nextId = 0;
   selector: 'sky-datepicker',
   templateUrl: './datepicker.component.html',
   styleUrls: ['./datepicker.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDatepickerComponent implements OnDestroy, OnInit {
-
   /**
    * Adds a class to the datepicker.
    */
@@ -153,7 +139,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   private calendar: SkyDatepickerCalendarComponent;
 
   @ViewChild('calendarRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private set calendarRef(value: ElementRef) {
     if (value) {
@@ -185,24 +171,24 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   @ViewChild('calendarTemplateRef', {
-    read: TemplateRef
+    read: TemplateRef,
   })
   private calendarTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButtonRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private triggerButtonRef: ElementRef;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private inputTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private triggerButtonTemplateRef: TemplateRef<any>;
 
@@ -246,12 +232,10 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     if (this.inputBoxHostService) {
-      this.inputBoxHostService.populate(
-        {
-          inputTemplate: this.inputTemplateRef,
-          buttonsTemplate: this.triggerButtonTemplateRef
-        }
-      );
+      this.inputBoxHostService.populate({
+        inputTemplate: this.inputTemplateRef,
+        buttonsTemplate: this.triggerButtonTemplateRef,
+      });
     }
   }
 
@@ -292,13 +276,12 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       const args: SkyDatepickerCalendarChange = {
         startDate: event.startDate,
         endDate: event.endDate,
-        customDates: undefined
+        customDates: undefined,
       };
       this.calendarDateRangeChange.emit(args);
       // If consumer has added an observable to the args, watch for incoming custom dates.
       /* istanbul ignore else */
       if (args.customDates) {
-
         this.isDaypickerWaiting = true;
         // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
         this.changeDetector.detectChanges();
@@ -311,9 +294,8 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
             // Trigger change detection in child components to show changes in the calendar.
             this.changeDetector.markForCheck();
-        });
+          });
       } else {
-
         // If consumer returns an undefined value after custom dates have
         // already ben established, remove custom dates.
         if (this.customDates) {
@@ -353,7 +335,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     affixer.placementChange
       .pipe(takeUntil(this.calendarUnsubscribe))
       .subscribe((change) => {
-        this.isVisible = (change.placement !== null);
+        this.isVisible = change.placement !== null;
         this.changeDetector.markForCheck();
       });
 
@@ -362,7 +344,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       enableAutoFit: true,
       horizontalAlignment: 'right',
       isSticky: true,
-      placement: 'below'
+      placement: 'below',
     });
 
     this.affixer = affixer;
@@ -380,7 +362,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     const overlay = this.overlayService.create({
       wrapperClass: this.pickerClass,
       enableClose: false,
-      enablePointerEvents: false
+      enablePointerEvents: false,
     });
 
     overlay.backdropClick

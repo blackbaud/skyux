@@ -1,6 +1,4 @@
-<sky-datepicker
-  #fuzzypicker
->
+<sky-datepicker #fuzzypicker>
   <input
     name="myDate"
     [futureDisabled]="futureDisabled"
@@ -18,8 +16,5 @@
 </sky-datepicker>
 
 <div *ngIf="showInvalidDirective">
-  <input
-    type="text"
-    skyFuzzyDatepickerInput
-  />
+  <input type="text" skyFuzzyDatepickerInput />
 </div>

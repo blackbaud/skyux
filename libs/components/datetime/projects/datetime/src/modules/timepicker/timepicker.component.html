@@ -1,10 +1,6 @@
-<div
-  class="sky-timepicker"
->
+<div class="sky-timepicker">
   <ng-container *ngIf="!inputBoxHostService">
-    <div
-      class="sky-input-group"
-    >
+    <div class="sky-input-group">
       <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
       <ng-container *ngTemplateOutlet="triggerButtonTemplateRef"></ng-container>
     </div>
@@ -16,9 +12,7 @@
 </ng-template>
 
 <ng-template #triggerButtonTemplateRef>
-  <div
-    class="sky-input-group-btn"
-  >
+  <div class="sky-input-group-btn">
     <button
       aria-haspopup="dialog"
       class="sky-btn sky-btn-default sky-input-group-timepicker-btn"
@@ -32,11 +26,9 @@
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon *skyThemeIf="'default'"
-        icon="clock-o"
-        size="lg"
-      ></sky-icon>
-      <sky-icon *skyThemeIf="'modern'"
+      <sky-icon *skyThemeIf="'default'" icon="clock-o" size="lg"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
         icon="clock"
         size="lg"
         iconType="skyux"
@@ -54,45 +46,39 @@
     [class.sky-timepicker-hidden]="!isVisible"
     #timepickerRef
   >
-    <div
-      class="sky-timepicker-content"
-    >
+    <div class="sky-timepicker-content">
       <section
         class="sky-timepicker-column"
-        [ngClass]="{ 'sky-timepicker-24hour':is8601 }"
+        [ngClass]="{ 'sky-timepicker-24hour': is8601 }"
       >
         <ol>
-          <li *ngFor="let hour of hours;">
+          <li *ngFor="let hour of hours">
             <button
               name="hour"
               type="button"
-              [ngClass]="{ 'sky-btn-active' : selectedHour === hour }"
+              [ngClass]="{ 'sky-btn-active': selectedHour === hour }"
               (click)="setTime($event)"
             >
-              {{hour}}
+              {{ hour }}
             </button>
           </li>
         </ol>
       </section>
-      <section
-        class="sky-timepicker-column"
-      >
+      <section class="sky-timepicker-column">
         <ol>
-          <li *ngFor="let minute of minutes;">
+          <li *ngFor="let minute of minutes">
             <button
               name="minute"
               type="button"
               [ngClass]="{ 'sky-btn-active': selectedMinute === minute }"
               (click)="setTime($event)"
             >
-              {{ '00' .substring(0, 2 - (minute) .toString() .length) + (minute) }}
+              {{ '00'.substring(0, 2 - minute.toString().length) + minute }}
             </button>
           </li>
         </ol>
       </section>
-      <section *ngIf="!is8601"
-        class="sky-timepicker-column"
-      >
+      <section *ngIf="!is8601" class="sky-timepicker-column">
         <ol>
           <li>
             <button
@@ -117,12 +103,8 @@
         </ol>
       </section>
     </div>
-    <div
-      class="sky-timepicker-footer"
-    >
-      <section
-        class="sky-timepicker-column"
-      >
+    <div class="sky-timepicker-footer">
+      <section class="sky-timepicker-column">
         <button
           class="sky-btn sky-btn-primary"
           type="button"

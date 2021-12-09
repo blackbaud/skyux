@@ -1,10 +1,6 @@
-<div
-  class="sky-datepicker"
->
+<div class="sky-datepicker">
   <ng-container *ngIf="!inputBoxHostService">
-    <div
-      class="sky-input-group"
-    >
+    <div class="sky-input-group">
       <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
       <ng-container *ngTemplateOutlet="triggerButtonTemplateRef"></ng-container>
     </div>
@@ -16,27 +12,25 @@
 </ng-template>
 
 <ng-template #triggerButtonTemplateRef>
-  <div
-    class="sky-input-group-btn"
-  >
+  <div class="sky-input-group-btn">
     <button
       aria-haspopup="dialog"
       class="sky-btn sky-btn-default sky-input-group-datepicker-btn"
       type="button"
       [attr.aria-controls]="isOpen ? calendarId : null"
       [attr.aria-expanded]="isOpen"
-      [attr.aria-label]="'skyux_datepicker_trigger_button_label' | skyLibResources"
+      [attr.aria-label]="
+        'skyux_datepicker_trigger_button_label' | skyLibResources
+      "
       [attr.id]="triggerButtonId"
       [attr.title]="'skyux_datepicker_trigger_button_label' | skyLibResources"
       [disabled]="disabled"
       (click)="onTriggerButtonClick()"
       #triggerButtonRef
     >
-      <sky-icon *skyThemeIf="'default'"
-        icon="calendar"
-        size="lg"
-      ></sky-icon>
-      <sky-icon *skyThemeIf="'modern'"
+      <sky-icon *skyThemeIf="'default'" icon="calendar" size="lg"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
         icon="calendar"
         size="lg"
         iconType="skyux"

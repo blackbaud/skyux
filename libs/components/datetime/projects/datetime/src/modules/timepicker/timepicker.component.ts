@@ -10,7 +10,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
 import {
@@ -19,32 +19,20 @@ import {
   SkyAffixService,
   SkyCoreAdapterService,
   SkyOverlayInstance,
-  SkyOverlayService
+  SkyOverlayService,
 } from '@skyux/core';
 
-import {
-  SkyInputBoxHostService
-} from '@skyux/forms';
+import { SkyInputBoxHostService } from '@skyux/forms';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  fromEvent,
-  Subject,
-  Subscription
-} from 'rxjs';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyTimepickerTimeOutput
-} from './timepicker.interface';
+import { SkyTimepickerTimeOutput } from './timepicker.interface';
 
-import moment from "moment"
+import moment from 'moment';
 
 let nextId = 0;
 
@@ -59,16 +47,14 @@ let nextId = 0;
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTimepickerComponent implements OnInit, OnDestroy {
-
   /**
    * Fires when the value in the timepicker input changes.
    */
   @Output()
-  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> =
-    new EventEmitter<SkyTimepickerTimeOutput>();
+  public selectedTimeChanged: EventEmitter<SkyTimepickerTimeOutput> = new EventEmitter<SkyTimepickerTimeOutput>();
 
   public set disabled(value: boolean) {
     this._disabled = value;
@@ -82,14 +68,20 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   public set selectedHour(setHour: number) {
     let hour: number;
     let hourOffset: number = 0;
-    if (this.selectedMeridies === 'AM' && setHour === 12) { hourOffset = -12; }
-    if (this.selectedMeridies === 'PM' && setHour !== 12) { hourOffset = 12; }
-    if (this.is8601) { hourOffset = 0; }
-    hour = moment({ 'hour': setHour }).add(hourOffset, 'hours').hour();
+    if (this.selectedMeridies === 'AM' && setHour === 12) {
+      hourOffset = -12;
+    }
+    if (this.selectedMeridies === 'PM' && setHour !== 12) {
+      hourOffset = 12;
+    }
+    if (this.is8601) {
+      hourOffset = 0;
+    }
+    hour = moment({ hour: setHour }).add(hourOffset, 'hours').hour();
 
     this.activeTime = moment({
-      'hour': hour,
-      'minute': moment(this.activeTime).get('minute') + 0
+      hour: hour,
+      minute: moment(this.activeTime).get('minute') + 0,
     }).toDate();
     this.selectedTimeChanged.emit(this.selectedTime);
   }
@@ -124,8 +116,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public set selectedMinute(minute: number) {
     this.activeTime = moment({
-      'hour': moment(this.activeTime).get('hour') + 0,
-      'minute': minute
+      hour: moment(this.activeTime).get('hour') + 0,
+      minute: minute,
     }).toDate();
     this.selectedTimeChanged.emit(this.selectedTime);
   }
@@ -153,8 +145,10 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       timezone: parseInt(moment(this.activeTime).format('Z'), 10),
       iso8601: this.activeTime,
       local: moment(this.activeTime).format(this.localeFormat),
-      customFormat: (typeof this.returnFormat !== 'undefined')
-        ? this.returnFormat : this.localeFormat
+      customFormat:
+        typeof this.returnFormat !== 'undefined'
+          ? this.returnFormat
+          : this.localeFormat,
     };
 
     return time;
@@ -185,7 +179,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   public triggerButtonId: string;
 
   @ViewChild('timepickerRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private set timepickerRef(value: ElementRef) {
     if (value) {
@@ -215,24 +209,24 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   @ViewChild('timepickerTemplateRef', {
-    read: TemplateRef
+    read: TemplateRef,
   })
   private timepickerTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButtonRef', {
-    read: ElementRef
+    read: ElementRef,
   })
   private triggerButtonRef: ElementRef;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private inputTemplateRef: TemplateRef<any>;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
-    static: true
+    static: true,
   })
   private triggerButtonTemplateRef: TemplateRef<any>;
 
@@ -275,12 +269,10 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     this.addKeydownListner();
 
     if (this.inputBoxHostService) {
-      this.inputBoxHostService.populate(
-        {
-          inputTemplate: this.inputTemplateRef,
-          buttonsTemplate: this.triggerButtonTemplateRef
-        }
-      );
+      this.inputBoxHostService.populate({
+        inputTemplate: this.inputTemplateRef,
+        buttonsTemplate: this.triggerButtonTemplateRef,
+      });
     }
   }
 
@@ -312,28 +304,36 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       this.is8601 = true;
     }
     let data: {
-      'hours': Array<number>,
-      'minutes': Array<number>,
-      'localeFormat': string,
-      'minuteMultiplier': number
+      hours: Array<number>;
+      minutes: Array<number>;
+      localeFormat: string;
+      minuteMultiplier: number;
     };
 
     data = {
-      'hours': Array.apply(undefined, Array(h))
-        .map(function (x: number, i: number) {
-          if (format === 'hh') { return ++i; }
-          /* istanbul ignore else */
-          if (format === 'HH') { return i; }
-          /* istanbul ignore next */
-          /* sanity check */
-          return 0;
-        }),
-      'minutes': Array.apply(undefined, Array(m))
-        .map(function (x: number, i: number) {
-          return i * minuteMultiplier;
-        }),
-      'localeFormat': localeFormat,
-      'minuteMultiplier': minuteMultiplier
+      hours: Array.apply(undefined, Array(h)).map(function (
+        x: number,
+        i: number
+      ) {
+        if (format === 'hh') {
+          return ++i;
+        }
+        /* istanbul ignore else */
+        if (format === 'HH') {
+          return i;
+        }
+        /* istanbul ignore next */
+        /* sanity check */
+        return 0;
+      }),
+      minutes: Array.apply(undefined, Array(m)).map(function (
+        x: number,
+        i: number
+      ) {
+        return i * minuteMultiplier;
+      }),
+      localeFormat: localeFormat,
+      minuteMultiplier: minuteMultiplier,
     };
 
     this.hours = data.hours;
@@ -397,7 +397,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     affixer.placementChange
       .pipe(takeUntil(this.timepickerUnsubscribe))
       .subscribe((change) => {
-        this.isVisible = (change.placement !== null);
+        this.isVisible = change.placement !== null;
         this.changeDetector.markForCheck();
       });
 
@@ -406,7 +406,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       enableAutoFit: true,
       horizontalAlignment: 'right',
       isSticky: true,
-      placement: 'below'
+      placement: 'below',
     });
 
     this.affixer = affixer;
@@ -423,7 +423,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   private createOverlay(): void {
     const overlay = this.overlayService.create({
       enableClose: false,
-      enablePointerEvents: false
+      enablePointerEvents: false,
     });
 
     overlay.backdropClick

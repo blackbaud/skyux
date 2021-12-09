@@ -4,63 +4,43 @@ import {
   fakeAsync,
   flush,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
 import {
   FormsModule,
   ReactiveFormsModule,
   Validators,
-  NgModel
+  NgModel,
 } from '@angular/forms';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  expect,
-  expectAsync,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyInputBoxModule
-} from '@skyux/forms';
+import { SkyInputBoxModule } from '@skyux/forms';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
   SkyThemeSettings,
-  SkyThemeSettingsChange
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import {
-  TimepickerTestComponent
-} from './fixtures/timepicker-component.fixture';
+import { TimepickerTestComponent } from './fixtures/timepicker-component.fixture';
 
-import {
-  TimepickerInputBoxTestComponent
-} from './fixtures/timepicker-input-box-component.fixture';
+import { TimepickerInputBoxTestComponent } from './fixtures/timepicker-input-box-component.fixture';
 
-import {
-  TimepickerReactiveTestComponent
-} from './fixtures/timepicker-reactive-component.fixture';
+import { TimepickerReactiveTestComponent } from './fixtures/timepicker-reactive-component.fixture';
 
-import {
-  SkyTimepickerModule
-} from './timepicker.module';
+import { SkyTimepickerModule } from './timepicker.module';
 
-import moment from "moment"
+import moment from 'moment';
 
 //#region helpers
 function getInput(fixture: ComponentFixture<any>): HTMLInputElement {
@@ -68,10 +48,15 @@ function getInput(fixture: ComponentFixture<any>): HTMLInputElement {
 }
 
 function getTriggerButton(fixture: ComponentFixture<any>): HTMLButtonElement {
-  return fixture.nativeElement.querySelector('.sky-input-group-timepicker-btn') as HTMLButtonElement;
+  return fixture.nativeElement.querySelector(
+    '.sky-input-group-timepicker-btn'
+  ) as HTMLButtonElement;
 }
 
-function openTimepicker(fixture: ComponentFixture<any>, isAsync: boolean = false): void {
+function openTimepicker(
+  fixture: ComponentFixture<any>,
+  isAsync: boolean = false
+): void {
   const triggerButton = getTriggerButton(fixture);
   triggerButton.click();
   fixture.detectChanges();
@@ -87,17 +72,23 @@ function getTimepicker(): HTMLElement {
 
 function getHourButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
-  return timepicker.querySelectorAll('button[name="hour"]') as NodeListOf<HTMLElement>;
+  return timepicker.querySelectorAll(
+    'button[name="hour"]'
+  ) as NodeListOf<HTMLElement>;
 }
 
 function getMinuteButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
-  return timepicker.querySelectorAll('button[name="minute"]') as NodeListOf<HTMLElement>;
+  return timepicker.querySelectorAll(
+    'button[name="minute"]'
+  ) as NodeListOf<HTMLElement>;
 }
 
 function getMeridieButtons(): NodeListOf<HTMLElement> {
   const timepicker = getTimepicker();
-  return timepicker.querySelectorAll('button[name="meridie"]') as NodeListOf<HTMLElement>;
+  return timepicker.querySelectorAll(
+    'button[name="meridie"]'
+  ) as NodeListOf<HTMLElement>;
 }
 
 function getCloseButton(): HTMLElement {
@@ -118,10 +109,7 @@ function flushTimers(): void {
   flush();
 }
 
-function setInput(
-  text: string,
-  fixture: ComponentFixture<any>
-): void {
+function setInput(text: string, fixture: ComponentFixture<any>): void {
   const inputElement = fixture.nativeElement.querySelectorAll('input').item(0);
   inputElement.value = text;
   fixture.detectChanges();
@@ -166,20 +154,18 @@ function detectChangesAndTick(fixture: ComponentFixture<any>): void {
 
 describe('Timepicker', () => {
   let mockThemeSvc: {
-    settingsChange: BehaviorSubject<SkyThemeSettingsChange>
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
   beforeEach(() => {
     mockThemeSvc = {
-      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>(
-        {
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined
-        }
-      )
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
     };
   });
 
@@ -189,20 +175,14 @@ describe('Timepicker', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          TimepickerTestComponent
-        ],
-        imports: [
-          SkyTimepickerModule,
-          NoopAnimationsModule,
-          FormsModule
-        ],
+        declarations: [TimepickerTestComponent],
+        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
         providers: [
           {
             provide: SkyThemeService,
-            useValue: mockThemeSvc
-          }
-        ]
+            useValue: mockThemeSvc,
+          },
+        ],
       });
 
       fixture = TestBed.createComponent(TimepickerTestComponent);
@@ -492,16 +472,15 @@ describe('Timepicker', () => {
       expect(getInput(fixture).getAttribute('aria-label')).toBe('Time');
     }));
 
-    it(
-      'should not overwrite aria-label on the timepicker input when one is provided',
-      fakeAsync(() => {
-        detectChangesAndTick(fixture);
-        getInput(fixture).setAttribute('aria-label', 'This is a time field.');
-        detectChangesAndTick(fixture);
+    it('should not overwrite aria-label on the timepicker input when one is provided', fakeAsync(() => {
+      detectChangesAndTick(fixture);
+      getInput(fixture).setAttribute('aria-label', 'This is a time field.');
+      detectChangesAndTick(fixture);
 
-        expect(getInput(fixture).getAttribute('aria-label')).toBe('This is a time field.');
-      })
-    );
+      expect(getInput(fixture).getAttribute('aria-label')).toBe(
+        'This is a time field.'
+      );
+    }));
 
     it('should close picker when `escape` key is pressed', fakeAsync(() => {
       detectChangesAndTick(fixture);
@@ -509,8 +488,8 @@ describe('Timepicker', () => {
 
       SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
         customEventInit: {
-          key: 'escape'
-        }
+          key: 'escape',
+        },
       });
       detectChangesAndTick(fixture);
       const picker = getTimepicker();
@@ -523,7 +502,7 @@ describe('Timepicker', () => {
       openTimepicker(fixture);
 
       SkyAppTestUtility.fireDomEvent(window.document, 'keydown', {
-        customEventInit: {} // Don't pass in a key value.
+        customEventInit: {}, // Don't pass in a key value.
       });
       detectChangesAndTick(fixture);
       const picker = getTimepicker();
@@ -579,7 +558,8 @@ describe('Timepicker', () => {
           SkyTheme.presets.modern,
           SkyThemeMode.presets.light
         ),
-        previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings
+        previousSettings:
+          mockThemeSvc.settingsChange.getValue().currentSettings,
       });
 
       detectChangesAndTick(fixture);
@@ -594,17 +574,9 @@ describe('Timepicker', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          TimepickerTestComponent
-        ],
-        providers: [
-          NgModel
-        ],
-        imports: [
-          SkyTimepickerModule,
-          NoopAnimationsModule,
-          FormsModule
-        ]
+        declarations: [TimepickerTestComponent],
+        providers: [NgModel],
+        imports: [SkyTimepickerModule, NoopAnimationsModule, FormsModule],
       });
 
       fixture = TestBed.createComponent(TimepickerTestComponent);
@@ -618,7 +590,7 @@ describe('Timepicker', () => {
     it('should update input value when form control is set programatically', fakeAsync(() => {
       detectChangesAndTick(fixture);
 
-      const newDate = moment({'hour': 12, 'minute': 30}).toDate();
+      const newDate = moment({ hour: 12, minute: 30 }).toDate();
       component.selectedTime = {
         hour: 12,
         minute: 30,
@@ -626,7 +598,7 @@ describe('Timepicker', () => {
         timezone: 0,
         iso8601: newDate,
         local: '12:30 PM',
-        customFormat: 'h:mm A'
+        customFormat: 'h:mm A',
       };
       detectChangesAndTick(fixture);
 
@@ -680,16 +652,24 @@ describe('Timepicker', () => {
       detectChangesAndTick(fixture);
 
       expect(fixture.componentInstance.timepicker.disabled).toBeTruthy();
-      expect(fixture.componentInstance.timepickerComponent.disabled).toBeTruthy();
-      expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeTruthy();
+      expect(
+        fixture.componentInstance.timepickerComponent.disabled
+      ).toBeTruthy();
+      expect(
+        fixture.debugElement.query(By.css('input')).nativeElement.disabled
+      ).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
       component.disabled = false;
       fixture.detectChanges();
 
       expect(fixture.componentInstance.timepicker.disabled).toBeFalsy();
-      expect(fixture.componentInstance.timepickerComponent.disabled).toBeFalsy();
-      expect(fixture.debugElement.query(By.css('input')).nativeElement.disabled).toBeFalsy();
+      expect(
+        fixture.componentInstance.timepickerComponent.disabled
+      ).toBeFalsy();
+      expect(
+        fixture.debugElement.query(By.css('input')).nativeElement.disabled
+      ).toBeFalsy();
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
     }));
   });
@@ -700,15 +680,13 @@ describe('Timepicker', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          TimepickerReactiveTestComponent
-        ],
+        declarations: [TimepickerReactiveTestComponent],
         imports: [
           SkyTimepickerModule,
           NoopAnimationsModule,
           FormsModule,
-          ReactiveFormsModule
-        ]
+          ReactiveFormsModule,
+        ],
       });
 
       fixture = TestBed.createComponent(TimepickerReactiveTestComponent);
@@ -777,16 +755,24 @@ describe('Timepicker', () => {
       component.timeControl.disable();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.timepickerDirective.disabled).toBeTruthy();
-      expect(fixture.componentInstance.timepickerComponent.disabled).toBeTruthy();
+      expect(
+        fixture.componentInstance.timepickerDirective.disabled
+      ).toBeTruthy();
+      expect(
+        fixture.componentInstance.timepickerComponent.disabled
+      ).toBeTruthy();
       expect(getInput(fixture).disabled).toBeTruthy();
       expect(getTriggerButton(fixture).disabled).toBeTruthy();
 
       component.timeControl.enable();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.timepickerDirective.disabled).toBeFalsy();
-      expect(fixture.componentInstance.timepickerComponent.disabled).toBeFalsy();
+      expect(
+        fixture.componentInstance.timepickerDirective.disabled
+      ).toBeFalsy();
+      expect(
+        fixture.componentInstance.timepickerComponent.disabled
+      ).toBeFalsy();
       expect(getInput(fixture).disabled).toBeFalsy();
       expect(getTriggerButton(fixture).disabled).toBeFalsy();
     }));
@@ -801,19 +787,14 @@ describe('Timepicker', () => {
   describe('inside input box', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          TimepickerInputBoxTestComponent
-        ],
-        imports: [
-          SkyTimepickerModule,
-          SkyInputBoxModule
-        ],
+        declarations: [TimepickerInputBoxTestComponent],
+        imports: [SkyTimepickerModule, SkyInputBoxModule],
         providers: [
           {
             provide: SkyThemeService,
-            useValue: mockThemeSvc
-          }
-        ]
+            useValue: mockThemeSvc,
+          },
+        ],
       });
     });
 
@@ -824,11 +805,12 @@ describe('Timepicker', () => {
 
       const inputBoxEl = fixture.nativeElement.querySelector('sky-input-box');
       const inputEl = inputBoxEl.querySelector('input');
-      const inputGroupBtnEl = inputBoxEl.querySelector('.sky-input-group-btn > button');
+      const inputGroupBtnEl = inputBoxEl.querySelector(
+        '.sky-input-group-btn > button'
+      );
 
       expect(inputEl).toHaveCssClass('input-box-timepicker-input');
       expect(inputGroupBtnEl).toHaveCssClass('sky-input-group-timepicker-btn');
     }));
   });
-
 });

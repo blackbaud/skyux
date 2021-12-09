@@ -1,5 +1,4 @@
 export interface SkyTimepickerTimeOutput {
-
   /**
    * Specifies the hour.
    */

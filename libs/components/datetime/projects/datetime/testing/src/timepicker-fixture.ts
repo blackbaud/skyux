@@ -1,31 +1,26 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX timepicker component.
  */
 export class SkyTimepickerFixture {
-
   private debugEl: DebugElement;
 
   constructor(
     private fixture: ComponentFixture<any>,
     private skyTestId: string
   ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(this.fixture, this.skyTestId, 'sky-timepicker');
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      this.fixture,
+      this.skyTestId,
+      'sky-timepicker'
+    );
   }
 
   /**
@@ -65,12 +60,12 @@ export class SkyTimepickerFixture {
    * Flag indicating if timepicker input is valid.
    */
   public get isValid(): boolean {
-    return !this.getTimepickerInputEl().nativeElement.classList.contains('ng-invalid');
+    return !this.getTimepickerInputEl().nativeElement.classList.contains(
+      'ng-invalid'
+    );
   }
 
   private getTimepickerInputEl(): DebugElement {
-    return this.debugEl.query(
-      By.css('.sky-timepicker input')
-    );
+    return this.debugEl.query(By.css('.sky-timepicker input'));
   }
 }

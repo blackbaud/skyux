@@ -1,25 +1,12 @@
-import {
-  OnDestroy,
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
 
-import {
-  SkyAppLocaleInfo,
-  SkyAppLocaleProvider
-} from '@skyux/i18n';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDateFormatUtility
-} from './date-format-utility';
+import { SkyDateFormatUtility } from './date-format-utility';
 
 /**
  * Formats date values according to locale rules.
@@ -32,10 +19,9 @@ import {
  */
 @Pipe({
   name: 'skyDate',
-  pure: false
+  pure: false,
 })
 export class SkyDatePipe implements OnDestroy, PipeTransform {
-
   private defaultFormat = 'short';
 
   private format: string;
@@ -50,10 +36,9 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(
-    private localeProvider: SkyAppLocaleProvider
-  ) {
-    this.localeProvider.getLocaleInfo()
+  constructor(private localeProvider: SkyAppLocaleProvider) {
+    this.localeProvider
+      .getLocaleInfo()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((localeInfo: SkyAppLocaleInfo) => {
         this.defaultLocale = localeInfo.locale;
@@ -74,11 +59,7 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
    * identical to [Angular's `DatePipe`](https://angular.io/api/common/DatePipe#pre-defined-format-options) format options.
    * @param locale Specifies the locale code to use in the transform.
    */
-  public transform(
-    value: any,
-    format?: string,
-    locale?: string
-  ): string {
+  public transform(value: any, format?: string, locale?: string): string {
     this.value = value;
     this.format = format;
     this.locale = locale;
@@ -92,6 +73,10 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
     const locale = this.locale || this.defaultLocale;
     const format = this.format || this.defaultFormat;
 
-    this.formattedValue = SkyDateFormatUtility.format(locale, this.value, format);
+    this.formattedValue = SkyDateFormatUtility.format(
+      locale,
+      this.value,
+      format
+    );
   }
 }

@@ -1,33 +1,18 @@
-import {
-  Component,
-  ViewChild,
-  OnInit,
-  AfterViewInit
-} from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
-import {
-  FormGroup,
-  FormControl
-} from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
-import {
-  SkyTimepickerComponent
-} from '../timepicker.component';
+import { SkyTimepickerComponent } from '../timepicker.component';
 
-import {
-  SkyTimepickerInputDirective
-} from '../timepicker.directive';
+import { SkyTimepickerInputDirective } from '../timepicker.directive';
 
-import {
-  SkyTimepickerTimeOutput
-} from '../timepicker.interface';
+import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './timepicker-reactive-component.fixture.html'
+  templateUrl: './timepicker-reactive-component.fixture.html',
 })
 export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
-
   @ViewChild(SkyTimepickerComponent)
   public timepickerComponent: SkyTimepickerComponent;
 
@@ -55,7 +40,7 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
   public ngOnInit(): void {
     this.timeControl = new FormControl('2:55 AM');
     this.timepickerForm = new FormGroup({
-      'time': this.timeControl
+      time: this.timeControl,
     });
   }
 }

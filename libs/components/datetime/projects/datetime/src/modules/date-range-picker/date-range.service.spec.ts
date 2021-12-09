@@ -1,27 +1,14 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
+import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 
-import {
-  SkyDateRangeCalculatorId
-} from './types/date-range-calculator-id';
+import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 
-import {
-  SkyDateRangeCalculatorType
-} from './types/date-range-calculator-type';
+import { SkyDateRangeCalculator } from './types/date-range-calculator';
 
-import {
-  SkyDateRangeCalculator
-} from './types/date-range-calculator';
-
-import {
-  SkyDateRangeService
-} from './date-range.service';
+import { SkyDateRangeService } from './date-range.service';
 import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 describe('Date range service', function () {
@@ -29,34 +16,26 @@ describe('Date range service', function () {
 
   beforeEach(function () {
     TestBed.configureTestingModule({
-      imports: [
-        SkyI18nModule,
-        SkyDatetimeResourcesModule
-      ],
-      providers: [
-        SkyDateRangeService
-      ]
+      imports: [SkyI18nModule, SkyDatetimeResourcesModule],
+      providers: [SkyDateRangeService],
     });
 
     service = TestBed.inject(SkyDateRangeService);
   });
 
   it('should return a calculator by ID', function () {
-    service.getCalculatorById(SkyDateRangeCalculatorId.After)
-      .then((result) => {
-        expect(result instanceof SkyDateRangeCalculator).toEqual(true);
-        expect(result.calculatorId).toEqual(SkyDateRangeCalculatorId.After);
-        expect(result.type).toEqual(SkyDateRangeCalculatorType.After);
-        expect(result.shortDescription).toEqual('After');
-        expect(typeof result.getValue).toEqual('function');
-        expect(typeof result.validate).toEqual('function');
-      });
+    service.getCalculatorById(SkyDateRangeCalculatorId.After).then((result) => {
+      expect(result instanceof SkyDateRangeCalculator).toEqual(true);
+      expect(result.calculatorId).toEqual(SkyDateRangeCalculatorId.After);
+      expect(result.type).toEqual(SkyDateRangeCalculatorType.After);
+      expect(result.shortDescription).toEqual('After');
+      expect(typeof result.getValue).toEqual('function');
+      expect(typeof result.validate).toEqual('function');
+    });
   });
 
   it('should return calculators given an array of IDs', function () {
-    service.getCalculators([
-      SkyDateRangeCalculatorId.After
-    ]).then((result) => {
+    service.getCalculators([SkyDateRangeCalculatorId.After]).then((result) => {
       expect(result[0] instanceof SkyDateRangeCalculator).toEqual(true);
       expect(result[0].calculatorId).toEqual(SkyDateRangeCalculatorId.After);
       expect(result[0].type).toEqual(SkyDateRangeCalculatorType.After);
@@ -67,12 +46,11 @@ describe('Date range service', function () {
   });
 
   it('should handle calculator not found', function () {
-    service.getCalculatorById(5000)
-      .catch((error) => {
-        expect(error.message).toEqual(
-          'A calculator with the ID 5000 was not found.'
-        );
-      });
+    service.getCalculatorById(5000).catch((error) => {
+      expect(error.message).toEqual(
+        'A calculator with the ID 5000 was not found.'
+      );
+    });
   });
 
   it('should create custom calculators', function () {
@@ -82,7 +60,7 @@ describe('Date range service', function () {
       type: SkyDateRangeCalculatorType.Relative,
       getValue: () => {
         return { startDate: expectedValue };
-      }
+      },
     });
 
     expect(calculator.calculatorId).toEqual(1000);
@@ -95,7 +73,7 @@ describe('Date range service', function () {
     expect(calculator.getValue()).toEqual({
       calculatorId: calculator.calculatorId,
       startDate: expectedValue,
-      endDate: null
+      endDate: null,
     });
     /* tslint:enable */
   });
@@ -107,13 +85,13 @@ describe('Date range service', function () {
     const calculator1 = service.createCalculator({
       shortDescription: 'My calculator 1',
       type: SkyDateRangeCalculatorType.Relative,
-      getValue: () => ({})
+      getValue: () => ({}),
     });
 
     const calculator2 = service.createCalculator({
       shortDescription: 'My calculator 2',
       type: SkyDateRangeCalculatorType.Relative,
-      getValue: () => ({})
+      getValue: () => ({}),
     });
 
     expect(calculator1.calculatorId).toEqual(1000);

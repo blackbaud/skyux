@@ -2,7 +2,6 @@
  * @internal
  */
 export interface SkyDateRange {
-
   /**
    * Specifies the last date in the date range.
    */
@@ -12,5 +11,4 @@ export interface SkyDateRange {
    * Specifies the first date in the date range.
    */
   startDate?: Date;
-
 }

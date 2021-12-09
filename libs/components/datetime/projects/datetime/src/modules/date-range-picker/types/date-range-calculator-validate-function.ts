@@ -1,12 +1,10 @@
-import {
-  ValidationErrors
-} from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 
-import {
-  SkyDateRange
-} from './date-range';
+import { SkyDateRange } from './date-range';
 
 /**
  * @internal
  */
-export type SkyDateRangeCalculatorValidateFunction = (value?: SkyDateRange) => ValidationErrors;
+export type SkyDateRangeCalculatorValidateFunction = (
+  value?: SkyDateRange
+) => ValidationErrors;

@@ -1,14 +1,7 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
-import {
-  SkyDatepickerCalendarInnerComponent
-} from './datepicker-calendar-inner.component';
+import { Component, OnInit } from '@angular/core';
+import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 
-import {
-  SkyDatepickerDate
-} from './datepicker-date';
+import { SkyDatepickerDate } from './datepicker-date';
 
 /**
  * @internal
@@ -16,10 +9,9 @@ import {
 @Component({
   selector: 'sky-monthpicker',
   templateUrl: 'monthpicker.component.html',
-  styleUrls: ['./monthpicker.component.scss']
+  styleUrls: ['./monthpicker.component.scss'],
 })
 export class SkyMonthPickerComponent implements OnInit {
-
   public datepicker: SkyDatepickerCalendarInnerComponent;
 
   public maxMode: string;
@@ -33,9 +25,8 @@ export class SkyMonthPickerComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
     this.datepicker.stepMonth = {
-      years: 1
+      years: 1,
     };
 
     this.datepicker.setRefreshViewHandler(() => {
@@ -65,18 +56,22 @@ export class SkyMonthPickerComponent implements OnInit {
     for (let i = 0; i < 12; i++) {
       date = new Date(year, i, 1);
       date = this.datepicker.fixTimeZone(date);
-      months[i] =
-        this.datepicker.createDateObject(
-          date,
-          this.datepicker.formatMonth,
-          false,
-          this.datepicker.datepickerId + '-' + i
-        );
+      months[i] = this.datepicker.createDateObject(
+        date,
+        this.datepicker.formatMonth,
+        false,
+        this.datepicker.datepickerId + '-' + i
+      );
     }
 
-    this.title =
-      this.datepicker.dateFilter(this.datepicker.activeDate, this.datepicker.formatMonthTitle);
-    this.rows = this.datepicker.createCalendarRows(months, this.datepicker.monthColLimit);
+    this.title = this.datepicker.dateFilter(
+      this.datepicker.activeDate,
+      this.datepicker.formatMonthTitle
+    );
+    this.rows = this.datepicker.createCalendarRows(
+      months,
+      this.datepicker.monthColLimit
+    );
   }
 
   private keydownMonths(key: string, event: KeyboardEvent) {
@@ -93,7 +88,8 @@ export class SkyMonthPickerComponent implements OnInit {
     } else if (key === 'down') {
       date = date + this.datepicker.monthColLimit;
     } else if (key === 'pageup' || key === 'pagedown') {
-      let year = this.datepicker.activeDate.getFullYear() + (key === 'pageup' ? - 1 : 1);
+      let year =
+        this.datepicker.activeDate.getFullYear() + (key === 'pageup' ? -1 : 1);
       this.datepicker.activeDate.setFullYear(year);
     } else if (key === 'home') {
       date = 0;

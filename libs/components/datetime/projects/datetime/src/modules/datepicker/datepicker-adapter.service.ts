@@ -1,20 +1,13 @@
-import {
-  ElementRef,
-  Injectable,
-  Renderer2
-} from '@angular/core';
+import { ElementRef, Injectable, Renderer2 } from '@angular/core';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyDatepickerAdapterService {
-
   private el: HTMLElement;
 
-  constructor(
-    private renderer: Renderer2
-  ) {}
+  constructor(private renderer: Renderer2) {}
 
   public init(elRef: ElementRef) {
     this.el = elRef.nativeElement;

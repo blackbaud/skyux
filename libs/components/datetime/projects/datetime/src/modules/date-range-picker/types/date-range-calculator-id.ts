@@ -8,7 +8,6 @@
  * the `validate` function and return a range of two `Date` objects.
  */
 export enum SkyDateRangeCalculatorId {
-
   /**
    * Selects no dates and considers all dates within the date range. This is the default selection.
    */
@@ -134,6 +133,5 @@ export enum SkyDateRangeCalculatorId {
    * Sets the start date to the first day of the fiscal year after the current fiscal year
    * and the end date to the last day of that fiscal year. The fiscal year is Oct. 1 to Sept. 30.
    */
-  NextFiscalYear
-
+  NextFiscalYear,
 }

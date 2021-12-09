@@ -1,40 +1,20 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyAppLocaleInfo,
-  SkyAppLocaleProvider
-} from '@skyux/i18n';
+import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyFuzzyDate
-} from '../datepicker/fuzzy-date';
+import { SkyFuzzyDate } from '../datepicker/fuzzy-date';
 
-import {
-  SkyFuzzyDateService
-} from '../datepicker/fuzzy-date.service';
+import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
 
-import {
-  FuzzyDatePipeTestModule
-} from './fixtures/fuzzy-date-pipe.module.fixture';
+import { FuzzyDatePipeTestModule } from './fixtures/fuzzy-date-pipe.module.fixture';
 
-import {
-  FuzzyDatePipeTestComponent
-} from './fixtures/fuzzy-date-pipe.component.fixture';
+import { FuzzyDatePipeTestComponent } from './fixtures/fuzzy-date-pipe.component.fixture';
 
-import {
-  SkyFuzzyDatePipe
-} from './fuzzy-date.pipe';
+import { SkyFuzzyDatePipe } from './fuzzy-date.pipe';
 
 // #region helpers
 function getFuzzyDateText(fixture: ComponentFixture<any>): string {
@@ -50,24 +30,22 @@ describe('Fuzzy date pipe', () => {
 
   beforeEach(() => {
     mockLocaleStream = new BehaviorSubject({
-      locale: 'en-US'
+      locale: 'en-US',
     });
 
     mockLocaleProvider = {
       defaultLocale: 'en-US',
-      getLocaleInfo: () => mockLocaleStream
+      getLocaleInfo: () => mockLocaleStream,
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        FuzzyDatePipeTestModule
-      ],
+      imports: [FuzzyDatePipeTestModule],
       providers: [
         {
           provide: SkyAppLocaleProvider,
-          useValue: mockLocaleProvider
-        }
-      ]
+          useValue: mockLocaleProvider,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(FuzzyDatePipeTestComponent);
@@ -104,7 +82,7 @@ describe('Fuzzy date pipe', () => {
     expect(value).toEqual('Nov 1955');
 
     mockLocaleStream.next({
-      locale: 'fr-FR'
+      locale: 'fr-FR',
     });
     fixture.detectChanges();
     value = getFuzzyDateText(fixture);
@@ -117,7 +95,7 @@ describe('Fuzzy date pipe', () => {
     const spy = spyOn(fuzzyDateService, 'format').and.callThrough();
     const date: SkyFuzzyDate = {
       year: 1955,
-      month: 11
+      month: 11,
     };
     const fuzzyDatePipe = new SkyFuzzyDatePipe(fuzzyDateService);
     const value = fuzzyDatePipe.transform(date, 'MMM Y');
@@ -131,7 +109,7 @@ describe('Fuzzy date pipe', () => {
     const spy = spyOn(fuzzyDateService, 'format').and.callThrough();
     const date: SkyFuzzyDate = {
       year: 1955,
-      month: 11
+      month: 11,
     };
     const defaultFormat = fuzzyDateService.getLocaleShortFormat('en-US');
     const fuzzyDatePipe = new SkyFuzzyDatePipe(fuzzyDateService);
@@ -145,13 +123,9 @@ describe('Fuzzy date pipe', () => {
     fixture.detectChanges();
     const fuzzyDate: SkyFuzzyDate = {
       year: 1955,
-      month: 11
+      month: 11,
     };
-    const value = component.getFuzzyDatePipeResult(
-      fuzzyDate,
-      'MMM Y',
-      'fr-CA'
-    );
+    const value = component.getFuzzyDatePipeResult(fuzzyDate, 'MMM Y', 'fr-CA');
 
     expect(value).toEqual('nov. 1955');
   });

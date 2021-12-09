@@ -1,5 +1,5 @@
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/variables";
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
 
 .sky-datepicker-calendar-inner {
   border-radius: 5px;
@@ -71,7 +71,7 @@
 
     .sky-btn-active,
     .sky-btn-default:hover {
-      @include sky-theme-modern-border-hover
+      @include sky-theme-modern-border-hover;
     }
   }
 
@@ -96,7 +96,9 @@
       background-color: transparent;
 
       &:not(:focus-within) {
-        @include sky-theme-modern-border($sky-theme-modern-mode-dark-border-color-neutral-medium);
+        @include sky-theme-modern-border(
+          $sky-theme-modern-mode-dark-border-color-neutral-medium
+        );
       }
 
       .sky-datepicker-btn-selected {
