@@ -1,3 +1,7 @@
+# 5.0.0-beta.8 (2021-12-09)
+
+- Added the ability to document classes outside of a component's main module path. [#179](https://github.com/blackbaud/skyux-docs-tools/pull/179)
+
 # 5.0.0-beta.7 (2021-12-06)
 
 - Fixed the `SkyDocsCodeExamplesEditorService` to set wildcard versions (e.g. '*') of SKY UX packages to `^5`. [#189](https://github.com/blackbaud/skyux-docs-tools/pull/189)
