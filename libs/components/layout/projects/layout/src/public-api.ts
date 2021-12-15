@@ -8,6 +8,8 @@ export * from './modules/back-to-top/models/back-to-top-message';
 export * from './modules/back-to-top/models/back-to-top-message-type';
 export * from './modules/back-to-top/models/back-to-top-options';
 
+export * from './modules/box/box.module';
+
 export * from './modules/card/card.module';
 
 export * from './modules/definition-list/definition-list.module';
@@ -79,3 +81,7 @@ export { SkyToolbarComponent as λ37 } from './modules/toolbar/toolbar.component
 export { SkyToolbarSectionComponent as λ38 } from './modules/toolbar/toolbar-section.component';
 export { SkyToolbarItemComponent as λ39 } from './modules/toolbar/toolbar-item.component';
 export { SkyToolbarViewActionsComponent as λ40 } from './modules/toolbar/toolbar-view-actions.component';
+export { SkyBoxComponent as λ41 } from './modules/box/box.component';
+export { SkyBoxHeaderComponent as λ42 } from './modules/box/box-header.component';
+export { SkyBoxContentComponent as λ43 } from './modules/box/box-content.component';
+export { SkyBoxControlsComponent as λ44 } from './modules/box/box-controls.component';

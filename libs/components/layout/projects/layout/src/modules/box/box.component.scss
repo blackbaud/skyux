@@ -1,0 +1,78 @@
+@import '~@blackbaud/skyux-design-tokens/scss/variables';
+@import '~@blackbaud/skyux-design-tokens/scss/themes/modern/variables';
+
+.sky-box {
+  background-color: #fff;
+
+  .sky-box-header-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    padding: $sky-space-xl $sky-space-xl 0 $sky-space-xl;
+
+    &:empty {
+      display: none;
+    }
+
+    sky-box-header {
+      flex: 1 0;
+      order: 0;
+
+      .sky-box-header {
+        padding: 0 $sky-space-xl 0 0;
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          margin: 0;
+        }
+      }
+    }
+
+    sky-box-controls {
+      order: 1;
+
+      .sky-box-controls {
+        position: relative;
+        top: -2px;
+      }
+    }
+  }
+
+  sky-box-content {
+    flex: 0 1 100%;
+    order: 2;
+
+    .sky-box-content {
+      padding: $sky-space-xl;
+    }
+  }
+}
+
+.sky-theme-modern {
+  .sky-box {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+    overflow: hidden;
+
+    .sky-box-header-content {
+      padding: $sky-theme-modern-margin-inline-xl
+        $sky-theme-modern-margin-inline-xl 0 $sky-theme-modern-margin-inline-xl;
+
+      sky-box-header {
+        .sky-box-header {
+          padding: 0 $sky-theme-modern-margin-inline-xl 0 0;
+        }
+      }
+    }
+
+    sky-box-content {
+      .sky-box-content {
+        padding: $sky-theme-modern-padding-even-xl;
+      }
+    }
+  }
+}

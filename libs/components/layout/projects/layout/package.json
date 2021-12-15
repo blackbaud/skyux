@@ -9,7 +9,7 @@
     "@skyux/core": "^5.2.2",
     "@skyux/i18n": "^5.0.1",
     "@skyux/forms": "^5.0.1",
-    "@skyux/indicators": "^5.1.1",
+    "@skyux/indicators": "^5.1.2",
     "@skyux/modals": "^5.0.2",
     "@skyux/router": "^5.0.2",
     "@skyux/theme": "^5.0.4"
