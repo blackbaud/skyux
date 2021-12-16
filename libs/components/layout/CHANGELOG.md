@@ -1,3 +1,7 @@
+# 5.2.0 (2021-12-16)
+
+- Added the box component. [#270](https://github.com/blackbaud/skyux-layout/pull/270)
+
 # 5.1.1 (2021-12-08)
 
 - Added support for Prettier code formatting. [#268](https://github.com/blackbaud/skyux-layout/pull/268)
