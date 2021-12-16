@@ -1,6 +1,6 @@
 {
   "name": "@skyux/packages",
-  "version": "5.96.0",
+  "version": "5.97.0",
   "description": "Handles the `ng update` command for SKY UX component libraries.",
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.build.json",
