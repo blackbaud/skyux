@@ -1,3 +1,7 @@
+# 5.98.0 (2021-12-17)
+
+- `@skyux/forms@5.0.2` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.2/CHANGELOG.md)
+
 # 5.97.0 (2021-12-16)
 
 - `@skyux/layout@5.2.0` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.2.0/CHANGELOG.md)
