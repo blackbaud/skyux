@@ -8,23 +8,21 @@
   }
 }
 
-.sky-radio-icon-modern {
-  display: none;
+// "Checked" state inner-circle.
+.sky-switch-input:checked
+  + .sky-switch-control:not(.sky-switch-control-icon)::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: $sky-color-black;
+  border-radius: 50%;
 }
 
 @include sky-theme-modern {
-  .sky-radio-icon-default {
-    display: none;
-  }
-
-  .sky-radio-icon-modern {
-    display: block;
-  }
-
-  .sky-radio-icon-modern-checked {
-    background-color: $sky-theme-modern-background-color-primary-dark;
-    height: 10px;
-    width: 10px;
+  .sky-switch-input:checked
+    + .sky-switch-control:not(.sky-switch-control-icon)::after {
+    background: $sky-theme-modern-background-color-primary-dark;
   }
 
   .sky-radio-input:disabled + .sky-switch-control {
