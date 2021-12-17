@@ -1,3 +1,7 @@
+# 5.0.2 (2021-12-17)
+
+- Fixed the radio component to properly render the radio button in modals and varying zoom states. [#303](https://github.com/blackbaud/skyux-forms/pull/303)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#301](https://github.com/blackbaud/skyux-forms/pull/301)

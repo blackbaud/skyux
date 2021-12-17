@@ -1,6 +1,6 @@
 {
   "name": "@skyux/forms",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
     "@angular/common": "^12.2.13",
     "@angular/core": "^12.2.13",
