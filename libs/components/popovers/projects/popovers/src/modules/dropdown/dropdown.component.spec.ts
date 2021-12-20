@@ -173,6 +173,19 @@ describe('Dropdown component', function () {
     expect(icon).toExist();
   }));
 
+  it('should shut down cleanly', fakeAsync(() => {
+    detectChangesFakeAsync();
+    const button = getButtonElement();
+    // Open the menu.
+    button.click();
+    detectChangesFakeAsync();
+    expect(fixture.componentInstance.dropdownRef.isOpen).toBeTrue();
+    fixture.componentInstance.show = false;
+    detectChangesFakeAsync();
+    tick();
+    expect(fixture.componentInstance.dropdownRef).toBeFalsy();
+  }));
+
   it('should allow setting the horizontal alignment', fakeAsync(
     inject([SkyAffixService], (affixService: SkyAffixService) => {
       const expectedAlignment = 'center';
@@ -190,6 +203,7 @@ describe('Dropdown component', function () {
         reaffix() {},
       };
 
+      detectChangesFakeAsync();
       const button = getButtonElement();
       const createAffixerSpy = spyOn(
         affixService,
