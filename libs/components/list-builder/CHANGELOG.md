@@ -1,3 +1,7 @@
+# 5.0.2 (2021-12-21)
+
+- Fix Stackblitz demo. [#142](https://github.com/blackbaud/skyux-list-builder/pull/142)
+
 # 5.0.1 (2021-11-19)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#140](https://github.com/blackbaud/skyux-list-builder/pull/140)
