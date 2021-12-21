@@ -1,3 +1,7 @@
+# 5.105.0 (2021-12-21)
+
+- `@skyux/phone-field@5.0.2` [Release notes](https://github.com/blackbaud/skyux-phone-field/blob/5.0.2/CHANGELOG.md)
+
 # 5.104.0 (2021-12-21)
 
 - `@skyux/modals@5.0.3` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.3/CHANGELOG.md)
