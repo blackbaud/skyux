@@ -1,3 +1,7 @@
+# 5.104.0 (2021-12-21)
+
+- `@skyux/modals@5.0.3` [Release notes](https://github.com/blackbaud/skyux-modals/blob/5.0.3/CHANGELOG.md)
+
 # 5.103.0 (2021-12-21)
 
 - `@skyux/lookup@5.1.1` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.1.1/CHANGELOG.md)
