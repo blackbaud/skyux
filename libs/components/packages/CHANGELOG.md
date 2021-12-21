@@ -1,3 +1,7 @@
+# 5.102.0 (2021-12-21)
+
+- `@skyux/list-builder@5.0.2` [Release notes](https://github.com/blackbaud/skyux-list-builder/blob/5.0.2/CHANGELOG.md)
+
 # 5.101.0 (2021-12-21)
 
 - `@skyux/layout@5.2.1` [Release notes](https://github.com/blackbaud/skyux-layout/blob/5.2.1/CHANGELOG.md)
