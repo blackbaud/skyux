@@ -1,3 +1,7 @@
+# 5.99.0 (2021-12-21)
+
+- `@skyux/popovers@5.0.2` [Release notes](https://github.com/blackbaud/skyux-popovers/blob/5.0.2/CHANGELOG.md)
+
 # 5.98.0 (2021-12-17)
 
 - `@skyux/forms@5.0.2` [Release notes](https://github.com/blackbaud/skyux-forms/blob/5.0.2/CHANGELOG.md)
