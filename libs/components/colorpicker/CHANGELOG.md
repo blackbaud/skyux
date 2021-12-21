@@ -1,3 +1,7 @@
+# 5.1.2 (2021-12-21)
+
+- Fix Stackblitz demo. [#112](https://github.com/blackbaud/skyux-colorpicker/pull/112)
+
 # 5.1.1 (2021-11-19)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#110](https://github.com/blackbaud/skyux-colorpicker/pull/110)
