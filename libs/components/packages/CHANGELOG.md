@@ -1,3 +1,7 @@
+# 5.100.0 (2021-12-21)
+
+- `@skyux/colorpicker@5.1.2` [Release notes](https://github.com/blackbaud/skyux-colorpicker/blob/5.1.2/CHANGELOG.md)
+
 # 5.99.0 (2021-12-21)
 
 - `@skyux/popovers@5.0.2` [Release notes](https://github.com/blackbaud/skyux-popovers/blob/5.0.2/CHANGELOG.md)
