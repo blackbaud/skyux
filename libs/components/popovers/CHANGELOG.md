@@ -1,3 +1,7 @@
+# 5.0.2 (2021-12-21)
+
+- Fixed an issue where asynchronous code fired after the dropdown was destroyed. [#170](https://github.com/blackbaud/skyux-popovers/pull/170)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#168](https://github.com/blackbaud/skyux-popovers/pull/168)
