@@ -1,15 +1,15 @@
 {
   "name": "@skyux/phone-field",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
-    "@angular/animations": "^12.2.13",
-    "@angular/common": "^12.2.13",
-    "@angular/core": "^12.2.13",
-    "@angular/forms": "^12.2.13",
-    "@skyux/forms": "^5.0.1",
+    "@angular/animations": "^12.2.15",
+    "@angular/common": "^12.2.15",
+    "@angular/core": "^12.2.15",
+    "@angular/forms": "^12.2.15",
+    "@skyux/forms": "^5.0.2",
     "@skyux/i18n": "^5.0.1",
-    "@skyux/indicators": "^5.0.2",
-    "@skyux/lookup": "^5.0.3",
+    "@skyux/indicators": "^5.1.2",
+    "@skyux/lookup": "^5.1.0",
     "@skyux/theme": "^5.0.4"
   },
   "dependencies": {
