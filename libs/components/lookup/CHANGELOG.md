@@ -1,3 +1,7 @@
+# 5.1.1 (2021-12-21)
+
+- Fix Stackblitz demo. [#246](https://github.com/blackbaud/skyux-lookup/pull/246)
+
 # 5.1.0 (2021-12-03)
 
 - Updated the autocomplete component to ignore diacritical characters when looking for matches. [#241](https://github.com/blackbaud/skyux-lookup/pull/241)
