@@ -1,12 +1,28 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 @import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/variables';
 @import '~ag-grid-community/src/styles/ag-grid.scss';
 @import '~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin.scss';
 
 $sky-standard-border: 1px solid $sky-border-color-neutral-medium;
 $sky-standard-border-theme-modern: 1px solid
   $sky-theme-modern-border-color-neutral-medium;
+
+$sky-cell-wrap-text-padding-default: 7px;
+$sky-cell-wrap-text-line-height-default: $sky-line-height-base;
+$sky-cell-wrap-text-padding-modern: 16px;
+$sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-height;
+
+@mixin skyux-cell-wrap-text($padding, $line-height) {
+  .ag-cell.ag-cell-wrap-text span.ag-cell-value {
+    display: block;
+    min-height: ag-param(row-height) - 2px;
+    line-height: $line-height;
+    padding-top: $padding;
+    padding-bottom: $padding;
+  }
+}
 
 ag-grid-angular:not(.sky-ag-grid-editable) {
   @include ag-theme-base(
@@ -39,12 +55,10 @@ ag-grid-angular:not(.sky-ag-grid-editable) {
     align-items: flex-start;
   }
 
-  .ag-cell.ag-cell-wrap-text {
-    min-height: ag-param(row-height) - 2px;
-    line-height: $sky-line-height-base;
-    padding-top: 7px;
-    padding-bottom: 7px;
-  }
+  @include skyux-cell-wrap-text(
+    $sky-cell-wrap-text-padding-default,
+    $sky-cell-wrap-text-line-height-default
+  );
 
   .ag-cell.sky-ag-grid-cell-invalid {
     border: 1px solid $sky-highlight-color-danger;
@@ -116,6 +130,11 @@ ag-grid-angular.sky-ag-grid-editable {
     align-items: flex-start;
   }
 
+  @include skyux-cell-wrap-text(
+    $sky-cell-wrap-text-padding-default,
+    $sky-cell-wrap-text-line-height-default
+  );
+
   .ag-cell {
     border-block-end: none;
     border-block-start: none;
@@ -143,6 +162,7 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-popup {
     .ag-popup-editor {
       border: none;
+      background-color: $sky-background-color-page-default;
     }
 
     .ag-select-list {
@@ -216,6 +236,11 @@ ag-grid-angular.sky-ag-grid-editable {
     align-items: flex-start;
   }
 
+  @include skyux-cell-wrap-text(
+    $sky-cell-wrap-text-padding-modern,
+    $sky-cell-wrap-text-line-height-modern
+  );
+
   // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
   .ag-cell {
     padding-top: 1px;
@@ -233,13 +258,6 @@ ag-grid-angular.sky-ag-grid-editable {
 
   .ag-cell.sky-ag-grid-cell-invalid {
     border: 1px solid $sky-highlight-color-danger;
-  }
-
-  .ag-cell.ag-cell-wrap-text {
-    min-height: ag-param(row-height) - 2px;
-    line-height: $sky-theme-modern-font-paragraph-line-height;
-    padding-top: 16px;
-    padding-bottom: 16px;
   }
 
   .ag-row:not(.ag-row-first) {
@@ -274,6 +292,7 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-popup {
     .ag-popup-editor {
       border: none;
+      background-color: $sky-theme-modern-background-color-page-default;
     }
 
     .ag-select-list {
@@ -301,6 +320,11 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
+
+  @include skyux-cell-wrap-text(
+    $sky-cell-wrap-text-padding-modern,
+    $sky-cell-wrap-text-line-height-modern
+  );
 
   // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
   .ag-cell {
@@ -392,6 +416,11 @@ ag-grid-angular.sky-ag-grid-editable {
     text-transform: uppercase;
   }
 
+  @include skyux-cell-wrap-text(
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
+  );
+
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
@@ -415,12 +444,10 @@ ag-grid-angular.sky-ag-grid-editable {
     border: 1px solid $sky-highlight-color-danger;
   }
 
-  .ag-cell.ag-cell-wrap-text {
-    min-height: ag-param(row-height) - 2px;
-    line-height: $sky-theme-modern-font-paragraph-line-height;
-    padding-top: 16px;
-    padding-bottom: 16px;
-  }
+  @include skyux-cell-wrap-text(
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
+  );
 
   .ag-row:not(.ag-row-first) {
     border-top: none;
@@ -460,6 +487,11 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;
   }
+
+  @include skyux-cell-wrap-text(
+    $sky-cell-wrap-text-padding-modern,
+    $sky-cell-wrap-text-line-height-modern
+  );
 
   // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
   .ag-cell {
@@ -509,6 +541,7 @@ ag-grid-angular.sky-ag-grid-editable {
   .ag-popup {
     .ag-popup-editor {
       border: none;
+      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
     }
 
     .ag-select-list {
