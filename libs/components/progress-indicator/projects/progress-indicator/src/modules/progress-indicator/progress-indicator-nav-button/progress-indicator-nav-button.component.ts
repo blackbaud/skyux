@@ -213,7 +213,6 @@ export class SkyProgressIndicatorNavButtonComponent
 
   public onClick(event: MouseEvent): void {
     event.preventDefault();
-    event.stopPropagation();
 
     let type: SkyProgressIndicatorMessageType;
 
