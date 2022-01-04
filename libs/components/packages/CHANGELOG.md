@@ -1,3 +1,7 @@
+# 5.109.0 (2022-01-04)
+
+- `@skyux/flyout@5.0.3` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.3/CHANGELOG.md)
+
 # 5.108.0 (2022-01-04)
 
 - `@skyux/progress-indicator@5.0.2` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.2/CHANGELOG.md)
