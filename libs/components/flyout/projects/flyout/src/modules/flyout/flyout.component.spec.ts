@@ -212,6 +212,16 @@ describe('Flyout component', () => {
     tick();
   }
 
+  function fireKeyDownOnSeparatorHandle(keyName: string): void {
+    const flyoutElement = getFlyoutElement();
+    const handle = getFlyoutHandleElement();
+    SkyAppTestUtility.fireDomEvent(handle, 'keydown', {
+      keyboardEventInit: { key: keyName },
+    });
+    fixture.detectChanges();
+    tick();
+  }
+
   function getFlyoutElement(): HTMLElement {
     return document.querySelector('.sky-flyout') as HTMLElement;
   }
@@ -810,27 +820,6 @@ describe('Flyout component', () => {
     expect(mouseUpSpy).not.toHaveBeenCalled();
   }));
 
-  it('should resize flyout when range input is changed', fakeAsync(() => {
-    openFlyout({ defaultWidth: 500 });
-    const flyoutElement = getFlyoutElement();
-    expect(flyoutElement.style.width).toBe('500px');
-    let resizeInput: any = flyoutElement.querySelector(
-      '.sky-flyout-resize-handle'
-    );
-
-    resizeInput.value = '400';
-    SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
-    fixture.detectChanges();
-    tick();
-    expect(flyoutElement.style.width).toBe('400px');
-
-    resizeInput.value = '500';
-    SkyAppTestUtility.fireDomEvent(resizeInput, 'input');
-    fixture.detectChanges();
-    tick();
-    expect(flyoutElement.style.width).toBe('500px');
-  }));
-
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
@@ -844,9 +833,6 @@ describe('Flyout component', () => {
     expect(resizeInput.getAttribute('aria-valuenow')).toBe('500');
     expect(resizeInput.getAttribute('aria-valuemax')).toBe('1000');
     expect(resizeInput.getAttribute('aria-valuemin')).toBe('200');
-
-    expect(resizeInput.getAttribute('max')).toBe('1000');
-    expect(resizeInput.getAttribute('min')).toBe('200');
   }));
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
@@ -1711,12 +1697,77 @@ describe('Flyout component', () => {
         expect(mouseUpSpy).toHaveBeenCalled();
       }));
 
-      it('should resize when arrow keys are pressed on the header grab handle', fakeAsync(() => {
+      it('should not resize when arrow keys are pressed on the resize handle without pressing enter first', fakeAsync(() => {
         openFlyout({ defaultWidth: 500, maxWidth: 600 });
         fixture.detectChanges();
         tick();
         const flyoutElement = getFlyoutElement();
 
+        fireKeyDownOnSeparatorHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('500px');
+
+        fireKeyDownOnSeparatorHandle('arrowRight');
+
+        expect(flyoutElement.style.width).toBe('500px');
+      }));
+
+      it('should resize when arrow keys are pressed on the resize handle only after pressing enter first', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500, maxWidth: 600 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnSeparatorHandle('enter');
+        fireKeyDownOnSeparatorHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('510px');
+
+        fireKeyDownOnSeparatorHandle('arrowRight');
+
+        expect(flyoutElement.style.width).toBe('500px');
+      }));
+
+      it('should deactivate resizing when tab key is pressed', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500, maxWidth: 600 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnSeparatorHandle('enter');
+        fireKeyDownOnSeparatorHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('510px');
+
+        fireKeyDownOnSeparatorHandle('tab');
+        fireKeyDownOnSeparatorHandle('arrowRight');
+
+        // Size should not have changed, because user tabbed away from the handle.
+        expect(flyoutElement.style.width).toBe('510px');
+      }));
+
+      it('should not resize when arrow keys are pressed on the header grab handle without pressing enter first', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500, maxWidth: 600 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnHeaderGrabHandle('arrowLeft');
+
+        expect(flyoutElement.style.width).toBe('500px');
+
+        fireKeyDownOnHeaderGrabHandle('arrowRight');
+
+        expect(flyoutElement.style.width).toBe('500px');
+      }));
+
+      it('should resize when arrow keys are pressed on the header grab handle only after enter is pressed first to activate', fakeAsync(() => {
+        openFlyout({ defaultWidth: 500, maxWidth: 600 });
+        fixture.detectChanges();
+        tick();
+        const flyoutElement = getFlyoutElement();
+
+        fireKeyDownOnHeaderGrabHandle('enter');
         fireKeyDownOnHeaderGrabHandle('arrowLeft');
 
         expect(flyoutElement.style.width).toBe('510px');
@@ -1732,6 +1783,7 @@ describe('Flyout component', () => {
         tick();
         const flyoutElement = getFlyoutElement();
 
+        fireKeyDownOnHeaderGrabHandle('enter');
         fireKeyDownOnHeaderGrabHandle('arrowLeft');
         fireKeyDownOnHeaderGrabHandle('arrowLeft');
 
@@ -1744,6 +1796,7 @@ describe('Flyout component', () => {
         tick();
         const flyoutElement = getFlyoutElement();
 
+        fireKeyDownOnHeaderGrabHandle('enter');
         fireKeyDownOnHeaderGrabHandle('arrowRight');
         fireKeyDownOnHeaderGrabHandle('arrowRight');
 

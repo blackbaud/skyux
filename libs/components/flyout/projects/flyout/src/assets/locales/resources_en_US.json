@@ -21,6 +21,6 @@
   },
   "skyux_flyout_resize_handle": {
     "_description": "Label for the flyout resizing handle",
-    "message": "Resize the flyout window. Use left arrow key to expand the flyout window and right arrow key to shrink the flyout window."
+    "message": "Resize the flyout window. Press the enter or space key to activate, then use left arrow key to expand the flyout window and right arrow key to shrink the flyout window. Press the enter, space, or tab key to deactivate."
   }
 }

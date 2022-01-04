@@ -92,6 +92,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public flyoutWidth = 0;
   public isDragging = false;
   public isFullscreen = false;
+  public resizeKeyControlActive = false;
 
   private xCoord = 0;
   private windowBufferSize = 20;
@@ -325,35 +326,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onHeaderGrabHandleKeyDown(event: KeyboardEvent): void {
-    /* istanbul ignore else */
-    if (event.key) {
-      const direction = event.key.toLowerCase().replace('arrow', '');
-      switch (direction) {
-        case 'left':
-          /* istanbul ignore else */
-          if (this.flyoutWidth < this.config.maxWidth) {
-            this.flyoutWidth = Math.min(
-              this.flyoutWidth + this.widthStep,
-              this.config.maxWidth
-            );
-          }
-          break;
+    this.handleResizeKeyDown(event);
+  }
 
-        case 'right':
-          /* istanbul ignore else */
-          if (this.flyoutWidth > this.config.minWidth) {
-            this.flyoutWidth = Math.max(
-              this.flyoutWidth - this.widthStep,
-              this.config.minWidth
-            );
-          }
-          break;
-
-        /* istanbul ignore next */
-        default:
-          break;
-      }
-    }
+  public onResizeHandleKeyDown(event: KeyboardEvent): void {
+    this.handleResizeKeyDown(event);
   }
 
   public onResizeHandleMouseDown(event: MouseEvent): void {
@@ -561,5 +538,50 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   private getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
+  }
+
+  private handleResizeKeyDown(event: KeyboardEvent): void {
+    /* istanbul ignore else */
+    if (event.key) {
+      const keyPressed = event.key.toLowerCase().replace('arrow', '');
+      switch (keyPressed) {
+        case 'enter':
+        case ' ':
+          this.resizeKeyControlActive = !this.resizeKeyControlActive;
+          break;
+        case 'tab':
+          /* istanbul ignore else */
+          if (this.resizeKeyControlActive) {
+            this.resizeKeyControlActive = false;
+          }
+        case 'left':
+          if (this.resizeKeyControlActive) {
+            /* istanbul ignore else */
+            if (this.flyoutWidth < this.config.maxWidth) {
+              this.flyoutWidth = Math.min(
+                this.flyoutWidth + this.widthStep,
+                this.config.maxWidth
+              );
+            }
+          }
+          break;
+
+        case 'right':
+          if (this.resizeKeyControlActive) {
+            /* istanbul ignore else */
+            if (this.flyoutWidth > this.config.minWidth) {
+              this.flyoutWidth = Math.max(
+                this.flyoutWidth - this.widthStep,
+                this.config.minWidth
+              );
+            }
+          }
+          break;
+
+        /* istanbul ignore next */
+        default:
+          break;
+      }
+    }
   }
 }

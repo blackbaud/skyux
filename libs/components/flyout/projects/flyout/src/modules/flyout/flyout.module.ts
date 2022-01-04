@@ -14,7 +14,7 @@ import { SkyHrefModule } from '@skyux/router';
 
 import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyFlyoutResourcesModule } from '../shared/flyout-resources.module';
+import { SkyFlyoutResourcesModule } from '../shared/sky-flyout-resources.module';
 
 import { SkyFlyoutComponent } from './flyout.component';
 
