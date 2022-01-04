@@ -1,3 +1,7 @@
+# 5.0.2 (2022-01-04)
+
+- Fixed an issue with overlays not being dismissed when using a progress indicator. [#80](https://github.com/blackbaud/skyux-progress-indicator/pull/80)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#78](https://github.com/blackbaud/skyux-progress-indicator/pull/78)
