@@ -1,3 +1,7 @@
+# 5.0.0-beta.9 (2022-01-06)
+
+- Added the `stylesheets` input to the `SkyDocsCodeExamplesComponent` to provide additional global stylesheets to StackBlitz. [#191](https://github.com/blackbaud/skyux-docs-tools/pull/191)
+
 # 5.0.0-beta.8 (2021-12-09)
 
 - Added the ability to document classes outside of a component's main module path. [#179](https://github.com/blackbaud/skyux-docs-tools/pull/179)
