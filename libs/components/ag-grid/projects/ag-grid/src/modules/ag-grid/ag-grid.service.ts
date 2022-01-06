@@ -131,7 +131,7 @@ function getValidatorCellRendererSelector(component: string, fallback?: any) {
   };
 }
 
-let rowNodeId = 1;
+let rowNodeId = -1;
 
 /**
  * `SkyAgGridService` provides methods to get AG Grid `gridOptions` to ensure grids match SKY UX functionality. The `gridOptions` can be overridden, and include registered SKY UX column types.
@@ -383,10 +383,10 @@ export class SkyAgGridService implements OnDestroy {
           SkyAgGridCellRendererValidatorTooltipComponent,
       },
       getRowNodeId(data: any): string {
-        if ('id' in data && data.id) {
+        if ('id' in data && data.id !== undefined) {
           return `${data.id}`;
         }
-        return `${rowNodeId++}`;
+        return `${rowNodeId--}`;
       },
       getRowClass: (params: RowClassParams) => {
         if (params.node.id) {
