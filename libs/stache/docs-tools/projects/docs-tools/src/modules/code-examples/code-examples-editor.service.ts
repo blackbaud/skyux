@@ -93,7 +93,8 @@ export class SkyDocsCodeExamplesEditorService {
     const files = this.parseStackBlitzFiles(
       codeExample.sourceCode,
       mergedDependencies,
-      codeExample.theme
+      codeExample.theme,
+      codeExample.stylesheets
     );
 
     return {
@@ -113,7 +114,8 @@ export class SkyDocsCodeExamplesEditorService {
   private parseStackBlitzFiles(
     sourceCode: SkyDocsSourceCodeFile[],
     dependencies: SkyDocsCodeExampleModuleDependencies,
-    theme: SkyDocsCodeExampleTheme
+    theme: SkyDocsCodeExampleTheme,
+    stylesheets: string[] = []
   ): {
     [path: string]: string;
   } {
@@ -128,10 +130,9 @@ export class SkyDocsCodeExamplesEditorService {
  `;
 
     const moduleImportStatements: string[] = [
-      `import {\n  Component,\n  NgModule\n} from '@angular/core';`,
+      `import {\n  NgModule\n} from '@angular/core';`,
       `import {\n  FormsModule,\n  ReactiveFormsModule\n} from '@angular/forms';`,
-      `import {\n  platformBrowserDynamic\n} from '@angular/platform-browser-dynamic';`,
-      `import {\n  BrowserModule\n} from '@angular/platform-browser';`,
+      `import {\n  BrowserAnimationsModule\n} from '@angular/platform-browser/animations';`,
       `import {\n  RouterModule\n} from '@angular/router';`,
       `import {\n  SkyAppLocaleProvider\n} from '@skyux/i18n';`,
       `import {\n  SkyThemeService\n} from '@skyux/theme';`,
@@ -140,7 +141,7 @@ export class SkyDocsCodeExamplesEditorService {
     ];
 
     const moduleImports: string[] = [
-      'BrowserModule',
+      'BrowserAnimationsModule',
       'FormsModule',
       'ReactiveFormsModule',
       'RouterModule.forRoot([])'
@@ -191,16 +192,16 @@ export class AppComponent {
     themeSvc: SkyThemeService,
     renderer?: Renderer2
   ) {
-      const themeSettings = new SkyThemeSettings(
-        SkyTheme.presets['${theme === SkyDocsCodeExampleTheme.Modern ? 'modern' : 'default'}'],
-        SkyThemeMode.presets.light
-      );
+    const themeSettings = new SkyThemeSettings(
+      SkyTheme.presets['${theme === SkyDocsCodeExampleTheme.Modern ? 'modern' : 'default'}'],
+      SkyThemeMode.presets.light
+    );
 
-      themeSvc.init(
-        document.body,
-        renderer,
-        themeSettings
-      );
+    themeSvc.init(
+      document.body,
+      renderer,
+      themeSettings
+    );
   }
 
 }`;
@@ -247,10 +248,6 @@ export class AppModule { }
 import './polyfills';
 
 import {
-  enableProdMode
-} from '@angular/core';
-
-import {
   platformBrowserDynamic
 } from '@angular/platform-browser-dynamic';
 
@@ -278,6 +275,8 @@ body {
   margin: 15px;
 }`;
 
+    stylesheets.push("src/styles.scss");
+
     files['angular.json'] = `{
   "projects": {
     "demo": {
@@ -285,9 +284,7 @@ body {
         "build": {
           "options": {
             "index": "src/index.html",
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ${JSON.stringify(stylesheets)}
           }
         }
       }

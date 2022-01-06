@@ -63,6 +63,9 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
     return this._packageDependencies || {};
   }
 
+  @Input()
+  public stylesheets: string[] = [];
+
   public codeExamples: SkyDocsCodeExample[] = [];
 
   @ContentChildren(SkyDocsCodeExampleComponent)
@@ -95,6 +98,7 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
         heading: component.heading,
         packageDependencies: this.packageDependencies,
         sourceCode,
+        stylesheets: this.stylesheets,
         theme: component.theme
       });
     });

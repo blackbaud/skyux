@@ -18,7 +18,7 @@ import {
 
 //#region helpers
 const moduleImports: string[] = [
-  'BrowserModule',
+  'BrowserAnimationsModule',
   'FormsModule',
   'ReactiveFormsModule',
   'RouterModule.forRoot([])'
@@ -272,6 +272,18 @@ describe('Code examples editor service', () => {
       'zone.js': '~0.11.4',
       '@skyux/foobar': '^5.0.0-0' // <-- Important
     });
+  });
+
+  it('should accept additional global stylesheets', () => {
+    codeExample.stylesheets = ['@global/foo/css/styles.css'];
+    service.launchEditor(codeExample);
+    expect(
+      JSON.parse(stackblitzSpy.calls.mostRecent().args[0].files['angular.json'])
+        .projects.demo.architect.build.options.styles
+    ).toEqual([
+      '@global/foo/css/styles.css',
+      'src/styles.scss'
+    ]);
   });
 
 });

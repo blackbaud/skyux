@@ -23,4 +23,6 @@ export interface SkyDocsCodeExample {
 
   theme: SkyDocsCodeExampleTheme;
 
+  stylesheets?: string[];
+
 }

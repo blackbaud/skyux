@@ -1,6 +1,6 @@
 import {
-  CommonModule
-} from '@angular/common';
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
 
 import {
   NgModule
@@ -14,21 +14,25 @@ import {
   CodeExampleFixtureComponent
 } from './code-example-fixture.component';
 
+import { CodeExamplesFixtureComponent } from './code-examples-fixture.component';
+
 import {
   CodeExampleWithThemeServiceFixtureComponent
 } from './code-example-with-theme-service-fixture.component';
 
 @NgModule({
   imports: [
-    CommonModule,
+    NoopAnimationsModule,
     SkyDocsCodeExamplesModule
   ],
   exports: [
     CodeExampleFixtureComponent,
+    CodeExamplesFixtureComponent,
     CodeExampleWithThemeServiceFixtureComponent
   ],
   declarations: [
     CodeExampleFixtureComponent,
+    CodeExamplesFixtureComponent,
     CodeExampleWithThemeServiceFixtureComponent
   ],
   providers: []
