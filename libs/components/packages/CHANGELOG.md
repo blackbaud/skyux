@@ -1,3 +1,7 @@
+# 5.110.0 (2022-01-06)
+
+- `@skyux/ag-grid@5.1.6` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.6/CHANGELOG.md)
+
 # 5.109.0 (2022-01-04)
 
 - `@skyux/flyout@5.0.3` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.3/CHANGELOG.md)
