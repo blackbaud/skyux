@@ -10,13 +10,13 @@ import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SkyModalModule } from '@skyux/modals';
 
-import { SkySplitViewModule } from '@skyux/split-view';
-
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
 
 import { SkySummaryActionBarModule } from '../summary-action-bar.module';
+
+import { SplitViewMockComponent } from './split-view-mocks/split-view-mock.component.fixture';
 
 import { SkySummaryActionBarTestComponent } from './summary-action-bar.component.fixture';
 
@@ -32,6 +32,7 @@ import { SkySummaryActionBarModalEmptyTestComponent } from './summary-action-bar
     SkySummaryActionBarModalEmptyTestComponent,
     SkySummaryActionBarTabsTestComponent,
     SkySummaryActionBarSplitViewTestComponent,
+    SplitViewMockComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +41,6 @@ import { SkySummaryActionBarModalEmptyTestComponent } from './summary-action-bar
     SkyKeyInfoModule,
     SkyModalModule,
     SkyTabsModule,
-    SkySplitViewModule,
     SkySummaryActionBarModule,
   ],
   exports: [
@@ -49,6 +49,7 @@ import { SkySummaryActionBarModalEmptyTestComponent } from './summary-action-bar
     SkyModalModule,
     SkyKeyInfoModule,
     SkySummaryActionBarModule,
+    SplitViewMockComponent,
   ],
   entryComponents: [
     SkySummaryActionBarModalTestComponent,
