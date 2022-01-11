@@ -1,14 +1,6 @@
-<form
-  novalidate
-  [formGroup]="myForm"
->
-  <div
-    style="display: flex;"
-  >
-    <div
-      class="sky-margin-inline-default"
-      style="flex: 1;"
-    >
+<form novalidate [formGroup]="myForm">
+  <div style="display: flex">
+    <div class="sky-margin-inline-default" style="flex: 1">
       <sky-input-box>
         <label
           class="sky-control-label sky-control-label-required"
@@ -25,16 +17,9 @@
         />
       </sky-input-box>
     </div>
-    <div
-      style="flex: 1;"
-    >
+    <div style="flex: 1">
       <sky-input-box>
-        <label
-          class="sky-control-label"
-          [for]="idInput.id"
-        >
-          ID
-        </label>
+        <label class="sky-control-label" [for]="idInput.id"> ID </label>
         <input
           class="sky-form-control"
           formControlName="id"
@@ -42,11 +27,9 @@
           #idInput
         />
       </sky-input-box>
-      <div *ngIf="myForm.get('id').invalid"
-        class="alert alert-danger"
-      >
-      </div>
-      <div *ngIf="myForm.get('id').invalid"
+      <div *ngIf="myForm.get('id')?.invalid" class="alert alert-danger"></div>
+      <div
+        *ngIf="myForm.get('id')?.invalid"
         class="alert alert-danger sky-error-label"
       >
         Enter a valid value.

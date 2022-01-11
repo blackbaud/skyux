@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component
 } from '@angular/core';
 
@@ -8,21 +9,22 @@ import {
 } from '@skyux/modals';
 
 import {
-  SectionedModalFormDemoComponent
-} from './sectioned-modal-form-demo.component';
+  SectionedFormModalDemoComponent
+} from './sectioned-form-modal-demo.component';
 
 @Component({
   selector: 'app-sectioned-form-demo',
-  templateUrl: './sectioned-form-demo.component.html'
+  templateUrl: './sectioned-form-demo.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SectionedFormDemoComponent {
 
   constructor(
     private modal: SkyModalService
-  ) { }
+  ) {}
 
   public openModal(): void {
-    let modalInstance = this.modal.open(SectionedModalFormDemoComponent);
+    let modalInstance = this.modal.open(SectionedFormModalDemoComponent);
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel') {
@@ -32,5 +34,4 @@ export class SectionedFormDemoComponent {
       }
     });
   }
-
 }
