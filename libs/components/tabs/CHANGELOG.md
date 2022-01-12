@@ -1,3 +1,7 @@
+# 5.0.3 (2022-01-11)
+
+- Removed the sectioned form code example that was not using a modal. Updated sectioned form code example to use OnPush change detection. [#199](https://github.com/blackbaud/skyux-tabs/pull/199)
+
 # 5.0.2 (2021-11-19)
 
 - Updated the builder to support StackBlitz. [#197](https://github.com/blackbaud/skyux-tabs/pull/197)
