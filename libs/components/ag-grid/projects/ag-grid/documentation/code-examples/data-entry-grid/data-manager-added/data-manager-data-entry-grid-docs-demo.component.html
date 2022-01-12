@@ -1,0 +1,19 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-left-item>
+      <button
+        class="sky-btn sky-btn-primary"
+        id="edit-btn"
+        (click)="openModal()"
+      >
+        Edit
+      </button>
+    </sky-data-manager-toolbar-left-item>
+  </sky-data-manager-toolbar>
+  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
+    <sky-ag-grid-wrapper *ngIf="gridInitialized">
+      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="displayedItems">
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+  </sky-data-view>
+</sky-data-manager>

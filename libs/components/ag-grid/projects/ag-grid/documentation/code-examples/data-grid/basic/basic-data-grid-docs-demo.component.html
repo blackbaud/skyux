@@ -1,0 +1,18 @@
+<div>
+  <sky-toolbar>
+    <sky-toolbar-item>
+      <sky-search
+        [searchText]="searchText"
+        [debounceTime]="250"
+        (searchApply)="searchApplied($event)"
+        (searchChange)="searchApplied($event)"
+        (searchClear)="searchApplied($event)"
+      >
+      </sky-search>
+    </sky-toolbar-item>
+  </sky-toolbar>
+  <sky-ag-grid-wrapper>
+    <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData">
+    </ag-grid-angular>
+  </sky-ag-grid-wrapper>
+</div>

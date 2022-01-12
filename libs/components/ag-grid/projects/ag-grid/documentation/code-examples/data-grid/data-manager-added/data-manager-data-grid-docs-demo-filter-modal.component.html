@@ -1,0 +1,39 @@
+<sky-modal>
+  <sky-modal-header> Filter employees </sky-modal-header>
+  <sky-modal-content>
+    <label for="sky-demo-select-type">Job Title</label>
+    <select
+      id="sky-demo-select-type"
+      [(ngModel)]="jobTitle"
+      class="sky-form-control"
+    >
+      <option value="any">Any job title</option>
+      <option value="Product Manager">Product Manager</option>
+      <option value="Software Engineer">Software Engineer</option>
+    </select>
+    <div style="margin-top: 15px">
+      <sky-checkbox [(ngModel)]="hideSales">
+        <sky-checkbox-label> Hide Sales employees </sky-checkbox-label>
+      </sky-checkbox>
+    </div>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary"
+      (click)="applyFilters()"
+    >
+      Apply filters
+    </button>
+    <button
+      type="button"
+      class="sky-btn sky-btn-link"
+      (click)="clearAllFilters()"
+    >
+      Clear all filters
+    </button>
+    <button type="button" class="sky-btn sky-btn-link" (click)="cancel()">
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>
