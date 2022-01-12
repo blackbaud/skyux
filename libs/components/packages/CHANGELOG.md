@@ -1,3 +1,7 @@
+# 5.112.0 (2022-01-12)
+
+- `@skyux/tabs@5.0.3` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.3/CHANGELOG.md)
+
 # 5.111.0 (2022-01-06)
 
 - `@skyux/docs-tools@5.0.0-beta.9` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.9/CHANGELOG.md)
