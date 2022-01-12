@@ -1,3 +1,7 @@
+# 5.1.7 (2022-01-12)
+
+- Add code examples for v5 docs spa. [#175](https://github.com/blackbaud/skyux-ag-grid/pull/175)
+
 # 5.1.6 (2022-01-04)
 
 - Fixed an issue where the first row would not render. [#181](https://github.com/blackbaud/skyux-ag-grid/pull/181)
