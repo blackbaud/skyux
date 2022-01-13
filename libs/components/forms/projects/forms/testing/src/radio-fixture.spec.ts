@@ -9,7 +9,7 @@ import {
 
 import { FormsModule } from '@angular/forms';
 
-import { SkyRadioModule } from 'projects/forms/src/public-api';
+import { SkyRadioModule } from '@skyux/forms';
 
 import { SkyRadioFixture } from './radio-fixture';
 
