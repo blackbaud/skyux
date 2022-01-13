@@ -23,7 +23,6 @@ import { SkyCellType } from '../types/cell-type';
 @Component({
   selector: 'sky-ag-grid-row-delete-component-fixture',
   templateUrl: './ag-grid-row-delete.component.fixture.html',
-  styleUrls: ['../../../styles/ag-grid-styles.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {

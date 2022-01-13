@@ -11,7 +11,6 @@ import { SKY_AG_GRID_LOOKUP, SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
 @Component({
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
-  styleUrls: ['../../../styles/ag-grid-styles.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridFixtureComponent implements OnInit {

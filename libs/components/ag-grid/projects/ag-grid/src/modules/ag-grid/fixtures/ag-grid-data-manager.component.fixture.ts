@@ -20,7 +20,6 @@ import { SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
 @Component({
   selector: 'sky-ag-grid-data-manager-component-fixture',
   templateUrl: './ag-grid-data-manager.component.fixture.html',
-  styleUrls: ['../../../styles/ag-grid-styles.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridDataManagerFixtureComponent implements OnInit {
