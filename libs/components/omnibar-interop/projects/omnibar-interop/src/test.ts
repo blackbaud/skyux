@@ -30,5 +30,6 @@ context.keys().map(context);
 // Find any tests included in the "testing" entry point.
 try {
   const testingContext = require.context('../testing/', true, /\.spec\.ts$/);
+  /*istanbul ignore next*/
   testingContext.keys().map(testingContext);
 } catch (err) {}
