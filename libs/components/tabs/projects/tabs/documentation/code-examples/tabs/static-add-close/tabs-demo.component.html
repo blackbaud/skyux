@@ -1,21 +1,7 @@
-<sky-tabset
-  ariaLabel="Tab demonstration"
-  (newTab)="onNewTabClick()"
->
-  <sky-tab
-    [tabHeading]="'Tab 1'"
-  >
-    Content for Tab 1
-  </sky-tab>
-  <sky-tab
-    [tabHeading]="'Tab 2'"
-  >
-    Content for Tab 2
-  </sky-tab>
-  <sky-tab *ngIf="showTab3"
-    [tabHeading]="'Tab 3'"
-    (close)="showTab3 = false"
-  >
+<sky-tabset ariaLabel="Tab demonstration" (newTab)="onNewTabClick()">
+  <sky-tab [tabHeading]="'Tab 1'"> Content for Tab 1 </sky-tab>
+  <sky-tab [tabHeading]="'Tab 2'"> Content for Tab 2 </sky-tab>
+  <sky-tab *ngIf="showTab3" [tabHeading]="'Tab 3'" (close)="showTab3 = false">
     Content for Tab 3
   </sky-tab>
 </sky-tabset>

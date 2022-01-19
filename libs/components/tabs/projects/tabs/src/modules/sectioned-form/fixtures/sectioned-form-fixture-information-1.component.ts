@@ -3,10 +3,9 @@ import { SkySectionedFormService } from './../sectioned-form.service';
 
 @Component({
   selector: 'sky-sectioned-form-fixture-information-1',
-  templateUrl: './sectioned-form-fixture-information-1.component.html'
+  templateUrl: './sectioned-form-fixture-information-1.component.html',
 })
 export class SkySectionedFormFixtureInformation1Component {
-
   private _required: boolean;
 
   public get required() {

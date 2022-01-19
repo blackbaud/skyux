@@ -1,29 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  SkyTabsModule
-} from '@skyux/tabs';
+import { SkyTabsModule } from '@skyux/tabs';
 
-import {
-  TabsDemoComponent
-} from './tabs-demo.component';
+import { TabsDemoComponent } from './tabs-demo.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyTabsModule
-  ],
-  declarations: [
-    TabsDemoComponent
-  ],
-  exports: [
-    TabsDemoComponent
-  ]
+  imports: [CommonModule, SkyTabsModule],
+  declarations: [TabsDemoComponent],
+  exports: [TabsDemoComponent],
 })
-export class TabsDemoModule { }
+export class TabsDemoModule {}

@@ -1,27 +1,16 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
-import {
-  SkyTabIndex
-} from './tab-index';
+import { SkyTabIndex } from './tab-index';
 
-import {
-  SkyTabsetActiveTabUnregisteredArgs
-} from './tabset-active-tab-unregistered-args';
+import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregistered-args';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyTabsetService {
-
   public get activeTabUnregistered(): Observable<SkyTabsetActiveTabUnregisteredArgs> {
     return this._activeTabUnregistered.asObservable();
   }
@@ -34,7 +23,8 @@ export class SkyTabsetService {
 
   private _activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
 
-  private _activeTabUnregistered = new Subject<SkyTabsetActiveTabUnregisteredArgs>();
+  private _activeTabUnregistered =
+    new Subject<SkyTabsetActiveTabUnregisteredArgs>();
 
   private tabs: {
     tabIndex: SkyTabIndex;
@@ -45,9 +35,12 @@ export class SkyTabsetService {
   /**
    * Sets the active tab by its unique `tabIndex` property.
    */
-  public setActiveTabIndex(value: SkyTabIndex, config = {
-    emitChange: true
-  }): void {
+  public setActiveTabIndex(
+    value: SkyTabIndex,
+    config = {
+      emitChange: true,
+    }
+  ): void {
     if (
       value !== undefined &&
       !this.tabIndexesEqual(value, this.currentActiveTabIndex)
@@ -74,8 +67,13 @@ export class SkyTabsetService {
     return tabIndex;
   }
 
-  public updateTabIndex(currentTabIndex: SkyTabIndex, newTabIndex: SkyTabIndex): void {
-    const found = this.tabs.find(tab => this.tabIndexesEqual(tab.tabIndex, currentTabIndex));
+  public updateTabIndex(
+    currentTabIndex: SkyTabIndex,
+    newTabIndex: SkyTabIndex
+  ): void {
+    const found = this.tabs.find((tab) =>
+      this.tabIndexesEqual(tab.tabIndex, currentTabIndex)
+    );
     found.tabIndex = newTabIndex;
   }
 
@@ -83,12 +81,14 @@ export class SkyTabsetService {
    * Unregisters a tab component.
    */
   public unregisterTab(tabIndex: SkyTabIndex): void {
-    const index = this.tabs.findIndex(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
+    const index = this.tabs.findIndex((tab) =>
+      this.tabIndexesEqual(tab.tabIndex, tabIndex)
+    );
 
     // Notify the tabset component when an active tab is unregistered.
     if (this.isTabIndexActive(this.tabs[index].tabIndex)) {
       this._activeTabUnregistered.next({
-        arrayIndex: index
+        arrayIndex: index,
       });
     }
 
@@ -105,18 +105,20 @@ export class SkyTabsetService {
   /**
    * Compares two tab indexes and returns `true` if they are equal.
    */
-  public tabIndexesEqual(tabIndex1: SkyTabIndex, tabIndex2: SkyTabIndex): boolean {
-    return (
-      tabIndex1 === tabIndex2 ||
-      +tabIndex1 === +tabIndex2
-    );
+  public tabIndexesEqual(
+    tabIndex1: SkyTabIndex,
+    tabIndex2: SkyTabIndex
+  ): boolean {
+    return tabIndex1 === tabIndex2 || +tabIndex1 === +tabIndex2;
   }
 
   /**
    * Verifies if a provided tab index is registered.
    */
   public isValidTabIndex(tabIndex: SkyTabIndex): boolean {
-    return this.tabs.some(tab => this.tabIndexesEqual(tab.tabIndex, tabIndex));
+    return this.tabs.some((tab) =>
+      this.tabIndexesEqual(tab.tabIndex, tabIndex)
+    );
   }
 
   /**

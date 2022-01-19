@@ -7,35 +7,25 @@ import {
   OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-import {
-  SkyTabIndex
-} from './tab-index';
+import { SkyTabIndex } from './tab-index';
 
-import {
-  SkyTabsetPermalinkService
-} from './tabset-permalink.service';
+import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 
-import {
-  SkyTabsetService
-} from './tabset.service';
+import { SkyTabsetService } from './tabset.service';
 
 let nextId = 0;
 
 @Component({
   selector: 'sky-tab',
   templateUrl: './tab.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyTabComponent implements OnChanges, OnDestroy {
-
   /**
    * Indicates whether the tab is active when the tabset loads. After initialization, the `active`
    * property on the tabset component should be used to set the active tab.
@@ -43,10 +33,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    */
   @Input()
   public set active(value: boolean) {
-    if (
-      value !== undefined &&
-      value !== this._active
-    ) {
+    if (value !== undefined && value !== this._active) {
       this._active = value;
       this._activeChange.next();
     }
@@ -80,7 +67,9 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   public get permalinkValue(): string {
-    return this._permalinkValue || this.permalinkService.urlify(this.tabHeading);
+    return (
+      this._permalinkValue || this.permalinkService.urlify(this.tabHeading)
+    );
   }
 
   /**
@@ -127,7 +116,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * The close button is added to the tab when you specify a listener for this event.
    */
   @Output()
-  public close = new EventEmitter<void>();
+  public close = new EventEmitter<void>(); // eslint-disable-line @angular-eslint/no-output-native
 
   public get closeable(): boolean {
     return this.close.observers.length > 0;
@@ -174,10 +163,10 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (
-      changes.disabled && !changes.disabled.firstChange ||
-      changes.tabHeading && !changes.tabHeading.firstChange ||
-      changes.tabHeaderCount && !changes.tabHeaderCount.firstChange ||
-      changes.permalinkValue && !changes.permalinkValue.firstChange
+      (changes.disabled && !changes.disabled.firstChange) ||
+      (changes.tabHeading && !changes.tabHeading.firstChange) ||
+      (changes.tabHeaderCount && !changes.tabHeaderCount.firstChange) ||
+      (changes.permalinkValue && !changes.permalinkValue.firstChange)
     ) {
       this._stateChange.next();
     }
@@ -203,5 +192,4 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.showContent = false;
     this.changeDetector.markForCheck();
   }
-
 }

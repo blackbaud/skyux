@@ -7,32 +7,20 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
-import {
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyVerticalTabMediaQueryService
-} from './vertical-tab-media-query.service';
+import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
 
-import {
-  SkyVerticalTabsetService
-} from './vertical-tabset.service';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
-import {
-  SkyVerticalTabsetAdapterService
-} from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 
 @Component({
   selector: 'sky-vertical-tab',
@@ -40,9 +28,12 @@ import {
   styleUrls: ['./vertical-tab.component.scss'],
   providers: [
     SkyVerticalTabMediaQueryService,
-    { provide: SkyMediaQueryService, useExisting: SkyVerticalTabMediaQueryService }
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkyVerticalTabMediaQueryService,
+    },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   /**
@@ -147,7 +138,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     if (this._contentRendered) {
       // NOTE: Wrapped in a setTimeout here to ensure that everything has completed rendering.
       setTimeout(() => {
-        this.updateBreakpointAndResponsiveClass(this.adapterService.getWidth(this.tabContent));
+        this.updateBreakpointAndResponsiveClass(
+          this.adapterService.getWidth(this.tabContent)
+        );
       });
     }
   }
@@ -186,11 +179,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.isMobile = this.tabsetService.isMobile();
     this.changeRef.markForCheck();
 
-    this.tabsetService.switchingMobile
-      .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
-        this.changeRef.markForCheck();
-      });
+    this.tabsetService.switchingMobile.subscribe((mobile: boolean) => {
+      this.isMobile = mobile;
+      this.changeRef.markForCheck();
+    });
 
     // Update the breakpoint and responsive class here just as a sanity check since we can not
     // watch for element resizing.
@@ -198,7 +190,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((index) => {
         if (this.index === index && this.contentRendered) {
-          this.updateBreakpointAndResponsiveClass(this.adapterService.getWidth(this.tabContent));
+          this.updateBreakpointAndResponsiveClass(
+            this.adapterService.getWidth(this.tabContent)
+          );
         }
       });
 
@@ -231,7 +225,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   @HostListener('window:resize')
   public onWindowResize(): void {
-    this.updateBreakpointAndResponsiveClass(this.adapterService.getWidth(this.tabContent));
+    this.updateBreakpointAndResponsiveClass(
+      this.adapterService.getWidth(this.tabContent)
+    );
   }
 
   public tabDeactivated(): void {

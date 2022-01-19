@@ -1,19 +1,12 @@
-import {
-  ElementRef,
-  Injectable
-} from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyTabsetAdapterService {
-
   public get overflowChange(): Observable<boolean> {
     return this._overflowChange.asObservable();
   }
@@ -49,9 +42,10 @@ export class SkyTabsetAdapterService {
       .querySelector('.sky-tabset-btns')
       .getBoundingClientRect();
 
-    const tabButtonsWidth = tabButtonsRect.width + tabExtraButtonsRect.width + this.tabsOffsetLeft;
+    const tabButtonsWidth =
+      tabButtonsRect.width + tabExtraButtonsRect.width + this.tabsOffsetLeft;
 
-    const newOverflow = (tabButtonsWidth > tabsetRect.width);
+    const newOverflow = tabButtonsWidth > tabsetRect.width;
     if (this.currentOverflow !== newOverflow) {
       this.currentOverflow = newOverflow;
       this._overflowChange.next(this.currentOverflow);
@@ -65,7 +59,9 @@ export class SkyTabsetAdapterService {
     const tabsetRect = tabsetEl.getBoundingClientRect();
 
     // The dropdown element is the first "tab" and always exists in the DOM, even when hidden.
-    const firstTabRect = tabsetEl.querySelector('.sky-tabset-dropdown').getBoundingClientRect();
+    const firstTabRect = tabsetEl
+      .querySelector('.sky-tabset-dropdown')
+      .getBoundingClientRect();
 
     return firstTabRect.left - tabsetRect.left;
   }

@@ -1,11 +1,4 @@
-<sky-tabset
-  [(active)]="activeTab"
-  (activeChange)="onActiveChange($event)"
->
-  <sky-tab
-    tabHeading="1"
-  ></sky-tab>
-  <sky-tab
-    tabHeading="2"
-  ></sky-tab>
+<sky-tabset [(active)]="activeTab" (activeChange)="onActiveChange($event)">
+  <sky-tab tabHeading="1"></sky-tab>
+  <sky-tab tabHeading="2"></sky-tab>
 </sky-tabset>

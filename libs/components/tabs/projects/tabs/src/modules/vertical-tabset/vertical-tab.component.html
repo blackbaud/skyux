@@ -14,17 +14,20 @@
   }"
   [tabIndex]="tabIndex()"
   (click)="activateTab()"
-  (keyup.enter)="activateTab()">
+  (keyup.enter)="activateTab()"
+>
   <div class="sky-vertical-tab-display">
     <div class="sky-vertical-tab-heading">
       <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
       <span
         class="sky-vertical-tab-count"
-        *ngIf="tabHeaderCount || tabHeaderCount === 0">
+        *ngIf="tabHeaderCount || tabHeaderCount === 0"
+      >
         ({{ tabHeaderCount }})
       </span>
     </div>
-    <sky-status-indicator *ngIf="errorIndicator"
+    <sky-status-indicator
+      *ngIf="errorIndicator"
       class="sky-vertical-tab-heading-error"
       descriptionType="error"
       indicatorType="danger"
@@ -38,19 +41,15 @@
   </div>
 </a>
 
-<div
-  #tabContentWrapper
->
+<div #tabContentWrapper>
   <div
     class="sky-vertical-tab-content-pane"
     role="tabpanel"
     tabindex="0"
-    [ngClass]="{'sky-vertical-tab-hidden': !active}"
+    [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
   >
-
     <ng-content></ng-content>
 
-  <div>
-
+    <div></div>
+  </div>
 </div>
-

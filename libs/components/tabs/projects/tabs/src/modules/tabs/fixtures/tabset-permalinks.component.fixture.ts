@@ -1,13 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-tabset-permalinks-test',
-  templateUrl: './tabset-permalinks.component.fixture.html'
+  selector: 'sky-tabset-permalinks-test',
+  templateUrl: './tabset-permalinks.component.fixture.html',
 })
 export class SkyTabsetPermalinksFixtureComponent {
-
   public activeIndex: number = 0;
 
   public permalinkId: string;
@@ -23,5 +20,4 @@ export class SkyTabsetPermalinksFixtureComponent {
   public disableSecondTab(): void {
     this.secondTabDisabled = true;
   }
-
 }

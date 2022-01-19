@@ -3,18 +3,19 @@
   role="tablist"
   [attr.aria-label]="ariaLabel"
   [attr.aria-labelledby]="ariaLabelledBy"
-  [ngClass]="'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle"
+  [ngClass]="
+    'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle
+  "
   (window:resize)="onWindowResize()"
 >
   <span class="sky-tabset-dropdown">
-    <sky-dropdown *ngIf="tabDisplayMode === 'dropdown'"
-      buttonType="tab"
-    >
+    <sky-dropdown *ngIf="tabDisplayMode === 'dropdown'" buttonType="tab">
       <sky-dropdown-button>
         {{ dropdownTriggerButtonText }}
       </sky-dropdown-button>
       <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let tabButton of tabButtons"
+        <sky-dropdown-item
+          *ngFor="let tabButton of tabButtons"
           class="sky-tab-dropdown-menu-item"
         >
           <div
@@ -23,27 +24,34 @@
               'sky-tab-dropdown-item-selected': tabButton.active
             }"
           >
-            <ng-container *ngTemplateOutlet="tabButtonTemplate; context: {
-              $implicit: tabButton
-            }"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="
+                tabButtonTemplate;
+                context: {
+                  $implicit: tabButton
+                }
+              "
+            ></ng-container>
           </div>
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>
   </span>
-  <span
-    class="sky-tabset-tabs"
-  >
+  <span class="sky-tabset-tabs">
     <ng-container *ngFor="let tabButton of tabButtons">
-      <ng-container *ngTemplateOutlet="tabButtonTemplate; context: {
-        $implicit: tabButton
-      }"></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          tabButtonTemplate;
+          context: {
+            $implicit: tabButton
+          }
+        "
+      ></ng-container>
     </ng-container>
   </span>
-  <span
-    class="sky-tabset-btns"
-  >
-    <button *ngIf="newTab.observers.length > 0"
+  <span class="sky-tabset-btns">
+    <button
+      *ngIf="newTab.observers.length > 0"
       class="sky-btn sky-btn-icon sky-tabset-btn-new sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_add' | skyLibResources"
@@ -52,13 +60,10 @@
       }"
       (click)="onNewTabClick()"
     >
-      <sky-icon
-        icon="plus-circle"
-        size="lg"
-      >
-      </sky-icon>
+      <sky-icon icon="plus-circle" size="lg"> </sky-icon>
     </button>
-    <button *ngIf="openTab.observers.length > 0"
+    <button
+      *ngIf="openTab.observers.length > 0"
       class="sky-btn sky-btn-icon sky-tabset-btn-open sky-margin-inline-compact"
       type="button"
       [attr.aria-label]="'skyux_tab_open' | skyLibResources"
@@ -67,20 +72,13 @@
       }"
       (click)="onOpenTabClick()"
     >
-      <sky-icon
-        icon="folder-open-o"
-        size="lg"
-      >
-      </sky-icon>
+      <sky-icon icon="folder-open-o" size="lg"> </sky-icon>
     </button>
   </span>
 </div>
 <ng-content></ng-content>
 
-<ng-template
-  let-tabButton
-  #tabButtonTemplate
->
+<ng-template let-tabButton #tabButtonTemplate>
   <sky-tab-button
     [active]="tabButton.active"
     [ariaControls]="tabButton.ariaControls"

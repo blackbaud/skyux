@@ -1,68 +1,45 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  SkyAppTestUtility,
-  expect
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
-import {
-  SkyTabsModule
-} from '@skyux/tabs';
+import { SkyTabsModule } from '@skyux/tabs';
 
-import {
-  SkyTabsetFixture
-} from './tabset-fixture';
+import { SkyTabsetFixture } from './tabset-fixture';
 
 //#region Test component
 @Component({
-  selector: 'tabset-test',
+  selector: 'sky-tabset-test',
   template: `
-<sky-tabset
-  data-sky-id="test-tabset"
-  [ariaLabel]="ariaLabel"
-  [ariaLabelledBy]="ariaLabelledBy"
-  [permalinkId]="permalinkId"
-  (activeChange)="onActiveChange($event)"
-  (newTab)="onNewTab()"
-  (openTab)="onOpenTab()"
->
-  <sky-tab
-    tabHeading="Tab 1"
-    tabHeaderCount="40"
-    [active]="true"
-    [permalinkValue]="permalinkValueTab1"
-    (close)="onTab1Close()"
-  >
-    Content for Tab 1
-  </sky-tab>
-  <sky-tab
-    tabHeading="Tab 2"
-  >
-    Content for Tab 2
-  </sky-tab>
-  <sky-tab
-    tabHeading="Tab 3"
-    [disabled]="true"
-  >
-    Content for Tab 3
-  </sky-tab>
-</sky-tabset>
-  `
+    <sky-tabset
+      data-sky-id="test-tabset"
+      [ariaLabel]="ariaLabel"
+      [ariaLabelledBy]="ariaLabelledBy"
+      [permalinkId]="permalinkId"
+      (activeChange)="onActiveChange($event)"
+      (newTab)="onNewTab()"
+      (openTab)="onOpenTab()"
+    >
+      <sky-tab
+        tabHeading="Tab 1"
+        tabHeaderCount="40"
+        [active]="true"
+        [permalinkValue]="permalinkValueTab1"
+        (close)="onTab1Close()"
+      >
+        Content for Tab 1
+      </sky-tab>
+      <sky-tab tabHeading="Tab 2"> Content for Tab 2 </sky-tab>
+      <sky-tab tabHeading="Tab 3" [disabled]="true">
+        Content for Tab 3
+      </sky-tab>
+    </sky-tabset>
+  `,
 })
 class TestComponent {
   public permalinkId: string;
@@ -73,13 +50,13 @@ class TestComponent {
 
   public ariaLabelledBy: string;
 
-  public onActiveChange(): void { }
+  public onActiveChange(): void {}
 
-  public onNewTab(): void { }
+  public onNewTab(): void {}
 
-  public onOpenTab(): void { }
+  public onOpenTab(): void {}
 
-  public onTab1Close(): void { }
+  public onTab1Close(): void {}
 }
 //#endregion Test component
 
@@ -88,18 +65,11 @@ describe('Tabset fixture', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        RouterTestingModule,
-        SkyTabsModule
-      ]
+      declarations: [TestComponent],
+      imports: [RouterTestingModule, SkyTabsModule],
     });
 
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -137,7 +107,7 @@ describe('Tabset fixture', () => {
       disabled: false,
       permalinkValue: 'tab-1',
       tabHeaderCount: '40',
-      tabHeading: 'Tab 1'
+      tabHeading: 'Tab 1',
     });
 
     expect(tabset.getTab(1)).toEqual({
@@ -145,7 +115,7 @@ describe('Tabset fixture', () => {
       disabled: false,
       permalinkValue: 'tab-2',
       tabHeaderCount: undefined,
-      tabHeading: 'Tab 2'
+      tabHeading: 'Tab 2',
     });
 
     expect(tabset.getTab(2)).toEqual({
@@ -153,7 +123,7 @@ describe('Tabset fixture', () => {
       disabled: true,
       permalinkValue: undefined,
       tabHeaderCount: undefined,
-      tabHeading: 'Tab 3'
+      tabHeading: 'Tab 3',
     });
   }
 
@@ -180,7 +150,10 @@ describe('Tabset fixture', () => {
   async function validateTabClick(): Promise<void> {
     const tabset = new SkyTabsetFixture(fixture, 'test-tabset');
 
-    const onActiveChangeSpy = spyOn(fixture.componentInstance, 'onActiveChange');
+    const onActiveChangeSpy = spyOn(
+      fixture.componentInstance,
+      'onActiveChange'
+    );
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -192,7 +165,8 @@ describe('Tabset fixture', () => {
     expect(onActiveChangeSpy).toHaveBeenCalledWith(1);
 
     expect(
-      fixture.debugElement.queryAll(By.css('.sky-tabset-tabs .sky-btn-tab'))[1].nativeElement
+      fixture.debugElement.queryAll(By.css('.sky-tabset-tabs .sky-btn-tab'))[1]
+        .nativeElement
     ).toHaveCssClass('sky-btn-tab-selected');
 
     let errorMessage: string;
@@ -226,7 +200,9 @@ describe('Tabset fixture', () => {
       errorMessage = err.message;
     }
 
-    expect(errorMessage).toBe('The specified tab does not have a close button.');
+    expect(errorMessage).toBe(
+      'The specified tab does not have a close button.'
+    );
   }
 
   it('should expose the expected properties', () => {
@@ -264,7 +240,8 @@ describe('Tabset fixture', () => {
       await fixture.whenStable();
 
       let el = fixture.nativeElement;
-      el.style.width = (el.querySelector('.sky-tabset-tabs').offsetWidth - 1) + 'px';
+      el.style.width =
+        el.querySelector('.sky-tabset-tabs').offsetWidth - 1 + 'px';
 
       fireResizeEvent();
     });
@@ -292,6 +269,5 @@ describe('Tabset fixture', () => {
     it('should allow a tab to be closed', async () => {
       await validateTabClose();
     });
-
   });
 });

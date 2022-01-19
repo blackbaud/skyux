@@ -1,22 +1,13 @@
-import {
-  Component,
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
-import {
-  SkyVerticalTabComponent
-} from '../vertical-tab.component';
+import { SkyVerticalTabComponent } from '../vertical-tab.component';
 
-import {
-  SkyVerticalTabsetComponent
-} from '../vertical-tabset.component';
+import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './vertical-tabset.component.fixture.html',
-  styleUrls: ['./vertical-tabset.component.fixture.scss']
+  styleUrls: ['./vertical-tabset.component.fixture.scss'],
 })
 export class VerticalTabsetTestComponent {
   public active: boolean = true;

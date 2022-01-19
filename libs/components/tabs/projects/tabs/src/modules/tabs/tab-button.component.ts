@@ -4,12 +4,10 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 
-import {
-  SkyTabsetStyle
-} from './tabset-style';
+import { SkyTabsetStyle } from './tabset-style';
 
 /**
  * @internal
@@ -19,10 +17,9 @@ import {
   templateUrl: './tab-button.component.html',
   styleUrls: ['./tab-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SkyTabButtonComponent {
-
   @Input()
   public active: boolean;
 

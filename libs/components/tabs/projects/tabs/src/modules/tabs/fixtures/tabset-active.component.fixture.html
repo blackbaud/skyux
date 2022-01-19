@@ -1,41 +1,21 @@
 <div [ngStyle]="{'max-width.px': tabMaxWidth}">
-  <sky-tabset
-      [active]="activeIndex"
-      (activeChange)="tabChanged($event)"
-      >
-    <sky-tab
-        [tabHeading]="tab1Heading"
-        *ngIf="tab1Available"
-    >
-      <div class="tabset-test-content-1">
-        {{tab1Content}}
-      </div>
+  <sky-tabset [active]="activeIndex" (activeChange)="tabChanged($event)">
+    <sky-tab [tabHeading]="tab1Heading" *ngIf="tab1Available">
+      <div class="tabset-test-content-1">{{tab1Content}}</div>
+    </sky-tab>
+    <sky-tab *ngIf="tab2Available" [tabHeading]="tab2Heading">
+      <div class="tabset-test-content-2">{{tab2Content}}</div>
     </sky-tab>
     <sky-tab
-        *ngIf="tab2Available"
-        [tabHeading]="tab2Heading"
+      *ngIf="tab3Available"
+      [tabHeading]="tab3Heading"
+      [tabHeaderCount]="tab3HeaderCount"
+      tabIndex="something"
     >
-      <div class="tabset-test-content-2">
-        {{tab2Content}}
-      </div>
+      <div class="tabset-test-content-3">{{tab3Content}}</div>
     </sky-tab>
-    <sky-tab
-        *ngIf="tab3Available"
-        [tabHeading]="tab3Heading"
-        [tabHeaderCount]="tab3HeaderCount"
-        tabIndex="something"
-    >
-      <div class="tabset-test-content-3">
-        {{tab3Content}}
-      </div>
-    </sky-tab>
-     <sky-tab
-        *ngIf="tab4Available"
-        [tabHeading]="tab4Heading"
-    >
-      <div class="tabset-test-content-4">
-        {{tab4Content}}
-      </div>
+    <sky-tab *ngIf="tab4Available" [tabHeading]="tab4Heading">
+      <div class="tabset-test-content-4">{{tab4Content}}</div>
     </sky-tab>
   </sky-tabset>
 </div>

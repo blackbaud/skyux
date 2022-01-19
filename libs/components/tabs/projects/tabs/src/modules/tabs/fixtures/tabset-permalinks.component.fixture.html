@@ -1,20 +1,14 @@
 <sky-tabset
-  [active]= "activeIndex"
+  [active]="activeIndex"
   [permalinkId]="permalinkId"
   (activeChange)="onActiveChange($event)"
 >
-  <sky-tab
-    tabHeading="A.P.I."
-  >
-  </sky-tab>
+  <sky-tab tabHeading="A.P.I."> </sky-tab>
   <sky-tab
     tabHeading="Design & Guidelines"
     [disabled]="secondTabDisabled"
     [permalinkValue]="permalinkValue"
   >
   </sky-tab>
-  <sky-tab
-    tabHeading="Questions?"
-  >
-  </sky-tab>
+  <sky-tab tabHeading="Questions?"> </sky-tab>
 </sky-tabset>

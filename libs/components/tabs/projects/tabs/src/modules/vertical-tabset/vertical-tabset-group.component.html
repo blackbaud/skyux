@@ -1,9 +1,10 @@
 <div class="sky-vertical-tabset-group">
-   <!-- [ngClass] includes font classes for both modern and default styles -->
+  <!-- [ngClass] includes font classes for both modern and default styles -->
   <div
     class="sky-vertical-tabset-group-header sky-padding-even-default"
     [ngClass]="{
-      'sky-vertical-tabset-group-header-sub-open sky-font-emphasized sky-emphasized': subMenuOpen(),
+      'sky-vertical-tabset-group-header-sub-open sky-font-emphasized sky-emphasized':
+        subMenuOpen(),
       'sky-font-deemphasized': disabled,
       'sky-deemphasized': disabled,
       'sky-vertical-tabset-disabled': disabled
@@ -13,7 +14,8 @@
     [tabIndex]="-1"
   >
     {{ groupHeading }}
-    <sky-chevron *skyThemeIf="'default'"
+    <sky-chevron
+      *skyThemeIf="'default'"
       class="sky-vertical-tabset-group-header-chevron"
       [direction]="open ? 'up' : 'down'"
       [disabled]="disabled"
@@ -22,33 +24,31 @@
     >
     </sky-chevron>
     <ng-container *skyThemeIf="'modern'">
-    <button *ngIf="!open"
-      class="sky-btn sky-btn-icon-borderless sky-vertical-tabset-group-header-chevron"
-      type="button"
-    >
-      <sky-icon
-        icon="chevron-up"
-        iconType="skyux"
+      <button
+        *ngIf="!open"
+        class="
+          sky-btn
+          sky-btn-icon-borderless
+          sky-vertical-tabset-group-header-chevron
+        "
+        type="button"
       >
-      </sky-icon>
-    </button>
-    <button *ngIf="open"
-      class="sky-btn sky-btn-icon-borderless sky-vertical-tabset-group-header-chevron"
-      type="button"
-    >
-      <sky-icon
-        icon="chevron-down"
-        iconType="skyux"
+        <sky-icon icon="chevron-up" iconType="skyux"> </sky-icon>
+      </button>
+      <button
+        *ngIf="open"
+        class="
+          sky-btn
+          sky-btn-icon-borderless
+          sky-vertical-tabset-group-header-chevron
+        "
+        type="button"
       >
-      </sky-icon>
-    </button>
-  </ng-container>
+        <sky-icon icon="chevron-down" iconType="skyux"> </sky-icon>
+      </button>
+    </ng-container>
   </div>
-  <div
-    class="sky-vertical-tabset-group-content"
-    *ngIf="open"
-    [@tabSlide]
-  >
+  <div class="sky-vertical-tabset-group-content" *ngIf="open" [@tabSlide]>
     <ng-content></ng-content>
   </div>
 </div>

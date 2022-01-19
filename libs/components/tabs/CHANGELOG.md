@@ -1,3 +1,7 @@
+# 5.0.4 (2022-01-18)
+
+- Added support for Prettier code formatting. [#202](https://github.com/blackbaud/skyux-tabs/pull/202)
+
 # 5.0.3 (2022-01-11)
 
 - Removed the sectioned form code example that was not using a modal. Updated sectioned form code example to use OnPush change detection. [#199](https://github.com/blackbaud/skyux-tabs/pull/199)

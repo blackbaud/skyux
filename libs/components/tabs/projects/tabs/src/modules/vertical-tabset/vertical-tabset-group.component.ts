@@ -6,31 +6,18 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  animate,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyVerticalTabComponent
-} from './vertical-tab.component';
+import { SkyVerticalTabComponent } from './vertical-tab.component';
 
-import {
-  SkyVerticalTabsetService
-} from './vertical-tabset.service';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 @Component({
   selector: 'sky-vertical-tabset-group',
@@ -38,33 +25,37 @@ import {
   styleUrls: ['./vertical-tabset-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger(
-      'tabSlide', [
-        transition(':enter', [
-          style({
-            height: '0',
-            visibility: 'hidden'
-          }),
-          animate('150ms ease-in', style({
-            height: '*',
-            visibility: 'visible'
-          }))
-        ]),
-        transition(':leave', [
+    trigger('tabSlide', [
+      transition(':enter', [
+        style({
+          height: '0',
+          visibility: 'hidden',
+        }),
+        animate(
+          '150ms ease-in',
           style({
             height: '*',
-            visibility: 'visible'
-          }),
-          animate('150ms ease-in', style({
+            visibility: 'visible',
+          })
+        ),
+      ]),
+      transition(':leave', [
+        style({
+          height: '*',
+          visibility: 'visible',
+        }),
+        animate(
+          '150ms ease-in',
+          style({
             height: '0',
-            visibility: 'hidden'
-          }))
-        ])
-      ])
-    ]
+            visibility: 'hidden',
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
-
   /**
    * Indicates whether to disable the ability to expand and collapse the group.
    * @default "false"
@@ -133,22 +124,22 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   }
 
   public subMenuOpen(): boolean {
-    return this.tabs && (this.tabs.find(t => t.active) !== undefined);
+    return this.tabs && this.tabs.find((t) => t.active) !== undefined;
   }
 
   public tabClicked = () => {
     this.changeRef.markForCheck();
-  }
+  };
 
   public tabsHidden = () => {
     // this fixes an animation bug with ngIf when the parent component goes from visible to hidden
     this.openBeforeTabsHidden = this.open;
     this.open = false;
     this.changeRef.markForCheck();
-  }
+  };
 
   public tabsShown = () => {
     this.open = this.openBeforeTabsHidden;
     this.changeRef.markForCheck();
-  }
+  };
 }

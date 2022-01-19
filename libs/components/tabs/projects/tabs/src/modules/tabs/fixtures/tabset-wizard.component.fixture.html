@@ -1,10 +1,11 @@
 <sky-tabset tabStyle="wizard" #wizardDemo>
-  <sky-tab
-    tabHeading="Step 1"
-    [active]="selectedTab === 0"
-  >
+  <sky-tab tabHeading="Step 1" [active]="selectedTab === 0">
     <label>
-      <input type="text" [(ngModel)]="requiredValue1" aria-label="Required Value 1"/>
+      <input
+        type="text"
+        [(ngModel)]="requiredValue1"
+        aria-label="Required Value 1"
+      />
     </label>
   </sky-tab>
   <sky-tab
@@ -12,7 +13,11 @@
     [disabled]="step2Disabled"
     [active]="selectedTab === 1"
   >
-    <input type="text" [(ngModel)]="requiredValue2" aria-label="Required Value 2"/>
+    <input
+      type="text"
+      [(ngModel)]="requiredValue2"
+      aria-label="Required Value 2"
+    />
   </sky-tab>
   <sky-tab
     tabHeading="Step 3"
@@ -22,5 +27,11 @@
     Some other content
   </sky-tab>
 </sky-tabset>
-<sky-tabset-nav-button buttonType="previous" [tabset]="wizardDemo"></sky-tabset-nav-button>
-<sky-tabset-nav-button buttonType="next" [tabset]="wizardDemo"></sky-tabset-nav-button>
+<sky-tabset-nav-button
+  buttonType="previous"
+  [tabset]="wizardDemo"
+></sky-tabset-nav-button>
+<sky-tabset-nav-button
+  buttonType="next"
+  [tabset]="wizardDemo"
+></sky-tabset-nav-button>

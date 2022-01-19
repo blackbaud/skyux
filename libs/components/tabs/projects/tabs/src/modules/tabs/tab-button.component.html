@@ -23,30 +23,25 @@
     (click)="onButtonClick($event)"
     (keydown.enter)="onButtonEnterKeyDown($event)"
   >
-    <span
-      class="sky-tab-heading"
-    >
+    <span class="sky-tab-heading">
       {{ buttonText }}
-      <span *ngIf="buttonTextCount !== undefined"
-        class="sky-tab-header-count"
-      >
+      <span *ngIf="buttonTextCount !== undefined" class="sky-tab-header-count">
         {{ buttonTextCount }}
       </span>
     </span>
   </a>
 
-  <button *ngIf="closeable"
+  <button
+    *ngIf="closeable"
     class="sky-btn-tab-close"
     type="button"
-    [attr.aria-label]="'skyux_tab_close' | skyLibResources:buttonText"
+    [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
     [disabled]="disabled"
     [ngClass]="{
       'sky-btn-tab-close-disabled': disabled
     }"
     (click)="onCloseClick($event)"
-    >
-    <sky-icon
-      icon="remove"
-    ></sky-icon>
+  >
+    <sky-icon icon="remove"></sky-icon>
   </button>
 </div>

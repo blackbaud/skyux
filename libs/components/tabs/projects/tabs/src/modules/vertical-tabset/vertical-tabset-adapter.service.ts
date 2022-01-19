@@ -2,20 +2,16 @@ import {
   ElementRef,
   Injectable,
   Renderer2,
-  RendererFactory2
+  RendererFactory2,
 } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints
-} from '@skyux/core';
+import { SkyMediaBreakpoints } from '@skyux/core';
 
 @Injectable()
 export class SkyVerticalTabsetAdapterService {
   private renderer: Renderer2;
 
-  constructor(
-    private rendererFactory: RendererFactory2
-  ) {
+  constructor(private rendererFactory: RendererFactory2) {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
@@ -27,7 +23,10 @@ export class SkyVerticalTabsetAdapterService {
     element.nativeElement.scrollTop = 0;
   }
 
-  public setResponsiveClass(element: ElementRef, breakpoint: SkyMediaBreakpoints): void {
+  public setResponsiveClass(
+    element: ElementRef,
+    breakpoint: SkyMediaBreakpoints
+  ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
     this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');

@@ -1,17 +1,11 @@
-import {
-  Component,
-  ViewChild
-} from '@angular/core';
-import {
-  SkyTabsetComponent
-} from '../tabset.component';
+import { Component, ViewChild } from '@angular/core';
+import { SkyTabsetComponent } from '../tabset.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './tabset.component.fixture.html'
+  templateUrl: './tabset.component.fixture.html',
 })
 export class TabsetTestComponent {
-
   public ariaLabel: string;
 
   public ariaLabelledBy: string;
@@ -43,9 +37,9 @@ export class TabsetTestComponent {
   @ViewChild(SkyTabsetComponent)
   public tabsetComponent: SkyTabsetComponent;
 
-  public newTab() { }
+  public newTab() {}
 
-  public openTab() { }
+  public openTab() {}
 
   public closeTab2() {
     this.tab2Available = false;

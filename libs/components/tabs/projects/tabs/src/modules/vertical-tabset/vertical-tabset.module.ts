@@ -1,46 +1,30 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import {
   SkyChevronModule,
   SkyIconModule,
-  SkyStatusIndicatorModule
+  SkyStatusIndicatorModule,
 } from '@skyux/indicators';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyTabsResourcesModule
-} from '../shared/sky-tabs-resources.module';
+import { SkyTabsResourcesModule } from '../shared/sky-tabs-resources.module';
 
-import {
-  SkyVerticalTabsetComponent
-} from './vertical-tabset.component';
+import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 
-import {
-  SkyVerticalTabComponent
-} from './vertical-tab.component';
+import { SkyVerticalTabComponent } from './vertical-tab.component';
 
-import {
-  SkyVerticalTabsetGroupComponent
-} from './vertical-tabset-group.component';
+import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.component';
 
-import {
-  SkyVerticalTabsetAdapterService
-} from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 
 @NgModule({
   declarations: [
     SkyVerticalTabsetComponent,
     SkyVerticalTabsetGroupComponent,
-    SkyVerticalTabComponent
+    SkyVerticalTabComponent,
   ],
   imports: [
     CommonModule,
@@ -48,15 +32,13 @@ import {
     SkyIconModule,
     SkyStatusIndicatorModule,
     SkyTabsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  providers: [
-    SkyVerticalTabsetAdapterService
-  ],
+  providers: [SkyVerticalTabsetAdapterService],
   exports: [
     SkyVerticalTabsetComponent,
     SkyVerticalTabsetGroupComponent,
-    SkyVerticalTabComponent
-  ]
+    SkyVerticalTabComponent,
+  ],
 })
-export class SkyVerticalTabsetModule { }
+export class SkyVerticalTabsetModule {}

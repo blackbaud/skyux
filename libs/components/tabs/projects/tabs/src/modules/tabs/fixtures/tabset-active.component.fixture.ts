@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './tabset-active.component.fixture.html'
+  templateUrl: './tabset-active.component.fixture.html',
 })
 export class TabsetActiveTestComponent {
   public tab1Heading = 'Tab 1';
@@ -31,9 +31,9 @@ export class TabsetActiveTestComponent {
   public tab4Heading = 'Tab 4';
   public tab4Content: string;
 
-  public newTab() { }
+  public newTab() {}
 
-  public openTab() { }
+  public openTab() {}
 
   public tabChanged(newTab: any) {
     this.activeIndex = newTab;

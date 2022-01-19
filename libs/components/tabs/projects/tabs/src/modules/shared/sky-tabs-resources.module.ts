@@ -12,11 +12,18 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  SKY_LIB_RESOURCES_PROVIDERS,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_tab_add":{"message":"Add tab"},"skyux_tab_close":{"message":"Close {0} tab"},"skyux_tabs_navigator_next":{"message":"Next"},"skyux_tabs_navigator_previous":{"message":"Previous"},"skyux_tab_open":{"message":"Open tab"},"skyux_vertical_tabs_show_tabs_text":{"message":"Tab list"}},
+  'EN-US': {
+    skyux_tab_add: { message: 'Add tab' },
+    skyux_tab_close: { message: 'Close {0} tab' },
+    skyux_tabs_navigator_next: { message: 'Next' },
+    skyux_tabs_navigator_previous: { message: 'Previous' },
+    skyux_tab_open: { message: 'Open tab' },
+    skyux_vertical_tabs_show_tabs_text: { message: 'Tab list' },
+  },
 };
 
 export class SkyTabsResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +37,12 @@ export class SkyTabsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyTabsResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyTabsResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyTabsResourcesModule { }
+export class SkyTabsResourcesModule {}

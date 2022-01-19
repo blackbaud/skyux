@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-vertical-tabset-group {
   @include sky-border(light, bottom);
@@ -49,6 +49,6 @@
   .sky-vertical-tabset-group-header-chevron {
     position: absolute;
     top: 6px;
-    right: 5px
+    right: 5px;
   }
 }

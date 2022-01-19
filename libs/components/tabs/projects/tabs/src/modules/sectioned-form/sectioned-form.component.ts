@@ -9,28 +9,19 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Input
+  Input,
 } from '@angular/core';
 
-import {
-  style,
-  trigger,
-  transition,
-  animate
-} from '@angular/animations';
+import { style, trigger, transition, animate } from '@angular/animations';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import {
   SkyVerticalTabsetService,
   HIDDEN_STATE,
-  VISIBLE_STATE
+  VISIBLE_STATE,
 } from './../vertical-tabset/vertical-tabset.service';
 
 /**
@@ -43,26 +34,23 @@ import {
   providers: [SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger(
-      'tabEnter', [
-        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-          style({transform: 'translate(-100%)'}),
-          animate('150ms ease-in')
-        ])
-      ]
-    ),
-    trigger(
-      'contentEnter', [
-        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-          style({transform: 'translate(100%)'}),
-          animate('150ms ease-in')
-        ])
-      ]
-    )
-  ]
+    trigger('tabEnter', [
+      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
+        style({ transform: 'translate(-100%)' }),
+        animate('150ms ease-in'),
+      ]),
+    ]),
+    trigger('contentEnter', [
+      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
+        style({ transform: 'translate(100%)' }),
+        animate('150ms ease-in'),
+      ]),
+    ]),
+  ],
 })
-export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewChecked {
-
+export class SkySectionedFormComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   /**
    * Indicates whether the sectioned form loads section content during initialization so that it
    * displays content without moving around elements in the content container.
@@ -71,10 +59,10 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
   @Input()
   public maintainSectionContent: boolean = false;
 
-/**
- * Fires when the active tab changes and emits the index of the active
- * section. The index is based on the section's position when the form loads.
- */
+  /**
+   * Fires when the active tab changes and emits the index of the active
+   * section. The index is based on the section's position when the form loads.
+   */
   @Output()
   public indexChanged: EventEmitter<number> = new EventEmitter();
 
@@ -90,14 +78,15 @@ export class SkySectionedFormComponent implements OnInit, OnDestroy, AfterViewCh
 
   constructor(
     public tabService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef) {}
+    private changeRef: ChangeDetectorRef
+  ) {}
 
   public ngOnInit() {
     this.tabService.maintainTabContent = this.maintainSectionContent;
 
     this.tabService.indexChanged
       .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe(index => {
+      .subscribe((index) => {
         this.indexChanged.emit(index);
         this.changeRef.markForCheck();
       });

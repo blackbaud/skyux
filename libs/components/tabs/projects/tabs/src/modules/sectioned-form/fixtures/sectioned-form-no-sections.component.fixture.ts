@@ -3,7 +3,7 @@ import { SkySectionedFormComponent } from '../sectioned-form.component';
 
 @Component({
   selector: 'sky-sectioned-form-no-sections-fixture',
-  templateUrl: './sectioned-form-no-sections.component.fixture.html'
+  templateUrl: './sectioned-form-no-sections.component.fixture.html',
 })
 export class SkySectionedFormNoSectionsFixtureComponent {
   public maintainSectionContent: boolean = false;

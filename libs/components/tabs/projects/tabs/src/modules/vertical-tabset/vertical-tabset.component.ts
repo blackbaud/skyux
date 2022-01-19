@@ -9,68 +9,49 @@ import {
   EventEmitter,
   AfterViewChecked,
   ChangeDetectorRef,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
-import {
-  style,
-  trigger,
-  transition,
-  animate
-} from '@angular/animations';
+import { style, trigger, transition, animate } from '@angular/animations';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  take,
-  takeUntil
-} from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
-import {
-  SkyVerticalTabsetAdapterService
-} from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 
 import {
   SkyVerticalTabsetService,
   HIDDEN_STATE,
-  VISIBLE_STATE
+  VISIBLE_STATE,
 } from './vertical-tabset.service';
 
 @Component({
   selector: 'sky-vertical-tabset',
   templateUrl: './vertical-tabset.component.html',
   styleUrls: ['./vertical-tabset.component.scss'],
-  providers: [
-    SkyVerticalTabsetService
-  ],
+  providers: [SkyVerticalTabsetService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
-    trigger(
-      'tabGroupEnter', [
-        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-          style({transform: 'translate(-100%)'}),
-          animate('150ms ease-in')
-        ])
-      ]
-    ),
-    trigger(
-      'contentEnter', [
-        transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
-          style({transform: 'translate(100%)'}),
-          animate('150ms ease-in')
-        ])
-      ]
-    )
-  ]
+    trigger('tabGroupEnter', [
+      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
+        style({ transform: 'translate(-100%)' }),
+        animate('150ms ease-in'),
+      ]),
+    ]),
+    trigger('contentEnter', [
+      transition(`${HIDDEN_STATE} => ${VISIBLE_STATE}`, [
+        style({ transform: 'translate(100%)' }),
+        animate('150ms ease-in'),
+      ]),
+    ]),
+  ],
 })
-export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnDestroy {
-
+export class SkyVerticalTabsetComponent
+  implements OnInit, AfterViewChecked, OnDestroy
+{
   /**
    * Specifies the text to display on the show tabs button on mobile devices.
    */
@@ -128,7 +109,8 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
     public adapterService: SkyVerticalTabsetAdapterService,
     public tabService: SkyVerticalTabsetService,
     private resources: SkyLibResourcesService,
-    private changeRef: ChangeDetectorRef) {}
+    private changeRef: ChangeDetectorRef
+  ) {}
 
   public ngOnInit() {
     this.tabService.maintainTabContent = this.maintainTabContent;
@@ -156,9 +138,10 @@ export class SkyVerticalTabsetComponent implements OnInit, AfterViewChecked, OnD
       this.changeRef.markForCheck();
     }
     if (!this.showTabsText) {
-      this.resources.getString('skyux_vertical_tabs_show_tabs_text')
+      this.resources
+        .getString('skyux_vertical_tabs_show_tabs_text')
         .pipe(take(1))
-        .subscribe(resource => {
+        .subscribe((resource) => {
           /* sanity check */
           /* istanbul ignore else */
           if (!this.showTabsText) {

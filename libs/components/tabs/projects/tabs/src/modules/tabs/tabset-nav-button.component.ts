@@ -2,28 +2,18 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  Input
+  Input,
 } from '@angular/core';
 
-import {
-  SkyLibResourcesService
-} from '@skyux/i18n';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
-import {
-  forkJoin
-} from 'rxjs';
+import { forkJoin } from 'rxjs';
 
-import {
-  take
-} from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import {
-  SkyTabsetComponent
-} from './tabset.component';
+import { SkyTabsetComponent } from './tabset.component';
 
-import {
-  SkyTabComponent
-} from './tab.component';
+import { SkyTabComponent } from './tab.component';
 
 const buttonTypeNext = 'next';
 
@@ -34,10 +24,9 @@ const buttonTypePrevious = 'previous';
  */
 @Component({
   selector: 'sky-tabset-nav-button',
-  templateUrl: './tabset-nav-button.component.html'
+  templateUrl: './tabset-nav-button.component.html',
 })
 export class SkyTabsetNavButtonComponent implements AfterViewInit {
-
   @Input()
   public tabset: SkyTabsetComponent;
 
@@ -87,7 +76,9 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
     let selectedTab: SkyTabComponent;
 
     if (this.tabset && this.tabset.tabs) {
-      selectedTab = this.tabset.tabs.find((tab) => tab.tabIndex === this.tabset.lastActiveTabIndex);
+      selectedTab = this.tabset.tabs.find(
+        (tab) => tab.tabIndex === this.tabset.lastActiveTabIndex
+      );
     }
 
     return selectedTab;
@@ -119,15 +110,18 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
   private previousButtonText: string;
   private nextButtonText: string;
 
-  constructor(private resourceService: SkyLibResourcesService, private changeDetector: ChangeDetectorRef) { }
+  constructor(
+    private resourceService: SkyLibResourcesService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   public ngAfterViewInit() {
     forkJoin([
       this.resourceService.getString('skyux_tabs_navigator_previous'),
-      this.resourceService.getString('skyux_tabs_navigator_next')
+      this.resourceService.getString('skyux_tabs_navigator_next'),
     ])
       .pipe(take(1))
-      .subscribe(resources => {
+      .subscribe((resources) => {
         this.previousButtonText = resources[0];
         this.nextButtonText = resources[1];
         this.changeDetector.detectChanges();

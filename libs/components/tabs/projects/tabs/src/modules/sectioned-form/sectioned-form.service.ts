@@ -1,21 +1,21 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class SkySectionedFormService {
-/**
- * @internal
- */
-  public invalidChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
-/**
- * @internal
- */
-  public requiredChange: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
+  /**
+   * @internal
+   */
+  public invalidChange: BehaviorSubject<boolean> = new BehaviorSubject(
+    undefined
+  );
+  /**
+   * @internal
+   */
+  public requiredChange: BehaviorSubject<boolean> = new BehaviorSubject(
+    undefined
+  );
 
   /**
    * Sets the current section's invalid state based on the `isInvalid` parameter.

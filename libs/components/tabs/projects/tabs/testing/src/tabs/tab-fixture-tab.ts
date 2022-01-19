@@ -2,7 +2,6 @@
  * Properties of a SKY UX tab.
  */
 export interface SkyTabsetFixtureTab {
-
   /**
    * Indicates whether the tab is the currently selected tab.
    */
@@ -27,5 +26,4 @@ export interface SkyTabsetFixtureTab {
    * The text displayed in the tab header.
    */
   tabHeading: string;
-
 }

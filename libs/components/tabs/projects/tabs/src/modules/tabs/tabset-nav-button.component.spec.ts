@@ -1,14 +1,6 @@
-import {
-  async,
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
-import {
-  expect,
-  expectAsync
-} from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
@@ -29,9 +21,7 @@ describe('Tabset navigation button', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyTabsFixturesModule
-      ]
+      imports: [SkyTabsFixturesModule],
     });
   });
 

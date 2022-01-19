@@ -1,27 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import {
-  SkyModalCloseArgs,
-  SkyModalService
-} from '@skyux/modals';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import {
-  SectionedFormModalDemoComponent
-} from './sectioned-form-modal-demo.component';
+import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.component';
 
 @Component({
   selector: 'app-sectioned-form-demo',
   templateUrl: './sectioned-form-demo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionedFormDemoComponent {
-
-  constructor(
-    private modal: SkyModalService
-  ) {}
+  constructor(private modal: SkyModalService) {}
 
   public openModal(): void {
     let modalInstance = this.modal.open(SectionedFormModalDemoComponent);

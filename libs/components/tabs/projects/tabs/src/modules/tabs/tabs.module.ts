@@ -1,57 +1,33 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  RouterModule
-} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
-import {
-  SkyI18nModule
-} from '@skyux/i18n';
+import { SkyI18nModule } from '@skyux/i18n';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
- SkyDropdownModule
-} from '@skyux/popovers';
+import { SkyDropdownModule } from '@skyux/popovers';
 
-import {
-  SkyThemeModule
-} from '@skyux/theme';
+import { SkyThemeModule } from '@skyux/theme';
 
-import {
-  SkyTabsResourcesModule
-} from '../shared/sky-tabs-resources.module';
+import { SkyTabsResourcesModule } from '../shared/sky-tabs-resources.module';
 
-import {
-  SkyTabButtonComponent
-} from './tab-button.component';
+import { SkyTabButtonComponent } from './tab-button.component';
 
-import {
-  SkyTabComponent
-} from './tab.component';
+import { SkyTabComponent } from './tab.component';
 
-import {
-  SkyTabsetNavButtonComponent
-} from './tabset-nav-button.component';
+import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 
-import {
-  SkyTabsetComponent
-} from './tabset.component';
+import { SkyTabsetComponent } from './tabset.component';
 
 @NgModule({
   declarations: [
     SkyTabButtonComponent,
     SkyTabComponent,
     SkyTabsetComponent,
-    SkyTabsetNavButtonComponent
+    SkyTabsetNavButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -60,12 +36,8 @@ import {
     SkyI18nModule,
     SkyIconModule,
     SkyTabsResourcesModule,
-    SkyThemeModule
+    SkyThemeModule,
   ],
-  exports: [
-    SkyTabComponent,
-    SkyTabsetComponent,
-    SkyTabsetNavButtonComponent
-  ]
+  exports: [SkyTabComponent, SkyTabsetComponent, SkyTabsetNavButtonComponent],
 })
-export class SkyTabsModule { }
+export class SkyTabsModule {}

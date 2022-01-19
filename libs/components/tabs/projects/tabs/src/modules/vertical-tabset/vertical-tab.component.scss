@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 .sky-vertical-tab {
   cursor: pointer;
@@ -64,8 +64,10 @@
   .sky-vertical-tab {
     color: $sky-text-color-deemphasized;
     cursor: pointer;
-    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm $sky-theme-modern-space-sm;
-    margin: $sky-theme-modern-margin-inline-sm 0 $sky-theme-modern-margin-inline-lg $sky-theme-modern-margin-inline-sm;
+    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
+      $sky-theme-modern-space-sm;
+    margin: $sky-theme-modern-margin-inline-sm 0
+      $sky-theme-modern-margin-inline-lg $sky-theme-modern-margin-inline-sm;
 
     &:not(.sky-vertical-tab-active):not(:active):hover {
       color: $sky-text-color-default;
@@ -77,8 +79,7 @@
     &:not(:active):focus-visible {
       outline: solid 2px $sky-theme-modern-background-color-primary-dark;
       outline-offset: -2px;
-      box-shadow:
-        $sky-theme-modern-elevation-3-shadow-size
+      box-shadow: $sky-theme-modern-elevation-3-shadow-size
         $sky-theme-modern-elevation-3-shadow-color;
     }
 

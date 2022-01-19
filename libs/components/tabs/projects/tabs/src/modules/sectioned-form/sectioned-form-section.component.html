@@ -10,12 +10,14 @@
   [showTabRightArrow]="true"
   [tabHeaderCount]="itemCount"
   [tabHeading]="heading"
-  [tabId]="sectionTabId">
+  [tabId]="sectionTabId"
+>
   <div
     [attr.aria-labelledby]="ariaLabelledby"
     [attr.role]="ariaRole"
     [id]="sectionContentId"
-    #tabContent>
+    #tabContent
+  >
     <ng-content></ng-content>
   </div>
 </sky-vertical-tab>

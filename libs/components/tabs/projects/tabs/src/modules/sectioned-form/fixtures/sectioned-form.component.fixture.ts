@@ -3,10 +3,9 @@ import { SkySectionedFormComponent } from '../sectioned-form.component';
 
 @Component({
   selector: 'sky-sectioned-form-fixture',
-  templateUrl: './sectioned-form.component.fixture.html'
+  templateUrl: './sectioned-form.component.fixture.html',
 })
 export class SkySectionedFormFixtureComponent implements AfterContentChecked {
-
   @ViewChild(SkySectionedFormComponent)
   public sectionedForm: SkySectionedFormComponent;
 

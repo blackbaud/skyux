@@ -1,10 +1,8 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-wizard-form',
-  templateUrl: './tabset-wizard.component.fixture.html'
+  templateUrl: './tabset-wizard.component.fixture.html',
 })
 export class SkyWizardTestFormComponent {
   public requiredValue1: string;
@@ -17,7 +15,7 @@ export class SkyWizardTestFormComponent {
 
   public selectedTab = 0;
 
-  constructor() { }
+  constructor() {}
 
   public validateStep1() {
     return true;

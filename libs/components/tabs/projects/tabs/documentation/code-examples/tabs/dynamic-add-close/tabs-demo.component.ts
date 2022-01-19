@@ -1,26 +1,23 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-tabs-demo',
-  templateUrl: './tabs-demo.component.html'
+  templateUrl: './tabs-demo.component.html',
 })
 export class TabsDemoComponent {
-
   public tabArray = [
     {
       tabHeading: 'Tab 1',
-      tabContent: 'Content for Tab 1'
+      tabContent: 'Content for Tab 1',
     },
     {
       tabHeading: 'Tab 2',
-      tabContent: 'Content for Tab 2'
+      tabContent: 'Content for Tab 2',
     },
     {
       tabHeading: 'Tab 3',
-      tabContent: 'Content for Tab 3'
-    }
+      tabContent: 'Content for Tab 3',
+    },
   ];
 
   private tabCounter: number = 3;
@@ -30,7 +27,7 @@ export class TabsDemoComponent {
 
     this.tabArray.push({
       tabHeading: 'Tab ' + this.tabCounter,
-      tabContent: 'Content for Tab' + this.tabCounter
+      tabContent: 'Content for Tab' + this.tabCounter,
     });
   }
 

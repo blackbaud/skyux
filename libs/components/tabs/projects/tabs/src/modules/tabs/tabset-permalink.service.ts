@@ -1,22 +1,10 @@
-import {
-  Location
-} from '@angular/common';
+import { Location } from '@angular/common';
 
-import {
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  Observable,
-  Subject,
-  SubscriptionLike
-} from 'rxjs';
+import { Observable, Subject, SubscriptionLike } from 'rxjs';
 
 /**
  * @internal
@@ -30,7 +18,6 @@ interface PermalinkParams {
  */
 @Injectable()
 export class SkyTabsetPermalinkService implements OnDestroy {
-
   public get popStateChange(): Observable<void> {
     return this._popStateChange.asObservable();
   }
@@ -43,7 +30,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private router: Router
-  ) { }
+  ) {}
 
   public ngOnDestroy(): void {
     if (this.subscription) {
@@ -78,11 +65,13 @@ export class SkyTabsetPermalinkService implements OnDestroy {
 
     // Update the URL without triggering a navigation state change.
     // See: https://stackoverflow.com/a/46486677
-    const url = this.router.createUrlTree(['.'], {
-      relativeTo: this.activatedRoute,
-      queryParams: params,
-      queryParamsHandling: 'merge'
-    }).toString();
+    const url = this.router
+      .createUrlTree(['.'], {
+        relativeTo: this.activatedRoute,
+        queryParams: params,
+        queryParamsHandling: 'merge',
+      })
+      .toString();
 
     // Abort redirect if the current URL is equal to the new URL.
     if (this.location.isCurrentPathEqualTo(url)) {
@@ -114,7 +103,9 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     params[name] = value;
 
     const baseUrl = this.location.path().split('?')[0];
-    const paramString = Object.keys(params).map(k => `${k}=${params[k]}`).join('&');
+    const paramString = Object.keys(params)
+      .map((k) => `${k}=${params[k]}`)
+      .join('&');
 
     return this.location.prepareExternalUrl(`${baseUrl}?${paramString}`);
   }
@@ -127,10 +118,14 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       return '';
     }
 
-    const sanitized = value.toLowerCase()
+    const sanitized = value
+      .toLowerCase()
 
       // Remove special characters.
-      .replace(/[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g, '')
+      .replace(
+        /[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g,
+        ''
+      )
 
       // Replace space characters with a dash.
       .replace(/\s/g, '-')
@@ -160,5 +155,4 @@ export class SkyTabsetPermalinkService implements OnDestroy {
 
     return params;
   }
-
 }

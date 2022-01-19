@@ -3,7 +3,7 @@ import { SkyVerticalTabsetComponent } from './../vertical-tabset.component';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './vertical-tabset-no-active.component.fixture.html'
+  templateUrl: './vertical-tabset-no-active.component.fixture.html',
 })
 export class VerticalTabsetNoActiveTestComponent {
   public maintainTabContent: boolean = false;

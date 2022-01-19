@@ -1,21 +1,10 @@
-import {
-  ElementRef,
-  Injectable
-} from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  BehaviorSubject,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import {
-  SkyVerticalTabComponent
-} from './vertical-tab.component';
+import { SkyVerticalTabComponent } from './vertical-tab.component';
 
 export const VISIBLE_STATE = 'shown';
 export const HIDDEN_STATE = 'void';
@@ -25,7 +14,6 @@ export const HIDDEN_STATE = 'void';
  */
 @Injectable()
 export class SkyVerticalTabsetService {
-
   public activeIndex: number = undefined;
 
   public animationContentVisibleState: string;
@@ -61,7 +49,7 @@ export class SkyVerticalTabsetService {
   private _isMobile: boolean = false;
 
   public constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.mediaQueryService.subscribe(breakpoint => {
+    this.mediaQueryService.subscribe((breakpoint) => {
       const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
 
       if (nowMobile && !this._isMobile) {
@@ -71,7 +59,6 @@ export class SkyVerticalTabsetService {
         if (!this._tabsVisible) {
           this.hidingTabs.next(true);
         }
-
       } else if (!nowMobile && this._isMobile) {
         // switching to widescreen
         this.switchingMobile.next(false);
@@ -115,7 +102,7 @@ export class SkyVerticalTabsetService {
 
     this.tabs.splice(tabIndex, 1);
     // update tab indices
-    this.tabs.forEach((tabItem, index) => tabItem.index = index);
+    this.tabs.forEach((tabItem, index) => (tabItem.index = index));
 
     if (tab.active) {
       if (!this.maintainTabContent) {
@@ -132,9 +119,8 @@ export class SkyVerticalTabsetService {
   }
 
   public activateTab(tab: SkyVerticalTabComponent) {
-
     // unactivate active tab
-    let activeTab = this.tabs.find(t => t.index === this.activeIndex);
+    let activeTab = this.tabs.find((t) => t.index === this.activeIndex);
     if (activeTab && activeTab.index !== tab.index) {
       activeTab.active = false;
       activeTab.tabDeactivated();
@@ -146,7 +132,7 @@ export class SkyVerticalTabsetService {
   }
 
   public activeTab(): SkyVerticalTabComponent {
-    return this.tabs.find(t => t.index === this.activeIndex);
+    return this.tabs.find((t) => t.index === this.activeIndex);
   }
 
   public isMobile() {
@@ -158,7 +144,6 @@ export class SkyVerticalTabsetService {
       if (!this._contentAdded && this.contentVisible()) {
         // content needs to be moved
         this.moveContent();
-
       } else if (this._contentAdded && !this.contentVisible()) {
         // content hidden
         this._contentAdded = false;

@@ -1,28 +1,17 @@
-import {
-  ComponentFixture
-} from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyTabsetFixtureTab
-} from './tab-fixture-tab';
+import { SkyTabsetFixtureTab } from './tab-fixture-tab';
 
 /**
  * Allows interaction with a SKY UX tabset component.
  */
 export class SkyTabsetFixture {
-
   /**
    * The tabset component's ARIA label.
    */
@@ -56,11 +45,12 @@ export class SkyTabsetFixture {
 
   private debugEl: DebugElement;
 
-  constructor(
-    private fixture: ComponentFixture<any>,
-    skyTestId: string
-  ) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(fixture, skyTestId, 'sky-tabset');
+  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+      fixture,
+      skyTestId,
+      'sky-tabset'
+    );
   }
 
   /**
@@ -75,7 +65,9 @@ export class SkyTabsetFixture {
     const tabHeading = this.getTextContent(
       tabLinkEl.querySelector('.sky-tab-heading').childNodes[0]
     );
-    const tabHeaderCount = this.getTextContent(tabLinkEl.querySelector('.sky-tab-header-count'));
+    const tabHeaderCount = this.getTextContent(
+      tabLinkEl.querySelector('.sky-tab-header-count')
+    );
 
     let permalinkValue: string;
 
@@ -93,7 +85,7 @@ export class SkyTabsetFixture {
       disabled,
       permalinkValue,
       tabHeaderCount,
-      tabHeading
+      tabHeading,
     };
   }
 
@@ -141,7 +133,9 @@ export class SkyTabsetFixture {
       throw new Error(`There is no tab at index ${tabIndex}.`);
     }
 
-    const closeBtnEl = tabWrapperEl.querySelector('.sky-btn-tab-close') as HTMLButtonElement;
+    const closeBtnEl = tabWrapperEl.querySelector(
+      '.sky-btn-tab-close'
+    ) as HTMLButtonElement;
 
     if (!closeBtnEl) {
       throw new Error('The specified tab does not have a close button.');
@@ -156,8 +150,9 @@ export class SkyTabsetFixture {
   private async clickButton(buttonCls: string): Promise<any> {
     const tabsetEl = this.getTabsetEl();
 
-    const newButtonEl =
-      tabsetEl.querySelector(`.sky-tabset-btns .${buttonCls}`) as HTMLButtonElement;
+    const newButtonEl = tabsetEl.querySelector(
+      `.sky-tabset-btns .${buttonCls}`
+    ) as HTMLButtonElement;
 
     newButtonEl.click();
 
@@ -172,9 +167,7 @@ export class SkyTabsetFixture {
   }
 
   private getTabLinkEls(): NodeListOf<HTMLAnchorElement> {
-    return this.getTabsetEl().querySelectorAll(
-      `.sky-tabset-tabs .sky-btn-tab`
-    );
+    return this.getTabsetEl().querySelectorAll(`.sky-tabset-tabs .sky-btn-tab`);
   }
 
   private getTabLinkEl(tabIndex: number): HTMLAnchorElement {
@@ -190,5 +183,4 @@ export class SkyTabsetFixture {
   private getTextContent(el: Element | Node): string {
     return (el && el.textContent.trim()) || undefined;
   }
-
 }

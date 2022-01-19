@@ -1,50 +1,26 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  SkyModalModule
-} from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
-import {
-  SkyTabsModule
-} from '../tabs.module';
+import { SkyTabsModule } from '../tabs.module';
 
-import {
-  TabsetActiveTestComponent
-} from './tabset-active.component.fixture';
+import { TabsetActiveTestComponent } from './tabset-active.component.fixture';
 
-import {
-  TabsetActiveTwoWayBindingTestComponent
-} from './tabset-active-two-way.component.fixture';
+import { TabsetActiveTwoWayBindingTestComponent } from './tabset-active-two-way.component.fixture';
 
-import {
-  TabsetLoopTestComponent
-} from './tabset-loop.component.fixture';
+import { TabsetLoopTestComponent } from './tabset-loop.component.fixture';
 
-import {
-  SkyTabsetPermalinksFixtureComponent
-} from './tabset-permalinks.component.fixture';
+import { SkyTabsetPermalinksFixtureComponent } from './tabset-permalinks.component.fixture';
 
-import {
-  SkyWizardTestFormComponent
-} from './tabset-wizard.component.fixture';
+import { SkyWizardTestFormComponent } from './tabset-wizard.component.fixture';
 
-import {
-  TabsetTestComponent
-} from './tabset.component.fixture';
+import { TabsetTestComponent } from './tabset.component.fixture';
 
 @NgModule({
   declarations: [
@@ -53,14 +29,14 @@ import {
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
     TabsetActiveTestComponent,
-    TabsetActiveTwoWayBindingTestComponent
+    TabsetActiveTwoWayBindingTestComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
     SkyModalModule,
     SkyTabsModule,
-    RouterTestingModule
+    RouterTestingModule,
   ],
   exports: [
     TabsetLoopTestComponent,
@@ -68,10 +44,8 @@ import {
     SkyTabsetPermalinksFixtureComponent,
     SkyWizardTestFormComponent,
     TabsetActiveTestComponent,
-    TabsetActiveTwoWayBindingTestComponent
+    TabsetActiveTwoWayBindingTestComponent,
   ],
-  entryComponents: [
-    SkyWizardTestFormComponent
-  ]
+  entryComponents: [SkyWizardTestFormComponent],
 })
-export class SkyTabsFixturesModule { }
+export class SkyTabsFixturesModule {}

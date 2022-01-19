@@ -1,6 +1,6 @@
-@import "~@skyux/theme/scss/variables";
-@import "~@skyux/theme/scss/mixins";
-@import "~@skyux/theme/scss/_compat/mixins";
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
 
 @include sky-host-responsive-container-xs-min() {
   .sky-vertical-tabset {
@@ -47,7 +47,7 @@
   overflow-y: auto;
 }
 
-:host-context(sky-modal-content >)  .sky-vertical-tabset {
+:host-context(sky-modal-content >) .sky-vertical-tabset {
   margin: -15px;
 }
 
@@ -62,5 +62,5 @@
     .sky-vertical-tabset-group-container {
       border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
     }
-   }
+  }
 }
