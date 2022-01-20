@@ -1,3 +1,7 @@
+# 5.115.0 (2022-01-20)
+
+- `@skyux/indicators@5.2.0` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.2.0/CHANGELOG.md)
+
 # 5.114.0 (2022-01-19)
 
 - `@skyux/tabs@5.0.4` [Release notes](https://github.com/blackbaud/skyux-tabs/blob/5.0.4/CHANGELOG.md)
