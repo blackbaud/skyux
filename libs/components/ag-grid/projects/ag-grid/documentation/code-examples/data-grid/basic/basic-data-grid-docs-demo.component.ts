@@ -57,22 +57,6 @@ export class SkyBasicDataGridDemoComponent {
       headerName: 'Title',
       type: SkyCellType.Autocomplete,
     },
-    {
-      colId: 'validationCurrency',
-      field: 'validationCurrency',
-      type: [SkyCellType.CurrencyValidator],
-    },
-    {
-      colId: 'validationDate',
-      field: 'validationDate',
-      type: [SkyCellType.Date, SkyCellType.Validator],
-      cellRendererParams: {
-        skyComponentProperties: {
-          validator: (value: Date) => !!value && value > new Date(1985, 9, 26),
-          validatorMessage: 'Please enter a future date',
-        },
-      },
-    },
   ];
 
   public gridApi: GridApi | undefined;
