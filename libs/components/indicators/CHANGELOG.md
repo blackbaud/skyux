@@ -1,3 +1,7 @@
+# 5.2.0 (2022-01-20)
+
+- Added the `ariaControls` and `ariaLabel` inputs to the chevron component. [#204](https://github.com/blackbaud/skyux-indicators/pull/204)
+
 # 5.1.2 (2021-12-07)
 
 - Added support for Prettier code formatting. [#203](https://github.com/blackbaud/skyux-indicators/pull/203)
