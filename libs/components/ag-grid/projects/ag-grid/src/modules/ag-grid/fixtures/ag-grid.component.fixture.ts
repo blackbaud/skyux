@@ -130,6 +130,7 @@ export class SkyAgGridFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
+    suppressColumnVirtualisation: true,
   };
 
   constructor(private gridService: SkyAgGridService) {}
