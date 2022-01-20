@@ -1,3 +1,7 @@
+# 5.1.8 (2022-01-20)
+
+- Remove validation columns from Data Grid code examples. [#187](https://github.com/blackbaud/skyux-ag-grid/pull/187)
+
 # 5.1.7 (2022-01-12)
 
 - Add code examples for v5 docs spa. [#175](https://github.com/blackbaud/skyux-ag-grid/pull/175)
