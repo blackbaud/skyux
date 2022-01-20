@@ -18,8 +18,6 @@ import {
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_alert_close: { message: 'Close the alert' },
-    skyux_chevron_collapse: { message: 'Collapse' },
-    skyux_chevron_expand: { message: 'Expand' },
     skyux_help_inline_button_title: { message: 'Show help content' },
     skyux_status_indicator_sr_completed: { message: 'Completed:' },
     skyux_status_indicator_sr_error: { message: 'Error:' },

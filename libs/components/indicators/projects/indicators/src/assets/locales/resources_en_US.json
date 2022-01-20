@@ -3,14 +3,6 @@
     "_description": "Screen reader text for the close button on alerts",
     "message": "Close the alert"
   },
-  "skyux_chevron_collapse": {
-    "_description": "Screen reader text for when clicking the chevron would collapse the corresponding section",
-    "message": "Collapse"
-  },
-  "skyux_chevron_expand": {
-    "_description": "Screen reader text for when clicking the chevron would expand the corresponding section",
-    "message": "Expand"
-  },
   "skyux_help_inline_button_title": {
     "_description": "The title for the help button.",
     "message": "Show help content"
