@@ -9,11 +9,11 @@
   },
   "skyux_definition_list_none_found": {
     "_description": "The default text to show when a definition list item has no value",
-    "message": "None found"
+    "message": "None found."
   },
   "skyux_description_list_none_found": {
     "_description": "The default text to show when a description list item has no description",
-    "message": "None found"
+    "message": "None found."
   },
   "skyux_inline_delete_assistive_text": {
     "_description": "Accessibility description for the inline delete component",
