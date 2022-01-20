@@ -1,3 +1,7 @@
+# 5.116.0 (2022-01-20)
+
+- `@skyux/ag-grid@5.1.8` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.8/CHANGELOG.md)
+
 # 5.115.0 (2022-01-20)
 
 - `@skyux/indicators@5.2.0` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.2.0/CHANGELOG.md)
