@@ -77,7 +77,7 @@ describe('Definition list component', () => {
 
     let defaultValueEl = valueEls[2].querySelector('.sky-deemphasized');
 
-    expect(defaultValueEl).toHaveText('None found');
+    expect(defaultValueEl).toHaveText('None found.');
   });
 
   it('should display a subsequent value when no value is initially specified', () => {
@@ -92,7 +92,7 @@ describe('Definition list component', () => {
 
     let defaultValueEl = getDefaultValueEl(valueEls[2]);
 
-    expect(defaultValueEl).toHaveText('None found');
+    expect(defaultValueEl).toHaveText('None found.');
 
     fixture.componentInstance.personalInfo[2].value = 'test';
 

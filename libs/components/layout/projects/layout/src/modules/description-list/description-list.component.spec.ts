@@ -158,7 +158,7 @@ describe('Description list component', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
     const descriptionEls = getDescriptionEls(list1El);
 
-    expect(descriptionEls[2]).toHaveText('None found');
+    expect(descriptionEls[2]).toHaveText('None found.');
   });
 
   it('should update DOM when consumer array is changed', () => {
