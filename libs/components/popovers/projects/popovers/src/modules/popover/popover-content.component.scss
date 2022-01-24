@@ -74,7 +74,7 @@ $popover-max-width: 276px;
     border-top-color: $sky-highlight-color-info;
     bottom: 0;
     left: 50%;
-    margin-left: -$popover-arrow-size / 2;
+    margin-left: -$popover-arrow-size * 0.5;
   }
 
   &.sky-popover-danger {
@@ -100,7 +100,7 @@ $popover-max-width: 276px;
     border-bottom-color: $sky-highlight-color-info;
     top: 0;
     left: 50%;
-    margin-left: -$popover-arrow-size / 2;
+    margin-left: -$popover-arrow-size * 0.5;
   }
 
   &.sky-popover-danger {
@@ -126,7 +126,7 @@ $popover-max-width: 276px;
     border-right-color: $sky-highlight-color-info;
     left: 0;
     top: 50%;
-    margin-top: -$popover-arrow-size / 2;
+    margin-top: -$popover-arrow-size * 0.5;
   }
 
   &.sky-popover-danger {
@@ -152,7 +152,7 @@ $popover-max-width: 276px;
     border-left-color: $sky-highlight-color-info;
     right: 0;
     top: 50%;
-    margin-top: -$popover-arrow-size / 2;
+    margin-top: -$popover-arrow-size * 0.5;
   }
 
   &.sky-popover-danger {

@@ -27,7 +27,7 @@ export class SkyPopoverAdapterService {
     let left: number;
 
     if (placement === 'above' || placement === 'below') {
-      left = callerRect.left + callerRect.width / 2;
+      left = callerRect.left + callerRect.width * 0.5;
 
       // Make sure the arrow never detaches from the popover.
       if (left - pixelTolerance < popoverRect.left) {
@@ -50,7 +50,7 @@ export class SkyPopoverAdapterService {
         }
       }
     } else {
-      top = callerRect.top + callerRect.height / 2;
+      top = callerRect.top + callerRect.height * 0.5;
 
       // Make sure the arrow never detaches from the popover.
       if (top - pixelTolerance < popoverRect.top) {
