@@ -2,7 +2,6 @@ import {
   async,
   ComponentFixture,
   fakeAsync,
-  inject,
   TestBed,
   tick,
 } from '@angular/core/testing';
@@ -54,9 +53,11 @@ describe('Text expand component', () => {
     el = fixture.nativeElement as HTMLElement;
   });
 
-  beforeEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-    _modalService.dispose();
-  }));
+  afterEach(() => {
+    const modalService = TestBed.inject(SkyModalService);
+    fixture.destroy();
+    modalService.dispose();
+  });
 
   describe('basic behaviors', () => {
     it('should have necessary aria properties', fakeAsync(() => {
