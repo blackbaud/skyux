@@ -35,7 +35,7 @@ $modern-avatar-padding-small: 2px;
 }
 
 .sky-avatar-initials {
-  font-size: $sky-avatar-height / 2;
+  font-size: $sky-avatar-height * 0.5;
 }
 
 .sky-avatar-initials-inner {
@@ -58,7 +58,7 @@ $modern-avatar-padding-small: 2px;
   }
 
   .sky-avatar-initials {
-    font-size: $avatar-size-medium / 2;
+    font-size: $avatar-size-medium * 0.5;
   }
 }
 
@@ -73,7 +73,7 @@ $modern-avatar-padding-small: 2px;
   }
 
   .sky-avatar-initials {
-    font-size: $avatar-size-small / 2;
+    font-size: $avatar-size-small * 0.5;
   }
 }
 
