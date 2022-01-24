@@ -229,6 +229,7 @@ describe('Viewkeeper', () => {
       }
 
       boundaryEl.parentElement.removeChild(boundaryEl);
+      scrollableHostEl.parentElement.removeChild(scrollableHostEl);
 
       window.scrollTo(0, 0);
     });
