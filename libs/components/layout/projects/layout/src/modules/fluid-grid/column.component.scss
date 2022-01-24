@@ -3,7 +3,7 @@
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $sky-fluid-grid-columns {
     sky-column.sky-column-#{$screen-size}-#{$i} {
-      width: ($i / $sky-fluid-grid-columns) * 100%;
+      width: calc(#{$i} / #{$sky-fluid-grid-columns} * 100%);
     }
   }
 }
