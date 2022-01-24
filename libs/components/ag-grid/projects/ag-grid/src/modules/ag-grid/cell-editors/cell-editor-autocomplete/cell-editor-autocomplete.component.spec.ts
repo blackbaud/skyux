@@ -7,6 +7,7 @@ import { Column, RowNode } from 'ag-grid-community';
 import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
+import { SkyAgGridModule } from '../../ag-grid.module';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -24,6 +25,9 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   ];
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridModule],
+    });
     fixture = TestBed.createComponent(SkyAgGridCellEditorAutocompleteComponent);
     nativeElement = fixture.nativeElement;
     component = fixture.componentInstance;
