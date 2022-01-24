@@ -1,3 +1,7 @@
+# 5.0.3 (2022-01-24)
+
+- Fixed the angular tree component to not select the virtual root when clicking the select all button. [#56](https://github.com/blackbaud/skyux-angular-tree-component/pull/56)
+
 # 5.0.2 (2021-11-19)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#54](https://github.com/blackbaud/skyux-angular-tree-component/pull/54)
