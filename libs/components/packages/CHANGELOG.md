@@ -1,3 +1,7 @@
+# 5.118.0 (2022-01-24)
+
+- `@skyux/ag-grid@5.1.9` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.9/CHANGELOG.md)
+
 # 5.117.0 (2022-01-24)
 
 - `@skyux/angular-tree-component@5.0.3` [Release notes](https://github.com/blackbaud/skyux-angular-tree-component/blob/5.0.3/CHANGELOG.md)
