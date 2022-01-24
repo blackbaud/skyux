@@ -41,6 +41,7 @@ describe('Column selector component', () => {
   afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
     _modalService.dispose();
     fixture.detectChanges();
+    fixture.destroy();
   }));
 
   it('should render a checklist with column headers and descriptions', fakeAsync(() => {

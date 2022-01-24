@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
-import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
+import {
+  SkyModalService,
+  SkyModalCloseArgs,
+  SkyModalInstance,
+} from '@skyux/modals';
 
 import { SkyColumnSelectorComponent } from '../column-selector-modal.component';
 
@@ -10,7 +14,7 @@ import { SkyColumnSelectorContext } from '../column-selector-context';
   selector: 'sky-test-cmp',
   templateUrl: './column-selector-modal.component.fixture.html',
 })
-export class ColumnSelectorTestComponent {
+export class ColumnSelectorTestComponent implements OnDestroy {
   public columns = [
     {
       id: '1',
@@ -31,23 +35,30 @@ export class ColumnSelectorTestComponent {
 
   public selectedColumnIds = ['1', '2', '3'];
 
+  private modalInstance: SkyModalInstance;
+
   constructor(private modalService: SkyModalService) {}
 
+  public ngOnDestroy(): void {
+    this.modalInstance.close();
+    this.modalInstance = undefined;
+  }
+
   public openColumnSelector() {
-    this.modalService
-      .open(SkyColumnSelectorComponent, [
-        {
-          provide: SkyColumnSelectorContext,
-          useValue: {
-            columns: this.columns,
-            selectedColumnIds: this.selectedColumnIds,
-          },
+    this.modalInstance = this.modalService.open(SkyColumnSelectorComponent, [
+      {
+        provide: SkyColumnSelectorContext,
+        useValue: {
+          columns: this.columns,
+          selectedColumnIds: this.selectedColumnIds,
         },
-      ])
-      .closed.subscribe((result: SkyModalCloseArgs) => {
-        if (result.reason === 'save' && result.data) {
-          this.selectedColumnIds = result.data;
-        }
-      });
+      },
+    ]);
+
+    this.modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
+      if (result.reason === 'save' && result.data) {
+        this.selectedColumnIds = result.data;
+      }
+    });
   }
 }
