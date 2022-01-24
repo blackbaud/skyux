@@ -1,6 +1,6 @@
 {
   "name": "@skyux/ag-grid",
-  "version": "5.1.8",
+  "version": "5.1.9",
   "peerDependencies": {
     "@angular/common": "^12.2.15",
     "@angular/core": "^12.2.15",
