@@ -121,7 +121,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
         const selectable =
           node.isSelectable() &&
           !(node.hasChildren && this.selectLeafNodesOnly);
-        if (selectable) {
+        if (selectable && !node.data.virtual) {
           this.selectableNodeIds[node.id] = true;
         }
         if (!node.children) {

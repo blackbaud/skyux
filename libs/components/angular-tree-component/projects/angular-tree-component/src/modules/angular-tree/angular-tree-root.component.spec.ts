@@ -316,6 +316,21 @@ describe('tree view', () => {
       flush();
     }));
 
+    it('should not select virtual root when select all is clicked and triState is set to false', fakeAsync(() => {
+      setupNonCascadingMode();
+      fixture.detectChanges();
+
+      clickSelectAll();
+
+      const selectedNodeLength = Object.keys(
+        component.selectedLeafNodeIds
+      ).length;
+      expect(selectedNodeLength).toEqual(6)
+
+      fixture.destroy();
+      flush();
+    }));
+
     it('should clear all checkboxes when clear all is clicked', fakeAsync(() => {
       setupCascadingMode();
       fixture.detectChanges();
