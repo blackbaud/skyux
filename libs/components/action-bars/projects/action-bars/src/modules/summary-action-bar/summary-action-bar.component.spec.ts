@@ -87,6 +87,7 @@ describe('Summary Action Bar component', () => {
     afterEach(() => {
       modalService.dispose();
       fixture.detectChanges();
+      fixture.destroy();
     });
 
     describe('body stylings', () => {

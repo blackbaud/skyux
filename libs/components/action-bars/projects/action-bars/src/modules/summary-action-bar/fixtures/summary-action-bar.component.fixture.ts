@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
 
@@ -13,7 +13,7 @@ import { SkySummaryActionBarModalEmptyTestComponent } from './summary-action-bar
   selector: 'sky-summary-action-bar-test',
   templateUrl: './summary-action-bar.component.fixture.html',
 })
-export class SkySummaryActionBarTestComponent {
+export class SkySummaryActionBarTestComponent implements OnDestroy {
   public disableButtons = false;
 
   public extraActions = false;
@@ -34,31 +34,54 @@ export class SkySummaryActionBarTestComponent {
   @ViewChild(SkySummaryActionBarComponent)
   public summaryActionBar: SkySummaryActionBarComponent;
 
+  private modalInstance: SkyModalInstance;
+
   constructor(private modalService: SkyModalService) {}
+
+  public ngOnDestroy(): void {
+    this.closeModal();
+  }
 
   public clickHandler() {
     return true;
   }
 
   public openActionBarModal() {
-    let instance = this.modalService.open(
+    this.closeModal();
+
+    this.modalInstance = this.modalService.open(
       SkySummaryActionBarModalTestComponent
     );
-    this.openedModal = instance.componentInstance;
+
+    this.openedModal = this.modalInstance.componentInstance;
   }
 
   public openEmptyModal() {
-    let instance = this.modalService.open(
+    this.closeModal();
+
+    this.modalInstance = this.modalService.open(
       SkySummaryActionBarModalEmptyTestComponent
     );
-    this.openedModal = instance.componentInstance;
+
+    this.openedModal = this.modalInstance.componentInstance;
   }
 
   public openFullScreenModal() {
-    let instance = this.modalService.open(
+    this.closeModal();
+
+    this.modalInstance = this.modalService.open(
       SkySummaryActionBarModalTestComponent,
       { fullPage: true }
     );
-    this.openedModal = instance.componentInstance;
+
+    this.openedModal = this.modalInstance.componentInstance;
+  }
+
+  private closeModal(): void {
+    if (this.modalInstance) {
+      this.modalInstance.close();
+      this.modalInstance = undefined;
+      this.openedModal = undefined;
+    }
   }
 }
