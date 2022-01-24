@@ -326,6 +326,10 @@ if (!isIE) {
         lookupComponent = component.lookupComponent;
       });
 
+      afterEach(() => {
+        fixture.destroy();
+      });
+
       describe('basic setup', function () {
         function validateItems(names: string[]): void {
           const selectedItems = lookupComponent.value;
@@ -801,6 +805,7 @@ if (!isIE) {
             // injectors than the previous test.
             modalService.dispose();
             fixture.detectChanges();
+            fixture.destroy();
           }));
 
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -2284,6 +2289,10 @@ if (!isIE) {
         fixture = TestBed.createComponent(SkyLookupTemplateTestComponent);
         component = fixture.componentInstance;
         lookupComponent = component.lookupComponent;
+      });
+
+      afterEach(() => {
+        fixture.destroy();
       });
 
       describe('basic setup', function () {
@@ -3992,6 +4001,10 @@ if (!isIE) {
         component = fixture.componentInstance;
         lookupComponent = component.lookupComponent;
         nativeElement = fixture.nativeElement as HTMLElement;
+      });
+
+      afterEach(() => {
+        fixture.destroy();
       });
 
       it('should render in the expected input box containers', fakeAsync(() => {
