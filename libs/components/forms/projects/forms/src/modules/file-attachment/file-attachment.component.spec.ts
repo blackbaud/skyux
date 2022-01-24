@@ -126,7 +126,7 @@ describe('File attachment', () => {
         type: 'image/' + extension,
         size: 1000,
       },
-      url: 'myFile.' + extension,
+      url: '$/myFile.' + extension,
     };
     fileAttachmentInstance.writeValue(testFile);
 
@@ -134,7 +134,7 @@ describe('File attachment', () => {
 
     const imageEl = getImage();
     expect(imageEl.nativeElement.getAttribute('src')).toBe(
-      'myFile.' + extension
+      '$/myFile.' + extension
     );
   }
 
@@ -145,7 +145,7 @@ describe('File attachment', () => {
         type: type + '/' + extension,
         size: 1000,
       },
-      url: 'myFile.' + extension,
+      url: '$/myFile.' + extension,
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -223,7 +223,7 @@ describe('File attachment', () => {
     if (fileReaderSpy.loadCallbacks[0]) {
       fileReaderSpy.loadCallbacks[0]({
         target: {
-          result: 'url',
+          result: '$/url',
         },
       });
     }
@@ -362,7 +362,7 @@ describe('File attachment', () => {
         type: '',
         size: 1,
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
     fileAttachmentInstance.value = testFile;
     fileAttachmentInstance.ngAfterViewInit();
@@ -496,7 +496,7 @@ describe('File attachment', () => {
     setupStandardFileChangeEvent(file);
 
     expect(fileChangeActual.file).toBeTruthy();
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
   });
@@ -579,7 +579,7 @@ describe('File attachment', () => {
         size: 1000,
         type: 'image/png',
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -593,7 +593,7 @@ describe('File attachment', () => {
         size: 1000,
         type: 'image/png',
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
@@ -614,12 +614,12 @@ describe('File attachment', () => {
         size: 1000,
         type: 'image/png',
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
 
-    expect(getFileNameText()).toBe('myFile');
+    expect(getFileNameText()).toBe('$/myFile');
 
     // no file
     fileAttachmentInstance.writeValue(undefined);
@@ -635,12 +635,12 @@ describe('File attachment', () => {
         size: 1000,
         type: 'image/txt',
       },
-      url: 'abcdefghijklmnopqrstuvwxyz12345',
+      url: '$/abcdefghijklmnopqrstuvwxyz12345',
     };
     fileAttachmentInstance.writeValue(testFile);
     fixture.detectChanges();
 
-    expect(getFileNameText()).toBe('abcdefghijklmnopqrstuvwxyz...');
+    expect(getFileNameText()).toBe('$/abcdefghijklmnopqrstuvwx...');
   });
 
   it('should emit fileClick even when the uploaded file link is clicked', () => {
@@ -650,7 +650,7 @@ describe('File attachment', () => {
         size: 1000,
         type: 'image/png',
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
 
     spyOn(fileAttachmentInstance.fileClick, 'emit');
@@ -708,7 +708,7 @@ describe('File attachment', () => {
 
     fileReaderSpy.loadCallbacks[0]({
       target: {
-        result: 'url',
+        result: '$/url',
       },
     });
 
@@ -716,7 +716,7 @@ describe('File attachment', () => {
 
     expect(fileChangeActual.file).toBeTruthy();
     expect(fileChangeActual.file.errorType).toBeFalsy();
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
 
@@ -948,7 +948,7 @@ describe('File attachment', () => {
 
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
 
     expect(fileAttachmentInstance.value).toBeTruthy();
   });
@@ -976,7 +976,7 @@ describe('File attachment', () => {
 
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
   });
 
   it('should reject a file with a type that is not accepted', () => {
@@ -1059,7 +1059,7 @@ describe('File attachment', () => {
 
     expect(fileChangeActual.file.file.name).toBe('woo.txt');
     expect(fileChangeActual.file.file.size).toBe(2000);
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
   });
 
   it('should accept multiple types using a wildcard', () => {
@@ -1085,7 +1085,7 @@ describe('File attachment', () => {
 
     expect(fileChangeActual.file.file.name).toBe('foo.txt');
     expect(fileChangeActual.file.file.size).toBe(1000);
-    expect(fileChangeActual.file.url).toBe('url');
+    expect(fileChangeActual.file.url).toBe('$/url');
   });
 
   it('shows the thumbnail if the item is an image', async(() => {
@@ -1122,7 +1122,7 @@ describe('File attachment', () => {
 
     fileAttachmentInstance.value = <SkyFileItem>{
       file: undefined,
-      url: 'myFile',
+      url: '$/myFile',
     };
     fixture.detectChanges();
 
@@ -1134,7 +1134,7 @@ describe('File attachment', () => {
         type: undefined,
         size: 1000,
       },
-      url: 'myFile',
+      url: '$/myFile',
     };
     fixture.detectChanges();
 

@@ -65,14 +65,14 @@ describe('File item component', () => {
         type: 'image/' + extension,
         size: 1000,
       },
-      url: 'myFile.' + extension,
+      url: '$/myFile.' + extension,
     };
 
     fixture.detectChanges();
 
     let imageEl = getImage();
     expect(imageEl.nativeElement.getAttribute('src')).toBe(
-      'myFile.' + extension
+      '$/myFile.' + extension
     );
 
     let otherEl = getOtherPreview();
@@ -86,7 +86,7 @@ describe('File item component', () => {
         type: type + '/' + extension,
         size: 1000,
       },
-      url: 'myFile.' + extension,
+      url: '$/myFile.' + extension,
     };
     fixture.detectChanges();
     let otherEl = getOtherPreview();
@@ -138,14 +138,14 @@ describe('File item component', () => {
 
   it('shows the url if the item is a link', async(() => {
     componentInstance.fileItem = <SkyFileLink>{
-      url: 'myFile.txt',
+      url: '$/myFile.txt',
     };
 
     fixture.detectChanges();
 
     let nameEl = getNameEl();
 
-    expect(nameEl.nativeElement.textContent).toBe('myFile.txt');
+    expect(nameEl.nativeElement.textContent).toBe('$/myFile.txt');
 
     let sizeEl = getSizeEl();
     expect(sizeEl).toBeFalsy();
@@ -158,7 +158,7 @@ describe('File item component', () => {
 
   it('emits the delete event when the delete button is clicked', () => {
     componentInstance.fileItem = <SkyFileLink>{
-      url: 'myFile.txt',
+      url: '$/myFile.txt',
     };
     let deletedItem: SkyFileLink;
 
@@ -169,7 +169,7 @@ describe('File item component', () => {
     fixture.detectChanges();
     triggerDelete();
 
-    expect(deletedItem.url).toBe('myFile.txt');
+    expect(deletedItem.url).toBe('$/myFile.txt');
 
     componentInstance.fileItem = <SkyFileItem>{
       file: {
