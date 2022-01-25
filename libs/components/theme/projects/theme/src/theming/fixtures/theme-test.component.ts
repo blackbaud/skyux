@@ -8,5 +8,5 @@ import { SkyThemeSettings } from '../theme-settings';
 })
 export class SkyThemeTestComponent {
   @Input()
-  public themeSettings: SkyThemeSettings;
+  public themeSettings: SkyThemeSettings | undefined;
 }

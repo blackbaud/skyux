@@ -18,11 +18,11 @@ export class SkyThemeService {
     return this.settingsObs;
   }
 
-  private current: SkyThemeSettings;
+  private current: SkyThemeSettings | undefined;
 
-  private hostEl: any;
+  private hostEl: any | undefined;
 
-  private renderer: Renderer2;
+  private renderer: Renderer2 | undefined;
 
   private settings: ReplaySubject<SkyThemeSettingsChange>;
 
@@ -76,7 +76,7 @@ export class SkyThemeService {
   }
 
   private applySettings(
-    previous: SkyThemeSettings,
+    previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings
   ): void {
     const previousClass = previous && previous.theme.hostClass;
@@ -94,7 +94,7 @@ export class SkyThemeService {
   }
 
   private applyThemeMode(
-    previous: SkyThemeSettings,
+    previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings
   ): void {
     const previousClass = previous && previous.mode.hostClass;
@@ -114,10 +114,10 @@ export class SkyThemeService {
   }
 
   private addHostClass(className: string): void {
-    this.renderer.addClass(this.hostEl, className);
+    this.renderer!.addClass(this.hostEl, className);
   }
 
   private removeHostClass(className: string): void {
-    this.renderer.removeClass(this.hostEl, className);
+    this.renderer!.removeClass(this.hostEl, className);
   }
 }

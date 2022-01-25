@@ -36,7 +36,7 @@ export class SkyThemeIfDirective implements OnDestroy {
     this.updateView();
   }
 
-  private context: string;
+  private context: string | undefined;
   private currentTheme: SkyThemeSettings | undefined;
   private ngUnsubscribe = new Subject();
   private hasView = false;

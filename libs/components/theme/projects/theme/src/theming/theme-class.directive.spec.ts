@@ -47,9 +47,9 @@ describe('ThemeClass directive', () => {
     mockThemeSvc: MockThemeService,
     theme: SkyThemeSettings
   ): Promise<void> {
-    mockThemeSvc.settingsChange.next({
+    mockThemeSvc.settingsChange!.next({
       currentSettings: theme,
-      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
+      previousSettings: mockThemeSvc.settingsChange!.getValue().currentSettings,
     });
     fixture.detectChanges();
     await fixture.whenStable();

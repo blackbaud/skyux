@@ -13,5 +13,5 @@ export interface SkyThemeSettingsChange {
    * The theme settings being replaced as a result of the change. This is undefined if the theme
    * settings are being set for the first time.
    */
-  previousSettings: SkyThemeSettings;
+  previousSettings: SkyThemeSettings | undefined;
 }

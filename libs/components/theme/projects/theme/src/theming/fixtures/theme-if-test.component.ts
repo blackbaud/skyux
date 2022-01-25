@@ -11,7 +11,7 @@ import { SkyThemeSettings } from '../theme-settings';
   templateUrl: './theme-if-test.component.html',
 })
 export class SkyThemeIfTestComponent {
-  public themeSettings: SkyThemeSettings;
+  public themeSettings: SkyThemeSettings | undefined;
   public testThemeName: 'default' | 'modern' = 'default';
 
   constructor() {

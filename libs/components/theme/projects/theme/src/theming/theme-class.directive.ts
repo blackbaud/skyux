@@ -67,7 +67,7 @@ export class SkyThemeClassDirective implements OnDestroy {
   private currentTheme: SkyThemeSettings | undefined;
   private ngUnsubscribe = new Subject();
   private initialClasses: string[] = [];
-  private skyThemeClassMap: SkyThemeClassMap;
+  private skyThemeClassMap: SkyThemeClassMap | undefined;
 
   constructor(
     private ngEl: ElementRef,
@@ -95,7 +95,9 @@ export class SkyThemeClassDirective implements OnDestroy {
     }
   }
 
-  private applySkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap): void {
+  private applySkyThemeClassMap(
+    skyThemeClassMap: SkyThemeClassMap | undefined
+  ): void {
     if (skyThemeClassMap) {
       const themeName = this.currentTheme?.theme.name || 'default';
       Object.keys(skyThemeClassMap).forEach((className) => {
@@ -112,7 +114,9 @@ export class SkyThemeClassDirective implements OnDestroy {
     }
   }
 
-  private removeSkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap): void {
+  private removeSkyThemeClassMap(
+    skyThemeClassMap: SkyThemeClassMap | undefined
+  ): void {
     if (skyThemeClassMap) {
       Object.keys(skyThemeClassMap).forEach((className) =>
         this.toggleClass(className, false)

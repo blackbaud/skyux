@@ -11,8 +11,8 @@ import { SkyThemeSettings } from '../theme-settings';
   templateUrl: './theme-class-test.component.html',
 })
 export class SkyThemeClassTestComponent {
-  public className = 'sky-theme-class-test';
-  public themeSettings: SkyThemeSettings;
+  public className: string | undefined = 'sky-theme-class-test';
+  public themeSettings: SkyThemeSettings | undefined;
 
   constructor() {
     this.useDefaultTheme();

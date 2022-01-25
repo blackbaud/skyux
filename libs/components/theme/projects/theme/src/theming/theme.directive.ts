@@ -25,19 +25,19 @@ const defaultTheme = new SkyThemeSettings(
 })
 export class SkyThemeDirective implements OnInit, OnDestroy {
   @Input()
-  public set skyTheme(value: SkyThemeSettings) {
+  public set skyTheme(value: SkyThemeSettings | undefined) {
     this._skyTheme = value || defaultTheme;
 
     if (this.initialized) {
-      this.themeSvc.setTheme(this.skyTheme);
+      this.themeSvc.setTheme(this._skyTheme);
     }
   }
 
-  public get skyTheme(): SkyThemeSettings {
+  public get skyTheme(): SkyThemeSettings | undefined {
     return this._skyTheme;
   }
 
-  private initialized: boolean;
+  private initialized = false;
 
   private _skyTheme = defaultTheme;
 
@@ -48,7 +48,7 @@ export class SkyThemeDirective implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.themeSvc.init(this.elRef.nativeElement, this.renderer, this.skyTheme);
+    this.themeSvc.init(this.elRef.nativeElement, this.renderer, this.skyTheme!);
 
     this.initialized = true;
   }
