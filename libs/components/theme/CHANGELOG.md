@@ -1,3 +1,7 @@
+# 5.0.5 (2022-01-25)
+
+- Updated various properties and methods to explicitly accept `undefined` to better support applications that require strict null checks. [#281](https://github.com/blackbaud/skyux-theme/pull/281)
+
 # 5.0.4 (2021-11-18)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#279](https://github.com/blackbaud/skyux-theme/pull/279)
