@@ -12,14 +12,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyModalFixture } from './modal-fixture';
-
-import { SkyModalModule } from '../../../modals/src/modules/modal/modal.module';
-
-import { SkyModalService } from '../../../modals/src/modules/modal/modal.service';
-
-import { ModalMockThemeService } from '../../../modals/src/modules/modal/fixtures/mock-theme.service';
-
-import { SkyModalInstance } from '../../../modals/src/modules/modal/modal-instance';
+import {
+  SkyModalInstance,
+  SkyModalModule,
+  SkyModalService,
+} from '@skyux/modals';
+import { ModalMockThemeService } from './mock-theme.service';
 
 //#region Test component
 @Component({

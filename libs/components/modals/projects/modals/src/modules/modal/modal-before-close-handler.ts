@@ -1,4 +1,4 @@
-import { SkyModalCloseArgs } from '../modal/modal-close-args';
+import { SkyModalCloseArgs } from './modal-close-args';
 
 export class SkyModalBeforeCloseHandler {
   constructor(
