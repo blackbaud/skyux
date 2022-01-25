@@ -38,7 +38,7 @@ describe('Autonumeric directive', () => {
   }
 
   function setValue(value: number): void {
-    fixture.componentInstance.formGroup.get('donationAmount').setValue(value);
+    fixture.componentInstance.formGroup?.get('donationAmount')?.setValue(value);
     fixture.componentInstance.templateDrivenModel.donationAmount = value;
   }
 
@@ -64,9 +64,9 @@ describe('Autonumeric directive', () => {
   }
 
   function getModelValue(): number {
-    const reactiveValue = fixture.componentInstance.formControl.value;
+    const reactiveValue = fixture.componentInstance.formControl?.value;
     const templateDrivenValue =
-      fixture.componentInstance.donationAmountTemplateDriven.value;
+      fixture.componentInstance.donationAmountTemplateDriven?.value;
 
     if (reactiveValue !== templateDrivenValue) {
       fail(
@@ -192,6 +192,7 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
+      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -209,6 +210,7 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
+      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -228,6 +230,7 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
+      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -259,6 +262,12 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     expect(spy).not.toHaveBeenCalled();
+  }));
+
+  it('should accommodate undefined values', fakeAsync(() => {
+    detectChanges();
+    fixture.componentInstance.formGroup = undefined;
+    expect(fixture.componentInstance.formControl).toBeFalsy();
   }));
 
   it('should be accessible', async(() => {
@@ -415,7 +424,7 @@ describe('Autonumeric directive', () => {
 
     it('should mark the control as invalid on keyup if the field is required and the value is undefined', fakeAsync(() => {
       detectChanges();
-      fixture.componentInstance.formControl.setValidators([
+      fixture.componentInstance.formControl?.setValidators([
         Validators.required,
       ]);
       fixture.componentInstance.required = true;
@@ -445,7 +454,9 @@ describe('Autonumeric directive', () => {
         valid: true,
       });
 
-      fixture.componentInstance.formGroup.get('donationAmount').setValue('foo');
+      fixture.componentInstance.formGroup
+        ?.get('donationAmount')
+        ?.setValue('foo');
       fixture.componentInstance.templateDrivenModel.donationAmount = 'foo';
       detectChanges();
 
@@ -473,7 +484,7 @@ describe('Autonumeric directive', () => {
     it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
       detectChanges();
       const formControl =
-        fixture.componentInstance.formGroup.get('donationAmount');
+        fixture.componentInstance.formGroup?.get('donationAmount')!;
       const input = getReactiveInput();
 
       // Disable the form via form control.

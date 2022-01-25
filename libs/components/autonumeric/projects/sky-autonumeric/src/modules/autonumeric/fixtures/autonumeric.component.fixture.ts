@@ -24,24 +24,24 @@ import { SkyAutonumericOptions } from '../autonumeric-options';
 })
 export class AutonumericFixtureComponent implements OnInit {
   @ViewChild(SkyAutonumericDirective)
-  public autonumericDirective: SkyAutonumericDirective;
+  public autonumericDirective: SkyAutonumericDirective | undefined;
 
   @ViewChild('donationAmountTemplateDriven', { read: NgModel })
-  public donationAmountTemplateDriven: NgModel;
+  public donationAmountTemplateDriven: NgModel | undefined;
 
-  public autonumericOptions: SkyAutonumericOptions;
+  public autonumericOptions: SkyAutonumericOptions | undefined;
 
-  public formGroup: FormGroup;
+  public formGroup: FormGroup | undefined;
 
   public templateDrivenModel: any = {
     donationAmount: 1000,
   };
 
-  public get formControl(): AbstractControl {
-    return this.formGroup.get('donationAmount');
+  public get formControl(): AbstractControl | undefined {
+    return this.formGroup?.get('donationAmount') || undefined;
   }
 
-  public required: boolean;
+  public required: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {}
 

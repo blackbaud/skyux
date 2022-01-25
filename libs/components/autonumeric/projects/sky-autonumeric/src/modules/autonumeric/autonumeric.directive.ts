@@ -10,10 +10,6 @@ import {
   Renderer2,
 } from '@angular/core';
 
-import { fromEvent, Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -23,11 +19,15 @@ import {
   Validator,
 } from '@angular/forms';
 
+import AutoNumeric from 'autonumeric';
+
+import { fromEvent, Subject } from 'rxjs';
+
+import { takeUntil } from 'rxjs/operators';
+
 import { SkyAutonumericOptions } from './autonumeric-options';
 
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
-
-import AutoNumeric from 'autonumeric';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_AUTONUMERIC_VALUE_ACCESSOR = {
@@ -64,10 +64,10 @@ export class SkyAutonumericDirective
   }
 
   private autonumericInstance: AutoNumeric;
-  private autonumericOptions: SkyAutonumericOptions;
-  private control: AbstractControl;
+  private autonumericOptions: SkyAutonumericOptions | undefined;
+  private control: AbstractControl | undefined;
   private isFirstChange = true;
-  private value: number;
+  private value: number | undefined;
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -77,7 +77,7 @@ export class SkyAutonumericDirective
     private renderer: Renderer2,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.createAutonumericInstance();
+    this.autonumericInstance = new AutoNumeric(this.elementRef.nativeElement);
   }
 
   public ngOnInit(): void {
@@ -119,7 +119,7 @@ export class SkyAutonumericDirective
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
   }
 
-  public writeValue(value: number): void {
+  public writeValue(value: number | undefined): void {
     if (this.value !== value) {
       this.value = value;
       this.onChange(value);
@@ -129,13 +129,11 @@ export class SkyAutonumericDirective
         this.isFirstChange && this.control && this.value !== null;
       if (initializedWithValue) {
         this.isFirstChange = false;
-        this.control.markAsPristine();
+        this.control!.markAsPristine();
       }
     }
 
-    const isNumber =
-      typeof value === 'number' && value !== null && value !== undefined;
-    if (isNumber) {
+    if (typeof value === 'number') {
       this.autonumericInstance.set(value);
     } else {
       this.autonumericInstance.clear();
@@ -162,7 +160,7 @@ export class SkyAutonumericDirective
     return noErrors;
   }
 
-  public registerOnChange(fn: (value: number) => void): void {
+  public registerOnChange(fn: (value: number | undefined) => void): void {
     this.onChange = fn;
   }
 
@@ -177,12 +175,9 @@ export class SkyAutonumericDirective
 
   private getNumericValue(): number | undefined {
     const inputValue = this.getInputValue();
-    const numericValue =
-      inputValue && !this.isInputValueTheCurrencySymbol(inputValue)
-        ? this.autonumericInstance.getNumber()
-        : undefined;
-
-    return numericValue;
+    return inputValue && !this.isInputValueTheCurrencySymbol(inputValue)
+      ? <number>this.autonumericInstance.getNumber()
+      : undefined;
   }
 
   /**
@@ -196,15 +191,11 @@ export class SkyAutonumericDirective
     const currencySymbol = (
       (this.autonumericOptions as AutoNumeric.Options)?.currencySymbol ?? ''
     ).trim();
-    return currencySymbol && inputValue === currencySymbol;
+    return !!currencySymbol && inputValue === currencySymbol;
   }
 
   private getInputValue(): string {
     return this.elementRef.nativeElement.value;
-  }
-
-  private createAutonumericInstance(): void {
-    this.autonumericInstance = new AutoNumeric(this.elementRef.nativeElement);
   }
 
   private updateAutonumericInstance(): void {
@@ -216,7 +207,7 @@ export class SkyAutonumericDirective
   private mergeOptions(value: SkyAutonumericOptions): SkyAutonumericOptions {
     const globalOptions = this.globalConfig.getConfig();
 
-    let newOptions: SkyAutonumericOptions = {};
+    let newOptions: SkyAutonumericOptions;
     if (typeof value === 'string') {
       const predefinedOptions = AutoNumeric.getPredefinedOptions();
       newOptions = predefinedOptions[
@@ -230,7 +221,7 @@ export class SkyAutonumericDirective
   }
 
   /* istanbul ignore next */
-  private onChange = (_: number) => {};
+  private onChange = (_: number | undefined) => {};
   /* istanbul ignore next */
   private onTouched = () => {};
 }
