@@ -1,3 +1,7 @@
+# 5.0.2 (2022-01-26)
+
+- Fixed the slide animation to properly remove content for users using assistive technology. [#29](https://github.com/blackbaud/skyux-animations/pull/29)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#28](https://github.com/blackbaud/skyux-animations/pull/28)

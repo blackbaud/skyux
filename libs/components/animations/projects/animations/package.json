@@ -1,6 +1,6 @@
 {
   "name": "@skyux/animations",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
     "@angular/animations": "^12.2.15",
     "@angular/core": "^12.2.15",
