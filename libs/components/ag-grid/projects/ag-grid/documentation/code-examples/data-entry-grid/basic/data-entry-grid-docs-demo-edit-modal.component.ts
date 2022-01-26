@@ -13,7 +13,6 @@ import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance } from '@skyux/modals';
 
 import {
-  CellValueChangedEvent,
   ColDef,
   GridApi,
   GridOptions,

@@ -63,11 +63,13 @@ export class SkyBasicDataGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText: string = '';
+  public noRowsTemplate: string;
 
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef
   ) {
+    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
@@ -91,6 +93,12 @@ export class SkyBasicDataGridDemoComponent {
     }
     if (this.gridApi) {
       this.gridApi.setQuickFilter(searchText);
+      let displayedRowCount = this.gridApi.getDisplayedRowCount();
+      if (displayedRowCount > 0) {
+        this.gridApi.hideOverlay();
+      } else {
+        this.gridApi.showNoRowsOverlay();
+      }
     }
   }
 
