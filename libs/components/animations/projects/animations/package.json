@@ -2,9 +2,9 @@
   "name": "@skyux/animations",
   "version": "5.0.1",
   "peerDependencies": {
-    "@angular/animations": "^12.2.13",
-    "@angular/core": "^12.2.13",
-    "@angular/common": "^12.2.13"
+    "@angular/animations": "^12.2.15",
+    "@angular/core": "^12.2.15",
+    "@angular/common": "^12.2.15"
   },
   "dependencies": {
     "tslib": "^2.3.1"
