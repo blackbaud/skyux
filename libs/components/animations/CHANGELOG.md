@@ -1,3 +1,7 @@
+# 5.0.3 (2022-01-26)
+
+- Fixed the slide animation to hide margins applied to child elements. [#31](https://github.com/blackbaud/skyux-animations/pull/31)
+
 # 5.0.2 (2022-01-26)
 
 - Fixed the slide animation to properly remove content for users using assistive technology. [#29](https://github.com/blackbaud/skyux-animations/pull/29)
