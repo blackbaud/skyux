@@ -475,7 +475,7 @@ describe('Select field component', () => {
 
       const select = document.querySelector('select') as HTMLSelectElement;
       const option = select.options[1];
-      option.setAttribute('selected', 'selected');
+      select.value = option.value;
       expect(option.value).toEqual('Pome');
 
       SkyAppTestUtility.fireDomEvent(select, 'change');
