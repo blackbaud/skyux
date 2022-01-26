@@ -1,3 +1,4 @@
+import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,
@@ -43,6 +44,12 @@ export class SkyTileComponent implements OnDestroy {
    */
   @Input()
   public showHelp = true;
+
+  /**
+   * Specifies a human-readable name for the tile that is used to construct ARIA labels for the tile controls to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   */
+  @Input()
+  public tileName;
 
   /**
    * Fires when users select the settings button in the tile header. The settings

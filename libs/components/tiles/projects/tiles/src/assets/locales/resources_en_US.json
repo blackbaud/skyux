@@ -1,15 +1,39 @@
 {
+  "skyux_tile_expand": {
+    "_description": "Label for the expand-and-collapse button in the tile",
+    "message": "Expand or collapse {0}"
+  },
+  "skyux_tile_expand_default": {
+    "_description": "Default label for the expand-and-collapse button in the tile",
+    "message": "Expand or collapse"
+  },
   "skyux_tile_help": {
-    "_description": "Label for help button in the tile",
+    "_description": "Label for the help button in the tile",
+    "message": "{0} help"
+  },
+  "skyux_tile_help_default": {
+    "_description": "Default label for the help button in the tile",
     "message": "Help"
   },
   "skyux_tile_settings": {
-    "_description": "Label for settings button in the tile",
+    "_description": "Label for the settings button in the tile",
+    "message": "{0} settings"
+  },
+  "skyux_tile_settings_default": {
+    "_description": "Default label for the settings button in the tile",
     "message": "Settings"
   },
-  "skyux_tile_grab_handle": {
-    "_description": "Label for grab handle in the tile",
-    "message": "Use arrow keys to reorder. Press up and down arrow keys to change position in column. Press left and right arrow keys to change position to another column."
+  "skyux_tile_move": {
+    "_description": "Label for move button in the tile",
+    "message": "Move {0}"
+  },
+  "skyux_tile_move_default": {
+    "_description": "Default label for move button in the tile",
+    "message": "Move"
+  },
+  "skyux_tile_move_instructions": {
+    "_description": "Long description for the move button in the tile",
+    "message": "When focus is placed on a tile's move button, use the arrow keys to move it. The up and down keys change its position within a column. The left and right keys move it between columns."
   },
   "skyux_tile_moved_assistive_text": {
     "_description": "Report of the new location of a recently moved tile",

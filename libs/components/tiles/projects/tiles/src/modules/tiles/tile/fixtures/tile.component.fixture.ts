@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { SkyTileComponent } from '../tile.component';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './tile.component.fixture.html',
 })
 export class TileTestComponent {
-  public tileIsCollapsed = false;
+  @ViewChild(SkyTileComponent)
+  public tileComponent: SkyTileComponent;
+
   public collapsedOutputCalled = false;
+
+  public tileIsCollapsed = false;
+
+  public tileName: string = 'test';
 
   public tileSettingsClick() {}
 
