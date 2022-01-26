@@ -1,3 +1,7 @@
+# 5.121.0 (2022-01-26)
+
+- `@skyux/animations@5.0.3` [Release notes](https://github.com/blackbaud/skyux-animations/blob/5.0.3/CHANGELOG.md)
+
 # 5.120.0 (2022-01-26)
 
 - `@skyux/animations@5.0.2` [Release notes](https://github.com/blackbaud/skyux-animations/blob/5.0.2/CHANGELOG.md)
