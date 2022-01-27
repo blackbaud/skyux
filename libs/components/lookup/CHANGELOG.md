@@ -1,3 +1,7 @@
+# 5.2.0 (2022-01-27)
+
+- Added a `searchAsync` event to the autocomplete and lookup components to support loading search results asynchronously. [#244](https://github.com/blackbaud/skyux-lookup/pull/244)
+
 # 5.1.1 (2021-12-21)
 
 - Fix Stackblitz demo. [#246](https://github.com/blackbaud/skyux-lookup/pull/246)
