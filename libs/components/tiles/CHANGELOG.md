@@ -1,3 +1,7 @@
+# 5.0.2 (2022-01-27)
+
+- Fixed the tile controls to have proper accessibility attributes. [#89](https://github.com/blackbaud/skyux-tiles/pull/89)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#87](https://github.com/blackbaud/skyux-tiles/pull/87)

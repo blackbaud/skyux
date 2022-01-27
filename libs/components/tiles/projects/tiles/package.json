@@ -1,10 +1,10 @@
 {
   "name": "@skyux/tiles",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "peerDependencies": {
-    "@angular/common": "^12.2.15",
-    "@angular/core": "^12.2.15",
-    "@skyux/animations": "^5.0.2",
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@skyux/animations": "^5.0.3",
     "@skyux/core": "^5.2.2",
     "@skyux/i18n": "^5.0.1",
     "@skyux/indicators": "^5.2.0"
