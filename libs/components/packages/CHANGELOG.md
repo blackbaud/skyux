@@ -1,3 +1,7 @@
+# 5.123.0 (2022-01-27)
+
+- `@skyux/tiles@5.0.2` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.2/CHANGELOG.md)
+
 # 5.122.0 (2022-01-27)
 
 - `@skyux/ag-grid@5.1.10` [Release notes](https://github.com/blackbaud/skyux-ag-grid/blob/5.1.10/CHANGELOG.md)
