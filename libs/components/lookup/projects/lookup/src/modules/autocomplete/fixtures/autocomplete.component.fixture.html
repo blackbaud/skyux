@@ -23,10 +23,48 @@
     (addClick)="addButtonClicked()"
     (selectionChange)="onSelectionChange($event)"
     (showMoreClick)="onShowMoreClick()"
+    #standardAutocomplete
   >
     <input
       *ngIf="!hideInput"
       id="my-autocomplete-input"
+      name="favoriteColor"
+      skyAutocomplete
+      type="text"
+      [autocompleteAttribute]="autocompleteAttribute"
+      [disabled]="disabled"
+      [(ngModel)]="model.favoriteColor"
+    />
+  </sky-autocomplete>
+</form>
+
+<form #asyncForm="ngForm" novalidate>
+  <label for="my-async-autocomplete-input" id="my-async-autocomplete-label">
+    Favorite color (async)
+  </label>
+  <sky-autocomplete
+    [ariaLabelledBy]="'my-async-autocomplete-label'"
+    [data]="data"
+    [debounceTime]="debounceTime"
+    [descriptorProperty]="descriptorProperty"
+    [enableShowMore]="enableShowMore"
+    [messageStream]="messageStream"
+    [propertiesToSearch]="propertiesToSearch"
+    [searchFilters]="searchFilters"
+    [searchResultsLimit]="searchResultsLimit"
+    [searchResultTemplate]="searchResultTemplate"
+    [searchTextMinimumCharacters]="searchTextMinimumCharacters"
+    [showAddButton]="showAddButton"
+    [noResultsFoundText]="customNoResultsMessage"
+    (addClick)="addButtonClicked()"
+    (searchAsync)="searchAsync($event)"
+    (selectionChange)="onSelectionChange($event)"
+    (showMoreClick)="onShowMoreClick()"
+    #asyncAutocomplete
+  >
+    <input
+      *ngIf="!hideInput"
+      id="my-async-autocomplete-input"
       name="favoriteColor"
       skyAutocomplete
       type="text"

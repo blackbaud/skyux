@@ -7,6 +7,18 @@
     "_description": "Placeholder text for autocomplete input component when no results are found",
     "message": "No matches found"
   },
+  "skyux_autocomplete_show_all": {
+    "_description": "Menu item text to display when an unknown number of items is available to be selected",
+    "message": "Show all"
+  },
+  "skyux_autocomplete_show_all_count": {
+    "_description": "Menu item text to display when a known number of items is available to be selected",
+    "message": "Show all {0}"
+  },
+  "skyux_autocomplete_show_matches_count": {
+    "_description": "Menu item text to display the user has searched and there are more items to view",
+    "message": "Show matches ({0})"
+  },
   "skyux_country_field_search_placeholder": {
     "_description": "Placeholder for country search autocomplete",
     "message": "Search for a country"

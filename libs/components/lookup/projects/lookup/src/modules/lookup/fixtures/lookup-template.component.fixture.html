@@ -1,5 +1,6 @@
 <form novalidate>
   <sky-lookup
+    id="my-lookup"
     name="friends"
     [ariaLabel]="ariaLabel"
     [ariaLabelledBy]="ariaLabelledBy"
@@ -8,6 +9,7 @@
     [disabled]="disabled"
     [enableShowMore]="enableShowMore"
     [descriptorProperty]="descriptorProperty"
+    [idProperty]="idProperty"
     [placeholderText]="placeholderText"
     [propertiesToSearch]="propertiesToSearch"
     [search]="customSearch"
@@ -17,6 +19,7 @@
     [showMoreConfig]="showMoreConfig"
     (addClick)="addButtonClicked($event)"
     [(ngModel)]="selectedFriends"
+    #standardLookup
   >
   </sky-lookup>
 </form>
@@ -28,3 +31,29 @@
 <ng-template let-item="item" #customShowMoreTemplate>
   {{ item.name }} - {{ item.birthDate }}
 </ng-template>
+
+<form novalidate>
+  <sky-lookup
+    id="my-async-lookup"
+    name="friends"
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
+    [required]="required ? true : undefined"
+    [data]="data"
+    [disabled]="disabled"
+    [enableShowMore]="enableShowMore"
+    [descriptorProperty]="descriptorProperty"
+    [idProperty]="idProperty"
+    [placeholderText]="placeholderText"
+    [propertiesToSearch]="propertiesToSearch"
+    [searchResultTemplate]="enabledSearchResultTemplate"
+    [selectMode]="selectMode"
+    [showAddButton]="showAddButton"
+    [showMoreConfig]="showMoreConfig"
+    (addClick)="addButtonClicked($event)"
+    (searchAsync)="searchAsync($event)"
+    [(ngModel)]="selectedFriendsAsync"
+    #asyncLookup
+  >
+  </sky-lookup>
+</form>

@@ -6,6 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { SkyAutocompleteSearchAsyncArgs } from '../../autocomplete/types/autocomplete-search-async-args';
 
 import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
 
@@ -28,7 +31,13 @@ import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-n
   templateUrl: './lookup.component.fixture.html',
 })
 export class SkyLookupTestComponent implements OnInit {
-  @ViewChild(SkyLookupComponent, {
+  @ViewChild('asyncLookup', {
+    read: SkyLookupComponent,
+    static: true,
+  })
+  public asyncLookupComponent: SkyLookupComponent;
+
+  @ViewChild('standardLookup', {
     read: SkyLookupComponent,
     static: true,
   })
@@ -42,6 +51,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public ariaLabel: string;
   public ariaLabelledBy: string;
+  public asyncForm: FormGroup;
   public autocompleteAttribute: string;
   public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
@@ -66,6 +76,9 @@ export class SkyLookupTestComponent implements OnInit {
 
     if (this.form?.controls.friends) {
       this.form.controls.friends.setValue(value);
+    }
+    if (this.asyncForm?.controls.friends) {
+      this.asyncForm.controls.friends.setValue(value);
     }
   }
 
@@ -134,6 +147,7 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   public enableLookup(): void {
+    this.asyncForm.controls.friends.enable();
     this.form.controls.friends.enable();
   }
 
@@ -142,11 +156,39 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   public disableLookup(): void {
+    this.asyncForm.controls.friends.disable();
     this.form.controls.friends.disable();
   }
 
   public resetForm(): void {
+    this.asyncForm.reset();
     this.form.reset();
+  }
+
+  public searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    const searchText = (args.searchText || '').toLowerCase();
+
+    let items = this.data
+      ? this.data.filter(
+          (item) => item.name.toLowerCase().indexOf(searchText) >= 0
+        )
+      : [];
+
+    const totalCount = items.length;
+    let hasMore = false;
+    let itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
+
+    items = items.slice(args.offset, args.offset + itemCountToReturn);
+    hasMore = args.offset + itemCountToReturn < totalCount;
+
+    // Simulate new object instances being returned by a web service call.
+    items = items.map((item) => Object.assign({}, item));
+
+    args.result = of({
+      hasMore,
+      items,
+      totalCount,
+    }).pipe(delay(150));
   }
 
   public setMultiSelect(): void {
@@ -154,6 +196,7 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   public setRequired(): void {
+    this.asyncForm.controls.friends.setValidators([Validators.required]);
     this.form.controls.friends.setValidators([Validators.required]);
   }
 
@@ -168,14 +211,19 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   public setValue(index: number): void {
+    this.asyncForm.controls.friends.setValue([this.data[index]]);
     this.form.controls.friends.setValue([this.data[index]]);
   }
 
   public removeRequired(): void {
+    this.asyncForm.controls.friends.setValidators([]);
     this.form.controls.friends.setValidators([]);
   }
 
   private createForm(): void {
+    this.asyncForm = this.formBuilder.group({
+      friends: new FormControl(this.friends),
+    });
     this.form = this.formBuilder.group({
       friends: new FormControl(this.friends),
     });

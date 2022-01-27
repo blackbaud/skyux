@@ -17,7 +17,11 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
  * Internal component to implement the native picker.
  */
 @Component({
-  selector: 'sky-lookup-show-more-modal',
+  // Suppress this error rather than fix the selector since consumers with unit tests
+  // may be looking for an element with this selector. We can change it in the next major
+  // version of SKY UX.
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'skyux-lookup-show-more-modal',
   templateUrl: './lookup-show-more-modal.component.html',
   styleUrls: ['./lookup-show-more-modal.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

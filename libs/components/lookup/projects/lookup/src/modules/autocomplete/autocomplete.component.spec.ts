@@ -20,7 +20,7 @@ import { SkyAutocompleteFixturesModule } from './fixtures/autocomplete-fixtures.
 import { SkyAutocompleteReactiveFixtureComponent } from './fixtures/autocomplete-reactive.component.fixture';
 
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
 import { not } from '@angular/compiler/src/output/output_ast';
 
@@ -41,8 +41,16 @@ describe('Autocomplete component', () => {
     return document.querySelector('sky-autocomplete') as HTMLElement;
   }
 
-  function getInputElement(): HTMLInputElement {
-    return document.getElementById('my-autocomplete-input') as HTMLInputElement;
+  function getInputElement(async: boolean = false): HTMLInputElement {
+    if (async) {
+      return document.getElementById(
+        'my-async-autocomplete-input'
+      ) as HTMLInputElement;
+    } else {
+      return document.getElementById(
+        'my-autocomplete-input'
+      ) as HTMLInputElement;
+    }
   }
 
   function getSearchResultsContainer(): Element {
@@ -63,8 +71,12 @@ describe('Autocomplete component', () => {
     ) as HTMLElement;
   }
 
-  function enterSearch(newValue: string, fixture: ComponentFixture<any>): void {
-    const inputElement = getInputElement();
+  function enterSearch(
+    newValue: string,
+    fixture: ComponentFixture<any>,
+    async: boolean = false
+  ): void {
+    const inputElement = getInputElement(async);
     inputElement.value = newValue;
 
     inputElement.focus();
@@ -180,6 +192,7 @@ describe('Autocomplete component', () => {
     let fixture: ComponentFixture<SkyAutocompleteFixtureComponent>;
     let component: SkyAutocompleteFixtureComponent;
     let autocomplete: SkyAutocompleteComponent;
+    let asyncAutocomplete: SkyAutocompleteComponent;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -189,6 +202,7 @@ describe('Autocomplete component', () => {
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
       component = fixture.componentInstance;
       autocomplete = component.autocomplete;
+      asyncAutocomplete = component.asyncAutocomplete;
     });
 
     afterEach(() => {
@@ -252,6 +266,30 @@ describe('Autocomplete component', () => {
       enterSearch('r', fixture);
 
       expect(spy.calls.argsFor(0)[0]).toEqual('r');
+    }));
+
+    it('should search async', fakeAsync(() => {
+      fixture.detectChanges();
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit'
+      ).and.callThrough();
+
+      enterSearch('r', fixture, true);
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'r',
+        result: jasmine.any(Observable),
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(asyncAutocomplete.searchResults.length).toEqual(6);
+      expect(asyncAutocomplete.searchResults[0].data.name).toEqual('Red');
+      expect(asyncAutocomplete.searchResults[1].data.name).toEqual('Green');
     }));
 
     it('should search against multiple properties', fakeAsync(() => {

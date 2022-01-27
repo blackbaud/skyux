@@ -12,7 +12,9 @@ import { SkyAutocompleteComponent } from '../autocomplete.component';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete-input.directive';
 import { SkyAutocompleteMessage } from '../types/autocomplete-message';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { SkyAutocompleteSearchAsyncArgs } from '../types/autocomplete-search-async-args';
+import { delay, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'sky-autocomplete-fixture',
@@ -54,7 +56,13 @@ export class SkyAutocompleteFixtureComponent {
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
   public showAddButton: boolean = false;
 
-  @ViewChild(SkyAutocompleteComponent, {
+  @ViewChild('asyncAutocomplete', {
+    read: SkyAutocompleteComponent,
+    static: true,
+  })
+  public asyncAutocomplete: SkyAutocompleteComponent;
+
+  @ViewChild('standardAutocomplete', {
     read: SkyAutocompleteComponent,
     static: true,
   })
@@ -71,6 +79,12 @@ export class SkyAutocompleteFixtureComponent {
   })
   public myForm: NgForm;
 
+  @ViewChild('asyncForm', {
+    read: NgForm,
+    static: true,
+  })
+  public asyncForm: NgForm;
+
   @ViewChild('customSearchResultTemplate', {
     read: TemplateRef,
     static: true,
@@ -79,6 +93,19 @@ export class SkyAutocompleteFixtureComponent {
 
   public addButtonClicked(): void {
     return;
+  }
+
+  public searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    const searchText = (args.searchText || '').toLowerCase();
+
+    const filteredData = this.data.filter(
+      (item) => item.name.toLowerCase().indexOf(searchText) >= 0
+    );
+
+    args.result = of({
+      items: filteredData,
+      totalCount: filteredData.length,
+    }).pipe(delay(150));
   }
 
   public onSelectionChange(event: SkyAutocompleteSelectionChange): void {

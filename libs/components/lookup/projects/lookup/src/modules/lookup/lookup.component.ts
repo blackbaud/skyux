@@ -19,50 +19,35 @@ import {
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyAppWindowRef } from '@skyux/core';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import {
   SkyToken,
   SkyTokensMessage,
   SkyTokensMessageType,
 } from '@skyux/indicators';
-
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyAutocompleteMessage } from '../autocomplete/types/autocomplete-message';
-
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
-
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
-
 import { SkyAutocompleteShowMoreArgs } from '../autocomplete/types/autocomplete-show-more-args';
-
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
-
 import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
-
 import { SkyLookupAdapterService } from './lookup-adapter.service';
-
 import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
-
 import { SkyLookupAddCallbackArgs } from './types/lookup-add-click-callback-args';
-
 import { SkyLookupAddClickEventArgs } from './types/lookup-add-click-event-args';
-
 import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
-
 import { SkyLookupShowMoreConfig } from './types/lookup-show-more-config';
-
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
+import { SkyLookupShowMoreAsyncModalComponent } from './lookup-show-more-async-modal.component';
+import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
+import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
 
 @Component({
   selector: 'sky-lookup',
@@ -110,7 +95,7 @@ export class SkyLookupComponent
   public set data(value: any[]) {
     this._data = value;
 
-    if (this.openNativePicker) {
+    if (this.openNativePicker && this.searchAsync.observers.length === 0) {
       this.openNativePicker.componentInstance.updateItemData(value);
     }
   }
@@ -529,6 +514,63 @@ export class SkyLookupComponent
     }
   }
 
+  private createNativePickerInstance(initialSearch: string): SkyModalInstance {
+    let initialValue = this.value;
+    const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
+
+    if (!modalConfig.itemTemplate) {
+      modalConfig.itemTemplate = this.searchResultTemplate;
+    }
+
+    let contextProviderType:
+      | typeof SkyLookupShowMoreNativePickerContext
+      | typeof SkyLookupShowMoreNativePickerAsyncContext;
+
+    let contextProviderValue:
+      | SkyLookupShowMoreNativePickerContext
+      | SkyLookupShowMoreNativePickerAsyncContext;
+
+    let modalComponentType:
+      | typeof SkyLookupShowMoreModalComponent
+      | typeof SkyLookupShowMoreAsyncModalComponent;
+
+    if (this.searchAsync.observers.length > 0) {
+      contextProviderType = SkyLookupShowMoreNativePickerAsyncContext;
+      modalComponentType = SkyLookupShowMoreAsyncModalComponent;
+
+      contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext();
+      contextProviderValue.idProperty = this.idProperty;
+      contextProviderValue.searchAsync = (args) => {
+        this.searchAsync.emit(args);
+        return args.result;
+      };
+    } else {
+      contextProviderType = SkyLookupShowMoreNativePickerContext;
+      modalComponentType = SkyLookupShowMoreModalComponent;
+
+      contextProviderValue = new SkyLookupShowMoreNativePickerContext();
+      contextProviderValue.items = this.data;
+      contextProviderValue.search = this.search;
+    }
+
+    contextProviderValue.descriptorProperty = this.descriptorProperty;
+    contextProviderValue.initialSearch = initialSearch;
+    contextProviderValue.initialValue = initialValue;
+    contextProviderValue.selectMode = this.selectMode;
+    contextProviderValue.showAddButton = this.showAddButton;
+    contextProviderValue.userConfig = modalConfig;
+
+    return this.modalService.open(modalComponentType, {
+      providers: [
+        {
+          provide: contextProviderType,
+          useValue: contextProviderValue,
+        },
+      ],
+      wrapperClass: this.wrapperClass,
+    });
+  }
+
   public openPicker(initialSearch: string): void {
     if (this.showMoreConfig?.customPicker) {
       this.showMoreConfig.customPicker.open({
@@ -538,34 +580,8 @@ export class SkyLookupComponent
       });
     } else {
       let initialValue = this.value;
-      const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
-      if (!modalConfig.itemTemplate) {
-        modalConfig.itemTemplate = this.searchResultTemplate;
-      }
 
-      let context: SkyLookupShowMoreNativePickerContext = {
-        items: this.data,
-        descriptorProperty: this.descriptorProperty,
-        initialSearch: initialSearch,
-        initialValue: initialValue,
-        search: this.search,
-        selectMode: this.selectMode,
-        showAddButton: this.showAddButton,
-        userConfig: modalConfig,
-      };
-
-      this.openNativePicker = this.modalService.open(
-        SkyLookupShowMoreModalComponent,
-        {
-          providers: [
-            {
-              provide: SkyLookupShowMoreNativePickerContext,
-              useValue: context,
-            },
-          ],
-          wrapperClass: this.wrapperClass,
-        }
-      );
+      this.openNativePicker = this.createNativePickerInstance(initialSearch);
 
       this.openNativePicker.componentInstance.addClick.subscribe(() => {
         this.addButtonClicked();
@@ -576,15 +592,19 @@ export class SkyLookupComponent
         if (closeArgs.reason === 'save') {
           let selectedItems: any[] = [];
 
-          this.data.forEach((item: any, dataIndex: number) => {
-            if (
-              closeArgs.data.some((savedItem: any) => {
-                return savedItem.index === dataIndex;
-              })
-            ) {
-              selectedItems.push(item);
-            }
-          });
+          if (this.searchAsync.observers.length > 0) {
+            selectedItems = closeArgs.data.map((item) => item.itemData);
+          } else {
+            this.data.forEach((item: any, dataIndex: number) => {
+              if (
+                closeArgs.data.some((savedItem: any) => {
+                  return savedItem.index === dataIndex;
+                })
+              ) {
+                selectedItems.push(item);
+              }
+            });
+          }
 
           this.writeValue(selectedItems);
         } else {
@@ -595,6 +615,10 @@ export class SkyLookupComponent
         this.changeDetector.markForCheck();
       });
     }
+  }
+
+  public onSearchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    this.searchAsync.emit(args);
   }
 
   private addToSelected(item: any): void {
