@@ -1,6 +1,6 @@
 {
   "name": "@skyux/layout",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "peerDependencies": {
     "@angular/common": "^12.2.15",
     "@angular/core": "^12.2.15",
