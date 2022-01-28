@@ -1,7 +1,8 @@
 <div
   class="sky-repeater-item sky-padding-even-default"
   role="option"
-  tabindex="0"
+  [attr.aria-label]="itemName"
+  [attr.aria-selected]="selectable ? isSelected : null"
   [ngClass]="{
     'sky-repeater-item-active': isActive,
     'sky-repeater-item-collapsible': isCollapsible,
@@ -38,15 +39,25 @@
     <ng-container *ngIf="reorderable">
       <span
         aria-live="assertive"
-        class="sky-repeater-item-reorder-assistive-text"
+        class="sky-screen-reader-only"
         [id]="contentId + '-reorder-state'"
       >
         {{ reorderState }}
       </span>
+      <span
+        class="sky-screen-reader-only"
+        [id]="contentId + '-reorder-instructions'"
+        >{{ reorderButtonLabel }}</span
+      >
       <button
         class="sky-btn sky-tile-tools-control sky-repeater-item-grab-handle"
         type="button"
-        [attr.aria-label]="reorderButtonLabel"
+        [attr.aria-describedby]="contentId + '-reorder-instructions'"
+        [attr.aria-label]="
+          itemName
+            ? ('skyux_repeater_item_reorder_label' | skyLibResources: itemName)
+            : ('skyux_repeater_item_reorder_label_default' | skyLibResources)
+        "
         (blur)="onReorderHandleBlur($event)"
         (keydown)="onReorderHandleKeyDown($event)"
         #grabHandle
@@ -58,7 +69,11 @@
       *ngIf="selectable"
       class="sky-repeater-item-checkbox"
       [checked]="isSelected"
-      [label]="'skyux_repeater_item_checkbox_label' | skyLibResources"
+      [label]="
+        itemName
+          ? ('skyux_repeater_item_checkbox_label' | skyLibResources: itemName)
+          : ('skyux_repeater_item_checkbox_label_default' | skyLibResources)
+      "
       (change)="onCheckboxChange($event)"
     >
     </sky-checkbox>
@@ -87,7 +102,11 @@
         class="sky-btn sky-btn-link sky-repeater-item-reorder-top"
         type="button"
         [attr.aria-label]="
-          'skyux_repeater_item_reorder_top_label' | skyLibResources
+          itemName
+            ? ('skyux_repeater_item_reorder_top_label'
+              | skyLibResources: itemName)
+            : ('skyux_repeater_item_reorder_top_label_default'
+              | skyLibResources)
         "
         (click)="moveToTop($event)"
       >
@@ -96,8 +115,12 @@
       </button>
       <div *ngIf="isCollapsible" class="sky-repeater-item-chevron">
         <sky-chevron
-          [attr.aria-controls]="contentId"
-          [attr.aria-expanded]="isExpanded"
+          [ariaControls]="contentId"
+          [ariaLabel]="
+            itemName
+              ? ('skyux_repeater_item_expand' | skyLibResources: itemName)
+              : ('skyux_repeater_item_expand_default' | skyLibResources)
+          "
           [direction]="isExpanded ? 'up' : 'down'"
           (directionChange)="chevronDirectionChange($event)"
         >

@@ -124,10 +124,6 @@ sky-repeater-item {
     }
   }
 
-  .sky-repeater-item-reorder-assistive-text {
-    @include sky-screen-reader-only();
-  }
-
   .sky-repeater-item-grab-handle {
     @include sky-icon-button-borderless();
     border: 0;

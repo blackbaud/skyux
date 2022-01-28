@@ -31,8 +31,20 @@
     "_description": "Label for the listbox wrapper of the repeater component",
     "message": "List of items"
   },
+  "skyux_repeater_item_expand": {
+    "_description": "Label for the expand-and-collapse button in the repeater item",
+    "message": "Expand or collapse {0}"
+  },
+  "skyux_repeater_item_expand_default": {
+    "_description": "Default label for the expand-and-collapse button in the repeater item",
+    "message": "Expand or collapse"
+  },
   "skyux_repeater_item_checkbox_label": {
     "_description": "Label for the repeater item checkbox for the repeater component",
+    "message": "Select {0}"
+  },
+  "skyux_repeater_item_checkbox_label_default": {
+    "_description": "Default label for the repeater item checkbox for the repeater component",
     "message": "Select row"
   },
   "skyux_repeater_item_reorder_cancel": {
@@ -51,6 +63,14 @@
     "_description": "Alerts the user to the new position an items moved to. Does not include variable due to usage case",
     "message": "Moved the item to position"
   },
+  "skyux_repeater_item_reorder_label_default": {
+    "_description": "Default label for reorder button",
+    "message": "Reorder"
+  },
+  "skyux_repeater_item_reorder_label": {
+    "_description": "Label for reorder button",
+    "message": "Reorder {0}"
+  },
   "skyux_repeater_item_reorder_operation": {
     "_description": "Accessible operation instructions for triggering reordering a repeater item",
     "message": "Press the spacebar or enter key to reorder."
@@ -60,7 +80,11 @@
     "message": "Top"
   },
   "skyux_repeater_item_reorder_top_label": {
-    "_description": "Accessible label for button to reorder a repeater item to the top of the list",
+    "_description": "Label for button to reorder a repeater item to the top of the list",
+    "message": "Move {0} to top"
+  },
+  "skyux_repeater_item_reorder_top_label_default": {
+    "_description": "Default label for button to reorder a repeater item to the top of the list",
     "message": "Move to top"
   },
   "skyux_sort_button_label": {

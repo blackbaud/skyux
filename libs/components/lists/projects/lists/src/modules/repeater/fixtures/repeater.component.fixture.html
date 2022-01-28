@@ -5,6 +5,7 @@
   (orderChange)="onOrderChange($event)"
 >
   <sky-repeater-item
+    [itemName]="showItemName ? 'Item 1' : null"
     [selectable]="selectable"
     [tag]="'item1'"
     (collapse)="onCollapse()"
@@ -27,7 +28,11 @@
       <a href="/"> link 2 </a>
     </sky-repeater-item-content>
   </sky-repeater-item>
-  <sky-repeater-item [tag]="'item2'">
+  <sky-repeater-item
+    [itemName]="showItemName ? 'Item 2' : null"
+    [tag]="'item2'"
+    [selectable]="selectable"
+  >
     <sky-repeater-item-context-menu *ngIf="showContextMenu">
       a
     </sky-repeater-item-context-menu>
@@ -36,7 +41,9 @@
   </sky-repeater-item>
   <sky-repeater-item
     *ngIf="!removeLastItem"
+    [itemName]="showItemName ? 'Item 3' : null"
     [isExpanded]="lastItemExpanded"
+    [selectable]="selectable"
     [tag]="'item3'"
     [(isSelected)]="lastItemSelected"
   >
