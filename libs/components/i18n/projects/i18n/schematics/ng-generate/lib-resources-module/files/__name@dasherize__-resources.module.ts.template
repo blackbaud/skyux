@@ -18,7 +18,7 @@ import {
 <%= resources %>
 
 export class <%= classify(name) %>ResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
+  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }

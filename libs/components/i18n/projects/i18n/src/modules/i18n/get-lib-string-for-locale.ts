@@ -29,4 +29,5 @@ export function getLibStringForLocale(
   if (values && values[name]) {
     return values[name].message;
   }
+  return undefined;
 }

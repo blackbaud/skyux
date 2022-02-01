@@ -33,4 +33,5 @@ export function getStringForLocale(
   if (values && values[name]) {
     return values[name];
   }
+  return undefined;
 }

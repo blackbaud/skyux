@@ -253,7 +253,7 @@ export function dateFormatter(
         _format = parts.pop()!;
       } else {
         parts.push(_format);
-        _format = undefined;
+        _format = null;
       }
     }
 

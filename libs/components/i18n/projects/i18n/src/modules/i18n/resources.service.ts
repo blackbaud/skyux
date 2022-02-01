@@ -190,7 +190,7 @@ export class SkyAppResourcesService {
 
     return forkJoin([mappedNameObs, resourcesObs]).pipe(
       map(([mappedName, resources]): string => {
-        let resource: { message: string };
+        let resource: { message: string } | undefined = undefined;
 
         if (mappedName in resources) {
           resource = resources[mappedName];

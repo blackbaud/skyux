@@ -37,7 +37,7 @@ export class SkyI18nCurrencyFormatService {
 
     const resolvedOptions: Intl.ResolvedNumberFormatOptions =
       formatter.resolvedOptions();
-    const currencyCode = resolvedOptions.currency;
+    const currencyCode = resolvedOptions.currency!;
     const parts = this.formatToParts(formatter);
 
     const format: SkyI18nCurrencyFormat = {

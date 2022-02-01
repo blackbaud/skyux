@@ -78,7 +78,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
 };
 
 export class MyLibResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
+  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }
@@ -166,7 +166,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
 };
 
 export class FoobarResourcesProvider implements SkyLibResourcesProvider {
-  public getString(localeInfo: SkyAppLocaleInfo, name: string): string {
+  public getString(localeInfo: SkyAppLocaleInfo, name: string): string | undefined {
     return getLibStringForLocale(RESOURCES, localeInfo.locale, name);
   }
 }

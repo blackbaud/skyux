@@ -75,8 +75,8 @@ describe('Intl date formatter', function () {
   it('should handle invalid dates', function () {
     const formattedDate = SkyIntlDateFormatter.format(
       new Date('invalid'),
-      undefined,
-      undefined
+      '',
+      ''
     );
 
     expect(formattedDate).toEqual('');
