@@ -1,3 +1,7 @@
+# 5.2.0 (2022-02-02)
+
+- Added support for lazy-loaded routes. [#196](https://github.com/blackbaud/skyux-ag-grid/pull/196)
+
 # 5.1.10 (2022-01-27)
 
 - Updated the VSCode `settings.json`, removed unused imports, corrected code styles, and updated code examples to add an empty state message and fix ARIA labels. [#193](https://github.com/blackbaud/skyux-ag-grid/pull/193)
