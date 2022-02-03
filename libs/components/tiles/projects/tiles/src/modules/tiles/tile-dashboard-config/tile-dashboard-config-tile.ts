@@ -4,11 +4,7 @@ export interface SkyTileDashboardConfigTile {
    */
   id: string;
   /**
-   * Specifies the class type of the tile component. Since you generate the
-   * component dynamically instead of with HTML selectors, you must register
-   * it with the entryComponents property in the app-extras.module.ts file.
-   * For more information, see the
-   * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
+   * Specifies the class type of the tile component.
    */
   componentType: any;
   /**
