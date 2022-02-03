@@ -1,3 +1,7 @@
+# 5.2.3 (2021-02-03)
+
+- Fixed the scrollable host service to properly watch for structural changes when observing scrollable host updates. [#284](https://github.com/blackbaud/skyux-core/pull/284)
+
 # 5.2.2 (2021-12-03)
 
 - Fixed the viewkeeper direct to ignore the viewport margin when attaching to a scrollable host. [#277](https://github.com/blackbaud/skyux-core/pull/277)
