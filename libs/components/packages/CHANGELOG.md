@@ -1,3 +1,7 @@
+# 5.128.0 (2022-02-03)
+
+- `@skyux-sdk/testing@5.2.0` [Release notes](https://github.com/blackbaud/skyux-sdk-testing/blob/5.2.0/CHANGELOG.md)
+
 # 5.127.0 (2022-02-03)
 
 - `@skyux/lists@5.1.0` [Release notes](https://github.com/blackbaud/skyux-lists/blob/5.1.0/CHANGELOG.md)
