@@ -64,10 +64,7 @@ export class SkyFlyoutService implements OnDestroy {
 
   /**
    * Opens a flyout and displays the specified component.
-   * @param component Specifies the component to render. Since you generate the component dynamically instead of
-   * with HTML selectors, you must register it with the `entryComponents` property in the
-   * `app-extras.module.ts` file. For more information, see the
-   * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
+   * @param component Specifies the component to render.
    * @param config Specifies the flyout configuration passed to the specified component's constructor.
    */
   public open<T>(
