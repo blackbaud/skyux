@@ -40,10 +40,6 @@ export class SkyModalService {
   /**
    * Opens a modal using the specified component.
    * @param component Determines the component to render.
-   * Since the component generates dynamically instead of with HTML selectors, consumers must
-   * register it with the `entryComponents` property in the `app-extras.module.ts` file.
-   * For more information, see the
-   * [entry components tutorial](https://developer.blackbaud.com/skyux/learn/get-started/advanced/entry-components).
    * @param {SkyModalConfigurationInterface} config Populates the modal based on the `SkyModalConfigurationInterface` object.
    */
   public open(
