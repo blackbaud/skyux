@@ -1,3 +1,7 @@
+# 5.2.0 (2022-02-03)
+
+- Added support for tokenized resource matchers for libraries. [#63](https://github.com/blackbaud/skyux-sdk-testing/pull/63)
+
 # 5.1.1 (2021-11-29)
 
 - Added support for Prettier code formatting. [#62](https://github.com/blackbaud/skyux-sdk-testing/pull/62)
