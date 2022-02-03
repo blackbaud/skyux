@@ -1,6 +1,6 @@
 {
   "name": "@skyux/lists",
-  "version": "5.0.5",
+  "version": "5.1.0",
   "peerDependencies": {
     "@angular/common": "^12.2.15",
     "@angular/core": "^12.2.15",

@@ -1,3 +1,7 @@
+# 5.1.0 (2022-02-03)
+
+- Added the `itemName` property to the repeater item to provide better accessibility labels. Fixed the repeater item controls to have descriptive aria labels and fixed the repeater item to no longer be focusable. [#262](https://github.com/blackbaud/skyux-lists/pull/262)
+
 # 5.0.5 (2021-12-21)
 
 - Fix Stackblitz demo. [#261](https://github.com/blackbaud/skyux-lists/pull/261)
