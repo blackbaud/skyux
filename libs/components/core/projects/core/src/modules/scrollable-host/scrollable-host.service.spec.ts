@@ -3,7 +3,7 @@ import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.compo
 import { delay, take, takeUntil } from 'rxjs/operators';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { MutationObserverService } from '../mutation/mutation-observer-service';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { SkyScrollableHostService } from './scrollable-host.service';
 
 describe('Scrollable host service', () => {
@@ -229,28 +229,73 @@ describe('Scrollable host service', () => {
     });
   });
 
-  it('should return all scroll events from a new scrollable host it changes', (done) => {
+  it('should notifify a subscriber when the scrollable parent changes via style changes when watching for scroll events', (done) => {
+    let obserableCount = 0;
+    const scrollObservable = cmp.watchScrollableHostScrollEvents();
+
+    scrollObservable.pipe(take(2)).subscribe(() => {
+      if (obserableCount === 0) {
+        obserableCount++;
+        fixture.detectChanges();
+
+        cmp.isParentScrollable = false;
+        cmp.isGrandparentScrollable = true;
+        fixture.detectChanges();
+      } else {
+        done();
+      }
+    });
+
+    SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll', {
+      bubbles: false,
+    });
+  });
+
+  it('should notifify a subscriber when the scrollable parent changes via content being moved when watching for scroll events', (done) => {
+    let obserableCount = 0;
+    const scrollObservable = cmp.watchScrollableHostScrollEvents();
+
+    scrollObservable.pipe(take(2)).subscribe(() => {
+      if (obserableCount === 0) {
+        obserableCount++;
+        fixture.detectChanges();
+
+        cmp.moveTarget();
+        fixture.detectChanges();
+      } else {
+        done();
+      }
+    });
+
+    SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll', {
+      bubbles: false,
+    });
+  });
+
+  it('should return all scroll events from a new scrollable host if it changes', (done) => {
     let observableCount = 0;
     cmp.isGrandparentScrollable = true;
 
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
-    scrollObservable.pipe(take(3)).subscribe(async () => {
+    scrollObservable.pipe(take(4)).subscribe(async () => {
       if (observableCount === 0) {
         observableCount++;
         cmp.isParentScrollable = false;
         fixture.detectChanges();
         await fixture.whenStable();
-        setTimeout(() => {
-          fixture.detectChanges();
-          SkyAppTestUtility.fireDomEvent(
-            cmp.grandparent.nativeElement,
-            'scroll',
-            { bubbles: false }
-          );
-          fixture.detectChanges();
-        }, 10);
       } else if (observableCount === 1) {
+        observableCount++;
+        fixture.detectChanges();
+        await fixture.whenStable();
+        SkyAppTestUtility.fireDomEvent(
+          cmp.grandparent.nativeElement,
+          'scroll',
+          { bubbles: false }
+        );
+        fixture.detectChanges();
+        await fixture.whenStable();
+      } else if (observableCount === 2) {
         observableCount++;
         SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll', {
           bubbles: false,
@@ -259,7 +304,7 @@ describe('Scrollable host service', () => {
         done();
       } else {
         fail(
-          'observable should only be hit 2 times - second parent scroll should not fire observable'
+          'observable should only be hit 3 times - second parent scroll should not fire observable'
         );
       }
     });

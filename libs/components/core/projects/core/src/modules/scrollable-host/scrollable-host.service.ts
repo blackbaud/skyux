@@ -91,6 +91,7 @@ export class SkyScrollableHostService {
     elementRef: ElementRef
   ): Observable<void> {
     let subscribers: Subscriber<void>[] = [];
+    let scrollableHost: HTMLElement | Window;
 
     let newScrollableHostObservable = new Subject();
     let scrollableHostSubscription: Subscription;
@@ -101,11 +102,15 @@ export class SkyScrollableHostService {
       if (subscribers.length === 1) {
         scrollableHostSubscription = this.watchScrollableHost(
           elementRef
-        ).subscribe((scrollableHost) => {
+        ).subscribe((newScrollableHost) => {
           newScrollableHostObservable.next();
           newScrollableHostObservable.complete();
+          if (scrollableHost && scrollableHost !== newScrollableHost) {
+            notifySubscribers(subscribers);
+          }
+          scrollableHost = newScrollableHost;
           newScrollableHostObservable = new Subject();
-          scrollEventSubscription = fromEvent(scrollableHost, 'scroll')
+          scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
             .pipe(takeUntil(newScrollableHostObservable))
             .subscribe(() => {
               notifySubscribers(subscribers);
@@ -175,12 +180,14 @@ export class SkyScrollableHostService {
       mutationObserver.observe(element, {
         attributes: true,
         attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        childList: true,
         subtree: true,
       });
     } else {
       mutationObserver.observe(document.documentElement, {
         attributes: true,
         attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        childList: true,
         subtree: true,
       });
     }

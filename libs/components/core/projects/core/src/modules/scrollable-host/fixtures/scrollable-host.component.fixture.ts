@@ -12,6 +12,9 @@ export class ScrollableHostFixtureComponent {
   public isParentScrollable: boolean = true;
   public isGrandparentScrollable: boolean = false;
 
+  @ViewChild('alternate')
+  public alternateParent: ElementRef;
+
   @ViewChild('grandparent')
   public grandparent: ElementRef;
 
@@ -29,19 +32,23 @@ export class ScrollableHostFixtureComponent {
     );
   }
 
+  public moveTarget(): void {
+    this.alternateParent.nativeElement.appendChild(this.target.nativeElement);
+  }
+
   public watchScrollableHost(
-    alternative?: ElementRef
+    alternativeTarget?: ElementRef
   ): Observable<HTMLElement | Window> {
     return this.scrollableHostService.watchScrollableHost(
-      alternative || this.target
+      alternativeTarget || this.target
     );
   }
 
   public watchScrollableHostScrollEvents(
-    alternative?: ElementRef
+    alternativeTarget?: ElementRef
   ): Observable<void> {
     return this.scrollableHostService.watchScrollableHostScrollEvents(
-      alternative || this.target
+      alternativeTarget || this.target
     );
   }
 }
