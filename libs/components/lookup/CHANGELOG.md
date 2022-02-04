@@ -1,3 +1,7 @@
+# 5.2.1 (2022-02-04)
+
+- Fixed an issue with highlighting when the search text included control characters. [#250](https://github.com/blackbaud/skyux-lookup/pull/250)
+
 # 5.2.0 (2022-01-27)
 
 - Added a `searchAsync` event to the autocomplete and lookup components to support loading search results asynchronously. [#244](https://github.com/blackbaud/skyux-lookup/pull/244)
