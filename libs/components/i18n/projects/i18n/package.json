@@ -10,8 +10,8 @@
     "save": "dependencies"
   },
   "peerDependencies": {
-    "@angular/core": "^12.2.15",
-    "@angular/common": "^12.2.15",
+    "@angular/core": "^12.2.16",
+    "@angular/common": "^12.2.16",
     "@skyux/assets": "^5.0.1"
   },
   "dependencies": {

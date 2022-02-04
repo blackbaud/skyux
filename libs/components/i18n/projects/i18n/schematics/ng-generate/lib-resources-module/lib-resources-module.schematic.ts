@@ -70,9 +70,14 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
 
     const packageJson = JSON.parse(packageJsonContent);
     packageJson.peerDependencies = packageJson.peerDependencies || {};
-    packageJson.peerDependencies['@skyux/i18n'] = SkyuxVersions.I18n;
 
-    tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
+    if (!packageJson.peerDependencies['@skyux/i18n']) {
+      packageJson.peerDependencies['@skyux/i18n'] = SkyuxVersions.I18n;
+      tree.overwrite(
+        packageJsonPath,
+        JSON.stringify(packageJson, undefined, 2)
+      );
+    }
   };
 }
 

@@ -201,6 +201,28 @@ export class FoobarResourcesModule { }
     );
   });
 
+  it('should not add `@skyux/i18n` as a peer dependency if already exists', async () => {
+    // Overwrite package.json.
+    tree.overwrite(
+      packageJsonPath,
+      `{
+  "peerDependencies": {
+    "@skyux/i18n": "defaultversion"
+  }
+}`
+    );
+
+    const updatedTree = await runSchematic();
+
+    const packageJsonContents = JSON.parse(
+      readRequiredFile(updatedTree, packageJsonPath)
+    );
+
+    expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
+      'defaultversion'
+    );
+  });
+
   it('should abort for application projects', async () => {
     const app = await createTestApp(runner, {
       defaultProjectName: 'foo-app',
