@@ -1,3 +1,7 @@
+# 5.0.3 (2022-02-04)
+
+- Removed an outdated reference to entry components. [#90](https://github.com/blackbaud/skyux-tiles/pull/92)
+
 # 5.0.2 (2022-01-27)
 
 - Fixed the tile controls to have proper accessibility attributes. [#89](https://github.com/blackbaud/skyux-tiles/pull/89)
