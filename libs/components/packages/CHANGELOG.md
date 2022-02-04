@@ -1,3 +1,7 @@
+# 5.131.0 (2022-02-04)
+
+- `@skyux/tiles@5.0.3` [Release notes](https://github.com/blackbaud/skyux-tiles/blob/5.0.3/CHANGELOG.md)
+
 # 5.130.0 (2022-02-04)
 
 - `@skyux/lookup@5.2.1` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.2.1/CHANGELOG.md)
