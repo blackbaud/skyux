@@ -726,17 +726,14 @@ export class SkyAutocompleteComponent
         .toLocaleUpperCase() as string;
       const normalizedDataValue = normalizeDiacritics(value);
 
-      let regexMatch: RegExpExecArray;
-      const regex = new RegExp(normalizedSearchText, 'g');
-      while ((regexMatch = regex.exec(normalizedDataValue)) !== null) {
-        /**
-         * Use the regex index to pull out the location of the match from the original string.
-         * This ensures we capture diacritical and non-diacritical character matches.
-         */
+      let offset = 0;
+      let index: number;
+      while ((index = normalizedDataValue.indexOf(normalizedSearchText, offset)) > -1) {
         const matchedString = value.slice(
-          regexMatch.index,
-          regexMatch.index + searchText.length
+          index,
+          index + searchText.length
         );
+        offset = index + searchText.length;
         matchesToHighlight = matchesToHighlight.concat(matchedString);
       }
     }

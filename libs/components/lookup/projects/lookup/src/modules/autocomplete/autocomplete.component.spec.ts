@@ -1040,6 +1040,29 @@ describe('Autocomplete component', () => {
           getSearchResultsContainer().querySelectorAll('mark').length
         ).toBe(2);
       }));
+
+      it('should highlight matches when search contains regular expression characters', fakeAsync(() => {
+        component.data = [
+          { name: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)', objectid: '1' },
+          { name: 'United States of America (USA)', objectid: '2' },
+          { name: 'Should not be found', objectid: '3' },
+        ];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('united', fixture);
+
+        expect(
+          getSearchResultsContainer()
+            .querySelector('mark')
+            .innerHTML.trim()
+            .toLowerCase()
+        ).toContain('united');
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(2);
+      }));
     });
 
     describe('keyboard interactions', () => {
