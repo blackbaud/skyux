@@ -1,3 +1,7 @@
+# 5.134.0 (2022-02-07)
+
+- `@skyux/action-bars@5.0.2` [Release notes](https://github.com/blackbaud/skyux-action-bars/blob/5.0.2/CHANGELOG.md)
+
 # 5.133.0 (2022-02-04)
 
 - `@skyux/flyout@5.0.4` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.0.4/CHANGELOG.md)
