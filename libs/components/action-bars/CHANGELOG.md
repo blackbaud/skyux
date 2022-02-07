@@ -1,3 +1,7 @@
+# 5.0.2 (2022-02-07)
+
+- Fixed the summary action bar expand button to have proper accessibility attributes. [#75](https://github.com/blackbaud/skyux-action-bars/pull/75)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#71](https://github.com/blackbaud/skyux-action-bars/pull/71)
