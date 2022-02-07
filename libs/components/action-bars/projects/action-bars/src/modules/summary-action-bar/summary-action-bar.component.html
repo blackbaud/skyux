@@ -40,13 +40,8 @@
 
 <ng-template #chevron>
   <sky-chevron
-    [attr.title]="
-      isSummaryCollapsed
-        ? ('skyux_summary_action_bar_hide_summary' | skyLibResources)
-        : ('skyux_summary_action_bar_show_summary' | skyLibResources)
-    "
     [attr.aria-controls]="summaryId"
-    [attr.aria-expanded]="!isSummaryCollapsed"
+    [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
     [direction]="isSummaryCollapsed ? 'up' : 'down'"
     [skyThemeClass]="{
       'sky-margin-inline-default': 'modern'

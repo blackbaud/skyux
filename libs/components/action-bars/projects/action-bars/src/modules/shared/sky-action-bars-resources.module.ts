@@ -12,17 +12,11 @@ import {
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS,
+  SKY_LIB_RESOURCES_PROVIDERS
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {
-    skyux_summary_action_bar_open_secondary: {
-      message: 'Show secondary actions',
-    },
-    skyux_summary_action_bar_show_summary: { message: 'Show summary' },
-    skyux_summary_action_bar_hide_summary: { message: 'Hide summary' },
-  },
+  'EN-US': {"skyux_summary_action_bar_open_secondary":{"message":"Show secondary actions"},"skyux_summary_action_bar_expand":{"message":"Expand or collapse summary"}},
 };
 
 export class SkyActionBarsResourcesProvider implements SkyLibResourcesProvider {
@@ -36,12 +30,10 @@ export class SkyActionBarsResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [
-    {
-      provide: SKY_LIB_RESOURCES_PROVIDERS,
-      useClass: SkyActionBarsResourcesProvider,
-      multi: true,
-    },
-  ],
+  providers: [{
+    provide: SKY_LIB_RESOURCES_PROVIDERS,
+    useClass: SkyActionBarsResourcesProvider,
+    multi: true
+  }]
 })
-export class SkyActionBarsResourcesModule {}
+export class SkyActionBarsResourcesModule { }
