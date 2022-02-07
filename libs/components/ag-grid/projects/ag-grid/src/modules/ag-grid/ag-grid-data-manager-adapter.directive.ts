@@ -17,6 +17,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   ColumnApi,
   ColumnMovedEvent,
+  ColumnState,
   DragStartedEvent,
   DragStoppedEvent,
   RowSelectedEvent,
@@ -223,25 +224,25 @@ export class SkyAgGridDataManagerAdapterDirective
       });
 
     agGrid.sortChanged.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      const gridSortModel = agGrid.api.getSortModel();
+      const gridColumnStates: ColumnState[] = agGrid.columnApi.getColumnState();
       let sortOption: SkyDataManagerSortOption;
 
       /* istanbul ignore else */
-      if (gridSortModel.length) {
-        const activeSortModel = gridSortModel[0];
-        const activeSortColumn = agGrid.columnApi.getColumn(
-          activeSortModel.colId
+      if (gridColumnStates.length) {
+        const activeSortColumnState = gridColumnStates.find(
+          (aGridColumnState) => aGridColumnState.sortIndex === 0
         );
+
         const dataManagerConfig =
           this.dataManagerSvc.getCurrentDataManagerConfig();
 
         /* istanbul ignore else */
-        if (dataManagerConfig.sortOptions) {
+        if (dataManagerConfig.sortOptions && activeSortColumnState) {
           sortOption = dataManagerConfig.sortOptions.find(
             (option: SkyDataManagerSortOption) => {
               return (
-                option.propertyName === activeSortColumn.getColDef().field &&
-                option.descending === (activeSortModel.sort === 'desc')
+                option.propertyName === activeSortColumnState.colId &&
+                option.descending === (activeSortColumnState.sort === 'desc')
               );
             }
           );

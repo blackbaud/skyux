@@ -10,14 +10,7 @@
       </button>
     </sky-data-manager-toolbar-left-item>
   </sky-data-manager-toolbar>
-  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
-    <sky-ag-grid-wrapper *ngIf="gridInitialized">
-      <ag-grid-angular
-        [gridOptions]="gridOptions"
-        [rowData]="displayedItems"
-        [overlayNoRowsTemplate]="noRowsTemplate"
-      >
-      </ag-grid-angular>
-    </sky-ag-grid-wrapper>
-  </sky-data-view>
+  <app-data-manager-data-entry-grid-docs-demo-view-grid
+    [items]="items"
+  ></app-data-manager-data-entry-grid-docs-demo-view-grid>
 </sky-data-manager>

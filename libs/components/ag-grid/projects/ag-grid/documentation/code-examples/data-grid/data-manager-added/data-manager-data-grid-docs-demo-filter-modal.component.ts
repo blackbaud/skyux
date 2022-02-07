@@ -26,7 +26,7 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
       let filters = this.context.filterData.filters;
-      this.jobTitle = filters.jobTitle?.name || 'any';
+      this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
     this.changeDetector.markForCheck();

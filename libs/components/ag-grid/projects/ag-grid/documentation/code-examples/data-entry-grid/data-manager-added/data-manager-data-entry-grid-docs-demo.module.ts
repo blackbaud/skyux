@@ -14,6 +14,7 @@ import { SkyDataManagerDataEntryGridEditModalComponent } from './data-manager-da
 import { SkyDataManagerDataEntryGridDemoComponent } from './data-manager-data-entry-grid-docs-demo.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DataManagerDataEntryGridDocsDemoViewGridComponent } from './data-manager-data-entry-grid-docs-demo-view-grid.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     SkyDataManagerDataEntryGridDemoComponent,
     SkyDataManagerDataEntryGridEditModalComponent,
     DataManagerDataEntryGridDocsDemoFiltersModalComponent,
+    DataManagerDataEntryGridDocsDemoViewGridComponent,
   ],
   imports: [
     AgGridModule.withComponents([

@@ -217,9 +217,54 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when the sort changes', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const sortModel = [{ colId: 'name', sort: 'desc' }];
+    const gridColumnStates = [
+      {
+        colId: 'selected',
+        width: 50,
+        hide: false,
+        pinned: null,
+        sort: null,
+        sortIndex: null,
+        aggFunc: null,
+        rowGroup: false,
+        rowGroupIndex: null,
+        pivot: false,
+        pivotIndex: null,
+        flex: null,
+      },
+      {
+        colId: 'name',
+        width: 699,
+        hide: false,
+        pinned: null,
+        sort: 'desc',
+        sortIndex: 0,
+        aggFunc: null,
+        rowGroup: false,
+        rowGroupIndex: null,
+        pivot: false,
+        pivotIndex: null,
+        flex: null,
+      },
+      {
+        colId: 'target',
+        width: 931,
+        hide: false,
+        pinned: null,
+        sort: null,
+        sortIndex: null,
+        aggFunc: null,
+        rowGroup: false,
+        rowGroupIndex: null,
+        pivot: false,
+        pivotIndex: null,
+        flex: null,
+      },
+    ];
 
-    spyOn(agGridComponent.api, 'getSortModel').and.returnValue(sortModel);
+    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue(
+      gridColumnStates
+    );
     spyOn(dataManagerService, 'updateDataState');
 
     dataState.activeSortOption = {
