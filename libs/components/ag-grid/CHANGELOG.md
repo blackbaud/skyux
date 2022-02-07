@@ -1,3 +1,7 @@
+# 5.2.1 (2022-02-07)
+
+- Updated the code structure for data grid and data entry grid code examples and behavioral demos to not segment by selection, remove the unnecessary `searchText` variable, and update the shown items dynamically based on selection. [#194](https://github.com/blackbaud/skyux-ag-grid/pull/194)
+
 # 5.2.0 (2022-02-02)
 
 - Added support for lazy-loaded routes. [#196](https://github.com/blackbaud/skyux-ag-grid/pull/196)
