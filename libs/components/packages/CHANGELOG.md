@@ -1,3 +1,7 @@
+# 5.137.1 (2022-02-08)
+
+- `@skyux/i18n@5.0.2` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.2/CHANGELOG.md)
+
 # 5.137.0 (2022-02-08)
 
 - `@skyux/list-builder-common@5.0.2` [Release notes](https://github.com/blackbaud/skyux-list-builder-common/blob/5.0.2/CHANGELOG.md)
