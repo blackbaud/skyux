@@ -1,3 +1,7 @@
+# 5.137.0 (2022-02-08)
+
+- `@skyux/list-builder-common@5.0.2` [Release notes](https://github.com/blackbaud/skyux-list-builder-common/blob/5.0.2/CHANGELOG.md)
+
 # 5.136.0 (2022-02-08)
 
 - `@skyux/docs-tools@5.0.0-beta.10` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.10/CHANGELOG.md)
