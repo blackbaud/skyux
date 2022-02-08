@@ -1,3 +1,8 @@
+# 5.0.2 (2022-02-08)
+
+- Fixed the `lib-resources-module` schematic to generate files that work within strict-mode applications. [#134](https://github.com/blackbaud/skyux-i18n/pull/134)
+- Fixed the `ng-add` schematic to add the `@skyux/i18n` peer dependency if it is not already installed. [#135](https://github.com/blackbaud/skyux-i18n/pull/135)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for Prettier code formatting and updated the builder to support StackBlitz. [#131](https://github.com/blackbaud/skyux-i18n/pull/131)
