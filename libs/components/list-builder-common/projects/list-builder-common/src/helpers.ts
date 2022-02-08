@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 
+/** @internal */
 export function getData(item: any, selector: string): any {
   if (!selector) {
     return undefined;
@@ -31,6 +32,7 @@ export function getData(item: any, selector: string): any {
   return result;
 }
 
+/** @internal */
 export function compare(value1: any, value2: any) {
   /* tslint:disable:no-null-keyword */
   if (value1 === null) {
@@ -58,6 +60,7 @@ export function compare(value1: any, value2: any) {
   Taken directly from rxjs's internal utility to determine whether an object is an Obserable.
   See: https://github.com/ReactiveX/rxjs/blob/master/src/internal/util/isObservable.ts
 */
+/** @internal */
 export function isObservable<T>(obj: any): obj is Observable<T> {
   /* istanbul ignore next */
   return (

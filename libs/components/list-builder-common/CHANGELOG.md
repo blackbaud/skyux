@@ -1,3 +1,7 @@
+# 5.0.2 (2022-02-08)
+
+- Fixed the generated documentation to not include helper functions. [#30](https://github.com/blackbaud/skyux-list-builder-common/pull/30)
+
 # 5.0.1 (2021-11-18)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#28](https://github.com/blackbaud/skyux-list-builder-common/pull/28)
