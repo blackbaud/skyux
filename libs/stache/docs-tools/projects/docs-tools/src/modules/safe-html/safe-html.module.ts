@@ -1,24 +1,12 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyDocsSafeHtmlComponent
-} from './safe-html.component';
+import { SkyDocsSafeHtmlComponent } from './safe-html.component';
 
 @NgModule({
-  declarations: [
-    SkyDocsSafeHtmlComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    SkyDocsSafeHtmlComponent
-  ]
+  declarations: [SkyDocsSafeHtmlComponent],
+  imports: [CommonModule],
+  exports: [SkyDocsSafeHtmlComponent],
 })
-export class SkyDocsSafeHtmlModule { }
+export class SkyDocsSafeHtmlModule {}

@@ -1,7 +1,7 @@
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/_compat/mixins';
 
-@mixin sky-docs-tools-heading($level:0) {
+@mixin sky-docs-tools-heading($level: 0) {
   line-height: 1.1;
   font-family: $sky-font-family;
   color: $sky-text-color-default;
@@ -30,9 +30,11 @@
     margin: 0 0 $sky-margin;
   }
 
-  @if $level == 5 {}
+  @if $level == 5 {
+  }
 
-  @if $level == 6 {}
+  @if $level == 6 {
+  }
 }
 
 @mixin sky-docs-tools-headings($suffix) {
@@ -65,7 +67,7 @@
 // Auto-generated code elements need to be styled like `sky-code` component.
 // TODO: Need to address this so that there isn't duplicate code.
 @mixin sky-docs-tools-code {
-  @include sky-border("dark", "top", "right", "bottom", "left");
+  @include sky-border('dark', 'top', 'right', 'bottom', 'left');
   overflow-wrap: break-word;
   font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
   font-size: 90%;

@@ -1,79 +1,43 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  RouterModule
-} from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import {
   SkyCodeBlockModule,
-  SkyCodeModule
+  SkyCodeModule,
 } from '@blackbaud/skyux-lib-code-block';
 
-import {
-  SkyIconModule
-} from '@skyux/indicators';
+import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyDefinitionListModule
-} from '@skyux/layout';
+import { SkyDefinitionListModule } from '@skyux/layout';
 
-import {
-  SkyDocsHeadingAnchorModule
-} from '../heading-anchor/heading-anchor.module';
+import { SkyDocsHeadingAnchorModule } from '../heading-anchor/heading-anchor.module';
 
-import {
-  SkyDocsMarkdownModule
-} from '../markdown/markdown.module';
+import { SkyDocsMarkdownModule } from '../markdown/markdown.module';
 
-import {
-  SkyDocsSafeHtmlModule
-} from '../safe-html/safe-html.module';
+import { SkyDocsSafeHtmlModule } from '../safe-html/safe-html.module';
 
-import {
-  SkyDocsCallSignatureDefinitionComponent
-} from './call-signature-definition.component';
+import { SkyDocsCallSignatureDefinitionComponent } from './call-signature-definition.component';
 
-import {
-  SkyDocsDirectiveDefinitionComponent
-} from './directive-definition.component';
+import { SkyDocsDirectiveDefinitionComponent } from './directive-definition.component';
 
-import {
-  SkyDocsEnumerationDefinitionComponent
-} from './enumeration-definition.component';
+import { SkyDocsEnumerationDefinitionComponent } from './enumeration-definition.component';
 
-import {
-  SkyDocsInterfaceDefinitionComponent
-} from './interface-definition.component';
+import { SkyDocsInterfaceDefinitionComponent } from './interface-definition.component';
 
-import {
-  SkyDocsMethodDefinitionsComponent
-} from './method-definitions.component';
+import { SkyDocsMethodDefinitionsComponent } from './method-definitions.component';
 
-import {
-  SkyDocsPipeDefinitionComponent
-} from './pipe-definition.component';
+import { SkyDocsPipeDefinitionComponent } from './pipe-definition.component';
 
-import {
-  SkyDocsPropertyDefinitionsComponent
-} from './property-definitions.component';
+import { SkyDocsPropertyDefinitionsComponent } from './property-definitions.component';
 
-import {
-  SkyDocsClassDefinitionComponent
-} from './class-definition.component';
+import { SkyDocsClassDefinitionComponent } from './class-definition.component';
 
-import {
-  SkyDocsTypeAliasDefinitionComponent
-} from './type-alias-definition.component';
+import { SkyDocsTypeAliasDefinitionComponent } from './type-alias-definition.component';
 
-import {
-  SkyDocsTypeAnchorLinksPipe
-} from './type-anchor-links.pipe';
+import { SkyDocsTypeAnchorLinksPipe } from './type-anchor-links.pipe';
 
 @NgModule({
   imports: [
@@ -85,7 +49,7 @@ import {
     SkyDocsHeadingAnchorModule,
     SkyDocsMarkdownModule,
     SkyDocsSafeHtmlModule,
-    SkyIconModule
+    SkyIconModule,
   ],
   declarations: [
     SkyDocsCallSignatureDefinitionComponent,
@@ -97,7 +61,7 @@ import {
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
     SkyDocsTypeAliasDefinitionComponent,
-    SkyDocsTypeAnchorLinksPipe
+    SkyDocsTypeAnchorLinksPipe,
   ],
   exports: [
     SkyDocsCallSignatureDefinitionComponent,
@@ -109,7 +73,7 @@ import {
     SkyDocsPipeDefinitionComponent,
     SkyDocsPropertyDefinitionsComponent,
     SkyDocsTypeAliasDefinitionComponent,
-    SkyDocsTypeAnchorLinksPipe
-  ]
+    SkyDocsTypeAnchorLinksPipe,
+  ],
 })
-export class SkyDocsTypeDefinitionsModule { }
+export class SkyDocsTypeDefinitionsModule {}

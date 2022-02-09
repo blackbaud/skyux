@@ -1,15 +1,11 @@
-import {
-  Pipe,
-  PipeTransform
-} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 import marked from 'marked';
 
 @Pipe({
-  name: 'skyDocsMarkdown'
+  name: 'skyDocsMarkdown',
 })
 export class SkyDocsMarkdownPipe implements PipeTransform {
-
   public transform(markdown: string): string {
     if (!markdown) {
       return '';
@@ -17,5 +13,4 @@ export class SkyDocsMarkdownPipe implements PipeTransform {
 
     return marked(markdown);
   }
-
 }

@@ -3,25 +3,16 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  SkyDocsCallSignatureDefinition
-} from './call-signature-definition';
+import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
 
-import {
-  SkyDocsClassMethodDefinition
-} from './method-definition';
+import { SkyDocsClassMethodDefinition } from './method-definition';
 
-import {
-  SkyDocsTypeDefinitionsFormatService
-} from './type-definitions-format.service';
+import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 interface MethodViewModel {
   callSignature: SkyDocsCallSignatureDefinition;
@@ -37,17 +28,16 @@ interface MethodViewModel {
   selector: 'sky-docs-method-definitions',
   templateUrl: './method-definitions.component.html',
   styleUrls: ['./method-definitions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsMethodDefinitionsComponent implements OnInit {
-
   @Input()
-  public set config(value: { methods?: SkyDocsClassMethodDefinition[]; }) {
+  public set config(value: { methods?: SkyDocsClassMethodDefinition[] }) {
     this._config = value;
     this.updateView();
   }
 
-  public get config(): { methods?: SkyDocsClassMethodDefinition[]; } {
+  public get config(): { methods?: SkyDocsClassMethodDefinition[] } {
     return this._config || {};
   }
 
@@ -65,17 +55,17 @@ export class SkyDocsMethodDefinitionsComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private formatService: SkyDocsTypeDefinitionsFormatService,
     private mediaQueryService: SkyMediaQueryService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.mediaQueryService.subscribe((breakpoints: SkyMediaBreakpoints) => {
-      this.isMobile = (breakpoints <= SkyMediaBreakpoints.sm);
+      this.isMobile = breakpoints <= SkyMediaBreakpoints.sm;
       this.changeDetector.markForCheck();
     });
   }
 
   private updateView(): void {
-    this.methods = this.config?.methods?.map(method => {
+    this.methods = this.config?.methods?.map((method) => {
       const vm: MethodViewModel = {
         callSignature: method.type.callSignature,
         codeExample: method.codeExample,
@@ -83,11 +73,10 @@ export class SkyDocsMethodDefinitionsComponent implements OnInit {
         deprecationWarning: method.deprecationWarning,
         description: method.description,
         formattedName: this.formatService.getFormattedMethodName(method),
-        sourceCode: this.formatService.getMethodSourceCode(method)
+        sourceCode: this.formatService.getMethodSourceCode(method),
       };
 
       return vm;
     });
   }
-
 }

@@ -1,5 +1,4 @@
 export interface SkyDocsCommentTags {
-
   codeExample: string;
 
   codeExampleLanguage: string;
@@ -18,5 +17,4 @@ export interface SkyDocsCommentTags {
     name: string;
     description: string;
   }[];
-
 }

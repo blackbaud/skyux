@@ -4,16 +4,12 @@ import {
   ContentChildren,
   ElementRef,
   Input,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  SkyDocsDemoContentAlignment
-} from './demo-content-alignment';
+import { SkyDocsDemoContentAlignment } from './demo-content-alignment';
 
-import {
-  SkyDocsDemoControlPanelComponent
-} from './demo-control-panel.component';
+import { SkyDocsDemoControlPanelComponent } from './demo-control-panel.component';
 
 /**
  * Wraps all behavior demo components and handles the configuration and appearance of the behavior demo.
@@ -28,10 +24,9 @@ import {
   selector: 'sky-docs-demo',
   templateUrl: './demo.component.html',
   styleUrls: ['./demo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsDemoComponent {
-
   /**
    * Specifies the horizontal alignment of the demo contents.
    * @default 'left'
@@ -52,14 +47,14 @@ export class SkyDocsDemoComponent {
   public heading: string;
 
   public get hasOptions(): boolean {
-    return (this.controlPanels && this.controlPanels.length > 0);
+    return this.controlPanels && this.controlPanels.length > 0;
   }
 
   @ContentChildren(SkyDocsDemoControlPanelComponent, { read: ElementRef })
   private controlPanels: QueryList<SkyDocsDemoControlPanelComponent>;
 
   public get toggleOptionsButtonIcon(): string {
-    return (this.areOptionsVisible) ? 'chevron-up' : 'chevron-down';
+    return this.areOptionsVisible ? 'chevron-up' : 'chevron-down';
   }
 
   public areOptionsVisible = false;
@@ -69,5 +64,4 @@ export class SkyDocsDemoComponent {
   public onToggleOptionsButtonClick(): void {
     this.areOptionsVisible = !this.areOptionsVisible;
   }
-
 }

@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 /**
  * Specifies a section of page content.
@@ -19,10 +15,9 @@ import {
   selector: 'sky-docs-demo-page-section',
   templateUrl: './demo-page-section.component.html',
   styleUrls: ['./demo-page-section.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsDemoPageSectionComponent {
-
   /**
    * The heading text to print above the section.
    */
@@ -38,10 +33,14 @@ export class SkyDocsDemoPageSectionComponent {
       return;
     }
 
-    const sanitized = value.toLowerCase()
+    const sanitized = value
+      .toLowerCase()
 
       // Remove special characters.
-      .replace(/[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g, '')
+      .replace(
+        /[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g,
+        ''
+      )
 
       // Replace space characters with a dash.
       .replace(/\s/g, '-')
@@ -51,5 +50,4 @@ export class SkyDocsDemoPageSectionComponent {
 
     return sanitized;
   }
-
 }

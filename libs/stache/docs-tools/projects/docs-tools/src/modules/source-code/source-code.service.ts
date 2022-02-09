@@ -1,23 +1,14 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyDocsSourceCodeFile
-} from './source-code-file';
+import { SkyDocsSourceCodeFile } from './source-code-file';
 
-import {
-  SkyDocsSourceCodeProvider
-} from './source-code-provider';
+import { SkyDocsSourceCodeProvider } from './source-code-provider';
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDocsSourceCodeService {
-
-  constructor(
-    private sourceCodeProvider: SkyDocsSourceCodeProvider
-  ) { }
+  constructor(private sourceCodeProvider: SkyDocsSourceCodeProvider) {}
 
   public getSourceCode(path: string): SkyDocsSourceCodeFile[] {
     const sourceCode = this.sourceCodeProvider.sourceCode;
@@ -26,8 +17,8 @@ export class SkyDocsSourceCodeService {
     }
 
     return sourceCode
-      .filter(file => file.filePath.indexOf(path) === 0)
-      .map(file => {
+      .filter((file) => file.filePath.indexOf(path) === 0)
+      .map((file) => {
         // TODO: Remove decoding after migrating to Angular CLI. Code examples will not be encoded for SKY UX 5 libraries.
         // SKY UX 4 libraries will return rawContents encoded, while later libraries will
         // return rawContents decoded. Check if the contents need decoded before returning them.
@@ -44,5 +35,4 @@ export class SkyDocsSourceCodeService {
         return file;
       });
   }
-
 }

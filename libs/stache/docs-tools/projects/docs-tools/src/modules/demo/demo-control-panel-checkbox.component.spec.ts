@@ -1,15 +1,8 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyDocsDemoModule
-} from './demo.module';
+import { SkyDocsDemoModule } from './demo.module';
 
 //#region Helpers
 @Component({
@@ -21,13 +14,15 @@ import {
       [disabled]="disabled"
     >
     </sky-docs-demo-control-panel-checkbox>
-  `
+  `,
 })
 class TestComponent {
   public disabled: boolean;
 }
 
-function getCheckboxInput(fixture: ComponentFixture<TestComponent>): HTMLInputElement {
+function getCheckboxInput(
+  fixture: ComponentFixture<TestComponent>
+): HTMLInputElement {
   return fixture.nativeElement.querySelector('input');
 }
 //#endregion
@@ -38,17 +33,11 @@ describe('Demo control panel checkbox', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyDocsDemoModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyDocsDemoModule],
     });
 
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -4,21 +4,18 @@ import {
   Component,
   ContentChildren,
   Input,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  SkyDocsAnatomyItemComponent
-} from './anatomy-item.component';
+import { SkyDocsAnatomyItemComponent } from './anatomy-item.component';
 
 @Component({
   selector: 'sky-docs-anatomy',
   templateUrl: './anatomy.component.html',
   styleUrls: ['./anatomy.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsAnatomyComponent implements AfterContentInit {
-
   @Input()
   public imagePath: string;
 
@@ -30,5 +27,4 @@ export class SkyDocsAnatomyComponent implements AfterContentInit {
       item.marker = (i + 1).toString();
     });
   }
-
 }

@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * The page summary provides a section at the top of the page
@@ -17,6 +14,6 @@ import {
   selector: 'sky-docs-demo-page-summary',
   templateUrl: './demo-page-summary.component.html',
   styleUrls: ['./demo-page-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDocsDemoPageSummaryComponent { }
+export class SkyDocsDemoPageSummaryComponent {}

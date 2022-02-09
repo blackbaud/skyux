@@ -8,45 +8,26 @@ import {
   ContentChildren,
   Input,
   OnInit,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  StacheNavLink
-} from '@blackbaud/skyux-lib-stache';
+import { StacheNavLink } from '@blackbaud/skyux-lib-stache';
 
-import {
-  SkyDocsCodeExamplesComponent
-} from '../code-examples/code-examples.component';
+import { SkyDocsCodeExamplesComponent } from '../code-examples/code-examples.component';
 
-import {
-  SkyDocsDesignGuidelinesComponent
-} from '../design-guidelines/design-guidelines.component';
+import { SkyDocsDesignGuidelinesComponent } from '../design-guidelines/design-guidelines.component';
 
-import {
-  SkyDocsSupportalService
-} from '../shared/docs-tools-supportal.service';
+import { SkyDocsSupportalService } from '../shared/docs-tools-supportal.service';
 
-import {
-  SkyDocsComponentInfo
-} from '../shared/docs-tools-component-info';
+import { SkyDocsComponentInfo } from '../shared/docs-tools-component-info';
 
-import {
-  SkyDocsDemoPageDomAdapterService
-} from './demo-page-dom-adapter.service';
+import { SkyDocsDemoPageDomAdapterService } from './demo-page-dom-adapter.service';
 
-import {
-  SkyDocsDemoPageTitleService
-} from './demo-page-title.service';
+import { SkyDocsDemoPageTitleService } from './demo-page-title.service';
 
 /**
  * The demo page component wraps all documentation components and handles the configuration and layout of the page.
@@ -63,13 +44,12 @@ import {
   selector: 'sky-docs-demo-page',
   templateUrl: './demo-page.component.html',
   styleUrls: ['./demo-page.component.scss'],
-  providers: [
-    SkyDocsDemoPageDomAdapterService
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [SkyDocsDemoPageDomAdapterService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, AfterViewInit {
-
+export class SkyDocsDemoPageComponent
+  implements OnInit, AfterContentInit, AfterViewInit
+{
   /**
    * Specifies the local path to any other relevant source code. The values are relative to the root directory.
    */
@@ -145,34 +125,36 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
     private domAdapter: SkyDocsDemoPageDomAdapterService,
     private supportalService: SkyDocsSupportalService,
     private titleService: SkyDocsDemoPageTitleService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    const currentHostUrl = this.skyAppConfig.skyux.host.url + '/' + this.skyAppConfig.skyux.name;
+    const currentHostUrl =
+      this.skyAppConfig.skyux.host.url + '/' + this.skyAppConfig.skyux.name;
     this.updateTitle();
 
     this.supportalService
       .getComponentsInfo()
       .subscribe((results: SkyDocsComponentInfo[]) => {
-        this.sidebarRoutes = [{
-          name: 'Components',
-          path: 'https://developer.blackbaud.com/skyux/components',
-          children: results.map((component: SkyDocsComponentInfo) => ({
-            name: component.name,
-            path: this.getPath(component.url, currentHostUrl)
-          }))
-        }];
+        this.sidebarRoutes = [
+          {
+            name: 'Components',
+            path: 'https://developer.blackbaud.com/skyux/components',
+            children: results.map((component: SkyDocsComponentInfo) => ({
+              name: component.name,
+              path: this.getPath(component.url, currentHostUrl),
+            })),
+          },
+        ];
         this.changeDetector.markForCheck();
       });
   }
 
   public ngAfterContentInit(): void {
-    this.enableCodeExamples = (this.codeExampleComponents.length > 0);
-    this.enableTabLayout = !!(this.designGuidelinesComponent);
+    this.enableCodeExamples = this.codeExampleComponents.length > 0;
+    this.enableTabLayout = !!this.designGuidelinesComponent;
   }
 
   public ngAfterViewInit(): void {
-
     // Watch for route fragment to change and scroll to heading.
     this.activatedRoute.fragment.subscribe((fragment) => {
       this.domAdapter.scrollToFragment(fragment);
@@ -190,7 +172,7 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
 
       this.router.navigate([], {
         fragment,
-        queryParamsHandling: 'merge'
+        queryParamsHandling: 'merge',
       });
 
       if (this.activatedRoute.snapshot.fragment === fragment) {
@@ -215,5 +197,4 @@ export class SkyDocsDemoPageComponent implements OnInit, AfterContentInit, After
       return url;
     }
   }
-
 }

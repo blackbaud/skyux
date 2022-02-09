@@ -1,31 +1,18 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  HttpClient
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import {
-  Observable
-} from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  map,
-  share
-} from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
-import {
-  SkyDocsComponentInfo
-} from './docs-tools-component-info';
+import { SkyDocsComponentInfo } from './docs-tools-component-info';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyDocsSupportalService {
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   public getComponentsInfo(): Observable<SkyDocsComponentInfo[]> {
     return this.http

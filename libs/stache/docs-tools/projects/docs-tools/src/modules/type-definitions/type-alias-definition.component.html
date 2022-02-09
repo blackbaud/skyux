@@ -1,26 +1,27 @@
-<div *ngIf="config"
+<div
+  *ngIf="config"
   class="sky-docs-type-alias-definition sky-docs-type-definition-wrapper"
 >
-  <sky-docs-heading-anchor
-    headingLevel="3"
-    [anchorId]="config.anchorId"
-  >
+  <sky-docs-heading-anchor headingLevel="3" [anchorId]="config.anchorId">
     {{ config.name }}
   </sky-docs-heading-anchor>
 
-  <sky-docs-safe-html *ngIf="config.description"
+  <sky-docs-safe-html
+    *ngIf="config.description"
     class="sky-docs-type-alias-definition-description"
     [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <sky-code-block *ngIf="sourceCode"
+  <sky-code-block
+    *ngIf="sourceCode"
     class="sky-docs-code-block"
     languageType="typescript"
     [code]="sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <sky-docs-call-signature-definition *ngIf="config.type.callSignature"
+  <sky-docs-call-signature-definition
+    *ngIf="config.type.callSignature"
     [config]="config.type.callSignature"
   ></sky-docs-call-signature-definition>
 </div>

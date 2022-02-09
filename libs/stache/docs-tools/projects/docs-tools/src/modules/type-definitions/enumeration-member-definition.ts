@@ -2,7 +2,6 @@
  * Describes enumeration members.
  */
 export interface SkyDocsEnumerationMemberDefinition {
-
   codeExample?: string;
 
   codeExampleLanguage?: string;
@@ -12,5 +11,4 @@ export interface SkyDocsEnumerationMemberDefinition {
   description?: string;
 
   name: string;
-
 }

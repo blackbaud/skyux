@@ -2,28 +2,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  Optional
+  Optional,
 } from '@angular/core';
 
-import {
-  SkyDocsToolsOptions
-} from '../shared/docs-tools-options';
+import { SkyDocsToolsOptions } from '../shared/docs-tools-options';
 
 @Component({
   selector: 'sky-docs-module-info',
   templateUrl: './module-info.component.html',
   styleUrls: ['./module-info.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsModuleInfoComponent {
-
   @Input()
   public set gitRepoUrl(value: string) {
     this._gitRepoUrl = value;
   }
 
   public get gitRepoUrl() {
-    return this._gitRepoUrl || this.options && this.options.gitRepoUrl;
+    return this._gitRepoUrl || (this.options && this.options.gitRepoUrl);
   }
 
   @Input()
@@ -35,7 +32,7 @@ export class SkyDocsModuleInfoComponent {
   }
 
   public get packageName() {
-    return this._packageName || this.options && this.options.packageName;
+    return this._packageName || (this.options && this.options.packageName);
   }
 
   @Input()
@@ -55,20 +52,20 @@ export class SkyDocsModuleInfoComponent {
     return '';
   }
 
-  public get externalLinks(): { label: string; url: string; }[] {
-    const externalLinks: { label: string; url: string; }[] = [];
+  public get externalLinks(): { label: string; url: string }[] {
+    const externalLinks: { label: string; url: string }[] = [];
 
     if (this.packageName) {
       externalLinks.push({
         url: this.packageUrl,
-        label: 'View in NPM'
+        label: 'View in NPM',
       });
     }
 
     if (this.gitRepoUrl) {
       externalLinks.push({
         url: this.gitRepoUrl,
-        label: 'View in GitHub'
+        label: 'View in GitHub',
       });
     }
 
@@ -89,7 +86,5 @@ export class SkyDocsModuleInfoComponent {
 
   private _packageUrl: string;
 
-  constructor(
-    @Optional() private options?: SkyDocsToolsOptions
-  ) { }
+  constructor(@Optional() private options?: SkyDocsToolsOptions) {}
 }

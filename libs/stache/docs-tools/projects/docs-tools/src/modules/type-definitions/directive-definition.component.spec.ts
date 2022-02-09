@@ -1,34 +1,18 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  DirectiveDefinitionFixtureComponent
-} from './fixtures/directive-definition.component.fixture';
+import { DirectiveDefinitionFixtureComponent } from './fixtures/directive-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Directive definition component', function () {
-
   let fixture: ComponentFixture<DirectiveDefinitionFixtureComponent>;
   let mockMediaQueryService: MockSkyMediaQueryService;
 
@@ -36,28 +20,26 @@ describe('Directive definition component', function () {
     mockMediaQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
+                name: 'FooUser',
+              },
+            ],
+          },
         },
         {
           provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService
-        }
-      ]
+          useValue: mockMediaQueryService,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(DirectiveDefinitionFixtureComponent);
@@ -69,7 +51,8 @@ describe('Directive definition component', function () {
 
   it('should set defaults', () => {
     fixture.detectChanges();
-    const directiveDefinitionRef = fixture.componentInstance.directiveDefinitionRef;
+    const directiveDefinitionRef =
+      fixture.componentInstance.directiveDefinitionRef;
     expect(directiveDefinitionRef.config).toBeUndefined();
   });
 
@@ -77,12 +60,14 @@ describe('Directive definition component', function () {
     fixture.componentInstance.config = {
       anchorId: 'foo-anchor-id',
       name: 'FooComponent',
-      selector: 'app-foo'
+      selector: 'app-foo',
     };
 
     fixture.detectChanges();
 
-    let selectorElement = fixture.nativeElement.querySelector('.sky-docs-directive-selector');
+    let selectorElement = fixture.nativeElement.querySelector(
+      '.sky-docs-directive-selector'
+    );
 
     expect(selectorElement.innerText).toEqual('app-foo');
   });
@@ -96,40 +81,48 @@ describe('Directive definition component', function () {
         {
           name: 'config',
           decorator: {
-            name: 'Input'
+            name: 'Input',
           },
           isOptional: true,
           type: {
             type: 'reference',
-            name: 'Config'
-          }
-        }
+            name: 'Config',
+          },
+        },
       ],
       eventProperties: [
         {
           name: 'click',
           decorator: {
-            name: 'Output'
+            name: 'Output',
           },
           isOptional: true,
           type: {
             type: 'reference',
             name: 'EventEmitter',
-            typeArguments: [{
-              type: 'intrinsic',
-              name: 'string'
-            }]
-          }
-        }
-      ]
+            typeArguments: [
+              {
+                type: 'intrinsic',
+                name: 'string',
+              },
+            ],
+          },
+        },
+      ],
     };
 
     fixture.detectChanges();
 
-    const rowElements = fixture.nativeElement.querySelectorAll('.sky-docs-property-definitions-table-cell-name');
+    const rowElements = fixture.nativeElement.querySelectorAll(
+      '.sky-docs-property-definitions-table-cell-name'
+    );
 
-    expect(rowElements.item(0).innerText.replace(/\r?\n|\r/g, '')).toEqual('@Input()config?: Config');
-    expect(rowElements.item(1).innerText.replace(/\r?\n|\r/g, '')).toEqual('@Output()click?: EventEmitter<string>');
+    expect(rowElements.item(0).innerText.replace(/\r?\n|\r/g, '')).toEqual(
+      '@Input()config?: Config'
+    );
+    expect(rowElements.item(1).innerText.replace(/\r?\n|\r/g, '')).toEqual(
+      '@Output()click?: EventEmitter<string>'
+    );
   });
 
   it('should display Output properties if Inputs do not exist', () => {
@@ -141,17 +134,19 @@ describe('Directive definition component', function () {
         {
           name: 'click',
           decorator: {
-            name: 'Output'
+            name: 'Output',
           },
           isOptional: false,
-          type: {}
-        }
-      ]
+          type: {},
+        },
+      ],
     };
 
     fixture.detectChanges();
 
-    const rowElements = fixture.nativeElement.querySelectorAll('.sky-docs-property-definitions-table-cell-name');
+    const rowElements = fixture.nativeElement.querySelectorAll(
+      '.sky-docs-property-definitions-table-cell-name'
+    );
 
     expect(rowElements.item(0).innerText).toContain('@Output()');
   });
@@ -161,7 +156,7 @@ describe('Directive definition component', function () {
       anchorId: 'component-foocomponent',
       name: 'FooComponent',
       description: 'This description has a [[FooUser]].',
-      selector: 'app-foo'
+      selector: 'app-foo',
     };
 
     fixture.detectChanges();
@@ -174,5 +169,4 @@ describe('Directive definition component', function () {
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   });
-
 });

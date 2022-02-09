@@ -1,79 +1,40 @@
-import {
-  Injectable,
-  Optional
-} from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
-import {
-  SkyDocsCallSignatureDefinition
-} from './call-signature-definition';
+import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
 
-import {
-  SkyDocsClassDefinition
-} from './class-definition';
+import { SkyDocsClassDefinition } from './class-definition';
 
-import {
-  SkyDocsClassPropertyDefinition
-} from './property-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 
-import {
-  SkyDocsCommentTags
-} from './comment-tags';
+import { SkyDocsCommentTags } from './comment-tags';
 
-import {
-  SkyDocsDirectiveDefinition
-} from './directive-definition';
+import { SkyDocsDirectiveDefinition } from './directive-definition';
 
-import {
-  SkyDocsEnumerationDefinition
-} from './enumeration-definition';
+import { SkyDocsEnumerationDefinition } from './enumeration-definition';
 
-import {
-  SkyDocsEnumerationMemberDefinition
-} from './enumeration-member-definition';
+import { SkyDocsEnumerationMemberDefinition } from './enumeration-member-definition';
 
-import {
-  SkyDocsIndexSignatureDefinition
-} from './index-signature-definition';
+import { SkyDocsIndexSignatureDefinition } from './index-signature-definition';
 
-import {
-  SkyDocsInterfaceDefinition
-} from './interface-definition';
+import { SkyDocsInterfaceDefinition } from './interface-definition';
 
-import {
-  SkyDocsInterfacePropertyDefinition
-} from './interface-property-definition';
+import { SkyDocsInterfacePropertyDefinition } from './interface-property-definition';
 
-import {
-  SkyDocsClassMethodDefinition
-} from './method-definition';
+import { SkyDocsClassMethodDefinition } from './method-definition';
 
-import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
+import { SkyDocsParameterDefinition } from './parameter-definition';
 
-import {
-  SkyDocsPipeDefinition
-} from './pipe-definition';
+import { SkyDocsPipeDefinition } from './pipe-definition';
 
-import {
-  SkyDocsPropertyDecoratorDefinition
-} from './property-decorator';
+import { SkyDocsPropertyDecoratorDefinition } from './property-decorator';
 
-import {
-  SkyDocsTypeAliasDefinition
-} from './type-alias-definition';
+import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
 
-import {
-  SkyDocsTypeDefinition
-} from './type-definition';
+import { SkyDocsTypeDefinition } from './type-definition';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
-import {
-  SkyDocsTypeParameterDefinition
-} from './type-parameter-definition';
+import { SkyDocsTypeParameterDefinition } from './type-parameter-definition';
 
 import {
   TypeDocComment,
@@ -82,7 +43,7 @@ import {
   TypeDocParameter,
   TypeDocSignature,
   TypeDocType,
-  TypeDocTypeParameter
+  TypeDocTypeParameter,
 } from './typedoc-types';
 
 import orderBy from 'lodash.orderby';
@@ -91,18 +52,17 @@ import orderBy from 'lodash.orderby';
  * Converts TypeDoc types into SKY UX docs-tools types, to be supplied to the various definitions components.
  */
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDocsTypeDocAdapterService {
-
   constructor(
     @Optional() private typeDefinitionsProvider?: SkyDocsTypeDefinitionsProvider
-  ) { }
+  ) {}
 
   public toClassDefinition(entry: TypeDocEntry): SkyDocsClassDefinition {
     const definition: SkyDocsClassDefinition = {
       anchorId: this.getAnchorId(entry),
-      name: entry.name
+      name: entry.name,
     };
 
     const tags = this.getCommentTags(entry.comment);
@@ -121,11 +81,13 @@ export class SkyDocsTypeDocAdapterService {
     return definition;
   }
 
-  public toDirectiveDefinition(entry: TypeDocEntry): SkyDocsDirectiveDefinition {
+  public toDirectiveDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsDirectiveDefinition {
     const definition: SkyDocsDirectiveDefinition = {
       anchorId: this.getAnchorId(entry),
       name: entry.name,
-      selector: this.getSelector(entry)
+      selector: this.getSelector(entry),
     };
 
     const tags = this.getCommentTags(entry.comment);
@@ -133,12 +95,16 @@ export class SkyDocsTypeDocAdapterService {
 
     const properties = this.getClassProperties(entry);
 
-    const eventProperties = properties.filter(p => p.decorator?.name === 'Output');
+    const eventProperties = properties.filter(
+      (p) => p.decorator?.name === 'Output'
+    );
     if (eventProperties.length) {
       definition.eventProperties = eventProperties;
     }
 
-    const inputProperties = properties.filter(p => p.decorator?.name === 'Input');
+    const inputProperties = properties.filter(
+      (p) => p.decorator?.name === 'Input'
+    );
     if (inputProperties.length) {
       definition.inputProperties = inputProperties;
     }
@@ -146,12 +112,14 @@ export class SkyDocsTypeDocAdapterService {
     return definition;
   }
 
-  public toEnumerationDefinition(entry: TypeDocEntry): SkyDocsEnumerationDefinition {
+  public toEnumerationDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsEnumerationDefinition {
     const members = this.getEnumerationMembers(entry);
     const definition: SkyDocsEnumerationDefinition = {
       anchorId: this.getAnchorId(entry),
       members,
-      name: entry.name
+      name: entry.name,
     };
 
     const tags = this.getCommentTags(entry.comment);
@@ -160,18 +128,22 @@ export class SkyDocsTypeDocAdapterService {
     return definition;
   }
 
-  public toInterfaceDefinition(entry: TypeDocEntry): SkyDocsInterfaceDefinition {
+  public toInterfaceDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsInterfaceDefinition {
     const properties = this.getInterfaceProperties(entry);
     const definition: SkyDocsInterfaceDefinition = {
       anchorId: this.getAnchorId(entry),
       name: entry.name,
-      properties
+      properties,
     };
 
     const tags = this.getCommentTags(entry.comment);
     this.applyCommentTagValues(definition, tags);
 
-    const typeParameters = this.getTypeParameterDefinitions(entry.typeParameter);
+    const typeParameters = this.getTypeParameterDefinitions(
+      entry.typeParameter
+    );
     if (typeParameters.length) {
       definition.typeParameters = typeParameters;
     }
@@ -181,11 +153,11 @@ export class SkyDocsTypeDocAdapterService {
 
   public toPipeDefinition(entry: TypeDocEntry): SkyDocsPipeDefinition {
     const methods = this.getClassMethods(entry);
-    const transformMethod = methods.find(m => m.name === 'transform');
+    const transformMethod = methods.find((m) => m.name === 'transform');
     const definition: SkyDocsPipeDefinition = {
       anchorId: this.getAnchorId(entry),
       name: entry.name,
-      transformMethod
+      transformMethod,
     };
 
     const tags = this.getCommentTags(entry.comment);
@@ -194,20 +166,24 @@ export class SkyDocsTypeDocAdapterService {
     return definition;
   }
 
-  public toTypeAliasDefinition(entry: TypeDocEntry): SkyDocsTypeAliasDefinition {
+  public toTypeAliasDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsTypeAliasDefinition {
     const definition: SkyDocsTypeAliasDefinition = {
       anchorId: this.getAnchorId(entry),
       name: entry.name,
       type: this.getTypeDefinition({
         comment: entry.comment,
-        type: entry.type
-      })
+        type: entry.type,
+      }),
     };
 
     const tags = this.getCommentTags(entry.comment);
     this.applyCommentTagValues(definition, tags);
 
-    const typeParameters = this.getTypeParameterDefinitions(entry.typeParameter);
+    const typeParameters = this.getTypeParameterDefinitions(
+      entry.typeParameter
+    );
     if (typeParameters.length) {
       definition.typeParameters = typeParameters;
     }
@@ -217,28 +193,40 @@ export class SkyDocsTypeDocAdapterService {
 
   private getSelector(entry: TypeDocEntry): string {
     const decoratorSource = entry.decorators[0].arguments.obj;
-    return (decoratorSource.indexOf('selector: `') > -1)
-      ? decoratorSource.split('selector: `')[1].split('`')[0].replace(/\s\s+/g, ' ')
-      : decoratorSource.split('selector: \'')[1].split('\'')[0];
+    return decoratorSource.indexOf('selector: `') > -1
+      ? decoratorSource
+          .split('selector: `')[1]
+          .split('`')[0]
+          .replace(/\s\s+/g, ' ')
+      : decoratorSource.split("selector: '")[1].split("'")[0];
   }
 
-  private getClassProperties(entry: TypeDocEntry): SkyDocsClassPropertyDefinition[] {
+  private getClassProperties(
+    entry: TypeDocEntry
+  ): SkyDocsClassPropertyDefinition[] {
     if (!entry.children) {
       return [];
     }
 
     const definitions = entry.children
-      .filter(child => child.kindString === 'Property' || child.kindString === 'Accessor')
-      .map(child => {
+      .filter(
+        (child) =>
+          child.kindString === 'Property' || child.kindString === 'Accessor'
+      )
+      .map((child) => {
         let definition: SkyDocsClassPropertyDefinition = {
           isOptional: true,
           name: this.getPropertyName(child),
-          type: this.getTypeDefinition(child)
+          type: this.getTypeDefinition(child),
         };
         let defaultValue: string;
 
         /* Ensure we are properly capturing definitions which use a getter/setter. Final check is a sanity check */
-        if (child.kindString === 'Accessor' && !child.comment?.shortText && child.getSignature?.length > 0) {
+        if (
+          child.kindString === 'Accessor' &&
+          !child.comment?.shortText &&
+          child.getSignature?.length > 0
+        ) {
           const mainTags = this.getCommentTags(child.comment);
           const getTags = this.getCommentTags(child.getSignature[0].comment);
 
@@ -256,7 +244,6 @@ export class SkyDocsTypeDocAdapterService {
             definition.isOptional = !mainTags.extras.required;
             defaultValue = this.getDefaultValue(child, mainTags);
           }
-
         } else {
           const tags = this.getCommentTags(child.comment);
 
@@ -279,11 +266,7 @@ export class SkyDocsTypeDocAdapterService {
         return definition;
       });
 
-    return orderBy(
-      definitions,
-      ['isOptional', 'name'],
-      ['asc', 'asc']
-    );
+    return orderBy(definitions, ['isOptional', 'name'], ['asc', 'asc']);
   }
 
   private getClassMethods(entry: TypeDocEntry): SkyDocsClassMethodDefinition[] {
@@ -292,11 +275,14 @@ export class SkyDocsTypeDocAdapterService {
     }
 
     const methods = entry.children
-      .filter(child => child.kindString === 'Method' && /^ng/.test(child.name) === false)
-      .map(child => {
+      .filter(
+        (child) =>
+          child.kindString === 'Method' && /^ng/.test(child.name) === false
+      )
+      .map((child) => {
         const definition: SkyDocsClassMethodDefinition = {
           name: this.getPropertyName(child),
-          type: this.getTypeDefinition(child)
+          type: this.getTypeDefinition(child),
         };
 
         // Comments for methods are stored in a different location.
@@ -304,7 +290,9 @@ export class SkyDocsTypeDocAdapterService {
         const tags = this.getCommentTags(comment);
         this.applyCommentTagValues(definition, tags);
 
-        const typeParameters = this.getTypeParameterDefinitions(child.signatures[0].typeParameter);
+        const typeParameters = this.getTypeParameterDefinitions(
+          child.signatures[0].typeParameter
+        );
         if (typeParameters.length) {
           definition.typeParameters = typeParameters;
         }
@@ -312,36 +300,31 @@ export class SkyDocsTypeDocAdapterService {
         return definition;
       });
 
-    return orderBy(
-      methods,
-      ['name'],
-      ['asc']
-    );
+    return orderBy(methods, ['name'], ['asc']);
   }
 
-  private getInterfaceProperties(entry: TypeDocEntry): SkyDocsInterfacePropertyDefinition[] {
+  private getInterfaceProperties(
+    entry: TypeDocEntry
+  ): SkyDocsInterfacePropertyDefinition[] {
     if (!entry.children && !entry.indexSignature) {
       return [];
     }
 
-    const definitions = entry.children?.map(child => {
-      const tags = this.getCommentTags(child.comment);
-      const definition: SkyDocsInterfacePropertyDefinition = {
-        isOptional: (tags.extras.required) ? false : !!(child.flags?.isOptional),
-        name: this.getPropertyName(child),
-        type: this.getTypeDefinition(child)
-      };
+    const definitions =
+      entry.children?.map((child) => {
+        const tags = this.getCommentTags(child.comment);
+        const definition: SkyDocsInterfacePropertyDefinition = {
+          isOptional: tags.extras.required ? false : !!child.flags?.isOptional,
+          name: this.getPropertyName(child),
+          type: this.getTypeDefinition(child),
+        };
 
-      this.applyCommentTagValues(definition, tags);
+        this.applyCommentTagValues(definition, tags);
 
-      return definition;
-    }) || [];
+        return definition;
+      }) || [];
 
-    const sorted = orderBy(
-      definitions,
-      ['isOptional', 'name'],
-      ['asc', 'asc']
-    );
+    const sorted = orderBy(definitions, ['isOptional', 'name'], ['asc', 'asc']);
 
     // Add any index signatures, e.g. `[_: string]: any`
     if (entry.indexSignature) {
@@ -350,8 +333,8 @@ export class SkyDocsTypeDocAdapterService {
         isOptional: true,
         name: indexSignature.name,
         type: {
-          indexSignature: this.getIndexSignatureDefinition(indexSignature)
-        }
+          indexSignature: this.getIndexSignatureDefinition(indexSignature),
+        },
       };
 
       const tags = this.getCommentTags(indexSignature.comment);
@@ -362,14 +345,16 @@ export class SkyDocsTypeDocAdapterService {
     return sorted;
   }
 
-  private getEnumerationMembers(entry: TypeDocEntry): SkyDocsEnumerationMemberDefinition[] {
+  private getEnumerationMembers(
+    entry: TypeDocEntry
+  ): SkyDocsEnumerationMemberDefinition[] {
     if (!entry.children) {
       return [];
     }
 
-    return entry.children.map(child => {
+    return entry.children.map((child) => {
       const definition: SkyDocsEnumerationMemberDefinition = {
-        name: child.name
+        name: child.name,
       };
 
       const tags = this.getCommentTags(child.comment);
@@ -392,17 +377,21 @@ export class SkyDocsTypeDocAdapterService {
 
       case 'Method':
         definition = {
-          callSignature: this.getCallSignatureDefinition(child.signatures[0], this.getCommentTags(child.comment)),
-          name: child.signatures[0].name
+          callSignature: this.getCallSignatureDefinition(
+            child.signatures[0],
+            this.getCommentTags(child.comment)
+          ),
+          name: child.signatures[0].name,
         };
 
         return definition;
 
       default:
-        let name: string = child.type.name || child.type.elementType?.name || child.type.value;
+        let name: string =
+          child.type.name || child.type.elementType?.name || child.type.value;
 
         definition = {
-          type: child.type.type
+          type: child.type.type,
         };
 
         if (name) {
@@ -411,7 +400,9 @@ export class SkyDocsTypeDocAdapterService {
 
         // Union?
         if (child.type.types) {
-          definition.unionTypes = child.type.types.map(t => this.getTypeDefinition({ type: t }));
+          definition.unionTypes = child.type.types.map((t) =>
+            this.getTypeDefinition({ type: t })
+          );
         }
 
         // Convert reflection types.
@@ -426,15 +417,15 @@ export class SkyDocsTypeDocAdapterService {
               );
             } else if (declaration.indexSignature) {
               const indexSignature = declaration.indexSignature;
-              definition.indexSignature = this.getIndexSignatureDefinition(indexSignature);
-            } else /* istanbul ignore else */ if (declaration.children) {
+              definition.indexSignature =
+                this.getIndexSignatureDefinition(indexSignature);
+            } /* istanbul ignore else */ else if (declaration.children) {
               definition.typeLiteral = {
                 properties: this.getInterfaceProperties({
-                  children: declaration.children
-                })
+                  children: declaration.children,
+                }),
               };
             }
-
           }
         }
 
@@ -443,7 +434,9 @@ export class SkyDocsTypeDocAdapterService {
         }
 
         if (child.type.typeArguments) {
-          definition.typeArguments = this.getTypeArgumentDefinitions(child.type);
+          definition.typeArguments = this.getTypeArgumentDefinitions(
+            child.type
+          );
         }
 
         return definition;
@@ -458,35 +451,38 @@ export class SkyDocsTypeDocAdapterService {
       return [];
     }
 
-    const parameters: SkyDocsParameterDefinition[] = callSignature.parameters.map(p => {
-      const tags = this.getParameterCommentTags(p, parentTags);
-      const defaultValue = this.getDefaultValue(p, tags);
-      const typeArguments = this.getTypeArgumentDefinitions(p.type);
+    const parameters: SkyDocsParameterDefinition[] =
+      callSignature.parameters.map((p) => {
+        const tags = this.getParameterCommentTags(p, parentTags);
+        const defaultValue = this.getDefaultValue(p, tags);
+        const typeArguments = this.getTypeArgumentDefinitions(p.type);
 
-      const parameter: SkyDocsParameterDefinition = {
-        isOptional: !!(defaultValue || !!p.flags?.isOptional),
-        name: p.name,
-        type: this.getTypeDefinition(p)
-      };
+        const parameter: SkyDocsParameterDefinition = {
+          isOptional: !!(defaultValue || !!p.flags?.isOptional),
+          name: p.name,
+          type: this.getTypeDefinition(p),
+        };
 
-      if (defaultValue !== undefined) {
-        parameter.defaultValue = defaultValue;
-      }
+        if (defaultValue !== undefined) {
+          parameter.defaultValue = defaultValue;
+        }
 
-      if (tags.description) {
-        parameter.description = tags.description;
-      }
+        if (tags.description) {
+          parameter.description = tags.description;
+        }
 
-      if (typeArguments.length) {
-        parameter.typeArguments = typeArguments;
-      }
+        if (typeArguments.length) {
+          parameter.typeArguments = typeArguments;
+        }
 
-      return parameter;
-    });
+        return parameter;
+      });
     return parameters;
   }
 
-  private getTypeArgumentDefinitions(typeConfig: TypeDocType): SkyDocsTypeDefinition[] {
+  private getTypeArgumentDefinitions(
+    typeConfig: TypeDocType
+  ): SkyDocsTypeDefinition[] {
     if (!typeConfig || !typeConfig.typeArguments) {
       return [];
     }
@@ -496,9 +492,12 @@ export class SkyDocsTypeDocAdapterService {
     });
   }
 
-  private getCallSignatureDefinition(callSignature: TypeDocSignature, tags: SkyDocsCommentTags): SkyDocsCallSignatureDefinition {
+  private getCallSignatureDefinition(
+    callSignature: TypeDocSignature,
+    tags: SkyDocsCommentTags
+  ): SkyDocsCallSignatureDefinition {
     const definition: SkyDocsCallSignatureDefinition = {
-      returnType: this.getTypeDefinition(callSignature)
+      returnType: this.getTypeDefinition(callSignature),
     };
 
     const parameters = this.getParameterDefinitions(callSignature, tags);
@@ -509,29 +508,33 @@ export class SkyDocsTypeDocAdapterService {
     return definition;
   }
 
-  private getIndexSignatureDefinition(signature: TypeDocSignature): SkyDocsIndexSignatureDefinition {
+  private getIndexSignatureDefinition(
+    signature: TypeDocSignature
+  ): SkyDocsIndexSignatureDefinition {
     return {
       key: {
         name: signature.parameters[0].name,
-        type: this.getTypeDefinition(signature.parameters[0])
+        type: this.getTypeDefinition(signature.parameters[0]),
       },
-      type: this.getTypeDefinition(signature)
+      type: this.getTypeDefinition(signature),
     };
   }
 
-  private getTypeParameterDefinitions(typeParameters: TypeDocTypeParameter[]): SkyDocsTypeParameterDefinition[] {
+  private getTypeParameterDefinitions(
+    typeParameters: TypeDocTypeParameter[]
+  ): SkyDocsTypeParameterDefinition[] {
     if (!typeParameters) {
       return [];
     }
 
-    return typeParameters.map(typeParam => {
+    return typeParameters.map((typeParam) => {
       const definition: SkyDocsTypeParameterDefinition = {
-        name: typeParam.name
+        name: typeParam.name,
       };
 
       if (typeParam.type) {
         definition.type = this.getTypeDefinition({
-          type: typeParam.type
+          type: typeParam.type,
         });
       }
 
@@ -548,16 +551,16 @@ export class SkyDocsTypeDocAdapterService {
 
     let parameters: {
       name: string;
-      description: string
+      description: string;
     }[];
 
     const extras: {
-      [key: string]: any
+      [key: string]: any;
     } = {};
 
     if (comment) {
       if (comment.tags) {
-        comment.tags.forEach(tag => {
+        comment.tags.forEach((tag) => {
           switch (tag.tag) {
             case 'deprecated':
               deprecationWarning = tag.text.trim();
@@ -581,7 +584,7 @@ export class SkyDocsTypeDocAdapterService {
               parameters = parameters || [];
               parameters.push({
                 name: tag.param,
-                description: tag.text.trim()
+                description: tag.text.trim(),
               });
               break;
 
@@ -602,17 +605,22 @@ export class SkyDocsTypeDocAdapterService {
       deprecationWarning,
       description,
       extras,
-      parameters
+      parameters,
     };
   }
 
   /**
    * Parameter descriptions are derived from the parent's (function/method) comment.
    */
-  private getParameterCommentTags(parameter: TypeDocParameter, parentTags: SkyDocsCommentTags): SkyDocsCommentTags {
+  private getParameterCommentTags(
+    parameter: TypeDocParameter,
+    parentTags: SkyDocsCommentTags
+  ): SkyDocsCommentTags {
     const tags = this.getCommentTags(parameter.comment);
     const paramTags = parentTags.parameters;
-    const tagParam = (paramTags) ? paramTags.find((param) => param.name === parameter.name) : undefined;
+    const tagParam = paramTags
+      ? paramTags.find((param) => param.name === parameter.name)
+      : undefined;
 
     if (!tagParam || !tagParam.description) {
       return tags;
@@ -621,8 +629,8 @@ export class SkyDocsTypeDocAdapterService {
     return {
       ...tags,
       ...{
-        description: tagParam.description
-      }
+        description: tagParam.description,
+      },
     };
   }
 
@@ -652,8 +660,11 @@ export class SkyDocsTypeDocAdapterService {
     }
   }
 
-  private getDecorator(child: TypeDocEntryChild): SkyDocsPropertyDecoratorDefinition {
-    const name = child.decorators && child.decorators[0] && child.decorators[0].name;
+  private getDecorator(
+    child: TypeDocEntryChild
+  ): SkyDocsPropertyDecoratorDefinition {
+    const name =
+      child.decorators && child.decorators[0] && child.decorators[0].name;
     if (name) {
       return { name };
     }
@@ -663,12 +674,15 @@ export class SkyDocsTypeDocAdapterService {
     const decorators = property.decorators && property.decorators[0];
     // Use the Input's bound property name, if found.
     // e.g. @Input('foobar')
-    return (decorators?.arguments?.bindingPropertyName)
+    return decorators?.arguments?.bindingPropertyName
       ? decorators.arguments.bindingPropertyName.replace(/(\'|\")/g, '')
       : property.name;
   }
 
-  private getDefaultValue(child: TypeDocEntryChild, tags: SkyDocsCommentTags): string | undefined {
+  private getDefaultValue(
+    child: TypeDocEntryChild,
+    tags: SkyDocsCommentTags
+  ): string | undefined {
     if (tags.defaultValue) {
       return tags.defaultValue;
     }
@@ -684,7 +698,10 @@ export class SkyDocsTypeDocAdapterService {
   }
 
   private getAnchorId(entry: TypeDocEntry): string {
-    return entry.anchorId || this.typeDefinitionsProvider?.anchorIds[entry.name] || '';
+    return (
+      entry.anchorId ||
+      this.typeDefinitionsProvider?.anchorIds[entry.name] ||
+      ''
+    );
   }
-
 }

@@ -4,20 +4,14 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDocsDemoControlPanelChange
-} from './demo-control-panel-change';
+import { SkyDocsDemoControlPanelChange } from './demo-control-panel-change';
 
-import {
-  SkyDocsDemoControlPanelRadioChoice
-} from './demo-control-panel-radio-choice';
+import { SkyDocsDemoControlPanelRadioChoice } from './demo-control-panel-radio-choice';
 
 /**
  * Renders a radio control group.
@@ -40,10 +34,11 @@ import {
   selector: 'sky-docs-demo-control-panel-radio-group',
   templateUrl: './demo-control-panel-radio-group.component.html',
   styleUrls: ['./demo-control-panel-radio-group.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDestroy {
-
+export class SkyDocsDemoControlPanelRadioGroupComponent
+  implements OnInit, OnDestroy
+{
   /**
    * The possible choices to be represented by radio controls.
    * @required
@@ -86,9 +81,7 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
    */
   public value: any;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.value = this.cloneValue(this.initialValue);
@@ -101,7 +94,7 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
   public onModelChange(value: any): void {
     this.value = value;
     this.selectionChange.next({
-      [this.propertyName]: this.value
+      [this.propertyName]: this.value,
     });
   }
 
@@ -117,5 +110,4 @@ export class SkyDocsDemoControlPanelRadioGroupComponent implements OnInit, OnDes
 
     return value;
   }
-
 }

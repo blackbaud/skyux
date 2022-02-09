@@ -1,41 +1,22 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  SkyDocsEnumerationMemberDefinition
-} from './enumeration-member-definition';
+import { SkyDocsEnumerationMemberDefinition } from './enumeration-member-definition';
 
-import {
-  SkyDocsInterfaceDefinition
-} from './interface-definition';
+import { SkyDocsInterfaceDefinition } from './interface-definition';
 
-import {
-  SkyDocsClassMethodDefinition
-} from './method-definition';
+import { SkyDocsClassMethodDefinition } from './method-definition';
 
-import {
-  SkyDocsParameterDefinition
-} from './parameter-definition';
+import { SkyDocsParameterDefinition } from './parameter-definition';
 
-import {
-  SkyDocsClassPropertyDefinition
-} from './property-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 
-import {
-  SkyDocsTypeAliasDefinition
-} from './type-alias-definition';
+import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
 
-import {
-  SkyDocsTypeDefinition
-} from './type-definition';
+import { SkyDocsTypeDefinition } from './type-definition';
 
-import {
-  SkyDocsTypeDefinitionsFormatService
-} from './type-definitions-format.service';
+import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 describe('Type definitions format service', () => {
-
   let service: SkyDocsTypeDefinitionsFormatService;
 
   beforeEach(() => {
@@ -49,16 +30,14 @@ describe('Type definitions format service', () => {
         callSignature: {
           returnType: {
             type: 'intrinsic',
-            name: 'void'
-          }
-        }
-      }
+            name: 'void',
+          },
+        },
+      },
     };
 
     const sourceCode = service.getMethodSourceCode(def);
-    expect(sourceCode).toEqual(
-      'public fooBar(): void'
-    );
+    expect(sourceCode).toEqual('public fooBar(): void');
   });
 
   it('should generate method source code with parameters', () => {
@@ -72,24 +51,24 @@ describe('Type definitions format service', () => {
               isOptional: false,
               type: {
                 type: 'intrinsic',
-                name: 'string'
-              }
+                name: 'string',
+              },
             },
             {
               name: 'args',
               isOptional: true,
               type: {
                 type: 'reference',
-                name: 'Options'
-              }
-            }
+                name: 'Options',
+              },
+            },
           ],
           returnType: {
             type: 'intrinsic',
-            name: 'FooUser'
-          }
-        }
-      }
+            name: 'FooUser',
+          },
+        },
+      },
     };
 
     const sourceCode = service.getMethodSourceCode(def);
@@ -106,7 +85,7 @@ describe('Type definitions format service', () => {
         callSignature: {
           returnType: {
             name: 'FooUser',
-            type: 'reference'
+            type: 'reference',
           },
           parameters: [
             {
@@ -114,9 +93,9 @@ describe('Type definitions format service', () => {
               name: 'id',
               type: {
                 type: 'reference',
-                name: 'FooUser'
+                name: 'FooUser',
               },
-              description: 'The unique identifier.'
+              description: 'The unique identifier.',
             },
             {
               isOptional: false,
@@ -127,39 +106,39 @@ describe('Type definitions format service', () => {
                 typeArguments: [
                   {
                     type: 'typeParameter',
-                    name: 'T'
+                    name: 'T',
                   },
                   {
                     type: 'typeParameter',
-                    name: 'U'
-                  }
-                ]
+                    name: 'U',
+                  },
+                ],
               },
               typeArguments: [
                 {
                   type: 'typeParameter',
-                  name: 'T'
+                  name: 'T',
                 },
                 {
                   type: 'typeParameter',
-                  name: 'U'
-                }
-              ]
+                  name: 'U',
+                },
+              ],
             },
             {
               isOptional: true,
               name: 'locale',
               type: {
                 type: 'intrinsic',
-                name: 'string'
+                name: 'string',
               },
               defaultValue: '"en-US"',
-              description: 'The locale of the user.'
-            }
-          ]
+              description: 'The locale of the user.',
+            },
+          ],
         },
-        name: 'getUserById'
-      }
+        name: 'getUserById',
+      },
     };
 
     const sourceCode = service.getMethodSourceCode(def);
@@ -178,16 +157,16 @@ describe('Type definitions format service', () => {
           name: 'foo',
           type: {
             type: 'typeParameter',
-            name: 'T'
-          }
+            name: 'T',
+          },
         },
         {
           isOptional: true,
           name: 'user',
           type: {
             type: 'typeParameter',
-            name: 'U'
-          }
+            name: 'U',
+          },
         },
         {
           isOptional: false,
@@ -201,12 +180,12 @@ describe('Type definitions format service', () => {
                   name: 'commands',
                   type: {
                     type: 'array',
-                    name: 'any'
-                  }
-                }
-              ]
-            }
-          }
+                    name: 'any',
+                  },
+                },
+              ],
+            },
+          },
         },
         {
           isOptional: true,
@@ -217,29 +196,29 @@ describe('Type definitions format service', () => {
                 name: '_',
                 type: {
                   type: 'intrinsic',
-                  name: 'string'
-                }
+                  name: 'string',
+                },
               },
               type: {
                 type: 'intrinsic',
-                name: 'any'
-              }
-            }
-          }
-        }
+                name: 'any',
+              },
+            },
+          },
+        },
       ],
       typeParameters: [
         {
-          name: 'T'
+          name: 'T',
         },
         {
           name: 'U',
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
-      ]
+            name: 'FooUser',
+          },
+        },
+      ],
     };
 
     const sourceCode = service.getInterfaceSourceCode(def);
@@ -248,8 +227,7 @@ describe('Type definitions format service', () => {
   user?: U;
   route: { commands?: any[]; };
   [_: string]: any;
-}`
-    );
+}`);
   });
 
   it('should generate union type alias source code', () => {
@@ -261,48 +239,48 @@ describe('Type definitions format service', () => {
         unionTypes: [
           {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           {
             type: 'reference',
-            name: 'FooDate'
+            name: 'FooDate',
           },
           {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
           {
             type: 'intrinsic',
-            name: 'false'
+            name: 'false',
           },
           {
             type: 'unknown',
-            name: '1'
+            name: '1',
           },
           {
             type: 'stringLiteral',
-            name: '\'left\''
+            name: "'left'",
           },
           {
             type: 'typeParameter',
-            name: 'T'
+            name: 'T',
           },
           {
             type: 'reflection',
             callSignature: {
               returnType: {
                 type: 'intrinsic',
-                name: 'void'
-              }
-            }
-          }
-        ]
-      }
+                name: 'void',
+              },
+            },
+          },
+        ],
+      },
     };
 
     const sourceCode = service.getTypeAliasSourceCode(def);
     expect(sourceCode).toEqual(
-      'type FooTypeAlias = string | FooDate | number | false | 1 | \'left\' | T | () => void'
+      "type FooTypeAlias = string | FooDate | number | false | 1 | 'left' | T | () => void"
     );
   });
 
@@ -317,15 +295,15 @@ describe('Type definitions format service', () => {
             name: '_',
             type: {
               type: 'intrinsic',
-              name: 'string'
-            }
+              name: 'string',
+            },
           },
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
-      }
+            name: 'FooUser',
+          },
+        },
+      },
     };
 
     const sourceCode = service.getTypeAliasSourceCode(def);
@@ -343,7 +321,7 @@ describe('Type definitions format service', () => {
         callSignature: {
           returnType: {
             type: 'intrinsic',
-            name: 'void'
+            name: 'void',
           },
           parameters: [
             {
@@ -351,33 +329,35 @@ describe('Type definitions format service', () => {
               name: 'args',
               type: {
                 type: 'reference',
-                name: 'FooUser'
-              }
+                name: 'FooUser',
+              },
             },
             {
               isOptional: false,
               name: 'addl',
               type: {
                 type: 'typeParameter',
-                name: 'T'
-              }
+                name: 'T',
+              },
             },
             {
               isOptional: true,
               name: 'data',
               type: {
                 type: 'array',
-                name: 'any'
+                name: 'any',
               },
-              defaultValue: '[]'
-            }
-          ]
-        }
-      }
+              defaultValue: '[]',
+            },
+          ],
+        },
+      },
     };
 
     const sourceCode = service.getTypeAliasSourceCode(def);
-    expect(sourceCode).toEqual('type FooTypeAlias = (args: FooUser, addl: T, data?: any[]) => void');
+    expect(sourceCode).toEqual(
+      'type FooTypeAlias = (args: FooUser, addl: T, data?: any[]) => void'
+    );
   });
 
   it('should generate HTML formatted property names', () => {
@@ -386,26 +366,24 @@ describe('Type definitions format service', () => {
       isOptional: true,
       type: {
         type: 'reference',
-        name: 'FooUser'
+        name: 'FooUser',
       },
-      deprecationWarning: 'This is a deprecation warning.'
+      deprecationWarning: 'This is a deprecation warning.',
     };
 
     const formattedName = service.getFormattedPropertyName(def);
-    expect(formattedName).toEqual(
-      '<strike>foo</strike>?: FooUser'
-    );
+    expect(formattedName).toEqual('<strike>foo</strike>?: FooUser');
   });
 
   it('should generate HTML formatted property names without types', () => {
     const def: SkyDocsEnumerationMemberDefinition = {
-      name: 'Foo'
+      name: 'Foo',
     };
 
-    const formattedName = service.getFormattedPropertyName(def as SkyDocsClassPropertyDefinition);
-    expect(formattedName).toEqual(
-      'Foo'
+    const formattedName = service.getFormattedPropertyName(
+      def as SkyDocsClassPropertyDefinition
     );
+    expect(formattedName).toEqual('Foo');
   });
 
   it('should generate HTML formatted property names w/ union type parameters', () => {
@@ -421,7 +399,7 @@ describe('Type definitions format service', () => {
             unionTypes: [
               {
                 type: 'array',
-                name: 'string'
+                name: 'string',
               },
               {
                 type: 'reference',
@@ -429,18 +407,19 @@ describe('Type definitions format service', () => {
                 typeArguments: [
                   {
                     type: 'array',
-                    name: 'string'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    name: 'string',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       },
       decorator: {
-        name: 'Output'
+        name: 'Output',
       },
-      defaultValue: 'new EventEmitter<Array<string> | Observable<Array<string>>>()'
+      defaultValue:
+        'new EventEmitter<Array<string> | Observable<Array<string>>>()',
     };
 
     const formattedName = service.getFormattedPropertyName(def);
@@ -459,21 +438,19 @@ describe('Type definitions format service', () => {
             name: '_',
             type: {
               type: 'intrinsic',
-              name: 'string'
-            }
+              name: 'string',
+            },
           },
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
-      }
+            name: 'FooUser',
+          },
+        },
+      },
     };
 
     const formattedName = service.getFormattedPropertyName(def);
-    expect(formattedName).toEqual(
-      '[_: string]: FooUser'
-    );
+    expect(formattedName).toEqual('[_: string]: FooUser');
   });
 
   it('should generate HTML formatted @Input names', () => {
@@ -482,17 +459,15 @@ describe('Type definitions format service', () => {
       isOptional: false,
       type: {
         type: 'reference',
-        name: 'Options'
+        name: 'Options',
       },
       decorator: {
-        name: 'Input'
-      }
+        name: 'Input',
+      },
     };
 
     const formattedName = service.getFormattedPropertyName(def);
-    expect(formattedName).toEqual(
-      '@Input()<br>options: Options'
-    );
+    expect(formattedName).toEqual('@Input()<br>options: Options');
   });
 
   it('should generate HTML formatted @Output names', () => {
@@ -505,14 +480,14 @@ describe('Type definitions format service', () => {
         typeArguments: [
           {
             type: 'array',
-            name: 'FooUser'
-          }
-        ]
+            name: 'FooUser',
+          },
+        ],
       },
       decorator: {
-        name: 'Output'
+        name: 'Output',
       },
-      defaultValue: 'new EventEmitter<FooUser[]>()'
+      defaultValue: 'new EventEmitter<FooUser[]>()',
     };
 
     const formattedName = service.getFormattedPropertyName(def);
@@ -529,7 +504,7 @@ describe('Type definitions format service', () => {
         callSignature: {
           returnType: {
             name: 'FooUser',
-            type: 'reference'
+            type: 'reference',
           },
           parameters: [
             {
@@ -537,19 +512,17 @@ describe('Type definitions format service', () => {
               name: 'id',
               type: {
                 type: 'reference',
-                name: 'FooUser'
-              }
-            }
-          ]
+                name: 'FooUser',
+              },
+            },
+          ],
         },
-        name: 'getUserById'
-      }
+        name: 'getUserById',
+      },
     };
 
     const formattedName = service.getFormattedMethodName(def);
-    expect(formattedName).toEqual(
-      'getUserById()'
-    );
+    expect(formattedName).toEqual('getUserById()');
   });
 
   it('should generate HTML formatted deprecated method names', () => {
@@ -560,17 +533,15 @@ describe('Type definitions format service', () => {
         callSignature: {
           returnType: {
             name: 'FooUser',
-            type: 'reference'
-          }
+            type: 'reference',
+          },
         },
-        name: 'getUserById'
-      }
+        name: 'getUserById',
+      },
     };
 
     const formattedName = service.getFormattedMethodName(def);
-    expect(formattedName).toEqual(
-      '<strike>getUserById</strike>()'
-    );
+    expect(formattedName).toEqual('<strike>getUserById</strike>()');
   });
 
   it('should generate HTML formatted parameter names', () => {
@@ -581,20 +552,18 @@ describe('Type definitions format service', () => {
         unionTypes: [
           {
             type: 'stringLiteral',
-            name: '\'left\''
+            name: "'left'",
           },
           {
             type: 'stringLiteral',
-            name: '\'right\''
-          }
-        ]
-      }
+            name: "'right'",
+          },
+        ],
+      },
     };
 
     const formattedName = service.getFormattedParameterName(def);
-    expect(formattedName).toEqual(
-      'args?: \'left\' | \'right\''
-    );
+    expect(formattedName).toEqual("args?: 'left' | 'right'");
   });
 
   it('should allow unescaped HTML formatted types', () => {
@@ -607,7 +576,7 @@ describe('Type definitions format service', () => {
           unionTypes: [
             {
               type: 'array',
-              name: 'string'
+              name: 'string',
             },
             {
               type: 'reference',
@@ -615,22 +584,19 @@ describe('Type definitions format service', () => {
               typeArguments: [
                 {
                   type: 'array',
-                  name: 'string'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  name: 'string',
+                },
+              ],
+            },
+          ],
+        },
+      ],
     };
 
     const formatted = service.getFormattedType(def, {
-      escapeSpecialCharacters: false
+      escapeSpecialCharacters: false,
     });
 
-    expect(formatted).toEqual(
-      'EventEmitter<string[] | Observable<string[]>>'
-    );
+    expect(formatted).toEqual('EventEmitter<string[] | Observable<string[]>>');
   });
-
 });

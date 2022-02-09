@@ -1,43 +1,27 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  of
-} from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  SkyDocsSupportalService
-} from '../shared/docs-tools-supportal.service';
+import { SkyDocsSupportalService } from '../shared/docs-tools-supportal.service';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from '../type-definitions/type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from '../type-definitions/type-definitions-provider';
 
-import {
-  DemoPageFixtureComponent
-} from './fixtures/demo-page.component.fixture';
+import { DemoPageFixtureComponent } from './fixtures/demo-page.component.fixture';
 
-import {
-  DemoPageFixturesModule
-} from './fixtures/demo-page-fixtures.module';
+import { DemoPageFixturesModule } from './fixtures/demo-page-fixtures.module';
 
 //#region helpers
-function getSidebarLinks(fixture: ComponentFixture<any>): NodeListOf<HTMLAnchorElement> {
+function getSidebarLinks(
+  fixture: ComponentFixture<any>
+): NodeListOf<HTMLAnchorElement> {
   return fixture.nativeElement.querySelectorAll('.stache-nav a');
 }
 
 describe('Demo page component', () => {
-
   let fixture: ComponentFixture<DemoPageFixtureComponent>;
   let component: DemoPageFixtureComponent;
   let mockMediaQueryService: MockSkyMediaQueryService;
@@ -45,16 +29,14 @@ describe('Demo page component', () => {
   beforeEach(() => {
     mockMediaQueryService = new MockSkyMediaQueryService();
     TestBed.configureTestingModule({
-      imports: [
-        DemoPageFixturesModule
-      ],
+      imports: [DemoPageFixturesModule],
       providers: [
         {
           provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService
+          useValue: mockMediaQueryService,
         },
-        SkyDocsTypeDefinitionsProvider
-      ]
+        SkyDocsTypeDefinitionsProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(DemoPageFixtureComponent);
@@ -78,16 +60,16 @@ describe('Demo page component', () => {
       of([
         {
           name: 'foo',
-          url: '/foo'
+          url: '/foo',
         },
         {
           name: 'bar',
-          url: '/bar'
+          url: '/bar',
         },
         {
           name: 'baz',
-          url: '/baz'
-        }
+          url: '/baz',
+        },
       ])
     );
 
@@ -107,12 +89,12 @@ describe('Demo page component', () => {
       of([
         {
           name: 'foo',
-          url: 'https://www.example.com/demo-test/foo' // Hostname matches MockSkyAppConfig.skyux.host.url
+          url: 'https://www.example.com/demo-test/foo', // Hostname matches MockSkyAppConfig.skyux.host.url
         },
         {
           name: 'bar',
-          url: 'https://www.anothersite.com/bar'
-        }
+          url: 'https://www.anothersite.com/bar',
+        },
       ])
     );
 
@@ -121,7 +103,9 @@ describe('Demo page component', () => {
 
     expect(spy).toHaveBeenCalled();
     expect(sidebarLinks[0].getAttribute('href')).toEqual('/foo');
-    expect(sidebarLinks[1].getAttribute('href')).toEqual('https://www.anothersite.com/bar');
+    expect(sidebarLinks[1].getAttribute('href')).toEqual(
+      'https://www.anothersite.com/bar'
+    );
   });
 
   it('should remove URL parameters from any URLs returned by supportal service that match current site', () => {
@@ -130,12 +114,12 @@ describe('Demo page component', () => {
       of([
         {
           name: 'foo',
-          url: 'https://www.notmatchingsite.com/foo?svcid=test-svcid' // Hostname matches MockSkyAppConfig.skyux.host.url
+          url: 'https://www.notmatchingsite.com/foo?svcid=test-svcid', // Hostname matches MockSkyAppConfig.skyux.host.url
         },
         {
           name: 'bar',
-          url: 'https://www.example.com/demo-test/bar?svcid=test-svcid'
-        }
+          url: 'https://www.example.com/demo-test/bar?svcid=test-svcid',
+        },
       ])
     );
 
@@ -143,7 +127,9 @@ describe('Demo page component', () => {
     const sidebarLinks = getSidebarLinks(fixture);
 
     expect(spy).toHaveBeenCalled();
-    expect(sidebarLinks[0].getAttribute('href')).toEqual('https://www.notmatchingsite.com/foo?svcid=test-svcid');
+    expect(sidebarLinks[0].getAttribute('href')).toEqual(
+      'https://www.notmatchingsite.com/foo?svcid=test-svcid'
+    );
     expect(sidebarLinks[1].getAttribute('href')).toEqual('/bar');
   });
 });

@@ -1,10 +1,6 @@
-import {
-  SkyDocsSourceCodeProvider
-} from './source-code-provider';
+import { SkyDocsSourceCodeProvider } from './source-code-provider';
 
-import {
-  SkyDocsSourceCodeService
-} from './source-code.service';
+import { SkyDocsSourceCodeService } from './source-code.service';
 
 describe('Source code service', () => {
   let service: SkyDocsSourceCodeService;
@@ -16,9 +12,9 @@ describe('Source code service', () => {
         {
           fileName: 'foo',
           filePath: 'foo/bar',
-          rawContents: '<baz></baz>'
-        }
-      ]
+          rawContents: '<baz></baz>',
+        },
+      ],
     };
     service = new SkyDocsSourceCodeService(mockSourceCodeProvider);
     expect(service.getSourceCode(path)[0].rawContents).toEqual('<baz></baz>');
@@ -30,9 +26,9 @@ describe('Source code service', () => {
         {
           fileName: 'foo',
           filePath: 'foo/bar',
-          rawContents: '%3Cbaz%3E%3C/baz%3E'
-        }
-      ]
+          rawContents: '%3Cbaz%3E%3C/baz%3E',
+        },
+      ],
     };
     service = new SkyDocsSourceCodeService(mockSourceCodeProvider);
     expect(service.getSourceCode(path)[0].rawContents).toEqual('<baz></baz>');
@@ -44,11 +40,13 @@ describe('Source code service', () => {
         {
           fileName: 'foo',
           filePath: 'foo/bar',
-          rawContents: '<baz style="width: 50%;"></baz>'
-        }
-      ]
+          rawContents: '<baz style="width: 50%;"></baz>',
+        },
+      ],
     };
     service = new SkyDocsSourceCodeService(mockSourceCodeProvider);
-    expect(service.getSourceCode(path)[0].rawContents).toEqual('<baz style="width: 50%;"></baz>');
+    expect(service.getSourceCode(path)[0].rawContents).toEqual(
+      '<baz style="width: 50%;"></baz>'
+    );
   });
 });

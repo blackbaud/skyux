@@ -3,24 +3,16 @@ import {
   Component,
   Input,
   OnDestroy,
-  Optional
+  Optional,
 } from '@angular/core';
 
-import {
-  SkyThemeService
-} from '@skyux/theme';
+import { SkyThemeService } from '@skyux/theme';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  SkyDocsCodeExampleTheme
-} from './code-example-theme';
+import { SkyDocsCodeExampleTheme } from './code-example-theme';
 
 /**
  * Renders a single code example.
@@ -36,10 +28,9 @@ import {
 @Component({
   selector: 'sky-docs-code-example',
   template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsCodeExampleComponent implements OnDestroy {
-
   /**
    * The heading to be used for the code example.
    * @required
@@ -71,22 +62,18 @@ export class SkyDocsCodeExampleComponent implements OnDestroy {
 
   private _theme: SkyDocsCodeExampleTheme;
 
-  constructor(
-    @Optional() themeSvc?: SkyThemeService
-  ) {
+  constructor(@Optional() themeSvc?: SkyThemeService) {
     // Update theme property with SkyThemeService if it has not been set.
     if (!this._theme && themeSvc) {
       themeSvc.settingsChange
-        .pipe(
-          takeUntil(this.ngUnsubscribe)
-        )
-        .subscribe(change => {
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((change) => {
           if (change.currentSettings.theme.name === 'modern') {
             this.theme = SkyDocsCodeExampleTheme.Modern;
           } else if (change.currentSettings.theme.name === 'default') {
             this.theme = SkyDocsCodeExampleTheme.Default;
           }
-      });
+        });
     }
   }
 
@@ -94,5 +81,4 @@ export class SkyDocsCodeExampleComponent implements OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }

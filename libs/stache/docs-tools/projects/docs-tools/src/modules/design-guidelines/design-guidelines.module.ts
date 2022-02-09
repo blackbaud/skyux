@@ -1,46 +1,28 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyFluidGridModule
-} from '@skyux/layout';
+import { SkyFluidGridModule } from '@skyux/layout';
 
-import {
-  SkyDocsThumbnailModule
-} from '../thumbnail/thumbnail.module';
+import { SkyDocsThumbnailModule } from '../thumbnail/thumbnail.module';
 
-import {
-  SkyDocsDesignGuidelineComponent
-} from './design-guideline.component';
+import { SkyDocsDesignGuidelineComponent } from './design-guideline.component';
 
-import {
-  SkyDocsDesignGuidelinesComponent
-} from './design-guidelines.component';
+import { SkyDocsDesignGuidelinesComponent } from './design-guidelines.component';
 
-import {
-  SkyDocsDesignGuidelineThumbnailComponent
-} from './design-guideline-thumbnail.component';
+import { SkyDocsDesignGuidelineThumbnailComponent } from './design-guideline-thumbnail.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SkyDocsThumbnailModule,
-    SkyFluidGridModule
-  ],
+  imports: [CommonModule, SkyDocsThumbnailModule, SkyFluidGridModule],
   declarations: [
     SkyDocsDesignGuidelineComponent,
     SkyDocsDesignGuidelineThumbnailComponent,
-    SkyDocsDesignGuidelinesComponent
+    SkyDocsDesignGuidelinesComponent,
   ],
   exports: [
     SkyDocsDesignGuidelineComponent,
     SkyDocsDesignGuidelineThumbnailComponent,
-    SkyDocsDesignGuidelinesComponent
-  ]
+    SkyDocsDesignGuidelinesComponent,
+  ],
 })
-export class SkyDocsDesignGuidelinesModule { }
+export class SkyDocsDesignGuidelinesModule {}

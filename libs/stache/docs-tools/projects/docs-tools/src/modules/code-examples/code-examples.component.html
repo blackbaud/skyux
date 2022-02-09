@@ -1,18 +1,28 @@
-<div *ngIf="codeExamples && codeExamples.length"
-  class="sky-docs-code-examples"
->
-  <sky-repeater *ngIf="codeExamples.length > 1 else singleCodeExample"
+<div *ngIf="codeExamples && codeExamples.length" class="sky-docs-code-examples">
+  <sky-repeater
+    *ngIf="codeExamples.length > 1; else singleCodeExample"
     expandMode="multiple"
   >
-    <sky-repeater-item *ngFor="let codeExample of codeExamples"
+    <sky-repeater-item
+      *ngFor="let codeExample of codeExamples"
       [isExpanded]="false"
     >
       <sky-repeater-item-title>
-        <ng-container *ngTemplateOutlet="codeExampleHeaderTemplate; context: {$implicit: codeExample}">
+        <ng-container
+          *ngTemplateOutlet="
+            codeExampleHeaderTemplate;
+            context: { $implicit: codeExample }
+          "
+        >
         </ng-container>
       </sky-repeater-item-title>
       <sky-repeater-item-content>
-        <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExample}">
+        <ng-container
+          *ngTemplateOutlet="
+            codeExampleTemplate;
+            context: { $implicit: codeExample }
+          "
+        >
         </ng-container>
       </sky-repeater-item-content>
     </sky-repeater-item>
@@ -20,19 +30,14 @@
 </div>
 
 <ng-template>
-  <ng-content
-    select="sky-docs-code-example"
-  >
-  </ng-content>
+  <ng-content select="sky-docs-code-example"> </ng-content>
 </ng-template>
 
-<ng-template
-  let-item
-  #codeExampleTemplate
->
+<ng-template let-item #codeExampleTemplate>
   <div class="sky-docs-code-example-wrapper">
     <sky-vertical-tabset *ngIf="item.sourceCode && item.sourceCode.length">
-      <sky-vertical-tab *ngFor="let file of item.sourceCode; let i = index;"
+      <sky-vertical-tab
+        *ngFor="let file of item.sourceCode; let i = index"
         [active]="i === 0"
         [tabHeading]="file.fileName"
       >
@@ -46,38 +51,35 @@
   </div>
 </ng-template>
 
-<ng-template
-  #singleCodeExample
->
-  <ng-container *ngTemplateOutlet="codeExampleHeaderTemplate; context: {$implicit: codeExamples[0]}">
+<ng-template #singleCodeExample>
+  <ng-container
+    *ngTemplateOutlet="
+      codeExampleHeaderTemplate;
+      context: { $implicit: codeExamples[0] }
+    "
+  >
   </ng-container>
-  <ng-container *ngTemplateOutlet="codeExampleTemplate; context: {$implicit: codeExamples[0]}">
+  <ng-container
+    *ngTemplateOutlet="
+      codeExampleTemplate;
+      context: { $implicit: codeExamples[0] }
+    "
+  >
   </ng-container>
 </ng-template>
 
-<ng-template
-  let-codeExample
-  #codeExampleHeaderTemplate
->
-  <div
-    class="sky-docs-code-example-header"
-  >
-    <div
-      class="sky-docs-code-example-header-title sky-emphasized"
-    >
+<ng-template let-codeExample #codeExampleHeaderTemplate>
+  <div class="sky-docs-code-example-header">
+    <div class="sky-docs-code-example-header-title sky-emphasized">
       {{ codeExample.heading }}
     </div>
-    <div
-      class="sky-docs-code-example-header-controls"
-    >
+    <div class="sky-docs-code-example-header-controls">
       <button
         class="sky-btn sky-btn-default"
         type="button"
-        (click)="launchEditor(codeExample);$event.stopPropagation();"
+        (click)="launchEditor(codeExample); $event.stopPropagation()"
       >
-        <sky-icon
-          icon="pencil"
-        ></sky-icon>
+        <sky-icon icon="pencil"></sky-icon>
         {{ 'sky-docs-code-example-launch-button-label' | skyLibResources }}
       </button>
     </div>

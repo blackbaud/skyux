@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-docs-demo-page-module-info',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
-export class SkyDocsDemoPageModuleInfoComponent { }
+export class SkyDocsDemoPageModuleInfoComponent {}

@@ -1,20 +1,10 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyDocsMarkdownPipe
-} from './markdown.pipe';
+import { SkyDocsMarkdownPipe } from './markdown.pipe';
 
 @NgModule({
-  declarations: [
-    SkyDocsMarkdownPipe
-  ],
-  providers: [
-    SkyDocsMarkdownPipe
-  ],
-  exports: [
-    SkyDocsMarkdownPipe
-  ]
+  declarations: [SkyDocsMarkdownPipe],
+  providers: [SkyDocsMarkdownPipe],
+  exports: [SkyDocsMarkdownPipe],
 })
-export class SkyDocsMarkdownModule { }
+export class SkyDocsMarkdownModule {}

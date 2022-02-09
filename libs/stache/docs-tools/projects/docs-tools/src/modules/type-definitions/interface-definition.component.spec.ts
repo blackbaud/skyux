@@ -2,35 +2,22 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  InterfaceDefinitionFixtureComponent
-} from './fixtures/interface-definition.component.fixture';
+import { InterfaceDefinitionFixtureComponent } from './fixtures/interface-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Interface definition component', function () {
-
   let fixture: ComponentFixture<InterfaceDefinitionFixtureComponent>;
   let mockMediaQueryService: MockSkyMediaQueryService;
 
@@ -38,28 +25,26 @@ describe('Interface definition component', function () {
     mockMediaQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
+                name: 'FooUser',
+              },
+            ],
+          },
         },
         {
           provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService
-        }
-      ]
+          useValue: mockMediaQueryService,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(InterfaceDefinitionFixtureComponent);
@@ -71,7 +56,8 @@ describe('Interface definition component', function () {
 
   it('should set defaults', () => {
     fixture.detectChanges();
-    const interfaceDefinitionRef = fixture.componentInstance.interfaceDefinitionRef;
+    const interfaceDefinitionRef =
+      fixture.componentInstance.interfaceDefinitionRef;
     expect(interfaceDefinitionRef.config).toBeUndefined();
   });
 
@@ -86,10 +72,10 @@ describe('Interface definition component', function () {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
-        }
-      ]
+            name: 'string',
+          },
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -116,10 +102,10 @@ describe('Interface definition component', function () {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
-        }
-      ]
+            name: 'string',
+          },
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -147,7 +133,7 @@ describe('Interface definition component', function () {
             callSignature: {
               returnType: {
                 type: 'array',
-                name: 'string'
+                name: 'string',
               },
               parameters: [
                 {
@@ -155,14 +141,14 @@ describe('Interface definition component', function () {
                   name: 'userId',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ]
+                    name: 'number',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -172,7 +158,8 @@ describe('Interface definition component', function () {
       '.sky-docs-property-definitions-table-cell-name:first-child'
     );
 
-    expect(nameElement.textContent).toEqual('foo?: (userId: number) => string[]');
+    expect(nameElement.textContent).toEqual(
+      'foo?: (userId: number) => string[]'
+    );
   }));
-
 });

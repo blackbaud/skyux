@@ -1,13 +1,8 @@
-import {
-  SkyDocsTypeDocAdapterService
-} from './typedoc-adapter.service';
+import { SkyDocsTypeDocAdapterService } from './typedoc-adapter.service';
 
-import {
-  TypeDocEntry
-} from './typedoc-types';
+import { TypeDocEntry } from './typedoc-types';
 
 describe('TypeDoc adapter', () => {
-
   let adapter: SkyDocsTypeDocAdapterService;
 
   beforeEach(() => {
@@ -15,13 +10,12 @@ describe('TypeDoc adapter', () => {
   });
 
   describe('Class definitions', () => {
-
     let entry: TypeDocEntry;
 
     beforeEach(() => {
       entry = {
         anchorId: 'foo-anchor-id',
-        name: 'FooClass'
+        name: 'FooClass',
       };
     });
 
@@ -30,7 +24,7 @@ describe('TypeDoc adapter', () => {
 
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
-        name: 'FooClass'
+        name: 'FooClass',
       });
     });
 
@@ -41,17 +35,17 @@ describe('TypeDoc adapter', () => {
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'number'
-          }
+            name: 'number',
+          },
         },
         {
           name: 'fooA',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
-        }
+            name: 'string',
+          },
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -62,17 +56,17 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'string',
-            type: 'intrinsic'
-          }
+            type: 'intrinsic',
+          },
         },
         {
           name: 'fooB',
           isOptional: true,
           type: {
             name: 'number',
-            type: 'intrinsic'
-          }
-        }
+            type: 'intrinsic',
+          },
+        },
       ]);
     });
 
@@ -83,23 +77,25 @@ describe('TypeDoc adapter', () => {
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'number'
-          }
+            name: 'number',
+          },
         },
         {
           name: 'fooZ',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           comment: {
-            tags: [{
-              tag: 'required',
-              text: '\n'
-            }]
-          }
-        }
+            tags: [
+              {
+                tag: 'required',
+                text: '\n',
+              },
+            ],
+          },
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -110,17 +106,17 @@ describe('TypeDoc adapter', () => {
           isOptional: false,
           type: {
             name: 'string',
-            type: 'intrinsic'
-          }
+            type: 'intrinsic',
+          },
         },
         {
           name: 'fooA',
           isOptional: true,
           type: {
             name: 'number',
-            type: 'intrinsic'
-          }
-        }
+            type: 'intrinsic',
+          },
+        },
       ]);
     });
 
@@ -133,10 +129,10 @@ describe('TypeDoc adapter', () => {
             shortText: 'The foo of the FooClass.',
             tags: [
               {
-                'tag': 'default',
-                'text': '10\n'
-              }
-            ]
+                tag: 'default',
+                text: '10\n',
+              },
+            ],
           },
           getSignature: [
             {
@@ -145,16 +141,16 @@ describe('TypeDoc adapter', () => {
                 shortText: 'The foo of the FooClass.',
                 tags: [
                   {
-                    'tag': 'default',
-                    'text': '10\n'
-                  }
-                ]
+                    tag: 'default',
+                    text: '10\n',
+                  },
+                ],
               },
               type: {
                 type: 'intrinsic',
-                name: 'number'
-              }
-            }
+                name: 'number',
+              },
+            },
           ],
           setSignature: [
             {
@@ -163,10 +159,10 @@ describe('TypeDoc adapter', () => {
                 shortText: 'The foo of the FooClass.',
                 tags: [
                   {
-                    'tag': 'default',
-                    'text': '10\n'
-                  }
-                ]
+                    tag: 'default',
+                    text: '10\n',
+                  },
+                ],
               },
               parameters: [
                 {
@@ -174,17 +170,17 @@ describe('TypeDoc adapter', () => {
                   kindString: 'Parameter',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
-                  }
-                }
+                    name: 'number',
+                  },
+                },
               ],
               type: {
                 type: 'intrinsic',
-                name: 'void'
-              }
-            }
-          ]
-        }
+                name: 'void',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -195,11 +191,11 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
           description: 'The foo of the FooClass.',
-          defaultValue: '10'
-        }
+          defaultValue: '10',
+        },
       ]);
     });
 
@@ -212,13 +208,13 @@ describe('TypeDoc adapter', () => {
             {
               name: '__get',
               comment: {
-                shortText: 'The foo of the FooClass.'
+                shortText: 'The foo of the FooClass.',
               },
               type: {
                 type: 'intrinsic',
-                name: 'number'
-              }
-            }
+                name: 'number',
+              },
+            },
           ],
           setSignature: [
             {
@@ -227,18 +223,18 @@ describe('TypeDoc adapter', () => {
                 shortText: 'The foo of the FooClass.',
                 tags: [
                   {
-                    'tag': 'default',
-                    'text': '10\n'
+                    tag: 'default',
+                    text: '10\n',
                   },
                   {
-                    'tag': 'required',
-                    'text': '\n'
+                    tag: 'required',
+                    text: '\n',
                   },
                   {
                     tag: 'deprecated',
-                    text: 'This property is deprecated.\n'
-                  }
-                ]
+                    text: 'This property is deprecated.\n',
+                  },
+                ],
               },
               parameters: [
                 {
@@ -246,17 +242,17 @@ describe('TypeDoc adapter', () => {
                   kindString: 'Parameter',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
-                  }
-                }
+                    name: 'number',
+                  },
+                },
               ],
               type: {
                 type: 'intrinsic',
-                name: 'void'
-              }
-            }
-          ]
-        }
+                name: 'void',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -267,12 +263,12 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
           description: 'The foo of the FooClass.',
           defaultValue: '10',
-          deprecationWarning: 'This property is deprecated.'
-        }
+          deprecationWarning: 'This property is deprecated.',
+        },
       ]);
     });
 
@@ -289,10 +285,10 @@ describe('TypeDoc adapter', () => {
                 shortText: 'The foo of the FooClass.',
                 tags: [
                   {
-                    'tag': 'default',
-                    'text': '10\n'
-                  }
-                ]
+                    tag: 'default',
+                    text: '10\n',
+                  },
+                ],
               },
               parameters: [
                 {
@@ -300,17 +296,17 @@ describe('TypeDoc adapter', () => {
                   kindString: 'Parameter',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
-                  }
-                }
+                    name: 'number',
+                  },
+                },
               ],
               type: {
                 type: 'intrinsic',
-                name: 'void'
-              }
-            }
-          ]
-        }
+                name: 'void',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -321,9 +317,9 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
-          }
-        }
+            name: 'number',
+          },
+        },
       ]);
     });
 
@@ -337,9 +333,9 @@ describe('TypeDoc adapter', () => {
             tags: [
               {
                 tag: 'default',
-                text: '10\n'
-              }
-            ]
+                text: '10\n',
+              },
+            ],
           },
           getSignature: [
             {
@@ -349,17 +345,17 @@ describe('TypeDoc adapter', () => {
                 tags: [
                   {
                     tag: 'default',
-                    text: '10\n'
-                  }
-                ]
+                    text: '10\n',
+                  },
+                ],
               },
               type: {
                 type: 'intrinsic',
-                name: 'number'
-              }
-            }
-          ]
-        }
+                name: 'number',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -370,11 +366,11 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
           description: 'The foo of the FooClass.',
-          defaultValue: '10'
-        }
+          defaultValue: '10',
+        },
       ]);
     });
 
@@ -387,9 +383,9 @@ describe('TypeDoc adapter', () => {
             tags: [
               {
                 tag: 'default',
-                text: '10\n'
-              }
-            ]
+                text: '10\n',
+              },
+            ],
           },
           getSignature: [
             {
@@ -399,17 +395,17 @@ describe('TypeDoc adapter', () => {
                 tags: [
                   {
                     tag: 'default',
-                    text: '10\n'
-                  }
-                ]
+                    text: '10\n',
+                  },
+                ],
               },
               type: {
                 type: 'intrinsic',
-                name: 'number'
-              }
-            }
-          ]
-        }
+                name: 'number',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -420,11 +416,11 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
           description: 'The foo of the FooClass.',
-          defaultValue: '10'
-        }
+          defaultValue: '10',
+        },
       ]);
     });
 
@@ -437,9 +433,9 @@ describe('TypeDoc adapter', () => {
             tags: [
               {
                 tag: 'default',
-                text: '10\n'
-              }
-            ]
+                text: '10\n',
+              },
+            ],
           },
           setSignature: [
             {
@@ -449,13 +445,13 @@ describe('TypeDoc adapter', () => {
                 tags: [
                   {
                     tag: 'default',
-                    text: '10\n'
-                  }
-                ]
+                    text: '10\n',
+                  },
+                ],
               },
               type: {
                 type: 'intrinsic',
-                name: 'number'
+                name: 'number',
               },
               parameters: [
                 {
@@ -463,13 +459,13 @@ describe('TypeDoc adapter', () => {
                   kindString: 'Parameter',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
-                  }
-                }
-              ]
-            }
-          ]
-        }
+                    name: 'number',
+                  },
+                },
+              ],
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -480,10 +476,10 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'intrinsic',
-            name: 'number'
+            name: 'number',
           },
-          defaultValue: '10'
-        }
+          defaultValue: '10',
+        },
       ]);
     });
 
@@ -497,19 +493,19 @@ describe('TypeDoc adapter', () => {
             types: [
               {
                 type: 'reference',
-                name: 'FooUser'
+                name: 'FooUser',
               },
               {
                 type: 'intrinsic',
-                name: 'string'
+                name: 'string',
               },
               {
                 type: 'stringLiteral',
-                value: '\'above\''
-              }
-            ]
-          }
-        }
+                value: "'above'",
+              },
+            ],
+          },
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -523,102 +519,104 @@ describe('TypeDoc adapter', () => {
             unionTypes: [
               {
                 type: 'reference',
-                name: 'FooUser'
+                name: 'FooUser',
               },
               {
                 name: 'string',
-                type: 'intrinsic'
+                type: 'intrinsic',
               },
               {
                 type: 'stringLiteral',
-                name: '\'above\''
-              }
-            ]
-          }
-        }
+                name: "'above'",
+              },
+            ],
+          },
+        },
       ]);
     });
 
     it('should convert call signature properties and their metadata', () => {
-      entry.children = [{
-        name: 'searchFunction',
-        kindString: 'Property',
-        comment: {
-          tags: [
-            {
-              tag: 'param',
-              text: 'The keywords used to search.',
-              param: 'searchTerm'
-            },
-            {
-              tag: 'param',
-              text: 'The number of milliseconds to wait between each keypress.',
-              param: 'debounceTime'
-            },
-            {
-              tag: 'required',
-              text: '\n'
-            },
-            {
-              tag: 'deprecated',
-              text: 'Search functions should not be used.\n'
-            },
-            {
-              tag: 'example',
-              text: '\n```markup\n[searchFunction]="mySearchFunction"\n```\n'
-            }
-          ]
-        },
-        decorators: [
-          {
-            name: 'Input',
-            type: {
-              type: 'reference',
-              name: 'Input'
-            },
-            arguments: {}
-          }
-        ],
-        type: {
-          type: 'reflection',
-          declaration: {
-            signatures: [
+      entry.children = [
+        {
+          name: 'searchFunction',
+          kindString: 'Property',
+          comment: {
+            tags: [
               {
-                name: '__call',
-                kindString: 'Call signature',
-                parameters: [
-                  {
-                    name: 'searchTerm',
-                    kindString: 'Parameter',
-                    type: {
-                      type: 'intrinsic',
-                      name: 'string'
-                    }
-                  },
-                  {
-                    name: 'debounceTime',
-                    kindString: 'Parameter',
-                    flags: {
-                      isOptional: true
+                tag: 'param',
+                text: 'The keywords used to search.',
+                param: 'searchTerm',
+              },
+              {
+                tag: 'param',
+                text: 'The number of milliseconds to wait between each keypress.',
+                param: 'debounceTime',
+              },
+              {
+                tag: 'required',
+                text: '\n',
+              },
+              {
+                tag: 'deprecated',
+                text: 'Search functions should not be used.\n',
+              },
+              {
+                tag: 'example',
+                text: '\n```markup\n[searchFunction]="mySearchFunction"\n```\n',
+              },
+            ],
+          },
+          decorators: [
+            {
+              name: 'Input',
+              type: {
+                type: 'reference',
+                name: 'Input',
+              },
+              arguments: {},
+            },
+          ],
+          type: {
+            type: 'reflection',
+            declaration: {
+              signatures: [
+                {
+                  name: '__call',
+                  kindString: 'Call signature',
+                  parameters: [
+                    {
+                      name: 'searchTerm',
+                      kindString: 'Parameter',
+                      type: {
+                        type: 'intrinsic',
+                        name: 'string',
+                      },
                     },
-                    type: {
+                    {
+                      name: 'debounceTime',
+                      kindString: 'Parameter',
+                      flags: {
+                        isOptional: true,
+                      },
+                      type: {
+                        type: 'intrinsic',
+                        name: 'number',
+                      },
+                    },
+                  ],
+                  type: {
+                    type: 'array',
+                    elementType: {
                       type: 'intrinsic',
-                      name: 'number'
-                    }
-                  }
-                ],
-                type: {
-                  type: 'array',
-                  elementType: {
-                    type: 'intrinsic',
-                    name: 'any'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }];
+                      name: 'any',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ];
 
       const def = adapter.toClassDefinition(entry);
 
@@ -628,7 +626,7 @@ describe('TypeDoc adapter', () => {
           codeExample: '[searchFunction]="mySearchFunction"',
           codeExampleLanguage: 'markup',
           decorator: {
-            name: 'Input'
+            name: 'Input',
           },
           deprecationWarning: 'Search functions should not be used.',
           name: 'searchFunction',
@@ -637,7 +635,7 @@ describe('TypeDoc adapter', () => {
             callSignature: {
               returnType: {
                 type: 'array',
-                name: 'any'
+                name: 'any',
               },
               parameters: [
                 {
@@ -645,114 +643,119 @@ describe('TypeDoc adapter', () => {
                   name: 'searchTerm',
                   type: {
                     type: 'intrinsic',
-                    name: 'string'
+                    name: 'string',
                   },
-                  description: 'The keywords used to search.'
+                  description: 'The keywords used to search.',
                 },
                 {
                   isOptional: true,
                   name: 'debounceTime',
                   type: {
                     type: 'intrinsic',
-                    name: 'number'
+                    name: 'number',
                   },
-                  description: 'The number of milliseconds to wait between each keypress.'
-                }
-              ]
-            }
-          }
-        }
+                  description:
+                    'The number of milliseconds to wait between each keypress.',
+                },
+              ],
+            },
+          },
+        },
       ]);
-
     });
 
     it('should handle default values generated by TypeDoc 0.20.x', () => {
-      entry.children = [{
-        name: 'messageStream',
-        kindString: 'Property',
-        flags: {},
-        comment: {
-          shortText: 'Comment here.'
-        },
-        decorators: [
-          {
-            name: 'Input',
-            type: {
-              type: 'reference',
-              name: 'Input'
-            },
-            arguments: {}
-          }
-        ],
-        sources: [
-          {
-            fileName: 'some.component.ts'
-          }
-        ],
-        type: {
-          type: 'reference',
-          typeArguments: [
+      entry.children = [
+        {
+          name: 'messageStream',
+          kindString: 'Property',
+          flags: {},
+          comment: {
+            shortText: 'Comment here.',
+          },
+          decorators: [
             {
-              type: 'reference',
-              name: 'MyClassReference'
-            }
+              name: 'Input',
+              type: {
+                type: 'reference',
+                name: 'Input',
+              },
+              arguments: {},
+            },
           ],
-          name: 'Subject'
+          sources: [
+            {
+              fileName: 'some.component.ts',
+            },
+          ],
+          type: {
+            type: 'reference',
+            typeArguments: [
+              {
+                type: 'reference',
+                name: 'MyClassReference',
+              },
+            ],
+            name: 'Subject',
+          },
+          defaultValue: '...', // <-- TypeDoc sets this if the property requires an initializer.
         },
-        defaultValue: '...' // <-- TypeDoc sets this if the property requires an initializer.
-      }];
+      ];
 
       const def = adapter.toClassDefinition(entry);
 
-      expect(def.properties as any).toEqual([{
-        isOptional: true,
-        name: 'messageStream',
-        type: {
-          type: 'reference',
-          name: 'Subject',
-          typeArguments: [
-            {
-              type: 'reference',
-              name: 'MyClassReference'
-            }
-          ]
+      expect(def.properties as any).toEqual([
+        {
+          isOptional: true,
+          name: 'messageStream',
+          type: {
+            type: 'reference',
+            name: 'Subject',
+            typeArguments: [
+              {
+                type: 'reference',
+                name: 'MyClassReference',
+              },
+            ],
+          },
+          description: 'Comment here.',
+          decorator: {
+            name: 'Input',
+          },
         },
-        description: 'Comment here.',
-        decorator: {
-          name: 'Input'
-        }
-      }]);
+      ]);
     });
 
     it('should convert index signature properties', () => {
-      entry.children = [{
-        name: 'anchorIds',
-        kindString: 'Property',
-        type: {
-          type: 'reflection',
-          declaration: {
-            indexSignature: {
-              name: '__index',
-              kindString: 'Index signature',
-              parameters: [
-                {
-                  name: '_',
-                  kindString: 'Parameter',
-                  type: {
-                    type: 'intrinsic',
-                    name: 'string'
-                  }
-                }
-              ],
-              type: {
-                type: 'intrinsic',
-                name: 'string'
-              }
-            }
-
-          }
-        }
-      }];
+      entry.children = [
+        {
+          name: 'anchorIds',
+          kindString: 'Property',
+          type: {
+            type: 'reflection',
+            declaration: {
+              indexSignature: {
+                name: '__index',
+                kindString: 'Index signature',
+                parameters: [
+                  {
+                    name: '_',
+                    kindString: 'Parameter',
+                    type: {
+                      type: 'intrinsic',
+                      name: 'string',
+                    },
+                  },
+                ],
+                type: {
+                  type: 'intrinsic',
+                  name: 'string',
+                },
+              },
+            },
+          },
+        },
+      ];
 
       const def = adapter.toClassDefinition(entry);
 
@@ -767,16 +770,16 @@ describe('TypeDoc adapter', () => {
                 name: '_',
                 type: {
                   type: 'intrinsic',
-                  name: 'string'
-                }
+                  name: 'string',
+                },
               },
               type: {
                 type: 'intrinsic',
-                name: 'string'
-              }
-            }
-          }
-        }
+                name: 'string',
+              },
+            },
+          },
+        },
       ]);
     });
 
@@ -785,27 +788,31 @@ describe('TypeDoc adapter', () => {
         {
           name: 'getB',
           kindString: 'Method',
-          signatures: [{
-            kindString: 'Call signature',
-            name: 'getB',
-            type: {
-              type: 'intrinsic',
-              name: 'string'
-            }
-          }]
+          signatures: [
+            {
+              kindString: 'Call signature',
+              name: 'getB',
+              type: {
+                type: 'intrinsic',
+                name: 'string',
+              },
+            },
+          ],
         },
         {
           name: 'getA',
           kindString: 'Method',
-          signatures: [{
-            kindString: 'Call signature',
-            name: 'getA',
-            type: {
-              type: 'intrinsic',
-              name: 'void'
-            }
-          }]
-        }
+          signatures: [
+            {
+              kindString: 'Call signature',
+              name: 'getA',
+              type: {
+                type: 'intrinsic',
+                name: 'void',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -817,11 +824,11 @@ describe('TypeDoc adapter', () => {
             callSignature: {
               returnType: {
                 name: 'void',
-                type: 'intrinsic'
-              }
+                type: 'intrinsic',
+              },
             },
-            name: 'getA'
-          }
+            name: 'getA',
+          },
         },
         {
           name: 'getB',
@@ -829,14 +836,13 @@ describe('TypeDoc adapter', () => {
             callSignature: {
               returnType: {
                 name: 'string',
-                type: 'intrinsic'
-              }
+                type: 'intrinsic',
+              },
             },
-            name: 'getB'
-          }
-        }
+            name: 'getB',
+          },
+        },
       ]);
-
     });
 
     it('should handle type parameters on methods', () => {
@@ -851,16 +857,16 @@ describe('TypeDoc adapter', () => {
               typeParameter: [
                 {
                   name: 'T',
-                  kindString: 'Type parameter'
-                }
+                  kindString: 'Type parameter',
+                },
               ],
               type: {
                 type: 'typeParameter',
-                name: 'T'
-              }
-            }
-          ]
-        }
+                name: 'T',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -872,85 +878,86 @@ describe('TypeDoc adapter', () => {
             callSignature: {
               returnType: {
                 name: 'T',
-                type: 'typeParameter'
-              }
+                type: 'typeParameter',
+              },
             },
-            name: 'getUser'
+            name: 'getUser',
           },
           typeParameters: [
             {
-              name: 'T'
-            }
-          ]
-        }
+              name: 'T',
+            },
+          ],
+        },
       ]);
-
     });
 
     it('should convert parameters on methods', () => {
-      entry.children = [{
-        name: 'getUserById',
-        kindString: 'Method',
-        signatures: [
-          {
-            name: 'getUserById',
-            kindString: 'Call signature',
-            comment: {
-              shortText: 'Gets a user from the database.'
+      entry.children = [
+        {
+          name: 'getUserById',
+          kindString: 'Method',
+          signatures: [
+            {
+              name: 'getUserById',
+              kindString: 'Call signature',
+              comment: {
+                shortText: 'Gets a user from the database.',
+              },
+              parameters: [
+                {
+                  name: 'id',
+                  kindString: 'Parameter',
+                  comment: {
+                    text: 'The unique identifier.',
+                  },
+                  type: {
+                    type: 'reference',
+                    name: 'FooUser',
+                  },
+                },
+                {
+                  name: 'user',
+                  kindString: 'Parameter',
+                  type: {
+                    type: 'reference',
+                    typeArguments: [
+                      {
+                        type: 'typeParameter',
+                        name: 'T',
+                      },
+                      {
+                        type: 'typeParameter',
+                        name: 'U',
+                        constraint: {
+                          name: 'FooUser',
+                        },
+                      },
+                    ],
+                    name: 'Foo',
+                  },
+                },
+                {
+                  name: 'locale',
+                  kindString: 'Parameter',
+                  comment: {
+                    text: 'The locale of the user.\n',
+                  },
+                  type: {
+                    type: 'intrinsic',
+                    name: 'string',
+                  },
+                  defaultValue: '"en-US"',
+                },
+              ],
+              type: {
+                type: 'reference',
+                name: 'FooUser',
+              },
             },
-            parameters: [
-              {
-                name: 'id',
-                kindString: 'Parameter',
-                comment: {
-                  text: 'The unique identifier.'
-                },
-                type: {
-                  type: 'reference',
-                  name: 'FooUser'
-                }
-              },
-              {
-                name: 'user',
-                kindString: 'Parameter',
-                type: {
-                  type: 'reference',
-                  typeArguments: [
-                    {
-                      type: 'typeParameter',
-                      name: 'T'
-                    },
-                    {
-                      type: 'typeParameter',
-                      name: 'U',
-                      constraint: {
-                        name: 'FooUser'
-                      }
-                    }
-                  ],
-                  name: 'Foo'
-                }
-              },
-              {
-                name: 'locale',
-                kindString: 'Parameter',
-                comment: {
-                  text: 'The locale of the user.\n'
-                },
-                type: {
-                  type: 'intrinsic',
-                  name: 'string'
-                },
-                defaultValue: '"en-US"'
-              }
-            ],
-            type: {
-              type: 'reference',
-              name: 'FooUser'
-            }
-          }
-        ]
-      }];
+          ],
+        },
+      ];
 
       const def = adapter.toClassDefinition(entry);
 
@@ -962,7 +969,7 @@ describe('TypeDoc adapter', () => {
             callSignature: {
               returnType: {
                 name: 'FooUser',
-                type: 'reference'
+                type: 'reference',
               },
               parameters: [
                 {
@@ -970,9 +977,9 @@ describe('TypeDoc adapter', () => {
                   name: 'id',
                   type: {
                     type: 'reference',
-                    name: 'FooUser'
+                    name: 'FooUser',
                   },
-                  description: 'The unique identifier.'
+                  description: 'The unique identifier.',
                 },
                 {
                   isOptional: false,
@@ -983,40 +990,40 @@ describe('TypeDoc adapter', () => {
                     typeArguments: [
                       {
                         type: 'typeParameter',
-                        name: 'T'
+                        name: 'T',
                       },
                       {
                         type: 'typeParameter',
-                        name: 'U'
-                      }
-                    ]
+                        name: 'U',
+                      },
+                    ],
                   },
                   typeArguments: [
                     {
                       type: 'typeParameter',
-                      name: 'T'
+                      name: 'T',
                     },
                     {
                       type: 'typeParameter',
-                      name: 'U'
-                    }
-                  ]
+                      name: 'U',
+                    },
+                  ],
                 },
                 {
                   isOptional: true,
                   name: 'locale',
                   type: {
                     type: 'intrinsic',
-                    name: 'string'
+                    name: 'string',
                   },
                   defaultValue: '"en-US"',
-                  description: 'The locale of the user.'
-                }
-              ]
+                  description: 'The locale of the user.',
+                },
+              ],
             },
-            name: 'getUserById'
-          }
-        }
+            name: 'getUserById',
+          },
+        },
       ]);
     });
 
@@ -1027,43 +1034,49 @@ describe('TypeDoc adapter', () => {
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'void'
+            name: 'void',
           },
           comment: {
-            tags: [{
-              tag: 'example',
-              text: '\n```markup\n[searchFunction]="mySearchFunction"\n```\n'
-            }]
-          }
+            tags: [
+              {
+                tag: 'example',
+                text: '\n```markup\n[searchFunction]="mySearchFunction"\n```\n',
+              },
+            ],
+          },
         },
         {
           name: 'typescriptProperty',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'void'
+            name: 'void',
           },
           comment: {
-            tags: [{
-              tag: 'example',
-              text: '\n```typescript\n[searchFunction]="mySearchFunction"\n```\n'
-            }]
-          }
+            tags: [
+              {
+                tag: 'example',
+                text: '\n```typescript\n[searchFunction]="mySearchFunction"\n```\n',
+              },
+            ],
+          },
         },
         {
           name: 'defaultProperty',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'void'
+            name: 'void',
           },
           comment: {
-            tags: [{
-              tag: 'example',
-              text: '\n```\n[searchFunction]="mySearchFunction"\n```\n'
-            }]
-          }
-        }
+            tags: [
+              {
+                tag: 'example',
+                text: '\n```\n[searchFunction]="mySearchFunction"\n```\n',
+              },
+            ],
+          },
+        },
       ];
 
       const def = adapter.toClassDefinition(entry);
@@ -1076,8 +1089,8 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'void',
-            type: 'intrinsic'
-          }
+            type: 'intrinsic',
+          },
         },
         {
           codeExample: '[searchFunction]="mySearchFunction"',
@@ -1086,8 +1099,8 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'void',
-            type: 'intrinsic'
-          }
+            type: 'intrinsic',
+          },
         },
         {
           codeExample: '[searchFunction]="mySearchFunction"',
@@ -1096,16 +1109,14 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'void',
-            type: 'intrinsic'
-          }
-        }
+            type: 'intrinsic',
+          },
+        },
       ]);
     });
-
   });
 
   describe('Directive definitions', () => {
-
     let entry: TypeDocEntry;
 
     beforeEach(() => {
@@ -1117,13 +1128,13 @@ describe('TypeDoc adapter', () => {
             name: 'Directive',
             type: {
               type: 'reference',
-              name: 'Directive'
+              name: 'Directive',
             },
             arguments: {
-              obj: '{\n  selector: \'[foo]\'\n}'
-            }
-          }
-        ]
+              obj: "{\n  selector: '[foo]'\n}",
+            },
+          },
+        ],
       };
     });
 
@@ -1133,19 +1144,21 @@ describe('TypeDoc adapter', () => {
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
         name: 'FooDirective',
-        selector: '[foo]'
+        selector: '[foo]',
       });
     });
 
     it('should get selector if wrapped in backticks', () => {
-      entry.decorators[0].arguments.obj = '{\n  selector: `input[fooComplex],\n  textarea[fooComplex],\n  [required][fooComplex]`\n}';
+      entry.decorators[0].arguments.obj =
+        '{\n  selector: `input[fooComplex],\n  textarea[fooComplex],\n  [required][fooComplex]`\n}';
 
       const def = adapter.toDirectiveDefinition(entry);
 
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
         name: 'FooDirective',
-        selector: 'input[fooComplex], textarea[fooComplex], [required][fooComplex]'
+        selector:
+          'input[fooComplex], textarea[fooComplex], [required][fooComplex]',
       });
     });
 
@@ -1156,42 +1169,42 @@ describe('TypeDoc adapter', () => {
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'number'
-          }
+            name: 'number',
+          },
         },
         {
           name: 'fooC',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           decorators: [
             {
               name: 'Input',
               type: {
                 type: 'reference',
-                name: 'Input'
-              }
-            }
-          ]
+                name: 'Input',
+              },
+            },
+          ],
         },
         {
           name: 'fooA',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           decorators: [
             {
               name: 'Input',
               type: {
                 type: 'reference',
-                name: 'Input'
-              }
-            }
-          ]
+                name: 'Input',
+              },
+            },
+          ],
         },
         {
           name: 'fooD',
@@ -1203,11 +1216,11 @@ describe('TypeDoc adapter', () => {
                 type: 'array',
                 elementType: {
                   type: 'reference',
-                  name: 'FooUser'
-                }
-              }
+                  name: 'FooUser',
+                },
+              },
             ],
-            name: 'EventEmitter'
+            name: 'EventEmitter',
           },
           defaultValue: 'new EventEmitter<FooUser[]>()',
           decorators: [
@@ -1215,10 +1228,10 @@ describe('TypeDoc adapter', () => {
               name: 'Output',
               type: {
                 type: 'reference',
-                name: 'Output'
-              }
-            }
-          ]
+                name: 'Output',
+              },
+            },
+          ],
         },
         {
           name: 'stream',
@@ -1228,10 +1241,10 @@ describe('TypeDoc adapter', () => {
               name: 'Output',
               type: {
                 type: 'reference',
-                name: 'Output'
+                name: 'Output',
               },
-              arguments: {}
-            }
+              arguments: {},
+            },
           ],
           type: {
             type: 'reference',
@@ -1243,8 +1256,8 @@ describe('TypeDoc adapter', () => {
                     type: 'array',
                     elementType: {
                       type: 'intrinsic',
-                      name: 'string'
-                    }
+                      name: 'string',
+                    },
                   },
                   {
                     type: 'reference',
@@ -1253,19 +1266,20 @@ describe('TypeDoc adapter', () => {
                         type: 'array',
                         elementType: {
                           type: 'intrinsic',
-                          name: 'string'
-                        }
-                      }
+                          name: 'string',
+                        },
+                      },
                     ],
-                    name: 'Observable'
-                  }
-                ]
-              }
+                    name: 'Observable',
+                  },
+                ],
+              },
             ],
-            name: 'EventEmitter'
+            name: 'EventEmitter',
           },
-          defaultValue: 'new EventEmitter<Array<string> | Observable<Array<string>>>()'
-        }
+          defaultValue:
+            'new EventEmitter<Array<string> | Observable<Array<string>>>()',
+        },
       ];
 
       const def = adapter.toDirectiveDefinition(entry);
@@ -1276,23 +1290,23 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'string',
-            type: 'intrinsic'
+            type: 'intrinsic',
           },
           decorator: {
-            name: 'Input'
-          }
+            name: 'Input',
+          },
         },
         {
           name: 'fooC',
           isOptional: true,
           type: {
             name: 'string',
-            type: 'intrinsic'
+            type: 'intrinsic',
           },
           decorator: {
-            name: 'Input'
-          }
-        }
+            name: 'Input',
+          },
+        },
       ]);
 
       expect(def.eventProperties).toEqual([
@@ -1305,14 +1319,14 @@ describe('TypeDoc adapter', () => {
             typeArguments: [
               {
                 type: 'array',
-                name: 'FooUser'
-              }
-            ]
+                name: 'FooUser',
+              },
+            ],
           },
           decorator: {
-            name: 'Output'
+            name: 'Output',
           },
-          defaultValue: 'new EventEmitter<FooUser[]>()'
+          defaultValue: 'new EventEmitter<FooUser[]>()',
         },
         {
           isOptional: true,
@@ -1326,7 +1340,7 @@ describe('TypeDoc adapter', () => {
                 unionTypes: [
                   {
                     type: 'array',
-                    name: 'string'
+                    name: 'string',
                   },
                   {
                     type: 'reference',
@@ -1334,44 +1348,45 @@ describe('TypeDoc adapter', () => {
                     typeArguments: [
                       {
                         type: 'array',
-                        name: 'string'
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        name: 'string',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           decorator: {
-            name: 'Output'
+            name: 'Output',
           },
-          defaultValue: 'new EventEmitter<Array<string> | Observable<Array<string>>>()'
-        }
+          defaultValue:
+            'new EventEmitter<Array<string> | Observable<Array<string>>>()',
+        },
       ]);
     });
 
-    it('should use an Input\'s binding property name', () => {
+    it("should use an Input's binding property name", () => {
       entry.children = [
         {
           name: 'originalPropertyName',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           decorators: [
             {
               name: 'Input',
               type: {
                 type: 'reference',
-                name: 'Input'
+                name: 'Input',
               },
               arguments: {
-                bindingPropertyName: 'boundName'
-              }
-            }
-          ]
-        }
+                bindingPropertyName: 'boundName',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toDirectiveDefinition(entry);
@@ -1382,24 +1397,23 @@ describe('TypeDoc adapter', () => {
           isOptional: true,
           type: {
             name: 'string',
-            type: 'intrinsic'
+            type: 'intrinsic',
           },
           decorator: {
-            name: 'Input'
-          }
-        }
+            name: 'Input',
+          },
+        },
       ]);
     });
   });
 
   describe('Enumeration definitions', () => {
-
     let entry: TypeDocEntry;
 
     beforeEach(() => {
       entry = {
         anchorId: 'foo-anchor-id',
-        name: 'FooEnum'
+        name: 'FooEnum',
       };
     });
 
@@ -1409,21 +1423,21 @@ describe('TypeDoc adapter', () => {
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
         name: 'FooEnum',
-        members: []
+        members: [],
       });
     });
 
     it('should convert enumeration members', () => {
       entry.children = [
         {
-          name: 'A'
+          name: 'A',
         },
         {
-          name: 'B'
+          name: 'B',
         },
         {
-          name: 'C'
-        }
+          name: 'C',
+        },
       ];
 
       const def = adapter.toEnumerationDefinition(entry);
@@ -1433,28 +1447,26 @@ describe('TypeDoc adapter', () => {
         name: 'FooEnum',
         members: [
           {
-            name: 'A'
+            name: 'A',
           },
           {
-            name: 'B'
+            name: 'B',
           },
           {
-            name: 'C'
-          }
-        ]
+            name: 'C',
+          },
+        ],
       });
     });
-
   });
 
   describe('Interface definitions', () => {
-
     let entry: TypeDocEntry;
 
     beforeEach(() => {
       entry = {
         anchorId: 'foo-anchor-id',
-        name: 'FooInterface'
+        name: 'FooInterface',
       };
     });
 
@@ -1464,7 +1476,7 @@ describe('TypeDoc adapter', () => {
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
         name: 'FooInterface',
-        properties: []
+        properties: [],
       });
     });
 
@@ -1474,46 +1486,48 @@ describe('TypeDoc adapter', () => {
           name: 'fooB',
           kindString: 'Property',
           flags: {
-            isOptional: true
+            isOptional: true,
           },
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
+            name: 'FooUser',
+          },
         },
         {
           name: 'fooA',
           kindString: 'Property',
           flags: {
-            isOptional: true
+            isOptional: true,
           },
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
+            name: 'string',
+          },
         },
         {
           name: 'fooZ',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
+            name: 'string',
+          },
         },
         {
           name: 'fooC',
           kindString: 'Property',
           type: {
             type: 'intrinsic',
-            name: 'string'
+            name: 'string',
           },
           comment: {
-            tags: [{
-              tag: 'required',
-              text: '\n'
-            }]
-          }
-        }
+            tags: [
+              {
+                tag: 'required',
+                text: '\n',
+              },
+            ],
+          },
+        },
       ];
 
       const def = adapter.toInterfaceDefinition(entry);
@@ -1524,33 +1538,33 @@ describe('TypeDoc adapter', () => {
           name: 'fooC',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
+            name: 'string',
+          },
         },
         {
           isOptional: false,
           name: 'fooZ',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
+            name: 'string',
+          },
         },
         {
           isOptional: true,
           name: 'fooA',
           type: {
             type: 'intrinsic',
-            name: 'string'
-          }
+            name: 'string',
+          },
         },
         {
           isOptional: true,
           name: 'fooB',
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
+            name: 'FooUser',
+          },
+        },
       ]);
     });
 
@@ -1558,16 +1572,16 @@ describe('TypeDoc adapter', () => {
       entry.typeParameter = [
         {
           name: 'T',
-          kindString: 'Type parameter'
+          kindString: 'Type parameter',
         },
         {
           name: 'U',
           kindString: 'Type parameter',
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
+            name: 'FooUser',
+          },
+        },
       ];
 
       entry.children = [
@@ -1576,8 +1590,8 @@ describe('TypeDoc adapter', () => {
           kindString: 'Property',
           type: {
             type: 'typeParameter',
-            name: 'T'
-          }
+            name: 'T',
+          },
         },
         {
           name: 'user',
@@ -1586,25 +1600,25 @@ describe('TypeDoc adapter', () => {
             type: 'typeParameter',
             name: 'U',
             constraint: {
-              name: 'FooUser'
-            }
-          }
-        }
+              name: 'FooUser',
+            },
+          },
+        },
       ];
 
       const def = adapter.toInterfaceDefinition(entry);
 
       expect(def.typeParameters).toEqual([
         {
-          name: 'T'
+          name: 'T',
         },
         {
           name: 'U',
           type: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
+            name: 'FooUser',
+          },
+        },
       ]);
 
       expect(def.properties).toEqual([
@@ -1613,17 +1627,17 @@ describe('TypeDoc adapter', () => {
           name: 'foo',
           type: {
             type: 'typeParameter',
-            name: 'T'
-          }
+            name: 'T',
+          },
         },
         {
           isOptional: false,
           name: 'user',
           type: {
             type: 'typeParameter',
-            name: 'U'
-          }
-        }
+            name: 'U',
+          },
+        },
       ]);
     });
 
@@ -1637,16 +1651,15 @@ describe('TypeDoc adapter', () => {
             kindString: 'Parameter',
             type: {
               type: 'intrinsic',
-              name: 'string'
-            }
-          }
+              name: 'string',
+            },
+          },
         ],
         type: {
           type: 'intrinsic',
-          name: 'any'
-        }
-      }
-        ;
+          name: 'any',
+        },
+      };
 
       const def = adapter.toInterfaceDefinition(entry);
 
@@ -1660,18 +1673,17 @@ describe('TypeDoc adapter', () => {
                 name: '_',
                 type: {
                   type: 'intrinsic',
-                  name: 'string'
-                }
+                  name: 'string',
+                },
               },
               type: {
                 type: 'intrinsic',
-                name: 'any'
-              }
-            }
-          }
-        }
+                name: 'any',
+              },
+            },
+          },
+        },
       ]);
-
     });
 
     it('should support type literal properties', () => {
@@ -1686,20 +1698,20 @@ describe('TypeDoc adapter', () => {
                 {
                   name: 'commands',
                   flags: {
-                    isOptional: true
+                    isOptional: true,
                   },
                   type: {
                     type: 'array',
                     elementType: {
                       type: 'intrinsic',
-                      name: 'any'
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        }
+                      name: 'any',
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
       ];
 
       const def = adapter.toInterfaceDefinition(entry);
@@ -1717,20 +1729,18 @@ describe('TypeDoc adapter', () => {
                   name: 'commands',
                   type: {
                     type: 'array',
-                    name: 'any'
-                  }
-                }
-              ]
-            }
-          }
-        }
+                    name: 'any',
+                  },
+                },
+              ],
+            },
+          },
+        },
       ]);
     });
-
   });
 
   describe('Pipe definitions', () => {
-
     let entry: TypeDocEntry;
 
     beforeEach(() => {
@@ -1742,12 +1752,12 @@ describe('TypeDoc adapter', () => {
             name: 'Pipe',
             type: {
               type: 'reference',
-              name: 'Pipe'
+              name: 'Pipe',
             },
             arguments: {
-              obj: '{\n  name: \'foo\'\n}'
-            }
-          }
+              obj: "{\n  name: 'foo'\n}",
+            },
+          },
         ],
         children: [
           {
@@ -1763,18 +1773,18 @@ describe('TypeDoc adapter', () => {
                     kindString: 'Parameter',
                     type: {
                       type: 'reference',
-                      name: 'Date'
-                    }
-                  }
+                      name: 'Date',
+                    },
+                  },
                 ],
                 type: {
                   type: 'intrinsic',
-                  name: 'string'
-                }
-              }
-            ]
-          }
-        ]
+                  name: 'string',
+                },
+              },
+            ],
+          },
+        ],
       };
     });
 
@@ -1795,24 +1805,22 @@ describe('TypeDoc adapter', () => {
                   name: 'value',
                   type: {
                     type: 'reference',
-                    name: 'Date'
-                  }
-                }
+                    name: 'Date',
+                  },
+                },
               ],
               returnType: {
                 type: 'intrinsic',
-                name: 'string'
-              }
-            }
-          }
-        }
+                name: 'string',
+              },
+            },
+          },
+        },
       });
     });
-
   });
 
   describe('Type alias definitions', () => {
-
     it('should convert union types', () => {
       const entry: TypeDocEntry = {
         anchorId: 'foo-anchor-id',
@@ -1822,34 +1830,34 @@ describe('TypeDoc adapter', () => {
           types: [
             {
               type: 'intrinsic',
-              name: 'string'
+              name: 'string',
             },
             {
               type: 'reference',
-              name: 'FooDate'
+              name: 'FooDate',
             },
             {
               type: 'intrinsic',
-              name: 'number'
+              name: 'number',
             },
             {
               type: 'intrinsic',
-              name: 'false'
+              name: 'false',
             },
             {
               type: 'unknown',
-              name: '1'
+              name: '1',
             },
             {
               type: 'stringLiteral',
-              name: '\'left\''
+              name: "'left'",
             },
             {
               type: 'typeParameter',
               name: 'T',
               constraint: {
-                name: 'FooUser'
-              }
+                name: 'FooUser',
+              },
             },
             {
               type: 'reflection',
@@ -1860,21 +1868,21 @@ describe('TypeDoc adapter', () => {
                     kindString: 'Call signature',
                     type: {
                       type: 'intrinsic',
-                      name: 'void'
-                    }
-                  }
-                ]
-              }
+                      name: 'void',
+                    },
+                  },
+                ],
+              },
             },
             {
               type: 'typeOperator',
               operator: 'keyof',
               target: {
-                name: 'FooUser'
-              }
-            }
-          ]
-        }
+                name: 'FooUser',
+              },
+            },
+          ],
+        },
       };
 
       const def = adapter.toTypeAliasDefinition(entry);
@@ -1887,47 +1895,47 @@ describe('TypeDoc adapter', () => {
           unionTypes: [
             {
               type: 'intrinsic',
-              name: 'string'
+              name: 'string',
             },
             {
               type: 'reference',
-              name: 'FooDate'
+              name: 'FooDate',
             },
             {
               type: 'intrinsic',
-              name: 'number'
+              name: 'number',
             },
             {
               type: 'intrinsic',
-              name: 'false'
+              name: 'false',
             },
             {
               type: 'unknown',
-              name: '1'
+              name: '1',
             },
             {
               type: 'stringLiteral',
-              name: '\'left\''
+              name: "'left'",
             },
             {
               type: 'typeParameter',
-              name: 'T'
+              name: 'T',
             },
             {
               type: 'reflection',
               callSignature: {
                 returnType: {
                   type: 'intrinsic',
-                  name: 'void'
-                }
-              }
+                  name: 'void',
+                },
+              },
             },
             {
               type: 'typeOperator',
-              name: 'keyof FooUser'
-            }
-          ]
-        }
+              name: 'keyof FooUser',
+            },
+          ],
+        },
       });
     });
 
@@ -1947,17 +1955,17 @@ describe('TypeDoc adapter', () => {
                   kindString: 'Parameter',
                   type: {
                     type: 'intrinsic',
-                    name: 'string'
-                  }
-                }
+                    name: 'string',
+                  },
+                },
               ],
               type: {
                 type: 'reference',
-                name: 'FooUser'
-              }
-            }
-          }
-        }
+                name: 'FooUser',
+              },
+            },
+          },
+        },
       };
 
       const def = adapter.toTypeAliasDefinition(entry);
@@ -1972,15 +1980,15 @@ describe('TypeDoc adapter', () => {
               name: '_',
               type: {
                 type: 'intrinsic',
-                name: 'string'
-              }
+                name: 'string',
+              },
             },
             type: {
               type: 'reference',
-              name: 'FooUser'
-            }
-          }
-        }
+              name: 'FooUser',
+            },
+          },
+        },
       });
     });
 
@@ -2001,16 +2009,16 @@ describe('TypeDoc adapter', () => {
                     kindString: 'Parameter',
                     type: {
                       type: 'reference',
-                      name: 'FooUser'
-                    }
+                      name: 'FooUser',
+                    },
                   },
                   {
                     name: 'addl',
                     kindString: 'Parameter',
                     type: {
                       type: 'typeParameter',
-                      name: 'T'
-                    }
+                      name: 'T',
+                    },
                   },
                   {
                     name: 'data',
@@ -2019,19 +2027,19 @@ describe('TypeDoc adapter', () => {
                       type: 'array',
                       elementType: {
                         type: 'intrinsic',
-                        name: 'any'
-                      }
-                    }
-                  }
+                        name: 'any',
+                      },
+                    },
+                  },
                 ],
                 type: {
                   type: 'intrinsic',
-                  name: 'void'
-                }
-              }
-            ]
-          }
-        }
+                  name: 'void',
+                },
+              },
+            ],
+          },
+        },
       };
 
       const def = adapter.toTypeAliasDefinition(entry);
@@ -2044,7 +2052,7 @@ describe('TypeDoc adapter', () => {
           callSignature: {
             returnType: {
               type: 'intrinsic',
-              name: 'void'
+              name: 'void',
             },
             parameters: [
               {
@@ -2052,28 +2060,28 @@ describe('TypeDoc adapter', () => {
                 name: 'args',
                 type: {
                   type: 'reference',
-                  name: 'FooUser'
-                }
+                  name: 'FooUser',
+                },
               },
               {
                 isOptional: false,
                 name: 'addl',
                 type: {
                   type: 'typeParameter',
-                  name: 'T'
-                }
+                  name: 'T',
+                },
               },
               {
                 isOptional: false,
                 name: 'data',
                 type: {
                   type: 'array',
-                  name: 'any'
-                }
-              }
-            ]
-          }
-        }
+                  name: 'any',
+                },
+              },
+            ],
+          },
+        },
       });
     });
 
@@ -2084,8 +2092,8 @@ describe('TypeDoc adapter', () => {
         typeParameter: [
           {
             name: 'T',
-            kindString: 'Type parameter'
-          }
+            kindString: 'Type parameter',
+          },
         ],
         type: {
           type: 'union',
@@ -2094,11 +2102,11 @@ describe('TypeDoc adapter', () => {
               type: 'typeParameter',
               name: 'T',
               constraint: {
-                name: 'FooUser'
-              }
-            }
-          ]
-        }
+                name: 'FooUser',
+              },
+            },
+          ],
+        },
       };
 
       const def = adapter.toTypeAliasDefinition(entry);
@@ -2111,51 +2119,50 @@ describe('TypeDoc adapter', () => {
           unionTypes: [
             {
               type: 'typeParameter',
-              name: 'T'
-            }
-          ]
+              name: 'T',
+            },
+          ],
         },
         typeParameters: [
           {
-            name: 'T'
-          }
-        ]
+            name: 'T',
+          },
+        ],
       });
     });
-
   });
 
   it('should use SkyDocsTypeDefinitionsProvider.anchorIds if anchorId not set on entry', () => {
     adapter = new SkyDocsTypeDocAdapterService({
       anchorIds: {
-        'SkyFoobar': 'class-skyfoobar'
+        SkyFoobar: 'class-skyfoobar',
       },
-      typeDefinitions: []
+      typeDefinitions: [],
     });
 
     const def = adapter.toClassDefinition({
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
 
     expect(def).toEqual({
       anchorId: 'class-skyfoobar',
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
   });
 
   it('should fall back to an empty anchorId if not set on entry or provider - sanity check', () => {
     adapter = new SkyDocsTypeDocAdapterService({
       anchorIds: {},
-      typeDefinitions: []
+      typeDefinitions: [],
     });
 
     const def = adapter.toClassDefinition({
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
 
     expect(def).toEqual({
       anchorId: '',
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
   });
 
@@ -2163,13 +2170,12 @@ describe('TypeDoc adapter', () => {
     adapter = new SkyDocsTypeDocAdapterService();
 
     const def = adapter.toClassDefinition({
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
 
     expect(def).toEqual({
       anchorId: '',
-      name: 'SkyFoobar'
+      name: 'SkyFoobar',
     });
   });
-
 });

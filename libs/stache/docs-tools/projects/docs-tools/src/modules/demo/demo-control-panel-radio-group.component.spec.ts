@@ -1,19 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  SkyDocsDemoControlPanelRadioChoice
-} from './demo-control-panel-radio-choice';
+import { SkyDocsDemoControlPanelRadioChoice } from './demo-control-panel-radio-choice';
 
-import {
-  SkyDocsDemoModule
-} from './demo.module';
+import { SkyDocsDemoModule } from './demo.module';
 
 //#region Helpers
 @Component({
@@ -27,21 +18,21 @@ import {
       [initialValue]="'red'"
     >
     </sky-docs-demo-control-panel-radio-group>
-  `
+  `,
 })
 class TestComponent {
-
   public alignmentChoices: SkyDocsDemoControlPanelRadioChoice[] = [
     { value: 'red', label: 'Red' },
     { value: 'green', label: 'Green' },
-    { value: 'blue', label: 'Blue' }
+    { value: 'blue', label: 'Blue' },
   ];
 
   public disabled: boolean;
-
 }
 
-function getRadioInputs(fixture: ComponentFixture<TestComponent>): NodeListOf<HTMLInputElement> {
+function getRadioInputs(
+  fixture: ComponentFixture<TestComponent>
+): NodeListOf<HTMLInputElement> {
   return fixture.nativeElement.querySelectorAll('input');
 }
 //#endregion
@@ -52,17 +43,11 @@ describe('Demo control panel radio group', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestComponent
-      ],
-      imports: [
-        SkyDocsDemoModule
-      ]
+      declarations: [TestComponent],
+      imports: [SkyDocsDemoModule],
     });
 
-    fixture = TestBed.createComponent(
-      TestComponent
-    );
+    fixture = TestBed.createComponent(TestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

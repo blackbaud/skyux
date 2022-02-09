@@ -7,8 +7,8 @@ import { SkyDocsCodeExamplesComponent } from '../code-examples.component';
   selector: 'sky-code-examples-fixture',
   template: `
     <sky-docs-code-examples
-      [packageDependencies]='packageDependencies'
-      [stylesheets]='stylesheets'
+      [packageDependencies]="packageDependencies"
+      [stylesheets]="stylesheets"
     >
       <sky-docs-code-example
         heading="Basic"
@@ -19,7 +19,7 @@ import { SkyDocsCodeExamplesComponent } from '../code-examples.component';
         sourceCodePath="src/app/public/plugin-resources/invalid/"
       ></sky-docs-code-example>
     </sky-docs-code-examples>
-  `
+  `,
 })
 export class CodeExamplesFixtureComponent {
   @ViewChild(SkyDocsCodeExamplesComponent)

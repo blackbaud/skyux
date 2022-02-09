@@ -11,6 +11,7 @@
 - Run `npm i -ED @skyux-sdk/builder-plugin-skyux`.
 
 - Remove any custom styles that are hiding the Omnibar. Instead, create a **skyuxconfig.e2e.json** file with the following contents:
+
 ```
 {
   "omnibar": false
@@ -18,6 +19,7 @@
 ```
 
 - Open **skyuxconfig.json** and add the following:
+
 ```
 {
   // ...
@@ -67,11 +69,13 @@ export class AppExtrasModule { }
 ```
 
 - Create the following files (as you would normally when creating a new SPA route):
+
   - **./src/app/docs/[module-name]/index.html**
   - **./src/app/docs/[module-name]/[module-name]-docs.component.html**
   - **./src/app/docs/[module-name]/[module-name]-docs.component.ts**
 
 - Add the following contents to the component's HTML file:
+
 ```
 <sky-docs-demo-page
   moduleName="SkySampleModule"
@@ -97,6 +101,7 @@ export class AppExtrasModule { }
 ```
 
 - Add package dependencies for demos
+
 ```
   <sky-docs-code-examples
     [packageDependencies]="{
@@ -109,10 +114,12 @@ export class AppExtrasModule { }
 ## JSDoc comments
 
 ### Features:
+
 - Accepts markdown.
 - Links to internal types are automatically added.
 
 ### Tags:
+
 - `@example` Specifies an inline code example.
 - `@internal` Hides the property or type from documentation.
 - `@default` Deliberately specifies a default value if one isn't obvious from the source code (for example, when a getter/setter is used).
@@ -121,6 +128,7 @@ export class AppExtrasModule { }
 - `@param` Provides a description for a specific parameter in a method or function.
 
 ## Code Examples
+
 - Code examples are automatically generated from source code added to `./src/app/public/plugin-resources/code-examples`.
 - Each code example should be self-contained (in its own folder) and have its own module. The module will dictate its own exports, imports, providers, or entry components.
 - Code examples are not instrumented for code coverage and are not included in any build results.

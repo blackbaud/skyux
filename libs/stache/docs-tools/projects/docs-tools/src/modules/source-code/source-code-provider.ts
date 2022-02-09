@@ -1,12 +1,8 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDocsSourceCodeProvider {
-
   public readonly sourceCode: any[];
-
 }

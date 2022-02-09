@@ -1,20 +1,13 @@
-import {
-  SkyDocsSourceCodeFile
-} from '../source-code/source-code-file';
+import { SkyDocsSourceCodeFile } from '../source-code/source-code-file';
 
-import {
-  SkyDocsCodeExampleModuleDependencies
-} from './code-example-module-dependencies';
+import { SkyDocsCodeExampleModuleDependencies } from './code-example-module-dependencies';
 
-import {
-  SkyDocsCodeExampleTheme
-} from './code-example-theme';
+import { SkyDocsCodeExampleTheme } from './code-example-theme';
 
 /**
  * @internal
  */
 export interface SkyDocsCodeExample {
-
   heading: string;
 
   packageDependencies: SkyDocsCodeExampleModuleDependencies;
@@ -24,5 +17,4 @@ export interface SkyDocsCodeExample {
   theme: SkyDocsCodeExampleTheme;
 
   stylesheets?: string[];
-
 }

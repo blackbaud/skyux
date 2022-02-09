@@ -3,25 +3,16 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  SkyDocsCallSignatureDefinition
-} from './call-signature-definition';
+import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
 
-import {
-  SkyDocsClassPropertyDefinition
-} from './property-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 
-import {
-  SkyDocsTypeDefinitionsFormatService
-} from './type-definitions-format.service';
+import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 interface PropertyViewModel {
   callSignature: SkyDocsCallSignatureDefinition;
@@ -36,17 +27,16 @@ interface PropertyViewModel {
   selector: 'sky-docs-property-definitions',
   templateUrl: './property-definitions.component.html',
   styleUrls: ['./property-definitions.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsPropertyDefinitionsComponent implements OnInit {
-
   @Input()
-  public set config(value: { properties?: SkyDocsClassPropertyDefinition[]; }) {
+  public set config(value: { properties?: SkyDocsClassPropertyDefinition[] }) {
     this._config = value;
     this.updateView();
   }
 
-  public get config(): { properties?: SkyDocsClassPropertyDefinition[]; } {
+  public get config(): { properties?: SkyDocsClassPropertyDefinition[] } {
     return this._config || {};
   }
 
@@ -70,28 +60,29 @@ export class SkyDocsPropertyDefinitionsComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private formatService: SkyDocsTypeDefinitionsFormatService,
     private mediaQueryService: SkyMediaQueryService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.mediaQueryService.subscribe((breakpoints: SkyMediaBreakpoints) => {
-      this.isMobile = (breakpoints <= SkyMediaBreakpoints.sm);
+      this.isMobile = breakpoints <= SkyMediaBreakpoints.sm;
       this.changeDetector.markForCheck();
     });
   }
 
   private updateView(): void {
-    this.properties = this.config?.properties?.map(property => {
+    this.properties = this.config?.properties?.map((property) => {
       const vm: PropertyViewModel = {
         callSignature: property.type?.callSignature,
-        defaultValue: this.formatService.escapeSpecialCharacters(property.defaultValue || ''),
+        defaultValue: this.formatService.escapeSpecialCharacters(
+          property.defaultValue || ''
+        ),
         deprecationWarning: property.deprecationWarning,
         description: property.description,
         formattedName: this.formatService.getFormattedPropertyName(property),
-        isOptional: property.isOptional
+        isOptional: property.isOptional,
       };
 
       return vm;
     });
   }
-
 }

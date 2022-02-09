@@ -1,7 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
  * Renders a section within the control panel.
@@ -19,6 +16,6 @@ import {
   selector: 'sky-docs-demo-control-panel-section',
   templateUrl: './demo-control-panel-section.component.html',
   styleUrls: ['./demo-control-panel-section.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDocsDemoControlPanelSectionComponent { }
+export class SkyDocsDemoControlPanelSectionComponent {}

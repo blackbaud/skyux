@@ -3,31 +3,27 @@ import {
   ElementRef,
   QueryList,
   Renderer2,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
-  SkyThemeSettings
+  SkyThemeSettings,
 } from '@skyux/theme';
 
-import {
-  SkyDocsCodeExampleComponent
-} from '../code-example.component';
+import { SkyDocsCodeExampleComponent } from '../code-example.component';
 
 @Component({
   selector: 'sky-code-example-fixture',
-  template: `
-    <sky-docs-code-example
-      heading="My code example"
-      sourceCodePath="src/app/public/plugin-resources/foobar"
-    >
-    </sky-docs-code-example>`
+  template: ` <sky-docs-code-example
+    heading="My code example"
+    sourceCodePath="src/app/public/plugin-resources/foobar"
+  >
+  </sky-docs-code-example>`,
 })
 export class CodeExampleWithThemeServiceFixtureComponent {
-
   @ViewChildren(SkyDocsCodeExampleComponent)
   public codeExampleComponents: QueryList<SkyDocsCodeExampleComponent>;
 
@@ -39,15 +35,11 @@ export class CodeExampleWithThemeServiceFixtureComponent {
     this.themeSvc.init(
       this.elRef.nativeElement,
       this.renderer,
-      new SkyThemeSettings(
-        SkyTheme.presets.modern,
-        SkyThemeMode.presets.light
-      )
+      new SkyThemeSettings(SkyTheme.presets.modern, SkyThemeMode.presets.light)
     );
   }
 
   public setTheme(themeSettings: SkyThemeSettings): void {
     this.themeSvc.setTheme(themeSettings);
   }
-
 }

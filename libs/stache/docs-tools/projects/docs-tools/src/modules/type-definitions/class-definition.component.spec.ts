@@ -2,49 +2,38 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ClassDefinitionFixtureComponent
-} from './fixtures/class-definition.component.fixture';
+import { ClassDefinitionFixtureComponent } from './fixtures/class-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Class definition component', function () {
-
   let fixture: ComponentFixture<ClassDefinitionFixtureComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
-        }
-      ]
+                name: 'FooUser',
+              },
+            ],
+          },
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(ClassDefinitionFixtureComponent);
@@ -64,7 +53,7 @@ describe('Class definition component', function () {
     fixture.componentInstance.config = {
       anchorId: 'service-fooservice',
       description: 'This description has a FooUser.',
-      name: 'FooService'
+      name: 'FooService',
     };
 
     fixture.detectChanges();
@@ -78,5 +67,4 @@ describe('Class definition component', function () {
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
-
 });

@@ -1,46 +1,24 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  ActivatedRoute
-} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  of
-} from 'rxjs';
+import { of } from 'rxjs';
 
-import {
-  SkyDocsSupportalService
-} from '../../shared/docs-tools-supportal.service';
+import { SkyDocsSupportalService } from '../../shared/docs-tools-supportal.service';
 
-import {
-  DemoPageFixtureComponent
-} from './demo-page.component.fixture';
+import { DemoPageFixtureComponent } from './demo-page.component.fixture';
 
-import {
-  SkyDocsDemoPageDomAdapterService
-} from '../demo-page-dom-adapter.service';
+import { SkyDocsDemoPageDomAdapterService } from '../demo-page-dom-adapter.service';
 
-import {
-  SkyDocsDemoPageModule
-} from '../demo-page.module';
+import { SkyDocsDemoPageModule } from '../demo-page.module';
 
-import {
-  SkyDocsDemoPageTitleService
-} from '../demo-page-title.service';
+import { SkyDocsDemoPageTitleService } from '../demo-page-title.service';
 import { HttpClientModule } from '@angular/common/http';
 
 class MockActivatedRoute {
@@ -54,27 +32,27 @@ class MockSkyAppConfig {
   public runtime: any = {
     command: 'build',
     app: {
-      base: '/demo-test-base/'
+      base: '/demo-test-base/',
     },
-    routes: []
+    routes: [],
   };
 
   public skyux: any = {
     app: 'demo-test',
     appSettings: {
       myLibrary: {
-        name: 'DemoTestLibrary'
+        name: 'DemoTestLibrary',
       },
       stache: {
         googleAnalytics: {
-          clientId: ''
-        }
-      }
+          clientId: '',
+        },
+      },
     },
     host: {
-      url: 'https://www.example.com'
+      url: 'https://www.example.com',
     },
-    name: 'demo-test'
+    name: 'demo-test',
   };
 }
 
@@ -83,26 +61,22 @@ class MockSkyAppConfig {
     CommonModule,
     HttpClientModule,
     RouterTestingModule,
-    SkyDocsDemoPageModule
+    SkyDocsDemoPageModule,
   ],
-  exports: [
-    DemoPageFixtureComponent
-  ],
-  declarations: [
-    DemoPageFixtureComponent
-  ],
+  exports: [DemoPageFixtureComponent],
+  declarations: [DemoPageFixtureComponent],
   providers: [
     {
       provide: ActivatedRoute,
-      useClass: MockActivatedRoute
+      useClass: MockActivatedRoute,
     },
     {
       provide: SkyAppConfig,
-      useClass: MockSkyAppConfig
+      useClass: MockSkyAppConfig,
     },
     SkyDocsDemoPageDomAdapterService,
     SkyDocsDemoPageTitleService,
-    SkyDocsSupportalService
-  ]
+    SkyDocsSupportalService,
+  ],
 })
-export class DemoPageFixturesModule { }
+export class DemoPageFixturesModule {}

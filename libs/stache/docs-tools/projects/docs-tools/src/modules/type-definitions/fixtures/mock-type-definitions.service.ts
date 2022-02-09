@@ -1,60 +1,52 @@
-import {
-  SkyDocsClassDefinition
-} from '../class-definition';
+import { SkyDocsClassDefinition } from '../class-definition';
 
-import {
-  SkyDocsDirectiveDefinition
-} from '../directive-definition';
+import { SkyDocsDirectiveDefinition } from '../directive-definition';
 
-import {
-  SkyDocsEnumerationDefinition
-} from '../enumeration-definition';
+import { SkyDocsEnumerationDefinition } from '../enumeration-definition';
 
-import {
-  SkyDocsInterfaceDefinition
-} from '../interface-definition';
+import { SkyDocsInterfaceDefinition } from '../interface-definition';
 
-import {
-  SkyDocsPipeDefinition
-} from '../pipe-definition';
+import { SkyDocsPipeDefinition } from '../pipe-definition';
 
-import {
-  SkyDocsTypeAliasDefinition
-} from '../type-alias-definition';
+import { SkyDocsTypeAliasDefinition } from '../type-alias-definition';
 
-import {
-  TypeDocEntry
-} from '../typedoc-types';
+import { TypeDocEntry } from '../typedoc-types';
 
 export class MockTypeDocAdapterService {
   public toClassDefinition(entry: TypeDocEntry): SkyDocsClassDefinition {
     return {
       anchorId: entry.anchorId,
-      name: entry.name
+      name: entry.name,
     };
   }
 
-  public toDirectiveDefinition(entry: TypeDocEntry): SkyDocsDirectiveDefinition {
+  public toDirectiveDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsDirectiveDefinition {
     return {
       anchorId: entry.anchorId,
       name: entry.name,
-      selector: 'foo'
+      selector: 'foo',
     };
   }
 
-  public toEnumerationDefinition(entry: TypeDocEntry): SkyDocsEnumerationDefinition {
+  public toEnumerationDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsEnumerationDefinition {
     return {
       anchorId: entry.anchorId,
       members: undefined,
-      name: entry.name
+      name: entry.name,
     };
   }
 
-  public toInterfaceDefinition(entry: TypeDocEntry): SkyDocsInterfaceDefinition {
+  public toInterfaceDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsInterfaceDefinition {
     return {
       anchorId: entry.anchorId,
       name: entry.name,
-      properties: []
+      properties: [],
     };
   }
 
@@ -62,15 +54,17 @@ export class MockTypeDocAdapterService {
     return {
       anchorId: entry.anchorId,
       name: entry.name,
-      transformMethod: undefined
+      transformMethod: undefined,
     };
   }
 
-  public toTypeAliasDefinition(entry: TypeDocEntry): SkyDocsTypeAliasDefinition {
+  public toTypeAliasDefinition(
+    entry: TypeDocEntry
+  ): SkyDocsTypeAliasDefinition {
     return {
       anchorId: entry.anchorId,
       name: entry.name,
-      type: {}
+      type: {},
     };
   }
 }

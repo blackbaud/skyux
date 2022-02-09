@@ -1,20 +1,13 @@
-import {
-  SkyDocsCallSignatureDefinition
-} from './call-signature-definition';
+import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
 
-import {
-  SkyDocsIndexSignatureDefinition
-} from './index-signature-definition';
+import { SkyDocsIndexSignatureDefinition } from './index-signature-definition';
 
-import {
-  SkyDocsInterfacePropertyDefinition
-} from './interface-property-definition';
+import { SkyDocsInterfacePropertyDefinition } from './interface-property-definition';
 
 /**
  * Describes TypeScript types.
  */
 export interface SkyDocsTypeDefinition {
-
   /**
    * Used by method, function, and arrow function types.
    */
@@ -27,7 +20,16 @@ export interface SkyDocsTypeDefinition {
 
   name?: string;
 
-  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'typeOperator' | 'union' | 'unknown';
+  type?:
+    | 'array'
+    | 'intrinsic'
+    | 'reference'
+    | 'reflection'
+    | 'stringLiteral'
+    | 'typeParameter'
+    | 'typeOperator'
+    | 'union'
+    | 'unknown';
 
   /**
    * Describes any type arguments, e.g. `<T, F>`.
@@ -45,5 +47,4 @@ export interface SkyDocsTypeDefinition {
    * The types that compose a union type.
    */
   unionTypes?: SkyDocsTypeDefinition[];
-
 }

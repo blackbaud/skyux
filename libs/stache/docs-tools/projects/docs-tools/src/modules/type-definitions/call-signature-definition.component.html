@@ -1,43 +1,48 @@
-<div *ngIf="config"
-  class="sky-docs-call-signature-definition"
->
+<div *ngIf="config" class="sky-docs-call-signature-definition">
   <ng-container *ngIf="parameters">
-    <h4
-      class="sky-docs-call-signature-definition-heading"
-    >
-      Parameters
-    </h4>
-    <table
-      class="sky-docs-parameter-definitions"
-    >
+    <h4 class="sky-docs-call-signature-definition-heading">Parameters</h4>
+    <table class="sky-docs-parameter-definitions">
       <tbody>
         <tr *ngFor="let parameter of parameters">
-          <th
-            class="sky-docs-parameter-definition-header"
-          >
-            <sky-code><span
-              [innerHtml]="parameter.formattedName | skyDocsTypeAnchorLinks:'no-code-tags'"
-            ></span></sky-code>
+          <th class="sky-docs-parameter-definition-header">
+            <sky-code
+              ><span
+                [innerHtml]="
+                  parameter.formattedName
+                    | skyDocsTypeAnchorLinks: 'no-code-tags'
+                "
+              ></span
+            ></sky-code>
           </th>
-          <td
-            class="sky-docs-parameter-definition-body"
-          >
-            <div *ngIf="parameter.description"
+          <td class="sky-docs-parameter-definition-body">
+            <div
+              *ngIf="parameter.description"
               class="sky-docs-parameter-definition-description"
             >
-              <sky-docs-safe-html *ngIf="parameter.description"
-                [innerHtml]="parameter.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+              <sky-docs-safe-html
+                *ngIf="parameter.description"
+                [innerHtml]="
+                  parameter.description
+                    | skyDocsTypeAnchorLinks
+                    | skyDocsMarkdown
+                "
               ></sky-docs-safe-html>
             </div>
-            <div *ngIf="parameter.isOptional"
+            <div
+              *ngIf="parameter.isOptional"
               class="sky-docs-parameter-definition-label-optional"
             >
               Optional.
               <ng-container *ngIf="parameter.defaultValue">
                 Default is
-                <sky-code><span
-                  [innerHtml]="parameter.defaultValue | skyDocsTypeAnchorLinks:'no-code-tags'"
-                ></span></sky-code>.
+                <sky-code
+                  ><span
+                    [innerHtml]="
+                      parameter.defaultValue
+                        | skyDocsTypeAnchorLinks: 'no-code-tags'
+                    "
+                  ></span></sky-code
+                >.
               </ng-container>
             </div>
           </td>
@@ -47,19 +52,16 @@
   </ng-container>
 
   <ng-container *ngIf="returnTypeFormatted">
-    <h4
-      class="sky-docs-call-signature-definition-heading"
-    >
-      Returns
-    </h4>
+    <h4 class="sky-docs-call-signature-definition-heading">Returns</h4>
 
-    <div
-      class="sky-docs-call-signature-definition-return-type"
-    >
-      <sky-code><span
-        [innerHtml]="returnTypeFormatted | skyDocsTypeAnchorLinks:'no-code-tags'"
-      ></span></sky-code>
+    <div class="sky-docs-call-signature-definition-return-type">
+      <sky-code
+        ><span
+          [innerHtml]="
+            returnTypeFormatted | skyDocsTypeAnchorLinks: 'no-code-tags'
+          "
+        ></span
+      ></sky-code>
     </div>
   </ng-container>
-
 </div>

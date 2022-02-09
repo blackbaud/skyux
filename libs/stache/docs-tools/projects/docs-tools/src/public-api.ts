@@ -62,7 +62,7 @@ export { SkyDocsDemoPageTypeDefinitionsComponent as λ13 } from './modules/demo-
 export { SkyDocsDemoPageComponent as λ14 } from './modules/demo-page/demo-page.component';
 export { SkyDocsDesignGuidelineThumbnailComponent as λ15 } from './modules/design-guidelines/design-guideline-thumbnail.component';
 export { SkyDocsDesignGuidelineComponent as λ16 } from './modules/design-guidelines/design-guideline.component';
-export {SkyDocsDesignGuidelinesComponent as λ17 } from './modules/design-guidelines/design-guidelines.component';
+export { SkyDocsDesignGuidelinesComponent as λ17 } from './modules/design-guidelines/design-guidelines.component';
 export { SkyDocsHeadingAnchorComponent as λ18 } from './modules/heading-anchor/heading-anchor.component';
 export { SkyDocsModuleInfoComponent as λ19 } from './modules/module-info/module-info.component';
 export { SkyDocsThumbnailComponent as λ20 } from './modules/thumbnail/thumbnail.component';

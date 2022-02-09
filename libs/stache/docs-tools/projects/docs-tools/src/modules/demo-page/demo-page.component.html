@@ -6,30 +6,18 @@
     [showTableOfContents]="false"
     [sidebarRoutes]="sidebarRoutes"
   >
-    <ng-content
-      select="sky-docs-demo-page-summary"
-    ></ng-content>
+    <ng-content select="sky-docs-demo-page-summary"></ng-content>
 
-    <ng-content
-      select="sky-docs-demo"
-    ></ng-content>
+    <ng-content select="sky-docs-demo"></ng-content>
 
-    <div
-      class="sky-docs-demo-page-main"
-    >
-      <sky-tabset *ngIf="enableTabLayout else content"
-        permalinkId="docs"
-      >
+    <div class="sky-docs-demo-page-main">
+      <sky-tabset *ngIf="enableTabLayout; else content" permalinkId="docs">
         <sky-tab tabHeading="Design">
-          <ng-content
-            select="sky-docs-design-guidelines"
-          ></ng-content>
+          <ng-content select="sky-docs-design-guidelines"></ng-content>
         </sky-tab>
 
         <sky-tab tabHeading="Development">
-          <ng-container
-            [ngTemplateOutlet]="content"
-          ></ng-container>
+          <ng-container [ngTemplateOutlet]="content"></ng-container>
         </sky-tab>
       </sky-tabset>
     </div>
@@ -37,18 +25,14 @@
 </div>
 
 <ng-template #content>
-  <sky-docs-demo-page-section *ngIf="moduleName"
-    heading="Installation"
-  >
+  <sky-docs-demo-page-section *ngIf="moduleName" heading="Installation">
     <sky-docs-module-info
       [gitRepoUrl]="gitRepoUrl"
       [moduleName]="moduleName"
       [packageName]="packageName"
       [packageUrl]="packageUrl"
     >
-      <ng-content
-        select="sky-docs-demo-page-module-info"
-      ></ng-content>
+      <ng-content select="sky-docs-demo-page-module-info"></ng-content>
     </sky-docs-module-info>
   </sky-docs-demo-page-section>
 
@@ -60,11 +44,10 @@
   >
   </sky-docs-demo-page-type-definitions>
 
-  <sky-docs-demo-page-section *ngIf="enableCodeExamples"
+  <sky-docs-demo-page-section
+    *ngIf="enableCodeExamples"
     heading="Code examples"
   >
-    <ng-content
-      select="sky-docs-code-examples"
-    ></ng-content>
+    <ng-content select="sky-docs-code-examples"></ng-content>
   </sky-docs-demo-page-section>
 </ng-template>

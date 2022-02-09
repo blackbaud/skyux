@@ -1,74 +1,59 @@
-<div *ngIf="methods"
-  class="sky-docs-method-definitions"
->
-  <table *ngIf="!isMobile else mobileTemplate"
-    class="sky-docs-table"
-  >
-    <tr
-      class="sky-docs-table-row"
-    >
+<div *ngIf="methods" class="sky-docs-method-definitions">
+  <table *ngIf="!isMobile; else mobileTemplate" class="sky-docs-table">
+    <tr class="sky-docs-table-row">
       <th
         class="sky-docs-table-column-header sky-docs-table-column-header-name"
       >
         Methods
       </th>
       <th
-        class="sky-docs-table-column-header sky-docs-table-column-header-description"
+        class="
+          sky-docs-table-column-header sky-docs-table-column-header-description
+        "
       >
         Description
       </th>
     </tr>
-    <tr *ngFor="let method of methods"
-      class="sky-docs-table-row"
-    >
+    <tr *ngFor="let method of methods" class="sky-docs-table-row">
       <td
         class="sky-docs-table-cell sky-docs-method-definitions-table-cell-name"
       >
         <ng-template
           [ngTemplateOutlet]="nameTemplate"
-          [ngTemplateOutletContext]="{$implicit: method}"
+          [ngTemplateOutletContext]="{ $implicit: method }"
         ></ng-template>
       </td>
       <td
-        class="sky-docs-table-cell sky-docs-method-definitions-table-cell-description"
+        class="
+          sky-docs-table-cell sky-docs-method-definitions-table-cell-description
+        "
       >
         <ng-template
           [ngTemplateOutlet]="descriptionTemplate"
-          [ngTemplateOutletContext]="{$implicit: method}"
+          [ngTemplateOutletContext]="{ $implicit: method }"
         ></ng-template>
       </td>
     </tr>
   </table>
 
   <ng-template #mobileTemplate>
-    <dl
-      class="sky-docs-method-definition-list"
-    >
-      <div *ngFor="let method of methods"
+    <dl class="sky-docs-method-definition-list">
+      <div
+        *ngFor="let method of methods"
         class="sky-docs-method-definition-list-item"
       >
-        <dt
-          class="sky-field-label"
-        >
-          Methods
-        </dt>
-        <dd
-          class="sky-docs-method-definitions-dd-name"
-        >
+        <dt class="sky-field-label">Methods</dt>
+        <dd class="sky-docs-method-definitions-dd-name">
           <ng-template
             [ngTemplateOutlet]="nameTemplate"
-            [ngTemplateOutletContext]="{$implicit: method}"
+            [ngTemplateOutletContext]="{ $implicit: method }"
           ></ng-template>
         </dd>
-        <dt
-          class="sky-field-label"
-        >Description</dt>
-        <dd
-          class="sky-docs-method-definitions-dd-description"
-        >
+        <dt class="sky-field-label">Description</dt>
+        <dd class="sky-docs-method-definitions-dd-description">
           <ng-template
             [ngTemplateOutlet]="descriptionTemplate"
-            [ngTemplateOutletContext]="{$implicit: method}"
+            [ngTemplateOutletContext]="{ $implicit: method }"
           ></ng-template>
         </dd>
       </div>
@@ -77,39 +62,49 @@
 </div>
 
 <ng-template let-method #nameTemplate>
-  <sky-code><span
-    [innerHtml]="method.formattedName | skyDocsTypeAnchorLinks:'no-code-tags'"
-  ></span></sky-code>
+  <sky-code
+    ><span
+      [innerHtml]="
+        method.formattedName | skyDocsTypeAnchorLinks: 'no-code-tags'
+      "
+    ></span
+  ></sky-code>
 </ng-template>
 
 <ng-template let-method #descriptionTemplate>
-
-  <sky-docs-safe-html *ngIf="method.deprecationWarning !== undefined"
+  <sky-docs-safe-html
+    *ngIf="method.deprecationWarning !== undefined"
     class="sky-docs-method-definition-deprecation-warning"
-    [innerHtml]="deprecationWarningPrefix + method.deprecationWarning | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+    [innerHtml]="
+      deprecationWarningPrefix + method.deprecationWarning
+        | skyDocsTypeAnchorLinks
+        | skyDocsMarkdown
+    "
   ></sky-docs-safe-html>
 
-  <sky-docs-safe-html *ngIf="method.description"
+  <sky-docs-safe-html
+    *ngIf="method.description"
     class="sky-docs-method-definition-description"
     [innerHtml]="method.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
   ></sky-docs-safe-html>
 
-  <sky-code-block *ngIf="method.sourceCode"
+  <sky-code-block
+    *ngIf="method.sourceCode"
     class="sky-docs-code-block"
     languageType="typescript"
     [code]="method.sourceCode"
     [hideHeader]="true"
   ></sky-code-block>
 
-  <sky-docs-call-signature-definition *ngIf="method.callSignature"
+  <sky-docs-call-signature-definition
+    *ngIf="method.callSignature"
     [config]="method.callSignature"
   ></sky-docs-call-signature-definition>
 
   <ng-container *ngIf="method.codeExample">
-    <h4 class="sky-docs-method-definition-heading">
-      Example
-    </h4>
-    <sky-code-block *ngIf="method.codeExample"
+    <h4 class="sky-docs-method-definition-heading">Example</h4>
+    <sky-code-block
+      *ngIf="method.codeExample"
       class="sky-docs-code-block"
       languageType="method.codeExampleLanguage"
       [code]="method.codeExample"

@@ -1,12 +1,9 @@
-import {
-  SkyDocsTypeDefinition
-} from './type-definition';
+import { SkyDocsTypeDefinition } from './type-definition';
 
 /**
  * Describes function and method parameters.
  */
 export interface SkyDocsParameterDefinition {
-
   defaultValue?: string;
 
   description?: string;
@@ -18,5 +15,4 @@ export interface SkyDocsParameterDefinition {
   type: SkyDocsTypeDefinition;
 
   typeArguments?: SkyDocsTypeDefinition[];
-
 }

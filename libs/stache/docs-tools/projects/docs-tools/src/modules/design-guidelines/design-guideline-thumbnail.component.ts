@@ -1,17 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'sky-docs-design-guideline-thumbnail',
   templateUrl: './design-guideline-thumbnail.component.html',
   styleUrls: ['./design-guideline-thumbnail.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsDesignGuidelineThumbnailComponent {
-
   @Input()
   public caption: string;
 
@@ -29,5 +24,4 @@ export class SkyDocsDesignGuidelineThumbnailComponent {
 
   @Input()
   public showBorder: boolean = false;
-
 }

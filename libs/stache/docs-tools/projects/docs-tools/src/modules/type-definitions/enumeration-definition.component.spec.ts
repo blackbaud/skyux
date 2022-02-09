@@ -2,35 +2,22 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  SkyMediaQueryService
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
-import {
-  MockSkyMediaQueryService
-} from '@skyux/core/testing';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  EnumerationDefinitionFixtureComponent
-} from './fixtures/enumeration-definition.component.fixture';
+import { EnumerationDefinitionFixtureComponent } from './fixtures/enumeration-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Enumeration definition component', function () {
-
   let fixture: ComponentFixture<EnumerationDefinitionFixtureComponent>;
   let mockMediaQueryService: MockSkyMediaQueryService;
 
@@ -38,28 +25,26 @@ describe('Enumeration definition component', function () {
     mockMediaQueryService = new MockSkyMediaQueryService();
 
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
+                name: 'FooUser',
+              },
+            ],
+          },
         },
         {
           provide: SkyMediaQueryService,
-          useValue: mockMediaQueryService
-        }
-      ]
+          useValue: mockMediaQueryService,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(EnumerationDefinitionFixtureComponent);
@@ -71,7 +56,8 @@ describe('Enumeration definition component', function () {
 
   it('should set defaults', () => {
     fixture.detectChanges();
-    const enumerationDefinitionRef = fixture.componentInstance.enumerationDefinitionRef;
+    const enumerationDefinitionRef =
+      fixture.componentInstance.enumerationDefinitionRef;
     expect(enumerationDefinitionRef.config).toBeUndefined();
   });
 
@@ -82,9 +68,9 @@ describe('Enumeration definition component', function () {
       description: 'This description has a FooUser.',
       members: [
         {
-          name: 'Bar'
-        }
-      ]
+          name: 'Bar',
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -106,9 +92,9 @@ describe('Enumeration definition component', function () {
       description: 'This description has a `Date`.',
       members: [
         {
-          name: 'Bar'
-        }
-      ]
+          name: 'Bar',
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -118,9 +104,7 @@ describe('Enumeration definition component', function () {
       '.sky-docs-enumeration-definition-description'
     );
 
-    expect(element.innerHTML).toContain(
-      '<code>Date</code>'
-    );
+    expect(element.innerHTML).toContain('<code>Date</code>');
   }));
 
   it('should add links to types within property descriptions', fakeAsync(() => {
@@ -131,9 +115,9 @@ describe('Enumeration definition component', function () {
       members: [
         {
           description: 'This description has a FooUser.',
-          name: 'Bar'
-        }
-      ]
+          name: 'Bar',
+        },
+      ],
     };
 
     fixture.detectChanges();
@@ -147,5 +131,4 @@ describe('Enumeration definition component', function () {
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
-
 });

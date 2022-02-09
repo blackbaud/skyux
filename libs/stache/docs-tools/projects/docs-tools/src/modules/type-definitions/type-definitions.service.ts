@@ -1,50 +1,46 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyDocsTypeDefinitions
-} from './type-definitions';
+import { SkyDocsTypeDefinitions } from './type-definitions';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
-import {
-  SkyDocsTypeDocAdapterService
-} from './typedoc-adapter.service';
+import { SkyDocsTypeDocAdapterService } from './typedoc-adapter.service';
 
 /**
  * Handles all type definitions that have been converted from the third-party documentation generator.
  */
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDocsTypeDefinitionsService {
-
   constructor(
     private typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider,
     private adapter: SkyDocsTypeDocAdapterService
-  ) { }
+  ) {}
 
   /**
    * Returns type definitions from a specific source code location.
    * @param sourceCodePath The directory of the source code you wish to pull type definitions from,
    * relative to the application's root directory.
    */
-  public getTypeDefinitions(sourceCodePath: string, additionalSourceCodePaths?: string[]): SkyDocsTypeDefinitions {
-
+  public getTypeDefinitions(
+    sourceCodePath: string,
+    additionalSourceCodePaths?: string[]
+  ): SkyDocsTypeDefinitions {
     if (!sourceCodePath) {
       throw new Error('The `sourceCodePath` parameter is required');
     }
 
-    const sourceCodePaths: string[] = additionalSourceCodePaths && additionalSourceCodePaths.length > 0 ?
-      [sourceCodePath].concat(additionalSourceCodePaths) :
-      [sourceCodePath];
+    const sourceCodePaths: string[] =
+      additionalSourceCodePaths && additionalSourceCodePaths.length > 0
+        ? [sourceCodePath].concat(additionalSourceCodePaths)
+        : [sourceCodePath];
 
     sourceCodePaths.forEach((path) => {
       if (!path.endsWith('/') && !path.endsWith('.ts')) {
-        throw new Error('Source code paths must end with a forward slash (`/`) or `.ts`.');
+        throw new Error(
+          'Source code paths must end with a forward slash (`/`) or `.ts`.'
+        );
       }
     });
 
@@ -57,7 +53,7 @@ export class SkyDocsTypeDefinitionsService {
       interfaces: [],
       pipes: [],
       services: [],
-      typeAliases: []
+      typeAliases: [],
     };
 
     if (!allDefinitions) {
@@ -71,9 +67,13 @@ export class SkyDocsTypeDefinitionsService {
         .replace(/^\//, ''); // remove first slash.
 
       // Only process types that match the requested source code location.
-      const typeDefinitions = allDefinitions.filter((i) => i.sources && i.sources[0].fileName.match(requestedDir));
+      const typeDefinitions = allDefinitions.filter(
+        (i) => i.sources && i.sources[0].fileName.match(requestedDir)
+      );
       if (typeDefinitions.length === 0) {
-        console.warn(`Type definitions were not found for location: ${requestedDir}`);
+        console.warn(
+          `Type definitions were not found for location: ${requestedDir}`
+        );
       }
 
       typeDefinitions.forEach((item) => {
@@ -106,10 +106,14 @@ export class SkyDocsTypeDefinitionsService {
                 types.interfaces.push(this.adapter.toInterfaceDefinition(item));
                 break;
               case 'Enumeration':
-                types.enumerations.push(this.adapter.toEnumerationDefinition(item));
+                types.enumerations.push(
+                  this.adapter.toEnumerationDefinition(item)
+                );
                 break;
               case 'Type alias':
-                types.typeAliases.push(this.adapter.toTypeAliasDefinition(item));
+                types.typeAliases.push(
+                  this.adapter.toTypeAliasDefinition(item)
+                );
                 break;
             }
         }
@@ -118,5 +122,4 @@ export class SkyDocsTypeDefinitionsService {
 
     return types;
   }
-
 }

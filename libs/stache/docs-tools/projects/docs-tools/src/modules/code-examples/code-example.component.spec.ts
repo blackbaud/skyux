@@ -1,38 +1,23 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
-  SkyThemeSettings
+  SkyThemeSettings,
 } from '@skyux/theme';
 
-import {
-  SkyDocsCodeExampleTheme
-} from './code-example-theme';
+import { SkyDocsCodeExampleTheme } from './code-example-theme';
 
-import {
-  CodeExampleFixtureComponent
-} from './fixtures/code-example-fixture.component';
+import { CodeExampleFixtureComponent } from './fixtures/code-example-fixture.component';
 
-import {
-  CodeExampleFixturesModule
-} from './fixtures/code-example-fixtures.module';
+import { CodeExampleFixturesModule } from './fixtures/code-example-fixtures.module';
 
-import {
-  CodeExampleWithThemeServiceFixtureComponent
-} from './fixtures/code-example-with-theme-service-fixture.component';
+import { CodeExampleWithThemeServiceFixtureComponent } from './fixtures/code-example-with-theme-service-fixture.component';
 
-import {
-  SkyDocsCodeExampleComponent
-} from './code-example.component';
+import { SkyDocsCodeExampleComponent } from './code-example.component';
 
 describe('Code example component', () => {
   let fixture: ComponentFixture<CodeExampleFixtureComponent>;
@@ -41,9 +26,7 @@ describe('Code example component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CodeExampleFixturesModule
-      ]
+      imports: [CodeExampleFixturesModule],
     });
 
     fixture = TestBed.createComponent(CodeExampleFixtureComponent);
@@ -83,15 +66,13 @@ describe('Code example component with SkyThemeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CodeExampleFixturesModule
-      ],
-      providers: [
-        SkyThemeService
-      ]
+      imports: [CodeExampleFixturesModule],
+      providers: [SkyThemeService],
     });
 
-    fixture = TestBed.createComponent(CodeExampleWithThemeServiceFixtureComponent);
+    fixture = TestBed.createComponent(
+      CodeExampleWithThemeServiceFixtureComponent
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
     codeExampleComponent = component.codeExampleComponents.first;
@@ -100,10 +81,9 @@ describe('Code example component with SkyThemeService', () => {
   it('should update theme property using SkyThemeService', () => {
     expect(codeExampleComponent.theme).toEqual(SkyDocsCodeExampleTheme.Modern);
 
-    component.setTheme(new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light
-    ));
+    component.setTheme(
+      new SkyThemeSettings(SkyTheme.presets.default, SkyThemeMode.presets.light)
+    );
     fixture.detectChanges();
 
     expect(codeExampleComponent.theme).toEqual(SkyDocsCodeExampleTheme.Default);

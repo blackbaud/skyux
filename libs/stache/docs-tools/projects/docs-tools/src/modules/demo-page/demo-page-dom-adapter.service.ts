@@ -1,27 +1,16 @@
-import {
-  Injectable,
-  OnDestroy
-} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  Observable,
-  Subject
-} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import {
-  SkyDocsAnchorLink
-} from '../type-definitions/anchor-link';
+import { SkyDocsAnchorLink } from '../type-definitions/anchor-link';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyDocsDemoPageDomAdapterService implements OnDestroy {
-
   private get anchorLinks(): NodeListOf<HTMLAnchorElement> {
     return document.querySelectorAll('a.sky-docs-anchor-link');
   }
@@ -32,9 +21,7 @@ export class SkyDocsDemoPageDomAdapterService implements OnDestroy {
 
   private _anchorLinkClick = new Subject<SkyDocsAnchorLink>();
 
-  constructor(
-    private windowRef: SkyAppWindowRef
-  ) { }
+  constructor(private windowRef: SkyAppWindowRef) {}
 
   public ngOnDestroy(): void {
     this.removeClickEventListeners();
@@ -88,8 +75,7 @@ export class SkyDocsDemoPageDomAdapterService implements OnDestroy {
   private eventListener = (e: Event) => {
     e.preventDefault();
     this._anchorLinkClick.next({
-      href: (e.target as HTMLAnchorElement).href
+      href: (e.target as HTMLAnchorElement).href,
     });
-  }
-
+  };
 }

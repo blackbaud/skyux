@@ -2,7 +2,6 @@
  * The configuration for a given radio control.
  */
 export interface SkyDocsDemoControlPanelRadioChoice {
-
   /**
    * The text label of the radio.
    */
@@ -12,5 +11,4 @@ export interface SkyDocsDemoControlPanelRadioChoice {
    * The value of the radio.
    */
   value: any;
-
 }

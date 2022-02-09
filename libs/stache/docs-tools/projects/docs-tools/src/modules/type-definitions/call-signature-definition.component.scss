@@ -1,4 +1,4 @@
-@import "../../styles/mixins";
+@import '../../styles/mixins';
 
 .sky-docs-call-signature-definition-heading {
   @include sky-docs-tools-heading(4);
@@ -15,12 +15,11 @@
   th,
   td {
     padding: $sky-padding-even-default;
-    @include sky-border("row");
+    @include sky-border('row');
     vertical-align: top;
     text-align: left;
 
     ::ng-deep {
-
       &:first-child {
         .sky-code {
           display: inline-block;

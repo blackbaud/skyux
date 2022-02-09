@@ -1,9 +1,5 @@
 <div class="sky-docs-demo">
-  <div
-    aria-level="3"
-    class="sky-docs-demo-heading"
-    role="heading"
-  >
+  <div aria-level="3" class="sky-docs-demo-heading" role="heading">
     <span
       class="sky-section-heading"
       [attr.data-test-selector]="'sky-docs-demo-heading-text'"
@@ -11,13 +7,10 @@
       {{ heading || ('sky-docs-demo-heading' | skyLibResources) }}
     </span>
 
-    <div
-      class="sky-docs-demo-control-panel-wrapper"
-    >
-      <div
-        class="sky-docs-demo-control-panel-wrapper-header"
-      >
-        <button *ngIf="hasOptions"
+    <div class="sky-docs-demo-control-panel-wrapper">
+      <div class="sky-docs-demo-control-panel-wrapper-header">
+        <button
+          *ngIf="hasOptions"
           class="sky-btn"
           type="button"
           [attr.data-test-selector]="'sky-docs-demo-heading-button'"
@@ -26,9 +19,7 @@
           }"
           (click)="onToggleOptionsButtonClick()"
         >
-          <sky-icon
-            [icon]="toggleOptionsButtonIcon"
-          ></sky-icon>
+          <sky-icon [icon]="toggleOptionsButtonIcon"></sky-icon>
           <ng-container *ngIf="areOptionsVisible">
             {{ 'sky-docs-demo-toggle-button-off' | skyLibResources }}
           </ng-container>
@@ -37,9 +28,7 @@
           </ng-container>
         </button>
       </div>
-      <div
-        class="sky-docs-demo-control-panel-wrapper-body"
-      >
+      <div class="sky-docs-demo-control-panel-wrapper-body">
         <ng-container *ngIf="areOptionsVisible">
           <ng-container *ngTemplateOutlet="controlPanels"></ng-container>
         </ng-container>

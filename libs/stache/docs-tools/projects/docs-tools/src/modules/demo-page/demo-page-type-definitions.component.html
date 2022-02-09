@@ -1,64 +1,71 @@
 <ng-template [ngIf]="types">
-  <sky-docs-demo-page-section *ngIf="types.components.length"
+  <sky-docs-demo-page-section
+    *ngIf="types.components.length"
     heading="Components"
   >
-    <sky-docs-directive-definition *ngFor="let config of types.components"
+    <sky-docs-directive-definition
+      *ngFor="let config of types.components"
       [config]="config"
     ></sky-docs-directive-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.directives.length"
+  <sky-docs-demo-page-section
+    *ngIf="types.directives.length"
     heading="Directives"
   >
-    <sky-docs-directive-definition *ngFor="let config of types.directives"
+    <sky-docs-directive-definition
+      *ngFor="let config of types.directives"
       [config]="config"
     ></sky-docs-directive-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.pipes.length"
-    heading="Pipes"
-  >
-    <sky-docs-pipe-definition *ngFor="let config of types.pipes"
+  <sky-docs-demo-page-section *ngIf="types.pipes.length" heading="Pipes">
+    <sky-docs-pipe-definition
+      *ngFor="let config of types.pipes"
       [config]="config"
     ></sky-docs-pipe-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.services.length"
-    heading="Services"
-  >
-    <sky-docs-class-definition *ngFor="let config of types.services"
+  <sky-docs-demo-page-section *ngIf="types.services.length" heading="Services">
+    <sky-docs-class-definition
+      *ngFor="let config of types.services"
       [config]="config"
     ></sky-docs-class-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.classes.length"
-    heading="Classes"
-  >
-    <sky-docs-class-definition *ngFor="let config of types.classes"
+  <sky-docs-demo-page-section *ngIf="types.classes.length" heading="Classes">
+    <sky-docs-class-definition
+      *ngFor="let config of types.classes"
       [config]="config"
     ></sky-docs-class-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.interfaces.length"
+  <sky-docs-demo-page-section
+    *ngIf="types.interfaces.length"
     heading="Interfaces"
   >
-    <sky-docs-interface-definition *ngFor="let config of types.interfaces"
+    <sky-docs-interface-definition
+      *ngFor="let config of types.interfaces"
       [config]="config"
     ></sky-docs-interface-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.enumerations.length"
+  <sky-docs-demo-page-section
+    *ngIf="types.enumerations.length"
     heading="Enumerations"
   >
-    <sky-docs-enumeration-definition *ngFor="let config of types.enumerations"
+    <sky-docs-enumeration-definition
+      *ngFor="let config of types.enumerations"
       [config]="config"
     ></sky-docs-enumeration-definition>
   </sky-docs-demo-page-section>
 
-  <sky-docs-demo-page-section *ngIf="types.typeAliases.length"
+  <sky-docs-demo-page-section
+    *ngIf="types.typeAliases.length"
     heading="Type aliases"
   >
-    <sky-docs-type-alias-definition *ngFor="let config of types.typeAliases"
+    <sky-docs-type-alias-definition
+      *ngFor="let config of types.typeAliases"
       [config]="config"
     ></sky-docs-type-alias-definition>
   </sky-docs-demo-page-section>

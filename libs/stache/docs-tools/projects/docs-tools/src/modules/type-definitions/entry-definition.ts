@@ -3,7 +3,6 @@
  * @internal
  */
 export interface SkyDocsEntryDefinition {
-
   anchorId: string;
 
   codeExample?: string;
@@ -15,5 +14,4 @@ export interface SkyDocsEntryDefinition {
   description?: string;
 
   name: string;
-
 }

@@ -1,72 +1,62 @@
-<div *ngIf="properties"
-  class="sky-docs-property-definitions"
->
-  <table *ngIf="!isMobile else mobileTemplate"
-    class="sky-docs-table"
-  >
-    <tr
-      class="sky-docs-table-row"
-    >
+<div *ngIf="properties" class="sky-docs-property-definitions">
+  <table *ngIf="!isMobile; else mobileTemplate" class="sky-docs-table">
+    <tr class="sky-docs-table-row">
       <th
         class="sky-docs-table-column-header sky-docs-table-column-header-name"
       >
         {{ propertyType }}
       </th>
       <th
-        class="sky-docs-table-column-header sky-docs-table-column-header-description"
+        class="
+          sky-docs-table-column-header sky-docs-table-column-header-description
+        "
       >
         Description
       </th>
     </tr>
-    <tr *ngFor="let property of properties"
-      class="sky-docs-table-row"
-    >
+    <tr *ngFor="let property of properties" class="sky-docs-table-row">
       <td
-        class="sky-docs-table-cell sky-docs-property-definitions-table-cell-name"
+        class="
+          sky-docs-table-cell sky-docs-property-definitions-table-cell-name
+        "
       >
         <ng-template
           [ngTemplateOutlet]="nameTemplate"
-          [ngTemplateOutletContext]="{$implicit: property}"
+          [ngTemplateOutletContext]="{ $implicit: property }"
         ></ng-template>
       </td>
       <td
-        class="sky-docs-table-cell sky-docs-property-definitions-table-cell-description"
+        class="
+          sky-docs-table-cell
+          sky-docs-property-definitions-table-cell-description
+        "
       >
         <ng-template
           [ngTemplateOutlet]="descriptionTemplate"
-          [ngTemplateOutletContext]="{$implicit: property}"
+          [ngTemplateOutletContext]="{ $implicit: property }"
         ></ng-template>
       </td>
     </tr>
   </table>
 
   <ng-template #mobileTemplate>
-    <dl
-      class="sky-docs-property-definition-list"
-    >
-      <div *ngFor="let property of properties"
+    <dl class="sky-docs-property-definition-list">
+      <div
+        *ngFor="let property of properties"
         class="sky-docs-property-definition-list-item"
       >
-        <dt
-          class="sky-field-label"
-        >{{ propertyType }}</dt>
-        <dd
-          class="sky-docs-property-definitions-dd-name"
-        >
+        <dt class="sky-field-label">{{ propertyType }}</dt>
+        <dd class="sky-docs-property-definitions-dd-name">
           <ng-template
             [ngTemplateOutlet]="nameTemplate"
-            [ngTemplateOutletContext]="{$implicit: property}"
+            [ngTemplateOutletContext]="{ $implicit: property }"
           ></ng-template>
         </dd>
-        <dt
-          class="sky-field-label"
-        >Description</dt>
-        <dd
-          class="sky-docs-property-definitions-dd-description"
-        >
+        <dt class="sky-field-label">Description</dt>
+        <dd class="sky-docs-property-definitions-dd-description">
           <ng-template
             [ngTemplateOutlet]="descriptionTemplate"
-            [ngTemplateOutletContext]="{$implicit: property}"
+            [ngTemplateOutletContext]="{ $implicit: property }"
           ></ng-template>
         </dd>
       </div>
@@ -75,35 +65,63 @@
 </div>
 
 <ng-template let-property #nameTemplate>
-  <sky-code><span
-    [innerHtml]="property.formattedName | skyDocsTypeAnchorLinks:'no-code-tags'"
-  ></span></sky-code>
+  <sky-code
+    ><span
+      [innerHtml]="
+        property.formattedName | skyDocsTypeAnchorLinks: 'no-code-tags'
+      "
+    ></span
+  ></sky-code>
 </ng-template>
 
 <ng-template let-property #descriptionTemplate>
-  <div *ngIf="!property.isOptional && showOptionalStatus"
+  <div
+    *ngIf="!property.isOptional && showOptionalStatus"
     class="sky-docs-property-definition-label sky-text-danger"
-  >Required.</div>
-
-  <sky-docs-safe-html *ngIf="property.deprecationWarning !== undefined"
-    class="sky-docs-property-definitions-deprecation-warning"
-    [innerHtml]="deprecationWarningPrefix + property.deprecationWarning | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-  ></sky-docs-safe-html>
-
-  <sky-docs-safe-html *ngIf="property.description"
-    class="sky-docs-property-definitions-description"
-    [innerHtml]="property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
-  ></sky-docs-safe-html>
-
-  <div *ngIf="property.isOptional && showOptionalStatus"
-    class="sky-docs-property-definition-label sky-docs-property-definition-label-optional"
   >
-    Optional. <ng-container *ngIf="property.defaultValue">Default is <sky-code><span
-    [innerHtml]="property.defaultValue | skyDocsTypeAnchorLinks:'no-code-tags'"
-    ></span></sky-code>.</ng-container>
+    Required.
   </div>
 
-  <sky-docs-call-signature-definition *ngIf="property.callSignature"
+  <sky-docs-safe-html
+    *ngIf="property.deprecationWarning !== undefined"
+    class="sky-docs-property-definitions-deprecation-warning"
+    [innerHtml]="
+      deprecationWarningPrefix + property.deprecationWarning
+        | skyDocsTypeAnchorLinks
+        | skyDocsMarkdown
+    "
+  ></sky-docs-safe-html>
+
+  <sky-docs-safe-html
+    *ngIf="property.description"
+    class="sky-docs-property-definitions-description"
+    [innerHtml]="
+      property.description | skyDocsTypeAnchorLinks | skyDocsMarkdown
+    "
+  ></sky-docs-safe-html>
+
+  <div
+    *ngIf="property.isOptional && showOptionalStatus"
+    class="
+      sky-docs-property-definition-label
+      sky-docs-property-definition-label-optional
+    "
+  >
+    Optional.
+    <ng-container *ngIf="property.defaultValue"
+      >Default is
+      <sky-code
+        ><span
+          [innerHtml]="
+            property.defaultValue | skyDocsTypeAnchorLinks: 'no-code-tags'
+          "
+        ></span></sky-code
+      >.</ng-container
+    >
+  </div>
+
+  <sky-docs-call-signature-definition
+    *ngIf="property.callSignature"
     [config]="property.callSignature"
   ></sky-docs-call-signature-definition>
 </ng-template>

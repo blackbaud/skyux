@@ -1,14 +1,8 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  SkyDocsAnchorLinkConfig
-} from './anchor-link-service-config';
+import { SkyDocsAnchorLinkConfig } from './anchor-link-service-config';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 /**
  * Finds any type name that is NOT surrounded by alpha-numeric (and '>', '<', '.') characters.
@@ -20,19 +14,19 @@ import {
  *    Only the type name should be processed as a link.
  */
 function createRegex(keyword: string): RegExp {
-  return new RegExp(`(^|[^a-zA-Z0-9>.[/])(${keyword})(\\.\\w+)?(?=[^a-zA-Z0-9<]+|$)`, 'g');
+  return new RegExp(
+    `(^|[^a-zA-Z0-9>.[/])(${keyword})(\\.\\w+)?(?=[^a-zA-Z0-9<]+|$)`,
+    'g'
+  );
 }
 
 @Injectable({
-  providedIn: 'any'
+  providedIn: 'any',
 })
 export class SkyDocsAnchorLinkService {
+  private anchorIds: { [_: string]: string };
 
-  private anchorIds: {[_: string]: string};
-
-  constructor(
-    typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider
-  ) {
+  constructor(typeDefinitionsProvider: SkyDocsTypeDefinitionsProvider) {
     this.anchorIds = typeDefinitionsProvider.anchorIds;
   }
 
@@ -40,7 +34,10 @@ export class SkyDocsAnchorLinkService {
    * Formats known type names with `<code>` tags and wraps them with anchor tags, linking to the appropriate type.
    * If the content is already contained within a `<code>` tag, set `codeFormat = false` to prevent extra `<code>` tags from being added.
    */
-  public applyTypeAnchorLinks(content: string, config?: SkyDocsAnchorLinkConfig): string {
+  public applyTypeAnchorLinks(
+    content: string,
+    config?: SkyDocsAnchorLinkConfig
+  ): string {
     if (!this.anchorIds || !content) {
       return content;
     }
@@ -48,7 +45,7 @@ export class SkyDocsAnchorLinkService {
     // Set default for code formatting.
     if (!config) {
       config = {
-        applyCodeFormatting: true
+        applyCodeFormatting: true,
       };
     }
 
@@ -67,11 +64,16 @@ export class SkyDocsAnchorLinkService {
         matches = regex.exec(content);
         if (matches) {
           const anchorId = this.anchorIds[typeName];
-          const anchorHtml = '<a class="sky-docs-anchor-link" href="#' + anchorId + '">' + typeName + '</a>';
+          const anchorHtml =
+            '<a class="sky-docs-anchor-link" href="#' +
+            anchorId +
+            '">' +
+            typeName +
+            '</a>';
 
           // Group 3 of the regex pattern captures type properties like Foo.bar.
           // If these are found, they do not need hyperlinked, but add them to the encapsulating code tag.
-          const typeProperty = (matches[3] ? matches[3] : '');
+          const typeProperty = matches[3] ? matches[3] : '';
 
           let replacement;
           if (config.applyCodeFormatting) {
@@ -82,10 +84,16 @@ export class SkyDocsAnchorLinkService {
 
           // Regex Positive lookbehinds aren't supported in IE11 and Safari, so we have to check if the match has a starting extra character
           // (usually whitespace " Foo"), and then modify the starting/ending indexes to account for the extra character.
-          const isMatchExact = matches[0].substr(0, typeName.length) === typeName;
+          const isMatchExact =
+            matches[0].substr(0, typeName.length) === typeName;
           const startIndex = isMatchExact ? matches.index : matches.index + 1;
-          const endIndex = isMatchExact ? matches[0].length : matches[0].length - 1;
-          let contentWithCodeTags = content.substr(0, startIndex) + replacement + content.substr(startIndex + endIndex);
+          const endIndex = isMatchExact
+            ? matches[0].length
+            : matches[0].length - 1;
+          let contentWithCodeTags =
+            content.substr(0, startIndex) +
+            replacement +
+            content.substr(startIndex + endIndex);
 
           content = contentWithCodeTags;
           counter++;
@@ -117,5 +125,4 @@ export class SkyDocsAnchorLinkService {
     const regexp = new RegExp(`\`(${typeName})\``, 'g');
     return content.replace(regexp, typeName);
   }
-
 }

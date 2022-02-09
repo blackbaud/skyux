@@ -4,28 +4,18 @@ import {
   Component,
   ContentChildren,
   Input,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  SkyDocsSourceCodeService
-} from '../source-code/source-code.service';
+import { SkyDocsSourceCodeService } from '../source-code/source-code.service';
 
-import {
-  SkyDocsCodeExamplesEditorService
-} from './code-examples-editor.service';
+import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
 
-import {
-  SkyDocsCodeExampleComponent
-} from './code-example.component';
+import { SkyDocsCodeExampleComponent } from './code-example.component';
 
-import {
-  SkyDocsCodeExampleModuleDependencies
-} from './code-example-module-dependencies';
+import { SkyDocsCodeExampleModuleDependencies } from './code-example-module-dependencies';
 
-import {
-  SkyDocsCodeExample
-} from './code-example';
+import { SkyDocsCodeExample } from './code-example';
 
 /**
  * Wraps all code examples and handles their configuration and styles.
@@ -46,10 +36,9 @@ import {
   selector: 'sky-docs-code-examples',
   templateUrl: './code-examples.component.html',
   styleUrls: ['./code-examples.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsCodeExamplesComponent implements AfterContentInit {
-
   /**
    * Any extra NPM package dependencies that are needed for the editor to run the code example.
    * @default {}
@@ -76,11 +65,10 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
   constructor(
     private editorService: SkyDocsCodeExamplesEditorService,
     private sourceCodeService: SkyDocsSourceCodeService
-  ) { }
+  ) {}
 
   public ngAfterContentInit(): void {
     this.codeExampleComponents.forEach((component) => {
-
       // Make sure the source code path ends in a slash, so that similarly named directories aren't included.
       let sourceCodePath = component.sourceCodePath;
       if (sourceCodePath.slice(-1) !== '/') {
@@ -90,7 +78,9 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
       const sourceCode = this.sourceCodeService.getSourceCode(sourceCodePath);
 
       if (!sourceCode.length) {
-        console.warn(`Source code not found at location "${sourceCodePath}" for "${component.heading}"!`);
+        console.warn(
+          `Source code not found at location "${sourceCodePath}" for "${component.heading}"!`
+        );
         return;
       }
 
@@ -99,7 +89,7 @@ export class SkyDocsCodeExamplesComponent implements AfterContentInit {
         packageDependencies: this.packageDependencies,
         sourceCode,
         stylesheets: this.stylesheets,
-        theme: component.theme
+        theme: component.theme,
       });
     });
   }

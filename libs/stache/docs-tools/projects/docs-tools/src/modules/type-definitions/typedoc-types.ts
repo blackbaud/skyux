@@ -1,25 +1,26 @@
 export interface TypeDocComment {
-
   shortText?: string;
 
   tags?: {
     param?: string;
-    tag: 'default' | 'defaultValue' | 'deprecated' | 'example' | 'param' | 'required';
+    tag:
+      | 'default'
+      | 'defaultValue'
+      | 'deprecated'
+      | 'example'
+      | 'param'
+      | 'required';
     text: string;
   }[];
 
   text?: string;
-
 }
 
 export interface TypeDocSource {
-
   fileName: string;
-
 }
 
 export interface TypeDocSignature {
-
   comment?: TypeDocComment;
 
   kindString?: 'Call signature' | 'Index signature';
@@ -31,7 +32,6 @@ export interface TypeDocSignature {
   type: TypeDocType;
 
   typeParameter?: TypeDocTypeParameter[];
-
 }
 
 export interface TypeDocTypeParameter {
@@ -41,7 +41,6 @@ export interface TypeDocTypeParameter {
 }
 
 export interface TypeDocType {
-
   constraint?: {
     name: string;
   };
@@ -62,18 +61,25 @@ export interface TypeDocType {
     name: string;
   };
 
-  type?: 'array' | 'intrinsic' | 'reference' | 'reflection' | 'stringLiteral' | 'typeParameter' | 'typeOperator' | 'union' | 'unknown';
+  type?:
+    | 'array'
+    | 'intrinsic'
+    | 'reference'
+    | 'reflection'
+    | 'stringLiteral'
+    | 'typeParameter'
+    | 'typeOperator'
+    | 'union'
+    | 'unknown';
 
   typeArguments?: TypeDocType[];
 
   types?: TypeDocType[];
 
   value?: string;
-
 }
 
 export interface TypeDocParameter {
-
   comment?: TypeDocComment;
 
   defaultValue?: string;
@@ -87,11 +93,9 @@ export interface TypeDocParameter {
   flags?: {
     isOptional?: boolean;
   };
-
 }
 
 export interface TypeDocEntryChild {
-
   comment?: TypeDocComment;
 
   decorators?: {
@@ -108,7 +112,14 @@ export interface TypeDocEntryChild {
     isOptional?: boolean;
   };
 
-  kindString?: 'Accessor' | 'Call signature' | 'Index signature' | 'Enumeration member' | 'Parameter' | 'Property' | 'Method';
+  kindString?:
+    | 'Accessor'
+    | 'Call signature'
+    | 'Index signature'
+    | 'Enumeration member'
+    | 'Parameter'
+    | 'Property'
+    | 'Method';
 
   getSignature?: {
     comment: TypeDocComment;
@@ -133,7 +144,6 @@ export interface TypeDocEntryChild {
 }
 
 export interface TypeDocEntry {
-
   anchorId?: string;
 
   children?: TypeDocEntryChild[];
@@ -159,5 +169,4 @@ export interface TypeDocEntry {
   type?: TypeDocType;
 
   typeParameter?: TypeDocTypeParameter[];
-
 }

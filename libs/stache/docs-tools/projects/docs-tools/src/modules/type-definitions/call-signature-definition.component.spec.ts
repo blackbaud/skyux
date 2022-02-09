@@ -2,49 +2,38 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  CallSignatureDefinitionFixtureComponent
-} from './fixtures/call-signature-definition.component.fixture';
+import { CallSignatureDefinitionFixtureComponent } from './fixtures/call-signature-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Call signature definition', () => {
-
   let fixture: ComponentFixture<CallSignatureDefinitionFixtureComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
-        }
-      ]
+                name: 'FooUser',
+              },
+            ],
+          },
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(CallSignatureDefinitionFixtureComponent);
@@ -56,7 +45,9 @@ describe('Call signature definition', () => {
 
   it('should set defaults', () => {
     fixture.detectChanges();
-    expect(fixture.componentInstance.callSignatureDefinitionRef.config).toBeUndefined();
+    expect(
+      fixture.componentInstance.callSignatureDefinitionRef.config
+    ).toBeUndefined();
   });
 
   it('should add links to types for method return types', fakeAsync(() => {
@@ -64,8 +55,8 @@ describe('Call signature definition', () => {
       parameters: [],
       returnType: {
         type: 'reference',
-        name: 'FooUser'
-      }
+        name: 'FooUser',
+      },
     };
 
     fixture.detectChanges();
@@ -82,19 +73,21 @@ describe('Call signature definition', () => {
 
   it('should add links to types within parameter descriptions', fakeAsync(() => {
     fixture.componentInstance.config = {
-      parameters: [{
-        description: 'The FooUser to save.',
-        name: 'saveUser',
-        isOptional: true,
-        type: {
-          type: 'reference',
-          name: 'FooUser'
-        }
-      }],
+      parameters: [
+        {
+          description: 'The FooUser to save.',
+          name: 'saveUser',
+          isOptional: true,
+          type: {
+            type: 'reference',
+            name: 'FooUser',
+          },
+        },
+      ],
       returnType: {
         type: 'intrinsic',
-        name: 'void'
-      }
+        name: 'void',
+      },
     };
 
     fixture.detectChanges();
@@ -108,5 +101,4 @@ describe('Call signature definition', () => {
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
-
 });

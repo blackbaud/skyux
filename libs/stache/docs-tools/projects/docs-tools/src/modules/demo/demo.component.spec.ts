@@ -1,59 +1,46 @@
-import {
-  DebugElement
-} from '@angular/core';
+import { DebugElement } from '@angular/core';
 
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { By } from '@angular/platform-browser';
 
-import {
-  SkyAuthTokenProvider
-} from '@skyux/http';
+import { SkyAuthTokenProvider } from '@skyux/http';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  DemoFixturesModule
-} from './fixtures/demo-fixtures.module';
+import { DemoFixturesModule } from './fixtures/demo-fixtures.module';
 
-import {
-  DemoFixtureComponent
-} from './fixtures/demo.component.fixture';
+import { DemoFixtureComponent } from './fixtures/demo.component.fixture';
 
-import {
-  DemoAuthTokenMockProvider
-} from './fixtures/demo-auth-token-mock-provider';
+import { DemoAuthTokenMockProvider } from './fixtures/demo-auth-token-mock-provider';
 
 describe('Demo component', () => {
-
   let fixture: ComponentFixture<DemoFixtureComponent>;
 
   function showControlPanel(): void {
-    const headingButton = fixture.nativeElement.querySelector('[data-test-selector="sky-docs-demo-heading-button"]');
+    const headingButton = fixture.nativeElement.querySelector(
+      '[data-test-selector="sky-docs-demo-heading-button"]'
+    );
     headingButton.click();
     fixture.detectChanges();
   }
 
   function resetControlPanel(): void {
-    const resetButton = fixture.nativeElement.querySelector('[data-test-selector="sky-docs-demo-control-panel-reset-button"]');
+    const resetButton = fixture.nativeElement.querySelector(
+      '[data-test-selector="sky-docs-demo-control-panel-reset-button"]'
+    );
     resetButton.click();
     fixture.detectChanges();
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        DemoFixturesModule
-      ]
+      imports: [DemoFixturesModule],
     });
 
     fixture = TestBed.createComponent(DemoFixtureComponent);
@@ -73,14 +60,18 @@ describe('Demo component', () => {
   it('should align contents left or center', () => {
     fixture.componentInstance.alignContents = 'center';
     fixture.detectChanges();
-    const viewport = fixture.nativeElement.querySelector('.sky-docs-demo-viewport');
+    const viewport = fixture.nativeElement.querySelector(
+      '.sky-docs-demo-viewport'
+    );
     expect(viewport).toHaveCssClass('sky-docs-demo-viewport-align-center');
   });
 
   it('should allow for custom headings', () => {
     fixture.detectChanges();
 
-    const headingElement = fixture.nativeElement.querySelector('[data-test-selector="sky-docs-demo-heading-text"]');
+    const headingElement = fixture.nativeElement.querySelector(
+      '[data-test-selector="sky-docs-demo-heading-text"]'
+    );
 
     fixture.componentInstance.heading = undefined;
     fixture.detectChanges();
@@ -95,7 +86,10 @@ describe('Demo component', () => {
 
   describe('control panel component', () => {
     it('should expose a `reset` emitter', () => {
-      const spy = spyOn(fixture.componentInstance, 'onDemoReset').and.callThrough();
+      const spy = spyOn(
+        fixture.componentInstance,
+        'onDemoReset'
+      ).and.callThrough();
       fixture.detectChanges();
 
       showControlPanel();
@@ -108,8 +102,12 @@ describe('Demo component', () => {
       fixture.detectChanges();
       tick();
 
-      const demoControlPanelComponentRef = fixture.componentInstance.demoControlPanelComponentRef;
-      const unsubscribeSpy = spyOn(demoControlPanelComponentRef['eventListeners'], 'unsubscribe').and.callThrough();
+      const demoControlPanelComponentRef =
+        fixture.componentInstance.demoControlPanelComponentRef;
+      const unsubscribeSpy = spyOn(
+        demoControlPanelComponentRef['eventListeners'],
+        'unsubscribe'
+      ).and.callThrough();
 
       fixture.componentInstance.changeFormControls();
       fixture.detectChanges();
@@ -119,7 +117,10 @@ describe('Demo component', () => {
     }));
 
     it('should emit value changes for controls', fakeAsync(() => {
-      const selectionSpy = spyOn(fixture.componentInstance, 'onDemoSelectionChange').and.callThrough();
+      const selectionSpy = spyOn(
+        fixture.componentInstance,
+        'onDemoSelectionChange'
+      ).and.callThrough();
 
       fixture.detectChanges();
       tick();
@@ -133,7 +134,7 @@ describe('Demo component', () => {
       expect(selectionSpy.calls.allArgs()).toEqual([
         [{ backgroundColor: '#f00' }],
         [{ user: { name: 'John' } }],
-        [{ showIcon: true }]
+        [{ showIcon: true }],
       ]);
 
       selectionSpy.calls.reset();
@@ -142,7 +143,10 @@ describe('Demo component', () => {
       fixture.nativeElement.querySelector('input[value="#0f0"]').click();
 
       // Click the "Jane" radio input.
-      fixture.nativeElement.querySelectorAll('input[name="user"]').item(1).click();
+      fixture.nativeElement
+        .querySelectorAll('input[name="user"]')
+        .item(1)
+        .click();
 
       // Click the "Show icon" checkbox.
       fixture.nativeElement.querySelector('input[type="checkbox"]').click();
@@ -153,7 +157,7 @@ describe('Demo component', () => {
       expect(selectionSpy.calls.allArgs()).toEqual([
         [{ backgroundColor: '#0f0' }],
         [{ user: { name: 'Jane' } }],
-        [{ showIcon: false }]
+        [{ showIcon: false }],
       ]);
 
       selectionSpy.calls.reset();
@@ -167,7 +171,7 @@ describe('Demo component', () => {
       expect(selectionSpy.calls.allArgs()).toEqual([
         [{ showIcon: true }],
         [{ backgroundColor: '#f00' }],
-        [{ user: { name: 'John' } }]
+        [{ user: { name: 'John' } }],
       ]);
     }));
   });

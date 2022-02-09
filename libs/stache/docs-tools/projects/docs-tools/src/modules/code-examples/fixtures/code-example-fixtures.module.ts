@@ -1,40 +1,27 @@
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyDocsCodeExamplesModule
-} from '../code-examples.module';
+import { SkyDocsCodeExamplesModule } from '../code-examples.module';
 
-import {
-  CodeExampleFixtureComponent
-} from './code-example-fixture.component';
+import { CodeExampleFixtureComponent } from './code-example-fixture.component';
 
 import { CodeExamplesFixtureComponent } from './code-examples-fixture.component';
 
-import {
-  CodeExampleWithThemeServiceFixtureComponent
-} from './code-example-with-theme-service-fixture.component';
+import { CodeExampleWithThemeServiceFixtureComponent } from './code-example-with-theme-service-fixture.component';
 
 @NgModule({
-  imports: [
-    NoopAnimationsModule,
-    SkyDocsCodeExamplesModule
-  ],
+  imports: [NoopAnimationsModule, SkyDocsCodeExamplesModule],
   exports: [
     CodeExampleFixtureComponent,
     CodeExamplesFixtureComponent,
-    CodeExampleWithThemeServiceFixtureComponent
+    CodeExampleWithThemeServiceFixtureComponent,
   ],
   declarations: [
     CodeExampleFixtureComponent,
     CodeExamplesFixtureComponent,
-    CodeExampleWithThemeServiceFixtureComponent
+    CodeExampleWithThemeServiceFixtureComponent,
   ],
-  providers: []
+  providers: [],
 })
-export class CodeExampleFixturesModule { }
+export class CodeExampleFixturesModule {}

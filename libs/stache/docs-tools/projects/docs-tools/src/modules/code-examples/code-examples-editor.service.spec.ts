@@ -1,27 +1,19 @@
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import StackBlitzSDK from '@stackblitz/sdk';
 
-import {
-  SkyDocsCodeExample
-} from './code-example';
+import { SkyDocsCodeExample } from './code-example';
 
-import {
-  SkyDocsCodeExamplesEditorService
-} from './code-examples-editor.service';
+import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
 
-import {
-  SkyDocsCodeExampleTheme
-} from './code-example-theme';
+import { SkyDocsCodeExampleTheme } from './code-example-theme';
 
 //#region helpers
 const moduleImports: string[] = [
   'BrowserAnimationsModule',
   'FormsModule',
   'ReactiveFormsModule',
-  'RouterModule.forRoot([])'
+  'RouterModule.forRoot([])',
 ];
 
 const sampleModuleContents: string = `
@@ -97,15 +89,15 @@ const codeExample: SkyDocsCodeExample = {
     {
       fileName: 'foo.component.ts',
       filePath: './',
-      rawContents: sampleComponentContents
+      rawContents: sampleComponentContents,
     },
     {
       fileName: 'foo.module.ts',
       filePath: './',
-      rawContents: sampleModuleContents
-    }
+      rawContents: sampleModuleContents,
+    },
   ],
-  theme: SkyDocsCodeExampleTheme.Default
+  theme: SkyDocsCodeExampleTheme.Default,
 };
 
 const codeExampleNoExports: SkyDocsCodeExample = {
@@ -115,10 +107,10 @@ const codeExampleNoExports: SkyDocsCodeExample = {
     {
       fileName: 'foo.module.ts',
       filePath: './',
-      rawContents: sampleModuleContentsNoExports
-    }
+      rawContents: sampleModuleContentsNoExports,
+    },
   ],
-  theme: SkyDocsCodeExampleTheme.Default
+  theme: SkyDocsCodeExampleTheme.Default,
 };
 
 const codeExampleMultipleExports: SkyDocsCodeExample = {
@@ -128,10 +120,10 @@ const codeExampleMultipleExports: SkyDocsCodeExample = {
     {
       fileName: 'foo.module.ts',
       filePath: './',
-      rawContents: sampleModuleContentsMultipleExports
-    }
+      rawContents: sampleModuleContentsMultipleExports,
+    },
   ],
-  theme: SkyDocsCodeExampleTheme.Default
+  theme: SkyDocsCodeExampleTheme.Default,
 };
 //#endregion
 
@@ -151,8 +143,12 @@ describe('Code examples editor service', () => {
 
     expect(stackblitzSpy).toHaveBeenCalled();
     const spyArgs = stackblitzSpy.calls.mostRecent().args;
-    expect(spyArgs[0].files['src/app/app.component.ts']).toContain(`SkyTheme.presets['modern']`);
-    expect(spyArgs[0].files['src/app/app.module.ts']).toContain('SkyThemeService');
+    expect(spyArgs[0].files['src/app/app.component.ts']).toContain(
+      `SkyTheme.presets['modern']`
+    );
+    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(
+      'SkyThemeService'
+    );
   });
 
   it('should set SkyTheme to default when theme property is set to Default', () => {
@@ -162,8 +158,12 @@ describe('Code examples editor service', () => {
 
     expect(stackblitzSpy).toHaveBeenCalled();
     const spyArgs = stackblitzSpy.calls.mostRecent().args;
-    expect(spyArgs[0].files['src/app/app.component.ts']).toContain(`SkyTheme.presets['default']`);
-    expect(spyArgs[0].files['src/app/app.module.ts']).toContain('SkyThemeService');
+    expect(spyArgs[0].files['src/app/app.component.ts']).toContain(
+      `SkyTheme.presets['default']`
+    );
+    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(
+      'SkyThemeService'
+    );
   });
 
   it('should add modules from code example to app.module.ts', () => {
@@ -173,8 +173,12 @@ describe('Code examples editor service', () => {
 
     expect(stackblitzSpy).toHaveBeenCalled();
     const spyArgs = stackblitzSpy.calls.mostRecent().args;
-    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(`import {\n  SampleDemoModule\n} from './foo.module';`);
-    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(`imports: [\n    ${moduleImports.join(',\n    ')}`);
+    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(
+      `import {\n  SampleDemoModule\n} from './foo.module';`
+    );
+    expect(spyArgs[0].files['src/app/app.module.ts']).toContain(
+      `imports: [\n    ${moduleImports.join(',\n    ')}`
+    );
   });
 
   it('should throw an error if code example module does not have any exports', () => {
@@ -188,7 +192,9 @@ describe('Code examples editor service', () => {
       service.launchEditor(codeExampleMultipleExports);
       fail('Expected test to throw error!');
     } catch (error) {
-      expect(error).toContain('You may only export a single component from the code example module');
+      expect(error).toContain(
+        'You may only export a single component from the code example module'
+      );
     }
   });
 
@@ -200,7 +206,7 @@ describe('Code examples editor service', () => {
         {
           fileName: 'foo.component.ts',
           filePath: './',
-          rawContents: sampleComponentContents
+          rawContents: sampleComponentContents,
         },
         {
           fileName: 'foo.module.ts',
@@ -228,10 +234,10 @@ describe('Code examples editor service', () => {
               ]
             })
             export class SampleDemoModule {}
-            ` // ^ Important, add trailing comma after component listed in exports.
-        }
+            `, // ^ Important, add trailing comma after component listed in exports.
+        },
       ],
-      theme: SkyDocsCodeExampleTheme.Default
+      theme: SkyDocsCodeExampleTheme.Default,
     };
 
     expect(() => service.launchEditor(example)).not.toThrow();
@@ -239,7 +245,7 @@ describe('Code examples editor service', () => {
 
   it('should convert "*" versions of SKY UX packages to "^5"', () => {
     codeExample.packageDependencies = {
-      '@skyux/foobar': '*'
+      '@skyux/foobar': '*',
     };
 
     service.launchEditor(codeExample);
@@ -267,10 +273,10 @@ describe('Code examples editor service', () => {
       '@skyux/popovers': '^5.0.0-0',
       '@skyux/router': '^5.0.0-0',
       '@skyux/theme': '^5.0.0-0',
-      'rxjs': '^6.6.0',
-      'tslib': '^2.3.0',
+      rxjs: '^6.6.0',
+      tslib: '^2.3.0',
       'zone.js': '~0.11.4',
-      '@skyux/foobar': '^5.0.0-0' // <-- Important
+      '@skyux/foobar': '^5.0.0-0', // <-- Important
     });
   });
 
@@ -280,10 +286,6 @@ describe('Code examples editor service', () => {
     expect(
       JSON.parse(stackblitzSpy.calls.mostRecent().args[0].files['angular.json'])
         .projects.demo.architect.build.options.styles
-    ).toEqual([
-      '@global/foo/css/styles.css',
-      'src/styles.scss'
-    ]);
+    ).toEqual(['@global/foo/css/styles.css', 'src/styles.scss']);
   });
-
 });

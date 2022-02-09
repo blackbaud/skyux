@@ -4,16 +4,12 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
 
-import {
-  SkyDocsDemoControlPanelChange
-} from './demo-control-panel-change';
+import { SkyDocsDemoControlPanelChange } from './demo-control-panel-change';
 
 /**
  * Renders a checkbox control within the control panel.
@@ -30,10 +26,11 @@ import {
 @Component({
   selector: 'sky-docs-demo-control-panel-checkbox',
   templateUrl: './demo-control-panel-checkbox.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestroy {
-
+export class SkyDocsDemoControlPanelCheckboxComponent
+  implements OnInit, OnDestroy
+{
   /**
    * The checked status of the checkbox.
    * @default false
@@ -79,9 +76,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
 
   private _checked: boolean;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef
-  ) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     setTimeout(() => {
@@ -108,8 +103,7 @@ export class SkyDocsDemoControlPanelCheckboxComponent implements OnInit, OnDestr
 
   private notifyChange(): void {
     this.selectionChange.next({
-      [this.propertyName]: this.checked
+      [this.propertyName]: this.checked,
     });
   }
-
 }

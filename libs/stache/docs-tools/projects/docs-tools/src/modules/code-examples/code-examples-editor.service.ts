@@ -1,38 +1,27 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import StackBlitzSDK from '@stackblitz/sdk';
 
 import {
   OpenOptions as StackBlitzOpenOptions,
-  Project as StackBlitzProject
+  Project as StackBlitzProject,
 } from '@stackblitz/sdk/typings/interfaces';
 
-import {
-  SkyDocsSourceCodeFile
-} from '../source-code/source-code-file';
+import { SkyDocsSourceCodeFile } from '../source-code/source-code-file';
 
-import {
-  SkyDocsCodeExampleModuleDependencies
-} from './code-example-module-dependencies';
+import { SkyDocsCodeExampleModuleDependencies } from './code-example-module-dependencies';
 
-import {
-  SkyDocsCodeExampleTheme
-} from './code-example-theme';
+import { SkyDocsCodeExampleTheme } from './code-example-theme';
 
-import {
-  SkyDocsCodeExample
-} from './code-example';
+import { SkyDocsCodeExample } from './code-example';
 
 /**
  * @internal
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SkyDocsCodeExamplesEditorService {
-
   public launchEditor(codeExample: SkyDocsCodeExample): void {
     const project = this.getPayload(codeExample);
     const options: StackBlitzOpenOptions = {};
@@ -67,9 +56,9 @@ export class SkyDocsCodeExamplesEditorService {
       '@skyux/popovers': skyuxVersion,
       '@skyux/router': skyuxVersion,
       '@skyux/theme': skyuxVersion,
-      'rxjs': '^6.6.0',
-      'tslib': '^2.3.0',
-      'zone.js': '~0.11.4'
+      rxjs: '^6.6.0',
+      tslib: '^2.3.0',
+      'zone.js': '~0.11.4',
     };
 
     const mergedDependencies = Object.assign(
@@ -84,7 +73,10 @@ export class SkyDocsCodeExamplesEditorService {
       /*istanbul ignore else*/
       if (mergedDependencies.hasOwnProperty(packageName)) {
         const version = mergedDependencies[packageName];
-        if (version === '*' && /^(@blackbaud\/skyux-lib-|@skyux)/.test(packageName)) {
+        if (
+          version === '*' &&
+          /^(@blackbaud\/skyux-lib-|@skyux)/.test(packageName)
+        ) {
           mergedDependencies[packageName] = skyuxVersion;
         }
       }
@@ -105,9 +97,9 @@ export class SkyDocsCodeExamplesEditorService {
       dependencies: mergedDependencies,
       settings: {
         compile: {
-          clearConsole: false
-        }
-      }
+          clearConsole: false,
+        },
+      },
     };
   }
 
@@ -119,7 +111,6 @@ export class SkyDocsCodeExamplesEditorService {
   ): {
     [path: string]: string;
   } {
-
     const srcPath = 'src/';
     const appPath = `${srcPath}app/`;
 
@@ -137,17 +128,17 @@ export class SkyDocsCodeExamplesEditorService {
       `import {\n  SkyAppLocaleProvider\n} from '@skyux/i18n';`,
       `import {\n  SkyThemeService\n} from '@skyux/theme';`,
       `import {\n  of as observableOf\n} from 'rxjs';`,
-      `import {\n  AppComponent\n} from './app.component';`
+      `import {\n  AppComponent\n} from './app.component';`,
     ];
 
     const moduleImports: string[] = [
       'BrowserAnimationsModule',
       'FormsModule',
       'ReactiveFormsModule',
-      'RouterModule.forRoot([])'
+      'RouterModule.forRoot([])',
     ];
 
-    const files: {[_: string]: string} = {};
+    const files: { [_: string]: string } = {};
 
     let appComponentTemplate = '';
 
@@ -160,16 +151,21 @@ export class SkyDocsCodeExamplesEditorService {
         const importPath = `./${this.getFilenameNoExtension(file.fileName)}`;
 
         const exportedComponent = this.getExportedComponent(file.rawContents);
-        const componentSelector = this.getComponentSelector(exportedComponent, sourceCode);
+        const componentSelector = this.getComponentSelector(
+          exportedComponent,
+          sourceCode
+        );
 
         appComponentTemplate += `<${componentSelector}></${componentSelector}>`;
 
         moduleImports.push(moduleName);
-        moduleImportStatements.push(`import {\n  ${moduleName}\n} from '${importPath}';`);
+        moduleImportStatements.push(
+          `import {\n  ${moduleName}\n} from '${importPath}';`
+        );
       }
     });
 
-      files[`${appPath}app.component.ts`] = `${banner}
+    files[`${appPath}app.component.ts`] = `${banner}
 import {
   Component,
   Renderer2
@@ -193,7 +189,9 @@ export class AppComponent {
     renderer?: Renderer2
   ) {
     const themeSettings = new SkyThemeSettings(
-      SkyTheme.presets['${theme === SkyDocsCodeExampleTheme.Modern ? 'modern' : 'default'}'],
+      SkyTheme.presets['${
+        theme === SkyDocsCodeExampleTheme.Modern ? 'modern' : 'default'
+      }'],
       SkyThemeMode.presets.light
     );
 
@@ -238,7 +236,11 @@ export class AppModule { }
   This is a workaround for a known bug that prevents external imports in CSS.
   https://github.com/stackblitz/core/issues/133
 -->
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />${theme === SkyDocsCodeExampleTheme.Modern ? `<link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/5.0.0/assets/css/skyux-icons.min.css" />` : ``}
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />${
+      theme === SkyDocsCodeExampleTheme.Modern
+        ? `<link rel="stylesheet" type="text/css" href="https://sky.blackbaudcdn.net/static/skyux-icons/5.0.0/assets/css/skyux-icons.min.css" />`
+        : ``
+    }
 
 <sky-demo-app>
   Loading...
@@ -269,13 +271,17 @@ import 'zone.js';
 `;
 
     files[`${srcPath}styles.scss`] = `@import '~@skyux/theme/css/sky';
-${theme === SkyDocsCodeExampleTheme.Modern ? `@import '~@skyux/theme/css/themes/modern/styles';` : ``}
+${
+  theme === SkyDocsCodeExampleTheme.Modern
+    ? `@import '~@skyux/theme/css/themes/modern/styles';`
+    : ``
+}
 body {
   background-color: #fff;
   margin: 15px;
 }`;
 
-    stylesheets.push("src/styles.scss");
+    stylesheets.push('src/styles.scss');
 
     files['angular.json'] = `{
   "projects": {
@@ -292,9 +298,13 @@ body {
   }
 }`;
 
-    files['package.json'] = JSON.stringify({
-      dependencies
-    }, undefined, 2);
+    files['package.json'] = JSON.stringify(
+      {
+        dependencies,
+      },
+      undefined,
+      2
+    );
 
     files['tsconfig.json'] = `{
   "compilerOptions": {
@@ -341,12 +351,14 @@ body {
 
     fragment = fragment.split(']')[0];
 
-    const components = fragment.split(',').filter(x => x);
+    const components = fragment.split(',').filter((x) => x);
 
     if (components.length > 1) {
-      throw 'You may only export a single component from the code example module' +
+      throw (
+        'You may only export a single component from the code example module' +
         `(we found ${components.length}: ${components.join(', ')}).` +
-        'Is it possible to create a new code example with the extra components?';
+        'Is it possible to create a new code example with the extra components?'
+      );
     }
 
     return components[0];
@@ -356,14 +368,12 @@ body {
     componentClassName: string,
     sourceCode: SkyDocsSourceCodeFile[]
   ): string {
-
     const found = sourceCode.find((file) => {
-      return (file.rawContents.indexOf(componentClassName) > -1);
+      return file.rawContents.indexOf(componentClassName) > -1;
     });
 
     const trimmed = found.rawContents.replace(/\s/g, '');
 
     return trimmed.split(`selector:'`)[1].split(`'`)[0];
   }
-
 }

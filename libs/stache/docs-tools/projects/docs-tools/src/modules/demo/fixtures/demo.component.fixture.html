@@ -1,7 +1,4 @@
-<sky-docs-demo
-  [alignContents]="alignContents"
-  [heading]="heading"
->
+<sky-docs-demo [alignContents]="alignContents" [heading]="heading">
   <sky-docs-demo-control-panel
     (reset)="onDemoReset()"
     (selectionChange)="onDemoSelectionChange($event)"
@@ -40,8 +37,6 @@
       'background-color': demoSettings.backgroundColor
     }"
   >
-    <i *ngIf="demoSettings.showIcon"
-      class="fa fa-trash"
-    ></i> Sample button
+    <i *ngIf="demoSettings.showIcon" class="fa fa-trash"></i> Sample button
   </button>
 </sky-docs-demo>

@@ -1,34 +1,18 @@
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyClipboardModule
-} from '@blackbaud/skyux-lib-clipboard';
+import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
 
-import {
-  SkyCodeModule
-} from '@blackbaud/skyux-lib-code-block';
+import { SkyCodeModule } from '@blackbaud/skyux-lib-code-block';
 
-import {
-  SkyHelpInlineModule
-} from '@skyux/indicators';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 
-import {
-  SkyDefinitionListModule
-} from '@skyux/layout';
+import { SkyDefinitionListModule } from '@skyux/layout';
 
-import {
-  SkyPopoverModule
-} from '@skyux/popovers';
+import { SkyPopoverModule } from '@skyux/popovers';
 
-import {
-  SkyDocsModuleInfoComponent
-} from './module-info.component';
+import { SkyDocsModuleInfoComponent } from './module-info.component';
 
 @NgModule({
   imports: [
@@ -37,13 +21,9 @@ import {
     SkyClipboardModule,
     SkyDefinitionListModule,
     SkyHelpInlineModule,
-    SkyPopoverModule
+    SkyPopoverModule,
   ],
-  declarations: [
-    SkyDocsModuleInfoComponent
-  ],
-  exports: [
-    SkyDocsModuleInfoComponent
-  ]
+  declarations: [SkyDocsModuleInfoComponent],
+  exports: [SkyDocsModuleInfoComponent],
 })
-export class SkyDocsModuleInfoModule { }
+export class SkyDocsModuleInfoModule {}

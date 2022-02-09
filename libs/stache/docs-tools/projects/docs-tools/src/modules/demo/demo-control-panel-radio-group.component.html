@@ -1,20 +1,14 @@
-<div
-  class="sky-demo-control-panel-radio-group"
->
+<div class="sky-demo-control-panel-radio-group">
   <strong *ngIf="heading">{{ heading }}</strong>
   <sky-radio-group
     [disabled]="disabled"
     [name]="propertyName"
     [ngModel]="value"
-    (ngModelChange)="onModelChange($event);"
+    (ngModelChange)="onModelChange($event)"
   >
-    <ul
-      class="sky-list-unstyled"
-    >
+    <ul class="sky-list-unstyled">
       <li *ngFor="let choice of choices">
-        <sky-radio
-          [value]="choice.value"
-        >
+        <sky-radio [value]="choice.value">
           <sky-radio-label>{{ choice.label }}</sky-radio-label>
         </sky-radio>
       </li>

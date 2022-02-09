@@ -4,21 +4,18 @@ import {
   Component,
   ContentChildren,
   Input,
-  QueryList
+  QueryList,
 } from '@angular/core';
 
-import {
-  SkyDocsDesignGuidelineThumbnailComponent
-} from './design-guideline-thumbnail.component';
+import { SkyDocsDesignGuidelineThumbnailComponent } from './design-guideline-thumbnail.component';
 
 @Component({
   selector: 'sky-docs-design-guideline',
   templateUrl: './design-guideline.component.html',
   styleUrls: ['./design-guideline.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDocsDesignGuidelineComponent implements AfterContentInit {
-
   @Input()
   public heading: string;
 
@@ -41,5 +38,4 @@ export class SkyDocsDesignGuidelineComponent implements AfterContentInit {
   public ngAfterContentInit(): void {
     this.hasThumbnails = !!this.thumbnails.length;
   }
-
 }

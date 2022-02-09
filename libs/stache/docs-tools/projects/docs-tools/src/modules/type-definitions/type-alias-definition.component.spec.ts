@@ -2,49 +2,38 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  TypeAliasDefinitionFixtureComponent
-} from './fixtures/type-alias-definition.component.fixture';
+import { TypeAliasDefinitionFixtureComponent } from './fixtures/type-alias-definition.component.fixture';
 
-import {
-  TypeDefinitionsFixturesModule
-} from './fixtures/type-definitions.module.fixture';
+import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
 
-import {
-  SkyDocsTypeDefinitionsProvider
-} from './type-definitions-provider';
+import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Type alias definition component', function () {
-
   let fixture: ComponentFixture<TypeAliasDefinitionFixtureComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TypeDefinitionsFixturesModule
-      ],
+      imports: [TypeDefinitionsFixturesModule],
       providers: [
         {
           provide: SkyDocsTypeDefinitionsProvider,
           useValue: {
             anchorIds: {
-              'FooUser': 'foo-user'
+              FooUser: 'foo-user',
             },
             typeDefinitions: [
               {
-                name: 'FooUser'
-              }
-            ]
-          }
-        }
-      ]
+                name: 'FooUser',
+              },
+            ],
+          },
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(TypeAliasDefinitionFixtureComponent);
@@ -56,7 +45,8 @@ describe('Type alias definition component', function () {
 
   it('should set defaults', () => {
     fixture.detectChanges();
-    const typeAliasDefinitionRef = fixture.componentInstance.typeAliasDefinitionRef;
+    const typeAliasDefinitionRef =
+      fixture.componentInstance.typeAliasDefinitionRef;
     expect(typeAliasDefinitionRef.config).toBeUndefined();
   });
 
@@ -69,10 +59,10 @@ describe('Type alias definition component', function () {
         callSignature: {
           returnType: {
             type: 'reference',
-            name: 'FooUser'
-          }
-        }
-      }
+            name: 'FooUser',
+          },
+        },
+      },
     };
 
     fixture.detectChanges();
@@ -86,5 +76,4 @@ describe('Type alias definition component', function () {
       '<a class="sky-docs-anchor-link" href="#foo-user">FooUser</a>'
     );
   }));
-
 });

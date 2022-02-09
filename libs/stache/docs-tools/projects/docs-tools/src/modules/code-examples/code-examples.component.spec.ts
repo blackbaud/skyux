@@ -12,18 +12,18 @@ const MOCK_SOURCE_CODE = [
   {
     fileName: 'foobar.component.ts',
     filePath: 'src/lib/modules/foobar.component.ts',
-    rawContents: 'FOO CONTENTS'
+    rawContents: 'FOO CONTENTS',
   },
   {
     fileName: 'foobar.component.html',
     filePath: 'src/lib/modules/foobar.component.html',
-    rawContents: 'FOO CONTENTS'
+    rawContents: 'FOO CONTENTS',
   },
   {
     fileName: 'foobar.component.scss',
     filePath: 'src/lib/modules/foobar.component.scss',
-    rawContents: 'FOO CONTENTS'
-  }
+    rawContents: 'FOO CONTENTS',
+  },
 ];
 
 class MockSourceCodeService {
@@ -43,15 +43,13 @@ describe('Code example component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CodeExampleFixturesModule
-      ],
+      imports: [CodeExampleFixturesModule],
       providers: [
         {
           provide: SkyDocsSourceCodeService,
-          useClass: MockSourceCodeService
+          useClass: MockSourceCodeService,
         },
-      ]
+      ],
     });
 
     fixture = TestBed.createComponent(CodeExamplesFixtureComponent);
@@ -62,7 +60,9 @@ describe('Code example component', () => {
   });
 
   function launchEditor() {
-    fixture.debugElement.nativeElement.querySelector('.sky-btn-default').click();
+    fixture.debugElement.nativeElement
+      .querySelector('.sky-btn-default')
+      .click();
   }
 
   it('should set defaults', () => {
@@ -75,12 +75,12 @@ describe('Code example component', () => {
       packageDependencies: {},
       sourceCode: MOCK_SOURCE_CODE,
       theme: SkyDocsCodeExampleTheme.Default,
-      stylesheets: undefined
+      stylesheets: undefined,
     });
   });
 
   it('should allow setting package dependencies', () => {
-    component.packageDependencies = {'foobar': 'latest'};
+    component.packageDependencies = { foobar: 'latest' };
 
     fixture.detectChanges();
 
@@ -89,11 +89,11 @@ describe('Code example component', () => {
     expect(editorService.launchEditor).toHaveBeenCalledWith({
       heading: 'Basic',
       packageDependencies: {
-        foobar: 'latest'
+        foobar: 'latest',
       },
       sourceCode: MOCK_SOURCE_CODE,
       theme: SkyDocsCodeExampleTheme.Default,
-      stylesheets: undefined
+      stylesheets: undefined,
     });
   });
 
@@ -109,7 +109,7 @@ describe('Code example component', () => {
       packageDependencies: {},
       sourceCode: MOCK_SOURCE_CODE,
       theme: SkyDocsCodeExampleTheme.Default,
-      stylesheets: ['styles.css']
+      stylesheets: ['styles.css'],
     });
   });
 });
