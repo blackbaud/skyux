@@ -1,3 +1,7 @@
+# 5.138.0 (2022-02-09)
+
+- `@skyux/indicators@5.3.0` [Release notes](https://github.com/blackbaud/skyux-indicators/blob/5.3.0/CHANGELOG.md)
+
 # 5.137.1 (2022-02-08)
 
 - `@skyux/i18n@5.0.2` [Release notes](https://github.com/blackbaud/skyux-i18n/blob/5.0.2/CHANGELOG.md)
