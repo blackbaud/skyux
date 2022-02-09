@@ -1,3 +1,7 @@
+# 5.3.0 (2022-02-09)
+
+- Added the expansion indicator component. [#207](https://github.com/blackbaud/skyux-indicators/pull/207)
+
 # 5.2.0 (2022-01-20)
 
 - Added the `ariaControls` and `ariaLabel` inputs to the chevron component. [#204](https://github.com/blackbaud/skyux-indicators/pull/204)
