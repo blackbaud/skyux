@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+/**
+ * Creates an accessible button that wraps the chevron icon.
+ * @internal
+ */
 @Component({
   selector: 'sky-chevron',
   styleUrls: ['./chevron.component.scss'],

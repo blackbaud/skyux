@@ -9,6 +9,7 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 import { SkyChevronComponent } from './chevron.component';
+import { SkyExpansionIndicatorModule } from '../expansion-indicator/expansion-indicator.module';
 
 @NgModule({
   declarations: [SkyChevronComponent],
@@ -17,6 +18,7 @@ import { SkyChevronComponent } from './chevron.component';
     SkyI18nModule,
     SkyIndicatorsResourcesModule,
     SkyThemeModule,
+    SkyExpansionIndicatorModule,
   ],
   exports: [SkyChevronComponent],
 })

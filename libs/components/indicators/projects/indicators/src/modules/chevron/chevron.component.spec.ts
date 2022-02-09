@@ -22,9 +22,13 @@ describe('Chevron component', () => {
     fixture = TestBed.createComponent(SkyChevronComponent);
   });
 
+  function getChevronEl(): HTMLElement {
+    return fixture.nativeElement.querySelector('.sky-chevron');
+  }
+
   function validateDirection(expectedDirection: string): void {
     const el = fixture.nativeElement;
-    const chevronEl = el.querySelector('.sky-chevron');
+    const chevronEl = getChevronEl();
 
     fixture.detectChanges();
 
@@ -35,7 +39,7 @@ describe('Chevron component', () => {
   }
 
   function clickChevron(el: any): void {
-    el.querySelector('.sky-chevron').click();
+    getChevronEl().click();
   }
 
   it('should change direction when the user clicks the chevron', () => {

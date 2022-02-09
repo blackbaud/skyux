@@ -2,6 +2,8 @@ export * from './modules/alert/alert.module';
 
 export * from './modules/chevron/chevron.module';
 
+export * from './modules/expansion-indicator/expansion-indicator.module';
+
 export * from './modules/help-inline/help-inline.module';
 
 export * from './modules/icon/icon-stack-item';
@@ -43,3 +45,4 @@ export { SkyTextHighlightDirective as λ11 } from './modules/text-highlight/text
 export { SkyTokenComponent as λ12 } from './modules/tokens/token.component';
 export { SkyTokensComponent as λ13 } from './modules/tokens/tokens.component';
 export { SkyWaitComponent as λ14 } from './modules/wait/wait.component';
+export { SkyExpansionIndicatorComponent as λ15 } from './modules/expansion-indicator/expansion-indicator.component';

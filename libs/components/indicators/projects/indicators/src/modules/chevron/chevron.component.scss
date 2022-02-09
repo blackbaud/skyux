@@ -12,6 +12,7 @@ button {
   flex-shrink: 0;
   height: $sky-context-menu-size;
   margin: 0;
+  padding: 0;
   overflow: hidden;
   width: $sky-context-menu-size;
   cursor: pointer;
@@ -20,82 +21,5 @@ button {
 
   &:hover .sky-chevron-part {
     border-color: darken($sky-text-color-icon-borderless, 20%);
-  }
-}
-
-.sky-chevron-part {
-  border-color: $sky-text-color-icon-borderless;
-  border-style: solid;
-  border-width: 3px 0 0 0;
-  display: inline-block;
-  height: 10px;
-  position: absolute;
-  top: 10px;
-  transition: transform $sky-transition-time-medium,
-    left $sky-transition-time-medium;
-  vertical-align: top;
-  width: 10px;
-}
-
-.sky-chevron-up {
-  .sky-chevron-left {
-    left: 7px;
-    transform: rotate(-45deg);
-  }
-
-  .sky-chevron-right {
-    left: 7px;
-    transform: rotate(45deg);
-  }
-}
-
-.sky-chevron-down {
-  .sky-chevron-left {
-    left: 2px;
-    transform: rotate(45deg);
-  }
-
-  .sky-chevron-right {
-    left: 12px;
-    transform: rotate(-45deg);
-  }
-}
-
-@include sky-theme-modern {
-  .sky-chevron {
-    height: 26px;
-    width: 26px;
-  }
-
-  .sky-chevron-part {
-    background: $sky-theme-modern-font-deemphasized-color;
-    border: none;
-    height: 2px;
-    width: 11px;
-    top: 13px;
-  }
-
-  .chevron-glyph-container {
-    transform: scale(0.68);
-    display: inline-block;
-    position: absolute;
-    top: 3.5px;
-    left: 4px;
-  }
-
-  .sky-chevron-left {
-    border-radius: 1px 0 0 1px;
-  }
-
-  .sky-chevron-right {
-    border-radius: 0 1px 1px 0;
-  }
-
-  .sky-chevron-left {
-    left: 4px;
-  }
-
-  .sky-chevron-right {
-    left: 10.5px;
   }
 }
