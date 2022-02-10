@@ -8,12 +8,14 @@
 }
 
 .sky-vertical-tabset-group-header {
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-
-  &:focus-visible {
-    @include sky-focus-outline;
+  button {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    border: none;
+    width: 100%;
+    text-align: left;
+    background: none;
   }
 }
 
@@ -22,7 +24,7 @@
   @include sky-border(light, top);
 }
 
-:host ::ng-deep .sky-vertical-tabset-group-header-chevron > button {
+:host ::ng-deep .sky-vertical-tabset-group-expansion-indicator > button {
   font-size: 14px !important;
 }
 
@@ -46,7 +48,7 @@
     position: relative;
   }
 
-  .sky-vertical-tabset-group-header-chevron {
+  .sky-vertical-tabset-group-expansion-indicator {
     position: absolute;
     top: 6px;
     right: 5px;

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
-  SkyChevronModule,
+  SkyExpansionIndicatorModule,
   SkyIconModule,
   SkyStatusIndicatorModule,
 } from '@skyux/indicators';
@@ -19,6 +19,7 @@ import { SkyVerticalTabComponent } from './vertical-tab.component';
 import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.component';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
+import { SkyIdModule } from '@skyux/core';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.servi
   ],
   imports: [
     CommonModule,
-    SkyChevronModule,
     SkyIconModule,
+    SkyIdModule,
+    SkyExpansionIndicatorModule,
     SkyStatusIndicatorModule,
     SkyTabsResourcesModule,
     SkyThemeModule,

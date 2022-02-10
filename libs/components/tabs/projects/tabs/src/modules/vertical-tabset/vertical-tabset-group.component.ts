@@ -9,8 +9,6 @@ import {
   QueryList,
 } from '@angular/core';
 
-import { animate, style, transition, trigger } from '@angular/animations';
-
 import { Subject } from 'rxjs';
 
 import { takeUntil } from 'rxjs/operators';
@@ -18,42 +16,14 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyVerticalTabComponent } from './vertical-tab.component';
 
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
+import { skyAnimationSlide } from '@skyux/animations';
 
 @Component({
   selector: 'sky-vertical-tabset-group',
   templateUrl: './vertical-tabset-group.component.html',
   styleUrls: ['./vertical-tabset-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('tabSlide', [
-      transition(':enter', [
-        style({
-          height: '0',
-          visibility: 'hidden',
-        }),
-        animate(
-          '150ms ease-in',
-          style({
-            height: '*',
-            visibility: 'visible',
-          })
-        ),
-      ]),
-      transition(':leave', [
-        style({
-          height: '*',
-          visibility: 'visible',
-        }),
-        animate(
-          '150ms ease-in',
-          style({
-            height: '0',
-            visibility: 'hidden',
-          })
-        ),
-      ]),
-    ]),
-  ],
+  animations: [skyAnimationSlide],
 })
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   /**
