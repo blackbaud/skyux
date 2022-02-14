@@ -1,3 +1,7 @@
+# 5.0.0.beta.11 (2022-02-14)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle interface methods, class method inputs, type aliases, and single accessor properties. [#197](https://github.com/blackbaud/skyux-docs-tools/pull/197)
+
 # 5.0.0-beta.10 (2022-02-04)
 
 - Removed an outdated reference to entry components. [#193](https://github.com/blackbaud/skyux-docs-tools/pull/193)
