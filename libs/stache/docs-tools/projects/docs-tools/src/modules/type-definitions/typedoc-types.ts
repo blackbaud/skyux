@@ -29,7 +29,9 @@ export interface TypeDocSignature {
 
   parameters?: TypeDocParameter[];
 
-  type: TypeDocType;
+  returnType?: TypeDocType;
+
+  type?: TypeDocType;
 
   typeParameter?: TypeDocTypeParameter[];
 }
@@ -44,6 +46,8 @@ export interface TypeDocType {
   constraint?: {
     name: string;
   };
+
+  callSignature?: TypeDocSignature;
 
   declaration?: {
     children?: TypeDocEntryChild[];

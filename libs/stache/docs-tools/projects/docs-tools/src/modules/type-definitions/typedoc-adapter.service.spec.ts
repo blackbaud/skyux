@@ -272,7 +272,40 @@ describe('TypeDoc adapter', () => {
       ]);
     });
 
-    it('should handle property accessors which have no comment data - sanity check', () => {
+    it('should handle `get` accessors which have no comment data - sanity check', () => {
+      entry.children = [
+        {
+          name: 'foo',
+          kindString: 'Accessor',
+          comment: {},
+          getSignature: [
+            {
+              name: '__get',
+              comment: {},
+              type: {
+                type: 'intrinsic',
+                name: 'number',
+              },
+            },
+          ],
+        },
+      ];
+
+      const def = adapter.toClassDefinition(entry);
+
+      expect(def.properties).toEqual([
+        {
+          isOptional: true,
+          name: 'foo',
+          type: {
+            type: 'intrinsic',
+            name: 'number',
+          },
+        },
+      ]);
+    });
+
+    it('should handle `set` accessors which have no comment data - sanity check', () => {
       entry.children = [
         {
           name: 'foo',
@@ -281,15 +314,7 @@ describe('TypeDoc adapter', () => {
           setSignature: [
             {
               name: '__set',
-              comment: {
-                shortText: 'The foo of the FooClass.',
-                tags: [
-                  {
-                    tag: 'default',
-                    text: '10\n',
-                  },
-                ],
-              },
+              comment: {},
               parameters: [
                 {
                   name: 'value',
@@ -424,6 +449,67 @@ describe('TypeDoc adapter', () => {
       ]);
     });
 
+    it('should handle properties with only `get` accessors', () => {
+      entry.children = [
+        {
+          name: 'foo',
+          kindString: 'Accessor',
+          comment: {
+            shortText: 'The foo of the FooClass.',
+            tags: [
+              {
+                tag: 'default',
+                text: '10\n',
+              },
+            ],
+          },
+          setSignature: [
+            {
+              name: '__set',
+              comment: {
+                shortText: 'The foo of the FooClass.',
+                tags: [
+                  {
+                    tag: 'default',
+                    text: '10\n',
+                  },
+                ],
+              },
+              type: {
+                type: 'intrinsic',
+                name: 'number',
+              },
+              parameters: [
+                {
+                  name: 'value',
+                  kindString: 'Parameter',
+                  type: {
+                    type: 'intrinsic',
+                    name: 'number',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      const def = adapter.toClassDefinition(entry);
+
+      expect(def.properties).toEqual([
+        {
+          isOptional: true,
+          name: 'foo',
+          type: {
+            type: 'intrinsic',
+            name: 'number',
+          },
+          description: 'The foo of the FooClass.',
+          defaultValue: '10',
+        },
+      ]);
+    });
+
     it('should handle properties with no comment short text and only a `set` accessor', () => {
       entry.children = [
         {
@@ -478,6 +564,7 @@ describe('TypeDoc adapter', () => {
             type: 'intrinsic',
             name: 'number',
           },
+          description: 'The foo of the FooClass.',
           defaultValue: '10',
         },
       ]);
@@ -583,6 +670,9 @@ describe('TypeDoc adapter', () => {
                 {
                   name: '__call',
                   kindString: 'Call signature',
+                  comment: {
+                    shortText: 'description of method',
+                  },
                   parameters: [
                     {
                       name: 'searchTerm',
@@ -628,6 +718,7 @@ describe('TypeDoc adapter', () => {
           decorator: {
             name: 'Input',
           },
+          description: 'description of method',
           deprecationWarning: 'Search functions should not be used.',
           name: 'searchFunction',
           type: {
@@ -1528,11 +1619,41 @@ describe('TypeDoc adapter', () => {
             ],
           },
         },
+        {
+          name: 'bar',
+          kindString: 'Method',
+          signatures: [
+            {
+              name: 'bar',
+              comment: {
+                shortText: 'method description',
+              },
+              type: {
+                type: 'intrinsic',
+                name: 'void',
+              },
+            },
+          ],
+        },
       ];
 
       const def = adapter.toInterfaceDefinition(entry);
 
       expect(def.properties).toEqual([
+        {
+          isOptional: false,
+          name: 'bar',
+          description: 'method description',
+          type: {
+            callSignature: {
+              returnType: {
+                type: 'intrinsic',
+                name: 'void',
+              },
+            },
+            name: 'bar',
+          },
+        },
         {
           isOptional: false,
           name: 'fooC',
@@ -2003,6 +2124,9 @@ describe('TypeDoc adapter', () => {
               {
                 name: '__call',
                 kindString: 'Call signature',
+                comment: {
+                  shortText: 'test description',
+                },
                 parameters: [
                   {
                     name: 'args',
@@ -2047,6 +2171,7 @@ describe('TypeDoc adapter', () => {
       expect(def).toEqual({
         anchorId: 'foo-anchor-id',
         name: 'FooTypeAlias',
+        description: 'test description',
         type: {
           type: 'reflection',
           callSignature: {

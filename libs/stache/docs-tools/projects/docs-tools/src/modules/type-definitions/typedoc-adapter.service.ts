@@ -178,7 +178,11 @@ export class SkyDocsTypeDocAdapterService {
       }),
     };
 
-    const tags = this.getCommentTags(entry.comment);
+    const tags = this.getCommentTags(
+      entry.type.declaration?.signatures
+        ? entry.type.declaration.signatures[0].comment
+        : entry.comment
+    );
     this.applyCommentTagValues(definition, tags);
 
     const typeParameters = this.getTypeParameterDefinitions(
@@ -225,29 +229,53 @@ export class SkyDocsTypeDocAdapterService {
         if (
           child.kindString === 'Accessor' &&
           !child.comment?.shortText &&
-          child.getSignature?.length > 0
+          (child.setSignature?.length > 0 || child.getSignature.length > 0)
         ) {
           const mainTags = this.getCommentTags(child.comment);
-          const getTags = this.getCommentTags(child.getSignature[0].comment);
 
           this.applyCommentTagValues(definition, mainTags);
-          this.applyCommentTagValues(definition, getTags);
+
+          if (child.getSignature?.length > 0) {
+            const getTags = this.getCommentTags(child.getSignature[0].comment);
+
+            definition.isOptional = !getTags.extras.required;
+
+            this.applyCommentTagValues(definition, getTags);
+            defaultValue = this.getDefaultValue(child, getTags);
+          }
 
           if (child.setSignature?.length > 0) {
             const setTags = this.getCommentTags(child.setSignature[0].comment);
 
             this.applyCommentTagValues(definition, setTags);
 
-            definition.isOptional = !setTags.extras.required;
-            defaultValue = this.getDefaultValue(child, setTags);
+            definition.isOptional =
+              definition.isOptional && !setTags.extras.required;
+            defaultValue = defaultValue || this.getDefaultValue(child, setTags);
           } else {
             definition.isOptional = !mainTags.extras.required;
             defaultValue = this.getDefaultValue(child, mainTags);
           }
         } else {
-          const tags = this.getCommentTags(child.comment);
+          let tags: SkyDocsCommentTags | undefined;
+          if (
+            child.kindString === 'Property' &&
+            !child.comment?.shortText &&
+            child.type.declaration?.signatures?.length > 0 &&
+            child.type.declaration.signatures[0].comment
+          ) {
+            tags = this.getCommentTags(
+              child.type.declaration.signatures[0].comment
+            );
 
-          definition.isOptional = !tags.extras.required;
+            definition.isOptional = !tags.extras.required;
+            this.applyCommentTagValues(definition, tags);
+          }
+
+          tags = this.getCommentTags(child.comment);
+
+          definition.isOptional =
+            definition.isOptional && !tags.extras.required;
 
           this.applyCommentTagValues(definition, tags);
 
@@ -312,7 +340,12 @@ export class SkyDocsTypeDocAdapterService {
 
     const definitions =
       entry.children?.map((child) => {
-        const tags = this.getCommentTags(child.comment);
+        let tags: SkyDocsCommentTags | undefined;
+        if (child.kindString === 'Method' && child.signatures.length > 0) {
+          tags = this.getCommentTags(child.signatures[0].comment);
+        } else {
+          tags = this.getCommentTags(child.comment);
+        }
         const definition: SkyDocsInterfacePropertyDefinition = {
           isOptional: tags.extras.required ? false : !!child.flags?.isOptional,
           name: this.getPropertyName(child),
