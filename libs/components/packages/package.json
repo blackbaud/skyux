@@ -90,9 +90,9 @@
     "latest-version": "5.1.0"
   },
   "devDependencies": {
-    "@angular-devkit/schematics": "12.2.7",
+    "@angular-devkit/schematics": "12.2.16",
     "@istanbuljs/nyc-config-typescript": "1.0.1",
-    "@schematics/angular": "12.2.7",
+    "@schematics/angular": "12.2.16",
     "@trivago/prettier-plugin-sort-imports": "2.0.4",
     "@types/fs-extra": "9.0.13",
     "@types/jasmine": "3.9.1",

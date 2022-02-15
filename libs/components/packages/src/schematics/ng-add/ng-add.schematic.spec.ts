@@ -73,7 +73,7 @@ describe('ng-add.schematic', () => {
     });
 
     expect(packageJson.devDependencies).toEqual({
-      '@angular-devkit/build-angular': '~12.2.7',
+      '@angular-devkit/build-angular': '~12.2.16',
       '@angular/cli': '~12',
       '@angular/compiler-cli': '~12.2.0',
       '@types/jasmine': '~3.8.0',
