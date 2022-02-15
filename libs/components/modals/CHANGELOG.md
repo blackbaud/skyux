@@ -1,3 +1,7 @@
+# 5.0.5 (2022-02-15)
+
+- Fixed the `SkyConfirmService` to work within lazy-loaded modules. [#187](https://github.com/blackbaud/skyux-modals/pull/187)
+
 # 5.0.4 (2022-02-04)
 
 - Removed an outdated reference to entry components. [#185](https://github.com/blackbaud/skyux-modals/pull/185)
