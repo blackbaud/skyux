@@ -5,7 +5,7 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkyGridSelectedRowsModelChange } from 'projects/grids/src/public-api';
 
 @Component({
-  selector: 'sky-grid-demo',
+  selector: 'app-grid-demo',
   templateUrl: './grid-demo.component.html',
 })
 export class GridDemoComponent {

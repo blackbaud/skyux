@@ -5,7 +5,7 @@ import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'sky-grid-demo',
+  selector: 'app-grid-demo',
   templateUrl: './grid-demo.component.html',
 })
 export class GridDemoComponent implements OnInit {

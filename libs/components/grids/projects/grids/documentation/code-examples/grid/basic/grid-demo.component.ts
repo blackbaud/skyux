@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 @Component({
-  selector: 'sky-grid-demo',
+  selector: 'app-grid-demo',
   templateUrl: './grid-demo.component.html',
 })
 export class GridDemoComponent {
