@@ -59,12 +59,31 @@ export class SkyVerticalTabsetComponent
   public showTabsText: string;
 
   /**
+   * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the tabset includes a visible label, use `ariaLabelledBy` instead.
+   */
+  @Input()
+  public ariaLabel: string;
+
+  /**
+   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * the tabset. This sets the tabset's `aria-labelledby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * If the tabset does not include a visible label, use `ariaLabel` instead.
+   */
+  @Input()
+  public ariaLabelledBy: string;
+
+  /**
    * Specifies an ARIA role for the vertical tabset
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
    * by indicating how the tabset functions and what it controls. For information about how
    * an ARIA role indicates what an item represents on a web page, see the
    * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    * @default "tablist"
+   * @deprecated Any other value than `tablist` could lead to a poor user experience for users with assistive technology.
+   * In the next major version, this property will be automatically set to `tablist`.
    */
   @Input()
   public get ariaRole(): string {

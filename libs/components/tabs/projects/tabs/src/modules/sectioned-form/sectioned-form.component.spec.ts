@@ -147,9 +147,6 @@ describe('Sectioned form component', () => {
 
     let activeTab = tabs[1];
     expect(activeTab.classList.contains('sky-tab-field-required')).toBe(false);
-    expect(
-      activeTab.querySelector('a').getAttribute('aria-required')
-    ).toBeFalsy();
 
     // mark required
     let checkbox = el.querySelector('#requiredTestCheckbox input');
@@ -160,9 +157,6 @@ describe('Sectioned form component', () => {
     tabs = el.querySelectorAll('sky-vertical-tab');
     let requiredTab = tabs[0];
     expect(requiredTab.classList.contains('sky-tab-field-required')).toBe(true);
-    expect(requiredTab.querySelector('a').getAttribute('aria-required')).toBe(
-      'true'
-    );
   });
 
   it('section should respect required field change after switching tabs', () => {
@@ -283,9 +277,6 @@ describe('Sectioned form component', () => {
 
     let firstTab = tabs[0];
     expect(firstTab.querySelector('sky-status-indicator')).toBeNull();
-    expect(
-      firstTab.querySelector('a').getAttribute('aria-invalid')
-    ).toBeFalsy();
 
     // mark invalid
     let checkbox = el.querySelector('#invalidTestCheckbox input');
@@ -294,9 +285,6 @@ describe('Sectioned form component', () => {
 
     // check section is required
     expect(firstTab.querySelector('sky-status-indicator')).not.toBeNull();
-    expect(firstTab.querySelector('a').getAttribute('aria-invalid')).toBe(
-      'true'
-    );
   });
 
   it('section should have appropriate aria labels', () => {
@@ -313,7 +301,7 @@ describe('Sectioned form component', () => {
     let inactiveTabContent = el.querySelector(
       '#' + inactiveTab.getAttribute('aria-controls')
     );
-    expect(inactiveTab.getAttribute('aria-selected')).toBeFalsy();
+    expect(inactiveTab.getAttribute('aria-selected')).toEqual('false');
     expect(inactiveTab.getAttribute('aria-controls')).toBe(
       inactiveTabContent.id
     );

@@ -1,8 +1,6 @@
 <a
   class="sky-vertical-tab"
-  [attr.aria-controls]="ariaControls"
-  [attr.aria-invalid]="ariaInvalid"
-  [attr.aria-required]="ariaRequired ? ariaRequired : null"
+  [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
   [attr.aria-selected]="active"
   [attr.id]="tabId"
   [attr.role]="ariaRole"
@@ -46,7 +44,10 @@
     class="sky-vertical-tab-content-pane"
     role="tabpanel"
     tabindex="0"
+    skyId
+    [attr.aria-labelledby]="tabId"
     [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
+    #tabContentPane
   >
     <ng-content></ng-content>
 

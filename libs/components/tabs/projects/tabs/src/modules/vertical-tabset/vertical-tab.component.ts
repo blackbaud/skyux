@@ -22,6 +22,8 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 
+let nextId = 0;
+
 @Component({
   selector: 'sky-vertical-tab',
   templateUrl: './vertical-tab.component.html',
@@ -46,26 +48,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * Specifies the HTML element ID (without the leading `#`) of the element that contains
    * the content that the vertical tab displays, which corresponds to the `tabId`. This property
    * [supports accessibility rules for disclosures](https://www.w3.org/TR/wai-aria-practices-1.1/#disclosure).
+   * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()
-  public get ariaControls(): string {
-    return this.isMobile ? undefined : this._ariaControls;
-  }
-  public set ariaControls(value: string) {
-    this._ariaControls = value;
-  }
-
-  /**
-   * @internal
-   */
-  @Input()
-  public ariaInvalid: boolean;
-
-  /**
-   * @internal
-   */
-  @Input()
-  public ariaRequired: boolean;
+  public ariaControls: string;
 
   /**
    * Specifies an ARIA role for the vertical tab
@@ -74,6 +60,8 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * an ARIA role indicates what an item represents on a web page, see the
    * [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    * @default "tab"
+   * @deprecated Any other value than `tab` could lead to a poor user experience for users with assistive technology.
+   * In the next major version, this property will be automatically set to `tab`.
    */
   @Input()
   public get ariaRole(): string {
@@ -127,9 +115,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   /**
    * Specifies an ID for the tab.
+   * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()
-  public tabId: string;
+  public tabId: string = `sky-vertical-tab-${++nextId}`;
 
   public set contentRendered(value: boolean) {
     this._contentRendered = value;
@@ -151,12 +140,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   public index: number;
 
+  public isMobile = false;
+
   @ViewChild('tabContentWrapper')
   public tabContent: ElementRef;
-
-  private isMobile = false;
-
-  private _ariaControls: string;
 
   private _ariaRole: string;
 

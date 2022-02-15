@@ -217,8 +217,6 @@ describe('Vertical tabset component', () => {
     const tab = el.querySelector('sky-vertical-tab a');
     expect(tab.id).toBe('some-tab');
     expect(tab.getAttribute('aria-controls')).toBe('some-div');
-    expect(tab.getAttribute('aria-invalid')).toBe('true');
-    expect(tab.getAttribute('aria-required')).toBe('true');
     expect(tab.getAttribute('role')).toBe('tab');
   });
 

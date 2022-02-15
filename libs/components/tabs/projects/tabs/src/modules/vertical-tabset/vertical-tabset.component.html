@@ -1,11 +1,14 @@
 <div class="sky-vertical-tabset" (window:resize)="tabService.updateContent()">
   <div
     *ngIf="maintainTabContent || tabService.tabsVisible()"
-    #groupContainerWrapper
+    aria-orientation="vertical"
     class="sky-vertical-tabset-group-container"
     [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="ariaLabelledBy"
     [attr.role]="ariaRole"
     [@tabGroupEnter]="tabService.animationTabsVisibleState"
+    #groupContainerWrapper
   >
     <ng-content></ng-content>
   </div>
