@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyTilesModule } from 'projects/tiles/src/public-api';
+import { SkyTilesModule } from '@skyux/tiles';
 
 import { TilesDemoComponent } from './tiles-demo.component';
 

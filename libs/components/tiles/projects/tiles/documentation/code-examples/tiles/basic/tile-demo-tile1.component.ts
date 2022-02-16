@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  // tslint:disable-next-line
-  selector: 'div.tile1',
+  selector: 'app-tile-demo-tile1',
   templateUrl: './tile-demo-tile1.component.html',
 })
 export class TileDemoTile1Component {
