@@ -6,7 +6,7 @@ export function addFormatNpmScript(): Rule {
   return (tree) => {
     const packageJson = readJsonFile<{
       scripts: {
-        ['skyux:format']: string;
+        [_: string]: string;
       };
     }>(tree, 'package.json');
 

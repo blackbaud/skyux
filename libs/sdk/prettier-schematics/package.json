@@ -20,18 +20,18 @@
     "save": "devDependencies"
   },
   "peerDependencies": {
-    "@angular-devkit/build-angular": "^12.2.7"
+    "@angular-devkit/build-angular": "^12.2.16"
   },
   "dependencies": {
     "comment-json": "4.1.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "12.2.7",
-    "@angular-devkit/schematics": "12.2.7",
-    "@angular/compiler": "12.2.7",
-    "@angular/compiler-cli": "12.2.7",
+    "@angular-devkit/build-angular": "12.2.16",
+    "@angular-devkit/schematics": "12.2.16",
+    "@angular/compiler": "12.2.16",
+    "@angular/compiler-cli": "12.2.16",
     "@istanbuljs/nyc-config-typescript": "1.0.1",
-    "@schematics/angular": "12.2.7",
+    "@schematics/angular": "12.2.16",
     "@trivago/prettier-plugin-sort-imports": "2.0.4",
     "@types/jasmine": "3.6.11",
     "@types/mock-require": "2.0.0",

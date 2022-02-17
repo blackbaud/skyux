@@ -52,8 +52,7 @@ describe('ng-add.schematic', () => {
     await runSchematic(tree);
 
     expect(runner.tasks.some((task) => task.name === 'node-package')).toEqual(
-      true,
-      'Expected the schematic to setup a package install step.'
+      true
     );
   });
 
@@ -102,6 +101,20 @@ describe('ng-add.schematic', () => {
 
     validateJsonFile(updatedTree, '.prettierrc.json', {
       singleQuote: true,
+    });
+  });
+
+  it('should not write Prettier config if already exists', async () => {
+    tree.create('.prettierrc', '{"original": true}');
+    tree.create('.prettierrc.json', '{"original": true}');
+
+    const updatedTree = await runSchematic(tree);
+
+    validateJsonFile(updatedTree, '.prettierrc', {
+      original: true,
+    });
+    validateJsonFile(updatedTree, '.prettierrc.json', {
+      original: true,
     });
   });
 
@@ -299,7 +312,7 @@ test.ts`);
   it('should not configure VSCode if .vscode folder does not exist', async () => {
     const updatedTree = await runSchematic(tree);
 
-    expect(updatedTree.exists('.vscode/extensions.json')).toBeFalse();
+    expect(updatedTree.exists('.vscode/extensions.json')).toEqual(false);
   });
 
   it('should configure VSCode if files exist in the .vscode folder', async () => {
