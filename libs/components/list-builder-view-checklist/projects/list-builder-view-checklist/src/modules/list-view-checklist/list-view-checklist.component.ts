@@ -88,7 +88,7 @@ export class SkyListViewChecklistComponent
 
   /**
    * Specifies the name of the label field selector.
-   * @default 'label'
+   * @default "label"
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('label')
@@ -96,16 +96,16 @@ export class SkyListViewChecklistComponent
 
   /**
    * Specifies the name of the description field selector.
-   * @default 'description'
+   * @default "description"
    */
   @Input()
   public description: string = 'description';
 
   /**
    * Specifies how many items users can select.
-   * `single` allows users to select one item in the checklist, while `multiple`
+   * `"single"` allows users to select one item in the checklist, while `"multiple"`
    * allows users to select multiple items in the checklist.
-   * @default 'multiple'
+   * @default "multiple"
    */
   @Input()
   public set selectMode(value: string) {
