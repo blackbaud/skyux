@@ -28,7 +28,7 @@ import { skyAnimationSlide } from '@skyux/animations';
 export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   /**
    * Indicates whether to disable the ability to expand and collapse the group.
-   * @default "false"
+   * @default false
    */
   @Input()
   public disabled: boolean;
@@ -41,7 +41,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   /**
    * Indicates whether the collapsible group is expanded.
-   * @default "false"
+   * @default false
    */
   @Input()
   public set open(value: boolean) {
