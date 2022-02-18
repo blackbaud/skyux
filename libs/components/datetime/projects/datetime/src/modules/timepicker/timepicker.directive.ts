@@ -78,7 +78,7 @@ export class SkyTimepickerInputDirective
 
   /**
    * Specifies the 12-hour `hh` or 24-hour `HH` time format for the input.
-   * @default hh
+   * @default "hh"
    */
   @Input()
   public set timeFormat(value: string) {

@@ -72,7 +72,7 @@ export class SkyDatepickerInputDirective
   /**
    * Specifies the date format for the input. Place this attribute on the `input` element
    * to override the default in the `SkyDatepickerConfigService`.
-   * @default MM/DD/YYYY
+   * @default "MM/DD/YYYY"
    */
   @Input()
   public set dateFormat(value: string) {

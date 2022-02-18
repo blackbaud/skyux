@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class SkyDatepickerConfigService {
   /**
    * Specifies the date format for the input.
-   * @default MM/DD/YYYY
+   * @default "MM/DD/YYYY"
    */
   public dateFormat: string;
 

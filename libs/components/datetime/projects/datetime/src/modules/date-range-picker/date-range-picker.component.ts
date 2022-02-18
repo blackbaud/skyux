@@ -128,7 +128,7 @@ export class SkyDateRangePickerComponent
    * [the `sky-datepicker` components](https://developer.blackbaud.com/skyux/components/datepicker)
    * that make up the date range picker. The text input is a composite component of
    * up to two `sky-datepicker` components.
-   * @default MM/DD/YYYY
+   * @default "MM/DD/YYYY"
    */
   @Input()
   public set dateFormat(value: string) {

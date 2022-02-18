@@ -49,6 +49,7 @@ let nextId = 0;
 export class SkyDatepickerComponent implements OnDestroy, OnInit {
   /**
    * Adds a class to the datepicker.
+   * @default ""
    */
   @Input()
   public pickerClass = '';
