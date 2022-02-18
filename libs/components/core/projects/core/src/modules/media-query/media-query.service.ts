@@ -12,21 +12,25 @@ import { SkyMediaQueryListener } from './media-query-listener';
 export class SkyMediaQueryService implements OnDestroy {
   /**
    * The size for the `xs` breakpoint.
+   * @default "(max-width: 767px)"
    */
   public static xs = '(max-width: 767px)';
 
   /**
    * The size for the `sm` breakpoint.
+   * @default "(min-width: 768px) and (max-width: 991px)"
    */
   public static sm = '(min-width: 768px) and (max-width: 991px)';
 
   /**
    * The size for the `md` breakpoint.
+   * @default "(min-width: 992px) and (max-width: 1199px)"
    */
   public static md = '(min-width: 992px) and (max-width: 1199px)';
 
   /**
    * The size for the `lg` breakpoint.
+   * @default "(min-width: 1200px)"
    */
   public static lg = '(min-width: 1200px)';
 

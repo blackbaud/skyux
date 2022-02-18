@@ -15,7 +15,7 @@ export class NumericOptions {
   public format?: string = 'number';
 
   /**
-   * Specifies the format of the currency`.
+   * Specifies the format of the currency.
    * @default "standard"
    */
   public currencySign?: 'accounting' | 'standard' = 'standard';
@@ -24,7 +24,7 @@ export class NumericOptions {
    * Specifies the ISO4217 currency code to use for currency formatting. If you do not specify a
    * currency code, the component uses the browser's culture to determine the currency unless your
    * SPA provides a different culture with `SkyAppLocaleProvider`.
-   * @default 'USD'
+   * @default "USD"
    */
   public iso?: string = 'USD';
 
