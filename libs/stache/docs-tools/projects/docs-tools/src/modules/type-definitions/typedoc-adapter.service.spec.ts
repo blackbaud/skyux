@@ -570,6 +570,72 @@ describe('TypeDoc adapter', () => {
       ]);
     });
 
+    it('should handle properties which are also constructor properties with comments listed there', () => {
+      entry.children = [
+        {
+          name: 'constructor',
+          kindString: 'Constructor',
+          signatures: [
+            {
+              name: 'new Class',
+              kindString: 'Constructor signature',
+              parameters: [
+                {
+                  name: 'fooA',
+                  kindString: 'Parameter',
+                  type: {
+                    type: 'intrinsic',
+                    name: 'string',
+                  },
+                  comment: {
+                    shortText: 'fooA description',
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'fooB',
+          kindString: 'Property',
+          type: {
+            type: 'intrinsic',
+            name: 'number',
+          },
+        },
+        {
+          name: 'fooA',
+          kindString: 'Property',
+          type: {
+            type: 'intrinsic',
+            name: 'string',
+          },
+        },
+      ];
+
+      const def = adapter.toClassDefinition(entry);
+
+      expect(def.properties).toEqual([
+        {
+          name: 'fooA',
+          description: 'fooA description',
+          isOptional: true,
+          type: {
+            name: 'string',
+            type: 'intrinsic',
+          },
+        },
+        {
+          name: 'fooB',
+          isOptional: true,
+          type: {
+            name: 'number',
+            type: 'intrinsic',
+          },
+        },
+      ]);
+    });
+
     it('should handle union-type properties', () => {
       entry.children = [
         {

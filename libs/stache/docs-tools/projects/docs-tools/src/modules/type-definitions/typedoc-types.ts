@@ -23,7 +23,7 @@ export interface TypeDocSource {
 export interface TypeDocSignature {
   comment?: TypeDocComment;
 
-  kindString?: 'Call signature' | 'Index signature';
+  kindString?: 'Call signature' | 'Constructor signature' | 'Index signature';
 
   name: string;
 
@@ -119,6 +119,8 @@ export interface TypeDocEntryChild {
   kindString?:
     | 'Accessor'
     | 'Call signature'
+    | 'Constructor'
+    | 'Constructor signature'
     | 'Index signature'
     | 'Enumeration member'
     | 'Parameter'

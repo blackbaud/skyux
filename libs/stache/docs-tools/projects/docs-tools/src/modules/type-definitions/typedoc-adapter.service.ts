@@ -291,6 +291,30 @@ export class SkyDocsTypeDocAdapterService {
           definition.decorator = decorator;
         }
 
+        if (!definition.description) {
+          const constructor = entry.children.find(
+            (child) => child.kindString === 'Constructor'
+          );
+          if (constructor) {
+            const signature = constructor.signatures.find(
+              (signature) => signature.kindString === 'Constructor signature'
+            );
+            /* Sanity check */
+            /* istanbul ignore else */
+            if (signature) {
+              const matchingParam = signature.parameters.find(
+                (parameter) => parameter.name === child.name
+              );
+              if (matchingParam) {
+                const matchingParamTags = this.getCommentTags(
+                  matchingParam.comment
+                );
+                this.applyCommentTagValues(definition, matchingParamTags);
+              }
+            }
+          }
+        }
+
         return definition;
       });
 
