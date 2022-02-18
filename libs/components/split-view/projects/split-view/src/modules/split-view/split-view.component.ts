@@ -65,7 +65,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   /**
    * Specifies a label for the button that appears in the workspace header in responsive mode.
    * The button returns users to the list.
-   * @default Back to list
+   * @default "Back to list"
    */
   @Input()
   public set backButtonText(value: string) {
