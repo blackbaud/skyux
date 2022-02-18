@@ -15,7 +15,7 @@ export interface SkyLookupShowMoreNativePickerConfig {
 
   /**
    * Specifies a title for the picker.
-   * @default 'Select an option/Select options'
+   * @default "Select an option/Select options"
    */
   title?: string;
 }

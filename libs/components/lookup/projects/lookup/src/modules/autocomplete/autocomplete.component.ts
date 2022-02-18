@@ -110,7 +110,7 @@ export class SkyAutocompleteComponent
   /**
    * Specifies an object property to display in the text input after users
    * select an item in the dropdown list.
-   * @default name
+   * @default "name"
    */
   @Input()
   public set descriptorProperty(value: string) {
@@ -150,7 +150,7 @@ export class SkyAutocompleteComponent
 
   /**
    * Specifies the object properties to search.
-   * @default ['name']
+   * @default ["name"]
    */
   @Input()
   public set propertiesToSearch(value: string[]) {
@@ -249,7 +249,7 @@ export class SkyAutocompleteComponent
 
   /**
    * Specifies the text to display when no search results are found.
-   * @default No matches found
+   * @default "No matches found"
    */
   @Input()
   public noResultsFoundText: string;

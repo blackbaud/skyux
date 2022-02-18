@@ -29,7 +29,7 @@ export class SkyLookupAutocompleteAdapter {
   /**
    * Specifies an object property to display in the text input after users
    * select an item in the dropdown list.
-   * @default name
+   * @default "name"
    */
   @Input()
   public set descriptorProperty(value: string) {
@@ -42,7 +42,7 @@ export class SkyLookupAutocompleteAdapter {
 
   /**
    * Specifies an array of object properties to search.
-   * @default ['name']
+   * @default ["name"]
    */
   @Input()
   public set propertiesToSearch(value: string[]) {

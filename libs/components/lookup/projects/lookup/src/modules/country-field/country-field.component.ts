@@ -68,7 +68,7 @@ export class SkyCountryFieldComponent
 {
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
-   * @default 'off'
+   * @default "off"
    */
   @Input()
   public autocompleteAttribute: string;
@@ -77,7 +77,7 @@ export class SkyCountryFieldComponent
    * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country.
    * When search results include the default country, it appears at the top of the list.
-   * @default us
+   * @default "us"
    */
   @Input()
   public set defaultCountry(value: string) {
