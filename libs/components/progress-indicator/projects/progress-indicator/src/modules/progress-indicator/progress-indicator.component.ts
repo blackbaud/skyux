@@ -47,7 +47,7 @@ export class SkyProgressIndicatorComponent
    * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
    * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
    * use the horizontal display mode.
-   * @default 'vertical'
+   * @default "vertical"
    */
   @Input()
   public set displayMode(value: SkyProgressIndicatorDisplayModeType) {
