@@ -55,7 +55,7 @@ export class SkyRepeaterComponent
    * Specifies an ARIA label for the repeater list.
    * This sets the repeater list's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
-   * @default 'List of items'
+   * @default "List of items"
    */
   @Input()
   public ariaLabel: string;
@@ -85,7 +85,7 @@ export class SkyRepeaterComponent
    * allows users to expand one item at a time. It provides the most compact view and is
    * best-suited to repeater items where the most important information is in the titles
    * and users only occasionally need to view the body content.
-   * @default none
+   * @default "none"
    */
   @Input()
   public set expandMode(value: string) {

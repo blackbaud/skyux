@@ -44,7 +44,7 @@ export class SkyPagingComponent implements OnChanges {
    * multiple paging components on the same page. The label should be unique and descriptive
    * to help users of assistive technology differentiate pagination controls
    * and understand what each one does.
-   * @default Pagination
+   * @default "Pagination"
    */
   @Input()
   public pagingLabel: string;
