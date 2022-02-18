@@ -125,7 +125,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
    * country code for the default country. The country selector button displays a flag
    * icon for this default country until users select a different country.
-   * @default us
+   * @default "us"
    */
   @Input()
   public set defaultCountry(value: string) {
@@ -144,7 +144,8 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   /**
    * Specifies the format for validated phone numbers.
-   * @default 'default'
+   * Options include: `"default"`, `"international"`, and `"national"`.
+   * @default "default"
    */
   @Input()
   public returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
@@ -268,7 +269,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public ngOnInit(): void {
     // The timeout here is needed to avoid a change before checked error when a user specifies
-    // a selected country on intialization of the component.
+    // a selected country on initialization of the component.
     setTimeout(() => {
       if (this.inputBoxHostSvc) {
         this.inputBoxHostSvc.populate({
