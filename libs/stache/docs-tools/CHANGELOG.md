@@ -1,3 +1,7 @@
+# 5.0.0-beta.12 (2022-02-18)
+
+- Fixed the `SkyDocsTypeDocAdapterService` to properly handle properties which are created as class constructor parameters. [#199](https://github.com/blackbaud/skyux-docs-tools/pull/199)
+
 # 5.0.0.beta.11 (2022-02-14)
 
 - Fixed the `SkyDocsTypeDocAdapterService` to properly handle interface methods, class method inputs, type aliases, and single accessor properties. [#197](https://github.com/blackbaud/skyux-docs-tools/pull/197)
