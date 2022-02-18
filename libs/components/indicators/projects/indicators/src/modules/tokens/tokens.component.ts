@@ -91,7 +91,7 @@ export class SkyTokensComponent implements OnDestroy {
 
   /**
    * Specifies the token property to display for each item in the tokens list.
-   * @default 'name'
+   * @default "name"
    */
   @Input()
   public set displayWith(value: string) {
