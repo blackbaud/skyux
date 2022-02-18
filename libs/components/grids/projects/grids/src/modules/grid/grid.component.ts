@@ -126,6 +126,7 @@ export class SkyGridComponent
    * which fits the grid to the parent's full width, and `scroll`, which allows the grid
    * to exceed the parent's width. If the grid does not have enough columns to fill
    * the parent's width, it always stretches to the parent's full width.
+   * @default "width"
    */
   @Input()
   public fit: string = 'width';
