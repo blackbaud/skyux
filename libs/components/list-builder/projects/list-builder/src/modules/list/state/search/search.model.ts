@@ -7,6 +7,7 @@
 export class ListSearchModel {
   /**
    * Specifies the text to search.
+   * @default ""
    */
   public searchText: string = '';
   /**
