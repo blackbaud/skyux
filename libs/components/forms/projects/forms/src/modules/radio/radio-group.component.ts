@@ -58,7 +58,7 @@ export class SkyRadioGroupComponent
 
   /**
    * Indicates whether to disable the input.
-   * @default "false"
+   * @default false
    */
   @Input()
   public set disabled(value: boolean) {
@@ -93,7 +93,7 @@ export class SkyRadioGroupComponent
    * When you set this property to `true`, the component adds `aria-required` and `required`
    * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
-   * @default "false"
+   * @default false
    */
   @Input()
   public required: boolean = false;
