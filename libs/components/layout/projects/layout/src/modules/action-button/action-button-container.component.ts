@@ -45,7 +45,8 @@ export class SkyActionButtonContainerComponent
 {
   /**
    * Specifies how to display the action buttons inside the action button container.
-   * @default 'center'
+   * Options are `"center"` or `"left"`.
+   * @default "center"
    */
   @Input()
   public set alignItems(value: SkyActionButtonContainerAlignItemsType) {

@@ -34,7 +34,7 @@ let nextId = 0;
 export class SkyTextExpandComponent implements AfterContentInit {
   /**
    * Specifies a title to display when the component expands the full text in a modal.
-   * @default 'Expanded view'
+   * @default "Expanded view"
    */
   @Input()
   public expandModalTitle: string;

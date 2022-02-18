@@ -48,7 +48,7 @@ export class SkyTextExpandRepeaterComponent
 
   /**
    * Specifies the style of bullet to use
-   * @default 'unordered'
+   * @default "unordered"
    */
   @Input()
   public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';

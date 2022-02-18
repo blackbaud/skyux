@@ -15,7 +15,7 @@ import { SkyDefinitionListService } from './definition-list.service';
 export class SkyDefinitionListComponent {
   /**
    * Specifies the width of the label portion of the definition list.
-   * @default 90px
+   * @default "90px"
    */
   @Input()
   public set labelWidth(value: string) {
@@ -25,7 +25,7 @@ export class SkyDefinitionListComponent {
   /**
    * Specifies a default value to display when no value is provided
    * for a label-value pair.
-   * @default 'None found'
+   * @default "None found"
    */
   @Input()
   public set defaultValue(value: string) {
