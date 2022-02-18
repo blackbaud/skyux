@@ -100,6 +100,9 @@ describe('Flyout component', () => {
     tick();
     fixture.detectChanges();
     tick();
+    // Second detection allows for the flyout service to remove the flyout host when appropriate
+    fixture.detectChanges();
+    tick();
   }
 
   function makeEvent(eventType: string, evtObj: any): void {
@@ -1310,6 +1313,25 @@ describe('Flyout component', () => {
       expect(iteratorButtons[1].disabled).toBeFalsy();
       expect(flyout.iteratorNextButtonDisabled).toEqual(false);
       expect(flyout.iteratorPreviousButtonDisabled).toEqual(false);
+    }));
+
+    it('should remove host if a non-close message stream event was fired before close - added due to bug', fakeAsync(() => {
+      const flyout = openFlyout({
+        showIterator: true,
+      });
+
+      flyout.iteratorPreviousButtonDisabled = true;
+      flyout.iteratorNextButtonDisabled = true;
+      fixture.detectChanges();
+
+      const iteratorButtons = getIteratorButtons();
+      expect(iteratorButtons.length).toEqual(2);
+      expect(iteratorButtons[0].disabled).toBeTruthy();
+      expect(iteratorButtons[1].disabled).toBeTruthy();
+
+      closeFlyout();
+
+      expect(getFlyoutHostElement()).toBeNull();
     }));
   });
 
