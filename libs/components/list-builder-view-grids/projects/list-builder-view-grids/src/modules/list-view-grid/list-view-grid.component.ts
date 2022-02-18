@@ -118,10 +118,10 @@ export class SkyListViewGridComponent
   public hiddenColumns: Array<string> | Observable<Array<string>>;
 
   /**
-   * Specifies how the grid fits to its parent. `width` fits the grid to the parent's full
-   * width, and `scroll` allows the grid to exceed the parent's width. If the grid does not have
+   * Specifies how the grid fits to its parent. `"width"` fits the grid to the parent's full
+   * width, and `"scroll"` allows the grid to exceed the parent's width. If the grid does not have
    * enough columns to fill the parent's width, it always stretches to the parent's full width.
-   * @default width
+   * @default "width"
    */
   @Input()
   public fit: string = 'width';
