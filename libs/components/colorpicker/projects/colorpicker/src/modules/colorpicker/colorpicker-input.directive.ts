@@ -93,6 +93,7 @@ export class SkyColorpickerInputDirective
    * This property is deprecated and does not affect the colorpicker.
    * We recommend against using it.
    * @deprecated
+   * @default "rgba"
    */
   @Input()
   public returnFormat = 'rgba';
@@ -102,7 +103,8 @@ export class SkyColorpickerInputDirective
    * element such as a standard text input or a button. This property accepts `rgba`, `hex`,
    * or `hsla`, but we do not recommend using it because users never see or use its value.
    * Instead, if you need to access this format value, see the demo for an example.
-   */
+   *@default "rgba"
+  */
   @Input()
   public outputFormat = 'rgba';
 
@@ -115,7 +117,8 @@ export class SkyColorpickerInputDirective
 
   /**
    * Specifies the type of transparency to use in the transparency slider.
-   */
+   *@default "hex6"
+  */
   @Input()
   public alphaChannel = 'hex6';
 

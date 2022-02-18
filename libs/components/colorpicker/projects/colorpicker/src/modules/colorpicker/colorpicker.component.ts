@@ -83,7 +83,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
    * Specifies an ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/components/checkbox#accessibility)
    * when the colorpicker does not include a visible label. If the colorpicker includes a visible label, use `labelledBy` instead.
-   * @default 'Select color value'
+   * @default "Select color value"
    */
   @Input()
   public label: string;
