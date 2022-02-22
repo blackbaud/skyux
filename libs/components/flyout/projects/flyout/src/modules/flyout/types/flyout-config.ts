@@ -37,7 +37,7 @@ export interface SkyFlyoutConfig {
    * an ARIA role indicates what an item represents on a web page,
    * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    * @default dialog
-   * @deprecated Since version `5.0.3`. Consumers should use the default `dialog` role to ensure a
+   * @deprecated Since version `5.1.0`. Consumers should use the default `dialog` role to ensure a
    * proper accessibility implementation.
    */
   ariaRole?: string;

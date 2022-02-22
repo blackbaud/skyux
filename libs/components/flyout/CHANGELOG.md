@@ -1,3 +1,14 @@
+# 5.1.0 (2022-02-22)
+
+- Added support for specifying an `aria-label` on the flyout component. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+- Added support for the Angular CDK Focus Trap within the flyout component. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+- Added support for a `beforeClose` handler to prevent a flyout from closing until the parent logic is executed. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+- Deprecated the use of the flyout config's `ariaRole` option and specified a default `role` of `dialog` on flyout components. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+- Fixed the flyout component to properly remove the flyout host when closed after iterator buttons are dynamically disabled. [#140](https://github.com/blackbaud/skyux-flyout/pull/140)
+- Fixed the flyout component to remove the flyout host if it exists with no open flyout when a navigation event is triggered. [#140](https://github.com/blackbaud/skyux-flyout/pull/140)
+- Fixed the flyout component to properly set `aria-modal` when the flyout's `role` attribute is set to `dialog`. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+- Fixed the flyout component to properly move focus to the first focusable element upon the flyout opening. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
+
 # 5.0.4 (2022-02-04)
 
 - Removed an outdated reference to entry components. [#136](https://github.com/blackbaud/skyux-flyout/pull/136)
