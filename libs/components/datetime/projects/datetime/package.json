@@ -1,6 +1,6 @@
 {
   "name": "@skyux/datetime",
-  "version": "5.1.3",
+  "version": "5.1.4",
   "peerDependencies": {
     "@angular/common": "^12.2.14",
     "@angular/core": "^12.2.14",
@@ -9,7 +9,8 @@
     "@skyux/core": "^5.2.2",
     "@skyux/forms": "^5.0.1",
     "@skyux/i18n": "^5.0.1",
-    "@skyux/indicators": "^5.1.2"
+    "@skyux/indicators": "^5.1.2",
+    "@skyux/popovers": "^5.0.1"
   },
   "dependencies": {
     "moment": "2.29.1",

@@ -1,3 +1,7 @@
+# 5.1.4 (2021-02-22)
+
+- Fixed the library's peer dependencies to include `@skyux/popovers`. [#307](https://github.com/blackbaud/skyux-datetime/pull/307)
+
 # 5.1.3 (2021-02-14)
 
 - Fixed the `SkyDateRangeCalculator` to be publicly exported. [#305](https://github.com/blackbaud/skyux-datetime/pull/305)
