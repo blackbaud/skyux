@@ -98,6 +98,7 @@ export class SkyCountryFieldComponent
 
   /**
    * Indicates whether to disable the country field.
+   * @default false
    */
   @Input()
   public set disabled(isDisabled: boolean) {
