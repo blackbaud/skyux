@@ -47,6 +47,8 @@ import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fix
 import { SkyFlyoutComponent } from './flyout.component';
 
 import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
+import { take } from 'rxjs/operators';
+import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
@@ -61,14 +63,14 @@ describe('Flyout component', () => {
   //#region helpers
   function openFlyout(
     config: SkyFlyoutConfig = {},
-    showIframe?: boolean
+    context?: SkyFlyoutTestSampleContext
   ): SkyFlyoutInstance<any> {
     config = Object.assign(
       {
         providers: [
           {
             provide: SkyFlyoutTestSampleContext,
-            useValue: { name: 'Sam', showIframe: showIframe },
+            useValue: context ? context : { name: 'Sam' },
           },
         ],
       },
@@ -512,6 +514,63 @@ describe('Flyout component', () => {
     expect(flyout.isOpen).toBe(false);
   }));
 
+  it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
+    let handlerFunction: Function;
+
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    flyout.beforeClose.subscribe((handler) => {
+      handlerFunction = handler.closeFlyout;
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    flyout.close();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    closeFlyout();
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(true);
+
+    handlerFunction();
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(false);
+  }));
+
+  it('should close the flyout anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
+    const flyout = openFlyout({});
+    expect(flyout.isOpen).toBe(true);
+
+    flyout.beforeClose.subscribe(() => {
+      return;
+    });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    flyout.close({ ignoreBeforeClose: true });
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(flyout.isOpen).toBe(false);
+  }));
+
   it('should emit closed event of previously opened flyouts when a new one is opened', fakeAsync(() => {
     const flyout = openFlyout({});
 
@@ -546,13 +605,13 @@ describe('Flyout component', () => {
   }));
 
   it('should accept configuration options for aria-labelledBy, aria-describedby, role, and width', fakeAsync(() => {
-    const expectedLabel = 'customlabelledby';
+    const expectedLabelledBy = 'customlabelledby';
     const expectedDescribed = 'customdescribedby';
     const expectedRole = 'customrole';
     const expectedDefault = 500;
 
     openFlyout({
-      ariaLabelledBy: expectedLabel,
+      ariaLabelledBy: expectedLabelledBy,
       ariaDescribedBy: expectedDescribed,
       ariaRole: expectedRole,
       defaultWidth: expectedDefault,
@@ -560,12 +619,56 @@ describe('Flyout component', () => {
 
     const flyoutElement = getFlyoutElement();
 
-    expect(flyoutElement.getAttribute('aria-labelledby')).toBe(expectedLabel);
+    expect(flyoutElement.getAttribute('aria-labelledby')).toBe(
+      expectedLabelledBy
+    );
     expect(flyoutElement.getAttribute('aria-describedby')).toBe(
       expectedDescribed
     );
     expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
     expect(flyoutElement.style.width).toBe(expectedDefault + 'px');
+  }));
+
+  it('should accept configuration options for aria-label', fakeAsync(() => {
+    const expectedLabel = 'customLabel';
+
+    openFlyout({
+      ariaLabel: expectedLabel,
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-label')).toBe(expectedLabel);
+  }));
+
+  it('should have a default aria role when none is given', fakeAsync(() => {
+    const expectedRole = 'dialog';
+
+    openFlyout();
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('role')).toBe(expectedRole);
+  }));
+
+  it('should set aria-modal on the flyout when the role is `dialog`', fakeAsync(() => {
+    openFlyout({
+      ariaRole: 'dialog',
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-modal')).toBe('true');
+  }));
+
+  it('should not set aria-modal on the flyout when the role is not `dialog`', fakeAsync(() => {
+    openFlyout({
+      ariaRole: 'customRole',
+    });
+
+    const flyoutElement = getFlyoutElement();
+
+    expect(flyoutElement.getAttribute('aria-modal')).toBe('false');
   }));
 
   it('should set the flyout size to half the window size when no default width is given', fakeAsync(() => {
@@ -707,6 +810,39 @@ describe('Flyout component', () => {
     ).toBeTruthy();
   }));
 
+  it('should automatically focus the close button when the flyout opens', fakeAsync(() => {
+    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+
+    openFlyout({}, { name: 'Sam', showNormalButton: true });
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.sky-flyout-btn-close')
+    );
+  }));
+
+  it('should automatically focus the an element with autofoucus in the content area when the flyout opens if one exists', fakeAsync(() => {
+    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+
+    const context: SkyFlyoutTestSampleContext = {
+      name: 'Sam',
+      showAutofocusButton: true,
+      showNormalButton: true,
+    };
+    openFlyout({}, context);
+
+    tick();
+    fixture.detectChanges();
+    tick();
+
+    expect(document.activeElement).toBe(
+      document.querySelector('#autofocus-button')
+    );
+  }));
+
   it('should resize when handle is dragged', fakeAsync(() => {
     openFlyout({ defaultWidth: 500 });
     fixture.detectChanges();
@@ -839,7 +975,7 @@ describe('Flyout component', () => {
   }));
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
-    openFlyout({}, true);
+    openFlyout({}, { name: 'Sam', showIframe: true });
     const iframe = getIframe();
 
     expect(iframe.style.pointerEvents).toBeFalsy();

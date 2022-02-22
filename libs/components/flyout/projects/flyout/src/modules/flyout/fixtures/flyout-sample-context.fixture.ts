@@ -1,4 +1,6 @@
 export class SkyFlyoutTestSampleContext {
   public name: string;
-  public showIframe: boolean;
+  public showAutofocusButton?: boolean;
+  public showIframe?: boolean;
+  public showNormalButton?: boolean;
 }

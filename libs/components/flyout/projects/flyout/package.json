@@ -3,6 +3,7 @@
   "version": "5.0.4",
   "peerDependencies": {
     "@angular/animations": "^12.2.16",
+    "@angular/cdk": "^12.2.13",
     "@angular/common": "^12.2.16",
     "@angular/core": "^12.2.16",
     "@angular/forms": "^12.2.16",

@@ -1,3 +1,5 @@
+import { A11yModule } from '@angular/cdk/a11y';
+
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -23,6 +25,7 @@ import { SkyFlyoutIteratorComponent } from './flyout-iterator.component';
 @NgModule({
   declarations: [SkyFlyoutComponent, SkyFlyoutIteratorComponent],
   imports: [
+    A11yModule,
     CommonModule,
     FormsModule,
     RouterModule,

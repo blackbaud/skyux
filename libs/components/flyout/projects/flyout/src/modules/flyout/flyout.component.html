@@ -1,9 +1,14 @@
 <div
   class="sky-flyout"
   tabindex="-1"
-  [attr.role]="config?.ariaRole"
+  [attr.role]="config?.ariaRole ? config.ariaRole : 'dialog'"
   [attr.aria-describedby]="config?.ariaDescribedBy"
+  [attr.aria-label]="config?.ariaLabel"
   [attr.aria-labelledby]="config?.ariaLabelledBy"
+  [attr.aria-modal]="
+    config?.ariaRole === 'dialog' || !config?.ariaRole ? true : false
+  "
+  [attr.hidden]="!instanceReady ? true : undefined"
   [id]="flyoutId"
   [ngClass]="{
     'sky-flyout-hidden': !isOpen && !isOpening,
@@ -17,21 +22,9 @@
   [@flyoutState]="getAnimationState()"
   [style.width.px]="flyoutWidth"
   #flyoutRef
+  [cdkTrapFocus]="enableTrapFocus"
+  [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
 >
-  <div
-    class="sky-flyout-resize-handle"
-    role="separator"
-    tabindex="0"
-    type="range"
-    [attr.aria-controls]="flyoutId"
-    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
-    [attr.aria-valuemax]="config.maxWidth"
-    [attr.aria-valuemin]="config.minWidth"
-    [attr.aria-valuenow]="flyoutWidth"
-    (keydown)="onResizeHandleKeyDown($event)"
-    (mousedown)="onResizeHandleMouseDown($event)"
-  ></div>
-
   <div
     class="sky-flyout-header"
     [skyThemeClass]="{
@@ -76,6 +69,7 @@
           'sky-btn-icon-borderless': 'modern'
         }"
         (click)="close()"
+        #flyoutCloseButton
       >
         <sky-icon *skyThemeIf="'default'" icon="close"> </sky-icon>
         <sky-icon
@@ -88,9 +82,22 @@
       </button>
     </div>
   </div>
-  <div class="sky-flyout-content">
+  <div class="sky-flyout-content" #flyoutContent>
     <div #target></div>
   </div>
+  <div
+    class="sky-flyout-resize-handle"
+    role="separator"
+    tabindex="0"
+    type="range"
+    [attr.aria-controls]="flyoutId"
+    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+    [attr.aria-valuemax]="config.maxWidth"
+    [attr.aria-valuemin]="config.minWidth"
+    [attr.aria-valuenow]="flyoutWidth"
+    (keydown)="onResizeHandleKeyDown($event)"
+    (mousedown)="onResizeHandleMouseDown($event)"
+  ></div>
 </div>
 
 <ng-template #permalinkTemplate>

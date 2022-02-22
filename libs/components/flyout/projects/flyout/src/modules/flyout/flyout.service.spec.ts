@@ -70,6 +70,30 @@ describe('Flyout service', () => {
     applicationRef.tick();
     expect(spy).toHaveBeenCalledWith({
       type: SkyFlyoutMessageType.Close,
+      data: {
+        ignoreBeforeClose: false,
+      },
+    });
+  });
+
+  it('should respect close method arguments', () => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
+      fun();
+      return 0;
+    });
+    service.open(SkyFlyoutHostsTestComponent);
+    applicationRef.tick();
+    const spy = spyOn(
+      service['host'].instance.messageStream,
+      'next'
+    ).and.callThrough();
+    service.close({ ignoreBeforeClose: true });
+    applicationRef.tick();
+    expect(spy).toHaveBeenCalledWith({
+      type: SkyFlyoutMessageType.Close,
+      data: {
+        ignoreBeforeClose: true,
+      },
     });
   });
 

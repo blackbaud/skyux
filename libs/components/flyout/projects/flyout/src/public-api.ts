@@ -2,6 +2,8 @@ export * from './modules/flyout/flyout-instance';
 export * from './modules/flyout/flyout.module';
 export * from './modules/flyout/flyout.service';
 export * from './modules/flyout/types/flyout-action';
+export * from './modules/flyout/types/flyout-before-close-handler';
+export * from './modules/flyout/types/flyout-close-args';
 export * from './modules/flyout/types/flyout-config';
 export * from './modules/flyout/types/flyout-message';
 export * from './modules/flyout/types/flyout-message-type';
