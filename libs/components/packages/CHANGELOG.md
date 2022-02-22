@@ -1,3 +1,7 @@
+# 5.144.0 (2022-02-22)
+
+- `@skyux/flyout@5.1.0` [Release notes](https://github.com/blackbaud/skyux-flyout/blob/5.1.0/CHANGELOG.md)
+
 # 5.143.0 (2022-02-22)
 
 - `@skyux/datetime@5.1.4` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.1.4/CHANGELOG.md)
