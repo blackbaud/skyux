@@ -19,6 +19,11 @@
       "version": "5.0.0-beta.0",
       "factory": "./remove-package-json-scripts/remove-package-json-scripts.schematic",
       "description": "Remove SKY UX scripts from package.json"
+    },
+    "add-cdk": {
+      "version": "5.144.0",
+      "factory": "./add-cdk/add-cdk.schematic",
+      "description": "Add Angular CDK"
     }
   }
 }
