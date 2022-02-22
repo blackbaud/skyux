@@ -1322,6 +1322,35 @@ describe('Tabset component', () => {
 
       validateTabSelected(fixture.nativeElement, 2);
     }));
+
+    it('should emit a click event on spacebar press', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
+
+      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+        keyboardEventInit: {
+          key: ' ',
+        },
+      });
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 1);
+
+      el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
+      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+        keyboardEventInit: {
+          key: ' ',
+        },
+      });
+      fixture.detectChanges();
+      tick();
+
+      validateTabSelected(fixture.nativeElement, 2);
+    }));
   });
 
   describe('Permalinks', () => {

@@ -12,7 +12,7 @@
   }"
   [tabIndex]="tabIndex()"
   (click)="activateTab()"
-  (keyup.enter)="activateTab()"
+  (keyup)="onTabButtonKeyUp($event)"
 >
   <div class="sky-vertical-tab-display">
     <div class="sky-vertical-tab-heading">

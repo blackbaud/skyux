@@ -53,15 +53,26 @@ export class SkyTabButtonComponent {
   @Output()
   public closeClick = new EventEmitter<void>();
 
-  public onButtonClick(event: MouseEvent): void {
+  public onButtonClick(event: any): void {
     if (!this.disabled) {
       this.buttonClick.emit();
       event.preventDefault();
     }
   }
 
-  public onButtonEnterKeyDown(event: any): void {
-    this.onButtonClick(event);
+  public onTabButtonKeyDown(event: KeyboardEvent): void {
+    /*istanbul ignore else */
+    if (event.key) {
+      switch (event.key.toUpperCase()) {
+        case ' ':
+        case 'ENTER':
+          this.onButtonClick(event);
+          break;
+        /* istanbul ignore next */
+        default:
+          break;
+      }
+    }
   }
 
   public onCloseClick(event: any): void {

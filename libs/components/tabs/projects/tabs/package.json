@@ -9,7 +9,7 @@
     "@skyux/i18n": "^5.0.2",
     "@skyux/forms": "^5.0.2",
     "@skyux/indicators": "^5.3.0",
-    "@skyux/modals": "^5.0.4",
+    "@skyux/modals": "^5.0.5",
     "@skyux/popovers": "^5.0.2",
     "@skyux/theme": "^5.0.5"
   },

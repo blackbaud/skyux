@@ -205,6 +205,48 @@ describe('Vertical tabset component', () => {
     flush();
   }));
 
+  it('should open tab when enter key is pressed', fakeAsync(() => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+    const tabs = getTabs(fixture);
+
+    // open second tab
+    SkyAppTestUtility.fireDomEvent(tabs[1], 'keyup', {
+      keyboardEventInit: {
+        key: 'enter',
+      },
+    });
+    fixture.detectChanges();
+
+    // check open tab
+    expectVisibleTabContentPane(fixture, 'Group 1 Tab 2 content');
+
+    flush();
+  }));
+
+  it('should open tab when space key is pressed', fakeAsync(() => {
+    mockQueryService.fire(SkyMediaBreakpoints.lg);
+    const fixture = createTestComponent();
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+    const tabs = getTabs(fixture);
+
+    // open second tab
+    SkyAppTestUtility.fireDomEvent(tabs[1], 'keyup', {
+      keyboardEventInit: {
+        key: ' ',
+      },
+    });
+    fixture.detectChanges();
+
+    // check open tab
+    expectVisibleTabContentPane(fixture, 'Group 1 Tab 2 content');
+
+    flush();
+  }));
+
   it('should pass through aria inputs, id, and set role', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     const fixture = createTestComponent();

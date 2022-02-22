@@ -21,7 +21,7 @@
     }"
     [tabindex]="disabled ? '-1' : '0'"
     (click)="onButtonClick($event)"
-    (keydown.enter)="onButtonEnterKeyDown($event)"
+    (keydown)="onTabButtonKeyDown($event)"
   >
     <span class="sky-tab-heading">
       {{ buttonText }}
