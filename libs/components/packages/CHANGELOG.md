@@ -1,3 +1,7 @@
+# 5.143.0 (2022-02-22)
+
+- `@skyux/datetime@5.1.4` [Release notes](https://github.com/blackbaud/skyux-datetime/blob/5.1.4/CHANGELOG.md)
+
 # 5.142.0 (2022-02-18)
 
 - `@skyux/docs-tools@5.0.0-beta.12` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.12/CHANGELOG.md)
