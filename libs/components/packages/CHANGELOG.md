@@ -1,3 +1,7 @@
+# 5.147.0 (2022-02-23)
+
+- `@skyux/data-manager@5.0.3` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.3/CHANGELOG.md)
+
 # 5.146.0 (2022-02-23)
 
 - `@skyux/docs-tools@5.0.0-beta.13` [Release notes](https://github.com/blackbaud/skyux-docs-tools/blob/5.0.0-beta.13/CHANGELOG.md)
