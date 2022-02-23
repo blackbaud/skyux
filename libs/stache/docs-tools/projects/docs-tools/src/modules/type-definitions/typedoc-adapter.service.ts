@@ -302,7 +302,7 @@ export class SkyDocsTypeDocAdapterService {
             /* Sanity check */
             /* istanbul ignore else */
             if (signature) {
-              const matchingParam = signature.parameters.find(
+              const matchingParam = signature.parameters?.find(
                 (parameter) => parameter.name === child.name
               );
               if (matchingParam) {

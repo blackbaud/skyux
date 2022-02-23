@@ -636,6 +636,58 @@ describe('TypeDoc adapter', () => {
       ]);
     });
 
+    it('should handle when properties are missing descriptions but the constructor has no parameters', () => {
+      entry.children = [
+        {
+          name: 'constructor',
+          kindString: 'Constructor',
+          signatures: [
+            {
+              name: 'new Class',
+              kindString: 'Constructor signature',
+            },
+          ],
+        },
+        {
+          name: 'fooB',
+          kindString: 'Property',
+          type: {
+            type: 'intrinsic',
+            name: 'number',
+          },
+        },
+        {
+          name: 'fooA',
+          kindString: 'Property',
+          type: {
+            type: 'intrinsic',
+            name: 'string',
+          },
+        },
+      ];
+
+      const def = adapter.toClassDefinition(entry);
+
+      expect(def.properties).toEqual([
+        {
+          name: 'fooA',
+          isOptional: true,
+          type: {
+            name: 'string',
+            type: 'intrinsic',
+          },
+        },
+        {
+          name: 'fooB',
+          isOptional: true,
+          type: {
+            name: 'number',
+            type: 'intrinsic',
+          },
+        },
+      ]);
+    });
+
     it('should handle union-type properties', () => {
       entry.children = [
         {
