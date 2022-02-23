@@ -1,3 +1,11 @@
+# 5.1.0 (2022-02-23)
+
+- Updated the vertical tab component to include valid ARIA roles, states, and properties. [#203](https://github.com/blackbaud/skyux-tabs/pull/203)
+- Updated the tab and vertical tab components to allow the space key to open tabs when pressed. [#206](https://github.com/blackbaud/skyux-tabs/pull/206)
+- Added the `ariaLabel` and `ariaLabelledBy` inputs to the vertical tabset component. [#204](https://github.com/blackbaud/skyux-tabs/pull/204)
+- Deprecated the `ariaControls`, `ariaRole`, and `tabId` inputs of the vertical tab component. [#204](https://github.com/blackbaud/skyux-tabs/pull/204)
+- Deprecated the `ariaRole` input of the vertical tabset component. [#204](https://github.com/blackbaud/skyux-tabs/pull/204)
+
 # 5.0.4 (2022-01-18)
 
 - Added support for Prettier code formatting. [#202](https://github.com/blackbaud/skyux-tabs/pull/202)
