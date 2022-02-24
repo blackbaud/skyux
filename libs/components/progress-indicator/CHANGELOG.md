@@ -1,3 +1,7 @@
+# 5.0.3 (2022-02-24)
+
+- Fixed the progress indicator status marker to use a color which conforms to accessibility color contrast standards. [#86](https://github.com/blackbaud/skyux-progress-indicator/pull/86)
+
 # 5.0.2 (2022-01-04)
 
 - Fixed an issue with overlays not being dismissed when using a progress indicator. [#80](https://github.com/blackbaud/skyux-progress-indicator/pull/80)
