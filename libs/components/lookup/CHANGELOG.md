@@ -1,3 +1,7 @@
+# 5.2.2 (2022-02-24)
+
+- Added example code for asynchronous lookup. [#254](https://github.com/blackbaud/skyux-lookup/pull/254)
+
 # 5.2.1 (2022-02-04)
 
 - Fixed an issue with highlighting when the search text included control characters. [#250](https://github.com/blackbaud/skyux-lookup/pull/250)
