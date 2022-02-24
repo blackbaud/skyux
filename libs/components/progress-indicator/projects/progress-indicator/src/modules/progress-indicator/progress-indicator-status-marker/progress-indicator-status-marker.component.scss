@@ -3,6 +3,10 @@
 @import '~@skyux/theme/scss/themes/modern/_compat/_mixins';
 @import '../scss/progress-indicator-variables';
 
+// 80% brightness of our standard highlight green #71bf43
+// and exceeds 3:1 contrast against both white and our modern page background #FCFCFC.
+$sky-progress-indicator-success-color: #5a9936;
+
 .sky-progress-indicator-status-marker {
   display: flex;
   height: 100%;
@@ -58,7 +62,7 @@
           display: block;
           width: 5px;
           height: 1px;
-          background-color: $sky-highlight-color-success;
+          background-color: $sky-progress-indicator-success-color;
           position: absolute;
           left: -7px;
           top: 5px;
@@ -98,21 +102,21 @@
 
 .sky-progress-indicator-status-marker-status-active {
   .sky-progress-indicator-status-marker-icon {
-    background-color: $sky-highlight-color-success;
+    background-color: $sky-progress-indicator-success-color;
     border-color: transparent;
   }
 }
 
 .sky-progress-indicator-status-marker-status-pending {
   .sky-progress-indicator-status-marker-icon {
-    border-color: $sky-highlight-color-success;
+    border-color: $sky-progress-indicator-success-color;
   }
 }
 
 .sky-progress-indicator-status-marker-status-complete {
   .sky-progress-indicator-status-marker-icon {
     border-color: transparent;
-    color: $sky-highlight-color-success;
+    color: $sky-progress-indicator-success-color;
     margin-top: 0;
 
     > ::ng-deep sky-icon {
@@ -122,7 +126,7 @@
   }
 
   .sky-progress-indicator-status-marker-line {
-    background-color: $sky-highlight-color-success;
+    background-color: $sky-progress-indicator-success-color;
   }
 }
 
