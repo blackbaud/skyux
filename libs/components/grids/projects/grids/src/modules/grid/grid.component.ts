@@ -229,9 +229,7 @@ export class SkyGridComponent
   /**
    * Specifies a unique key for the UI Config Service to retrieve stored settings from a database.
    * The UI Config Service saves configuration settings for users and returns
-   * `selectedColumnIds` to preserve the columns to display and the preferred column order.
-   * For more information about the UI Config Service, see
-   * [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
+   * `selectedColumnIds` to preserve the columns to display and the preferred column order. You  must provide `id` values for your `sky-grid-column` elements because the UI Config Service depends on those values to organize columns based on user settings. For more information about the UI Config Service, see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
    */
   @Input()
   public settingsKey: string;
