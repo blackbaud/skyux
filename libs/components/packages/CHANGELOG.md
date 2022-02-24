@@ -1,3 +1,7 @@
+# 5.148.0 (2022-02-24)
+
+- `@skyux/progress-indicator@5.0.3` [Release notes](https://github.com/blackbaud/skyux-progress-indicator/blob/5.0.3/CHANGELOG.md)
+
 # 5.147.0 (2022-02-23)
 
 - `@skyux/data-manager@5.0.3` [Release notes](https://github.com/blackbaud/skyux-data-manager/blob/5.0.3/CHANGELOG.md)
