@@ -23,13 +23,14 @@ export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp, IPopupComponent<any>
 {
   public skyComponentProperties?: SkyLookupProperties;
-  public isAlive = true;
+  public isAlive = false;
   public lookupForm = new FormGroup({
     currentSelection: new FormControl({
       value: [],
       disabled: false,
     }),
   });
+  public useAsyncSearch: boolean = false;
 
   private params: SkyCellEditorLookupParams;
 
@@ -49,6 +50,9 @@ export class SkyAgGridCellEditorLookupComponent
       control.disable();
     }
     this.skyComponentProperties = this.updateComponentProperties(this.params);
+    this.useAsyncSearch =
+      typeof this.skyComponentProperties.searchAsync === 'function';
+    this.isAlive = true;
     this.changeDetector.markForCheck();
   }
 

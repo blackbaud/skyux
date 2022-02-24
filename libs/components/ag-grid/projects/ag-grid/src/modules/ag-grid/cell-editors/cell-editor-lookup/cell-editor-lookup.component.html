@@ -1,5 +1,35 @@
 <sky-input-box
-  *ngIf="isAlive"
+  *ngIf="isAlive && useAsyncSearch"
+  [disabled]="skyComponentProperties?.disabled"
+  [formGroup]="lookupForm"
+>
+  <sky-lookup
+    [ariaLabel]="skyComponentProperties?.ariaLabel"
+    [autocompleteAttribute]="skyComponentProperties?.autocompleteAttribute"
+    [data]="skyComponentProperties?.data"
+    [debounceTime]="skyComponentProperties?.debounceTime"
+    [descriptorProperty]="skyComponentProperties?.descriptorProperty"
+    [enableShowMore]="skyComponentProperties?.enableShowMore"
+    formControlName="currentSelection"
+    [idProperty]="skyComponentProperties?.idProperty"
+    [placeholderText]="skyComponentProperties?.placeholderText"
+    [propertiesToSearch]="skyComponentProperties?.propertiesToSearch"
+    [searchFilters]="skyComponentProperties?.searchFilters"
+    [searchResultsLimit]="skyComponentProperties?.searchResultsLimit"
+    [searchResultTemplate]="skyComponentProperties?.searchResultTemplate"
+    [searchTextMinimumCharacters]="
+      skyComponentProperties?.searchTextMinimumCharacters
+    "
+    (searchAsync)="skyComponentProperties.searchAsync($event)"
+    [selectMode]="skyComponentProperties?.selectMode"
+    [showAddButton]="skyComponentProperties?.showAddButton"
+    [showMoreConfig]="skyComponentProperties?.showMoreConfig"
+    [wrapperClass]="skyComponentProperties?.wrapperClass"
+  >
+  </sky-lookup>
+</sky-input-box>
+<sky-input-box
+  *ngIf="isAlive && !useAsyncSearch"
   [disabled]="skyComponentProperties?.disabled"
   [formGroup]="lookupForm"
 >

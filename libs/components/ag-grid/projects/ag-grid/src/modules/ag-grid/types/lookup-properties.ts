@@ -1,12 +1,15 @@
-import { TemplateRef } from '@angular/core';
+import { EventEmitter, TemplateRef } from '@angular/core';
 import {
+  SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchFunction,
   SkyAutocompleteSearchFunctionFilter,
+  SkyLookupAddClickEventArgs,
   SkyLookupSelectModeType,
   SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
 export interface SkyLookupProperties {
+  addClick?: (args: SkyLookupAddClickEventArgs) => {};
   ariaLabel?: string;
   autocompleteAttribute?: string;
   data: any[];
@@ -18,6 +21,7 @@ export interface SkyLookupProperties {
   placeholderText?: string;
   propertiesToSearch?: string[];
   search?: SkyAutocompleteSearchFunction;
+  searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => {};
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<any>;
@@ -32,6 +36,7 @@ export function applySkyLookupPropertiesDefaults(
   skyLookupProperties: SkyLookupProperties
 ) {
   return {
+    addClick: skyLookupProperties.addClick || undefined,
     ariaLabel: skyLookupProperties.ariaLabel || '',
     autocompleteAttribute: skyLookupProperties.autocompleteAttribute || 'off',
     data: skyLookupProperties.data || [],
@@ -43,6 +48,7 @@ export function applySkyLookupPropertiesDefaults(
     placeholderText: skyLookupProperties.placeholderText || '',
     propertiesToSearch: skyLookupProperties.propertiesToSearch || undefined,
     search: skyLookupProperties.search || undefined,
+    searchAsync: skyLookupProperties.searchAsync || undefined,
     searchFilters: skyLookupProperties.searchFilters || [],
     searchResultsLimit: skyLookupProperties.searchResultsLimit || undefined,
     searchResultTemplate: skyLookupProperties.searchResultTemplate || undefined,
