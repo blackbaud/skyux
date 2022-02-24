@@ -1,3 +1,7 @@
+# 5.2.2 (2022-02-24)
+
+- Added support for asynchronous search in the lookup cell editor. [#201](https://github.com/blackbaud/skyux-ag-grid/pull/201)
+
 # 5.2.1 (2022-02-07)
 
 - Updated the code structure for data grid and data entry grid code examples and behavioral demos to not segment by selection, remove the unnecessary `searchText` variable, and update the shown items dynamically based on selection. [#194](https://github.com/blackbaud/skyux-ag-grid/pull/194)
