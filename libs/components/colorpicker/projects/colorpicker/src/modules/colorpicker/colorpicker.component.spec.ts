@@ -285,6 +285,10 @@ describe('Colorpicker Component', () => {
     })
   );
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   describe('standard setup', () => {
     let component: ColorpickerTestComponent;
 
