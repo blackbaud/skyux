@@ -101,7 +101,7 @@ export interface SkyFlyoutConfig {
    * Specifies a unique key for the UI Config Service to retrieve stored settings from a database.
    * The UI Config Service saves configuration settings for users to preserve the width of
    * the flyout. For more information about the UI Config Service,
-   * see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/advanced/sticky-settings).
+   * see [the sticky settings documentation](https://developer.blackbaud.com/skyux/learn/get-started/sticky-settings).
    */
   settingsKey?: string;
 }
