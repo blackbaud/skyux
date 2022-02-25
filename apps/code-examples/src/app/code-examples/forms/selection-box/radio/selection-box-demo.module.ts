@@ -9,7 +9,7 @@ import { SkyIdModule } from '@skyux/core';
 import {
   SkyRadioModule,
   SkySelectionBoxModule,
-} from 'projects/forms/src/public-api';
+} from '@skyux/forms';
 
 import { SkyIconModule } from '@skyux/indicators';
 

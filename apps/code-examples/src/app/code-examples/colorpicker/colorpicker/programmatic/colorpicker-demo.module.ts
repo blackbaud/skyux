@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 
-import { SkyColorpickerModule } from 'projects/colorpicker/src/public-api';
+import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 import { ColorpickerDemoComponent } from './colorpicker-demo.component';
 

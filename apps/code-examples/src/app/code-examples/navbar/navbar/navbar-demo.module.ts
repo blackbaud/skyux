@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { SkyDropdownModule } from '@skyux/popovers';
 
-import { SkyNavbarModule } from 'projects/navbar/src/public-api';
+import { SkyNavbarModule } from '@skyux/navbar';
 
 import { NavbarDemoComponent } from './navbar-demo.component';
 

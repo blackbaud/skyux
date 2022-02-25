@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import {
   SkyListModule,
   SkyListPagingModule,
-} from 'projects/list-builder/src/public-api';
+} from '@skyux/list-builder';
 
 import { ListPagingDemoComponent } from './list-paging-demo.component';
 

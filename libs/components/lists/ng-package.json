@@ -3,5 +3,9 @@
   "dest": "../../../dist/libs/components/lists",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "dragula",
+    "ng2-dragula"
+  ]
 }

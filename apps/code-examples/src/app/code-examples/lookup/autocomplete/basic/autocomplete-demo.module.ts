@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SkyIdModule } from '@skyux/core';
 
-import { SkyAutocompleteModule } from 'projects/lookup/src/public-api';
+import { SkyAutocompleteModule } from '@skyux/lookup';
 
 import { AutocompleteDemoComponent } from './autocomplete-demo.component';
 

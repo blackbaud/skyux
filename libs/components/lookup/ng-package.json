@@ -3,5 +3,8 @@
   "dest": "../../../dist/libs/components/lookup",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "intl-tel-input"
+  ]
 }

@@ -1,5 +1,5 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
 .sky-split-view {
   // Set position:relative to give resize handle's absolute positioning a new origin.

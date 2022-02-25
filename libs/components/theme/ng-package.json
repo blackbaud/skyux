@@ -3,5 +3,10 @@
   "dest": "../../../dist/libs/components/theme",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@blackbaud/skyux-design-tokens",
+    "@skyux/icons",
+    "fontfaceobserver"
+  ]
 }

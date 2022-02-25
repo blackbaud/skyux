@@ -1,6 +1,6 @@
-@import '~@skyux/theme/scss/mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
 
-@import '~@skyux/theme/scss/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
 .sky-angular-tree-wrapper ::ng-deep {
   .angular-tree-component {

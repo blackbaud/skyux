@@ -1,1 +1,1 @@
-export * from './lib/sdk-prettier-schematics';
+export * from './schematics/ng-add/ng-add.schematic';

@@ -6,7 +6,7 @@ import { SkyAutocompleteSearchAsyncArgs } from 'lookup';
 import {
   SkyAutocompleteSearchAsyncResult,
   SkyAutocompleteSearchFunctionFilter,
-} from 'projects/lookup/src/public-api';
+} from '@skyux/lookup';
 import { Subject } from 'rxjs';
 
 @Component({

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyTextExpandModule } from 'projects/layout/src/public-api';
+import { SkyTextExpandModule } from '@skyux/layout';
 
 import { TextExpandDemoComponent } from './text-expand-demo.component';
 

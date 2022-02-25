@@ -1,6 +1,6 @@
-@import '~@skyux/theme/scss/variables';
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/variables';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
 @include sky-host-responsive-container-xs-min() {
   .sky-vertical-tabset {

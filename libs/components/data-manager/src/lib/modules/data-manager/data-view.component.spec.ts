@@ -11,7 +11,7 @@ import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture
 
 import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
 
-import { SkyDataManagerService } from '../../public-api';
+import { SkyDataManagerService } from 'libs/components/data-manager/src/index';
 
 describe('SkyDataViewComponent', () => {
   let dataViewFixture: ComponentFixture<DataViewRepeaterFixtureComponent>;

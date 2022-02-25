@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { SkyIconModule } from '@skyux/indicators';
 
-import { SkyToolbarModule } from 'projects/layout/src/public-api';
+import { SkyToolbarModule } from '@skyux/layout';
 
 import { ToolbarDemoComponent } from './toolbar-demo.component';
 

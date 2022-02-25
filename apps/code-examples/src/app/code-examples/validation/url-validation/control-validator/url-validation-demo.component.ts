@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { SkyValidators } from 'projects/validation/src/public-api';
+import { SkyValidators } from '@skyux/validation';
 
 @Component({
   selector: 'app-url-validation-demo',

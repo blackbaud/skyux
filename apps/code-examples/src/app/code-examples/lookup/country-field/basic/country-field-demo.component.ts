@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { SkyCountryFieldCountry } from 'projects/lookup/src/public-api';
+import { SkyCountryFieldCountry } from '@skyux/lookup';
 
 @Component({
   selector: 'app-country-field-demo',

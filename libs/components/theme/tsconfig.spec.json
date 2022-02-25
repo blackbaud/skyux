@@ -4,6 +4,9 @@
     "outDir": "../../../dist/out-tsc",
     "types": ["jasmine", "node"]
   },
-  "files": ["src/test.ts"],
+  "files": [
+    "../i18n/src/index.ts", // <-- This is needed because @skyux-sdk/testing includes a reference to @skyux/i18n, but this library's module never imports @skyux/i18n in its source code.
+    "src/test.ts"
+  ],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

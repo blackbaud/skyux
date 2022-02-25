@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 
 import { NgModule } from '@angular/core';
 
-import { SkySummaryActionBarModule } from 'projects/action-bars/src/public-api';
+import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
 import { SkyKeyInfoModule } from '@skyux/indicators';
 

@@ -8,7 +8,7 @@ import { SkyIdModule } from '@skyux/core';
 
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 
-import { SkyLookupModule } from 'projects/lookup/src/public-api';
+import { SkyLookupModule } from '@skyux/lookup';
 
 import { SkyModalModule } from '@skyux/modals';
 

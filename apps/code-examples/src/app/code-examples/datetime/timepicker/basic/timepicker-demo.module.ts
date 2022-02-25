@@ -6,7 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SkyIdModule } from '@skyux/core';
 
-import { SkyTimepickerModule } from 'projects/datetime/src/public-api';
+import { SkyTimepickerModule } from '@skyux/datetime';
 
 import { SkyInputBoxModule } from '@skyux/forms';
 

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import {
   SkyCardModule,
   SkyInlineDeleteModule,
-} from 'projects/layout/src/public-api';
+} from '@skyux/layout';
 
 import { InlineDeleteCardDemoComponent } from './inline-delete-card-demo.component';
 

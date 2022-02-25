@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyInlineDeleteModule } from 'projects/layout/src/public-api';
+import { SkyInlineDeleteModule } from '@skyux/layout';
 
 import { SkyRepeaterModule } from '@skyux/lists';
 

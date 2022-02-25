@@ -1,5 +1,5 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
 :host {

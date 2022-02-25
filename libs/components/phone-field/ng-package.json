@@ -3,5 +3,9 @@
   "dest": "../../../dist/libs/components/phone-field",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "google-libphonenumber",
+    "intl-tel-input"
+  ]
 }

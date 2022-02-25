@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SkyColorpickerModule } from 'projects/colorpicker/src/public-api';
+import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 import { SkyIdModule } from '@skyux/core';
 

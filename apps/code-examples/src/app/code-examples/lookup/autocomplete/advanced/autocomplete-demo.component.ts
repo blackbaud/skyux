@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyAutocompleteSelectionChange,
-} from 'projects/lookup/src/public-api';
+} from '@skyux/lookup';
 
 @Component({
   selector: 'app-autocomplete-demo',

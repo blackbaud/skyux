@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyFlyoutModule } from 'projects/flyout/src/public-api';
+import { SkyFlyoutModule } from '@skyux/flyout';
 
 import { FlyoutDemoComponent } from './flyout-demo.component';
 

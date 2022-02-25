@@ -12,7 +12,7 @@ import {
   SkyDateRangeCalculatorId,
   SkyDateRangeCalculatorType,
   SkyDateRangeService,
-} from 'projects/datetime/src/public-api';
+} from '@skyux/datetime';
 
 import { Subject } from 'rxjs';
 

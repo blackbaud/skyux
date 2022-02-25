@@ -10,7 +10,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataManagerService,
-} from '../../../public-api';
+} from 'libs/components/data-manager/src/index';
 
 @Component({
   selector: 'sky-data-view-repeater-fixture',

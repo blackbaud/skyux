@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SkyCheckboxModule } from 'projects/forms/src/public-api';
+import { SkyCheckboxModule } from '@skyux/forms';
 
 import { CheckboxDemoComponent } from './checkbox-demo.component';
 

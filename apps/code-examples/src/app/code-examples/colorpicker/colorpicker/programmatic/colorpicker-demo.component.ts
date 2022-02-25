@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {
   SkyColorpickerMessage,
   SkyColorpickerMessageType,
-} from 'projects/colorpicker/src/public-api';
+} from '@skyux/colorpicker';
 
 import { Subject } from 'rxjs';
 

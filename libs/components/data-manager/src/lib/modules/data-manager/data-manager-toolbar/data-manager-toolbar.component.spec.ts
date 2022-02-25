@@ -35,7 +35,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataViewState,
-} from '../../../public-api';
+} from 'libs/components/data-manager/src/index';
 
 class MockModalService {
   public closeCallback: Function;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SkyActionButtonPermalink } from 'projects/layout/src/public-api';
+import { SkyActionButtonPermalink } from '@skyux/layout';
 
 @Component({
   selector: 'app-action-button-demo',

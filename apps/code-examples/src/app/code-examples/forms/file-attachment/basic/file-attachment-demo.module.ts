@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 
-import { SkyFileAttachmentsModule } from 'projects/forms/src/public-api';
+import { SkyFileAttachmentsModule } from '@skyux/forms';
 
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 

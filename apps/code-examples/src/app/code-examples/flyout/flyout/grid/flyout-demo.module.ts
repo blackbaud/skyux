@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { SkyAvatarModule } from '@skyux/avatar';
 
-import { SkyFlyoutModule } from 'projects/flyout/src/public-api';
+import { SkyFlyoutModule } from '@skyux/flyout';
 
 import { SkyKeyInfoModule, SkyLabelModule } from '@skyux/indicators';
 

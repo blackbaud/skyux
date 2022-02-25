@@ -6,7 +6,7 @@ import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
   SkyLookupShowMoreCustomPickerContext,
-} from 'projects/lookup/src/public-api';
+} from '@skyux/lookup';
 
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 

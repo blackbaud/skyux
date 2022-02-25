@@ -1,6 +1,6 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
-@import '~@skyux/theme/scss/variables';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/variables';
 
 .sky-modal {
   @include sky-border(dark, top, bottom, left, right);

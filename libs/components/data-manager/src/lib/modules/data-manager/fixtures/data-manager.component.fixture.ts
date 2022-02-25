@@ -12,7 +12,7 @@ import { SkyDataManagerComponent } from '../data-manager.component';
 import {
   SkyDataManagerService,
   SkyDataManagerState,
-} from '../../../public-api';
+} from 'libs/components/data-manager/src/index';
 
 @Component({
   selector: 'sky-data-manager-fixture',

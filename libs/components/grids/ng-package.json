@@ -3,5 +3,9 @@
   "dest": "../../../dist/libs/components/grids",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "dragula",
+    "ng2-dragula"
+  ]
 }

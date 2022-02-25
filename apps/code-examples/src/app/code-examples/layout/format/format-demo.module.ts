@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyFormatModule } from 'projects/layout/src/public-api';
+import { SkyFormatModule } from '@skyux/layout';
 
 import { FormatDemoComponent } from './format-demo.component';
 

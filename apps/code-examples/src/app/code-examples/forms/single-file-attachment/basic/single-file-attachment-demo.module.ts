@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SkyFileAttachmentsModule } from 'projects/forms/src/public-api';
+import { SkyFileAttachmentsModule } from '@skyux/forms';
 
 import { SingleFileAttachmentDemoComponent } from './single-file-attachment-demo.component';
 

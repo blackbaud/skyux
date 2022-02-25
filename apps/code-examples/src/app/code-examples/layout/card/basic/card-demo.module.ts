@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 
 import { SkyCheckboxModule } from '@skyux/forms';
 
-import { SkyCardModule } from 'projects/layout/src/public-api';
+import { SkyCardModule } from '@skyux/layout';
 
 import { SkyDropdownModule } from '@skyux/popovers';
 

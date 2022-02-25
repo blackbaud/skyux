@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { SkyAutocompleteSearchFunctionFilter } from 'projects/lookup/src/public-api';
+import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 @Component({
   selector: 'app-single-select-lookup-demo',

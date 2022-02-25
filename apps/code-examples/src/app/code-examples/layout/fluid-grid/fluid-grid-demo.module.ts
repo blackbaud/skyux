@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyFluidGridModule } from 'projects/layout/src/public-api';
+import { SkyFluidGridModule } from '@skyux/layout';
 
 import { FluidGridDemoComponent } from './fluid-grid-demo.component';
 

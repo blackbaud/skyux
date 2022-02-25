@@ -3,7 +3,7 @@ import { Component, OnDestroy } from '@angular/core';
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-} from 'projects/core/src/public-api';
+} from '@skyux/core';
 
 import { Subscription } from 'rxjs';
 

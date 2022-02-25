@@ -7,7 +7,7 @@ import { SkyGridModule } from '@skyux/grids';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { BackToTopDemoComponent } from './back-to-top-demo.component';
-import { SkyBackToTopModule } from 'projects/layout/src/public-api';
+import { SkyBackToTopModule } from '@skyux/layout';
 
 @NgModule({
   imports: [CommonModule, SkyBackToTopModule, SkyGridModule, SkyTabsModule],

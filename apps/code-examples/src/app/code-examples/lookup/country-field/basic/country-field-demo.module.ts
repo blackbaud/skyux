@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SkyInputBoxModule } from '@skyux/forms';
 
-import { SkyCountryFieldModule } from 'projects/lookup/src/public-api';
+import { SkyCountryFieldModule } from '@skyux/lookup';
 
 import { CountryFieldDemoComponent } from './country-field-demo.component';
 

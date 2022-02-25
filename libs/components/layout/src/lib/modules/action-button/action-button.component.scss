@@ -1,6 +1,6 @@
-@import '~@skyux/theme/scss/mixins';
-@import '~@skyux/theme/scss/_compat/mixins';
-@import '~@skyux/theme/scss/themes/modern/_compat/_mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/_mixins';
 
 .sky-action-button {
   @include sky-border(dark, top, bottom, left, right);

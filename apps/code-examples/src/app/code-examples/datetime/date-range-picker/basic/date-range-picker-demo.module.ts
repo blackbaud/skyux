@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SkyDateRangePickerModule } from 'projects/datetime/src/public-api';
+import { SkyDateRangePickerModule } from '@skyux/datetime';
 
 import { DateRangePickerDemoComponent } from './date-range-picker-demo.component';
 

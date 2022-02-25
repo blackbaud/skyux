@@ -13,7 +13,7 @@ import {
   SkyListModule,
   SkyListSecondaryActionsModule,
   SkyListToolbarModule,
-} from 'projects/list-builder/src/public-api';
+} from '@skyux/list-builder';
 
 import { SkyFilterModule } from '@skyux/lists';
 

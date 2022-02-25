@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { SkyColorpickerOutput } from 'projects/colorpicker/src/public-api';
+import { SkyColorpickerOutput } from '@skyux/colorpicker';
 
 @Component({
   selector: 'app-colorpicker-demo',

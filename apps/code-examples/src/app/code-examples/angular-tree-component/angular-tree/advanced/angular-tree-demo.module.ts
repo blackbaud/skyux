@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SkyAngularTreeModule } from 'projects/angular-tree-component/src/public-api';
+import { SkyAngularTreeModule } from '@skyux/angular-tree-component';
 
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
 

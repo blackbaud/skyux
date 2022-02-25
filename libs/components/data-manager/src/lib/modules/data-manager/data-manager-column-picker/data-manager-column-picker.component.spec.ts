@@ -16,7 +16,7 @@ import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picke
 
 import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 
-import { SkyDataManagerColumnPickerSortStrategy } from '../../../public-api';
+import { SkyDataManagerColumnPickerSortStrategy } from 'libs/components/data-manager/src/index';
 
 class MockModalInstance {
   public saveResult: any;

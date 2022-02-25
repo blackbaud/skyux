@@ -8,7 +8,7 @@ import { SkyIdModule } from '@skyux/core';
 
 import { SkyInputBoxModule } from '@skyux/forms';
 
-import { SkyEmailValidationModule } from 'projects/validation/src/public-api';
+import { SkyEmailValidationModule } from '@skyux/validation';
 
 import { EmailValidationDemoComponent } from './email-validation-demo.component';
 

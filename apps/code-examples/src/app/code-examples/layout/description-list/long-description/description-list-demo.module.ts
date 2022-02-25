@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyDescriptionListModule } from 'projects/layout/src/public-api';
+import { SkyDescriptionListModule } from '@skyux/layout';
 
 import { DescriptionListDemoComponent } from './description-list-demo.component';
 

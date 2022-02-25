@@ -21,7 +21,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataViewState,
-} from '../../public-api';
+} from 'libs/components/data-manager/src/index';
 
 describe('SkyDataManagerService', () => {
   let dataManagerFixture: ComponentFixture<DataManagerFixtureComponent>;

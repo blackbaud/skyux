@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ListFilterModel } from 'projects/list-builder/src/public-api';
+import { ListFilterModel } from '@skyux/list-builder';
 
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 

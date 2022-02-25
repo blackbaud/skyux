@@ -8,7 +8,7 @@ import { SkyRadioModule } from '@skyux/forms';
 
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
 
-import { SkyListViewChecklistModule } from 'projects/list-builder-view-checklist/src/public-api';
+import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
 
 import { ListViewChecklistDemoComponent } from './list-view-checklist-demo.component';
 

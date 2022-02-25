@@ -9,7 +9,7 @@ import { SkyIdModule } from '@skyux/core';
 import {
   SkyCharacterCounterModule,
   SkyInputBoxModule,
-} from 'projects/forms/src/public-api';
+} from '@skyux/forms';
 
 import { CharacterCountDemoComponent } from './character-count-demo.component';
 

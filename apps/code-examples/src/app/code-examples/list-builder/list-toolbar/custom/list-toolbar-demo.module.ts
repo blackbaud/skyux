@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import {
   SkyListModule,
   SkyListToolbarModule,
-} from 'projects/list-builder/src/public-api';
+} from '@skyux/list-builder';
 
 import { ListToolbarDemoComponent } from './list-toolbar-demo.component';
 

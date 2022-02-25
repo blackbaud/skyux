@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { SkyAvatarModule } from 'projects/avatar/src/public-api';
+import { SkyAvatarModule } from '@skyux/avatar';
 
 import { AvatarDemoComponent } from './avatar-demo.component';
 

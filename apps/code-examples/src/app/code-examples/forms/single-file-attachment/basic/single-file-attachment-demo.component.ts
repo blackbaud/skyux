@@ -12,7 +12,7 @@ import {
   SkyFileAttachmentChange,
   SkyFileAttachmentClick,
   SkyFileItem,
-} from 'projects/forms/src/public-api';
+} from '@skyux/forms';
 
 @Component({
   selector: 'app-single-file-attachment-demo',

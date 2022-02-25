@@ -4,7 +4,7 @@ import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
   SkyFlyoutService,
-} from 'projects/flyout/src/public-api';
+} from '@skyux/flyout';
 
 import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
 

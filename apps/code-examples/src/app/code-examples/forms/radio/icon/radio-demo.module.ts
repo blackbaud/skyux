@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SkyRadioModule } from 'projects/forms/src/public-api';
+import { SkyRadioModule } from '@skyux/forms';
 
 import { RadioDemoComponent } from './radio-demo.component';
 

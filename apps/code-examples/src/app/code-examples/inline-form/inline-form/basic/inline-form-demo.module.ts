@@ -10,7 +10,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
 
 import { SkyIconModule } from '@skyux/indicators';
 
-import { SkyInlineFormModule } from 'projects/inline-form/src/public-api';
+import { SkyInlineFormModule } from '@skyux/inline-form';
 
 import { InlineFormDemoComponent } from './inline-form-demo.component';
 

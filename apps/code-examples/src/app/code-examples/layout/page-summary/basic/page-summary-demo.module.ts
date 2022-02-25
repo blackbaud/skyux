@@ -14,7 +14,7 @@ import {
   SkyLabelModule,
 } from '@skyux/indicators';
 
-import { SkyPageSummaryModule } from 'projects/layout/src/public-api';
+import { SkyPageSummaryModule } from '@skyux/layout';
 
 import { PageSummaryDemoComponent } from './page-summary-demo.component';
 

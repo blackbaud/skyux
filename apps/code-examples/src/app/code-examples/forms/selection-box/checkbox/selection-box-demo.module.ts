@@ -11,7 +11,7 @@ import { SkyIconModule } from '@skyux/indicators';
 import {
   SkyCheckboxModule,
   SkySelectionBoxModule,
-} from 'projects/forms/src/public-api';
+} from '@skyux/forms';
 
 import { SelectionBoxDemoComponent } from './selection-box-demo.component';
 

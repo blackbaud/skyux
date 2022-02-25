@@ -6,7 +6,7 @@ import { SkyToolbarModule } from '@skyux/layout';
 
 import { SkyRepeaterModule } from '@skyux/lists';
 
-import { SkySearchModule } from 'projects/lookup/src/public-api';
+import { SkySearchModule } from '@skyux/lookup';
 
 import { SearchDemoComponent } from './search-demo.component';
 

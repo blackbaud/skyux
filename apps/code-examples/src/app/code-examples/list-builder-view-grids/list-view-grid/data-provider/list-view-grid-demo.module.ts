@@ -15,7 +15,7 @@ import {
   SkyListToolbarModule,
 } from '@skyux/list-builder';
 
-import { SkyListViewGridModule } from 'projects/list-builder-view-grids/src/public-api';
+import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
 import { ListViewGridDemoComponent } from './list-view-grid-demo.component';
 

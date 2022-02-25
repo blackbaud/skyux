@@ -1,4 +1,4 @@
-@import '~@skyux/theme/scss/mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
 
 @include sky-host-responsive-container-xs-min() {
   .sky-col-picker-btn .sky-column-selector-action-btn-text {

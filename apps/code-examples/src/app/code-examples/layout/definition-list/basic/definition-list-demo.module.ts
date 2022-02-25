@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyDefinitionListModule } from 'projects/layout/src/public-api';
+import { SkyDefinitionListModule } from '@skyux/layout';
 
 import { DefinitionListDemoComponent } from './definition-list-demo.component';
 

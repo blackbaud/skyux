@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyBackToTopModule } from 'projects/layout/src/public-api';
+import { SkyBackToTopModule } from '@skyux/layout';
 
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
 

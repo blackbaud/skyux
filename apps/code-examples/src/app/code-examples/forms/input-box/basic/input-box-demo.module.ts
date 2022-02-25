@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { SkyDatepickerModule } from '@skyux/datetime';
 
-import { SkyInputBoxModule } from 'projects/forms/src/public-api';
+import { SkyInputBoxModule } from '@skyux/forms';
 
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 

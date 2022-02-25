@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { SkyGridModule } from 'projects/grids/src/public-api';
+import { SkyGridModule } from '@skyux/grids';
 
 import { GridDemoComponent } from './grid-demo.component';
 

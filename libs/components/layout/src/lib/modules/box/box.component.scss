@@ -1,5 +1,5 @@
-@import '~@blackbaud/skyux-design-tokens/scss/variables';
-@import '~@blackbaud/skyux-design-tokens/scss/themes/modern/variables';
+@import 'libs/components/theme/src/lib/styles/variables';
+@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
 
 .sky-box {
   background-color: #fff;
