@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.2.2 (2022-02-24)
 
 - Added example code for asynchronous lookup. [#254](https://github.com/blackbaud/skyux-lookup/pull/254)
