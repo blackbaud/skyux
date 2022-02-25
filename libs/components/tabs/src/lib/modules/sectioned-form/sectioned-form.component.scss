@@ -1,0 +1,61 @@
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-sectioned-form {
+    display: block;
+    max-height: none;
+  }
+
+  .sky-sectioned-form-content {
+    flex-basis: auto;
+    overflow-y: visible;
+  }
+
+  .sky-sectioned-form-tabs {
+    flex-basis: auto;
+    overflow-y: visible;
+    @include sky-border(light, right);
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-sectioned-form {
+    display: flex;
+    max-height: 100%;
+  }
+
+  .sky-sectioned-form-content {
+    flex-basis: 70%;
+    margin: $sky-padding-even-large;
+    overflow-y: auto;
+  }
+
+  .sky-sectioned-form-tabs {
+    flex-basis: 30%;
+    overflow-y: auto;
+  }
+}
+
+.sky-sectioned-form-tabs-hidden {
+  display: none;
+}
+
+.sky-sectioned-form-content-hidden {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-sectioned-form-content {
+    margin: $sky-theme-modern-space-md;
+  }
+  .sky-sectioned-form-tabs {
+    border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
+  }
+  @include sky-host-responsive-container-sm-min() {
+    .sky-sectioned-form-content {
+      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+    }
+  }
+}

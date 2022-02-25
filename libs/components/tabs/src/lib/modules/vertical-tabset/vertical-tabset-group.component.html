@@ -1,0 +1,41 @@
+<div class="sky-vertical-tabset-group">
+  <!-- [ngClass] includes font classes for both modern and default styles -->
+  <div
+    class="sky-vertical-tabset-group-header"
+    [ngClass]="{
+      'sky-vertical-tabset-group-header-sub-open sky-font-emphasized sky-emphasized':
+        subMenuOpen(),
+      'sky-font-deemphasized': disabled,
+      'sky-deemphasized': disabled,
+      'sky-vertical-tabset-disabled': disabled
+    }"
+    [tabIndex]="-1"
+  >
+    <button
+      class="sky-padding-even-default"
+      type="button"
+      skyId
+      [attr.aria-controls]="groupContent.id"
+      [attr.aria-expanded]="open"
+      (click)="toggleMenuOpen()"
+      #groupHeadingButton
+    >
+      {{ groupHeading }}
+      <sky-expansion-indicator
+        class="sky-vertical-tabset-group-expansion-indicator"
+        [direction]="open ? 'up' : 'down'"
+      >
+      </sky-expansion-indicator>
+    </button>
+  </div>
+  <div
+    class="sky-vertical-tabset-group-content"
+    role="region"
+    skyId
+    [attr.labelledby]="groupHeadingButton.id"
+    [@skyAnimationSlide]="open ? 'down' : 'up'"
+    #groupContent
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

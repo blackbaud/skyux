@@ -1,0 +1,34 @@
+<div class="sky-vertical-tabset" (window:resize)="tabService.updateContent()">
+  <div
+    *ngIf="maintainTabContent || tabService.tabsVisible()"
+    aria-orientation="vertical"
+    class="sky-vertical-tabset-group-container"
+    [ngClass]="{ 'sky-vertical-tabset-hidden': !tabService.tabsVisible() }"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="ariaLabelledBy"
+    [attr.role]="ariaRole"
+    [@tabGroupEnter]="tabService.animationTabsVisibleState"
+    #groupContainerWrapper
+  >
+    <ng-content></ng-content>
+  </div>
+  <div
+    *ngIf="maintainTabContent || tabService.contentVisible()"
+    class="sky-vertical-tabset-content"
+    [ngClass]="{
+      'sky-vertical-tabset-content-hidden': !tabService.contentVisible()
+    }"
+    [@contentEnter]="tabService.animationContentVisibleState"
+    #contentContainerWrapper
+  >
+    <div #skySideContent></div>
+    <button
+      *ngIf="!tabService.tabsVisible()"
+      (click)="tabService.showTabs()"
+      class="sky-btn sky-btn-primary sky-vertical-tabset-show-tabs-btn"
+    >
+      <sky-icon icon="chevron-left"></sky-icon>
+      {{ showTabsText }}
+    </button>
+  </div>
+</div>

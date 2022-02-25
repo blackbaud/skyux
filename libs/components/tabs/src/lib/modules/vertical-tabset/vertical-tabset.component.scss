@@ -1,0 +1,66 @@
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-vertical-tabset {
+    display: block;
+    height: auto;
+  }
+
+  .sky-vertical-tabset-group-container {
+    border-right: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-vertical-tabset {
+    display: flex;
+    height: 100%;
+  }
+
+  .sky-vertical-tabset-group-container {
+    @include sky-border(dark, right);
+  }
+}
+
+.sky-vertical-tabset-hidden {
+  display: none;
+}
+
+.sky-vertical-tabset-content {
+  margin: $sky-margin 0 0 $sky-margin;
+  flex-basis: 75%;
+  overflow-y: auto;
+}
+
+.sky-vertical-tabset-content-hidden {
+  display: none;
+}
+
+.sky-vertical-tabset-show-tabs-btn {
+  margin-top: $sky-margin;
+}
+
+.sky-vertical-tabset-group-container {
+  flex-basis: 25%;
+  overflow-y: auto;
+}
+
+:host-context(sky-modal-content >) .sky-vertical-tabset {
+  margin: -15px;
+}
+
+@include sky-theme-modern {
+  .sky-vertical-tabset-content {
+    margin: $sky-theme-modern-space-md;
+  }
+  @include sky-host-responsive-container-sm-min() {
+    .sky-vertical-tabset-content {
+      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+    }
+    .sky-vertical-tabset-group-container {
+      border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    }
+  }
+}

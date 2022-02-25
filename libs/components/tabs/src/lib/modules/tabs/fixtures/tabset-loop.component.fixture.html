@@ -1,0 +1,13 @@
+<sky-tabset
+  [active]="activeIndex"
+  (tabIndexesChange)="onTabIndexesChange($event)"
+>
+  <sky-tab
+    *ngFor="let tab of tabArray"
+    [active]="tab.active"
+    [tabIndex]="tab.tabIndex"
+    [tabHeading]="tab.tabHeading"
+  >
+    {{ tab.tabContent }}
+  </sky-tab>
+</sky-tabset>

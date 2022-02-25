@@ -1,0 +1,9 @@
+<sky-tabset ariaLabel="Tab demonstration" (newTab)="onNewTabClick()">
+  <sky-tab
+    *ngFor="let tab of tabArray; let i = index"
+    [tabHeading]="tab.tabHeading"
+    (close)="onCloseClick(i)"
+  >
+    {{ tab.tabContent }}
+  </sky-tab>
+</sky-tabset>

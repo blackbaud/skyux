@@ -1,0 +1,317 @@
+<div style="max-height: 300px; display: flex">
+  <sky-vertical-tabset
+    ariaRole="tablist"
+    showTabsText="Tab list"
+    [maintainTabContent]="maintainTabContent"
+  >
+    <sky-vertical-tabset-group
+      groupHeading="Group 1"
+      [open]="group1Open"
+      [disabled]="group1Disabled"
+    >
+      <sky-vertical-tab
+        ariaControls="some-div"
+        ariaRole="tab"
+        tabHeading="Group 1 Tab 1"
+        tabHeaderCount="5"
+        tabId="some-tab"
+        [active]="active"
+        [ariaRequired]="tab1Required"
+      >
+        Group 1 Tab 1 content
+        <div *ngIf="showScrollable">
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+        </div>
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="Group 1 Tab 2">
+        Group 1 Tab 2 content
+        <div *ngIf="showScrollable">
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+          <p>
+            Pellentesque habitant morbi tristique senectus et netus et malesuada
+            fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae,
+            ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam
+            egestas semper. Aenean ultricies mi vitae est. Mauris placerat
+            eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra.
+            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit
+            amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros
+            ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim
+            in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id
+            cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
+            eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+            porttitor, facilisis luctus, metus
+          </p>
+        </div>
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+
+    <sky-vertical-tabset-group
+      groupHeading="Group 2"
+      [open]="group2Open"
+      [disabled]="group2Disabled"
+    >
+      <sky-vertical-tab tabHeading="Group 2 Tab 1">
+        Group 2 Tab 1 content
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="Group 2 Tab 2">
+        Group 2 Tab 2 content
+      </sky-vertical-tab>
+      <sky-vertical-tab
+        tabHeading="Group 2 Tab 2 - disabled"
+        [disabled]="tabDisabled"
+      >
+        Group 2 Tab 3 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+
+    <sky-vertical-tabset-group
+      groupHeading="Group 3"
+      [open]="group3Open"
+      [disabled]="group3Disabled"
+    >
+      <sky-vertical-tab tabHeading="Group 3 Tab 1">
+        Group 3 Tab 1 content
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="Group 3 Tab 2">
+        Group 3 Tab 2 content
+      </sky-vertical-tab>
+    </sky-vertical-tabset-group>
+  </sky-vertical-tabset>
+  <div aria-labelledby="some-tab" id="some-div"></div>
+</div>

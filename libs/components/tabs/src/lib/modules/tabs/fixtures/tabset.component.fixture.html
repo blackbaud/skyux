@@ -1,0 +1,25 @@
+<div [ngStyle]="{'max-width.px': tabMaxWidth}">
+  <sky-tabset [ariaLabel]="ariaLabel" [ariaLabelledBy]="ariaLabelledBy">
+    <sky-tab [tabHeading]="tab1Heading" [active]="activeTab === 0">
+      <div class="tabset-test-content-1">{{tab1Content}}</div>
+    </sky-tab>
+    <sky-tab
+      *ngIf="tab2Available"
+      [tabHeading]="tab2Heading"
+      [active]="activeTab === 1"
+      [disabled]="tab2Disabled"
+      (close)="closeTab2()"
+    >
+      <div class="tabset-test-content-2">{{tab2Content}}</div>
+    </sky-tab>
+    <sky-tab
+      *ngIf="tab3Available"
+      [tabHeading]="tab3Heading"
+      [tabHeaderCount]="tab3HeaderCount"
+      [tabIndex]="3"
+      [active]="activeTab === 2"
+    >
+      <div class="tabset-test-content-3">{{tab3Content}}</div>
+    </sky-tab>
+  </sky-tabset>
+</div>

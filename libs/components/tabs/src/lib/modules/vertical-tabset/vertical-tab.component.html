@@ -1,0 +1,56 @@
+<a
+  class="sky-vertical-tab"
+  [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
+  [attr.aria-selected]="active"
+  [attr.id]="tabId"
+  [attr.role]="ariaRole"
+  [ngClass]="{
+    'sky-vertical-tab-active': active,
+    'sky-vertical-tab-disabled': disabled,
+    'sky-font-deemphasized': disabled,
+    'sky-deemphasized': disabled
+  }"
+  [tabIndex]="tabIndex()"
+  (click)="activateTab()"
+  (keyup)="onTabButtonKeyUp($event)"
+>
+  <div class="sky-vertical-tab-display">
+    <div class="sky-vertical-tab-heading">
+      <span class="sky-vertical-tab-heading-value">{{ tabHeading }}</span>
+      <span
+        class="sky-vertical-tab-count"
+        *ngIf="tabHeaderCount || tabHeaderCount === 0"
+      >
+        ({{ tabHeaderCount }})
+      </span>
+    </div>
+    <sky-status-indicator
+      *ngIf="errorIndicator"
+      class="sky-vertical-tab-heading-error"
+      descriptionType="error"
+      indicatorType="danger"
+    ></sky-status-indicator>
+    <sky-icon
+      *ngIf="showTabRightArrow"
+      class="sky-vertical-tab-right-arrow"
+      icon="chevron-right"
+    >
+    </sky-icon>
+  </div>
+</a>
+
+<div #tabContentWrapper>
+  <div
+    class="sky-vertical-tab-content-pane"
+    role="tabpanel"
+    tabindex="0"
+    skyId
+    [attr.aria-labelledby]="tabId"
+    [ngClass]="{ 'sky-vertical-tab-hidden': !active }"
+    #tabContentPane
+  >
+    <ng-content></ng-content>
+
+    <div></div>
+  </div>
+</div>

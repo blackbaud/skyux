@@ -1,0 +1,94 @@
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-tabset {
+  align-items: center;
+  border-bottom: 2px solid $sky-background-color-primary-dark;
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0 0 0 $sky-padding-plus-half;
+  white-space: nowrap;
+
+  &.sky-tabset-style-wizard {
+    border-bottom: none;
+    padding-bottom: $sky-padding;
+    padding-left: 0;
+  }
+}
+
+.sky-tabset-btns {
+  order: 1;
+  padding-left: $sky-padding;
+}
+
+.sky-tabset-dropdown {
+  order: 0;
+  max-width: 100%;
+}
+
+.sky-tabset-mode-dropdown {
+  /* This line fixes an issue with extra whitespace under collapsed (dropdown) tabs in IE 11. */
+  line-height: 0;
+
+  .sky-tabset-tabs {
+    visibility: hidden;
+    order: 2;
+  }
+}
+
+.sky-tab-dropdown-menu-item {
+  sky-tab-button {
+    display: flex;
+    min-width: 300px;
+  }
+
+  .sky-dropdown-item {
+    margin: 0;
+  }
+
+  .sky-btn-tab-wrapper {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .sky-btn-tab {
+    margin: 0;
+    border-radius: 0;
+    width: 100%;
+    display: flex;
+
+    > .sky-tab-heading {
+      flex: 1 1 auto;
+    }
+
+    > .sky-btn-tab-close {
+      flex: 0 1 auto;
+    }
+  }
+}
+
+.sky-tabset-tabs {
+  order: 0;
+  white-space: nowrap;
+}
+
+.sky-tabset-btn-new,
+.sky-tabset-btn-open {
+  color: $sky-text-color-action-primary;
+}
+
+.sky-theme-modern {
+  .sky-tabset {
+    border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    overflow: visible; /* for drop shadow visibility on focused tabs */
+  }
+
+  .sky-tab-dropdown-menu-item {
+    .sky-btn-tab-wrapper {
+      margin-right: 0;
+    }
+  }
+}
