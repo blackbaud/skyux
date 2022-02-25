@@ -18,6 +18,6 @@ jobs:
       - uses: amannn/action-semantic-pull-request@v4
         with:
           # ensure the subject doesn't start with an uppercase character
-          subjectPattern: ^(?![A-Z]).+$
+          subjectPattern: ^([A-Z]).+$
           validateSingleCommit: true
           validateSingleCommitMatchesPrTitle: true
