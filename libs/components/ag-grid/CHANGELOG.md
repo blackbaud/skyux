@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.2.2 (2022-02-24)
 
 - Added support for asynchronous search in the lookup cell editor. [#201](https://github.com/blackbaud/skyux-ag-grid/pull/201)
