@@ -1,0 +1,20 @@
+<form [formGroup]="phoneForm">
+  <sky-phone-field
+    *ngIf="showPhoneField"
+    [allowExtensions]="allowExtensions"
+    [defaultCountry]="defaultCountry"
+    [returnFormat]="returnFormat"
+    [supportedCountryISOs]="supportedCountryISOs"
+    [(selectedCountry)]="selectedCountry"
+  >
+    <input
+      formControlName="phone"
+      skyPhoneFieldInput
+      [skyPhoneFieldNoValidate]="noValidate"
+    />
+  </sky-phone-field>
+
+  <div *ngIf="showInvalidDirective">
+    <input type="text" skyPhoneFieldInput />
+  </div>
+</form>
