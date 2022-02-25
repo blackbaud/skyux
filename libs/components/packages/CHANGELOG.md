@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.150.0 (2022-02-24)
 
 - `@skyux/lookup@5.2.2` [Release notes](https://github.com/blackbaud/skyux-lookup/blob/5.2.2/CHANGELOG.md)

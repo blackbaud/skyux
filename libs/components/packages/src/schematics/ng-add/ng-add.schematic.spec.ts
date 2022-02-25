@@ -3,7 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import mock from 'mock-require';
+
 import path from 'path';
 
 import { createTestLibrary } from '../testing/scaffold';
@@ -25,8 +25,12 @@ describe('ng-add.schematic', () => {
 
     latestVersionCalls = {};
 
-    mock('latest-version', (packageName, args) => {
-      latestVersionCalls[packageName] = args.version;
+    jest.mock('latest-version', () => (packageName, args) => {
+if (args.version === '0.0.0-PLACEHOLDER') {
+      args.version = '^5.0.0';
+    }
+
+    latestVersionCalls[packageName] = args.version;
 
       // Test when layout is already on the latest version.
       if (packageName === '@skyux/layout') {
@@ -89,7 +93,7 @@ describe('ng-add.schematic', () => {
     });
 
     expect(latestVersionCalls).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         '@skyux/core': '^5.0.0',
         '@skyux/i18n': '^5.0.0',
       })
