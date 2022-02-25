@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.2 (2022-02-08)
 
 - Fixed the generated documentation to not include helper functions. [#30](https://github.com/blackbaud/skyux-list-builder-common/pull/30)
