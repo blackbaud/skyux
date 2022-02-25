@@ -1,0 +1,65 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  display: block;
+  padding: 0;
+
+  .sky-tile-dashboard-layout-multi {
+    display: none;
+  }
+
+  .sky-tile-dashboard-layout-single {
+    display: block;
+  }
+
+  /* NOTE: This style is here as we only want it when inside a tile dashboard */
+  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+    margin-bottom: 0;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+  .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+    margin-bottom: $sky-margin-double;
+  }
+
+  :host-context(.sky-theme-default) {
+    padding-top: $sky-padding-double;
+  }
+}
+
+@include sky-host-responsive-container-md-min() {
+  display: flex;
+  padding: 0 $sky-padding;
+
+  .sky-tile-dashboard-layout-multi {
+    display: block;
+  }
+
+  .sky-tile-dashboard-layout-single {
+    display: none;
+  }
+}
+
+.sky-assistive-text {
+  @media screen {
+    @include sky-screen-reader-only();
+  }
+}
+
+:host-context(.sky-theme-default) {
+  background-color: $sky-background-color-neutral-light;
+}
+
+@include sky-theme-modern {
+  @include sky-host-responsive-container-sm-min() {
+    .sky-tile-dashboard-layout-single ::ng-deep .sky-tile,
+    .sky-tile-dashboard-layout-multi ::ng-deep .sky-tile {
+      margin-bottom: $sky-theme-modern-space-xl;
+    }
+  }
+}

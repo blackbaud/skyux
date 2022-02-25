@@ -1,0 +1,33 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+:host {
+  display: flex;
+
+  // Make all columns within a tile dashboard the same width.
+  flex-grow: 1;
+  // flex-basis is set in the template based on the number of columns in the dashboard.
+  overflow: hidden;
+}
+
+@include sky-host-responsive-container-xs-min() {
+  padding: 0;
+}
+
+@include sky-host-responsive-container-sm-min() {
+  padding: 0 $sky-padding;
+}
+
+.sky-tile-dashboard-column {
+  // Ensure at least a 100 pixel drop target in case the column has no tiles and no
+  // other column is tall enough to give it a reasonable drop target.
+  min-height: 100px;
+  width: 100%;
+}
+
+@include sky-theme-modern {
+  @include sky-host-responsive-container-sm-min() {
+    padding: $sky-theme-modern-padding-h-md;
+  }
+}

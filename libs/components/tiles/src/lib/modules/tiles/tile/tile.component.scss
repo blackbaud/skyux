@@ -1,0 +1,132 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-tile {
+  background-color: #fff;
+  margin-bottom: $sky-margin-double;
+}
+
+.sky-tile-header {
+  border-color: $sky-border-color-neutral-medium;
+  border-style: solid solid none;
+  border-width: 4px 0 0;
+  display: flex;
+}
+
+.sky-tile-header-content {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  cursor: pointer;
+}
+
+.sky-tile-header-title {
+  display: inline-flex;
+}
+
+.sky-tile-summary {
+  color: $sky-text-color-action-primary;
+  opacity: 0;
+  padding-right: $sky-tile-header-tool-padding;
+  transition: opacity $sky-transition-time-medium;
+  max-height: 30px;
+  overflow: hidden;
+}
+
+.sky-tile-collapsed {
+  .sky-tile-summary {
+    opacity: 1;
+  }
+}
+
+.sky-tile-header-column-tools {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.sky-tile-tools {
+  display: flex;
+  padding-right: $sky-space-lg;
+}
+
+.sky-tile-tools-control {
+  @include sky-icon-button-borderless();
+  border: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: block;
+  margin: 0;
+  margin-left: 9px;
+}
+
+.sky-tile-grab-handle {
+  cursor: move;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  font-size: 15px;
+}
+
+.sky-tile-content {
+  border-color: $sky-border-color-neutral-light;
+  border-image: none;
+  border-style: solid solid none;
+  border-width: 1px 0;
+}
+
+@include sky-theme-modern {
+  .sky-tile-header,
+  .sky-tile-content {
+    border: none;
+  }
+
+  .sky-tile-header-column-tools {
+    align-items: flex-start;
+  }
+
+  .sky-tile-tools {
+    padding: 0;
+  }
+
+  .sky-tile-tools-control {
+    font-size: 18px;
+    color: $sky-theme-modern-color-gray-70;
+  }
+
+  .sky-tile-grab-handle {
+    font-size: 16px;
+  }
+
+  .sky-tile-content {
+    ::ng-deep .sky-tile-content-section {
+      border-bottom: 1px dotted $sky-theme-modern-color-gray-30;
+    }
+
+    ::ng-deep sky-tile-content-section:first-child {
+      .sky-tile-content-section {
+        margin-top: $sky-space-lg;
+      }
+    }
+
+    ::ng-deep sky-tile-content-section:last-child {
+      .sky-tile-content-section {
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+    }
+  }
+
+  @include sky-host-responsive-container-xs-min() {
+    .sky-tile {
+      border-radius: 0px;
+    }
+  }
+
+  @include sky-host-responsive-container-sm-min() {
+    .sky-tile {
+      border-radius: $sky-theme-modern-box-border-radius-default;
+    }
+  }
+}
