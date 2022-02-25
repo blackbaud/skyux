@@ -1,0 +1,90 @@
+{
+  "skyux_autocomplete_add": {
+    "_description": "Label for autocomplete add button",
+    "message": "New"
+  },
+  "skyux_autocomplete_no_results": {
+    "_description": "Placeholder text for autocomplete input component when no results are found",
+    "message": "No matches found"
+  },
+  "skyux_autocomplete_show_all": {
+    "_description": "Menu item text to display when an unknown number of items is available to be selected",
+    "message": "Show all"
+  },
+  "skyux_autocomplete_show_all_count": {
+    "_description": "Menu item text to display when a known number of items is available to be selected",
+    "message": "Show all {0}"
+  },
+  "skyux_autocomplete_show_matches_count": {
+    "_description": "Menu item text to display the user has searched and there are more items to view",
+    "message": "Show matches ({0})"
+  },
+  "skyux_country_field_search_placeholder": {
+    "_description": "Placeholder for country search autocomplete",
+    "message": "Search for a country"
+  },
+  "skyux_lookup_search_icon": {
+    "_description": "Label for lookup's search icon",
+    "message": "Search"
+  },
+  "skyux_lookup_search_button_show_more": {
+    "_description": "Label for lookup's search button that opens superselect modal",
+    "message": "Show all search results"
+  },
+  "skyux_lookup_show_more_add": {
+    "_description": "Label for lookup's show more modal add button",
+    "message": "New"
+  },
+  "skyux_lookup_show_more_select_all_button_title": {
+    "_description": "Text for the select all button in the lookup show more multiselect toolbar",
+    "message": "Select all"
+  },
+  "skyux_lookup_show_more_clear_all_button_title": {
+    "_description": "Text for the clear all button in the lookup show more multiselect toolbar",
+    "message": "Clear all"
+  },
+  "skyux_lookup_show_more_show_selected_option_title": {
+    "_description": "Text for the show selected checkbox in the lookup show more multiselect toolbar",
+    "message": "Show only selected items"
+  },
+  "skyux_lookup_show_more_cancel": {
+    "_description": "Label for lookup's show more modal cancel button",
+    "message": "Cancel"
+  },
+  "skyux_lookup_show_more_modal_title_single": {
+    "_description": "Default show more modal title for single select mode",
+    "message": "Select an option"
+  },
+  "skyux_lookup_show_more_modal_title_multiple": {
+    "_description": "Default show more modal title for multiple select mode",
+    "message": "Select options"
+  },
+  "skyux_lookup_show_more_no_results": {
+    "_description": "Placeholder text for lookup's show more modal when no results are found",
+    "message": "No matches found"
+  },
+  "skyux_lookup_show_more_select": {
+    "_description": "Label for lookup's show more modal select (save) button",
+    "message": "Select"
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Text displayed when the user has more than the maximum items selected",
+    "message": "{0} items selected"
+  },
+  "skyux_search_dismiss": {
+    "_description": "Label for dismissing search input",
+    "message": "Dismiss search"
+  },
+  "skyux_search_label": {
+    "_description": "Label for search component functionality",
+    "message": "Search items"
+  },
+  "skyux_search_open": {
+    "_description": "Label for opening search input",
+    "message": "Open search"
+  },
+  "skyux_search_placeholder": {
+    "_description": "Placeholder text for search input component",
+    "message": "Find in this list"
+  }
+}

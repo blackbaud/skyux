@@ -1,0 +1,55 @@
+<form [formGroup]="form" novalidate>
+  <label id="my-lookup-label"> My friends </label>
+  <sky-lookup
+    id="my-lookup"
+    formControlName="friends"
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
+    [autocompleteAttribute]="autocompleteAttribute"
+    [data]="data"
+    [descriptorProperty]="descriptorProperty"
+    [enableShowMore]="enableShowMore"
+    [idProperty]="idProperty"
+    [placeholderText]="placeholderText"
+    [propertiesToSearch]="propertiesToSearch"
+    [searchResultTemplate]="enabledSearchResultTemplate"
+    [search]="customSearch"
+    [selectMode]="selectMode"
+    [showAddButton]="showAddButton"
+    [showMoreConfig]="showMoreConfig"
+    (addClick)="addButtonClicked($event)"
+    #standardLookup
+  ></sky-lookup>
+</form>
+
+<ng-template let-item="item" #customSearchResultTemplate>
+  {{ item.description }}
+</ng-template>
+
+<ng-template let-item="item" #customShowMoreTemplate>
+  {{ item.name }} - {{ item.birthDate }}
+</ng-template>
+
+<form [formGroup]="asyncForm" novalidate>
+  <label id="my-async-lookup-label"> My friends (async) </label>
+  <sky-lookup
+    id="my-async-lookup"
+    formControlName="friends"
+    [ariaLabel]="ariaLabel"
+    [ariaLabelledBy]="ariaLabelledBy"
+    [autocompleteAttribute]="autocompleteAttribute"
+    [data]="data"
+    [descriptorProperty]="descriptorProperty"
+    [enableShowMore]="enableShowMore"
+    [idProperty]="idProperty"
+    [placeholderText]="placeholderText"
+    [propertiesToSearch]="propertiesToSearch"
+    [searchResultTemplate]="enabledSearchResultTemplate"
+    [selectMode]="selectMode"
+    [showAddButton]="showAddButton"
+    [showMoreConfig]="showMoreConfig"
+    (addClick)="addButtonClicked($event)"
+    (searchAsync)="searchAsync($event)"
+    #asyncLookup
+  ></sky-lookup>
+</form>

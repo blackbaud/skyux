@@ -1,0 +1,15 @@
+<div>
+  <form>
+    <sky-country-field
+      name="countryField"
+      [autocompleteAttribute]="autocompleteAttribute"
+      [disabled]="isDisabled ? true : undefined"
+      [defaultCountry]="defaultCountry"
+      [required]="isRequired ? true : undefined"
+      [supportedCountryISOs]="supportedCountryISOs"
+      [(ngModel)]="modelValue"
+      (selectedCountryChange)="countryChanged($event)"
+    >
+    </sky-country-field>
+  </form>
+</div>

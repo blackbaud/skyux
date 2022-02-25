@@ -1,0 +1,29 @@
+<form
+  class="lookup-demo-form"
+  novalidate
+  [formGroup]="myForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="sky-form-group">
+    <sky-input-box>
+      <label class="sky-control-label" skyId #namesLabel="skyId">
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="names"
+        [ariaLabelledBy]="namesLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+  <div class="lookup-demo-alert">
+    <strong>Form model:</strong>
+    <pre>{{ myForm.value | json }}</pre>
+  </div>
+  <button class="sky-btn sky-btn-default" type="submit">Submit</button>
+</form>

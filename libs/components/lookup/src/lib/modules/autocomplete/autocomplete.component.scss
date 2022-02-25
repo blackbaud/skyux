@@ -1,0 +1,95 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-autocomplete-results-container {
+  position: fixed;
+  background-color: $sky-color-white;
+}
+
+.sky-autocomplete-results-waiting {
+  height: 70px;
+}
+
+.sky-autocomplete-results {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 35px;
+  max-height: -webkit-calc(50vh - 50px);
+  max-height: -moz-calc(50vh - 50px);
+  max-height: calc(50vh - 50px);
+}
+
+.sky-autocomplete-result {
+  color: $sky-text-color-default;
+  margin-bottom: 4px;
+  padding: 3px $sky-padding-double;
+  cursor: pointer;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sky-autocomplete-actions {
+  @include sky-border(dark, top);
+
+  .sky-autocomplete-action {
+    border: none;
+  }
+
+  .sky-autocomplete-actions-no-results {
+    display: inline-block;
+    padding: 7px 13px;
+  }
+}
+
+.sky-autocomplete-action-add {
+  float: right;
+
+  sky-icon {
+    padding-right: $sky-theme-modern-space-xs;
+  }
+}
+
+.sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {
+  background-color: $sky-background-color-neutral-light;
+}
+
+.sky-autocomplete-descendant-focus.sky-autocomplete-action {
+  //default
+  outline: thin dotted;
+  //webkit
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+::ng-deep .sky-theme-modern {
+  .sky-autocomplete-results-container {
+    border-radius: $sky-theme-modern-box-border-radius-default;
+  }
+
+  .sky-autocomplete-results {
+    padding: $sky-theme-modern-space-sm 0;
+  }
+
+  .sky-autocomplete-result {
+    margin-bottom: 0;
+    padding: $sky-theme-modern-space-sm 0 $sky-theme-modern-space-sm
+      $sky-theme-modern-space-md;
+  }
+
+  .sky-autocomplete-descendant-focus:not(.sky-autocomplete-action) {
+    background-color: inherit;
+  }
+
+  .sky-autocomplete-descendant-focus {
+    @include sky-theme-modern-border-focus(
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-theme-modern-elevation-3-shadow-size,
+      $sky-theme-modern-elevation-3-shadow-color
+    );
+  }
+}

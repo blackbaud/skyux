@@ -1,0 +1,128 @@
+<div class="sky-search-container">
+  <div class="sky-search-button-container">
+    <button
+      class="sky-btn sky-btn-default sky-btn-icon sky-search-btn-open"
+      type="button"
+      [attr.aria-label]="'skyux_search_open' | skyLibResources"
+      [hidden]="!searchButtonShown"
+      [ngClass]="{ 'sky-search-btn-open-applied': clearButtonShown }"
+      (click)="toggleSearchInput(true)"
+    >
+      <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
+    </button>
+  </div>
+  <div
+    class="sky-search-dismiss-container"
+    [hidden]="searchButtonShown"
+    [ngClass]="{
+      'sky-search-dismiss-absolute': mobileSearchShown || isFullWidth
+    }"
+  >
+    <div class="sky-search-item-input">
+      <div
+        class="sky-search-input-container"
+        [@inputState]="inputAnimate"
+        (@inputState.start)="inputAnimationStart($event)"
+        (@inputState.done)="inputAnimationEnd($event)"
+        [ngClass]="{
+          'sky-search-input-container-has-value': searchText?.trim()
+        }"
+      >
+        <sky-input-box>
+          <input
+            class="sky-form-control sky-search-input sky-rounded-corners"
+            type="text"
+            [attr.aria-label]="'skyux_search_label' | skyLibResources"
+            [attr.placeholder]="
+              placeholderText || ('skyux_search_placeholder' | skyLibResources)
+            "
+            [disabled]="disabled"
+            [ngModel]="searchText"
+            (keyup)="enterPress($event, searchText)"
+            (ngModelChange)="searchTextChanged($event)"
+            skyId
+            #searchInput="skyId"
+          />
+          <span
+            class="
+              sky-input-group-btn sky-input-group-clear sky-input-box-btn-inset
+            "
+            [hidden]="!clearButtonShown"
+          >
+            <button
+              aria-hidden="true"
+              class="
+                sky-btn sky-btn-default sky-search-btn sky-search-btn-clear
+              "
+              tabindex="-1"
+              type="button"
+              [disabled]="disabled"
+              (click)="clearSearchText()"
+            >
+              <sky-icon *skyThemeIf="'default'" icon="times"></sky-icon>
+              <sky-icon
+                *skyThemeIf="'modern'"
+                icon="close"
+                iconType="skyux"
+                size="sm"
+              ></sky-icon>
+            </button>
+          </span>
+          <span
+            *skyThemeIf="'default'"
+            class="sky-input-group-btn sky-input-box-btn-inset"
+          >
+            <button
+              class="
+                sky-btn sky-btn-default sky-search-btn sky-search-btn-apply
+              "
+              type="button"
+              [attr.aria-label]="'skyux_search_label' | skyLibResources"
+              [disabled]="disabled"
+              (click)="applySearchText(searchText)"
+            >
+              <ng-container
+                *ngTemplateOutlet="searchIconTemplate"
+              ></ng-container>
+            </button>
+          </span>
+          <div
+            *skyThemeIf="'modern'"
+            aria-hidden="true"
+            class="sky-input-group-icon sky-input-box-icon-inset-left"
+          >
+            <ng-container *ngTemplateOutlet="searchIconTemplate"></ng-container>
+          </div>
+        </sky-input-box>
+      </div>
+    </div>
+    <div class="sky-search-item-dismiss">
+      <button
+        *ngIf="mobileSearchShown"
+        class="sky-btn sky-btn-secondary sky-search-btn-dismiss"
+        type="button"
+        [attr.title]="'skyux_search_dismiss' | skyLibResources"
+        (click)="toggleSearchInput(false)"
+      >
+        <sky-icon *skyThemeIf="'default'" icon="chevron-circle-left" size="lg">
+        </sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="double-chevron-left"
+          iconType="skyux"
+        >
+        </sky-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #searchIconTemplate>
+  <sky-icon *skyThemeIf="'default'" icon="search" size="lg"></sky-icon>
+  <sky-icon
+    *skyThemeIf="'modern'"
+    icon="search"
+    iconType="skyux"
+    size="lg"
+  ></sky-icon>
+</ng-template>

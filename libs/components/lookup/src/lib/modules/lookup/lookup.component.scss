@@ -1,0 +1,154 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-lookup {
+  .sky-lookup-input.sky-form-control {
+    resize: none;
+    border: 0;
+    box-sizing: content-box;
+    height: #{$sky-line-height-base}em;
+    overflow: hidden;
+    padding: 0;
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
+  .sky-lookup-search-flex-wrapper {
+    display: flex;
+  }
+
+  &.sky-lookup-disabled {
+    .sky-lookup-search {
+      background-color: $sky-background-color-disabled;
+    }
+  }
+
+  sky-tokens.sky-lookup-tokens {
+    &:focus {
+      outline: none;
+    }
+
+    .sky-tokens {
+      margin-top: -5px;
+      margin-bottom: -5px;
+
+      .sky-tokens-content {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        flex-basis: 100px;
+      }
+    }
+  }
+
+  .sky-lookup-single-control {
+    display: inline-flex;
+    padding-left: 7px;
+    width: 100%;
+  }
+}
+
+.sky-lookup-search {
+  cursor: text;
+  background-color: $sky-color-white;
+  line-height: #{$sky-line-height-base}em;
+  padding: 6px 12px 6px 3px;
+  flex-grow: 1;
+
+  &:not(.sky-field-status-active) {
+    @include sky-border(dark, top, bottom, left, right);
+  }
+}
+
+.sky-lookup-disabled {
+  .sky-lookup-search {
+    cursor: default;
+  }
+}
+
+.sky-lookup-focused {
+  .sky-tokens-content {
+    flex-basis: 100px;
+  }
+}
+
+.sky-lookup-single {
+  sky-tokens.sky-lookup-tokens sky-token {
+    display: none;
+  }
+}
+
+sky-lookup.ng-invalid.ng-touched .sky-lookup-search {
+  @include sky-field-status(invalid);
+}
+
+sky-input-box .sky-lookup {
+  width: 100%;
+
+  .sky-lookup-search {
+    border: none;
+    padding-bottom: 5px;
+    width: 100%;
+  }
+}
+
+@include sky-theme-modern {
+  sky-tokens.sky-lookup-tokens {
+    .sky-tokens {
+      margin-top: -6px;
+    }
+  }
+
+  sky-input-box .sky-lookup {
+    sky-tokens.sky-lookup-tokens {
+      .sky-tokens {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        sky-token {
+          padding-bottom: 0;
+          padding-top: 0;
+        }
+
+        .sky-tokens-content {
+          padding-bottom: 0;
+          padding-top: 0;
+
+          &:first-child {
+            padding-left: 0;
+          }
+        }
+      }
+    }
+
+    &.sky-lookup-single {
+      sky-tokens.sky-lookup-tokens {
+        .sky-tokens-content {
+          padding-left: 0;
+        }
+      }
+    }
+
+    .sky-lookup-search {
+      background-color: transparent;
+      padding: 0 0 0 15px;
+
+      &.sky-field-status-active {
+        box-shadow: none;
+      }
+    }
+
+    textarea.sky-lookup-input.sky-form-control {
+      padding-left: 0;
+      resize: none;
+    }
+
+    .sky-lookup-single-control {
+      padding-left: 0;
+    }
+  }
+}
