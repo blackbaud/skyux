@@ -2984,6 +2984,11 @@ describe('Grid Component', () => {
       expect(
         getColumnHeader('email', element).nativeElement.textContent.trim()
       ).toBe('Email Initial');
+      const initialWidths = getColumnWidths(fixture);
+      resizeColumn(fixture, 50, 0);
+
+      const resizedWidths = getColumnWidths(fixture);
+      expect(resizedWidths[0]).toBe(initialWidths[0] + 50);
 
       component.changeColumns();
       fixture.detectChanges();
@@ -2995,6 +3000,9 @@ describe('Grid Component', () => {
       expect(
         getColumnHeader('email', element).nativeElement.textContent.trim()
       ).toBe('Email');
+
+      const changedWidths = getColumnWidths(fixture);
+      expect(changedWidths[0]).toBe(resizedWidths[0]);
     });
   });
 

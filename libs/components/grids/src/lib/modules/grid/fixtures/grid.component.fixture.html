@@ -46,6 +46,14 @@
   >
   </sky-grid-column>
   <sky-grid-column
+    *ngIf="showNaNColumn"
+    id="column7"
+    field="column1"
+    heading="Column9"
+    [width]="NaN"
+  >
+  </sky-grid-column>
+  <sky-grid-column
     id="column4"
     type="date"
     heading="Column4"
