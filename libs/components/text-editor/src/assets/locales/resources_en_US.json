@@ -1,0 +1,130 @@
+{
+  "skyux_text_editor_format_menu_action_bold_label": {
+    "_description": "Text for the 'Bold' action in the format menu",
+    "message": "Bold"
+  },
+  "skyux_text_editor_format_menu_action_bold_key_shortcut": {
+    "_description": "Text for the 'Bold' key shortcut in the format menu",
+    "message": "Ctrl+B"
+  },
+  "skyux_text_editor_format_menu_action_italic_label": {
+    "_description": "Text for the 'Italic' action in the format menu",
+    "message": "Italic"
+  },
+  "skyux_text_editor_format_menu_action_italic_key_shortcut": {
+    "_description": "Text for the 'Italic' key shortcut in the format menu",
+    "message": "Ctrl+I"
+  },
+  "skyux_text_editor_format_menu_action_underline_label": {
+    "_description": "Text for the 'Underline' action in the format menu",
+    "message": "Underline"
+  },
+  "skyux_text_editor_format_menu_action_underline_key_shortcut": {
+    "_description": "Text for the 'Underline' key shortcut in the format menu",
+    "message": "Ctrl+U"
+  },
+  "skyux_text_editor_format_menu_action_strikethrough_label": {
+    "_description": "Text for the 'Strikethrough' action in the format menu",
+    "message": "Strikethrough"
+  },
+  "skyux_text_editor_format_menu_action_clear_formatting_label": {
+    "_description": "Text for the 'Clear formatting' action in the format menu",
+    "message": "Clear formatting"
+  },
+  "skyux_text_editor_edit_menu_action_undo_label": {
+    "_description": "Text for the 'Undo' action in the edit menu",
+    "message": "Undo"
+  },
+  "skyux_text_editor_edit_menu_action_undo_key_shortcut": {
+    "_description": "Text for the 'Undo' key shortcut in the edit menu",
+    "message": "Ctrl+Z"
+  },
+  "skyux_text_editor_edit_menu_action_redo_label": {
+    "_description": "Text for the 'Redo' action in the edit menu",
+    "message": "Redo"
+  },
+  "skyux_text_editor_edit_menu_action_redo_key_shortcut": {
+    "_description": "Text for the 'Redo' key shortcut in the edit menu",
+    "message": "Ctrl+Y"
+  },
+  "skyux_text_editor_edit_menu_action_cut_label": {
+    "_description": "Text for the 'Cut' action in the edit menu",
+    "message": "Cut"
+  },
+  "skyux_text_editor_edit_menu_action_cut_key_shortcut": {
+    "_description": "Text for the 'Cut' key shortcut in the edit menu",
+    "message": "Ctrl+X"
+  },
+  "skyux_text_editor_edit_menu_action_copy_label": {
+    "_description": "Text for the 'Copy' action in the edit menu",
+    "message": "Copy"
+  },
+  "skyux_text_editor_edit_menu_action_copy_key_shortcut": {
+    "_description": "Text for the 'Copy' key shortcut in the edit menu",
+    "message": "Ctrl+C"
+  },
+  "skyux_text_editor_edit_menu_action_paste_label": {
+    "_description": "Text for the 'Paste' action in the edit menu",
+    "message": "Paste"
+  },
+  "skyux_text_editor_edit_menu_action_paste_key_shortcut": {
+    "_description": "Text for the 'Paste' key shortcut in the edit menu",
+    "message": "Ctrl+V"
+  },
+  "skyux_text_editor_edit_menu_action_select_all_label": {
+    "_description": "Text for the 'Select all' action in the edit menu",
+    "message": "Select all"
+  },
+  "skyux_text_editor_edit_menu_action_select_all_key_shortcut": {
+    "_description": "Text for the 'Select all' key shortcut in the edit menu",
+    "message": "Ctrl+A"
+  },
+  "skyux_text_editor_menubar_dropdown_button_edit_label": {
+    "_description": "Text for the 'Edit' dropdown button in the menubar",
+    "message": "Edit"
+  },
+  "skyux_text_editor_menubar_dropdown_button_format_label": {
+    "_description": "Text for the 'Format' dropdown button in the menubar",
+    "message": "Format"
+  },
+  "skyux_text_editor_menubar_dropdown_button_insert_label": {
+    "_description": "Text for the 'Insert merge field' dropdown button in the menubar",
+    "message": "Insert merge field"
+  },
+  "skyux_text_editor_url_modal_header_label": {
+    "_description": "Text for the 'Create link' header of the url modal",
+    "message": "Create link"
+  },
+  "skyux_text_editor_url_modal_url_label": {
+    "_description": "Text for the 'Enter a URL to link to:' label in the url modal",
+    "message": "Enter a URL to link to:"
+  },
+  "skyux_text_editor_url_modal_open_label": {
+    "_description": "Text for the 'Where should it open?' label in the url modal",
+    "message": "Where should it open?"
+  },
+  "skyux_text_editor_url_modal_current_option_label": {
+    "_description": "Text for the 'Current window' option label in the url modal",
+    "message": "Current window"
+  },
+  "skyux_text_editor_url_modal_new_option_label": {
+    "_description": "Text for the 'New window' option label in the url modal",
+    "message": "New window"
+  },
+  "skyux_text_editor_url_modal_email_label": {
+    "_description": "Text for the 'Email address' label in the url modal",
+    "message": "Email address"
+  },
+  "skyux_text_editor_url_modal_subject_label": {
+    "_description": "Text for the 'Subject line' label in the url modal",
+    "message": "Subject line"
+  },
+  "skyux_text_editor_url_modal_save_button_label": {
+    "_description": "Text for the 'Save' button in the url modal",
+    "message": "Save"
+  },
+  "skyux_text_editor_url_modal_cancel_button_label": {
+    "_description": "Text for the 'Cancel' button in the url modal",
+    "message": "Cancel"
+  }
+}

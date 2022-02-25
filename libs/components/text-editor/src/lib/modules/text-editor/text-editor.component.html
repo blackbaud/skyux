@@ -1,0 +1,45 @@
+<div class="sky-text-editor">
+  <sky-toolbar class="sky-text-editor-toolbar">
+    <sky-toolbar-section
+      aria-label="Text formatting"
+      class="menubar"
+      role="toolbar"
+    >
+      <sky-text-editor-menubar
+        [disabled]="disabled"
+        [editorFocusStream]="editorFocusStream"
+        [editorId]="id"
+        [menus]="menus"
+        [mergeFields]="mergeFields"
+      >
+      </sky-text-editor-menubar>
+    </sky-toolbar-section>
+    <sky-toolbar-section
+      aria-label="Text formatting"
+      class="toolbar"
+      role="toolbar"
+    >
+      <sky-text-editor-toolbar
+        [disabled]="disabled"
+        [editorFocusStream]="editorFocusStream"
+        [editorId]="id"
+        [fontList]="fontList"
+        [fontSizeList]="fontSizeList"
+        [toolbarActions]="toolbarActions"
+        [styleState]="initialStyleState"
+      >
+      </sky-text-editor-toolbar>
+    </sky-toolbar-section>
+  </sky-toolbar>
+  <iframe
+    class="sky-text-editor-wrapper"
+    src="about:blank"
+    title="Text Editor"
+    [ngClass]="{
+      'sky-text-editor-wrapper-disabled': disabled
+    }"
+    (load)="onIframeLoad()"
+    #iframe
+  >
+  </iframe>
+</div>

@@ -1,0 +1,8 @@
+<form novalidate [formGroup]="myForm">
+  <h3 skyId #textEditorLabel="skyId">Text editor demo</h3>
+  <sky-text-editor
+    formControlName="myText"
+    [attr.aria-labelledby]="textEditorLabel.id"
+  >
+  </sky-text-editor>
+</form>

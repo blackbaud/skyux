@@ -1,0 +1,99 @@
+<sky-modal>
+  <sky-modal-header>
+    {{ 'skyux_text_editor_url_modal_header_label' | skyLibResources }}
+  </sky-modal-header>
+  <sky-modal-content>
+    <sky-tabset
+      data-sky-id="test-tabset"
+      [active]="activeTab"
+      (activeChange)="activeTabChanged($event)"
+    >
+      <sky-tab tabHeading="Web page">
+        <div class="sky-form-group sky-text-editor-url-modal-first-field">
+          <sky-input-box>
+            <label
+              class="sky-control-label sky-control-label-required"
+              [for]="urlInput.id"
+            >
+              {{ 'skyux_text_editor_url_modal_url_label' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              type="text"
+              [(ngModel)]="url"
+              skyId
+              #urlInput="skyId"
+            />
+          </sky-input-box>
+        </div>
+        <sky-input-box class="sky-form-group">
+          <label class="sky-control-label" [for]="targetInput.id">
+            {{ 'skyux_text_editor_url_modal_open_label' | skyLibResources }}
+          </label>
+          <select
+            class="sky-form-control"
+            [(ngModel)]="target"
+            skyId
+            #targetInput="skyId"
+          >
+            <option value="0">
+              {{
+                'skyux_text_editor_url_modal_current_option_label'
+                  | skyLibResources
+              }}
+            </option>
+            <option value="1">
+              {{
+                'skyux_text_editor_url_modal_new_option_label' | skyLibResources
+              }}
+            </option>
+          </select>
+        </sky-input-box>
+      </sky-tab>
+      <sky-tab tabHeading="Email address">
+        <div class="sky-form-group first-field">
+          <sky-input-box>
+            <label
+              class="sky-control-label sky-control-label-required"
+              [for]="emailAddressInput.id"
+            >
+              {{ 'skyux_text_editor_url_modal_email_label' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              type="text"
+              [(ngModel)]="emailAddress"
+              skyId
+              #emailAddressInput="skyId"
+            />
+          </sky-input-box>
+        </div>
+        <sky-input-box class="sky-form-group">
+          <label class="sky-control-label" [for]="subjectInput.id">
+            {{ 'skyux_text_editor_url_modal_subject_label' | skyLibResources }}
+          </label>
+          <input
+            class="sky-form-control"
+            type="text"
+            [(ngModel)]="subject"
+            skyId
+            #subjectInput="skyId"
+          />
+        </sky-input-box>
+      </sky-tab>
+    </sky-tabset>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      type="submit"
+      class="sky-btn sky-btn-primary"
+      [disabled]="!valid"
+      (click)="save()"
+    >
+      {{ 'skyux_text_editor_url_modal_save_button_label' | skyLibResources }}
+    </button>
+    <button type="button" class="sky-btn sky-btn-link" (click)="cancel()">
+      {{ 'skyux_text_editor_url_modal_cancel_button_label' | skyLibResources }}
+    </button>
+  </sky-modal-footer>
+</sky-modal>
