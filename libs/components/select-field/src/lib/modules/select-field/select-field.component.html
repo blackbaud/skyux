@@ -1,0 +1,100 @@
+<div class="sky-select-field" (focusout)="onHostFocusOut()">
+  <ng-container
+    *ngTemplateOutlet="
+      selectMode === 'multiple' ? multipleSelectMode : singleSelectMode
+    "
+  >
+  </ng-container>
+</div>
+
+<ng-template #multipleSelectMode>
+  <div class="sky-select-field-multiple-select-mode">
+    <button
+      class="sky-btn sky-btn-default sky-select-field-btn"
+      type="button"
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-labelledby]="ariaLabelledBy"
+      [disabled]="disabled"
+      (click)="openPicker()"
+    >
+      <sky-icon icon="plus-circle"></sky-icon>
+      {{
+        multipleSelectOpenButtonText ||
+          ('skyux_select_field_multiple_select_open_button' | skyLibResources)
+      }}
+    </button>
+    <sky-tokens
+      *ngIf="tokens && tokens.length"
+      [disabled]="disabled"
+      [displayWith]="descriptorKey"
+      [tokens]="tokens"
+      (tokensChange)="onTokensChange($event)"
+      (tokenSelected)="openPicker()"
+    >
+    </sky-tokens>
+  </div>
+</ng-template>
+
+<ng-template #singleSelectMode>
+  <div class="sky-select-field-single-select-mode">
+    <div
+      class="sky-input-group sky-btn sky-btn-default sky-select-field-btn"
+      role="button"
+      [attr.tabindex]="disabled ? false : 0"
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-labelledby]="ariaLabelledBy"
+      [attr.title]="
+        singleSelectOpenButtonTitle ||
+        ('skyux_select_field_single_select_open_button_title' | skyLibResources)
+      "
+      [ngClass]="{ 'sky-btn-disabled': disabled }"
+      (click)="openPicker()"
+      (keydown.enter)="
+        openPicker(); $event.preventDefault(); $event.stopPropagation()
+      "
+    >
+      <div class="sky-form-control">
+        {{ singleSelectModeValue }}
+        <div *ngIf="!singleSelectModeValue" class="sky-deemphasized">
+          {{
+            singleSelectPlaceholderText ||
+              ('skyux_select_field_single_select_placeholder' | skyLibResources)
+          }}
+        </div>
+      </div>
+      <div class="sky-input-group-btn">
+        <button
+          *ngIf="singleSelectModeValue"
+          class="sky-btn"
+          type="button"
+          [attr.title]="
+            singleSelectClearButtonTitle ||
+            ('skyux_select_field_single_select_clear_button_title'
+              | skyLibResources)
+          "
+          [disabled]="disabled"
+          (click)="clearSelection(); $event.stopPropagation()"
+          (keydown.enter)="
+            clearSelection(); $event.preventDefault(); $event.stopPropagation()
+          "
+        >
+          <sky-icon icon="times"></sky-icon>
+        </button>
+      </div>
+      <div class="sky-input-group-btn">
+        <button
+          class="sky-btn"
+          type="button"
+          [attr.title]="
+            'skyux_select_field_single_select_open_button_title'
+              | skyLibResources
+          "
+          [disabled]="disabled"
+          (click)="openPicker(); $event.stopPropagation()"
+        >
+          <sky-icon icon="sort"></sky-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

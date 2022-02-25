@@ -1,0 +1,41 @@
+<form novalidate [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="sky-form-group">
+    <label class="sky-control-label" skyId #colorLabel="skyId">
+      Favorite color
+    </label>
+    <sky-select-field
+      formControlName="favoriteColor"
+      pickerHeading="Colors"
+      selectMode="single"
+      singleSelectClearButtonTitle="Clear selected color"
+      singleSelectOpenButtonTitle="Select color"
+      singleSelectPlaceholderText="Select color..."
+      [ariaLabelledBy]="colorLabel.id"
+      [customPicker]="customFavoriteColorPicker"
+      [data]="colorStream"
+    >
+    </sky-select-field>
+  </div>
+
+  <div class="sky-form-group">
+    <label class="sky-control-label" skyId #favoriteFruitLabel="skyId">
+      Favorite fruits
+    </label>
+    <sky-select-field
+      formControlName="favoriteFruits"
+      multipleSelectOpenButtonText="Select fruits"
+      pickerHeading="Fruits"
+      [ariaLabelledBy]="favoriteFruitLabel.id"
+      [customPicker]="customFavoriteFruitPicker"
+      [data]="fruitStream"
+    >
+    </sky-select-field>
+  </div>
+
+  <div class="select-field-demo-alert">
+    <strong>Form model:</strong>
+    <pre>{{ myForm.value | json }}</pre>
+  </div>
+
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>
