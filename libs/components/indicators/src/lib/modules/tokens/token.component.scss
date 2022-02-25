@@ -1,0 +1,128 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-token {
+  background-color: $sky-background-color-info-light;
+  border: 1px solid $sky-highlight-color-info;
+  overflow: hidden;
+  padding: 2px 8px;
+  display: inline-block;
+  user-select: none;
+
+  &:hover,
+  &:focus {
+    background-color: darken($sky-background-color-info-light, 10%);
+    border-color: darken($sky-highlight-color-info, 10%);
+    cursor: pointer;
+  }
+
+  &:focus {
+    @include sky-field-status('active');
+  }
+}
+
+.sky-btn-disabled {
+  cursor: default;
+  user-select: none;
+}
+
+.sky-token-btn-close {
+  background: transparent;
+  padding: 0;
+  border: 0;
+  margin-left: 2px;
+  opacity: 0.9;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
+.sky-token-btn-close-icon-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-token {
+    align-items: center;
+    display: inline-flex;
+    padding: 1px 5px;
+    font-size: 14px;
+
+    &.sky-btn-disabled {
+      color: $sky-text-color-default;
+    }
+
+    &:not(.sky-btn-disabled) {
+      @include sky-theme-modern-border($sky-background-color-info);
+    }
+
+    &.sky-token-dismissable {
+      padding-right: 1px;
+    }
+
+    &:hover:not(:active) {
+      @include sky-theme-modern-border-hover;
+    }
+
+    &.sky-token-active {
+      @include sky-theme-modern-border-active;
+    }
+
+    &:focus:not(:active) {
+      @include sky-theme-modern-border-focus;
+    }
+
+    &:focus,
+    &:hover {
+      background-color: $sky-background-color-info-light;
+    }
+  }
+
+  .sky-token-btn-close {
+    align-items: center;
+    border-radius: $sky-theme-modern-border-radius-md - 1;
+    display: flex;
+    height: 20px;
+    margin-left: $sky-theme-modern-margin-inline-xs;
+    width: 20px;
+
+    &:hover {
+      @include sky-theme-modern-border-hover(transparent);
+    }
+
+    &.sky-token-btn-close-active {
+      @include sky-theme-modern-border-active;
+    }
+
+    &:focus {
+      outline: none;
+
+      &:not(:active) {
+        @include sky-theme-modern-border-focus;
+      }
+    }
+  }
+
+  .sky-token-btn-close-icon-default {
+    display: none;
+  }
+
+  .sky-token-btn-close-icon-modern {
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-token {
+    background-color: $sky-background-color-info-light;
+  }
+
+  .sky-token,
+  .sky-token-btn-close {
+    color: $sky-text-color-default;
+  }
+}

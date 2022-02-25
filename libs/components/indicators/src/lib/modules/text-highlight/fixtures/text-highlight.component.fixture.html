@@ -1,0 +1,18 @@
+<input
+  aria-label="noop"
+  class="sky-input-search-term"
+  type="text"
+  [(ngModel)]="searchTerm"
+/>
+
+<input
+  aria-label="noop"
+  class="sky-test-checkbox"
+  type="checkbox"
+  [(ngModel)]="showAdditionalContent"
+/>
+
+<div class="sky-test-div-container" [skyHighlight]="searchTerm">
+  {{innerText1}}
+  <div *ngIf="showAdditionalContent">{{innerText2}}</div>
+</div>

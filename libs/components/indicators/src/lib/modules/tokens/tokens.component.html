@@ -1,0 +1,26 @@
+<div
+  *ngIf="tokens"
+  class="sky-tokens"
+  [@blockAnimationOnLoad]
+  [attr.role]="tokens && tokens.length ? 'list' : null"
+>
+  <sky-token
+    *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
+    role="listitem"
+    [@.disabled]="!trackWith"
+    [@dismiss]
+    [disabled]="disabled"
+    [dismissible]="dismissible"
+    [focusable]="focusable"
+    (dismiss)="removeToken(token)"
+    (click)="onTokenClick(token)"
+    (keydown)="onTokenKeyDown($event)"
+    (keyup.enter)="selectToken(token); $event.preventDefault()"
+    (tokenFocus)="activeIndex = i"
+  >
+    {{ token.value[displayWith] }}
+  </sky-token>
+  <div class="sky-tokens-content">
+    <ng-content></ng-content>
+  </div>
+</div>

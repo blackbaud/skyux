@@ -1,0 +1,17 @@
+<div class="sky-wait-container">
+  <div
+    *ngIf="isWaiting"
+    class="sky-wait-mask"
+    [attr.aria-label]="ariaLabelStream | async"
+    [ngClass]="{
+      'sky-wait-mask-loading-fixed': isFullPage,
+      'sky-wait-mask-loading-non-blocking': isNonBlocking,
+      'sky-wait-mask-loading-blocking': !isNonBlocking
+    }"
+  >
+    <div class="sky-wait">
+      <div class="sky-wait-double-bounce1"></div>
+      <div class="sky-wait-double-bounce2"></div>
+    </div>
+  </div>
+</div>

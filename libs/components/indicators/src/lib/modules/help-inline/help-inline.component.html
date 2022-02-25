@@ -1,0 +1,21 @@
+<button
+  class="sky-help-inline"
+  type="button"
+  [attr.aria-label]="'skyux_help_inline_button_title' | skyLibResources"
+  (click)="onClick()"
+>
+  <sky-icon *skyThemeIf="'default'" icon="info-circle"> </sky-icon>
+  <sky-icon-stack
+    *skyThemeIf="'modern'"
+    size="xs"
+    [baseIcon]="{
+      icon: 'circle-solid',
+      iconType: 'skyux'
+    }"
+    [topIcon]="{
+      icon: 'help-i',
+      iconType: 'skyux'
+    }"
+  >
+  </sky-icon-stack>
+</button>

@@ -1,0 +1,93 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-expansion-indicator {
+  display: inline-block;
+  border: none;
+  background-color: transparent;
+  flex-shrink: 0;
+  height: $sky-context-menu-size;
+  margin: 0;
+  overflow: hidden;
+  width: $sky-context-menu-size;
+  position: relative;
+  vertical-align: top;
+}
+
+.sky-expansion-indicator-part {
+  border-color: $sky-text-color-icon-borderless;
+  border-style: solid;
+  border-width: 3px 0 0 0;
+  display: inline-block;
+  height: 10px;
+  position: absolute;
+  top: 10px;
+  transition: transform $sky-transition-time-medium,
+    left $sky-transition-time-medium;
+  vertical-align: top;
+  width: 10px;
+}
+
+.sky-expansion-indicator-up {
+  .sky-expansion-indicator-left {
+    left: 7px;
+    transform: rotate(-45deg);
+  }
+
+  .sky-expansion-indicator-right {
+    left: 7px;
+    transform: rotate(45deg);
+  }
+}
+
+.sky-expansion-indicator-down {
+  .sky-expansion-indicator-left {
+    left: 2px;
+    transform: rotate(45deg);
+  }
+
+  .sky-expansion-indicator-right {
+    left: 12px;
+    transform: rotate(-45deg);
+  }
+}
+
+@include sky-theme-modern {
+  .sky-expansion-indicator {
+    height: 26px;
+    width: 26px;
+  }
+
+  .sky-expansion-indicator-part {
+    background: $sky-theme-modern-font-deemphasized-color;
+    border: none;
+    height: 2px;
+    width: 11px;
+    top: 13px;
+  }
+
+  .sky-expansion-indicator-glyph-container {
+    transform: scale(0.68);
+    display: inline-block;
+    position: absolute;
+    top: 3.5px;
+    left: 4px;
+  }
+
+  .sky-expansion-indicator-left {
+    border-radius: 1px 0 0 1px;
+  }
+
+  .sky-expansion-indicator-right {
+    border-radius: 0 1px 1px 0;
+  }
+
+  .sky-expansion-indicator-left {
+    left: 4px;
+  }
+
+  .sky-expansion-indicator-right {
+    left: 10.5px;
+  }
+}

@@ -1,0 +1,43 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+
+:host {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.sky-icon-stack-size-xs {
+  &.fa-stack {
+    width: 1.25em;
+    height: 1.25em;
+    line-height: 1.25em;
+  }
+
+  .fa-stack-2x {
+    font-size: 1.25em;
+  }
+
+  .fa-stack-1x {
+    font-size: 0.625em;
+  }
+}
+
+// Temporary overrides until the proportions of stackable SKY UX icons have been corrected.
+.fa-stack-1x {
+  &.sky-i-check:before {
+    position: relative;
+    top: 1px;
+  }
+
+  &.sky-i-exclamation:before {
+    position: relative;
+    top: 2px;
+    left: -0.5px;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-icon-inverse {
+    color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+}

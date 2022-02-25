@@ -1,0 +1,84 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-label {
+  color: $sky-text-color-default;
+  display: inline;
+  border-radius: 10rem;
+  font-weight: 400;
+  line-height: 2.2;
+  margin: 0 3px;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  white-space: nowrap;
+}
+
+.sky-label-success {
+  background-color: $sky-background-color-success;
+}
+
+.sky-label-info {
+  background-color: $sky-background-color-info;
+}
+
+.sky-label-warning {
+  background-color: $sky-background-color-warning;
+}
+
+.sky-label-danger {
+  background-color: $sky-background-color-danger;
+}
+
+.sky-label-text {
+  display: inline-block;
+  padding-left: $sky-padding-half;
+}
+
+.sky-label-icon-theme-modern {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .sky-label {
+    align-items: center;
+    display: inline-flex;
+    line-height: 1;
+
+    &.sky-label-info {
+      background-color: $sky-background-color-info-light;
+    }
+
+    &.sky-label-info,
+    &.sky-label-success {
+      padding: 4px 15px 4px 6px;
+    }
+
+    &.sky-label-warning,
+    &.sky-label-danger {
+      padding: 4px 15px 4px 9px;
+    }
+  }
+
+  .sky-label-icon-theme-default {
+    display: none;
+  }
+
+  .sky-label-icon-theme-modern {
+    display: block;
+  }
+
+  .sky-label-info .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-info;
+  }
+
+  .sky-label-success .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-success;
+  }
+
+  .sky-label-warning .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-warning;
+  }
+
+  .sky-label-danger .sky-label-icon-theme-modern {
+    color: $sky-highlight-color-danger;
+  }
+}

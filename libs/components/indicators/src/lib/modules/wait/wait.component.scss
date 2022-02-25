@@ -1,0 +1,86 @@
+@import 'scss/variables';
+
+.sky-wait-mask-loading-blocking {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: $sky-wait-mask-color;
+  z-index: $sky-component-wait-z-index;
+}
+
+.sky-wait-mask-loading-fixed {
+  position: fixed;
+}
+
+.sky-wait {
+  width: 50px;
+  height: 50px;
+  margin-top: -25px;
+  margin-left: -25px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.sky-wait-mask-loading-non-blocking {
+  bottom: 0;
+
+  .sky-wait {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.sky-wait-double-bounce1,
+.sky-wait-double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: $sky-wait-color;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.sky-wait-double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+
+.sky-wait-container.sky-wait-active {
+  position: relative;
+}
