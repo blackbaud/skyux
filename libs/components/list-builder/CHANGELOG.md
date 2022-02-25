@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.2 (2021-12-21)
 
 - Fix Stackblitz demo. [#142](https://github.com/blackbaud/skyux-list-builder/pull/142)

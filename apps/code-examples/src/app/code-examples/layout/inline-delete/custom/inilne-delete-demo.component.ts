@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./inline-delete-demo.component.scss'],
 })
 export class InlineDeleteDemoComponent {
-  public deleting: boolean = false;
+  public deleting = false;
 
-  public pending: boolean = false;
+  public pending = false;
 
   public deleteItem(): void {
     this.deleting = true;

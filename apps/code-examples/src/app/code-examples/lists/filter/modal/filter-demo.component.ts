@@ -48,7 +48,7 @@ export class FilterDemoComponent {
     },
   ];
 
-  public showInlineFilters: boolean = false;
+  public showInlineFilters = false;
 
   constructor(
     private modal: SkyModalService,
@@ -67,7 +67,7 @@ export class FilterDemoComponent {
   }
 
   public onModalFilterButtonClick(): void {
-    let modalInstance = this.modal.open(FilterDemoModalComponent, [
+    const modalInstance = this.modal.open(FilterDemoModalComponent, [
       {
         provide: FilterDemoModalContext,
         useValue: {

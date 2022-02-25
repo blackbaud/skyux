@@ -236,7 +236,7 @@ export class SkyViewkeeper {
     this.currentElFixedLeft =
       this.currentElFixedTop =
       this.currentElFixedWidth =
-      undefined;
+        undefined;
 
     let width: string;
 
@@ -294,8 +294,8 @@ export class SkyViewkeeper {
     // rest of the boundary by setting its top position to a negative value.
     elFixedTop = Math.min(
       boundaryInfo.boundaryBottom -
-      boundaryInfo.elHeight -
-      boundaryInfo.scrollTop,
+        boundaryInfo.elHeight -
+        boundaryInfo.scrollTop,
       verticalOffset
     );
 

@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.2.2 (2022-01-28)
 
 - Added punctuation to the empty state text for the definition list and description list components. [#274](https://github.com/blackbaud/skyux-layout/pull/274)

@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.1.0 (2022-02-03)
 
 - Added the `itemName` property to the repeater item to provide better accessibility labels. Fixed the repeater item controls to have descriptive aria labels and fixed the repeater item to no longer be focusable. [#262](https://github.com/blackbaud/skyux-lists/pull/262)

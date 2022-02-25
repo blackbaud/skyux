@@ -728,11 +728,10 @@ export class SkyAutocompleteComponent
 
       let offset = 0;
       let index: number;
-      while ((index = normalizedDataValue.indexOf(normalizedSearchText, offset)) > -1) {
-        const matchedString = value.slice(
-          index,
-          index + searchText.length
-        );
+      while (
+        (index = normalizedDataValue.indexOf(normalizedSearchText, offset)) > -1
+      ) {
+        const matchedString = value.slice(index, index + searchText.length);
         offset = index + searchText.length;
         matchesToHighlight = matchesToHighlight.concat(matchedString);
       }

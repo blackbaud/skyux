@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 export class TextHighlightDemoComponent {
   public searchTerm: string;
 
-  public showAdditionalContent: boolean = false;
+  public showAdditionalContent = false;
 }

@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.2.3 (2021-02-03)
 
 - Fixed the scrollable host service to properly watch for structural changes when observing scrollable host updates. [#284](https://github.com/blackbaud/skyux-core/pull/284)

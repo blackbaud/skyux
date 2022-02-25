@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.2 (2022-02-08)
 
 - Fixed the `lib-resources-module` schematic to generate files that work within strict-mode applications. [#134](https://github.com/blackbaud/skyux-i18n/pull/134)

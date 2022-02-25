@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.3.0 (2022-02-09)
 
 - Added the expansion indicator component. [#207](https://github.com/blackbaud/skyux-indicators/pull/207)

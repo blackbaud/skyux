@@ -662,7 +662,9 @@ export interface SkyAsyncMatchers<T> {
    * regardless of the value of each of the parameters.
    * @param name The resource string to fetch from the resource file and compare against.
    */
-  toMatchLibResourceTemplate(name: string): Promise<jasmine.CustomMatcherResult>;
+  toMatchLibResourceTemplate(
+    name: string
+  ): Promise<jasmine.CustomMatcherResult>;
 }
 
 /**

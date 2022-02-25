@@ -417,8 +417,8 @@ ag-grid-angular.sky-ag-grid-editable {
   }
 
   @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+    $sky-cell-wrap-text-padding-modern,
+    $sky-cell-wrap-text-line-height-modern
   );
 
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
@@ -445,8 +445,8 @@ ag-grid-angular.sky-ag-grid-editable {
   }
 
   @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+    $sky-cell-wrap-text-padding-modern,
+    $sky-cell-wrap-text-line-height-modern
   );
 
   .ag-row:not(.ag-row-first) {

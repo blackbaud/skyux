@@ -174,7 +174,7 @@ export class SkyFileDropComponent implements OnDestroy {
           this.rejectedOver = false;
           this.acceptedOver = true;
         }
-      } else /* istanbul ignore next: untestable */ if (transfer.files) {
+      } /* istanbul ignore next: untestable */ else if (transfer.files) {
         // If the browser does not support DataTransfer.items,
         // defer file-type checking to drop handler.
         // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/items#Browser_compatibility

@@ -1,17 +1,13 @@
 import { Component } from '@angular/core';
 
-import {
-  SkyFileDropChange,
-  SkyFileItem,
-  SkyFileLink,
-} from '@skyux/forms';
+import { SkyFileDropChange, SkyFileItem, SkyFileLink } from '@skyux/forms';
 
 @Component({
   selector: 'app-file-attachment-demo',
   templateUrl: './file-attachment-demo.component.html',
 })
 export class FileAttachmentDemoComponent {
-  public acceptedTypes: string = 'image/png,image/jpeg';
+  public acceptedTypes = 'image/png,image/jpeg';
 
   public allItems: (SkyFileItem | SkyFileLink)[];
 
@@ -19,7 +15,7 @@ export class FileAttachmentDemoComponent {
 
   public linksToUpload: SkyFileLink[];
 
-  public maxFileSize: number = 4000000;
+  public maxFileSize = 4000000;
 
   public rejectedFiles: SkyFileItem[];
 

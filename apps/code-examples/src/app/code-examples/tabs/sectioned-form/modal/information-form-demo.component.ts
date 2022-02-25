@@ -13,9 +13,9 @@ import { SkySectionedFormService } from '@skyux/tabs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InformationFormDemoComponent implements OnInit {
-  public id: string = '5324901';
+  public id = '5324901';
   public myForm: FormGroup;
-  public name: string = '';
+  public name = '';
   public nameRequired = false;
 
   constructor(

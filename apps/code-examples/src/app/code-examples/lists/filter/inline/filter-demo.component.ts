@@ -9,11 +9,11 @@ export class FilterDemoComponent {
 
   public filteredItems: any[];
 
-  public filtersActive: boolean = false;
+  public filtersActive = false;
 
-  public fruitType: string = 'any';
+  public fruitType = 'any';
 
-  public hideOrange: boolean = false;
+  public hideOrange = false;
 
   public items: any[] = [
     {
@@ -43,7 +43,7 @@ export class FilterDemoComponent {
     },
   ];
 
-  public showInlineFilters: boolean = false;
+  public showInlineFilters = false;
 
   constructor() {
     this.filteredItems = this.items.slice();

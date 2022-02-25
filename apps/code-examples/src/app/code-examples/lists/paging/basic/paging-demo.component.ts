@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './paging-demo.component.html',
 })
 export class PagingDemoComponent {
-  public currentPage: number = 1;
+  public currentPage = 1;
 }

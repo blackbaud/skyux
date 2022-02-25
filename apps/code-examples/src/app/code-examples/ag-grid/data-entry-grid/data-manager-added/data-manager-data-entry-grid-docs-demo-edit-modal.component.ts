@@ -114,7 +114,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
             params.data &&
             params.data.department &&
             params.data.department.name;
-          let editParams: {
+          const editParams: {
             skyComponentProperties: SkyAutocompleteProperties;
           } = { skyComponentProperties: { data: [] } };
 

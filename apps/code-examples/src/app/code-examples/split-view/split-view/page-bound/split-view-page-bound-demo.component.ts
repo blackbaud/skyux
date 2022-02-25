@@ -125,7 +125,7 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
 
-  public unapprovedTransaction: boolean = true;
+  public unapprovedTransaction = true;
 
   private _activeIndex = 0;
 

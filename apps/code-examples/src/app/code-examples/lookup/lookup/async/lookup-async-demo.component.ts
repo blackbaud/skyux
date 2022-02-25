@@ -75,7 +75,7 @@ export class LookupAsyncDemoComponent implements OnInit {
     setTimeout(() => {
       const searchText = $event.searchText.toLowerCase();
       const items = this.people.filter((person) => {
-        return person.name.toLowerCase().includes(searchText)
+        return person.name.toLowerCase().includes(searchText);
       });
       result.next({
         hasMore: false,

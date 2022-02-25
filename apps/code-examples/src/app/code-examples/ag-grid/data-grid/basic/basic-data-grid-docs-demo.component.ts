@@ -62,7 +62,7 @@ export class SkyBasicDataGridDemoComponent {
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
-  public searchText: string = '';
+  public searchText = '';
   public noRowsTemplate: string;
 
   constructor(
@@ -93,7 +93,7 @@ export class SkyBasicDataGridDemoComponent {
     }
     if (this.gridApi) {
       this.gridApi.setQuickFilter(searchText);
-      let displayedRowCount = this.gridApi.getDisplayedRowCount();
+      const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.gridApi.hideOverlay();
       } else {

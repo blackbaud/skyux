@@ -4,8 +4,5 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "allowedNonPeerDependencies": [
-    "google-libphonenumber",
-    "intl-tel-input"
-  ]
+  "allowedNonPeerDependencies": ["google-libphonenumber", "intl-tel-input"]
 }

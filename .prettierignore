@@ -1,4 +1,9 @@
-# Add files here to ignore them from prettier formatting
+# Ignore artifacts:
+__skyux
+coverage
+dist
+node_modules
+package-lock.json
 
-/dist
-/coverage
+# Don't format the following since the order of its import statements is deliberate.
+test.ts

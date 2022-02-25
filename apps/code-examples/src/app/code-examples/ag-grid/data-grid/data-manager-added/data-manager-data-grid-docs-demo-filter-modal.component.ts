@@ -15,9 +15,9 @@ import { SkyModalInstance } from '@skyux/modals';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataManagerDataGridDocsDemoFiltersModalComponent {
-  public jobTitle: string = '';
+  public jobTitle = '';
 
-  public hideSales: boolean = false;
+  public hideSales = false;
 
   constructor(
     public context: SkyDataManagerFilterModalContext,
@@ -25,7 +25,7 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
     private changeDetector: ChangeDetectorRef
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
-      let filters = this.context.filterData.filters;
+      const filters = this.context.filterData.filters;
       this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
@@ -33,7 +33,7 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
   }
 
   public applyFilters() {
-    let result: SkyDataManagerFilterData = {};
+    const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.jobTitle !== 'any' || this.hideSales;
     result.filters = {

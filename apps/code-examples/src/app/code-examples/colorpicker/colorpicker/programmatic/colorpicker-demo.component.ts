@@ -17,7 +17,7 @@ export class ColorpickerDemoComponent {
 
   public model: any;
 
-  public showResetButton: boolean = false;
+  public showResetButton = false;
 
   public openColorpicker(): void {
     this.sendMessage(SkyColorpickerMessageType.Open);

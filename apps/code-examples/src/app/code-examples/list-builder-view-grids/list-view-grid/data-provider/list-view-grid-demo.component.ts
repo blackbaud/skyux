@@ -110,7 +110,7 @@ export class DemoListProvider extends ListDataProvider {
         let modifiedList = items;
 
         if (request.search.searchText) {
-          let searchText = request.search.searchText.toLowerCase();
+          const searchText = request.search.searchText.toLowerCase();
 
           modifiedList = modifiedList.filter((item) => {
             return (
@@ -121,7 +121,7 @@ export class DemoListProvider extends ListDataProvider {
         }
 
         if (request.filters) {
-          for (let filter of request.filters) {
+          for (const filter of request.filters) {
             if (filter.name === 'fruitType' && filter.value !== 'any') {
               modifiedList = modifiedList.filter((item) => {
                 return item.data.type === request.filters[0].value;
@@ -133,7 +133,7 @@ export class DemoListProvider extends ListDataProvider {
         }
 
         if (request.sort) {
-          for (let fieldSelector of request.sort.fieldSelectors) {
+          for (const fieldSelector of request.sort.fieldSelectors) {
             if (fieldSelector.fieldSelector === 'highAcidity') {
               modifiedList = modifiedList.sort((itemA: any, itemB: any) => {
                 if (fieldSelector.descending) {
@@ -146,8 +146,8 @@ export class DemoListProvider extends ListDataProvider {
           }
         }
 
-        let itemStart = (request.pageNumber - 1) * request.pageSize;
-        let pagedResult = modifiedList.slice(
+        const itemStart = (request.pageNumber - 1) * request.pageSize;
+        const pagedResult = modifiedList.slice(
           itemStart,
           itemStart + request.pageSize
         );

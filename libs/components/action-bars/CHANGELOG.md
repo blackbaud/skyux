@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.2 (2022-02-07)
 
 - Fixed the summary action bar expand button to have proper accessibility attributes. [#75](https://github.com/blackbaud/skyux-action-bars/pull/75)

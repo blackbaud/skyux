@@ -12,7 +12,7 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class SkyDataManagerDataEntryGridContextMenuComponent
   implements ICellRendererAngularComp
 {
-  private name: string = '';
+  private name = '';
 
   public agInit(params: ICellRendererParams): void {
     this.name = params.data && params.data.name;

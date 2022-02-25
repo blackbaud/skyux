@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './tabs-demo.component.html',
 })
 export class TabsDemoComponent {
-  public showTab3: boolean = true;
+  public showTab3 = true;
 
   public onNewTabClick(): void {
     console.log('Add tab clicked!');

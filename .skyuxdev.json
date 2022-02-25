@@ -1,0 +1,16 @@
+{
+  "allowedSemverRange": ">5.5.0-alpha <5.5.0-beta",
+  "documentation": {
+    "excludeProjects": [
+      "animations",
+      "assets",
+      "config",
+      "http",
+      "omnibar-interop",
+      "packages",
+      "prettier-schematics",
+      "router",
+      "testing"
+    ]
+  }
+}

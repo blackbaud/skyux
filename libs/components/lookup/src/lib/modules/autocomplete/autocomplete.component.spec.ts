@@ -1043,7 +1043,10 @@ describe('Autocomplete component', () => {
 
       it('should highlight matches when search contains regular expression characters', fakeAsync(() => {
         component.data = [
-          { name: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)', objectid: '1' },
+          {
+            name: 'United Arab Emirates (‫الإمارات العربية المتحدة‬‎)',
+            objectid: '1',
+          },
           { name: 'United States of America (USA)', objectid: '2' },
           { name: 'Should not be found', objectid: '3' },
         ];

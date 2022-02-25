@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.3 (2022-02-24)
 
 - Fixed the progress indicator status marker to use a color which conforms to accessibility color contrast standards. [#86](https://github.com/blackbaud/skyux-progress-indicator/pull/86)

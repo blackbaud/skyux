@@ -39,7 +39,7 @@ export class DatepickerDemoComponent implements OnInit {
     event: SkyDatepickerCalendarChange
   ): Observable<SkyDatepickerCustomDate[]> {
     const getNextDate = function (startDate: Date, daystoAdd: number): Date {
-      let newDate = new Date(startDate);
+      const newDate = new Date(startDate);
       newDate.setDate(newDate.getDate() + daystoAdd);
       return newDate;
     };

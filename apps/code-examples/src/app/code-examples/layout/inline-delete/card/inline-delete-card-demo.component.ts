@@ -5,9 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './inline-delete-card-demo.component.html',
 })
 export class InlineDeleteCardDemoComponent {
-  public deleting: boolean = false;
+  public deleting = false;
 
-  public pending: boolean = false;
+  public pending = false;
 
   public deleteItem(): void {
     this.deleting = true;

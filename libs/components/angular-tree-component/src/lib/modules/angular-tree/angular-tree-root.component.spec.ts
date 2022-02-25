@@ -325,7 +325,7 @@ describe('tree view', () => {
       const selectedNodeLength = Object.keys(
         component.selectedLeafNodeIds
       ).length;
-      expect(selectedNodeLength).toEqual(6)
+      expect(selectedNodeLength).toEqual(6);
 
       fixture.destroy();
       flush();

@@ -20,7 +20,7 @@ export class TabsDemoComponent {
     },
   ];
 
-  private tabCounter: number = 3;
+  private tabCounter = 3;
 
   public onNewTabClick(): void {
     this.tabCounter++;

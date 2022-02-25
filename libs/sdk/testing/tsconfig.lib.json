@@ -6,20 +6,9 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "lib": [
-      "dom",
-      "es2018"
-    ],
-    "types": [
-      "jasmine",
-      "node"
-    ]
+    "lib": ["dom", "es2018"],
+    "types": ["jasmine", "node"]
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ],
-  "include": [
-    "**/*.ts"
-  ]
+  "exclude": ["src/test.ts", "**/*.spec.ts"],
+  "include": ["**/*.ts"]
 }

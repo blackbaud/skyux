@@ -7,8 +7,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   templateUrl: './toggle-switch-demo.component.html',
 })
 export class ToggleSwitchDemoComponent {
-  public checked: boolean = false;
-  public disabled: boolean = true;
+  public checked = false;
+  public disabled = true;
 
   public formGroup: FormGroup;
 

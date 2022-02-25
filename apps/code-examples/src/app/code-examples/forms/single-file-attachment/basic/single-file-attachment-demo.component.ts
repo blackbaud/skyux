@@ -23,7 +23,7 @@ export class SingleFileAttachmentDemoComponent implements OnInit {
 
   public fileForm: FormGroup;
 
-  public maxFileSize: number = 4000000;
+  public maxFileSize = 4000000;
 
   public get reactiveFile(): AbstractControl {
     return this.fileForm.get('attachment');

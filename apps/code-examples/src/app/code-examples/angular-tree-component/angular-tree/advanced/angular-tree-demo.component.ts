@@ -49,9 +49,9 @@ export class AngularTreeDemoComponent implements OnInit {
     return this._enableCascading;
   }
 
-  public readOnly: boolean = false;
+  public readOnly = false;
 
-  public selectedSelectMode: string = 'multiSelect';
+  public selectedSelectMode = 'multiSelect';
 
   public set selectLeafNodesOnly(value: boolean) {
     this.resetSelection();
@@ -66,11 +66,11 @@ export class AngularTreeDemoComponent implements OnInit {
     return this._selectLeafNodesOnly;
   }
 
-  public selectSingle: boolean = false;
+  public selectSingle = false;
 
-  public showContextMenus: boolean = false;
+  public showContextMenus = false;
 
-  public showToolbar: boolean = false;
+  public showToolbar = false;
 
   private _enableCascading = false;
 
@@ -179,11 +179,11 @@ export class AngularTreeDemoComponent implements OnInit {
         }
       }
 
-      if (!!value.enableCascading) {
+      if (value.enableCascading) {
         this.enableCascading = value.enableCascading;
       }
 
-      if (!!value.selectLeafNodesOnly) {
+      if (value.selectLeafNodesOnly) {
         this.selectLeafNodesOnly = value.selectLeafNodesOnly;
       }
 

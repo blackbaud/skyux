@@ -57,11 +57,11 @@ export class DataViewCardsDemoComponent implements OnInit {
 
   public sortItems(items: any[]): any[] {
     let result = items;
-    let sortOption = this.dataState && this.dataState.activeSortOption;
+    const sortOption = this.dataState && this.dataState.activeSortOption;
 
     if (sortOption) {
       result = items.sort(function (a: any, b: any) {
-        let descending = sortOption.descending ? -1 : 1,
+        const descending = sortOption.descending ? -1 : 1,
           sortProperty = sortOption.propertyName;
 
         if (a[sortProperty] > b[sortProperty]) {
@@ -79,7 +79,8 @@ export class DataViewCardsDemoComponent implements OnInit {
 
   public searchItems(items: any[]): any[] {
     let searchedItems = items;
-    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
+    const searchText =
+      this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedItems = items.filter(function (item: any) {
@@ -105,10 +106,10 @@ export class DataViewCardsDemoComponent implements OnInit {
 
   public filterItems(items: any[]): any[] {
     let filteredItems = items;
-    let filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
-      let filters = filterData.filters;
+      const filters = filterData.filters;
       filteredItems = items.filter((item: any) => {
         if (
           ((filters.hideOrange && item.color !== 'orange') ||

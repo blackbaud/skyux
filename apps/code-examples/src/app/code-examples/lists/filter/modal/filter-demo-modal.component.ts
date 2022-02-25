@@ -29,7 +29,7 @@ export class FilterDemoModalComponent {
   }
 
   public applyFilters(): void {
-    let result = this.getAppliedFiltersArray();
+    const result = this.getAppliedFiltersArray();
     this.instance.save(result);
   }
 
@@ -43,7 +43,7 @@ export class FilterDemoModalComponent {
   }
 
   private getAppliedFiltersArray(): any[] {
-    let appliedFilters: any[] = [];
+    const appliedFilters: any[] = [];
     if (this.fruitType !== 'any') {
       appliedFilters.push({
         name: 'fruitType',

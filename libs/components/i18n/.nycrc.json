@@ -1,24 +1,15 @@
 {
   "extends": "@istanbuljs/nyc-config-typescript",
   "extension": ".ts",
-  "include": [
-    "schematics/**/*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts",
-    "**/testing/**"
-  ],
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/testing/**"],
   "all": true,
   "check-coverage": true,
   "branches": 100,
   "lines": 100,
   "functions": 100,
   "statements": 100,
-  "reporter": [
-    "text",
-    "html",
-    "json"
-  ],
+  "reporter": ["text", "html", "json"],
   "report-dir": "../../../coverage/libs/components/i18n-schematics",
   "temp-dir": "../../../.nyc_output"
 }

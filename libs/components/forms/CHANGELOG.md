@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.2 (2021-12-17)
 
 - Fixed the radio component to properly render the radio button in modals and varying zoom states. [#303](https://github.com/blackbaud/skyux-forms/pull/303)

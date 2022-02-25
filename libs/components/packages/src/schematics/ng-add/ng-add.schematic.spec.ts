@@ -3,7 +3,6 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-
 import path from 'path';
 
 import { createTestLibrary } from '../testing/scaffold';
@@ -26,11 +25,11 @@ describe('ng-add.schematic', () => {
     latestVersionCalls = {};
 
     jest.mock('latest-version', () => (packageName, args) => {
-if (args.version === '0.0.0-PLACEHOLDER') {
-      args.version = '^5.0.0';
-    }
+      if (args.version === '0.0.0-PLACEHOLDER') {
+        args.version = '^5.0.0';
+      }
 
-    latestVersionCalls[packageName] = args.version;
+      latestVersionCalls[packageName] = args.version;
 
       // Test when layout is already on the latest version.
       if (packageName === '@skyux/layout') {

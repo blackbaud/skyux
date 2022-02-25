@@ -1,13 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {
-  inject,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SkyAppConfig } from '@skyux/config';
 
-import { SkyAppResourcesService, SkyI18nModule, SkyLibResourcesService } from '@skyux/i18n';
+import {
+  SkyAppResourcesService,
+  SkyI18nModule,
+  SkyLibResourcesService,
+} from '@skyux/i18n';
 
 import { EMPTY, of as observableOf } from 'rxjs';
 
@@ -663,7 +663,10 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualResourceText(messageKey, undefined);
+          await expectAsync(text).not.toEqualResourceText(
+            messageKey,
+            undefined
+          );
         });
       });
 
@@ -910,7 +913,10 @@ describe('Jasmine matchers', () => {
             }
           );
 
-          await expectAsync(text).toEqualLibResourceText(messageKey, messageArgs);
+          await expectAsync(text).toEqualLibResourceText(
+            messageKey,
+            messageArgs
+          );
         });
 
         it('should fail if the actual text does not match text provided by resources', async () => {
@@ -922,7 +928,10 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualLibResourceText(messageKey, undefined);
+          await expectAsync(text).not.toEqualLibResourceText(
+            messageKey,
+            undefined
+          );
         });
       });
 
@@ -988,7 +997,10 @@ describe('Jasmine matchers', () => {
             }
           );
 
-          await expectAsync(elem).toHaveLibResourceText(messageKey, messageArgs);
+          await expectAsync(elem).toHaveLibResourceText(
+            messageKey,
+            messageArgs
+          );
         });
 
         it("should fail if the element's text does not match text provided by resources", async () => {
@@ -1012,7 +1024,11 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(elem).not.toHaveLibResourceText(messageKey, [], false);
+          await expectAsync(elem).not.toHaveLibResourceText(
+            messageKey,
+            [],
+            false
+          );
         });
       });
 

@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.2 (2021-11-17)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#65](https://github.com/blackbaud/skyux-autonumeric/pull/65)

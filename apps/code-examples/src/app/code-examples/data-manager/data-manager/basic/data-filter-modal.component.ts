@@ -21,14 +21,14 @@ export class DataManagerFiltersModalDemoComponent {
     public instance: SkyModalInstance
   ) {
     if (this.context.filterData && this.context.filterData.filters) {
-      let filters = this.context.filterData.filters;
+      const filters = this.context.filterData.filters;
       this.fruitType = filters.type || 'any';
       this.hideOrange = filters.hideOrange || false;
     }
   }
 
   public applyFilters() {
-    let result: SkyDataManagerFilterData = {};
+    const result: SkyDataManagerFilterData = {};
 
     result.filtersApplied = this.fruitType !== 'any' || this.hideOrange;
     result.filters = {

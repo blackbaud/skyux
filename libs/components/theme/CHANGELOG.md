@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.5 (2022-01-25)
 
 - Updated various properties and methods to explicitly accept `undefined` to better support applications that require strict null checks. [#281](https://github.com/blackbaud/skyux-theme/pull/281)

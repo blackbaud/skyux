@@ -13,7 +13,7 @@ export class SectionedFormDemoComponent {
   constructor(private modal: SkyModalService) {}
 
   public openModal(): void {
-    let modalInstance = this.modal.open(SectionedFormModalDemoComponent);
+    const modalInstance = this.modal.open(SectionedFormModalDemoComponent);
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel') {

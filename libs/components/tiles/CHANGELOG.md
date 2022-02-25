@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.3 (2022-02-04)
 
 - Removed an outdated reference to entry components. [#90](https://github.com/blackbaud/skyux-tiles/pull/92)

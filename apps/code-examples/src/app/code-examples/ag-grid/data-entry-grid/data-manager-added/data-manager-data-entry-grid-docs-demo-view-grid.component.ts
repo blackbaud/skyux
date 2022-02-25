@@ -105,7 +105,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   public gridInitialized = false;
   public gridOptions!: GridOptions;
   public noRowsTemplate: string;
-  public isActive: boolean = false;
+  public isActive = false;
 
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
@@ -220,14 +220,14 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   }
 
   public setInitialColumnOrder(): void {
-    let viewState = this.dataState.getViewStateById(this.viewId);
-    let visibleColumns = viewState.displayedColumnIds;
+    const viewState = this.dataState.getViewStateById(this.viewId);
+    const visibleColumns = viewState.displayedColumnIds;
 
     this.columnDefs.sort((col1, col2) => {
-      let col1Index = visibleColumns.findIndex(
+      const col1Index = visibleColumns.findIndex(
         (colId: string) => colId === col1.colId
       );
-      let col2Index = visibleColumns.findIndex(
+      const col2Index = visibleColumns.findIndex(
         (colId: string) => colId === col2.colId
       );
 
@@ -261,7 +261,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   }
 
   public sortItems(): void {
-    let sortOption = this.dataState.activeSortOption;
+    const sortOption = this.dataState.activeSortOption;
     if (this.columnApi && sortOption) {
       this.columnApi.applyColumnState({
         state: [
@@ -276,7 +276,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
 
   public searchItems(items: any[]): any[] {
     let searchedItems = items;
-    let searchText = this.dataState && this.dataState.searchText;
+    const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
       searchedItems = items.filter(function (item: any) {
@@ -303,10 +303,10 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
 
   public filterItems(items: any[]): any[] {
     let filteredItems = items;
-    let filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
-      let filters = filterData.filters;
+      const filters = filterData.filters;
       filteredItems = items.filter((item: any) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||

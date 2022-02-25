@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-let nextId: number = 0;
+let nextId = 0;
 
 @Component({
   selector: 'app-repeater-demo',

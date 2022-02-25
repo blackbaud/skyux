@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.1.2 (2021-12-21)
 
 - Fix Stackblitz demo. [#112](https://github.com/blackbaud/skyux-colorpicker/pull/112)

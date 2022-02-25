@@ -13,7 +13,7 @@ import {
   templateUrl: './inline-form-demo.component.html',
 })
 export class InlineFormDemoComponent implements OnInit {
-  public firstName: string = 'Jane';
+  public firstName = 'Jane';
 
   public myForm: FormGroup;
 
@@ -21,7 +21,7 @@ export class InlineFormDemoComponent implements OnInit {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
-  public showForm: boolean = false;
+  public showForm = false;
 
   constructor(private formBuilder: FormBuilder) {}
 

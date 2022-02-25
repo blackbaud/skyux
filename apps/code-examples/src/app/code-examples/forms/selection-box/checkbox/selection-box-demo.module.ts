@@ -8,10 +8,7 @@ import { SkyIdModule } from '@skyux/core';
 
 import { SkyIconModule } from '@skyux/indicators';
 
-import {
-  SkyCheckboxModule,
-  SkySelectionBoxModule,
-} from '@skyux/forms';
+import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
 
 import { SelectionBoxDemoComponent } from './selection-box-demo.component';
 

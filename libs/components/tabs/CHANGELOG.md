@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.1.0 (2022-02-23)
 
 - Updated the vertical tab component to include valid ARIA roles, states, and properties. [#203](https://github.com/blackbaud/skyux-tabs/pull/203)

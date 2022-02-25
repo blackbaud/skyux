@@ -104,7 +104,7 @@ export class SkyColorpickerInputDirective
    * or `hsla`, but we do not recommend using it because users never see or use its value.
    * Instead, if you need to access this format value, see the demo for an example.
    *@default "rgba"
-  */
+   */
   @Input()
   public outputFormat = 'rgba';
 
@@ -118,7 +118,7 @@ export class SkyColorpickerInputDirective
   /**
    * Specifies the type of transparency to use in the transparency slider.
    *@default "hex6"
-  */
+   */
   @Input()
   public alphaChannel = 'hex6';
 

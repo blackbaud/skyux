@@ -13,11 +13,11 @@ import { ListFiltersDemoModalContext } from './list-filters-demo-modal-context';
   templateUrl: './list-filters-demo-modal.component.html',
 })
 export class ListFilterDemoModalComponent {
-  public fruitType: string = 'any';
+  public fruitType = 'any';
 
   public hideOrange: boolean;
 
-  public headerText: string = 'Filters';
+  public headerText = 'Filters';
 
   constructor(
     public context: ListFiltersDemoModalContext,
@@ -35,7 +35,7 @@ export class ListFilterDemoModalComponent {
   }
 
   public applyFilters(): void {
-    let result = this.getAppliedFiltersArray();
+    const result = this.getAppliedFiltersArray();
     this.instance.save(result);
   }
 
@@ -56,7 +56,7 @@ export class ListFilterDemoModalComponent {
   }
 
   private getAppliedFiltersArray(): ListFilterModel[] {
-    let appliedFilters: ListFilterModel[] = [];
+    const appliedFilters: ListFilterModel[] = [];
     if (this.fruitType !== 'any') {
       appliedFilters.push(
         new ListFilterModel({

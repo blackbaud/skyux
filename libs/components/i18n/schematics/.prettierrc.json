@@ -1,5 +1,0 @@
-{
-  "singleQuote": true,
-  "importOrder": ["^@(.*)$", "^\\w(.*)$", "^(../)(.*)$", "^(./)(.*)$"],
-  "importOrderSeparation": true
-}

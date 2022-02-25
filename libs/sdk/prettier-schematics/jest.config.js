@@ -25,4 +25,3 @@ module.exports = {
     '<rootDir>/src/schematics/utility',
   ],
 };
-

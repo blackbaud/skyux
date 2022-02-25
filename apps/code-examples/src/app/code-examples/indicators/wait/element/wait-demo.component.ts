@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './wait-demo.component.html',
 })
 export class WaitDemoComponent {
-  public isWaiting: boolean = false;
+  public isWaiting = false;
 }

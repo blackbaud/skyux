@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.3 (2022-01-24)
 
 - Fixed the angular tree component to not select the virtual root when clicking the select all button. [#56](https://github.com/blackbaud/skyux-angular-tree-component/pull/56)
