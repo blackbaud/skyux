@@ -1,0 +1,15 @@
+<ng-container *ngIf="isInGridViewAndSecondary | async">
+  <sky-list-secondary-action>
+    <button type="button" (click)="openColumnSelector()">
+      {{ 'skyux_grid_columns_button' | skyLibResources }}
+    </button>
+  </sky-list-secondary-action>
+</ng-container>
+
+<ng-template #columnChooser>
+  <sky-list-column-selector-button
+    *ngIf="isInGridView | async"
+    (click)="openColumnSelector()"
+  >
+  </sky-list-column-selector-button>
+</ng-template>

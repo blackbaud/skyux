@@ -1,0 +1,26 @@
+{
+  "skyux_grid_column_picker_cancel": {
+    "_description": "Button text for cancelling changes made in the grid column picker",
+    "message": "Cancel"
+  },
+  "skyux_grid_column_picker_header": {
+    "_description": "Header text for the grid column picker screen",
+    "message": "Choose columns to show in the list"
+  },
+  "skyux_grid_column_picker_search_placeholder": {
+    "_description": "Search text placeholder for the search box on the grid column picker",
+    "message": "Search for columns"
+  },
+  "skyux_grid_column_picker_submit": {
+    "_description": "Button text for applying changes made in the grid column picker",
+    "message": "Apply changes"
+  },
+  "skyux_grid_columns_button": {
+    "_description": "Label for secondary actions button to select columns to display in a grid.",
+    "message": "Choose columns"
+  },
+  "skyux_grid_columns_toolbar_button": {
+    "_description": "Label for toolbar button to select columns to display in a grid.",
+    "message": "Columns"
+  }
+}

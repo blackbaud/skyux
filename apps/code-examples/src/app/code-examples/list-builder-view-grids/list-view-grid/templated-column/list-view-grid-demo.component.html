@@ -1,0 +1,30 @@
+<sky-list [data]="data">
+  <sky-list-view-grid fit="scroll" #grid>
+    <sky-grid-column
+      id="contextMenuColumn"
+      [locked]="true"
+      [template]="contextMenuTemplate"
+      [width]="50"
+    >
+    </sky-grid-column>
+    <sky-grid-column field="name" heading="Name"> </sky-grid-column>
+    <sky-grid-column field="email" heading="Email"> </sky-grid-column>
+    <sky-grid-column field="amount" heading="Amount"> </sky-grid-column>
+  </sky-list-view-grid>
+</sky-list>
+
+<ng-template #contextMenuTemplate>
+  <sky-dropdown buttonType="context-menu">
+    <sky-dropdown-menu>
+      <sky-dropdown-item>
+        <button type="button">Make admin</button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button type="button">Disable</button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button type="button">Delete</button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</ng-template>
