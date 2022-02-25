@@ -1,0 +1,28 @@
+<ng-container *ngIf="!isDropdown">
+  <button
+    type="button"
+    class="sky-btn"
+    role="menuitem"
+    [disabled]="disabled"
+    [skyThemeClass]="{
+      'sky-btn-secondary': 'default',
+      'sky-btn-default': 'modern'
+    }"
+    (click)="onButtonClicked()"
+  >
+    <ng-container
+      *ngTemplateOutlet="summaryActionBarSecondaryAction"
+    ></ng-container>
+  </button>
+</ng-container>
+<sky-dropdown-item *ngIf="isDropdown">
+  <button type="button" [disabled]="disabled" (click)="onButtonClicked()">
+    <ng-container
+      *ngTemplateOutlet="summaryActionBarSecondaryAction"
+    ></ng-container>
+  </button>
+</sky-dropdown-item>
+
+<ng-template #summaryActionBarSecondaryAction>
+  <ng-content></ng-content>
+</ng-template>

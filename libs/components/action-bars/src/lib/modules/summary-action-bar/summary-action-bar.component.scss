@@ -1,0 +1,132 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
+
+.sky-summary-action-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: $sky-margin-double;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  background-color: $sky-color-white;
+  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+}
+
+.sky-summary-action-bar-modal,
+.sky-summary-action-bar-split-view {
+  position: relative;
+  margin-top: 0;
+}
+
+.sky-summary-action-bar-split-view {
+  box-shadow: none;
+}
+
+.sky-summary-action-bar-actions {
+  padding: $sky-padding $sky-padding-double $sky-padding $sky-padding;
+  flex-shrink: 0;
+  background-color: $sky-color-white;
+  z-index: 999;
+}
+
+.sky-summary-action-bar-summary {
+  margin: $sky-margin 0;
+  @include sky-border(light, left);
+}
+
+.sky-summary-action-bar-summary-body {
+  padding-left: $sky-padding-double;
+  display: flex;
+}
+
+.sky-summary-action-bar-summary-items {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  margin-right: $sky-margin;
+}
+
+.sky-summary-action-bar-details-expand {
+  margin-left: auto;
+  margin-right: $sky-margin;
+}
+
+.sky-summary-action-bar-details-expand,
+.sky-summary-action-bar-details-collapse {
+  display: none;
+}
+
+.sky-summary-action-bar-summary-collapsible {
+  &.sky-summary-action-bar {
+    flex-wrap: wrap;
+  }
+
+  .sky-summary-action-bar-summary {
+    order: -1;
+    width: 100%;
+    @include sky-border(light, bottom);
+    margin: 0;
+    border-left: none;
+    z-index: 998;
+  }
+
+  .sky-summary-action-bar-summary-body {
+    padding: $sky-padding;
+  }
+
+  .sky-summary-action-bar-details-expand,
+  .sky-summary-action-bar-details-collapse {
+    display: block;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-summary-action-bar-actions {
+    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+  }
+
+  .sky-summary-action-bar-summary {
+    border: none;
+  }
+
+  .sky-summary-action-bar-summary-body {
+    padding-left: $sky-theme-modern-space-xl;
+  }
+
+  .sky-summary-action-bar-summary-collapsible {
+    .sky-summary-action-bar-actions {
+      padding: $sky-theme-modern-padding-even-lg;
+    }
+
+    .sky-summary-action-bar-summary-body {
+      padding: $sky-theme-modern-padding-even-lg;
+    }
+  }
+
+  .sky-summary-action-bar-summary-items {
+    margin-bottom: -$sky-theme-modern-margin-inline-sm;
+
+    ::ng-deep sky-key-info {
+      margin: 0 $sky-theme-modern-margin-inline-xl
+        $sky-theme-modern-margin-inline-sm 0;
+      display: inline-block;
+    }
+
+    ::ng-deep sky-key-info:last-child {
+      margin: 0 0 $sky-theme-modern-margin-inline-sm 0;
+    }
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-summary-action-bar {
+    background-color: $sky-color-black;
+    box-shadow: none;
+  }
+  .sky-summary-action-bar-actions {
+    background-color: $sky-color-black;
+  }
+}

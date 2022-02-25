@@ -1,0 +1,52 @@
+<div
+  class="sky-summary-action-bar"
+  [ngClass]="{
+    'sky-summary-action-bar-summary-collapsible': isSummaryCollapsible,
+    'sky-summary-action-bar-modal': type === 1 || type === 2,
+    'sky-summary-action-bar-split-view': type === 4
+  }"
+>
+  <div class="sky-summary-action-bar-actions">
+    <ng-content select="sky-summary-action-bar-actions"></ng-content>
+  </div>
+  <ng-container *ngIf="summaryContentExists()">
+    <div
+      class="sky-summary-action-bar-summary"
+      [id]="summaryId"
+      [@skyAnimationSlide]="slideDirection"
+      (@skyAnimationSlide.start)="summaryTransitionStart()"
+      (@skyAnimationSlide.done)="summaryTransitionEnd()"
+    >
+      <div class="sky-summary-action-bar-summary-body">
+        <div class="sky-summary-action-bar-summary-items">
+          <ng-content select="sky-summary-action-bar-summary"></ng-content>
+        </div>
+        <div
+          *ngIf="isSummaryCollapsible && !isSummaryCollapsed"
+          class="sky-summary-action-bar-details-collapse"
+        >
+          <ng-container *ngTemplateOutlet="chevron"></ng-container>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="isSummaryCollapsible && isSummaryCollapsed"
+      class="sky-summary-action-bar-details-expand"
+    >
+      <ng-container *ngTemplateOutlet="chevron"></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #chevron>
+  <sky-chevron
+    [attr.aria-controls]="summaryId"
+    [ariaLabel]="'skyux_summary_action_bar_expand' | skyLibResources"
+    [direction]="isSummaryCollapsed ? 'up' : 'down'"
+    [skyThemeClass]="{
+      'sky-margin-inline-default': 'modern'
+    }"
+    (directionChange)="onDirectionChange($event)"
+  >
+  </sky-chevron>
+</ng-template>

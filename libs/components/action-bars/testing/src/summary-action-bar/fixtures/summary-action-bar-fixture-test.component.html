@@ -1,0 +1,30 @@
+<sky-summary-action-bar data-sky-id="test-summary-action-bar">
+  <sky-summary-action-bar-actions>
+    <sky-summary-action-bar-primary-action
+      [disabled]="primaryAction.isDisabled"
+      (actionClick)="primaryAction.click()"
+    >
+      {{ primaryAction.buttonText }}
+    </sky-summary-action-bar-primary-action>
+    <sky-summary-action-bar-secondary-actions>
+      <sky-summary-action-bar-secondary-action
+        *ngFor="let action of secondaryActions"
+        [disabled]="action.isDisabled"
+        (actionClick)="action.click()"
+      >
+        {{ action.buttonText }}
+      </sky-summary-action-bar-secondary-action>
+    </sky-summary-action-bar-secondary-actions>
+    <sky-summary-action-bar-cancel
+      [disabled]="cancelAction.isDisabled"
+      (actionClick)="cancelAction.click()"
+    >
+      {{ cancelAction.buttonText }}
+    </sky-summary-action-bar-cancel>
+  </sky-summary-action-bar-actions>
+  <sky-summary-action-bar-summary>
+    <div>
+      {{ summaryBody }}
+    </div>
+  </sky-summary-action-bar-summary>
+</sky-summary-action-bar>
