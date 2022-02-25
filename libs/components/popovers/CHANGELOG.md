@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.2 (2021-12-21)
 
 - Fixed an issue where asynchronous code fired after the dropdown was destroyed. [#170](https://github.com/blackbaud/skyux-popovers/pull/170)
