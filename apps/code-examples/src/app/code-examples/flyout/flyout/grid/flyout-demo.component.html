@@ -1,0 +1,21 @@
+<sky-list [data]="users">
+  <sky-list-view-grid [rowHighlightedId]="rowHighlightedId">
+    <sky-grid-column field="name" heading="Name" [template]="customTemplate">
+    </sky-grid-column>
+    <sky-grid-column field="constituentCode" heading="Constituent code">
+    </sky-grid-column>
+    <sky-grid-column field="latestGift" heading="Latest gift">
+    </sky-grid-column>
+    <sky-grid-column field="status" heading="Status"> </sky-grid-column>
+  </sky-list-view-grid>
+</sky-list>
+
+<ng-template let-row="row" #customTemplate>
+  <button
+    class="sky-btn sky-btn-link-inline"
+    type="button"
+    (click)="onNameClick(row)"
+  >
+    {{ row.name }}
+  </button>
+</ng-template>

@@ -1,0 +1,156 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-flyout {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: #fff;
+  border-left: 6px solid $sky-background-color-primary-dark;
+  z-index: $sky-flyout-z-index;
+
+  &:focus {
+    outline: none;
+  }
+
+  &.sky-flyout-fullscreen {
+    min-width: 100%;
+    max-width: 100%;
+
+    .sky-flyout-resize-handle {
+      cursor: initial;
+    }
+  }
+
+  &.sky-flyout-hidden {
+    visibility: hidden;
+  }
+
+  .sky-flyout-input-aria-only {
+    width: 0;
+    height: 0;
+    padding: 0;
+    opacity: 0;
+    position: absolute;
+    margin: -1px;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    outline: none;
+  }
+}
+
+.sky-flyout-resize-handle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 100%;
+  width: 14px;
+  position: absolute;
+  left: -10px;
+  cursor: ew-resize;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: block;
+  top: 0;
+  bottom: 0;
+  direction: rtl;
+
+  &::-moz-range-thumb,
+  &::-moz-range-track {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 0;
+    height: 0;
+    border-radius: 0px;
+    border: 0 none;
+    background: none;
+    display: none;
+  }
+
+  &::-ms-thumb,
+  &::-ms-track {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 0;
+    height: 0;
+    border-radius: 0px;
+    border: 0 none;
+    background: none;
+    display: none;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 0;
+    height: 0;
+    border-radius: 0px;
+    border: 0 none;
+    background: none;
+    display: none;
+  }
+}
+
+.sky-flyout-header {
+  @include sky-border(dark, bottom);
+  width: 100%;
+  background: $sky-background-color-neutral-light;
+  height: 50px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.sky-flyout-header-content {
+  flex-grow: 1;
+}
+
+.sky-flyout-btn-permalink {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.sky-flyout-help-shim {
+  padding-right: 8px;
+
+  @media (min-width: $sky-screen-sm-min) {
+    padding-right: 50px;
+  }
+}
+
+.sky-flyout-content {
+  overflow-y: auto;
+  height: calc(100% - 50px);
+}
+
+@include sky-theme-modern {
+  .sky-flyout {
+    border-left: 0;
+  }
+
+  .sky-flyout-header {
+    border-bottom: none;
+    background: #fff;
+    padding: $sky-theme-modern-space-md $sky-theme-modern-space-sm;
+  }
+
+  .sky-flyout-header-grab-handle {
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-flyout {
+    background: #000;
+  }
+
+  .sky-flyout-header {
+    background: #000;
+  }
+}

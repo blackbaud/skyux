@@ -1,0 +1,153 @@
+<div
+  class="sky-flyout"
+  tabindex="-1"
+  [attr.role]="config?.ariaRole ? config.ariaRole : 'dialog'"
+  [attr.aria-describedby]="config?.ariaDescribedBy"
+  [attr.aria-label]="config?.ariaLabel"
+  [attr.aria-labelledby]="config?.ariaLabelledBy"
+  [attr.aria-modal]="
+    config?.ariaRole === 'dialog' || !config?.ariaRole ? true : false
+  "
+  [attr.hidden]="!instanceReady ? true : undefined"
+  [id]="flyoutId"
+  [ngClass]="{
+    'sky-flyout-hidden': !isOpen && !isOpening,
+    'sky-flyout-fullscreen': isFullscreen
+  }"
+  [skyThemeClass]="{
+    'sky-shadow': 'default',
+    'sky-elevation-8': 'modern'
+  }"
+  (@flyoutState.done)="animationDone($event)"
+  [@flyoutState]="getAnimationState()"
+  [style.width.px]="flyoutWidth"
+  #flyoutRef
+  [cdkTrapFocus]="enableTrapFocus"
+  [cdkTrapFocusAutoCapture]="enableTrapFocusAutoCapture"
+>
+  <div
+    class="sky-flyout-header"
+    [skyThemeClass]="{
+      'sky-padding-squish-large': 'default'
+    }"
+    #flyoutHeader
+  >
+    <div class="sky-flyout-header-content">
+      <button
+        *skyThemeIf="'modern'"
+        class="
+          sky-btn
+          sky-btn-icon-borderless
+          sky-margin-inline-sm
+          sky-flyout-header-grab-handle
+        "
+        [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+        (keydown)="onHeaderGrabHandleKeyDown($event)"
+        (mousedown)="onHeaderGrabHandleMouseDown($event)"
+      >
+        <sky-icon icon="tile-drag" iconType="skyux" size="lg"> </sky-icon>
+      </button>
+
+      <sky-flyout-iterator
+        *ngIf="config.showIterator"
+        [nextButtonDisabled]="config.iteratorNextButtonDisabled"
+        [previousButtonDisabled]="config.iteratorPreviousButtonDisabled"
+        (nextButtonClick)="onIteratorNextButtonClick()"
+        (previousButtonClick)="onIteratorPreviousButtonClick()"
+      >
+      </sky-flyout-iterator>
+    </div>
+    <div class="sky-flyout-header-buttons">
+      <ng-container *ngTemplateOutlet="permalinkTemplate"> </ng-container>
+      <ng-container *ngTemplateOutlet="primaryActionTemplate"> </ng-container>
+      <button
+        class="sky-btn sky-flyout-btn-close sky-label-icon-theme-default"
+        type="button"
+        [attr.aria-label]="'skyux_flyout_close' | skyLibResources"
+        [skyThemeClass]="{
+          'sky-btn-default': 'default',
+          'sky-btn-icon-borderless': 'modern'
+        }"
+        (click)="close()"
+        #flyoutCloseButton
+      >
+        <sky-icon *skyThemeIf="'default'" icon="close"> </sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="close"
+          iconType="skyux"
+          size="lg"
+        >
+        </sky-icon>
+      </button>
+    </div>
+  </div>
+  <div class="sky-flyout-content" #flyoutContent>
+    <div #target></div>
+  </div>
+  <div
+    class="sky-flyout-resize-handle"
+    role="separator"
+    tabindex="0"
+    type="range"
+    [attr.aria-controls]="flyoutId"
+    [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
+    [attr.aria-valuemax]="config.maxWidth"
+    [attr.aria-valuemin]="config.minWidth"
+    [attr.aria-valuenow]="flyoutWidth"
+    (keydown)="onResizeHandleKeyDown($event)"
+    (mousedown)="onResizeHandleMouseDown($event)"
+  ></div>
+</div>
+
+<ng-template #permalinkTemplate>
+  <ng-template [ngIf]="permalink">
+    <ng-template [ngIf]="permalink.url">
+      <a
+        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
+        [skyHref]="permalink.url"
+        [skyThemeClass]="{
+          'sky-btn-default': 'default',
+          'sky-btn-borderless': 'modern'
+        }"
+        (click)="close()"
+      >
+        {{ permalinkLabel }}
+      </a>
+    </ng-template>
+    <ng-template [ngIf]="permalink.route">
+      <a
+        class="sky-btn sky-flyout-btn-permalink sky-margin-inline-default"
+        [routerLink]="permalink.route.commands"
+        [fragment]="permalink.route.extras?.fragment"
+        [skyThemeClass]="{
+          'sky-btn-default': 'default',
+          'sky-btn-borderless': 'modern'
+        }"
+        [queryParams]="permalink.route.extras?.queryParams"
+        [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
+        [state]="permalink.route.extras?.state"
+        (click)="close()"
+      >
+        {{ permalinkLabel }}
+      </a>
+    </ng-template>
+  </ng-template>
+</ng-template>
+
+<ng-template #primaryActionTemplate>
+  <ng-template [ngIf]="primaryAction && primaryAction.callback">
+    <button
+      type="button"
+      class="
+        sky-btn
+        sky-btn-default
+        sky-flyout-btn-primary-action
+        sky-margin-inline-default
+      "
+      (click)="invokePrimaryAction()"
+    >
+      {{ primaryActionLabel }}
+    </button>
+  </ng-template>
+</ng-template>
