@@ -1,0 +1,31 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-toaster {
+  bottom: 0;
+  right: 0;
+  display: block;
+  max-width: 300px;
+  max-height: 100%;
+  overflow-y: auto;
+  position: fixed;
+  padding-bottom: $sky-margin-double;
+  padding-right: $sky-margin-double;
+  z-index: $sky-toaster-z-index;
+}
+
+.sky-theme-modern {
+  .sky-toaster {
+    max-width: none;
+    width: 320px;
+    padding: $sky-theme-modern-padding-even-xl;
+    padding-bottom: 0;
+  }
+
+  @include sky-host-responsive-container-sm-min(false) {
+    .sky-toaster {
+      width: 400px;
+    }
+  }
+}

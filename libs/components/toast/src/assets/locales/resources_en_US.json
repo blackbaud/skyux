@@ -1,0 +1,6 @@
+{
+  "skyux_toast_close_button": {
+    "_description": "Screen reader text for the close button on toasts",
+    "message": "Close the message"
+  }
+}

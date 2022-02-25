@@ -1,0 +1,17 @@
+<div
+  class="sky-toaster"
+  (focusin)="onFocusIn()"
+  (focusout)="onFocusOut()"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  #toaster
+>
+  <sky-toast
+    *ngFor="let toast of toastsForDisplay"
+    [autoClose]="toast.config?.autoClose"
+    [toastType]="toast.config?.type"
+    (closed)="onToastClosed(toast)"
+  >
+    <div [attr.data-toast-id]="toast.toastId" #toastContent></div>
+  </sky-toast>
+</div>

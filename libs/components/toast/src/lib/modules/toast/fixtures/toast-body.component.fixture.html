@@ -1,0 +1,15 @@
+<div class="sky-toast-body-test-content">
+  {{ context.message }}
+  <label>
+    <input
+      class="sky-toast-checkbox-test"
+      name="checkbox"
+      type="checkbox"
+      [attr.checked]="isChecked"
+      (click)="isChecked = true"
+    />
+  </label>
+</div>
+<button class="sky-toast-body-test-btn-close" type="button" (click)="close()">
+  Close
+</button>
