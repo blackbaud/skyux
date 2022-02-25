@@ -1,0 +1,14 @@
+<div
+  [class]="wrapperClass"
+  [style.zIndex]="zIndex"
+  [ngClass]="{
+    'enable-pointer-events-pass-through': enablePointerEvents,
+    'sky-overlay': true
+  }"
+  #overlayRef
+>
+  <div class="sky-overlay-content" #overlayContentRef>
+    <ng-template #target> </ng-template>
+  </div>
+  <div *ngIf="showBackdrop" class="sky-overlay-backdrop"></div>
+</div>

@@ -1,0 +1,33 @@
+<div
+  class="canvas"
+  [ngClass]="{
+    'canvas-overflow': enableOverflowParent
+  }"
+  #overflowParentRef
+>
+  <div class="base-wrapper">
+    <div
+      class="base"
+      [ngClass]="{
+        'base-xl': enableLargerBaseElement
+      }"
+      #baseRef
+    ></div>
+  </div>
+
+  <div
+    class="affixed"
+    [affixAutoFitContext]="autoFitContext"
+    [affixAutoFitOverflowOffset]="autoFitOverflowOffset"
+    [affixEnableAutoFit]="enableAutoFit"
+    [affixHorizontalAlignment]="horizontalAlignment"
+    [affixIsSticky]="isSticky"
+    [affixPlacement]="placement"
+    [affixVerticalAlignment]="verticalAlignment"
+    [skyAffixTo]="baseRef"
+    (affixOffsetChange)="onAffixOffsetChange($event)"
+    (affixOverflowScroll)="onAffixOverflowScroll($event)"
+    (affixPlacementChange)="onAffixPlacementChange($event)"
+    #affixedRef
+  ></div>
+</div>
