@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.3 (2022-02-23)
 
 - Fixed public exports to include all items that are publicly referenced by other public items. [#58](https://github.com/blackbaud/skyux-data-manager/pull/58)
