@@ -1,0 +1,47 @@
+<sky-inline-form
+  [config]="inlineFormConfig"
+  [showForm]="showForm"
+  [template]="inlineFormTemplate"
+  (close)="onInlineFormClose($event)"
+>
+  <table>
+    <tr>
+      <th>First name:</th>
+      <td>
+        {{ firstName }}
+      </td>
+      <td>
+        <button
+          aria-label="Edit"
+          class="sky-btn sky-btn-link sky-demo-btn-edit"
+          (click)="onInlineFormOpen()"
+        >
+          <sky-icon icon="pencil"></sky-icon>
+        </button>
+      </td>
+    </tr>
+  </table>
+</sky-inline-form>
+
+<ng-template #inlineFormTemplate>
+  <form novalidate [formGroup]="myForm">
+    <div class="sky-form-group">
+      <sky-input-box>
+        <label
+          class="sky-control-label sky-control-label-required"
+          [for]="firstNameInput.id"
+        >
+          First name
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="myFirstName"
+          required
+          skyId
+          type="text"
+          #firstNameInput="skyId"
+        />
+      </sky-input-box>
+    </div>
+  </form>
+</ng-template>

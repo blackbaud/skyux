@@ -1,0 +1,40 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-inline-form {
+  background: $sky-background-color-neutral-light;
+  border: 1px solid $sky-border-color-neutral-medium;
+  padding: $sky-padding-even-default;
+  width: 100%;
+
+  .sky-inline-form-footer {
+    margin-top: $sky-margin-stacked-separate;
+
+    button {
+      margin: 0 $sky-margin-stacked-compact 0 0;
+    }
+  }
+}
+
+@include sky-theme-modern {
+  .sky-inline-form {
+    background-color: #fff;
+    border: none;
+    padding: $sky-theme-modern-padding-even-md;
+
+    .sky-inline-form-footer {
+      margin-top: $sky-theme-modern-margin-stacked-xl;
+
+      button {
+        margin-right: $sky-theme-modern-margin-inline-sm;
+      }
+    }
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-inline-form {
+    background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
+  }
+}

@@ -1,0 +1,64 @@
+<sky-repeater>
+  <sky-repeater-item
+    *ngFor="let item of items"
+    [inlineFormConfig]="inlineFormConfig"
+    [inlineFormTemplate]="inlineFormTemplate"
+    [showInlineForm]="activeInlineFormId === item.id"
+    (inlineFormClose)="onInlineFormClose($event)"
+  >
+    <sky-repeater-item-title class="demo-repeater-flex">
+      <div class="sky-emphasized">
+        {{ item.title }}
+      </div>
+      <div>
+        <button
+          aria-label="Edit"
+          class="
+            sky-btn
+            sky-btn-link
+            sky-btn-link-inline
+            sky-no-focus
+            sky-demo-btn-edit
+          "
+          type="button"
+          (click)="showInlineForm(item)"
+        >
+          <sky-icon icon="pencil"> </sky-icon>
+        </button>
+      </div>
+    </sky-repeater-item-title>
+
+    <sky-repeater-item-content>
+      {{ item.note }}
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
+
+<ng-template #inlineFormTemplate>
+  <form novalidate [formGroup]="myForm">
+    <div class="sky-form-group">
+      <sky-input-box>
+        <label class="sky-control-label" [for]="myTitle.id"> Title </label>
+        <input
+          class="sky-form-control"
+          formControlName="title"
+          skyId
+          type="text"
+          #myTitle="skyId"
+        />
+      </sky-input-box>
+    </div>
+    <div class="sky-form-group">
+      <sky-input-box>
+        <label class="sky-control-label" [for]="myNote.id"> Note </label>
+        <input
+          class="sky-form-control"
+          formControlName="note"
+          skyId
+          type="text"
+          #myNote="skyId"
+        />
+      </sky-input-box>
+    </div>
+  </form>
+</ng-template>

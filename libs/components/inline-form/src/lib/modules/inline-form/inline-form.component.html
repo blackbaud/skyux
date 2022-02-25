@@ -1,0 +1,25 @@
+<div [@skySlideDissolve]="showForm">
+  <div *ngIf="!showForm" class="sky-slide-dissolve-first">
+    <ng-content></ng-content>
+  </div>
+
+  <div *ngIf="template && showForm" class="sky-slide-dissolve-last">
+    <div class="sky-inline-form sky-shadow sky-box sky-elevation-3">
+      <div class="sky-inline-form-content">
+        <ng-container [ngTemplateOutlet]="template"> </ng-container>
+      </div>
+      <div class="sky-inline-form-footer">
+        <button
+          *ngFor="let button of buttons"
+          class="sky-btn {{ 'sky-btn-' + button.styleType }}"
+          type="button"
+          [disabled]="button.disabled ? true : null"
+          [ngClass]="{ 'sky-btn-disabled': button.disabled }"
+          (click)="closeInlineForm(button)"
+        >
+          {{ button.text }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
