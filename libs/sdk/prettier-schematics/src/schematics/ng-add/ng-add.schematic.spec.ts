@@ -59,7 +59,7 @@ describe('ng-add.schematic', () => {
   it('should throw an error if ESLint is not configured.', async () => {
     tree.delete(eslintConfigPath);
 
-    await expectAsync(runSchematic(tree)).toBeRejectedWithError(
+    await expect(() => runSchematic(tree)).rejects.toThrowError(
       `No ${eslintConfigPath} file found in workspace. ESLint must be installed and configured before installing Prettier. See https://github.com/angular-eslint/angular-eslint#readme for instructions.`
     );
   });
@@ -70,8 +70,8 @@ describe('ng-add.schematic', () => {
     validateJsonFile(
       updatedTree,
       'package.json',
-      jasmine.objectContaining({
-        devDependencies: jasmine.objectContaining({
+      expect.objectContaining({
+        devDependencies: expect.objectContaining({
           prettier: '2.4.1',
           'eslint-config-prettier': '8.3.0',
         }),
@@ -88,7 +88,7 @@ describe('ng-add.schematic', () => {
     validateJsonFile(
       updatedTree,
       'package.json',
-      jasmine.objectContaining({
+      expect.objectContaining({
         scripts: {
           'skyux:format': 'npx prettier --write .',
         },
