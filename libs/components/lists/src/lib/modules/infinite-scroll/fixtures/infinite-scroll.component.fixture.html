@@ -1,0 +1,13 @@
+<div #wrapper>
+  <ul>
+    <li *ngFor="let item of items">{{ item.name }}</li>
+  </ul>
+
+  <sky-infinite-scroll
+    [enabled]="enabled"
+    [loading]="loading"
+    (scrollEnd)="onScrollEnd()"
+    #infiniteScrollComponent
+  >
+  </sky-infinite-scroll>
+</div>

@@ -1,0 +1,98 @@
+{
+  "skyux_filter_button_title": {
+    "_description": "Text for the filter button title",
+    "message": "Filter"
+  },
+  "skyux_filter_summary_close": {
+    "_description": "Text for the filter summary component's close button",
+    "message": "Remove filter"
+  },
+  "skyux_filter_summary_header": {
+    "_description": "Text for the filter summary component",
+    "message": "Filter"
+  },
+  "skyux_infinite_scroll_load_more_button": {
+    "_description": "Text for loading more in the infinite scroll button",
+    "message": "Load more"
+  },
+  "skyux_paging_label": {
+    "_description": "Default text for the label for the pagination component",
+    "message": "Pagination"
+  },
+  "skyux_paging_next": {
+    "_description": "Text for the label for the next button on the pagination component",
+    "message": "Next"
+  },
+  "skyux_paging_previous": {
+    "_description": "Text for the label for the previous button on the pagination component",
+    "message": "Previous"
+  },
+  "skyux_repeater_label": {
+    "_description": "Label for the listbox wrapper of the repeater component",
+    "message": "List of items"
+  },
+  "skyux_repeater_item_expand": {
+    "_description": "Accessible label for the expand-and-collapse button on a repeater item. Identifies the item with its human-readable name.",
+    "message": "Expand or collapse {0}"
+  },
+  "skyux_repeater_item_expand_default": {
+    "_description": "Generic label for the expand-and-collapse button on a repeater item. Used when a human-readable name is not provided.",
+    "message": "Expand or collapse"
+  },
+  "skyux_repeater_item_checkbox_label": {
+    "_description": "Accessible label for the checkbox on a repeater item. Identifies the item with its human-readable name.",
+    "message": "Select {0}"
+  },
+  "skyux_repeater_item_checkbox_label_default": {
+    "_description": "Generic label for the checkbox on a repeater item. Used when a human-readable name is not provided.",
+    "message": "Select row"
+  },
+  "skyux_repeater_item_reorder_cancel": {
+    "_description": "Accessible screen reader text for when a reorder is finished",
+    "message": "Item reordering was canceled. The item was returned to its original position."
+  },
+  "skyux_repeater_item_reorder_finish": {
+    "_description": "Accessible screen reader text for when a reorder is finished",
+    "message": "Dropped the item in position"
+  },
+  "skyux_repeater_item_reorder_instructions": {
+    "_description": "Accessible operation instructions for reordering a repeater item",
+    "message": "Item grabbed. Press the up and down arrow keys to change position. Press the spacebar or enter key to drop. And press the escape key to cancel."
+  },
+  "skyux_repeater_item_reorder_moved": {
+    "_description": "Alerts the user to the new position an items moved to. Does not include variable due to usage case",
+    "message": "Moved the item to position"
+  },
+  "skyux_repeater_item_reorder_label_default": {
+    "_description": "Generic label for the reorder button on a repeater item. Used when a human-readable name is not provided.",
+    "message": "Reorder"
+  },
+  "skyux_repeater_item_reorder_label": {
+    "_description": "Accessible label for the reorder button on a repeater item. Identifies the item with its human-readable name.",
+    "message": "Reorder {0}"
+  },
+  "skyux_repeater_item_reorder_operation": {
+    "_description": "Accessible operation instructions for triggering reordering a repeater item",
+    "message": "Press the spacebar or enter key to reorder."
+  },
+  "skyux_repeater_item_reorder_top": {
+    "_description": "Text for button to reorder a repeater item to the top of the list",
+    "message": "Top"
+  },
+  "skyux_repeater_item_reorder_top_label": {
+    "_description": "Accessible label for the button to move a repeater item to the top of the list. Identifies the item with its human-readable name.",
+    "message": "Move {0} to top"
+  },
+  "skyux_repeater_item_reorder_top_label_default": {
+    "_description": "Generic label for the button to move a repeater item to the top of the list. Used when a human-readable name is not provided.",
+    "message": "Move to top"
+  },
+  "skyux_sort_button_label": {
+    "_description": "Text for the sort button",
+    "message": "Sort"
+  },
+  "skyux_sort_menu_heading": {
+    "_description": "Text for the heading in the sort dropdown",
+    "message": "Sort by"
+  }
+}

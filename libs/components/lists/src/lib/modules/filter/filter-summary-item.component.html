@@ -1,0 +1,13 @@
+<div
+  class="sky-filter-summary-item"
+  (click)="onItemClick()"
+  (keypress.enter)="onItemKeypress()"
+>
+  <sky-token
+    [ariaLabel]="'skyux_filter_summary_close' | skyLibResources"
+    [dismissible]="dismissible"
+    (dismiss)="onItemDismiss()"
+  >
+    <ng-content> </ng-content>
+  </sky-token>
+</div>

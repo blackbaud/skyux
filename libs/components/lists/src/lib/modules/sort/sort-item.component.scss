@@ -1,0 +1,48 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
+
+.sky-sort-item {
+  @include sky-dropdown-item();
+}
+
+.sky-sort-item-selected {
+  background-color: $sky-background-color-selected;
+  padding: 4px;
+  margin: 0;
+}
+
+@include sky-theme-modern {
+  .sky-sort-item {
+    margin: 0;
+    margin-bottom: $sky-theme-modern-space-sm;
+    @include sky-theme-modern-btn-tab;
+    @include sky-theme-modern-btn-tab-dropdown-item;
+    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-lg;
+
+    & button {
+      padding: 0;
+      color: $sky-text-color-deemphasized;
+    }
+  }
+
+  .sky-sort-item-selected {
+    @include sky-theme-modern-btn-tab-selected-dropdown-item;
+    padding-left: calc(#{$sky-theme-modern-space-lg} - 3px);
+    background-color: inherit;
+
+    & button {
+      font-weight: $sky-theme-modern-text-weight-regular-value;
+      color: $sky-text-color-default;
+    }
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-sort-item button {
+    color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+  }
+  .sky-sort-item-selected button {
+    color: $sky-theme-modern-mode-dark-font-body-default-color;
+  }
+}

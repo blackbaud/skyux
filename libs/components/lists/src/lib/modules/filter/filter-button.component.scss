@@ -1,0 +1,54 @@
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/variables';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
+
+.sky-filter-btn-active,
+.sky-filter-btn-active:hover,
+.sky-filter-btn-active:focus {
+  color: $sky-highlight-color-success;
+  border: 2px solid $sky-highlight-color-success;
+  padding: 5px 11px; /* offset the thicker border to avoid button size change */
+}
+
+.sky-filter-btn-active:hover,
+.sky-filter-btn-active:focus {
+  color: $sky-text-color-default;
+}
+
+.sky-theme-modern {
+  &.sky-filter-btn-active,
+  &.sky-filter-btn-active:hover,
+  &.sky-filter-btn-active:focus {
+    color: initial;
+    border: none;
+
+    @include sky-theme-modern-button-variant(
+      $sky-text-color-default,
+      $sky-background-color-info-light,
+      $sky-background-color-primary-dark,
+      $sky-background-color-primary-dark,
+      $sky-theme-modern-padding-button-standard
+    );
+  }
+}
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-filter-btn-text {
+    display: none;
+  }
+
+  .sky-filter-btn ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-filter-btn-text {
+    display: inline;
+  }
+
+  .sky-filter-btn ::ng-deep .sky-dropdown-caret {
+    display: inline-block;
+  }
+}

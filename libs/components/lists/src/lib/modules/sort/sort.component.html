@@ -1,0 +1,28 @@
+<div class="sky-sort">
+  <sky-dropdown
+    buttonType="select"
+    [label]="'skyux_sort_button_label' | skyLibResources"
+    [messageStream]="dropdownController"
+    [title]="'skyux_sort_button_label' | skyLibResources"
+  >
+    <sky-dropdown-button>
+      <sky-icon *skyThemeIf="'default'" icon="sort"></sky-icon>
+      <sky-icon *skyThemeIf="'modern'" icon="sort" iconType="skyux"></sky-icon>
+      <span *ngIf="showButtonText" class="sky-sort-btn-text">
+        {{ 'skyux_sort_button_label' | skyLibResources }}
+      </span>
+    </sky-dropdown-button>
+    <sky-dropdown-menu
+      ariaRole="menu"
+      [ariaLabelledBy]="sortMenuHeading.id"
+      (click)="dropdownClicked()"
+    >
+      <sky-sort-menu-heading
+        skyId
+        #sortMenuHeading="skyId"
+      ></sky-sort-menu-heading>
+      <div *skyThemeIf="'default'" class="sky-sort-heading-divider"></div>
+      <ng-content></ng-content>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</div>

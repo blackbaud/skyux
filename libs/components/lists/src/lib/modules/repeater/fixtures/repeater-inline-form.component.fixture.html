@@ -1,0 +1,33 @@
+<sky-repeater>
+  <sky-repeater-item
+    id="repeater-item-with-inline-form"
+    [inlineFormConfig]="inlineFormConfig"
+    [inlineFormTemplate]="myInlineForm"
+    [showInlineForm]="showInlineForm"
+    (inlineFormClose)="onInlineFormClose($event)"
+  >
+    <sky-repeater-item-title>
+      Title
+      <button type="button" (click)="showInlineForm = true">Edit</button>
+    </sky-repeater-item-title>
+
+    <sky-repeater-item-content> Note </sky-repeater-item-content>
+
+    <ng-template #myInlineForm>
+      <div id="inline-form-template" class="sky-form-group">
+        <label class="sky-control-label" for="inline-form-title"> Title </label>
+        <input id="inline-form-title" class="sky-form-control" type="text" />
+      </div>
+      <div class="sky-form-group">
+        <label class="sky-control-label" for="inline-form-note"> Note </label>
+        <input id="inline-form-note" class="sky-form-control" type="text" />
+      </div>
+    </ng-template>
+  </sky-repeater-item>
+
+  <sky-repeater-item id="repeater-item-without-inline-form">
+    <sky-repeater-item-title> Title </sky-repeater-item-title>
+
+    <sky-repeater-item-content> Content </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>

@@ -1,0 +1,55 @@
+import { Component, OnInit } from '@angular/core';
+
+import { BehaviorSubject } from 'rxjs';
+
+let nextId = 0;
+
+@Component({
+  selector: 'app-infinite-scroll-demo',
+  templateUrl: './infinite-scroll-demo.component.html',
+})
+export class InfiniteScrollDemoComponent implements OnInit {
+  public itemsHaveMore = true;
+
+  public items = new BehaviorSubject<any[]>([]);
+
+  private _items: any[] = [];
+
+  public ngOnInit(): void {
+    this.addData();
+  }
+
+  public onScrollEnd(): void {
+    if (this.itemsHaveMore) {
+      this.addData();
+    }
+  }
+
+  private addData(): void {
+    this.mockRemote().then((result: any) => {
+      this._items = this._items.concat(result.data);
+      this.items.next(this._items);
+      this.itemsHaveMore = result.hasMore;
+    });
+  }
+
+  private mockRemote(): Promise<any> {
+    const data: any[] = [];
+
+    for (let i = 0; i < 8; i++) {
+      data.push({
+        name: `List item #${++nextId}`,
+      });
+    }
+
+    // Simulate async request.
+    return new Promise((resolve: any) => {
+      setTimeout(() => {
+        resolve({
+          data,
+          hasMore: nextId < 50,
+        });
+      }, 1000);
+    });
+  }
+}

@@ -1,0 +1,24 @@
+<button
+  class="sky-btn sky-btn-default sky-filter-btn"
+  type="button"
+  [attr.aria-controls]="ariaControls"
+  [attr.aria-expanded]="ariaExpanded"
+  [attr.aria-label]="'skyux_filter_button_title' | skyLibResources"
+  [attr.title]="'skyux_filter_button_title' | skyLibResources"
+  [disabled]="disabled"
+  [id]="filterButtonId"
+  [ngClass]="{
+    'sky-filter-btn-active': active
+  }"
+  [skyThemeClass]="{
+    'sky-rounded-corners': 'default',
+    'sky-theme-modern': 'modern'
+  }"
+  (click)="filterButtonOnClick()"
+>
+  <sky-icon *skyThemeIf="'default'" icon="filter" size="lg"> </sky-icon>
+  <sky-icon *skyThemeIf="'modern'" icon="filter" iconType="skyux"></sky-icon>
+  <span *ngIf="showButtonText" class="sky-filter-btn-text">
+    {{ 'skyux_filter_button_title' | skyLibResources }}
+  </span>
+</button>

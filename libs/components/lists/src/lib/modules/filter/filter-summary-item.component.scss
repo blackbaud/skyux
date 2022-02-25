@@ -1,0 +1,15 @@
+@import '~@skyux/theme/scss/mixins';
+
+.sky-filter-summary-item {
+  display: inline-block;
+}
+
+:host:not(:last-child) {
+  margin-right: $sky-margin-inline-compact;
+}
+
+@include sky-theme-modern() {
+  .sky-filter-summary-item {
+    padding: 0 0 5px 0;
+  }
+}

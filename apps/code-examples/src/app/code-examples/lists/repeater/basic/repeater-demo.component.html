@@ -1,0 +1,27 @@
+<sky-repeater>
+  <sky-repeater-item *ngFor="let item of items">
+    <sky-repeater-item-title class="demo-repeater-flex">
+      <div class="sky-emphasized">
+        {{ item.title }}
+      </div>
+      <div>
+        {{ item.status }}
+      </div>
+    </sky-repeater-item-title>
+    <sky-repeater-item-context-menu>
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Action 1</button>
+          </sky-dropdown-item>
+          <sky-dropdown-item>
+            <button type="button">Action 2</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-content>
+      {{ item.note }}
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>

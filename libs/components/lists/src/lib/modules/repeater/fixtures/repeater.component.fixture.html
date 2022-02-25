@@ -1,0 +1,80 @@
+<sky-repeater
+  *ngIf="!showRepeaterWithActiveIndex && !showRepeaterWithNgFor"
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+  (orderChange)="onOrderChange($event)"
+>
+  <sky-repeater-item
+    [itemName]="showItemName ? 'Item 1' : null"
+    [selectable]="selectable"
+    [tag]="'item1'"
+    (collapse)="onCollapse()"
+    (expand)="onExpand()"
+    (isSelectedChange)="onIsSelectedChange($event)"
+  >
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      <sky-dropdown buttonType="context-menu">
+        <sky-dropdown-menu>
+          <sky-dropdown-item>
+            <button type="button">Option 1</button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+    <sky-repeater-item-content>
+      <a href="/"> link 1 </a>
+      Content 1
+      <a href="/"> link 2 </a>
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item
+    [itemName]="showItemName ? 'Item 2' : null"
+    [tag]="'item2'"
+    [selectable]="selectable"
+  >
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      a
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title> Title 2 </sky-repeater-item-title>
+    <sky-repeater-item-content> Content 2 </sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item
+    *ngIf="!removeLastItem"
+    [itemName]="showItemName ? 'Item 3' : null"
+    [isExpanded]="lastItemExpanded"
+    [selectable]="selectable"
+    [tag]="'item3'"
+    [(isSelected)]="lastItemSelected"
+  >
+    <sky-repeater-item-context-menu *ngIf="showContextMenu">
+      a
+    </sky-repeater-item-context-menu>
+    <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
+    <sky-repeater-item-content> Content 3 </sky-repeater-item-content>
+  </sky-repeater-item>
+  <sky-repeater-item *ngIf="showItemWithNoContent">
+    <sky-repeater-item-title> No Content </sky-repeater-item-title>
+    <sky-repeater-item-content *ngIf="showDynamicContent">
+      Content 3
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
+
+<sky-repeater *ngIf="showRepeaterWithActiveIndex" [(activeIndex)]="activeIndex">
+  <sky-repeater-item>
+    <sky-repeater-item-title> Title 1 </sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item>
+    <sky-repeater-item-title> Title 2 </sky-repeater-item-title>
+  </sky-repeater-item>
+  <sky-repeater-item>
+    <sky-repeater-item-title> Title 3 </sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
+
+<sky-repeater *ngIf="showRepeaterWithNgFor">
+  <sky-repeater-item *ngFor="let item of items" [tag]="item.id">
+    <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
+  </sky-repeater-item>
+</sky-repeater>
