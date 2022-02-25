@@ -1,0 +1,21 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/_mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-action-button-header {
+    margin: 0 $sky-margin-half;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-action-button-header {
+    margin: 0 0 $sky-margin-double;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-action-button-header {
+    margin: 0 0 $sky-theme-modern-space-sm 0;
+  }
+}

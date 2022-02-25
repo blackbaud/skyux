@@ -1,0 +1,30 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-toolbar-item {
+  margin-right: $sky-margin-half;
+  margin-bottom: $sky-padding-half;
+}
+
+@include sky-theme-modern {
+  .sky-toolbar-item {
+    margin-top: $sky-theme-modern-margin-inline-xs;
+    margin-bottom: $sky-theme-modern-margin-inline-xs;
+    margin-right: $sky-theme-modern-margin-inline-sm;
+
+    ::ng-deep .sky-btn {
+      padding-left: $sky-theme-modern-space-sm;
+      padding-right: $sky-theme-modern-space-sm;
+
+      &.sky-btn-default:not(:disabled) {
+        background-color: transparent;
+        border: none;
+
+        &:not(:hover):not(:active):not(:focus) {
+          box-shadow: inset 0 0 0 1px transparent;
+        }
+      }
+    }
+  }
+}

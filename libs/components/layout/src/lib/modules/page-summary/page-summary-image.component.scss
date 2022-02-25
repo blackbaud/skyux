@@ -1,0 +1,19 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-page-summary-image {
+    width: $sky-avatar-width;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: $sky-margin;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-page-summary-image {
+    width: $sky-avatar-width + $sky-margin-double;
+    flex: 0 0 $sky-avatar-width + $sky-margin-double;
+    margin: initial;
+  }
+}

@@ -1,0 +1,19 @@
+.sky-text-expand-repeater-container {
+  overflow-y: hidden;
+  height: auto;
+  margin-bottom: 0;
+  transition: max-height 250ms;
+}
+.sky-text-expand-repeater-see-more {
+  white-space: nowrap;
+  margin-left: 40px;
+}
+
+.sky-text-expand-repeater-list-style-none {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sky-text-expand-repeater-see-more-list-style-none {
+  margin-left: 0;
+}

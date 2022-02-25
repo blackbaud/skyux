@@ -1,0 +1,50 @@
+{
+  "skyux_back_to_top": {
+    "_description": "Text for the button in the back to top component",
+    "message": "Back to top"
+  },
+  "skyux_card_checkbox_label": {
+    "_description": "Label for the multiselect checkbox for the card component",
+    "message": "Select card"
+  },
+  "skyux_definition_list_none_found": {
+    "_description": "The default text to show when a definition list item has no value",
+    "message": "None found."
+  },
+  "skyux_description_list_none_found": {
+    "_description": "The default text to show when a description list item has no description",
+    "message": "None found."
+  },
+  "skyux_inline_delete_assistive_text": {
+    "_description": "Accessibility description for the inline delete component",
+    "message": "Are you sure you want to delete this item?"
+  },
+  "skyux_inline_delete_cancel": {
+    "_description": "Label for the inline delete's cancel button",
+    "message": "Cancel"
+  },
+  "skyux_inline_delete_confirm_deletion": {
+    "_description": "Accessibility label for the inline delete component",
+    "message": "Confirm deletion"
+  },
+  "skyux_inline_delete_delete": {
+    "_description": "Label for the inline delete's delete button",
+    "message": "Delete"
+  },
+  "skyux_text_expand_close_text": {
+    "_description": "Text for the close button on the text expand modal",
+    "message": "Close"
+  },
+  "skyux_text_expand_modal_title": {
+    "_description": "",
+    "message": "Expanded view"
+  },
+  "skyux_text_expand_see_less": {
+    "_description": "Display less text content",
+    "message": "See less"
+  },
+  "skyux_text_expand_see_more": {
+    "_description": "",
+    "message": "See more"
+  }
+}

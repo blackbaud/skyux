@@ -1,0 +1,11 @@
+<div
+  class="sky-fluid-grid"
+  [ngClass]="{
+    'sky-fluid-grid-gutter-size-small': gutterSizeResolved === 'small',
+    'sky-fluid-grid-gutter-size-medium': gutterSizeResolved === 'medium',
+    'sky-fluid-grid-gutter-size-large': gutterSizeResolved === 'large',
+    'sky-fluid-grid-no-margin': disableMargin
+  }"
+>
+  <ng-content></ng-content>
+</div>

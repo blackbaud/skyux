@@ -1,0 +1,12 @@
+<sky-format
+  text="{0} is an important number. {1} is important, too, but not as important as {0}."
+  [args]="[value1, value2]"
+></sky-format>
+
+<ng-template #value1>
+  <strong class="number-large">39,210</strong>
+</ng-template>
+
+<ng-template #value2>
+  <strong class="number-medium">78</strong>
+</ng-template>

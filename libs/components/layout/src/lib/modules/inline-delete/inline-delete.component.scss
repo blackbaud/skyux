@@ -1,0 +1,41 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-inline-delete {
+  // The important is needed here because wait elements set element position styles but in our case
+  // we don't want that to happen.
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  border: 2px solid $sky-highlight-color-danger;
+}
+
+.sky-inline-delete-assistive-text {
+  @include sky-screen-reader-only();
+}
+
+.sky-inline-delete-button {
+  margin-right: $sky-margin;
+}
+
+.sky-inline-delete-card .sky-inline-delete-content {
+  position: absolute;
+  bottom: $sky-padding;
+  text-align: center;
+  width: 100%;
+}
+
+.sky-inline-delete-standard .sky-inline-delete-content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: $sky-padding-double;
+}
+
+.sky-inline-delete-wait {
+  height: 100%;
+}

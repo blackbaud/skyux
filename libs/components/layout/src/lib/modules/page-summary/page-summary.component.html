@@ -1,0 +1,23 @@
+<div
+  class="sky-page-summary"
+  [ngClass]="{ 'sky-page-summary-with-key-info': hasKeyInfo }"
+>
+  <ng-content select="sky-page-summary-alert"></ng-content>
+  <div class="sky-page-summary-row">
+    <div class="sky-page-summary-left">
+      <ng-content select="sky-page-summary-image"></ng-content>
+      <div class="sky-page-summary-data">
+        <ng-content select="sky-page-summary-title"></ng-content>
+        <ng-content select="sky-page-summary-subtitle"></ng-content>
+        <ng-content select="sky-page-summary-status"></ng-content>
+        <div class="sky-page-summary-key-info-xs"></div>
+        <ng-content select="sky-page-summary-content"></ng-content>
+      </div>
+    </div>
+    <div class="sky-page-summary-key-info-sm">
+      <div class="sky-page-summary-key-info-container">
+        <ng-content select="sky-page-summary-key-info"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

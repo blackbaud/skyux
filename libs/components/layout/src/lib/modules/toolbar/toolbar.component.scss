@@ -1,0 +1,77 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import 'scss/variables';
+
+.sky-toolbar-container {
+  min-height: $sky-toolbar-min-height;
+  background-color: $sky-toolbar-background-color;
+  padding: $sky-padding-half $sky-padding 0;
+  @include sky-border(dark, top, bottom);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
+    @include sky-border(dark, top);
+  }
+
+  &:not(.sky-toolbar-sectioned) {
+    flex-wrap: nowrap;
+  }
+}
+
+.sky-toolbar-sectioned {
+  display: block;
+  padding: 0;
+}
+
+.sky-toolbar-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+// NOTE: These are not using the mixin because we need to look for both of these outside of the
+// component context and placing it in the mixin causes issues with doing this as the mixin uses
+// a `host-context` call already.
+/* clean-css ignore:start */
+:host-context(.sky-theme-modern .sky-viewkeeper-fixed) {
+  .sky-toolbar-container {
+    background-color: $sky-theme-modern-background-color-page-default;
+  }
+}
+
+:host-context(.sky-theme-modern.sky-theme-mode-dark .sky-viewkeeper-fixed) {
+  .sky-toolbar-container {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+  }
+}
+/* clean-css ignore:end */
+
+@include sky-theme-modern {
+  .sky-toolbar-container {
+    background-color: transparent;
+    border: none;
+    padding: $sky-theme-modern-space-sm 0;
+
+    &.sky-viewkeeper-fixed {
+      background-color: $sky-theme-modern-background-color-page-default;
+    }
+
+    ::ng-deep sky-toolbar-section:not(:first-child) .sky-toolbar-section {
+      border-top: 1px solid $sky-theme-modern-border-color-neutral-medium;
+    }
+  }
+
+  .sky-toolbar-sectioned {
+    padding: 0;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-toolbar-container {
+    &.sky-viewkeeper-fixed {
+      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    }
+  }
+}

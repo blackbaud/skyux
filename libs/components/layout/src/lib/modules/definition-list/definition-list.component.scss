@@ -1,0 +1,7 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-definition-list {
+  margin-right: 50px;
+  margin-bottom: $sky-margin-double;
+}

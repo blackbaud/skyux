@@ -1,0 +1,16 @@
+<section
+  class="sky-box"
+  [attr.aria-label]="ariaLabel"
+  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.role]="ariaRole"
+  [skyThemeClass]="{
+    'sky-shadow sky-border-dark': 'default',
+    'sky-elevation-1-bordered': 'modern'
+  }"
+>
+  <div class="sky-box-header-content">
+    <ng-content select="sky-box-header"></ng-content>
+    <ng-content select="sky-box-controls"></ng-content>
+  </div>
+  <ng-content></ng-content>
+</section>

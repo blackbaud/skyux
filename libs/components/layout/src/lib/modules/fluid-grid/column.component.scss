@@ -1,0 +1,69 @@
+@import 'scss/variables';
+
+@mixin create_columns($screen-size: sm) {
+  @for $i from 1 through $sky-fluid-grid-columns {
+    sky-column.sky-column-#{$screen-size}-#{$i} {
+      width: calc(#{$i} / #{$sky-fluid-grid-columns} * 100%);
+    }
+  }
+}
+
+@mixin create_column_gutters($gutter-size) {
+  .sky-fluid-grid-gutter-size-#{$gutter-size} sky-column.sky-column {
+    padding-right: map-get($gutter-sizes, $gutter-size);
+    padding-left: map-get($gutter-sizes, $gutter-size);
+  }
+}
+
+@mixin create_column_gutters_modern($gutter-size) {
+  .sky-theme-modern
+    .sky-fluid-grid-gutter-size-#{$gutter-size}
+    sky-column.sky-column {
+    padding-right: map-get($gutter-sizes-modern, $gutter-size);
+    padding-left: map-get($gutter-sizes-modern, $gutter-size);
+  }
+}
+
+sky-column.sky-column {
+  padding-right: map-get($gutter-sizes, large);
+  padding-left: map-get($gutter-sizes, large);
+  width: 100%;
+  min-height: 1px;
+}
+
+.sky-theme-modern {
+  sky-column.sky-column {
+    padding-right: map-get($gutter-sizes-modern, large);
+    padding-left: map-get($gutter-sizes-modern, large);
+  }
+}
+
+@include create_column_gutters(small);
+@include create_column_gutters(medium);
+
+@include create_column_gutters_modern(small);
+@include create_column_gutters_modern(medium);
+
+@include sky-host-responsive-container-xs-min(false) {
+  @include create_columns(xs);
+
+  // This is needed for operation inside a reactive container. Without it the media breakpoint
+  // will be used and the screen size version takes over.
+  @for $i from 1 through $sky-fluid-grid-columns {
+    sky-column:not([class*='sky-column-xs-']) {
+      width: 100%;
+    }
+  }
+}
+
+@include sky-host-responsive-container-sm-min(false) {
+  @include create_columns(sm);
+}
+
+@include sky-host-responsive-container-md-min(false) {
+  @include create_columns(md);
+}
+
+@include sky-host-responsive-container-lg-min(false) {
+  @include create_columns(lg);
+}

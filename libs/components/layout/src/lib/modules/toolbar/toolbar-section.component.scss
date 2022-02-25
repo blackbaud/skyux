@@ -1,0 +1,25 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+@import 'scss/variables';
+
+.sky-toolbar-section {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: $sky-padding-half $sky-padding 0;
+  min-height: $sky-toolbar-min-height;
+  align-items: center;
+  position: relative;
+  overflow-x: auto;
+}
+
+.sky-toolbar-section-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@include sky-theme-modern {
+  .sky-toolbar-section {
+    padding: $sky-theme-modern-space-sm 0;
+  }
+}

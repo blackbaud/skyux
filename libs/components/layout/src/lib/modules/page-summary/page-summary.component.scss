@@ -1,0 +1,49 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-page-summary {
+  background-color: #fff;
+  padding: $sky-padding-double $sky-padding-plus-half;
+}
+
+.sky-page-summary-row {
+  align-items: stretch;
+  display: flex;
+}
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-page-summary-left {
+    flex-basis: 100%;
+    display: initial;
+    align-items: initial;
+  }
+
+  .sky-page-summary-with-key-info {
+    .sky-page-summary-left {
+      flex-basis: 100%;
+      padding-right: initial;
+    }
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-page-summary-with-key-info {
+    .sky-page-summary-left {
+      flex-basis: 75%;
+      padding-right: $sky-padding-plus-half;
+    }
+
+    .sky-page-summary-right {
+      flex-basis: 25%;
+    }
+  }
+
+  .sky-page-summary-left {
+    align-items: stretch;
+    display: flex;
+  }
+
+  .sky-page-summary-data {
+    flex-grow: 1;
+  }
+}
