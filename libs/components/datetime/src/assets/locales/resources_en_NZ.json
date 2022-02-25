@@ -1,0 +1,11 @@
+{
+  "skyux_date_range_picker_format_label_last_fiscal_year": {
+    "message": "Last financial year"
+  },
+  "skyux_date_range_picker_format_label_this_fiscal_year": {
+    "message": "This financial year"
+  },
+  "skyux_date_range_picker_format_label_next_fiscal_year": {
+    "message": "Next financial year"
+  }
+}

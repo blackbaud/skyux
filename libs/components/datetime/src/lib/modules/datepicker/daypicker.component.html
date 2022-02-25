@@ -1,0 +1,102 @@
+<div *ngIf="datepicker.datepickerMode === 'day'" class="sky-daypicker-wrapper">
+  <table
+    class="sky-daypicker-table"
+    role="grid"
+    [attr.aria-labelledby]="datepicker.datepickerId + '-title'"
+  >
+    <thead>
+      <tr>
+        <th class="sky-datepicker-header-left" scope="col">
+          <button
+            type="button"
+            class="
+              sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous
+            "
+            (click)="datepicker.moveCalendar($event, -1)"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <sky-icon
+              class="sky-datepicker-chevron-default"
+              icon="chevron-left"
+            ></sky-icon>
+            <sky-icon
+              class="sky-datepicker-chevron-modern"
+              icon="chevron-left"
+              iconType="skyux"
+            ></sky-icon>
+          </button>
+        </th>
+        <th scope="col" [attr.colspan]="5">
+          <button
+            [id]="datepicker.datepickerId + '-title'"
+            type="button"
+            class="
+              sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title
+            "
+            (click)="datepicker.toggleModeCalendar($event)"
+            [disabled]="datepicker.datepickerMode === datepicker.maxMode"
+            [ngClass]="{
+              'sky-btn-disabled':
+                datepicker.datepickerMode === datepicker.maxMode
+            }"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <strong>{{ title }}</strong>
+          </button>
+        </th>
+        <th class="sky-datepicker-header-right" scope="col">
+          <button
+            type="button"
+            class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-next"
+            (click)="datepicker.moveCalendar($event, 1)"
+            tabindex="-1"
+            aria-hidden="true"
+          >
+            <sky-icon
+              class="sky-datepicker-chevron-default"
+              icon="chevron-right"
+            ></sky-icon>
+            <sky-icon
+              class="sky-datepicker-chevron-modern"
+              icon="chevron-right"
+              iconType="skyux"
+            ></sky-icon>
+          </button>
+        </th>
+      </tr>
+      <tr>
+        <th
+          scope="col"
+          *ngFor="let label of labels"
+          class="sky-datepicker-center sky-datepicker-weekdays"
+        >
+          <small [attr.aria-label]="label.full">
+            <b>{{ label.abbr }}</b>
+          </small>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Wait indicator for async custom date stream -->
+      <sky-wait [isWaiting]="isWaiting"> </sky-wait>
+      <ng-template ngFor [ngForOf]="rows" let-row="$implicit" let-index="index">
+        <tr role="row">
+          <td
+            *ngFor="let date of row"
+            class="sky-datepicker-center"
+            role="gridcell"
+            [id]="date.uid"
+          >
+            <sky-daypicker-cell
+              [activeDateHasChanged]="activeDateHasChanged"
+              [date]="date"
+            >
+            </sky-daypicker-cell>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+</div>

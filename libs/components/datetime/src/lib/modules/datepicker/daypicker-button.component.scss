@@ -1,0 +1,28 @@
+@import '~@skyux/theme/scss/mixins';
+
+.sky-datepicker-btn-disabled {
+  font-style: italic;
+}
+
+.sky-datepicker-btn-key-date {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    height: 5px;
+    width: 5px;
+    background-color: #d93a3d;
+    border-radius: 50%;
+    left: 15px;
+    top: 22px;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-datepicker-btn-key-date {
+    &::before {
+      left: 12px;
+    }
+  }
+}

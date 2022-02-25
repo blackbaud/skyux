@@ -1,0 +1,19 @@
+<form novalidate [formGroup]="myForm">
+  <sky-input-box>
+    <label class="sky-control-label" [for]="dateInput.id"> Date </label>
+    <sky-datepicker>
+      <input
+        formControlName="myDate"
+        id="myDate"
+        skyFuzzyDatepickerInput
+        skyId
+        type="text"
+        #dateInput="skyId"
+      />
+    </sky-datepicker>
+  </sky-input-box>
+</form>
+
+<p>
+  Selected date: <code>{{ getFuzzyDateForDisplay }}</code>
+</p>

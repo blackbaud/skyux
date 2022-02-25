@@ -1,0 +1,26 @@
+<form [formGroup]="reactiveForm" novalidate>
+  <sky-date-range-picker
+    *ngIf="templateDisable === undefined"
+    formControlName="dateRange"
+    [calculatorIds]="calculatorIds"
+    [dateFormat]="dateFormat"
+    [endDateRequired]="endDateRequired"
+    [label]="label"
+    [startDateRequired]="startDateRequired"
+    #dateRangePicker
+  >
+  </sky-date-range-picker>
+  <!-- Just doing this here to avoid a ton of warnings due to using the template disable with a reactive form. Could split out if we added a full template form suite of tests. -->
+  <sky-date-range-picker
+    *ngIf="templateDisable !== undefined"
+    formControlName="dateRange"
+    [calculatorIds]="calculatorIds"
+    [dateFormat]="dateFormat"
+    [disabled]="templateDisable"
+    [endDateRequired]="endDateRequired"
+    [label]="label"
+    [startDateRequired]="startDateRequired"
+    #dateRangePicker
+  >
+  </sky-date-range-picker>
+</form>

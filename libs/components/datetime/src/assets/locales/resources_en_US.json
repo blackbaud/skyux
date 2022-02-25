@@ -1,0 +1,130 @@
+{
+  "skyux_date_field_default_label": {
+    "_description": "The label for the datepicker component's input field for screen readers when the consumer has not specified a label.",
+    "message": "Date"
+  },
+  "skyux_datepicker_trigger_button_label": {
+    "_description": "Label for the trigger button of the datepicker",
+    "message": "Select date"
+  },
+  "skyux_timepicker_button_label": {
+    "_description": "Screen reader text for the timepicker trigger button",
+    "message": "Choose time"
+  },
+  "skyux_timepicker_close": {
+    "_description": "The close button for the timepicker modal",
+    "message": "Done"
+  },
+  "skyux_timepicker_input_default_label": {
+    "_description": "The label for the timepicker component's input field for screen readers when the consumer has not specified a label.",
+    "message": "Time"
+  },
+  "skyux_date_range_picker_default_label": {
+    "_description": "The default label for the date range picker.",
+    "message": "Select a date range"
+  },
+  "skyux_date_range_picker_format_label_specific_range": {
+    "_description": "The label for the date range picker component's select field Specific Range format type.",
+    "message": "Specific range"
+  },
+  "skyux_date_range_picker_format_label_before": {
+    "_description": "The label for the date range picker component's select field Before format type.",
+    "message": "Before"
+  },
+  "skyux_date_range_picker_format_label_after": {
+    "_description": "The label for the date range picker component's select field After format type.",
+    "message": "After"
+  },
+  "skyux_date_range_picker_format_label_any_time": {
+    "_description": "The label for the date range picker component's select field At Any time format type.",
+    "message": "At any time"
+  },
+  "skyux_date_range_picker_format_label_yesterday": {
+    "_description": "The label for the date range picker component's select field Yesterday format type.",
+    "message": "Yesterday"
+  },
+  "skyux_date_range_picker_format_label_today": {
+    "_description": "The label for the date range picker component's select field Today format type.",
+    "message": "Today"
+  },
+  "skyux_date_range_picker_format_label_tomorrow": {
+    "_description": "The label for the date range picker component's select field Tomorrow format type.",
+    "message": "Tomorrow"
+  },
+  "skyux_date_range_picker_format_label_last_week": {
+    "_description": "The label for the date range picker component's select field Last Week format type.",
+    "message": "Last week"
+  },
+  "skyux_date_range_picker_format_label_this_week": {
+    "_description": "The label for the date range picker component's select field This Week format type.",
+    "message": "This week"
+  },
+  "skyux_date_range_picker_format_label_next_week": {
+    "_description": "The label for the date range picker component's select field Next Week format type.",
+    "message": "Next week"
+  },
+  "skyux_date_range_picker_format_label_last_month": {
+    "_description": "The label for the date range picker component's select field Last Month format type.",
+    "message": "Last month"
+  },
+  "skyux_date_range_picker_format_label_this_month": {
+    "_description": "The label for the date range picker component's select field This Month format type.",
+    "message": "This month"
+  },
+  "skyux_date_range_picker_format_label_next_month": {
+    "_description": "The label for the date range picker component's select field Next Month format type.",
+    "message": "Next month"
+  },
+  "skyux_date_range_picker_format_label_last_quarter": {
+    "_description": "The label for the date range picker component's select field Last Quarter format type.",
+    "message": "Last quarter"
+  },
+  "skyux_date_range_picker_format_label_this_quarter": {
+    "_description": "The label for the date range picker component's select field This Quarter format type.",
+    "message": "This quarter"
+  },
+  "skyux_date_range_picker_format_label_next_quarter": {
+    "_description": "The label for the date range picker component's select field Next Quarter format type.",
+    "message": "Next quarter"
+  },
+  "skyux_date_range_picker_format_label_last_calendar_year": {
+    "_description": "The label for the date range picker component's select field Last Year format type.",
+    "message": "Last calendar year"
+  },
+  "skyux_date_range_picker_format_label_this_calendar_year": {
+    "_description": "The label for the date range picker component's select field This Year format type.",
+    "message": "This calendar year"
+  },
+  "skyux_date_range_picker_format_label_next_calendar_year": {
+    "_description": "The label for the date range picker component's select field Next Year format type.",
+    "message": "Next calendar year"
+  },
+  "skyux_date_range_picker_format_label_last_fiscal_year": {
+    "_description": "The label for the date range picker component's select field Last Fiscal Year format type.",
+    "message": "Last fiscal year"
+  },
+  "skyux_date_range_picker_format_label_this_fiscal_year": {
+    "_description": "The label for the date range picker component's select field This Fiscal Year format type.",
+    "message": "This fiscal year"
+  },
+  "skyux_date_range_picker_format_label_next_fiscal_year": {
+    "_description": "The label for the date range picker component's select field Next Fiscal Year format type.",
+    "message": "Next fiscal year"
+  },
+  "skyux_date_range_picker_start_date_label": {
+    "_description": "The label for the first date picker of the Specific Range format type.",
+    "message": "From date"
+  },
+  "skyux_date_range_picker_end_date_label": {
+    "_description": "The label for the second date picker of the Specific Range format type.",
+    "message": "To date"
+  },
+  "skyux_date_range_picker_before_date_label": {
+    "_description": "The label for the date picker of the Before format type.",
+    "message": "Before date"
+  },
+  "skyux_date_range_picker_after_date_label": {
+    "_description": "The label for the date picker of the After format type.",
+    "message": "After date"
+  }
+}

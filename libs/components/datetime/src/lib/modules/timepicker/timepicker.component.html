@@ -1,0 +1,118 @@
+<div class="sky-timepicker">
+  <ng-container *ngIf="!inputBoxHostService">
+    <div class="sky-input-group">
+      <ng-container *ngTemplateOutlet="inputTemplateRef"></ng-container>
+      <ng-container *ngTemplateOutlet="triggerButtonTemplateRef"></ng-container>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #inputTemplateRef>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #triggerButtonTemplateRef>
+  <div class="sky-input-group-btn">
+    <button
+      aria-haspopup="dialog"
+      class="sky-btn sky-btn-default sky-input-group-timepicker-btn"
+      type="button"
+      [attr.aria-controls]="isOpen ? timepickerId : null"
+      [attr.aria-expanded]="isOpen"
+      [attr.aria-label]="'skyux_timepicker_button_label' | skyLibResources"
+      [attr.id]="triggerButtonId"
+      [attr.title]="'skyux_timepicker_button_label' | skyLibResources"
+      [disabled]="disabled"
+      (click)="onTriggerButtonClick()"
+      #triggerButtonRef
+    >
+      <sky-icon *skyThemeIf="'default'" icon="clock-o" size="lg"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
+        icon="clock"
+        size="lg"
+        iconType="skyux"
+      ></sky-icon>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #timepickerTemplateRef>
+  <div
+    class="sky-timepicker-container sky-shadow sky-box sky-elevation-4"
+    role="dialog"
+    [attr.aria-labelledby]="triggerButtonId"
+    [attr.id]="timepickerId"
+    [class.sky-timepicker-hidden]="!isVisible"
+    #timepickerRef
+  >
+    <div class="sky-timepicker-content">
+      <section
+        class="sky-timepicker-column"
+        [ngClass]="{ 'sky-timepicker-24hour': is8601 }"
+      >
+        <ol>
+          <li *ngFor="let hour of hours">
+            <button
+              name="hour"
+              type="button"
+              [ngClass]="{ 'sky-btn-active': selectedHour === hour }"
+              (click)="setTime($event)"
+            >
+              {{ hour }}
+            </button>
+          </li>
+        </ol>
+      </section>
+      <section class="sky-timepicker-column">
+        <ol>
+          <li *ngFor="let minute of minutes">
+            <button
+              name="minute"
+              type="button"
+              [ngClass]="{ 'sky-btn-active': selectedMinute === minute }"
+              (click)="setTime($event)"
+            >
+              {{ '00'.substring(0, 2 - minute.toString().length) + minute }}
+            </button>
+          </li>
+        </ol>
+      </section>
+      <section *ngIf="!is8601" class="sky-timepicker-column">
+        <ol>
+          <li>
+            <button
+              name="meridie"
+              type="button"
+              [ngClass]="{ 'sky-btn-active': selectedMeridies === 'AM' }"
+              (click)="setTime($event)"
+            >
+              AM
+            </button>
+          </li>
+          <li>
+            <button
+              name="meridie"
+              type="button"
+              [ngClass]="{ 'sky-btn-active': selectedMeridies === 'PM' }"
+              (click)="setTime($event)"
+            >
+              PM
+            </button>
+          </li>
+        </ol>
+      </section>
+    </div>
+    <div class="sky-timepicker-footer">
+      <section class="sky-timepicker-column">
+        <button
+          class="sky-btn sky-btn-primary"
+          type="button"
+          (click)="onCloseButtonCick()"
+        >
+          {{ 'skyux_timepicker_close' | skyLibResources }}
+        </button>
+      </section>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,12 @@
+<div>
+  <sky-datepicker-calendar
+    #datepicker
+    [customDates]="customDates"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [startingDay]="startingDay"
+    [selectedDate]="selectedDate"
+    (selectedDateChange)="selectedDate = $event"
+  >
+  </sky-datepicker-calendar>
+</div>
