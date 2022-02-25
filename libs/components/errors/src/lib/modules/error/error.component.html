@@ -1,0 +1,33 @@
+<div class="sky-error">
+  <div
+    *ngIf="showImage"
+    class="sky-error-image-container sky-margin-stacked-lg"
+  >
+    <div
+      *ngIf="errorType"
+      class="sky-error-image-svg"
+      [ngClass]="['sky-error-' + errorType + '-image']"
+    ></div>
+    <ng-content select="sky-error-image"></ng-content>
+  </div>
+
+  <div class="sky-error-title sky-font-heading-1 sky-margin-stacked-lg">
+    <ng-container *ngIf="showTitle">
+      {{ title }}
+    </ng-container>
+    <ng-content select="sky-error-title"></ng-content>
+  </div>
+
+  <div
+    class="sky-error-description sky-font-body-default sky-margin-stacked-xl"
+  >
+    <span *ngIf="showDescription">
+      {{ description }}
+    </span>
+    <ng-content select="sky-error-description"></ng-content>
+  </div>
+
+  <div class="sky-error-action">
+    <ng-content select="sky-error-action"></ng-content>
+  </div>
+</div>
