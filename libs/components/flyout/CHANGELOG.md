@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.1.0 (2022-02-22)
 
 - Added support for specifying an `aria-label` on the flyout component. [#135](https://github.com/blackbaud/skyux-flyout/pull/135)
