@@ -1,0 +1,13 @@
+<sky-ag-grid-wrapper
+  skyAgGridRowDelete
+  [(rowDeleteIds)]="rowDeleteIds"
+  (rowDeleteCancel)="cancelRowDelete($event)"
+  (rowDeleteConfirm)="finishRowDelete($event)"
+>
+  <ag-grid-angular
+    class="sky-ag-grid-editable"
+    [gridOptions]="gridOptions"
+    [rowData]="gridData"
+  >
+  </ag-grid-angular>
+</sky-ag-grid-wrapper>

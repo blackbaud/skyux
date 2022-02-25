@@ -1,0 +1,9 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+sky-autocomplete {
+  input {
+    border: none;
+    box-shadow: none;
+  }
+}

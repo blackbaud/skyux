@@ -1,0 +1,10 @@
+<span
+  [attr.aria-label]="
+    'sky_ag_grid_cell_renderer_currency_aria_label'
+      | skyLibResources: columnHeader:rowNumber
+  "
+  [style.width.px]="columnWidth"
+  [style.height.px]="rowHeightWithoutBorders"
+>
+  {{ value | skyNumeric: skyComponentProperties }}
+</span>

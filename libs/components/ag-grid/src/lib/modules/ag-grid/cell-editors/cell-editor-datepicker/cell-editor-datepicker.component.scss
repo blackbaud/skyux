@@ -1,0 +1,42 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@blackbaud/skyux-design-tokens/scss/themes/modern/variables';
+
+.sky-ag-grid-cell-editor-datepicker {
+  position: relative;
+  top: 1px;
+  left: 1px;
+
+  sky-datepicker {
+    input.sky-form-control {
+      box-shadow: none;
+      border-width: 1px;
+      border-style: solid;
+      border-color: transparent $sky-border-color-neutral-medium transparent
+        transparent;
+    }
+
+    .sky-input-group-datepicker-btn {
+      border-radius: 0;
+    }
+  }
+}
+
+@include sky-theme-modern {
+  .sky-ag-grid-cell-editor-datepicker {
+    position: static;
+    top: initial;
+    left: initial;
+
+    sky-datepicker {
+      input.sky-form-control {
+        border-radius: 0;
+        border: 1px solid $sky-theme-modern-border-color-primary-dark;
+
+        &:focus {
+          border-width: 2px !important;
+        }
+      }
+    }
+  }
+}

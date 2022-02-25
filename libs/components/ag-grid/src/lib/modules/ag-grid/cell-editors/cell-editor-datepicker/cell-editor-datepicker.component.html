@@ -1,0 +1,22 @@
+<div
+  class="sky-ag-grid-cell-editor-datepicker"
+  [style.width.px]="columnWidthWithoutBorders"
+>
+  <sky-datepicker
+    data-sky-id="cell-datepicker"
+    pickerClass="ag-custom-component-popup"
+  >
+    <input
+      skyDatepickerInput
+      [disabled]="skyComponentProperties.disabled"
+      [minDate]="skyComponentProperties.minDate"
+      [maxDate]="skyComponentProperties.maxDate"
+      [dateFormat]="skyComponentProperties.dateFormat"
+      [startingDay]="skyComponentProperties.startingDay"
+      [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
+      [style.height.px]="rowHeightWithoutBorders"
+      [(ngModel)]="currentDate"
+      #skyCellEditorDatepickerInput
+    />
+  </sky-datepicker>
+</div>

@@ -1,0 +1,38 @@
+{
+  "sky_ag_grid_row_selector_aria_label": {
+    "_description": "aria label for the checkbox to select a row",
+    "message": "Row selector for row {0}"
+  },
+  "sky_ag_grid_cell_editor_number_aria_label": {
+    "_description": "aria label for the number cell editor",
+    "message": "Editable number {0} for row {1}"
+  },
+  "sky_ag_grid_cell_editor_text_aria_label": {
+    "_description": "aria label for the text cell editor",
+    "message": "Editable text {0} for row {1}"
+  },
+  "sky_ag_grid_cell_editor_autocomplete_aria_label": {
+    "_description": "aria label for the autocomplete cell editor",
+    "message": "Editable autocomplete {0} for row {1}"
+  },
+  "sky_ag_grid_cell_renderer_currency_aria_label": {
+    "_description": "aria label for the currency cell renderer",
+    "message": "Editable currency {0} for row {1}"
+  },
+  "sky_ag_grid_cell_renderer_number_validator_message": {
+    "_description": "popover error for the number validator",
+    "message": "Enter a valid number."
+  },
+  "sky_ag_grid_cell_renderer_currency_validator_message": {
+    "_description": "popover error for the currency validator",
+    "message": "Enter a valid currency."
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Text displayed when the user has more than the maximum items selected",
+    "message": "{0} items selected"
+  },
+  "sky_ag_grid_cell_editor_currency_aria_label": {
+    "_description": "aria label for the currency cell editor",
+    "message": "Editable currency {0} for row {1}"
+  }
+}

@@ -1,0 +1,21 @@
+<sky-data-manager>
+  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewConfig.id">
+    <sky-ag-grid-wrapper *ngIf="displayFirstGrid">
+      <ag-grid-angular
+        class="sky-ag-grid-editable"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+      >
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+
+    <sky-ag-grid-wrapper *ngIf="displaySecondGrid">
+      <ag-grid-angular
+        class="sky-ag-grid-editable"
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+      >
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+  </sky-data-view>
+</sky-data-manager>
