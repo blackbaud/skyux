@@ -1,4 +1,29 @@
 {
   "name": "@skyux-sdk/prettier-schematics",
-  "version": "0.0.1"
+  "version": "0.0.0-PLACEHOLDER",
+  "description": "Prettier schematics for Angular CLI projects",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "devDependencies"
+  },
+  "peerDependencies": {
+    "@angular-devkit/build-angular": "^12.2.16"
+  },
+  "dependencies": {
+    "comment-json": "4.1.1"
+  },
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme"
 }
