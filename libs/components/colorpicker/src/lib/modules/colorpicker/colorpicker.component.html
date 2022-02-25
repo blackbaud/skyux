@@ -1,0 +1,318 @@
+<div
+  class="sky-input-group"
+  [ngClass]="{
+    'sky-colorpicker-hidden': !isVisible,
+    'sky-colorpicker-disabled': disabled
+  }"
+>
+  <div [hidden]="true">
+    <ng-content></ng-content>
+  </div>
+
+  <button
+    aria-haspopup="dialog"
+    class="sky-colorpicker-button"
+    type="button"
+    [attr.aria-controls]="isOpen ? colorpickerId : null"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-label]="
+      label ||
+      (labelledBy
+        ? null
+        : ('skyux_colorpicker_dropdown_button' | skyLibResources))
+    "
+    [attr.aria-labelledby]="labelledBy"
+    [attr.id]="triggerButtonId"
+    [attr.title]="
+      label ||
+      (labelledBy
+        ? null
+        : ('skyux_colorpicker_dropdown_button' | skyLibResources))
+    "
+    [disabled]="disabled"
+    [ngClass]="{
+      'sky-colorpicker-button-disabled': disabled
+    }"
+    [skyThemeClass]="{
+      'sky-margin-inline-sm': 'modern'
+    }"
+    [style.background-color]="backgroundColorForDisplay"
+    (click)="onTriggerButtonClick()"
+    #triggerButtonRef
+  >
+    <sky-icon
+      *ngIf="pickerButtonIcon"
+      class="sky-colorpicker-button-icon"
+      [icon]="pickerButtonIcon"
+      [iconType]="pickerButtonIconType"
+      [size]="'1x'"
+      [style.color]="iconColor"
+    >
+    </sky-icon>
+    <ng-container *skyThemeIf="'modern'">
+      <sky-icon
+        class="sky-colorpicker-button-modern-chevron"
+        icon="chevron-down"
+        iconType="skyux"
+        size="xs"
+        [ngClass]="{
+          'sky-colorpicker-button-modern-chevron-disabled': disabled
+        }"
+      >
+      </sky-icon>
+    </ng-container>
+  </button>
+
+  <ng-template #colorpickerTemplateRef>
+    <div
+      class="sky-colorpicker-container"
+      role="dialog"
+      [attr.aria-labelledby]="triggerButtonId"
+      [attr.id]="colorpickerId"
+      [hidden]="!isPickerVisible"
+      [skyThemeClass]="{
+        'sky-shadow': 'default',
+        'sky-elevation-4': 'modern'
+      }"
+      #colorpickerRef
+    >
+      <div class="sky-colorpicker">
+        <div
+          class="saturation-lightness"
+          [color]="slider.saturation - slider.value"
+          [skyColorpickerSlider]
+          [style.background-color]="hueSliderColor"
+          [xAxis]="1"
+          [yAxis]="1"
+          (newColorContrast)="saturationAndLightness = $event"
+        >
+          <div
+            class="cursor sky-rounded-circle"
+            [style.left.px]="slider.saturation"
+            [style.top.px]="slider.value"
+          ></div>
+        </div>
+
+        <div class="box">
+          <div class="left">
+            <div class="selected-color-background sky-rounded-circle"></div>
+            <div
+              class="selected-color sky-rounded-circle"
+              [style.background-color]="selectedColor?.rgbaText"
+            ></div>
+          </div>
+          <div class="right">
+            <div
+              class="hue"
+              [skyColorpickerSlider]
+              [xAxis]="1"
+              (newColorContrast)="hue = $event"
+              #hueSlider
+            >
+              <div
+                class="cursor sky-rounded-circle"
+                [style.left.px]="slider.hue"
+              ></div>
+            </div>
+            <div
+              *ngIf="this.allowTransparency"
+              class="alpha"
+              [skyColorpickerSlider]
+              [style.background-color]="alphaSliderColor"
+              [xAxis]="1"
+              (newColorContrast)="alphaAxis = $event"
+              #alphaSlider
+            >
+              <div
+                class="cursor sky-rounded-circle"
+                [style.left.px]="slider.alpha"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rgba-text">
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              [attr.aria-label]="'skyux_colorpicker_aria_hex' | skyLibResources"
+              [attr.for]="skyColorpickerHexId"
+            >
+              {{ 'skyux_colorpicker_hex' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              pattern="^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+              [attr.id]="skyColorpickerHexId"
+              [skyColorpickerText]
+              [value]="hexText"
+              (newColorContrast)="hex = $event"
+            />
+          </sky-input-box>
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              [attr.aria-label]="'skyux_colorpicker_aria_red' | skyLibResources"
+              [attr.for]="skyColorpickerRedId"
+            >
+              {{ 'skyux_colorpicker_red' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              max="255"
+              min="0"
+              pattern="[0-9]*"
+              type="number"
+              [attr.id]="skyColorpickerRedId"
+              [maxRange]="255"
+              [skyColorpickerText]
+              [value]="rgbaText?.red"
+              (newColorContrast)="red = $event"
+            />
+          </sky-input-box>
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              [attr.aria-label]="
+                'skyux_colorpicker_aria_green' | skyLibResources
+              "
+              [attr.for]="skyColorpickerGreenId"
+            >
+              {{ 'skyux_colorpicker_green' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              max="255"
+              min="0"
+              pattern="[0-9]*"
+              type="number"
+              [attr.id]="skyColorpickerGreenId"
+              [maxRange]="255"
+              [skyColorpickerText]
+              [value]="rgbaText?.green"
+              (newColorContrast)="green = $event"
+            />
+          </sky-input-box>
+          <sky-input-box>
+            <label
+              class="sky-control-label"
+              [attr.aria-label]="
+                'skyux_colorpicker_aria_blue' | skyLibResources
+              "
+              [attr.for]="skyColorpickerBlueId"
+            >
+              {{ 'skyux_colorpicker_blue' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              max="255"
+              min="0"
+              pattern="[0-9]*"
+              type="number"
+              [attr.id]="skyColorpickerBlueId"
+              [maxRange]="255"
+              [skyColorpickerText]
+              [value]="rgbaText?.blue"
+              (newColorContrast)="blue = $event"
+            />
+          </sky-input-box>
+          <sky-input-box *ngIf="this.allowTransparency">
+            <label
+              class="sky-control-label"
+              [attr.aria-label]="
+                'skyux_colorpicker_aria_alpha' | skyLibResources
+              "
+              [attr.for]="skyColorpickerAlphaId"
+            >
+              {{ 'skyux_colorpicker_alpha' | skyLibResources }}
+            </label>
+            <input
+              class="sky-form-control"
+              max="1"
+              min="0"
+              pattern="[0-9]+([\.,][0-9]{1,2})?"
+              step="0.1"
+              type="number"
+              [attr.id]="skyColorpickerAlphaId"
+              [maxRange]="1"
+              [skyColorpickerText]
+              [value]="rgbaText?.alpha"
+              (newColorContrast)="alphaColor = $event"
+            />
+          </sky-input-box>
+        </div>
+        <div
+          *ngIf="presetColors && presetColors.length"
+          class="sky-colorpicker-preset-color-area"
+        >
+          <button
+            *ngFor="let color of presetColors | slice: 0:12; let i = index"
+            type="button"
+            [attr.aria-label]="
+              ('skyux_colorpicker_preset_color' | skyLibResources) + ' ' + color
+            "
+            [skyThemeClass]="{
+              'sky-preset-color': 'default',
+              'sky-btn sky-btn-link': 'modern'
+            }"
+            [style.backgroundColor]="color"
+            (click)="onPresetClick(color)"
+          ></button>
+        </div>
+      </div>
+
+      <div
+        class="sky-colorpicker-footer"
+        [skyThemeClass]="{
+          'sky-padding-even-large': 'default'
+        }"
+      >
+        <section class="sky-colorpicker-column">
+          <button
+            class="sky-btn sky-btn-primary sky-btn-colorpicker-apply"
+            type="button"
+            [attr.aria-label]="'skyux_colorpicker_apply' | skyLibResources"
+            [skyThemeClass]="{ 'sky-margin-inline-sm': 'modern' }"
+            (click)="onApplyColorClick()"
+          >
+            {{ 'skyux_colorpicker_apply' | skyLibResources }}
+          </button>
+          <button
+            class="sky-btn sky-btn-link sky-btn-colorpicker-close"
+            type="button"
+            [attr.aria-label]="'skyux_colorpicker_close' | skyLibResources"
+            (click)="onCancelClick()"
+          >
+            {{ 'skyux_colorpicker_close' | skyLibResources }}
+          </button>
+        </section>
+      </div>
+    </div>
+  </ng-template>
+  <span
+    *ngIf="allowTransparency"
+    aria-hidden="true"
+    class="sky-colorpicker-checkered-background"
+  >
+  </span>
+
+  <button
+    *ngIf="showResetButton"
+    type="button"
+    [attr.aria-label]="'skyux_colorpicker_reset' | skyLibResources"
+    [disabled]="disabled"
+    [ngClass]="{
+      'sky-colorpicker-reset-button-disabled': disabled
+    }"
+    [skyThemeClass]="{
+      'sky-colorpicker-reset-button': 'default',
+      'sky-btn sky-btn-icon-borderless sky-colorpicker-reset-button-modern':
+        'modern'
+    }"
+    (click)="onResetClick()"
+  >
+    <sky-icon *skyThemeIf="'default'" icon="times" size="sm"> </sky-icon>
+    <sky-icon *skyThemeIf="'modern'" icon="trash" iconType="skyux" size="lg">
+    </sky-icon>
+  </button>
+</div>

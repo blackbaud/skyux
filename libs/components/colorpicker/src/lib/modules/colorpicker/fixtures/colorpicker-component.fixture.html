@@ -1,0 +1,22 @@
+<div>
+  <sky-colorpicker
+    [pickerButtonIcon]="pickerButtonIcon"
+    [pickerButtonIconType]="pickerButtonIconType"
+    [label]="label"
+    [labelledBy]="labelledBy"
+    [messageStream]="colorpickerController"
+    #colorPickerTest
+  >
+    <input
+      [allowTransparency]="selectedTransparency"
+      [alphaChannel]="selectedHexType"
+      [disabled]="disabled"
+      [initialColor]="selectedColor"
+      [outputFormat]="selectedOutputFormat"
+      [presetColors]="presetColors"
+      [skyColorpickerInput]="colorPickerTest"
+      [type]="inputType"
+      [(ngModel)]="colorModel"
+    />
+  </sky-colorpicker>
+</div>

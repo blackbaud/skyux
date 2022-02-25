@@ -1,0 +1,33 @@
+<sky-colorpicker
+  [messageStream]="colorpickerController"
+  [showResetButton]="showResetButton"
+  #colorPicker
+>
+  <input [skyColorpickerInput]="colorPicker" [(ngModel)]="model" />
+</sky-colorpicker>
+
+<p>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-margin-inline-default"
+    (click)="openColorpicker()"
+  >
+    Open colorpicker
+  </button>
+
+  <button
+    type="button"
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    (click)="resetColorpicker()"
+  >
+    Reset colorpicker
+  </button>
+
+  <button
+    type="button"
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    (click)="toggleResetButton()"
+  >
+    Toggle reset button
+  </button>
+</p>
