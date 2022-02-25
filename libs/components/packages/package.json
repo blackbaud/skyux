@@ -1,4 +1,87 @@
 {
   "name": "@skyux/packages",
-  "version": "0.0.1"
+  "version": "0.0.0-PACKAGES_PLACEHOLDER",
+  "description": "Handles the `ng update` command for SKY UX component libraries.",
+  "schematics": "./collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "ng-update": {
+    "migrations": "./src/schematics/migrations/migration-collection.json",
+    "packageGroup": {
+      "@blackbaud/skyux-lib-clipboard": "^5.0.0-beta.0",
+      "@blackbaud/skyux-lib-code-block": "^5.0.0-beta.0",
+      "@blackbaud/skyux-lib-media": "^5.0.0-beta.0",
+      "@blackbaud/skyux-lib-stache": "^5.0.0-beta.0",
+      "@skyux-sdk/documentation-schematics": "^5.0.0",
+      "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
+      "@skyux-sdk/angular-builders": "^5.0.0-beta.0",
+      "@skyux-sdk/e2e": "^5.0.0",
+      "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+      "@skyux/a11y": "0.0.0-PLACEHOLDER",
+      "@skyux/action-bars": "0.0.0-PLACEHOLDER",
+      "@skyux/ag-grid": "0.0.0-PLACEHOLDER",
+      "@skyux/angular-tree-component": "0.0.0-PLACEHOLDER",
+      "@skyux/animations": "0.0.0-PLACEHOLDER",
+      "@skyux/assets": "0.0.0-PLACEHOLDER",
+      "@skyux/autonumeric": "0.0.0-PLACEHOLDER",
+      "@skyux/avatar": "0.0.0-PLACEHOLDER",
+      "@skyux/colorpicker": "0.0.0-PLACEHOLDER",
+      "@skyux/config": "0.0.0-PLACEHOLDER",
+      "@skyux/core": "0.0.0-PLACEHOLDER",
+      "@skyux/data-manager": "0.0.0-PLACEHOLDER",
+      "@skyux/datetime": "0.0.0-PLACEHOLDER",
+      "@skyux/docs-tools": "^5.0.0-beta.0",
+      "@skyux/e2e-client": "^5.0.0",
+      "@skyux/errors": "0.0.0-PLACEHOLDER",
+      "@skyux/flyout": "0.0.0-PLACEHOLDER",
+      "@skyux/forms": "0.0.0-PLACEHOLDER",
+      "@skyux/grids": "0.0.0-PLACEHOLDER",
+      "@skyux/http": "0.0.0-PLACEHOLDER",
+      "@skyux/i18n": "0.0.0-PLACEHOLDER",
+      "@skyux/icons": "^5.0.0",
+      "@skyux/indicators": "0.0.0-PLACEHOLDER",
+      "@skyux/inline-form": "0.0.0-PLACEHOLDER",
+      "@skyux/layout": "0.0.0-PLACEHOLDER",
+      "@skyux/list-builder": "0.0.0-PLACEHOLDER",
+      "@skyux/list-builder-common": "0.0.0-PLACEHOLDER",
+      "@skyux/list-builder-view-checklist": "0.0.0-PLACEHOLDER",
+      "@skyux/list-builder-view-grids": "0.0.0-PLACEHOLDER",
+      "@skyux/lists": "0.0.0-PLACEHOLDER",
+      "@skyux/lookup": "0.0.0-PLACEHOLDER",
+      "@skyux/modals": "0.0.0-PLACEHOLDER",
+      "@skyux/navbar": "0.0.0-PLACEHOLDER",
+      "@skyux/omnibar-interop": "0.0.0-PLACEHOLDER",
+      "@skyux/pages": "0.0.0-PLACEHOLDER",
+      "@skyux/phone-field": "0.0.0-PLACEHOLDER",
+      "@skyux/popovers": "0.0.0-PLACEHOLDER",
+      "@skyux/progress-indicator": "0.0.0-PLACEHOLDER",
+      "@skyux/router": "0.0.0-PLACEHOLDER",
+      "@skyux/select-field": "0.0.0-PLACEHOLDER",
+      "@skyux/split-view": "0.0.0-PLACEHOLDER",
+      "@skyux/tabs": "0.0.0-PLACEHOLDER",
+      "@skyux/text-editor": "0.0.0-PLACEHOLDER",
+      "@skyux/theme": "0.0.0-PLACEHOLDER",
+      "@skyux/tiles": "0.0.0-PLACEHOLDER",
+      "@skyux/toast": "0.0.0-PLACEHOLDER",
+      "@skyux/validation": "0.0.0-PLACEHOLDER"
+    }
+  },
+  "dependencies": {
+    "latest-version": "5.1.0"
+  },
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme"
 }
