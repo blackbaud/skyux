@@ -1,0 +1,14 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-avatar {
+  .sky-file-drop-col {
+    flex-basis: initial;
+  }
+}
+
+.sky-theme-modern {
+  .sky-file-drop:focus {
+    outline: none;
+  }
+}

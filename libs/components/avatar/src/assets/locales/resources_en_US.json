@@ -1,0 +1,34 @@
+{
+  "skyux_avatar_error_not_image_description": {
+    "_description": "Message description displayed when the user attempts to upload an avatar file that is not a valid image",
+    "message": "Please choose a file that is a valid image."
+  },
+  "skyux_avatar_error_not_image_title": {
+    "_description": "Message title displayed when the user attempts to upload an avatar file that is not a valid image",
+    "message": "File is not an image."
+  },
+  "skyux_avatar_error_too_large_description": {
+    "_description": "Message description displayed when the user attempts to upload an avatar image with a file size that is too large",
+    "message": "Please choose an image that is less than {0}."
+  },
+  "skyux_avatar_error_too_large_title": {
+    "_description": "Message title displayed when the user attempts to upload an avatar image with a file size that is too large",
+    "message": "File is too large."
+  },
+  "skyux_avatar_errormodal_ok": {
+    "_description": "Text used on the primary button to dismiss the error modal.",
+    "message": "OK"
+  },
+  "skyux_avatar_inner_description": {
+    "_description": "Accessibility info text for screen readers when using an avatar image",
+    "message": "Profile picture of {0}"
+  },
+  "skyux_avatar_upload_change_aria_label": {
+    "_description": "Accesibility text for when an avatar image can be changed.",
+    "message": "Change profile photo of {0}. Drag a file here or click to browse."
+  },
+  "skyux_avatar_upload_new_aria_label": {
+    "_description": "Accesibility text for when a new avatar image can be added.",
+    "message": "Add profile photo of {0}. Drag a file here or click to browse."
+  }
+}
