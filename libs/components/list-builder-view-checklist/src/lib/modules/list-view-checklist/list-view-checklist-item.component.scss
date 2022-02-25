@@ -1,0 +1,45 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-list-view-checklist-item {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  word-wrap: break-word;
+
+  &:last-child {
+    border-bottom-width: 0;
+  }
+
+  ::ng-deep sky-checkbox {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: $sky-padding;
+    cursor: pointer;
+    @include sky-border(row, bottom);
+  }
+
+  ::ng-deep sky-checkbox-label {
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  ::ng-deep .sky-list-view-checklist-single-button {
+    background-color: transparent;
+    border: none;
+    @include sky-border(row, bottom);
+    display: block;
+    text-align: left;
+    margin-bottom: 0;
+    padding: $sky-padding;
+    width: 100%;
+    cursor: pointer;
+  }
+  ::ng-deep
+    .sky-list-view-checklist-single-button.sky-list-view-checklist-row-selected {
+    background-color: $sky-background-color-selected;
+  }
+}
