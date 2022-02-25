@@ -1,0 +1,22 @@
+{
+  "skyux_angular_tree_clear_all": {
+    "_description": "Text for the link to clear all checkboxes.",
+    "message": "Clear all"
+  },
+  "skyux_angular_tree_click_to_expand": {
+    "_description": "Text for expand/collapse button for tree nodes.",
+    "message": "Click to expand"
+  },
+  "skyux_angular_tree_collapse_all": {
+    "_description": "Text for the link to collapse all tree nodes.",
+    "message": "Collapse"
+  },
+  "skyux_angular_tree_expand_all": {
+    "_description": "Text for the link to expand all tree nodes.",
+    "message": "Expand"
+  },
+  "skyux_angular_tree_select_all": {
+    "_description": "Text for the link to select all checkboxes.",
+    "message": "Select all"
+  }
+}
