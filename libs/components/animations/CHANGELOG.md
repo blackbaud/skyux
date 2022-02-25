@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.3 (2022-01-26)
 
 - Fixed the slide animation to hide margins applied to child elements. [#31](https://github.com/blackbaud/skyux-animations/pull/31)
