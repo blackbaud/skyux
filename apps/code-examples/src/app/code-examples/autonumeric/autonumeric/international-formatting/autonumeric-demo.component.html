@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup" novalidate>
+  <sky-input-box>
+    <label class="sky-control-label" [for]="autonumericInput.id">
+      Autonumeric value
+    </label>
+    <input
+      class="sky-form-control"
+      formControlName="donationAmount"
+      skyId
+      type="text"
+      #autonumericInput="skyId"
+      [skyAutonumeric]="autonumericOptions"
+    />
+  </sky-input-box>
+</form>
