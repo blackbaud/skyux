@@ -1,0 +1,25 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-modal-footer-container {
+  background-color: #fff;
+  @include sky-border(light, top);
+  /* Offset the margin-left of the link */
+  ::ng-deep .sky-btn-link:first-child {
+    margin-left: -12px;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-modal-footer-container {
+    border-top: none;
+    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-modal-footer-container {
+    background-color: transparent;
+  }
+}

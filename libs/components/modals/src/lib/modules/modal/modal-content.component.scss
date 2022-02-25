@@ -1,0 +1,14 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+
+sky-modal-content {
+  display: block;
+  min-height: 100%;
+}
+
+.sky-theme-modern {
+  sky-modal-content {
+    padding: $sky-theme-modern-space-sm $sky-theme-modern-space-xl
+      $sky-theme-modern-space-xl $sky-theme-modern-space-xl;
+  }
+}

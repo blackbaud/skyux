@@ -1,0 +1,88 @@
+<!--
+  Animations are broken in Chrome v52. Angular 2 RC5 will fix it.
+  https://github.com/angular/angular/issues/10245
+-->
+<!--<div @modalState="modalState">-->
+
+<div
+  class="sky-modal-dialog"
+  aria-modal="true"
+  [attr.aria-describedby]="ariaDescribedBy"
+  [attr.aria-labelledby]="ariaLabelledBy"
+  [attr.role]="ariaRole"
+  (window:resize)="windowResize()"
+>
+  <div
+    class="sky-modal sky-shadow sky-box sky-elevation-16"
+    tabindex="-1"
+    [ngClass]="{
+      'sky-modal-full-page': modalFullPage,
+      'sky-modal-small': isSmallSize,
+      'sky-modal-medium': isMediumSize,
+      'sky-modal-large': isLargeSize,
+      'sky-modal-tiled': isTiledBody
+    }"
+    [ngStyle]="{
+      zIndex: modalZIndex
+    }"
+  >
+    <div
+      class="sky-modal-header"
+      [hidden]="!headerContent || !headerContent.children || headerContent.children.length &lt; 1"
+      [ngStyle]="{
+        'box-shadow': scrollShadow?.topShadow
+      }"
+    >
+      <div
+        class="sky-modal-header-content"
+        [attr.id]="modalHeaderId"
+        [ngClass]="{
+          'sky-section-heading': modalFullPage
+        }"
+        #headerContent
+      >
+        <ng-content select="sky-modal-header"></ng-content>
+      </div>
+      <div class="sky-modal-header-buttons">
+        <button
+          *ngIf="helpKey"
+          class="sky-btn sky-modal-btn-help"
+          name="help-button"
+          type="button"
+          [attr.aria-label]="'skyux_modal_open_help' | skyLibResources"
+          (click)="helpButtonClick()"
+        >
+          <sky-icon icon="question-circle"></sky-icon>
+        </button>
+
+        <button
+          type="button"
+          class="sky-btn sky-modal-btn-close"
+          [attr.aria-label]="'skyux_modal_close' | skyLibResources"
+          (click)="closeButtonClick()"
+        >
+          <sky-icon icon="close"></sky-icon>
+        </button>
+      </div>
+    </div>
+    <div
+      class="sky-modal-content sky-padding-even-large"
+      role="region"
+      tabindex="0"
+      [attr.aria-labelledby]="modalHeaderId"
+      [attr.id]="modalContentId"
+      (skyModalScrollShadow)="scrollShadowChange($event)"
+      #modalContentWrapper
+    >
+      <ng-content select="sky-modal-content"></ng-content>
+    </div>
+    <div
+      class="sky-modal-footer"
+      [ngStyle]="{
+        'box-shadow': scrollShadow?.bottomShadow
+      }"
+    >
+      <ng-content select="sky-modal-footer"></ng-content>
+    </div>
+  </div>
+</div>

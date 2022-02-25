@@ -1,0 +1,13 @@
+<sky-modal>
+  <sky-modal-header> Test </sky-modal-header>
+  <sky-modal-content>
+    <button style="visibility: hidden">Hidden</button>
+    <button style="display: none">No display</button>
+    <button id="visible-btn" [disabled]="context?.disableFirstContent">
+      Content
+    </button>
+    <button id="visible-btn-2" [disabled]="context?.disableSecondContent">
+      Content 2
+    </button>
+  </sky-modal-content>
+</sky-modal>
