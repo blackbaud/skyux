@@ -1,0 +1,27 @@
+<p class="simpleLink">
+  <a skyHref="1bb-nav://simple-app/example/page">Example</a>
+</p>
+
+<p class="localLink">
+  <a skyHref="1bb-nav:///app-links-page" target="_blank">Example</a>
+</p>
+
+<p class="noQueryLink">
+  <a skyHref="1bb-nav://simple-app/no-query">Example</a>
+</p>
+
+<p class="noAccessLink">
+  <a skyHref="nope://simple-app/no-access">Example</a>
+</p>
+
+<p class="dynamicLink">
+  <a [skyHref]="dynamicLink" [skyHrefElse]="dynamicElse">Example</a>
+</p>
+
+<p class="testLink">
+  <a skyHref="test://test-app/example">Example</a>
+</p>
+
+<p class="fragmentLink">
+  <a skyHref="test://simple-app/example/page#foobar">Example</a>
+</p>
