@@ -1,0 +1,21 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-primary-item>
+      <button type="button" class="sky-btn sky-btn-primary primary-test-button">
+        Add new
+      </button>
+    </sky-data-manager-toolbar-primary-item>
+    <sky-data-manager-toolbar-left-item *ngIf="activeViewId === 'repeaterView'">
+      <button type="button" class="sky-btn left-test-button">
+        Set search text to "so"
+      </button>
+    </sky-data-manager-toolbar-left-item>
+    <sky-data-manager-toolbar-right-item>
+      <button type="button" class="sky-btn right-test-button">Expand</button>
+    </sky-data-manager-toolbar-right-item>
+  </sky-data-manager-toolbar>
+
+  <sky-data-view-repeater-fixture [items]="items">
+  </sky-data-view-repeater-fixture>
+  <sky-data-view-cards-fixture [items]="items"> </sky-data-view-cards-fixture>
+</sky-data-manager>

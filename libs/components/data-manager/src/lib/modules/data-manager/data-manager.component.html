@@ -1,0 +1,10 @@
+<div
+  *ngIf="isInitialized"
+  class="sky-data-manager"
+  [skyBackToTop]="backToTopOptions"
+  [skyBackToTopMessageStream]="backToTopController"
+  [skyViewkeeper]="currentViewkeeperClasses"
+  #dataManager
+>
+  <ng-content></ng-content>
+</div>
