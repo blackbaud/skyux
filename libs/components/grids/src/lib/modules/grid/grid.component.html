@@ -92,7 +92,7 @@
               </sky-help-inline>
             </div>
             <span
-              *ngIf="(fit === 'width' && !last) || fit === 'scroll'"
+              *ngIf="fit === 'scroll' || (fit === 'width' && !last)"
               aria-hidden="true"
               class="sky-grid-resize-handle"
               tabindex="-1"
