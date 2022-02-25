@@ -1,0 +1,300 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+$sky-grid-resize-handle-width: 5px;
+
+.sky-grid {
+  position: relative;
+  display: block;
+}
+
+.sky-grid-table-container {
+  overflow: auto;
+}
+
+.sky-grid-table {
+  position: relative;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0;
+  font-size: $sky-font-size-base;
+  min-width: 100%;
+
+  &.sky-grid-fit {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+.sky-grid-tbody {
+  background-color: $sky-color-white;
+}
+
+.sky-grid-row {
+  @include sky-border(row, bottom);
+
+  &:nth-child(odd) {
+    background-color: $sky-color-gray-01;
+  }
+
+  &.sky-grid-row-highlight {
+    border-top: 1px solid $sky-text-color-action-primary; // overrides normal row border
+    box-shadow: 0px 0px 0px 3px inset $sky-text-color-action-primary;
+  }
+
+  .sky-grid-cell {
+    padding: 0;
+    min-width: 10px;
+  }
+}
+
+.sky-grid-heading {
+  position: relative;
+  @include sky-border(dark, top, bottom, left, right);
+  border-right-width: 0px;
+  padding: 0;
+
+  cursor: pointer;
+  background-color: $sky-color-white;
+
+  overflow: visible;
+  background-clip: padding-box; // IE/Edge fix.
+
+  &:first-child {
+    border-left: 1px solid transparent;
+  }
+
+  &.sky-grid-header-dragging {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  &.sky-grid-column-alignment-left,
+  &.sky-grid-column-alignment-center {
+    // This ensures that the sort icon is a strict size. It is 13.98px without the style. It also
+    // ensures that things don't jump when the sort icon is not visible
+    .sky-grid-heading-sort {
+      width: 14px;
+    }
+
+    // When the sort icon is hidden, this class ensures the help icon has proper 5px spacing.
+    // The right margin is to help ensure that this style does not cause column resizing.
+    .sky-grid-help-inline-sort-hidden {
+      margin-left: -14px;
+      margin-right: 14px;
+    }
+  }
+
+  &.sky-grid-column-alignment-right {
+    // This style moves the icon spacing to the left of the text when the icon is not visible. This
+    // causes the column to not resize when the icon is hidden while not leaving extra visible space
+    // to the right of the header text.
+    .sky-grid-header-caret-hidden-spacing {
+      padding-left: 14px;
+    }
+
+    // This ensures that the sort icon is a strict size. It is 13.98px without the style.
+    .sky-grid-heading-sort-visible {
+      width: 14px;
+    }
+  }
+
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  div {
+    padding: 8px;
+  }
+
+  .overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-width: 100%;
+  }
+
+  .sky-grid-column-input-aria-only {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 100%;
+    width: $sky-grid-resize-handle-width;
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    right: 0;
+
+    &::-moz-range-track {
+      background: transparent;
+    }
+
+    &::-moz-range-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+    }
+
+    &::-ms-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 0;
+      height: 0;
+      border-radius: 0px;
+      border: 0 none;
+      background: none;
+      display: none;
+    }
+
+    &:focus {
+      background-color: $sky-highlight-color-info;
+    }
+  }
+}
+
+.sky-grid-column-alignment-left {
+  text-align: left;
+}
+
+.sky-grid-column-alignment-center {
+  text-align: center;
+}
+
+.sky-grid-column-alignment-right {
+  text-align: right;
+}
+
+.sky-grid-multiselect-cell {
+  padding: 0;
+  text-align: center;
+  ::ng-deep.sky-switch-control {
+    margin: 0 auto;
+  }
+}
+
+th.sky-grid-multiselect-cell {
+  cursor: default;
+
+  .screen-reader-only {
+    @include sky-screen-reader-only();
+  }
+}
+
+// Prevents a FF bug where borders would randomly appear.
+@-moz-document url-prefix() {
+  .sky-grid-multiselect-row {
+    td {
+      border-left: 0px solid transparent;
+      border-right: 0px solid transparent;
+    }
+  }
+}
+
+.sky-grid-multiselect-row:hover {
+  background-color: darken($sky-background-color-selected, 3%);
+
+  // Override zebra stribing.
+  &:nth-child(odd) {
+    background: darken($sky-background-color-selected, 3%);
+  }
+}
+
+.sky-grid-multiselect-selected-row {
+  background: $sky-background-color-selected;
+  border-top: 1px solid #dadbf6;
+  border-bottom: 1px solid #dadbf6;
+
+  // Override zebra stribing.
+  &:nth-child(odd) {
+    background: $sky-background-color-selected;
+  }
+}
+
+.sky-grid-has-toolbar {
+  .sky-grid-heading {
+    border-top-width: 0px;
+  }
+}
+/*
+  This prevents grid header width from changing when sort indication changes
+*/
+.sky-grid-heading-sort {
+  &.sky-grid-heading-sort-hidden {
+    visibility: hidden;
+  }
+
+  &.sky-grid-heading-sort-visible {
+    visibility: visible;
+    padding-left: 5px;
+  }
+}
+
+.sky-grid-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  z-index: 2;
+  min-height: 20px;
+  height: 100% !important;
+  vertical-align: middle;
+  cursor: col-resize;
+
+  &:hover::after {
+    background-color: $sky-highlight-color-info;
+  }
+
+  &:after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: $sky-grid-resize-handle-width;
+    height: 100%;
+    content: '';
+  }
+}
+
+#sky-grid-resize-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  height: 100%;
+  width: $sky-grid-resize-handle-width;
+  background: $sky-highlight-color-info;
+  opacity: 0.6;
+}
+
+tr {
+  position: relative;
+}
+
+.sky-grid-top-scroll-container {
+  overflow: auto;
+}
+
+.sky-grid-top-scroll {
+  // Scroll bar will not show up without a height.
+  height: 1px;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@skyux/grids",
+  "version": "0.0.0-PLACEHOLDER",
+  "peerDependencies": {
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@angular/forms": "^12.2.16",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
+    "@skyux/forms": "0.0.0-PLACEHOLDER",
+    "@skyux/i18n": "0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "0.0.0-PLACEHOLDER",
+    "@skyux/layout": "0.0.0-PLACEHOLDER",
+    "@skyux/list-builder-common": "0.0.0-PLACEHOLDER",
+    "@skyux/popovers": "0.0.0-PLACEHOLDER"
+  },
+  "dependencies": {
+    "dragula": "3.7.3",
+    "ng2-dragula": "1.5.0",
+    "tslib": "^2.3.1"
+  },
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme"
+}
