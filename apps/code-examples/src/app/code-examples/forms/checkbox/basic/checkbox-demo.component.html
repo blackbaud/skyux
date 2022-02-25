@@ -1,0 +1,20 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <ul class="sky-list-unstyled">
+    <li>
+      <sky-checkbox formControlName="email">
+        <sky-checkbox-label> Email </sky-checkbox-label>
+      </sky-checkbox>
+    </li>
+    <li>
+      <sky-checkbox formControlName="phone">
+        <sky-checkbox-label> Phone </sky-checkbox-label>
+      </sky-checkbox>
+    </li>
+    <li>
+      <sky-checkbox formControlName="text">
+        <sky-checkbox-label> Text </sky-checkbox-label>
+      </sky-checkbox>
+    </li>
+  </ul>
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>

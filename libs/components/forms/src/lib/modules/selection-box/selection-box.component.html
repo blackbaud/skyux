@@ -1,0 +1,53 @@
+<div
+  class="sky-selection-box sky-rounded-corners sky-btn sky-btn-default"
+  role="button"
+  tabindex="0"
+  [attr.disabled]="disabled ? true : null"
+  [ngClass]="{
+    'sky-selection-box-selected': checked,
+    'sky-selection-box-disabled': disabled
+  }"
+  [skyThemeClass]="{
+    'sky-shadow': 'default',
+    'sky-box sky-elevation-1': 'modern'
+  }"
+  (click)="onClick($event)"
+  (keydown)="onKeydown($event)"
+  #selectionBox
+>
+  <div
+    class="sky-selection-box-icon"
+    [ngStyle]="{
+      display: !icon.innerHTML.trim() ? 'none' : ''
+    }"
+    #icon
+  >
+    <ng-content select="sky-icon"> </ng-content>
+  </div>
+
+  <div class="sky-selection-box-content">
+    <div
+      class="sky-selection-box-header"
+      [ngClass]="{
+        'sky-font-heading-2': icon.innerHTML.trim(),
+        'sky-font-heading-3': !icon.innerHTML.trim()
+      }"
+    >
+      <ng-content select="sky-selection-box-header"></ng-content>
+    </div>
+    <div
+      class="sky-selection-box-description"
+      [skyThemeClass]="{
+        'sky-font-deemphasized': 'modern',
+        'sky-deemphasized': 'default'
+      }"
+    >
+      <ng-content select="sky-selection-box-description"> </ng-content>
+    </div>
+  </div>
+
+  <div class="sky-selection-box-control" #control>
+    <ng-content select="sky-radio"> </ng-content>
+    <ng-content select="sky-checkbox"> </ng-content>
+  </div>
+</div>

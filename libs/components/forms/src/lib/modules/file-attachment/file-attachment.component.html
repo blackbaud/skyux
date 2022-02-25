@@ -1,0 +1,111 @@
+<div class="sky-file-attachment-wrapper">
+  <div
+    class="sky-file-attachment-label-wrapper"
+    [attr.aria-required]="required ? true : null"
+    [attr.id]="labelElementId"
+    [ngClass]="{ 'sky-control-label-required': required && hasLabelComponent }"
+  >
+    <ng-container *ngTemplateOutlet="labelContent"></ng-container>
+  </div>
+  <div
+    class="
+      sky-file-attachment-upload sky-file-attachment sky-file-attachment-target
+    "
+    [ngClass]="{
+      'sky-file-attachment-accept': acceptedOver,
+      'sky-file-attachment-reject': rejectedOver
+    }"
+    (dragenter)="fileDragEnter($event)"
+    (dragover)="fileDragOver($event)"
+    (dragleave)="fileDragLeave($event)"
+    (drop)="fileDrop($event)"
+  >
+    <div
+      aria-hidden="true"
+      class="sky-file-attachment-drop-description"
+      role="tooltip"
+      [attr.id]="fileDropDescriptionElementId"
+    >
+      {{ 'skyux_file_attachment_file_upload_drag_or_click' | skyLibResources }}
+    </div>
+    <input
+      hidden
+      tabindex="-1"
+      type="file"
+      [attr.accept]="acceptedTypes || null"
+      [disabled]="disabled"
+      [required]="required"
+      (change)="fileChangeEvent($event)"
+      #fileInput
+    />
+    <button
+      *ngIf="showFileAttachmentButton"
+      class="sky-file-attachment-btn sky-btn sky-btn-default"
+      type="button"
+      [attr.aria-describedby]="fileDropDescriptionElementId"
+      [disabled]="disabled"
+      (click)="onDropClicked()"
+    >
+      <sky-icon icon="folder-open-o"></sky-icon>
+      {{
+        value
+          ? ('skyux_file_attachment_button_label_replace_file'
+            | skyLibResources)
+          : ('skyux_file_attachment_button_label_choose_file' | skyLibResources)
+      }}
+    </button>
+    <sky-icon
+      *ngIf="value && !isImage() && currentThemeName === 'modern'"
+      class="sky-file-attachment-icon sky-deemphasized"
+      icon="file-o"
+      size="2x"
+    >
+    </sky-icon>
+    <span
+      *ngIf="value || currentThemeName === 'default'"
+      class="sky-file-attachment-name"
+    >
+      <a
+        *ngIf="value; else noFile"
+        [attr.title]="getFileName(false)"
+        (click)="emitClick()"
+      >
+        {{ getFileName() }}
+      </a>
+    </span>
+    <ng-template #noFile>
+      <span class="sky-file-attachment-none sky-deemphasized">
+        {{ 'skyux_file_attachment_label_no_file_chosen' | skyLibResources }}
+      </span>
+    </ng-template>
+    <button
+      *ngIf="value"
+      class="sky-btn sky-btn-borderless sky-file-attachment-delete"
+      type="button"
+      [attr.aria-label]="
+        'skyux_file_attachment_file_item_delete' | skyLibResources
+      "
+      [disabled]="disabled"
+      [skyThemeClass]="{
+        'sky-btn-icon-borderless': 'modern'
+      }"
+      (click)="deleteFileAttachment()"
+    >
+      <sky-icon icon="trash-o" size="md"> </sky-icon>
+    </button>
+  </div>
+
+  <img
+    *ngIf="value && isImage()"
+    class="sky-file-attachment-preview-img"
+    [alt]="
+      'skyux_file_attachment_file_upload_image_preview_alt_text'
+        | skyLibResources
+    "
+    [src]="value.url"
+  />
+</div>
+
+<ng-template #labelContent>
+  <ng-content select="sky-file-attachment-label"></ng-content>
+</ng-template>

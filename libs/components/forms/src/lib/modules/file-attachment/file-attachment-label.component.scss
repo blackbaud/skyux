@@ -1,0 +1,10 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+@include sky-theme-modern {
+  .sky-control-label {
+    color: $sky-theme-modern-font-deemphasized-color;
+    font-size: 13px;
+  }
+}

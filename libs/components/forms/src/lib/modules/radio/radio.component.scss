@@ -1,0 +1,33 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-switch-control:not(.sky-switch-control-icon) {
+  sky-icon {
+    font-size: 70%;
+  }
+}
+
+// "Checked" state inner-circle.
+.sky-switch-input:checked
+  + .sky-switch-control:not(.sky-switch-control-icon)::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: $sky-color-black;
+  border-radius: 50%;
+}
+
+@include sky-theme-modern {
+  .sky-switch-input:checked
+    + .sky-switch-control:not(.sky-switch-control-icon)::after {
+    background: $sky-theme-modern-background-color-primary-dark;
+  }
+
+  .sky-radio-input:disabled + .sky-switch-control {
+    .sky-radio-icon-modern-checked {
+      background-color: $sky-text-color-default;
+    }
+  }
+}

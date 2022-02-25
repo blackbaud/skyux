@@ -1,0 +1,34 @@
+<div style="width: 50%">
+  <form novalidate [formGroup]="characterCountForm">
+    <div class="sky-form-group">
+      <sky-input-box>
+        <label class="sky-control-label" [for]="descriptionInput.id">
+          Transaction description
+        </label>
+
+        <sky-character-counter-indicator
+          #descriptionIndicator
+        ></sky-character-counter-indicator>
+
+        <input
+          class="sky-form-control"
+          formControlName="description"
+          type="text"
+          skyCharacterCounter
+          skyId
+          [skyCharacterCounterIndicator]="descriptionIndicator"
+          [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+          #descriptionInput="skyId"
+        />
+
+        <div
+          *ngIf="description.errors?.skyCharacterCounter"
+          class="sky-error-label"
+        >
+          Limit Transaction description to
+          {{ maxDescriptionCharacterCount }} characters.
+        </div>
+      </sky-input-box>
+    </div>
+  </form>
+</div>

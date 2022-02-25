@@ -1,0 +1,134 @@
+<div
+  *skyThemeIf="'default'"
+  class="sky-input-box"
+  [ngClass]="{
+    'sky-input-box-disabled': disabled
+  }"
+>
+  <div class="sky-form-group">
+    <div class="sky-input-box-label-wrapper">
+      <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="inlineHelpTemplate"></ng-container>
+      <ng-container *ngTemplateOutlet="characterCountTemplate"></ng-container>
+    </div>
+    <div class="sky-input-group">
+      <ng-container *ngTemplateOutlet="buttonsLeftTemplate"></ng-container>
+      <div
+        class="sky-input-box-input-group-inner"
+        [ngClass]="{
+          'sky-field-status-active': formControlHasFocus,
+          'sky-field-status-invalid': hasErrorsComputed
+        }"
+        (focusin)="formControlFocusIn()"
+        (focusout)="formControlFocusOut()"
+      >
+        <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="buttonsInsetTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="iconsInsetTemplate"></ng-container>
+      </div>
+      <ng-container *ngTemplateOutlet="buttonsTemplate"></ng-container>
+    </div>
+    <ng-container *ngTemplateOutlet="errorLabelTemplate"></ng-container>
+  </div>
+</div>
+
+<div
+  *skyThemeIf="'modern'"
+  class="sky-input-box"
+  [ngClass]="{
+    'sky-input-box-disabled': disabled
+  }"
+>
+  <div class="sky-input-box-group">
+    <ng-container *ngTemplateOutlet="buttonsLeftTemplate"></ng-container>
+    <div
+      class="sky-input-box-group-form-control"
+      [ngClass]="{
+        'sky-input-box-group-form-control-focus': formControlHasFocus,
+        'sky-input-box-group-form-control-invalid': hasErrorsComputed
+      }"
+      (focusin)="formControlFocusIn()"
+      (focusout)="formControlFocusOut()"
+    >
+      <div class="sky-form-group">
+        <ng-container *ngTemplateOutlet="iconsInsetLeftTemplate"></ng-container>
+        <div class="sky-input-box-form-group-inner">
+          <div class="sky-input-box-label-wrapper">
+            <ng-container *ngTemplateOutlet="labelTemplate"></ng-container>
+            <ng-container *ngTemplateOutlet="inlineHelpTemplate"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="characterCountTemplate"
+            ></ng-container>
+          </div>
+          <ng-container *ngTemplateOutlet="inputTemplate"></ng-container>
+        </div>
+        <ng-container *ngTemplateOutlet="buttonsInsetTemplate"></ng-container>
+        <ng-container *ngTemplateOutlet="iconsInsetTemplate"></ng-container>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="buttonsTemplate"></ng-container>
+  </div>
+  <ng-container *ngTemplateOutlet="errorLabelTemplate"></ng-container>
+</div>
+
+<ng-template #labelTemplate>
+  <ng-content select=".sky-control-label"></ng-content>
+</ng-template>
+
+<ng-template #inlineHelpTemplate>
+  <ng-content select=".sky-control-help"></ng-content>
+</ng-template>
+
+<ng-template #characterCountTemplate>
+  <ng-content select="sky-character-counter-indicator"></ng-content>
+</ng-template>
+
+<ng-template #inputTemplate>
+  <ng-content select=".sky-form-control"></ng-content>
+  <ng-container *ngTemplateOutlet="hostInputTemplate"></ng-container>
+</ng-template>
+
+<ng-template #buttonsLeftTemplate>
+  <ng-content select=".sky-input-group-btn.sky-input-box-btn-left"></ng-content>
+  <ng-container *ngTemplateOutlet="hostButtonsLeftTemplate"></ng-container>
+</ng-template>
+
+<ng-template #buttonsTemplate>
+  <ng-content
+    select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset)"
+  ></ng-content>
+  <ng-container *ngTemplateOutlet="hostButtonsTemplate"></ng-container>
+</ng-template>
+
+<ng-template #buttonsInsetTemplate>
+  <ng-content
+    select=".sky-input-group-btn.sky-input-box-btn-inset"
+  ></ng-content>
+  <ng-container *ngTemplateOutlet="hostButtonsInsetTemplate"></ng-container>
+</ng-template>
+
+<ng-template #iconsInsetTemplate>
+  <div class="sky-input-box-icon-inset-wrapper" (click)="onInsetIconClick()">
+    <ng-content
+      select=".sky-input-group-icon.sky-input-box-icon-inset"
+    ></ng-content>
+    <ng-container *ngTemplateOutlet="hostIconsInsetTemplate"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #iconsInsetLeftTemplate>
+  <div
+    class="sky-input-box-icon-inset-left-wrapper"
+    (click)="onInsetIconClick()"
+  >
+    <ng-content
+      select=".sky-input-group-icon.sky-input-box-icon-inset-left"
+    ></ng-content>
+    <ng-container *ngTemplateOutlet="hostIconsInsetLeftTemplate"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #errorLabelTemplate>
+  <ng-content select=".sky-error-label"></ng-content>
+</ng-template>

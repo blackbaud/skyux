@@ -1,0 +1,41 @@
+<span class="sky-toggle-switch">
+  <button
+    class="sky-toggle-switch-button"
+    role="switch"
+    type="button"
+    [attr.aria-checked]="checked"
+    [attr.aria-label]="ariaLabel"
+    [attr.aria-labelledby]="hasLabelComponent ? labelElementId : null"
+    [disabled]="disabled"
+    [ngClass]="{
+      'sky-toggle-switch-checked': checked,
+      'sky-toggle-switch-disabled': disabled
+    }"
+    [tabIndex]="tabIndex"
+    (blur)="onButtonBlur()"
+    (click)="onButtonClick($event)"
+  >
+    <i
+      aria-hidden="true"
+      class="sky-toggle-switch-indicator"
+      [ngClass]="{
+        'sky-toggle-switch-transition': enableIndicatorAnimation
+      }"
+      role="presentation"
+      >&nbsp;</i
+    >
+    <!-- Non-breaking space needed to align switch to baseline! -->
+  </button>
+
+  <label
+    *ngIf="hasLabelComponent"
+    class="sky-toggle-switch-label"
+    [attr.id]="labelElementId"
+  >
+    <ng-container *ngTemplateOutlet="labelContent"> </ng-container>
+  </label>
+</span>
+
+<ng-template #labelContent>
+  <ng-content select="sky-toggle-switch-label"></ng-content>
+</ng-template>

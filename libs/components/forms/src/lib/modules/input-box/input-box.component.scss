@@ -1,0 +1,528 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/_compat/variables';
+
+$input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
+
+sky-input-box {
+  display: block;
+
+  .sky-input-box-input-container {
+    width: 100%;
+  }
+
+  .sky-form-group {
+    display: flex;
+    flex-wrap: wrap;
+
+    .sky-control-help {
+      margin: 0 0 0 4px;
+    }
+
+    .sky-input-box-label-wrapper {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  .sky-input-box-input-group-inner {
+    display: flex;
+    background-color: #fff;
+    width: 100%;
+    z-index: 1;
+
+    &:not(.sky-field-status-active):not(.sky-field-status-invalid) {
+      @include sky-border(dark, top, bottom, left, right);
+    }
+  }
+
+  .sky-input-box-btn-inset {
+    .sky-btn {
+      background-color: transparent;
+      border: none;
+    }
+  }
+
+  .sky-input-box-icon-inset-wrapper,
+  .sky-input-box-icon-inset-left-wrapper {
+    display: flex;
+
+    .sky-input-group-icon {
+      width: 33px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .sky-input-box-disabled {
+    .sky-input-box-icon-inset-wrapper,
+    .sky-input-box-icon-inset-left-wrapper {
+      background-color: $sky-background-color-disabled;
+
+      .sky-icon {
+        color: $sky-text-color-deemphasized;
+      }
+    }
+  }
+
+  sky-character-counter-indicator {
+    flex-grow: 1;
+    text-align: right;
+    margin-bottom: $sky-margin-half;
+    margin-left: auto;
+  }
+
+  .sky-control-label + sky-character-counter-indicator {
+    flex-grow: 0;
+    flex-shrink: 0.001;
+  }
+
+  .sky-form-control,
+  .sky-form-control:focus {
+    border: none;
+    flex-basis: 100%;
+
+    &:focus,
+    &.ng-invalid.ng-touched {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .sky-input-box-icon-inset-left-wrapper {
+    .sky-input-box-icon-inset-left {
+      padding: 0 0 0 $sky-space-md;
+      width: initial;
+    }
+  }
+}
+
+.sky-theme-modern {
+  /* Styles applied to both enabled and disabled input boxes */
+  .sky-input-box {
+    .sky-input-box-group {
+      display: flex;
+    }
+
+    .sky-input-box-group-form-control {
+      flex-grow: 1;
+      /*
+        The combination of position: relative here and z-index on the focused form
+        control allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      position: relative;
+
+      &:first-child {
+        .sky-form-group {
+          border-top-left-radius: $sky-theme-modern-box-border-radius-default;
+          border-bottom-left-radius: $sky-theme-modern-box-border-radius-default;
+        }
+      }
+
+      &:last-child {
+        .sky-form-group {
+          border-top-right-radius: $sky-theme-modern-box-border-radius-default;
+          border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
+        }
+      }
+    }
+
+    .sky-input-box-form-group-inner {
+      display: flex;
+      flex-grow: 1;
+      flex-wrap: wrap;
+    }
+
+    .sky-input-group-btn {
+      .sky-btn {
+        border-radius: 0;
+        color: $sky-theme-modern-font-deemphasized-color;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        transition: $input-box-transitions;
+        width: 55px;
+
+        .sky-icon {
+          font-size: 24px;
+        }
+      }
+
+      &:first-child {
+        .sky-btn {
+          border-top-left-radius: $sky-theme-modern-box-border-radius-default;
+          border-bottom-left-radius: $sky-theme-modern-box-border-radius-default;
+          margin-right: -1px;
+
+          &:focus {
+            z-index: 1;
+          }
+        }
+      }
+
+      &:last-child {
+        .sky-btn {
+          border-top-right-radius: $sky-theme-modern-box-border-radius-default;
+          border-bottom-right-radius: $sky-theme-modern-box-border-radius-default;
+        }
+      }
+    }
+
+    .sky-input-group-icon {
+      width: 55px;
+
+      .sky-icon {
+        color: $sky-theme-modern-font-deemphasized-color;
+        font-size: 24px;
+      }
+    }
+
+    .sky-input-box-group-form-control-focus:not(:last-child),
+    .sky-input-box-group-form-control-invalid:not(:last-child),
+    .sky-input-group-btn:focus-within:not(:last-child) {
+      z-index: 1;
+    }
+
+    .sky-input-box-group-form-control + .sky-input-group-btn {
+      .sky-btn {
+        margin-left: -2px;
+      }
+    }
+
+    .sky-input-group-btn + .sky-input-group-btn {
+      .sky-btn {
+        margin-left: -1px;
+      }
+    }
+
+    .sky-input-box-group-form-control-invalid {
+      .sky-form-group {
+        @include sky-theme-modern-border-invalid;
+        color: $sky-background-color-danger-dark;
+      }
+    }
+
+    .sky-input-box-group-form-control-focus:not(:active),
+    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+      /*
+        The combination of z-index here and position: relative on the form control
+        allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      z-index: 1;
+
+      .sky-form-group {
+        @include sky-theme-modern-border-focus;
+        color: $sky-theme-modern-text-color-action-primary;
+      }
+    }
+
+    .sky-form-group {
+      background-color: $sky-color-white;
+      @include sky-theme-modern-border;
+      color: $sky-theme-modern-font-data-label-color;
+      flex-wrap: nowrap;
+      margin-bottom: 0;
+      padding: 0;
+
+      .sky-input-box-label-wrapper {
+        display: flex;
+        padding: $sky-theme-modern-padding-h-md;
+        width: 100%;
+
+        .sky-control-label,
+        .sky-control-help,
+        sky-character-counter-indicator {
+          margin-bottom: 0;
+          position: relative;
+          /*
+            The label elements should be above input elements so clicking on it will focus on the
+            input element. It is important the user be able to click on the label rather
+            than the input element's top padding, because clicking the label will place
+            the cursor where the user last left it, while clicking the input's padding
+            always places the cursor at the beginning of the text.
+          */
+          z-index: 2;
+        }
+
+        .sky-control-label {
+          padding: 6px 0 1px 0;
+        }
+
+        .sky-control-label,
+        .sky-character-count-label {
+          font-size: 13px;
+        }
+
+        .sky-control-help {
+          margin: 0;
+
+          .sky-help-inline {
+            font-size: 16px;
+            padding: 3px $sky-theme-modern-margin-inline-sm 0;
+          }
+
+          &:last-child .sky-help-inline {
+            padding: 3px 0 0 $sky-theme-modern-margin-inline-sm;
+          }
+        }
+
+        sky-character-counter-indicator {
+          margin-left: auto;
+          padding: 3px 0 0;
+        }
+      }
+
+      .sky-form-control {
+        background-color: transparent;
+        border: none;
+        border-radius: $sky-theme-modern-box-border-radius-default;
+        font-size: $sky-theme-modern-font-body-default-size;
+        /*
+          Allow the height of the control to be determined by the line height instead of the
+          browser's pre-defined height for the element. This is particularly important for the
+          select element since its height is normally larger than desired for controls in
+          an input box.
+        */
+        height: auto;
+        line-height: 18px;
+        margin-top: -23px;
+        padding: 26px 15px 10px 15px;
+        position: relative;
+
+        &:first-line {
+          line-height: 19px;
+        }
+
+        &:focus,
+        &.ng-invalid {
+          box-shadow: none;
+          outline: none;
+        }
+
+        // Placeholder text
+        &::-webkit-input-placeholder {
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &::-moz-placeholder {
+          /* Firefox 19+ */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &input:-moz-placeholder {
+          /* Firefox 18- */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+
+        &:-ms-input-placeholder {
+          /* IE */
+          font-size: $sky-theme-modern-font-body-default-size;
+        }
+      }
+
+      .sky-input-box-btn-inset {
+        .sky-btn {
+          background-color: transparent;
+          border-radius: $sky-theme-modern-box-border-radius-default;
+          transition-property: none;
+
+          &:not(:active):not(:focus):not(:hover) {
+            box-shadow: none;
+          }
+        }
+      }
+
+      .sky-input-box-label-wrapper:empty + .sky-form-control,
+      .sky-input-box-label-wrapper:empty + * .sky-form-control {
+        margin-top: 0;
+        padding-top: $sky-theme-modern-space-sm;
+      }
+
+      textarea.sky-form-control {
+        margin-top: 0;
+        padding-top: $sky-theme-modern-space-xs;
+      }
+
+      /* Firefox puts an extra 5px left padding on select elements. This removes it. */
+      @-moz-document url-prefix() {
+        select.sky-form-control {
+          padding-left: 10px;
+        }
+      }
+
+      select.sky-form-control {
+        background-position-x: calc(100% - 10px);
+        /*
+          Clicking on the label of a select element doesn't expand the select element;
+          placing the select element above the label, in addition to the padding, effectively
+          opens the select element when the label clicked.
+        */
+        z-index: 3;
+      }
+
+      textarea.sky-form-control {
+        resize: vertical;
+      }
+    }
+
+    .sky-input-box-icon-inset-left-wrapper {
+      .sky-input-box-icon-inset-left {
+        padding: 0 0 0 $sky-theme-modern-space-md;
+        width: initial;
+      }
+    }
+  }
+
+  /* hover/active/focus/invalid styles only valid for enabled input boxes */
+  .sky-input-box:not(.sky-input-box-disabled) {
+    .sky-input-box-group-form-control {
+      &:hover {
+        /* Ensure the form control border shows over the adjacent input group button. */
+        z-index: 1;
+
+        .sky-form-group {
+          @include sky-theme-modern-border-hover;
+        }
+      }
+    }
+
+    .sky-input-group-btn {
+      .sky-btn {
+        border: none;
+        @include sky-theme-modern-border;
+
+        &:hover {
+          @include sky-theme-modern-border-hover;
+          z-index: 1;
+        }
+
+        &:active,
+        &:focus {
+          @include sky-theme-modern-border-active;
+          color: $sky-text-color-default;
+          z-index: 2;
+        }
+
+        &:focus:not(:active) {
+          outline: none;
+          @include sky-theme-modern-border-focus;
+        }
+      }
+    }
+
+    .sky-input-box-group-form-control:active,
+    .sky-input-box-group-form-control-focus {
+      .sky-form-group {
+        @include sky-theme-modern-border-active;
+      }
+    }
+
+    .sky-input-box-group-form-control-invalid {
+      .sky-form-group {
+        @include sky-theme-modern-border-invalid;
+        color: $sky-background-color-danger-dark;
+      }
+
+      &:active {
+        .sky-form-group {
+          color: $sky-theme-modern-text-color-action-primary;
+        }
+      }
+    }
+
+    .sky-input-box-group-form-control-focus:not(:active),
+    .sky-input-box-group-form-control-focus:not(:active).sky-input-box-group-form-control-invalid {
+      /*
+        The combination of z-index here and position: relative on the form control
+        allows the drop shadow on the focused input group to display above the
+        input group buttons.
+      */
+      z-index: 1;
+
+      .sky-form-group {
+        @include sky-theme-modern-border-focus;
+        color: $sky-theme-modern-text-color-action-primary;
+      }
+    }
+
+    .sky-form-group {
+      transition: $input-box-transitions;
+
+      .sky-control-label {
+        transition: $input-box-transitions;
+      }
+    }
+  }
+
+  .sky-input-box.sky-input-box-disabled {
+    .sky-form-control,
+    .sky-control-label,
+    .sky-input-group-btn {
+      cursor: not-allowed;
+    }
+
+    .sky-input-box-icon-inset-wrapper,
+    .sky-input-box-icon-inset-left-wrapper {
+      background-color: transparent;
+    }
+
+    .sky-form-group {
+      background-color: $sky-theme-modern-color-gray-07;
+    }
+
+    .sky-input-group-btn .sky-btn {
+      background-color: $sky-theme-modern-color-gray-07;
+      border: none;
+      @include sky-theme-modern-border;
+      opacity: 1;
+    }
+  }
+
+  &.sky-theme-mode-dark {
+    .sky-input-box {
+      .sky-form-group {
+        background-color: transparent;
+        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
+        color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+
+        .sky-form-control,
+        .sky-input-group-btn .sky-btn {
+          background-color: transparent;
+          color: $sky-theme-modern-mode-dark-font-body-default-color;
+        }
+      }
+
+      .sky-input-box-group-form-control-focus,
+      .sky-input-box-group-form-control-focus.sky-input-box-group-form-control-invalid {
+        .sky-form-group {
+          color: $sky-theme-modern-background-color-primary-dark;
+        }
+      }
+
+      .sky-input-box-group-form-control-invalid {
+        .sky-form-group {
+          @include sky-theme-modern-border-invalid;
+          color: $sky-background-color-danger-dark;
+        }
+      }
+
+      .sky-input-group-btn .sky-btn {
+        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
+        color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+
+        &.sky-btn-default {
+          background-color: transparent;
+        }
+
+        &:focus {
+          border-color: $sky-theme-modern-background-color-primary-dark;
+          color: $sky-theme-modern-mode-dark-font-body-default-color;
+        }
+      }
+    }
+  }
+}

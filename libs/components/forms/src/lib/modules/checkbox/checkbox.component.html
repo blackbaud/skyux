@@ -1,0 +1,60 @@
+<label
+  class="sky-checkbox-wrapper sky-switch"
+  [ngClass]="{
+    'sky-control-label-required': required,
+    'sky-switch-disabled': disabled
+  }"
+>
+  <input
+    class="sky-checkbox-input sky-switch-input"
+    type="checkbox"
+    [id]="inputId"
+    [checked]="checked"
+    [disabled]="disabled"
+    [name]="name"
+    [required]="required"
+    [tabIndex]="tabindex"
+    [attr.aria-label]="label"
+    [attr.aria-labelledby]="labelledBy"
+    [attr.aria-required]="required ? true : null"
+    (blur)="onInputBlur()"
+    (change)="onInteractionEvent($event)"
+  />
+  <span
+    class="sky-switch-control sky-rounded-corners"
+    [ngClass]="{
+      'sky-switch-control-icon': icon,
+      'sky-switch-control-info': checkboxType === 'info',
+      'sky-switch-control-success': checkboxType === 'success',
+      'sky-switch-control-warning': checkboxType === 'warning',
+      'sky-switch-control-danger': checkboxType === 'danger'
+    }"
+  >
+    <sky-icon
+      *ngIf="icon || checked"
+      class="sky-checkbox-icon-default"
+      fixedWidth="true"
+      [icon]="icon || 'check'"
+    >
+    </sky-icon>
+    <div class="sky-checkbox-icon-modern">
+      <sky-icon
+        *ngIf="icon; else checkedTemplate"
+        fixedWidth="true"
+        [icon]="icon"
+      >
+      </sky-icon>
+      <ng-template #checkedTemplate>
+        <sky-icon
+          *ngIf="checked"
+          class="sky-checkbox-icon-modern-checked"
+          fixedWidth="true"
+          icon="check"
+          iconType="skyux"
+        >
+        </sky-icon>
+      </ng-template>
+    </div>
+  </span>
+  <ng-content select="sky-checkbox-label"> </ng-content>
+</label>

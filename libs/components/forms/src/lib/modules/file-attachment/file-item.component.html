@@ -1,0 +1,45 @@
+<div class="sky-file-item sky-padding-even-default">
+  <div class="sky-file-item-title">
+    <div class="sky-file-item-name-container">
+      <div class="sky-file-item-name">
+        <strong *ngIf="isFile()">{{ fileName }}</strong>
+        <strong *ngIf="!isFile()">{{ url }}</strong>
+      </div>
+      <div class="sky-file-item-size" *ngIf="isFile()">
+        ({{ fileSize | skyFileSize }})
+      </div>
+    </div>
+    <div class="sky-file-item-controls">
+      <button
+        type="button"
+        class="sky-btn sky-btn-default sky-file-item-btn-delete"
+        [attr.aria-label]="
+          'skyux_file_attachment_file_item_delete' | skyLibResources
+        "
+        (click)="itemDelete()"
+      >
+        <sky-icon icon="trash-o" size="lg"></sky-icon>
+      </button>
+    </div>
+  </div>
+  <div class="sky-file-item-content">
+    <div class="sky-file-item-preview">
+      <div *ngIf="isImage()" class="sky-file-item-preview-img-container">
+        <img
+          class="sky-file-item-preview-img"
+          [src]="url"
+          [alt]="
+            'skyux_file_attachment_file_upload_image_preview_alt_text'
+              | skyLibResources
+          "
+        />
+      </div>
+      <div *ngIf="!isImage()" class="sky-file-item-preview-other">
+        <sky-icon [icon]="icon"></sky-icon>
+      </div>
+    </div>
+    <div class="sky-file-item-content-custom">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
