@@ -14,7 +14,69 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@skyux-sdk/prettier-schematics": [
+        "libs/sdk/prettier-schematics/src/index.ts"
+      ],
+      "@skyux-sdk/testing": ["libs/sdk/testing/src/index.ts"],
+      "@skyux/a11y": ["libs/components/a11y/src/index.ts"],
+      "@skyux/action-bars": ["libs/components/action-bars/src/index.ts"],
+      "@skyux/ag-grid": ["libs/components/ag-grid/src/index.ts"],
+      "@skyux/angular-tree-component": [
+        "libs/components/angular-tree-component/src/index.ts"
+      ],
+      "@skyux/animations": ["libs/components/animations/src/index.ts"],
+      "@skyux/assets": ["libs/components/assets/src/index.ts"],
+      "@skyux/autonumeric": ["libs/components/autonumeric/src/index.ts"],
+      "@skyux/avatar": ["libs/components/avatar/src/index.ts"],
+      "@skyux/colorpicker": ["libs/components/colorpicker/src/index.ts"],
+      "@skyux/config": ["libs/components/config/src/index.ts"],
+      "@skyux/core": ["libs/components/core/src/index.ts"],
+      "@skyux/data-manager": ["libs/components/data-manager/src/index.ts"],
+      "@skyux/datetime": ["libs/components/datetime/src/index.ts"],
+      "@skyux/errors": ["libs/components/errors/src/index.ts"],
+      "@skyux/flyout": ["libs/components/flyout/src/index.ts"],
+      "@skyux/forms": ["libs/components/forms/src/index.ts"],
+      "@skyux/grids": ["libs/components/grids/src/index.ts"],
+      "@skyux/http": ["libs/components/http/src/index.ts"],
+      "@skyux/i18n": ["libs/components/i18n/src/index.ts"],
+      "@skyux/indicators": ["libs/components/indicators/src/index.ts"],
+      "@skyux/inline-form": ["libs/components/inline-form/src/index.ts"],
+      "@skyux/layout": ["libs/components/layout/src/index.ts"],
+      "@skyux/list-builder": ["libs/components/list-builder/src/index.ts"],
+      "@skyux/list-builder-common": [
+        "libs/components/list-builder-common/src/index.ts"
+      ],
+      "@skyux/list-builder-view-checklist": [
+        "libs/components/list-builder-view-checklist/src/index.ts"
+      ],
+      "@skyux/list-builder-view-grids": [
+        "libs/components/list-builder-view-grids/src/index.ts"
+      ],
+      "@skyux/lists": ["libs/components/lists/src/index.ts"],
+      "@skyux/lookup": ["libs/components/lookup/src/index.ts"],
+      "@skyux/modals": ["libs/components/modals/src/index.ts"],
+      "@skyux/navbar": ["libs/components/navbar/src/index.ts"],
+      "@skyux/omnibar-interop": [
+        "libs/components/omnibar-interop/src/index.ts"
+      ],
+      "@skyux/packages": ["libs/components/packages/src/index.ts"],
+      "@skyux/pages": ["libs/components/pages/src/index.ts"],
+      "@skyux/phone-field": ["libs/components/phone-field/src/index.ts"],
+      "@skyux/popovers": ["libs/components/popovers/src/index.ts"],
+      "@skyux/progress-indicator": [
+        "libs/components/progress-indicator/src/index.ts"
+      ],
+      "@skyux/router": ["libs/components/router/src/index.ts"],
+      "@skyux/select-field": ["libs/components/select-field/src/index.ts"],
+      "@skyux/split-view": ["libs/components/split-view/src/index.ts"],
+      "@skyux/tabs": ["libs/components/tabs/src/index.ts"],
+      "@skyux/text-editor": ["libs/components/text-editor/src/index.ts"],
+      "@skyux/theme": ["libs/components/theme/src/index.ts"],
+      "@skyux/tiles": ["libs/components/tiles/src/index.ts"],
+      "@skyux/toast": ["libs/components/toast/src/index.ts"],
+      "@skyux/validation": ["libs/components/validation/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

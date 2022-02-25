@@ -1,105 +1,11 @@
-
-
-# Skyux
+# SKY UX
+[![npm](https://img.shields.io/npm/v/@skyux/a11y/latest?label=@skyux/a11y)](https://www.npmjs.com/package/@skyux/a11y)[![npm](https://img.shields.io/npm/v/@skyux/action-bars/latest?label=@skyux/action-bars)](https://www.npmjs.com/package/@skyux/action-bars)[![npm](https://img.shields.io/npm/v/@skyux/ag-grid/latest?label=@skyux/ag-grid)](https://www.npmjs.com/package/@skyux/ag-grid)[![npm](https://img.shields.io/npm/v/@skyux/angular-tree-component/latest?label=@skyux/angular-tree-component)](https://www.npmjs.com/package/@skyux/angular-tree-component)[![npm](https://img.shields.io/npm/v/@skyux/animations/latest?label=@skyux/animations)](https://www.npmjs.com/package/@skyux/animations)[![npm](https://img.shields.io/npm/v/@skyux/assets/latest?label=@skyux/assets)](https://www.npmjs.com/package/@skyux/assets)[![npm](https://img.shields.io/npm/v/@skyux/autonumeric/latest?label=@skyux/autonumeric)](https://www.npmjs.com/package/@skyux/autonumeric)[![npm](https://img.shields.io/npm/v/@skyux/avatar/latest?label=@skyux/avatar)](https://www.npmjs.com/package/@skyux/avatar)[![npm](https://img.shields.io/npm/v/@skyux/colorpicker/latest?label=@skyux/colorpicker)](https://www.npmjs.com/package/@skyux/colorpicker)[![npm](https://img.shields.io/npm/v/@skyux/config/latest?label=@skyux/config)](https://www.npmjs.com/package/@skyux/config)[![npm](https://img.shields.io/npm/v/@skyux/core/latest?label=@skyux/core)](https://www.npmjs.com/package/@skyux/core)[![npm](https://img.shields.io/npm/v/@skyux/data-manager/latest?label=@skyux/data-manager)](https://www.npmjs.com/package/@skyux/data-manager)[![npm](https://img.shields.io/npm/v/@skyux/datetime/latest?label=@skyux/datetime)](https://www.npmjs.com/package/@skyux/datetime)[![npm](https://img.shields.io/npm/v/@skyux/errors/latest?label=@skyux/errors)](https://www.npmjs.com/package/@skyux/errors)[![npm](https://img.shields.io/npm/v/@skyux/flyout/latest?label=@skyux/flyout)](https://www.npmjs.com/package/@skyux/flyout)[![npm](https://img.shields.io/npm/v/@skyux/forms/latest?label=@skyux/forms)](https://www.npmjs.com/package/@skyux/forms)[![npm](https://img.shields.io/npm/v/@skyux/grids/latest?label=@skyux/grids)](https://www.npmjs.com/package/@skyux/grids)[![npm](https://img.shields.io/npm/v/@skyux/http/latest?label=@skyux/http)](https://www.npmjs.com/package/@skyux/http)[![npm](https://img.shields.io/npm/v/@skyux/i18n/latest?label=@skyux/i18n)](https://www.npmjs.com/package/@skyux/i18n)[![npm](https://img.shields.io/npm/v/@skyux/indicators/latest?label=@skyux/indicators)](https://www.npmjs.com/package/@skyux/indicators)[![npm](https://img.shields.io/npm/v/@skyux/inline-form/latest?label=@skyux/inline-form)](https://www.npmjs.com/package/@skyux/inline-form)[![npm](https://img.shields.io/npm/v/@skyux/layout/latest?label=@skyux/layout)](https://www.npmjs.com/package/@skyux/layout)[![npm](https://img.shields.io/npm/v/@skyux/list-builder/latest?label=@skyux/list-builder)](https://www.npmjs.com/package/@skyux/list-builder)[![npm](https://img.shields.io/npm/v/@skyux/list-builder-common/latest?label=@skyux/list-builder-common)](https://www.npmjs.com/package/@skyux/list-builder-common)[![npm](https://img.shields.io/npm/v/@skyux/list-builder-view-checklist/latest?label=@skyux/list-builder-view-checklist)](https://www.npmjs.com/package/@skyux/list-builder-view-checklist)[![npm](https://img.shields.io/npm/v/@skyux/list-builder-view-grids/latest?label=@skyux/list-builder-view-grids)](https://www.npmjs.com/package/@skyux/list-builder-view-grids)[![npm](https://img.shields.io/npm/v/@skyux/lists/latest?label=@skyux/lists)](https://www.npmjs.com/package/@skyux/lists)[![npm](https://img.shields.io/npm/v/@skyux/lookup/latest?label=@skyux/lookup)](https://www.npmjs.com/package/@skyux/lookup)[![npm](https://img.shields.io/npm/v/@skyux/modals/latest?label=@skyux/modals)](https://www.npmjs.com/package/@skyux/modals)[![npm](https://img.shields.io/npm/v/@skyux/navbar/latest?label=@skyux/navbar)](https://www.npmjs.com/package/@skyux/navbar)[![npm](https://img.shields.io/npm/v/@skyux/omnibar-interop/latest?label=@skyux/omnibar-interop)](https://www.npmjs.com/package/@skyux/omnibar-interop)[![npm](https://img.shields.io/npm/v/@skyux/pages/latest?label=@skyux/pages)](https://www.npmjs.com/package/@skyux/pages)[![npm](https://img.shields.io/npm/v/@skyux/phone-field/latest?label=@skyux/phone-field)](https://www.npmjs.com/package/@skyux/phone-field)[![npm](https://img.shields.io/npm/v/@skyux/popovers/latest?label=@skyux/popovers)](https://www.npmjs.com/package/@skyux/popovers)[![npm](https://img.shields.io/npm/v/@skyux/progress-indicator/latest?label=@skyux/progress-indicator)](https://www.npmjs.com/package/@skyux/progress-indicator)[![npm](https://img.shields.io/npm/v/@skyux/router/latest?label=@skyux/router)](https://www.npmjs.com/package/@skyux/router)[![npm](https://img.shields.io/npm/v/@skyux/select-field/latest?label=@skyux/select-field)](https://www.npmjs.com/package/@skyux/select-field)[![npm](https://img.shields.io/npm/v/@skyux/split-view/latest?label=@skyux/split-view)](https://www.npmjs.com/package/@skyux/split-view)[![npm](https://img.shields.io/npm/v/@skyux/tabs/latest?label=@skyux/tabs)](https://www.npmjs.com/package/@skyux/tabs)[![npm](https://img.shields.io/npm/v/@skyux/text-editor/latest?label=@skyux/text-editor)](https://www.npmjs.com/package/@skyux/text-editor)[![npm](https://img.shields.io/npm/v/@skyux/theme/latest?label=@skyux/theme)](https://www.npmjs.com/package/@skyux/theme)[![npm](https://img.shields.io/npm/v/@skyux/tiles/latest?label=@skyux/tiles)](https://www.npmjs.com/package/@skyux/tiles)[![npm](https://img.shields.io/npm/v/@skyux/toast/latest?label=@skyux/toast)](https://www.npmjs.com/package/@skyux/toast)[![npm](https://img.shields.io/npm/v/@skyux/validation/latest?label=@skyux/validation)](https://www.npmjs.com/package/@skyux/validation)[![npm](https://img.shields.io/npm/v/@skyux/packages/latest?label=@skyux/packages)](https://www.npmjs.com/package/@skyux/packages)[![npm](https://img.shields.io/npm/v/@skyux-sdk/prettier-schematics/latest?label=@skyux-sdk/prettier-schematics)](https://www.npmjs.com/package/@skyux-sdk/prettier-schematics)[![npm](https://img.shields.io/npm/v/@skyux-sdk/testing/latest?label=@skyux-sdk/testing)](https://www.npmjs.com/package/@skyux-sdk/testing)
+___
 
 This project was generated using [Nx](https://nx.dev).
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
-
-🔎 **Smart, Extensible Build Framework**
-
-## Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev/angular)
 
 [10-minute video showing all Nx features](https://nx.dev/getting-started/intro)
 
 [Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
-
-## Adding capabilities to your workspace
-
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
-
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
-
-Below are our core plugins:
-
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
-
-There are also many [community plugins](https://nx.dev/community) you could add.
-
-## Generate an application
-
-Run `ng g @nrwl/angular:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@skyux/mylib`.
-
-## Development server
-
-Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
-
-
-
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
