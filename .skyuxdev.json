@@ -1,5 +1,5 @@
 {
-  "allowedSemverRange": ">5.5.0-beta <5.5.0-rc",
+  "allowedSemverRange": "^5.0.0",
   "documentation": {
     "excludeProjects": [
       "animations",
