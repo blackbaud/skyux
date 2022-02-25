@@ -125,6 +125,8 @@ export class GridTestComponent {
 
   public settingsKey: string;
 
+  public showNaNColumn: boolean = false;
+
   public set showWideColumn(showCol: boolean) {
     if (showCol) {
       this.selectedColumnIds.push('column6');

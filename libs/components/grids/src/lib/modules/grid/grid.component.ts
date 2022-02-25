@@ -101,7 +101,20 @@ export class SkyGridComponent
    * Specifies columns and column properties for the grid.
    */
   @Input()
-  public columns: Array<SkyGridColumnModel>;
+  public set columns(newColumns: Array<SkyGridColumnModel>) {
+    const oldColumns = this.columns;
+    this._columns = newColumns;
+    if (oldColumns) {
+      this.transferColumnWidths(oldColumns, this.columns);
+      this.isResized = false;
+      this.setDisplayedColumns(true);
+    }
+    this.changeDetector.markForCheck();
+  }
+
+  public get columns(): Array<SkyGridColumnModel> {
+    return this._columns;
+  }
 
   /**
    * Specifies the data for the grid. Each item requires an `id` and a property that maps
@@ -339,6 +352,7 @@ export class SkyGridComponent
   private selectedColumnIdsSet: boolean = false;
   private xPosStart: number;
 
+  private _columns: Array<SkyGridColumnModel>;
   private _selectedColumnIds: Array<string>;
   private _selectedRowIds: Array<string>;
 
@@ -964,21 +978,25 @@ export class SkyGridComponent
   }
 
   private setDisplayedColumns(respectHidden: boolean = false) {
-    if (this.selectedColumnIds !== undefined) {
-      // setup displayed columns
-      this.displayedColumns = this.selectedColumnIds
-        .filter((columnId) => {
-          return this.columns.find((column) => column.id === columnId);
-        })
-        .map((columnId) => {
-          return this.columns.filter((column) => column.id === columnId)[0];
+    /* sanity check */
+    /* istanbul ignore else */
+    if (this.columns) {
+      if (this.selectedColumnIds !== undefined) {
+        // setup displayed columns
+        this.displayedColumns = this.selectedColumnIds
+          .filter((columnId) => {
+            return this.columns.find((column) => column.id === columnId);
+          })
+          .map((columnId) => {
+            return this.columns.filter((column) => column.id === columnId)[0];
+          });
+      } else if (respectHidden) {
+        this.displayedColumns = this.columns.filter((column) => {
+          return !column.hidden;
         });
-    } else if (respectHidden) {
-      this.displayedColumns = this.columns.filter((column) => {
-        return !column.hidden;
-      });
-    } else {
-      this.displayedColumns = this.columns;
+      } else {
+        this.displayedColumns = this.columns;
+      }
     }
   }
 
@@ -1037,8 +1055,6 @@ export class SkyGridComponent
 
   private updateColumns() {
     this.getColumnsFromComponent();
-    this.setDisplayedColumns(true);
-    this.changeDetector.markForCheck();
 
     // This set timeout is necessary to ensure the columns have rendered in the grid
     setTimeout(() => {
@@ -1115,6 +1131,27 @@ export class SkyGridComponent
     }
 
     this.changeDetector.detectChanges();
+  }
+
+  private transferColumnWidths(
+    oldColumns: SkyGridColumnModel[],
+    newColumns: SkyGridColumnModel[]
+  ) {
+    /* sanity check */
+    /* istanbul ignore else */
+    if (oldColumns && newColumns) {
+      for (let oldColumn of oldColumns) {
+        if (oldColumn.width) {
+          const matchingColumn = newColumns.find(
+            (newColumn) => oldColumn.id === newColumn.id
+          );
+          if (matchingColumn && !matchingColumn.width) {
+            matchingColumn.width = oldColumn.width;
+          }
+        }
+      }
+    }
+    this.changeDetector.markForCheck();
   }
 
   private getColumnWidthModelChange() {
