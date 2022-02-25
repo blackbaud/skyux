@@ -1,0 +1,54 @@
+@import 'scss/variables';
+
+.sky-navbar-item {
+  display: block;
+  font-weight: 600;
+  margin-right: $sky-margin-half;
+  height: 100%;
+
+  ::ng-deep {
+    a,
+    .sky-dropdown-item > a,
+    .sky-dropdown-button {
+      background-color: transparent;
+      border: none;
+      color: $sky-nav-color;
+      display: block;
+      padding: 16px 12px;
+      text-decoration: none;
+      width: 100%;
+    }
+
+    .sky-dropdown-menu {
+      background-color: $sky-nav-background-color;
+    }
+
+    .sky-dropdown-item {
+      color: $sky-nav-color;
+      display: block;
+      font-size: 13px;
+      font-weight: normal;
+      margin: 0;
+
+      &:hover {
+        background-color: $sky-nav-selected-background-color;
+        color: $sky-nav-selected-color;
+
+        > ::ng-deep a,
+        ::ng-deep .sky-dropdown-button {
+          color: $sky-nav-selected-color;
+        }
+      }
+    }
+  }
+
+  ::ng-deep .sky-dropdown:hover .sky-dropdown-button,
+  ::ng-deep .sky-navbar-item-active,
+  &.sky-navbar-item-active ::ng-deep > *,
+  &.sky-navbar-item-active ::ng-deep .sky-dropdown-button {
+    background-color: $sky-nav-selected-background-color;
+    color: $sky-nav-selected-color;
+    border-bottom: $sky-nav-selected-border-width solid #1c84c6;
+    padding-bottom: $sky-nav-item-padding - $sky-nav-selected-border-width;
+  }
+}
