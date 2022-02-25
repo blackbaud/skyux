@@ -1,0 +1,13 @@
+<div class="sky-split-view-workspace-header">
+  <div class="sky-split-view-workspace-header-content">
+    <button class="sky-btn sky-btn-link" (click)="onShowDrawerButtonClick()">
+      <sky-icon *skyThemeIf="'default'" icon="chevron-left"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
+        icon="chevron-left"
+        iconType="skyux"
+      ></sky-icon>
+      {{ backButtonText }}
+    </button>
+  </div>
+</div>

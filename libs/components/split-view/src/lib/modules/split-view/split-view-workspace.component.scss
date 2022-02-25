@@ -1,0 +1,22 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-split-view-workspace {
+  background: #ffffff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@include sky-theme-modern {
+  .sky-split-view-workspace {
+    border: 1px solid $sky-theme-modern-border-color-neutral-medium;
+  }
+}
+
+@include sky-theme-modern-dark {
+  .sky-split-view-workspace {
+    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
+  }
+}

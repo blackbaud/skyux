@@ -1,0 +1,94 @@
+<div class="sky-padding-even-large">
+  <sky-split-view
+    data-sky-id="test-split-view"
+    [backButtonText]="backButtonText"
+    [messageStream]="splitViewStream"
+  >
+    <sky-split-view-drawer [ariaLabel]="listAriaLabel" [width]="listWidth">
+      <sky-repeater [activeIndex]="activeIndex">
+        <sky-repeater-item
+          *ngFor="let item of items; let i = index"
+          (click)="onItemClick(i)"
+          (keyup.enter)="onItemClick(i)"
+        >
+          <sky-repeater-item-content>
+            {{ item.amount }} <br />
+            {{ item.date }} <br />
+            {{ item.vendor }}
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      </sky-repeater>
+    </sky-split-view-drawer>
+
+    <sky-split-view-workspace [ariaLabel]="workspaceAriaLabel">
+      <sky-split-view-workspace-content class="sky-padding-even-large">
+        <form [formGroup]="splitViewDemoForm" (ngSubmit)="onApprove()">
+          <sky-definition-list labelWidth="150px">
+            <sky-definition-list-content>
+              <sky-definition-list-label>
+                Receipt amount
+              </sky-definition-list-label>
+              <sky-definition-list-value>
+                {{ activeRecord.amount }}
+              </sky-definition-list-value>
+            </sky-definition-list-content>
+            <sky-definition-list-content>
+              <sky-definition-list-label> Date </sky-definition-list-label>
+              <sky-definition-list-value>
+                {{ activeRecord.date }}
+              </sky-definition-list-value>
+            </sky-definition-list-content>
+            <sky-definition-list-content>
+              <sky-definition-list-label> Vendor </sky-definition-list-label>
+              <sky-definition-list-value>
+                {{ activeRecord.vendor }}
+              </sky-definition-list-value>
+            </sky-definition-list-content>
+            <sky-definition-list-content>
+              <sky-definition-list-label>
+                Receipt image
+              </sky-definition-list-label>
+              <sky-definition-list-value>
+                {{ activeRecord.receiptImage }}
+              </sky-definition-list-value>
+            </sky-definition-list-content>
+          </sky-definition-list>
+          <div class="sky-form-group">
+            <label class="sky-control-label" for="approvedAmount">
+              Approved amount
+            </label>
+            <input
+              class="sky-form-control"
+              formControlName="approvedAmount"
+              name="approvedAmount"
+              type="text"
+            />
+          </div>
+
+          <div class="sky-form-group">
+            <label class="sky-control-label" for="comments"> Comments </label>
+            <textarea
+              class="sky-form-control"
+              formControlName="comments"
+              name="comments"
+            ></textarea>
+          </div>
+        </form>
+      </sky-split-view-workspace-content>
+      <sky-split-view-workspace-footer>
+        <sky-summary-action-bar id="summary-action-bar">
+          <sky-summary-action-bar-actions>
+            <sky-summary-action-bar-primary-action (actionClick)="onApprove()">
+              Approve expense
+            </sky-summary-action-bar-primary-action>
+            <sky-summary-action-bar-secondary-actions>
+              <sky-summary-action-bar-secondary-action (actionClick)="onDeny()">
+                Deny expense
+              </sky-summary-action-bar-secondary-action>
+            </sky-summary-action-bar-secondary-actions>
+          </sky-summary-action-bar-actions>
+        </sky-summary-action-bar>
+      </sky-split-view-workspace-footer>
+    </sky-split-view-workspace>
+  </sky-split-view>
+</div>

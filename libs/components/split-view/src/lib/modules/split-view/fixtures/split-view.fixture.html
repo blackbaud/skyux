@@ -1,0 +1,56 @@
+<div *ngIf="lowerSplitView" style="height: 100px"></div>
+<sky-split-view
+  [backButtonText]="backButtonText"
+  [bindHeightToWindow]="bindHeightToWindow"
+  [messageStream]="splitViewMessageStream"
+>
+  <sky-split-view-drawer [ariaLabel]="ariaLabelForDrawer" [width]="width">
+    <ul>
+      <li *ngFor="let item of items">{{ item.name }}</li>
+    </ul>
+  </sky-split-view-drawer>
+
+  <sky-split-view-workspace [ariaLabel]="ariaLabelForWorkspace">
+    <sky-split-view-workspace-content>
+      <h1>foo</h1>
+      <p>bar</p>
+      <label>
+        First input
+        <input name="firstInput" type="text" id="sky-test-first-input" />
+      </label>
+      <label>
+        Second input
+        <input name="secondInput" type="text" id="sky-test-second-input" />
+      </label>
+      <iframe
+        *ngIf="showIframe"
+        src="https://developer.blackbaud.com/skyux/"
+      ></iframe>
+      <ul>
+        <li *ngFor="let item of additionalItems">{{ item }}</li>
+      </ul>
+    </sky-split-view-workspace-content>
+  </sky-split-view-workspace>
+</sky-split-view>
+<sky-summary-action-bar *ngIf="showActionBar">
+  <sky-summary-action-bar-actions>
+    <sky-summary-action-bar-primary-action>
+      Primary action
+    </sky-summary-action-bar-primary-action>
+    <sky-summary-action-bar-secondary-actions>
+      Foo
+      <sky-summary-action-bar-secondary-action>
+        Secondary action
+      </sky-summary-action-bar-secondary-action>
+      <sky-summary-action-bar-secondary-action>
+        Secondary action 2
+      </sky-summary-action-bar-secondary-action>
+    </sky-summary-action-bar-secondary-actions>
+    <sky-summary-action-bar-cancel> Cancel </sky-summary-action-bar-cancel>
+  </sky-summary-action-bar-actions>
+  <sky-summary-action-bar-summary>
+    <div>
+      <p>Test</p>
+    </div>
+  </sky-summary-action-bar-summary>
+</sky-summary-action-bar>

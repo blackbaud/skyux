@@ -1,0 +1,11 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+:host {
+  flex-shrink: 0;
+}
+
+.sky-split-view-workspace-footer {
+  padding: 10px;
+  box-shadow: 0 -3px 3px 0 $sky-color-gray-20;
+}
