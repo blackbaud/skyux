@@ -1,0 +1,41 @@
+<sky-progress-indicator
+  displayMode="horizontal"
+  [messageStream]="messageStream"
+  #myIndicator
+>
+  <sky-progress-indicator-item title="Configure connection">
+    Content 1
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item title="Select remote server">
+    Content 2
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item title="Test connection">
+    Content 3
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item title="Turn on connection">
+    Content 4
+  </sky-progress-indicator-item>
+</sky-progress-indicator>
+
+<sky-progress-indicator-nav-button
+  buttonType="previous"
+  [progressIndicator]="myIndicator"
+>
+</sky-progress-indicator-nav-button>
+
+<sky-progress-indicator-nav-button
+  buttonType="next"
+  [progressIndicator]="myIndicator"
+>
+</sky-progress-indicator-nav-button>
+
+<sky-progress-indicator-nav-button
+  buttonType="finish"
+  [attr.data-test-selector]="'finish-button'"
+  [progressIndicator]="myIndicator"
+  (actionClick)="onFinishClick($event)"
+>
+</sky-progress-indicator-nav-button>

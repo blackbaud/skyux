@@ -1,0 +1,18 @@
+{
+  "skyux_progress_indicator_navigator_finish": {
+    "_description": "Text displayed on a wizard's finish button.",
+    "message": "Finish"
+  },
+  "skyux_progress_indicator_navigator_next": {
+    "_description": "Text displayed on a wizard's next button.",
+    "message": "Next"
+  },
+  "skyux_progress_indicator_navigator_previous": {
+    "_description": "Text displayed on a wizard's previous button.",
+    "message": "Previous"
+  },
+  "skyux_progress_indicator_navigator_reset": {
+    "_description": "Text displayed on a wizard's reset button.",
+    "message": "Reset"
+  }
+}

@@ -1,0 +1,41 @@
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/mixins';
+@import '../scss/progress-indicator-variables';
+
+.sky-progress-indicator-item {
+  display: flex;
+  margin-bottom: -$icon-offset;
+}
+
+.sky-progress-indicator-item-content {
+  flex: 1 1 100%;
+}
+
+.sky-progress-indicator-item-body {
+  min-height: $sky-margin-double;
+  padding-top: $sky-margin;
+  padding-bottom: $sky-margin-triple;
+}
+
+.sky-progress-indicator-item-status-incomplete {
+  // Incomplete items should have reduced height.
+  .sky-progress-indicator-item-body {
+    padding: 0;
+  }
+}
+
+@include sky-theme-modern {
+  .sky-progress-indicator-item {
+    margin: 0;
+  }
+
+  .sky-progress-indicator-item-body {
+    padding: $sky-theme-modern-margin-stacked-lg 0
+      $sky-theme-modern-margin-stacked-xl 0;
+
+    &:empty {
+      padding: 0;
+    }
+  }
+}

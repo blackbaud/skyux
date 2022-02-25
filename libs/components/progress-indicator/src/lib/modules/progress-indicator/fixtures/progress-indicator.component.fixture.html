@@ -1,0 +1,82 @@
+<sky-progress-indicator
+  [displayMode]="displayMode"
+  [isPassive]="isPassive"
+  [messageStream]="messageStream"
+  [startingIndex]="startingIndex"
+  (progressChanges)="onProgressChanges($event)"
+  #progressIndicator
+>
+  <sky-progress-indicator-title> Waterfall </sky-progress-indicator-title>
+
+  <sky-progress-indicator-item title="Do the first thing">
+    Waterfall content 1
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item title="Do the second thing">
+    Waterfall content 2
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item title="Do the third thing">
+    Waterfall content 3
+  </sky-progress-indicator-item>
+
+  <sky-progress-indicator-item
+    *ngIf="showFourthItem"
+    title="Do the fourth thing"
+  >
+    Waterfall content 4
+  </sky-progress-indicator-item>
+
+  <!-- Legacy reset button within a progress indicator -->
+  <sky-progress-indicator-reset-button
+    *ngIf="!showIsolatedLegacyResetButton"
+    [disabled]="disabled"
+    [progressIndicator]="progressIndicator"
+    (resetClick)="onResetClick()"
+    #legacyResetButton
+  >
+    Reset (legacy)
+  </sky-progress-indicator-reset-button>
+
+  <!-- Nav button within a progress indicator -->
+  <sky-progress-indicator-nav-button
+    buttonText="Reset"
+    buttonType="reset"
+    class="progress-indicator-fixture-internal-nav-button"
+  >
+  </sky-progress-indicator-nav-button>
+</sky-progress-indicator>
+
+<!-- Legacy reset button outside a progress indicator -->
+<sky-progress-indicator-reset-button
+  *ngIf="showIsolatedLegacyResetButton"
+  [progressIndicator]="progressIndicator"
+  (resetClick)="onResetClick()"
+  #legacyIsolatedResetButton
+>
+  Reset (legacy)
+</sky-progress-indicator-reset-button>
+
+<!-- Nav buttons outside a progress indicator -->
+<div
+  *ngIf="showNavButtons"
+  class="progress-indicator-fixture-external-nav-buttons"
+>
+  <sky-progress-indicator-nav-button
+    [progressIndicator]="defaultNavButtonProgressIndicatorRef"
+    #defaultNavButton
+  >
+  </sky-progress-indicator-nav-button>
+
+  <sky-progress-indicator-nav-button
+    *ngFor="let buttonConfig of buttonConfigs"
+    [buttonText]="buttonConfig.text"
+    [buttonType]="buttonConfig.type"
+    [disabled]="disabled"
+    [progressIndicator]="progressIndicator"
+  >
+  </sky-progress-indicator-nav-button>
+</div>
+
+<!-- Empty progress indicator container -->
+<sky-progress-indicator #emptyProgressIndicator> </sky-progress-indicator>

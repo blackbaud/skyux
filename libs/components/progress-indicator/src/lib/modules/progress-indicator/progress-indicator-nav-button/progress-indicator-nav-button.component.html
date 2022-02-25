@@ -1,0 +1,14 @@
+<button
+  *ngIf="isVisible"
+  class="sky-btn"
+  type="button"
+  [disabled]="disabled"
+  [ngClass]="cssClassNames"
+  [skyThemeClass]="{
+    'sky-margin-inline-compact': 'default',
+    'sky-btn-link': 'modern'
+  }"
+  (click)="onClick($event)"
+>
+  {{ buttonText || (buttonLabelResourceString | skyLibResources) }}
+</button>
