@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.2.0 (2022-02-03)
 
 - Added support for tokenized resource matchers for libraries. [#63](https://github.com/blackbaud/skyux-sdk-testing/pull/63)
