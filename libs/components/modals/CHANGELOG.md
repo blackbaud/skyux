@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.5 (2022-02-15)
 
 - Fixed the `SkyConfirmService` to work within lazy-loaded modules. [#187](https://github.com/blackbaud/skyux-modals/pull/187)
