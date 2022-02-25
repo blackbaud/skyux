@@ -1,0 +1,11 @@
+<ng-content></ng-content>
+
+<sky-filter-inline>
+  <sky-filter-inline-item *ngFor="let filter of inlineFilters">
+    <sky-list-filter-inline-item-renderer
+      [template]="filter.template"
+      [filter]="filter"
+    >
+    </sky-list-filter-inline-item-renderer>
+  </sky-filter-inline-item>
+</sky-filter-inline>

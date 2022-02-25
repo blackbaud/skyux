@@ -1,0 +1,22 @@
+<div
+  class="sky-list-secondary-actions"
+  [ngClass]="{ 'sky-list-secondary-actions-hidden': dropdownHidden }"
+>
+  <sky-dropdown
+    [attr.title]="'skyux_list_show_secondary_actions_button' | skyLibResources"
+    [label]="'skyux_list_show_secondary_actions_button' | skyLibResources"
+  >
+    <sky-dropdown-button>
+      <sky-icon icon="ellipsis-h"> </sky-icon>
+      <span class="sky-list-secondary-actions-btn-text">
+        {{ 'skyux_list_show_secondary_actions_button' | skyLibResources }}
+      </span>
+    </sky-dropdown-button>
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let action of actions">
+        <ng-container *ngTemplateOutlet="action.template"> </ng-container>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+  </sky-dropdown>
+</div>
+<ng-content> </ng-content>

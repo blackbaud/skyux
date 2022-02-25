@@ -1,0 +1,38 @@
+<sky-list-toolbar>
+  <sky-list-filter-inline>
+    <sky-list-filter-inline-item
+      name="fruitType"
+      [filter]="fruitTypeFilterFunction"
+      value="any"
+      defaultValue="any"
+    >
+      <ng-template let-filter="filter">
+        <label for="sky-demo-select-type">Fruit type</label>
+        <select
+          id="sky-demo-select-type"
+          [ngModel]="filter.value"
+          (ngModelChange)="filter.changed($event)"
+        >
+          <option value="any">Any fruit</option>
+          <option value="citrus">Citrus</option>
+          <option value="berry">Berry</option>
+        </select>
+      </ng-template>
+    </sky-list-filter-inline-item>
+    <sky-list-filter-inline-item
+      [name]="hideOrangeName"
+      [filter]="hideOrangeFilterFunction"
+      [template]="hideOrangeTemplate"
+    >
+    </sky-list-filter-inline-item>
+  </sky-list-filter-inline>
+</sky-list-toolbar>
+
+<ng-template let-filter="filter" #hideOrangeTemplate>
+  <sky-checkbox
+    [ngModel]="filter.value"
+    (ngModelChange)="filter.changed($event)"
+  >
+    <sky-checkbox-label> Hide orange fruits </sky-checkbox-label>
+  </sky-checkbox>
+</ng-template>

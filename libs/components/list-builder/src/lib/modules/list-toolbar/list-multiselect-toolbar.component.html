@@ -1,0 +1,49 @@
+<sky-toolbar class="sky-list-multiselect-toolbar">
+  <sky-toolbar-section>
+    <sky-toolbar-item>
+      <sky-list-toolbar-item-renderer [template]="selectAllTemplate">
+      </sky-list-toolbar-item-renderer>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <sky-list-toolbar-item-renderer [template]="clearSelectionsTemplate">
+      </sky-list-toolbar-item-renderer>
+    </sky-toolbar-item>
+    <sky-toolbar-view-actions>
+      <ng-container *ngTemplateOutlet="showSelectedTemplate"></ng-container>
+    </sky-toolbar-view-actions>
+  </sky-toolbar-section>
+</sky-toolbar>
+
+<ng-template #selectAllTemplate>
+  <button
+    class="sky-btn sky-btn-link"
+    type="button"
+    [attr.id]="multiselectToolbarId + '-select-all'"
+    (click)="selectAll(); $event.preventDefault()"
+  >
+    {{ 'skyux_list_mutliselect_select_all' | skyLibResources }}
+  </button>
+</ng-template>
+
+<ng-template #clearSelectionsTemplate>
+  <button
+    class="sky-btn sky-btn-link"
+    type="button"
+    [attr.id]="multiselectToolbarId + '-clear-all'"
+    (click)="clearSelections(); $event.preventDefault()"
+  >
+    {{ 'skyux_list_multiselect_clear_all' | skyLibResources }}
+  </button>
+</ng-template>
+
+<ng-template #showSelectedTemplate>
+  <sky-checkbox
+    [attr.id]="multiselectToolbarId + '-show-selected'"
+    [checked]="showOnlySelected"
+    (change)="changeVisibleItems($event)"
+  >
+    <sky-checkbox-label>
+      {{ 'skyux_list_mutliselect_show_selected' | skyLibResources }}
+    </sky-checkbox-label>
+  </sky-checkbox>
+</ng-template>

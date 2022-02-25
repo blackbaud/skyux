@@ -1,0 +1,39 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+.sky-list-secondary-actions {
+  ::ng-deep .sky-dropdown-button-type-select {
+    padding: 6px 12px;
+
+    sky-icon[icon='ellipsis-h'] {
+      /* add styles for large icon */
+      font-size: 1.33333em;
+      line-height: 0.75em;
+      vertical-align: -15%;
+    }
+  }
+}
+
+.sky-list-secondary-actions-hidden {
+  display: none;
+}
+
+@include sky-host-responsive-container-xs-min() {
+  .sky-list-secondary-actions-btn-text {
+    display: none;
+  }
+
+  .sky-list-secondary-actions ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .sky-list-secondary-actions-btn-text {
+    display: inline;
+  }
+
+  .sky-list-secondary-actions ::ng-deep .sky-dropdown-caret {
+    display: inline-block;
+  }
+}
