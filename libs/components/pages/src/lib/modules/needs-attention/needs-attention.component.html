@@ -1,0 +1,82 @@
+<div
+  class="sky-needs-attention-container"
+  [skyThemeClass]="{
+    'sky-padding-even-large sky-shadow': 'default',
+    'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
+  }"
+>
+  <h2 class="sky-font-heading-4">
+    {{ 'sky_action_hub_needs_attention' | skyLibResources }}
+  </h2>
+  <sky-fluid-grid [gutterSize]="gutterSize" [disableMargin]="true">
+    <sky-row>
+      <sky-column *ngIf="items?.length === 0" [screenXSmall]="12">
+        {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
+      </sky-column>
+      <sky-column
+        *ngFor="let item of items; let isLast = last"
+        [screenSmall]="items.length > 6 ? 6 : 12"
+        [screenXSmall]="12"
+      >
+        <ng-template #link>
+          <sky-icon
+            *skyThemeIf="'default'"
+            class="sky-needs-attention-item-icon"
+            icon="chevron-right"
+          ></sky-icon>
+          <sky-icon
+            *skyThemeIf="'modern'"
+            class="sky-needs-attention-item-icon"
+            icon="chevron-right"
+            iconType="skyux"
+          ></sky-icon>
+          <sky-key-info
+            layout="horizontal"
+            class="sky-needs-attention-item-key-info"
+          >
+            <sky-key-info-label>{{ item.message }}</sky-key-info-label>
+            <sky-key-info-value
+              [skyThemeClass]="{
+                'sky-emphasized': 'default',
+                'sky-font-display-4': 'modern'
+              }"
+            >
+              {{ item.title }}
+            </sky-key-info-value>
+          </sky-key-info>
+        </ng-template>
+        <a
+          *ngIf="item.permalink.route"
+          [skyAppLink]="item.permalink.route.commands"
+          [queryParams]="item.permalink.route.extras?.queryParams"
+          [queryParamsHandling]="
+            item.permalink.route.extras?.queryParamsHandling
+          "
+          [fragment]="item.permalink.route.extras?.fragment"
+          [preserveFragment]="item.permalink.route.extras?.preserveFragment"
+          [skipLocationChange]="item.permalink.route.extras?.skipLocationChange"
+          [replaceUrl]="item.permalink.route.extras?.replaceUrl"
+          [state]="item.permalink.route.extras?.state"
+          class="
+            sky-needs-attention-item
+            sky-padding-vertical-lg
+            sky-border-bottom-row
+          "
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+        <a
+          *ngIf="item.permalink.url"
+          [skyHref]="item.permalink.url"
+          class="
+            sky-needs-attention-item
+            sky-padding-vertical-lg
+            sky-border-bottom-row
+          "
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>

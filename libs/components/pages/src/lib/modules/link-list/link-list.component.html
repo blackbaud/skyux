@@ -1,0 +1,52 @@
+<ng-container
+  *ngIf="links === 'loading'; then loadingTemplateRef; else linksTemplateRef"
+></ng-container>
+
+<ng-template #headingTemplateRef>
+  <h2 class="sky-font-heading-4 sky-margin-stacked-sm">
+    {{ title }}
+  </h2>
+</ng-template>
+<ng-template #loadingTemplateRef>
+  <sky-wait [isWaiting]="true"></sky-wait>
+  <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
+</ng-template>
+<ng-template #linksTemplateRef>
+  <ng-container *ngIf="links?.length > 0">
+    <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
+    <ul
+      class="sky-link-list"
+      [skyThemeClass]="{
+        'sky-margin-stacked-separate': 'default',
+        'sky-margin-stacked-xl': 'modern'
+      }"
+    >
+      <li
+        *ngFor="let link of links"
+        [skyThemeClass]="{
+          'sky-margin-stacked-default': 'default',
+          'sky-margin-stacked-sm': 'modern'
+        }"
+      >
+        <a *ngIf="link.permalink.url" [skyHref]="link.permalink.url">
+          {{ link.label }}
+        </a>
+        <a
+          *ngIf="link.permalink.route"
+          [skyAppLink]="link.permalink.route.commands"
+          [queryParams]="link.permalink.route.extras?.queryParams"
+          [queryParamsHandling]="
+            link.permalink.route.extras?.queryParamsHandling
+          "
+          [fragment]="link.permalink.route.extras?.fragment"
+          [preserveFragment]="link.permalink.route.extras?.preserveFragment"
+          [skipLocationChange]="link.permalink.route.extras?.skipLocationChange"
+          [replaceUrl]="link.permalink.route.extras?.replaceUrl"
+          [state]="link.permalink.route.extras?.state"
+        >
+          {{ link.label }}
+        </a>
+      </li>
+    </ul>
+  </ng-container>
+</ng-template>

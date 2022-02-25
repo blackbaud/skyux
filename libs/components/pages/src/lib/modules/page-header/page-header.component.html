@@ -1,0 +1,39 @@
+<h1 class="sky-page-header">
+  <span *ngIf="parentLink" class="sky-page-header-parent-link-wrapper">
+    <a
+      *ngIf="parentLink.permalink?.url"
+      [skyHref]="parentLink.permalink.url"
+      class="sky-font-heading-1 sky-page-header-parent-link"
+      >{{ parentLink.label }}</a
+    >
+    <a
+      *ngIf="parentLink.permalink?.route"
+      [skyAppLink]="parentLink.permalink.route.commands"
+      [queryParams]="parentLink.permalink.route.extras?.queryParams"
+      [queryParamsHandling]="
+        parentLink.permalink.route.extras?.queryParamsHandling
+      "
+      [fragment]="parentLink.permalink.route.extras?.fragment"
+      [preserveFragment]="parentLink.permalink.route.extras?.preserveFragment"
+      [skipLocationChange]="
+        parentLink.permalink.route.extras?.skipLocationChange
+      "
+      [replaceUrl]="parentLink.permalink.route.extras?.replaceUrl"
+      [state]="parentLink.permalink.route.extras?.state"
+      class="sky-font-heading-1 sky-page-header-parent-link"
+      >{{ parentLink.label }}</a
+    >
+    <span class="sky-page-header-chevron">
+      <sky-icon *skyThemeIf="'default'" icon="chevron-right"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
+        icon="chevron-right"
+        iconType="skyux"
+      ></sky-icon>
+    </span>
+  </span>
+  <wbr *ngIf="parentLink" />
+  <span class="sky-page-header-page-title sky-font-heading-1">
+    {{ pageTitle }}
+  </span>
+</h1>
