@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.1.4 (2021-02-22)
 
 - Fixed the library's peer dependencies to include `@skyux/popovers`. [#307](https://github.com/blackbaud/skyux-datetime/pull/307)
