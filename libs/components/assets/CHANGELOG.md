@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.1 (2021-11-18)
 
 - Added support for prettier code formatting and updated the builder to support StackBlitz. [#33](https://github.com/blackbaud/skyux-assets/pull/33)
