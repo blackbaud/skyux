@@ -1,0 +1,76 @@
+<p>
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="openDropdown()"
+  >
+    Open dropdown
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="closeDropdown()"
+  >
+    Close dropdown
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="focusTriggerButton()"
+  >
+    Focus trigger button
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="focusNextItem()"
+  >
+    Focus next item
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="focusPreviousItem()"
+  >
+    Focus previous item
+  </button>
+
+  <button
+    class="sky-btn sky-btn-default sky-margin-inline-default"
+    type="button"
+    (click)="removeItem()"
+  >
+    Remove item
+  </button>
+</p>
+
+<sky-dropdown
+  buttonStyle="primary"
+  [dismissOnBlur]="false"
+  [messageStream]="dropdownController"
+>
+  <sky-dropdown-button> Open </sky-dropdown-button>
+  <sky-dropdown-menu
+    [useNativeFocus]="false"
+    (menuChanges)="onMenuChanges($event)"
+  >
+    <sky-dropdown-item *ngFor="let item of items">
+      <button
+        type="button"
+        [attr.disabled]="item.disabled ? '' : null"
+        (click)="actionClicked(item.name)"
+      >
+        {{ item.name }}
+      </button>
+    </sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+
+<p>
+  This menu does not bring the active items to focus; this is useful for custom
+  implementations where the focus should remain on a different control.
+</p>

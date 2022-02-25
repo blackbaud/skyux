@@ -1,0 +1,59 @@
+<div
+  class="sky-popover-container sky-popover-max-height"
+  [@.disabled]="!enableAnimations"
+  [@skyPopoverAnimation]="animationState"
+  [class.sky-popover-hidden]="!placement"
+  [ngClass]="[
+    'sky-popover-alignment-' + horizontalAlignment,
+    'sky-popover-placement-' + placement,
+    'sky-popover-' + popoverType
+  ]"
+  (@skyPopoverAnimation.done)="onAnimationEvent($event)"
+  (@skyPopoverAnimation.start)="onAnimationEvent($event)"
+  #popoverRef
+>
+  <div
+    class="sky-popover"
+    tabindex="-1"
+    [skyThemeClass]="{
+      'sky-rounded-corners sky-shadow': 'default',
+      'sky-elevation-4': 'modern'
+    }"
+  >
+    <header
+      *ngIf="popoverTitle"
+      class="sky-popover-header"
+      [skyThemeClass]="{
+        'sky-padding-even-default': 'default',
+        'sky-padding-even-lg sky-margin-stacked-lg': 'modern'
+      }"
+    >
+      <h1
+        *ngIf="popoverTitle"
+        class="sky-popover-title"
+        [skyThemeClass]="{
+          'sky-emphasized': 'default',
+          'sky-font-emphasized': 'modern'
+        }"
+      >
+        {{ popoverTitle }}
+      </h1>
+    </header>
+    <div
+      class="sky-popover-body"
+      [skyThemeClass]="{
+        'sky-padding-even-default': 'default',
+        'sky-padding-even-lg': 'modern'
+      }"
+    >
+      <ng-container #contentTarget></ng-container>
+    </div>
+    <span
+      aria-hidden="true"
+      class="sky-popover-arrow"
+      [style.left.px]="arrowLeft"
+      [style.top.px]="arrowTop"
+      #arrowRef
+    ></span>
+  </div>
+</div>

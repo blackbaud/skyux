@@ -1,0 +1,71 @@
+<div class="sky-dropdown">
+  <button
+    class="sky-btn sky-dropdown-button"
+    type="button"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-controls]="isOpen ? menuId : null"
+    [attr.aria-haspopup]="menuAriaRole"
+    [attr.aria-label]="
+      label || ('skyux_dropdown_context_menu_default_label' | skyLibResources)
+    "
+    [attr.title]="title"
+    [disabled]="disabled"
+    [ngClass]="[
+      'sky-dropdown-button-type-' + buttonType,
+      'sky-btn-' + buttonStyle
+    ]"
+    #triggerButton
+  >
+    <ng-container [ngSwitch]="buttonType">
+      <ng-template ngSwitchCase="context-menu">
+        <sky-icon *skyThemeIf="'default'" icon="ellipsis-h"></sky-icon>
+        <sky-icon
+          *skyThemeIf="'modern'"
+          icon="ellipsis"
+          iconType="skyux"
+        ></sky-icon>
+      </ng-template>
+
+      <ng-template ngSwitchDefault>
+        <div
+          *ngIf="buttonType === 'select' || buttonType === 'tab' || !buttonType"
+          class="sky-dropdown-button-container"
+        >
+          <div class="sky-dropdown-button-content-container">
+            <ng-content select="sky-dropdown-button"> </ng-content>
+          </div>
+          <div class="sky-dropdown-button-icon-container">
+            <sky-icon
+              *skyThemeIf="'default'"
+              class="sky-dropdown-caret"
+              icon="caret-down"
+            >
+            </sky-icon>
+            <sky-icon
+              *skyThemeIf="'modern'"
+              class="sky-dropdown-caret"
+              icon="chevron-down"
+              iconType="skyux"
+            >
+            </sky-icon>
+          </div>
+        </div>
+        <div
+          *ngIf="buttonType !== 'select' && buttonType !== 'tab' && buttonType"
+        >
+          <sky-icon [icon]="buttonType" size="lg"></sky-icon>
+        </div>
+      </ng-template>
+    </ng-container>
+  </button>
+</div>
+
+<ng-template #menuContainerTemplateRef>
+  <div
+    class="sky-dropdown-menu-container"
+    [class.hidden]="!isVisible"
+    #menuContainerElementRef
+  >
+    <ng-content select="sky-dropdown-menu"></ng-content>
+  </div>
+</ng-template>

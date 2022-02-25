@@ -1,0 +1,24 @@
+@import '~@skyux/theme/scss/variables';
+@import '../../styles/mixins';
+
+.sky-dropdown-menu {
+  @include popoverMaxHeight();
+
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+
+  button {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.sky-theme-modern {
+  &.sky-theme-mode-dark {
+    .sky-dropdown-menu {
+      background-color: #252a2e;
+      color: #fff;
+    }
+  }
+}

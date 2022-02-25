@@ -1,0 +1,313 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '../../styles/mixins';
+@import '~@skyux/theme/scss/themes/modern/_compat/mixins';
+
+$popover-arrow-size: 20px;
+$popover-border-size: 10px;
+$popover-modern-border-size: 6px;
+$popover-max-width: 276px;
+
+.sky-popover-container {
+  position: fixed;
+  min-width: $popover-max-width;
+  max-width: $popover-max-width;
+
+  &.sky-popover-hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none !important;
+
+    * {
+      pointer-events: none !important;
+    }
+  }
+
+  &.sky-popover-static {
+    .sky-popover-arrow {
+      position: absolute;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (max-width: $popover-max-width) {
+    max-width: 100%;
+    min-width: auto;
+  }
+}
+
+.sky-popover {
+  background-color: $sky-color-white;
+}
+
+.sky-popover-header {
+  padding-bottom: 0;
+
+  & + .sky-popover-body {
+    padding-top: 2px;
+  }
+}
+
+.sky-popover-title {
+  margin: 0;
+}
+
+.sky-popover-arrow {
+  width: 0;
+  height: 0;
+  position: fixed;
+  border: $popover-border-size solid transparent;
+}
+
+.sky-popover-placement-above {
+  padding-bottom: $popover-border-size;
+
+  .sky-popover {
+    border-bottom: $popover-border-size solid $sky-highlight-color-info;
+  }
+
+  .sky-popover-arrow {
+    border-bottom: 0;
+    border-top-color: $sky-highlight-color-info;
+    bottom: 0;
+    left: 50%;
+    margin-left: -$popover-arrow-size * 0.5;
+  }
+
+  &.sky-popover-danger {
+    .sky-popover {
+      border-bottom-color: $sky-highlight-color-danger;
+    }
+
+    .sky-popover-arrow {
+      border-top-color: $sky-highlight-color-danger;
+    }
+  }
+}
+
+.sky-popover-placement-below {
+  padding-top: $popover-border-size;
+
+  .sky-popover {
+    border-top: $popover-border-size solid $sky-highlight-color-info;
+  }
+
+  .sky-popover-arrow {
+    border-top: 0;
+    border-bottom-color: $sky-highlight-color-info;
+    top: 0;
+    left: 50%;
+    margin-left: -$popover-arrow-size * 0.5;
+  }
+
+  &.sky-popover-danger {
+    .sky-popover {
+      border-top-color: $sky-highlight-color-danger;
+    }
+
+    .sky-popover-arrow {
+      border-bottom-color: $sky-highlight-color-danger;
+    }
+  }
+}
+
+.sky-popover-placement-right {
+  padding-left: $popover-border-size;
+
+  .sky-popover {
+    border-left: $popover-border-size solid $sky-highlight-color-info;
+  }
+
+  .sky-popover-arrow {
+    border-left: 0;
+    border-right-color: $sky-highlight-color-info;
+    left: 0;
+    top: 50%;
+    margin-top: -$popover-arrow-size * 0.5;
+  }
+
+  &.sky-popover-danger {
+    .sky-popover {
+      border-left-color: $sky-highlight-color-danger;
+    }
+
+    .sky-popover-arrow {
+      border-right-color: $sky-highlight-color-danger;
+    }
+  }
+}
+
+.sky-popover-placement-left {
+  padding-right: $popover-border-size;
+
+  .sky-popover {
+    border-right: $popover-border-size solid $sky-highlight-color-info;
+  }
+
+  .sky-popover-arrow {
+    border-right: 0;
+    border-left-color: $sky-highlight-color-info;
+    right: 0;
+    top: 50%;
+    margin-top: -$popover-arrow-size * 0.5;
+  }
+
+  &.sky-popover-danger {
+    .sky-popover {
+      border-right-color: $sky-highlight-color-danger;
+    }
+
+    .sky-popover-arrow {
+      border-left-color: $sky-highlight-color-danger;
+    }
+  }
+}
+
+.sky-popover-placement-above,
+.sky-popover-placement-below {
+  &.sky-popover-alignment-left {
+    .sky-popover-arrow {
+      left: $popover-arrow-size * 2;
+      right: auto;
+    }
+  }
+
+  &.sky-popover-alignment-right {
+    .sky-popover-arrow {
+      left: auto;
+      right: $popover-arrow-size * 2;
+    }
+  }
+}
+
+.sky-popover-max-height {
+  .sky-popover {
+    @include popoverMaxHeight();
+  }
+}
+
+@include sky-theme-modern {
+  .sky-popover {
+    border-radius: 6px;
+  }
+
+  .sky-popover-arrow {
+    transform: rotate(45deg);
+    border-color: transparent;
+  }
+
+  .sky-popover-placement-above {
+    padding-bottom: $popover-border-size;
+
+    .sky-popover {
+      border-bottom: $popover-modern-border-size solid $sky-highlight-color-info;
+    }
+
+    .sky-popover-arrow {
+      bottom: 1px;
+      border-radius: 0 0 3px 0;
+      border-bottom: solid $popover-border-size $sky-highlight-color-info;
+      border-right: solid $popover-border-size $sky-highlight-color-info;
+    }
+
+    &.sky-popover-danger {
+      .sky-popover {
+        border-bottom-color: $sky-highlight-color-danger;
+      }
+
+      .sky-popover-arrow {
+        border-bottom-color: $sky-highlight-color-danger;
+        border-right-color: $sky-highlight-color-danger;
+        border-top-color: transparent;
+        border-left-color: transparent;
+      }
+    }
+  }
+
+  .sky-popover-placement-below {
+    padding-top: $popover-border-size;
+
+    .sky-popover {
+      border-top: $popover-modern-border-size solid $sky-highlight-color-info;
+    }
+
+    .sky-popover-arrow {
+      top: 1px;
+      border-radius: 3px 0 0 0;
+      border-top: solid $popover-border-size $sky-highlight-color-info;
+      border-left: solid $popover-border-size $sky-highlight-color-info;
+    }
+
+    &.sky-popover-danger {
+      .sky-popover {
+        border-top-color: $sky-highlight-color-danger;
+      }
+
+      .sky-popover-arrow {
+        border-top-color: $sky-highlight-color-danger;
+        border-left-color: $sky-highlight-color-danger;
+        border-bottom-color: transparent;
+        border-right-color: transparent;
+      }
+    }
+  }
+
+  .sky-popover-placement-right {
+    padding-left: $popover-border-size;
+
+    .sky-popover {
+      border-left: $popover-modern-border-size solid $sky-highlight-color-info;
+    }
+
+    .sky-popover-arrow {
+      left: 1px;
+      border-radius: 0 0 0 3px;
+      border-bottom: solid $popover-border-size $sky-highlight-color-info;
+      border-left: solid $popover-border-size $sky-highlight-color-info;
+    }
+
+    &.sky-popover-danger {
+      .sky-popover {
+        border-left-color: $sky-highlight-color-danger;
+      }
+
+      .sky-popover-arrow {
+        border-bottom-color: $sky-highlight-color-danger;
+        border-left-color: $sky-highlight-color-danger;
+        border-top-color: transparent;
+        border-right-color: transparent;
+      }
+    }
+  }
+
+  .sky-popover-placement-left {
+    padding-right: $popover-border-size;
+
+    .sky-popover {
+      border-right: $popover-modern-border-size solid $sky-highlight-color-info;
+    }
+
+    .sky-popover-arrow {
+      right: 1px;
+      border-radius: 0 3px 0 0;
+      border-top: solid $popover-border-size $sky-highlight-color-info;
+      border-right: solid $popover-border-size $sky-highlight-color-info;
+    }
+
+    &.sky-popover-danger {
+      .sky-popover {
+        border-right-color: $sky-highlight-color-danger;
+      }
+
+      .sky-popover-arrow {
+        border-top-color: $sky-highlight-color-danger;
+        border-right-color: $sky-highlight-color-danger;
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+      }
+    }
+  }
+}

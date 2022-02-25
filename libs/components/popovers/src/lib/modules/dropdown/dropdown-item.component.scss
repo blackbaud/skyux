@@ -1,0 +1,90 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+@import '~@skyux/theme/scss/variables';
+
+.sky-dropdown-item {
+  background-color: transparent;
+  border: none;
+  display: block;
+  margin: 4px;
+  min-width: 160px;
+  text-align: left;
+
+  &.sky-dropdown-item-active,
+  &:hover {
+    background-color: $sky-background-color-neutral-light;
+  }
+
+  &.sky-dropdown-item-disabled {
+    cursor: default;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  & > a,
+  & > button {
+    background-color: transparent;
+    border: none;
+    color: $sky-text-color-default;
+    cursor: pointer;
+    display: block;
+    padding: 3px $sky-padding-double;
+    text-align: left;
+    width: 100%;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &[disabled] {
+      color: $sky-text-color-deemphasized;
+
+      &:hover {
+        cursor: default;
+      }
+    }
+  }
+}
+
+.sky-theme-modern {
+  .sky-dropdown-item {
+    margin: 0;
+
+    &.sky-dropdown-item-active,
+    &:hover {
+      background-color: transparent;
+    }
+
+    & > a,
+    & > button {
+      padding: $sky-theme-modern-padding-button-standard;
+      transition: box-shadow $sky-transition-time-short;
+
+      &:hover {
+        outline: solid 1px $sky-theme-modern-background-color-primary-dark;
+        outline-offset: -1px;
+      }
+
+      &:focus,
+      &:active {
+        outline: solid 2px $sky-theme-modern-background-color-primary-dark;
+        outline-offset: -2px;
+      }
+
+      &:focus:not(:active) {
+        box-shadow: $sky-theme-modern-elevation-3-shadow-size
+          $sky-theme-modern-elevation-3-shadow-color;
+      }
+    }
+  }
+
+  &.sky-theme-mode-dark {
+    .sky-dropdown-item {
+      & > a,
+      & > button {
+        color: $sky-theme-modern-mode-dark-font-body-default-color;
+      }
+    }
+  }
+}
