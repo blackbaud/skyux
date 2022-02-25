@@ -129,7 +129,6 @@
           class="sky-grid-row"
           *ngFor="let item of items; let i = index"
           [attr.aria-current]="isRowHighlighted(item.id) ? true : null"
-          [attr.aria-selected]="item.isSelected"
           [attr.sky-cmp-id]="item.id"
           [ngClass]="{
             'sky-grid-multiselect-selected-row': item.isSelected,
