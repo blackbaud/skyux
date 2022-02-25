@@ -1,0 +1,28 @@
+<form novalidate [formGroup]="formGroup">
+  <div class="sky-form-group">
+    <sky-input-box>
+      <label class="sky-control-label" [for]="emailInput.id">
+        Email address
+      </label>
+      <input
+        class="sky-form-control"
+        formControlName="email"
+        skyId
+        #emailInput="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <ng-container *ngIf="emailControl.errors && emailControl.touched">
+    <div *ngIf="emailControl.errors.required" class="sky-error-label">
+      Email address is required.
+    </div>
+
+    <div
+      *ngIf="emailControl.errors.skyEmail && emailControl.dirty"
+      class="sky-error-label"
+    >
+      Enter a valid email in the "joe@abc.com" format.
+    </div>
+  </ng-container>
+</form>

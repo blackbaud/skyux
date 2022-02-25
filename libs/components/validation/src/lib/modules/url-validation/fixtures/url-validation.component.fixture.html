@@ -1,0 +1,14 @@
+<div>
+  <label>
+    Test input
+    <input skyUrlValidation [(ngModel)]="urlValidator" #url="ngModel" />
+  </label>
+  <div
+    class="sky-error-label"
+    *ngIf="url.errors && url.errors.skyUrl && (url.dirty || url.touched)"
+  >
+    <div [hidden]="!url.errors.skyUrl.invalid">
+      Please enter valid url with format http(s)://site.domain
+    </div>
+  </div>
+</div>

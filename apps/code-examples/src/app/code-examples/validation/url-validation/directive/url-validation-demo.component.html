@@ -1,0 +1,23 @@
+<form novalidate>
+  <div class="sky-form-group">
+    <sky-input-box>
+      <label class="sky-control-label" [for]="urlInput.id"> Url </label>
+      <input
+        class="sky-form-control"
+        name="url"
+        skyUrlValidation
+        skyId
+        [(ngModel)]="demoModel.url"
+        #urlInput="skyId"
+        #urlControl="ngModel"
+      />
+    </sky-input-box>
+  </div>
+
+  <div
+    *ngIf="urlControl.errors?.skyUrl && urlControl.dirty && urlControl.touched"
+    class="sky-error-label"
+  >
+    Enter a valid URL in the "http(s)://site.domain" format.
+  </div>
+</form>
