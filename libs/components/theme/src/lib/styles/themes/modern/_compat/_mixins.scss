@@ -1,0 +1,167 @@
+@import '../../../variables';
+@import 'variables';
+
+@mixin sky-theme-modern-button-variant(
+  $color,
+  $background,
+  $border,
+  $hover-border,
+  $padding: $sky-theme-modern-padding-button-standard
+) {
+  @include sky-theme-modern-border($border);
+  background-color: $background;
+  color: $color;
+  padding: sky-theme-modern-border-padding($padding);
+
+  &:hover {
+    @include sky-theme-modern-border-hover($hover-border);
+    text-decoration: none;
+  }
+
+  &:hover,
+  &:active,
+  &.sky-btn-active {
+    color: $color;
+  }
+
+  &:active,
+  &.sky-btn-active {
+    @include sky-theme-modern-border-active($hover-border);
+    background-image: none;
+  }
+
+  @include sky-theme-modern-btn-disabled(
+    $sky-theme-modern-font-deemphasized-color,
+    $sky-theme-modern-border-color-neutral-light,
+    $sky-theme-modern-border-color-neutral-medium
+  );
+
+  &:focus {
+    outline: none;
+
+    &:not(:active) {
+      @include sky-theme-modern-border-focus(
+        $hover-border,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
+    }
+  }
+}
+
+@mixin sky-theme-modern-btn-disabled($color, $background, $border) {
+  &.sky-btn-disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      @include sky-theme-modern-border($border);
+      background-color: $background;
+      color: $color;
+      opacity: 1;
+    }
+  }
+}
+
+@mixin sky-theme-modern-btn-tab {
+  border: none;
+  border-radius: 0;
+  font-weight: $sky-theme-modern-font-body-default-weight;
+  padding: $sky-theme-modern-tab-btn-padding-top-bottom
+    $sky-theme-modern-tab-btn-padding-left-right;
+  transition: box-shadow $sky-transition-time-short;
+
+  &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
+    background-color: transparent;
+    border-bottom: solid 1px $sky-highlight-color-info;
+    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 1px;
+  }
+
+  &:focus {
+    background-color: transparent;
+    outline: none;
+  }
+
+  &:focus:not(:active) {
+    outline: solid 2px $sky-theme-modern-background-color-primary-dark;
+    outline-offset: -2px;
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size
+      $sky-theme-modern-elevation-3-shadow-color;
+  }
+
+  &:active {
+    border-bottom: solid 3px $sky-highlight-color-info;
+    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 3px;
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-selected {
+  background-color: transparent;
+  color: $sky-text-color-default;
+
+  &:not(:active) {
+    border-bottom: solid 3px $sky-theme-modern-background-color-primary-dark;
+    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 3px;
+  }
+
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: transparent;
+    color: $sky-text-color-default;
+  }
+
+  .sky-btn-tab-close,
+  .sky-tab-header-count {
+    color: $sky-text-color-deemphasized;
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-dropdown-item {
+  &:hover:not(.sky-btn-tab-disabled) {
+    background-color: transparent;
+    border-bottom: none;
+    outline: solid 1px $sky-theme-modern-background-color-primary-dark;
+    outline-offset: -1px;
+  }
+
+  &:focus:not(:active) {
+    background-color: transparent;
+    box-shadow: $sky-theme-modern-elevation-3-shadow-size
+      $sky-theme-modern-elevation-3-shadow-color;
+    outline: solid 2px $sky-theme-modern-background-color-primary-dark;
+    outline-offset: -2px;
+  }
+}
+
+@mixin sky-theme-modern-btn-tab-selected-dropdown-item {
+  color: $sky-text-color-default;
+  border-bottom: none;
+  border-left: solid 3px $sky-theme-modern-background-color-primary-dark;
+  padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom;
+  padding-left: $sky-tab-btn-padding-left-right - 3px;
+}
+
+@mixin sky-theme-modern-dark-btn-tab-selected {
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+  }
+
+  .sky-btn-tab-close,
+  .sky-tab-header-count {
+    color: #efefef;
+  }
+}
+
+@mixin sky-theme-modern-dark-btn-tab-dropdown-item {
+  background-color: #252a2e;
+}
+
+@mixin sky-theme-modern-dark-btn-tab-selected-dropdown-item {
+  background-color: #252a2e;
+  color: #fff;
+}

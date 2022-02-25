@@ -1,0 +1,9 @@
+@import '../../variables-public';
+
+.sky-theme-modern {
+  .sky-box {
+    background-color: #fff;
+    border-radius: $sky-theme-modern-box-border-radius-default;
+    overflow: hidden;
+  }
+}

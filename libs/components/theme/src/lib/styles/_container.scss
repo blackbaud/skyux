@@ -1,0 +1,38 @@
+.sky-container {
+  margin: 0 auto;
+  padding: 0 $sky-padding-plus-half;
+}
+
+@media (min-width: $sky-screen-sm-min) {
+  .sky-container {
+    width: $sky-screen-sm-min - 10;
+  }
+}
+
+@media (min-width: $sky-screen-md-min) {
+  .sky-container {
+    width: $sky-screen-md-min - 20;
+  }
+}
+
+@media (min-width: $sky-screen-lg-min) {
+  .sky-container {
+    width: $sky-screen-lg-min - 10;
+  }
+}
+
+.sky-responsive-container-xs .sky-container {
+  width: auto;
+}
+
+.sky-responsive-container-sm .sky-container {
+  width: $sky-screen-sm-min - 10;
+}
+
+.sky-responsive-container-md .sky-container {
+  width: $sky-screen-md-min - 20;
+}
+
+.sky-responsive-container-lg .sky-container {
+  width: $sky-screen-lg-min - 10;
+}

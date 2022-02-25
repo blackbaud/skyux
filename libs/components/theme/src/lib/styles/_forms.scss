@@ -1,0 +1,136 @@
+@import 'mixins';
+
+.sky-form-control {
+  width: 100%;
+  padding: 6px 12px;
+  @include sky-border(dark, top, bottom, left, right);
+  line-height: $sky-line-height-base;
+  font-size: $sky-font-size-base;
+  color: $sky-text-color-default;
+
+  &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
+    /* Remove device-specific styles */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+  }
+
+  &:focus {
+    @include sky-field-status(active);
+  }
+
+  &:disabled {
+    background-color: $sky-background-color-disabled;
+  }
+}
+
+.sky-form-group {
+  margin-bottom: $sky-margin;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  @include sky-field-status(invalid);
+}
+
+.sky-error-label {
+  margin-top: $sky-margin-half;
+  color: $sky-text-color-default;
+}
+
+.sky-error-label::before {
+  content: '\f071';
+  font-family: FontAwesome;
+  margin-right: 5px;
+  color: $sky-highlight-color-danger;
+}
+
+.sky-control-label {
+  display: inline-block;
+  font-weight: normal;
+  margin-bottom: $sky-margin-half;
+  max-width: 100%;
+}
+
+.sky-control-label-required:after {
+  @include sky-required-field;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  background: #fff
+    url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
+    no-repeat right 50%;
+  background-size: 15px 30px;
+  @include sky-border(light, top, bottom, left, right);
+  border-radius: $sky-border-radius;
+  font-size: $sky-font-size-base;
+  height: 34px;
+  padding: $sky-padding-half $sky-padding + 11 $sky-padding-half $sky-padding;
+}
+
+// Firefox-specific padding
+@-moz-document url-prefix() {
+  select {
+    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding -
+      3;
+  }
+}
+
+// Disable MS-specific arrows
+select::-ms-expand {
+  display: none;
+}
+
+// IE11-specific padding
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  select {
+    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding -
+      2;
+  }
+}
+
+// Edge-specific padding
+@supports (-ms-ime-align: auto) {
+  select {
+    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding -
+      3;
+  }
+}
+
+// Placeholder text
+::-webkit-input-placeholder {
+  @include sky-deemphasized;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  @include sky-deemphasized;
+  opacity: 1;
+}
+
+input:-moz-placeholder {
+  /* Firefox 18- */
+  @include sky-deemphasized;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  /* IE */
+  @include sky-deemphasized;
+  opacity: 1;
+}

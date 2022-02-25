@@ -1,0 +1,15 @@
+// Revert some changes added by `normalize-scss` 7.x in order to be consistent
+// with previous versions of SKY UX.
+
+html {
+  line-height: normal;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit;
+  margin: 0;
+}

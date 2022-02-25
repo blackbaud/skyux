@@ -1,0 +1,127 @@
+@import 'mixins';
+
+* {
+  box-sizing: border-box;
+}
+
+body,
+form,
+html {
+  font-size: $sky-font-size-base;
+  font-family: $sky-font-family;
+}
+
+body {
+  background-color: $sky-background-color-neutral-light;
+  color: $sky-text-color-default;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 26px;
+  font-weight: 300;
+}
+
+h3 {
+  font-size: 19px;
+  color: $sky-text-color-deemphasized;
+}
+
+h4 {
+  font-size: 14px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 10px;
+}
+
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 34px;
+  font-weight: 300;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: $sky-text-color-action-primary;
+  text-decoration: none;
+
+  &:hover {
+    color: darken($sky-text-color-action-primary, 10%);
+    text-decoration: underline;
+  }
+
+  &.sky-href[href=''],
+  &.sky-href:not([href]) {
+    &,
+    &:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+}
+
+.sky-pull-right {
+  float: right;
+}
+
+.sky-list-unstyled {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  li:not(:last-of-type) {
+    padding-bottom: $sky-padding-half;
+  }
+}
+
+mark.sky-highlight-mark {
+  background-color: $sky-highlight-color-warning;
+  color: $sky-text-color-default;
+}
+
+.sky-rounded-corners {
+  border-radius: $sky-border-radius;
+}
+
+.sky-rounded-circle {
+  border-radius: 50%;
+}
+
+.sky-shadow {
+  box-shadow: 0px 0px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.sky-field-status-active {
+  @include sky-field-status('active');
+}
+
+.sky-field-status-invalid {
+  @include sky-field-status('invalid');
+}
+
+.sky-field-status-success {
+  @include sky-field-status('success');
+}

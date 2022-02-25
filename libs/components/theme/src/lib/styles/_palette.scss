@@ -1,0 +1,13 @@
+@import 'mixins';
+
+@for $i from 1 through length($sky-palette-multi) {
+  .sky-palette-multi-#{$i} {
+    background-color: nth($sky-palette-multi, $i);
+  }
+}
+
+@for $i from 1 through length($sky-palette-mono) {
+  .sky-palette-mono-#{$i} {
+    background-color: nth($sky-palette-mono, $i);
+  }
+}

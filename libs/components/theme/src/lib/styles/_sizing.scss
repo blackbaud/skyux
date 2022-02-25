@@ -1,0 +1,129 @@
+.sky-padding-even-default {
+  padding: $sky-padding-even-default;
+}
+
+.sky-padding-even-small {
+  padding: $sky-padding-even-small;
+}
+
+.sky-padding-even-large {
+  padding: $sky-padding-even-large;
+}
+
+.sky-padding-squish-default {
+  padding: $sky-padding-squish-default;
+}
+
+.sky-padding-squish-small {
+  padding: $sky-padding-squish-small;
+}
+
+.sky-padding-squish-large {
+  padding: $sky-padding-squish-large;
+}
+
+.sky-margin-inline-default {
+  margin-right: $sky-margin-inline-default;
+}
+
+.sky-margin-inline-compact {
+  margin-right: $sky-margin-inline-compact;
+}
+
+.sky-margin-stacked-default {
+  margin-bottom: $sky-margin-stacked-default;
+}
+
+.sky-margin-stacked-compact {
+  margin-bottom: $sky-margin-stacked-compact;
+}
+
+.sky-margin-stacked-separate {
+  margin-bottom: $sky-margin-stacked-separate;
+}
+
+// Retconning modern theme classes
+
+.sky-padding-even-sm {
+  padding: $sky-space-md;
+}
+
+.sky-padding-even-md {
+  padding: $sky-space-lg;
+}
+
+.sky-padding-even-lg {
+  padding: $sky-space-xl;
+}
+
+.sky-padding-even-xl {
+  padding: $sky-space-xl;
+}
+
+.sky-padding-horizontal-sm {
+  padding: 0 $sky-space-sm;
+}
+
+.sky-padding-horizontal-md {
+  padding: 0 $sky-space-md;
+}
+
+.sky-padding-horizontal-xl {
+  padding: 0 $sky-space-xl;
+}
+
+.sky-padding-vertical-md {
+  padding: $sky-space-lg 0;
+}
+
+.sky-padding-vertical-lg {
+  padding: $sky-space-xl 0;
+}
+
+.sky-margin-inline-xs {
+  margin-right: $sky-space-xs;
+}
+
+.sky-margin-inline-sm {
+  margin-right: $sky-space-md;
+}
+
+.sky-margin-inline-md {
+  margin-right: $sky-space-md;
+}
+
+.sky-margin-inline-lg {
+  margin-right: $sky-space-lg;
+}
+
+.sky-margin-inline-xl {
+  margin-right: $sky-space-xl;
+}
+
+.sky-margin-inline-xxl {
+  margin-right: $sky-space-xl;
+}
+
+.sky-margin-stacked-xs {
+  margin-bottom: $sky-space-xs;
+}
+
+.sky-margin-stacked-sm {
+  margin-bottom: $sky-space-sm;
+}
+
+.sky-margin-stacked-md {
+  margin-bottom: $sky-space-lg;
+}
+
+.sky-margin-stacked-lg {
+  margin-bottom: $sky-space-xl;
+}
+
+.sky-margin-stacked-xl {
+  margin-bottom: $sky-space-xl;
+}
+
+.sky-margin-stacked-xxl {
+  margin-bottom: $sky-space-xl;
+}

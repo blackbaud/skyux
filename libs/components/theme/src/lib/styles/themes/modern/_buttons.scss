@@ -1,0 +1,175 @@
+@import '../../mixins';
+@import '../../variables';
+@import '../../variables-public';
+@import './_compat/mixins';
+
+.sky-theme-modern {
+  .sky-btn {
+    border: none;
+    border-radius: $sky-theme-modern-border-radius-md;
+    font-size: $sky-theme-modern-font-body-default-size;
+    transition: box-shadow $sky-transition-time-short;
+  }
+
+  .sky-btn-default {
+    @include sky-theme-modern-button-variant(
+      $sky-text-color-default,
+      $sky-color-white,
+      $sky-theme-modern-border-color-neutral-medium,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+
+  .sky-btn-primary {
+    @include sky-theme-modern-button-variant(
+      $sky-color-white,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-background-color-info-light
+    );
+  }
+
+  .sky-btn-danger {
+    @include sky-theme-modern-button-variant(
+      $sky-color-white,
+      $sky-background-color-danger-dark,
+      $sky-background-color-danger-dark,
+      $sky-background-color-danger
+    );
+  }
+
+  .sky-btn-link {
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-text-color-action-primary,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+
+  .sky-btn-borderless {
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-font-deemphasized-color,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+
+  .sky-btn-borderless-inline {
+    color: $sky-theme-modern-font-deemphasized-color;
+  }
+
+  .sky-btn-icon {
+    @include sky-theme-modern-button-variant(
+      $sky-text-color-default,
+      $sky-color-white,
+      $sky-theme-modern-border-color-neutral-medium,
+      $sky-theme-modern-background-color-primary-dark,
+      $sky-theme-modern-padding-button-icon
+    );
+  }
+
+  .sky-btn-icon-borderless {
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-font-deemphasized-color,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark,
+      0
+    );
+    height: 26px;
+    width: 26px;
+  }
+
+  .sky-btn-sm {
+    padding: $sky-padding-half $sky-padding;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .sky-btn-tab {
+    @include sky-theme-modern-btn-tab;
+  }
+
+  .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
+    @include sky-theme-modern-btn-tab-selected;
+  }
+
+  .sky-tab-header-count {
+    color: $sky-text-color-deemphasized;
+    margin-left: $sky-theme-modern-margin-inline-sm;
+  }
+
+  .sky-tab-dropdown-menu-item {
+    .sky-btn-tab {
+      @include sky-theme-modern-btn-tab-dropdown-item;
+
+      &.sky-btn-tab-selected {
+        @include sky-theme-modern-btn-tab-selected-dropdown-item;
+      }
+    }
+  }
+
+  &.sky-theme-mode-dark {
+    .sky-btn {
+      color: $sky-theme-modern-mode-dark-font-body-default-color;
+    }
+
+    .sky-btn-default {
+      @include sky-button-variant(
+        $sky-theme-modern-mode-dark-font-body-default-color,
+        transparent,
+        $sky-theme-modern-color-gray-70
+      );
+    }
+
+    .sky-btn-danger,
+    .sky-btn-default,
+    .sky-btn-primary {
+      @include sky-theme-modern-btn-disabled(
+        $sky-theme-modern-font-deemphasized-color,
+        transparent,
+        $sky-theme-modern-color-gray-70
+      );
+    }
+
+    .sky-btn-borderless,
+    .sky-btn-icon-borderless,
+    .sky-btn-link {
+      @include sky-theme-modern-btn-disabled(
+        $sky-theme-modern-font-deemphasized-color,
+        transparent,
+        transparent
+      );
+    }
+
+    .sky-btn-tab {
+      color: #eeeeef;
+    }
+
+    .sky-btn-tab-close,
+    .sky-tab-header-count {
+      color: #efefef;
+    }
+
+    .sky-btn-tab-selected {
+      @include sky-theme-modern-dark-btn-tab-selected;
+    }
+
+    .sky-btn-tab:hover:not(.sky-btn-tab-disabled),
+    .sky-btn-tab-selected {
+      color: #fff;
+    }
+
+    .sky-tab-dropdown-menu-item {
+      .sky-btn-tab {
+        @include sky-theme-modern-dark-btn-tab-dropdown-item;
+
+        &.sky-btn-tab-selected {
+          @include sky-theme-modern-dark-btn-tab-selected-dropdown-item;
+        }
+      }
+    }
+  }
+}

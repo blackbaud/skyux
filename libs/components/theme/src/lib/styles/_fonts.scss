@@ -1,0 +1,118 @@
+@import 'variables-public';
+
+/*
+  The "Blackbaud Sans" font faces are deprecated and will be removed in a future version.
+  Any references to this font should use the appropriate "BLKB Sans" font face instead.
+*/
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-regular-value;
+  src: url($sky-text-weight-regular-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-semibold-value;
+  src: url($sky-text-weight-semibold-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-bold-value;
+  src: url($sky-text-weight-bold-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: $sky-text-style-italic-value;
+  font-weight: $sky-text-weight-regular-value;
+  src: url($sky-text-style-italic-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-light-value;
+  src: url($sky-text-weight-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-thin-value;
+  src: url($sky-text-weight-thin-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans Condensed';
+  font-style: normal;
+  font-weight: $sky-text-weight-condensed-light-value;
+  src: url($sky-text-weight-condensed-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans Condensed';
+  font-style: normal;
+  font-weight: $sky-text-weight-condensed-semibold-value;
+  src: url($sky-text-weight-condensed-semibold-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-regular-value;
+  src: url($sky-text-weight-regular-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-semibold-value;
+  src: url($sky-text-weight-semibold-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-bold-value;
+  src: url($sky-text-weight-bold-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: $sky-text-style-italic-value;
+  font-weight: $sky-text-weight-regular-value;
+  src: url($sky-text-style-italic-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-light-value;
+  src: url($sky-text-weight-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: $sky-text-weight-thin-value;
+  src: url($sky-text-weight-thin-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans Condensed';
+  font-style: normal;
+  font-weight: $sky-text-weight-condensed-light-value;
+  src: url($sky-text-weight-condensed-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans Condensed';
+  font-style: normal;
+  font-weight: $sky-text-weight-condensed-semibold-value;
+  src: url($sky-text-weight-condensed-semibold-file) format('woff');
+}
