@@ -42,7 +42,7 @@ async function getStandardVersionConfig(nextVersion: string, overrides = {}) {
   const config: standardVersion.Options = {
     noVerify: true, // skip any precommit hooks
     releaseCommitMessageFormat:
-      'docs: add release notes for {{currentTag}} release',
+      'docs: Add release notes for {{currentTag}} release',
     tagPrefix: '', // don't prefix tags with 'v'
   };
 
