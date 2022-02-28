@@ -7,6 +7,8 @@ import { ListDataResponseModel } from './list-data-response.model';
  * @internal
  */
 export abstract class ListDataProvider {
+  constructor(data?: Observable<Array<any>>) {}
+
   public abstract get(
     request: ListDataRequestModel
   ): Observable<ListDataResponseModel>;
