@@ -477,7 +477,12 @@
               "apps/code-examples/src/favicon.ico",
               "apps/code-examples/src/assets"
             ],
-            "styles": ["apps/code-examples/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/code-examples/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -486,12 +491,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
