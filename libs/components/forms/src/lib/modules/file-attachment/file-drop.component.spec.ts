@@ -1,23 +1,17 @@
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-} from '@angular/core/testing';
-
 import { Component, DebugElement } from '@angular/core';
-
+import {
+  ComponentFixture,
+  TestBed,
+  async,
+  fakeAsync,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyFileDropComponent } from './file-drop.component';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
-
-import { SkyFileDropChange } from './types/file-drop-change';
-
+import { SkyFileDropComponent } from './file-drop.component';
 import { SkyFileLink } from './file-link';
+import { SkyFileDropChange } from './types/file-drop-change';
 
 describe('File drop component', () => {
   /** Simple test component with tabIndex */
@@ -86,11 +80,9 @@ describe('File drop component', () => {
 
     let inputEl = getInputDebugEl();
 
-    spyOn((<any>inputEl.references).fileInput, 'click').and.callFake(
-      function () {
-        inputClicked = true;
-      }
-    );
+    spyOn(inputEl.references.fileInput, 'click').and.callFake(function () {
+      inputClicked = true;
+    });
 
     let dropEl = getDropEl();
 
@@ -143,7 +135,7 @@ describe('File drop component', () => {
     };
   }
 
-  function setupStandardFileChangeEvent(files?: Array<any>) {
+  function setupStandardFileChangeEvent(files?: any[]) {
     let fileReaderSpy = setupFileReaderSpy();
 
     if (!files) {
@@ -279,7 +271,7 @@ describe('File drop component', () => {
     validateDropClasses(false, false, dropEl);
 
     let inputEl = getInputDebugEl();
-    expect((<any>inputEl.references).fileInput).toBeTruthy();
+    expect(inputEl.references.fileInput).toBeTruthy();
   });
 
   it('should click the file input on file drop click', () => {
@@ -859,9 +851,7 @@ describe('File drop component', () => {
     let dropEl: HTMLElement = getDropEl();
 
     expect(
-      (<HTMLElement>linkInput.nativeElement).attributes.getNamedItem(
-        'aria-label'
-      ).value
+      linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Add a link to a file');
     expect(dropEl.attributes.getNamedItem('aria-label').value).toBe(
       'Drag a file here or click to browse'
@@ -873,9 +863,7 @@ describe('File drop component', () => {
     fixture.detectChanges();
 
     expect(
-      (<HTMLElement>linkInput.nativeElement).attributes.getNamedItem(
-        'aria-label'
-      ).value
+      linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Test 34');
     expect(dropEl.attributes.getNamedItem('aria-label').value).toBe('Test 12');
   });

@@ -1,8 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { inject, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { SkyAppConfig } from '@skyux/config';
-
 import {
   SkyAppResourcesService,
   SkyI18nModule,

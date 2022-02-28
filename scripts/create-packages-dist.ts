@@ -7,14 +7,12 @@ import {
 } from 'fs-extra';
 import { join } from 'path';
 
-import { PackageJson } from './shared/package-json';
-
 import { createDocumentationJson } from './lib/create-documentation-json';
 import { getPublishableProjects } from './lib/get-publishable-projects';
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
 import { inlineExternalResourcesPaths } from './lib/inline-external-resources-paths';
 import { verifyPackagesDist } from './lib/verify-packages-dist';
-
+import { PackageJson } from './shared/package-json';
 import { runCommand } from './utils/spawn';
 
 /**

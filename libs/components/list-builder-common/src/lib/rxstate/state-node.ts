@@ -1,5 +1,4 @@
 import { BehaviorSubject, zip } from 'rxjs';
-
 import { map as observableMap } from 'rxjs/operators';
 
 import { StateDispatcher } from './state-dispatcher';
@@ -27,7 +26,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
   }
 
   public begin() {
-    const stateKeys: Array<string> = Object.keys(this.stateMap);
+    const stateKeys: string[] = Object.keys(this.stateMap);
     const init: { [stateKey: string]: any } = this.initialState;
 
     const orchestrators = stateKeys.map((key) =>
@@ -38,7 +37,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
       .apply(this, orchestrators)
       .pipe(
         observableMap((s: any) => {
-          let result: any = <T>{};
+          let result: any = {};
           for (let i = 0; i < stateKeys.length; i++) {
             const key = stateKeys[i];
             result[key] = s[i];

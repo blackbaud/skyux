@@ -1,12 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { CardTestComponent } from './fixtures/card.component.fixture';
+import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
 
 import { SkyCardFixturesModule } from './fixtures/card-fixtures.module';
-
-import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
+import { CardTestComponent } from './fixtures/card.component.fixture';
 
 function validateCardSelected(
   cmp: CardTestComponent,
@@ -78,21 +76,21 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement>el.querySelector('.sky-card-content')).click();
+    (el.querySelector('.sky-card-content') as HTMLElement).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, true);
 
-    (<HTMLElement>el.querySelector('.sky-card-header')).click();
+    (el.querySelector('.sky-card-header') as HTMLElement).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, false);
 
-    let labelEl = <HTMLLabelElement>(
-      el.querySelector('label.sky-checkbox-wrapper')
-    );
+    let labelEl = el.querySelector(
+      'label.sky-checkbox-wrapper'
+    ) as HTMLLabelElement;
 
     labelEl.click();
 
@@ -131,7 +129,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement>el.querySelector('.sky-card-content')).click();
+    (el.querySelector('.sky-card-content') as HTMLElement).click();
 
     fixture.detectChanges();
 

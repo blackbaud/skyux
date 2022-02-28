@@ -1,19 +1,16 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
+import { By } from '@angular/platform-browser';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';
-
+import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
 import { SkyInlineDeleteType } from './inline-delete-type';
-import { By } from '@angular/platform-browser';
 
 describe('Inline delete component', () => {
   let fixture: ComponentFixture<InlineDeleteTestComponent>;
@@ -61,36 +58,36 @@ describe('Inline delete component', () => {
     tick();
     fixture.detectChanges();
     expect(
-      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
-        'sky-inline-delete-standard'
-      )
+      (
+        el.querySelector('.sky-inline-delete') as HTMLElement
+      ).classList.contains('sky-inline-delete-standard')
     ).toBeTruthy();
     expect(
-      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
-        'sky-inline-delete-card'
-      )
+      (
+        el.querySelector('.sky-inline-delete') as HTMLElement
+      ).classList.contains('sky-inline-delete-card')
     ).toBeFalsy();
     cmp.inlineDelete.setType(SkyInlineDeleteType.Card);
     fixture.detectChanges();
     expect(
-      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
-        'sky-inline-delete-standard'
-      )
+      (
+        el.querySelector('.sky-inline-delete') as HTMLElement
+      ).classList.contains('sky-inline-delete-standard')
     ).toBeFalsy();
     expect(
-      (<HTMLElement>el.querySelector('.sky-inline-delete')).classList.contains(
-        'sky-inline-delete-card'
-      )
+      (
+        el.querySelector('.sky-inline-delete') as HTMLElement
+      ).classList.contains('sky-inline-delete-card')
     ).toBeTruthy();
   }));
 
   it('should show the sky wait when pending mode is on', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    expect(<HTMLElement>el.querySelector('.sky-wait-mask')).toBeNull();
+    expect(el.querySelector('.sky-wait-mask') as HTMLElement).toBeNull();
     cmp.pending = true;
     fixture.detectChanges();
-    expect(<HTMLElement>el.querySelector('.sky-wait-mask')).not.toBeNull();
+    expect(el.querySelector('.sky-wait-mask') as HTMLElement).not.toBeNull();
   }));
 
   describe('focus handling', () => {
@@ -108,7 +105,7 @@ describe('Inline delete component', () => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      (<HTMLElement>el.querySelector('#noop-button-1')).focus();
+      el.querySelector('#noop-button-1').focus();
       SkyAppTestUtility.fireDomEvent(
         el.querySelector('#covered-button'),
         'focusin',
@@ -126,7 +123,7 @@ describe('Inline delete component', () => {
       fixture.componentInstance.showExtraButtons = true;
       fixture.detectChanges();
       tick();
-      (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
+      el.querySelector('.sky-btn-danger').focus();
       SkyAppTestUtility.fireDomEvent(
         el.querySelector('#covered-button'),
         'focusin',
@@ -144,7 +141,7 @@ describe('Inline delete component', () => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      (<HTMLElement>el.querySelector('.sky-btn-danger')).focus();
+      el.querySelector('.sky-btn-danger').focus();
       SkyAppTestUtility.fireDomEvent(
         el.querySelector('#covered-button'),
         'focusin',
@@ -165,7 +162,7 @@ describe('Inline delete component', () => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      (<HTMLElement>el.querySelector('#inline-delete-fixture')).focus();
+      el.querySelector('#inline-delete-fixture').focus();
       SkyAppTestUtility.fireDomEvent(
         el.querySelector('#inline-delete-fixture'),
         'focusin',

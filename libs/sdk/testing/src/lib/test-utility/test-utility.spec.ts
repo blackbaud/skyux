@@ -1,13 +1,11 @@
 //#region imports
-
+import { Component, DebugElement } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { Component, DebugElement } from '@angular/core';
 
 import { SkyAppTestUtility } from './test-utility';
 

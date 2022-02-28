@@ -16,28 +16,20 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { skyAnimationSlide } from '@skyux/animations';
-
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import { forkJoin as observableForkJoin, Subject } from 'rxjs';
-
+import { Subject, forkJoin as observableForkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
-
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
-
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
-
 import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId: number = 0;
@@ -350,7 +342,7 @@ export class SkyRepeaterItemComponent
   public moveToTop(event: Event): void {
     event.stopPropagation();
     this.adapterService.moveItemUp(this.elementRef.nativeElement, true);
-    this.adapterService.focusElement(<HTMLElement>event.target);
+    this.adapterService.focusElement(event.target as HTMLElement);
     this.repeaterService.registerOrderChange();
   }
 
@@ -372,7 +364,7 @@ export class SkyRepeaterItemComponent
             this.revertReorderSteps();
             this.reorderButtonLabel =
               this.reorderCancelText + ' ' + this.reorderInstructions;
-            this.adapterService.focusElement(<HTMLElement>event.target);
+            this.adapterService.focusElement(event.target as HTMLElement);
             event.preventDefault();
             event.stopPropagation();
           }

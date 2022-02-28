@@ -1,15 +1,13 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { TextExpandRepeaterTestComponent } from './fixtures/text-expand-repeater.component.fixture';
-
 import { TextExpandRepeaterFixturesModule } from './fixtures/text-expand-repeater.module.fixture';
 
 describe('Text expand repeater component', () => {
@@ -42,9 +40,9 @@ describe('Text expand repeater component', () => {
       cmp.numItems = 2;
 
       fixture.detectChanges();
-      const buttonElem = <HTMLElement>(
-        el.querySelector('.sky-text-expand-repeater-see-more')
-      );
+      const buttonElem = el.querySelector(
+        '.sky-text-expand-repeater-see-more'
+      ) as HTMLElement;
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('false');
       expect(buttonElem.getAttribute('aria-controls')).toBe(
@@ -208,8 +206,8 @@ describe('Text expand repeater component', () => {
         '.sky-text-expand-repeater-item[style*="display: none"]';
 
       fixture.detectChanges();
-      let container: HTMLElement = <HTMLElement>(
-        document.querySelector('.sky-text-expand-repeater-container')
+      let container: HTMLElement = document.querySelector(
+        '.sky-text-expand-repeater-container'
       );
       let seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more'

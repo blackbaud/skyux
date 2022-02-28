@@ -1,7 +1,6 @@
-import FontFaceObserver from 'fontfaceobserver';
-
 import { Injectable, Optional } from '@angular/core';
 
+import FontFaceObserver from 'fontfaceobserver';
 import { take } from 'rxjs/operators';
 
 import { SkyThemeService } from './theming/theme.service';

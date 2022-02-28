@@ -2,10 +2,9 @@
  * @internal
  */
 export class AsyncItem<T> {
-  /* tslint:disable:no-null-keyword */
   constructor(
-    public item: T = <T>{},
+    public item: T = {} as T,
     public lastUpdate: any = null,
-    public loading: boolean = false
+    public loading = false
   ) {}
 }

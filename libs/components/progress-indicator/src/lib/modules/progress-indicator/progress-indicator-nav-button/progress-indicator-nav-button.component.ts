@@ -11,20 +11,14 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { SkyProgressIndicatorActionClickArgs } from '../types/progress-indicator-action-click-args';
-
-import { SkyProgressIndicatorActionClickProgressHandler } from '../types/progress-indicator-action-click-progress-handler';
-
-import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
-
-import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
-
-import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
-
 import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
+import { SkyProgressIndicatorActionClickArgs } from '../types/progress-indicator-action-click-args';
+import { SkyProgressIndicatorActionClickProgressHandler } from '../types/progress-indicator-action-click-progress-handler';
+import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
+import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
+import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
 
 /**
  * Displays a button to navigate the steps in modal wizards. We recommend against using it in

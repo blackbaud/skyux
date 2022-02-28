@@ -1,31 +1,21 @@
 import { DebugElement } from '@angular/core';
-
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { By } from '@angular/platform-browser';
-
 import { FormControl, NgModel } from '@angular/forms';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { By } from '@angular/platform-browser';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyToggleSwitchChangeEventFixtureComponent } from './fixtures/toggle-switch-change-event.component.fixture';
-
-import { SkyToggleSwitchFixtureComponent } from './fixtures/toggle-switch.component.fixture';
-
-import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.fixture';
-
 import { SkyToggleSwitchFormDirectivesFixtureComponent } from './fixtures/toggle-switch-form-directives.component.fixture';
-
 import { SkyToggleSwitchOnPushFixtureComponent } from './fixtures/toggle-switch-on-push.component.fixture';
-
 import { SkyToggleSwitchReactiveFormFixtureComponent } from './fixtures/toggle-switch-reactive-form.component.fixture';
-
+import { SkyToggleSwitchFixtureComponent } from './fixtures/toggle-switch.component.fixture';
+import { SkyToggleSwitchFixturesModule } from './fixtures/toggle-switch.module.fixture';
 import { SkyToggleSwitchComponent } from './toggle-switch.component';
 
 describe('Toggle switch component', () => {
@@ -185,9 +175,7 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
+      buttonElement = toggleNativeElement.querySelector('button');
     }));
 
     it('should call not call the change event when the toggle is not interacted with', fakeAsync(() => {
@@ -230,9 +218,7 @@ describe('Toggle switch component', () => {
         By.directive(SkyToggleSwitchComponent)
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
+      buttonElement = toggleNativeElement.querySelector('button');
 
       fixture.detectChanges();
 
@@ -260,9 +246,7 @@ describe('Toggle switch component', () => {
         By.directive(SkyToggleSwitchComponent)
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
+      buttonElement = toggleNativeElement.querySelector('button');
 
       testComponent.customTabIndex = 7;
       fixture.detectChanges();
@@ -316,10 +300,8 @@ describe('Toggle switch component', () => {
       );
       toggleNativeElement = toggleElement.nativeElement;
 
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
-      ngModel = <NgModel>toggleElement.injector.get(NgModel);
+      buttonElement = toggleNativeElement.querySelector('button');
+      ngModel = toggleElement.injector.get(NgModel);
     }));
 
     it('should be in pristine, untouched, and valid states', fakeAsync(() => {
@@ -370,10 +352,8 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
-      ngModel = <NgModel>toggleElement.injector.get(NgModel);
+      buttonElement = toggleNativeElement.querySelector('button');
+      ngModel = toggleElement.injector.get(NgModel);
     }));
 
     it('should be in pristine, untouched, and valid states initially', fakeAsync(() => {
@@ -445,9 +425,7 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
+      buttonElement = toggleNativeElement.querySelector('button');
       formControl = testComponent.toggle1;
     }));
 
@@ -549,9 +527,7 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = <HTMLButtonElement>(
-        toggleNativeElement.querySelector('button')
-      );
+      buttonElement = toggleNativeElement.querySelector('button');
     }));
 
     it('should change toggle state through ngModel programmatically', fakeAsync(() => {
