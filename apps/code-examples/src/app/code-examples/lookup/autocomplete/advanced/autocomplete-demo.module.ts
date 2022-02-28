@@ -1,11 +1,7 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { SkyIconModule } from '@skyux/indicators';
-
 import { SkyAutocompleteModule } from '@skyux/lookup';
 
 import { AutocompleteDemoComponent } from './autocomplete-demo.component';

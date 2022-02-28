@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SkyAppConfigModule } from './app-config.module';
-
 import { SkyAppConfigHost } from './app-config-host';
-
 import { SkyAppConfigParams } from './app-config-params';
+import { SkyAppConfigModule } from './app-config.module';
 
 describe('SkyAppConfigModule', () => {
   beforeEach(() => {

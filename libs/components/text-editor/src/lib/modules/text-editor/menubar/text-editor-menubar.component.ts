@@ -1,27 +1,21 @@
 import {
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
-import { forkJoin, Subject } from 'rxjs';
-
+import { Subject, forkJoin } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
-
-import { SkyTextEditorMenuType } from '../types/menu-type';
-
-import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
-
 import { SkyFormsUtility } from '../../shared/forms-utility';
+import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
+import { SkyTextEditorMenuType } from '../types/menu-type';
+import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
 
 /**
  * @internal

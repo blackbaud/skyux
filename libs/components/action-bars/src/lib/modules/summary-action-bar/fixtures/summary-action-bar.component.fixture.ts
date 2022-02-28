@@ -1,13 +1,11 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
-
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from '../actions/summary-action-bar-secondary-actions.component';
-
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
 
-import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
 import { SkySummaryActionBarModalEmptyTestComponent } from './summary-action-bar-modal-empty.component.fixture';
+import { SkySummaryActionBarModalTestComponent } from './summary-action-bar-modal.component.fixture';
 
 @Component({
   selector: 'sky-summary-action-bar-test',

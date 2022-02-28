@@ -1,5 +1,4 @@
 import { ElementRef, Injectable } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';

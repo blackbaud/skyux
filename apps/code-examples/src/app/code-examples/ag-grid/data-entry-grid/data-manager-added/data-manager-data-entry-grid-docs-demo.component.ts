@@ -4,18 +4,17 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
 } from '@skyux/data-manager';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { SkyDataManagerDataEntryGridContextMenuComponent } from './data-manager-data-entry-grid-docs-demo-context-menu.component';
 import { SKY_AG_GRID_DEMO_DATA } from './data-manager-data-entry-grid-docs-demo-data';
 import { SkyDataEntryGridEditModalContext } from './data-manager-data-entry-grid-docs-demo-edit-modal-context';
 import { SkyDataManagerDataEntryGridEditModalComponent } from './data-manager-data-entry-grid-docs-demo-edit-modal.component';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import { DataManagerDataEntryGridDocsDemoFiltersModalComponent } from './data-manager-data-entry-grid-docs-demo-filter-modal.component';
 import { DataManagerDataEntryGridDocsDemoViewGridComponent } from './data-manager-data-entry-grid-docs-demo-view-grid.component';
 

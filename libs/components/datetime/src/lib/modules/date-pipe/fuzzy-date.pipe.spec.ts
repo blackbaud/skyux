@@ -1,19 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyFuzzyDate } from '../datepicker/fuzzy-date';
-
 import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
 
-import { FuzzyDatePipeTestModule } from './fixtures/fuzzy-date-pipe.module.fixture';
-
 import { FuzzyDatePipeTestComponent } from './fixtures/fuzzy-date-pipe.component.fixture';
-
+import { FuzzyDatePipeTestModule } from './fixtures/fuzzy-date-pipe.module.fixture';
 import { SkyFuzzyDatePipe } from './fuzzy-date.pipe';
 
 // #region helpers

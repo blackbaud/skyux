@@ -1,11 +1,9 @@
-import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
-
-import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
-
-import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
+import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
 import { SkyAutocompleteDefaultSearchFunctionOptions } from './types/autocomplete-default-search-function-options';
-import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
+import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
+import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
 
 export function skyAutocompleteDefaultSearchFunction(
   options: SkyAutocompleteDefaultSearchFunctionOptions

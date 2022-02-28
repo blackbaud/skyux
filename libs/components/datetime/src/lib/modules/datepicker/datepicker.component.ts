@@ -5,34 +5,30 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  TemplateRef,
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild,
   Output,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
-import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent, Subject, Subscription } from 'rxjs';
-
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
+import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
 import { SkyDatepickerCalendarComponent } from './datepicker-calendar.component';
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 
 let nextId = 0;
 

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, Optional } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
+import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
@@ -10,47 +10,27 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-
 import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
-
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
-
+import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
-
+import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 import { SkyAgGridCellEditorDatepickerComponent } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
-
 import { SkyAgGridCellEditorLookupComponent } from './cell-editors/cell-editor-lookup/cell-editor-lookup.component';
-
 import { SkyAgGridCellEditorNumberComponent } from './cell-editors/cell-editor-number/cell-editor-number.component';
-
 import { SkyAgGridCellEditorTextComponent } from './cell-editors/cell-editor-text/cell-editor-text.component';
-
 import { SkyAgGridCellRendererCurrencyValidatorComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency-validator.component';
-
+import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
 import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';
-
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
-
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
-
 import { SkyCellClass } from './types/cell-class';
-
 import { SkyCellType } from './types/cell-type';
-
 import { SkyHeaderClass } from './types/header-class';
 import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
-
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
-
-import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-
-import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderers/cell-renderer-currency/cell-renderer-currency.component';
-
-import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 
 function autocompleteComparator(
   value1: { name: string },

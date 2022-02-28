@@ -6,12 +6,10 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
-
 import { map as observableMap, take } from 'rxjs/operators';
 
-import { ListState } from '../list/state/list-state.state-node';
-
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
 
 import { ListFilterModel } from './filter.model';
 

@@ -1,40 +1,30 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 import { CommonModule } from '@angular/common';
-
+import { Component, DebugElement, Type } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import {
   FormControl,
   FormsModule,
   NgModel,
   ReactiveFormsModule,
 } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 
-import { expectAsync, expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
-
 import { TextEditorFixtureComponent } from './fixtures/text-editor.component.fixture';
-
 import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
-
-import { SkyTextEditorStyleState } from './types/style-state';
-
-import { SkyTextEditorModule } from './text-editor.module';
-import { SkyCoreAdapterService } from '@skyux/core';
-import { Component, DebugElement, Type } from '@angular/core';
 import { SkyTextEditorComponent } from './text-editor.component';
+import { SkyTextEditorModule } from './text-editor.module';
+import { SkyTextEditorStyleState } from './types/style-state';
 
 const HELLO_WORLD: string = '<p>Hello world</p>';
 

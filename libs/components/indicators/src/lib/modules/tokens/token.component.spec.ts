@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
+
 import { SkyTokenComponent } from '../tokens/token.component';
 import { SkyTokensModule } from '../tokens/tokens.module';
 

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
 
 import { SkyAuthContextArgs } from './auth-context-args';

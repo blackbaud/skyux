@@ -1,17 +1,12 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
-
 import { SkyIconModule } from '@skyux/indicators';
 
 import { SkyToastResourcesModule } from '../shared/sky-toast-resources.module';
 
 import { SkyToastBodyComponent } from './toast-body.component';
-
 import { SkyToastComponent } from './toast.component';
-
 import { SkyToasterComponent } from './toaster.component';
 
 @NgModule({

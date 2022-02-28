@@ -1,11 +1,10 @@
 import {
-  Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   OnInit,
   ViewChild,
 } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyCharacterCounterInputDirective } from '../character-counter.directive';

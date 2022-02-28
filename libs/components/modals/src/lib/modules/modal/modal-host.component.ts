@@ -6,20 +6,15 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
 import { NavigationStart, Router } from '@angular/router';
 
 import { takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
-
-import { SkyModalInstance } from './modal-instance';
-
-import { SkyModalHostService } from './modal-host.service';
-
-import { SkyModalConfigurationInterface } from './modal.interface';
-
 import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostService } from './modal-host.service';
+import { SkyModalInstance } from './modal-instance';
+import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
  * @internal

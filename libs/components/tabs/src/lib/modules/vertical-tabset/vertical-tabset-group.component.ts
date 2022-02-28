@@ -8,15 +8,13 @@ import {
   OnInit,
   QueryList,
 } from '@angular/core';
+import { skyAnimationSlide } from '@skyux/animations';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyVerticalTabComponent } from './vertical-tab.component';
-
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
-import { skyAnimationSlide } from '@skyux/animations';
 
 @Component({
   selector: 'sky-vertical-tabset-group',

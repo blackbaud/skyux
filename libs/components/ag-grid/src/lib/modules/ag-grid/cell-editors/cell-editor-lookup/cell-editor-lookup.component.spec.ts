@@ -4,6 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
+
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {

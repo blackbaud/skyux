@@ -1,14 +1,10 @@
-import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
-
-import { SkyWaitComponent } from './wait.component';
-
+import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
 import { SkyWaitAdapterService } from './wait-adapter.service';
+import { SkyWaitComponent } from './wait.component';
 
 describe('Wait component', () => {
   beforeEach(() => {

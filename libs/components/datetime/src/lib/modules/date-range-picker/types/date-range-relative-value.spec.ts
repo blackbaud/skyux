@@ -1,6 +1,5 @@
-import { SkyDateRangeRelativeValue } from './date-range-relative-value';
-
 import { SkyDateRange } from './date-range';
+import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
 describe('Date range relative values', function () {
   beforeEach(function () {

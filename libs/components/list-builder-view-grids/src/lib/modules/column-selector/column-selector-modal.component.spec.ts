@@ -1,20 +1,16 @@
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
   tick,
-  TestBed,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyModalModule, SkyModalService } from '@skyux/modals';
 
 import { SkyColumnSelectorModule } from './column-selector-modal.module';
-
 import { ColumnSelectorTestComponent } from './fixtures/column-selector-modal.component.fixture';
 
 describe('Column selector component', () => {

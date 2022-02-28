@@ -14,11 +14,11 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyLinkListComponent } from '../link-list/link-list.component';
 import { SkyNeedsAttentionComponent } from '../needs-attention/needs-attention.component';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
+import { PagesResourcesModule } from '../shared/pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
 import { SkyActionHubContentComponent } from './action-hub-content.component';
 import { SkyActionHubComponent } from './action-hub.component';
-import { PagesResourcesModule } from '../shared/pages-resources.module';
 
 @NgModule({
   imports: [

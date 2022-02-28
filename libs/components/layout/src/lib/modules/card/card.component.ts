@@ -11,11 +11,10 @@ import {
 
 import { Subscription } from 'rxjs';
 
-import { SkyCardTitleComponent } from './card-title.component';
-
+import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
 import { SkyInlineDeleteComponent } from '../inline-delete/inline-delete.component';
 
-import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
+import { SkyCardTitleComponent } from './card-title.component';
 
 /**
  * Creates a a small container to highlight important information.

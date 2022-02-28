@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { NgModel } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
-
 import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({

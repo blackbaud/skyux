@@ -1,9 +1,7 @@
-import { Injectable, OnDestroy, Renderer2, ElementRef } from '@angular/core';
-
+import { ElementRef, Injectable, OnDestroy, Renderer2 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 /**

@@ -1,10 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { ToolbarTestComponent } from './fixtures/toolbar.component.fixture';
 import { ToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
-
+import { ToolbarTestComponent } from './fixtures/toolbar.component.fixture';
 import { SkyToolbarModule } from './toolbar.module';
 
 describe('toolbar component', () => {

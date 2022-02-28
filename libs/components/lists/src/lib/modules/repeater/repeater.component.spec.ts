@@ -1,37 +1,27 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   flush,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService } from 'ng2-dragula';
 
 import { MockDragulaService } from './fixtures/mock-dragula.service';
-
-import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
-
-import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
-
-import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
-
-import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
-
-import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
-
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
-
-import { SkyRepeaterComponent } from './repeater.component';
-
-import { SkyRepeaterService } from './repeater.service';
+import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
+import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
+import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
+import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
+import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
+import { SkyRepeaterComponent } from './repeater.component';
+import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
   // #region helpers

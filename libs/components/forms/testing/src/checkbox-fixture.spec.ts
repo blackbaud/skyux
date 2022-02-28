@@ -1,7 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { SkyCheckboxModule } from '@skyux/forms';
 
 import { SkyCheckboxFixture } from './checkbox-fixture';

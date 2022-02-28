@@ -1,10 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { SkyDatepickerCalendarChange } from '../datepicker-calendar-change';
+
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
+import { SkyDatepickerCalendarChange } from '../datepicker-calendar-change';
 import { SkyDatepickerInputDirective } from '../datepicker-input.directive';
-
 import { SkyDatepickerComponent } from '../datepicker.component';
 
 @Component({

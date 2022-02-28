@@ -1,18 +1,16 @@
 import {
-  Component,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-import { SkyListSecondaryActionsService } from './list-secondary-actions.service';
-
 import { SkyListSecondaryAction } from './list-secondary-action';
+import { SkyListSecondaryActionsService } from './list-secondary-actions.service';
 
 // Note: this component is needed to ensure any reactive styles placed in the element have
 // their host to be based off of. Without this component the host is not written via the dispatcher.

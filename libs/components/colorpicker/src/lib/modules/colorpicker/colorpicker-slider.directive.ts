@@ -1,11 +1,11 @@
 // spell-checker:ignore Colorpicker
 import {
   Directive,
-  Input,
-  Output,
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
+  Output,
 } from '@angular/core';
 
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';

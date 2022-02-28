@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
 import { SkyDatepickerCalendarComponent } from '../datepicker-calendar.component';
+import { SkyDatepickerCustomDate } from '../datepicker-custom-date';
 
 @Component({
   selector: 'sky-datepicker-calendar-test',

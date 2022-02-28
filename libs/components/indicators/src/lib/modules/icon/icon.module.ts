@@ -1,14 +1,10 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
-import { SkyIconComponent } from './icon.component';
-
-import { SkyIconStackComponent } from './icon-stack.component';
+import { NgModule } from '@angular/core';
+import { SkyThemeIconManifestModule } from '@skyux/theme';
 
 import { SkyIconClassListPipe } from './icon-class-list.pipe';
-
-import { SkyThemeIconManifestModule } from '@skyux/theme';
+import { SkyIconStackComponent } from './icon-stack.component';
+import { SkyIconComponent } from './icon.component';
 
 @NgModule({
   declarations: [SkyIconClassListPipe, SkyIconComponent, SkyIconStackComponent],

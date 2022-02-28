@@ -1,33 +1,25 @@
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
 import {
-  TestBed,
-  fakeAsync,
-  async,
-  tick,
   ComponentFixture,
+  TestBed,
+  async,
+  fakeAsync,
+  tick,
 } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { FormsModule } from '@angular/forms';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyCheckboxModule } from '@skyux/forms';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListFilterInlineTestComponent } from './fixtures/list-filter-inline.component.fixture';
-
 import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
-import { SkyListFiltersModule } from './list-filters.module';
-
-import { FormsModule } from '@angular/forms';
-
-import { SkyCheckboxModule } from '@skyux/forms';
-
+import { ListFilterInlineTestComponent } from './fixtures/list-filter-inline.component.fixture';
 import { SkyListFilterInlineModel } from './list-filter-inline.model';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyListFiltersModule } from './list-filters.module';
 
 describe('List inline filters', () => {
   let state: ListState,

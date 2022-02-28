@@ -1,9 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyDefinitionListTestComponent } from './fixtures/definition-list.component.fixture';
 import { SkyDefinitionListFixturesModule } from './fixtures/definition-list-fixtures.module';
+import { SkyDefinitionListTestComponent } from './fixtures/definition-list.component.fixture';
 
 describe('Definition list component', () => {
   beforeEach(() => {

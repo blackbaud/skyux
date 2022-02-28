@@ -1,22 +1,15 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { SkyRadioModule } from '@skyux/forms';
-
 import { SkyIconModule } from '@skyux/indicators';
-
 import {
   SkyListFiltersModule,
   SkyListModule,
   SkyListSecondaryActionsModule,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
-
 import { SkyFilterModule } from '@skyux/lists';
-
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { ListToolbarDemoComponent } from './list-toolbar-demo.component';

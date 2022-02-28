@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { Subscription } from 'rxjs';

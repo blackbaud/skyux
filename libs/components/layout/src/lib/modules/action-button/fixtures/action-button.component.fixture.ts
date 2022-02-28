@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyActionButtonContainerComponent } from '../action-button-container.component';
-
 import { SkyActionButtonPermalink } from '../action-button-permalink';
-
 import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-container-align-items-type';
 
 @Component({

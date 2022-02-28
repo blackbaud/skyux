@@ -1,7 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { SkyLabelModule } from '@skyux/indicators';
 
 import { SkyLabelFixture } from './label-fixture';

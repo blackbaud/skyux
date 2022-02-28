@@ -1,25 +1,19 @@
 import { EventEmitter } from '@angular/core';
-
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
-  SkyMediaQueryService,
   SkyMediaBreakpoints,
+  SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -28,33 +22,22 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
+import { DragulaService } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs';
 
-import { DragulaService } from 'ng2-dragula';
-
-import { MockDragulaService } from './fixtures/mock-dragula.service';
-
-import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
-
-import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
-
-import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
-
-import { TileTestContext } from './fixtures/tile-context.fixture';
-
-import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
-
-import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
-
+import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
+import { SkyTileDashboardComponent } from '../tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 import { SkyTileComponent } from '../tile/tile.component';
-
 import { SkyTilesModule } from '../tiles.module';
 
-import { SkyTileDashboardComponent } from '../tile-dashboard/tile-dashboard.component';
-
-import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
-
-import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
+import { MockDragulaService } from './fixtures/mock-dragula.service';
+import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
+import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
+import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
+import { TileTestContext } from './fixtures/tile-context.fixture';
+import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
+import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
 
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;

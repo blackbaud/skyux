@@ -5,7 +5,6 @@ import {
   Component,
   OnDestroy,
 } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';

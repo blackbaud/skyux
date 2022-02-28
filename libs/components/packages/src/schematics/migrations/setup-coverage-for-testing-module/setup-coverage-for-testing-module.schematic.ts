@@ -1,4 +1,4 @@
-import { chain, Rule } from '@angular-devkit/schematics';
+import { Rule, chain } from '@angular-devkit/schematics';
 
 import { readRequiredFile } from '../../utility/tree';
 import {

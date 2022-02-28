@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SkySelectFieldModule } from '../select-field.module';

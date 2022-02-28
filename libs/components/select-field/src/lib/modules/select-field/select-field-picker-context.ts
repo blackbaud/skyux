@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs';
 
 import { SkySelectField } from './types/select-field';
-
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 /**

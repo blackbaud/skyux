@@ -1,31 +1,21 @@
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   flush,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { SkyVerticalTabsFixturesModule } from './fixtures/vertical-tabs-fixtures.module';
-
-import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
-
 import { VerticalTabsetEmptyGroupTestComponent } from './fixtures/vertical-tabset-empty-group.component';
-
 import { VerticalTabsetWithNgForTestComponent } from './fixtures/vertical-tabset-ngfor.component.fixture';
-
 import { VerticalTabsetNoActiveTestComponent } from './fixtures/vertical-tabset-no-active.component.fixture';
-
 import { VerticalTabsetNoGroupTestComponent } from './fixtures/vertical-tabset-no-group.component.fixture';
-
+import { VerticalTabsetTestComponent } from './fixtures/vertical-tabset.component.fixture';
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
-
 import { SkyVerticalTabsetComponent } from './vertical-tabset.component';
 
 // #region helpers

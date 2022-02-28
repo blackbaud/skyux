@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
-
 import {
   SkySelectField,
   SkySelectFieldCustomPicker,
@@ -12,9 +9,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SelectFieldDemoCustomPickerComponent } from './select-field-demo-custom-picker.component';
-
 import { SelectFieldDemoCustomPickerContext } from './select-field-demo-custom-picker-context';
+import { SelectFieldDemoCustomPickerComponent } from './select-field-demo-custom-picker.component';
 
 @Component({
   selector: 'app-select-field-demo',

@@ -16,28 +16,20 @@ import {
   Self,
   ViewChild,
 } from '@angular/core';
-
 import { NgControl } from '@angular/forms';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
-import { SkyFileAttachmentChange } from './types/file-attachment-change';
-
-import { SkyFileAttachmentClick } from './types/file-attachment-click';
-
 import { SkyFileAttachmentLabelComponent } from './file-attachment-label.component';
-
 import { SkyFileAttachmentService } from './file-attachment.service';
-
 import { SkyFileItem } from './file-item';
-
 import { SkyFileItemService } from './file-item.service';
+import { SkyFileAttachmentChange } from './types/file-attachment-change';
+import { SkyFileAttachmentClick } from './types/file-attachment-click';
 
 let uniqueId = 0;
 

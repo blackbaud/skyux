@@ -1,17 +1,4 @@
 import {
-  combineLatest as observableCombineLatest,
-  Observable,
-  Subject,
-} from 'rxjs';
-
-import {
-  map as observableMap,
-  takeUntil,
-  take,
-  distinctUntilChanged,
-} from 'rxjs/operators';
-
-import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,48 +11,41 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { getValue } from '@skyux/list-builder-common';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
-
 import { SkySearchComponent } from '@skyux/lookup';
 
-import { ListToolbarModel } from '../list/state/toolbar/toolbar.model';
-
-import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
-
-import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
-
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListSortLabelModel } from '../list/state/sort/label.model';
+import {
+  Observable,
+  Subject,
+  combineLatest as observableCombineLatest,
+} from 'rxjs';
+import {
+  distinctUntilChanged,
+  map as observableMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { ListFilterModel } from '../list-filters/filter.model';
-
-import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
 import { SkyListFilterInlineComponent } from '../list-filters/list-filter-inline.component';
-
 import { SkyListFilterSummaryComponent } from '../list-filters/list-filter-summary.component';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
+import { ListSortLabelModel } from '../list/state/sort/label.model';
+import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
+import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
+import { ListToolbarModel } from '../list/state/toolbar/toolbar.model';
 
 import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
-
 import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
-
 import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
-
 import { ListToolbarConfigSetSearchEnabledAction } from './state/config/set-search-enabled.action';
-
 import { ListToolbarConfigSetSortSelectorEnabledAction } from './state/config/set-sort-selector-enabled.action';
-
-import { ListToolbarState } from './state/toolbar-state.state-node';
-
-import { ListToolbarStateDispatcher } from './state/toolbar-state.rxstate';
-
 import { ListToolbarStateModel } from './state/toolbar-state.model';
+import { ListToolbarStateDispatcher } from './state/toolbar-state.rxstate';
+import { ListToolbarState } from './state/toolbar-state.state-node';
 
 let nextId = 0;
 

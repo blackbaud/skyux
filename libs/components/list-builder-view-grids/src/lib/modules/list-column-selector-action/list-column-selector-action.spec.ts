@@ -1,19 +1,18 @@
+import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   flush,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
+import { SkyGridModule } from '@skyux/grids';
 import {
   ListState,
   ListStateDispatcher,
@@ -22,17 +21,14 @@ import {
   SkyListSecondaryActionsModule,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
-
-import { SkyGridModule } from '@skyux/grids';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { skip, take } from 'rxjs/operators';
 
 import { SkyListViewGridModule } from '../list-view-grid/list-view-grid.module';
-import { ListColumnSelectorActionTestComponent } from './fixtures/list-column-selector-action.component.fixture';
 
 import { ListColumnSelectorActionDeprecatedTestComponent } from './fixtures/list-column-selector-action-deprecated.component.fixture';
+import { ListColumnSelectorActionTestComponent } from './fixtures/list-column-selector-action.component.fixture';
 
 describe('List column selector action', () => {
   let fixture: ComponentFixture<any>;

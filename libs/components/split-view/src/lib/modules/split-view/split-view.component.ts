@@ -1,4 +1,11 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,32 +15,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
-
 import { SkyCoreAdapterService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkySplitViewAdapterService } from './split-view-adapter.service';
-
-import { SkySplitViewMessage } from './types/split-view-message';
-
-import { SkySplitViewMessageType } from './types/split-view-message-type';
-
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
-
 import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
-
 import { SkySplitViewService } from './split-view.service';
+import { SkySplitViewMessage } from './types/split-view-message';
+import { SkySplitViewMessageType } from './types/split-view-message-type';
 
 /**
  * Displays a list alongside a workspace where users can view details for selected items

@@ -1,29 +1,22 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+
 import { SkyAutocompleteSearchAsyncArgs } from '../../autocomplete/types/autocomplete-search-async-args';
-
 import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
-
 import { SkyLookupComponent } from '../lookup.component';
-
 import { SkyLookupAddCallbackArgs } from '../types/lookup-add-click-callback-args';
-
 import { SkyLookupAddClickEventArgs } from '../types/lookup-add-click-event-args';
-
 import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
-
 import { SkyLookupShowMoreConfig } from '../types/lookup-show-more-config';
-
 import { SkyLookupShowMoreCustomPickerContext } from '../types/lookup-show-more-custom-picker-context';
-
 import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-native-picker-config';
 
 @Component({

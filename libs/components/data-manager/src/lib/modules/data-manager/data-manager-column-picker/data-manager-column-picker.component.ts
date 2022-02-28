@@ -4,25 +4,19 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
-import { Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalInstance } from '@skyux/modals';
 
-import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from '../data-manager.service';
-
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
-
 import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
-
 import { SkyDataManagerState } from '../models/data-manager-state';
-
 import { SkyDataViewConfig } from '../models/data-view-config';
-import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 
 /**
  * @internal

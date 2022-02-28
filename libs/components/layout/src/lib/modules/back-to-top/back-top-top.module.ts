@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyDockModule } from '@skyux/core';
-
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { SkyBackToTopDirective } from './back-to-top.directive';
+import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
 
 import { SkyBackToTopComponent } from './back-to-top.component';
-import { SkyLayoutResourcesModule } from '../shared/sky-layout-resources.module';
+import { SkyBackToTopDirective } from './back-to-top.directive';
 
 @NgModule({
   declarations: [SkyBackToTopComponent, SkyBackToTopDirective],

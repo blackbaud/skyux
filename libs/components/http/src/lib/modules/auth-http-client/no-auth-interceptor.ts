@@ -1,18 +1,14 @@
-import { Injectable, Optional } from '@angular/core';
-
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-
+import { Injectable, Optional } from '@angular/core';
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
-
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
-import { from, Observable } from 'rxjs';
-
+import { Observable, from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { SKY_AUTH_PARAM_AUTH } from './auth-interceptor-params';

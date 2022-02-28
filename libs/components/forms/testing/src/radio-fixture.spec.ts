@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { FormsModule } from '@angular/forms';
-
 import { SkyRadioModule } from '@skyux/forms';
 
 import { SkyRadioFixture } from './radio-fixture';

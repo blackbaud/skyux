@@ -1,15 +1,15 @@
 import { normalize, strings } from '@angular-devkit/core';
 import { ProjectDefinition } from '@angular-devkit/core/src/workspace';
 import {
+  MergeStrategy,
+  Rule,
+  Tree,
   apply,
   applyTemplates,
   chain,
   forEach,
-  MergeStrategy,
   mergeWith,
   move,
-  Rule,
-  Tree,
   url,
 } from '@angular-devkit/schematics';
 

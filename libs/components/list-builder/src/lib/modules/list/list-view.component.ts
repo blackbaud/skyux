@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-
 import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
 
-import { ListState } from './state/list-state.state-node';
 import { SkyListComponent } from '../list/list.component';
+
+import { ListState } from './state/list-state.state-node';
 
 let idIndex = 0;
 

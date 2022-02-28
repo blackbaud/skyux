@@ -6,6 +6,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,7 +14,6 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
 
 import { SkyViewkeeper } from './viewkeeper';
-
 import { SkyViewkeeperService } from './viewkeeper.service';
 
 @Directive({

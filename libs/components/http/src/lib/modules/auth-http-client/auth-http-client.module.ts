@@ -1,11 +1,8 @@
 //#region imports
-
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-
 import { NgModule } from '@angular/core';
 
 import { SkyAuthInterceptor } from './auth-interceptor';
-
 import { SkyNoAuthInterceptor } from './no-auth-interceptor';
 
 //#endregion

@@ -2,9 +2,9 @@ import {
   Component,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
   SimpleChanges,
-  OnChanges,
   ViewEncapsulation,
 } from '@angular/core';
 

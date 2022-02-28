@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
-
-import { SkyKeyInfoModule } from '@skyux/indicators';
-
-import { SkyTabsModule } from '@skyux/tabs';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
+import { SkyKeyInfoModule } from '@skyux/indicators';
+import { SkyTabsModule } from '@skyux/tabs';
 
 import { SummaryActionBarDemoComponent } from './summary-action-bar-demo.component';
 

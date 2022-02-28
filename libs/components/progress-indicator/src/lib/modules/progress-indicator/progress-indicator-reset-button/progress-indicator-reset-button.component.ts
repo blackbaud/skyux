@@ -8,9 +8,8 @@ import {
   Output,
 } from '@angular/core';
 
-import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
-
 import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
+import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
 
 /**
  * Displays a button to mark all items in the progress indicator as incomplete and set the

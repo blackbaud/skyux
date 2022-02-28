@@ -1,11 +1,8 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
-
-import { FormGroup, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { SkyTimepickerComponent } from '../timepicker.component';
-
 import { SkyTimepickerInputDirective } from '../timepicker.directive';
-
 import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 
 @Component({

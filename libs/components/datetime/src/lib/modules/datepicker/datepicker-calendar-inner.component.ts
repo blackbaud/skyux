@@ -9,11 +9,11 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+
 import { Subject } from 'rxjs';
 
 import { SkyDateFormatter } from './date-formatter';
-
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerDate } from './datepicker-date';
 
 let nextDatepickerId = 0;

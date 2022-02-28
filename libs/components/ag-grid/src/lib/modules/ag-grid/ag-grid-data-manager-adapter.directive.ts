@@ -7,13 +7,14 @@ import {
   OnDestroy,
   QueryList,
 } from '@angular/core';
-
-import { Subject, Subscription } from 'rxjs';
-
-import { takeUntil, filter } from 'rxjs/operators';
+import {
+  SkyDataManagerService,
+  SkyDataManagerSortOption,
+  SkyDataManagerState,
+  SkyDataViewConfig,
+} from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import {
   ColumnApi,
   ColumnMovedEvent,
@@ -22,13 +23,8 @@ import {
   DragStoppedEvent,
   RowSelectedEvent,
 } from 'ag-grid-community';
-
-import {
-  SkyDataManagerService,
-  SkyDataManagerSortOption,
-  SkyDataManagerState,
-  SkyDataViewConfig,
-} from '@skyux/data-manager';
+import { Subject, Subscription } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 

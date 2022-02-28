@@ -1,14 +1,16 @@
-import { SkyAppLocaleProvider } from './locale-provider';
-import { SkyAppResourceNameProvider } from './resource-name-provider';
-import { SkyAppResourcesService } from './resources.service';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { SkyAppAssetsService } from '@skyux/assets';
+
 import { of as observableOf, throwError as observableThrowError } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import { SkyAppLocaleProvider } from './locale-provider';
+import { SkyAppResourceNameProvider } from './resource-name-provider';
+import { SkyAppResourcesService } from './resources.service';
 
 describe('Resources service', () => {
   let resources: SkyAppResourcesService;

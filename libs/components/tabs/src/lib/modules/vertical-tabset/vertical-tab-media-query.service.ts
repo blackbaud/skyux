@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
 
 import { BehaviorSubject, Subscription } from 'rxjs';

@@ -1,24 +1,16 @@
 import { DebugElement, Renderer2, Type } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyThemeModule } from '../theme.module';
 
 import { SkyThemeTestComponent } from './fixtures/theme-test.component';
-
-import { SkyThemeService } from './theme.service';
-
 import { SkyTheme } from './theme';
-
 import { SkyThemeMode } from './theme-mode';
-
 import { SkyThemeSettings } from './theme-settings';
-
 import { SkyThemeDirective } from './theme.directive';
+import { SkyThemeService } from './theme.service';
 
 describe('Theme directive', () => {
   function getSkyThemeDebugEl(

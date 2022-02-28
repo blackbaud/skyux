@@ -5,20 +5,15 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { forkJoin as observableForkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { SkyTextExpandAdapterService } from './text-expand-adapter.service';
-
-import { SkyTextExpandModalComponent } from './text-expand-modal.component';
-
 import { SkyTextExpandModalContext } from './text-expand-modal-context';
+import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand components.

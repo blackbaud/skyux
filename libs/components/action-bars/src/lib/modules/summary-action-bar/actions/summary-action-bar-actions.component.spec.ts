@@ -1,27 +1,19 @@
 import { DebugElement } from '@angular/core';
-
-import { By } from '@angular/platform-browser';
-
 import {
-  TestBed,
   ComponentFixture,
+  TestBed,
   async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
-
+import { By } from '@angular/platform-browser';
+import { expect } from '@skyux-sdk/testing';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import { SkyDropdownMessageType } from '@skyux/popovers';
 
-import { expect } from '@skyux-sdk/testing';
-
-import { SkySummaryActionBarFixtureModule } from '../fixtures/summary-action-bar.module.fixture';
-
 import { SkySummaryActionBarTestComponent } from '../fixtures/summary-action-bar.component.fixture';
-
+import { SkySummaryActionBarFixtureModule } from '../fixtures/summary-action-bar.module.fixture';
 import { SkySummaryActionBarComponent } from '../summary-action-bar.component';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from './summary-action-bar-secondary-actions.component';

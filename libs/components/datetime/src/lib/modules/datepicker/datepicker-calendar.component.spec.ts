@@ -1,19 +1,16 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyDatepickerModule } from './datepicker.module';
-
-import { DatepickerCalendarTestComponent } from './fixtures/datepicker-calendar.component.fixture';
-
-import { By } from '@angular/platform-browser';
-
 import moment from 'moment';
+
+import { SkyDatepickerModule } from './datepicker.module';
+import { DatepickerCalendarTestComponent } from './fixtures/datepicker-calendar.component.fixture';
 
 describe('datepicker calendar', () => {
   let fixture: ComponentFixture<DatepickerCalendarTestComponent>;

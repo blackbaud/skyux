@@ -1,20 +1,15 @@
 import { CommonModule } from '@angular/common';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { FormsModule } from '@angular/forms';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { RichTextDisplayFixtureComponent } from './fixtures/rich-text-display-fixture.component';
-
 import { SkyRichTextDisplayModule } from './rich-text-display.module';
 
 //#region helpers

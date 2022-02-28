@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
-
 import { SkyTokensModule } from '@skyux/indicators';
 
 import { TokensDemoComponent } from './tokens-demo.component';

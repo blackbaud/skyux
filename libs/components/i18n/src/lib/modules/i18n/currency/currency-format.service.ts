@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
+
 import { SkyI18nCurrencyFormat } from './currency-format';
 import { SkyI18nCurrencySymbolLocation } from './currency-symbol-location';
-import { Injectable } from '@angular/core';
 
 const DEFAULT_LOCALE = 'en-US';
 const DEFAULT_CURRENCY_CODE = 'USD';

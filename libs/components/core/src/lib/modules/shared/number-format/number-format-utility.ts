@@ -1,10 +1,8 @@
 /* tslint:disable:no-null-keyword */
-
 // This file is mostly ported from the Angular 4.x NumberPipe in order to maintain the old
 // behavior of using the `Intl` API for formatting numbers rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/number_pipe.ts
-
 import { SkyIntlNumberFormatStyle, SkyIntlNumberFormatter } from '@skyux/i18n';
 
 function isNumeric(value: any): boolean {

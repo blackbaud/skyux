@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SkyProgressIndicatorModule } from '../progress-indicator.module';
+
 import { SkyProgressIndicatorStatusMarkerComponent } from './progress-indicator-status-marker.component';
 
 describe('Progress indicator status marker', () => {

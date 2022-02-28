@@ -1,33 +1,25 @@
 import {
-  Component,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   ElementRef,
-  ViewChild,
-  ViewChildren,
   QueryList,
   TemplateRef,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
 import { SkyProgressIndicatorItemComponent } from '../progress-indicator-item/progress-indicator-item.component';
-
 import { SkyProgressIndicatorNavButtonComponent } from '../progress-indicator-nav-button/progress-indicator-nav-button.component';
-
 import { SkyProgressIndicatorResetButtonComponent } from '../progress-indicator-reset-button/progress-indicator-reset-button.component';
-
-import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
-
-import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message';
-
-import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
-
-import { SkyProgressIndicatorDisplayModeType } from '../types/progress-indicator-display-mode-type';
-
-import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
-
 import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
+import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
+import { SkyProgressIndicatorDisplayModeType } from '../types/progress-indicator-display-mode-type';
+import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message';
+import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
+import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
 
 @Component({
   selector: 'sky-progress-indicator-fixture',

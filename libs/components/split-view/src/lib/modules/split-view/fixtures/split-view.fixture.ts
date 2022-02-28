@@ -1,11 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { SkyConfirmService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
 
 import { SkySplitViewComponent } from '../split-view.component';
-
 import { SkySplitViewMessage } from '../types/split-view-message';
 
 @Component({

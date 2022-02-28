@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

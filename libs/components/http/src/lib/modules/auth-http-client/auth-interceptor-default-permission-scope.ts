@@ -1,5 +1,4 @@
 //#region imports
-
 import { InjectionToken } from '@angular/core';
 
 //#endregion

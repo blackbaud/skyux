@@ -4,16 +4,13 @@ import {
   Component,
   Input,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { forkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
-import { SkyTabsetComponent } from './tabset.component';
-
 import { SkyTabComponent } from './tab.component';
+import { SkyTabsetComponent } from './tabset.component';
 
 const buttonTypeNext = 'next';
 

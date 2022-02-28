@@ -1,18 +1,13 @@
 //#region imports
-
 import { Component, Input, forwardRef } from '@angular/core';
-
-import { Observable } from 'rxjs';
-
-import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
-import { ListState } from '../state/list-state.state-node';
-
-import { ListStateDispatcher } from '../state/list-state.rxstate';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
 
 import { ListViewComponent } from '../list-view.component';
+import { ListStateDispatcher } from '../state/list-state.rxstate';
+import { ListState } from '../state/list-state.state-node';
 
 //#endregion
 

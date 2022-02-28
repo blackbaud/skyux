@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
-
 import { SkyValidation } from '@skyux/validation';
 
-import { UrlModalResult } from './text-editor-url-modal-result';
-
 import { SkyUrlModalContext } from './text-editor-url-modal-context';
-
+import { UrlModalResult } from './text-editor-url-modal-result';
 import { UrlTarget } from './text-editor-url-target';
 
 const emailKey = 'mailto:';

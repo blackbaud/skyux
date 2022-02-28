@@ -6,11 +6,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
-import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
-import { Subject } from 'rxjs';
-import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
 
+import { Subject } from 'rxjs';
+
+import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
+import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerDate } from './datepicker-date';
 
 /**

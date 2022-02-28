@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
 import { SkyDatepickerDate } from './datepicker-date';
 
 /**

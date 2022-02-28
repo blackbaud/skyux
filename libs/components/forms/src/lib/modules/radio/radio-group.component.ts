@@ -10,18 +10,15 @@ import {
   QueryList,
   Self,
 } from '@angular/core';
-
 import { NgControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
-import { SkyRadioChange } from './types/radio-change';
-
 import { SkyRadioComponent } from './radio.component';
+import { SkyRadioChange } from './types/radio-change';
 
 let nextUniqueId = 0;
 

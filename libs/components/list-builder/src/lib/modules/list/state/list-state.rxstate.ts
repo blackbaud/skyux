@@ -1,47 +1,27 @@
 import { Injectable } from '@angular/core';
-
 import { StateDispatcher, StateOrchestrator } from '@skyux/list-builder-common';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
 
 import { ListFiltersUpdateAction } from './filters/update.action';
-
 import { ListStateAction } from './list-state-action.type';
-
-import { ListSearchSetFunctionsAction } from './search/set-functions.action';
-
-import { ListSearchSetSearchTextAction } from './search/set-search-text.action';
-
-import { ListSearchSetFieldSelectorsAction } from './search/set-field-selectors.action';
-
-import { ListSearchSetOptionsAction } from './search/set-options.action';
-
 import { ListSearchModel } from './search/search.model';
-
+import { ListSearchSetFieldSelectorsAction } from './search/set-field-selectors.action';
+import { ListSearchSetFunctionsAction } from './search/set-functions.action';
+import { ListSearchSetOptionsAction } from './search/set-options.action';
+import { ListSearchSetSearchTextAction } from './search/set-search-text.action';
 import { ListSelectedSetItemsSelectedAction } from './selected/set-items-selected.action';
-
-import { ListSortSetAvailableAction } from './sort/set-available.action';
-
-import { ListSortSetFieldSelectorsAction } from './sort/set-field-selectors.action';
-
-import { ListSortSetGlobalAction } from './sort/set-global.action';
-
 import { ListSortLabelModel } from './sort/label.model';
-
+import { ListSortSetAvailableAction } from './sort/set-available.action';
+import { ListSortSetFieldSelectorsAction } from './sort/set-field-selectors.action';
+import { ListSortSetGlobalAction } from './sort/set-global.action';
 import { ListToolbarItemsDisableAction } from './toolbar/disable.action';
-
 import { ListToolbarItemsLoadAction } from './toolbar/load.action';
-
 import { ListToolbarItemsRemoveAction } from './toolbar/remove.action';
-
 import { ListToolbarSetExistsAction } from './toolbar/set-exists.action';
-
 import { ListToolbarShowMultiselectToolbarAction } from './toolbar/show-multiselect-toolbar.action';
-
 import { ListToolbarItemModel } from './toolbar/toolbar-item.model';
-
 import { ListViewsSetActiveAction } from './views/set-active.action';
 
 /**

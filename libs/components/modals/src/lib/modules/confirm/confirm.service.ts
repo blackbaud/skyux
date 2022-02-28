@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { SkyModalCloseArgs } from '../modal/modal-close-args';
-
 import { SkyModalInstance } from '../modal/modal-instance';
-
 import { SkyModalService } from '../modal/modal.service';
 
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
-
 import { SkyConfirmConfig } from './confirm-config';
-
-import { SkyConfirmModalContext } from './confirm-modal-context';
-
-import { SkyConfirmComponent } from './confirm.component';
-
 import { SkyConfirmInstance } from './confirm-instance';
+import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SkyConfirmComponent } from './confirm.component';
 
 /**
  *  The `SkyConfirmService` provider launches the confirmation dialog.

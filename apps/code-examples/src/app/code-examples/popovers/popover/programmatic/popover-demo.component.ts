@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
 import { Subject } from 'rxjs';

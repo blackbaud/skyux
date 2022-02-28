@@ -2,34 +2,26 @@ import {
   ComponentRef,
   EventEmitter,
   Injectable,
-  QueryList,
-  Output,
   Injector,
+  Output,
+  QueryList,
 } from '@angular/core';
-
-import { DragulaService } from 'ng2-dragula';
-
-import { Subscription } from 'rxjs';
-
-import { take } from 'rxjs/operators';
-
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
 
-import { SkyTileComponent } from '../tile/tile.component';
+import { DragulaService } from 'ng2-dragula';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
-
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
-
 import { SkyTileDashboardConfigLayoutColumn } from '../tile-dashboard-config/tile-dashboard-config-layout-column';
-
 import { SkyTileDashboardConfigLayoutTile } from '../tile-dashboard-config/tile-dashboard-config-layout-tile';
-
 import { SkyTileDashboardConfigTile } from '../tile-dashboard-config/tile-dashboard-config-tile';
+import { SkyTileComponent } from '../tile/tile.component';
 
 const ATTR_TILE_ID = '_sky-tile-dashboard-tile-id';
 

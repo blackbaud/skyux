@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyPagingFixture } from './paging-fixture';
-
 import { SkyPagingFixtureButton } from './paging-fixture-button';
-
 import { SkyPagingTestingModule } from './paging-testing.module';
 
 const DATA_SKY_ID = 'test-paging';

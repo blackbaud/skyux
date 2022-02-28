@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
 
 @Component({

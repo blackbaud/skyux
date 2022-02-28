@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
-
 import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 import { SkyLabelType } from './label-type';
 

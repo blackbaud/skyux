@@ -11,30 +11,22 @@ import {
   Output,
   ViewContainerRef,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyOverlayService,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import { RowNode } from 'ag-grid-community';
-
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
-
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
-
 import { SkyAgGridRowDeleteConfig } from './types/ag-grid-row-delete-config';
-
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
-
 import { SkyAgGridRowDeleteContents } from './types/ag-grid-row-delete-contents';
 
 /**

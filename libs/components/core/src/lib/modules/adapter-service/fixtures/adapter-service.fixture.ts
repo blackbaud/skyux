@@ -1,9 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { SkyMediaBreakpoints } from '../../media-query/media-breakpoints';
-
 import { SkyCoreAdapterService } from '../adapter.service';
-
 import { SkyFocusableChildrenOptions } from '../focusable-children-options';
 
 @Component({

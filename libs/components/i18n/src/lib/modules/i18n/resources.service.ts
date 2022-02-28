@@ -1,11 +1,8 @@
-import { Format } from '../../utils/format';
-import { SkyAppLocaleInfo } from './locale-info';
-import { SkyAppLocaleProvider } from './locale-provider';
-import { SkyAppResourceNameProvider } from './resource-name-provider';
 import { HttpClient } from '@angular/common/http';
-import { forwardRef, Inject, Injectable, Optional } from '@angular/core';
+import { Inject, Injectable, Optional, forwardRef } from '@angular/core';
 import { SkyAppAssetsService } from '@skyux/assets';
-import { forkJoin, Observable, of as observableOf } from 'rxjs';
+
+import { Observable, forkJoin, of as observableOf } from 'rxjs';
 import {
   catchError,
   map,
@@ -13,6 +10,12 @@ import {
   refCount,
   switchMap,
 } from 'rxjs/operators';
+
+import { Format } from '../../utils/format';
+
+import { SkyAppLocaleInfo } from './locale-info';
+import { SkyAppLocaleProvider } from './locale-provider';
+import { SkyAppResourceNameProvider } from './resource-name-provider';
 
 declare type SkyResourceType = { [key: string]: { message: string } };
 type ResourceKey = string;

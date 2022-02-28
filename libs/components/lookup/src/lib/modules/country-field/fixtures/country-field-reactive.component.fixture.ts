@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
-
 import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({

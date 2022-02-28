@@ -1,11 +1,10 @@
 import {
-  animate,
   AnimationEvent,
+  animate,
   style,
   transition,
   trigger,
 } from '@angular/animations';
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -21,13 +20,9 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
-
 import { SkyCountryFieldCountry } from '@skyux/lookup';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import {
@@ -35,13 +30,10 @@ import {
   PhoneNumberType,
   PhoneNumberUtil,
 } from 'google-libphonenumber';
-
 import 'intl-tel-input';
 
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
-
 import { SkyPhoneFieldCountry } from './types/country';
-
 import { SkyPhoneFieldNumberReturnFormat } from './types/number-return-format';
 
 // NOTE: The no-op animation is here in order to block the input's "fade in" animation

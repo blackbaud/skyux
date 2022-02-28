@@ -1,5 +1,4 @@
 import { SkyAppConfigParams } from './app-config-params';
-
 import { SkyAppRuntimeConfigParamsProvider } from './params-provider';
 
 describe('SkyAppRuntimeConfigParamsProvider', () => {

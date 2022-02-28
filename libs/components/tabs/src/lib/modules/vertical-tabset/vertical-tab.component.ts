@@ -9,18 +9,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-
 import { SkyMediaQueryService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyVerticalTabMediaQueryService } from './vertical-tab-media-query.service';
-
-import { SkyVerticalTabsetService } from './vertical-tabset.service';
-
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 let nextId = 0;
 

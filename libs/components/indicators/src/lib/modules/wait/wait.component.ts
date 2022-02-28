@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, OnInit, Optional } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';

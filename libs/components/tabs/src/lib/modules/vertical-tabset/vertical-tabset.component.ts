@@ -1,30 +1,26 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  ViewChild,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-  Output,
   EventEmitter,
-  AfterViewChecked,
-  ChangeDetectorRef,
+  Input,
   OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
-
-import { style, trigger, transition, animate } from '@angular/animations';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
-
 import {
-  SkyVerticalTabsetService,
   HIDDEN_STATE,
+  SkyVerticalTabsetService,
   VISIBLE_STATE,
 } from './vertical-tabset.service';
 

@@ -1,28 +1,22 @@
+import { not } from '@angular/compiler/src/output/output_ast';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
-import { SkyAutocompleteComponent } from './autocomplete.component';
+import { Observable, Subject } from 'rxjs';
 
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
-
-import { SkyAutocompleteFixtureComponent } from './fixtures/autocomplete.component.fixture';
-
+import { SkyAutocompleteComponent } from './autocomplete.component';
 import { SkyAutocompleteFixturesModule } from './fixtures/autocomplete-fixtures.module';
-
 import { SkyAutocompleteReactiveFixtureComponent } from './fixtures/autocomplete-reactive.component.fixture';
-
-import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
-import { Observable, Subject } from 'rxjs';
+import { SkyAutocompleteFixtureComponent } from './fixtures/autocomplete.component.fixture';
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
-import { not } from '@angular/compiler/src/output/output_ast';
+import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 
 describe('Autocomplete component', () => {
   //#region helpers

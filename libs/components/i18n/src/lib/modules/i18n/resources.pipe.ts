@@ -1,12 +1,14 @@
-import { SkyAppResourcesService } from './resources.service';
 import {
   ChangeDetectorRef,
   OnDestroy,
   Pipe,
   PipeTransform,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyAppResourcesService } from './resources.service';
 
 /**
  * An Angular pipe for displaying a resource string.

@@ -1,4 +1,5 @@
-import { Component, ViewChild, AfterContentChecked } from '@angular/core';
+import { AfterContentChecked, Component, ViewChild } from '@angular/core';
+
 import { SkySectionedFormComponent } from '../sectioned-form.component';
 
 @Component({

@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { SkyColorpickerModule } from '@skyux/colorpicker';
 
 import { ColorpickerDemoComponent } from './colorpicker-demo.component';

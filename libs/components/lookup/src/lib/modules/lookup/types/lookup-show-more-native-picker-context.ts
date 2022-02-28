@@ -1,7 +1,6 @@
 import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
 
 import { SkyLookupSelectModeType } from './lookup-select-mode-type';
-
 import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-picker-config';
 
 /**

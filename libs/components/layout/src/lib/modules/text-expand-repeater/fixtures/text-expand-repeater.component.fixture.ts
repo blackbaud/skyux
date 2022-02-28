@@ -1,7 +1,7 @@
 import { Component, QueryList, ViewChildren } from '@angular/core';
-import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
 
 import { SkyTextExpandRepeaterComponent } from '../text-expand-repeater.component';
+import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeater-list-style-type';
 
 @Component({
   selector: 'sky-text-expand-repeater-demo',

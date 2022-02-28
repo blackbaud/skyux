@@ -1,15 +1,10 @@
 import { DebugElement } from '@angular/core';
-
 import { ComponentFixture } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { SkyPopoversFixtureDropdown } from './popovers-fixture-dropdown';
-
 import { SkyPopoversFixtureDropdownItem } from './popovers-fixture-dropdown-item';
-
 import { SkyPopoversFixtureDropdownMenu } from './popovers-fixture-dropdown-menu';
 
 /**

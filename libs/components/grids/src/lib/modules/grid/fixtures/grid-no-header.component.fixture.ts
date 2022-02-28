@@ -1,7 +1,6 @@
-import { Component, ViewChild, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 
 import { SkyGridColumnModel } from '../grid-column.model';
-
 import { SkyGridComponent } from '../grid.component';
 
 @Component({

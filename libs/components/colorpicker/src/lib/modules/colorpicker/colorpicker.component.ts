@@ -12,43 +12,30 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
+  SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyCoreAdapterService,
 } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
-
-import { SkyColorpickerChangeColor } from './types/colorpicker-color';
-
-import { SkyColorpickerHsla } from './types/colorpicker-hsla';
-
-import { SkyColorpickerHsva } from './types/colorpicker-hsva';
-
-import { SkyColorpickerMessage } from './types/colorpicker-message';
-
-import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
-
-import { SkyColorpickerOutput } from './types/colorpicker-output';
-
-import { SkyColorpickerRgba } from './types/colorpicker-rgba';
-
-import { SkyColorpickerResult } from './types/colorpicker-result';
-
+import { SliderDimension, SliderPosition } from './colorpicker-classes';
 import { SkyColorpickerService } from './colorpicker.service';
-
-import { SliderPosition, SliderDimension } from './colorpicker-classes';
+import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
+import { SkyColorpickerChangeColor } from './types/colorpicker-color';
+import { SkyColorpickerHsla } from './types/colorpicker-hsla';
+import { SkyColorpickerHsva } from './types/colorpicker-hsva';
+import { SkyColorpickerMessage } from './types/colorpicker-message';
+import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
+import { SkyColorpickerOutput } from './types/colorpicker-output';
+import { SkyColorpickerResult } from './types/colorpicker-result';
+import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 
 let componentIdIndex = 0;
 

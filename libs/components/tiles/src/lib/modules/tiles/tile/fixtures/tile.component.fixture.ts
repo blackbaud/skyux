@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyTileComponent } from '../tile.component';
 
 @Component({

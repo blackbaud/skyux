@@ -1,4 +1,5 @@
-import { Component, ViewChild, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
+
 import { SkyListComponent } from '../list.component';
 
 @Component({

@@ -1,22 +1,18 @@
 import {
+  AfterContentInit,
   Component,
   ContentChildren,
   QueryList,
-  AfterContentInit,
 } from '@angular/core';
 
 import { take } from 'rxjs/operators';
 
-import { SkyListFilterInlineItemComponent } from './list-filter-inline-item.component';
-
-import { ListState } from '../list/state/list-state.state-node';
-
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListFilterModel } from './filter.model';
-
+import { ListState } from '../list/state/list-state.state-node';
 import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
+import { ListFilterModel } from './filter.model';
+import { SkyListFilterInlineItemComponent } from './list-filter-inline-item.component';
 import { SkyListFilterInlineModel } from './list-filter-inline.model';
 
 /**

@@ -1,6 +1,7 @@
 // #region imports
-import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { InjectionToken } from '@angular/core';
+
+import { SkyLibResourcesProvider } from './lib-resources-provider';
 
 // #endregion
 

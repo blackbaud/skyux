@@ -1,16 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
 
 import { MutationObserverService } from '../mutation/mutation-observer-service';
 
-import { SkyViewkeeperModule } from './viewkeeper.module';
-
-import { SkyViewkeeperService } from './viewkeeper.service';
-
-import { ViewkeeperTestComponent } from './fixtures/viewkeeper-test.component';
-
 import { ViewkeeperEmptyTestComponent } from './fixtures/viewkeeper-empty-test.component';
+import { ViewkeeperTestComponent } from './fixtures/viewkeeper-test.component';
+import { SkyViewkeeperModule } from './viewkeeper.module';
+import { SkyViewkeeperService } from './viewkeeper.service';
 
 describe('Viewkeeper directive', () => {
   let mockViewkeeperSvc: any;

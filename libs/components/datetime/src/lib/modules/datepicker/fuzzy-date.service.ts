@@ -1,14 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
+import moment from 'moment';
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFuzzyDate } from './fuzzy-date';
-
-import moment from 'moment';
 
 /**
  * @internal

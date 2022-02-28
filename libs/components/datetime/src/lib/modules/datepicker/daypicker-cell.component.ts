@@ -5,17 +5,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
 import { SkyDatepickerDate } from './datepicker-date';
-
 import { SkyDatepickerService } from './datepicker.service';
 
 /**

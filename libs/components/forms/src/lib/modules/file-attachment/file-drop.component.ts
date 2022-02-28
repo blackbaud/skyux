@@ -1,20 +1,17 @@
 import {
   Component,
-  Input,
-  Output,
-  EventEmitter,
   ElementRef,
+  EventEmitter,
+  Input,
   OnDestroy,
+  Output,
   ViewChild,
 } from '@angular/core';
 
-import { SkyFileItem } from './file-item';
-
-import { SkyFileLink } from './file-link';
-
-import { SkyFileDropChange } from './types/file-drop-change';
-
 import { SkyFileAttachmentService } from './file-attachment.service';
+import { SkyFileItem } from './file-item';
+import { SkyFileLink } from './file-link';
+import { SkyFileDropChange } from './types/file-drop-change';
 
 /**
  * Provides an element to attach multiple files where users can browse or drag and drop local files

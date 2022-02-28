@@ -1,10 +1,11 @@
 // spell-checker:ignore hsva, hsla, cmyk, denormalize, colorpicker,Injectable
 import { Injectable } from '@angular/core';
+
 import { SkyColorpickerCmyk } from './types/colorpicker-cmyk';
 import { SkyColorpickerHsla } from './types/colorpicker-hsla';
 import { SkyColorpickerHsva } from './types/colorpicker-hsva';
-import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
+import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 
 /**
  * @internal

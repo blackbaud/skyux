@@ -1,6 +1,7 @@
-import { SkyVerticalTabsetService } from './vertical-tabset.service';
-import { SkyVerticalTabComponent } from './vertical-tab.component';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
+
+import { SkyVerticalTabComponent } from './vertical-tab.component';
+import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
 class MockChangeDetector {
   public detectChanges() {}

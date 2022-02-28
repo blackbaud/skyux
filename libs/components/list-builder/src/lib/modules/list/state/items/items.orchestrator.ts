@@ -1,14 +1,11 @@
 import { ListItemModel } from '@skyux/list-builder-common';
-
 import { AsyncList } from '@skyux/list-builder-common';
 
 import { ListStateOrchestrator } from '../list-state.rxstate';
 
 import { ListItemsLoadAction } from './load.action';
-
-import { ListItemsSetLoadingAction } from './set-loading.action';
-
 import { ListItemsSetSelectedAction } from './set-items-selected.action';
+import { ListItemsSetLoadingAction } from './set-loading.action';
 
 /**
  * @internal

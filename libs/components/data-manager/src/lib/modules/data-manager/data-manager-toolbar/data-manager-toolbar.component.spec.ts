@@ -1,33 +1,14 @@
 import { Component } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import { SkyModalService } from '@skyux/modals';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { Subject } from 'rxjs';
-
-import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
-
-import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
-
-import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
-
-import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
-
-import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
-
-import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 
 import {
   SkyDataManagerColumnPickerSortStrategy,
@@ -36,6 +17,15 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from 'libs/components/data-manager/src/index';
+import { Subject } from 'rxjs';
+
+import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
+import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
+import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
+import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
+import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
+
+import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
   public closeCallback: Function;

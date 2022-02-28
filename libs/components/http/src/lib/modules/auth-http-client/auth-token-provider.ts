@@ -1,17 +1,12 @@
 //#region imports
-
 import { Injectable, Optional } from '@angular/core';
-
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
-
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import jwtDecode from 'jwt-decode';
 
 import { SkyAuthGetTokenArgs } from './auth-get-token-args';
-
 import { SkyAuthToken } from './auth-token';
-
 import { SkyAuthTokenContextArgs } from './auth-token-context-args';
 
 //#endregion

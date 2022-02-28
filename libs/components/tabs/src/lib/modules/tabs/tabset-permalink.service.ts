@@ -1,7 +1,5 @@
 import { Location } from '@angular/common';
-
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subject, SubscriptionLike } from 'rxjs';

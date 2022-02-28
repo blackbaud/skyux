@@ -1,16 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDateRangeCalculation } from '../types/date-range-calculation';
-
-import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
-
 import { SkyDateRangePickerComponent } from '../date-range-picker.component';
+import { SkyDateRangeCalculation } from '../types/date-range-calculation';
+import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
   selector: 'sky-date-range-picker-test',

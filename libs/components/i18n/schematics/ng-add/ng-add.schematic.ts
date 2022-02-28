@@ -1,8 +1,8 @@
-import { chain, Rule } from '@angular-devkit/schematics';
+import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
-  addPackageJsonDependency,
   NodeDependencyType,
+  addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
 import { SkyuxVersions } from '../shared/skyux-versions';

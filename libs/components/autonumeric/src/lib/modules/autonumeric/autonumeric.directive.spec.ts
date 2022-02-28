@@ -1,26 +1,19 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { Validators } from '@angular/forms';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { AutonumericFixtureOptionsProvider } from './fixtures/autonumeric-options-provider.fixture';
-
-import { AutonumericFixtureComponent } from './fixtures/autonumeric.component.fixture';
-
-import { AutonumericFixtureModule } from './fixtures/autonumeric.module.fixture';
-
-import { SkyAutonumericDirective } from './autonumeric.directive';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyAutonumericOptions } from './autonumeric-options';
-
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
+import { SkyAutonumericDirective } from './autonumeric.directive';
+import { AutonumericFixtureOptionsProvider } from './fixtures/autonumeric-options-provider.fixture';
+import { AutonumericFixtureComponent } from './fixtures/autonumeric.component.fixture';
+import { AutonumericFixtureModule } from './fixtures/autonumeric.module.fixture';
 
 describe('Autonumeric directive', () => {
   let fixture: ComponentFixture<AutonumericFixtureComponent>;

@@ -1,11 +1,8 @@
 import { ComponentRef, Injectable } from '@angular/core';
-
 import { SkyDynamicComponentService } from '@skyux/core';
 
-import { SkyModalInstance } from './modal-instance';
-
 import { SkyModalHostComponent } from './modal-host.component';
-
+import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**

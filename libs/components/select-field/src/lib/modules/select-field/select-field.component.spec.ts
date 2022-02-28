@@ -1,28 +1,20 @@
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyModalService } from '@skyux/modals';
 
-import { SkySelectFieldComponent } from './select-field.component';
-
 import { SkySelectFieldFixturesModule } from './fixtures/select-field-fixtures.module';
-
 import { SkySelectFieldTestComponent } from './fixtures/select-field.component.fixture';
-
-import { SkySelectField } from './types/select-field';
-
-import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
-
 import { SkySelectFieldPickerContext } from './select-field-picker-context';
+import { SkySelectFieldComponent } from './select-field.component';
+import { SkySelectField } from './types/select-field';
+import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
 
 describe('Select field component', () => {
   let fixture: ComponentFixture<SkySelectFieldTestComponent>;

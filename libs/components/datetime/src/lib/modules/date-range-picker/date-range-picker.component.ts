@@ -2,15 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  forwardRef,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Optional,
   SimpleChanges,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -22,28 +21,20 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-
 import { SkyAppWindowRef } from '@skyux/core';
-
 import { SkyAppLocaleProvider } from '@skyux/i18n';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { combineLatest, Subject } from 'rxjs';
-
+import { Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from '../datepicker/date-formatter';
 
-import { SkyDateRangeCalculation } from './types/date-range-calculation';
-
-import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
-
-import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-import { SkyDateRangeCalculator } from './types/date-range-calculator';
-
 import { SkyDateRangeService } from './date-range.service';
+import { SkyDateRangeCalculation } from './types/date-range-calculation';
+import { SkyDateRangeCalculator } from './types/date-range-calculator';
+import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
+import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 
 /* tslint:disable:no-forward-ref no-use-before-declare */
 const SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR = {

@@ -4,16 +4,12 @@ import {
   Component,
   Input,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
-
-import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
-
-import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
-
 import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
+import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
+import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
 

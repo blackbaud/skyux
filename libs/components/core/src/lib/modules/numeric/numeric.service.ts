@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
-import { NumericOptions } from './numeric.options';
-
 import { SkyNumericSymbol } from './numeric-symbol';
+import { NumericOptions } from './numeric.options';
 
 @Injectable({
   providedIn: 'any',

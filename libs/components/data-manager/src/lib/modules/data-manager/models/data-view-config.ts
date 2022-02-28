@@ -1,5 +1,4 @@
 import { SkyDataManagerColumnPickerOption } from './data-manager-column-picker-option';
-
 import { SkyDataManagerColumnPickerSortStrategy } from './data-manager-column-picker-sort-strategy';
 
 /**

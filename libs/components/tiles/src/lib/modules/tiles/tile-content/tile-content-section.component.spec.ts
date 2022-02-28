@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,

@@ -1,12 +1,10 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyCheckboxFixture } from '@skyux/forms/testing';
 
 import {
@@ -16,11 +14,9 @@ import {
   RowNode,
 } from 'ag-grid-community';
 
-import { SkyCellClass } from '../../types/cell-class';
-
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import { SkyCellClass } from '../../types/cell-class';
 
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderer-row-selector.component';
 

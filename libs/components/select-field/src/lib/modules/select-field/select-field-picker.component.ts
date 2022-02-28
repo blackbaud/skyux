@@ -9,27 +9,18 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
-
 import { SkyListToolbarComponent } from '@skyux/list-builder';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
 import { SkyListFilterInlineModel } from '@skyux/list-builder';
-
+import { ListItemModel } from '@skyux/list-builder-common';
 import { SkyListViewChecklistComponent } from '@skyux/list-builder-view-checklist';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Observable, Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkySelectFieldPickerContext } from './select-field-picker-context';
-
 import { SkySelectField } from './types/select-field';
-
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({

@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyVerticalTabsetComponent } from './../vertical-tabset.component';
 
 @Component({

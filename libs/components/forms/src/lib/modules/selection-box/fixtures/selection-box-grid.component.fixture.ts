@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkySelectionBoxGridComponent } from '../selection-box-grid.component';
-
 import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-align-items-type';
 
 @Component({

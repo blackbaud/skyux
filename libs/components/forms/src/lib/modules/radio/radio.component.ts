@@ -3,13 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  forwardRef,
   Input,
   OnDestroy,
   Output,
   Provider,
+  forwardRef,
 } from '@angular/core';
-
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';

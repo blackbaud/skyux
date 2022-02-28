@@ -1,9 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { SkyUIConfigService } from '@skyux/core';
 
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
-
 import {
   distinctUntilChanged,
   filter,
@@ -13,20 +11,13 @@ import {
 } from 'rxjs/operators';
 
 import { SkyDataManagerConfig } from './models/data-manager-config';
-
-import { SkyDataManagerState } from './models/data-manager-state';
-
-import { SkyDataManagerStateChange } from './models/data-manager-state-change';
-
-import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
-
-import { SkyDataManagerStateUpdateFilterArgs } from './models/data-manager-state-update-filter-args';
-
-import { SkyDataViewConfig } from './models/data-view-config';
-
-import { SkyDataViewState } from './models/data-view-state';
-
 import { SkyDataManagerInitArgs } from './models/data-manager-init-args';
+import { SkyDataManagerState } from './models/data-manager-state';
+import { SkyDataManagerStateChange } from './models/data-manager-state-change';
+import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
+import { SkyDataManagerStateUpdateFilterArgs } from './models/data-manager-state-update-filter-args';
+import { SkyDataViewConfig } from './models/data-view-config';
+import { SkyDataViewState } from './models/data-view-state';
 
 /**
  * The data manager service provides ways for data views, toolbar items, and more to stay up to date

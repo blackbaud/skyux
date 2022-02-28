@@ -1,14 +1,11 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -19,15 +16,12 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { MockSkyTileDashboardService } from './fixtures/mock-tile-dashboard.service';
-
-import { TileTestComponent } from './fixtures/tile.component.fixture';
-
-import { SkyTileComponent } from './tile.component';
-
+import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
 import { SkyTilesModule } from '../tiles.module';
 
-import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
+import { MockSkyTileDashboardService } from './fixtures/mock-tile-dashboard.service';
+import { TileTestComponent } from './fixtures/tile.component.fixture';
+import { SkyTileComponent } from './tile.component';
 
 describe('Tile component', () => {
   let mockThemeSvc: {

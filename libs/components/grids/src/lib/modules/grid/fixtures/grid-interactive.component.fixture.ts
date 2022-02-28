@@ -1,18 +1,15 @@
 import {
   Component,
-  ViewChild,
-  TemplateRef,
   ContentChildren,
   QueryList,
+  TemplateRef,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { SkyGridComponent } from '../grid.component';
-
 import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
-
 import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
 
 @Component({

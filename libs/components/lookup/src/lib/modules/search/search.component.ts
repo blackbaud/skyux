@@ -1,30 +1,27 @@
 import {
-  style,
-  state,
-  trigger,
-  transition,
-  animate,
   AnimationEvent,
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
 } from '@angular/animations';
-
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ElementRef,
-  Output,
-  Input,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';

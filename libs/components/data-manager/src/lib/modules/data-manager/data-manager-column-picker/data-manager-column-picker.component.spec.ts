@@ -1,22 +1,18 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import {
   SkyModalConfiguration,
   SkyModalHostService,
   SkyModalInstance,
 } from '@skyux/modals';
 
+import { SkyDataManagerColumnPickerSortStrategy } from 'libs/components/data-manager/src/index';
+
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 
-import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
-
 import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
-
-import { SkyDataManagerColumnPickerSortStrategy } from 'libs/components/data-manager/src/index';
+import { SkyDataManagerColumnPickerComponent } from './data-manager-column-picker.component';
 
 class MockModalInstance {
   public saveResult: any;

@@ -10,15 +10,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import { SkyCoreAdapterService, SkyMediaQueryService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
-
 import { SkySplitViewService } from './split-view.service';
 
 /**

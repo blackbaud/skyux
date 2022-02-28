@@ -7,7 +7,6 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-
 import { MutationObserverService } from '@skyux/core';
 
 const className = 'sky-highlight-mark';

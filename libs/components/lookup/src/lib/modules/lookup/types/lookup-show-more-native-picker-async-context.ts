@@ -1,4 +1,5 @@
 import { SkyAutocompleteSearchAsyncFunction } from '../../autocomplete/types/autocomplete-search-async-function';
+
 import { SkyLookupSelectModeType } from './lookup-select-mode-type';
 import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-picker-config';
 
