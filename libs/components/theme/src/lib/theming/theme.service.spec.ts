@@ -80,10 +80,12 @@ describe('Theme service', () => {
     themeSvc.init(mockHostEl, mockRenderer, settings);
 
     let expectedCurrentSettings = settings;
+    // eslint-disable-next-line prefer-const
+    let expectedPreviousSettings: SkyThemeSettings;
 
     themeSvc.settingsChange.subscribe((settingsChange) => {
       expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);
-      expect(settingsChange.previousSettings).toBeUndefined();
+      expect(settingsChange.previousSettings).toBe(expectedPreviousSettings);
 
       validateSettingsApplied(
         settingsChange.currentSettings,
@@ -97,6 +99,7 @@ describe('Theme service', () => {
     );
 
     expectedCurrentSettings = newSettings;
+    expectedPreviousSettings = settings;
 
     themeSvc.setTheme(newSettings);
   });
