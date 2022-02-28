@@ -9,7 +9,7 @@ import {
   isGitClean,
 } from './utils/git-utils';
 import { checkVersionExists } from './utils/npm-utils';
-import { getCommandOutput } from './utils/spawn';
+import { getCommandOutput, runCommand } from './utils/spawn';
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
 
 /**
@@ -109,6 +109,36 @@ async function validateVersion(version: string) {
 }
 
 /**
+ * Prompts the developer to confirm the final push of the tag/branch to origin.
+ */
+async function promptPushOrigin(version: string, releaseBranch: string) {
+  const answer = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'pushOrigin',
+      message: `Push branch and tag to origin?`,
+      default: true,
+    },
+  ]);
+
+  if (!answer.pushOrigin) {
+    console.log('Release aborted. Thanks for playing!');
+    await cleanup(version, releaseBranch);
+    process.exit(0);
+  } else {
+    await runCommand('git', ['push', '--follow-tags', 'origin', releaseBranch]);
+  }
+}
+
+async function cleanup(version: string, releaseBranch: string) {
+  await runCommand('git', ['checkout', 'main']);
+  try {
+    await runCommand('git', ['branch', '-D', releaseBranch]);
+    await runCommand('git', ['tag', '-d', version]);
+  } catch (err) {}
+}
+
+/**
  * Creates a 'releases/x.x.x' branch, tags it, and automatically adds release notes to CHANGELOG.md.
  */
 async function createRelease() {
@@ -139,7 +169,7 @@ async function createRelease() {
       currentVersion
     );
 
-    let nextVersion;
+    let nextVersion: string;
     if (versionExists) {
       nextVersion = await getNextVersion(currentVersion);
     } else {
@@ -174,16 +204,23 @@ async function createRelease() {
 
     console.log('Generating release artifacts...');
 
+    process.on('SIGINT', () => process.exit());
+    process.on('uncaughtException', () => process.exit());
+    process.on('exit', () => cleanup(nextVersion, branch));
+
     const standardVersionConfig = await getStandardVersionConfig(nextVersion, {
       firstRelease: !versionExists,
       scripts: {
         // Run prettier on the changelog.
         postchangelog: 'npx prettier --write CHANGELOG.md',
       },
+      silent: true,
     });
 
     // Bump version and create changelog.
     await standardVersion(standardVersionConfig);
+
+    await promptPushOrigin(nextVersion, branch);
   } catch (err) {
     console.error(err);
     process.exit(1);
