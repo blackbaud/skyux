@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BoxDemoComponent } from './code-examples/layout/box/box-demo.component';
 
-const routes: Routes = [{ path: 'box', component: BoxDemoComponent }];
+const routes: Routes = [
+  {
+    path: 'action-bars',
+    loadChildren: () =>
+      import('./features/action-bars.module').then((m) => m.ActionBarsModule),
+  },
+  {
+    path: 'box',
+    loadChildren: () =>
+      import('./features/box.module').then((m) => m.BoxModule),
+  },
+];
 
 @NgModule({
-  declarations: [],
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
