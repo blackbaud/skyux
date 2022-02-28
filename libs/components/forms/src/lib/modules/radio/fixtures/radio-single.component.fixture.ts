@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   templateUrl: './radio-single.component.fixture.html',
 })
 export class SkySingleRadioComponent {
-  public icon: string = 'bold';
+  public icon = 'bold';
   public radioType: string;
 }

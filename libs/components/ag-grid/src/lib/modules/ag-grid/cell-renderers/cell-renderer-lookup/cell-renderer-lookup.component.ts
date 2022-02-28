@@ -19,7 +19,7 @@ import {
 export class SkyAgGridCellRendererLookupComponent
   implements ICellRendererAngularComp
 {
-  public value: string = '';
+  public value = '';
   public summaryCount = 0;
   private lookupProperties: SkyLookupProperties;
 

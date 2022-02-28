@@ -123,7 +123,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param viewConfig The SkyDataViewConfig settings for the view being registered.
    */
   public initDataView(viewConfig: SkyDataViewConfig): void {
-    let currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews: SkyDataViewConfig[] = this.views.value;
 
     if (this.getViewById(viewConfig.id)) {
       console.warn(
@@ -148,7 +148,7 @@ export class SkyDataManagerService implements OnDestroy {
         const currentViewState = dataState.getViewStateById(viewConfig.id);
 
         if (!currentViewState) {
-          let newViewState = new SkyDataViewState({ viewId: viewConfig.id });
+          const newViewState = new SkyDataViewState({ viewId: viewConfig.id });
 
           // Ensure that the view state's available columns match with the view config. Also,
           // add columns to the `displayedColumnIds` as long as they are not `initialHide`
@@ -323,7 +323,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param view The new `SkyDataViewConfig` containing all properties.
    */
   public updateViewConfig(view: SkyDataViewConfig): void {
-    let currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews: SkyDataViewConfig[] = this.views.value;
     const existingViewIndex = currentViews.findIndex(
       (currentView) => currentView.id === view.id
     );
@@ -351,12 +351,9 @@ export class SkyDataManagerService implements OnDestroy {
     properties: string[]
   ): SkyDataManagerStateOptions {
     const stateProperties = state.getStateOptions() as { [key: string]: any };
-    let filteredStateProperties: any = {};
-    for (let property of properties) {
-      /* istanbul ignore else */
-      if (stateProperties.hasOwnProperty(property)) {
-        filteredStateProperties[property] = stateProperties[property];
-      }
+    const filteredStateProperties: any = {};
+    for (const property of properties) {
+      filteredStateProperties[property] = stateProperties[property];
     }
 
     return filteredStateProperties;

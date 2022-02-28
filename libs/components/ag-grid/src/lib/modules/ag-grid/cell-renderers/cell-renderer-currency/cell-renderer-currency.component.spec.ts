@@ -39,7 +39,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     );
     currencyNativeElement = currencyFixture.nativeElement;
     currencyComponent = currencyFixture.componentInstance;
-    let column: Column = new Column(
+    const column: Column = new Column(
       {
         colId: 'col',
       },
@@ -72,8 +72,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   });
 
   it('renders a skyux numeric element in an ag grid', () => {
-    let gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    let gridNativeElement = gridFixture.nativeElement;
+    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();
 

@@ -124,7 +124,7 @@ export class SkyListViewGridComponent
    * @default "width"
    */
   @Input()
-  public fit: string = 'width';
+  public fit = 'width';
 
   /**
    * Specifies the width of the grid.
@@ -143,7 +143,7 @@ export class SkyListViewGridComponent
    * @default true
    */
   @Input()
-  public highlightSearchText: boolean = true;
+  public highlightSearchText = true;
 
   /**
    * Provides an observable to send commands to the grid.
@@ -182,7 +182,7 @@ export class SkyListViewGridComponent
    * @default false
    */
   @Input()
-  public enableMultiselect: boolean = false;
+  public enableMultiselect = false;
 
   /**
    * Specifies a unique key for the UI Config Service to retrieve stored settings from
@@ -302,7 +302,7 @@ export class SkyListViewGridComponent
       );
     }
 
-    let columnModels = this.columnComponents.map((columnComponent) => {
+    const columnModels = this.columnComponents.map((columnComponent) => {
       return new SkyGridColumnModel(columnComponent.template, columnComponent);
     });
 
@@ -363,7 +363,7 @@ export class SkyListViewGridComponent
                 columns.filter((x) => {
                   /* istanbul ignore next */
                   /* sanity check */
-                  let id = x.id || x.field;
+                  const id = x.id || x.field;
                   return hiddenColumns.indexOf(id) === -1;
                 }),
                 true
@@ -463,7 +463,7 @@ export class SkyListViewGridComponent
             take(1)
           )
           .subscribe((columns) => {
-            let displayedColumns = selectedColumnIds.map(
+            const displayedColumns = selectedColumnIds.map(
               (columnId) => columns.filter((c) => c.id === columnId)[0]
             );
             this.gridDispatcher.next(
@@ -509,7 +509,7 @@ export class SkyListViewGridComponent
         distinctUntilChanged(this.arraysEqual)
       )
       .subscribe((displayedColumns) => {
-        let setFunctions =
+        const setFunctions =
           this.searchFunction !== undefined
             ? [this.searchFunction]
             : displayedColumns
@@ -564,7 +564,7 @@ export class SkyListViewGridComponent
     this.columnComponents.changes
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((columnComponents) => {
-        let columnModels = this.columnComponents.map((column) => {
+        const columnModels = this.columnComponents.map((column) => {
           return new SkyGridColumnModel(column.template, column);
         });
         this.gridDispatcher.next(
@@ -673,7 +673,7 @@ export class SkyListViewGridComponent
       return false;
     }
 
-    let keys: string[] = [];
+    const keys: string[] = [];
     next.selectedIdMap.forEach((value, key) => {
       keys.push(key);
     });

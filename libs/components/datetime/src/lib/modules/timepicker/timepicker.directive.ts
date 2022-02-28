@@ -58,7 +58,7 @@ export class SkyTimepickerInputDirective
     AfterContentInit
 {
   public pickerChangedSubscription: Subscription;
-  private _timeFormat: string = 'hh';
+  private _timeFormat = 'hh';
 
   /**
    * Creates the timepicker input field and picker. Place this attribute on an `input` element,
@@ -144,7 +144,7 @@ export class SkyTimepickerInputDirective
     this.renderer.addClass(this.elRef.nativeElement, 'sky-form-control');
     this.pickerChangedSubscription =
       this.skyTimepickerInput.selectedTimeChanged.subscribe(
-        (newTime: String) => {
+        (newTime: string) => {
           this.writeValue(newTime);
           this._onTouched();
         }
@@ -218,7 +218,7 @@ export class SkyTimepickerInputDirective
       this.control = control;
     }
 
-    let value = control.value;
+    const value = control.value;
     if (!value) {
       return undefined;
     }
@@ -261,7 +261,6 @@ export class SkyTimepickerInputDirective
         return '';
       }
       let currentFormat: string;
-      let formatTime: SkyTimepickerTimeOutput;
       if (this.timeFormat === 'hh') {
         currentFormat = 'h:mm A';
       }
@@ -271,7 +270,7 @@ export class SkyTimepickerInputDirective
       if (typeof this.returnFormat === 'undefined') {
         this.returnFormat = currentFormat;
       }
-      formatTime = {
+      const formatTime: SkyTimepickerTimeOutput = {
         hour: moment(time, currentFormat).hour(),
         minute: moment(time, currentFormat).minute(),
         meridie: moment(time, currentFormat).format('A'),

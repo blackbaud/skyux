@@ -78,7 +78,7 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      let col = {} as Column;
+      const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([
         { rowIndex: 0, column: col, rowPinned: '' },
@@ -90,7 +90,7 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
-      let col = {} as Column;
+      const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
       spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(

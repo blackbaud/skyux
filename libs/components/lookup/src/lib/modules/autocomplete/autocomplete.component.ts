@@ -126,7 +126,7 @@ export class SkyAutocompleteComponent
    * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
 
   /**
    * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
@@ -245,7 +245,7 @@ export class SkyAutocompleteComponent
    * Indicates whether to display a button that lets users add options to the data source.
    */
   @Input()
-  public showAddButton: boolean = false;
+  public showAddButton = false;
 
   /**
    * Specifies the text to display when no search results are found.
@@ -299,7 +299,7 @@ export class SkyAutocompleteComponent
     return this._highlightText || [];
   }
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
   public resultsListId: string;
 
@@ -399,7 +399,7 @@ export class SkyAutocompleteComponent
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
-  private activeElementIndex: number = -1;
+  private activeElementIndex = -1;
 
   private affixer: SkyAffixer;
 

@@ -17,7 +17,7 @@ export class ListEmptyTestComponent {
   })
   public list: SkyListComponent;
 
-  public itemsCount: number = 2;
+  public itemsCount = 2;
 
   constructor(
     @Inject('items') public items: any,
@@ -25,7 +25,7 @@ export class ListEmptyTestComponent {
   ) {}
 
   public get options() {
-    let bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
+    const bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
     return bs.asObservable();
   }
 }

@@ -310,7 +310,7 @@ export class SkyTextEditorAdapterService {
     const fontElements: HTMLElement[] = Array.from(
       doc.querySelectorAll('font[size="1"]')
     );
-    for (let element of fontElements) {
+    for (const element of fontElements) {
       element.removeAttribute('size');
       element.style.fontSize = fontSize + 'px';
     }
@@ -548,9 +548,9 @@ export class SkyTextEditorAdapterService {
 
       const el = documentEl.createElement('div');
       el.innerHTML = html;
-      let frag = documentEl.createDocumentFragment(),
-        node,
-        lastNode;
+      const frag = documentEl.createDocumentFragment();
+      let node;
+      let lastNode;
       while (el.firstChild) {
         node = el.firstChild;
         lastNode = frag.appendChild(node);
@@ -572,7 +572,7 @@ export class SkyTextEditorAdapterService {
     const orphanElements: HTMLElement[] = Array.from(
       doc.querySelectorAll('font,span,*[style=""]')
     );
-    for (let element of orphanElements) {
+    for (const element of orphanElements) {
       if (!element.getAttribute('style')) {
         element.removeAttribute('style');
       }
@@ -584,7 +584,7 @@ export class SkyTextEditorAdapterService {
         (element.attributes.length === 0 || !element.hasChildNodes)
       );
     });
-    for (let element of removableElements) {
+    for (const element of removableElements) {
       const parent = element.parentNode;
       /* istanbul ignore else */
       if (parent) {

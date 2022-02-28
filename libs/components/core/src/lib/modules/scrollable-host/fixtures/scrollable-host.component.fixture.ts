@@ -9,8 +9,8 @@ import { SkyScrollableHostService } from '../scrollable-host.service';
   templateUrl: './scrollable-host.component.fixture.html',
 })
 export class ScrollableHostFixtureComponent {
-  public isParentScrollable: boolean = true;
-  public isGrandparentScrollable: boolean = false;
+  public isParentScrollable = true;
+  public isGrandparentScrollable = false;
 
   @ViewChild('alternate')
   public alternateParent: ElementRef;

@@ -10,6 +10,7 @@ export class SkyLogService {
   public warn(message?: any, ...optionalParams: any[]): void {
     /*istanbul ignore else */
     if (window.console) {
+      //eslint-disable-next-line prefer-spread,prefer-rest-params
       window.console.warn.apply(window.console, arguments);
     }
   }

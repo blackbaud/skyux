@@ -80,7 +80,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
       viewkeeperEls = [];
 
       for (const item of this.skyViewkeeper) {
-        let matchingEls = Array.from(
+        const matchingEls = Array.from(
           (this.el.nativeElement as HTMLElement).querySelectorAll(item)
         ) as HTMLElement[];
 
@@ -112,7 +112,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
   }
 
   private detectElements(): void {
-    let viewkeeperEls = this.getViewkeeperEls();
+    const viewkeeperEls = this.getViewkeeperEls();
 
     if (this.viewkeeperElsChanged(viewkeeperEls)) {
       if (this.scrollableHostWatchUnsubscribe) {

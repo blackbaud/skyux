@@ -213,7 +213,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('unsubscribes from the theme service when destroyed', () => {
-      let overrideOptions = { gridOptions: {} };
+      const overrideOptions = { gridOptions: {} };
       let gridOptions = agGridService.getGridOptions(overrideOptions);
 
       expect(gridOptions.rowHeight).toBe(38);

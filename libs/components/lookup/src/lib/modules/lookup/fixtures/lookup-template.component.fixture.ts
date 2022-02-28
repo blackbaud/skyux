@@ -45,18 +45,18 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
   public descriptorProperty: string;
-  public disabled: boolean = false;
+  public disabled = false;
   public enabledSearchResultTemplate: TemplateRef<any>;
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
   public idProperty: string;
-  public ignoreAddDataUpdate: boolean = false;
+  public ignoreAddDataUpdate = false;
   public placeholderText: string;
   public propertiesToSearch: string[];
-  public required: boolean = false;
+  public required = false;
   public selectedFriends: any;
   public selectedFriendsAsync: any;
   public selectMode: SkyLookupSelectModeType;
-  public showAddButton: boolean = false;
+  public showAddButton = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public ngOnInit(): void {
@@ -148,7 +148,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
     const totalCount = items.length;
     let hasMore = false;
-    let itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
+    const itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
 
     items = items.slice(args.offset, args.offset + itemCountToReturn);
     hasMore = args.offset + itemCountToReturn < totalCount;

@@ -89,7 +89,7 @@ export class SkyGridColumnComponent implements OnChanges {
    * @default true
    */
   @Input()
-  public isSortable: boolean = true;
+  public isSortable = true;
 
   /**
    * Indicates whether the column is locked. The intent is to display locked columns first

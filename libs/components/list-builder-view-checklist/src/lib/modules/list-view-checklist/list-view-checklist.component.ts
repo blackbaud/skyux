@@ -92,14 +92,14 @@ export class SkyListViewChecklistComponent
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('label')
-  public labelFieldSelector: string = 'label';
+  public labelFieldSelector = 'label';
 
   /**
    * Specifies the name of the description field selector.
    * @default "description"
    */
   @Input()
-  public description: string = 'description';
+  public description = 'description';
 
   /**
    * Specifies how many items users can select.
@@ -144,7 +144,7 @@ export class SkyListViewChecklistComponent
 
   private _selectedIdMap: Map<string, boolean> = new Map<string, boolean>();
 
-  private _showOnlySelected: boolean = false;
+  private _showOnlySelected = false;
 
   constructor(
     state: ListState,
@@ -160,10 +160,10 @@ export class SkyListViewChecklistComponent
         observableMap((s) => s.items),
         distinctUntilChanged(),
         observableMap((items: AsyncList<ListItemModel>) => {
-          let dataChanged =
+          const dataChanged =
             lastUpdate === undefined || items.lastUpdate !== lastUpdate;
           lastUpdate = items.lastUpdate;
-          let newItems = items.items.map((item) => {
+          const newItems = items.items.map((item) => {
             return new ListViewChecklistItemModel(item.id, {
               label: this.labelFieldSelector
                 ? getData(item.data, this.labelFieldSelector)
@@ -298,7 +298,7 @@ export class SkyListViewChecklistComponent
       this.dispatcher.searchSetFunctions([this.search]);
     }
 
-    let fieldSelectors: Array<string> = [];
+    const fieldSelectors: Array<string> = [];
     if (this.labelFieldSelector) {
       fieldSelectors.push(this.labelFieldSelector);
     }
@@ -326,7 +326,7 @@ export class SkyListViewChecklistComponent
   public searchFunction() {
     return (data: any, searchText: string) => {
       if (this.labelFieldSelector !== undefined) {
-        let label = getData(data, this.labelFieldSelector);
+        const label = getData(data, this.labelFieldSelector);
         if (
           label !== undefined &&
           label !== null &&
@@ -337,7 +337,7 @@ export class SkyListViewChecklistComponent
       }
 
       if (this.description !== undefined) {
-        let description = getData(data, this.description);
+        const description = getData(data, this.description);
         if (
           description !== undefined &&
           description !== null &&
@@ -384,8 +384,6 @@ export class SkyListViewChecklistComponent
   }
 
   private reapplyFilter(isSelected: boolean) {
-    let self = this;
-
     this.state
       .pipe(
         observableMap((state) => state.filters),
@@ -393,7 +391,7 @@ export class SkyListViewChecklistComponent
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
-        filters.push(self.getShowSelectedFilter(isSelected));
+        filters.push(this.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
   }

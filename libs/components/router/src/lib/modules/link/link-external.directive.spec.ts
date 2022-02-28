@@ -27,7 +27,7 @@ class SkyAppLinkExternalTestComponent {}
 })
 class SkyAppLinkExternalWithParamsTestComponent {}
 
-const testUrl: string = 'testUrl';
+const testUrl = 'testUrl';
 
 describe('SkyAppLinkExternal Directive', () => {
   let fixture: ComponentFixture<SkyAppLinkExternalTestComponent>;

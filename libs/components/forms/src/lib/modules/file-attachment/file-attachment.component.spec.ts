@@ -291,7 +291,7 @@ describe('File attachment', () => {
     const dropPreventDefaultSpy = jasmine.createSpy();
     const fileLength = files ? files.length : 0;
 
-    let dropEvent = {
+    const dropEvent = {
       dataTransfer: {
         files: {
           length: fileLength,
@@ -485,7 +485,7 @@ describe('File attachment', () => {
 
     fixture.detectChanges();
 
-    let file = [
+    const file = [
       {
         name: 'foo.txt',
         size: 1000,

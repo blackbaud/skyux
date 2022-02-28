@@ -93,7 +93,7 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        let actionBarHeight = debugElement.query(
+        const actionBarHeight = debugElement.query(
           By.css('.sky-summary-action-bar')
         ).nativeElement.offsetHeight;
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
@@ -117,7 +117,7 @@ describe('Summary Action Bar component', () => {
       it('should set a new margin on the body if the window is resized', () => {
         const initialBottomMargin = document.body.style.marginBottom;
         fixture.detectChanges();
-        let resizeEvent: any = document.createEvent('CustomEvent');
+        const resizeEvent: any = document.createEvent('CustomEvent');
         resizeEvent.initEvent('resize', true, true);
         window.dispatchEvent(resizeEvent);
         fixture.detectChanges();
@@ -352,7 +352,7 @@ describe('Summary Action Bar component', () => {
         cmp.hideMainActionBar = true;
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
-        let actionBarHeight = debugElement.query(
+        const actionBarHeight = debugElement.query(
           By.css('.sky-summary-action-bar')
         ).nativeElement.offsetHeight;
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
@@ -528,7 +528,7 @@ describe('Summary Action Bar component', () => {
           setTimeout(() => {
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let actionBarHeight = debugElement.query(
+              const actionBarHeight = debugElement.query(
                 By.css('.sky-summary-action-bar')
               ).nativeElement.offsetHeight;
               expect(document.body.style.marginBottom).toBe(
@@ -563,7 +563,7 @@ describe('Summary Action Bar component', () => {
             setTimeout(() => {
               fixture.detectChanges();
               fixture.whenStable().then(() => {
-                let actionBarHeight = debugElement.query(
+                const actionBarHeight = debugElement.query(
                   By.css('.sky-summary-action-bar')
                 ).nativeElement.offsetHeight;
                 expect(document.body.style.marginBottom).toBe(
@@ -591,7 +591,7 @@ describe('Summary Action Bar component', () => {
               setTimeout(() => {
                 fixture.detectChanges();
                 fixture.whenStable().then(() => {
-                  let actionBarHeight = debugElement.query(
+                  const actionBarHeight = debugElement.query(
                     By.css('.sky-summary-action-bar')
                   ).nativeElement.offsetHeight;
                   expect(document.body.style.marginBottom).toBe(
@@ -663,7 +663,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let workspacePaddingBottom = debugElement.query(
+          const workspacePaddingBottom = debugElement.query(
             By.css('.sky-split-view-workspace-content')
           ).nativeElement.style.paddingBottom;
           expect(workspacePaddingBottom).toBe('20px');
@@ -676,7 +676,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let workspacePaddingBottom = debugElement.query(
+          const workspacePaddingBottom = debugElement.query(
             By.css('.sky-split-view-workspace-content')
           ).nativeElement.style.paddingBottom;
           expect(workspacePaddingBottom).toBe('');

@@ -77,7 +77,7 @@ export class DropdownFixtureComponent {
     { name: 'Option 4', disabled: false },
   ];
 
-  public show: boolean = true;
+  public show = true;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

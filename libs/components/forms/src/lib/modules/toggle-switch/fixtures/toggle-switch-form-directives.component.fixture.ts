@@ -4,5 +4,5 @@ import { Component } from '@angular/core';
   templateUrl: './toggle-switch-form-directives.component.fixture.html',
 })
 export class SkyToggleSwitchFormDirectivesFixtureComponent {
-  public modelValue: boolean = false;
+  public modelValue = false;
 }

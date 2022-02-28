@@ -47,7 +47,7 @@ describe('Rich text display', () => {
   });
 
   it('Should display inline', fakeAsync(() => {
-    fixture.componentInstance.richText = `<font style=\"font-size: 16px\" color=\"#a25353\"><b><i><u>Super styled text</u></i></b></font>`;
+    fixture.componentInstance.richText = `<font style="font-size: 16px" color="#a25353"><b><i><u>Super styled text</u></i></b></font>`;
     detectChanges(fixture);
 
     const text = getText(fixture);

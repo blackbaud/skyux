@@ -7,6 +7,7 @@
 // matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
 if (!Element.prototype.closest) {
   Element.prototype.closest = function (s: any) {
+    //eslint-disable-next-line @typescript-eslint/no-this-alias
     let el = this;
     if (!document.documentElement.contains(el)) {
       return null;

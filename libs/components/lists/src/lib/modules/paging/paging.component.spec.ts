@@ -49,12 +49,12 @@ describe('Paging component', () => {
     });
 
     it('should have a disabled previous button', () => {
-      let elem = element.query(By.css(getPagingSelector('previous')));
+      const elem = element.query(By.css(getPagingSelector('previous')));
       verifyDisabled(elem);
     });
 
     it('should have an enabled next button', () => {
-      let elem = element.query(By.css(getPagingSelector('next')));
+      const elem = element.query(By.css(getPagingSelector('next')));
       verifyEnabled(elem);
     });
 
@@ -105,12 +105,12 @@ describe('Paging component', () => {
       });
 
       it('should have an enabled previous button', () => {
-        let elem = element.query(By.css(getPagingSelector('previous')));
+        const elem = element.query(By.css(getPagingSelector('previous')));
         verifyEnabled(elem);
       });
 
       it('should have an enabled next button', () => {
-        let elem = element.query(By.css(getPagingSelector('next')));
+        const elem = element.query(By.css(getPagingSelector('next')));
         verifyEnabled(elem);
       });
 
@@ -139,12 +139,12 @@ describe('Paging component', () => {
         });
 
         it('should have enabled previous button', () => {
-          let elem = element.query(By.css(getPagingSelector('previous')));
+          const elem = element.query(By.css(getPagingSelector('previous')));
           verifyEnabled(elem);
         });
 
         it('should have disabled next button', () => {
-          let elem = element.query(By.css(getPagingSelector('next')));
+          const elem = element.query(By.css(getPagingSelector('next')));
           verifyDisabled(elem);
         });
       });
@@ -161,12 +161,12 @@ describe('Paging component', () => {
         });
 
         it('should have disabled previous button', () => {
-          let elem = element.query(By.css(getPagingSelector('previous')));
+          const elem = element.query(By.css(getPagingSelector('previous')));
           verifyDisabled(elem);
         });
 
         it('should have enabled next button', () => {
-          let elem = element.query(By.css(getPagingSelector('next')));
+          const elem = element.query(By.css(getPagingSelector('next')));
           verifyEnabled(elem);
         });
 
@@ -236,25 +236,25 @@ describe('Paging component', () => {
         component.label = 'My label';
         fixture.detectChanges();
 
-        let navElement = element.query(By.css('nav.sky-paging')).nativeElement;
+        const navElement = element.query(By.css('nav.sky-paging')).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('My label');
       });
 
       it('should have a nav role on the parent element with a default aria-label', () => {
-        let navElement = element.query(By.css('nav.sky-paging')).nativeElement;
+        const navElement = element.query(By.css('nav.sky-paging')).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('Pagination');
       });
 
       it('should have aria-label on each of the next and previous buttons', () => {
-        let prevElement = element.query(
+        const prevElement = element.query(
           By.css(getPagingSelector('previous'))
         ).nativeElement;
 
         expect(prevElement.getAttribute('aria-label')).toBe('Previous');
 
-        let nextElement = element.query(
+        const nextElement = element.query(
           By.css(getPagingSelector('next'))
         ).nativeElement;
 

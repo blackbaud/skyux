@@ -82,16 +82,16 @@ describe('Search component', () => {
   });
 
   function setInput(text: string) {
-    let inputEvent = document.createEvent('Event');
-    let params = {
+    const inputEvent = document.createEvent('Event');
+    const params = {
       bubbles: false,
       cancelable: false,
     };
     inputEvent.initEvent('input', params.bubbles, params.cancelable);
 
-    let changeEvent = document.createEvent('Event');
+    const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', params.bubbles, params.cancelable);
-    let inputEl = element.query(By.css('input'));
+    const inputEl = element.query(By.css('input'));
     inputEl.nativeElement.value = text;
 
     inputEl.nativeElement.dispatchEvent(inputEvent);
@@ -102,14 +102,14 @@ describe('Search component', () => {
   }
 
   function setNgModel(text: string) {
-    let inputEvent = document.createEvent('Event');
-    let params = {
+    const inputEvent = document.createEvent('Event');
+    const params = {
       bubbles: false,
       cancelable: false,
     };
     inputEvent.initEvent('input', params.bubbles, params.cancelable);
 
-    let inputEl = element.query(By.css('input'));
+    const inputEl = element.query(By.css('input'));
     inputEl.nativeElement.value = text;
 
     inputEl.nativeElement.dispatchEvent(inputEvent);
@@ -117,32 +117,32 @@ describe('Search component', () => {
   }
 
   function triggerInputEnter() {
-    let inputEl = element.query(By.css('input'));
+    const inputEl = element.query(By.css('input'));
     inputEl.triggerEventHandler('keyup', { which: 13, code: 'Enter' });
     fixture.detectChanges();
   }
 
   function triggerApplyButton() {
-    let applyEl = element.query(By.css('.sky-search-btn-apply'));
+    const applyEl = element.query(By.css('.sky-search-btn-apply'));
     applyEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
   }
 
   function triggerClearButton() {
-    let clearEl = element.query(By.css('.sky-search-btn-clear'));
+    const clearEl = element.query(By.css('.sky-search-btn-clear'));
     clearEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
   }
 
   function triggerOpenButton() {
-    let openEl = element.query(By.css('.sky-search-btn-open'));
+    const openEl = element.query(By.css('.sky-search-btn-open'));
     openEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
   function triggerDismissButton() {
-    let dismissEl = element.query(By.css('.sky-search-btn-dismiss'));
+    const dismissEl = element.query(By.css('.sky-search-btn-dismiss'));
     dismissEl.triggerEventHandler('click', undefined);
     fixture.detectChanges();
     return fixture.whenStable();
@@ -162,7 +162,7 @@ describe('Search component', () => {
 
   function verifySearchOpenMobile() {
     fixture.detectChanges();
-    let searchDismissContainer = element.query(
+    const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container')
     );
     expect(
@@ -177,7 +177,7 @@ describe('Search component', () => {
 
   function verifySearchOpenFullScreen() {
     fixture.detectChanges();
-    let searchDismissContainer = element.query(
+    const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container')
     );
     expect(
@@ -192,7 +192,7 @@ describe('Search component', () => {
 
   function verifySearchOpenFullScreenFullWidth() {
     fixture.detectChanges();
-    let searchDismissContainer = element.query(
+    const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container')
     );
     expect(
@@ -207,7 +207,7 @@ describe('Search component', () => {
 
   function verifySearchClosed() {
     fixture.detectChanges();
-    let searchDismissContainer = element.query(
+    const searchDismissContainer = element.query(
       By.css('.sky-search-dismiss-container')
     );
 
@@ -227,7 +227,7 @@ describe('Search component', () => {
 
     it('should apply search text on enter press', () => {
       setInput('my search text');
-      let inputEl = element.query(By.css('input'));
+      const inputEl = element.query(By.css('input'));
 
       inputEl.triggerEventHandler('keyup', { which: 23 });
       fixture.detectChanges();

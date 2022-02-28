@@ -11,14 +11,12 @@ import { SkyColorpickerOutput } from './types/colorpicker-output';
  */
 @Injectable()
 export class SkyColorpickerService {
-  constructor() {}
-
   public hsla2hsva(hsla: SkyColorpickerHsla): SkyColorpickerHsva {
     const alpha: number = Math.min(hsla.alpha, 1);
     const hue: number = Math.min(hsla.hue, 1);
     const lightness: number = Math.min(hsla.lightness, 1);
     const saturation: number = Math.min(hsla.saturation, 1);
-    let hsva: SkyColorpickerHsva = {
+    const hsva: SkyColorpickerHsva = {
       hue: hue,
       saturation: saturation,
       value: lightness,
@@ -41,7 +39,7 @@ export class SkyColorpickerService {
     const saturation: number = hsva.saturation;
     const value: number = hsva.value;
 
-    let hsla: SkyColorpickerHsla = {
+    const hsla: SkyColorpickerHsla = {
       hue: hue,
       saturation: saturation,
       lightness: value,
@@ -68,7 +66,7 @@ export class SkyColorpickerService {
     const value: number = max;
     const d = max - min;
     const saturation: number = max === 0 ? 0 : d / max;
-    let hue: number = 0;
+    let hue = 0;
     let maxValue: { [key: number]: number };
     if (max !== min) {
       maxValue = {
@@ -89,7 +87,7 @@ export class SkyColorpickerService {
   }
 
   public rgbaToCmyk(rgba: SkyColorpickerRgba): SkyColorpickerCmyk {
-    let cmyk: SkyColorpickerCmyk = { cyan: 0, magenta: 0, yellow: 0, key: 0 };
+    const cmyk: SkyColorpickerCmyk = { cyan: 0, magenta: 0, yellow: 0, key: 0 };
     const key: number = 1 - Math.max(rgba.red, rgba.green, rgba.blue);
 
     if (key === 1) {
@@ -104,9 +102,9 @@ export class SkyColorpickerService {
   }
 
   public hsvaToRgba(hsva: SkyColorpickerHsva): SkyColorpickerRgba {
-    let red: number = 0;
-    let green: number = 0;
-    let blue: number = 0;
+    let red = 0;
+    let green = 0;
+    let blue = 0;
     const hue = hsva.hue;
     const saturation = hsva.saturation;
     const value = hsva.value;
@@ -160,7 +158,7 @@ export class SkyColorpickerService {
   }
 
   public stringToHsva(colorString: string, hex8: boolean): SkyColorpickerHsva {
-    let stringParsers = [
+    const stringParsers = [
       {
         // tslint:disable max-line-length
         re: /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
@@ -231,22 +229,19 @@ export class SkyColorpickerService {
     }
 
     let hsva: SkyColorpickerHsva = undefined;
-    for (let key in stringParsers) {
-      /* istanbul ignore else */ /* for in must be filtered by an if */
-      if (stringParsers.hasOwnProperty(key)) {
-        let parser = stringParsers[key];
-        let match = parser.re.exec(colorString);
-        let color: any = match && parser.parse(match);
-        if (color) {
-          if ('red' in color) {
-            hsva = this.rgbaToHsva(color);
-          }
-          if ('hue' in color) {
-            hsva = this.hsla2hsva(color);
-          }
-
-          return hsva;
+    for (const key in stringParsers) {
+      const parser = stringParsers[key];
+      const match = parser.re.exec(colorString);
+      const color: any = match && parser.parse(match);
+      if (color) {
+        if ('red' in color) {
+          hsva = this.rgbaToHsva(color);
         }
+        if ('hue' in color) {
+          hsva = this.hsla2hsva(color);
+        }
+
+        return hsva;
       }
     }
     return hsva;
@@ -260,9 +255,9 @@ export class SkyColorpickerService {
     if (['hsla', 'hex', 'cmyk'].indexOf(outputFormat) === -1) {
       outputFormat = 'rgba';
     }
-    let color: { [key: string]: any } = {
+    const color: { [key: string]: any } = {
       hsla: () => {
-        let hsla = this.denormalizeHSLA(this.hsva2hsla(hsva));
+        const hsla = this.denormalizeHSLA(this.hsva2hsla(hsva));
         return `hsla(${hsla.hue},${hsla.saturation}%,${hsla.lightness}%,${hsla.alpha})`;
       },
       hex: () => {
@@ -272,11 +267,13 @@ export class SkyColorpickerService {
         );
       },
       cmyk: () => {
-        let cmyk = this.denormalizeCMYK(this.rgbaToCmyk(this.hsvaToRgba(hsva)));
+        const cmyk = this.denormalizeCMYK(
+          this.rgbaToCmyk(this.hsvaToRgba(hsva))
+        );
         return `cmyk(${cmyk.cyan}%,${cmyk.magenta}%,${cmyk.yellow}%,${cmyk.key}%)`;
       },
       rgba: () => {
-        let rgba = this.denormalizeRGBA(this.hsvaToRgba(hsva));
+        const rgba = this.denormalizeRGBA(this.hsvaToRgba(hsva));
         return `rgba(${rgba.red},${rgba.green},${rgba.blue},${rgba.alpha})`;
       },
     };
@@ -285,16 +282,15 @@ export class SkyColorpickerService {
   }
 
   public skyColorpickerOut(color: SkyColorpickerHsva) {
-    let formatColor: SkyColorpickerOutput;
-    let cmykText: string = this.outputFormat(color, 'cmyk', true);
-    let hslaText: string = this.outputFormat(color, 'hsla', true);
-    let rgbaText: string = this.outputFormat(color, 'rgba', true);
-    let rgba: SkyColorpickerRgba = this.hsvaToRgba(color);
-    let hsla: SkyColorpickerHsla = this.hsva2hsla(color);
-    let cmyk: SkyColorpickerCmyk = this.rgbaToCmyk(rgba);
-    let hex: string = this.outputFormat(color, 'hex', false);
+    const cmykText: string = this.outputFormat(color, 'cmyk', true);
+    const hslaText: string = this.outputFormat(color, 'hsla', true);
+    const rgbaText: string = this.outputFormat(color, 'rgba', true);
+    const rgba: SkyColorpickerRgba = this.hsvaToRgba(color);
+    const hsla: SkyColorpickerHsla = this.hsva2hsla(color);
+    const cmyk: SkyColorpickerCmyk = this.rgbaToCmyk(rgba);
+    const hex: string = this.outputFormat(color, 'hex', false);
 
-    formatColor = {
+    const formatColor: SkyColorpickerOutput = {
       cmykText: cmykText,
       hslaText: hslaText,
       rgbaText: rgbaText,

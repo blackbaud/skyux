@@ -121,11 +121,11 @@ export class SkyToggleSwitchComponent
   private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
 
   private control: AbstractControl;
-  private isFirstChange: boolean = true;
+  private isFirstChange = true;
   private ngUnsubscribe = new Subject<void>();
   private toggleSwitchId = uniqueId++;
 
-  private _checked: boolean = false;
+  private _checked = false;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

@@ -19,9 +19,6 @@ export class SkyDateFormatUtility {
     shortTime: 'jm',
   };
 
-  /* istanbul ignore next */
-  constructor() {}
-
   public static format(
     locale: string,
     value: any,

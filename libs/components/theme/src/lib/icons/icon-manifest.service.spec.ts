@@ -1,8 +1,6 @@
-import { SkyThemeIconManifest } from './icon-manifest';
-
 import { SkyThemeIconManifestService } from './icon-manifest.service';
 
-const manifest: SkyThemeIconManifest = require('@skyux/icons/assets/manifest.json');
+import manifest from '@skyux/icons/assets/manifest.json';
 
 describe('SKY theme icon manifest service', () => {
   let manifestSvc: SkyThemeIconManifestService;

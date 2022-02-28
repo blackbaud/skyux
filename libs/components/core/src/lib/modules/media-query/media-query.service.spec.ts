@@ -155,11 +155,7 @@ describe('Media query service', () => {
           mediaQueryListPrototype,
           'removeListener'
         );
-        let subscription: Subscription;
-
-        subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {}
-        );
+        const subscription = mediaQueryService.subscribe(() => {});
 
         mediaQueryService.destroy();
 

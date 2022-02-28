@@ -29,7 +29,7 @@ export class AdapterServiceFixtureComponent {
   })
   public syncHeightContainer: ElementRef;
 
-  public disableInput: boolean = false;
+  public disableInput = false;
 
   constructor(private adapterService: SkyCoreAdapterService) {}
 

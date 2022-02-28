@@ -72,7 +72,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      let cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test number cell' },
         rowIndex: 1,
@@ -105,7 +105,7 @@ describe('SkyCellEditorNumberComponent', () => {
 
   describe('getValue', () => {
     it('returns the value if it is set', () => {
-      let value = 7;
+      const value = 7;
       numberEditorComponent.value = value;
 
       numberEditorFixture.detectChanges();
@@ -114,7 +114,7 @@ describe('SkyCellEditorNumberComponent', () => {
     });
 
     it('returns the value if it is 0', () => {
-      let value = 0;
+      const value = 0;
       numberEditorComponent.value = value;
 
       numberEditorFixture.detectChanges();

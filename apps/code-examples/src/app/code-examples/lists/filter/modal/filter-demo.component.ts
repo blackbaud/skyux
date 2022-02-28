@@ -109,9 +109,8 @@ export class FilterDemoComponent {
   }
 
   private filterItems(items: any[], filters: any[]): any[] {
-    let i: number,
-      passesFilter: boolean,
-      result: any[] = [];
+    let i: number, passesFilter: boolean;
+    const result: any[] = [];
 
     for (i = 0; i < items.length; i++) {
       passesFilter = this.itemIsShown(filters, items[i]);

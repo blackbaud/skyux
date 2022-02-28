@@ -126,8 +126,6 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   }
 
   private reapplyFilter(isSelected: boolean): void {
-    let self = this;
-
     this.state
       .pipe(
         observableMap((state) => state.filters),
@@ -135,7 +133,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
-        filters.push(self.getShowSelectedFilter(isSelected));
+        filters.push(this.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
 

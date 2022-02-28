@@ -78,7 +78,7 @@ function getElementCords(elementRef: any): any {
 }
 
 function getColumnWidths(fixture: ComponentFixture<any>): number[] {
-  let expectedColumnWidths = new Array<number>();
+  const expectedColumnWidths = new Array<number>();
   const tableHeaders = fixture.debugElement.queryAll(
     By.css('.sky-grid-heading')
   );
@@ -104,8 +104,8 @@ function getColumnRangeInputs(fixture: ComponentFixture<any>): DebugElement[] {
 function getColumnResizeInputMaxValues(
   fixture: ComponentFixture<any>
 ): number[] {
-  let resizeInputs = getColumnRangeInputs(fixture);
-  let maxValues = new Array<number>();
+  const resizeInputs = getColumnRangeInputs(fixture);
+  const maxValues = new Array<number>();
 
   resizeInputs.forEach((input) => {
     maxValues.push(input.nativeElement.max);
@@ -119,8 +119,8 @@ function resizeColumn(
   columnIndex: number
 ): void {
   const resizeHandles = getColumnResizeHandles(fixture);
-  let axis = getElementCords(resizeHandles[columnIndex]);
-  let event = {
+  const axis = getElementCords(resizeHandles[columnIndex]);
+  const event = {
     target: resizeHandles[columnIndex].nativeElement,
     pageX: axis.x,
     preventDefault: function () {},
@@ -178,8 +178,8 @@ function resizeColumnWithTouch(
   columnIndex: number
 ): void {
   const resizeHandles = getColumnResizeHandles(fixture);
-  let axis = getElementCords(resizeHandles[columnIndex]);
-  let event = {
+  const axis = getElementCords(resizeHandles[columnIndex]);
+  const event = {
     target: resizeHandles[columnIndex].nativeElement,
     pageX: axis.x,
     preventDefault: function () {},
@@ -280,12 +280,12 @@ function verifyAllWidthsMatch(
 }
 
 function showColumn2(fixture: ComponentFixture<any>): void {
-  let button = fixture.debugElement.query(By.css('#show-column-button'));
+  const button = fixture.debugElement.query(By.css('#show-column-button'));
   button.nativeElement.click();
 }
 
 function hideColumn2(fixture: ComponentFixture<any>): void {
-  let button = fixture.debugElement.query(By.css('#hide-column-button'));
+  const button = fixture.debugElement.query(By.css('#hide-column-button'));
   button.nativeElement.click();
 }
 
@@ -391,7 +391,7 @@ describe('Grid Component', () => {
       hiddenCol = false
     ) {
       for (let i = 0; i < component.data.length; i++) {
-        let row = component.data[i];
+        const row = component.data[i];
 
         expect(
           getCell(row.id, 'column1', element).nativeElement.textContent.trim()
@@ -431,9 +431,9 @@ describe('Grid Component', () => {
 
     function verifyConsumerColumnWidthsAreMaintained(): void {
       for (let i = 0; i < component.grid.displayedColumns.length; i++) {
-        let col = component.grid.displayedColumns[i];
+        const col = component.grid.displayedColumns[i];
         if (col.width) {
-          let colEl = element.queryAll(By.css('thead th'))[i];
+          const colEl = element.queryAll(By.css('thead th'))[i];
           verifyWidthsMatch(colEl.nativeElement.offsetWidth, col.width);
         }
       }
@@ -570,13 +570,15 @@ describe('Grid Component', () => {
       });
 
       it('should allow the access of search function on displayed columns', () => {
-        let searchFunctions = component.grid.displayedColumns.map((column) => {
-          return column.searchFunction;
-        });
+        const searchFunctions = component.grid.displayedColumns.map(
+          (column) => {
+            return column.searchFunction;
+          }
+        );
 
         expect(searchFunctions.length).toBe(5);
         for (let i = 0; i < searchFunctions.length; i++) {
-          let result = searchFunctions[i]('Something', 'something');
+          const result = searchFunctions[i]('Something', 'something');
           expect(result).toBe(true);
         }
 
@@ -587,7 +589,7 @@ describe('Grid Component', () => {
         component.searchedData = '';
 
         for (let i = 0; i < searchFunctions.length; i++) {
-          let result = searchFunctions[i]('blaah', 'something');
+          const result = searchFunctions[i]('blaah', 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
           } else {
@@ -598,7 +600,7 @@ describe('Grid Component', () => {
         }
 
         for (let i = 0; i < searchFunctions.length; i++) {
-          let result = searchFunctions[i](undefined, 'something');
+          const result = searchFunctions[i](undefined, 'something');
           if (component.searchText !== '') {
             expect(result).toBe(true);
           } else {
@@ -710,7 +712,7 @@ describe('Grid Component', () => {
           let headerEl = nativeElement
             .querySelectorAll('th')
             .item(0) as HTMLElement;
-          let skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
+          const skyIcon = headerEl.querySelector('sky-icon') as HTMLElement;
           expect(skyIcon).toHaveCssClass('sky-grid-heading-sort-hidden');
           SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
             bubbles: false,
@@ -769,7 +771,7 @@ describe('Grid Component', () => {
           };
           fixture.detectChanges();
 
-          let headerEl = nativeElement
+          const headerEl = nativeElement
             .querySelectorAll('th')
             .item(0) as HTMLElement;
 
@@ -802,12 +804,12 @@ describe('Grid Component', () => {
             .item(0) as HTMLElement;
           expect(headerEl.getAttribute('aria-sort')).toBe('ascending');
 
-          let noSortHeaderEl = nativeElement
+          const noSortHeaderEl = nativeElement
             .querySelectorAll('th')
             .item(1) as HTMLElement;
           expect(noSortHeaderEl.getAttribute('aria-sort')).toBeNull();
 
-          let unSortedHeaderEl = nativeElement
+          const unSortedHeaderEl = nativeElement
             .querySelectorAll('th')
             .item(2) as HTMLElement;
           expect(unSortedHeaderEl.getAttribute('aria-sort')).toBe('none');
@@ -818,7 +820,7 @@ describe('Grid Component', () => {
         });
 
         it('should sort on enter or space press', () => {
-          let headerEl = element.query(By.css('th[sky-cmp-id="column1"]'));
+          const headerEl = element.query(By.css('th[sky-cmp-id="column1"]'));
           headerEl.triggerEventHandler('keydown', { key: 'Enter' });
           fixture.detectChanges();
 
@@ -845,7 +847,7 @@ describe('Grid Component', () => {
 
       describe('Models and State', () => {
         it('should construct ListViewGridColumnModel without data', () => {
-          let model = new SkyGridColumnModel(component.viewtemplates.first);
+          const model = new SkyGridColumnModel(component.viewtemplates.first);
           expect(model.template).not.toBeUndefined();
           expect(model.field).toBeUndefined();
           expect(model.heading).toBeUndefined();
@@ -860,15 +862,15 @@ describe('Grid Component', () => {
       describe('Resizeable columns', () => {
         it('should not resize if user does not use resize handle', fakeAsync(() => {
           // Get initial baseline for comparison.
-          let initialTableWidth = getTableWidth(fixture);
-          let initialColumnWidths = getColumnWidths(fixture);
+          const initialTableWidth = getTableWidth(fixture);
+          const initialColumnWidths = getColumnWidths(fixture);
 
           // Move the mouse.
           SkyAppTestUtility.fireDomEvent(document, 'mousemove');
 
           // Assert nothing was changed.
-          let newTableWidth = getTableWidth(fixture);
-          let newColumnWidths = getColumnWidths(fixture);
+          const newTableWidth = getTableWidth(fixture);
+          const newColumnWidths = getColumnWidths(fixture);
           verifyWidthsMatch(initialTableWidth, newTableWidth);
           verifyAllWidthsMatch(initialColumnWidths, newColumnWidths);
           expect(component.columnWidthsChange).toBeUndefined();
@@ -876,15 +878,15 @@ describe('Grid Component', () => {
 
         it('should prevent users from resizing column smaller than the minimum limit', fakeAsync(() => {
           // Get initial baseline for comparison.
-          let initialTableWidth = getTableWidth(fixture);
-          let initialColumnWidths = getColumnWidths(fixture);
+          const initialTableWidth = getTableWidth(fixture);
+          const initialColumnWidths = getColumnWidths(fixture);
 
           // The last column is already 50px wide. Try to make it smaler...
           resizeColumn(fixture, -50, 4);
 
           // Assert nothing was changed.
-          let newTableWidth = getTableWidth(fixture);
-          let newColumnWidths = getColumnWidths(fixture);
+          const newTableWidth = getTableWidth(fixture);
+          const newColumnWidths = getColumnWidths(fixture);
 
           verifyWidthsMatch(initialTableWidth, newTableWidth);
           verifyAllWidthsMatch(initialColumnWidths, newColumnWidths);
@@ -892,17 +894,17 @@ describe('Grid Component', () => {
 
         it('should properly resize column and emit change event on release of resize handle', fakeAsync(() => {
           // Get initial baseline for comparison.
-          let initialTableWidth = getTableWidth(fixture);
-          let initialColumnWidths = getColumnWidths(fixture);
+          const initialTableWidth = getTableWidth(fixture);
+          const initialColumnWidths = getColumnWidths(fixture);
 
           // Resize first column.
-          let resizeXDistance = 50;
+          const resizeXDistance = 50;
           resizeColumn(fixture, resizeXDistance, 0);
 
           // Assert table was resized properly.
-          let newTableWidth = getTableWidth(fixture);
-          let newColumnWidths = getColumnWidths(fixture);
-          let expectedColumnWidths = Object.assign(initialColumnWidths);
+          const newTableWidth = getTableWidth(fixture);
+          const newColumnWidths = getColumnWidths(fixture);
+          const expectedColumnWidths = Object.assign(initialColumnWidths);
           expectedColumnWidths[0] = initialColumnWidths[0] + resizeXDistance;
           verifyWidthsMatch(initialTableWidth + resizeXDistance, newTableWidth);
           verifyAllWidthsMatch(expectedColumnWidths, newColumnWidths);
@@ -941,7 +943,7 @@ describe('Grid Component', () => {
 
           // Expect valuenow to be updated with new width values.
           resizeInputs.forEach((resizeInput, index) => {
-            let valuenow =
+            const valuenow =
               resizeInput.nativeElement.getAttribute('aria-valuenow');
             verifyWidthsMatch(valuenow, colWidths[index]);
           });
@@ -949,7 +951,7 @@ describe('Grid Component', () => {
 
         it('should show vertical resize bar when range input is focused with keyboard', fakeAsync(() => {
           fixture.detectChanges();
-          let inputRange = getColumnRangeInputs(fixture)[1];
+          const inputRange = getColumnRangeInputs(fixture)[1];
 
           SkyAppTestUtility.fireDomEvent(inputRange.nativeElement, 'focus');
           let resizeBar = fixture.nativeElement.querySelector(
@@ -970,10 +972,10 @@ describe('Grid Component', () => {
         it('should resize column when range input is changed', async () => {
           // Get initial baseline for comparison.
           // Note: We are assuming column at index[1] starts with a set value (150).
-          let columnIndex = 1;
+          const columnIndex = 1;
           let initialTableWidth = getTableWidth(fixture);
           let initialColumnWidths = getColumnWidths(fixture);
-          let inputRange = getColumnRangeInputs(fixture)[1];
+          const inputRange = getColumnRangeInputs(fixture)[1];
           let deltaX = 10;
 
           fixture.detectChanges();
@@ -1030,22 +1032,22 @@ describe('Grid Component', () => {
 
         it('should NOT change max value when column width is changed', fakeAsync(() => {
           // Get initial baseline for comparison.
-          let initialMaxValues = getColumnResizeInputMaxValues(fixture);
+          const initialMaxValues = getColumnResizeInputMaxValues(fixture);
 
           // Resize first column.
           resizeColumnByRangeInput(fixture, 0, 50);
 
           // Assert max value on input ranges was not changed.
-          let expectedColumnInputs = getColumnResizeInputMaxValues(fixture);
+          const expectedColumnInputs = getColumnResizeInputMaxValues(fixture);
           expect(initialMaxValues).toEqual(expectedColumnInputs);
         }));
 
         it('should reset table width when columns are hidden/shown', fakeAsync(() => {
           // Get initial baseline for comparison.
-          let initialTableWidth = getTableWidth(fixture);
+          const initialTableWidth = getTableWidth(fixture);
 
           // Resize first column.
-          let resizeXDistance = 50;
+          const resizeXDistance = 50;
           resizeColumn(fixture, resizeXDistance, 0);
 
           // Hide column 2.
@@ -1078,11 +1080,11 @@ describe('Grid Component', () => {
           tick();
 
           // Resize first column.
-          let resizeXDistance = 50;
+          const resizeXDistance = 50;
           resizeColumn(fixture, resizeXDistance, 0);
 
           // Expect hidden column to be in emitted array.
-          let column2 = component.columnWidthsChange.find(
+          const column2 = component.columnWidthsChange.find(
             (cwc) => cwc.id === 'column2'
           );
           expect(column2).not.toBeNull();
@@ -1143,11 +1145,11 @@ describe('Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        let topScrollSpy = spyOn(
+        const topScrollSpy = spyOn(
           fixture.componentInstance.grid,
           'onTopScroll'
         ).and.callThrough();
-        let tableContainerScrollSpy = spyOnProperty(
+        const tableContainerScrollSpy = spyOnProperty(
           getTableContainer(fixture).nativeElement,
           'scrollLeft',
           'set'
@@ -1173,11 +1175,11 @@ describe('Grid Component', () => {
         await fixture.whenStable();
         fixture.detectChanges();
 
-        let tableContainerScrollSpy = spyOn(
+        const tableContainerScrollSpy = spyOn(
           fixture.componentInstance.grid,
           'onGridScroll'
         ).and.callThrough();
-        let topScrollSpy = spyOnProperty(
+        const topScrollSpy = spyOnProperty(
           getTopScrollContainer(fixture).nativeElement,
           'scrollLeft',
           'set'
@@ -1597,16 +1599,16 @@ describe('Grid Component', () => {
     describe('Resiazable columns', () => {
       it('should not allow resizing when the final column is at the minimum width', fakeAsync(() => {
         // Get initial baseline for comparison.
-        let initialTableWidth = getTableWidth(fixture);
-        let initialColumnWidths = getColumnWidths(fixture);
+        const initialTableWidth = getTableWidth(fixture);
+        const initialColumnWidths = getColumnWidths(fixture);
 
         // Resize first column.
-        let resizeXDistance = 50;
+        const resizeXDistance = 50;
         resizeColumn(fixture, resizeXDistance, 0);
 
         // Assert table width did not change, and only first and last column were resized.
-        let newTableWidth = getTableWidth(fixture);
-        let newColumnWidths = getColumnWidths(fixture);
+        const newTableWidth = getTableWidth(fixture);
+        const newColumnWidths = getColumnWidths(fixture);
 
         verifyWidthsMatch(newTableWidth, initialTableWidth);
         verifyAllWidthsMatch(newColumnWidths, initialColumnWidths);
@@ -1618,21 +1620,21 @@ describe('Grid Component', () => {
           'onResizeHandleMove'
         ).and.callThrough();
         // Get initial baseline for comparison.
-        let initialTableWidth = getTableWidth(fixture);
-        let initialColumnWidths = getColumnWidths(fixture);
+        const initialTableWidth = getTableWidth(fixture);
+        const initialColumnWidths = getColumnWidths(fixture);
 
         // Resize last column so its larger than the min-width.
         // We have to do this, because fit=width doesn't allow the last column to be smaller than min.
-        let resizeXDistance = 50;
+        const resizeXDistance = 50;
         resizeColumn(fixture, -resizeXDistance, 2);
 
         // Resize first column.
         resizeColumn(fixture, resizeXDistance, 0);
 
         // Assert table width did not change, and only first and last column were resized.
-        let newTableWidth = getTableWidth(fixture);
-        let newColumnWidths = getColumnWidths(fixture);
-        let expectedColumnWidths = Object.assign(initialColumnWidths);
+        const newTableWidth = getTableWidth(fixture);
+        const newColumnWidths = getColumnWidths(fixture);
+        const expectedColumnWidths = Object.assign(initialColumnWidths);
         expectedColumnWidths[0] = expectedColumnWidths[0] + resizeXDistance;
         expectedColumnWidths[2] = expectedColumnWidths[2] - resizeXDistance;
         expectedColumnWidths[4] = 50;
@@ -1647,10 +1649,10 @@ describe('Grid Component', () => {
           'onResizeHandleMove'
         ).and.callThrough();
         // Get initial baseline for comparison.
-        let initialTableWidth = getTableWidth(fixture);
-        let initialColumnWidths = getColumnWidths(fixture);
+        const initialTableWidth = getTableWidth(fixture);
+        const initialColumnWidths = getColumnWidths(fixture);
 
-        let evt = document.createEvent('MouseEvents');
+        const evt = document.createEvent('MouseEvents');
         evt.initMouseEvent(
           'mousemove',
           false,
@@ -1670,8 +1672,8 @@ describe('Grid Component', () => {
         );
 
         // Assert table width did not change, and only first and last column were resized.
-        let newTableWidth = getTableWidth(fixture);
-        let newColumnWidths = getColumnWidths(fixture);
+        const newTableWidth = getTableWidth(fixture);
+        const newColumnWidths = getColumnWidths(fixture);
         verifyWidthsMatch(newTableWidth, initialTableWidth);
         verifyAllWidthsMatch(newColumnWidths, initialColumnWidths);
         expect(spy).not.toHaveBeenCalled();
@@ -1679,18 +1681,18 @@ describe('Grid Component', () => {
 
       it('should change max value when column width is changed', fakeAsync(() => {
         // Get initial baseline for comparison.
-        let initialMaxValues = getColumnResizeInputMaxValues(fixture);
+        const initialMaxValues = getColumnResizeInputMaxValues(fixture);
 
         // Squeeze a column so it adds more width to the last column.
         // We have to do this, because fit=width doesn't allow the last column to be smaller than min.
-        let deltaX = 50;
+        const deltaX = 50;
         resizeColumnByRangeInput(fixture, 2, -deltaX);
 
         // Resize first column.
         resizeColumnByRangeInput(fixture, 0, deltaX);
 
         // Assert max value on input ranges were properly updated.
-        let expectedColumnInputs = getColumnResizeInputMaxValues(fixture);
+        const expectedColumnInputs = getColumnResizeInputMaxValues(fixture);
         expect(initialMaxValues).not.toEqual(expectedColumnInputs);
       }));
 
@@ -1777,7 +1779,7 @@ describe('Grid Component', () => {
       });
 
       it('should set the multiselect column to the minimum width', () => {
-        let headerEl = fixture.nativeElement.querySelector(
+        const headerEl = fixture.nativeElement.querySelector(
           'th.sky-grid-multiselect-cell'
         ) as HTMLElement;
 
@@ -1898,7 +1900,7 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'id'.
-        let expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
           source: SkyGridSelectedRowsSource.CheckboxChange,
         };
@@ -1924,7 +1926,7 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'id'.
-        let expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
           source: SkyGridSelectedRowsSource.RowClick,
         };
@@ -1956,7 +1958,7 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, 'customId'.
-        let expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['101', '102', '105'],
           source: SkyGridSelectedRowsSource.CheckboxChange,
         };
@@ -1988,7 +1990,7 @@ describe('Grid Component', () => {
         // Expect the emitter to send us 1,2,5.
         // Values should match the row value of the consumer-provided key in 'multiselectRowId'.
         // In this example, there is no match so it should fall back to the 'id' property.
-        let expectedRows: SkyGridSelectedRowsModelChange = {
+        const expectedRows: SkyGridSelectedRowsModelChange = {
           selectedRowIds: ['1', '2', '5'],
           source: SkyGridSelectedRowsSource.CheckboxChange,
         };
@@ -2015,7 +2017,7 @@ describe('Grid Component', () => {
 
         // Expect only the above 3 rows are checked.
         tableRows.forEach((row) => {
-          let id = row.nativeElement.getAttribute('sky-cmp-id');
+          const id = row.nativeElement.getAttribute('sky-cmp-id');
           if (id === '1' || id === '2' || id === '5') {
             expect(row.query(By.css('input')).nativeElement.checked).toBe(true);
           } else {
@@ -2027,8 +2029,8 @@ describe('Grid Component', () => {
       });
 
       it('should not be sortable when clicking on multiselect column', () => {
-        let sortSpy = spyOn(component, 'onSort');
-        let headerEl = fixture.nativeElement.querySelector(
+        const sortSpy = spyOn(component, 'onSort');
+        const headerEl = fixture.nativeElement.querySelector(
           'th.sky-grid-multiselect-cell'
         ) as HTMLElement;
         SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup', {
@@ -2299,7 +2301,7 @@ describe('Grid Component', () => {
 
     it('should set selectedColumnIds to the new column order on drop and update headers and data', fakeAsync(() => {
       let newSelectedColumnIds: string[];
-      let expectedColumnIds = [
+      const expectedColumnIds = [
         'column2',
         'column1',
         'column3',
@@ -2963,17 +2965,13 @@ describe('Grid Component', () => {
 
   describe('Dynamic columns', () => {
     it('should handle columns changing after initialization', () => {
-      let component: GridDynamicTestComponent,
-        fixture: ComponentFixture<GridDynamicTestComponent>,
-        element: DebugElement;
-
       TestBed.configureTestingModule({
         imports: [GridFixturesModule],
       });
 
-      fixture = TestBed.createComponent(GridDynamicTestComponent);
-      element = fixture.debugElement as DebugElement;
-      component = fixture.componentInstance;
+      const fixture = TestBed.createComponent(GridDynamicTestComponent);
+      const element = fixture.debugElement as DebugElement;
+      const component = fixture.componentInstance;
 
       fixture.detectChanges();
 
@@ -3043,7 +3041,7 @@ describe('Grid Component', () => {
     it('should handle async column descriptions', fakeAsync(() => {
       fixture.detectChanges();
 
-      let col1 = fixture.componentInstance.grid.columns.find(
+      const col1 = fixture.componentInstance.grid.columns.find(
         (col) => col.id === 'column1'
       );
       expect(col1.description).toBe('');

@@ -47,8 +47,8 @@ describe('Tile content section component', () => {
   });
 
   it('should render the section content in the expected element', () => {
-    let fixture = TestBed.createComponent(TileContentSectionTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileContentSectionTestComponent);
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
@@ -58,7 +58,7 @@ describe('Tile content section component', () => {
   });
 
   it('should pass accessibility', async () => {
-    let fixture = TestBed.createComponent(TileContentSectionTestComponent);
+    const fixture = TestBed.createComponent(TileContentSectionTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

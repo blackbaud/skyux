@@ -15,8 +15,6 @@ export class CountryFieldDemoComponent implements OnInit {
 
   public countryForm: FormGroup;
 
-  constructor() {}
-
   public ngOnInit(): void {
     this.countryControl = new FormControl();
     this.countryControl.setValue({

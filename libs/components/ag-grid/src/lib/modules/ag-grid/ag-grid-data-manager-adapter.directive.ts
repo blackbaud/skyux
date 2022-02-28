@@ -206,7 +206,7 @@ export class SkyAgGridDataManagerAdapterDirective
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: RowSelectedEvent) => {
         const row = event.node;
-        let selectedIds = this.currentDataState.selectedIds || [];
+        const selectedIds = this.currentDataState.selectedIds || [];
         const rowIndex = selectedIds.indexOf(row.data.id);
 
         if (row.isSelected() && rowIndex === -1) {

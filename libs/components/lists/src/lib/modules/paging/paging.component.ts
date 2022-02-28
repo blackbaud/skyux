@@ -19,25 +19,25 @@ export class SkyPagingComponent implements OnChanges {
    * Specifies the page number of the current page. Page numbers start at 1 and increment.
    */
   @Input()
-  public currentPage: number = 1;
+  public currentPage = 1;
 
   /**
    * Specifies the total number of items across all pages.
    */
   @Input()
-  public itemCount: number = 0;
+  public itemCount = 0;
 
   /**
    * Specifies the maximum number of pages to display in the pagination control.
    */
   @Input()
-  public maxPages: number = 5;
+  public maxPages = 5;
 
   /**
    * Specifies the number of items to display per page.
    */
   @Input()
-  public pageSize: number = 10;
+  public pageSize = 10;
 
   /**
    * Specifies a label for the pagination control when an application includes
@@ -57,14 +57,14 @@ export class SkyPagingComponent implements OnChanges {
 
   public displayedPages: Array<number> = [];
 
-  public pageCount: number = 0;
+  public pageCount = 0;
 
   public ngOnChanges(changes: SimpleChanges): void {
     this.setPage(this.currentPage);
   }
 
   public setPage(pageNumber: number): void {
-    let previousPage = this.currentPage;
+    const previousPage = this.currentPage;
 
     this.setPageCount();
 
@@ -104,8 +104,8 @@ export class SkyPagingComponent implements OnChanges {
     maxDisplayedPages: number,
     pageNumber: number
   ): Array<number> {
-    let pageIndex = pageNumber - 1;
-    let pageBounds = Math.floor(maxDisplayedPages / 2);
+    const pageIndex = pageNumber - 1;
+    const pageBounds = Math.floor(maxDisplayedPages / 2);
 
     let upperBound = pageIndex + pageBounds;
     let lowerBound = pageIndex - pageBounds;
@@ -130,7 +130,7 @@ export class SkyPagingComponent implements OnChanges {
       upperBound = pageCount;
     }
 
-    let displayedPageNumbers: Array<number> = [];
+    const displayedPageNumbers: Array<number> = [];
     for (let i = lowerBound; i < upperBound; i++) {
       displayedPageNumbers.push(i + 1);
     }

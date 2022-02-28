@@ -56,8 +56,8 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
     return this.filteredItems(request).pipe(
       observableMap((result) => {
         if (request.pageNumber && request.pageSize) {
-          let itemStart = (request.pageNumber - 1) * request.pageSize;
-          let pagedResult = result.slice(
+          const itemStart = (request.pageNumber - 1) * request.pageSize;
+          const pagedResult = result.slice(
             itemStart,
             itemStart + request.pageSize
           );
@@ -84,7 +84,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
       observableMap((items) => {
         let dataChanged = false;
         let search = request.search;
-        let sort = request.sort;
+        const sort = request.sort;
         let filters: ListFilterModel[] = request.filters;
 
         if (this.lastItems === undefined || this.lastItems !== items) {
@@ -126,7 +126,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
         } else if (filters && filters.length > 0) {
           result = result.filter((item) => {
             for (let i = 0; i < filters.length; i++) {
-              let filter = filters[i];
+              const filter = filters[i];
               if (
                 filter.value === undefined ||
                 filter.value === '' ||
@@ -162,7 +162,7 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
           search.searchText !== undefined &&
           search.searchText.length > 0
         ) {
-          let searchText = search.searchText.toLowerCase();
+          const searchText = search.searchText.toLowerCase();
           let searchFunctions: any[];
           if (this.searchFunction !== undefined) {
             searchFunctions = [this.searchFunction];
@@ -174,8 +174,8 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             let isMatch = false;
 
             for (let i = 0; i < searchFunctions.length; i++) {
-              let searchFunction = searchFunctions[i];
-              let searchResult = searchFunction(item.data, searchText);
+              const searchFunction = searchFunctions[i];
+              const searchResult = searchFunction(item.data, searchText);
 
               if (
                 (typeof searchResult === 'string' &&
@@ -202,9 +202,9 @@ export class SkyListInMemoryDataProvider extends ListDataProvider {
             .sort((item1: ListItemModel, item2: ListItemModel) => {
               let compareResult = 0;
               for (let i = 0; i < sort.fieldSelectors.length; i++) {
-                let selector = sort.fieldSelectors[i];
-                let value1 = getData(item1.data, selector.fieldSelector);
-                let value2 = getData(item2.data, selector.fieldSelector);
+                const selector = sort.fieldSelectors[i];
+                const value1 = getData(item1.data, selector.fieldSelector);
+                const value2 = getData(item2.data, selector.fieldSelector);
 
                 compareResult = compare(value1, value2);
 

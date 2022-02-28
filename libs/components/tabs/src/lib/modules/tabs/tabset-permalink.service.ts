@@ -122,10 +122,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       .toLowerCase()
 
       // Remove special characters.
-      .replace(
-        /[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g,
-        ''
-      )
+      .replace(/[_~`@!#$%^&*()[\]{};:'/\\<>,.?=+|"]/g, '')
 
       // Replace space characters with a dash.
       .replace(/\s/g, '-')

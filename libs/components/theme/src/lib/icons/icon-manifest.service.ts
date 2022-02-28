@@ -13,8 +13,6 @@ const manifest: SkyThemeIconManifest = iconManifest;
   providedIn: 'root',
 })
 export class SkyThemeIconManifestService {
-  constructor() {}
-
   /**
    * Gets metadata about the SKY UX icon font.
    */

@@ -100,7 +100,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   private _config: SkyInlineFormConfig;
 
-  private _showForm: boolean = false;
+  private _showForm = false;
 
   constructor(
     private adapter: SkyInlineFormAdapterService,
@@ -139,7 +139,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> {
-    let buttonType = this.config
+    const buttonType = this.config
       ? this.config.buttonLayout
       : SkyInlineFormButtonLayout.DoneCancel;
 

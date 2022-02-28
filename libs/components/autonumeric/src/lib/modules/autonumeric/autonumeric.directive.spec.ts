@@ -192,7 +192,6 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
-      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -210,7 +209,6 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
-      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -230,7 +228,6 @@ describe('Autonumeric directive', () => {
     detectChanges();
 
     const autonumericInstance =
-      // @ts-ignore
       fixture.componentInstance.autonumericDirective['autonumericInstance'];
     const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
 
@@ -484,7 +481,7 @@ describe('Autonumeric directive', () => {
     it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
       detectChanges();
       const formControl =
-        fixture.componentInstance.formGroup?.get('donationAmount')!;
+        fixture.componentInstance.formGroup.get('donationAmount');
       const input = getReactiveInput();
 
       // Disable the form via form control.

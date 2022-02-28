@@ -67,7 +67,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * Indicates whether to put focus on the editor after it renders.
    */
   @Input()
-  public autofocus: boolean = false;
+  public autofocus = false;
 
   /**
    * Indicates whether to disable the text editor.
@@ -236,22 +236,22 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this._value;
   }
 
-  private focusInitialized: boolean = false;
+  private focusInitialized = false;
 
   @ViewChild('iframe')
   private iframeRef: ElementRef;
 
-  private initialized: boolean = false;
+  private initialized = false;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
 
   private _placeholder = '';
 
-  private _value: string = '<p></p>';
+  private _value = '<p></p>';
 
   constructor(
     private changeDetector: ChangeDetectorRef,
