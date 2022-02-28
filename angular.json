@@ -2430,6 +2430,12 @@
             "assets": ["libs/sdk/prettier-schematics/*.md"],
             "updateBuildableProjectDepsInPackageJson": false
           }
+        },
+        "postbuild": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-prettier-schematics.ts"
+          }
         }
       }
     },
