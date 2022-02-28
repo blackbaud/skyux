@@ -210,7 +210,7 @@ async function createRelease() {
 
     process.on('SIGINT', () => process.exit());
     process.on('uncaughtException', () => process.exit());
-    process.on('exit', () => cleanup(nextVersion, branch));
+    process.on('exit', () => cleanupOnError(nextVersion, branch));
 
     const standardVersionConfig = await getStandardVersionConfig(nextVersion, {
       firstRelease: !versionExists,
