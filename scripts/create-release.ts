@@ -123,14 +123,18 @@ async function promptPushOrigin(version: string, releaseBranch: string) {
 
   if (!answer.pushOrigin) {
     console.log('Release aborted. Thanks for playing!');
-    await cleanup(version, releaseBranch);
+    await cleanupOnError(version, releaseBranch);
     process.exit(0);
   } else {
     await runCommand('git', ['push', '--follow-tags', 'origin', releaseBranch]);
   }
 }
 
-async function cleanup(version: string, releaseBranch: string) {
+/**
+ * Deletes the release tag and branch if there is an error,
+ * or if the user aborts the action.
+ */
+async function cleanupOnError(version: string, releaseBranch: string) {
   await runCommand('git', ['checkout', 'main']);
   try {
     await runCommand('git', ['branch', '-D', releaseBranch]);
