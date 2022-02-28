@@ -1,56 +1,45 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  ComponentFactoryResolver,
-  ElementRef,
-  HostListener,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Type,
-  ViewChild,
-  ViewContainerRef,
-  NgZone,
-} from '@angular/core';
-
-import {
-  animate,
   AnimationEvent,
+  animate,
   state,
   style,
   transition,
   trigger,
 } from '@angular/animations';
-
-import { fromEvent, Subject } from 'rxjs';
-
-import { take, takeUntil, takeWhile } from 'rxjs/operators';
-
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  HostListener,
+  Injector,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Type,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   SkyMediaBreakpoints,
   SkyMediaQueryService,
   SkyUIConfigService,
 } from '@skyux/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
+import { Subject, fromEvent } from 'rxjs';
+import { take, takeUntil, takeWhile } from 'rxjs/operators';
+
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
-
 import { SkyFlyoutInstance } from './flyout-instance';
-
 import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
-
 import { SkyFlyoutAction } from './types/flyout-action';
-
-import { SkyFlyoutConfig } from './types/flyout-config';
-
-import { SkyFlyoutMessage } from './types/flyout-message';
-
-import { SkyFlyoutMessageType } from './types/flyout-message-type';
-
-import { SkyFlyoutPermalink } from './types/flyout-permalink';
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
+import { SkyFlyoutConfig } from './types/flyout-config';
+import { SkyFlyoutMessage } from './types/flyout-message';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
+import { SkyFlyoutPermalink } from './types/flyout-permalink';
 
 const FLYOUT_OPEN_STATE = 'flyoutOpen';
 const FLYOUT_CLOSED_STATE = 'flyoutClosed';
@@ -458,14 +447,14 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
       case SkyFlyoutMessageType.Close:
         if (
-          (<Subject<any>>this.flyoutInstance.beforeClose).observers.length ===
+          (this.flyoutInstance.beforeClose as Subject<any>).observers.length ===
             0 ||
           message.data?.ignoreBeforeClose
         ) {
           this.isOpen = true;
           this.isOpening = false;
         } else {
-          (<Subject<any>>this.flyoutInstance.beforeClose).next(
+          (this.flyoutInstance.beforeClose as Subject<any>).next(
             new SkyFlyoutBeforeCloseHandler(() => {
               this.isOpen = true;
               this.isOpening = false;

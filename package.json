@@ -16,7 +16,7 @@
     "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
     "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
-    "dev:format": "prettier --write ."
+    "dev:format": "npx prettier --loglevel=error --write ."
   },
   "private": true,
   "dependencies": {

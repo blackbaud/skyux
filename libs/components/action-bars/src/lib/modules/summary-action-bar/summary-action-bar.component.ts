@@ -1,35 +1,28 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
   OnDestroy,
 } from '@angular/core';
-
-import { fromEvent } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
-import { Subject } from 'rxjs';
-
-import { Subscription } from 'rxjs';
-
 import { skyAnimationSlide } from '@skyux/animations';
-
 import {
   MutationObserverService,
+  SkyAppWindowRef,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
-  SkyAppWindowRef,
 } from '@skyux/core';
 
-import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
-
-import { SkySummaryActionBarType } from './types/summary-action-bar-type';
+import { fromEvent } from 'rxjs';
+import { Subject } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
+import { SkySummaryActionBarSummaryComponent } from './summary/summary-action-bar-summary.component';
+import { SkySummaryActionBarType } from './types/summary-action-bar-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for summary action bar components.
@@ -184,7 +177,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
       this.observer = this.observerService.create(
         (mutations: MutationRecord[]) => {
           if (
-            (<HTMLElement>mutations[0].target).attributes.getNamedItem('hidden')
+            (mutations[0].target as HTMLElement).attributes.getNamedItem(
+              'hidden'
+            )
           ) {
             this.adapterService.revertBodyElementStyles();
             this.removeResizeListener();
