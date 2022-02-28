@@ -61,7 +61,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   @ContentChildren(SkyCardTitleComponent)
   public titleComponent: QueryList<SkyCardTitleComponent>;
 
-  public showTitle: boolean = true;
+  public showTitle = true;
 
   private subscription: Subscription;
 

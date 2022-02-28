@@ -27,7 +27,7 @@ export class SkyRichTextDisplayComponent {
 
   public sanitizedText: SafeHtml = '';
 
-  private _richText: string = '';
+  private _richText = '';
 
   constructor(
     private sanitizer: DomSanitizer,

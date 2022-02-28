@@ -85,17 +85,17 @@ describe('Sort component', () => {
   it('creates a sort dropdown that respects active input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    let dropdownButtonEl = getDropdownButtonEl();
+    const dropdownButtonEl = getDropdownButtonEl();
     expect(dropdownButtonEl).not.toBeNull();
 
     dropdownButtonEl.click();
     fixture.detectChanges();
     tick();
 
-    let menuHeaderQuery = '.sky-sort-menu-heading';
+    const menuHeaderQuery = '.sky-sort-menu-heading';
     expect(document.querySelector(menuHeaderQuery)).toHaveText('Sort by');
 
-    let itemsEl = getSortItems();
+    const itemsEl = getSortItems();
     expect(itemsEl.length).toBe(6);
     expect(itemsEl.item(2)).toHaveCssClass('sky-sort-item-selected');
     expect(itemsEl.item(2)).toHaveText('Date created (newest first)');
@@ -104,7 +104,7 @@ describe('Sort component', () => {
   it('creates a sort dropdown with the proper label and title', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    let dropdownButtonEl = getDropdownButtonEl();
+    const dropdownButtonEl = getDropdownButtonEl();
     expect(dropdownButtonEl.getAttribute('aria-label')).toBe('Sort');
     expect(dropdownButtonEl.getAttribute('title')).toBe('Sort');
 
@@ -120,7 +120,7 @@ describe('Sort component', () => {
   it('changes active item on click and emits proper event', fakeAsync(() => {
     fixture.detectChanges();
     tick();
-    let dropdownButtonEl = getDropdownButtonEl();
+    const dropdownButtonEl = getDropdownButtonEl();
     dropdownButtonEl.click();
     fixture.detectChanges();
     tick();
@@ -128,7 +128,7 @@ describe('Sort component', () => {
     tick();
 
     let itemsEl = getSortItems();
-    let clickItem = itemsEl.item(1).querySelector('button') as HTMLElement;
+    const clickItem = itemsEl.item(1).querySelector('button') as HTMLElement;
 
     clickItem.click();
     fixture.detectChanges();
@@ -167,7 +167,7 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
 
-    let itemsEl = getSortItems();
+    const itemsEl = getSortItems();
     expect(itemsEl.item(3)).toHaveCssClass('sky-sort-item-selected');
   }));
 

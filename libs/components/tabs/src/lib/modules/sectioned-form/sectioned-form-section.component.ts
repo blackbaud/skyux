@@ -49,7 +49,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public active: boolean = false;
+  public active = false;
 
   public fieldRequired: boolean;
   public fieldInvalid: boolean;

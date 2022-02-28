@@ -91,7 +91,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @default false
    */
   @Input()
-  public pending: boolean = false;
+  public pending = false;
 
   /**
    * Fires when users click the cancel button.
@@ -105,9 +105,9 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   @Output()
   public deleteTriggered = new EventEmitter<void>();
 
-  public animationState: string = 'shown';
+  public animationState = 'shown';
 
-  public assistiveTextId: string = `sky-inline-delete-assistive-text-${++nextId}`;
+  public assistiveTextId = `sky-inline-delete-assistive-text-${++nextId}`;
 
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
 

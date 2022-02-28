@@ -57,7 +57,7 @@ export class SkySectionedFormComponent
    * @default false
    */
   @Input()
-  public maintainSectionContent: boolean = false;
+  public maintainSectionContent = false;
 
   /**
    * Fires when the active tab changes and emits the index of the active

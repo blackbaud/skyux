@@ -69,7 +69,7 @@ function dispatchMouseEvent(
   clientXArg: number,
   fixture: ComponentFixture<any>
 ): void {
-  let evt = document.createEvent('MouseEvents');
+  const evt = document.createEvent('MouseEvents');
   evt.initMouseEvent(
     eventType,
     false,
@@ -94,8 +94,8 @@ function dispatchMouseEvent(
 function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
   // Mousedown.
   const resizeHandle = getResizeHandle(fixture);
-  let axis = getElementCords(resizeHandle);
-  let event = {
+  const axis = getElementCords(resizeHandle);
+  const event = {
     target: resizeHandle.nativeElement,
     clientX: axis.x,
     clientY: axis.y,
@@ -160,7 +160,7 @@ function isWithin(actual: number, base: number, distance: number): boolean {
 describe('Split view component', () => {
   let component: SplitViewFixtureComponent;
   let fixture: ComponentFixture<SplitViewFixtureComponent>;
-  let minWidth = 100;
+  const minWidth = 100;
   let maxWidth: number;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
@@ -242,8 +242,8 @@ describe('Split view component', () => {
 
       // Mousedown.
       const resizeHandle = getResizeHandle(fixture);
-      let axis = getElementCords(resizeHandle);
-      let event = {
+      const axis = getElementCords(resizeHandle);
+      const event = {
         target: resizeHandle.nativeElement,
         clientX: axis.x,
         clientY: axis.y,
@@ -269,7 +269,7 @@ describe('Split view component', () => {
 
     it('should bind the split view hight when the `bindHeightToWindow` property is set', fakeAsync(() => {
       component.bindHeightToWindow = true;
-      let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
+      const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -290,8 +290,8 @@ describe('Split view component', () => {
 
     it('should not bind the split view hight when the `bindHeightToWindow` property is removed', fakeAsync(() => {
       component.bindHeightToWindow = true;
-      let rendererSpySetStyle = spyOn(renderer, 'setStyle').and.callThrough();
-      let rendererSpyRemoveStyle = spyOn(
+      const rendererSpySetStyle = spyOn(renderer, 'setStyle').and.callThrough();
+      const rendererSpyRemoveStyle = spyOn(
         renderer,
         'removeStyle'
       ).and.callThrough();
@@ -328,7 +328,7 @@ describe('Split view component', () => {
     }));
 
     it('should bind the split view hight when the `bindHeightToWindow` property is set with an element above it', fakeAsync(() => {
-      let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
+      const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
       component.bindHeightToWindow = true;
       component.lowerSplitView = true;
       fixture.detectChanges();
@@ -360,7 +360,7 @@ describe('Split view component', () => {
       `should bind the split view hight when the 'bindHeightToWindow' property is set with a body
     bottom margin and element above it`,
       waitForAsync(() => {
-        let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
+        const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
         component.bindHeightToWindow = true;
         component.lowerSplitView = true;
         component.showActionBar = true;
@@ -715,7 +715,7 @@ describe('Split view component', () => {
     initialization and update correctly`,
       waitForAsync(() => {
         component.bindHeightToWindow = true;
-        let rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
+        const rendererSpy = spyOn(renderer, 'setStyle').and.callThrough();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();

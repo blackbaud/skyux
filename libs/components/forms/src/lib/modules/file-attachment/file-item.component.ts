@@ -61,7 +61,7 @@ export class SkyFileItemComponent implements DoCheck {
   }
 
   public ngDoCheck() {
-    let changes = this.differ.diff(this.fileItem);
+    const changes = this.differ.diff(this.fileItem);
 
     if (changes) {
       let cls: string,

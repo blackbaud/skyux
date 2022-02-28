@@ -82,7 +82,7 @@ describe('Tile dashboard component', () => {
   });
 
   it('should update tile order when tile moves within a column', fakeAsync(() => {
-    let fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
+    const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
       add: {
         providers: [
           {
@@ -93,7 +93,7 @@ describe('Tile dashboard component', () => {
       },
     }).createComponent(TileDashboardTestComponent);
 
-    let newConfig: SkyTileDashboardConfig = {
+    const newConfig: SkyTileDashboardConfig = {
       tiles: [
         {
           id: 'tile-1',
@@ -146,7 +146,7 @@ describe('Tile dashboard component', () => {
   }));
 
   it('should not allow a new config to be set by the parent once initialized', fakeAsync(() => {
-    let fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
+    const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
       add: {
         providers: [
           {
@@ -157,9 +157,9 @@ describe('Tile dashboard component', () => {
       },
     }).createComponent(TileDashboardTestComponent);
 
-    let cmp = fixture.componentInstance;
-    let initialConfig = cmp.dashboardConfig;
-    let newConfig: SkyTileDashboardConfig = {
+    const cmp = fixture.componentInstance;
+    const initialConfig = cmp.dashboardConfig;
+    const newConfig: SkyTileDashboardConfig = {
       tiles: [
         {
           id: 'tile-1',
@@ -200,7 +200,7 @@ describe('Tile dashboard component', () => {
       },
     };
 
-    let initSpy = spyOn(mockTileDashboardService, 'init');
+    const initSpy = spyOn(mockTileDashboardService, 'init');
 
     fixture.detectChanges();
     tick();
@@ -223,7 +223,7 @@ describe('Tile dashboard component', () => {
   }));
 
   it(`should release resources when the component is destroyed`, () => {
-    let fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
+    const fixture = TestBed.overrideComponent(SkyTileDashboardComponent, {
       add: {
         providers: [
           {
@@ -234,7 +234,7 @@ describe('Tile dashboard component', () => {
       },
     }).createComponent(TileDashboardTestComponent);
 
-    let destroySpy = spyOn(mockTileDashboardService, 'destroy');
+    const destroySpy = spyOn(mockTileDashboardService, 'destroy');
 
     fixture.destroy();
 
@@ -242,35 +242,35 @@ describe('Tile dashboard component', () => {
   });
 
   it(`should display columns with equal widths despite a tile's contents`, fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardTestComponent);
 
     fixture.detectChanges();
     tick();
 
-    let el = fixture.elementRef.nativeElement;
+    const el = fixture.elementRef.nativeElement;
 
-    let firstTileContentEl = el.querySelectorAll('sky-tile-content')[0];
-    let wideEl = document.createElement('div');
+    const firstTileContentEl = el.querySelectorAll('sky-tile-content')[0];
+    const wideEl = document.createElement('div');
 
     // Force the first tile's contents to be wider than the second tile's.
     wideEl.style.width = window.innerWidth + 'px';
 
     firstTileContentEl.appendChild(wideEl);
 
-    let tileEls = el.querySelectorAll('.sky-tile-dashboard-column');
+    const tileEls = el.querySelectorAll('.sky-tile-dashboard-column');
 
     expect(tileEls[0].offsetWidth).toEqual(tileEls[1].offsetWidth);
   }));
 
   it(`should allow context to be provided to a tile`, fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardTestComponent);
 
     fixture.detectChanges();
     tick();
 
-    let cmp = fixture.componentInstance;
+    const cmp = fixture.componentInstance;
 
-    let tileComponentRef =
+    const tileComponentRef =
       cmp.dashboardComponent['dashboardService'].getTileComponent(
         'sky-test-tile-2'
       );
@@ -279,7 +279,7 @@ describe('Tile dashboard component', () => {
   }));
 
   it(`should render tiles properly when the parent component's change detection strategy is OnPush`, fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);
 
     fixture.detectChanges();
     tick();
@@ -288,25 +288,25 @@ describe('Tile dashboard component', () => {
     fixture.detectChanges();
     tick();
 
-    let cmp = fixture.componentInstance;
+    const cmp = fixture.componentInstance;
 
-    let tileComponentRef =
+    const tileComponentRef =
       cmp.dashboardComponent['dashboardService'].getTileComponent(
         'sky-test-tile-1'
       );
 
-    let tileEl = tileComponentRef.location.nativeElement;
+    const tileEl = tileComponentRef.location.nativeElement;
 
     expect(tileEl.querySelector('.sky-tile-title')).toHaveText('Tile 1');
   }));
 
   it('should expand all tiles when the message stream sends the expand all message type', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardTestComponent);
 
     fixture.detectChanges();
     tick();
 
-    let cmp = fixture.componentInstance;
+    const cmp = fixture.componentInstance;
     spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
     spyOn(mockUIConfigService, 'getConfig').and.callFake(() => {
       return of();
@@ -428,12 +428,12 @@ describe('Tile dashboard component', () => {
   }));
 
   it('should collapse all tiles when the message stream sends the collapse all message type', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileDashboardTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardTestComponent);
 
     fixture.detectChanges();
     tick();
 
-    let cmp = fixture.componentInstance;
+    const cmp = fixture.componentInstance;
     spyOn(cmp.dashboardComponent.configChange, 'emit').and.callThrough();
     spyOn(mockUIConfigService, 'setConfig').and.callThrough();
 
@@ -550,7 +550,7 @@ describe('Tile dashboard component', () => {
   }));
 
   it('should pass accessibility', async () => {
-    let fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);
+    const fixture = TestBed.createComponent(TileDashboardOnPushTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

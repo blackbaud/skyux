@@ -133,7 +133,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this._tabIndexChange.asObservable();
   }
 
-  public showContent: boolean = false;
+  public showContent = false;
 
   public tabButtonId: string;
 

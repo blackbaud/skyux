@@ -7,7 +7,7 @@ import { SkyTabIndex } from '../tab-index';
   templateUrl: './tabset-active-two-way.component.fixture.html',
 })
 export class TabsetActiveTwoWayBindingTestComponent {
-  public activeTab: string = '1';
+  public activeTab = '1';
 
   public onActiveChange(tabIndex: SkyTabIndex): void {}
 }

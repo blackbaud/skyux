@@ -31,7 +31,7 @@ export class SkyListSecondaryActionsComponent implements AfterViewInit {
   })
   private secondaryActionsTemplate: TemplateRef<any>;
 
-  private secondaryActionsItemToolbarIndex: number = 5000;
+  private secondaryActionsItemToolbarIndex = 5000;
 
   constructor(private dispatcher: ListStateDispatcher) {}
 

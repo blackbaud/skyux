@@ -58,7 +58,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
     return this._disabled;
   }
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   public editDropdownStream = new Subject<SkyDropdownMessage>();
 
@@ -254,7 +254,7 @@ export class SkyTextEditorMenubarComponent implements OnDestroy, OnInit {
   }
 
   private clearFormat(): void {
-    let currentSelection = this.adapterService.getCurrentSelection(
+    const currentSelection = this.adapterService.getCurrentSelection(
       this.editorId
     );
     /* istanbul ignore else */

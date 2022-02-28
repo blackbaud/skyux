@@ -736,7 +736,7 @@ describe('fuzzy datepicker input', () => {
     describe('validation', () => {
       let ngModel: NgModel;
       beforeEach(() => {
-        let inputElement = fixture.debugElement.query(By.css('input'));
+        const inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 
@@ -906,7 +906,7 @@ describe('fuzzy datepicker input', () => {
     describe('min max fuzzy date', () => {
       let ngModel: NgModel;
       beforeEach(() => {
-        let inputElement = fixture.debugElement.query(By.css('input'));
+        const inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 

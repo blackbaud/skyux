@@ -62,9 +62,9 @@ export class AffixFixtureComponent {
   })
   public baseRef: ElementRef;
 
-  public enableLargerBaseElement: boolean = false;
+  public enableLargerBaseElement = false;
 
-  public enableOverflowParent: boolean = false;
+  public enableOverflowParent = false;
 
   public onAffixOffsetChange(): void {}
 

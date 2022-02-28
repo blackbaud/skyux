@@ -76,8 +76,8 @@ describe('Tile component', () => {
   });
 
   it('should render the header text in the expected element', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -86,19 +86,19 @@ describe('Tile component', () => {
   }));
 
   it('should collapse/expand when the header is clicked', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
     fixture.whenStable().then(() => {
-      let titleEl = el.querySelector('.sky-tile-title');
+      const titleEl = el.querySelector('.sky-tile-title');
 
       titleEl.click();
       fixture.detectChanges();
 
-      let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+      const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
       expect(contentAttrs['hidden']).not.toBeNull();
 
@@ -111,14 +111,14 @@ describe('Tile component', () => {
   }));
 
   it('should output state when collapsed/expanded', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
-    let titleEl = el.querySelector('.sky-tile-title');
-    let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+    const titleEl = el.querySelector('.sky-tile-title');
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
     expect(fixture.componentInstance.collapsedOutputCalled).toBe(false);
     expect(contentAttrs['hidden']).not.toBeNull();
 
@@ -132,17 +132,17 @@ describe('Tile component', () => {
   }));
 
   it('should collapse/expand when the chevron is clicked', () => {
-    let fixture = TestBed.createComponent(TileTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
-    let chevronEl = el.querySelector('.sky-chevron');
+    const chevronEl = el.querySelector('.sky-chevron');
 
     chevronEl.click();
     fixture.detectChanges();
 
-    let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
     expect(contentAttrs['hidden']).not.toBeNull();
 
@@ -155,12 +155,12 @@ describe('Tile component', () => {
   });
 
   it('should collapse/expand when the isCollapsed value changes', () => {
-    let fixture = TestBed.createComponent(TileTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
-    let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
     expect(contentAttrs['hidden']).toBe(undefined);
 
@@ -171,9 +171,9 @@ describe('Tile component', () => {
   });
 
   it('should notify the tile dashboard when the tile is collapsed', () => {
-    let mockTileDashboardService = new MockSkyTileDashboardService();
+    const mockTileDashboardService = new MockSkyTileDashboardService();
 
-    let fixture = TestBed.overrideComponent(TileTestComponent, {
+    const fixture = TestBed.overrideComponent(TileTestComponent, {
       add: {
         providers: [
           {
@@ -184,15 +184,15 @@ describe('Tile component', () => {
       },
     }).createComponent(TileTestComponent);
 
-    let el = fixture.nativeElement;
-    let dashboardSpy = spyOn(
+    const el = fixture.nativeElement;
+    const dashboardSpy = spyOn(
       mockTileDashboardService,
       'setTileCollapsed'
     ).and.callThrough();
 
     fixture.detectChanges();
 
-    let chevronEl = el.querySelector('.sky-chevron');
+    const chevronEl = el.querySelector('.sky-chevron');
 
     chevronEl.click();
 
@@ -206,14 +206,14 @@ describe('Tile component', () => {
 
   describe('settings button', () => {
     it('should be absent if a callback is not provided', () => {
-      let html = `
+      const html = `
         <sky-tile tileName="test" [isCollapsed]="tileIsCollapsed">
           <sky-tile-title>Title</sky-tile-title>
           <sky-tile-content>Content</sky-tile-content>
         </sky-tile>
       `;
 
-      let fixture = TestBed.overrideComponent(TileTestComponent, {
+      const fixture = TestBed.overrideComponent(TileTestComponent, {
         set: {
           template: html,
         },
@@ -225,7 +225,7 @@ describe('Tile component', () => {
     });
 
     it('should be present if a callback is provided', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
+      const fixture = TestBed.createComponent(TileTestComponent);
 
       fixture.detectChanges();
 
@@ -233,14 +233,14 @@ describe('Tile component', () => {
     });
 
     it('should not be present if a callback is provided, but the showSettings flag is false', () => {
-      let html = `
+      const html = `
         <sky-tile tileName="test" [isCollapsed]="tileIsCollapsed" (settingsClick)="alert('settings clicked.')" [showSettings]="false">
           <sky-tile-title>Title</sky-tile-title>
           <sky-tile-content>Content</sky-tile-content>
         </sky-tile>
       `;
 
-      let fixture = TestBed.overrideComponent(TileTestComponent, {
+      const fixture = TestBed.overrideComponent(TileTestComponent, {
         set: {
           template: html,
         },
@@ -252,9 +252,9 @@ describe('Tile component', () => {
     });
 
     it('should call the specified callback when clicked', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
-      let cmp = fixture.componentInstance as TileTestComponent;
-      let tileSettingsClickSpy = spyOn(cmp, 'tileSettingsClick');
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const cmp = fixture.componentInstance as TileTestComponent;
+      const tileSettingsClickSpy = spyOn(cmp, 'tileSettingsClick');
 
       fixture.detectChanges();
 
@@ -264,15 +264,15 @@ describe('Tile component', () => {
     });
 
     it('should not collapse the tile when clicked', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
 
       getSettingsButton(fixture).click();
       fixture.detectChanges();
 
-      let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+      const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
       expect(contentAttrs['hidden']).toBe(undefined);
     });
@@ -280,14 +280,14 @@ describe('Tile component', () => {
 
   describe('help button', () => {
     it('should be absent if a callback is not provided', () => {
-      let html = `
+      const html = `
         <sky-tile tileName="test" [isCollapsed]="tileIsCollapsed">
           <sky-tile-title>Title</sky-tile-title>
           <sky-tile-content>Content</sky-tile-content>
         </sky-tile>
       `;
 
-      let fixture = TestBed.overrideComponent(TileTestComponent, {
+      const fixture = TestBed.overrideComponent(TileTestComponent, {
         set: {
           template: html,
         },
@@ -299,7 +299,7 @@ describe('Tile component', () => {
     });
 
     it('should be present if a callback is provided', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
+      const fixture = TestBed.createComponent(TileTestComponent);
 
       fixture.detectChanges();
 
@@ -307,7 +307,7 @@ describe('Tile component', () => {
     });
 
     it('should not be present if a callback is provided, but the showHelp flag is false', () => {
-      let html = `
+      const html = `
         <sky-tile
           tileName="test"
           [isCollapsed]="tileIsCollapsed"
@@ -319,7 +319,7 @@ describe('Tile component', () => {
         </sky-tile>
       `;
 
-      let fixture = TestBed.overrideComponent(TileTestComponent, {
+      const fixture = TestBed.overrideComponent(TileTestComponent, {
         set: {
           template: html,
         },
@@ -331,9 +331,9 @@ describe('Tile component', () => {
     });
 
     it('should call the specified callback when clicked', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
-      let cmp = fixture.componentInstance as TileTestComponent;
-      let tileHelpClickSpy = spyOn(cmp, 'tileHelpClick');
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const cmp = fixture.componentInstance as TileTestComponent;
+      const tileHelpClickSpy = spyOn(cmp, 'tileHelpClick');
 
       fixture.detectChanges();
 
@@ -343,22 +343,22 @@ describe('Tile component', () => {
     });
 
     it('should not collapse the tile when clicked', () => {
-      let fixture = TestBed.createComponent(TileTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TileTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
 
       getHelpButton(fixture).click();
       fixture.detectChanges();
 
-      let contentAttrs = el.querySelector('.sky-tile-content').attributes;
+      const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
       expect(contentAttrs['hidden']).toBe(undefined);
     });
   });
 
   it('should create default aria labels when tileName is not defined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileTestComponent);
+    const fixture = TestBed.createComponent(TileTestComponent);
     fixture.componentInstance.tileName = undefined;
     fixture.detectChanges();
     tick();
@@ -379,7 +379,7 @@ describe('Tile component', () => {
   }));
 
   it('should create accessible aria labels when tileName is defined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TileTestComponent);
+    const fixture = TestBed.createComponent(TileTestComponent);
     fixture.componentInstance.tileName = 'Users';
     fixture.detectChanges();
     tick();
@@ -400,7 +400,7 @@ describe('Tile component', () => {
   }));
 
   it('should pass accessibility', async () => {
-    let fixture = TestBed.createComponent(TileTestComponent);
+    const fixture = TestBed.createComponent(TileTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

@@ -106,7 +106,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
       if (primaryGridEditing) {
         return true;
       } else {
-        let innerEditing: boolean = false;
+        let innerEditing = false;
         this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
           if (detailGrid.api.getEditingCells().length > 0) {
             innerEditing = true;

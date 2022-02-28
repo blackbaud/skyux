@@ -708,7 +708,7 @@ describe('datepicker', () => {
     describe('validation', () => {
       let ngModel: NgModel;
       beforeEach(() => {
-        let inputElement = fixture.debugElement.query(By.css('input'));
+        const inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 
@@ -830,7 +830,7 @@ describe('datepicker', () => {
     describe('min max date', () => {
       let ngModel: NgModel;
       beforeEach(() => {
-        let inputElement = fixture.debugElement.query(By.css('input'));
+        const inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = <NgModel>inputElement.injector.get(NgModel);
       });
 

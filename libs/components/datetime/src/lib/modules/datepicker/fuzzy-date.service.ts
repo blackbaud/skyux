@@ -88,10 +88,11 @@ export class SkyFuzzyDateService implements OnDestroy {
     }
 
     const separator = this.getDateSeparator(format);
-    let dateParts: string[] = [];
-    let formatTokens: string[] = format.split(separator);
+    const dateParts: string[] = [];
+    const formatTokens: string[] = format.split(separator);
     locale = locale || this.currentLocale;
-    let fuzzyDateMoment = this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
+    const fuzzyDateMoment =
+      this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
 
     for (let index = 0; index < formatTokens.length; index++) {
       const token = formatTokens[index];
@@ -152,10 +153,10 @@ export class SkyFuzzyDateService implements OnDestroy {
 
     const separator = this.getDateSeparator(dateFormat);
     const dateFormatIndexes = this.getDateFormatIndexes(dateFormat);
-    let dateString: string = '';
+    let dateString = '';
 
     // Get the components of the date in the order expected of the local format.
-    let dateComponents = [
+    const dateComponents = [
       { value: fuzzyDate.year || 0, index: dateFormatIndexes.yearIndex },
       { value: fuzzyDate.month || 0, index: dateFormatIndexes.monthIndex },
       { value: fuzzyDate.day || 0, index: dateFormatIndexes.dayIndex },
@@ -182,7 +183,7 @@ export class SkyFuzzyDateService implements OnDestroy {
       return;
     }
 
-    let fuzzyDate: SkyFuzzyDate = {};
+    const fuzzyDate: SkyFuzzyDate = {};
     const dateFormatIndexes = this.getDateFormatIndexes(dateFormat);
 
     if (dateFormatIndexes.yearIndex > -1) {
@@ -276,7 +277,7 @@ export class SkyFuzzyDateService implements OnDestroy {
       // Check if day is valid.
       if (day) {
         day = parseInt(day, 10);
-        let fuzzyMoment = this.getMomentFromFuzzyDate({
+        const fuzzyMoment = this.getMomentFromFuzzyDate({
           month: month,
           day: day,
           year: year,
@@ -339,7 +340,7 @@ export class SkyFuzzyDateService implements OnDestroy {
   }
 
   public getCurrentFuzzyDate(): SkyFuzzyDate {
-    let currentDate = moment();
+    const currentDate = moment();
 
     return {
       day: currentDate.date(),
@@ -365,7 +366,7 @@ export class SkyFuzzyDateService implements OnDestroy {
    */
   private getDateSeparator(dateFormat: string): string {
     let returnValue: string;
-    let separators = ['/', '.', '-', ' '];
+    const separators = ['/', '.', '-', ' '];
 
     separators.forEach((separator) => {
       if (!returnValue && dateFormat.indexOf(separator) > 0) {
@@ -448,7 +449,7 @@ export class SkyFuzzyDateService implements OnDestroy {
     dateFormat: string
   ): SkyDateIndexes {
     const dateFormatIndexes = this.getDateFormatIndexes(dateFormat);
-    let dateComponentIndexes = [];
+    const dateComponentIndexes = [];
     if (dateFormatIndexes.yearIndex > -1) {
       dateComponentIndexes.push(dateFormatIndexes.yearIndex);
     }

@@ -14,8 +14,8 @@ export class SkyCharacterCounterIndicatorComponent {
   public characterCountMessage: string;
   public overLimitMessage: string;
 
-  private currentCharacterCountLimit: number = 0;
-  private currentCharacterCount: number = 0;
+  private currentCharacterCountLimit = 0;
+  private currentCharacterCount = 0;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

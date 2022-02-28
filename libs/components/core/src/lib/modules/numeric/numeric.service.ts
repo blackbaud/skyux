@@ -56,7 +56,7 @@ export class SkyNumericService {
     // Get the symbol for the number after rounding, since rounding could push the number
     // into a different symbol range.
     let roundedNumber = this.roundNumber(value, options.digits);
-    let roundedNumberAbs = Math.abs(roundedNumber);
+    const roundedNumberAbs = Math.abs(roundedNumber);
 
     let suffix = '';
 

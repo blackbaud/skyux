@@ -62,7 +62,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      let cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test currency cell' },
         rowIndex: 1,
@@ -104,7 +104,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
   describe('getValue', () => {
     it('returns the value if it is set', () => {
-      let value = 7;
+      const value = 7;
       currencyEditorComponent.value = value;
 
       currencyEditorFixture.detectChanges();
@@ -113,7 +113,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     });
 
     it('returns the value if it is 0', () => {
-      let value = 0;
+      const value = 0;
       currencyEditorComponent.value = value;
 
       currencyEditorFixture.detectChanges();

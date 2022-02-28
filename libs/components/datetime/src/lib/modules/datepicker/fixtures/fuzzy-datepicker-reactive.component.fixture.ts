@@ -25,7 +25,7 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
 
   public minDate: any;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public startingDay = 0;
 

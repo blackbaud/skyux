@@ -20,9 +20,9 @@ export class DatepickerTestComponent {
 
   public minDate: Date;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
-  public showCustomDates: boolean = false;
+  public showCustomDates = false;
 
   public showInvalidDirective = false;
 

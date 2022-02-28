@@ -58,7 +58,7 @@ export class SkyTimepickerInputDirective
     AfterContentInit
 {
   public pickerChangedSubscription: Subscription;
-  private _timeFormat: string = 'hh';
+  private _timeFormat = 'hh';
 
   /**
    * Creates the timepicker input field and picker. Place this attribute on an `input` element,
@@ -144,7 +144,7 @@ export class SkyTimepickerInputDirective
     this.renderer.addClass(this.elRef.nativeElement, 'sky-form-control');
     this.pickerChangedSubscription =
       this.skyTimepickerInput.selectedTimeChanged.subscribe(
-        (newTime: String) => {
+        (newTime: string) => {
           this.writeValue(newTime);
           this._onTouched();
         }
@@ -218,7 +218,7 @@ export class SkyTimepickerInputDirective
       this.control = control;
     }
 
-    let value = control.value;
+    const value = control.value;
     if (!value) {
       return undefined;
     }

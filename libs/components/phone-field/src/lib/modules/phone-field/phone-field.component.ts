@@ -118,7 +118,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * @default true
    */
   @Input()
-  public allowExtensions: boolean = true;
+  public allowExtensions = true;
 
   /**
    * Specifies the
@@ -254,7 +254,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     this.countries = JSON.parse(
       JSON.stringify((window as any).intlTelInputGlobals.getCountryData())
     );
-    for (let country of this.countries) {
+    for (const country of this.countries) {
       country.dialCode = '+' + country.dialCode;
 
       if (country.dialCode.length > this.longestDialCodeLength) {
@@ -362,7 +362,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     let newCountry: SkyPhoneFieldCountry;
 
     for (let i = 1; i < this.longestDialCodeLength + 1; i++) {
-      let dialCode = phoneNumber.substring(0, i);
+      const dialCode = phoneNumber.substring(0, i);
 
       let foundCountry = this.countries.find(
         (country) => country.dialCode === dialCode && country.priority === 0

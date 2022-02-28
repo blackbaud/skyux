@@ -30,11 +30,11 @@ function getLibResourcesObservable(
 
 function isTemplateMatch(sample: string, template: string): boolean {
   let matches = true;
-  let templateTokens = template.split(new RegExp('{\\d+}')).reverse();
+  const templateTokens = template.split(new RegExp('{\\d+}')).reverse();
   let currentToken = templateTokens.pop();
   let lastPosition = 0;
   while (currentToken != undefined && matches) {
-    let tokenPosition: number = sample.indexOf(currentToken, lastPosition);
+    const tokenPosition: number = sample.indexOf(currentToken, lastPosition);
     matches = tokenPosition >= lastPosition;
     lastPosition = tokenPosition + currentToken.length;
     currentToken = templateTokens.pop();
@@ -334,7 +334,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         name: string,
         callback?: () => void
       ): jasmine.CustomMatcherResult {
-        let actual = el.textContent;
+        const actual = el.textContent;
 
         getResourcesObservable(name)
           .toPromise()
@@ -518,7 +518,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         name: string
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
-          let actual = element.textContent;
+          const actual = element.textContent;
 
           getResourcesObservable(name)
             .toPromise()
@@ -546,7 +546,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         name: string
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
-          let actual = element.textContent;
+          const actual = element.textContent;
 
           getLibResourcesObservable(name)
             .toPromise()

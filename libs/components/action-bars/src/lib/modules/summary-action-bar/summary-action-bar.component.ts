@@ -60,9 +60,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
 
   public type: SkySummaryActionBarType;
 
-  public slideDirection: string = 'down';
+  public slideDirection = 'down';
 
-  public summaryId: string = `sky-summary-action-bar-summary-${++nextId}`;
+  public summaryId = `sky-summary-action-bar-summary-${++nextId}`;
 
   private mediaQuerySubscription: Subscription;
 

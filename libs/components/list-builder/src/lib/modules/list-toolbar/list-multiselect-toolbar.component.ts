@@ -126,7 +126,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   }
 
   private reapplyFilter(isSelected: boolean): void {
-    let self = this;
+    const self = this;
 
     this.state
       .pipe(

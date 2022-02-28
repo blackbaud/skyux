@@ -170,7 +170,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   }
 
   private sortToastsForDisplay(toasts: SkyToast[]) {
-    let sortedToasts = toasts && toasts.slice();
+    const sortedToasts = toasts && toasts.slice();
 
     if (
       sortedToasts &&

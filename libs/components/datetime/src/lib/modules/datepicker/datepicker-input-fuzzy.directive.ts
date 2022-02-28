@@ -300,7 +300,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _futureDisabled: boolean = false;
+  private _futureDisabled = false;
 
   private _dateFormat: string;
 
@@ -314,7 +314,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   private _value: any;
 
-  private _yearRequired: boolean = false;
+  private _yearRequired = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -413,7 +413,7 @@ export class SkyFuzzyDatepickerInputDirective
   public onInputBlur(): void {
     this.onTouched();
 
-    let formattedDate = this.fuzzyDateService.format(
+    const formattedDate = this.fuzzyDateService.format(
       this.value,
       this.dateFormat,
       this.locale

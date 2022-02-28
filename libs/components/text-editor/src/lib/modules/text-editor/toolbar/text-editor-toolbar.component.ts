@@ -99,7 +99,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   public styleStateFontName: string;
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _styleState = STYLE_STATE_DEFAULTS;
 
@@ -183,7 +183,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public unlink(): void {
-    let currentSelectionRange = this.adapterService
+    const currentSelectionRange = this.adapterService
       .getCurrentSelection(this.editorId)
       .getRangeAt(0);
     if (currentSelectionRange.toString().length <= 0) {

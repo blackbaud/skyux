@@ -16,7 +16,7 @@ function ensureStyleEl(): void {
   if (!styleEl) {
     styleEl = document.createElement('style');
 
-    let css = document.createTextNode(`
+    const css = document.createTextNode(`
 .${CLS_VIEWKEEPER_FIXED} {
   position: fixed !important;
   z-index: 999;
