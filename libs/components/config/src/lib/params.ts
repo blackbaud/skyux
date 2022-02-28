@@ -1,6 +1,5 @@
-import { HttpParams } from '@angular/common/http';
-
 import { SkyuxConfigParams } from './config-params';
+import { HttpParams } from '@angular/common/http';
 
 /**
  * Given a "url" (could be just querystring, or fully qualified),
@@ -89,7 +88,7 @@ export class SkyAppRuntimeConfigParams {
    * Does the key exist
    */
   public has(key: string): boolean {
-    return key in this.params;
+    return this.params && key in this.params;
   }
 
   /**
