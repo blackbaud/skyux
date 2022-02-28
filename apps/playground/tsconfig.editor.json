@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "../code-examples/src/app/components-routing.module.ts"
+  ],
   "compilerOptions": {
     "types": ["node"]
   }
