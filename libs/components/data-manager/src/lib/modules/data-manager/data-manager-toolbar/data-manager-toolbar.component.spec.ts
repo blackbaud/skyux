@@ -64,7 +64,9 @@ describe('SkyDataManagerToolbarComponent', () => {
   let viewConfig: SkyDataViewConfig;
 
   function setSearchInput(text: string): void {
-    const inputEl = dataManagerToolbarFixture.debugElement.query(By.css('input'));
+    const inputEl = dataManagerToolbarFixture.debugElement.query(
+      By.css('input')
+    );
     inputEl.nativeElement.value = text;
 
     SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'input', {

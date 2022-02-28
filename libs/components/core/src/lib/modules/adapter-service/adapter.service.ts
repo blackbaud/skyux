@@ -195,7 +195,8 @@ export class SkyCoreAdapterService {
       // In certain scenarios, an element is removed after a click event; by the time the event
       // bubbles up to other elements, however, the element has been removed and the computed style returns empty.
       // In this case, we'll need to check the z-index directly, via the style property.
-      const targetZIndex: string = getComputedStyle(el).zIndex || el.style.zIndex;
+      const targetZIndex: string =
+        getComputedStyle(el).zIndex || el.style.zIndex;
       if (
         targetZIndex !== '' &&
         targetZIndex !== 'auto' &&

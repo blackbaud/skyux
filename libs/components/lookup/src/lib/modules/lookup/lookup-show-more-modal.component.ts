@@ -243,7 +243,8 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public selectAll(): void {
-    const selectedItems: { index: number; itemData: any }[] = this.selectedItems;
+    const selectedItems: { index: number; itemData: any }[] =
+      this.selectedItems;
 
     this.displayedItems.forEach((item: any) => {
       if (!item.selected) {
@@ -272,7 +273,8 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public updateDataState(): void {
-    const selectedItems: { index: number; itemData: any }[] = this.selectedItems;
+    const selectedItems: { index: number; itemData: any }[] =
+      this.selectedItems;
     this.items.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(

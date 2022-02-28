@@ -1468,7 +1468,9 @@ describe('List Component', () => {
     });
 
     it('should construct ListToolbarItemsLoadAction action', async(() => {
-      const action = new ListToolbarItemsLoadAction([new ListToolbarItemModel()]);
+      const action = new ListToolbarItemsLoadAction([
+        new ListToolbarItemModel(),
+      ]);
       expect(action).not.toBeUndefined();
     }));
 

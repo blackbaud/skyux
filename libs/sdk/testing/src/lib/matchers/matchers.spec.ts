@@ -491,8 +491,7 @@ describe('Jasmine matchers', () => {
         waitForAsync(() => {
           const messageKey = 'name';
           const messageValue = 'message {0} resource';
-          const elementValue =
-            'message hey look, a template value resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -802,8 +801,7 @@ describe('Jasmine matchers', () => {
         it('should process around template arguments', async () => {
           const messageKey = 'name';
           const messageValue = 'message {0} resource';
-          const elementValue =
-            'message hey look, a template value resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -1074,8 +1072,7 @@ describe('Jasmine matchers', () => {
         it('should process around template arguments', async () => {
           const messageKey = 'name';
           const messageValue = 'message {0} resource';
-          const elementValue =
-            'message hey look, a template value resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {

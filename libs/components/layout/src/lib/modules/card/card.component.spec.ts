@@ -106,7 +106,10 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    const emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     validateCardSelected(cmp, el, true);
 
@@ -144,7 +147,10 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    const emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     cmp.card.onCheckboxChange(true);
 

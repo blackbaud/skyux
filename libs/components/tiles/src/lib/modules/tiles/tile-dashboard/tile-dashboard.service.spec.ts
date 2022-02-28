@@ -607,7 +607,9 @@ describe('Tile dashboard service', () => {
     const multiColumnEls = el.querySelectorAll(
       '.sky-tile-dashboard-layout-multi'
     );
-    const singleColumnEl = el.querySelector('.sky-tile-dashboard-layout-single');
+    const singleColumnEl = el.querySelector(
+      '.sky-tile-dashboard-layout-single'
+    );
 
     expect(getTileCount(multiColumnEls[0])).toBe(0);
     expect(getTileCount(multiColumnEls[1])).toBe(0);
@@ -629,7 +631,9 @@ describe('Tile dashboard service', () => {
     const multiColumnEls = el.querySelectorAll(
       '.sky-tile-dashboard-layout-multi'
     );
-    const singleColumnEl = el.querySelector('.sky-tile-dashboard-layout-single');
+    const singleColumnEl = el.querySelector(
+      '.sky-tile-dashboard-layout-single'
+    );
 
     expect(getTileCount(multiColumnEls[0])).toBe(3);
     expect(getTileCount(multiColumnEls[1])).toBe(1);

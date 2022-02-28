@@ -48,7 +48,8 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
       ? [...newListItems]
       : [...state.items, ...newListItems];
 
-    const count = action.count === undefined ? resultItems.length : action.count;
+    const count =
+      action.count === undefined ? resultItems.length : action.count;
     return new AsyncList<ListItemModel>(
       resultItems,
       action.dataChanged ? Date.now() : state.lastUpdate,

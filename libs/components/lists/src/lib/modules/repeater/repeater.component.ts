@@ -295,7 +295,8 @@ export class SkyRepeaterComponent
         /* istanbul ignore else */
         if (groupName === this.dragulaGroupName) {
           this.renderer.removeClass(subject, 'sky-repeater-item-dragging');
-          const newItemIndex = this.adapterService.getRepeaterItemIndex(subject);
+          const newItemIndex =
+            this.adapterService.getRepeaterItemIndex(subject);
 
           /* sanity check */
           /* istanbul ignore else */

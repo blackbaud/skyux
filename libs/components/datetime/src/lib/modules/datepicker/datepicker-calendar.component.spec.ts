@@ -144,7 +144,9 @@ describe('datepicker calendar', () => {
     verifyDatepicker(nativeElement, 'April 2017', '04', '04', '26');
 
     // verify day of week labels
-    const dayLabels = nativeElement.querySelectorAll('.sky-datepicker-weekdays');
+    const dayLabels = nativeElement.querySelectorAll(
+      '.sky-datepicker-weekdays'
+    );
     expect(dayLabels.item(0)).toHaveText('Su');
     expect(dayLabels.item(1)).toHaveText('Mo');
     expect(dayLabels.item(2)).toHaveText('Tu');
@@ -378,7 +380,9 @@ describe('datepicker calendar', () => {
 
     fixture.detectChanges();
 
-    const dayLabels = nativeElement.querySelectorAll('.sky-datepicker-weekdays');
+    const dayLabels = nativeElement.querySelectorAll(
+      '.sky-datepicker-weekdays'
+    );
     expect(dayLabels.item(6)).toHaveText('Su');
     expect(dayLabels.item(0)).toHaveText('Mo');
     expect(dayLabels.item(1)).toHaveText('Tu');
@@ -394,7 +398,9 @@ describe('datepicker calendar', () => {
 
     fixture.detectChanges();
 
-    const dayLabels = nativeElement.querySelectorAll('.sky-datepicker-weekdays');
+    const dayLabels = nativeElement.querySelectorAll(
+      '.sky-datepicker-weekdays'
+    );
     expect(dayLabels.item(4)).toHaveText('Su');
     expect(dayLabels.item(5)).toHaveText('Mo');
     expect(dayLabels.item(6)).toHaveText('Tu');

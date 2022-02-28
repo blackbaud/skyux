@@ -506,23 +506,25 @@ export class SkyListToolbarComponent
               .length === 0
         );
 
-        const resultSortSelectors = [...sorts, ...available].map((sortLabels) => {
-          const fs = fieldSelectors.filter((f) => {
-            return (
-              f.fieldSelector === sortLabels.fieldSelector &&
-              f.descending === sortLabels.descending
-            );
-          });
-          let selected = false;
-          if (fs.length > 0) {
-            selected = true;
-          }
+        const resultSortSelectors = [...sorts, ...available].map(
+          (sortLabels) => {
+            const fs = fieldSelectors.filter((f) => {
+              return (
+                f.fieldSelector === sortLabels.fieldSelector &&
+                f.descending === sortLabels.descending
+              );
+            });
+            let selected = false;
+            if (fs.length > 0) {
+              selected = true;
+            }
 
-          return {
-            sort: sortLabels,
-            selected: selected,
-          };
-        });
+            return {
+              sort: sortLabels,
+              selected: selected,
+            };
+          }
+        );
 
         return resultSortSelectors;
       }

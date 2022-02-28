@@ -236,13 +236,17 @@ describe('Paging component', () => {
         component.label = 'My label';
         fixture.detectChanges();
 
-        const navElement = element.query(By.css('nav.sky-paging')).nativeElement;
+        const navElement = element.query(
+          By.css('nav.sky-paging')
+        ).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('My label');
       });
 
       it('should have a nav role on the parent element with a default aria-label', () => {
-        const navElement = element.query(By.css('nav.sky-paging')).nativeElement;
+        const navElement = element.query(
+          By.css('nav.sky-paging')
+        ).nativeElement;
 
         expect(navElement.getAttribute('aria-label')).toBe('Pagination');
       });

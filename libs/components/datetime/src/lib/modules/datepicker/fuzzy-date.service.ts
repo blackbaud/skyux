@@ -91,7 +91,8 @@ export class SkyFuzzyDateService implements OnDestroy {
     const dateParts: string[] = [];
     const formatTokens: string[] = format.split(separator);
     locale = locale || this.currentLocale;
-    const fuzzyDateMoment = this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
+    const fuzzyDateMoment =
+      this.getMomentFromFuzzyDate(fuzzyDate).locale(locale);
 
     for (let index = 0; index < formatTokens.length; index++) {
       const token = formatTokens[index];
