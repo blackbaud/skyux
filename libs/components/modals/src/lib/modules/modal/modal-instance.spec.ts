@@ -6,7 +6,7 @@ import { SkyModalCloseArgs } from './modal-close-args';
 
 describe('Modal instance', () => {
   it('should not error if no close callback is specified', () => {
-    let instance = new SkyModalInstance();
+    const instance = new SkyModalInstance();
 
     instance.close();
   });

@@ -68,7 +68,7 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
 
   public height: number;
 
-  public showFocusableChildren: boolean = false;
+  public showFocusableChildren = false;
 
   public popoverType: 'info' | 'danger';
 

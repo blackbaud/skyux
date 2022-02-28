@@ -12,11 +12,11 @@ describe('Navbar component', () => {
   });
 
   it('should render navbar items', () => {
-    let fixture = TestBed.createComponent(SkyNavbarTestComponent);
+    const fixture = TestBed.createComponent(SkyNavbarTestComponent);
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     expect(el.querySelectorAll('.sky-navbar .sky-navbar-item').length).toBe(2);
   });

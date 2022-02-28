@@ -67,7 +67,7 @@ export class SkySplitViewDrawerComponent
 
   public isMobile = false;
 
-  public splitViewDrawerId: string = `sky-split-view-drawer-${++skySplitViewNextId}`;
+  public splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
 
   public get width(): number {
     if (this.isMobile) {

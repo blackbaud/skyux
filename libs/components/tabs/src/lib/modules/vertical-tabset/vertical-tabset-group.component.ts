@@ -57,9 +57,9 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject();
 
-  private openBeforeTabsHidden: boolean = false;
+  private openBeforeTabsHidden = false;
 
-  private _open: boolean = false;
+  private _open = false;
 
   constructor(
     private tabService: SkyVerticalTabsetService,

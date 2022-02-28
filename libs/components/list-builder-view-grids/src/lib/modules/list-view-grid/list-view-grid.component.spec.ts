@@ -90,7 +90,7 @@ describe('List View Grid Component', () => {
 
       fixture.detectChanges();
 
-      let items = [
+      const items = [
         new ListItemModel('1', {
           id: '1',
           column1: '1',
@@ -248,11 +248,11 @@ describe('List View Grid Component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
 
-          let idsChangeSpy = spyOn(
+          const idsChangeSpy = spyOn(
             component.grid.selectedColumnIdsChange,
             'emit'
           ).and.callThrough();
-          let dispatcherSpy = spyOn(
+          const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
             'next'
           ).and.callThrough();
@@ -290,7 +290,7 @@ describe('List View Grid Component', () => {
             }
           );
 
-          let dispatcherSpy = spyOn(
+          const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
             'next'
           ).and.callThrough();
@@ -323,7 +323,7 @@ describe('List View Grid Component', () => {
       it('should listen for the sortFieldChange event', fakeAsync(() => {
         setupTest();
         tick(110); // wait for async heading
-        let headerEl = nativeElement
+        const headerEl = nativeElement
           .querySelectorAll('th')
           .item(0) as HTMLElement;
         SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup');
@@ -347,7 +347,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
 
-        let headerIconEl = nativeElement
+        const headerIconEl = nativeElement
           .querySelectorAll('th i')
           .item(0) as HTMLElement;
         expect(headerIconEl).toHaveCssClass('fa-caret-up');
@@ -399,7 +399,7 @@ describe('List View Grid Component', () => {
         tick();
 
         state.pipe(take(1)).subscribe((current) => {
-          let searchFound = current.search.functions[0](
+          const searchFound = current.search.functions[0](
             { column1: 'foobar' },
             'foobar'
           );
@@ -407,7 +407,7 @@ describe('List View Grid Component', () => {
         });
 
         state.pipe(take(1)).subscribe((current) => {
-          let searchFound = current.search.functions[0](
+          const searchFound = current.search.functions[0](
             { column1: 'foobar' },
             'baz'
           );
@@ -468,10 +468,10 @@ describe('List View Grid Component', () => {
       describe('Models and State', () => {
         it('should run ListViewGridColumnsLoadAction action', async(() => {
           setupTest();
-          let gridDispatcher = new GridStateDispatcher();
-          let gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridDispatcher = new GridStateDispatcher();
+          const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
-          let columns = [
+          const columns = [
             new SkyGridColumnModel(component.viewtemplates.first),
             new SkyGridColumnModel(component.viewtemplates.first),
           ];
@@ -483,10 +483,10 @@ describe('List View Grid Component', () => {
 
         it('should run ListViewDisplayedGridColumnsLoadAction action with no refresh', async(() => {
           setupTest();
-          let gridDispatcher = new GridStateDispatcher();
-          let gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridDispatcher = new GridStateDispatcher();
+          const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
-          let columns = [
+          const columns = [
             new SkyGridColumnModel(component.viewtemplates.first),
             new SkyGridColumnModel(component.viewtemplates.first),
           ];

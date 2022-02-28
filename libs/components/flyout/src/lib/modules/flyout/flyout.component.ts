@@ -87,7 +87,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public config: SkyFlyoutConfig;
   public enableTrapFocus: boolean;
   public enableTrapFocusAutoCapture: boolean;
-  public flyoutId: string = `sky-flyout-${++nextId}`;
+  public flyoutId = `sky-flyout-${++nextId}`;
   public flyoutState = FLYOUT_CLOSED_STATE;
   public isOpen = false;
   public isOpening = false;
@@ -123,7 +123,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public get primaryAction(): SkyFlyoutAction {
-    let primaryAction = this.config.primaryAction;
+    const primaryAction = this.config.primaryAction;
     if (primaryAction) {
       return primaryAction;
     }
@@ -144,7 +144,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   /**
    * @internal
    */
-  public widthStep: number = 10;
+  public widthStep = 10;
 
   /**
    * @internal
@@ -585,6 +585,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
           if (this.resizeKeyControlActive) {
             this.resizeKeyControlActive = false;
           }
+          break;
         case 'left':
           if (this.resizeKeyControlActive) {
             /* istanbul ignore else */

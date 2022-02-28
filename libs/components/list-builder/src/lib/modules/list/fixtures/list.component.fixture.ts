@@ -30,7 +30,7 @@ export class ListTestComponent {
   constructor(@Inject('items') public items: any) {}
 
   public get options() {
-    let bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
+    const bs = new BehaviorSubject<Array<any>>(['banana', 'apple']);
     return bs.asObservable();
   }
 }

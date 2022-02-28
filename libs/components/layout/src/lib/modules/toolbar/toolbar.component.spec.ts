@@ -17,12 +17,12 @@ describe('toolbar component', () => {
     });
 
     it('should create a toolbar with transcluded items', () => {
-      let fixture = TestBed.createComponent(ToolbarTestComponent);
-      let el = fixture.nativeElement as HTMLElement;
+      const fixture = TestBed.createComponent(ToolbarTestComponent);
+      const el = fixture.nativeElement as HTMLElement;
 
       fixture.detectChanges();
 
-      let buttonEls = el.querySelectorAll(
+      const buttonEls = el.querySelectorAll(
         '.sky-toolbar-container .sky-toolbar-item .sky-btn'
       );
 
@@ -31,7 +31,7 @@ describe('toolbar component', () => {
     });
 
     it('should be accessible', async(() => {
-      let fixture = TestBed.createComponent(ToolbarTestComponent);
+      const fixture = TestBed.createComponent(ToolbarTestComponent);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();
@@ -48,12 +48,12 @@ describe('toolbar component', () => {
     });
 
     it('should create a toolbar with sections with transcluded items', () => {
-      let fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
-      let el = fixture.nativeElement as HTMLElement;
+      const fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
+      const el = fixture.nativeElement as HTMLElement;
 
       fixture.detectChanges();
 
-      let buttonEls = el.querySelectorAll(
+      const buttonEls = el.querySelectorAll(
         '.sky-toolbar-container .sky-toolbar-section .sky-toolbar-item .sky-btn'
       );
 
@@ -66,7 +66,7 @@ describe('toolbar component', () => {
     });
 
     it('should be accessible', async(() => {
-      let fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
+      const fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(fixture.nativeElement).toBeAccessible();

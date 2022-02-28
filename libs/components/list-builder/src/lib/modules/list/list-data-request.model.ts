@@ -31,7 +31,7 @@ export class ListDataRequestModel {
    * Indicates whether to disable the search bar and filter button.
    * @default false
    */
-  public isToolbarDisabled: boolean = false;
+  public isToolbarDisabled = false;
 
   constructor(data?: any) {
     if (data !== undefined) {

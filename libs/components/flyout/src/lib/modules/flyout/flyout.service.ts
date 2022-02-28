@@ -41,7 +41,7 @@ import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
-  private isOpening: boolean = false;
+  private isOpening = false;
   private ngUnsubscribe = new Subject<boolean>();
 
   constructor(

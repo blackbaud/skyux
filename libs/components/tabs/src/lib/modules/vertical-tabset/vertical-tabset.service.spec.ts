@@ -9,15 +9,15 @@ class MockChangeDetector {
 
 describe('Vertical tabset service', () => {
   let service: SkyVerticalTabsetService;
-  let mockDetectChanges: any = new MockChangeDetector();
-  let mockQueryService = new MockSkyMediaQueryService();
+  const mockDetectChanges: any = new MockChangeDetector();
+  const mockQueryService = new MockSkyMediaQueryService();
 
   beforeEach(() => {
     service = new SkyVerticalTabsetService(mockQueryService as any);
   });
 
   it('should add two non active tabs', () => {
-    let tab1 = new SkyVerticalTabComponent(
+    const tab1 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -25,7 +25,7 @@ describe('Vertical tabset service', () => {
     );
     tab1.tabHeading = 'tab 1';
 
-    let tab2 = new SkyVerticalTabComponent(
+    const tab2 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -53,13 +53,13 @@ describe('Vertical tabset service', () => {
   });
 
   it('should add active tab', () => {
-    let tab1 = new SkyVerticalTabComponent(
+    const tab1 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
       undefined
     );
-    let tab2 = new SkyVerticalTabComponent(
+    const tab2 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -80,14 +80,14 @@ describe('Vertical tabset service', () => {
   });
 
   it('should deactive old active tab', () => {
-    let tab1 = new SkyVerticalTabComponent(
+    const tab1 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
       undefined
     );
     tab1.active = true;
-    let tab2 = new SkyVerticalTabComponent(
+    const tab2 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -108,13 +108,13 @@ describe('Vertical tabset service', () => {
   });
 
   it('content should return undefined when no active tabs', () => {
-    let tab1 = new SkyVerticalTabComponent(
+    const tab1 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
       undefined
     );
-    let tab2 = new SkyVerticalTabComponent(
+    const tab2 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -128,7 +128,7 @@ describe('Vertical tabset service', () => {
   });
 
   it('destroy tab removes it from the service', () => {
-    let tab1 = new SkyVerticalTabComponent(
+    const tab1 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,
@@ -136,7 +136,7 @@ describe('Vertical tabset service', () => {
     );
     tab1.tabHeading = 'tab 1';
 
-    let tab2 = new SkyVerticalTabComponent(
+    const tab2 = new SkyVerticalTabComponent(
       undefined,
       mockDetectChanges,
       undefined,

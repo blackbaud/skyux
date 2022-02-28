@@ -96,7 +96,7 @@ export class SkyRadioGroupComponent
    * @default false
    */
   @Input()
-  public required: boolean = false;
+  public required = false;
 
   /**
    * Specifies the value of the radio button to select by default when the group loads.
@@ -141,7 +141,7 @@ export class SkyRadioGroupComponent
 
   private ngUnsubscribe = new Subject();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _name = `sky-radio-group-${nextUniqueId++}`;
 

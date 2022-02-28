@@ -141,7 +141,7 @@ export class SkyAutonumericDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    const noErrors: null = null; // tslint:disable-line: no-null-keyword
+    const noErrors = null; // tslint:disable-line: no-null-keyword
 
     if (!this.control) {
       this.control = control;

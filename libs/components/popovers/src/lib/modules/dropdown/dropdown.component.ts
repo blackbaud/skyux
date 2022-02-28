@@ -182,9 +182,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._menuContainerElementRef;
   }
 
-  public isMouseEnter: boolean = false;
+  public isMouseEnter = false;
 
-  public isVisible: boolean = false;
+  public isVisible = false;
 
   public menuId: string;
 

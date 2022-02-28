@@ -57,14 +57,14 @@ export class SkyLookupTestComponent implements OnInit {
   public data: any[];
   public descriptorProperty: string;
   public enabledSearchResultTemplate: TemplateRef<any>;
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
   public form: FormGroup;
   public idProperty: string;
-  public ignoreAddDataUpdate: boolean = false;
+  public ignoreAddDataUpdate = false;
   public placeholderText: string;
   public propertiesToSearch: string[];
   public selectMode: SkyLookupSelectModeType;
-  public showAddButton: boolean = false;
+  public showAddButton = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public get friends(): any[] {
@@ -176,7 +176,7 @@ export class SkyLookupTestComponent implements OnInit {
 
     const totalCount = items.length;
     let hasMore = false;
-    let itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
+    const itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
 
     items = items.slice(args.offset, args.offset + itemCountToReturn);
     hasMore = args.offset + itemCountToReturn < totalCount;

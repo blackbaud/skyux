@@ -17,7 +17,7 @@ describe('File size pipe', () => {
     expected: string,
     newFileSizePipe: SkyFileSizePipe
   ) {
-    let result = newFileSizePipe.transform(value);
+    const result = newFileSizePipe.transform(value);
 
     expect(result).toBe(expected);
   }

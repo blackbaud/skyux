@@ -184,7 +184,7 @@ export class SkyAppResourcesService {
       catchError(() => getDefaultObs())
     );
 
-    let mappedNameObs = this.resourceNameProvider
+    const mappedNameObs = this.resourceNameProvider
       ? this.resourceNameProvider.getResourceName(name)
       : observableOf(name);
 

@@ -52,9 +52,9 @@ import { SkyCheckboxModule } from './checkbox.module';
 })
 class SingleCheckboxComponent implements AfterViewInit {
   public checkboxType: string;
-  public icon: string = 'bold';
-  public isChecked: boolean = false;
-  public isDisabled: boolean = false;
+  public icon = 'bold';
+  public isChecked = false;
+  public isDisabled = false;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent;
@@ -85,7 +85,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   `,
 })
 class CheckboxWithFormDirectivesComponent {
-  public isGood: boolean = false;
+  public isGood = false;
 }
 
 /** Simple component for testing a required template-driven checkbox. */
@@ -195,8 +195,8 @@ class MultipleCheckboxesComponent {}
   </sky-checkbox>`,
 })
 class CheckboxWithTabIndexComponent {
-  public customTabIndex: number = 7;
-  public isDisabled: boolean = false;
+  public customTabIndex = 7;
+  public isDisabled = false;
 }
 
 /** Simple test component with an aria-label set. */
@@ -233,7 +233,7 @@ class CheckboxWithChangeEventComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 class CheckboxWithOnPushChangeDetectionComponent {
-  public isChecked: boolean = false;
+  public isChecked = false;
   constructor(public ref: ChangeDetectorRef) {}
 }
 // #endregion
@@ -242,7 +242,7 @@ describe('Checkbox component', () => {
   let fixture: ComponentFixture<any>;
 
   function createEvent(eventName: string) {
-    let evt = document.createEvent('CustomEvent');
+    const evt = document.createEvent('CustomEvent');
     evt.initEvent(eventName, false, false);
     return evt;
   }
@@ -380,7 +380,7 @@ describe('Checkbox component', () => {
     });
 
     it('should project the checkbox content into the label element', () => {
-      let label = <HTMLLabelElement>(
+      const label = <HTMLLabelElement>(
         checkboxNativeElement.querySelector(
           '.sky-checkbox-wrapper sky-checkbox-label'
         )
@@ -570,7 +570,7 @@ describe('Checkbox component', () => {
     }));
 
     it('should assign a unique id to each checkbox', () => {
-      let [firstId, secondId] = fixture.debugElement
+      const [firstId, secondId] = fixture.debugElement
         .queryAll(By.directive(SkyCheckboxComponent))
         .map(
           (debugElement) => debugElement.nativeElement.querySelector('input').id
@@ -1079,10 +1079,10 @@ describe('Checkbox component', () => {
     }));
 
     it('should forward name value to input element', () => {
-      let checkboxElement = fixture.debugElement.query(
+      const checkboxElement = fixture.debugElement.query(
         By.directive(SkyCheckboxComponent)
       );
-      let inputElement = <HTMLInputElement>(
+      const inputElement = <HTMLInputElement>(
         checkboxElement.nativeElement.querySelector('input')
       );
 

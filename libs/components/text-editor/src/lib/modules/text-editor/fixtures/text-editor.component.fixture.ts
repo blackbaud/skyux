@@ -21,7 +21,7 @@ import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
 })
 export class TextEditorFixtureComponent {
   public autofocus = false;
-  public disabled: boolean = false;
+  public disabled = false;
   public fontList = FONT_LIST_DEFAULTS;
   public fontSizeList = FONT_SIZE_LIST_DEFAULTS;
   public initialStyleState: SkyTextEditorStyleState =
@@ -53,5 +53,5 @@ export class TextEditorFixtureComponent {
     'undo-redo',
     'link',
   ];
-  public value: string = '<p>Some text</p>';
+  public value = '<p>Some text</p>';
 }

@@ -89,13 +89,13 @@ export class SkyModalHostComponent {
       SkyModalHostService.fullPageModalCount > 0
     );
 
-    let providers = params.providers || /* istanbul ignore next */ [];
+    const providers = params.providers || /* istanbul ignore next */ [];
     const injector = Injector.create({
       providers,
       parent: this.injector,
     });
 
-    let modalComponentRef = this.target.createComponent(
+    const modalComponentRef = this.target.createComponent(
       factory,
       undefined,
       injector

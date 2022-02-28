@@ -25,7 +25,7 @@ export class DatepickerReactiveTestComponent implements OnInit {
 
   public minDate: Date;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public startingDay = 0;
 

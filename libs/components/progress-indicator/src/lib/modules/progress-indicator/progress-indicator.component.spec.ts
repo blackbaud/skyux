@@ -532,7 +532,7 @@ describe('Progress indicator component', function () {
 
       expect(componentInstance.messageStream.observers.length).toBe(1);
 
-      let previousStream = componentInstance.messageStream;
+      const previousStream = componentInstance.messageStream;
       componentInstance.messageStream = undefined;
 
       fixture.detectChanges();

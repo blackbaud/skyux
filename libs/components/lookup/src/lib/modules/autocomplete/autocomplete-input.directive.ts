@@ -144,7 +144,7 @@ export class SkyAutocompleteInputDirective
 
   private control: AbstractControl;
 
-  private isFirstChange: boolean = true;
+  private isFirstChange = true;
 
   private ngUnsubscribe = new Subject<void>();
 

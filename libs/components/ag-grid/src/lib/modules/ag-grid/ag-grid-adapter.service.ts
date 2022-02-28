@@ -55,7 +55,7 @@ export class SkyAgGridAdapterService {
   }
 
   public focusOnFocusableChildren(element: HTMLElement): void {
-    let focusableChildren =
+    const focusableChildren =
       this.skyAdapterService.getFocusableChildren(element);
 
     if (focusableChildren.length) {

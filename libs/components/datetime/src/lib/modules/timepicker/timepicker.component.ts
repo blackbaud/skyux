@@ -67,7 +67,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public set selectedHour(setHour: number) {
     let hour: number;
-    let hourOffset: number = 0;
+    let hourOffset = 0;
     if (this.selectedMeridies === 'AM' && setHour === 12) {
       hourOffset = -12;
     }
@@ -158,7 +158,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public hours: Array<number>;
 
-  public is8601: boolean = false;
+  public is8601 = false;
 
   public isOpen: boolean;
 
@@ -172,7 +172,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public returnFormat: string;
 
-  public timeFormat: string = 'hh';
+  public timeFormat = 'hh';
 
   public timepickerId: string;
 
@@ -285,10 +285,10 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public setFormat(format: string): void {
-    let h: number = 12;
-    let m: number = 12;
-    let minuteMultiplier: number = 5;
-    let localeFormat: string = 'h:mm A';
+    let h = 12;
+    let m = 12;
+    let minuteMultiplier = 5;
+    let localeFormat = 'h:mm A';
     if (format === 'hh') {
       h = 12;
       m = 12;

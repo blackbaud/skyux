@@ -36,7 +36,7 @@ import { SkyCoreAdapterService } from '@skyux/core';
 import { Component, DebugElement, Type } from '@angular/core';
 import { SkyTextEditorComponent } from './text-editor.component';
 
-const HELLO_WORLD: string = '<p>Hello world</p>';
+const HELLO_WORLD = '<p>Hello world</p>';
 
 describe('Text editor', () => {
   let fixture: ComponentFixture<any>;
@@ -58,7 +58,7 @@ describe('Text editor', () => {
   })
   class TextEditorWithNgModel {
     public value: string;
-    public isRequired: boolean = true;
+    public isRequired = true;
   }
 
   @Component({
@@ -1241,7 +1241,7 @@ describe('Text editor', () => {
     it('should set the style of the iframe body to the default style if a style state is not provided', fakeAsync(() => {
       fixture.detectChanges();
 
-      let style: CSSStyleDeclaration =
+      const style: CSSStyleDeclaration =
         iframeDocument.querySelector('body').style;
       expect(style.getPropertyValue('background-color')).toEqual(
         'rgba(0, 0, 0, 0)'
@@ -1259,10 +1259,10 @@ describe('Text editor', () => {
     }));
 
     it('should set the style of the iframe body to the provided style state', fakeAsync(() => {
-      const backColor: string = '#333333'; // rgb(51, 51, 51)
-      const fontColor: string = '#EEEEEE'; // rgb(238, 238, 238)
-      const font: string = 'Times New Roman';
-      const fontSize: number = 22;
+      const backColor = '#333333'; // rgb(51, 51, 51)
+      const fontColor = '#EEEEEE'; // rgb(238, 238, 238)
+      const font = 'Times New Roman';
+      const fontSize = 22;
 
       testComponent.initialStyleState = {
         backColor: backColor,
@@ -1272,7 +1272,7 @@ describe('Text editor', () => {
       } as SkyTextEditorStyleState;
       fixture.detectChanges();
 
-      let style: CSSStyleDeclaration =
+      const style: CSSStyleDeclaration =
         iframeDocument.querySelector('body').style;
       expect(style.getPropertyValue('background-color')).toEqual(
         'rgb(51, 51, 51)'

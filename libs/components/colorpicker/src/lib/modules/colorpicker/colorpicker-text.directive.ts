@@ -27,8 +27,8 @@ export class SkyColorpickerTextDirective {
 
   @HostListener('input', ['$event'])
   public changeInput(event: Event) {
-    let element: HTMLInputElement = <HTMLInputElement>event.target;
-    let elementValue = parseFloat(element.value);
+    const element: HTMLInputElement = <HTMLInputElement>event.target;
+    const elementValue = parseFloat(element.value);
     if (this.maxRange === undefined) {
       this.newColorContrast.emit({
         color: element.value,

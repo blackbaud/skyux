@@ -38,7 +38,7 @@ export class SkyScrollableHostService {
   public watchScrollableHost(
     elementRef: ElementRef
   ): Observable<HTMLElement | Window> {
-    let subscribers: Subscriber<HTMLElement | Window>[] = [];
+    const subscribers: Subscriber<HTMLElement | Window>[] = [];
     let mutationObserver: MutationObserver;
 
     return new Observable((subscriber) => {
@@ -47,7 +47,7 @@ export class SkyScrollableHostService {
       let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
       if (subscribers.length === 1) {
         mutationObserver = this.mutationObserverSvc.create(() => {
-          let newScrollableHost = this.findScrollableHost(
+          const newScrollableHost = this.findScrollableHost(
             elementRef.nativeElement
           );
 
@@ -90,7 +90,7 @@ export class SkyScrollableHostService {
   public watchScrollableHostScrollEvents(
     elementRef: ElementRef
   ): Observable<void> {
-    let subscribers: Subscriber<void>[] = [];
+    const subscribers: Subscriber<void>[] = [];
     let scrollableHost: HTMLElement | Window;
 
     let newScrollableHostObservable = new Subject();

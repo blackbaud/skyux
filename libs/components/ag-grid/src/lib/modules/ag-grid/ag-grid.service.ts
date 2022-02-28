@@ -200,7 +200,7 @@ export class SkyAgGridService implements OnDestroy {
     defaultGridOptions: GridOptions,
     providedGridOptions: GridOptions
   ): GridOptions {
-    let mergedGridOptions = {
+    const mergedGridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
       columnTypes: {
@@ -478,7 +478,7 @@ export class SkyAgGridService implements OnDestroy {
   private getDefaultEditableGridOptions(
     args: SkyGetGridOptionsArgs
   ): GridOptions {
-    let defaultGridOptions = this.getDefaultGridOptions(args);
+    const defaultGridOptions = this.getDefaultGridOptions(args);
 
     defaultGridOptions.rowSelection = 'none';
 
@@ -496,7 +496,7 @@ export class SkyAgGridService implements OnDestroy {
       date = new Date(params.value);
     }
 
-    let formattedDate =
+    const formattedDate =
       date &&
       date.toLocaleDateString &&
       date.toLocaleDateString(locale, dateConfig as Intl.DateTimeFormatOptions);

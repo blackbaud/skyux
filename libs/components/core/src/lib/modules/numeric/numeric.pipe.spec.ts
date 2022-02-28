@@ -160,7 +160,7 @@ describe('Numeric pipe', () => {
     });
 
     it('should not cache the result when calling `transform` with options changes', () => {
-      let options: NumericOptions = {
+      const options: NumericOptions = {
         digits: 4,
         format: 'number',
         currencySign: 'standard',
@@ -235,8 +235,8 @@ describe('Numeric pipe', () => {
     });
 
     it('should not cache the result when calling `transform` twice with a provided locale change', () => {
-      let fixture = TestBed.createComponent(NumericPipeFixtureComponent);
-      let component = fixture.componentInstance;
+      const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+      const component = fixture.componentInstance;
       const spy = spyOn(numericService, 'formatNumber').and.callThrough();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);

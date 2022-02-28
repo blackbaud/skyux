@@ -47,7 +47,7 @@ describe('in memory data provider', () => {
   });
 
   it('should handle searching with no results, clearing search, and then having a paging change', fakeAsync(() => {
-    let provider = new SkyListInMemoryDataProvider(items);
+    const provider = new SkyListInMemoryDataProvider(items);
 
     let searchObject = {
       searchText: 'z',
@@ -114,7 +114,7 @@ describe('in memory data provider', () => {
   }));
 
   it('should handle more than 10 data entries when paging is undefined', fakeAsync(() => {
-    let provider = new SkyListInMemoryDataProvider(
+    const provider = new SkyListInMemoryDataProvider(
       observableOf([
         {
           id: '1',
@@ -179,7 +179,7 @@ describe('in memory data provider', () => {
         },
       ])
     );
-    let request = new ListDataRequestModel({});
+    const request = new ListDataRequestModel({});
 
     tick();
 
@@ -195,9 +195,9 @@ describe('in memory data provider', () => {
 
   describe('sorting', () => {
     it('should handle an ascending sort', fakeAsync(() => {
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let request = new ListDataRequestModel({
+      const request = new ListDataRequestModel({
         sort: {
           fieldSelectors: [
             {
@@ -224,9 +224,9 @@ describe('in memory data provider', () => {
     }));
 
     it('should handle a descending sort', fakeAsync(() => {
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let request = new ListDataRequestModel({
+      const request = new ListDataRequestModel({
         sort: {
           fieldSelectors: [
             {
@@ -285,9 +285,9 @@ describe('in memory data provider', () => {
       ]);
       /* tslint:enable */
 
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let request = new ListDataRequestModel({
+      const request = new ListDataRequestModel({
         sort: {
           fieldSelectors: [
             {
@@ -359,9 +359,9 @@ describe('in memory data provider', () => {
         },
       ]);
 
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let request = new ListDataRequestModel({
+      const request = new ListDataRequestModel({
         sort: {
           fieldSelectors: [
             {
@@ -397,9 +397,9 @@ describe('in memory data provider', () => {
       );
     }
     it('should handle a simple filter', fakeAsync(() => {
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let request = new ListDataRequestModel({
+      const request = new ListDataRequestModel({
         filters: [
           new ListFilterModel({
             name: 'fruitColor',
@@ -442,8 +442,8 @@ describe('in memory data provider', () => {
     }));
 
     it('should not execute filters when the toolbar is disabled', fakeAsync(() => {
-      let provider = new SkyListInMemoryDataProvider(items);
-      let request = new ListDataRequestModel({
+      const provider = new SkyListInMemoryDataProvider(items);
+      const request = new ListDataRequestModel({
         isToolbarDisabled: true,
         filters: [
           new ListFilterModel({
@@ -466,9 +466,9 @@ describe('in memory data provider', () => {
     }));
 
     it('should handle both a filter and a search', fakeAsync(() => {
-      let provider = new SkyListInMemoryDataProvider(items);
+      const provider = new SkyListInMemoryDataProvider(items);
 
-      let searchObject = {
+      const searchObject = {
         searchText: 'berry',
         functions: [searchFunction],
       };

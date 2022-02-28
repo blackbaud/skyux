@@ -10,14 +10,14 @@ import { SkyToastAdapterService } from './toast-adapter.service';
 
 describe('Toast adapter service', () => {
   let adapter: SkyToastAdapterService;
-  let rendererCallCounts = {
+  const rendererCallCounts = {
     appendCalledCount: 0,
     removeCalledCount: 0,
   };
   let applicationRef: ApplicationRef;
 
   beforeEach(() => {
-    let rendererMock = {
+    const rendererMock = {
       appendChild: () => {
         rendererCallCounts.appendCalledCount++;
       },
@@ -50,7 +50,7 @@ describe('Toast adapter service', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => {
       fun();
     });
-    let elementRefMock: any = {
+    const elementRefMock: any = {
       nativeElement: {
         scrollTop: undefined,
         scrollHeight: 40,

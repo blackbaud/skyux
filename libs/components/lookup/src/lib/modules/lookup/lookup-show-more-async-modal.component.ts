@@ -34,7 +34,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public items: unknown[];
 
   public displayedItems: unknown[] = [];
-  public onlyShowSelected: boolean = false;
+  public onlyShowSelected = false;
   public searchText: string;
   public isSearching = false;
   public hasMoreItems = false;
@@ -42,7 +42,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public selectedIdMap: Map<unknown, unknown>;
 
   private continuationData: unknown;
-  private offset: number = 0;
+  private offset = 0;
   private ngUnsubscribe = new Subject<void>();
   private currentSearchSub: Subscription | undefined;
 

@@ -37,7 +37,7 @@ export class SkyErrorComponent implements OnInit {
    * @default true
    */
   @Input()
-  public showImage: boolean = true;
+  public showImage = true;
 
   public title: string = undefined;
   public description: string = undefined;

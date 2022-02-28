@@ -92,7 +92,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   @Output()
   public menuChanges = new EventEmitter<SkyDropdownMenuChange>();
 
-  public dropdownMenuId: string = `sky-dropdown-menu-${++nextId}`;
+  public dropdownMenuId = `sky-dropdown-menu-${++nextId}`;
 
   private get hasFocusableItems(): boolean {
     const found = this.menuItems.find((item) => item.isFocusable());
