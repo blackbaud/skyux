@@ -12,6 +12,7 @@
     "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5",
     "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 && nx affected --target=posttest --parallel --maxParallel=5",
     "ci:check-library-dependencies": "ts-node --project ./scripts/tsconfig.json ./scripts/check-library-dependencies.ts",
+    "ci:check-library-missing-peers": "ts-node --project ./scripts/tsconfig.json ./scripts/check-library-missing-peers.ts",
     "ci:create-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/create-packages-dist.ts",
     "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
     "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",

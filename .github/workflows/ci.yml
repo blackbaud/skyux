@@ -74,6 +74,8 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
         run: npm run ci:check-library-dependencies
+      - name: Check library missing peers
+        run: npm run ci:check-library-missing-peers
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
