@@ -3,8 +3,11 @@ import glob from 'glob';
 import { join } from 'path';
 
 import { getPublishableProjects } from './lib/get-publishable-projects';
+import { sortObjectByKeys } from './utils/sort-object-by-keys';
 
 async function checkLibraryMissingPeers() {
+  console.log('Checking libraries for missing peer dependencies...');
+
   const argv = require('minimist')(process.argv.slice(2));
   const cwd = process.cwd();
 
@@ -68,6 +71,7 @@ async function checkLibraryMissingPeers() {
                 `A version could not be located for package ${foundPackage}. Is it installed?`
               );
             } else {
+              packageJson.peerDependencies = packageJson.peerDependencies || {};
               packageJson.peerDependencies[foundPackage] = version;
               console.log(
                 ` [fix] --> Added (${foundPackage}@${version}) as a peer dependency of '${projectName}'.`
@@ -101,11 +105,18 @@ async function checkLibraryMissingPeers() {
       }
     }
 
+    packageJson.peerDependencies = sortObjectByKeys(
+      packageJson.peerDependencies
+    );
+
     await writeJson(packageJsonPath, packageJson, { spaces: 2 });
   }
 
   if (errors.length > 0) {
     errors.forEach((err) => console.error(` ✘ ${err}`));
+    console.error(
+      'Missing peers found. Re-run command with `--fix` to automatically fix them.'
+    );
     process.exit(1);
   }
 
