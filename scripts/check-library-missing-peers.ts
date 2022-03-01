@@ -1,4 +1,4 @@
-import { readFile, readJson } from 'fs-extra';
+import { readFile, readJson, writeJson } from 'fs-extra';
 import glob from 'glob';
 import { join } from 'path';
 
@@ -16,9 +16,8 @@ async function checkLibraryMissingPeers() {
 
   for (const projectName in distPackages) {
     const packageConfig = distPackages[projectName];
-    const packageJson = await readJson(
-      join(cwd, packageConfig.root, 'package.json')
-    );
+    const packageJsonPath = join(cwd, packageConfig.root, 'package.json');
+    const packageJson = await readJson(packageJsonPath);
 
     const dependencies = Object.keys(packageJson.dependencies || {}).concat(
       Object.keys(packageJson.peerDependencies || {})
@@ -58,10 +57,6 @@ async function checkLibraryMissingPeers() {
           foundPackage = fragments[0];
         }
 
-        // if (foundPackage.startsWith('rxjs')) {
-        //   continue;
-        // }
-
         if (['path', 'rxjs'].includes(foundPackage)) {
           continue;
         }
@@ -76,7 +71,7 @@ async function checkLibraryMissingPeers() {
 
           if (argv.fix) {
             const version = packageLockJson.dependencies[foundPackage]
-              ? packageLockJson.dependencies[foundPackage].version
+              ? `^${packageLockJson.dependencies[foundPackage].version}`
               : /^@skyux/.test(foundPackage)
               ? '0.0.0-PLACEHOLDER'
               : undefined;
@@ -85,13 +80,12 @@ async function checkLibraryMissingPeers() {
               errors.push(
                 `A version could not be located for package ${foundPackage}. Is it installed?`
               );
+            } else {
+              packageJson.peerDependencies[foundPackage] = version;
+              console.log(
+                ` [fix] --> Added (${foundPackage}@${version}) as a dependency of '${projectName}'.`
+              );
             }
-
-            // const range = `^${version}`;
-            // packageJson.peerDependencies[foundPackage] = version;
-            // console.log(
-            //   `- Added (${foundPackage}@${range}) as a peer dependency to '${projectName}'.`
-            // );
           }
         }
       }
@@ -112,6 +106,8 @@ async function checkLibraryMissingPeers() {
         );
       }
     }
+
+    await writeJson(packageJsonPath, packageJson, { spaces: 2 });
   }
 
   if (errors.length > 0) {
