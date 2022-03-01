@@ -68,6 +68,7 @@
     }
   },
   "dependencies": {
+    "fs-extra": "10.0.0",
     "latest-version": "5.1.0"
   },
   "author": "Blackbaud, Inc.",

@@ -54,7 +54,19 @@ async function checkLibraryMissingPeers() {
           foundPackage = fragments[0];
         }
 
-        if (['path', 'rxjs'].includes(foundPackage)) {
+        if (foundPackage === packageJson.name) {
+          continue;
+        }
+
+        if (
+          [
+            '@angular-devkit/core', // dependency of @angular-devkit/build-angular
+            '@angular-devkit/schematics', // dependency of @angular/cli
+            '@schematics/angular', // dependency of @angular/cli
+            'path', // system level package
+            'rxjs',
+          ].includes(foundPackage)
+        ) {
           continue;
         }
 
