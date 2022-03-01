@@ -74,13 +74,13 @@ export class SkyFileAttachmentComponent
    * Specifies the maximum size in bytes for valid files.
    */
   @Input()
-  public maxFileSize: number = 500000;
+  public maxFileSize = 500000;
 
   /**
    * Specifies the minimum size in bytes for valid files.
    */
   @Input()
-  public minFileSize: number = 0;
+  public minFileSize = 0;
 
   /**
    * Specifies a custom validation function. This validation runs alongside the internal
@@ -102,7 +102,7 @@ export class SkyFileAttachmentComponent
   @Output()
   public fileClick = new EventEmitter<SkyFileAttachmentClick>();
 
-  public acceptedOver: boolean = false;
+  public acceptedOver = false;
 
   public get hasLabelComponent(): boolean {
     return this.labelComponents.length > 0;
@@ -112,7 +112,7 @@ export class SkyFileAttachmentComponent
 
   public labelElementId: string;
 
-  public rejectedOver: boolean = false;
+  public rejectedOver = false;
 
   /**
    * Indicates whether the input is required for form validation.
@@ -121,7 +121,7 @@ export class SkyFileAttachmentComponent
    * is complete.
    */
   @Input()
-  public required: boolean = false;
+  public required = false;
 
   public set value(value: SkyFileItem) {
     // The null check is needed to address a bug in Angular 4.
@@ -157,7 +157,7 @@ export class SkyFileAttachmentComponent
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _value: any;
 
@@ -313,7 +313,7 @@ export class SkyFileAttachmentComponent
   public getFileName(truncate = true): string | undefined {
     if (this.value) {
       // tslint:disable-next-line: max-line-length
-      let dropName =
+      const dropName =
         this.fileItemService.isFile(this.value) && this.value.file.name
           ? this.value.file.name
           : this.value.url;
@@ -394,7 +394,7 @@ export class SkyFileAttachmentComponent
 
   private handleFiles(files: FileList): void {
     // tslint:disable-next-line: max-line-length
-    let processedFiles = this.fileAttachmentService.checkFiles(
+    const processedFiles = this.fileAttachmentService.checkFiles(
       files,
       this.minFileSize,
       this.maxFileSize,
@@ -402,7 +402,7 @@ export class SkyFileAttachmentComponent
       this.validateFn
     );
 
-    for (let file of processedFiles) {
+    for (const file of processedFiles) {
       if (file.errorType) {
         this.emitFileChangeEvent(file);
       } else {

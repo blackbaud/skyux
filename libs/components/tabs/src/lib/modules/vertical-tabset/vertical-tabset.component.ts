@@ -98,7 +98,7 @@ export class SkyVerticalTabsetComponent
    * @default false
    */
   @Input()
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
   /**
    * Fires when the active tab changes. Emits the index of the active tab. The

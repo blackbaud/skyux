@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 export class SkyDateFormatter {
-  private static defaultLocale: string = 'en-US';
+  private static defaultLocale = 'en-US';
 
-  private static defaultShortDateFormat: string = 'MM/DD/YYYY';
+  private static defaultShortDateFormat = 'MM/DD/YYYY';
 
   /**
    * Sets moment's global locale.

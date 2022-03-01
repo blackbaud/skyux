@@ -186,7 +186,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const radioArray = Array.from(getRadios(fixture));
-    for (let element of radioArray) {
+    for (const element of radioArray) {
       expect(element.getAttribute('tabindex')).toBe('2');
     }
   }));
@@ -203,7 +203,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const radioArray = Array.from(getRadios(fixture));
-    for (let element of radioArray) {
+    for (const element of radioArray) {
       expect(element.getAttribute('tabindex')).toBe('2');
     }
   }));
@@ -230,7 +230,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const radioArray = Array.from(getRadios(fixture));
-    for (let element of radioArray) {
+    for (const element of radioArray) {
       expect(element.getAttribute('name')).toBe('radioGroup');
     }
   }));
@@ -245,7 +245,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
 
     const radioArray = Array.from(getRadios(fixture));
-    for (let element of radioArray) {
+    for (const element of radioArray) {
       expect(element.getAttribute('name')).toBe('radioGroup');
     }
   }));
@@ -284,12 +284,12 @@ describe('Radio group component (reactive)', function () {
 
     clickCheckbox(fixture, 0);
 
-    let newValue = {
+    const newValue = {
       name: 'Jerry Salmonella',
       disabled: false,
     };
 
-    let radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
+    const radioDebugElement = fixture.debugElement.query(By.css('sky-radio'));
     radioDebugElement.componentInstance.value = newValue;
     fixture.detectChanges();
     tick();
@@ -403,10 +403,10 @@ describe('Radio group component (reactive)', function () {
     const labelArray = Array.from(getRadioLabels(fixture));
 
     // Initalize with default settings. Expect form to be enabled.
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
     }
 
@@ -415,10 +415,10 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).not.toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).toHaveCssClass('sky-switch-disabled');
     }
 
@@ -427,10 +427,10 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
     }
   }));
@@ -467,10 +467,10 @@ describe('Radio group component (template-driven)', () => {
     const labelArray = Array.from(getRadioLabels(fixture));
 
     // Initalize with default settings. Expect form to be enabled.
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
     }
 
@@ -479,10 +479,10 @@ describe('Radio group component (template-driven)', () => {
     fixture.detectChanges();
     tick();
 
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).not.toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).toHaveCssClass('sky-switch-disabled');
     }
 
@@ -491,10 +491,10 @@ describe('Radio group component (template-driven)', () => {
     fixture.detectChanges();
     tick();
 
-    for (let input of inputArray) {
+    for (const input of inputArray) {
       expect(input.getAttribute('disabled')).toBeNull();
     }
-    for (let label of labelArray) {
+    for (const label of labelArray) {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
     }
   }));

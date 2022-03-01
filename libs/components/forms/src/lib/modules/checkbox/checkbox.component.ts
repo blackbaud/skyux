@@ -53,7 +53,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
-  public id: string = `sky-checkbox-${++nextId}`;
+  public id = `sky-checkbox-${++nextId}`;
 
   /**
    * Indicates whether to disable the checkbox.
@@ -80,14 +80,14 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * checkbox on load.
    */
   @Input()
-  public tabindex: number = 0;
+  public tabindex = 0;
 
   /**
    * Specifies a name for a group of checkboxes.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
-  public name: string = `sky-checkbox-${++nextId}`;
+  public name = `sky-checkbox-${++nextId}`;
 
   /**
    * Fires when the selected value changes.
@@ -102,7 +102,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * element of the checkboxes.
    */
   @Input()
-  public icon: String;
+  public icon: string;
 
   /**
    * Specifies a type to set the background color after users select a checkbox where the
@@ -190,15 +190,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   private _checkboxType: string;
 
-  private _checked: boolean = false;
+  private _checked = false;
 
   private _checkedChange = new BehaviorSubject<boolean>(this._checked);
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _disabledChange = new BehaviorSubject<boolean>(this._disabled);
 
-  private _required: boolean = false;
+  private _required = false;
 
   constructor(@Self() @Optional() private ngControl: NgControl) {
     if (this.ngControl) {
@@ -269,7 +269,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
   private _emitChangeEvent() {
-    let event = new SkyCheckboxChange();
+    const event = new SkyCheckboxChange();
     event.source = this;
     event.checked = this._checked;
 

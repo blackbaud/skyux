@@ -336,7 +336,7 @@ describe('Jasmine matchers', () => {
         "should check that the element's text matches text provided by resources",
         waitForAsync(() => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -353,7 +353,7 @@ describe('Jasmine matchers', () => {
 
       it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
         const messageKey = 'name';
-        const messageValue: string = 'message from resource';
+        const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);
 
         spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -450,7 +450,7 @@ describe('Jasmine matchers', () => {
         "should check that the element's text matches text provided by resources",
         waitForAsync(() => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -469,7 +469,7 @@ describe('Jasmine matchers', () => {
         "should match when the element's text includes the template, regardless of surrounding text",
         waitForAsync(() => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement('pre blah ' + messageValue + ' post blah');
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -488,9 +488,8 @@ describe('Jasmine matchers', () => {
         'should process around template arguments',
         waitForAsync(() => {
           const messageKey = 'name';
-          const messageValue: string = 'message {0} resource';
-          const elementValue: string =
-            'message hey look, a template value resource';
+          const messageValue = 'message {0} resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -509,8 +508,8 @@ describe('Jasmine matchers', () => {
         'should handle repeated tokens in a matching string',
         waitForAsync(() => {
           const messageKey = 'name';
-          const messageValue: string = '{0} ha {1} ha {2} ha';
-          const elementValue: string =
+          const messageValue = '{0} ha {1} ha {2} ha';
+          const elementValue =
             'message ha hey ha look, a template value ha ha resource';
           const elem = createElement(elementValue);
 
@@ -554,7 +553,7 @@ describe('Jasmine matchers', () => {
 
       it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
         const messageKey = 'name';
-        const messageValue: string = 'message from resource';
+        const messageValue = 'message from resource';
         const elem: any = createElement(`    ${messageValue}     `);
 
         spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -677,7 +676,7 @@ describe('Jasmine matchers', () => {
 
         it("should check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -693,7 +692,7 @@ describe('Jasmine matchers', () => {
 
         it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem: any = createElement(`    ${messageValue}     `);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -767,7 +766,7 @@ describe('Jasmine matchers', () => {
 
         it("should check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -783,7 +782,7 @@ describe('Jasmine matchers', () => {
 
         it("should match when the element's text includes the template, regardless of surrounding text", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement('pre ' + messageValue + ' post');
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -799,9 +798,8 @@ describe('Jasmine matchers', () => {
 
         it('should process around template arguments', async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message {0} resource';
-          const elementValue: string =
-            'message hey look, a template value resource';
+          const messageValue = 'message {0} resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -817,8 +815,8 @@ describe('Jasmine matchers', () => {
 
         it('should handle repeated tokens in a matching string', async () => {
           const messageKey = 'name';
-          const messageValue: string = '{0} ha {1} ha {2} ha';
-          const elementValue: string =
+          const messageValue = '{0} ha {1} ha {2} ha';
+          const elementValue =
             'message ha hey ha look, a template value ha ha resource';
           const elem = createElement(elementValue);
 
@@ -845,7 +843,7 @@ describe('Jasmine matchers', () => {
 
         it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem: any = createElement(`    ${messageValue}     `);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -942,7 +940,7 @@ describe('Jasmine matchers', () => {
 
         it("should check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -958,7 +956,7 @@ describe('Jasmine matchers', () => {
 
         it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem: any = createElement(`    ${messageValue}     `);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -1039,7 +1037,7 @@ describe('Jasmine matchers', () => {
 
         it("should check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement(messageValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -1055,7 +1053,7 @@ describe('Jasmine matchers', () => {
 
         it("should match when the element's text includes the template, regardless of surrounding text", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem = createElement('pre ' + messageValue + ' post');
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -1071,9 +1069,8 @@ describe('Jasmine matchers', () => {
 
         it('should process around template arguments', async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message {0} resource';
-          const elementValue: string =
-            'message hey look, a template value resource';
+          const messageValue = 'message {0} resource';
+          const elementValue = 'message hey look, a template value resource';
           const elem = createElement(elementValue);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {
@@ -1089,8 +1086,8 @@ describe('Jasmine matchers', () => {
 
         it('should handle repeated tokens in a matching string', async () => {
           const messageKey = 'name';
-          const messageValue: string = '{0} ha {1} ha {2} ha';
-          const elementValue: string =
+          const messageValue = '{0} ha {1} ha {2} ha';
+          const elementValue =
             'message ha hey ha look, a template value ha ha resource';
           const elem = createElement(elementValue);
 
@@ -1117,7 +1114,7 @@ describe('Jasmine matchers', () => {
 
         it("should default to trimming whitespace and check that the element's text matches text provided by resources", async () => {
           const messageKey = 'name';
-          const messageValue: string = 'message from resource';
+          const messageValue = 'message from resource';
           const elem: any = createElement(`    ${messageValue}     `);
 
           spyOn(resourcesService, 'getString').and.callFake((name: string) => {

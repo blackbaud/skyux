@@ -113,7 +113,7 @@ describe('List Paging Component', () => {
       });
 
       it('does not respond to old item count changes from state', fakeAsync(() => {
-        let newState = new ListStateModel();
+        const newState = new ListStateModel();
         newState.items = new AsyncList<ListItemModel>(
           [new ListItemModel('1', {}), new ListItemModel('2', {})],
           new Date('3/25/2016'),

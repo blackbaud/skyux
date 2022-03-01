@@ -273,7 +273,7 @@ describe('Toast component', () => {
     openMessage('Message 1');
     openMessage('Message 2');
 
-    let toasts = getToastElements();
+    const toasts = getToastElements();
 
     validateToastMessage(toasts[0], 'Message 2');
     validateToastMessage(toasts[1], 'Message 1');
@@ -285,7 +285,7 @@ describe('Toast component', () => {
     openMessage('Message 1');
     openMessage('Message 2');
 
-    let toasts = getToastElements();
+    const toasts = getToastElements();
 
     validateToastMessage(toasts[0], 'Message 1');
     validateToastMessage(toasts[1], 'Message 2');

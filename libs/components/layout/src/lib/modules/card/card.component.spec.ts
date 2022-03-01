@@ -11,7 +11,7 @@ function validateCardSelected(
   cardEl: any,
   selected: boolean
 ) {
-  let selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
+  const selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
   if (selected) {
     expect(cmp.cardSelected).toBe(true);
@@ -64,7 +64,7 @@ describe('Card component', () => {
   it('should display a checkbox when the selectable attribute is set to true', () => {
     fixture.detectChanges();
 
-    let wrapperEl = el.querySelector(
+    const wrapperEl = el.querySelector(
       '.sky-card.sky-card-selectable .sky-card-header .sky-card-check .sky-checkbox-wrapper'
     );
 
@@ -88,7 +88,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    let labelEl = el.querySelector(
+    const labelEl = el.querySelector(
       'label.sky-checkbox-wrapper'
     ) as HTMLLabelElement;
 
@@ -104,7 +104,10 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    let emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     validateCardSelected(cmp, el, true);
 
@@ -142,7 +145,10 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    let emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     cmp.card.onCheckboxChange(true);
 

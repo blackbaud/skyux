@@ -32,7 +32,7 @@ export class SkyAgGridCellEditorLookupComponent
       disabled: false,
     }),
   });
-  public useAsyncSearch: boolean = false;
+  public useAsyncSearch = false;
 
   private params: SkyCellEditorLookupParams;
 

@@ -51,7 +51,7 @@ describe('Modal component', () => {
   }
 
   function openModal(modalType: any, config?: Object) {
-    let modalInstance = getModalService().open(modalType, config);
+    const modalInstance = getModalService().open(modalType, config);
 
     modalInstance.closed.subscribe(() => {
       const modalIndex = testModals.indexOf(modalInstance);
@@ -99,13 +99,13 @@ describe('Modal component', () => {
   }));
 
   it('should render on top of previously-opened modals', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalTestComponent);
-    let modalInstance2 = openModal(ModalTestComponent);
+    const modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
 
-    let modalEls = document.querySelectorAll('.sky-modal');
+    const modalEls = document.querySelectorAll('.sky-modal');
 
-    let zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
-    let zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+    const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    const zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
 
     expect(zIndex2).toBeGreaterThan(zIndex1);
 
@@ -114,7 +114,7 @@ describe('Modal component', () => {
   }));
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalWithFocusContentTestComponent);
+    const modalInstance1 = openModal(ModalWithFocusContentTestComponent);
     expect(document.activeElement).toEqual(
       document.querySelector('#visible-btn')
     );
@@ -122,7 +122,7 @@ describe('Modal component', () => {
   }));
 
   it('should focus the first non-disabled element if the first element is disabled', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
+    const modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
       providers: [
         {
           provide: ModalWithFocusContext,
@@ -139,7 +139,7 @@ describe('Modal component', () => {
   }));
 
   it('should focus the dialog when no autofocus or focus element is inside of content', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance1 = openModal(ModalTestComponent);
     expect(document.activeElement).toEqual(
       document.querySelector('.sky-modal-content')
     );
@@ -147,7 +147,7 @@ describe('Modal component', () => {
   }));
 
   it('should focus the dialog when all focuable elements are disabled', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
+    const modalInstance1 = openModal(ModalWithFocusContentTestComponent, {
       providers: [
         {
           provide: ModalWithFocusContext,
@@ -165,7 +165,7 @@ describe('Modal component', () => {
   }));
 
   it('should focus the autofocus element when autofocus is inside of content', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalAutofocusTestComponent);
+    const modalInstance1 = openModal(ModalAutofocusTestComponent);
     expect(document.activeElement).toEqual(
       document.querySelector('#autofocus-el')
     );
@@ -174,7 +174,7 @@ describe('Modal component', () => {
 
   it('should handle escape key press when modal is the top modal', fakeAsync(() => {
     openModal(ModalFooterTestComponent);
-    let escapeEvent: any = document.createEvent('CustomEvent');
+    const escapeEvent: any = document.createEvent('CustomEvent');
     escapeEvent.which = 27;
     escapeEvent.keyCode = 27;
     escapeEvent.initEvent('keyup', true, true);
@@ -188,10 +188,10 @@ describe('Modal component', () => {
   }));
 
   it('should handle escape when modals are stacked', fakeAsync(() => {
-    let modalInstance2 = openModal(ModalAutofocusTestComponent);
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance2 = openModal(ModalAutofocusTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let escapeEvent: any = document.createEvent('CustomEvent');
+    const escapeEvent: any = document.createEvent('CustomEvent');
     escapeEvent.which = 27;
     escapeEvent.keyCode = 27;
     escapeEvent.shiftKey = false;
@@ -210,9 +210,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle a different key code with keyup event', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let unknownEvent: any = document.createEvent('CustomEvent');
+    const unknownEvent: any = document.createEvent('CustomEvent');
     unknownEvent.which = 3;
     unknownEvent.keyCode = 3;
     unknownEvent.shiftKey = false;
@@ -232,8 +232,8 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab with shift when focus is on modal and in top modal', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const modalInstance1 = openModal(ModalFooterTestComponent);
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = true;
@@ -252,9 +252,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab with shift when focus is in first item and in top modal', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = true;
@@ -273,9 +273,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab with shift when focus is in last item and in top modal', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = true;
@@ -292,9 +292,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab when focus is in last item and in top modal', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = false;
@@ -313,9 +313,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab in content when in top modal', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = false;
@@ -334,10 +334,10 @@ describe('Modal component', () => {
   }));
 
   it('should handle tab when modals are stacked', fakeAsync(() => {
-    let modalInstance2 = openModal(ModalAutofocusTestComponent);
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance2 = openModal(ModalAutofocusTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = false;
@@ -357,9 +357,9 @@ describe('Modal component', () => {
   }));
 
   it('should handle a different key code', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalFooterTestComponent);
+    const modalInstance1 = openModal(ModalFooterTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 3;
     tabEvent.keyCode = 3;
     tabEvent.shiftKey = false;
@@ -378,9 +378,9 @@ describe('Modal component', () => {
   }));
 
   it('handles no focusable elements', fakeAsync(() => {
-    let modalInstance1 = openModal(ModalNoHeaderTestComponent);
+    const modalInstance1 = openModal(ModalNoHeaderTestComponent);
 
-    let tabEvent: any = document.createEvent('CustomEvent');
+    const tabEvent: any = document.createEvent('CustomEvent');
     tabEvent.which = 9;
     tabEvent.keyCode = 9;
     tabEvent.shiftKey = false;
@@ -399,13 +399,13 @@ describe('Modal component', () => {
   }));
 
   it('should handle empty list for focus first and last element functions', fakeAsync(() => {
-    let adapterService = new SkyModalComponentAdapterService(
+    const adapterService = new SkyModalComponentAdapterService(
       TestBed.inject(SkyCoreAdapterService)
     );
-    let firstResult = adapterService.focusFirstElement([]);
+    const firstResult = adapterService.focusFirstElement([]);
     expect(firstResult).toBe(false);
 
-    let lastResult = adapterService.focusLastElement([]);
+    const lastResult = adapterService.focusLastElement([]);
     expect(lastResult).toBe(false);
   }));
 
@@ -422,7 +422,7 @@ describe('Modal component', () => {
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
-    let instance = openModal(ModalWithCloseConfirmTestComponent);
+    const instance = openModal(ModalWithCloseConfirmTestComponent);
     expect(document.querySelector('.sky-modal')).toExist();
 
     (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
@@ -448,7 +448,7 @@ describe('Modal component', () => {
     expect(closeHandler.closeArgs.data).toBeUndefined();
 
     // Escape key
-    let escapeEvent: any = document.createEvent('CustomEvent');
+    const escapeEvent: any = document.createEvent('CustomEvent');
     escapeEvent.which = 27;
     escapeEvent.keyCode = 27;
     escapeEvent.initEvent('keyup', true, true);
@@ -472,7 +472,7 @@ describe('Modal component', () => {
   }));
 
   it('should close the modal anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
-    let instance = openModal(ModalWithCloseConfirmTestComponent);
+    const instance = openModal(ModalWithCloseConfirmTestComponent);
     expect(document.querySelector('.sky-modal')).toExist();
 
     instance.close('', '', true);
@@ -515,7 +515,7 @@ describe('Modal component', () => {
   }));
 
   it('should trigger the help modal when the help button is clicked', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       helpKey: 'default.html',
     });
     spyOn(modalInstance, 'openHelp').and.callThrough();
@@ -534,13 +534,13 @@ describe('Modal component', () => {
   }));
 
   it('should set max height based on window and change when window resizes', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent);
-    let modalEl = document.querySelector('.sky-modal');
+    const modalInstance = openModal(ModalTestComponent);
+    const modalEl = document.querySelector('.sky-modal');
     let maxHeight = parseInt(getComputedStyle(modalEl).maxHeight, 10);
-    let windowHeight = window.innerHeight;
-    let contentEl = modalEl.querySelector('.sky-modal-content');
+    const windowHeight = window.innerHeight;
+    const contentEl = modalEl.querySelector('.sky-modal-content');
 
-    let contentHeight = parseInt(getComputedStyle(contentEl).maxHeight, 10);
+    const contentHeight = parseInt(getComputedStyle(contentEl).maxHeight, 10);
 
     expect(maxHeight).toEqual(windowHeight - 40);
     expect(contentHeight).toEqual(windowHeight - 40 - 114);
@@ -554,7 +554,7 @@ describe('Modal component', () => {
   }));
 
   it('should be a full screen modal and scale when window resizes', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
+    const modalInstance = openModal(ModalTestComponent, { fullPage: true });
     let modalEl = document.querySelector('.sky-modal-full-page');
     let height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
@@ -570,7 +570,7 @@ describe('Modal component', () => {
   }));
 
   it('should not contain small,medium, or large classes in full size mode', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
+    const modalInstance = openModal(ModalTestComponent, { fullPage: true });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).not.toExist();
@@ -580,8 +580,10 @@ describe('Modal component', () => {
   }));
 
   it('should account for margins when setting full-page modal height', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { fullPage: true });
-    let modalEl = document.querySelector('.sky-modal-full-page') as HTMLElement;
+    const modalInstance = openModal(ModalTestComponent, { fullPage: true });
+    const modalEl = document.querySelector(
+      '.sky-modal-full-page'
+    ) as HTMLElement;
 
     modalEl.style.marginBottom = '20px';
     modalEl.style.marginTop = '20px';
@@ -589,7 +591,7 @@ describe('Modal component', () => {
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     getApplicationRef().tick();
 
-    let height = parseInt(getComputedStyle(modalEl).height, 10);
+    const height = parseInt(getComputedStyle(modalEl).height, 10);
 
     // innerHeight -2 is for IE Box Model Fix
     expect([window.innerHeight - 2, window.innerHeight]).toContain(height + 40);
@@ -598,7 +600,7 @@ describe('Modal component', () => {
   }));
 
   it('should default to medium size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { fullPage: false });
+    const modalInstance = openModal(ModalTestComponent, { fullPage: false });
 
     expect(document.querySelector('.sky-modal-small')).not.toExist();
     expect(document.querySelector('.sky-modal-medium')).toExist();
@@ -608,7 +610,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect medium config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       fullPage: false,
       size: 'medium',
     });
@@ -621,7 +623,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect small config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       fullPage: false,
       size: 'small',
     });
@@ -634,7 +636,7 @@ describe('Modal component', () => {
   }));
 
   it('should respect large config setting size', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       fullPage: false,
       size: 'large',
     });
@@ -647,7 +649,7 @@ describe('Modal component', () => {
   }));
 
   it('should default the role, aria-labelledby, and aria-describedby', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent);
+    const modalInstance = openModal(ModalTestComponent);
 
     expect(
       document.querySelector('.sky-modal-dialog').getAttribute('role')
@@ -668,7 +670,7 @@ describe('Modal component', () => {
   }));
 
   it('should accept configuration options for role, aria-labelledBy, and aria-describedby', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       ariaLabelledBy: 'customlabelledby',
       ariaDescribedBy: 'customdescribedby',
       ariaRole: 'alertdialog',
@@ -692,7 +694,7 @@ describe('Modal component', () => {
   }));
 
   it('should default to tiled modal false', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { tiledBody: false });
+    const modalInstance = openModal(ModalTestComponent, { tiledBody: false });
 
     expect(document.querySelector('.sky-modal-tiled')).not.toExist();
 
@@ -700,7 +702,7 @@ describe('Modal component', () => {
   }));
 
   it('should accept configuration options for tiledBody', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, {
+    const modalInstance = openModal(ModalTestComponent, {
       tiledBody: true,
     });
 
@@ -710,7 +712,7 @@ describe('Modal component', () => {
   }));
 
   it('should handle to tiledBody true', fakeAsync(() => {
-    let modalInstance = openModal(ModalTiledBodyTestComponent);
+    const modalInstance = openModal(ModalTiledBodyTestComponent);
 
     expect(document.querySelector('.sky-modal-tiled')).toExist();
 
@@ -799,7 +801,7 @@ describe('Modal component', () => {
     }
 
     function setModernTheme(): void {
-      let themeSvc: ModalMockThemeService =
+      const themeSvc: ModalMockThemeService =
         TestBed.inject<any>(SkyThemeService);
 
       themeSvc.settingsChange.next({
@@ -821,7 +823,7 @@ describe('Modal component', () => {
     });
 
     it('should progressively show a drop shadow as the modal content scrolls', fakeAsync(() => {
-      let modalInstance1 = openModal(ModalTestComponent);
+      const modalInstance1 = openModal(ModalTestComponent);
 
       const modalHeaderEl = document.querySelector(
         '.sky-modal-header'
@@ -885,7 +887,7 @@ describe('Modal component', () => {
         return fakeMutationObserver;
       });
 
-      let modalInstance1 = openModal(ModalTestComponent);
+      const modalInstance1 = openModal(ModalTestComponent);
 
       const modalFooterEl = document.querySelector(
         '.sky-modal-footer'
@@ -921,7 +923,7 @@ describe('Modal component', () => {
     }));
 
     it('should not create multiple mutation observers', fakeAsync(() => {
-      let modalInstance1 = openModal(ModalTestComponent);
+      const modalInstance1 = openModal(ModalTestComponent);
 
       setModernTheme();
       setModernTheme();

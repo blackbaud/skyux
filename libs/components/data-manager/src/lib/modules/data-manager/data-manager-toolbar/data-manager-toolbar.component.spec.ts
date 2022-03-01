@@ -54,7 +54,9 @@ describe('SkyDataManagerToolbarComponent', () => {
   let viewConfig: SkyDataViewConfig;
 
   function setSearchInput(text: string): void {
-    let inputEl = dataManagerToolbarFixture.debugElement.query(By.css('input'));
+    const inputEl = dataManagerToolbarFixture.debugElement.query(
+      By.css('input')
+    );
     inputEl.nativeElement.value = text;
 
     SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'input', {
@@ -71,7 +73,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   }
 
   function triggerSearchInputEnter(): void {
-    let inputEl = dataManagerToolbarFixture.debugElement.query(
+    const inputEl = dataManagerToolbarFixture.debugElement.query(
       By.css('.sky-search-container input')
     );
 
@@ -86,7 +88,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   }
 
   function triggerSearchApplyButton(): void {
-    let applyEl = dataManagerToolbarFixture.debugElement.query(
+    const applyEl = dataManagerToolbarFixture.debugElement.query(
       By.css('.sky-search-btn-apply')
     );
     SkyAppTestUtility.fireDomEvent(applyEl.nativeElement, 'click');
@@ -292,7 +294,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const event = { checked: true } as SkyCheckboxChange;
-    let updatedDataState = dataManagerToolbarComponent.dataState;
+    const updatedDataState = dataManagerToolbarComponent.dataState;
     updatedDataState.onlyShowSelected = true;
     spyOn(dataManagerService, 'updateDataState');
 
@@ -331,7 +333,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     dataState.activeSortOption = sortOption;
     dataManagerToolbarComponent.sortSelected(sortOption);
 
@@ -347,7 +349,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     dataState.searchText = searchText;
     dataManagerToolbarComponent.searchApplied(searchText);
 
@@ -363,7 +365,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');
@@ -382,7 +384,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');
@@ -405,7 +407,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');

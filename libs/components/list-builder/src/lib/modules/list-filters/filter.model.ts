@@ -17,7 +17,7 @@ export class ListFilterModel {
    * Indicates whether users can dismiss the filter's summary item.
    * @default true
    */
-  public dismissible: boolean = true;
+  public dismissible = true;
 
   /**
    * Specifies the current value of the filter.

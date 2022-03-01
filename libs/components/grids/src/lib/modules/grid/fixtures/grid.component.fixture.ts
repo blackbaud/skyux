@@ -93,9 +93,9 @@ export class GridTestComponent {
 
   public dynamicWidth: number;
 
-  public enableMultiselect: boolean = false;
+  public enableMultiselect = false;
 
-  public fitType: string = 'scroll';
+  public fitType = 'scroll';
 
   public gridController = new Subject<SkyGridMessage>();
 
@@ -117,7 +117,7 @@ export class GridTestComponent {
 
   public settingsKey: string;
 
-  public showNaNColumn: boolean = false;
+  public showNaNColumn = false;
 
   public set showWideColumn(showCol: boolean) {
     if (showCol) {
@@ -154,7 +154,7 @@ export class GridTestComponent {
   @ViewChildren(TemplateRef)
   public viewtemplates: QueryList<TemplateRef<any>>;
 
-  public _showWideColumn: boolean = false;
+  public _showWideColumn = false;
 
   public searchFunction: (data: any, searchText: string) => boolean = (
     data: any,

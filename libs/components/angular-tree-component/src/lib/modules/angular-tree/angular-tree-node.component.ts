@@ -105,7 +105,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   private focusableChildren: HTMLElement[] = [];
 
-  private mouseDown: boolean = false;
+  private mouseDown = false;
 
   private _childFocusIndex: number;
 
@@ -113,7 +113,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
 
   private _isSelected: boolean;
 
-  private _tabIndex: number = -1;
+  private _tabIndex = -1;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

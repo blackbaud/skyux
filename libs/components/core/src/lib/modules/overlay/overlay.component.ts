@@ -65,7 +65,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public showBackdrop = false;
 
-  public zIndex: string = `${++uniqueZIndex}`;
+  public zIndex = `${++uniqueZIndex}`;
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,

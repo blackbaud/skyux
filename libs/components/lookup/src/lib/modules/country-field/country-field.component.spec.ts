@@ -430,7 +430,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -465,7 +465,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -492,7 +492,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -890,7 +890,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        let results = searchAndGetResults('us', fixture);
+        const results = searchAndGetResults('us', fixture);
 
         expect(results[0].innerText.trim()).toBe('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
@@ -1042,7 +1042,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1077,7 +1077,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly with an initial value', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1099,7 +1099,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly when no initial value', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1117,7 +1117,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly when initialized to undefined', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1136,7 +1136,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1162,7 +1162,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1510,7 +1510,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1528,7 +1528,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1550,7 +1550,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();

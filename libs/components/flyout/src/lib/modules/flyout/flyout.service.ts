@@ -34,7 +34,7 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
-  private isOpening: boolean = false;
+  private isOpening = false;
   private ngUnsubscribe = new Subject<boolean>();
 
   constructor(

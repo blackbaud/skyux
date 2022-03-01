@@ -19,5 +19,5 @@ export class TimepickerInputBoxTestComponent {
 
   public selectedTime: SkyTimepickerTimeOutput;
 
-  public timeFormat: string = 'hh';
+  public timeFormat = 'hh';
 }

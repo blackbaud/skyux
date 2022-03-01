@@ -70,7 +70,7 @@ describe('List Component', () => {
         state = new ListState(dispatcher);
 
         /* tslint:disable */
-        let itemsArray = [
+        const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
           {
@@ -193,7 +193,7 @@ describe('List Component', () => {
         });
 
         it('should update displayed items when data is updated', () => {
-          let newItems = [
+          const newItems = [
             {
               id: '11',
               column1: '11',
@@ -381,7 +381,7 @@ describe('List Component', () => {
         state = new ListState(dispatcher);
 
         /* tslint:disable */
-        let itemsArray = [
+        const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
           {
@@ -703,7 +703,7 @@ describe('List Component', () => {
         tick();
 
         fixture.detectChanges();
-        let selectedIds: Array<string> = Array.from(
+        const selectedIds: Array<string> = Array.from(
           component.selectedItems.entries()
         )
           .filter((item) => item[1])
@@ -807,7 +807,7 @@ describe('List Component', () => {
         state = new ListState(dispatcher);
 
         /* tslint:disable */
-        let itemsArray = [
+        const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
           {
@@ -872,7 +872,7 @@ describe('List Component', () => {
       }
 
       it('should filter when input is changed', fakeAsync(() => {
-        let appliedFilters = [
+        const appliedFilters = [
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
@@ -901,7 +901,7 @@ describe('List Component', () => {
           expect(current.paging.pageNumber).toBe(2);
         });
 
-        let appliedFilters = [
+        const appliedFilters = [
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
@@ -931,7 +931,7 @@ describe('List Component', () => {
           expect(current.paging.pageNumber).toBe(2);
         });
 
-        let appliedFilters = [
+        const appliedFilters = [
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
@@ -951,7 +951,7 @@ describe('List Component', () => {
       }));
 
       it('should output event when filters are changed and output listener exists', fakeAsync(() => {
-        let appliedFilters = [
+        const appliedFilters = [
           new ListFilterModel({
             name: 'filter1',
             value: 'Apple',
@@ -999,7 +999,7 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        let items = [
+        const items = [
           { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
           {
@@ -1075,7 +1075,7 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        let itemsArray = [
+        const itemsArray = [
           { id: '1', column1: '1', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 1, column4: 6 },
         ];
@@ -1120,7 +1120,7 @@ describe('List Component', () => {
       });
 
       it('displayed items returns without error', async(() => {
-        let list = fixture.componentInstance.list;
+        const list = fixture.componentInstance.list;
 
         list.displayedItems.subscribe((d: any) => {
           expect(d.count).toBe(2);
@@ -1131,7 +1131,7 @@ describe('List Component', () => {
       }));
 
       it('displayed items returns with generated ids', async(() => {
-        let list = fixture.componentInstance.list;
+        const list = fixture.componentInstance.list;
 
         bs.next([
           { column1: '1', column2: 'Apple', column3: 1, column4: 1 },
@@ -1150,25 +1150,25 @@ describe('List Component', () => {
       }));
 
       it('data provider filteredItems with no search function', () => {
-        let provider = fixture.componentInstance.list.dataProvider;
-        let request = new ListDataRequestModel({
+        const provider = fixture.componentInstance.list.dataProvider;
+        const request = new ListDataRequestModel({
           pageSize: 10,
           pageNumber: 1,
           search: new ListSearchModel(),
         });
 
-        let response = provider.get(request);
+        const response = provider.get(request);
         response.pipe(take(1)).subscribe();
         response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
       });
 
       it('data provider filteredItems with defined search function', () => {
-        let provider = fixture.componentInstance.list.dataProvider;
+        const provider = fixture.componentInstance.list.dataProvider;
         provider.searchFunction = (data: any, searchText: string) => {
           return 'search';
         };
 
-        let request = new ListDataRequestModel({
+        const request = new ListDataRequestModel({
           pageSize: 10,
           pageNumber: 1,
           search: new ListSearchModel({
@@ -1177,7 +1177,7 @@ describe('List Component', () => {
           }),
         });
 
-        let response = provider.get(request);
+        const response = provider.get(request);
         response.pipe(take(1)).subscribe((r: any) => expect(r.count).toBe(2));
       });
     });
@@ -1224,7 +1224,7 @@ describe('List Component', () => {
       }));
 
       it('data provider should not be null even with no data', () => {
-        let list = fixture.componentInstance.list;
+        const list = fixture.componentInstance.list;
 
         expect(list.data).toBe(null);
         expect(list.dataProvider).not.toBe(null);
@@ -1276,7 +1276,7 @@ describe('List Component', () => {
       }));
 
       it('displayed items should throw error', () => {
-        let list = fixture.componentInstance.list;
+        const list = fixture.componentInstance.list;
         try {
           list.displayedItems;
         } catch (error) {
@@ -1303,7 +1303,7 @@ describe('List Component', () => {
         state = new ListState(dispatcher);
 
         /* tslint:disable */
-        let itemsArray = [
+        const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
           {
@@ -1401,35 +1401,35 @@ describe('List Component', () => {
 
   describe('models and actions', () => {
     it('should handle undefined data for request model', () => {
-      let model = new ListDataRequestModel();
+      const model = new ListDataRequestModel();
       expect(model.pageNumber).toBeUndefined();
       expect(model.pageSize).toBeUndefined();
     });
 
     it('should handle missing data for paging model', () => {
-      let model = new ListPagingModel({});
+      const model = new ListPagingModel({});
       expect(model.pageNumber).toBe(1);
       expect(model.itemsPerPage).toBe(10);
     });
 
     it('should handle undefined data for response model', () => {
-      let model = new ListDataResponseModel();
+      const model = new ListDataResponseModel();
       expect(model.count).toBe(undefined);
       expect(model.items).toBe(undefined);
     });
 
     it('should construct ListSearchSetFunctionsAction', () => {
-      let action = new ListSearchSetFunctionsAction();
+      const action = new ListSearchSetFunctionsAction();
       expect(action).not.toBeUndefined();
     });
 
     it('should construct ListSearchSetFieldSelectorsAction', () => {
-      let action = new ListSearchSetFieldSelectorsAction();
+      const action = new ListSearchSetFieldSelectorsAction();
       expect(action).not.toBeUndefined();
     });
 
     it('should construct ListToolbarItemModel without data', () => {
-      let model = new ListToolbarItemModel();
+      const model = new ListToolbarItemModel();
       expect(model.template).toBeUndefined();
       expect(model.location).toBeUndefined();
       expect(model.view).toBeUndefined();
@@ -1437,7 +1437,9 @@ describe('List Component', () => {
     });
 
     it('should construct ListToolbarItemsLoadAction action', async(() => {
-      let action = new ListToolbarItemsLoadAction([new ListToolbarItemModel()]);
+      const action = new ListToolbarItemsLoadAction([
+        new ListToolbarItemModel(),
+      ]);
       expect(action).not.toBeUndefined();
     }));
 
@@ -1469,7 +1471,7 @@ describe('List Component', () => {
       }));
 
       it('should call searchSetOptions with defined actions', fakeAsync(() => {
-        let searchFunc = (data: any, searchText: string) => {
+        const searchFunc = (data: any, searchText: string) => {
           return true;
         };
 
@@ -1643,28 +1645,28 @@ describe('List Component', () => {
     });
 
     it('should construct ListSelectedSetItemsSelectedAction', () => {
-      let action = new ListSelectedSetItemsSelectedAction(['1']);
+      const action = new ListSelectedSetItemsSelectedAction(['1']);
       expect(action).not.toBeUndefined();
     });
 
     it('should construct ListItemsSetSelectedAction', () => {
-      let action = new ListItemsSetSelectedAction(['1'], true);
+      const action = new ListItemsSetSelectedAction(['1'], true);
       expect(action).not.toBeUndefined();
     });
 
     it('should construct ListToolbarShowMultiselectToolbarAction', () => {
-      let action = new ListToolbarShowMultiselectToolbarAction(true);
+      const action = new ListToolbarShowMultiselectToolbarAction(true);
       expect(action).not.toBeUndefined();
     });
 
     it('should construct ListSortFieldSelectorModel without data', () => {
-      let model = new ListSortFieldSelectorModel();
+      const model = new ListSortFieldSelectorModel();
       expect(model.descending).toBeFalsy();
       expect(model.fieldSelector).toBeUndefined();
     });
 
     it('should construct ListSortFieldSelectorModel without data', () => {
-      let model = new ListSortFieldSelectorModel({
+      const model = new ListSortFieldSelectorModel({
         fieldSelector: 'hey',
         descending: true,
       });
@@ -1673,7 +1675,7 @@ describe('List Component', () => {
     });
 
     it('should construct ListSortLabelModel without data', () => {
-      let model = new ListSortLabelModel();
+      const model = new ListSortLabelModel();
       expect(model.global).toBeFalsy();
       expect(model.text).toBeUndefined();
       expect(model.fieldSelector).toBeUndefined();

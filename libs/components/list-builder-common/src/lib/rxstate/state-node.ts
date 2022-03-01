@@ -37,7 +37,7 @@ export class StateNode<T> extends BehaviorSubject<T> {
       .apply(this, orchestrators)
       .pipe(
         observableMap((s: any) => {
-          let result: any = {};
+          const result: any = {};
           for (let i = 0; i < stateKeys.length; i++) {
             const key = stateKeys[i];
             result[key] = s[i];

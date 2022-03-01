@@ -45,7 +45,8 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
       ? [...newListItems]
       : [...state.items, ...newListItems];
 
-    let count = action.count === undefined ? resultItems.length : action.count;
+    const count =
+      action.count === undefined ? resultItems.length : action.count;
     return new AsyncList<ListItemModel>(
       resultItems,
       action.dataChanged ? Date.now() : state.lastUpdate,
@@ -60,14 +61,14 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
   ): AsyncList<ListItemModel> {
     /* istanbul ignore next */
     const newSelectedIds = action.items || [];
-    let newListItemModels = this.cloneListItemModelArray(state.items);
+    const newListItemModels = this.cloneListItemModelArray(state.items);
 
     if (action.refresh) {
       newListItemModels.forEach((item) => (item.isSelected = undefined));
     }
 
     newSelectedIds.map((s) => {
-      let newItem = newListItemModels.find((i) => i.id === s);
+      const newItem = newListItemModels.find((i) => i.id === s);
       /* istanbul ignore next */
       if (newItem) {
         newItem.isSelected = action.selected;
@@ -85,7 +86,7 @@ export class ListItemsOrchestrator extends ListStateOrchestrator<
   private cloneListItemModelArray(
     source: Array<ListItemModel>
   ): ListItemModel[] {
-    let newListItems: Array<ListItemModel> = [];
+    const newListItems: Array<ListItemModel> = [];
     source.forEach((item) => {
       newListItems.push(
         new ListItemModel(

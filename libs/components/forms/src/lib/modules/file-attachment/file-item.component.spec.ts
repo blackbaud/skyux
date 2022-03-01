@@ -36,7 +36,7 @@ describe('File item component', () => {
   }
 
   function triggerDelete() {
-    let deleteEl = fixture.debugElement.query(
+    const deleteEl = fixture.debugElement.query(
       By.css('.sky-file-item-btn-delete')
     );
     deleteEl.nativeElement.click();
@@ -65,12 +65,12 @@ describe('File item component', () => {
 
     fixture.detectChanges();
 
-    let imageEl = getImage();
+    const imageEl = getImage();
     expect(imageEl.nativeElement.getAttribute('src')).toBe(
       '$/myFile.' + extension
     );
 
-    let otherEl = getOtherPreview();
+    const otherEl = getOtherPreview();
     expect(otherEl).toBeFalsy();
   }
 
@@ -84,7 +84,7 @@ describe('File item component', () => {
       url: '$/myFile.' + extension,
     } as SkyFileItem;
     fixture.detectChanges();
-    let otherEl = getOtherPreview();
+    const otherEl = getOtherPreview();
     let expectedClassExtension = type;
 
     if (
@@ -109,7 +109,7 @@ describe('File item component', () => {
       'fa-file-' + expectedClassExtension + '-o'
     );
 
-    let imageEl = getImage();
+    const imageEl = getImage();
     expect(imageEl).toBeFalsy();
   }
   //#endregion
@@ -123,11 +123,11 @@ describe('File item component', () => {
     } as SkyFileItem;
     fixture.detectChanges();
 
-    let nameEl = getNameEl();
+    const nameEl = getNameEl();
 
     expect(nameEl.nativeElement.textContent).toBe('myFile.txt');
 
-    let sizeEl = getSizeEl();
+    const sizeEl = getSizeEl();
     expect(sizeEl.nativeElement.textContent).toContain('(1 KB)');
   });
 
@@ -138,11 +138,11 @@ describe('File item component', () => {
 
     fixture.detectChanges();
 
-    let nameEl = getNameEl();
+    const nameEl = getNameEl();
 
     expect(nameEl.nativeElement.textContent).toBe('$/myFile.txt');
 
-    let sizeEl = getSizeEl();
+    const sizeEl = getSizeEl();
     expect(sizeEl).toBeFalsy();
 
     // Test Accessibility

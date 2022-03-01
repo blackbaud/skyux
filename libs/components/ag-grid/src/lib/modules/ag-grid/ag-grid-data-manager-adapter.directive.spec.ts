@@ -182,7 +182,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should not update the data state when a column is dragged and released in the same spot', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    let colIds = ['col1', 'col2'];
+    const colIds = ['col1', 'col2'];
     const columnApi = {
       getAllDisplayedVirtualColumns: () => {
         return colIds.map((colId) => {

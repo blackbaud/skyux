@@ -19,9 +19,9 @@ describe('Page summary component', () => {
       return `.sky-page-summary-key-info-${size} .sky-page-summary-key-info-container`;
     }
 
-    let mockQueryService = new MockSkyMediaQueryService();
+    const mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
       add: {
         providers: [
           {
@@ -34,10 +34,10 @@ describe('Page summary component', () => {
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
-    let xsSelector = getSelector('xs');
-    let smSelector = getSelector('sm');
+    const xsSelector = getSelector('xs');
+    const smSelector = getSelector('sm');
 
     expect(el.querySelector(xsSelector)).not.toExist();
     expect(el.querySelector(smSelector)).toExist();
@@ -49,9 +49,9 @@ describe('Page summary component', () => {
   });
 
   it('should have appropriate class when key info is present', fakeAsync(() => {
-    let mockQueryService = new MockSkyMediaQueryService();
+    const mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
       add: {
         providers: [
           {
@@ -66,10 +66,10 @@ describe('Page summary component', () => {
     tick();
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
     expect(el.querySelector('.sky-page-summary-with-key-info')).toExist();
 
-    let cmp = fixture.componentInstance as SkyPageSummaryTestComponent;
+    const cmp = fixture.componentInstance as SkyPageSummaryTestComponent;
     cmp.showKeyInfo = false;
 
     fixture.detectChanges();
@@ -79,9 +79,9 @@ describe('Page summary component', () => {
   }));
 
   it('should be accessible', async(() => {
-    let mockQueryService = new MockSkyMediaQueryService();
+    const mockQueryService = new MockSkyMediaQueryService();
 
-    let fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
+    const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
       add: {
         providers: [
           {

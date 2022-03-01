@@ -67,7 +67,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   })
   private columnChooserTemplate: TemplateRef<any>;
 
-  private columnSelectorActionItemToolbarIndex: number = 7000;
+  private columnSelectorActionItemToolbarIndex = 7000;
 
   constructor(
     public listState: ListState,
@@ -78,7 +78,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
 
   public ngAfterContentInit() {
     if (!this.secondaryActions) {
-      let columnChooserItem = new ListToolbarItemModel({
+      const columnChooserItem = new ListToolbarItemModel({
         id: 'column-chooser',
         template: this.columnChooserTemplate,
         location: 'left',
@@ -164,7 +164,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
 
       modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
         if (result.reason === 'save' && result.data) {
-          let newSelectedIds = result.data;
+          const newSelectedIds = result.data;
           let newDisplayedColumns: Array<SkyGridColumnModel> = [];
           this.gridView.gridState
             .pipe(take(1))

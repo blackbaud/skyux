@@ -17,7 +17,7 @@ export class FuzzyDatepickerTestComponent {
 
   public minDate: any;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public selectedDate: any;
 

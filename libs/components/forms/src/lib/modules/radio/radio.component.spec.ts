@@ -55,10 +55,10 @@ describe('Radio component', function () {
     });
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
-      let radioElement = fixture.debugElement.queryAll(
+      const radioElement = fixture.debugElement.queryAll(
         By.directive(SkyRadioComponent)
       )[0];
-      let ngModel = radioElement.injector.get(NgModel);
+      const ngModel = radioElement.injector.get(NgModel);
       const radios = fixture.nativeElement.querySelectorAll('input');
 
       radios.item(1).click();
@@ -227,7 +227,7 @@ describe('Radio component', function () {
     }));
 
     it('should prevent click events on the label from bubbling to parents', fakeAsync(() => {
-      let radioLabelElement = fixture.debugElement
+      const radioLabelElement = fixture.debugElement
         .query(By.css('#radio-clickable'))
         .query(By.directive(SkyRadioLabelComponent));
 

@@ -59,7 +59,7 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
     let initials: string;
 
     if (this.name) {
-      let nameSplit = this.name.split(' ');
+      const nameSplit = this.name.split(' ');
       initials = getInitial(nameSplit[0]);
 
       if (nameSplit.length > 1) {
@@ -71,13 +71,13 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   }
 
   public get colorIndex(): number {
-    let name = this.name;
+    const name = this.name;
     let colorIndex: number;
 
     if (name) {
       // Generate a unique-ish color based on the record name.  This is deterministic
       // so that a given name will always generate the same color.
-      let seed =
+      const seed =
         name.charCodeAt(0) + name.charCodeAt(name.length - 1) + name.length;
       colorIndex = Math.abs(seed % 6);
     } else {

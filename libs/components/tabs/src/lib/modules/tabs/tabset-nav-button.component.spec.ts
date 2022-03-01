@@ -25,7 +25,7 @@ describe('Tabset navigation button', () => {
   });
 
   it('should set default text based on the button type', () => {
-    let fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
+    const fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
 
     fixture.componentInstance.buttonType = 'next';
 
@@ -41,7 +41,7 @@ describe('Tabset navigation button', () => {
   });
 
   it('should allow the button text to be overridden', () => {
-    let fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
+    const fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
 
     fixture.componentInstance.buttonText = 'Foo';
 
@@ -51,7 +51,7 @@ describe('Tabset navigation button', () => {
   });
 
   it('should be accessible', async () => {
-    let fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
+    const fixture = TestBed.createComponent(SkyTabsetNavButtonComponent);
     fixture.componentInstance.buttonText = 'Foo';
     fixture.detectChanges();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -59,7 +59,7 @@ describe('Tabset navigation button', () => {
 
   describe('wizard style', () => {
     it('should be accessible', async(async () => {
-      let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+      const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -68,7 +68,7 @@ describe('Tabset navigation button', () => {
 
     describe('previous button', () => {
       it('should navigate to the previous tab when clicked', fakeAsync(() => {
-        let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+        const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.detectChanges();
         tick();
@@ -82,11 +82,11 @@ describe('Tabset navigation button', () => {
         fixture.detectChanges();
         tick();
 
-        let tabBtns = document.querySelectorAll('.sky-btn-tab-wizard');
+        const tabBtns = document.querySelectorAll('.sky-btn-tab-wizard');
 
         expect(tabBtns[1]).toHaveCssClass('sky-btn-tab-selected');
 
-        let previousBtn = getPreviousBtn();
+        const previousBtn = getPreviousBtn();
 
         previousBtn.click();
         fixture.detectChanges();
@@ -98,11 +98,11 @@ describe('Tabset navigation button', () => {
       }));
 
       it('should be disabled if the first tab is selected', () => {
-        let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+        const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.detectChanges();
 
-        let previousBtn = getPreviousBtn();
+        const previousBtn = getPreviousBtn();
 
         expect(previousBtn.disabled).toBe(true);
       });
@@ -110,18 +110,18 @@ describe('Tabset navigation button', () => {
 
     describe('next button', () => {
       it('should navigate to the next tab when clicked', fakeAsync(() => {
-        let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+        const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         tick();
 
-        let tabBtns = document.querySelectorAll('.sky-btn-tab-wizard');
+        const tabBtns = document.querySelectorAll('.sky-btn-tab-wizard');
 
         expect(tabBtns[0]).toHaveCssClass('sky-btn-tab-selected');
 
-        let nextBtn = getNextBtn();
+        const nextBtn = getNextBtn();
 
         nextBtn.click();
         fixture.detectChanges();
@@ -133,14 +133,14 @@ describe('Tabset navigation button', () => {
       }));
 
       it('should be disabled if the next tab is disabled', fakeAsync(() => {
-        let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+        const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.componentInstance.step2Disabled = true;
 
         fixture.detectChanges();
         tick();
 
-        let nextBtn = getNextBtn();
+        const nextBtn = getNextBtn();
 
         expect(nextBtn.disabled).toBe(true);
 
@@ -153,13 +153,13 @@ describe('Tabset navigation button', () => {
       }));
 
       it('should be disabled if the last tab is selected', () => {
-        let fixture = TestBed.createComponent(SkyWizardTestFormComponent);
+        const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
 
         fixture.componentInstance.selectedTab = 2;
 
         fixture.detectChanges();
 
-        let nextBtn = getNextBtn();
+        const nextBtn = getNextBtn();
 
         expect(nextBtn.disabled).toBe(true);
       });

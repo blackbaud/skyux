@@ -226,7 +226,7 @@ describe('Core adapter service', () => {
 
     //#region helpers
     function heightsSynced(children: HTMLElement[]): boolean {
-      let height = children[0].clientHeight;
+      const height = children[0].clientHeight;
       return children.every((element) => {
         return element.clientHeight === height;
       });

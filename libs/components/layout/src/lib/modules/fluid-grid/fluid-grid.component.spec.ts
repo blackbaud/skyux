@@ -33,7 +33,7 @@ describe('SkyFluidGridComponent', () => {
       'sky-fluid-grid-gutter-size-large',
     ];
 
-    for (let gutterSizeClass of gutterSizeClasses) {
+    for (const gutterSizeClass of gutterSizeClasses) {
       if (gutterSizeClass === expectedGutterSizeClass) {
         expect(fluidGrid).toHaveCssClass(gutterSizeClass);
       } else {

@@ -753,14 +753,14 @@ describe('Vertical tabset component', () => {
 
     fixture.detectChanges();
 
-    let contentPane = document.querySelector('.sky-vertical-tabset-content');
+    const contentPane = document.querySelector('.sky-vertical-tabset-content');
 
     contentPane.scrollTop = 200;
 
     fixture.detectChanges();
 
     // click second tab in first group
-    let tabs = el.querySelectorAll('.sky-vertical-tab');
+    const tabs = el.querySelectorAll('.sky-vertical-tab');
     tabs[1].click();
 
     fixture.detectChanges();
@@ -835,7 +835,7 @@ describe('Vertical tabset component - with ngFor', () => {
 
   it('should update active index when the active tab is removed via structural directives', () => {
     // Activate first tab.
-    let tabElements = getTabs(fixture);
+    const tabElements = getTabs(fixture);
     expect(tabElements.length).toEqual(3);
     tabElements[0].click();
     fixture.detectChanges();

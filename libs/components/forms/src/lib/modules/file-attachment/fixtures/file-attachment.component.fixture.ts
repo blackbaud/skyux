@@ -12,11 +12,11 @@ export class FileAttachmentTestComponent implements OnInit {
 
   public fileForm: FormGroup;
 
-  public labelText: string = 'Choose file';
+  public labelText = 'Choose file';
 
-  public required: boolean = false;
+  public required = false;
 
-  public showLabel: boolean = true;
+  public showLabel = true;
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent: SkyFileAttachmentComponent;

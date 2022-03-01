@@ -17,7 +17,7 @@ import { SkySortService } from './sort.service';
 
 const SORT_ITEM_ID_PREFIX = 'sky-sort-item-';
 
-let sortItemIdNumber: number = 0;
+let sortItemIdNumber = 0;
 
 @Component({
   selector: 'sky-sort-item',

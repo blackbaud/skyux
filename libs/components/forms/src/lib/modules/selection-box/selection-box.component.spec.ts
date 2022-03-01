@@ -90,7 +90,7 @@ describe('Selection box component', () => {
   });
 
   it('should enable and disable AfterViewInit', async () => {
-    let outermostDiv = debugElement.query(
+    const outermostDiv = debugElement.query(
       By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')
     ).nativeElement;
     fixture.detectChanges();

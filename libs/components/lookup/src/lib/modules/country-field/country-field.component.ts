@@ -47,7 +47,7 @@ const SKY_COUNTRY_FIELD_VALIDATOR = {
 };
 
 // tslint:enable
-let uniqueId: number = 0;
+let uniqueId = 0;
 
 @Component({
   selector: 'sky-country-field',
@@ -161,9 +161,9 @@ export class SkyCountryFieldComponent
 
   public countrySearchFormControl: FormControl;
 
-  public isInputFocused: boolean = false;
+  public isInputFocused = false;
 
-  public searchTextMinimumCharacters: number = 2;
+  public searchTextMinimumCharacters = 2;
 
   @ViewChild(SkyAutocompleteInputDirective)
   public countrySearchAutocompleteDirective: SkyAutocompleteInputDirective;
@@ -171,7 +171,7 @@ export class SkyCountryFieldComponent
   public set selectedCountry(newCountry: SkyCountryFieldCountry) {
     if (!this.countriesAreEqual(this.selectedCountry, newCountry)) {
       if (newCountry && newCountry.iso2) {
-        let isoCountry = this.countries.find(
+        const isoCountry = this.countries.find(
           (country) => country.iso2 === newCountry.iso2
         );
 
@@ -220,7 +220,7 @@ export class SkyCountryFieldComponent
     return this._selectedCountry;
   }
 
-  public currentTheme: string = 'default';
+  public currentTheme = 'default';
 
   public inputId: string;
 
@@ -240,9 +240,9 @@ export class SkyCountryFieldComponent
 
   private idle: Subject<any> = new Subject();
 
-  private internalFormChange: boolean = false;
+  private internalFormChange = false;
 
-  private isInitialChange: boolean = true;
+  private isInitialChange = true;
 
   private ngControl: NgControl;
 
@@ -250,9 +250,9 @@ export class SkyCountryFieldComponent
 
   private _defaultCountry: string;
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
-  private _includePhoneInfo: boolean = false;
+  private _includePhoneInfo = false;
 
   private _selectedCountry: SkyCountryFieldCountry;
 
@@ -503,7 +503,7 @@ export class SkyCountryFieldComponent
     let selectedCountryIndex: number;
     let selectedCountryData: SkyCountryFieldCountry;
 
-    let sortedNewCountries = this.countries.sort((a, b) => {
+    const sortedNewCountries = this.countries.sort((a, b) => {
       if (
         ((this.defaultCountryData &&
           this.countriesEqual(a, this.defaultCountryData)) ||

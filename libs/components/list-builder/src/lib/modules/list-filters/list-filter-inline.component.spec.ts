@@ -73,7 +73,7 @@ describe('List inline filters', () => {
       fixture.detectChanges();
       tick();
 
-      let filterButton = getFilterButton() as HTMLButtonElement;
+      const filterButton = getFilterButton() as HTMLButtonElement;
 
       expect(filterButton).not.toBeNull();
 
@@ -89,7 +89,7 @@ describe('List inline filters', () => {
       fixture.detectChanges();
       tick();
 
-      let filterButton = getFilterButton() as HTMLButtonElement;
+      const filterButton = getFilterButton() as HTMLButtonElement;
 
       filterButton.click();
       fixture.detectChanges();
@@ -97,7 +97,7 @@ describe('List inline filters', () => {
       fixture.detectChanges();
 
       expect(filterButton.getAttribute('aria-controls')).toBeTruthy();
-      let inlineFilter = document.querySelector(
+      const inlineFilter = document.querySelector(
         `#${filterButton.getAttribute('aria-controls')}`
       );
 
@@ -131,7 +131,7 @@ describe('List inline filters', () => {
       filterButton.click();
       tick();
       fixture.detectChanges();
-      let selectEl = nativeElement.querySelector(
+      const selectEl = nativeElement.querySelector(
         '#sky-demo-select-type'
       ) as HTMLSelectElement;
       selectEl.value = 'berry';
@@ -154,7 +154,7 @@ describe('List inline filters', () => {
       fixture.detectChanges();
       tick();
       dispatcher.next(new ListPagingSetPageNumberAction(Number(2)));
-      let filterButton = getFilterButton() as HTMLButtonElement;
+      const filterButton = getFilterButton() as HTMLButtonElement;
 
       tick();
       filterButton.click();
@@ -163,7 +163,7 @@ describe('List inline filters', () => {
       });
       tick();
       fixture.detectChanges();
-      let selectEl = nativeElement.querySelector(
+      const selectEl = nativeElement.querySelector(
         '#sky-demo-select-type'
       ) as HTMLSelectElement;
       selectEl.value = 'berry';
@@ -177,7 +177,7 @@ describe('List inline filters', () => {
     }));
 
     it('should handle a model without data properly', () => {
-      let inlineFilter = new SkyListFilterInlineModel();
+      const inlineFilter = new SkyListFilterInlineModel();
       expect(inlineFilter).not.toBeNull();
     });
   });

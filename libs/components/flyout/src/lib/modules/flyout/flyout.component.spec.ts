@@ -92,7 +92,7 @@ describe('Flyout component', () => {
   }
 
   function makeEvent(eventType: string, evtObj: any): void {
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       eventType,
       false,
@@ -115,7 +115,7 @@ describe('Flyout component', () => {
 
   function grabDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHandleElement();
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       'mousedown',
       false,
@@ -139,7 +139,7 @@ describe('Flyout component', () => {
 
   function grabHeaderDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHeaderGrabHandle();
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       'mousedown',
       false,
@@ -946,7 +946,7 @@ describe('Flyout component', () => {
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
-    let resizeInput: any = flyoutElement.querySelector(
+    const resizeInput: any = flyoutElement.querySelector(
       '.sky-flyout-resize-handle'
     );
 

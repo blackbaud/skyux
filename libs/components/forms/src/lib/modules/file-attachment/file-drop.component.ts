@@ -66,19 +66,19 @@ export class SkyFileDropComponent implements OnDestroy {
    * Specifies the minimum size in bytes for valid files.
    */
   @Input()
-  public minFileSize: number = 0;
+  public minFileSize = 0;
 
   /**
    * Specifies the maximum size in bytes for valid files.
    */
   @Input()
-  public maxFileSize: number = 500000;
+  public maxFileSize = 500000;
 
   /**
    * Indicates whether users can drag and drop multiple files at the same time.
    */
   @Input()
-  public multiple: boolean = true;
+  public multiple = true;
 
   /**
    * Specifies a custom validation function. This validation runs alongside the internal
@@ -99,19 +99,19 @@ export class SkyFileDropComponent implements OnDestroy {
    * Indicates whether to disable the option to browse for files to attach.
    */
   @Input()
-  public noClick: boolean = false;
+  public noClick = false;
 
   /**
    * Indicates whether to display the option to attach files from URLs rather than from local devices.
    */
   @Input()
-  public allowLinks: boolean = false;
+  public allowLinks = false;
 
   @ViewChild('fileInput')
   public inputEl: ElementRef;
 
-  public rejectedOver: boolean = false;
-  public acceptedOver: boolean = false;
+  public rejectedOver = false;
+  public acceptedOver = false;
   public linkUrl: string;
 
   private enterEventTarget: any;
@@ -293,13 +293,13 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   private handleFiles(files: FileList) {
-    let validFileArray: Array<SkyFileItem> = [];
-    let rejectedFileArray: Array<SkyFileItem> = [];
-    let totalFiles = files.length;
-    let fileDrop = this;
+    const validFileArray: Array<SkyFileItem> = [];
+    const rejectedFileArray: Array<SkyFileItem> = [];
+    const totalFiles = files.length;
+    const fileDrop = this;
 
     // tslint:disable-next-line: max-line-length
-    let processedFiles = this.fileAttachmentService.checkFiles(
+    const processedFiles = this.fileAttachmentService.checkFiles(
       files,
       this.minFileSize,
       this.maxFileSize,
@@ -307,7 +307,7 @@ export class SkyFileDropComponent implements OnDestroy {
       this.validateFn
     );
 
-    for (let file of processedFiles) {
+    for (const file of processedFiles) {
       if (file.errorType) {
         this.filesRejected(file, validFileArray, rejectedFileArray, totalFiles);
       } else {

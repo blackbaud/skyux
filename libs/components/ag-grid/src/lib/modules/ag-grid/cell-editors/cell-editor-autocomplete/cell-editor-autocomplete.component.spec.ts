@@ -34,7 +34,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   it('should render an autocomplete input', () => {
     fixture.detectChanges();
 
-    let element = nativeElement.querySelector('sky-autocomplete');
+    const element = nativeElement.querySelector('sky-autocomplete');
     expect(element).toBeVisible();
   });
 
@@ -90,7 +90,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
   describe('getValue', () => {
     it('should return the selected object if one is selected', () => {
-      let selection = data[0];
+      const selection = data[0];
       component.currentSelection = selection;
 
       fixture.detectChanges();

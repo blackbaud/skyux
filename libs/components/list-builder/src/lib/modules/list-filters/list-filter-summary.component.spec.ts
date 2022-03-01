@@ -85,7 +85,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
+      const summaryItems = getSummaryItems();
 
       // verify first item with no dismiss
       expect(summaryItems.item(0)).toHaveText('blue');
@@ -137,7 +137,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
+      const summaryItems = getSummaryItems();
 
       expect(summaryItems.length).toBe(2);
 
@@ -156,7 +156,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItem = getSummaryItems().item(0) as HTMLElement;
+      const summaryItem = getSummaryItems().item(0) as HTMLElement;
       summaryItem.click();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -171,8 +171,8 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
-      let closeButton = summaryItems
+      const summaryItems = getSummaryItems();
+      const closeButton = summaryItems
         .item(1)
         .querySelector('.sky-token-btn-close') as HTMLElement;
       closeButton.click();

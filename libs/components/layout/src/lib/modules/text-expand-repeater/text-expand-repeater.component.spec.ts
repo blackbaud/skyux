@@ -63,7 +63,7 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
 
-      let seeMoreButton: any = el.querySelector(
+      const seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).toBeNull();
@@ -74,7 +74,7 @@ describe('Text expand repeater component', () => {
       cmp.numItems = 2;
 
       fixture.detectChanges();
-      let seeMoreButton: any = el.querySelector(
+      const seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).not.toBeNull();
@@ -167,7 +167,7 @@ describe('Text expand repeater component', () => {
       cmp.numItems = 2;
       cmp.listStyle = 'unstyled';
       fixture.detectChanges();
-      let seeMoreButton: any = el.querySelector(
+      const seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more'
       );
       expect(seeMoreButton).toHaveCssClass(
@@ -179,7 +179,7 @@ describe('Text expand repeater component', () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
       fixture.detectChanges();
-      let contentSection: any = el.querySelector(
+      const contentSection: any = el.querySelector(
         'ul.sky-text-expand-repeater-container'
       );
       expect(contentSection).toExist();
@@ -190,7 +190,7 @@ describe('Text expand repeater component', () => {
       cmp.numItems = 2;
       cmp.listStyle = 'ordered';
       fixture.detectChanges();
-      let contentSection: any = el.querySelector(
+      const contentSection: any = el.querySelector(
         'ol.sky-text-expand-repeater-container'
       );
       expect(contentSection).toExist();
@@ -200,13 +200,13 @@ describe('Text expand repeater component', () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
-      let shownItemsSelector =
+      const shownItemsSelector =
         '.sky-text-expand-repeater-item:not([style*="display: none"])';
-      let hiddenItemsSelector =
+      const hiddenItemsSelector =
         '.sky-text-expand-repeater-item[style*="display: none"]';
 
       fixture.detectChanges();
-      let container: HTMLElement = document.querySelector(
+      const container: HTMLElement = document.querySelector(
         '.sky-text-expand-repeater-container'
       );
       let seeMoreButton: any = el.querySelector(
@@ -246,10 +246,10 @@ describe('Text expand repeater component', () => {
 
       fixture.detectChanges();
 
-      let seeMoreButton: any = el.querySelector(
+      const seeMoreButton: any = el.querySelector(
         '.sky-text-expand-repeater-see-more'
       );
-      let items: any = el.querySelectorAll('.sky-text-expand-repeater-item');
+      const items: any = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(seeMoreButton).toBeNull();
       expect(items.length).toBe(0);
     });

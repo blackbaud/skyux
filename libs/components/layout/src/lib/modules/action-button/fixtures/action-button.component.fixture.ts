@@ -28,7 +28,7 @@ export class ActionButtonTestComponent {
     },
   };
 
-  public buttonIsClicked: boolean = false;
+  public buttonIsClicked = false;
 
   public alignItems: SkyActionButtonContainerAlignItemsType;
 

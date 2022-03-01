@@ -33,7 +33,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public readOnly: boolean = false;
+  public readOnly = false;
 
   /**
    * Indicates whether to use leaf-only selection mode. For tree views with
@@ -42,7 +42,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public selectLeafNodesOnly: boolean = false;
+  public selectLeafNodesOnly = false;
 
   /**
    * Indicates whether to use single-select mode. For tree views with
@@ -51,7 +51,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public selectSingle: boolean = false;
+  public selectSingle = false;
 
   /**
    * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
@@ -115,7 +115,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     if (!this.selectSingle) {
       // Get a list of all node ids that are selectable.
       this.selectableNodeIds = {};
-      let getSelectableNodeIds = (node: TreeNode) => {
+      const getSelectableNodeIds = (node: TreeNode) => {
         const selectable =
           node.isSelectable() &&
           !(node.hasChildren && this.selectLeafNodesOnly);

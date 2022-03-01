@@ -39,9 +39,9 @@ export class SkyAutocompleteFixtureComponent {
   public customNoResultsMessage: string;
   public debounceTime: number;
   public descriptorProperty: string;
-  public disabled: boolean = false;
-  public enableShowMore: boolean = false;
-  public hideInput: boolean = false;
+  public disabled = false;
+  public enableShowMore = false;
+  public hideInput = false;
   public propertiesToSearch: string[];
   public messageStream: Subject<SkyAutocompleteMessage>;
   public search: SkyAutocompleteSearchFunction;
@@ -50,7 +50,7 @@ export class SkyAutocompleteFixtureComponent {
   public searchResultTemplate: TemplateRef<any>;
   public searchTextMinimumCharacters: number;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
-  public showAddButton: boolean = false;
+  public showAddButton = false;
 
   @ViewChild('asyncAutocomplete', {
     read: SkyAutocompleteComponent,

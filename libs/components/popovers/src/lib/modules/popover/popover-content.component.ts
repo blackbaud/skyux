@@ -65,13 +65,13 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public arrowTop: number;
 
-  public dismissOnBlur: boolean = true;
+  public dismissOnBlur = true;
 
-  public enableAnimations: boolean = true;
+  public enableAnimations = true;
 
   public horizontalAlignment: SkyPopoverAlignment;
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
   public placement: SkyPopoverPlacement;
 

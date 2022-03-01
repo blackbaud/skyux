@@ -19,7 +19,7 @@ describe('Dynamic component service', () => {
       SkyDynamicComponentService
     );
 
-    let cmpRef: ComponentRef<DynamicComponentTestComponent> =
+    const cmpRef: ComponentRef<DynamicComponentTestComponent> =
       svc.createComponent(DynamicComponentTestComponent, {
         location: location,
         referenceEl: reference,
@@ -71,7 +71,7 @@ describe('Dynamic component service', () => {
 
   afterEach(() => {
     if (cmpRefs.length) {
-      for (let cmpRef of cmpRefs) {
+      for (const cmpRef of cmpRefs) {
         removeTestComponent(cmpRef);
       }
     }

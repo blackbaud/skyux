@@ -141,7 +141,7 @@ describe('Library resources service', () => {
   });
 
   it('should use the name from the name provider', () => {
-    let mockResourceNameProvider: any = {
+    const mockResourceNameProvider: any = {
       getResourceName: (name: string) => {
         return observableOf(name + '_alternate');
       },

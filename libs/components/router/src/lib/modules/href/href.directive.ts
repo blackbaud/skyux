@@ -142,7 +142,7 @@ export class SkyHrefDirective {
   }
 
   private getChanges(): HrefChanges {
-    let queryParams: SkyHrefQueryParams = {};
+    const queryParams: SkyHrefQueryParams = {};
 
     if (!this._route || !this._route.userHasAccess) {
       return {

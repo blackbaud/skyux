@@ -10,21 +10,21 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   templateUrl: './phone-field.component.fixture.html',
 })
 export class PhoneFieldTestComponent {
-  public allowExtensions: boolean = true;
+  public allowExtensions = true;
 
   public defaultCountry: string;
 
-  public isDisabled: boolean = false;
+  public isDisabled = false;
 
   public modelValue: string;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public returnFormat: SkyPhoneFieldNumberReturnFormat;
 
   public selectedCountry: SkyPhoneFieldCountry;
 
-  public showInvalidDirective: boolean = false;
+  public showInvalidDirective = false;
 
   public supportedCountryISOs: string[];
 

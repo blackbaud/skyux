@@ -78,13 +78,13 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    let inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl();
 
     spyOn(inputEl.references.fileInput, 'click').and.callFake(function () {
       inputClicked = true;
     });
 
-    let dropEl = getDropEl();
+    const dropEl = getDropEl();
 
     dropEl.click();
 
@@ -94,9 +94,9 @@ describe('File drop component', () => {
   }
 
   function triggerChangeEvent(expectedChangeFiles: any[]) {
-    let inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl();
 
-    let fileChangeEvent = {
+    const fileChangeEvent = {
       target: {
         files: {
           length: expectedChangeFiles.length,
@@ -111,9 +111,9 @@ describe('File drop component', () => {
   }
 
   function setupFileReaderSpy() {
-    let loadCallbacks: Function[] = [];
-    let errorCallbacks: Function[] = [];
-    let abortCallbacks: Function[] = [];
+    const loadCallbacks: Function[] = [];
+    const errorCallbacks: Function[] = [];
+    const abortCallbacks: Function[] = [];
 
     spyOn(window as any, 'FileReader').and.returnValue({
       readAsDataURL: function (file: any) {},
@@ -136,7 +136,7 @@ describe('File drop component', () => {
   }
 
   function setupStandardFileChangeEvent(files?: any[]) {
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
 
     if (!files) {
       files = [
@@ -179,7 +179,7 @@ describe('File drop component', () => {
     let dragEnterPropStopped = false;
     let dragEnterPreventDefault = false;
 
-    let dragEnterEvent = {
+    const dragEnterEvent = {
       target: enterTarget,
       stopPropagation: function () {
         dragEnterPropStopped = true;
@@ -199,7 +199,7 @@ describe('File drop component', () => {
     let dragOverPropStopped = false;
     let dragOverPreventDefault = false;
 
-    let dragOverEvent = {
+    const dragOverEvent = {
       dataTransfer: {
         files: {} as any,
         items: files,
@@ -221,9 +221,9 @@ describe('File drop component', () => {
   function triggerDrop(files: any, dropDebugEl: DebugElement) {
     let dropPropStopped = false;
     let dropPreventDefault = false;
-    let fileLength = files ? files.length : 0;
+    const fileLength = files ? files.length : 0;
 
-    let dropEvent = {
+    const dropEvent = {
       dataTransfer: {
         files: {
           length: fileLength,
@@ -248,7 +248,7 @@ describe('File drop component', () => {
   }
 
   function triggerDragLeave(leaveTarget: any, dropDebugEl: DebugElement) {
-    let dragLeaveEvent = {
+    const dragLeaveEvent = {
       target: leaveTarget,
     };
 
@@ -265,12 +265,12 @@ describe('File drop component', () => {
   it('should create the file drop control', () => {
     fixture.detectChanges();
 
-    let dropEl = getDropEl();
+    const dropEl = getDropEl();
 
     expect(dropEl).toBeTruthy();
     validateDropClasses(false, false, dropEl);
 
-    let inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl();
     expect(inputEl.references.fileInput).toBeTruthy();
   });
 
@@ -310,7 +310,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
     );
 
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
 
     triggerChangeEvent([
       {
@@ -358,7 +358,7 @@ describe('File drop component', () => {
   it('should allow the user to specify to not allow multiple files', () => {
     componentInstance.multiple = false;
     fixture.detectChanges();
-    let inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl();
 
     expect(inputEl.nativeElement.hasAttribute('multiple')).toBe(false);
 
@@ -370,7 +370,7 @@ describe('File drop component', () => {
   it('should set accepted types on the file input html', () => {
     componentInstance.acceptedTypes = 'image/png';
     fixture.detectChanges();
-    let inputEl = getInputDebugEl();
+    const inputEl = getInputDebugEl();
 
     expect(inputEl.nativeElement.getAttribute('accept')).toBe('image/png');
   });
@@ -430,7 +430,7 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
     );
 
-    let errorMessage =
+    const errorMessage =
       'You may not upload a file that begins with the letter "w."';
 
     componentInstance.validateFn = function (file: any) {
@@ -493,7 +493,7 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    let files = [
+    const files = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -554,15 +554,15 @@ describe('File drop component', () => {
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
     );
 
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
 
     componentInstance.acceptedTypes = 'image/png, image/tiff';
 
     fixture.detectChanges();
 
-    let dropDebugEl = getDropDebugEl();
+    const dropDebugEl = getDropDebugEl();
 
-    let files = [
+    const files = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -570,7 +570,7 @@ describe('File drop component', () => {
       },
     ];
 
-    let invalidFiles = [
+    const invalidFiles = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -580,7 +580,7 @@ describe('File drop component', () => {
 
     triggerDragEnter('sky-drop', dropDebugEl);
     triggerDragOver(files, dropDebugEl);
-    let dropElWrapper = getDropElWrapper();
+    const dropElWrapper = getDropElWrapper();
 
     validateDropClasses(true, false, dropElWrapper);
 
@@ -616,7 +616,7 @@ describe('File drop component', () => {
     triggerDragOver([], dropDebugEl);
     validateDropClasses(false, false, dropElWrapper);
 
-    let emptyEvent = {
+    const emptyEvent = {
       stopPropagation: function () {},
       preventDefault: function () {},
     };
@@ -643,9 +643,9 @@ describe('File drop component', () => {
 
       fixture.detectChanges();
 
-      let dropDebugEl = getDropDebugEl();
+      const dropDebugEl = getDropDebugEl();
 
-      let invalidFiles = [
+      const invalidFiles = [
         {
           name: 'foo.txt',
           size: 1000,
@@ -653,7 +653,7 @@ describe('File drop component', () => {
         },
       ];
 
-      let dropElWrapper = getDropElWrapper();
+      const dropElWrapper = getDropElWrapper();
 
       triggerDragEnter('sky-drop', dropDebugEl);
       triggerDragOver(undefined, dropDebugEl);
@@ -665,7 +665,7 @@ describe('File drop component', () => {
   );
 
   it('should allow loading multiple files on drag and drop when multiple is true', () => {
-    let files = [
+    const files = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -678,12 +678,12 @@ describe('File drop component', () => {
       },
     ];
 
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
 
     componentInstance.multiple = true;
     fixture.detectChanges();
 
-    let dropDebugEl = getDropDebugEl();
+    const dropDebugEl = getDropDebugEl();
 
     triggerDragEnter('sky-drop', dropDebugEl);
     triggerDragOver(files, dropDebugEl);
@@ -692,7 +692,7 @@ describe('File drop component', () => {
   });
 
   it('should prevent loading multiple files on drag and drop when multiple is false', () => {
-    let files = [
+    const files = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -705,12 +705,12 @@ describe('File drop component', () => {
       },
     ];
 
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
 
     componentInstance.multiple = false;
     fixture.detectChanges();
 
-    let dropDebugEl = getDropDebugEl();
+    const dropDebugEl = getDropDebugEl();
 
     triggerDragEnter('sky-drop', dropDebugEl);
     triggerDragOver(files, dropDebugEl);
@@ -719,7 +719,7 @@ describe('File drop component', () => {
   });
 
   it('should prevent loading directories on drag and drop', () => {
-    let files = [
+    const files = [
       {
         name: 'foo.txt',
         size: 1000,
@@ -732,10 +732,10 @@ describe('File drop component', () => {
       },
     ];
 
-    let fileReaderSpy = setupFileReaderSpy();
+    const fileReaderSpy = setupFileReaderSpy();
     fixture.detectChanges();
 
-    let dropDebugEl = getDropDebugEl();
+    const dropDebugEl = getDropDebugEl();
 
     triggerDragEnter('sky-drop', dropDebugEl);
     triggerDragOver(files, dropDebugEl);
@@ -747,7 +747,7 @@ describe('File drop component', () => {
     componentInstance.allowLinks = true;
     fixture.detectChanges();
 
-    let linkInput = getLinkInput();
+    const linkInput = getLinkInput();
 
     expect(linkInput).toBeTruthy();
   });
@@ -779,11 +779,11 @@ describe('File drop component', () => {
     componentInstance.allowLinks = true;
     fixture.detectChanges();
 
-    let linkInput = getLinkInput();
+    const linkInput = getLinkInput();
 
     triggerInputChange('link.com', linkInput);
 
-    let linkButton = getLinkButton();
+    const linkButton = getLinkButton();
     linkButton.nativeElement.click();
     fixture.detectChanges();
 
@@ -800,7 +800,7 @@ describe('File drop component', () => {
     componentInstance.allowLinks = true;
     fixture.detectChanges();
 
-    let linkInput = getLinkInput();
+    const linkInput = getLinkInput();
 
     triggerInputChange('link.com', linkInput);
 
@@ -822,7 +822,7 @@ describe('File drop component', () => {
   });
 
   it('should allow custom content inside of the file drop component', () => {
-    let contentFixture = TestBed.createComponent(FileDropContentComponent);
+    const contentFixture = TestBed.createComponent(FileDropContentComponent);
 
     contentFixture.detectChanges();
 
@@ -847,8 +847,8 @@ describe('File drop component', () => {
     componentInstance.allowLinks = true;
     fixture.detectChanges();
 
-    let linkInput: DebugElement = getLinkInput();
-    let dropEl: HTMLElement = getDropEl();
+    const linkInput: DebugElement = getLinkInput();
+    const dropEl: HTMLElement = getDropEl();
 
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value

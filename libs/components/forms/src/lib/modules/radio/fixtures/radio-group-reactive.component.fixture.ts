@@ -9,7 +9,7 @@ import { SkyRadioGroupComponent } from '../radio-group.component';
 export class SkyRadioGroupReactiveFixtureComponent {
   public ariaLabel: string;
 
-  public ariaLabelledBy: string = 'radio-group-label';
+  public ariaLabelledBy = 'radio-group-label';
 
   public options = [
     { name: 'Lillith Corharvest', disabled: false },
@@ -21,7 +21,7 @@ export class SkyRadioGroupReactiveFixtureComponent {
 
   public radioForm: FormGroup;
 
-  public required: boolean = false;
+  public required = false;
 
   public showRadioGroup = true;
 

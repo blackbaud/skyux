@@ -43,9 +43,9 @@ export class SkyModalService {
     component: any,
     config?: SkyModalConfigurationInterface | any[]
   ): SkyModalInstance {
-    let modalInstance = new SkyModalInstance();
+    const modalInstance = new SkyModalInstance();
     this.createHostComponent();
-    let params = this.getConfigFromParameter(config);
+    const params = this.getConfigFromParameter(config);
 
     params.providers.push({
       provide: SkyModalInstance,
@@ -60,7 +60,7 @@ export class SkyModalService {
   private getConfigFromParameter(
     providersOrConfig: any
   ): SkyModalConfigurationInterface {
-    let defaultParams: SkyModalConfigurationInterface = {
+    const defaultParams: SkyModalConfigurationInterface = {
       providers: [],
       fullPage: false,
       size: 'medium',

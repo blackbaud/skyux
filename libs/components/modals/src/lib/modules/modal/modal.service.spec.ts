@@ -15,7 +15,7 @@ describe('Modal service', () => {
   let applicationRef: ApplicationRef;
 
   function openModal(modalType: any, config?: Object) {
-    let modalInstance = modalService.open(modalType, config);
+    const modalInstance = modalService.open(modalType, config);
 
     tick();
 
@@ -50,7 +50,7 @@ describe('Modal service', () => {
   });
 
   it('should show a modal and return an instance that can then be closed', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent);
+    const modalInstance = openModal(ModalTestComponent);
     applicationRef.tick();
 
     expect(document.body.querySelector('.sky-modal')).toExist();
@@ -64,8 +64,8 @@ describe('Modal service', () => {
   }));
 
   it('should show multiple modals and return an instances.', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent);
-    let modalInstance2 = openModal(ModalTestComponent);
+    const modalInstance = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
     applicationRef.tick();
 
     expect(document.body.querySelector('.sky-modal')).toExist();
@@ -99,10 +99,10 @@ describe('Modal service', () => {
   }));
 
   it('should remove the sky-modal-body-full-page only when all fullPage modals are closed.', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent, { fullPage: false });
-    let modalInstance1 = openModal(ModalTestComponent, { fullPage: false });
-    let fullPageModal = openModal(ModalTestComponent, { fullPage: true });
-    let fullPageModal2 = openModal(ModalTestComponent, { fullPage: true });
+    const modalInstance = openModal(ModalTestComponent, { fullPage: false });
+    const modalInstance1 = openModal(ModalTestComponent, { fullPage: false });
+    const fullPageModal = openModal(ModalTestComponent, { fullPage: true });
+    const fullPageModal2 = openModal(ModalTestComponent, { fullPage: true });
 
     expect(document.body).toHaveCssClass('sky-modal-body-open');
     expect(document.body).toHaveCssClass('sky-modal-body-full-page');
@@ -125,7 +125,7 @@ describe('Modal service', () => {
   }));
 
   it('should pass a "close" reason to the closed subscription when modal close button clicked', fakeAsync(() => {
-    let modalInstance = openModal(ModalTestComponent);
+    const modalInstance = openModal(ModalTestComponent);
     modalInstance.closed.subscribe((result: any) => {
       expect(result.reason).toEqual('close');
       expect(result.data).toBeUndefined();
@@ -148,11 +148,11 @@ describe('Modal service', () => {
       ).toBe(modalCount);
     }
 
-    let modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance1 = openModal(ModalTestComponent);
 
     validateModalCount(1);
 
-    let modalInstance2 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
 
     validateModalCount(2);
 
@@ -163,7 +163,7 @@ describe('Modal service', () => {
   }));
 
   it('should allow data to be passed to the modal component when opened', fakeAsync(() => {
-    let modalInstance = openModal(ModalWithValuesTestComponent, [
+    const modalInstance = openModal(ModalWithValuesTestComponent, [
       {
         provide: ModalTestValues,
         useValue: {

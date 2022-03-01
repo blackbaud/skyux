@@ -165,7 +165,7 @@ export class SkyTileComponent implements OnDestroy {
   public moveTile(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (this.isInDashboardColumn) {
-      let direction = event.key.toLowerCase().replace('arrow', '');
+      const direction = event.key.toLowerCase().replace('arrow', '');
       /* istanbul ignore else */
       if (
         direction === 'up' ||

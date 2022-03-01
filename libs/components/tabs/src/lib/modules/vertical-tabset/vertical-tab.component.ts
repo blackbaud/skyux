@@ -38,7 +38,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * Indicates whether the tab is active when the tabset loads.
    */
   @Input()
-  public active: boolean = false;
+  public active = false;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that contains
@@ -74,14 +74,14 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * Indicates whether to disable the tab.
    */
   @Input()
-  public disabled: boolean = false;
+  public disabled = false;
 
   /**
    * Indicates whether to indicate that the tab has an error.
    * @internal This is used for sectioned forms and is not currently a supported design for pure vertical tabs.
    */
   @Input()
-  public errorIndicator: boolean = false;
+  public errorIndicator = false;
 
   /**
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.
@@ -114,7 +114,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()
-  public tabId: string = `sky-vertical-tab-${++nextId}`;
+  public tabId = `sky-vertical-tab-${++nextId}`;
 
   public set contentRendered(value: boolean) {
     this._contentRendered = value;
@@ -143,13 +143,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   private _ariaRole: string;
 
-  private _contentRendered: boolean = false;
+  private _contentRendered = false;
 
   private _mobileSubscription = new Subject();
 
   private _ngUnsubscribe = new Subject();
 
-  private _showTabRightArrow: boolean = false;
+  private _showTabRightArrow = false;
 
   constructor(
     private adapterService: SkyVerticalTabsetAdapterService,

@@ -23,7 +23,7 @@ export class SkySelectFieldPickerContext {
    * circumvents the list-builder search function to enable consumers to provide results
    * from a remote source by updating the `data` value.
    */
-  public inMemorySearchEnabled: boolean = true;
+  public inMemorySearchEnabled = true;
 
   /**
    * The select field's current value. If the select field's `selectMode` is set to `single`,
@@ -43,5 +43,5 @@ export class SkySelectFieldPickerContext {
    * for users to add items.
    * @default false
    */
-  public showAddNewRecordButton: boolean = false;
+  public showAddNewRecordButton = false;
 }

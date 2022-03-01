@@ -36,11 +36,11 @@ export class SkyLibResourcesService {
    * @param args Any templated args.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
-    let mappedNameObs = this.resourceNameProvider
+    const mappedNameObs = this.resourceNameProvider
       ? this.resourceNameProvider.getResourceName(name)
       : observableOf(name);
 
-    let localeInfoObs = this.localeProvider.getLocaleInfo();
+    const localeInfoObs = this.localeProvider.getLocaleInfo();
 
     return forkJoin([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>

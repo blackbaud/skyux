@@ -20,7 +20,7 @@ describe('Error modal service', () => {
 
     const expectedProviders = [{ provide: ErrorModalConfig, useValue: config }];
 
-    let service = new SkyErrorModalService(modalService as SkyModalService);
+    const service = new SkyErrorModalService(modalService as SkyModalService);
     service.open(config);
 
     expect(modalService.openCalls.length).toBe(1);

@@ -113,7 +113,7 @@ export class SkyGridComponent
    * @default false
    */
   @Input()
-  public enableMultiselect: boolean = false;
+  public enableMultiselect = false;
 
   /**
    * Specifies how the grid fits to its parent. The valid options are `width`,
@@ -123,13 +123,13 @@ export class SkyGridComponent
    * @default "width"
    */
   @Input()
-  public fit: string = 'width';
+  public fit = 'width';
 
   /**
    * Indicates whether to display a toolbar with the grid.
    */
   @Input()
-  public hasToolbar: boolean = false;
+  public hasToolbar = false;
 
   /**
    * Specifies the height of the grid.
@@ -295,8 +295,8 @@ export class SkyGridComponent
   public items: Array<any>;
   public maxColWidth = 9999; // This is an arbitrary number, as the input range picker won't work without a value.
   public minColWidth = 50;
-  public showResizeBar: boolean = false;
-  public showTopScroll: boolean = false;
+  public showResizeBar = false;
+  public showTopScroll = false;
 
   public get tableWidth() {
     return this.tableElementRef.nativeElement.offsetWidth;
@@ -323,14 +323,14 @@ export class SkyGridComponent
   private resizeBar: ElementRef;
 
   private activeResizeColumnIndex: string;
-  private isDraggingResizeHandle: boolean = false;
-  private isResized: boolean = false;
+  private isDraggingResizeHandle = false;
+  private isResized = false;
   private ngUnsubscribe = new Subject();
   private rowDeleteContents: { [id: string]: SkyGridRowDeleteContents } = {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];
-  private scrollTriggered: boolean = false;
-  private selectedColumnIdsSet: boolean = false;
+  private scrollTriggered = false;
+  private selectedColumnIdsSet = false;
   private xPosStart: number;
 
   private _columns: Array<SkyGridColumnModel>;
@@ -408,7 +408,7 @@ export class SkyGridComponent
           } else {
             // The rows re-render thus messing up the affixers. We must reaffix them so that things
             // continue to render correctly.
-            let rowElement: HTMLElement =
+            const rowElement: HTMLElement =
               this.tableElementRef.nativeElement.querySelector(
                 '[sky-cmp-id="' + id + '"]'
               );
@@ -457,7 +457,7 @@ export class SkyGridComponent
   }
 
   public getTableClassNames() {
-    let classNames: string[] = [];
+    const classNames: string[] = [];
 
     if (this.fit !== 'scroll') {
       classNames.push('sky-grid-fit');
@@ -471,7 +471,7 @@ export class SkyGridComponent
   }
 
   public getTableHeaderClassNames(column: SkyGridColumnModel) {
-    let classNames: string[] = [];
+    const classNames: string[] = [];
 
     if (column && column.locked) {
       classNames.push('sky-grid-header-locked');
@@ -481,7 +481,7 @@ export class SkyGridComponent
   }
 
   public getCaretIconNames(column: SkyGridColumnModel) {
-    let iconNames: string[] = [];
+    const iconNames: string[] = [];
 
     this.getSortDirection(column.field).subscribe((sortDir) => {
       if (sortDir === 'asc') {
@@ -686,23 +686,23 @@ export class SkyGridComponent
 
   public onInputChangeResizeCol(event: Event) {
     const input = event.target as HTMLInputElement;
-    let newValue = Number(input.value);
-    let deltaX = newValue - this.startColumnWidth;
+    const newValue = Number(input.value);
+    const deltaX = newValue - this.startColumnWidth;
     this.resizeColumnByIndex(this.activeResizeColumnIndex, newValue, deltaX);
     const left = input.getBoundingClientRect().left;
     this.setResizeBarPosition(left);
   }
 
   public onResizeHandleMove(event: MouseEvent) {
-    let deltaX = event.pageX - this.xPosStart;
-    let newColWidth = this.startColumnWidth + deltaX;
+    const deltaX = event.pageX - this.xPosStart;
+    const newColWidth = this.startColumnWidth + deltaX;
 
     if (newColWidth <= this.minColWidth) {
       event.stopPropagation();
       return;
     }
 
-    let max = this.getMaxRangeByIndex(this.activeResizeColumnIndex);
+    const max = this.getMaxRangeByIndex(this.activeResizeColumnIndex);
     if (this.fit === 'width' && newColWidth > max) {
       event.stopPropagation();
       return;
@@ -726,8 +726,8 @@ export class SkyGridComponent
 
   public onResizeHandleRelease(event: MouseEvent) {
     this.showResizeBar = false;
-    let deltaX = event.pageX - this.xPosStart;
-    let newColWidth = this.startColumnWidth + deltaX;
+    const deltaX = event.pageX - this.xPosStart;
+    const newColWidth = this.startColumnWidth + deltaX;
     this.resizeColumnByIndex(this.activeResizeColumnIndex, newColWidth, deltaX);
     this.isDraggingResizeHandle = false;
     this.activeResizeColumnIndex = undefined;
@@ -822,11 +822,14 @@ export class SkyGridComponent
       const windowSize = this.skyWindow.nativeWindow.innerWidth;
       this.columnElementRefs.forEach((col) => {
         if (!this.showTopScroll) {
-          let computedWidth = parseFloat(
+          const computedWidth = parseFloat(
             window.getComputedStyle(col.nativeElement).width
           );
-          let offsetWidth = col.nativeElement.offsetWidth;
-          let width = Math.max(computedWidth || offsetWidth, this.minColWidth);
+          const offsetWidth = col.nativeElement.offsetWidth;
+          const width = Math.max(
+            computedWidth || offsetWidth,
+            this.minColWidth
+          );
           columnsWidthTotal = columnsWidthTotal + width;
           if (columnsWidthTotal > windowSize) {
             this.showTopScroll = true;
@@ -879,7 +882,7 @@ export class SkyGridComponent
               id: message.data.promptDeleteRow.id,
               pending: false,
             });
-            let overlay = this.overlayService.create({
+            const overlay = this.overlayService.create({
               enableScroll: true,
               showBackdrop: false,
               closeOnNavigation: true,
@@ -910,9 +913,9 @@ export class SkyGridComponent
                     'row-delete-ref-' + message.data.promptDeleteRow.id
                   );
                 });
-              let affixer = this.affixService.createAffixer(inlineDeleteRef);
+              const affixer = this.affixService.createAffixer(inlineDeleteRef);
 
-              let rowElement: HTMLElement =
+              const rowElement: HTMLElement =
                 this.tableElementRef.nativeElement.querySelector(
                   '[sky-cmp-id="' + message.data.promptDeleteRow.id + '"]'
                 );
@@ -1000,7 +1003,7 @@ export class SkyGridComponent
   }
 
   private getGridDataWithSelectedRows() {
-    let selectedRows = this.getSelectedRows();
+    const selectedRows = this.getSelectedRows();
     return this.data.map((item) => {
       let checked;
       if (item.hasOwnProperty(this.multiselectRowId)) {
@@ -1048,7 +1051,7 @@ export class SkyGridComponent
     newColWidth: number,
     deltaX: number
   ) {
-    let column = this.getColumnModelByIndex(columnIndex);
+    const column = this.getColumnModelByIndex(columnIndex);
 
     // Prevent accidental shrinkage below minimum width.
     if (newColWidth <= this.minColWidth) {
@@ -1059,10 +1062,10 @@ export class SkyGridComponent
     // fit=width adds/removes width from the last column
     // fit=scroll adds/removes width from the table
     if (this.fit === 'width') {
-      let lastColumn = this.getLastDisplayedColumn();
+      const lastColumn = this.getLastDisplayedColumn();
 
       // Prevent accidental growth that would bump last column off screen.
-      let max = this.getMaxRangeByIndex(columnIndex);
+      const max = this.getMaxRangeByIndex(columnIndex);
       if (newColWidth > max) {
         newColWidth = max;
         deltaX = max - this.startColumnWidth;
@@ -1090,10 +1093,10 @@ export class SkyGridComponent
     // Set column widths based on the width initially given by the browser.
     // computedWidth prevents accidental overflow for browsers with sub-pixel widths.
     this.columnElementRefs.forEach((col, index) => {
-      let computedWidth = parseFloat(
+      const computedWidth = parseFloat(
         window.getComputedStyle(col.nativeElement).width
       );
-      let offsetWidth = col.nativeElement.offsetWidth;
+      const offsetWidth = col.nativeElement.offsetWidth;
       /* istanbul ignore next */
       this.getColumnModelByIndex(index).width = Math.max(
         computedWidth || offsetWidth,
@@ -1121,7 +1124,7 @@ export class SkyGridComponent
     /* sanity check */
     /* istanbul ignore else */
     if (oldColumns && newColumns) {
-      for (let oldColumn of oldColumns) {
+      for (const oldColumn of oldColumns) {
         if (oldColumn.width) {
           const matchingColumn = newColumns.find(
             (newColumn) => oldColumn.id === newColumn.id
@@ -1136,7 +1139,7 @@ export class SkyGridComponent
   }
 
   private getColumnWidthModelChange() {
-    let columnWidthModelChange = new Array<SkyGridColumnWidthModelChange>();
+    const columnWidthModelChange = new Array<SkyGridColumnWidthModelChange>();
     this.columns.forEach((column) => {
       columnWidthModelChange.push({
         id: column.id,
@@ -1148,10 +1151,11 @@ export class SkyGridComponent
   }
 
   private updateMaxRange() {
-    let leftoverWidth = this.getLastDisplayedColumn().width - this.minColWidth;
+    const leftoverWidth =
+      this.getLastDisplayedColumn().width - this.minColWidth;
     this.displayedColumns.forEach((column, index) => {
-      let newMaxRange = column.width + leftoverWidth;
-      let rangeInput = this.getRangeInputByIndex(index);
+      const newMaxRange = column.width + leftoverWidth;
+      const rangeInput = this.getRangeInputByIndex(index);
       rangeInput.nativeElement.max = newMaxRange;
       rangeInput.nativeElement.setAttribute('aria-valuemax', newMaxRange);
     });
@@ -1160,7 +1164,7 @@ export class SkyGridComponent
   private initializeResizeColumn(event: any) {
     const clickTarget = event.target as HTMLElement;
     this.activeResizeColumnIndex = clickTarget.getAttribute('sky-cmp-index');
-    let column = this.getColumnModelByIndex(this.activeResizeColumnIndex);
+    const column = this.getColumnModelByIndex(this.activeResizeColumnIndex);
     this.startColumnWidth = column.width;
   }
 
@@ -1189,10 +1193,10 @@ export class SkyGridComponent
   }
 
   private getMaxRangeByIndex(index: string) {
-    let columnElementRef = this.columnElementRefs.find(
+    const columnElementRef = this.columnElementRefs.find(
       (th) => th.nativeElement.getAttribute('sky-cmp-index') === index
     );
-    let rangeInput = columnElementRef.nativeElement.querySelector(
+    const rangeInput = columnElementRef.nativeElement.querySelector(
       '.sky-grid-column-input-aria-only'
     );
     return Number(rangeInput.max);
@@ -1217,7 +1221,7 @@ export class SkyGridComponent
   }
 
   private emitSelectedRows(source: SkyGridSelectedRowsSource) {
-    let selectedRows: SkyGridSelectedRowsModelChange = {
+    const selectedRows: SkyGridSelectedRowsModelChange = {
       selectedRowIds: this.getSelectedRows(),
       source: source,
     };
@@ -1238,7 +1242,7 @@ export class SkyGridComponent
   }
 
   private isInteractiveElement(event: any): any {
-    let interactiveElSelectors = `
+    const interactiveElSelectors = `
       a,
       button,
       input,
@@ -1255,8 +1259,8 @@ export class SkyGridComponent
   }
 
   private setResizeBarPosition(xPosition: number): void {
-    let parentScroll = this.tableContainerElementRef.nativeElement.scrollLeft;
-    let resizeBarX =
+    const parentScroll = this.tableContainerElementRef.nativeElement.scrollLeft;
+    const resizeBarX =
       xPosition -
       this.tableElementRef.nativeElement.getBoundingClientRect().left -
       parentScroll;

@@ -96,7 +96,7 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
   }
 
   private cloneListSelectedModel(source: ListSelectedModel) {
-    let newListItems = new ListSelectedModel();
+    const newListItems = new ListSelectedModel();
     newListItems.selectedIdMap = new Map<string, boolean>(source.selectedIdMap);
 
     return newListItems;

@@ -118,11 +118,11 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public dateChange = new EventEmitter<Date>();
 
-  public isDaypickerWaiting: boolean = false;
+  public isDaypickerWaiting = false;
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
-  public isVisible: boolean = false;
+  public isVisible = false;
 
   public maxDate: Date;
 

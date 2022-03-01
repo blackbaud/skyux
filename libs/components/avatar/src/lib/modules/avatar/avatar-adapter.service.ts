@@ -12,11 +12,11 @@ export class SkyAvatarAdapterService {
   public updateImage(elementRef: ElementRef, src: SkyAvatarSrc) {
     this.revokeBlobUrl();
 
-    let el = elementRef.nativeElement;
+    const el = elementRef.nativeElement;
 
     /*istanbul ignore else */
     if (el) {
-      let imageEl = el.querySelector('.sky-avatar-image');
+      const imageEl = el.querySelector('.sky-avatar-image');
 
       /*istanbul ignore else */
       if (imageEl) {
@@ -41,7 +41,7 @@ export class SkyAvatarAdapterService {
   }
 
   private createBlobUrl(src: Blob | File) {
-    let url = URL.createObjectURL(src);
+    const url = URL.createObjectURL(src);
 
     // Keep the last blob URL around so we can revoke it later.
     // https://developer.mozilla.org/en-US/docs/Web/API/URL/revokeObjectURL

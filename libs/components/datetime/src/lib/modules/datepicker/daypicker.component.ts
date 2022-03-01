@@ -45,9 +45,9 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   public calendarDateRangeChange: EventEmitter<SkyDatepickerCalendarChange> = new EventEmitter<SkyDatepickerCalendarChange>();
 
   @Input()
-  public isWaiting: boolean = false;
+  public isWaiting = false;
 
-  public activeDateHasChanged: boolean = false;
+  public activeDateHasChanged = false;
   public labels: any[] = [];
   public title: string;
   public rows: Array<Array<SkyDatepickerDate>> = [];
@@ -88,7 +88,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   }
 
   protected getDates(startDate: Date, n: number): Date[] {
-    let dates: Date[] = new Array(n);
+    const dates: Date[] = new Array(n);
     let current = new Date(startDate.getTime());
     let i = 0;
     let date: Date;
@@ -106,19 +106,19 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
   }
 
   private compareDays(date1: Date, date2: Date): number {
-    let d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
-    let d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    const d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    const d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
     return d1.getTime() - d2.getTime();
   }
 
   private refreshDayView() {
-    let year = this.datepicker.activeDate.getFullYear();
-    let month = this.datepicker.activeDate.getMonth();
-    let firstDayOfMonth = new Date(year, month, 1);
-    let difference = this.datepicker.startingDay - firstDayOfMonth.getDay();
-    let numDisplayedFromPreviousMonth =
+    const year = this.datepicker.activeDate.getFullYear();
+    const month = this.datepicker.activeDate.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const difference = this.datepicker.startingDay - firstDayOfMonth.getDay();
+    const numDisplayedFromPreviousMonth =
       difference > 0 ? 7 - difference : -difference;
-    let firstDate = new Date(firstDayOfMonth.getTime());
+    const firstDate = new Date(firstDayOfMonth.getTime());
 
     if (this.datepicker.activeDate.getDate() !== this.initialDate) {
       this.activeDateHasChanged = true;
@@ -131,10 +131,10 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     }
 
     // 42 is the number of days on a six-week calendar
-    let days: Date[] = this.getDates(firstDate, 42);
-    let pickerDates: Array<SkyDatepickerDate> = [];
+    const days: Date[] = this.getDates(firstDate, 42);
+    const pickerDates: Array<SkyDatepickerDate> = [];
     for (let i = 0; i < 42; i++) {
-      let _dateObject = this.datepicker.createDateObject(
+      const _dateObject = this.datepicker.createDateObject(
         days[i],
         this.datepicker.formatDay,
         days[i].getMonth() !== month,
@@ -186,7 +186,7 @@ export class SkyDayPickerComponent implements OnDestroy, OnInit {
     } else if (key === 'down') {
       date = date + 7;
     } else if (key === 'pageup' || key === 'pagedown') {
-      let month =
+      const month =
         this.datepicker.activeDate.getMonth() + (key === 'pageup' ? -1 : 1);
       this.datepicker.activeDate.setMonth(month, 1);
       date = Math.min(

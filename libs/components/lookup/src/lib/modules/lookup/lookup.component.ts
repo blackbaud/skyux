@@ -113,7 +113,7 @@ export class SkyLookupComponent
    * Indicates whether to enable users to open a picker where they can view all options.
    */
   @Input()
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
 
   /**
    * Specifies placeholder text to display in the lookup field.
@@ -132,7 +132,7 @@ export class SkyLookupComponent
    * Indicates whether to display a button that lets users add options to the list.
    */
   @Input()
-  public showAddButton: boolean = false;
+  public showAddButton = false;
 
   /**
    * Specifies configuration options for the picker that displays all options.
@@ -146,7 +146,7 @@ export class SkyLookupComponent
    */
   @Input()
   public set selectMode(value: SkyLookupSelectModeType) {
-    let multipleToSingle: boolean =
+    const multipleToSingle: boolean =
       value === 'single' && this.selectMode === 'multiple';
 
     this._selectMode = value;
@@ -514,7 +514,7 @@ export class SkyLookupComponent
   }
 
   private createNativePickerInstance(initialSearch: string): SkyModalInstance {
-    let initialValue = this.value;
+    const initialValue = this.value;
     const modalConfig = this.showMoreConfig?.nativePickerConfig || {};
 
     if (!modalConfig.itemTemplate) {
@@ -578,7 +578,7 @@ export class SkyLookupComponent
         initialValue: this.value,
       });
     } else {
-      let initialValue = this.value;
+      const initialValue = this.value;
 
       this.openNativePicker = this.createNativePickerInstance(initialSearch);
 

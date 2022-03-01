@@ -44,7 +44,7 @@ export class ListViewGridFixtureComponent implements OnInit {
 
   public searchFn: (data: any, searchText: string) => boolean;
 
-  public showNgIfCol: boolean = false;
+  public showNgIfCol = false;
 
   public ngOnInit() {
     setTimeout(() => {

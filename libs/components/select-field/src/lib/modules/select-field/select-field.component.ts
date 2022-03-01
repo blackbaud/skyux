@@ -169,7 +169,7 @@ export class SkySelectFieldComponent
    * @default false
    */
   @Input()
-  public showAddNewRecordButton: boolean = false;
+  public showAddNewRecordButton = false;
 
   /**
    * Fires when the component loses focus. This event does not emit a value.

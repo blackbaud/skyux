@@ -27,7 +27,7 @@ export class SkyListFilterButtonComponent implements AfterViewInit {
   })
   private filterButtonTemplate: TemplateRef<any>;
 
-  private filterButtonItemToolbarIndex: number = 5000;
+  private filterButtonItemToolbarIndex = 5000;
 
   constructor(private dispatcher: ListStateDispatcher) {}
 

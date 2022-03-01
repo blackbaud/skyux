@@ -41,19 +41,19 @@ export class SkyTextEditorUrlModalComponent {
     return this._url;
   }
 
-  public emailAddressValid: boolean = false;
+  public emailAddressValid = false;
 
-  public subject: string = '';
+  public subject = '';
 
-  public target: number = 0;
+  public target = 0;
 
-  public valid: boolean = false;
+  public valid = false;
 
   public _activeTab = 0;
 
-  private _emailAddress: string = '';
+  private _emailAddress = '';
 
-  private _url: string = 'https://';
+  private _url = 'https://';
 
   constructor(
     private readonly modalInstance: SkyModalInstance,

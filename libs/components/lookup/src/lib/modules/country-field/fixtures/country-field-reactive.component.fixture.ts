@@ -20,7 +20,7 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public initialValue: SkyCountryFieldCountry;
 
-  public initiallizeToUndefined: boolean = false;
+  public initiallizeToUndefined = false;
 
   public supportedCountryISOs: string[];
 
@@ -54,9 +54,9 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public defaultCountry: string;
 
-  private _isDisabled: boolean = false;
+  private _isDisabled = false;
 
-  private _isRequired: boolean = false;
+  private _isRequired = false;
 
   public ngOnInit(): void {
     this.countryControl = new FormControl();

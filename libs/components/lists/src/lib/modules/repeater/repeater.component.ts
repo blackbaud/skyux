@@ -62,7 +62,7 @@ export class SkyRepeaterComponent
    * users can change its order.
    */
   @Input()
-  public reorderable: boolean = false;
+  public reorderable = false;
 
   /**
    * Specifies a layout to determine which repeater items are expanded by default and whether
@@ -186,7 +186,7 @@ export class SkyRepeaterComponent
     // https://github.com/angular/angular/issues/6005
     this.items.changes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
       setTimeout(() => {
-        if (!!this.items.last) {
+        if (this.items.last) {
           this.updateForExpandMode(this.items.last);
           this.items.last.reorderable = this.reorderable;
         }
@@ -235,8 +235,8 @@ export class SkyRepeaterComponent
   private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
     if (this.items) {
       let foundExpanded = false;
-      let isCollapsible = this.expandMode !== 'none';
-      let isSingle = this.expandMode === 'single';
+      const isCollapsible = this.expandMode !== 'none';
+      const isSingle = this.expandMode === 'single';
 
       // Keep any newly-added expanded item expanded and collapse the rest.
       if (itemAdded && itemAdded.isExpanded) {
@@ -291,7 +291,8 @@ export class SkyRepeaterComponent
         /* istanbul ignore else */
         if (groupName === this.dragulaGroupName) {
           this.renderer.removeClass(subject, 'sky-repeater-item-dragging');
-          let newItemIndex = this.adapterService.getRepeaterItemIndex(subject);
+          const newItemIndex =
+            this.adapterService.getRepeaterItemIndex(subject);
 
           /* sanity check */
           /* istanbul ignore else */

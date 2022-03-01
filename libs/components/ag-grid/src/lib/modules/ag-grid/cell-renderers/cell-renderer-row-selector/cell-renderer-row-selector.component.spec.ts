@@ -28,7 +28,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   let rowSelectorCellComponent: SkyAgGridCellRendererRowSelectorComponent;
   let rowSelectorCellNativeElement: HTMLElement;
   let cellRendererParams: ICellRendererParams;
-  let dataField = 'selected';
+  const dataField = 'selected';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,8 +65,8 @@ describe('SkyCellRendererCheckboxComponent', () => {
   });
 
   it('renders a skyux checkbox in an ag grid', () => {
-    let gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    let gridNativeElement = gridFixture.nativeElement;
+    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();
 
@@ -143,7 +143,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   describe('updateRow', () => {
     it(`should set the rowNode selected property and the row data's column-defined field property
       to the component's checked property value if column field provided`, () => {
-      let rowNode = new RowNode();
+      const rowNode = new RowNode();
       rowNode.data = {};
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
@@ -162,7 +162,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     });
 
     it(`should set the rowNode selected property to the component's checked property value if no column field provided`, () => {
-      let rowNode = new RowNode();
+      const rowNode = new RowNode();
       rowNode.data = {};
       cellRendererParams.node = rowNode;
       cellRendererParams.colDef.field = undefined;
@@ -194,9 +194,9 @@ describe('SkyCellRendererCheckboxComponent', () => {
       dataPropertySet: boolean = false
     ) {
       let rowClickListener: Function;
-      let rowNode = new RowNode();
+      const rowNode = new RowNode();
       rowNode.data = {};
-      let rowClickedEvent: RowClickedEvent = {
+      const rowClickedEvent: RowClickedEvent = {
         node: rowNode,
         data: undefined,
         rowIndex: undefined,
@@ -257,7 +257,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     }));
 
     it(`should set the checkbox's selected value to the component's checked property value if the data field is provided or the default is used`, fakeAsync(() => {
-      let columnWithoutDataField = {};
+      const columnWithoutDataField = {};
       testRowSelected(columnWithoutDataField, [false, true]);
     }));
   });

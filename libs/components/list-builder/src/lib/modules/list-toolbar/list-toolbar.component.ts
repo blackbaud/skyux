@@ -120,7 +120,7 @@ export class SkyListToolbarComponent
    * @default "standard"
    */
   @Input()
-  public toolbarType: string = 'standard';
+  public toolbarType = 'standard';
 
   /**
    * Specifies a text string to search with.
@@ -148,19 +148,19 @@ export class SkyListToolbarComponent
   public rightTemplates: ListToolbarItemModel[];
   public type: Observable<string>;
   public isSearchEnabled: Observable<boolean>;
-  public isToolbarDisabled: boolean = false;
+  public isToolbarDisabled = false;
   public isMultiselectEnabled: Observable<boolean>;
   public isSortSelectorEnabled: Observable<boolean>;
   public appliedFilters: Observable<Array<ListFilterModel>>;
   public hasAppliedFilters: Observable<boolean>;
   public showFilterSummary: boolean;
   public hasInlineFilters: boolean;
-  public inlineFilterBarExpanded: boolean = false;
+  public inlineFilterBarExpanded = false;
   public hasAdditionalToolbarSection = false;
   public hasViewActions = false;
 
-  public filterButtonId: string = `sky-list-toolbar-filter-button-${++nextId}`;
-  public listFilterInlineId: string = `sky-list-toolbar-filter-inline-${++nextId}`;
+  public filterButtonId = `sky-list-toolbar-filter-button-${++nextId}`;
+  public listFilterInlineId = `sky-list-toolbar-filter-inline-${++nextId}`;
 
   /**
    * Fires when users submit a search.
@@ -202,9 +202,9 @@ export class SkyListToolbarComponent
   private inlineFilterButtonTemplate: TemplateRef<any>;
 
   private customItemIds: string[] = [];
-  private hasSortSelectors: boolean = false;
-  private inlineFiltersItemToolbarIndex: number = 5000;
-  private sortSelectorItemToolbarIndex: number = 6000;
+  private hasSortSelectors = false;
+  private inlineFiltersItemToolbarIndex = 5000;
+  private sortSelectorItemToolbarIndex = 6000;
   private ngUnsubscribe = new Subject();
 
   private _inMemorySearchEnabled: boolean;
@@ -335,7 +335,7 @@ export class SkyListToolbarComponent
       observableMap((s) => s.filters),
       distinctUntilChanged(),
       observableMap((filters) => {
-        let activeFilters = filters.filter((f) => {
+        const activeFilters = filters.filter((f) => {
           return (
             f.value !== '' &&
             f.value !== undefined &&
@@ -480,29 +480,31 @@ export class SkyListToolbarComponent
         fieldSelectors: Array<ListSortFieldSelectorModel>
       ) => {
         // Get sorts that are in the global that are not in the available
-        let sorts = global.filter(
+        const sorts = global.filter(
           (g) =>
             available.filter((a) => a.fieldSelector === g.fieldSelector)
               .length === 0
         );
 
-        let resultSortSelectors = [...sorts, ...available].map((sortLabels) => {
-          let fs = fieldSelectors.filter((f) => {
-            return (
-              f.fieldSelector === sortLabels.fieldSelector &&
-              f.descending === sortLabels.descending
-            );
-          });
-          let selected = false;
-          if (fs.length > 0) {
-            selected = true;
-          }
+        const resultSortSelectors = [...sorts, ...available].map(
+          (sortLabels) => {
+            const fs = fieldSelectors.filter((f) => {
+              return (
+                f.fieldSelector === sortLabels.fieldSelector &&
+                f.descending === sortLabels.descending
+              );
+            });
+            let selected = false;
+            if (fs.length > 0) {
+              selected = true;
+            }
 
-          return {
-            sort: sortLabels,
-            selected: selected,
-          };
-        });
+            return {
+              sort: sortLabels,
+              selected: selected,
+            };
+          }
+        );
 
         return resultSortSelectors;
       }

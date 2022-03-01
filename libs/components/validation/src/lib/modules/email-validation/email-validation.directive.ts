@@ -22,7 +22,7 @@ const SKY_EMAIL_VALIDATION_VALIDATOR = {
 })
 export class SkyEmailValidationDirective implements Validator {
   public validate(control: AbstractControl): { [key: string]: any } {
-    let value = control.value;
+    const value = control.value;
 
     if (!value) {
       return;

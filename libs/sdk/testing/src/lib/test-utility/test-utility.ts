@@ -71,10 +71,10 @@ export class SkyAppTestUtility {
    * Sets the value of an input element and triggers its 'input' and 'change' events.
    */
   public static setInputValue(element: any, value: string): void {
-    let inputEvent = document.createEvent('Event');
+    const inputEvent = document.createEvent('Event');
     inputEvent.initEvent('input', false, false);
 
-    let changeEvent = document.createEvent('Event');
+    const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', false, false);
 
     element.value = value;

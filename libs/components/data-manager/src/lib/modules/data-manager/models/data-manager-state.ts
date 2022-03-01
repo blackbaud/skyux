@@ -14,7 +14,7 @@ export class SkyDataManagerState {
   public views: SkyDataViewState[] = [];
 
   constructor(data: SkyDataManagerStateOptions) {
-    let views =
+    const views =
       data.views && data.views.map((view) => new SkyDataViewState(view));
 
     this.activeSortOption = data.activeSortOption;
@@ -27,7 +27,7 @@ export class SkyDataManagerState {
   }
 
   public getStateOptions(): SkyDataManagerStateOptions {
-    let viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
+    const viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
       return view.getViewStateOptions();
     });
 

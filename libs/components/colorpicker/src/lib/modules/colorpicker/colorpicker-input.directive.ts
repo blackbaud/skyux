@@ -252,7 +252,7 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      let control: FormControl = this.injector.get<NgControl>(NgControl)
+      const control: FormControl = this.injector.get<NgControl>(NgControl)
         .control as FormControl;
       if (control) {
         control.setValue(this.modelValue, { emitEvent: false });
@@ -261,7 +261,7 @@ export class SkyColorpickerInputDirective
   }
 
   public validate(control: AbstractControl): { [key: string]: any } {
-    let value = control.value;
+    const value = control.value;
     if (!value) {
       return;
     }
@@ -318,7 +318,7 @@ export class SkyColorpickerInputDirective
     }
 
     let formatColor: SkyColorpickerOutput;
-    let hsva: SkyColorpickerHsva = this.service.stringToHsva(
+    const hsva: SkyColorpickerHsva = this.service.stringToHsva(
       color,
       this.alphaChannel === 'hex8'
     );

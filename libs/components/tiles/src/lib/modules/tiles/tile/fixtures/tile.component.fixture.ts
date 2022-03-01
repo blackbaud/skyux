@@ -14,7 +14,7 @@ export class TileTestComponent {
 
   public tileIsCollapsed = false;
 
-  public tileName: string = 'test';
+  public tileName = 'test';
 
   public tileSettingsClick() {}
 

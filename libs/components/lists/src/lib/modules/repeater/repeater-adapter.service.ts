@@ -55,7 +55,7 @@ export class SkyRepeaterAdapterService {
       return;
     }
 
-    let newIndex = index + steps;
+    const newIndex = index + steps;
 
     return this.moveItem(element, index, newIndex);
   }

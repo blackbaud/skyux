@@ -24,7 +24,7 @@ function parseIntAutoRadix(text: string): number {
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
 export class SkyNumberFormatUtility {
-  private static _NUMBER_FORMAT_REGEXP: RegExp = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
+  private static _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
   /* istanbul ignore next */
   constructor() {}

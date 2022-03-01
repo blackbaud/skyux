@@ -165,14 +165,14 @@ export class SkyDateRangePickerComponent
    * @default false
    */
   @Input()
-  public startDateRequired: boolean = false;
+  public startDateRequired = false;
 
   /**
    * Indicates whether to require users to specify a end date.
    * @default false
    */
   @Input()
-  public endDateRequired: boolean = false;
+  public endDateRequired = false;
 
   public get startDateLabelResourceKey(): string {
     if (this.selectedCalculator.type === SkyDateRangeCalculatorType.Range) {

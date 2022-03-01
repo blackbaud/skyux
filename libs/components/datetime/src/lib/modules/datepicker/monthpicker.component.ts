@@ -43,14 +43,14 @@ export class SkyMonthPickerComponent implements OnInit {
   }
 
   private compareMonth(date1: Date, date2: Date): number {
-    let d1 = new Date(date1.getFullYear(), date1.getMonth());
-    let d2 = new Date(date2.getFullYear(), date2.getMonth());
+    const d1 = new Date(date1.getFullYear(), date1.getMonth());
+    const d2 = new Date(date2.getFullYear(), date2.getMonth());
     return d1.getTime() - d2.getTime();
   }
 
   private refreshMonthView(): void {
-    let months: Array<SkyDatepickerDate> = new Array(12);
-    let year: number = this.datepicker.activeDate.getFullYear();
+    const months: Array<SkyDatepickerDate> = new Array(12);
+    const year: number = this.datepicker.activeDate.getFullYear();
     let date: Date;
 
     for (let i = 0; i < 12; i++) {
@@ -88,7 +88,7 @@ export class SkyMonthPickerComponent implements OnInit {
     } else if (key === 'down') {
       date = date + this.datepicker.monthColLimit;
     } else if (key === 'pageup' || key === 'pagedown') {
-      let year =
+      const year =
         this.datepicker.activeDate.getFullYear() + (key === 'pageup' ? -1 : 1);
       this.datepicker.activeDate.setFullYear(year);
     } else if (key === 'home') {

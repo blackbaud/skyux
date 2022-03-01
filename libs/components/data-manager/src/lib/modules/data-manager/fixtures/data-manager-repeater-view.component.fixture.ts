@@ -59,7 +59,7 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   }
 
   public updateData(): void {
-    let selectedIds = this.dataState.selectedIds || [];
+    const selectedIds = this.dataState.selectedIds || [];
     this.items.forEach((item) => {
       item.selected = selectedIds.indexOf(item.id) !== -1;
     });
@@ -74,7 +74,8 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
 
   public searchItems(items: any[]): any[] {
     let searchedItems = items;
-    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
+    const searchText =
+      this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedItems = items.filter(function (item: any) {
@@ -100,10 +101,10 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
 
   public filterItems(items: any[]): any[] {
     let filteredItems = items;
-    let filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
-      let filters = filterData.filters;
+      const filters = filterData.filters;
       filteredItems = items.filter((item: any) => {
         if (
           ((filters.hideOrange && item.color !== 'orange') ||
@@ -122,7 +123,7 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   }
 
   public selectAll(): void {
-    let selectedIds = this.dataState.selectedIds || [];
+    const selectedIds = this.dataState.selectedIds || [];
 
     this.displayedItems.forEach((item) => {
       if (!item.selected) {
@@ -137,11 +138,11 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   }
 
   public clearAll(): void {
-    let selectedIds = this.dataState.selectedIds || [];
+    const selectedIds = this.dataState.selectedIds || [];
 
     this.displayedItems.forEach((item) => {
       if (item.selected) {
-        let itemIndex = selectedIds.indexOf(item.id);
+        const itemIndex = selectedIds.indexOf(item.id);
         item.selected = false;
         selectedIds.splice(itemIndex, 1);
       }
@@ -152,8 +153,8 @@ export class DataViewRepeaterFixtureComponent implements OnInit {
   }
 
   public onItemSelect(isSelected: boolean, item: any): void {
-    let selectedItems = this.dataState.selectedIds || [];
-    let itemIndex = selectedItems.indexOf(item.id);
+    const selectedItems = this.dataState.selectedIds || [];
+    const itemIndex = selectedItems.indexOf(item.id);
 
     if (isSelected && itemIndex === -1) {
       selectedItems.push(item.id);

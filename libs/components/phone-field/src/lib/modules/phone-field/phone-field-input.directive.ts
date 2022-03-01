@@ -84,7 +84,7 @@ export class SkyPhoneFieldInputDirective
    * @default false
    */
   @Input()
-  public skyPhoneFieldNoValidate: boolean = false;
+  public skyPhoneFieldNoValidate = false;
 
   private set modelValue(value: string) {
     this._modelValue = value;
@@ -92,7 +92,7 @@ export class SkyPhoneFieldInputDirective
     this.adapterService.setElementValue(this.elRef, value);
 
     if (value) {
-      let formattedValue = this.formatNumber(value.toString());
+      const formattedValue = this.formatNumber(value.toString());
 
       this.onChange(formattedValue);
     } else {

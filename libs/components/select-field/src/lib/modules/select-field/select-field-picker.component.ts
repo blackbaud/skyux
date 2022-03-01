@@ -62,7 +62,7 @@ export class SkySelectFieldPickerComponent
   public selectedIds: any[] = [];
 
   public addNewRecordButtonClick = new Subject<void>();
-  public showAddNewRecordButton: boolean = false;
+  public showAddNewRecordButton = false;
 
   public get defaultCategory(): string {
     return 'any';

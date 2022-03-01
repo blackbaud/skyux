@@ -15,7 +15,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
 
   public autocompleteAttribute: string;
   public data: any[];
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
   public friends: any[];
   public form: FormGroup;
 

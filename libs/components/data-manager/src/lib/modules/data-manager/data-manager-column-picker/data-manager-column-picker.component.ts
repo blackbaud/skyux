@@ -106,7 +106,8 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public searchColumns(columns: Column[]): Column[] {
     let searchedColumns = columns;
-    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
+    const searchText =
+      this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedColumns = columns.filter(function (item: any) {
@@ -159,12 +160,12 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     const allColumnOptions = this.context.columnOptions;
     const visibleColumnIds = this.context.displayedColumnIds;
     let formattedColumnOptions: Column[] = [];
-    let unselectedColumnOptions: Column[] = [];
+    const unselectedColumnOptions: Column[] = [];
 
-    for (let columnOption of allColumnOptions) {
+    for (const columnOption of allColumnOptions) {
       // format the column with the properties the column picker needs
       const colIndex = visibleColumnIds.indexOf(columnOption.id);
-      let formattedColumn: Column = {
+      const formattedColumn: Column = {
         alwaysDisplayed: columnOption.alwaysDisplayed,
         id: columnOption.id,
         label: columnOption.label,
