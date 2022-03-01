@@ -17,14 +17,18 @@ const { execSync } = require('child_process');
 function rebasePullRequest() {
   try {
     console.log('Attempting to rebase pull request...');
-    const targetBranch = process.env.GITHUB_BASE_REF || '';
 
+    const targetBranch = process.env.GITHUB_BASE_REF || '';
     if (!targetBranch) {
       throw new Error('The target branch is not specified!');
     }
 
     console.log(` - Target branch: ${targetBranch}`);
-    execSync(`git rebase origin/${targetBranch}`);
+
+    execSync(`git rebase origin/${targetBranch}`, {
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+
     console.log(`Rebased current branch onto ${targetBranch}.`);
   } catch (err) {
     console.log(err);
