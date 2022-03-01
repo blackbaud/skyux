@@ -18,7 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v2
@@ -65,7 +64,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v2
@@ -96,7 +94,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v2
@@ -123,7 +120,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v2
@@ -152,7 +148,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v2
