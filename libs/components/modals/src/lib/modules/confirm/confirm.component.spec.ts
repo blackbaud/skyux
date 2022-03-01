@@ -1,29 +1,20 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyModalConfiguration } from '../modal/modal-configuration';
-
 import { SkyModalHostService } from '../modal/modal-host.service';
-
 import { SkyModalInstance } from '../modal/modal-instance';
-
 import { SkyModalModule } from '../modal/modal.module';
 
+import { SkyConfirmConfig } from './confirm-config';
+import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SkyConfirmType } from './confirm-type';
+import { SkyConfirmComponent } from './confirm.component';
+import { SkyConfirmModule } from './confirm.module';
 import {
   MockSkyModalHostService,
   MockSkyModalInstance,
 } from './fixtures/mocks';
-
-import { SkyConfirmConfig } from './confirm-config';
-
-import { SkyConfirmType } from './confirm-type';
-
-import { SkyConfirmModule } from './confirm.module';
-
-import { SkyConfirmComponent } from './confirm.component';
-
-import { SkyConfirmModalContext } from './confirm-modal-context';
 
 describe('Confirm component', () => {
   const modalInstance = new MockSkyModalInstance();

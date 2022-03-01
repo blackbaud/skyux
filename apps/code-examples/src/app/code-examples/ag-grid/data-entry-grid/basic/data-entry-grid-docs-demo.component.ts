@@ -3,13 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { SkyCellType, SkyAgGridService } from '@skyux/ag-grid';
-import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import {
   GridApi,
-  GridReadyEvent,
   GridOptions,
+  GridReadyEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
 

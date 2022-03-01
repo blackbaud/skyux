@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyInfiniteScrollFixture } from './infinite-scroll-fixture';
-
 import { SkyInfiniteScrollTestingModule } from './infinite-scroll-testing.module';
 
 const DATA_SKY_ID = 'test-infinite-scroll';

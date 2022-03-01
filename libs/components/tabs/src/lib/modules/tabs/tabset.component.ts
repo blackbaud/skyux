@@ -13,25 +13,17 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { combineLatest, race, Subject } from 'rxjs';
-
+import { Subject, combineLatest, race } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIndex } from './tab-index';
-
-import { SkyTabsetStyle } from './tabset-style';
-
 import { SkyTabComponent } from './tab.component';
-
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
-
 import { SkyTabsetButtonsDisplayMode } from './tabset-buttons-display-mode';
-
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
-
-import { SkyTabsetService } from './tabset.service';
-
+import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetTabIndexesChange } from './tabset-tab-indexes-change';
+import { SkyTabsetService } from './tabset.service';
 
 /**
  * @internal

@@ -1,9 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { SkyUIConfigService } from '@skyux/core';
 
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
-
 import {
   distinctUntilChanged,
   filter,
@@ -13,20 +11,13 @@ import {
 } from 'rxjs/operators';
 
 import { SkyDataManagerConfig } from './models/data-manager-config';
-
-import { SkyDataManagerState } from './models/data-manager-state';
-
-import { SkyDataManagerStateChange } from './models/data-manager-state-change';
-
-import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
-
-import { SkyDataManagerStateUpdateFilterArgs } from './models/data-manager-state-update-filter-args';
-
-import { SkyDataViewConfig } from './models/data-view-config';
-
-import { SkyDataViewState } from './models/data-view-state';
-
 import { SkyDataManagerInitArgs } from './models/data-manager-init-args';
+import { SkyDataManagerState } from './models/data-manager-state';
+import { SkyDataManagerStateChange } from './models/data-manager-state-change';
+import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
+import { SkyDataManagerStateUpdateFilterArgs } from './models/data-manager-state-update-filter-args';
+import { SkyDataViewConfig } from './models/data-view-config';
+import { SkyDataViewState } from './models/data-view-state';
 
 /**
  * The data manager service provides ways for data views, toolbar items, and more to stay up to date
@@ -123,7 +114,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param viewConfig The SkyDataViewConfig settings for the view being registered.
    */
   public initDataView(viewConfig: SkyDataViewConfig): void {
-    let currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews: SkyDataViewConfig[] = this.views.value;
 
     if (this.getViewById(viewConfig.id)) {
       console.warn(
@@ -148,7 +139,7 @@ export class SkyDataManagerService implements OnDestroy {
         const currentViewState = dataState.getViewStateById(viewConfig.id);
 
         if (!currentViewState) {
-          let newViewState = new SkyDataViewState({ viewId: viewConfig.id });
+          const newViewState = new SkyDataViewState({ viewId: viewConfig.id });
 
           // Ensure that the view state's available columns match with the view config. Also,
           // add columns to the `displayedColumnIds` as long as they are not `initialHide`
@@ -323,7 +314,7 @@ export class SkyDataManagerService implements OnDestroy {
    * @param view The new `SkyDataViewConfig` containing all properties.
    */
   public updateViewConfig(view: SkyDataViewConfig): void {
-    let currentViews: SkyDataViewConfig[] = this.views.value;
+    const currentViews: SkyDataViewConfig[] = this.views.value;
     const existingViewIndex = currentViews.findIndex(
       (currentView) => currentView.id === view.id
     );
@@ -351,8 +342,8 @@ export class SkyDataManagerService implements OnDestroy {
     properties: string[]
   ): SkyDataManagerStateOptions {
     const stateProperties = state.getStateOptions() as { [key: string]: any };
-    let filteredStateProperties: any = {};
-    for (let property of properties) {
+    const filteredStateProperties: any = {};
+    for (const property of properties) {
       /* istanbul ignore else */
       if (stateProperties.hasOwnProperty(property)) {
         filteredStateProperties[property] = stateProperties[property];

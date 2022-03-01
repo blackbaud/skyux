@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
 
-import { SkyDockItem } from '../dock-item';
-
 import { SkyDockInsertComponentConfig } from '../dock-insert-component-config';
-
+import { SkyDockItem } from '../dock-item';
+import { SkyDockOptions } from '../dock-options';
 import { SkyDockService } from '../dock.service';
 
 import { DockItemFixtureComponent } from './dock-item.component.fixture';
-
-import { SkyDockOptions } from '../dock-options';
 
 @Component({
   selector: 'sky-dock-test',

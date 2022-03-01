@@ -1,14 +1,10 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { NumericPipeFixtureComponent } from './fixtures/numeric.pipe.fixture';
-
 import { SkyNumericModule } from './numeric.module';
-
 import { NumericOptions } from './numeric.options';
-
 import { SkyNumericPipe } from './numeric.pipe';
-
 import { SkyNumericService } from './numeric.service';
 
 describe('Numeric pipe', () => {
@@ -160,7 +156,7 @@ describe('Numeric pipe', () => {
     });
 
     it('should not cache the result when calling `transform` with options changes', () => {
-      let options: NumericOptions = {
+      const options: NumericOptions = {
         digits: 4,
         format: 'number',
         currencySign: 'standard',
@@ -235,8 +231,8 @@ describe('Numeric pipe', () => {
     });
 
     it('should not cache the result when calling `transform` twice with a provided locale change', () => {
-      let fixture = TestBed.createComponent(NumericPipeFixtureComponent);
-      let component = fixture.componentInstance;
+      const fixture = TestBed.createComponent(NumericPipeFixtureComponent);
+      const component = fixture.componentInstance;
       const spy = spyOn(numericService, 'formatNumber').and.callThrough();
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);

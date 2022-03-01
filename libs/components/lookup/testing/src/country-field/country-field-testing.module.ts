@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SkyCountryFieldModule } from '@skyux/lookup';
 
 @NgModule({

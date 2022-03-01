@@ -1,5 +1,4 @@
 import { SpawnOptions } from 'child_process';
-
 import crossSpawn from 'cross-spawn';
 import path from 'path';
 

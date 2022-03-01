@@ -1,11 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyTimepickerModule } from '@skyux/datetime';
 
 import { SkyTimepickerFixture } from './timepicker-fixture';

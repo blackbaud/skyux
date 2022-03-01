@@ -3,7 +3,6 @@
  * - BrowserStack also executes this file to run all Karma tests in various browsers.
  * - Non-Karma tests are executed normally using `nx affected:test`.
  */
-
 import {
   existsSync,
   readJson,
@@ -12,6 +11,7 @@ import {
   writeJson,
 } from 'fs-extra';
 import { join } from 'path';
+
 import { getCommandOutput, runCommand } from './utils/spawn';
 
 // Always ignore these projects for test.

@@ -1,9 +1,7 @@
 import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
-
 import { SkyAppLocaleProvider, SkyIntlNumberFormatStyle } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';

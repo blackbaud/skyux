@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyFilterTestingModule } from './filter-testing.module';
-
-import { SkyFilterFixtureSummary } from './filter-fixture-summary';
-
 import { SkyFilterFixtureButton } from './filter-fixture-button';
+import { SkyFilterFixtureSummary } from './filter-fixture-summary';
+import { SkyFilterTestingModule } from './filter-testing.module';
 
 const DATA_SKY_ID_SUMMARY = 'test-filter-summary';
 const DATA_SKY_ID_BUTTON = 'test-filter-button';

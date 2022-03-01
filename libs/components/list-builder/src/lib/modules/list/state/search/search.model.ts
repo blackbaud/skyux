@@ -9,7 +9,7 @@ export class ListSearchModel {
    * Specifies the text to search.
    * @default ""
    */
-  public searchText: string = '';
+  public searchText = '';
   /**
    * Specifies an array of functions that returns a `boolean` value of `true` when
    * the search is successful. This property accepts a function of type

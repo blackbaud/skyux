@@ -1,5 +1,6 @@
 // #region imports
 import { SkyToastType } from './toast-type';
+
 // #endregion
 
 /**

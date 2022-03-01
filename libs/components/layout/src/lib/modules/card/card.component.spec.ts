@@ -1,19 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { CardTestComponent } from './fixtures/card.component.fixture';
+import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
 
 import { SkyCardFixturesModule } from './fixtures/card-fixtures.module';
-
-import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
+import { CardTestComponent } from './fixtures/card.component.fixture';
 
 function validateCardSelected(
   cmp: CardTestComponent,
   cardEl: any,
   selected: boolean
 ) {
-  let selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
+  const selectedEl = cardEl.querySelector('.sky-card.sky-card-selected');
 
   if (selected) {
     expect(cmp.cardSelected).toBe(true);
@@ -66,7 +64,7 @@ describe('Card component', () => {
   it('should display a checkbox when the selectable attribute is set to true', () => {
     fixture.detectChanges();
 
-    let wrapperEl = el.querySelector(
+    const wrapperEl = el.querySelector(
       '.sky-card.sky-card-selectable .sky-card-header .sky-card-check .sky-checkbox-wrapper'
     );
 
@@ -78,21 +76,21 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement>el.querySelector('.sky-card-content')).click();
+    (el.querySelector('.sky-card-content') as HTMLElement).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, true);
 
-    (<HTMLElement>el.querySelector('.sky-card-header')).click();
+    (el.querySelector('.sky-card-header') as HTMLElement).click();
 
     fixture.detectChanges();
 
     validateCardSelected(cmp, el, false);
 
-    let labelEl = <HTMLLabelElement>(
-      el.querySelector('label.sky-checkbox-wrapper')
-    );
+    const labelEl = el.querySelector(
+      'label.sky-checkbox-wrapper'
+    ) as HTMLLabelElement;
 
     labelEl.click();
 
@@ -106,7 +104,10 @@ describe('Card component', () => {
 
     fixture.detectChanges();
 
-    let emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     validateCardSelected(cmp, el, true);
 
@@ -131,7 +132,7 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    (<HTMLElement>el.querySelector('.sky-card-content')).click();
+    (el.querySelector('.sky-card-content') as HTMLElement).click();
 
     fixture.detectChanges();
 
@@ -144,7 +145,10 @@ describe('Card component', () => {
 
     validateCardSelected(cmp, el, false);
 
-    let emmitterSpy = spyOn(cmp.card.selectedChange, 'emit').and.callThrough();
+    const emmitterSpy = spyOn(
+      cmp.card.selectedChange,
+      'emit'
+    ).and.callThrough();
 
     cmp.card.onCheckboxChange(true);
 

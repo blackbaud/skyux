@@ -5,20 +5,15 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { forkJoin as observableForkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { SkyTextExpandAdapterService } from './text-expand-adapter.service';
-
-import { SkyTextExpandModalComponent } from './text-expand-modal.component';
-
 import { SkyTextExpandModalContext } from './text-expand-modal-context';
+import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand components.
@@ -45,7 +40,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
    * the full text in a modal instead.
    */
   @Input()
-  public maxExpandedLength: number = 600;
+  public maxExpandedLength = 600;
 
   /**
    * Specifies the maximum number of newline characters to display inline when users select
@@ -53,7 +48,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
    * the component expands the full text in a modal view instead.
    */
   @Input()
-  public maxExpandedNewlines: number = 2;
+  public maxExpandedNewlines = 2;
 
   /**
    * Specifies the number of text characters to display before truncating the text.
@@ -90,15 +85,15 @@ export class SkyTextExpandComponent implements AfterContentInit {
    * Indicates whether to replace newline characters in truncated text with spaces.
    */
   @Input()
-  public truncateNewlines: boolean = true;
+  public truncateNewlines = true;
 
   public buttonText: string;
 
-  public contentSectionId: string = `sky-text-expand-content-${++nextId}`;
+  public contentSectionId = `sky-text-expand-content-${++nextId}`;
 
   public expandable: boolean;
 
-  public isExpanded: boolean = false;
+  public isExpanded = false;
 
   public isModal: boolean;
 
@@ -126,7 +121,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   private textToShow: string;
 
-  private _maxLength: number = 200;
+  private _maxLength = 200;
 
   constructor(
     private resources: SkyLibResourcesService,
@@ -203,7 +198,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
     this.animationEnd();
     /* Before animation is kicked off, ensure that a maxHeight exists */
     /* Once we have support for angular v4 animations with parameters we can use that instead */
-    let currentHeight = this.textExpandAdapter.getContainerHeight(
+    const currentHeight = this.textExpandAdapter.getContainerHeight(
       this.containerEl
     );
     this.textExpandAdapter.setContainerHeight(
@@ -236,7 +231,7 @@ export class SkyTextExpandComponent implements AfterContentInit {
   }
 
   private getNewlineCount(value: string): number {
-    let matches = value.match(/\n/gi);
+    const matches = value.match(/\n/gi);
 
     if (matches) {
       return matches.length;
@@ -269,17 +264,17 @@ export class SkyTextExpandComponent implements AfterContentInit {
     newText: string,
     expanding: boolean
   ): void {
-    let adapter = this.textExpandAdapter;
-    let container = this.containerEl;
+    const adapter = this.textExpandAdapter;
+    const container = this.containerEl;
     // Reset max height
     adapter.setContainerHeight(container, undefined);
     // Measure the current height so we can animate from it.
-    let currentHeight = adapter.getContainerHeight(container);
+    const currentHeight = adapter.getContainerHeight(container);
     this.textToShow = newText;
     adapter.setText(this.textEl, this.textToShow);
     this.buttonText = expanding ? this.seeLessText : this.seeMoreText;
     // Measure the new height so we can animate to it.
-    let newHeight = adapter.getContainerHeight(container);
+    const newHeight = adapter.getContainerHeight(container);
     /* istanbul ignore if */
     if (newHeight < currentHeight) {
       // The new text is smaller than the old text, so put the old text back before doing

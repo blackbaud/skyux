@@ -1,12 +1,8 @@
-import { SkyConfirmService } from './confirm.service';
-
 import { SkyConfirmConfig } from './confirm-config';
-
-import { MockSkyModalService } from './fixtures/mocks';
-
-import { SkyConfirmComponent } from './confirm.component';
-
 import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SkyConfirmComponent } from './confirm.component';
+import { SkyConfirmService } from './confirm.service';
+import { MockSkyModalService } from './fixtures/mocks';
 
 describe('Confirm service', () => {
   let modalService: MockSkyModalService;

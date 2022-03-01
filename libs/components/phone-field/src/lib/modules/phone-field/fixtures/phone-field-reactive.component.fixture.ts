@@ -1,13 +1,9 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { SkyPhoneFieldComponent } from '../phone-field.component';
-
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
-
+import { SkyPhoneFieldComponent } from '../phone-field.component';
 import { SkyPhoneFieldCountry } from '../types/country';
-
 import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 
 @Component({
@@ -15,7 +11,7 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   templateUrl: './phone-field-reactive.component.fixture.html',
 })
 export class PhoneFieldReactiveTestComponent implements OnInit {
-  public allowExtensions: boolean = true;
+  public allowExtensions = true;
 
   public defaultCountry: string;
 
@@ -25,7 +21,7 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public initialValue: Date | string;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public phoneControl: FormControl;
 
@@ -33,11 +29,11 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public returnFormat: SkyPhoneFieldNumberReturnFormat;
 
-  public showInvalidDirective: boolean = false;
+  public showInvalidDirective = false;
 
-  public showPhoneField: boolean = true;
+  public showPhoneField = true;
 
-  public showSecondaryPhoneField: boolean = false;
+  public showSecondaryPhoneField = false;
 
   @ViewChild(SkyPhoneFieldInputDirective, {
     read: SkyPhoneFieldInputDirective,

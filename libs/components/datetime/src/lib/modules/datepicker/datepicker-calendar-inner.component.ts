@@ -9,11 +9,11 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+
 import { Subject } from 'rxjs';
 
 import { SkyDateFormatter } from './date-formatter';
-
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerDate } from './datepicker-date';
 
 let nextDatepickerId = 0;
@@ -65,21 +65,21 @@ export class SkyDatepickerCalendarInnerComponent
   public activeDate: Date;
   public activeDateId: string;
 
-  public minMode: string = 'day';
-  public maxMode: string = 'year';
-  public monthColLimit: number = 3;
-  public yearColLimit: number = 5;
-  public datepickerMode: string = 'day';
-  public yearRange: number = 20;
+  public minMode = 'day';
+  public maxMode = 'year';
+  public monthColLimit = 3;
+  public yearColLimit = 5;
+  public datepickerMode = 'day';
+  public yearRange = 20;
 
-  public formatDay: string = 'DD';
-  public formatMonth: string = 'MMMM';
-  public formatYear: string = 'YYYY';
-  public formatDayHeader: string = 'dd';
-  public formatDayTitle: string = 'MMMM YYYY';
-  public formatMonthTitle: string = 'YYYY';
+  public formatDay = 'DD';
+  public formatMonth = 'MMMM';
+  public formatYear = 'YYYY';
+  public formatDayHeader = 'dd';
+  public formatDayTitle = 'MMMM YYYY';
+  public formatMonthTitle = 'YYYY';
 
-  public datepickerId: string = `sky-datepicker-${++nextDatepickerId}`;
+  public datepickerId = `sky-datepicker-${++nextDatepickerId}`;
 
   public stepDay: any = {};
   public stepMonth: any = {};
@@ -237,7 +237,7 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public onKeydown(event: KeyboardEvent) {
-    let key = this.keys[event.which];
+    const key = this.keys[event.which];
 
     if (!key || event.shiftKey || event.altKey) {
       return;
@@ -267,7 +267,7 @@ export class SkyDatepickerCalendarInnerComponent
   ): SkyDatepickerDate {
     const customDateMatch = this.getCustomDate(date);
 
-    let dateObject: SkyDatepickerDate = {
+    const dateObject: SkyDatepickerDate = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       label: this.dateFilter(date, format),
       selected: this.compare(date, this.selectedDate) === 0,
@@ -286,7 +286,7 @@ export class SkyDatepickerCalendarInnerComponent
     dates: Array<SkyDatepickerDate>,
     size: number
   ): Array<Array<SkyDatepickerDate>> {
-    let rows: Array<Array<SkyDatepickerDate>> = [];
+    const rows: Array<Array<SkyDatepickerDate>> = [];
     while (dates.length > 0) {
       rows.push(dates.splice(0, size));
     }
@@ -297,7 +297,7 @@ export class SkyDatepickerCalendarInnerComponent
     This is ensures that no strangeness happens when converting a date to local time.
   */
   public fixTimeZone(date: Date): Date {
-    let newDate = new Date(date);
+    const newDate = new Date(date);
     newDate.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
 
     return newDate;
@@ -363,9 +363,9 @@ export class SkyDatepickerCalendarInnerComponent
     /* istanbul ignore else */
     /* sanity check */
     if (expectedStep) {
-      let year =
+      const year =
         this.activeDate.getFullYear() + direction * (expectedStep.years || 0);
-      let month =
+      const month =
         this.activeDate.getMonth() + direction * (expectedStep.months || 0);
 
       this.activeDate = new Date(year, month, 1);

@@ -1,11 +1,7 @@
 import { SkyDataManagerFilterData } from './data-manager-filter-data';
-
-import { SkyDataManagerStateOptions } from './data-manager-state-options';
-
 import { SkyDataManagerSortOption } from './data-manager-sort-option';
-
+import { SkyDataManagerStateOptions } from './data-manager-state-options';
 import { SkyDataViewState } from './data-view-state';
-
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 export class SkyDataManagerState {
@@ -18,7 +14,7 @@ export class SkyDataManagerState {
   public views: SkyDataViewState[] = [];
 
   constructor(data: SkyDataManagerStateOptions) {
-    let views =
+    const views =
       data.views && data.views.map((view) => new SkyDataViewState(view));
 
     this.activeSortOption = data.activeSortOption;
@@ -31,7 +27,7 @@ export class SkyDataManagerState {
   }
 
   public getStateOptions(): SkyDataManagerStateOptions {
-    let viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
+    const viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
       return view.getViewStateOptions();
     });
 

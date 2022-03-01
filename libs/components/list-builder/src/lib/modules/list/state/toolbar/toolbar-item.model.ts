@@ -4,7 +4,7 @@ import { TemplateRef } from '@angular/core';
  * @internal
  */
 export class ListToolbarItemModel {
-  public index: number = -1;
+  public index = -1;
   public template: TemplateRef<any>;
   public location: string;
   public view: string;

@@ -1,54 +1,39 @@
+import { DebugElement } from '@angular/core';
 import {
+  ComponentFixture,
   TestBed,
   async,
-  ComponentFixture,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { skip, take } from 'rxjs/operators';
-
 import {
   ListItemsLoadAction,
   ListState,
   ListStateDispatcher,
-  ListViewsLoadAction,
   ListViewModel,
-  SkyListModule,
+  ListViewsLoadAction,
   SkyListComponent,
-  SkyListToolbarModule,
+  SkyListModule,
   SkyListPagingModule,
+  SkyListToolbarModule,
 } from '@skyux/list-builder';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import { ListViewChecklistTestComponent } from './fixtures/list-view-checklist.component.fixture';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { skip, take } from 'rxjs/operators';
 
 import { ListViewChecklistEmptyTestComponent } from './fixtures/list-view-checklist-empty.component.fixture';
-
-import { ListViewChecklistToolbarTestComponent } from './fixtures/list-view-checklist-toolbar.component.fixture';
-
-import { SkyListViewChecklistModule } from './list-view-checklist.module';
-
-import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
-
-import { ListViewChecklistItemModel } from './state/items/item.model';
-
-import { ChecklistState } from './state/checklist-state.state-node';
-
-import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
-
-import { ChecklistStateModel } from './state/checklist-state.model';
-
 import { ListViewChecklistPaginationTestComponent } from './fixtures/list-view-checklist-pagination.component.fixture';
+import { ListViewChecklistToolbarTestComponent } from './fixtures/list-view-checklist-toolbar.component.fixture';
+import { ListViewChecklistTestComponent } from './fixtures/list-view-checklist.component.fixture';
+import { SkyListViewChecklistModule } from './list-view-checklist.module';
+import { ChecklistStateModel } from './state/checklist-state.model';
+import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
+import { ChecklistState } from './state/checklist-state.state-node';
+import { ListViewChecklistItemModel } from './state/items/item.model';
+import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
 //#region helpers
 function getSingleSelectButtons(): NodeListOf<Element> {
@@ -102,7 +87,7 @@ function toggleOnlyShowSelected(fixture: ComponentFixture<any>): void {
 }
 
 function goToNextPage(fixture: ComponentFixture<any>): void {
-  let nextButton = document.querySelector('.sky-paging-btn-next');
+  const nextButton = document.querySelector('.sky-paging-btn-next');
   (nextButton as HTMLElement).click();
   tick();
   fixture.detectChanges();
@@ -117,7 +102,7 @@ function getChecklistItems(): NodeListOf<Element> {
 }
 
 function checkItem(fixture: ComponentFixture<any>, index: number): void {
-  let checkboxes = getChecklistItems();
+  const checkboxes = getChecklistItems();
   (checkboxes.item(index) as HTMLElement).click();
   tick();
   fixture.detectChanges();
@@ -190,7 +175,7 @@ describe('List View Checklist Component', () => {
       component: ListViewChecklistTestComponent,
       fixture: any,
       element: DebugElement,
-      items: Array<any>;
+      items: any[];
 
     beforeEach(async(() => {
       dispatcher = new ListStateDispatcher();
@@ -322,7 +307,7 @@ describe('List View Checklist Component', () => {
       dispatcher: ListStateDispatcher,
       component: ListViewChecklistEmptyTestComponent,
       fixture: any,
-      items: Array<any>,
+      items: any[],
       element: DebugElement;
 
     beforeEach(async(() => {
@@ -379,7 +364,7 @@ describe('List View Checklist Component', () => {
     });
 
     it('should search based on input text', async(() => {
-      let searchItems = items.filter((item) => {
+      const searchItems = items.filter((item) => {
         return component.checklist.searchFunction()(item.data, 'banana');
       });
       dispatcher.next(new ListItemsLoadAction(searchItems, true));
@@ -454,8 +439,8 @@ describe('List View Checklist Component', () => {
   describe('Checklist with toolbar', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       nativeElement: HTMLElement,
       component: ListViewChecklistToolbarTestComponent;
@@ -464,7 +449,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -514,18 +499,16 @@ describe('List View Checklist Component', () => {
       }));
 
       it('should show all items if pagination is not defined and items are larger than the pagination default', fakeAsync(() => {
-        let checklistItems = getChecklistItems();
+        const checklistItems = getChecklistItems();
         expect(itemsArray.length).toBeGreaterThan(10); // 10 is the pagination default.
         expect(checklistItems.length).toEqual(itemsArray.length);
       }));
     });
 
     it('should set selections on click properly', fakeAsync(() => {
-      let labelEl = <HTMLLabelElement>(
-        nativeElement.querySelectorAll(
-          '.sky-list-view-checklist label.sky-checkbox-wrapper'
-        )[0]
-      );
+      let labelEl = nativeElement.querySelectorAll(
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
+      )[0] as HTMLLabelElement;
 
       labelEl.click();
       tick();
@@ -533,11 +516,9 @@ describe('List View Checklist Component', () => {
 
       expect(component.selectedItems.get('1')).toBe(true);
 
-      labelEl = <HTMLLabelElement>(
-        nativeElement.querySelectorAll(
-          '.sky-list-view-checklist label.sky-checkbox-wrapper'
-        )[0]
-      );
+      labelEl = nativeElement.querySelectorAll(
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
+      )[0] as HTMLLabelElement;
       labelEl.click();
       tick();
       fixture.detectChanges();
@@ -549,7 +530,7 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
       toggleOnlyShowSelected(fixture);
 
-      let visibleCheckboxesLength = document.querySelectorAll(
+      const visibleCheckboxesLength = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(visibleCheckboxesLength).toEqual(itemsArray.length);
@@ -558,7 +539,7 @@ describe('List View Checklist Component', () => {
     it("should show selected items if 'showOnlySelected' property is set", fakeAsync(() => {
       tick();
       fixture.detectChanges();
-      let checkboxes = document.querySelectorAll(
+      const checkboxes = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       );
       (checkboxes.item(0) as HTMLElement).click();
@@ -567,7 +548,7 @@ describe('List View Checklist Component', () => {
 
       toggleOnlyShowSelected(fixture);
 
-      let visibleCheckboxesLength = document.querySelectorAll(
+      const visibleCheckboxesLength = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(visibleCheckboxesLength).toEqual(
@@ -594,7 +575,7 @@ describe('List View Checklist Component', () => {
       tick();
       fixture.detectChanges();
 
-      let visibleCheckboxesLength = document.querySelectorAll(
+      const visibleCheckboxesLength = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       ).length;
       expect(checkboxes.length).toBeGreaterThan(visibleCheckboxesLength);
@@ -607,7 +588,7 @@ describe('List View Checklist Component', () => {
       toggleOnlyShowSelected(fixture);
 
       // check number of checkboxes visible when showOnlySection is selected.
-      let checkboxesLength = document.querySelectorAll(
+      const checkboxesLength = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       ).length;
 
@@ -654,12 +635,12 @@ describe('List View Checklist Component', () => {
 
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        let checkboxes = document.querySelectorAll('sky-checkbox input');
+        const checkboxes = document.querySelectorAll('sky-checkbox input');
         (checkboxes.item(0) as HTMLElement).click();
         tick();
         fixture.detectChanges();
 
-        let updatedCheckboxesLength = document.querySelectorAll(
+        const updatedCheckboxesLength = document.querySelectorAll(
           '.sky-list-view-checklist sky-checkbox input'
         ).length;
         expect(updatedCheckboxesLength).toEqual(0);
@@ -692,7 +673,7 @@ describe('List View Checklist Component', () => {
 
       tick();
       fixture.detectChanges();
-      let newItems = itemsArray.filter(
+      const newItems = itemsArray.filter(
         (item) => item.id === '6' || item.id === '7'
       );
       dispatcher.next(new ListItemsLoadAction(newItems, true));
@@ -744,7 +725,7 @@ describe('List View Checklist Component', () => {
       fixture.detectChanges();
 
       // check number of checkboxes visible when showOnlySection is selected.
-      let checkboxesLength = document.querySelectorAll(
+      const checkboxesLength = document.querySelectorAll(
         '.sky-list-view-checklist sky-checkbox input'
       ).length;
 
@@ -770,19 +751,19 @@ describe('List View Checklist Component', () => {
 
   describe('Models and State', () => {
     it('should create ListViewChecklistItemModel without data', () => {
-      let model = new ListViewChecklistItemModel('123', true);
+      const model = new ListViewChecklistItemModel('123', true);
       expect(model.id).toBe('123');
       expect(model.description).toBeUndefined();
       expect(model.label).toBeUndefined();
     });
 
     it('should run ListViewChecklistItemsLoadAction action without refresh', async(() => {
-      let checklistDispatcher = new ChecklistStateDispatcher();
-      let checklistState = new ChecklistState(
+      const checklistDispatcher = new ChecklistStateDispatcher();
+      const checklistState = new ChecklistState(
         new ChecklistStateModel(),
         checklistDispatcher
       );
-      let items = [
+      const items = [
         new ListViewChecklistItemModel('1', false),
         new ListViewChecklistItemModel('2', false),
       ];
@@ -801,8 +782,8 @@ describe('List View Checklist Component', () => {
   describe('Undefined select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -810,7 +791,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -850,8 +831,8 @@ describe('List View Checklist Component', () => {
   describe('Single select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -859,7 +840,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -896,7 +877,7 @@ describe('List View Checklist Component', () => {
     }));
 
     it('should show single select buttons for each item', fakeAsync(() => {
-      let singleSelectButtonsEl = getSingleSelectButtons();
+      const singleSelectButtonsEl = getSingleSelectButtons();
 
       expect(singleSelectButtonsEl.length).toBe(11);
     }));
@@ -939,8 +920,8 @@ describe('List View Checklist Component', () => {
   describe('Multiple select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -948,7 +929,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({

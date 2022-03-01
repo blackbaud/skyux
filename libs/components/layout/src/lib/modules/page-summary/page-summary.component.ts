@@ -6,13 +6,11 @@ import {
   OnDestroy,
   QueryList,
 } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { Subscription } from 'rxjs';
 
 import { SkyPageSummaryAdapterService } from './page-summary-adapter.service';
-
 import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.component';
 
 /**

@@ -8,19 +8,13 @@ import {
 
 import { Subject } from 'rxjs';
 
-import { SkyPopoverAlignment } from '../types/popover-alignment';
-
-import { SkyPopoverMessage } from '../types/popover-message';
-
-import { SkyPopoverMessageType } from '../types/popover-message-type';
-
-import { SkyPopoverPlacement } from '../types/popover-placement';
-
-import { SkyPopoverTrigger } from '../types/popover-trigger';
-
 import { SkyPopoverComponent } from '../popover.component';
-
 import { SkyPopoverDirective } from '../popover.directive';
+import { SkyPopoverAlignment } from '../types/popover-alignment';
+import { SkyPopoverMessage } from '../types/popover-message';
+import { SkyPopoverMessageType } from '../types/popover-message-type';
+import { SkyPopoverPlacement } from '../types/popover-placement';
+import { SkyPopoverTrigger } from '../types/popover-trigger';
 
 @Component({
   selector: 'sky-test-component',
@@ -68,7 +62,7 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
 
   public height: number;
 
-  public showFocusableChildren: boolean = false;
+  public showFocusableChildren = false;
 
   public popoverType: 'info' | 'danger';
 

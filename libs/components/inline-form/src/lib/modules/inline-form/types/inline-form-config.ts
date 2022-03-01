@@ -1,5 +1,4 @@
 import { SkyInlineFormButtonConfig } from './inline-form-button-config';
-
 import { SkyInlineFormButtonLayout } from './inline-form-button-layout';
 
 /**

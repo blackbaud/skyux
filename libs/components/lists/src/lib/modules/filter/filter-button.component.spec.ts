@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyThemeModule } from '@skyux/theme';
 
-import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
-
 import { SkyFilterModule } from './filter.module';
+import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
 describe('Filter button', () => {
   let fixture: ComponentFixture<FilterButtonTestComponent>;
@@ -58,13 +55,13 @@ describe('Filter button', () => {
     component.ariaExpanded = true;
     fixture.detectChanges();
 
-    let button = nativeElement.querySelector('.sky-btn');
+    const button = nativeElement.querySelector('.sky-btn');
     expect(button.getAttribute('aria-controls')).toBe('filter-zone-2');
     expect(button.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('should emit event on click', () => {
-    let buttonEl = getButtonEl();
+    const buttonEl = getButtonEl();
     buttonEl.click();
     fixture.detectChanges();
     expect(component.buttonClicked).toBe(true);

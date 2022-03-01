@@ -1,17 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
-
 import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
 import { Observable, of as observableOf } from 'rxjs';
 
 import { SkyListViewGridFixture } from './list-view-grid-fixture';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const testItems = [
   { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },

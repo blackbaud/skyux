@@ -8,8 +8,8 @@ import { Observable, of as observableOf } from 'rxjs';
 })
 export class ListViewChecklistPaginationTestComponent {
   public selectedItems: Map<string, boolean>;
-  public selectMode: string = 'multiple';
-  public showOnlySelected: boolean = false;
+  public selectMode = 'multiple';
+  public showOnlySelected = false;
 
   public items: Observable<Array<any>> = observableOf([
     { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },

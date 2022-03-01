@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.component';

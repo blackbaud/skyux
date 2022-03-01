@@ -1,23 +1,16 @@
 import { ApplicationRef } from '@angular/core';
-
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
   tick,
-  TestBed,
 } from '@angular/core/testing';
-
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { Router } from '@angular/router';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
-
 import { SkyModalService } from '@skyux/modals';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -33,22 +26,13 @@ import {
 } from 'rxjs';
 
 import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
-
-import { SkyFlyoutConfig } from './types/flyout-config';
-
-import { SkyFlyoutInstance } from './flyout-instance';
-
-import { SkyFlyoutService } from './flyout.service';
-
-import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
-
 import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fixture';
-
-import { SkyFlyoutComponent } from './flyout.component';
-
+import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
+import { SkyFlyoutInstance } from './flyout-instance';
 import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
-import { take } from 'rxjs/operators';
-import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
+import { SkyFlyoutComponent } from './flyout.component';
+import { SkyFlyoutService } from './flyout.service';
+import { SkyFlyoutConfig } from './types/flyout-config';
 
 describe('Flyout component', () => {
   let applicationRef: ApplicationRef;
@@ -108,7 +92,7 @@ describe('Flyout component', () => {
   }
 
   function makeEvent(eventType: string, evtObj: any): void {
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       eventType,
       false,
@@ -131,7 +115,7 @@ describe('Flyout component', () => {
 
   function grabDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHandleElement();
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       'mousedown',
       false,
@@ -155,7 +139,7 @@ describe('Flyout component', () => {
 
   function grabHeaderDragHandle(handleXCord: number): void {
     const handleElement = getFlyoutHeaderGrabHandle();
-    let evt = document.createEvent('MouseEvents');
+    const evt = document.createEvent('MouseEvents');
     evt.initMouseEvent(
       'mousedown',
       false,
@@ -811,7 +795,7 @@ describe('Flyout component', () => {
   }));
 
   it('should automatically focus the close button when the flyout opens', fakeAsync(() => {
-    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+    (document.querySelector('#flyout-trigger-button') as HTMLElement).focus();
 
     openFlyout({}, { name: 'Sam', showNormalButton: true });
 
@@ -825,7 +809,7 @@ describe('Flyout component', () => {
   }));
 
   it('should automatically focus the an element with autofoucus in the content area when the flyout opens if one exists', fakeAsync(() => {
-    (<HTMLElement>document.querySelector('#flyout-trigger-button')).focus();
+    (document.querySelector('#flyout-trigger-button') as HTMLElement).focus();
 
     const context: SkyFlyoutTestSampleContext = {
       name: 'Sam',
@@ -962,7 +946,7 @@ describe('Flyout component', () => {
   it('should have correct aria-labels on resizing range input', fakeAsync(() => {
     openFlyout({ maxWidth: 1000, minWidth: 200, defaultWidth: 500 });
     const flyoutElement = getFlyoutElement();
-    let resizeInput: any = flyoutElement.querySelector(
+    const resizeInput: any = flyoutElement.querySelector(
       '.sky-flyout-resize-handle'
     );
 

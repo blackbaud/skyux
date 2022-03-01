@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import {
   FormBuilder,
   FormControl,
@@ -8,7 +7,6 @@ import {
 } from '@angular/forms';
 
 import { SkyAutonumericOptions } from 'projects/sky-autonumeric/src/public-api';
-
 import { SkyAutonumericOptionsProvider } from 'projects/sky-autonumeric/src/public-api';
 
 import { AutonumericDemoOptionsProvider } from './autonumeric-demo-options-provider';

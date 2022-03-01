@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyExpansionIndicatorComponent } from './expansion-indicator.component';
-import { SkyThemeModule } from '@skyux/theme';
 
 @NgModule({
   declarations: [SkyExpansionIndicatorComponent],

@@ -1,27 +1,22 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
+  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
-import { SkyCellClass } from '../../types/cell-class';
+import { Column, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-
+import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 import { ValidatorOptions } from '../../types/validator-options';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
-
-import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-
-import { Column, RowNode } from 'ag-grid-community';
 
 describe('SkyAgGridCellRendererCurrencyComponent', () => {
   let currencyFixture: ComponentFixture<SkyAgGridCellRendererCurrencyComponent>;
@@ -39,7 +34,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     );
     currencyNativeElement = currencyFixture.nativeElement;
     currencyComponent = currencyFixture.componentInstance;
-    let column: Column = new Column(
+    const column: Column = new Column(
       {
         colId: 'col',
       },
@@ -72,8 +67,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
   });
 
   it('renders a skyux numeric element in an ag grid', () => {
-    let gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
-    let gridNativeElement = gridFixture.nativeElement;
+    const gridFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    const gridNativeElement = gridFixture.nativeElement;
 
     gridFixture.detectChanges();
 

@@ -4,11 +4,9 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-
 import { MutationObserverService, SkyAppWindowRef } from '@skyux/core';
 
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 /**

@@ -8,15 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
-
-import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
-import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDateFormatter } from './date-formatter';
-import { SkyDatepickerCustomDate } from './datepicker-custom-date';
+import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 import { SkyDatepickerCalendarChange } from './datepicker-calendar-change';
+import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
+import { SkyDatepickerConfigService } from './datepicker-config.service';
+import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 
 /**
  * @internal

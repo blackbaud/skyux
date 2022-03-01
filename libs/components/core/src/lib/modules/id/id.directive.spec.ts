@@ -1,11 +1,8 @@
-import { async, TestBed } from '@angular/core/testing';
-
+import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { IdDirectiveFixtureComponent } from './fixtures/id.directive.fixture';
-
 import { SkyIdModule } from './id.module';
 
 describe('ID directive', () => {

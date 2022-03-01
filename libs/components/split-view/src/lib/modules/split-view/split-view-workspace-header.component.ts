@@ -6,11 +6,9 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkySplitViewService } from './split-view.service';

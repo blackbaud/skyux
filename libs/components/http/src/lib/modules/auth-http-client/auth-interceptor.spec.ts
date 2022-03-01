@@ -1,24 +1,17 @@
 //#region imports
-
 import { HttpHandler } from '@angular/common/http';
-
 import { TestBed } from '@angular/core/testing';
-
 import { SkyAppConfig, SkyAppRuntimeConfigParams } from '@skyux/config';
 
 import { SkyAuthInterceptor } from './auth-interceptor';
-
 import { SKY_AUTH_DEFAULT_PERMISSION_SCOPE } from './auth-interceptor-default-permission-scope';
-
 import { SkyAuthTokenContextArgs } from './auth-token-context-args';
-
 import { SkyAuthTokenProvider } from './auth-token-provider';
-
 import {
-  createAppConfig,
-  createRequest,
   EXAMPLE_URL,
   Spy,
+  createAppConfig,
+  createRequest,
   validateRequest,
 } from './testing/sky-http-interceptor.test-utils';
 

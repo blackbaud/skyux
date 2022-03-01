@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { SkyFuzzyDate } from '../../datepicker/fuzzy-date';
-
 import { SkyFuzzyDatePipe } from '../fuzzy-date.pipe';
 
 @Component({
@@ -14,7 +13,7 @@ export class FuzzyDatePipeTestComponent {
     month: 11,
   };
 
-  public format: string = 'MMM Y';
+  public format = 'MMM Y';
 
   public locale: string;
 

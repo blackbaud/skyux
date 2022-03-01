@@ -1,23 +1,22 @@
 // #region imports
-import { RendererFactory2, ApplicationRef } from '@angular/core';
-
+import { ApplicationRef, RendererFactory2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyToastAdapterService } from './toast-adapter.service';
+
 // #endregion
 
 describe('Toast adapter service', () => {
   let adapter: SkyToastAdapterService;
-  let rendererCallCounts = {
+  const rendererCallCounts = {
     appendCalledCount: 0,
     removeCalledCount: 0,
   };
   let applicationRef: ApplicationRef;
 
   beforeEach(() => {
-    let rendererMock = {
+    const rendererMock = {
       appendChild: () => {
         rendererCallCounts.appendCalledCount++;
       },
@@ -50,7 +49,7 @@ describe('Toast adapter service', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => {
       fun();
     });
-    let elementRefMock: any = {
+    const elementRefMock: any = {
       nativeElement: {
         scrollTop: undefined,
         scrollHeight: 40,

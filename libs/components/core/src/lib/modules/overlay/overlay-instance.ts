@@ -2,9 +2,8 @@ import { ComponentRef, StaticProvider, TemplateRef, Type } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
 
-import { SkyOverlayComponent } from './overlay.component';
-
 import { SkyOverlayConfig } from './overlay-config';
+import { SkyOverlayComponent } from './overlay.component';
 
 /**
  * Represents a new overlay instance. It is used to manage the "closed" state of the overlay,

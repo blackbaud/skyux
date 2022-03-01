@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { SkyFuzzyDate } from '../datepicker/fuzzy-date';
-
 import { SkyFuzzyDateService } from '../datepicker/fuzzy-date.service';
 
 /**

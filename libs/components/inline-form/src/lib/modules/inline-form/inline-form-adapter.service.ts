@@ -28,11 +28,11 @@ export class SkyInlineFormAdapterService {
     if (inputWithAutofocus) {
       inputWithAutofocus.focus();
     } else {
-      let focusEl: HTMLElement =
+      const focusEl: HTMLElement =
         inlineFormElementRef.nativeElement.querySelector(
           '.sky-inline-form-content'
         );
-      let focusableChildren = this.loadFocusableChildren(focusEl);
+      const focusableChildren = this.loadFocusableChildren(focusEl);
 
       this.focusFirstElement(focusableChildren);
     }

@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyTileComponent } from '../tile.component';
 
 @Component({
@@ -13,7 +14,7 @@ export class TileTestComponent {
 
   public tileIsCollapsed = false;
 
-  public tileName: string = 'test';
+  public tileName = 'test';
 
   public tileSettingsClick() {}
 

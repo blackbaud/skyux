@@ -19,21 +19,14 @@ import {
 } from '@angular/core';
 
 import { Observable, Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyToast } from './toast';
-
 import { SkyToastAdapterService } from './toast-adapter.service';
-
 import { SkyToastComponent } from './toast.component';
-
 import { SkyToastService } from './toast.service';
-
 import { SkyToasterService } from './toaster.service';
-
 import { SkyToastContainerOptions } from './types/toast-container-options';
-
 import { SkyToastDisplayDirection } from './types/toast-display-direction';
 
 /**
@@ -170,7 +163,7 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   }
 
   private sortToastsForDisplay(toasts: SkyToast[]) {
-    let sortedToasts = toasts && toasts.slice();
+    const sortedToasts = toasts && toasts.slice();
 
     if (
       sortedToasts &&

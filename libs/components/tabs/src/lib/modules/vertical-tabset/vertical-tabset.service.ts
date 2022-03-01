@@ -1,5 +1,4 @@
 import { ElementRef, Injectable } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -28,7 +27,7 @@ export class SkyVerticalTabsetService {
 
   public indexChanged: BehaviorSubject<number> = new BehaviorSubject(undefined);
 
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
   public showingTabs = new BehaviorSubject(false);
 
@@ -42,11 +41,11 @@ export class SkyVerticalTabsetService {
 
   private _content: ElementRef;
 
-  private _contentAdded: boolean = false;
+  private _contentAdded = false;
 
-  private _tabsVisible: boolean = false;
+  private _tabsVisible = false;
 
-  private _isMobile: boolean = false;
+  private _isMobile = false;
 
   public constructor(private mediaQueryService: SkyMediaQueryService) {
     this.mediaQueryService.subscribe((breakpoint) => {
@@ -86,7 +85,7 @@ export class SkyVerticalTabsetService {
   }
 
   public destroyTab(tab: SkyVerticalTabComponent): void {
-    let tabIndex = this.tabs.indexOf(tab);
+    const tabIndex = this.tabs.indexOf(tab);
     if (tabIndex === -1) {
       return;
     }
@@ -110,7 +109,7 @@ export class SkyVerticalTabsetService {
       }
       // Try selecting the next tab first, and if there's no next tab then
       // try selecting the previous one.
-      let newActiveTab = this.tabs[tabIndex] || this.tabs[tabIndex - 1];
+      const newActiveTab = this.tabs[tabIndex] || this.tabs[tabIndex - 1];
       /*istanbul ignore else */
       if (newActiveTab) {
         newActiveTab.activateTab();
@@ -120,7 +119,7 @@ export class SkyVerticalTabsetService {
 
   public activateTab(tab: SkyVerticalTabComponent) {
     // unactivate active tab
-    let activeTab = this.tabs.find((t) => t.index === this.activeIndex);
+    const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
     if (activeTab && activeTab.index !== tab.index) {
       activeTab.active = false;
       activeTab.tabDeactivated();
@@ -184,8 +183,8 @@ export class SkyVerticalTabsetService {
   private moveContent() {
     /* istanbul ignore else */
     if (this._content && !this._contentAdded) {
-      let activeTab = this.activeTab();
-      let activeContent = activeTab ? activeTab.tabContent : undefined;
+      const activeTab = this.activeTab();
+      const activeContent = activeTab ? activeTab.tabContent : undefined;
 
       if (activeContent && activeContent.nativeElement) {
         this._content.nativeElement.appendChild(activeContent.nativeElement);

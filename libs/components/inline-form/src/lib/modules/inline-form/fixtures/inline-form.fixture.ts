@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { SkyInlineFormCloseArgs } from '../types/inline-form-close-args';
-
 import { SkyInlineFormConfig } from '../types/inline-form-config';
 
 @Component({

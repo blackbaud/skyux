@@ -1,7 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 
 import { SkyAppConfigParams } from './app-config-params';
-
 import { SkyAppRuntimeConfigParams } from './params';
 
 /**

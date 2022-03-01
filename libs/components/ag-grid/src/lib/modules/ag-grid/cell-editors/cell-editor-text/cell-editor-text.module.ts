@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 
 import { AgGridResourcesModule } from '../../../shared/ag-grid-resources.module';

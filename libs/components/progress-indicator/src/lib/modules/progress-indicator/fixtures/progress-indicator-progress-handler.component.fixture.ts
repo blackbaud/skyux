@@ -2,11 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyProgressIndicatorActionClickArgs } from '../types/progress-indicator-action-click-args';
-
-import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message';
-
 import { SkyProgressIndicatorComponent } from '../progress-indicator.component';
+import { SkyProgressIndicatorActionClickArgs } from '../types/progress-indicator-action-click-args';
+import { SkyProgressIndicatorMessage } from '../types/progress-indicator-message';
 
 @Component({
   selector: 'sky-progress-indicator-progress-handler-fixture',

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormGroup } from '@angular/forms';
-
 import { SkyModalInstance } from '@skyux/modals';
-
 import {
   SkyProgressIndicatorActionClickArgs,
   SkyProgressIndicatorChange,

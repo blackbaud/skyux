@@ -1,3 +1,4 @@
+import { PathLocationStrategy, PlatformLocation } from '@angular/common';
 import {
   Directive,
   Input,
@@ -5,17 +6,12 @@ import {
   Optional,
   SimpleChanges,
 } from '@angular/core';
-
-import { PathLocationStrategy, PlatformLocation } from '@angular/common';
-
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
-
 import {
   SkyAppConfig,
   SkyAppConfigHost,
   SkyAppRuntimeConfigParamsProvider,
 } from '@skyux/config';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyAppLinkQueryParams } from './link-query-params';

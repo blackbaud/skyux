@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { Observable, of } from 'rxjs';

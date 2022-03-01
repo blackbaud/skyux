@@ -1,7 +1,5 @@
-import { async, TestBed } from '@angular/core/testing';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { TestBed, async } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,11 +8,11 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect } from '@skyux-sdk/testing';
-
-import { AlertTestComponent } from './fixtures/alert.component.fixture';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyAlertModule } from '../alert/alert.module';
+
+import { AlertTestComponent } from './fixtures/alert.component.fixture';
 
 describe('Alert component', () => {
   let mockThemeSvc: {

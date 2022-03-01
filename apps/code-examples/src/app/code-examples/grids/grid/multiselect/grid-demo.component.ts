@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-
-import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
-
 import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 @Component({
   selector: 'app-grid-demo',

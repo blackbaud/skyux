@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { SkyAppLinkDirective } from './link.directive';
-
 import { SkyAppLinkExternalDirective } from './link-external.directive';
+import { SkyAppLinkDirective } from './link.directive';
 
 @NgModule({
   declarations: [SkyAppLinkDirective, SkyAppLinkExternalDirective],

@@ -13,10 +13,10 @@ export class PagingTestComponent {
   })
   public pagingComponent: SkyPagingComponent;
 
-  public pageSize: number = 2;
-  public maxPages: number = 3;
-  public currentPage: number = 1;
-  public itemCount: number = 8;
+  public pageSize = 2;
+  public maxPages = 3;
+  public currentPage = 1;
+  public itemCount = 8;
   public label: string;
   public currentPageChanged(currentPage: number) {
     this.currentPage = currentPage;

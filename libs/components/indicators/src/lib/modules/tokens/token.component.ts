@@ -6,7 +6,6 @@ import {
   Input,
   Output,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 @Component({

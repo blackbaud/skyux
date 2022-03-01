@@ -1,47 +1,32 @@
+import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { map as observableMap, skip, take } from 'rxjs/operators';
 
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { SkyListToolbarModule } from './list-toolbar.module';
-
-import { ListToolbarTestComponent } from './fixtures/list-toolbar.component.fixture';
-
 import { ListItemsLoadAction } from '../list/state/items/load.action';
-
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
 import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
 import { ListSortLabelModel } from '../list/state/sort/label.model';
-
-import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
-
 import { ListToolbarItemsLoadAction } from '../list/state/toolbar/load.action';
-
 import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
-
+import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
+import { ListViewsLoadAction } from '../list/state/views/load.action';
+import { ListViewsSetActiveAction } from '../list/state/views/set-active.action';
 import { ListViewModel } from '../list/state/views/view.model';
 
-import { ListViewsLoadAction } from '../list/state/views/load.action';
-
-import { ListViewsSetActiveAction } from '../list/state/views/set-active.action';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ListToolbarTestComponent } from './fixtures/list-toolbar.component.fixture';
+import { SkyListToolbarModule } from './list-toolbar.module';
 
 describe('List Toolbar Component', () => {
   let state: ListState,
@@ -420,7 +405,7 @@ describe('List Toolbar Component', () => {
       fixture.detectChanges();
       tick();
 
-      let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+      const sortSelectorDropdownButtonEl = nativeElement.querySelector(
         '.sky-sort .sky-dropdown-button'
       ) as HTMLButtonElement;
       sortSelectorDropdownButtonEl.click();
@@ -468,7 +453,7 @@ describe('List Toolbar Component', () => {
 
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+          const sortSelectorDropdownButtonEl = nativeElement.querySelector(
             '.sky-sort .sky-dropdown-button'
           ) as HTMLButtonElement;
           sortSelectorDropdownButtonEl.click();
@@ -477,8 +462,8 @@ describe('List Toolbar Component', () => {
           fixture.whenStable().then(() => {
             fixture.detectChanges();
 
-            let sortItems = document.querySelectorAll('.sky-sort-item');
-            let clickItem = sortItems
+            const sortItems = document.querySelectorAll('.sky-sort-item');
+            const clickItem = sortItems
               .item(1)
               .querySelector('button') as HTMLButtonElement;
 
@@ -503,7 +488,7 @@ describe('List Toolbar Component', () => {
 
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let sortSelectorDropdownButtonEl = nativeElement.querySelector(
+          const sortSelectorDropdownButtonEl = nativeElement.querySelector(
             '.sky-sort .sky-dropdown-button'
           ) as HTMLButtonElement;
           sortSelectorDropdownButtonEl.click();
@@ -512,8 +497,8 @@ describe('List Toolbar Component', () => {
           fixture.whenStable().then(() => {
             fixture.detectChanges();
 
-            let sortItems = document.querySelectorAll('.sky-sort-item');
-            let clickItem = sortItems
+            const sortItems = document.querySelectorAll('.sky-sort-item');
+            const clickItem = sortItems
               .item(1)
               .querySelector('button') as HTMLButtonElement;
 
@@ -741,13 +726,13 @@ describe('List Toolbar Component', () => {
           take(1)
         )
         .subscribe((filters) => {
-          let showSelectedFilter = filters.filter(
+          const showSelectedFilter = filters.filter(
             (filter) => filter.name === 'show-selected'
           )[0];
           expect(showSelectedFilter).not.toBeNull();
 
           // Expect filter function to only return rows with id '1' and '2'.
-          let filterFunction = showSelectedFilter.filterFunction;
+          const filterFunction = showSelectedFilter.filterFunction;
           expect(filterFunction(new ListItemModel('1', {}), true)).toEqual(
             true
           );

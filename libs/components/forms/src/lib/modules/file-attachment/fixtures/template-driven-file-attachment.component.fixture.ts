@@ -11,7 +11,7 @@ import { SkyFileAttachmentComponent } from '../file-attachment.component';
   `,
 })
 export class TemplateDrivenFileAttachmentTestComponent {
-  public disabled: boolean = false;
+  public disabled = false;
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent: SkyFileAttachmentComponent;

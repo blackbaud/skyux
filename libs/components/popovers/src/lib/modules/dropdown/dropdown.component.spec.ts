@@ -1,14 +1,13 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyAffixConfig, SkyAffixService } from '@skyux/core';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -18,17 +17,12 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
 import { BehaviorSubject, of as observableOf } from 'rxjs';
 
-import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
-
-import { DropdownFixtureComponent } from './fixtures/dropdown.component.fixture';
-
-import { SkyDropdownMessageType } from './types/dropdown-message-type';
-
 import { SkyDropdownItemComponent } from './dropdown-item.component';
+import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
+import { DropdownFixtureComponent } from './fixtures/dropdown.component.fixture';
+import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', function () {
   let fixture: ComponentFixture<DropdownFixtureComponent>;

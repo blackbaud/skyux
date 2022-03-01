@@ -6,29 +6,22 @@ import {
   OnDestroy,
   Type,
 } from '@angular/core';
-
 import { NavigationStart, Router } from '@angular/router';
-
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyDynamicComponentService,
 } from '@skyux/core';
 
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { take, takeUntil, takeWhile } from 'rxjs/operators';
 
-import { SkyFlyoutComponent } from './flyout.component';
-
 import { SkyFlyoutInstance } from './flyout-instance';
-
-import { SkyFlyoutConfig } from './types/flyout-config';
-
-import { SkyFlyoutMessage } from './types/flyout-message';
-
-import { SkyFlyoutMessageType } from './types/flyout-message-type';
+import { SkyFlyoutComponent } from './flyout.component';
 import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
+import { SkyFlyoutConfig } from './types/flyout-config';
+import { SkyFlyoutMessage } from './types/flyout-message';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 /**
  * Launches flyouts and provides a common look and feel.
@@ -41,7 +34,7 @@ import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
 export class SkyFlyoutService implements OnDestroy {
   private host: ComponentRef<SkyFlyoutComponent>;
   private removeAfterClosed = false;
-  private isOpening: boolean = false;
+  private isOpening = false;
   private ngUnsubscribe = new Subject<boolean>();
 
   constructor(

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-
 import { ListFilterModel } from '@skyux/list-builder';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { of } from 'rxjs';
 
-import { ListFilterDemoModalComponent } from './list-filters-demo-modal.component';
-
 import { ListFiltersDemoModalContext } from './list-filters-demo-modal-context';
+import { ListFilterDemoModalComponent } from './list-filters-demo-modal.component';
 
 @Component({
   selector: 'app-list-filters-demo',

@@ -1,10 +1,11 @@
 // #region imports
+import { of as observableOf } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { SkyLibResourcesService } from './lib-resources.service';
 import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
-import { of as observableOf } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 // #endregion
 
@@ -140,7 +141,7 @@ describe('Library resources service', () => {
   });
 
   it('should use the name from the name provider', () => {
-    let mockResourceNameProvider: any = {
+    const mockResourceNameProvider: any = {
       getResourceName: (name: string) => {
         return observableOf(name + '_alternate');
       },

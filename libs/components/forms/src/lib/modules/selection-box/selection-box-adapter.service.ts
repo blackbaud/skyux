@@ -4,7 +4,6 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-
 import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
 
 const RESPONSIVE_CLASS_XS = 'sky-selection-box-container-xs';

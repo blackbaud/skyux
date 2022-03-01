@@ -3,7 +3,6 @@ import { Injectable, Renderer2 } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { SkyThemeSettings } from './theme-settings';
-
 import { SkyThemeSettingsChange } from './theme-settings-change';
 
 /**

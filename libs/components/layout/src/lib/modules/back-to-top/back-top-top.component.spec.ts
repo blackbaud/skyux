@@ -1,20 +1,16 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
 } from '@angular/core/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { Subject } from 'rxjs';
 
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
 import { SkyBackToTopFixtureComponent } from './fixtures/back-to-top.component.fixture';
-
 import { SkyBackToTopFixturesModule } from './fixtures/back-to-top.module.fixture';
-
 import { SkyBackToTopMessage } from './models/back-to-top-message';
-
 import { SkyBackToTopMessageType } from './models/back-to-top-message-type';
 
 //#region helpers

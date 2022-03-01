@@ -1,10 +1,7 @@
 import { SkyTheme } from './theme';
-
 import { SkyThemeMode } from './theme-mode';
-
-import { SkyThemeService } from './theme.service';
-
 import { SkyThemeSettings } from './theme-settings';
+import { SkyThemeService } from './theme.service';
 
 describe('Theme service', () => {
   let mockHostEl: any;

@@ -3,11 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { FilterDemoModalContext } from './filter-demo-modal-context';
-
 import { FilterDemoModalComponent } from './filter-demo-modal.component';
 
 @Component({

@@ -8,20 +8,15 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyPopoverAlignment } from './types/popover-alignment';
-
-import { SkyPopoverPlacement } from './types/popover-placement';
-
 import { SkyPopoverContentComponent } from './popover-content.component';
-
 import { SkyPopoverContext } from './popover-context';
+import { SkyPopoverAlignment } from './types/popover-alignment';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
 @Component({
   selector: 'sky-popover',
@@ -106,16 +101,16 @@ export class SkyPopoverComponent implements OnDestroy {
    * Indicates that the popover is in the process of being opened or closed.
    * @internal
    */
-  public isActive: boolean = false;
+  public isActive = false;
 
   /**
    * Used by unit tests to disable animations since the component is injected at the bottom of the
    * document body.
    * @internal
    */
-  public enableAnimations: boolean = true;
+  public enableAnimations = true;
 
-  public isMouseEnter: boolean = false;
+  public isMouseEnter = false;
 
   @ViewChild('templateRef', {
     read: TemplateRef,
@@ -125,7 +120,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   private contentRef: SkyPopoverContentComponent;
 
-  private isMarkedForCloseOnMouseLeave: boolean = false;
+  private isMarkedForCloseOnMouseLeave = false;
 
   private ngUnsubscribe = new Subject<void>();
 

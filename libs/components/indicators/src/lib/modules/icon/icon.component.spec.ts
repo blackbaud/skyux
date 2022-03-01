@@ -1,12 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyIconModule } from './icon.module';
-
 import { IconTestComponent } from './fixtures/icon.component.fixture';
-
 import { SkyIconResolverService } from './icon-resolver.service';
+import { SkyIconModule } from './icon.module';
 
 describe('Icon component', () => {
   let fixture: ComponentFixture<IconTestComponent>;

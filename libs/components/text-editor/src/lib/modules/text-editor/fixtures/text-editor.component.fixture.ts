@@ -1,16 +1,11 @@
 import { Component } from '@angular/core';
 
 import { FONT_LIST_DEFAULTS } from '../defaults/font-list-defaults';
-
-import { SkyTextEditorStyleState } from '../types/style-state';
-
-import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
-
 import { FONT_SIZE_LIST_DEFAULTS } from '../defaults/font-size-list-defaults';
-
 import { SkyTextEditorMenuType } from '../types/menu-type';
-
+import { SkyTextEditorStyleState } from '../types/style-state';
 import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
+import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
 
 /**
  * @internal
@@ -21,7 +16,7 @@ import { SkyTextEditorMergeField } from '../types/text-editor-merge-field';
 })
 export class TextEditorFixtureComponent {
   public autofocus = false;
-  public disabled: boolean = false;
+  public disabled = false;
   public fontList = FONT_LIST_DEFAULTS;
   public fontSizeList = FONT_SIZE_LIST_DEFAULTS;
   public initialStyleState: SkyTextEditorStyleState =
@@ -53,5 +48,5 @@ export class TextEditorFixtureComponent {
     'undo-redo',
     'link',
   ];
-  public value: string = '<p>Some text</p>';
+  public value = '<p>Some text</p>';
 }

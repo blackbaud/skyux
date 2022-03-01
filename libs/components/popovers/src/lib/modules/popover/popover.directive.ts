@@ -1,20 +1,14 @@
 import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyPopoverAlignment } from './types/popover-alignment';
-
-import { SkyPopoverPlacement } from './types/popover-placement';
-
-import { SkyPopoverTrigger } from './types/popover-trigger';
-
 import { SkyPopoverComponent } from './popover.component';
-
+import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverMessage } from './types/popover-message';
-
 import { SkyPopoverMessageType } from './types/popover-message-type';
+import { SkyPopoverPlacement } from './types/popover-placement';
+import { SkyPopoverTrigger } from './types/popover-trigger';
 
 @Directive({
   selector: '[skyPopover]',

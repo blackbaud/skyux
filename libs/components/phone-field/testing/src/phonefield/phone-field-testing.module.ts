@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { SkyPhoneFieldModule } from '@skyux/phone-field';
 
 @NgModule({

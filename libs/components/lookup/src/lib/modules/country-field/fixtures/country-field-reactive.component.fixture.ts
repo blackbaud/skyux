@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
-
 import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
@@ -22,7 +20,7 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public initialValue: SkyCountryFieldCountry;
 
-  public initiallizeToUndefined: boolean = false;
+  public initiallizeToUndefined = false;
 
   public supportedCountryISOs: string[];
 
@@ -56,9 +54,9 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public defaultCountry: string;
 
-  private _isDisabled: boolean = false;
+  private _isDisabled = false;
 
-  private _isRequired: boolean = false;
+  private _isRequired = false;
 
   public ngOnInit(): void {
     this.countryControl = new FormControl();

@@ -1,13 +1,12 @@
 import {
   AfterViewInit,
-  Component,
   ChangeDetectionStrategy,
+  Component,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
 
 import { ListStateDispatcher } from '../../list/state/list-state.rxstate';
-
 import { ListToolbarItemModel } from '../../list/state/toolbar/toolbar-item.model';
 
 import { SkyListSecondaryActionsService } from './list-secondary-actions.service';
@@ -31,7 +30,7 @@ export class SkyListSecondaryActionsComponent implements AfterViewInit {
   })
   private secondaryActionsTemplate: TemplateRef<any>;
 
-  private secondaryActionsItemToolbarIndex: number = 5000;
+  private secondaryActionsItemToolbarIndex = 5000;
 
   constructor(private dispatcher: ListStateDispatcher) {}
 

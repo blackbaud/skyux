@@ -1,13 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
   SkyLookupShowMoreCustomPickerContext,
 } from '@skyux/lookup';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';

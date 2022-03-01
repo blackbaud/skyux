@@ -1,16 +1,11 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
-
 import { SkyIconModule } from '@skyux/indicators';
 
-import { SkyRadioComponent } from './radio.component';
-
-import { SkyRadioLabelComponent } from './radio-label.component';
-
 import { SkyRadioGroupComponent } from './radio-group.component';
+import { SkyRadioLabelComponent } from './radio-label.component';
+import { SkyRadioComponent } from './radio.component';
 
 @NgModule({
   declarations: [

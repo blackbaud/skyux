@@ -5,11 +5,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
 } from '@skyux/data-manager';
 
 @Component({

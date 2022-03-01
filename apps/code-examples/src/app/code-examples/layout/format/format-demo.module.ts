@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyFormatModule } from '@skyux/layout';
 
 import { FormatDemoComponent } from './format-demo.component';

@@ -1,9 +1,7 @@
 //#region imports
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
-
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 
 import { skyAuthHttpJsonOptions, skyAuthHttpOptions } from './auth-options';
 

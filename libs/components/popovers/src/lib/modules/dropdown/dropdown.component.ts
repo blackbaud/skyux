@@ -10,30 +10,23 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
-
-import { SkyDropdownMessage } from './types/dropdown-message';
-
-import { SkyDropdownMessageType } from './types/dropdown-message-type';
-
-import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
-
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
+import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
+import { SkyDropdownMessage } from './types/dropdown-message';
+import { SkyDropdownMessageType } from './types/dropdown-message-type';
+import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
 
 @Component({
   selector: 'sky-dropdown',
@@ -182,9 +175,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     return this._menuContainerElementRef;
   }
 
-  public isMouseEnter: boolean = false;
+  public isMouseEnter = false;
 
-  public isVisible: boolean = false;
+  public isVisible = false;
 
   public menuId: string;
 

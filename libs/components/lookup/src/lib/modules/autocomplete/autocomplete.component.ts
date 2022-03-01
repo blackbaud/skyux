@@ -14,40 +14,38 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import {
-  from,
-  fromEvent as observableFromEvent,
   Observable,
-  of,
   Subject,
   Subscription,
+  from,
+  fromEvent as observableFromEvent,
+  of,
 } from 'rxjs';
-
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
+import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
+
+import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
+import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
+import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
 import { SkyAutocompleteMessage } from './types/autocomplete-message';
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
+import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-async-args';
+import { SkyAutocompleteSearchAsyncResult } from './types/autocomplete-search-async-result';
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
 import { SkyAutocompleteSelectionChange } from './types/autocomplete-selection-change';
 import { SkyAutocompleteShowMoreArgs } from './types/autocomplete-show-more-args';
-import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
-import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
-import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
-import { SkyAutocompleteSearchAsyncResult } from './types/autocomplete-search-async-result';
-import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-async-args';
-import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
 /**
  * @internal
@@ -126,7 +124,7 @@ export class SkyAutocompleteComponent
    * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
 
   /**
    * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
@@ -245,7 +243,7 @@ export class SkyAutocompleteComponent
    * Indicates whether to display a button that lets users add options to the data source.
    */
   @Input()
-  public showAddButton: boolean = false;
+  public showAddButton = false;
 
   /**
    * Specifies the text to display when no search results are found.
@@ -299,7 +297,7 @@ export class SkyAutocompleteComponent
     return this._highlightText || [];
   }
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
   public resultsListId: string;
 
@@ -399,7 +397,7 @@ export class SkyAutocompleteComponent
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
-  private activeElementIndex: number = -1;
+  private activeElementIndex = -1;
 
   private affixer: SkyAffixer;
 

@@ -1,24 +1,17 @@
 import { Injectable } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
-
 import { EditorCommand } from '../types/editor-command';
-
 import { EditorSetting } from '../types/editor-setting';
-
 import { SkyTextEditorStyleState } from '../types/style-state';
-
 import { UrlModalResult } from '../url-modal/text-editor-url-modal-result';
-
 import { UrlTarget } from '../url-modal/text-editor-url-target';
 
-import { SkyTextEditorService } from './text-editor.service';
-
 import { SkyTextEditorSelectionService } from './text-editor-selection.service';
+import { SkyTextEditorService } from './text-editor.service';
 
 /**
  * @internal
@@ -310,7 +303,7 @@ export class SkyTextEditorAdapterService {
     const fontElements: HTMLElement[] = Array.from(
       doc.querySelectorAll('font[size="1"]')
     );
-    for (let element of fontElements) {
+    for (const element of fontElements) {
       element.removeAttribute('size');
       element.style.fontSize = fontSize + 'px';
     }
@@ -572,7 +565,7 @@ export class SkyTextEditorAdapterService {
     const orphanElements: HTMLElement[] = Array.from(
       doc.querySelectorAll('font,span,*[style=""]')
     );
-    for (let element of orphanElements) {
+    for (const element of orphanElements) {
       if (!element.getAttribute('style')) {
         element.removeAttribute('style');
       }
@@ -584,7 +577,7 @@ export class SkyTextEditorAdapterService {
         (element.attributes.length === 0 || !element.hasChildNodes)
       );
     });
-    for (let element of removableElements) {
+    for (const element of removableElements) {
       const parent = element.parentNode;
       /* istanbul ignore else */
       if (parent) {

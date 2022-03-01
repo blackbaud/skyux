@@ -1,5 +1,4 @@
 import { ElementRef, Injectable, ViewContainerRef } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 /**

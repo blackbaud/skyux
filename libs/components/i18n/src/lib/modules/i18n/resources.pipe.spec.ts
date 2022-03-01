@@ -1,6 +1,7 @@
+import { of as observableOf } from 'rxjs';
+
 import { SkyAppResourcesPipe } from './resources.pipe';
 import { SkyAppResourcesService } from './resources.service';
-import { of as observableOf } from 'rxjs';
 
 describe('Resources pipe', () => {
   let resources: SkyAppResourcesService;

@@ -1,10 +1,29 @@
 import {
-  combineLatest as observableCombineLatest,
-  Observable,
-  of as observableOf,
-  Subject,
-} from 'rxjs';
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  QueryList,
+  SimpleChanges,
+} from '@angular/core';
+import { AsyncItem, getValue } from '@skyux/list-builder-common';
+import {
+  ListItemModel,
+  ListSortFieldSelectorModel,
+  isObservable,
+} from '@skyux/list-builder-common';
 
+import {
+  Observable,
+  Subject,
+  combineLatest as observableCombineLatest,
+  of as observableOf,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   flatMap,
@@ -14,66 +33,26 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChildren,
-  EventEmitter,
-  Input,
-  Output,
-  OnChanges,
-  OnDestroy,
-  QueryList,
-  SimpleChanges,
-} from '@angular/core';
-
-import { AsyncItem, getValue } from '@skyux/list-builder-common';
-
-import { ListItemsLoadAction } from './state/items/load.action';
-
-import { ListItemsSetLoadingAction } from './state/items/set-loading.action';
-
-import { ListSelectedLoadAction } from './state/selected/load.action';
-
-import { ListSelectedSetLoadingAction } from './state/selected/set-loading.action';
-
-import { ListSelectedModel } from './state/selected/selected.model';
-
-import { ListSortModel } from './state/sort/sort.model';
-
-import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
-
+import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
 import { ListFilterModel } from '../list-filters/filter.model';
 
 import { ListDataRequestModel } from './list-data-request.model';
-
 import { ListDataResponseModel } from './list-data-response.model';
-
 import { ListDataProvider } from './list-data.provider';
-
-import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
-
-import { ListState } from './state/list-state.state-node';
-
-import { ListStateDispatcher } from './state/list-state.rxstate';
-
-import {
-  isObservable,
-  ListItemModel,
-  ListSortFieldSelectorModel,
-} from '@skyux/list-builder-common';
-
 import { ListViewComponent } from './list-view.component';
-
+import { ListItemsLoadAction } from './state/items/load.action';
+import { ListItemsSetLoadingAction } from './state/items/set-loading.action';
+import { ListStateDispatcher } from './state/list-state.rxstate';
+import { ListState } from './state/list-state.state-node';
 import { ListPagingSetPageNumberAction } from './state/paging/set-page-number.action';
-
 import { ListSearchModel } from './state/search/search.model';
-
+import { ListSelectedLoadAction } from './state/selected/load.action';
+import { ListSelectedModel } from './state/selected/selected.model';
+import { ListSelectedSetLoadingAction } from './state/selected/set-loading.action';
+import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
+import { ListSortModel } from './state/sort/sort.model';
 import { ListViewsLoadAction } from './state/views/load.action';
-
 import { ListViewsSetActiveAction } from './state/views/set-active.action';
-
 import { ListViewModel } from './state/views/view.model';
 
 let idIndex = 0;
@@ -87,7 +66,7 @@ let idIndex = 0;
 export class SkyListComponent
   implements AfterContentInit, OnChanges, OnDestroy
 {
-  public id: string = `sky-list-cmp-${++idIndex}`;
+  public id = `sky-list-cmp-${++idIndex}`;
   /**
    * Specifies the data to display. The list component requires this property or the
    * `dataProvider` property. For checklist or multiselect grids, each row requires an
@@ -170,7 +149,7 @@ export class SkyListComponent
   @Input('search')
   public searchFunction: (data: any, searchText: string) => boolean;
 
-  private dataFirstLoad: boolean = false;
+  private dataFirstLoad = false;
 
   @ContentChildren(ListViewComponent)
   private listViews: QueryList<ListViewComponent>;
@@ -192,7 +171,7 @@ export class SkyListComponent
     }
 
     if (this.listViews.length > 0) {
-      let defaultView: ListViewComponent =
+      const defaultView: ListViewComponent =
         this.defaultView === undefined
           ? this.listViews.first
           : this.defaultView;
@@ -243,7 +222,7 @@ export class SkyListComponent
       )
       .subscribe((selected) => {
         // Update lastSelectedIds to help us retain user selections.
-        let selectedIdsList: string[] = [];
+        const selectedIdsList: string[] = [];
         selected.item.selectedIdMap.forEach((value, key) => {
           if (value === true) {
             selectedIdsList.push(key);
@@ -345,12 +324,12 @@ export class SkyListComponent
       selectedIds = observableOf(selectedIds);
     }
 
-    let selectedChanged: boolean = false;
+    let selectedChanged = false;
 
     // This subject is used to cancel previous request to the list's data provider when a new change
     // to the list's state occurs. In a future breaking change this should be replaced or coupled
     // with adding a debounce time to the Observable which watches for state changes.
-    let cancelLastRequest = new Subject();
+    const cancelLastRequest = new Subject();
 
     return observableCombineLatest(
       [
@@ -409,7 +388,7 @@ export class SkyListComponent
         let response: Observable<ListDataResponseModel>;
         if (this.dataFirstLoad) {
           this.dataFirstLoad = false;
-          let initialItems = itemsData.map(
+          const initialItems = itemsData.map(
             (d) =>
               new ListItemModel(d.id || `sky-list-item-model-${++idIndex}`, d)
           );
@@ -495,7 +474,7 @@ export class SkyListComponent
     newList: ListItemModel[],
     selectedIds: string[]
   ): ListItemModel[] {
-    let updatedListModel = newList.slice();
+    const updatedListModel = newList.slice();
     updatedListModel.forEach((item) => {
       item.isSelected = selectedIds.indexOf(item.id) > -1 ? true : false;
     });

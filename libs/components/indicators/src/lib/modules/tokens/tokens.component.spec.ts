@@ -1,18 +1,15 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyTokensMessageType } from './types/tokens-message-type';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
-
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
+import { SkyTokensMessageType } from './types/tokens-message-type';
 
 describe('Tokens component', () => {
   let fixture: ComponentFixture<SkyTokensTestComponent>;

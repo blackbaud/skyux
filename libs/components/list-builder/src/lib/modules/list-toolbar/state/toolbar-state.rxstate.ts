@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StateDispatcher, StateOrchestrator } from '@skyux/list-builder-common';
+
 import { ListToolbarStateAction } from './toolbar-state-action.type';
 
 /**

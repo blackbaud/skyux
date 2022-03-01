@@ -8,9 +8,7 @@ import {
 
 import { skyAutocompleteDefaultSearchFunction } from '../autocomplete/autocomplete-default-search-function';
 import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
-
 import { SkyAutocompleteSearchFunction } from '../autocomplete/types/autocomplete-search-function';
-
 import { SkyAutocompleteSearchFunctionFilter } from '../autocomplete/types/autocomplete-search-function-filter';
 
 /**

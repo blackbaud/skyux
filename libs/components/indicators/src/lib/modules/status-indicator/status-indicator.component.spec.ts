@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { StatusIndicatorTestComponent } from './fixtures/status-indicator.component.fixture';
-
 import { SkyStatusIndicatorModule } from './status-indicator.module';
 
 describe('Status indicator component', () => {

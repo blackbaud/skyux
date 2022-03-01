@@ -1,4 +1,5 @@
 import { SkyColorpickerOutput } from './colorpicker-output';
+
 /**
  * Indicates the color that users apply when they select Apply in the colorpicker.
  */

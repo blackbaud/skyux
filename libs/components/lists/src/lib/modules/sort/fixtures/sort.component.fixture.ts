@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './sort.component.fixture.html',
 })
 export class SortTestComponent implements OnInit {
   public initialState: number;
-  public showButtonText: boolean = false;
+  public showButtonText = false;
   public sortOptions = [
     {
       id: 1,

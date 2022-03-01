@@ -4,12 +4,11 @@ import { Subject } from 'rxjs';
 
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardComponent } from '../../tile-dashboard/tile-dashboard.component';
+import { SkyTileDashboardMessageType } from '../tile-dashboard-message-type';
 
 import { Tile1TestComponent } from './tile1.component.fixture';
 import { Tile2TestComponent } from './tile2.component.fixture';
 import { TileTestContext } from './tile-context.fixture';
-
-import { SkyTileDashboardMessageType } from '../tile-dashboard-message-type';
 
 @Component({
   selector: 'sky-demo-app',

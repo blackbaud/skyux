@@ -1,14 +1,10 @@
 import { ValidationErrors } from '@angular/forms';
 
-import { SkyDateRangeCalculation } from './date-range-calculation';
-
-import { SkyDateRangeCalculatorConfig } from './date-range-calculator-config';
-
-import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
-
-import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
-
 import { SkyDateRange } from './date-range';
+import { SkyDateRangeCalculation } from './date-range-calculation';
+import { SkyDateRangeCalculatorConfig } from './date-range-calculator-config';
+import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
+import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
 
 /**
  * Represents the calculator.

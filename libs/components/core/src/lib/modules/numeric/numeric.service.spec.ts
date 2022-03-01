@@ -1,13 +1,10 @@
-import { inject, TestBed } from '@angular/core/testing';
-
+import { TestBed, inject } from '@angular/core/testing';
 import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
 import { SkyNumericModule } from './numeric.module';
-
 import { NumericOptions } from './numeric.options';
-
 import { SkyNumericService } from './numeric.service';
 
 describe('Numeric service', () => {
@@ -432,7 +429,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>123);
+      ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
           digits: undefined,
@@ -440,7 +437,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1);
+      ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
           digits: undefined,
@@ -448,7 +445,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1);
+      ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.3555, {
           digits: undefined,
@@ -456,7 +453,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1);
+      ).toBe(1 as any);
       expect(
         skyNumeric.formatNumber(1.77777, {
           digits: undefined,
@@ -464,7 +461,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>2);
+      ).toBe(2 as any);
       expect(
         skyNumeric.formatNumber(9.1, {
           digits: undefined,
@@ -472,7 +469,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>9);
+      ).toBe(9 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
           digits: undefined,
@@ -480,7 +477,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-2);
+      ).toBe(-2 as any);
       expect(
         skyNumeric.formatNumber(1.5e3, {
           digits: undefined,
@@ -488,7 +485,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1500);
+      ).toBe(1500 as any);
       expect(
         skyNumeric.formatNumber(-1.5e3, {
           digits: undefined,
@@ -496,7 +493,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-1500);
+      ).toBe(-1500 as any);
     });
 
     it('rounds correctly when passed a custom precision', () => {
@@ -507,7 +504,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>123);
+      ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(123.34, {
           digits: 0,
@@ -515,7 +512,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>123);
+      ).toBe(123 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
           digits: 1,
@@ -523,7 +520,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.8);
+      ).toBe(0.8 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
           digits: 1,
@@ -531,7 +528,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.0);
+      ).toBe(1.0 as any);
       expect(
         skyNumeric.formatNumber(0.75, {
           digits: 2,
@@ -539,7 +536,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.75);
+      ).toBe(0.75 as any);
       expect(
         skyNumeric.formatNumber(1.005, {
           digits: 2,
@@ -547,7 +544,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.01);
+      ).toBe(1.01 as any);
       expect(
         skyNumeric.formatNumber(1.3555, {
           digits: 2,
@@ -555,7 +552,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.36);
+      ).toBe(1.36 as any);
       expect(
         skyNumeric.formatNumber(1.001, {
           digits: 2,
@@ -563,7 +560,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.0);
+      ).toBe(1.0 as any);
       expect(
         skyNumeric.formatNumber(1.7777, {
           digits: 2,
@@ -571,7 +568,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.78);
+      ).toBe(1.78 as any);
       expect(
         skyNumeric.formatNumber(9.1, {
           digits: 2,
@@ -579,7 +576,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>9.1);
+      ).toBe(9.1 as any);
       expect(
         skyNumeric.formatNumber(1234.5678, {
           digits: 2,
@@ -587,7 +584,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1234.57);
+      ).toBe(1234.57 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
           digits: 1,
@@ -595,7 +592,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.5);
+      ).toBe(1.5 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
           digits: 2,
@@ -603,7 +600,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.54);
+      ).toBe(1.54 as any);
       expect(
         skyNumeric.formatNumber(1.5383, {
           digits: 3,
@@ -611,7 +608,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1.538);
+      ).toBe(1.538 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
           digits: 1,
@@ -619,7 +616,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-1.5);
+      ).toBe(-1.5 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
           digits: 2,
@@ -627,7 +624,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-1.54);
+      ).toBe(-1.54 as any);
       expect(
         skyNumeric.formatNumber(-1.5383, {
           digits: 3,
@@ -635,7 +632,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-1.538);
+      ).toBe(-1.538 as any);
       expect(
         skyNumeric.formatNumber(-0.75, {
           digits: 2,
@@ -643,7 +640,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-0.75);
+      ).toBe(-0.75 as any);
       expect(
         skyNumeric.formatNumber(-0.75, {
           digits: 3,
@@ -651,7 +648,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-0.75);
+      ).toBe(-0.75 as any);
       expect(
         skyNumeric.formatNumber(1.5e3, {
           digits: 2,
@@ -659,7 +656,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>1500);
+      ).toBe(1500 as any);
       expect(
         skyNumeric.formatNumber(-1.5e3, {
           digits: 2,
@@ -667,7 +664,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>-1500);
+      ).toBe(-1500 as any);
     });
 
     it('rounds really small numbers', () => {
@@ -678,7 +675,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.0);
+      ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(-0.000000000000007, {
           digits: 4,
@@ -686,7 +683,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.0);
+      ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(7e-15, {
           digits: 4,
@@ -694,7 +691,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.0);
+      ).toBe(0.0 as any);
       expect(
         skyNumeric.formatNumber(-7e-15, {
           digits: 4,
@@ -702,7 +699,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>0.0);
+      ).toBe(0.0 as any);
     });
 
     it('rounds really big numbers', function () {
@@ -713,7 +710,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>700000000000000000000.32);
+      ).toBe(700000000000000000000.32 as any);
       expect(
         skyNumeric.formatNumber(700000000000000000000.324, {
           digits: 3,
@@ -721,7 +718,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>700000000000000000000.324);
+      ).toBe(700000000000000000000.324 as any);
       expect(
         skyNumeric.formatNumber(3518437208882.663, {
           digits: 2,
@@ -729,7 +726,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>3518437208882.66);
+      ).toBe(3518437208882.66 as any);
       expect(
         skyNumeric.formatNumber(2.5368e15, {
           digits: 1,
@@ -737,7 +734,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>2536800000000000);
+      ).toBe(2536800000000000 as any);
       expect(
         skyNumeric.formatNumber(2536800000000000.119, {
           digits: 2,
@@ -745,7 +742,7 @@ describe('Numeric service', () => {
           format: 'number',
           iso: undefined,
         })
-      ).toBe(<any>2536800000000000.12);
+      ).toBe(2536800000000000.12 as any);
     });
   });
 });

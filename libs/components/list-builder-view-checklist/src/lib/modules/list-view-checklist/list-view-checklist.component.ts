@@ -1,36 +1,32 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  forwardRef,
   Input,
-  OnDestroy,
-  SimpleChanges,
   OnChanges,
+  OnDestroy,
   OnInit,
+  SimpleChanges,
+  forwardRef,
 } from '@angular/core';
-
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import {
-  ListState,
-  ListStateDispatcher,
-  ListSelectedModel,
   ListFilterModel,
+  ListSelectedModel,
   ListSelectedSetItemSelectedAction,
   ListSelectedSetItemsSelectedAction,
+  ListState,
+  ListStateDispatcher,
   ListToolbarSetTypeAction,
   ListViewComponent,
 } from '@skyux/list-builder';
-
 import {
   AsyncItem,
   AsyncList,
-  getData,
   ListItemModel,
+  getData,
 } from '@skyux/list-builder-common';
 
 import { Observable, Subject } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -38,15 +34,11 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { ChecklistState } from './state/checklist-state.state-node';
-
-import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
-
 import { ChecklistStateModel } from './state/checklist-state.model';
-
-import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
-
+import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
+import { ChecklistState } from './state/checklist-state.state-node';
 import { ListViewChecklistItemModel } from './state/items/item.model';
+import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
 @Component({
   selector: 'sky-list-view-checklist',
@@ -92,14 +84,14 @@ export class SkyListViewChecklistComponent
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('label')
-  public labelFieldSelector: string = 'label';
+  public labelFieldSelector = 'label';
 
   /**
    * Specifies the name of the description field selector.
    * @default "description"
    */
   @Input()
-  public description: string = 'description';
+  public description = 'description';
 
   /**
    * Specifies how many items users can select.
@@ -144,7 +136,7 @@ export class SkyListViewChecklistComponent
 
   private _selectedIdMap: Map<string, boolean> = new Map<string, boolean>();
 
-  private _showOnlySelected: boolean = false;
+  private _showOnlySelected = false;
 
   constructor(
     state: ListState,
@@ -160,10 +152,10 @@ export class SkyListViewChecklistComponent
         observableMap((s) => s.items),
         distinctUntilChanged(),
         observableMap((items: AsyncList<ListItemModel>) => {
-          let dataChanged =
+          const dataChanged =
             lastUpdate === undefined || items.lastUpdate !== lastUpdate;
           lastUpdate = items.lastUpdate;
-          let newItems = items.items.map((item) => {
+          const newItems = items.items.map((item) => {
             return new ListViewChecklistItemModel(item.id, {
               label: this.labelFieldSelector
                 ? getData(item.data, this.labelFieldSelector)
@@ -298,7 +290,7 @@ export class SkyListViewChecklistComponent
       this.dispatcher.searchSetFunctions([this.search]);
     }
 
-    let fieldSelectors: Array<string> = [];
+    const fieldSelectors: Array<string> = [];
     if (this.labelFieldSelector) {
       fieldSelectors.push(this.labelFieldSelector);
     }
@@ -326,7 +318,7 @@ export class SkyListViewChecklistComponent
   public searchFunction() {
     return (data: any, searchText: string) => {
       if (this.labelFieldSelector !== undefined) {
-        let label = getData(data, this.labelFieldSelector);
+        const label = getData(data, this.labelFieldSelector);
         if (
           label !== undefined &&
           label !== null &&
@@ -337,7 +329,7 @@ export class SkyListViewChecklistComponent
       }
 
       if (this.description !== undefined) {
-        let description = getData(data, this.description);
+        const description = getData(data, this.description);
         if (
           description !== undefined &&
           description !== null &&
@@ -384,7 +376,7 @@ export class SkyListViewChecklistComponent
   }
 
   private reapplyFilter(isSelected: boolean) {
-    let self = this;
+    const self = this;
 
     this.state
       .pipe(

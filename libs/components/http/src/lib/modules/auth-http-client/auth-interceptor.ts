@@ -1,31 +1,23 @@
 //#region imports
-
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-
 import { Inject, Injectable, Optional } from '@angular/core';
-
-import { from as observableFrom, Observable } from 'rxjs';
-
-import { switchMap } from 'rxjs/operators';
-
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
-
 import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
-import { SKY_AUTH_DEFAULT_PERMISSION_SCOPE } from './auth-interceptor-default-permission-scope';
+import { Observable, from as observableFrom } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
+import { SKY_AUTH_DEFAULT_PERMISSION_SCOPE } from './auth-interceptor-default-permission-scope';
 import {
   SKY_AUTH_PARAM_AUTH,
   SKY_AUTH_PARAM_PERMISSION_SCOPE,
 } from './auth-interceptor-params';
-
 import { SkyAuthTokenContextArgs } from './auth-token-context-args';
-
 import { SkyAuthTokenProvider } from './auth-token-provider';
 
 //#endregion

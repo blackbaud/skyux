@@ -1,17 +1,4 @@
 import {
-  combineLatest as observableCombineLatest,
-  Observable,
-  Subject,
-} from 'rxjs';
-
-import {
-  map as observableMap,
-  takeUntil,
-  take,
-  distinctUntilChanged,
-} from 'rxjs/operators';
-
-import {
   AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,48 +11,41 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { getValue } from '@skyux/list-builder-common';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
-
 import { SkySearchComponent } from '@skyux/lookup';
 
-import { ListToolbarModel } from '../list/state/toolbar/toolbar.model';
-
-import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
-
-import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
-
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListSortLabelModel } from '../list/state/sort/label.model';
+import {
+  Observable,
+  Subject,
+  combineLatest as observableCombineLatest,
+} from 'rxjs';
+import {
+  distinctUntilChanged,
+  map as observableMap,
+  take,
+  takeUntil,
+} from 'rxjs/operators';
 
 import { ListFilterModel } from '../list-filters/filter.model';
-
-import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
 import { SkyListFilterInlineComponent } from '../list-filters/list-filter-inline.component';
-
 import { SkyListFilterSummaryComponent } from '../list-filters/list-filter-summary.component';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
+import { ListSortLabelModel } from '../list/state/sort/label.model';
+import { ListToolbarSetTypeAction } from '../list/state/toolbar/set-type.action';
+import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
+import { ListToolbarModel } from '../list/state/toolbar/toolbar.model';
 
 import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
-
 import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
-
 import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
-
 import { ListToolbarConfigSetSearchEnabledAction } from './state/config/set-search-enabled.action';
-
 import { ListToolbarConfigSetSortSelectorEnabledAction } from './state/config/set-sort-selector-enabled.action';
-
-import { ListToolbarState } from './state/toolbar-state.state-node';
-
-import { ListToolbarStateDispatcher } from './state/toolbar-state.rxstate';
-
 import { ListToolbarStateModel } from './state/toolbar-state.model';
+import { ListToolbarStateDispatcher } from './state/toolbar-state.rxstate';
+import { ListToolbarState } from './state/toolbar-state.state-node';
 
 let nextId = 0;
 
@@ -140,7 +120,7 @@ export class SkyListToolbarComponent
    * @default "standard"
    */
   @Input()
-  public toolbarType: string = 'standard';
+  public toolbarType = 'standard';
 
   /**
    * Specifies a text string to search with.
@@ -168,19 +148,19 @@ export class SkyListToolbarComponent
   public rightTemplates: ListToolbarItemModel[];
   public type: Observable<string>;
   public isSearchEnabled: Observable<boolean>;
-  public isToolbarDisabled: boolean = false;
+  public isToolbarDisabled = false;
   public isMultiselectEnabled: Observable<boolean>;
   public isSortSelectorEnabled: Observable<boolean>;
   public appliedFilters: Observable<Array<ListFilterModel>>;
   public hasAppliedFilters: Observable<boolean>;
   public showFilterSummary: boolean;
   public hasInlineFilters: boolean;
-  public inlineFilterBarExpanded: boolean = false;
+  public inlineFilterBarExpanded = false;
   public hasAdditionalToolbarSection = false;
   public hasViewActions = false;
 
-  public filterButtonId: string = `sky-list-toolbar-filter-button-${++nextId}`;
-  public listFilterInlineId: string = `sky-list-toolbar-filter-inline-${++nextId}`;
+  public filterButtonId = `sky-list-toolbar-filter-button-${++nextId}`;
+  public listFilterInlineId = `sky-list-toolbar-filter-inline-${++nextId}`;
 
   /**
    * Fires when users submit a search.
@@ -222,9 +202,9 @@ export class SkyListToolbarComponent
   private inlineFilterButtonTemplate: TemplateRef<any>;
 
   private customItemIds: string[] = [];
-  private hasSortSelectors: boolean = false;
-  private inlineFiltersItemToolbarIndex: number = 5000;
-  private sortSelectorItemToolbarIndex: number = 6000;
+  private hasSortSelectors = false;
+  private inlineFiltersItemToolbarIndex = 5000;
+  private sortSelectorItemToolbarIndex = 6000;
   private ngUnsubscribe = new Subject();
 
   private _inMemorySearchEnabled: boolean;
@@ -355,7 +335,7 @@ export class SkyListToolbarComponent
       observableMap((s) => s.filters),
       distinctUntilChanged(),
       observableMap((filters) => {
-        let activeFilters = filters.filter((f) => {
+        const activeFilters = filters.filter((f) => {
           return (
             f.value !== '' &&
             f.value !== undefined &&
@@ -500,29 +480,31 @@ export class SkyListToolbarComponent
         fieldSelectors: Array<ListSortFieldSelectorModel>
       ) => {
         // Get sorts that are in the global that are not in the available
-        let sorts = global.filter(
+        const sorts = global.filter(
           (g) =>
             available.filter((a) => a.fieldSelector === g.fieldSelector)
               .length === 0
         );
 
-        let resultSortSelectors = [...sorts, ...available].map((sortLabels) => {
-          let fs = fieldSelectors.filter((f) => {
-            return (
-              f.fieldSelector === sortLabels.fieldSelector &&
-              f.descending === sortLabels.descending
-            );
-          });
-          let selected = false;
-          if (fs.length > 0) {
-            selected = true;
-          }
+        const resultSortSelectors = [...sorts, ...available].map(
+          (sortLabels) => {
+            const fs = fieldSelectors.filter((f) => {
+              return (
+                f.fieldSelector === sortLabels.fieldSelector &&
+                f.descending === sortLabels.descending
+              );
+            });
+            let selected = false;
+            if (fs.length > 0) {
+              selected = true;
+            }
 
-          return {
-            sort: sortLabels,
-            selected: selected,
-          };
-        });
+            return {
+              sort: sortLabels,
+              selected: selected,
+            };
+          }
+        );
 
         return resultSortSelectors;
       }

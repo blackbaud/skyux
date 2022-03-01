@@ -1,9 +1,7 @@
 //#region imports
-
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
 
 import { SkyAuthToken } from './auth-token';
-
 import { SkyAuthTokenProvider } from './auth-token-provider';
 
 //#endregion

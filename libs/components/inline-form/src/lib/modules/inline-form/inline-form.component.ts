@@ -1,6 +1,6 @@
 import {
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -10,26 +10,18 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { zip as observableZip } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { skySlideDissolve } from './animations/slide-dissolve';
-
-import { SkyInlineFormButtonConfig } from './types/inline-form-button-config';
-
-import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
-
-import { SkyInlineFormCloseArgs } from './types/inline-form-close-args';
-
-import { SkyInlineFormConfig } from './types/inline-form-config';
-
 import { SkyInlineFormAdapterService } from './inline-form-adapter.service';
+import { SkyInlineFormButtonConfig } from './types/inline-form-button-config';
+import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
+import { SkyInlineFormCloseArgs } from './types/inline-form-close-args';
+import { SkyInlineFormConfig } from './types/inline-form-config';
 
 /**
  * Renders form content in the current view instead of a separate modal.
@@ -100,7 +92,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   private _config: SkyInlineFormConfig;
 
-  private _showForm: boolean = false;
+  private _showForm = false;
 
   constructor(
     private adapter: SkyInlineFormAdapterService,
@@ -139,7 +131,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> {
-    let buttonType = this.config
+    const buttonType = this.config
       ? this.config.buttonLayout
       : SkyInlineFormButtonLayout.DoneCancel;
 

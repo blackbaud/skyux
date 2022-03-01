@@ -4,7 +4,6 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-
 import { SkyAppWindowRef, SkyMediaBreakpoints } from '@skyux/core';
 
 /**

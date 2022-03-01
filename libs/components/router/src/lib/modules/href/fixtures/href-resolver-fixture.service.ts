@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { SkyHrefResolver } from '../href-resolver';
 import { SkyHref } from '../types/href';
 

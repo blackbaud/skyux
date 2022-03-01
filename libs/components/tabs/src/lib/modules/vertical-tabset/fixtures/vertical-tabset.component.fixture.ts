@@ -1,7 +1,6 @@
 import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 
 import { SkyVerticalTabComponent } from '../vertical-tab.component';
-
 import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
 
 @Component({
@@ -10,23 +9,23 @@ import { SkyVerticalTabsetComponent } from '../vertical-tabset.component';
   styleUrls: ['./vertical-tabset.component.fixture.scss'],
 })
 export class VerticalTabsetTestComponent {
-  public active: boolean = true;
+  public active = true;
 
-  public group1Open: boolean = true;
-  public group1Disabled: boolean = false;
+  public group1Open = true;
+  public group1Disabled = false;
 
-  public group2Open: boolean = false;
-  public group2Disabled: boolean = false;
+  public group2Open = false;
+  public group2Disabled = false;
 
-  public group3Open: boolean = false;
-  public group3Disabled: boolean = true;
+  public group3Open = false;
+  public group3Disabled = true;
 
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
-  public showScrollable: boolean = false;
+  public showScrollable = false;
 
-  public tabDisabled: boolean = true;
-  public tab1Required: boolean = false;
+  public tabDisabled = true;
+  public tab1Required = false;
 
   @ViewChild(SkyVerticalTabsetComponent)
   public tabset: SkyVerticalTabsetComponent;

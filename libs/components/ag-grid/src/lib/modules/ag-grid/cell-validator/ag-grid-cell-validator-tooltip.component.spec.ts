@@ -1,8 +1,10 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+
 import { SkyAgGridCellValidatorTooltipFixtureComponent } from '../fixtures/ag-grid-cell-validator-tooltip.component.fixture';
 import { SkyAgGridFixtureModule } from '../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
+
 import { SkyAgGridCellValidatorTooltipComponent } from './ag-grid-cell-validator-tooltip.component';
 
 describe('SkyAgGridCellValidatorTooltipComponent', () => {

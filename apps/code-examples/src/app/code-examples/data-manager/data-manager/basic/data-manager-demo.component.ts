@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
 import { SkyUIConfigService } from '@skyux/core';
-
 import {
   SkyDataManagerService,
   SkyDataManagerState,

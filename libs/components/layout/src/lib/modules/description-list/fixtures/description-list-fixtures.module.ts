@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyDescriptionListTestComponent } from './description-list.component.fixture';
-
 import { SkyDescriptionListModule } from '../description-list.module';
+
+import { SkyDescriptionListTestComponent } from './description-list.component.fixture';
 
 @NgModule({
   declarations: [SkyDescriptionListTestComponent],

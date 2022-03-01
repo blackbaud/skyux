@@ -9,16 +9,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { forkJoin as observableForkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
-import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater-list-style-type';
-
 import { SkyTextExpandRepeaterAdapterService } from './text-expand-repeater-adapter.service';
+import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater-list-style-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand repeater components.
@@ -62,9 +59,9 @@ export class SkyTextExpandRepeaterComponent
   public buttonText: string;
   public contentItems: Array<any>;
   public expandable: boolean;
-  public contentSectionId: string = `sky-text-expand-repeater-content-${++nextId}`;
+  public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
 
-  public isExpanded: boolean = false;
+  public isExpanded = false;
 
   private seeMoreText: string;
   private seeLessText: string;
@@ -153,7 +150,7 @@ export class SkyTextExpandRepeaterComponent
     this.animationEnd();
     /* Before animation is kicked off, ensure that a maxHeight exists */
     /* Once we have support for angular v4 animations with parameters we can use that instead */
-    let currentHeight = this.textExpandRepeaterAdapter.getContainerHeight(
+    const currentHeight = this.textExpandRepeaterAdapter.getContainerHeight(
       this.containerEl
     );
     this.textExpandRepeaterAdapter.setContainerHeight(
@@ -163,11 +160,11 @@ export class SkyTextExpandRepeaterComponent
   }
 
   private animateRepeater(expanding: boolean) {
-    let adapter = this.textExpandRepeaterAdapter;
-    let container = this.containerEl;
+    const adapter = this.textExpandRepeaterAdapter;
+    const container = this.containerEl;
 
     adapter.setContainerHeight(container, undefined);
-    let currentHeight = adapter.getContainerHeight(container);
+    const currentHeight = adapter.getContainerHeight(container);
     for (let i = this.maxItems; i < this.contentItems.length; i++) {
       if (!expanding) {
         adapter.hideItem(this.items[i]);
@@ -175,7 +172,7 @@ export class SkyTextExpandRepeaterComponent
         adapter.showItem(this.items[i]);
       }
     }
-    let newHeight = adapter.getContainerHeight(container);
+    const newHeight = adapter.getContainerHeight(container);
     if (!expanding) {
       this.buttonText = this.seeMoreText;
     } else {
@@ -203,7 +200,7 @@ export class SkyTextExpandRepeaterComponent
 
   private setup(value: Array<any>) {
     if (value) {
-      let length = value.length;
+      const length = value.length;
       if (length > this.maxItems) {
         this.expandable = true;
         this.buttonText = this.seeMoreText;

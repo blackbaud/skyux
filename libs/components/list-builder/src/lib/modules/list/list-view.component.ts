@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-
 import { distinctUntilChanged, map as observableMap } from 'rxjs/operators';
 
-import { ListState } from './state/list-state.state-node';
 import { SkyListComponent } from '../list/list.component';
+
+import { ListState } from './state/list-state.state-node';
 
 let idIndex = 0;
 
@@ -17,7 +17,7 @@ export abstract class ListViewComponent {
   protected state: ListState;
   protected list: SkyListComponent;
   protected hasToolbar: Observable<boolean>;
-  private viewId: string = `sky-list-view-cmp-${++idIndex}`;
+  private viewId = `sky-list-view-cmp-${++idIndex}`;
 
   constructor(state: ListState, defaultName: string) {
     this.state = state;

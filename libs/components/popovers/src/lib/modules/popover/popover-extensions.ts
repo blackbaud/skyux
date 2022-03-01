@@ -1,7 +1,6 @@
 import { SkyAffixHorizontalAlignment, SkyAffixPlacement } from '@skyux/core';
 
 import { SkyPopoverAlignment } from './types/popover-alignment';
-
 import { SkyPopoverPlacement } from './types/popover-placement';
 
 export function parseAffixPlacement(

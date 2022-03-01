@@ -1,7 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -13,7 +11,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkySelectionBoxFixturesModule } from './fixtures/selection-box-fixtures.module';
-
 import { SelectionBoxGridTestComponent } from './fixtures/selection-box-grid.component.fixture';
 
 describe('Selection box grid component', () => {

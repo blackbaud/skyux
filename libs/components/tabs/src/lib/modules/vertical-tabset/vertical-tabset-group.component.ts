@@ -8,15 +8,13 @@ import {
   OnInit,
   QueryList,
 } from '@angular/core';
+import { skyAnimationSlide } from '@skyux/animations';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyVerticalTabComponent } from './vertical-tab.component';
-
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
-import { skyAnimationSlide } from '@skyux/animations';
 
 @Component({
   selector: 'sky-vertical-tabset-group',
@@ -57,9 +55,9 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject();
 
-  private openBeforeTabsHidden: boolean = false;
+  private openBeforeTabsHidden = false;
 
-  private _open: boolean = false;
+  private _open = false;
 
   constructor(
     private tabService: SkyVerticalTabsetService,

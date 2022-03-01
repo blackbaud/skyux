@@ -1,38 +1,31 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { NgModel } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyModalService } from '@skyux/modals';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyLookupComponent } from './lookup.component';
+import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
 
 import { SkyLookupFixturesModule } from './fixtures/lookup-fixtures.module';
-
-import { SkyLookupTestComponent } from './fixtures/lookup.component.fixture';
-
-import { SkyLookupTemplateTestComponent } from './fixtures/lookup-template.component.fixture';
-
 import { SkyLookupInputBoxTestComponent } from './fixtures/lookup-input-box.component.fixture';
-import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
+import { SkyLookupTemplateTestComponent } from './fixtures/lookup-template.component.fixture';
+import { SkyLookupTestComponent } from './fixtures/lookup.component.fixture';
+import { SkyLookupComponent } from './lookup.component';
 
 describe('Lookup component', function () {
   //#region helpers
 
   function clearShowMoreSearch(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
+    (
       document.querySelector(
         '.sky-lookup-show-more-modal-toolbar .sky-search-btn-clear'
-      )
-    )).click();
+      ) as HTMLElement
+    ).click();
 
     fixture.detectChanges();
     tick(250);
@@ -63,23 +56,27 @@ describe('Lookup component', function () {
   }
 
   function clickShowMoreAddButton(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
-      document.querySelector('.sky-lookup-show-more-modal-add')
-    )).click();
+    (
+      document.querySelector('.sky-lookup-show-more-modal-add') as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
   function clickShowMoreClearAll(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
-      document.querySelector('.sky-lookup-show-more-modal-clear-all-btn')
-    )).click();
+    (
+      document.querySelector(
+        '.sky-lookup-show-more-modal-clear-all-btn'
+      ) as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
   function clickShowMoreSelectAll(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
-      document.querySelector('.sky-lookup-show-more-modal-select-all-btn')
-    )).click();
+    (
+      document.querySelector(
+        '.sky-lookup-show-more-modal-select-all-btn'
+      ) as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
@@ -89,25 +86,25 @@ describe('Lookup component', function () {
     async: boolean = false
   ): void {
     if (async) {
-      (<HTMLElement>(
+      (
         document.querySelectorAll(
           '#my-async-lookup .sky-lookup-tokens .sky-token'
-        )[index]
-      )).click();
+        )[index] as HTMLElement
+      ).click();
     } else {
-      (<HTMLElement>(
+      (
         document.querySelectorAll('#my-lookup .sky-lookup-tokens .sky-token')[
           index
-        ]
-      )).click();
+        ] as HTMLElement
+      ).click();
     }
     fixture.detectChanges();
   }
 
   function closeModal(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
-      document.querySelector('.sky-lookup-show-more-modal-close')
-    ))?.click();
+    (
+      document.querySelector('.sky-lookup-show-more-modal-close') as HTMLElement
+    )?.click();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -191,9 +188,11 @@ describe('Lookup component', function () {
   }
 
   function getShowMoreRepeaterItemContent(index: number): string {
-    return (<HTMLElement>(
-      document.querySelectorAll('sky-modal sky-repeater-item-content')[index]
-    )).textContent.trim();
+    return (
+      document.querySelectorAll('sky-modal sky-repeater-item-content')[
+        index
+      ] as HTMLElement
+    ).textContent.trim();
   }
 
   function getShowMoreModalTitle(): string {
@@ -235,9 +234,9 @@ describe('Lookup component', function () {
   }
 
   function saveShowMoreModal(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
-      document.querySelector('.sky-lookup-show-more-modal-save')
-    )).click();
+    (
+      document.querySelector('.sky-lookup-show-more-modal-save') as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
@@ -255,11 +254,11 @@ describe('Lookup component', function () {
   }
 
   function selectShowOnlySelected(fixture: ComponentFixture<any>): void {
-    (<HTMLElement>(
+    (
       document.querySelector(
         '.sky-lookup-show-more-modal-muiltiselect-toolbar .sky-toolbar-view-actions input'
-      )
-    )).click();
+      ) as HTMLElement
+    ).click();
     fixture.detectChanges();
     tick(250);
     fixture.detectChanges();
@@ -269,11 +268,11 @@ describe('Lookup component', function () {
     index: number,
     fixture: ComponentFixture<any>
   ): void {
-    (<HTMLElement>(
+    (
       document.querySelectorAll(
         '.sky-lookup-show-more-repeater sky-repeater-item input'
-      )[index]
-    )).click();
+      )[index] as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
@@ -281,11 +280,11 @@ describe('Lookup component', function () {
     index: number,
     fixture: ComponentFixture<any>
   ): void {
-    (<HTMLElement>(
+    (
       document.querySelectorAll(
         '.sky-lookup-show-more-repeater sky-repeater-item'
-      )[index]
-    )).click();
+      )[index] as HTMLElement
+    ).click();
     fixture.detectChanges();
   }
 
@@ -2640,9 +2639,11 @@ describe('Lookup component', function () {
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (<HTMLElement>(
-                document.querySelector('.sky-lookup-show-more-modal-close')
-              ))?.click();
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-close'
+                ) as HTMLElement
+              )?.click();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
@@ -2823,9 +2824,11 @@ describe('Lookup component', function () {
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (<HTMLElement>(
-                document.querySelector('.sky-lookup-show-more-modal-close')
-              ))?.click();
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-close'
+                ) as HTMLElement
+              )?.click();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
@@ -5574,9 +5577,11 @@ describe('Lookup component', function () {
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (<HTMLElement>(
-                document.querySelector('.sky-lookup-show-more-modal-close')
-              ))?.click();
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-close'
+                ) as HTMLElement
+              )?.click();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {

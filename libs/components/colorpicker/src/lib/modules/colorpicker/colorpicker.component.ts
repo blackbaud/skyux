@@ -12,43 +12,30 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
+  SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
-  SkyCoreAdapterService,
 } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
-
-import { SkyColorpickerChangeColor } from './types/colorpicker-color';
-
-import { SkyColorpickerHsla } from './types/colorpicker-hsla';
-
-import { SkyColorpickerHsva } from './types/colorpicker-hsva';
-
-import { SkyColorpickerMessage } from './types/colorpicker-message';
-
-import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
-
-import { SkyColorpickerOutput } from './types/colorpicker-output';
-
-import { SkyColorpickerRgba } from './types/colorpicker-rgba';
-
-import { SkyColorpickerResult } from './types/colorpicker-result';
-
+import { SliderDimension, SliderPosition } from './colorpicker-classes';
 import { SkyColorpickerService } from './colorpicker.service';
-
-import { SliderPosition, SliderDimension } from './colorpicker-classes';
+import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
+import { SkyColorpickerChangeColor } from './types/colorpicker-color';
+import { SkyColorpickerHsla } from './types/colorpicker-hsla';
+import { SkyColorpickerHsva } from './types/colorpicker-hsva';
+import { SkyColorpickerMessage } from './types/colorpicker-message';
+import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
+import { SkyColorpickerOutput } from './types/colorpicker-output';
+import { SkyColorpickerResult } from './types/colorpicker-result';
+import { SkyColorpickerRgba } from './types/colorpicker-rgba';
 
 let componentIdIndex = 0;
 
@@ -170,9 +157,9 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   public colorpickerId: string;
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
-  public isVisible: boolean = true;
+  public isVisible = true;
 
   public triggerButtonId: string;
 
@@ -231,7 +218,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   private _colorpickerRef: ElementRef;
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   constructor(
     private affixService: SkyAffixService,
@@ -366,21 +353,21 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public set red(change: SkyColorpickerChangeColor) {
-    let rgba = this.service.hsvaToRgba(this.hsva);
+    const rgba = this.service.hsvaToRgba(this.hsva);
     rgba.red = change.colorValue / change.maxRange;
     this.hsva = this.service.rgbaToHsva(rgba);
     this.update();
   }
 
   public set green(change: SkyColorpickerChangeColor) {
-    let rgba = this.service.hsvaToRgba(this.hsva);
+    const rgba = this.service.hsvaToRgba(this.hsva);
     rgba.green = change.colorValue / change.maxRange;
     this.hsva = this.service.rgbaToHsva(rgba);
     this.update();
   }
 
   public set blue(change: SkyColorpickerChangeColor) {
-    let rgba = this.service.hsvaToRgba(this.hsva);
+    const rgba = this.service.hsvaToRgba(this.hsva);
     rgba.blue = change.colorValue / change.maxRange;
     this.hsva = this.service.rgbaToHsva(rgba);
     this.update();
@@ -407,19 +394,19 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public update(): void {
-    let hsla: SkyColorpickerHsla = this.service.hsva2hsla(this.hsva);
-    let dHsla: SkyColorpickerHsla = this.service.denormalizeHSLA(hsla);
-    let rgba: SkyColorpickerRgba = this.service.hsvaToRgba(this.hsva);
-    let dRgba: SkyColorpickerRgba = this.service.denormalizeRGBA(rgba);
+    const hsla: SkyColorpickerHsla = this.service.hsva2hsla(this.hsva);
+    const dHsla: SkyColorpickerHsla = this.service.denormalizeHSLA(hsla);
+    const rgba: SkyColorpickerRgba = this.service.hsvaToRgba(this.hsva);
+    const dRgba: SkyColorpickerRgba = this.service.denormalizeRGBA(rgba);
 
-    let hsva: SkyColorpickerHsva = {
+    const hsva: SkyColorpickerHsva = {
       hue: this.hsva.hue,
       saturation: 1,
       value: 1,
       alpha: 1,
     };
 
-    let hueRgba = this.service.denormalizeRGBA(this.service.hsvaToRgba(hsva));
+    const hueRgba = this.service.denormalizeRGBA(this.service.hsvaToRgba(hsva));
 
     this.hslaText = dHsla;
     this.rgbaText = dRgba;

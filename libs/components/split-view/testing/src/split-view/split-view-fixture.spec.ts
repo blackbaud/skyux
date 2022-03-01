@@ -1,31 +1,18 @@
 import { DebugElement } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import { SkyDefinitionListModule } from '@skyux/layout';
-
 import { SkyRepeaterModule } from '@skyux/lists';
-
 import { SkyConfirmModule } from '@skyux/modals';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkySplitViewFixture } from './split-view-fixture';
-
 import { SplitViewTestComponent } from './fixtures/split-view-fixture-test.component';
-
+import { SkySplitViewFixture } from './split-view-fixture';
 import { SkySplitViewTestingModule } from './split-view-testing.module';
 
 const DEFAULT_DRAWER_ARIA_LABEL = 'Transaction list';

@@ -2,11 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyColorpickerMessage } from '../types/colorpicker-message';
-
-import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
-
 import { SkyColorpickerComponent } from '../colorpicker.component';
+import { SkyColorpickerMessage } from '../types/colorpicker-message';
+import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 
 @Component({
   selector: 'sky-colorpicker-fixture',

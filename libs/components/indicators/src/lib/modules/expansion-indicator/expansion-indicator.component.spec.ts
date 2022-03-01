@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expectAsync } from '@skyux-sdk/testing';
 import { SkyThemeService } from '@skyux/theme';
+
 import { SkyChevronModule } from '../chevron/chevron.module';
+
 import { SkyExpansionIndicatorComponent } from './expansion-indicator.component';
 
 describe('Expansion indicator component', () => {

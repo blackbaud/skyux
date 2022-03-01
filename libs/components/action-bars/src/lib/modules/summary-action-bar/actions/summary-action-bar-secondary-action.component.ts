@@ -1,10 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
   Output,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 
 /**

@@ -1,8 +1,8 @@
 import { ListItemModel } from '@skyux/list-builder-common';
-
-import { AsyncList, AsyncItem } from '@skyux/list-builder-common';
+import { AsyncItem, AsyncList } from '@skyux/list-builder-common';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
+
 import { ListPagingModel } from './paging/paging.model';
 import { ListSearchModel } from './search/search.model';
 import { ListSelectedModel } from './selected/selected.model';

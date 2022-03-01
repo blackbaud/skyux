@@ -1,9 +1,6 @@
 import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
-
 import { SkyDateRangeCalculatorType } from './date-range-calculator-type';
-
 import { SkyDateRangeDefaultCalculatorConfig } from './date-range-default-calculator-config';
-
 import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
 export const SKY_DEFAULT_CALCULATOR_CONFIGS: SkyDateRangeDefaultCalculatorConfig[] =

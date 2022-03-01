@@ -1,35 +1,23 @@
 import { ApplicationRef } from '@angular/core';
-
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
-
-import { SkyToasterTestComponent } from './fixtures/toaster.component.fixture';
-
-import { SkyToastBodyTestComponent } from './fixtures/toast-body.component.fixture';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyToastBodyTestContext } from './fixtures/toast-body-context';
-
+import { SkyToastBodyTestComponent } from './fixtures/toast-body.component.fixture';
+import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
+import { SkyToasterTestComponent } from './fixtures/toaster.component.fixture';
 import { SkyToastInstance } from './toast-instance';
-
 import { SkyToastService } from './toast.service';
-
 import { SkyToasterComponent } from './toaster.component';
-
 import { SkyToasterService } from './toaster.service';
-
 import { SkyToastContainerOptions } from './types/toast-container-options';
-
 import { SkyToastDisplayDirection } from './types/toast-display-direction';
 
 describe('Toast component', () => {
@@ -285,7 +273,7 @@ describe('Toast component', () => {
     openMessage('Message 1');
     openMessage('Message 2');
 
-    let toasts = getToastElements();
+    const toasts = getToastElements();
 
     validateToastMessage(toasts[0], 'Message 2');
     validateToastMessage(toasts[1], 'Message 1');
@@ -297,7 +285,7 @@ describe('Toast component', () => {
     openMessage('Message 1');
     openMessage('Message 2');
 
-    let toasts = getToastElements();
+    const toasts = getToastElements();
 
     validateToastMessage(toasts[0], 'Message 1');
     validateToastMessage(toasts[1], 'Message 2');

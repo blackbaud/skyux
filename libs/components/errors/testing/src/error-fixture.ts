@@ -1,9 +1,6 @@
-import { ComponentFixture } from '@angular/core/testing';
-
 import { DebugElement } from '@angular/core';
-
+import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 const SKY_ERROR_IMAGE_CLS_REGEX = /^sky-error-(\w*)-image$/;

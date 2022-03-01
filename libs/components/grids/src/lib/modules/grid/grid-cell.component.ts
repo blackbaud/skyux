@@ -1,14 +1,13 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
+  OnInit,
+  TemplateRef,
   ViewChild,
   ViewContainerRef,
-  TemplateRef,
-  OnInit,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-
-import { getData, ListItemModel } from '@skyux/list-builder-common';
+import { ListItemModel, getData } from '@skyux/list-builder-common';
 
 /**
  * @internal

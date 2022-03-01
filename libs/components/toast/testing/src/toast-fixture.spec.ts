@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { TestBed } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyToastModule, SkyToastType } from '@skyux/toast';
 
 import { SkyToastFixture } from './toast-fixture';

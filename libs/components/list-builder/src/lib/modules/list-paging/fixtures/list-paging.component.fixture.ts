@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyListPagingComponent } from '../list-paging.component';
 
 @Component({

@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { TabsDemoComponent } from './tabs-demo.component';

@@ -5,36 +5,25 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import {
+  SkyColorpickerMessage,
+  SkyColorpickerMessageType,
+  SkyColorpickerOutput,
+} from '@skyux/colorpicker';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
 import { Subject } from 'rxjs';
 
-import {
-  SkyColorpickerOutput,
-  SkyColorpickerMessage,
-  SkyColorpickerMessageType,
-} from '@skyux/colorpicker';
-
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
-
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
-
-import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
-
-import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
-
-import { SkyTextEditorFont } from '../types/font-state';
-
-import { SkyTextEditorStyleState } from '../types/style-state';
-
-import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
-
-import { SkyTextEditorUrlModalComponent } from '../url-modal/text-editor-url-modal.component';
-
-import { UrlTarget } from '../url-modal/text-editor-url-target';
-
-import { SkyUrlModalContext } from '../url-modal/text-editor-url-modal-context';
-
 import { SkyFormsUtility } from '../../shared/forms-utility';
+import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
+import { SkyTextEditorAdapterService } from '../services/text-editor-adapter.service';
+import { SkyTextEditorFont } from '../types/font-state';
+import { SkyTextEditorStyleState } from '../types/style-state';
+import { SkyTextEditorToolbarActionType } from '../types/toolbar-action-type';
+import { SkyUrlModalContext } from '../url-modal/text-editor-url-modal-context';
+import { SkyTextEditorUrlModalComponent } from '../url-modal/text-editor-url-modal.component';
+import { UrlTarget } from '../url-modal/text-editor-url-target';
 
 /**
  * @internal
@@ -99,7 +88,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
 
   public styleStateFontName: string;
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _styleState = STYLE_STATE_DEFAULTS;
 
@@ -183,7 +172,7 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   }
 
   public unlink(): void {
-    let currentSelectionRange = this.adapterService
+    const currentSelectionRange = this.adapterService
       .getCurrentSelection(this.editorId)
       .getRangeAt(0);
     if (currentSelectionRange.toString().length <= 0) {

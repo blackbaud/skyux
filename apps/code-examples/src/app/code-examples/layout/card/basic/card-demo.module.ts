@@ -1,13 +1,8 @@
-import { NgModule } from '@angular/core';
-
-import { FormsModule } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
-
 import { SkyCardModule } from '@skyux/layout';
-
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { CardDemoComponent } from './card-demo.component';

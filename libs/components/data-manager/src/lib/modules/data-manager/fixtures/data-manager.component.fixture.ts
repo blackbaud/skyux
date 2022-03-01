@@ -5,14 +5,14 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
-
-import { SkyDataManagerComponent } from '../data-manager.component';
-
 import {
   SkyDataManagerService,
   SkyDataManagerState,
 } from 'libs/components/data-manager/src/index';
+
+import { SkyDataManagerComponent } from '../data-manager.component';
+
+import { DataViewRepeaterFixtureComponent } from './data-manager-repeater-view.component.fixture';
 
 @Component({
   selector: 'sky-data-manager-fixture',

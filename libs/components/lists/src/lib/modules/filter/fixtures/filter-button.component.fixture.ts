@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 
 @Component({
@@ -7,9 +6,9 @@ import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
   templateUrl: './filter-button.component.fixture.html',
 })
 export class FilterButtonTestComponent {
-  public filtersActive: boolean = false;
-  public showButtonText: boolean = false;
-  public buttonClicked: boolean = false;
+  public filtersActive = false;
+  public showButtonText = false;
+  public buttonClicked = false;
   public buttonId: string;
   public ariaExpanded: boolean;
   public ariaControls: string;

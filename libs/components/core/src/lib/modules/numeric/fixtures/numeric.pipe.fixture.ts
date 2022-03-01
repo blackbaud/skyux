@@ -1,11 +1,10 @@
 import { Component, Injectable } from '@angular/core';
-
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject, of } from 'rxjs';
 
-let providedLocale: string = 'es';
-let providedLocaleBehaviorSubject = new BehaviorSubject({
+let providedLocale = 'es';
+const providedLocaleBehaviorSubject = new BehaviorSubject({
   locale: providedLocale,
 });
 

@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class VerticalTabsetWithNgForTestComponent {
   public activeIndex: number;
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
   public tabs = [
     {

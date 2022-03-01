@@ -1,10 +1,7 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
-import { SkyDropdownModule } from '@skyux/popovers';
-
+import { NgModule } from '@angular/core';
 import { SkyNavbarModule } from '@skyux/navbar';
+import { SkyDropdownModule } from '@skyux/popovers';
 
 import { NavbarDemoComponent } from './navbar-demo.component';
 

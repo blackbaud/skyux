@@ -5,13 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { SkyBackToTopMessage, SkyBackToTopMessageType } from '@skyux/layout';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from './data-manager.service';
-import { SkyBackToTopMessage, SkyBackToTopMessageType } from '@skyux/layout';
 
 /**
  * The top-level data manager component. Provide `SkyDataManagerService` at this level.

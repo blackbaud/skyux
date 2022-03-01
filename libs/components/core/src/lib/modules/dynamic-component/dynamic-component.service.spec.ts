@@ -1,16 +1,11 @@
 import { ApplicationRef, ComponentRef, EmbeddedViewRef } from '@angular/core';
-
-import { inject, TestBed } from '@angular/core/testing';
-
+import { TestBed, inject } from '@angular/core/testing';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { DynamicComponentTestComponent } from './fixtures/dynamic-component-test.component.fixture';
-
-import { SkyDynamicComponentService } from './dynamic-component.service';
-
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
+import { SkyDynamicComponentService } from './dynamic-component.service';
+import { DynamicComponentTestComponent } from './fixtures/dynamic-component-test.component.fixture';
 
 describe('Dynamic component service', () => {
   let cmpRefs: ComponentRef<DynamicComponentTestComponent>[] = [];
@@ -24,7 +19,7 @@ describe('Dynamic component service', () => {
       SkyDynamicComponentService
     );
 
-    let cmpRef: ComponentRef<DynamicComponentTestComponent> =
+    const cmpRef: ComponentRef<DynamicComponentTestComponent> =
       svc.createComponent(DynamicComponentTestComponent, {
         location: location,
         referenceEl: reference,
@@ -76,7 +71,7 @@ describe('Dynamic component service', () => {
 
   afterEach(() => {
     if (cmpRefs.length) {
-      for (let cmpRef of cmpRefs) {
+      for (const cmpRef of cmpRefs) {
         removeTestComponent(cmpRef);
       }
     }

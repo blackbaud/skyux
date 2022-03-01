@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
 import { SkyLookupShowMoreCustomPickerContext } from '@skyux/lookup';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({

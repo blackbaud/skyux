@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
-
 import { SkyAppConfig } from '@skyux/config';
-
 import { SkyAuthHttpClientModule, SkyAuthTokenProvider } from '@skyux/http';
 
 import { SkyAuthHttpTestingController } from './auth-http-testing-controller';
-
 import { SkyAuthTokenMockProvider } from './auth-token-mock-provider';
-
 import { SkyMockAppConfig } from './mock-app-config';
 
 /**

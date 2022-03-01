@@ -1,13 +1,11 @@
 // #region imports
 import { Provider } from '@angular/core';
-
 import { expect } from '@skyux-sdk/testing';
 
+import { SkyToast } from './toast';
+import { SkyToastInstance } from './toast-instance';
 import { SkyToastConfig } from './types/toast-config';
 
-import { SkyToast } from './toast';
-
-import { SkyToastInstance } from './toast-instance';
 // #endregion
 
 describe('Toast class', () => {

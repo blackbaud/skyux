@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyToastInstance } from '@skyux/toast';
 
 import { ToastContentDemoContext } from './toast-content-demo-context';

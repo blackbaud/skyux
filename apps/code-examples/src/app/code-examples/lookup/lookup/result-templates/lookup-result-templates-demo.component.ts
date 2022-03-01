@@ -1,7 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,

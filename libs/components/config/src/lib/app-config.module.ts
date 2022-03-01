@@ -1,9 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { SkyAppConfigModuleForRootArgs } from './app-config-module-for-root-args';
-
 import { SkyAppConfigHost } from './app-config-host';
-
+import { SkyAppConfigModuleForRootArgs } from './app-config-module-for-root-args';
 import { SkyAppConfigParams } from './app-config-params';
 
 /**

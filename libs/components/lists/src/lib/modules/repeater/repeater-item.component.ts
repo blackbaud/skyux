@@ -16,31 +16,23 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { skyAnimationSlide } from '@skyux/animations';
-
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import {
   SkyInlineFormCloseArgs,
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import { forkJoin as observableForkJoin, Subject } from 'rxjs';
-
+import { Subject, forkJoin as observableForkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
-
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
-
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
-
 import { SkyRepeaterService } from './repeater.service';
 
-let nextContentId: number = 0;
+let nextContentId = 0;
 
 /**
  * Creates an individual repeater item.
@@ -114,20 +106,20 @@ export class SkyRepeaterItemComponent
    * The repeater component's `reorderable` property must also be set to `true`.
    */
   @Input()
-  public reorderable: boolean = false;
+  public reorderable = false;
 
   /**
    * Indicates whether to display a checkbox in the left of the repeater item.
    */
   @Input()
-  public selectable: boolean = false;
+  public selectable = false;
 
   /**
    * Indicates whether to display an inline form within the repeater.
    * Users can toggle between displaying and hiding the inline form.
    */
   @Input()
-  public showInlineForm: boolean = false;
+  public showInlineForm = false;
 
   /**
    * Specifies an object that the repeater component returns for this repeater item
@@ -165,11 +157,11 @@ export class SkyRepeaterItemComponent
   @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
   public contextMenu: ElementRef;
 
-  public contentId: string = `sky-repeater-item-content-${++nextContentId}`;
+  public contentId = `sky-repeater-item-content-${++nextContentId}`;
 
-  public hasItemContent: boolean = false;
+  public hasItemContent = false;
 
-  public isActive: boolean = false;
+  public isActive = false;
 
   public set isCollapsible(value: boolean) {
     if (this.isCollapsible !== value) {
@@ -188,7 +180,7 @@ export class SkyRepeaterItemComponent
     return this._isCollapsible;
   }
 
-  public keyboardReorderingEnabled: boolean = false;
+  public keyboardReorderingEnabled = false;
 
   public reorderButtonLabel: string;
 
@@ -350,7 +342,7 @@ export class SkyRepeaterItemComponent
   public moveToTop(event: Event): void {
     event.stopPropagation();
     this.adapterService.moveItemUp(this.elementRef.nativeElement, true);
-    this.adapterService.focusElement(<HTMLElement>event.target);
+    this.adapterService.focusElement(event.target as HTMLElement);
     this.repeaterService.registerOrderChange();
   }
 
@@ -372,7 +364,7 @@ export class SkyRepeaterItemComponent
             this.revertReorderSteps();
             this.reorderButtonLabel =
               this.reorderCancelText + ' ' + this.reorderInstructions;
-            this.adapterService.focusElement(<HTMLElement>event.target);
+            this.adapterService.focusElement(event.target as HTMLElement);
             event.preventDefault();
             event.stopPropagation();
           }

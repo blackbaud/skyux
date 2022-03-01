@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
-
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyDropdownMenuChange } from '@skyux/popovers';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -16,8 +10,9 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { SkyDropdownFixture } from './dropdown-fixture';
+import { BehaviorSubject } from 'rxjs';
 
+import { SkyDropdownFixture } from './dropdown-fixture';
 import { SkyDropdownTestingModule } from './dropdown-testing.module';
 
 const DATA_SKY_ID = 'test-dropdown';

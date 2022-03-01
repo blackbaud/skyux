@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Injector,
   Input,
@@ -9,28 +8,24 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
+  FormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator,
   NgControl,
-  FormControl,
+  Validator,
 } from '@angular/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subscription } from 'rxjs';
 
-import { SkyColorpickerService } from './colorpicker.service';
-
 import { SkyColorpickerComponent } from './colorpicker.component';
-
+import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerHsva } from './types/colorpicker-hsva';
-
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 
 // tslint:disable:no-forward-ref no-use-before-declare
@@ -257,7 +252,7 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      let control: FormControl = this.injector.get<NgControl>(NgControl)
+      const control: FormControl = this.injector.get<NgControl>(NgControl)
         .control as FormControl;
       if (control) {
         control.setValue(this.modelValue, { emitEvent: false });
@@ -266,7 +261,7 @@ export class SkyColorpickerInputDirective
   }
 
   public validate(control: AbstractControl): { [key: string]: any } {
-    let value = control.value;
+    const value = control.value;
     if (!value) {
       return;
     }
@@ -323,7 +318,7 @@ export class SkyColorpickerInputDirective
     }
 
     let formatColor: SkyColorpickerOutput;
-    let hsva: SkyColorpickerHsva = this.service.stringToHsva(
+    const hsva: SkyColorpickerHsva = this.service.stringToHsva(
       color,
       this.alphaChannel === 'hex8'
     );
