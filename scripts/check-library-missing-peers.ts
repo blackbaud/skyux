@@ -23,12 +23,6 @@ async function checkLibraryMissingPeers() {
       Object.keys(packageJson.peerDependencies || {})
     );
 
-    // console.log(
-    //   `Checking dependencies for ${projectName}:\n - ${dependencies.join(
-    //     '\n - '
-    //   )}`
-    // );
-
     let foundPackages = [];
 
     const files = glob.sync(join(cwd, packageConfig.root, '**/*.ts'), {
@@ -62,13 +56,6 @@ async function checkLibraryMissingPeers() {
         }
 
         if (!dependencies.includes(foundPackage)) {
-          errors.push(
-            `The library '${projectName}' imports from ${foundPackage} but it is not listed as a peer! (see: ${fileName.replace(
-              join(cwd, '/'),
-              ''
-            )})`
-          );
-
           if (argv.fix) {
             const version = packageLockJson.dependencies[foundPackage]
               ? `^${packageLockJson.dependencies[foundPackage].version}`
@@ -83,9 +70,16 @@ async function checkLibraryMissingPeers() {
             } else {
               packageJson.peerDependencies[foundPackage] = version;
               console.log(
-                ` [fix] --> Added (${foundPackage}@${version}) as a dependency of '${projectName}'.`
+                ` [fix] --> Added (${foundPackage}@${version}) as a peer dependency of '${projectName}'.`
               );
             }
+          } else {
+            errors.push(
+              `The library '${projectName}' imports from ${foundPackage} but it is not listed as a peer! (see: ${fileName.replace(
+                join(cwd, '/'),
+                ''
+              )})`
+            );
           }
         }
       }
