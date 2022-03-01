@@ -4,12 +4,7 @@ import { outside as semverOutside, parse as semverParse } from 'semver';
 import standardVersion from 'standard-version';
 
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
-import {
-  checkoutNewBranch,
-  fetchAll,
-  getCurrentBranch,
-  isGitClean,
-} from './utils/git-utils';
+import { fetchAll, getCurrentBranch, isGitClean } from './utils/git-utils';
 import { checkVersionExists } from './utils/npm-utils';
 import { getCommandOutput, runCommand } from './utils/spawn';
 
@@ -110,41 +105,31 @@ async function validateVersion(version: string) {
 }
 
 /**
- * Prompts the developer to confirm the final push of the tag/branch to origin.
+ * Prompts the developer to confirm the final push of the tag/commit to origin.
  */
-async function promptPushOrigin(version: string, releaseBranch: string) {
+async function promptPushOrigin(version: string) {
   const answer = await inquirer.prompt([
     {
       type: 'confirm',
       name: 'pushOrigin',
-      message: `Push branch and tag to origin?`,
+      message: `Push to origin to trigger release?`,
       default: true,
     },
   ]);
 
   if (!answer.pushOrigin) {
-    console.log('Release aborted. Thanks for playing!');
-    await cleanupOnError(version, releaseBranch);
-    process.exit(0);
-  } else {
-    await runCommand('git', ['push', '--follow-tags', 'origin', releaseBranch]);
-  }
-}
-
-/**
- * Deletes the release tag and branch if there is an error,
- * or if the user aborts the action.
- */
-async function cleanupOnError(version: string, releaseBranch: string) {
-  await runCommand('git', ['checkout', 'main']);
-  try {
-    await runCommand('git', ['branch', '-D', releaseBranch]);
+    await runCommand('git', ['reset', '--soft', 'HEAD~1']);
     await runCommand('git', ['tag', '-d', version]);
-  } catch (err) {}
+    console.log('Release aborted. Thanks for playing!');
+    process.exit(0);
+  }
+
+  await runCommand('git', ['push', '--follow-tags', 'origin', 'main']);
+  console.log('Successfully pushed tag and commits to origin.');
 }
 
 /**
- * Creates a 'releases/x.x.x' branch, tags it, and automatically adds release notes to CHANGELOG.md.
+ * Bumps the version provided in package.json, creates a tag with release notes, and pushes them to origin.
  */
 async function createRelease() {
   try {
@@ -201,17 +186,7 @@ async function createRelease() {
       process.exit(0);
     }
 
-    const branch = `releases/${nextVersion}`;
-
-    console.log(`Creating new branch named '${branch}'...`);
-
-    await checkoutNewBranch(branch);
-
     console.log('Generating release artifacts...');
-
-    process.on('SIGINT', () => process.exit());
-    process.on('uncaughtException', () => process.exit());
-    process.on('exit', () => cleanupOnError(nextVersion, branch));
 
     const standardVersionConfig = await getStandardVersionConfig(nextVersion, {
       firstRelease: !versionExists,
@@ -219,13 +194,12 @@ async function createRelease() {
         // Run prettier on the changelog.
         postchangelog: 'npx prettier --write CHANGELOG.md',
       },
-      silent: true,
     });
 
     // Bump version and create changelog.
     await standardVersion(standardVersionConfig);
 
-    await promptPushOrigin(nextVersion, branch);
+    await promptPushOrigin(nextVersion);
   } catch (err) {
     console.error(err);
     process.exit(1);
