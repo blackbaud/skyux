@@ -218,81 +218,12 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   private set value(value: any) {
-    let fuzzyDate: SkyFuzzyDate;
-    let fuzzyMoment: any;
-    let dateValue: Date;
-    let formattedDate: string;
-
-    if (value instanceof Date) {
-      dateValue = value;
-      formattedDate = this.dateFormatter.format(value, this.dateFormat);
-      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromSelectedDate(
-        value,
-        this.dateFormat
-      );
-    } else if (typeof value === 'string') {
-      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromString(
-        value,
-        this.dateFormat
-      );
-      formattedDate = this.fuzzyDateService.format(
-        fuzzyDate,
-        this.dateFormat,
-        this.locale
-      );
-
-      if (!formattedDate) {
-        formattedDate = value;
-      }
-
-      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
-
-      if (fuzzyMoment) {
-        dateValue = fuzzyMoment.toDate();
-      }
-    } else {
-      fuzzyDate = value as SkyFuzzyDate;
-      formattedDate = this.fuzzyDateService.format(
-        fuzzyDate,
-        this.dateFormat,
-        this.locale
-      );
-      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
-
-      if (fuzzyMoment) {
-        dateValue = fuzzyMoment.toDate();
-      }
-    }
-
-    const areFuzzyDatesEqual = this.fuzzyDatesEqual(this._value, fuzzyDate);
-    const isNewValue = fuzzyDate !== this._value || !areFuzzyDatesEqual;
-
-    this._value = fuzzyDate || value;
-
-    if (isNewValue) {
-      this.onChange(this._value);
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
-      }
-
-      if (this.isFirstChange && this._value) {
-        this.isFirstChange = false;
-      }
-
-      this.datepickerComponent.selectedDate = dateValue;
-    }
-
-    this.setInputElementValue(formattedDate || '');
+    this.updateValue(value);
   }
 
   private control: AbstractControl;
 
   private dateFormatter = new SkyDateFormatter();
-
-  private isFirstChange = true;
 
   private locale: string;
 
@@ -374,7 +305,6 @@ export class SkyFuzzyDatepickerInputDirective
     this.datepickerComponent.dateChange
       .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe))
       .subscribe((value: Date) => {
-        this.isFirstChange = false;
         this.value = value;
         this.onTouched();
       });
@@ -430,7 +360,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    this.updateValue(value, true);
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -558,7 +488,6 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   private onValueChange(newValue: string): void {
-    this.isFirstChange = false;
     this.value = newValue;
   }
 
@@ -607,4 +536,73 @@ export class SkyFuzzyDatepickerInputDirective
   /*istanbul ignore next */
   private onTouched = () => {};
   private onValidatorChange = () => {};
+
+  private updateValue(value: any, isProgramatic = false): void {
+    if (this._value === value) {
+      return;
+    }
+
+    let fuzzyDate: SkyFuzzyDate;
+    let fuzzyMoment: any;
+    let dateValue: Date;
+    let formattedDate: string;
+
+    if (value instanceof Date) {
+      dateValue = value;
+      formattedDate = this.dateFormatter.format(value, this.dateFormat);
+      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromSelectedDate(
+        value,
+        this.dateFormat
+      );
+    } else if (typeof value === 'string') {
+      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromString(
+        value,
+        this.dateFormat
+      );
+      formattedDate = this.fuzzyDateService.format(
+        fuzzyDate,
+        this.dateFormat,
+        this.locale
+      );
+
+      if (!formattedDate) {
+        formattedDate = value;
+      }
+
+      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
+
+      if (fuzzyMoment) {
+        dateValue = fuzzyMoment.toDate();
+      }
+    } else {
+      fuzzyDate = value as SkyFuzzyDate;
+      formattedDate = this.fuzzyDateService.format(
+        fuzzyDate,
+        this.dateFormat,
+        this.locale
+      );
+      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
+
+      if (fuzzyMoment) {
+        dateValue = fuzzyMoment.toDate();
+      }
+    }
+
+    const areFuzzyDatesEqual = this.fuzzyDatesEqual(this._value, fuzzyDate);
+    const isNewValue = fuzzyDate !== this._value || !areFuzzyDatesEqual;
+
+    this._value = fuzzyDate || value;
+
+    if (isNewValue) {
+      if (isProgramatic) {
+        this.control?.setValue(this._value, { emitEvent: false });
+      } else {
+        this.onChange(this._value);
+      }
+
+      this.datepickerComponent.selectedDate = dateValue;
+    }
+
+    this.setInputElementValue(formattedDate || '');
+  }
 }

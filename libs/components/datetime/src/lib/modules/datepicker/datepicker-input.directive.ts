@@ -214,39 +214,11 @@ export class SkyDatepickerInputDirective
   }
 
   private set value(value: any) {
-    const dateValue = this.getDateValue(value);
-
-    const areDatesEqual =
-      this._value instanceof Date &&
-      dateValue &&
-      dateValue.getTime() === this._value.getTime();
-
-    const isValidDateString = this.isDateStringValid(value);
-
-    // If the string value supplied is malformed, do not set the value to its Date equivalent.
-    // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
-    if (!isValidDateString) {
-      this._value = value;
-      this.notifyUpdatedValue();
-    } else if (dateValue !== this._value || !areDatesEqual) {
-      this._value = dateValue || value;
-      this.notifyUpdatedValue();
-    }
-
-    if (dateValue && isValidDateString) {
-      const formattedDate = this.dateFormatter.format(
-        dateValue,
-        this.dateFormat
-      );
-      this.setInputElementValue(formattedDate);
-    } else {
-      this.setInputElementValue(value || '');
-    }
+    this.updateValue(value);
   }
 
   private control: AbstractControl;
   private dateFormatter = new SkyDateFormatter();
-  private isFirstChange = true;
   private initialPlaceholder: string;
   private preferredShortDateFormat: string;
   private ngUnsubscribe = new Subject<void>();
@@ -312,7 +284,6 @@ export class SkyDatepickerInputDirective
       .pipe(distinctUntilChanged())
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Date) => {
-        this.isFirstChange = false;
         this.value = value;
         this.onTouched();
       });
@@ -379,7 +350,7 @@ export class SkyDatepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    this.updateValue(value, true);
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -471,7 +442,6 @@ export class SkyDatepickerInputDirective
   }
 
   private onValueChange(newValue: string): void {
-    this.isFirstChange = false;
     this.value = newValue;
   }
 
@@ -524,17 +494,11 @@ export class SkyDatepickerInputDirective
   private onTouched = () => {};
   private onValidatorChange = () => {};
 
-  private notifyUpdatedValue(): void {
-    this.onChange(this._value);
-
-    // Do not mark the field as "dirty"
-    // if the field has been initialized with a value.
-    if (this.isFirstChange && this.control) {
-      this.control.markAsPristine();
-    }
-
-    if (this.isFirstChange && this._value) {
-      this.isFirstChange = false;
+  private notifyUpdatedValue(isProgramatic = false): void {
+    if (isProgramatic) {
+      this.control?.setValue(this._value, { emitEvent: false });
+    } else {
+      this.onChange(this._value);
     }
 
     this.datepickerComponent.selectedDate = this._value;
@@ -543,6 +507,41 @@ export class SkyDatepickerInputDirective
   private updatePlaceholder(): void {
     if (!this.initialPlaceholder) {
       this.adapter.setPlaceholder(this.elementRef, this.dateFormat);
+    }
+  }
+
+  private updateValue(value: any, isProgramatic = false): void {
+    if (this._value === value) {
+      return;
+    }
+
+    const dateValue = this.getDateValue(value);
+
+    const areDatesEqual =
+      this._value instanceof Date &&
+      dateValue &&
+      dateValue.getTime() === this._value.getTime();
+
+    const isValidDateString = this.isDateStringValid(value);
+
+    // If the string value supplied is malformed, do not set the value to its Date equivalent.
+    // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
+    if (!isValidDateString) {
+      this._value = value;
+      this.notifyUpdatedValue(isProgramatic);
+    } else if (dateValue !== this._value || !areDatesEqual) {
+      this._value = dateValue || value;
+      this.notifyUpdatedValue(isProgramatic);
+    }
+
+    if (dateValue && isValidDateString) {
+      const formattedDate = this.dateFormatter.format(
+        dateValue,
+        this.dateFormat
+      );
+      this.setInputElementValue(formattedDate);
+    } else {
+      this.setInputElementValue(value || '');
     }
   }
 }
