@@ -635,14 +635,14 @@ describe('File attachment', () => {
   });
 
   it('should emit fileClick even when the uploaded file link is clicked', () => {
-    const testFile: SkyFileItem = {
+    const testFile = {
       file: {
         name: 'test.png',
         size: 1000,
         type: 'image/png',
       },
       url: '$/myFile',
-    };
+    } as SkyFileItem;
 
     spyOn(fileAttachmentInstance.fileClick, 'emit');
 
