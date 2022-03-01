@@ -12,8 +12,19 @@ env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
 
 jobs:
+  rebase-pr:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: node ./scripts/rebase-pr.js
+
   install-deps:
     name: Install and cache dependencies
+    needs: rebase-pr
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
