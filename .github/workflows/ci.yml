@@ -12,19 +12,6 @@ env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
 
 jobs:
-  # rebase-pr:
-  #   if: github.event_name == 'pull_request'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
-  #         fetch-depth: 0
-  #     - uses: actions/setup-node@v2
-  #       with:
-  #         node-version: '14'
-  #     - run: node ./scripts/rebase-pr.js
-
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
@@ -146,6 +133,8 @@ jobs:
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
         with:
@@ -173,6 +162,8 @@ jobs:
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
         with:
