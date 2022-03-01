@@ -41,10 +41,7 @@ async function checkLibraryMissingPeers() {
     for (const fileName of files) {
       const contents = (await readFile(join(fileName))).toString();
 
-      const matches = contents.matchAll(
-        /import\s(?:{[^}]*}\sfrom\s+)?\'([^\n.]+)\'/g
-      );
-
+      const matches = contents.matchAll(/(?:import|from)\s+\'((?!\.).*)\'/g);
       for (const match of matches) {
         let foundPackage = match[1];
 
@@ -92,7 +89,7 @@ async function checkLibraryMissingPeers() {
               packageJson.peerDependencies = packageJson.peerDependencies || {};
               packageJson.peerDependencies[foundPackage] = version;
               console.log(
-                ` [fix] --> Added (${foundPackage}@${version}) as a peer dependency of '${projectName}'.`
+                ` [fix] --> Added ${foundPackage}@${version} as a peer dependency of '${projectName}'.`
               );
             }
           } else {
@@ -137,11 +134,13 @@ async function checkLibraryMissingPeers() {
       }
     }
 
-    packageJson.peerDependencies = sortObjectByKeys(
-      packageJson.peerDependencies
-    );
+    if (argv.fix) {
+      packageJson.peerDependencies = sortObjectByKeys(
+        packageJson.peerDependencies
+      );
 
-    await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+      await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+    }
   }
 
   if (errors.length > 0) {
