@@ -41,17 +41,23 @@ async function checkLibraryMissingPeers() {
     for (const fileName of files) {
       const contents = (await readFile(join(fileName))).toString();
 
-      const matches = contents.matchAll(/from\s+\'([^\n.]+)\'/g);
+      const matches = contents.matchAll(
+        /import\s(?:{[^}]*}\sfrom\s+)?\'([^\n.]+)\'/g
+      );
 
       for (const match of matches) {
         let foundPackage = match[1];
-        foundPackages.push(foundPackage);
 
         const fragments = foundPackage.split('/');
         if (fragments[0].startsWith('@')) {
           foundPackage = `${fragments[0]}/${fragments[1]}`;
         } else {
           foundPackage = fragments[0];
+        }
+
+        foundPackages.push(foundPackage);
+        if (foundPackage === 'ng2-dragula') {
+          foundPackages.push('dragula');
         }
 
         if (foundPackage === packageJson.name) {
@@ -108,12 +114,26 @@ async function checkLibraryMissingPeers() {
       }
 
       if (!foundPackages.includes(dependency)) {
-        errors.push(
-          `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code. Please remove the peer from '${join(
-            packageConfig.root,
-            'package.json'
-          )}'.`
-        );
+        if (argv.fix) {
+          if (packageJson.peerDependencies) {
+            delete packageJson.peerDependencies[dependency];
+          }
+
+          if (packageJson.dependencies) {
+            delete packageJson.dependencies[dependency];
+          }
+
+          console.log(
+            ` [fix] --> Removed ${dependency} as a peer dependency of '${projectName}' since it is not being used.`
+          );
+        } else {
+          errors.push(
+            `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code. Please remove the peer from '${join(
+              packageConfig.root,
+              'package.json'
+            )}'.`
+          );
+        }
       }
     }
 
