@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyActionButtonPermalink } from '@skyux/layout';
 
 @Component({

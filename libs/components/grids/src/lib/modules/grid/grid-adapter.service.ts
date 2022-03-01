@@ -1,8 +1,8 @@
 import {
+  ElementRef,
   Injectable,
   Renderer2,
   RendererFactory2,
-  ElementRef,
 } from '@angular/core';
 
 import { DragulaService } from 'ng2-dragula';

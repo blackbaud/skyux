@@ -11,11 +11,9 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyCheckboxComponent } from '../checkbox/checkbox.component';
-
 import { SkyRadioComponent } from '../radio/radio.component';
 
 import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';

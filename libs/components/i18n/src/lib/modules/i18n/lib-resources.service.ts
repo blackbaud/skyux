@@ -1,13 +1,16 @@
 // #region imports
+import { Inject, Injectable, Optional } from '@angular/core';
+
+import { Observable, forkJoin, of as observableOf } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { Format } from '../../utils/format';
+
 import { SkyLibResourcesProvider } from './lib-resources-provider';
 import { SKY_LIB_RESOURCES_PROVIDERS } from './lib-resources-providers-token';
 import { SkyAppLocaleInfo } from './locale-info';
 import { SkyAppLocaleProvider } from './locale-provider';
 import { SkyAppResourceNameProvider } from './resource-name-provider';
-import { Inject, Injectable, Optional } from '@angular/core';
-import { forkJoin, Observable, of as observableOf } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 // #endregion
 

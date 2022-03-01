@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyPopoverFixture } from './popover-fixture';
-
 import { SkyPopoverTestingModule } from './popover-testing.module';
 
 //#region Test component

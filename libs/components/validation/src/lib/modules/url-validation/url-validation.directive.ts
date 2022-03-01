@@ -1,6 +1,5 @@
 import { Directive, forwardRef } from '@angular/core';
-
-import { Validator, NG_VALIDATORS, AbstractControl } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 

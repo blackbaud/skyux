@@ -1,9 +1,7 @@
 import { ElementRef, EventEmitter, Injectable, OnDestroy } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
-import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
-
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
 /**

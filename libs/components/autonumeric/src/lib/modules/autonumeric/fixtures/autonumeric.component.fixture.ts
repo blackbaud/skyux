@@ -4,7 +4,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-
 import {
   AbstractControl,
   FormBuilder,
@@ -13,9 +12,8 @@ import {
   NgModel,
 } from '@angular/forms';
 
-import { SkyAutonumericDirective } from '../autonumeric.directive';
-
 import { SkyAutonumericOptions } from '../autonumeric-options';
+import { SkyAutonumericDirective } from '../autonumeric.directive';
 
 @Component({
   selector: 'sky-autonumeric-directive-test',

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { SkyUIConfigService } from '@skyux/core';
 
 import {

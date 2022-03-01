@@ -1,17 +1,13 @@
 import { DebugElement } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,19 +17,13 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
-
 import { sampleTime } from 'rxjs/operators';
 
 import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
-
 import { SkyColorpickerComponent } from './colorpicker.component';
-
 import { ColorpickerTestComponent } from './fixtures/colorpicker-component.fixture';
-
 import { SkyColorpickerFixturesModule } from './fixtures/colorpicker-fixtures.module';
-
 import { ColorpickerReactiveTestComponent } from './fixtures/colorpicker-reactive-component.fixture';
-
 import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
 
 describe('Colorpicker Component', () => {
@@ -147,9 +137,8 @@ describe('Colorpicker Component', () => {
   }
 
   function mouseHelper(x: number, y: number, event: string) {
-    const document = <HTMLDocument>(
-      nativeElement.parentNode.parentNode.parentNode
-    );
+    const document = nativeElement.parentNode.parentNode
+      .parentNode as HTMLDocument;
 
     try {
       // Deprecated browser API... IE
@@ -192,11 +181,11 @@ describe('Colorpicker Component', () => {
     fixture.whenStable();
     const inputElement: HTMLInputElement = element.querySelector('input');
     expect(inputElement.value).toBe(spaColor);
-    const selectedColor: HTMLDivElement = <HTMLDivElement>(
-      element.querySelector('.sky-colorpicker-input')
+    const selectedColor: HTMLDivElement = element.querySelector(
+      '.sky-colorpicker-input'
     );
     const browserCSS = selectedColor.style.backgroundColor
-      .replace(/[rgba\(\)]/g, '')
+      .replace(/[rgba()]/g, '')
       .split(',');
     // Some browsers convert RGBA to multiple points pass the decimal.
     const outcome = browserCSS.map((eachNumber) => {
@@ -297,7 +286,7 @@ describe('Colorpicker Component', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(ColorpickerTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
-      component = <ColorpickerTestComponent>fixture.componentInstance;
+      component = fixture.componentInstance;
       colorpickerComponent = component.colorpickerComponent;
       debugElement = fixture.debugElement;
     });

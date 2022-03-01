@@ -1,9 +1,6 @@
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
-
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 import { SkyPageSummaryFixturesModule } from './fixtures/page-summary-fixtures.module';

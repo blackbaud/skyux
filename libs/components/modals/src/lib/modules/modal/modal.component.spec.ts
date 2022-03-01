@@ -1,54 +1,35 @@
 import { ApplicationRef } from '@angular/core';
-
-import { fakeAsync, tick, TestBed } from '@angular/core/testing';
-
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
   MutationObserverService,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
 } from '@skyux/core';
-
 import {
   SkyTheme,
   SkyThemeMode,
-  SkyThemeSettings,
   SkyThemeService,
+  SkyThemeSettings,
 } from '@skyux/theme';
 
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyModalInstance } from './modal-instance';
-
-import { SkyModalService } from './modal.service';
-
-import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
-
-import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
-
-import { ModalTestComponent } from './fixtures/modal.component.fixture';
-
-import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
-
-import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
-
-import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
-
-import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
-
-import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
-
-import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
-
-import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
-
-import { ModalMockThemeService } from './fixtures/mock-theme.service';
-
 import { ModalMockMutationObserverService } from './fixtures/mock-modal-mutation-observer';
-
+import { ModalMockThemeService } from './fixtures/mock-theme.service';
+import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
+import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
+import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
+import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
+import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
+import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
+import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
+import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
+import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
+import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalInstance } from './modal-instance';
+import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
   let testModals: SkyModalInstance[];
@@ -433,7 +414,7 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).toExist();
 
-    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
 
     expect(document.querySelector('.sky-modal')).not.toExist();
 
@@ -444,7 +425,7 @@ describe('Modal component', () => {
     const instance = openModal(ModalWithCloseConfirmTestComponent);
     expect(document.querySelector('.sky-modal')).toExist();
 
-    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
     tick();
     getApplicationRef().tick();
     expect(document.querySelector('.sky-modal')).toExist();
@@ -479,10 +460,10 @@ describe('Modal component', () => {
     expect(document.querySelector('.sky-modal')).toExist();
 
     // Confirm the close
-    (<HTMLElement>document.querySelector('#toggle-btn')).click();
+    (document.querySelector('#toggle-btn') as HTMLElement).click();
     tick();
     getApplicationRef().tick();
-    (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
     tick();
     getApplicationRef().tick();
 
@@ -541,7 +522,9 @@ describe('Modal component', () => {
 
     expect(document.querySelector('.sky-modal')).toExist();
 
-    (<HTMLElement>document.querySelector('button[name="help-button"]')).click();
+    (
+      document.querySelector('button[name="help-button"]') as HTMLElement
+    ).click();
 
     expect(modalInstance.openHelp).toHaveBeenCalledWith('default.html');
 

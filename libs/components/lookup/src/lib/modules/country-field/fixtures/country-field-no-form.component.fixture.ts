@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
-
 import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({

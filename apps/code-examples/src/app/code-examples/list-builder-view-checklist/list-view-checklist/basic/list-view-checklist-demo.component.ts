@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { of } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 @Component({

@@ -1,17 +1,13 @@
+import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
   TestBed,
-  tick,
+  async,
   fakeAsync,
+  tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { DebugElement } from '@angular/core';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -24,16 +20,11 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyFileAttachmentComponent } from './file-attachment.component';
-
-import { SkyFileAttachmentChange } from './types/file-attachment-change';
-
 import { SkyFileItem } from './file-item';
-
 import { FileAttachmentTestComponent } from './fixtures/file-attachment.component.fixture';
-
 import { FileAttachmentTestModule } from './fixtures/file-attachment.module.fixture';
-
 import { TemplateDrivenFileAttachmentTestComponent } from './fixtures/template-driven-file-attachment.component.fixture';
+import { SkyFileAttachmentChange } from './types/file-attachment-change';
 
 function getInputDebugEl(fixture: ComponentFixture<any>): DebugElement {
   return fixture.debugElement.query(By.css('input'));
@@ -120,7 +111,7 @@ describe('File attachment', () => {
   }
 
   function testImage(extension: string): void {
-    const testFile = <SkyFileItem>{
+    const testFile = {
       file: {
         name: 'myFile.' + extension,
         type: 'image/' + extension,
@@ -139,7 +130,7 @@ describe('File attachment', () => {
   }
 
   function testNonImageType(extension: string, type: string): void {
-    const testFile = <SkyFileItem>{
+    const testFile = {
       file: {
         name: 'myFile.' + extension,
         type: type + '/' + extension,
@@ -356,14 +347,14 @@ describe('File attachment', () => {
 
   it('should have appropriate classes when file is required and initialized with file', fakeAsync(() => {
     fixture.componentInstance.required = true;
-    const testFile = <SkyFileItem>{
+    const testFile = {
       file: {
         name: 'myFile',
         type: '',
         size: 1,
       },
       url: '$/myFile',
-    };
+    } as SkyFileItem;
     fileAttachmentInstance.value = testFile;
     fileAttachmentInstance.ngAfterViewInit();
     tick();
@@ -573,7 +564,7 @@ describe('File attachment', () => {
 
   it('should show the appropriate file name', () => {
     // Regular file
-    let testFile = <SkyFileItem>{
+    let testFile = {
       file: {
         name: 'test.png',
         size: 1000,
@@ -587,7 +578,7 @@ describe('File attachment', () => {
     expect(getFileNameText()).toBe('test.png');
 
     // File with truncated name
-    testFile = <SkyFileItem>{
+    testFile = {
       file: {
         name: 'abcdefghijklmnopqrstuvwxyz12345.png',
         size: 1000,
@@ -608,7 +599,7 @@ describe('File attachment', () => {
     );
 
     // File with no name
-    testFile = <SkyFileItem>{
+    testFile = {
       file: {
         name: undefined,
         size: 1000,
@@ -629,7 +620,7 @@ describe('File attachment', () => {
     expect(fileAttachmentInstance.getFileName()).toBeUndefined();
 
     // File with no name and truncated url
-    testFile = <SkyFileItem>{
+    testFile = {
       file: {
         name: undefined,
         size: 1000,
@@ -644,14 +635,14 @@ describe('File attachment', () => {
   });
 
   it('should emit fileClick even when the uploaded file link is clicked', () => {
-    const testFile: SkyFileItem = <SkyFileItem>{
+    const testFile = {
       file: {
         name: 'test.png',
         size: 1000,
         type: 'image/png',
       },
       url: '$/myFile',
-    };
+    } as SkyFileItem;
 
     spyOn(fileAttachmentInstance.fileClick, 'emit');
 
@@ -1120,22 +1111,22 @@ describe('File attachment', () => {
     const imageEl = getImage();
     expect(imageEl).toBeFalsy();
 
-    fileAttachmentInstance.value = <SkyFileItem>{
+    fileAttachmentInstance.value = {
       file: undefined,
       url: '$/myFile',
-    };
+    } as SkyFileItem;
     fixture.detectChanges();
 
     expect(imageEl).toBeFalsy();
 
-    fileAttachmentInstance.value = <SkyFileItem>{
+    fileAttachmentInstance.value = {
       file: {
         name: 'myFile.png',
         type: undefined,
         size: 1000,
       },
       url: '$/myFile',
-    };
+    } as SkyFileItem;
     fixture.detectChanges();
 
     expect(imageEl).toBeFalsy();

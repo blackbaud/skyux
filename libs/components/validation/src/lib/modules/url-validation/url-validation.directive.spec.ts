@@ -1,13 +1,12 @@
 import {
-  async,
-  TestBed,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
@@ -51,7 +50,7 @@ describe('Url validation', () => {
     fixture = TestBed.createComponent(UrlValidationTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     const input = fixture.debugElement.query(By.css('input'));
-    ngModel = <NgModel>input.injector.get(NgModel);
+    ngModel = input.injector.get(NgModel);
     component = fixture.componentInstance;
   });
 

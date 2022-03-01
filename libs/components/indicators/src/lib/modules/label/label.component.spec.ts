@@ -1,9 +1,7 @@
-import { async, TestBed } from '@angular/core/testing';
-
+import { TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyLabelFixturesModule } from './fixtures/label-fixtures.module';
-
 import { LabelTestComponent } from './fixtures/label.component.fixture';
 
 describe('Label component', () => {

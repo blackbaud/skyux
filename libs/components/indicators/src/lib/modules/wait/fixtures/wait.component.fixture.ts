@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyWaitComponent } from '../wait.component';
-
 import { SkyWaitService } from '../wait.service';
 
 @Component({

@@ -1,14 +1,13 @@
 import {
   AfterViewInit,
   Component,
-  Input,
   ElementRef,
   Host,
   HostBinding,
   HostListener,
+  Input,
   ViewChild,
 } from '@angular/core';
-
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
@@ -16,14 +15,10 @@ import {
   SkyDockService,
 } from '@skyux/core';
 
-import { SkyModalHostService } from './modal-host.service';
-
-import { SkyModalConfiguration } from './modal-configuration';
-
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
-
+import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
-
 import { skyAnimationModalState } from './modal-state-animation';
 
 let skyModalUniqueIdentifier = 0;

@@ -3,15 +3,14 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -19,16 +18,13 @@ import {
   NG_VALUE_ACCESSOR,
   Validator,
 } from '@angular/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
+import moment from 'moment';
 import { Subscription } from 'rxjs';
 
 import { SkyTimepickerComponent } from './timepicker.component';
-
 import { SkyTimepickerTimeOutput } from './timepicker.interface';
-
-import moment from 'moment';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_TIMEPICKER_VALUE_ACCESSOR = {

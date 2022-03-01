@@ -2,13 +2,10 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { SkyToken } from '../types/token';
-
-import { SkyTokenSelectedEventArgs } from '../types/token-selected-event-args';
-
-import { SkyTokensMessage } from '../types/tokens-message';
-
 import { SkyTokensComponent } from '../tokens.component';
+import { SkyToken } from '../types/token';
+import { SkyTokenSelectedEventArgs } from '../types/token-selected-event-args';
+import { SkyTokensMessage } from '../types/tokens-message';
 
 @Component({
   selector: 'sky-tokens-test',

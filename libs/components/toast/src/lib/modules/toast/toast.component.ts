@@ -1,5 +1,4 @@
 import { AnimationEvent } from '@angular/animations';
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,18 +11,14 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-
-import { combineLatest, Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
 import { skyAnimationEmerge } from '@skyux/animations';
-
 import { SkyIconStackItem } from '@skyux/indicators';
 
-import { SkyToastType } from './types/toast-type';
+import { Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyToasterService } from './toaster.service';
+import { SkyToastType } from './types/toast-type';
 
 const AUTO_CLOSE_MILLISECONDS = 6000;
 

@@ -1,13 +1,11 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -19,22 +17,14 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkyProgressIndicatorProgressHandlerFixtureComponent } from './fixtures/progress-indicator-progress-handler.component.fixture';
-
 import { SkyProgressIndicatorFixtureComponent } from './fixtures/progress-indicator.component.fixture';
-
 import { SkyProgressIndicatorFixtureModule } from './fixtures/progress-indicator.module.fixture';
-
-import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
-
-import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
-
-import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
-
-import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
-
-import { SkyProgressIndicatorNavButtonType } from './types/progress-indicator-nav-button-type';
-
 import { SkyProgressIndicatorComponent } from './progress-indicator.component';
+import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
+import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
+import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
+import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
+import { SkyProgressIndicatorNavButtonType } from './types/progress-indicator-nav-button-type';
 
 describe('Progress indicator component', function () {
   let fixture: ComponentFixture<SkyProgressIndicatorFixtureComponent>;

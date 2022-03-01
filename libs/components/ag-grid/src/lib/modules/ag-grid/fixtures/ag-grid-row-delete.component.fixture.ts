@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { SkyAgGridService } from '../ag-grid.service';
-
 import {
   ColumnApi,
   GridApi,
@@ -9,16 +7,15 @@ import {
   GridReadyEvent,
 } from 'ag-grid-community';
 
+import { SkyAgGridService } from '../ag-grid.service';
+import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
+import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
+import { SkyCellType } from '../types/cell-type';
+
 import {
   SKY_AG_GRID_DATA,
   SKY_AG_GRID_LONG_DATA,
 } from './ag-grid-data.fixture';
-
-import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';
-
-import { SkyAgGridRowDeleteConfirmArgs } from '../types/ag-grid-row-delete-confirm-args';
-
-import { SkyCellType } from '../types/cell-type';
 
 @Component({
   selector: 'sky-ag-grid-row-delete-component-fixture',

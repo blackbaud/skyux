@@ -1,12 +1,9 @@
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
-import { MockModalService } from './fixtures/mocks';
-
-import { SkyErrorModalService } from './error-modal.service';
-
 import { ErrorModalConfig } from './error-modal-config';
-
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
+import { SkyErrorModalService } from './error-modal.service';
+import { MockModalService } from './fixtures/mocks';
 
 describe('Error modal service', () => {
   it('should open with correct parameters', () => {

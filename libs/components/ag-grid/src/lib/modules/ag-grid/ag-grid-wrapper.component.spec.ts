@@ -1,16 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import { Column, ColumnApi, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-
-import { SkyAgGridModule } from './ag-grid.module';
-
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
+import { SkyAgGridModule } from './ag-grid.module';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridAdapterService: SkyAgGridAdapterService;

@@ -1,19 +1,19 @@
 import {
+  ChangeDetectorRef,
   Component,
   Input,
-  ViewChild,
-  OnInit,
   OnDestroy,
-  ChangeDetectorRef,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
+
+import { SkyVerticalTabsetService } from '../vertical-tabset/vertical-tabset.service';
 
 import { SkyVerticalTabComponent } from './../vertical-tabset/vertical-tab.component';
 import { SkySectionedFormService } from './sectioned-form.service';
-import { SkyVerticalTabsetService } from '../vertical-tabset/vertical-tabset.service';
 
 let nextId = 0;
 

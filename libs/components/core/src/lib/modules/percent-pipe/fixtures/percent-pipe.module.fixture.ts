@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
 
 import { SkyPercentPipeModule } from '../percent-pipe.module';

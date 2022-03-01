@@ -1,10 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { FilterSummaryTestComponent } from './fixtures/filter-summary.component.fixture';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyFilterModule } from './filter.module';
+import { FilterSummaryTestComponent } from './fixtures/filter-summary.component.fixture';
 
 describe('Filter summary', () => {
   let fixture: ComponentFixture<FilterSummaryTestComponent>;

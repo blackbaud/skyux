@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyDefinitionListModule } from '@skyux/layout';
 
 import { DefinitionListDemoComponent } from './definition-list-demo.component';

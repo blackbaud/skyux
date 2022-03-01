@@ -1,13 +1,11 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -20,7 +18,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SortTestComponent } from './fixtures/sort.component.fixture';
-
 import { SkySortModule } from './sort.module';
 
 describe('Sort component', () => {

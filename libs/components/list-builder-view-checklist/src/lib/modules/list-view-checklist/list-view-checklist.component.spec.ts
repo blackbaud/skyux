@@ -1,54 +1,39 @@
+import { DebugElement } from '@angular/core';
 import {
+  ComponentFixture,
   TestBed,
   async,
-  ComponentFixture,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
-import { BehaviorSubject, Observable } from 'rxjs';
-
-import { skip, take } from 'rxjs/operators';
-
 import {
   ListItemsLoadAction,
   ListState,
   ListStateDispatcher,
-  ListViewsLoadAction,
   ListViewModel,
-  SkyListModule,
+  ListViewsLoadAction,
   SkyListComponent,
-  SkyListToolbarModule,
+  SkyListModule,
   SkyListPagingModule,
+  SkyListToolbarModule,
 } from '@skyux/list-builder';
+import { ListItemModel } from '@skyux/list-builder-common';
 
-import { ListViewChecklistTestComponent } from './fixtures/list-view-checklist.component.fixture';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { skip, take } from 'rxjs/operators';
 
 import { ListViewChecklistEmptyTestComponent } from './fixtures/list-view-checklist-empty.component.fixture';
-
-import { ListViewChecklistToolbarTestComponent } from './fixtures/list-view-checklist-toolbar.component.fixture';
-
-import { SkyListViewChecklistModule } from './list-view-checklist.module';
-
-import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
-
-import { ListViewChecklistItemModel } from './state/items/item.model';
-
-import { ChecklistState } from './state/checklist-state.state-node';
-
-import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
-
-import { ChecklistStateModel } from './state/checklist-state.model';
-
 import { ListViewChecklistPaginationTestComponent } from './fixtures/list-view-checklist-pagination.component.fixture';
+import { ListViewChecklistToolbarTestComponent } from './fixtures/list-view-checklist-toolbar.component.fixture';
+import { ListViewChecklistTestComponent } from './fixtures/list-view-checklist.component.fixture';
+import { SkyListViewChecklistModule } from './list-view-checklist.module';
+import { ChecklistStateModel } from './state/checklist-state.model';
+import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
+import { ChecklistState } from './state/checklist-state.state-node';
+import { ListViewChecklistItemModel } from './state/items/item.model';
+import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
 //#region helpers
 function getSingleSelectButtons(): NodeListOf<Element> {
@@ -190,7 +175,7 @@ describe('List View Checklist Component', () => {
       component: ListViewChecklistTestComponent,
       fixture: any,
       element: DebugElement,
-      items: Array<any>;
+      items: any[];
 
     beforeEach(async(() => {
       dispatcher = new ListStateDispatcher();
@@ -322,7 +307,7 @@ describe('List View Checklist Component', () => {
       dispatcher: ListStateDispatcher,
       component: ListViewChecklistEmptyTestComponent,
       fixture: any,
-      items: Array<any>,
+      items: any[],
       element: DebugElement;
 
     beforeEach(async(() => {
@@ -454,8 +439,8 @@ describe('List View Checklist Component', () => {
   describe('Checklist with toolbar', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       nativeElement: HTMLElement,
       component: ListViewChecklistToolbarTestComponent;
@@ -464,7 +449,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -521,11 +506,9 @@ describe('List View Checklist Component', () => {
     });
 
     it('should set selections on click properly', fakeAsync(() => {
-      let labelEl = <HTMLLabelElement>(
-        nativeElement.querySelectorAll(
-          '.sky-list-view-checklist label.sky-checkbox-wrapper'
-        )[0]
-      );
+      let labelEl = nativeElement.querySelectorAll(
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
+      )[0] as HTMLLabelElement;
 
       labelEl.click();
       tick();
@@ -533,11 +516,9 @@ describe('List View Checklist Component', () => {
 
       expect(component.selectedItems.get('1')).toBe(true);
 
-      labelEl = <HTMLLabelElement>(
-        nativeElement.querySelectorAll(
-          '.sky-list-view-checklist label.sky-checkbox-wrapper'
-        )[0]
-      );
+      labelEl = nativeElement.querySelectorAll(
+        '.sky-list-view-checklist label.sky-checkbox-wrapper'
+      )[0] as HTMLLabelElement;
       labelEl.click();
       tick();
       fixture.detectChanges();
@@ -801,8 +782,8 @@ describe('List View Checklist Component', () => {
   describe('Undefined select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -810,7 +791,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -850,8 +831,8 @@ describe('List View Checklist Component', () => {
   describe('Single select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -859,7 +840,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({
@@ -939,8 +920,8 @@ describe('List View Checklist Component', () => {
   describe('Multiple select mode', () => {
     let dispatcher: ListStateDispatcher,
       state: ListState,
-      bs: BehaviorSubject<Array<any>>,
-      items: Observable<Array<any>>,
+      bs: BehaviorSubject<any[]>,
+      items: Observable<any[]>,
       fixture: ComponentFixture<ListViewChecklistToolbarTestComponent>,
       component: ListViewChecklistToolbarTestComponent;
 
@@ -948,7 +929,7 @@ describe('List View Checklist Component', () => {
       dispatcher = new ListStateDispatcher();
       state = new ListState(dispatcher);
 
-      bs = new BehaviorSubject<Array<any>>(itemsArray);
+      bs = new BehaviorSubject<any[]>(itemsArray);
       items = bs.asObservable();
 
       TestBed.configureTestingModule({

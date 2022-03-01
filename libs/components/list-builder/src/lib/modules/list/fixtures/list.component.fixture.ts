@@ -1,11 +1,10 @@
-import { Component, ViewChild, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyListToolbarComponent } from '../../list-toolbar/list-toolbar.component';
-
-import { SkyListComponent } from '../list.component';
 import { ListViewComponent } from '../list-view.component';
+import { SkyListComponent } from '../list.component';
 
 @Component({
   selector: 'sky-test-cmp',

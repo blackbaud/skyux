@@ -1,10 +1,29 @@
 import {
-  combineLatest as observableCombineLatest,
-  Observable,
-  of as observableOf,
-  Subject,
-} from 'rxjs';
+  AfterContentInit,
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  QueryList,
+  SimpleChanges,
+} from '@angular/core';
+import { AsyncItem, getValue } from '@skyux/list-builder-common';
+import {
+  ListItemModel,
+  ListSortFieldSelectorModel,
+  isObservable,
+} from '@skyux/list-builder-common';
 
+import {
+  Observable,
+  Subject,
+  combineLatest as observableCombineLatest,
+  of as observableOf,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   flatMap,
@@ -14,66 +33,26 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChildren,
-  EventEmitter,
-  Input,
-  Output,
-  OnChanges,
-  OnDestroy,
-  QueryList,
-  SimpleChanges,
-} from '@angular/core';
-
-import { AsyncItem, getValue } from '@skyux/list-builder-common';
-
-import { ListItemsLoadAction } from './state/items/load.action';
-
-import { ListItemsSetLoadingAction } from './state/items/set-loading.action';
-
-import { ListSelectedLoadAction } from './state/selected/load.action';
-
-import { ListSelectedSetLoadingAction } from './state/selected/set-loading.action';
-
-import { ListSelectedModel } from './state/selected/selected.model';
-
-import { ListSortModel } from './state/sort/sort.model';
-
-import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
-
+import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
 import { ListFilterModel } from '../list-filters/filter.model';
 
 import { ListDataRequestModel } from './list-data-request.model';
-
 import { ListDataResponseModel } from './list-data-response.model';
-
 import { ListDataProvider } from './list-data.provider';
-
-import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
-
-import { ListState } from './state/list-state.state-node';
-
-import { ListStateDispatcher } from './state/list-state.rxstate';
-
-import {
-  isObservable,
-  ListItemModel,
-  ListSortFieldSelectorModel,
-} from '@skyux/list-builder-common';
-
 import { ListViewComponent } from './list-view.component';
-
+import { ListItemsLoadAction } from './state/items/load.action';
+import { ListItemsSetLoadingAction } from './state/items/set-loading.action';
+import { ListStateDispatcher } from './state/list-state.rxstate';
+import { ListState } from './state/list-state.state-node';
 import { ListPagingSetPageNumberAction } from './state/paging/set-page-number.action';
-
 import { ListSearchModel } from './state/search/search.model';
-
+import { ListSelectedLoadAction } from './state/selected/load.action';
+import { ListSelectedModel } from './state/selected/selected.model';
+import { ListSelectedSetLoadingAction } from './state/selected/set-loading.action';
+import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
+import { ListSortModel } from './state/sort/sort.model';
 import { ListViewsLoadAction } from './state/views/load.action';
-
 import { ListViewsSetActiveAction } from './state/views/set-active.action';
-
 import { ListViewModel } from './state/views/view.model';
 
 let idIndex = 0;

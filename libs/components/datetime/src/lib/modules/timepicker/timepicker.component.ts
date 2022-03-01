@@ -12,27 +12,22 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent, Subject, Subscription } from 'rxjs';
-
+import moment from 'moment';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTimepickerTimeOutput } from './timepicker.interface';
-
-import moment from 'moment';
 
 let nextId = 0;
 

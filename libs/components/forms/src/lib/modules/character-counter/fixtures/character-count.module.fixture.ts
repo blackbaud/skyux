@@ -1,14 +1,11 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
-
-import { NgModule } from '@angular/core';
-
-import { CharacterCountTestComponent } from './character-count.component.fixture';
+import { SkyCharacterCounterModule } from '../character-counter.module';
 
 import { CharacterCountNoIndicatorTestComponent } from './character-count-no-indicator.component.fixture';
-
-import { SkyCharacterCounterModule } from '../character-counter.module';
+import { CharacterCountTestComponent } from './character-count.component.fixture';
 
 @NgModule({
   declarations: [

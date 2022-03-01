@@ -1,49 +1,31 @@
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppWindowRef, SkyUIConfigService } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
-
 import { of as observableOf, throwError as observableThrowError } from 'rxjs';
 
 import { GridAsyncTestComponent } from './fixtures/grid-async.component.fixture';
-
 import { GridDynamicTestComponent } from './fixtures/grid-dynamic.component.fixture';
-
 import { GridEmptyTestComponent } from './fixtures/grid-empty.component.fixture';
-
 import { GridFixturesModule } from './fixtures/grid-fixtures.module';
-
 import { GridInteractiveTestComponent } from './fixtures/grid-interactive.component.fixture';
-
 import { GridNoHeaderTestComponent } from './fixtures/grid-no-header.component.fixture';
-
 import { GridUndefinedTestComponent } from './fixtures/grid-undefined.component.fixture';
-
 import { GridTestComponent } from './fixtures/grid.component.fixture';
-
 import { MockDragulaService } from './fixtures/mock-dragula.service';
-
 import { SkyGridColumnModel } from './grid-column.model';
-
 import { SkyGridComponent } from './grid.component';
-
 import { SkyGridMessage } from './types/grid-message';
-
 import { SkyGridMessageType } from './types/grid-message-type';
-
 import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
-
 import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
 
 //#region helpers
@@ -78,7 +60,7 @@ function getElementCords(elementRef: any): any {
 }
 
 function getColumnWidths(fixture: ComponentFixture<any>): number[] {
-  const expectedColumnWidths = new Array<number>();
+  const expectedColumnWidths: number[] = [];
   const tableHeaders = fixture.debugElement.queryAll(
     By.css('.sky-grid-heading')
   );
@@ -105,7 +87,7 @@ function getColumnResizeInputMaxValues(
   fixture: ComponentFixture<any>
 ): number[] {
   const resizeInputs = getColumnRangeInputs(fixture);
-  const maxValues = new Array<number>();
+  const maxValues: number[] = [];
 
   resizeInputs.forEach((input) => {
     maxValues.push(input.nativeElement.max);
@@ -1315,9 +1297,11 @@ describe('Grid Component', () => {
           document.querySelectorAll('.sky-inline-delete-standard').length
         ).toBe(1);
 
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete .sky-btn-default'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1348,9 +1332,11 @@ describe('Grid Component', () => {
           ).length
         ).toBe(0);
 
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1393,9 +1379,11 @@ describe('Grid Component', () => {
         expect(
           fixture.componentInstance.finishRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1422,11 +1410,11 @@ describe('Grid Component', () => {
         expect(
           fixture.componentInstance.cancelRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
+        (
           document.querySelectorAll(
             '.sky-inline-delete-standard .sky-btn-default'
-          )[0]
-        )).click();
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         expect(fixture.componentInstance.cancelRowDelete).toHaveBeenCalledWith({
@@ -1471,7 +1459,7 @@ describe('Grid Component', () => {
         fixture.detectChanges();
         columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
         for (let i = 0; i < columns.length; i++) {
-          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(
+          expect((columns[i] as HTMLElement).offsetWidth).toEqual(
             columnWidths[i]
           );
         }
@@ -1495,7 +1483,7 @@ describe('Grid Component', () => {
         fixture.detectChanges();
         columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
         for (let i = 0; i < columns.length; i++) {
-          expect((<HTMLElement>columns[i]).offsetWidth).toEqual(
+          expect((columns[i] as HTMLElement).offsetWidth).toEqual(
             columnWidths[i]
           );
         }

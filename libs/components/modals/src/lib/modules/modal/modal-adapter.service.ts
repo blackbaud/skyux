@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 /**
@@ -35,7 +34,7 @@ export class SkyModalAdapterService {
   }
 
   public getModalOpener(): HTMLElement {
-    return <HTMLElement>this.docRef.activeElement;
+    return this.docRef.activeElement;
   }
 
   private addClassToBody(className: string): void {

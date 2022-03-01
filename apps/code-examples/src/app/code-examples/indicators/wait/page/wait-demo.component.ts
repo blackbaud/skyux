@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyWaitService } from '@skyux/indicators';
 
 @Component({

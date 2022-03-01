@@ -1,12 +1,10 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -17,15 +15,11 @@ import {
 
 import { BehaviorSubject, of } from 'rxjs';
 
-import { SkyDescriptionListTestComponent } from './fixtures/description-list.component.fixture';
-
-import { SkyDescriptionListFixturesModule } from './fixtures/description-list-fixtures.module';
-
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
-
 import { SkyDescriptionListComponent } from './description-list.component';
-
 import { SkyDescriptionListService } from './description-list.service';
+import { SkyDescriptionListFixturesModule } from './fixtures/description-list-fixtures.module';
+import { SkyDescriptionListTestComponent } from './fixtures/description-list.component.fixture';
 
 class MockAdapter {
   public getWidth() {}

@@ -6,8 +6,7 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { MutationObserverService } from '../mutation/mutation-observer-service';

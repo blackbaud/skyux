@@ -11,11 +11,8 @@ import {
 } from '@angular/core';
 
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
-
 import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
-
 import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
-
 import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 /**

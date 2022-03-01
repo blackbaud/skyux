@@ -1,6 +1,6 @@
 import {
-  Component,
   AfterContentInit,
+  Component,
   ContentChildren,
   QueryList,
 } from '@angular/core';

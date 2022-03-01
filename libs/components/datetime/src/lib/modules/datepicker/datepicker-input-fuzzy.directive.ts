@@ -4,38 +4,31 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator,
   ValidationErrors,
+  Validator,
 } from '@angular/forms';
-
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
-
 import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDatepickerComponent } from './datepicker.component';
-
 import { SkyFuzzyDate } from './fuzzy-date';
-
 import { SkyFuzzyDateService } from './fuzzy-date.service';
 
 // tslint:disable:no-forward-ref no-use-before-declare

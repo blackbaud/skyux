@@ -1,10 +1,9 @@
-import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
 import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
+import { SkyTabsetNavButtonComponent } from './tabset-nav-button.component';
 
 describe('Tabset navigation button', () => {
   function getBtn(selector: string): HTMLButtonElement {

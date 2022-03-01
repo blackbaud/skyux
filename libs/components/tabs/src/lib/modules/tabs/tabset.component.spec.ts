@@ -1,19 +1,14 @@
 import { Location } from '@angular/common';
-
+import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -22,29 +17,19 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyTabsetAdapterService } from './tabset-adapter.service';
-
-import { SkyTabsetComponent } from './tabset.component';
-
-import { SkyTabsetService } from './tabset.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
-
-import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
-
-import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
-
 import { TabsetActiveTwoWayBindingTestComponent } from './fixtures/tabset-active-two-way.component.fixture';
-
+import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
 import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
-
 import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixture';
-
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
-
+import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
+import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
+import { SkyTabsetComponent } from './tabset.component';
+import { SkyTabsetService } from './tabset.service';
 
 // #region helpers
 function getTabs(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {

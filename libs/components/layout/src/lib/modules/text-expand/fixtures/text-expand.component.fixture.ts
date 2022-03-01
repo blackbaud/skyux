@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyTextExpandComponent } from '../text-expand.component';
 
 @Component({

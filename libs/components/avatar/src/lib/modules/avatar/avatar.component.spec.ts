@@ -1,18 +1,12 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { BehaviorSubject } from 'rxjs';
-
-import { expect, SkyMatchers } from '@skyux-sdk/testing';
-
-import { SkyErrorModalService, ErrorModalConfig } from '@skyux/errors';
-
-import { SkyFileItem, SkyFileDropChange } from '@skyux/forms';
-
+import { SkyMatchers, expect } from '@skyux-sdk/testing';
+import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
+import { SkyFileDropChange, SkyFileItem } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,15 +15,13 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { AvatarTestComponent } from './fixtures/avatar.component.fixture';
-
-import { SkyAvatarFixturesModule } from './fixtures/avatar-fixtures.module';
-
-import { MockErrorModalService } from './fixtures/mock-error-modal.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyAvatarSize } from './avatar-size';
-
 import { SkyAvatarComponent } from './avatar.component';
+import { SkyAvatarFixturesModule } from './fixtures/avatar-fixtures.module';
+import { AvatarTestComponent } from './fixtures/avatar.component.fixture';
+import { MockErrorModalService } from './fixtures/mock-error-modal.service';
 
 describe('Avatar component', () => {
   let mockThemeSvc: {
@@ -175,7 +167,7 @@ describe('Avatar component', () => {
 
     const el = fixture.nativeElement;
 
-    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).not.toBeNull();
     expect(screenReaderEl.textContent.trim()).toBe(
       'Profile picture of Robert Hernandez'
@@ -212,7 +204,7 @@ describe('Avatar component', () => {
 
     const el = fixture.nativeElement;
 
-    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).toBeNull();
   });
 
@@ -304,19 +296,19 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    const actualFile = <SkyFileItem>{
-      file: <File>{
+    const actualFile = {
+      file: {
         name: 'foo.png',
         type: 'image/png',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
     instance.canChange = true;
     instance.avatarChanged.subscribe(
       (newFile: SkyFileItem) => (expectedFile = newFile)
     );
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [actualFile],
       rejectedFiles: [],
     });
@@ -329,23 +321,23 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    const actualFile = <SkyFileItem>{
-      file: <File>{
+    const actualFile = {
+      file: {
         name: 'foo.png',
         type: 'image/png',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
 
     instance.canChange = true;
     instance.avatarChanged.subscribe(
       (newFile: SkyFileItem) => (expectedFile = newFile)
     );
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [actualFile],
-    });
+    } as SkyFileDropChange);
 
     fixture.detectChanges();
     expect(expectedFile).not.toEqual(actualFile);
@@ -355,8 +347,8 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
 
-    const badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -366,10 +358,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is not an image.',
@@ -384,8 +376,8 @@ describe('Avatar component', () => {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
 
-    const badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -395,10 +387,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
@@ -415,8 +407,8 @@ describe('Avatar component', () => {
 
     fixture.componentInstance.maxFileSize = 5000000;
 
-    const badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -426,10 +418,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',

@@ -8,20 +8,15 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyPopoverAlignment } from './types/popover-alignment';
-
-import { SkyPopoverPlacement } from './types/popover-placement';
-
 import { SkyPopoverContentComponent } from './popover-content.component';
-
 import { SkyPopoverContext } from './popover-context';
+import { SkyPopoverAlignment } from './types/popover-alignment';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
 @Component({
   selector: 'sky-popover',

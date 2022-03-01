@@ -1,5 +1,4 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-
 import { SkyCheckboxChange } from '@skyux/forms';
 
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';

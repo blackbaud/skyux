@@ -4,9 +4,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 import { SkyFlyoutCloseArgs } from './types/flyout-close-args';
-
 import { SkyFlyoutMessage } from './types/flyout-message';
-
 import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 /**

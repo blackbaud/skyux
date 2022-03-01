@@ -19,7 +19,6 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
   SkyAffixService,
@@ -27,23 +26,20 @@ import {
   SkyOverlayService,
   SkyUIConfigService,
 } from '@skyux/core';
-
 import {
   ListItemModel,
   ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
 import { DragulaService } from 'ng2-dragula';
-
 import {
   BehaviorSubject,
-  fromEvent,
-  merge,
   Observable,
   Subject,
   Subscription,
+  fromEvent,
+  merge,
 } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map,
@@ -53,35 +49,20 @@ import {
 } from 'rxjs/operators';
 
 import { SkyGridAdapterService } from './grid-adapter.service';
-
 import { SkyGridColumnComponent } from './grid-column.component';
-
 import { SkyGridColumnModel } from './grid-column.model';
-
 import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
-
 import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
-
 import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
-
 import { SkyGridColumnWidthModelChange } from './types/grid-column-width-model-change';
-
 import { SkyGridMessage } from './types/grid-message';
-
 import { SkyGridMessageType } from './types/grid-message-type';
-
 import { SkyGridRowDeleteCancelArgs } from './types/grid-row-delete-cancel-args';
-
 import { SkyGridRowDeleteConfig } from './types/grid-row-delete-config';
-
 import { SkyGridRowDeleteConfirmArgs } from './types/grid-row-delete-confirm-args';
-
 import { SkyGridRowDeleteContents } from './types/grid-row-delete-contents';
-
 import { SkyGridSelectedRowsModelChange } from './types/grid-selected-rows-model-change';
-
 import { SkyGridSelectedRowsSource } from './types/grid-selected-rows-source';
-
 import { SkyGridUIConfig } from './types/grid-ui-config';
 
 let nextId = 0;

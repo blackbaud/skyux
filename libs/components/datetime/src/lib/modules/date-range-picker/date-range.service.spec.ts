@@ -1,15 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
-
-import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-import { SkyDateRangeCalculator } from './types/date-range-calculator';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 import { SkyDateRangeService } from './date-range.service';
-import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+import { SkyDateRangeCalculator } from './types/date-range-calculator';
+import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
+import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 
 describe('Date range service', function () {
   let service: SkyDateRangeService;

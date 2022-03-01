@@ -1,5 +1,4 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,18 +12,13 @@ import {
 } from '@angular/core';
 
 import { Subject, Subscription } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyToken } from './types/token';
-
-import { SkyTokensMessage } from './types/tokens-message';
-
-import { SkyTokensMessageType } from './types/tokens-message-type';
-
-import { SkyTokenSelectedEventArgs } from './types/token-selected-event-args';
-
 import { SkyTokenComponent } from './token.component';
+import { SkyToken } from './types/token';
+import { SkyTokenSelectedEventArgs } from './types/token-selected-event-args';
+import { SkyTokensMessage } from './types/tokens-message';
+import { SkyTokensMessageType } from './types/tokens-message-type';
 
 @Component({
   selector: 'sky-tokens',

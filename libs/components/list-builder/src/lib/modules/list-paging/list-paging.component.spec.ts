@@ -1,27 +1,21 @@
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AsyncList, ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
+import { ListItemsLoadAction } from '../list/state/items/load.action';
 import { ListStateModel } from '../list/state/list-state.model';
-
-import { SkyListPagingModule } from './list-paging.module';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListPagingSetItemsPerPageAction } from '../list/state/paging/set-items-per-page.action';
+import { ListPagingSetMaxPagesAction } from '../list/state/paging/set-max-pages.action';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
 import { ListPagingTestComponent } from './fixtures/list-paging.component.fixture';
-import { ListItemsLoadAction } from '../list/state/items/load.action';
-import { ListPagingSetItemsPerPageAction } from '../list/state/paging/set-items-per-page.action';
-
-import { ListPagingSetMaxPagesAction } from '../list/state/paging/set-max-pages.action';
-
-import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkyListPagingModule } from './list-paging.module';
 
 describe('List Paging Component', () => {
   let state: ListState,

@@ -1,9 +1,10 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
+
 import { ListSearchModel } from './search.model';
-import { ListSearchSetSearchTextAction } from './set-search-text.action';
-import { ListSearchSetFunctionsAction } from './set-functions.action';
 import { ListSearchSetFieldSelectorsAction } from './set-field-selectors.action';
+import { ListSearchSetFunctionsAction } from './set-functions.action';
 import { ListSearchSetOptionsAction } from './set-options.action';
+import { ListSearchSetSearchTextAction } from './set-search-text.action';
 
 /**
  * @internal

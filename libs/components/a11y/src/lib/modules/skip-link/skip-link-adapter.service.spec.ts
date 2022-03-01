@@ -1,7 +1,5 @@
 import { ElementRef } from '@angular/core';
-
 import { TestBed } from '@angular/core/testing';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyA11yForRootCompatModule } from '../shared/a11y-for-root-compat.module';

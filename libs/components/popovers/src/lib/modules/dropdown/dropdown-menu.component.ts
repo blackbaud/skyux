@@ -14,18 +14,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDropdownComponent } from './dropdown.component';
-
 import { SkyDropdownItemComponent } from './dropdown-item.component';
-
+import { SkyDropdownComponent } from './dropdown.component';
 import { SkyDropdownMenuChange } from './types/dropdown-menu-change';
-
 import { SkyDropdownMessage } from './types/dropdown-message';
-
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 let nextId = 0;

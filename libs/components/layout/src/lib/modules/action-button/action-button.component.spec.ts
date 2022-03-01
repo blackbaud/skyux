@@ -1,25 +1,19 @@
 import { DebugElement } from '@angular/core';
-
 import {
-  TestBed,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   tick,
-  async,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -30,13 +24,10 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { ActionButtonTestComponent } from './fixtures/action-button.component.fixture';
-
-import { SkyActionButtonFixturesModule } from './fixtures/action-button.module.fixture';
-
-import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
-
 import { SkyActionButtonComponent } from './action-button.component';
+import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
+import { ActionButtonTestComponent } from './fixtures/action-button.component.fixture';
+import { SkyActionButtonFixturesModule } from './fixtures/action-button.module.fixture';
 
 //#region helpers
 function getFlexParent(fixture: ComponentFixture<any>): HTMLElement {

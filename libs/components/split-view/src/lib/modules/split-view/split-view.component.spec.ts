@@ -1,23 +1,16 @@
 import { DebugElement, Renderer2, RendererFactory2 } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -29,13 +22,9 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SplitViewFixturesModule } from './fixtures/split-view-fixtures.module';
-
 import { SplitViewFixtureComponent } from './fixtures/split-view.fixture';
-
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
-
 import { SkySplitViewMessage } from './types/split-view-message';
-
 import { SkySplitViewMessageType } from './types/split-view-message-type';
 
 let mockQueryService: MockSkyMediaQueryService;

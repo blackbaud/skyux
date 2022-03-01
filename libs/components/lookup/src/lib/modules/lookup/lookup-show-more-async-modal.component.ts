@@ -5,12 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyAutocompleteSearchAsyncResult } from '../autocomplete/types/autocomplete-search-async-result';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import { SkyAutocompleteSearchAsyncResult } from '../autocomplete/types/autocomplete-search-async-result';
 
 import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
 

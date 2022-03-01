@@ -4,33 +4,24 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   Input,
-  Output,
   OnDestroy,
+  Output,
+  forwardRef,
 } from '@angular/core';
-
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
-
 import { SkyToken } from '@skyux/indicators';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { Observable, of as observableOf } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
-import { SkySelectField } from './types/select-field';
-
-import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
-
-import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
-
 import { SkySelectFieldPickerContext } from './select-field-picker-context';
-
 import { SkySelectFieldPickerComponent } from './select-field-picker.component';
+import { SkySelectField } from './types/select-field';
+import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
+import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 @Component({
   selector: 'sky-select-field',

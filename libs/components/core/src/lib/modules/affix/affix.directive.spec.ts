@@ -1,18 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { AffixFixtureComponent } from './fixtures/affix.component.fixture';
-
-import { AffixFixturesModule } from './fixtures/affix.module.fixture';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
-
 import { SkyAffixConfig } from './affix-config';
-
 import { SkyAffixOffset } from './affix-offset';
-
 import { SkyAffixer } from './affixer';
+import { AffixFixtureComponent } from './fixtures/affix.component.fixture';
+import { AffixFixturesModule } from './fixtures/affix.module.fixture';
 
 describe('Affix directive', () => {
   const expectedOffsets = {

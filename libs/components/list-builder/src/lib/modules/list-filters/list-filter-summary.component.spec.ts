@@ -1,21 +1,16 @@
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListFilterModel } from './filter.model';
-
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListFilterSummaryTestComponent } from './fixtures/list-filter-summary.component.fixture';
-
 import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
 
+import { ListFilterModel } from './filter.model';
+import { ListFilterSummaryTestComponent } from './fixtures/list-filter-summary.component.fixture';
 import { SkyListFiltersModule } from './list-filters.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List filter summary', () => {
   let state: ListState,

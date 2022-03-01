@@ -1,19 +1,10 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-
 import { DebugElement } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { BehaviorSubject } from 'rxjs';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -22,11 +13,11 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { SkySearchModule } from './search.module';
-
-import { SkySearchComponent } from './search.component';
+import { BehaviorSubject } from 'rxjs';
 
 import { SearchTestComponent } from './fixtures/search.component.fixture';
+import { SkySearchComponent } from './search.component';
+import { SkySearchModule } from './search.module';
 
 describe('Search component', () => {
   let fixture: ComponentFixture<SearchTestComponent>;

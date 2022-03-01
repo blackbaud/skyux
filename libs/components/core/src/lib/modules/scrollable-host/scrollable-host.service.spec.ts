@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.component.fixture';
-import { delay, take, takeUntil } from 'rxjs/operators';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+
 import { Subject, Subscription } from 'rxjs';
+import { delay, take, takeUntil } from 'rxjs/operators';
+
+import { MutationObserverService } from '../mutation/mutation-observer-service';
+
+import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.component.fixture';
 import { SkyScrollableHostService } from './scrollable-host.service';
 
 describe('Scrollable host service', () => {

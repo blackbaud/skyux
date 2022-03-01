@@ -1,13 +1,12 @@
 import {
-  animate,
   AnimationEvent,
+  animate,
   group,
   query,
   style,
   transition,
   trigger,
 } from '@angular/animations';
-
 import {
   ChangeDetectorRef,
   Component,
@@ -19,11 +18,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
 import { SkyCoreAdapterService } from '@skyux/core';
 
 import { SkyInlineDeleteAdapterService } from './inline-delete-adapter.service';
-
 import { SkyInlineDeleteType } from './inline-delete-type';
 
 /**

@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
-
 import { SkyLabelModule } from '@skyux/indicators';
 
 import { LabelDemoComponent } from './label-demo.component';

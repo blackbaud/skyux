@@ -3,11 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
+
 import { ICellRendererAngularComp } from 'ag-grid-angular';
+
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 import {
-  applySkyLookupPropertiesDefaults,
   SkyLookupProperties,
+  applySkyLookupPropertiesDefaults,
 } from '../../types/lookup-properties';
 
 @Component({

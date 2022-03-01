@@ -1,11 +1,7 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyBackToTopModule } from '@skyux/layout';
-
 import { SkyInfiniteScrollModule, SkyRepeaterModule } from '@skyux/lists';
-
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { BackToTopDemoComponent } from './back-to-top-demo.component';

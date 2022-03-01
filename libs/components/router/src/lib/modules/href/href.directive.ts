@@ -12,7 +12,6 @@ import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 
 import { SkyHrefQueryParams } from './href-query-params';
 import { SkyHrefResolverService } from './href-resolver.service';
-
 import { SkyHref } from './types/href';
 
 type HrefChanges = { href: string; hidden: boolean };

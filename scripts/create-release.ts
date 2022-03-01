@@ -1,7 +1,9 @@
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
-import standardVersion from 'standard-version';
 import { outside as semverOutside, parse as semverParse } from 'semver';
+import standardVersion from 'standard-version';
+
+import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
 import {
   checkoutNewBranch,
   fetchAll,
@@ -10,7 +12,6 @@ import {
 } from './utils/git-utils';
 import { checkVersionExists } from './utils/npm-utils';
 import { getCommandOutput, runCommand } from './utils/spawn';
-import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
 
 /**
  * Determines if a version is a prerelease.

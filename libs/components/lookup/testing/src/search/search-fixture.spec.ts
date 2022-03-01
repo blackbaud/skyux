@@ -1,12 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
-import { SkySearchTestingModule } from './search-testing.module';
+import { TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkySearchFixture } from './search-fixture';
-
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SkySearchTestingModule } from './search-testing.module';
 
 //#region Test component
 @Component({

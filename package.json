@@ -16,7 +16,7 @@
     "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
     "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
-    "dev:format": "prettier --write ."
+    "dev:format": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -72,6 +72,7 @@
     "@nrwl/nx-cloud": "13.1.5",
     "@nrwl/tao": "12.10.1",
     "@nrwl/workspace": "12.10.1",
+    "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/cross-spawn": "6.0.2",
     "@types/fontfaceobserver": "2.1.0",
     "@types/fs-extra": "9.0.13",

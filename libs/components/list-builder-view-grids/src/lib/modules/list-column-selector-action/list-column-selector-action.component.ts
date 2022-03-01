@@ -8,9 +8,16 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { SkyGridColumnModel } from '@skyux/grids';
+import {
+  ListState,
+  ListStateDispatcher,
+  ListToolbarItemModel,
+  SkyListSecondaryActionsComponent,
+} from '@skyux/list-builder';
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { Observable } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -18,28 +25,13 @@ import {
 } from 'rxjs/operators';
 
 import {
-  ListState,
-  ListStateDispatcher,
-  ListToolbarItemModel,
-  SkyListSecondaryActionsComponent,
-} from '@skyux/list-builder';
-
-import { SkyGridColumnModel } from '@skyux/grids';
-
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
-
-import { SkyListViewGridComponent } from '../list-view-grid/list-view-grid.component';
-
-import { GridStateModel } from '../list-view-grid/state/grid-state.model';
-
-import { ListViewDisplayedGridColumnsLoadAction } from '../list-view-grid/state/displayed-columns/load.action';
-
-import {
   SkyColumnSelectorContext,
   SkyColumnSelectorModel,
 } from '../column-selector/column-selector-context';
-
 import { SkyColumnSelectorComponent } from '../column-selector/column-selector-modal.component';
+import { SkyListViewGridComponent } from '../list-view-grid/list-view-grid.component';
+import { ListViewDisplayedGridColumnsLoadAction } from '../list-view-grid/state/displayed-columns/load.action';
+import { GridStateModel } from '../list-view-grid/state/grid-state.model';
 
 /**
  * Provides a column selector modal for a list grid view when placed in a

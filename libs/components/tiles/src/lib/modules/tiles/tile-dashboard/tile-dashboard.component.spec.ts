@@ -1,13 +1,8 @@
 import { QueryList } from '@angular/core';
-
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { SkyUIConfigService } from '@skyux/core';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
+import { SkyUIConfigService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -19,27 +14,17 @@ import {
 import { BehaviorSubject, of } from 'rxjs';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
-
-import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
-
-import { MockTileDashboardService } from './fixtures/mock-tile-dashboard.service';
-
-import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
-
-import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
-
-import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
-
-import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
-
-import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
-
-import { TileTestContext } from './fixtures/tile-context.fixture';
-
-import { SkyTileDashboardComponent } from './tile-dashboard.component';
-
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
 
+import { MockTileDashboardService } from './fixtures/mock-tile-dashboard.service';
+import { MockSkyUIConfigService } from './fixtures/mock-ui-config.service';
+import { Tile1TestComponent } from './fixtures/tile1.component.fixture';
+import { Tile2TestComponent } from './fixtures/tile2.component.fixture';
+import { TileTestContext } from './fixtures/tile-context.fixture';
+import { SkyTileDashboardFixturesModule } from './fixtures/tile-dashboard-fixtures.module';
+import { TileDashboardOnPushTestComponent } from './fixtures/tile-dashboard-on-push.component.fixture';
+import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.fixture';
+import { SkyTileDashboardComponent } from './tile-dashboard.component';
 import { SkyTileDashboardService } from './tile-dashboard.service';
 
 describe('Tile dashboard component', () => {

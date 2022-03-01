@@ -1,17 +1,14 @@
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListFilterButtonTestComponent } from './fixtures/list-filter-button.component.fixture';
-
 import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
 
+import { ListFilterButtonTestComponent } from './fixtures/list-filter-button.component.fixture';
 import { SkyListFiltersModule } from './list-filters.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List filter button', () => {
   let state: ListState,

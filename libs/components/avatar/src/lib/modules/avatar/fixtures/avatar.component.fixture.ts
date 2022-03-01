@@ -1,10 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { SkyAvatarComponent } from '../avatar.component';
-
 import { SkyAvatarSize } from '../avatar-size';
-
 import { SkyAvatarSrc } from '../avatar-src';
+import { SkyAvatarComponent } from '../avatar.component';
 
 @Component({
   selector: 'sky-test-cmp',

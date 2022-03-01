@@ -3,33 +3,28 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
 
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import { BehaviorSubject, Subject } from 'rxjs';
-
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
-
-import { SkyPhoneFieldComponent } from './phone-field.component';
-
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
-
+import { SkyPhoneFieldComponent } from './phone-field.component';
 import { SkyPhoneFieldCountry } from './types/country';
 
 // tslint:disable:no-forward-ref no-use-before-declare

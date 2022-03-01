@@ -1,52 +1,37 @@
+import { DebugElement } from '@angular/core';
 import {
+  ComponentFixture,
   TestBed,
   async,
   fakeAsync,
   flush,
   tick,
-  ComponentFixture,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyGridColumnModel, SkyGridComponent } from '@skyux/grids';
-
 import {
+  ListItemsLoadAction,
   ListState,
   ListStateDispatcher,
-  ListViewsLoadAction,
   ListViewModel,
-  ListItemsLoadAction,
+  ListViewsLoadAction,
   SkyListComponent,
 } from '@skyux/list-builder';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
-
-import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
-
-import { ListViewGridDynamicTestComponent } from './fixtures/list-view-grid-dynamic.component.fixture';
-
 import { ListViewGridDisplayTestComponent } from './fixtures/list-view-grid-display.component.fixture';
-
+import { ListViewGridDynamicTestComponent } from './fixtures/list-view-grid-dynamic.component.fixture';
 import { ListViewGridEmptyTestComponent } from './fixtures/list-view-grid-empty.component.fixture';
-
+import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
+import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';
-
 import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/load.action';
-
-import { GridState } from './state/grid-state.state-node';
-
-import { GridStateDispatcher } from './state/grid-state.rxstate';
-
 import { GridStateModel } from './state/grid-state.model';
+import { GridStateDispatcher } from './state/grid-state.rxstate';
+import { GridState } from './state/grid-state.state-node';
 
 describe('List View Grid Component', () => {
   describe('Basic Fixture', () => {
@@ -656,9 +641,11 @@ describe('List View Grid Component', () => {
         expect(
           document.querySelectorAll('.sky-inline-delete-standard').length
         ).toBe(1);
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete .sky-btn-default'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -688,9 +675,11 @@ describe('List View Grid Component', () => {
           ).length
         ).toBe(0);
 
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -736,9 +725,11 @@ describe('List View Grid Component', () => {
         expect(
           fixture.componentInstance.finishRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -765,9 +756,11 @@ describe('List View Grid Component', () => {
         expect(
           fixture.componentInstance.cancelRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete .sky-btn-default'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();

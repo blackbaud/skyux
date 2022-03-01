@@ -1,22 +1,19 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
-import { ListState } from '../../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../../list/state/list-state.rxstate';
-
 import { SkyListToolbarModule } from '../../list-toolbar/list-toolbar.module';
+import { ListStateDispatcher } from '../../list/state/list-state.rxstate';
+import { ListState } from '../../list/state/list-state.state-node';
 
 import { ListSecondaryActionsTestComponent } from './fixtures/list-secondary-actions.component.fixture';
 import { SkyListSecondaryActionsModule } from './list-secondary-actions.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List Secondary Actions Component', () => {
   let state: ListState;

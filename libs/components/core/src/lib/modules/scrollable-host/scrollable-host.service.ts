@@ -1,6 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { fromEvent, Observable, Subject, Subscriber, Subscription } from 'rxjs';
+
+import { Observable, Subject, Subscriber, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { MutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyAppWindowRef } from '../window/window-ref';
 
@@ -150,7 +152,7 @@ export class SkyScrollableHostService {
     let parent: HTMLElement = element;
 
     do {
-      parent = <HTMLElement>parent.parentNode;
+      parent = parent.parentNode as HTMLElement;
 
       /* Sanity check for if this function is called for an element which has been removed from the DOM */
       if (!(parent instanceof HTMLElement)) {

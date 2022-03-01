@@ -5,7 +5,6 @@ import {
   ContentChild,
   Input,
 } from '@angular/core';
-
 import {
   KEYS,
   TREE_ACTIONS,
@@ -13,7 +12,6 @@ import {
   TreeModel,
   TreeNode,
 } from '@circlon/angular-tree-component';
-
 import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
 
 /**

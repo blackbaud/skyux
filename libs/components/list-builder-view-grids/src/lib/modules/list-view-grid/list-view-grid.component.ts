@@ -4,16 +4,40 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  forwardRef,
   Input,
   OnDestroy,
   Output,
   QueryList,
   ViewChild,
+  forwardRef,
 } from '@angular/core';
+import {
+  SkyGridColumnComponent,
+  SkyGridColumnDescriptionModelChange,
+  SkyGridColumnHeadingModelChange,
+  SkyGridColumnModel,
+  SkyGridComponent,
+  SkyGridMessage,
+  SkyGridMessageType,
+  SkyGridSelectedRowsModelChange,
+  SkyGridSelectedRowsSource,
+} from '@skyux/grids';
+import {
+  ListSearchModel,
+  ListSelectedModel,
+  ListState,
+  ListStateDispatcher,
+  ListViewComponent,
+} from '@skyux/list-builder';
+import { AsyncList, getValue } from '@skyux/list-builder-common';
+import {
+  ListItemModel,
+  ListSortFieldSelectorModel,
+  getData,
+  isObservable,
+} from '@skyux/list-builder-common';
 
-import { Observable, of as observableOf, Subject } from 'rxjs';
-
+import { Observable, Subject, of as observableOf } from 'rxjs';
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -22,51 +46,14 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { AsyncList, getValue } from '@skyux/list-builder-common';
-
-import {
-  SkyGridColumnComponent,
-  SkyGridColumnHeadingModelChange,
-  SkyGridColumnDescriptionModelChange,
-  SkyGridColumnModel,
-  SkyGridComponent,
-  SkyGridMessage,
-  SkyGridMessageType,
-  SkyGridSelectedRowsModelChange,
-  SkyGridSelectedRowsSource,
-} from '@skyux/grids';
-
-import {
-  ListSearchModel,
-  ListSelectedModel,
-  ListState,
-  ListStateDispatcher,
-  ListViewComponent,
-} from '@skyux/list-builder';
-
-import {
-  getData,
-  isObservable,
-  ListItemModel,
-  ListSortFieldSelectorModel,
-} from '@skyux/list-builder-common';
-
-import { GridState } from './state/grid-state.state-node';
-
-import { GridStateDispatcher } from './state/grid-state.rxstate';
-
-import { GridStateModel } from './state/grid-state.model';
-
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';
-
 import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/load.action';
-
+import { GridStateModel } from './state/grid-state.model';
+import { GridStateDispatcher } from './state/grid-state.rxstate';
+import { GridState } from './state/grid-state.state-node';
 import { SkyListViewGridMessage } from './types/list-view-grid-message';
-
 import { SkyListViewGridMessageType } from './types/list-view-grid-message-type';
-
 import { SkyListViewGridRowDeleteCancelArgs } from './types/list-view-grid-row-delete-cancel-args';
-
 import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-delete-confirm-args';
 
 /**

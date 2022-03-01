@@ -1,9 +1,6 @@
 import { SkyViewkeeperBoundaryInfo } from './viewkeeper-boundary-info';
-
 import { SkyViewkeeperFixedStyles } from './viewkeeper-fixed-styles';
-
 import { SkyViewkeeperOffset } from './viewkeeper-offset';
-
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';

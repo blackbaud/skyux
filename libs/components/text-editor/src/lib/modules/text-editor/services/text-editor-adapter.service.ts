@@ -1,24 +1,17 @@
 import { Injectable } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
 import { STYLE_STATE_DEFAULTS } from '../defaults/style-state-defaults';
-
 import { EditorCommand } from '../types/editor-command';
-
 import { EditorSetting } from '../types/editor-setting';
-
 import { SkyTextEditorStyleState } from '../types/style-state';
-
 import { UrlModalResult } from '../url-modal/text-editor-url-modal-result';
-
 import { UrlTarget } from '../url-modal/text-editor-url-target';
 
-import { SkyTextEditorService } from './text-editor.service';
-
 import { SkyTextEditorSelectionService } from './text-editor-selection.service';
+import { SkyTextEditorService } from './text-editor.service';
 
 /**
  * @internal

@@ -1,20 +1,16 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-
 import { NgForm } from '@angular/forms';
 
-import { SkyAutocompleteSearchFunction } from '../types/autocomplete-search-function';
-
-import { SkyAutocompleteSearchFunctionFilter } from '../types/autocomplete-search-function-filter';
-
-import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-change';
-
-import { SkyAutocompleteComponent } from '../autocomplete.component';
+import { Subject, of } from 'rxjs';
+import { delay, filter } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete-input.directive';
+import { SkyAutocompleteComponent } from '../autocomplete.component';
 import { SkyAutocompleteMessage } from '../types/autocomplete-message';
-import { of, Subject } from 'rxjs';
 import { SkyAutocompleteSearchAsyncArgs } from '../types/autocomplete-search-async-args';
-import { delay, filter } from 'rxjs/operators';
+import { SkyAutocompleteSearchFunction } from '../types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunctionFilter } from '../types/autocomplete-search-function-filter';
+import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-change';
 
 @Component({
   selector: 'sky-autocomplete-fixture',

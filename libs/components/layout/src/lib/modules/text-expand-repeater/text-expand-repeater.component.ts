@@ -9,16 +9,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { forkJoin as observableForkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
-import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater-list-style-type';
-
 import { SkyTextExpandRepeaterAdapterService } from './text-expand-repeater-adapter.service';
+import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater-list-style-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for text expand repeater components.

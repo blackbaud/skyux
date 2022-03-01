@@ -1,36 +1,32 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  forwardRef,
   Input,
-  OnDestroy,
-  SimpleChanges,
   OnChanges,
+  OnDestroy,
   OnInit,
+  SimpleChanges,
+  forwardRef,
 } from '@angular/core';
-
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import {
-  ListState,
-  ListStateDispatcher,
-  ListSelectedModel,
   ListFilterModel,
+  ListSelectedModel,
   ListSelectedSetItemSelectedAction,
   ListSelectedSetItemsSelectedAction,
+  ListState,
+  ListStateDispatcher,
   ListToolbarSetTypeAction,
   ListViewComponent,
 } from '@skyux/list-builder';
-
 import {
   AsyncItem,
   AsyncList,
-  getData,
   ListItemModel,
+  getData,
 } from '@skyux/list-builder-common';
 
 import { Observable, Subject } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -38,15 +34,11 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { ChecklistState } from './state/checklist-state.state-node';
-
-import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
-
 import { ChecklistStateModel } from './state/checklist-state.model';
-
-import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
-
+import { ChecklistStateDispatcher } from './state/checklist-state.rxstate';
+import { ChecklistState } from './state/checklist-state.state-node';
 import { ListViewChecklistItemModel } from './state/items/item.model';
+import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
 @Component({
   selector: 'sky-list-view-checklist',

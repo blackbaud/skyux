@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyIconType } from './types/icon-type';
-
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 @Component({

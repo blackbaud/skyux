@@ -16,16 +16,12 @@ import {
 } from '@angular/core';
 
 import { DragulaService } from 'ng2-dragula';
-
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyRepeaterItemComponent } from './repeater-item.component';
-
-import { SkyRepeaterService } from './repeater.service';
-
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
+import { SkyRepeaterService } from './repeater.service';
 
 let uniqueId = 0;
 

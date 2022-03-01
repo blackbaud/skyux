@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
 
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 /**
  * Internal media query service for use determining the media query size of the split view workspace.

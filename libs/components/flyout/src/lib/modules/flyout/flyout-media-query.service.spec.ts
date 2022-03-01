@@ -1,5 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
-
+import { TestBed, inject } from '@angular/core/testing';
 import { SkyMediaBreakpoints } from '@skyux/core';
 
 import { Subscription } from 'rxjs';

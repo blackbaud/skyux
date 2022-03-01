@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { SkyTextSanitizationService } from '../text-editor/services/text-sanitization.service';

@@ -1,17 +1,15 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
+import { SkyDataManagerService } from 'libs/components/data-manager/src/index';
 
 import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
-
-import { SkyDataManagerService } from 'libs/components/data-manager/src/index';
+import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
 
 describe('SkyDataViewComponent', () => {
   let dataViewFixture: ComponentFixture<DataViewRepeaterFixtureComponent>;

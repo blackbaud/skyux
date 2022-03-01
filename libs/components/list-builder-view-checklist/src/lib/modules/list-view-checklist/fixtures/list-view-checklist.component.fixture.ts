@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
 
 @Component({

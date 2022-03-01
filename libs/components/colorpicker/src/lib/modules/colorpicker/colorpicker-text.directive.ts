@@ -1,10 +1,10 @@
 // spell-checker:ignore Colorpicker
 import {
   Directive,
-  Input,
-  Output,
   EventEmitter,
   HostListener,
+  Input,
+  Output,
 } from '@angular/core';
 
 import { SkyColorpickerChangeColor } from './types/colorpicker-color';
@@ -27,7 +27,7 @@ export class SkyColorpickerTextDirective {
 
   @HostListener('input', ['$event'])
   public changeInput(event: Event) {
-    const element: HTMLInputElement = <HTMLInputElement>event.target;
+    const element: HTMLInputElement = event.target as HTMLInputElement;
     const elementValue = parseFloat(element.value);
     if (this.maxRange === undefined) {
       this.newColorContrast.emit({

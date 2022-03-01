@@ -1,21 +1,14 @@
 import { Renderer2 } from '@angular/core';
 
-import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
-
-import { SkyAffixOffsetChange } from './affix-offset-change';
-
-import { SkyAffixOffset } from './affix-offset';
-
 import { SkyAffixConfig } from './affix-config';
-
+import { SkyAffixOffset } from './affix-offset';
+import { SkyAffixOffsetChange } from './affix-offset-change';
 import { SkyAffixPlacement } from './affix-placement';
-
 import { SkyAffixPlacementChange } from './affix-placement-change';
-
 import { getInversePlacement, getNextPlacement } from './affix-utils';
-
 import {
   getElementOffset,
   getOverflowParents,

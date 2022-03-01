@@ -1,17 +1,11 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 
 import { SkyAffixAutoFitContext } from '../affix-auto-fit-context';
-
 import { SkyAffixHorizontalAlignment } from '../affix-horizontal-alignment';
-
 import { SkyAffixOffset } from '../affix-offset';
-
 import { SkyAffixPlacement } from '../affix-placement';
-
 import { SkyAffixPlacementChange } from '../affix-placement-change';
-
 import { SkyAffixVerticalAlignment } from '../affix-vertical-alignment';
-
 import { SkyAffixDirective } from '../affix.directive';
 
 @Component({

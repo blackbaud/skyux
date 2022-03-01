@@ -5,7 +5,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   Injector,
   Input,
   OnDestroy,
@@ -15,34 +14,28 @@ import {
   TemplateRef,
   Type,
   ViewChild,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
   FormControl,
+  NG_VALIDATORS,
   NgControl,
   NgModel,
-  NG_VALIDATORS,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-
 import { SkyAppWindowRef } from '@skyux/core';
-
+import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyInputBoxHostService } from '@skyux/forms';
-
 import 'intl-tel-input';
-
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
-
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
+import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
 import { SkyCountryFieldCountry } from './types/country';
 
@@ -471,9 +464,9 @@ export class SkyCountryFieldComponent
     // istanbul ignore next
     if (!this.includePhoneInfo && !this.hideSelectedCountryFlag) {
       if (
-        (<HTMLElement>(
-          this.elRef.nativeElement.parentElement
-        ))?.classList?.contains('sky-phone-field-country-search')
+        (
+          this.elRef.nativeElement.parentElement as HTMLElement
+        )?.classList?.contains('sky-phone-field-country-search')
       ) {
         this.includePhoneInfo = true;
         this.hideSelectedCountryFlag = true;

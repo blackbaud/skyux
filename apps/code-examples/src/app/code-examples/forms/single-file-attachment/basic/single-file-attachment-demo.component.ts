@@ -1,3 +1,4 @@
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -5,9 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
-import { Component, OnInit } from '@angular/core';
-
 import {
   SkyFileAttachmentChange,
   SkyFileAttachmentClick,

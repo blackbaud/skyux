@@ -1,16 +1,13 @@
-import { of as observableOf, Observable } from 'rxjs';
+import { fakeAsync, tick } from '@angular/core/testing';
+import { ListItemModel } from '@skyux/list-builder-common';
 
+import { Observable, of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { ListFilterModel } from '../list-filters/filter.model';
 import { ListDataRequestModel } from '../list/list-data-request.model';
 
 import { SkyListInMemoryDataProvider } from './list-data-in-memory.provider';
-
-import { fakeAsync, tick } from '@angular/core/testing';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
-import { ListFilterModel } from '../list-filters/filter.model';
 
 describe('in memory data provider', () => {
   let items: Observable<Array<any>>;

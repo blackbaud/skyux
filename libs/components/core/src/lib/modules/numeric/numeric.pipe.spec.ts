@@ -1,14 +1,10 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { NumericPipeFixtureComponent } from './fixtures/numeric.pipe.fixture';
-
 import { SkyNumericModule } from './numeric.module';
-
 import { NumericOptions } from './numeric.options';
-
 import { SkyNumericPipe } from './numeric.pipe';
-
 import { SkyNumericService } from './numeric.service';
 
 describe('Numeric pipe', () => {

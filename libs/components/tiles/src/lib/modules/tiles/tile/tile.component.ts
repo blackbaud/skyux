@@ -10,11 +10,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
 import { skyAnimationSlide } from '@skyux/animations';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';

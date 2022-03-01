@@ -1,7 +1,8 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
-import { ListViewsModel } from './views.model';
+
 import { ListViewsLoadAction } from './load.action';
 import { ListViewsSetActiveAction } from './set-active.action';
+import { ListViewsModel } from './views.model';
 
 /**
  * @internal

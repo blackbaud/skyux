@@ -1,12 +1,11 @@
 import {
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ViewEncapsulation,
 } from '@angular/core';
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
-
 import {
   ICellRendererParams,
   RowNode,

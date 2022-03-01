@@ -1,83 +1,52 @@
+import { DebugElement } from '@angular/core';
 import {
+  ComponentFixture,
   TestBed,
   async,
   fakeAsync,
   tick,
-  ComponentFixture,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
   ListItemModel,
   ListSortFieldSelectorModel,
 } from '@skyux/list-builder-common';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-
 import { map as observableMap, skip, take } from 'rxjs/operators';
 
-import { ListState } from '../list/state/list-state.state-node';
-
+import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
+import { ListFilterModel } from '../list-filters/filter.model';
+import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
+import { ListState } from '../list/state/list-state.state-node';
 import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
 import { ListToolbarShowMultiselectToolbarAction } from '../list/state/toolbar/show-multiselect-toolbar.action';
 
-import { SkyListInMemoryDataProvider } from '../list-data-provider-in-memory/list-data-in-memory.provider';
-
-import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
-
 import { ListDualTestComponent } from './fixtures/list-dual.component.fixture';
-
 import { ListEmptyTestComponent } from './fixtures/list-empty.component.fixture';
-
 import { ListFilteredTestComponent } from './fixtures/list-filtered.component.fixture';
-
 import { ListFixturesModule } from './fixtures/list-fixtures.module';
-
 import { ListSelectedTestComponent } from './fixtures/list-selected.component.fixture';
-
-import { ListTestComponent } from './fixtures/list.component.fixture';
-
 import { ListViewTestComponent } from './fixtures/list-view-test.component.fixture';
-
+import { ListTestComponent } from './fixtures/list.component.fixture';
 import { ListDataRequestModel } from './list-data-request.model';
-
 import { ListDataResponseModel } from './list-data-response.model';
-
 import { SkyListComponent } from './list.component';
-
 import { SkyListModule } from './list.module';
-
-import { ListFilterModel } from '../list-filters/filter.model';
-
 import { ListItemsSetSelectedAction } from './state/items/set-items-selected.action';
-
 import { ListPagingModel } from './state/paging/paging.model';
-
 import { ListSearchModel } from './state/search/search.model';
-
-import { ListSearchSetFunctionsAction } from './state/search/set-functions.action';
-
 import { ListSearchSetFieldSelectorsAction } from './state/search/set-field-selectors.action';
-
-import { ListSelectedSetItemsSelectedAction } from './state/selected/set-items-selected.action';
-
+import { ListSearchSetFunctionsAction } from './state/search/set-functions.action';
 import { ListSelectedSetItemSelectedAction } from './state/selected/set-item-selected.action';
-
-import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
-
+import { ListSelectedSetItemsSelectedAction } from './state/selected/set-items-selected.action';
 import { ListSortLabelModel } from './state/sort/label.model';
-
-import { ListToolbarItemModel } from './state/toolbar/toolbar-item.model';
-
+import { ListSortSetFieldSelectorsAction } from './state/sort/set-field-selectors.action';
 import { ListToolbarItemsLoadAction } from './state/toolbar/load.action';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ListToolbarItemModel } from './state/toolbar/toolbar-item.model';
 
 describe('List Component', () => {
   describe('List Fixture', () => {

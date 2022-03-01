@@ -1,10 +1,11 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyDatepickerFixture } from '@skyux/datetime/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -14,22 +15,13 @@ import {
 } from '@skyux/theme';
 
 import { Column, RowNode } from 'ag-grid-community';
-
-import { expect, expectAsync } from '@skyux-sdk/testing';
-
-import { SkyDatepickerFixture } from '@skyux/datetime/testing';
-
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyCellClass } from '../../types/cell-class';
-
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
-
-import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
-
+import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 describe('SkyCellEditorDatepickerComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.

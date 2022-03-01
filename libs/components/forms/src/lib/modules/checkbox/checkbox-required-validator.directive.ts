@@ -1,5 +1,4 @@
-import { Directive, forwardRef, Provider } from '@angular/core';
-
+import { Directive, Provider, forwardRef } from '@angular/core';
 import { CheckboxRequiredValidator, NG_VALIDATORS } from '@angular/forms';
 
 // tslint:disable:no-forward-ref

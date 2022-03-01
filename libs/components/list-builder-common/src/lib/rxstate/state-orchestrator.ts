@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-
 import { scan } from 'rxjs/operators';
 
 /**

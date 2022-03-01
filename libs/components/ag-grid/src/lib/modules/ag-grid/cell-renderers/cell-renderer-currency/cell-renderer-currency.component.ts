@@ -4,7 +4,6 @@ import { NumericOptions } from '@skyux/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-
 import { ValidatorOptions } from '../../types/validator-options';
 
 /**

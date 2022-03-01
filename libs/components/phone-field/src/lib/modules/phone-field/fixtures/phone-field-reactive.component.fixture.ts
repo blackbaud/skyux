@@ -1,13 +1,9 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { SkyPhoneFieldComponent } from '../phone-field.component';
-
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
-
+import { SkyPhoneFieldComponent } from '../phone-field.component';
 import { SkyPhoneFieldCountry } from '../types/country';
-
 import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
 
 @Component({

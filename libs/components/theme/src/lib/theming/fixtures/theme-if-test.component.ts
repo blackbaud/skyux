@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 
 import { SkyTheme } from '../theme';
-
 import { SkyThemeMode } from '../theme-mode';
-
 import { SkyThemeSettings } from '../theme-settings';
 
 @Component({

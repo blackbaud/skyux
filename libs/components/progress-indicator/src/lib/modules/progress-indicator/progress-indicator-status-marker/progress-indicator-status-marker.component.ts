@@ -6,12 +6,10 @@ import {
   OnDestroy,
   Optional,
 } from '@angular/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { takeUntil } from 'rxjs/operators';
-
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
 

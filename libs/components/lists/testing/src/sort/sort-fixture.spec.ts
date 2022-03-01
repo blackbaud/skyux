@@ -1,17 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyToolbarModule } from '@skyux/layout';
-
 import { SkyRepeaterModule } from '@skyux/lists';
 
 import { SortFixtureTestComponent } from './fixtures/sort-fixture.component.fixture';
-
 import { SkySortFixture } from './sort-fixture';
-
 import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
-
 import { SkySortTestingModule } from './sort-testing.module';
 
 describe('Sort fixture', () => {

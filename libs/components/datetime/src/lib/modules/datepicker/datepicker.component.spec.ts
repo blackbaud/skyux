@@ -1,18 +1,14 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { NgModel } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,25 +17,16 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import moment from 'moment';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDatepickerComponent } from './datepicker.component';
-
-import { DatepickerTestComponent } from './fixtures/datepicker.component.fixture';
-
-import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
-
 import { DatepickerInputBoxTestComponent } from './fixtures/datepicker-input-box.component.fixture';
-
 import { DatepickerNoFormatTestComponent } from './fixtures/datepicker-noformat.component.fixture';
-
 import { DatepickerReactiveTestComponent } from './fixtures/datepicker-reactive.component.fixture';
-
-import moment from 'moment';
+import { DatepickerTestComponent } from './fixtures/datepicker.component.fixture';
+import { DatepickerTestModule } from './fixtures/datepicker.module.fixture';
 
 // #region helpers
 export class MyLocaleProvider extends SkyAppLocaleProvider {
@@ -626,7 +613,7 @@ describe('datepicker', () => {
       let ngModel: NgModel;
       beforeEach(() => {
         const inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it('should handle model change with a Date object', fakeAsync(() => {
@@ -709,7 +696,7 @@ describe('datepicker', () => {
       let ngModel: NgModel;
       beforeEach(() => {
         const inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
@@ -831,7 +818,7 @@ describe('datepicker', () => {
       let ngModel: NgModel;
       beforeEach(() => {
         const inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it('should handle change above max date', fakeAsync(() => {

@@ -1,5 +1,4 @@
 import { SkyLookupShowMoreCustomPicker } from './lookup-show-more-custom-picker';
-
 import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-picker-config';
 
 /**

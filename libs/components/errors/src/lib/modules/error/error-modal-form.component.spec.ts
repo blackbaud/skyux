@@ -1,16 +1,14 @@
-import { async, TestBed, ComponentFixture } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyModalHostService } from '@skyux/modals';
 import { SkyModalConfiguration } from '@skyux/modals';
 import { SkyModalInstance } from '@skyux/modals';
 import { SkyModalModule } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
-import { MockHostService, SkyModalInstanceMock } from './fixtures/mocks';
-import { SkyErrorModule } from './error.module';
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
+import { SkyErrorModule } from './error.module';
+import { MockHostService, SkyModalInstanceMock } from './fixtures/mocks';
 
 describe('Error modal form component', () => {
   const config: ErrorModalConfig = {

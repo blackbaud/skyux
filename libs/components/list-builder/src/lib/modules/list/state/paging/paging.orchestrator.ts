@@ -1,9 +1,8 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
+
 import { ListPagingModel } from './paging.model';
-import { ListPagingSetMaxPagesAction } from './set-max-pages.action';
-
 import { ListPagingSetItemsPerPageAction } from './set-items-per-page.action';
-
+import { ListPagingSetMaxPagesAction } from './set-max-pages.action';
 import { ListPagingSetPageNumberAction } from './set-page-number.action';
 
 /**

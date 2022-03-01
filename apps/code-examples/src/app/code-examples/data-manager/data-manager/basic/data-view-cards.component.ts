@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
 import {
   SkyDataManagerService,
   SkyDataManagerState,

@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
 } from '@skyux/data-manager';
 
 import {

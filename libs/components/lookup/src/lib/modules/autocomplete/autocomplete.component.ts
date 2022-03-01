@@ -14,40 +14,38 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import {
-  from,
-  fromEvent as observableFromEvent,
   Observable,
-  of,
   Subject,
   Subscription,
+  from,
+  fromEvent as observableFromEvent,
+  of,
 } from 'rxjs';
-
 import { debounceTime, map, switchMap, take, takeUntil } from 'rxjs/operators';
 
+import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
+
+import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
+import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
+import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
 import { SkyAutocompleteMessage } from './types/autocomplete-message';
 import { SkyAutocompleteMessageType } from './types/autocomplete-message-type';
+import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-async-args';
+import { SkyAutocompleteSearchAsyncResult } from './types/autocomplete-search-async-result';
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
 import { SkyAutocompleteSelectionChange } from './types/autocomplete-selection-change';
 import { SkyAutocompleteShowMoreArgs } from './types/autocomplete-show-more-args';
-import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
-import { skyAutocompleteDefaultSearchFunction } from './autocomplete-default-search-function';
-import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
-import { SkyAutocompleteSearchAsyncResult } from './types/autocomplete-search-async-result';
-import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-async-args';
-import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
 /**
  * @internal

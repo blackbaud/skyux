@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyInfiniteScrollDomAdapterService } from './infinite-scroll-dom-adapter.service';

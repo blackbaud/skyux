@@ -1,14 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
+import { expect } from '@skyux-sdk/testing';
 import { SkyLabelModule } from '@skyux/indicators';
 
-import { expect } from '@skyux-sdk/testing';
-
-import { SkyFormatModule } from './format.module';
-
 import { FormatFixtureComponent } from './fixtures/format.component.fixture';
+import { SkyFormatModule } from './format.module';
 
 describe('Format component', () => {
   function validateFormattedText(

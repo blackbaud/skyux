@@ -9,7 +9,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkySelectFieldComponent } from '../select-field.component';
-
 import { SkySelectFieldCustomPicker } from '../types/select-field-custom-picker';
 
 @Component({

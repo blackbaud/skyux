@@ -1,9 +1,8 @@
-import { ChecklistStateOrchestrator } from '../checklist-state.rxstate';
-
 import { AsyncList } from '@skyux/list-builder-common';
 
-import { ListViewChecklistItemModel } from './item.model';
+import { ChecklistStateOrchestrator } from '../checklist-state.rxstate';
 
+import { ListViewChecklistItemModel } from './item.model';
 import { ListViewChecklistItemsLoadAction } from './load.action';
 
 export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrator<

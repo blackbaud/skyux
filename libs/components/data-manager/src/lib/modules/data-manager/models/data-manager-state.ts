@@ -1,11 +1,7 @@
 import { SkyDataManagerFilterData } from './data-manager-filter-data';
-
-import { SkyDataManagerStateOptions } from './data-manager-state-options';
-
 import { SkyDataManagerSortOption } from './data-manager-sort-option';
-
+import { SkyDataManagerStateOptions } from './data-manager-state-options';
 import { SkyDataViewState } from './data-view-state';
-
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 export class SkyDataManagerState {

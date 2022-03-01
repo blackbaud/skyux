@@ -13,23 +13,18 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   MutationObserverService,
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
 } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
-import { SkySelectionBoxComponent } from './selection-box.component';
-
 import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
-
+import { SkySelectionBoxComponent } from './selection-box.component';
 import { SkySelectionBoxGridAlignItemsType } from './types/selection-box-grid-align-items-type';
 
 const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 @Component({

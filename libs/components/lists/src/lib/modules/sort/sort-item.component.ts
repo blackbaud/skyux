@@ -4,10 +4,10 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 

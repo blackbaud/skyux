@@ -1,14 +1,10 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
-
-import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyIconModule } from '../icon/icon.module';
-
-import { SkyThemeModule } from '@skyux/theme';
+import { SkyIndicatorsResourcesModule } from '../shared/sky-indicators-resources.module';
 
 import { SkyAlertComponent } from './alert.component';
 

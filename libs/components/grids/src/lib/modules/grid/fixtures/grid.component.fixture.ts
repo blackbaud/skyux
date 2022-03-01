@@ -1,31 +1,23 @@
 import {
   Component,
-  ViewChild,
-  TemplateRef,
   ContentChildren,
   QueryList,
+  TemplateRef,
+  ViewChild,
   ViewChildren,
 } from '@angular/core';
+import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { Subject } from 'rxjs';
 
-import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
-
-import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
-
-import { SkyGridMessage } from '../types/grid-message';
-
-import { SkyGridMessageType } from '../types/grid-message-type';
-
-import { SkyGridRowDeleteCancelArgs } from '../types/grid-row-delete-cancel-args';
-
-import { SkyGridRowDeleteConfig } from '../types/grid-row-delete-config';
-
-import { SkyGridRowDeleteConfirmArgs } from '../types/grid-row-delete-confirm-args';
-
-import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
-
 import { SkyGridComponent } from '../grid.component';
+import { SkyGridColumnWidthModelChange } from '../types/grid-column-width-model-change';
+import { SkyGridMessage } from '../types/grid-message';
+import { SkyGridMessageType } from '../types/grid-message-type';
+import { SkyGridRowDeleteCancelArgs } from '../types/grid-row-delete-cancel-args';
+import { SkyGridRowDeleteConfig } from '../types/grid-row-delete-config';
+import { SkyGridRowDeleteConfirmArgs } from '../types/grid-row-delete-confirm-args';
+import { SkyGridSelectedRowsModelChange } from '../types/grid-selected-rows-model-change';
 
 @Component({
   selector: 'sky-test-cmp',

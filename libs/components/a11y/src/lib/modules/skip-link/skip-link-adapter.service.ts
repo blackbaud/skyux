@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkySkipLink } from './skip-link';

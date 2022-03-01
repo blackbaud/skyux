@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './sort.component.fixture.html',

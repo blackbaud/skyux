@@ -1,11 +1,10 @@
 // #region imports
-import { RendererFactory2, ApplicationRef } from '@angular/core';
-
+import { ApplicationRef, RendererFactory2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyToastAdapterService } from './toast-adapter.service';
+
 // #endregion
 
 describe('Toast adapter service', () => {

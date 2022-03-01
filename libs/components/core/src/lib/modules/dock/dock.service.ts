@@ -1,21 +1,14 @@
 import { ComponentRef, Injectable, Type } from '@angular/core';
 
-import { SkyDockItem } from './dock-item';
-
-import { SkyDockComponent } from './dock.component';
-
-import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
-
-import { SkyDockLocation } from './dock-location';
-
-import { SkyDockOptions } from './dock-options';
-
 import { SkyDynamicComponentLocation } from '../dynamic-component/dynamic-component-location';
-
 import { SkyDynamicComponentOptions } from '../dynamic-component/dynamic-component-options';
-
 import { SkyDynamicComponentService } from '../dynamic-component/dynamic-component.service';
 
+import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
+import { SkyDockItem } from './dock-item';
+import { SkyDockLocation } from './dock-location';
+import { SkyDockOptions } from './dock-options';
+import { SkyDockComponent } from './dock.component';
 import { sortByStackOrder } from './sort-by-stack-order';
 
 /**

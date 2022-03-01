@@ -1,36 +1,26 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   flush,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { NgModel } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import moment from 'moment';
 import { of } from 'rxjs';
 
 import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDatepickerComponent } from './datepicker.component';
-
-import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
-
-import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
-
 import { FuzzyDatepickerNoFormatTestComponent } from './fixtures/fuzzy-datepicker-noformat.component.fixture';
-
 import { FuzzyDatepickerReactiveTestComponent } from './fixtures/fuzzy-datepicker-reactive.component.fixture';
-
-import moment from 'moment';
+import { FuzzyDatepickerTestComponent } from './fixtures/fuzzy-datepicker.component.fixture';
+import { FuzzyDatepickerTestModule } from './fixtures/fuzzy-datepicker.module.fixture';
 
 // #region helpers
 function detectChanges(fixture: ComponentFixture<any>): void {
@@ -737,7 +727,7 @@ describe('fuzzy datepicker input', () => {
       let ngModel: NgModel;
       beforeEach(() => {
         const inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it('should validate properly when invalid date is passed through input change', fakeAsync(() => {
@@ -907,7 +897,7 @@ describe('fuzzy datepicker input', () => {
       let ngModel: NgModel;
       beforeEach(() => {
         const inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it(

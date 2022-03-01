@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { StateNode } from '@skyux/list-builder-common';
 
-import { GridStateModel } from './grid-state.model';
-import { GridStateDispatcher } from './grid-state.rxstate';
 import { ListViewGridColumnsOrchestrator } from './columns/columns.orchestrator';
 import { ListViewDisplayedGridColumnsOrchestrator } from './displayed-columns/displayed-columns.orchestrator';
+import { GridStateModel } from './grid-state.model';
+import { GridStateDispatcher } from './grid-state.rxstate';
 
 /**
  * @internal

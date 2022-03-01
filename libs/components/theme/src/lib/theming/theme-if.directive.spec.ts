@@ -1,26 +1,18 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { expect } from '@skyux-sdk/testing';
-
-import { SkyTheme } from './theme';
-
-import { MockThemeService } from './fixtures/mock-theme.service';
-
-import { SkyThemeIfTestComponent } from './fixtures/theme-if-test.component';
-
-import { SkyThemeMode } from './theme-mode';
-
 import { SkyThemeModule } from '../theme.module';
 
-import { SkyThemeService } from './theme.service';
-
+import { MockThemeService } from './fixtures/mock-theme.service';
+import { SkyThemeIfTestComponent } from './fixtures/theme-if-test.component';
+import { SkyTheme } from './theme';
+import { SkyThemeMode } from './theme-mode';
 import { SkyThemeSettings } from './theme-settings';
-
 import { SkyThemeSettingsChange } from './theme-settings-change';
+import { SkyThemeService } from './theme.service';
 
 @Component({
   selector: 'app-theme-if-test-projection',

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SkyNavbarFixturesModule } from './fixtures/navbar-fixtures.module';
-
 import { SkyNavbarTestComponent } from './fixtures/navbar.component.fixture';
 
 describe('Navbar component', () => {

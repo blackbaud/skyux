@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   ContentChildren,
-  TemplateRef,
+  Input,
   QueryList,
+  TemplateRef,
 } from '@angular/core';
 
 let idIndex = 0;

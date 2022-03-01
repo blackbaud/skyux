@@ -15,12 +15,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { ControlValueAccessor, NgControl } from '@angular/forms';
-
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -32,22 +27,26 @@ import {
 import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+
+import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
 import { SkyAutocompleteMessage } from '../autocomplete/types/autocomplete-message';
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
+import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
 import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 import { SkyAutocompleteShowMoreArgs } from '../autocomplete/types/autocomplete-show-more-args';
-import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
-import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
+
 import { SkyLookupAdapterService } from './lookup-adapter.service';
+import { SkyLookupAutocompleteAdapter } from './lookup-autocomplete-adapter';
+import { SkyLookupShowMoreAsyncModalComponent } from './lookup-show-more-async-modal.component';
 import { SkyLookupShowMoreModalComponent } from './lookup-show-more-modal.component';
 import { SkyLookupAddCallbackArgs } from './types/lookup-add-click-callback-args';
 import { SkyLookupAddClickEventArgs } from './types/lookup-add-click-event-args';
 import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
 import { SkyLookupShowMoreConfig } from './types/lookup-show-more-config';
-import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
-import { SkyLookupShowMoreAsyncModalComponent } from './lookup-show-more-async-modal.component';
 import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
-import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
+import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
 
 @Component({
   selector: 'sky-lookup',
@@ -709,9 +708,10 @@ export class SkyLookupComponent
 
     if (this.data.indexOf(args.item) >= 0) {
       if (this.openNativePicker) {
-        (<SkyLookupShowMoreModalComponent>(
-          this.openNativePicker.componentInstance
-        )).onItemSelect(true, { value: args.item, selected: false });
+        (
+          this.openNativePicker
+            .componentInstance as SkyLookupShowMoreModalComponent
+        ).onItemSelect(true, { value: args.item, selected: false });
       } else {
         let newValue = this.value;
         if (this.selectMode === 'multiple') {

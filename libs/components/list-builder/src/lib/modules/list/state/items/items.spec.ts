@@ -1,18 +1,14 @@
 import { fakeAsync, tick } from '@angular/core/testing';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListItemsLoadAction } from './load.action';
-
-import { ListItemsSetLoadingAction } from './set-loading.action';
-
-import { ListItemsSetSelectedAction } from './set-items-selected.action';
-
+import { ListStateDispatcher } from '../list-state.rxstate';
 import { ListState } from '../list-state.state-node';
 
-import { ListStateDispatcher } from '../list-state.rxstate';
+import { ListItemsLoadAction } from './load.action';
+import { ListItemsSetSelectedAction } from './set-items-selected.action';
+import { ListItemsSetLoadingAction } from './set-loading.action';
 
 describe('list items', () => {
   describe('loading and set loading action', () => {

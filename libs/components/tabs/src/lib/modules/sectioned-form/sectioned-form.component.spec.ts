@@ -1,16 +1,13 @@
 import { TestBed, async } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
-import { SkySectionedFormComponent } from './sectioned-form.component';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 import { SkySectionedFormFixturesModule } from './fixtures/sectioned-form-fixtures.module';
-import { SkySectionedFormFixtureComponent } from './fixtures/sectioned-form.component.fixture';
-import { SkySectionedFormNoSectionsFixtureComponent } from './fixtures/sectioned-form-no-sections.component.fixture';
 import { SkySectionedFormNoActiveFixtureComponent } from './fixtures/sectioned-form-no-active.component.fixture';
-
-import { MockSkyMediaQueryService } from '@skyux/core/testing';
+import { SkySectionedFormNoSectionsFixtureComponent } from './fixtures/sectioned-form-no-sections.component.fixture';
+import { SkySectionedFormFixtureComponent } from './fixtures/sectioned-form.component.fixture';
+import { SkySectionedFormComponent } from './sectioned-form.component';
 
 function getVisibleTabs(el: any) {
   return el.querySelectorAll(

@@ -8,9 +8,7 @@ import {
 } from '@angular/core';
 
 import { SkyAvatarAdapterService } from './avatar-adapter.service';
-
 import { SkyAvatarSize } from './avatar-size';
-
 import { SkyAvatarSrc } from './avatar-src';
 
 /**

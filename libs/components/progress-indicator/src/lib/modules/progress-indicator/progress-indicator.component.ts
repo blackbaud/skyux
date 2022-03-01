@@ -1,36 +1,28 @@
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChildren,
   EventEmitter,
   Input,
-  OnInit,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
-  ChangeDetectorRef,
 } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { SkyProgressIndicatorItemComponent } from './progress-indicator-item/progress-indicator-item.component';
-
 import { SkyProgressIndicatorChange } from './types/progress-indicator-change';
-
-import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
-
 import { SkyProgressIndicatorDisplayModeType } from './types/progress-indicator-display-mode-type';
-
 import { SkyProgressIndicatorItemStatus } from './types/progress-indicator-item-status';
-
 import { SkyProgressIndicatorMessage } from './types/progress-indicator-message';
-
 import { SkyProgressIndicatorMessageType } from './types/progress-indicator-message-type';
+import { SkyProgressIndicatorDisplayMode } from './types/progress-indicator-mode';
 
 @Component({
   selector: 'sky-progress-indicator',

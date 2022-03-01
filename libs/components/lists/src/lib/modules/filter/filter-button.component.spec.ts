@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyThemeModule } from '@skyux/theme';
 
-import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
-
 import { SkyFilterModule } from './filter.module';
+import { FilterButtonTestComponent } from './fixtures/filter-button.component.fixture';
 
 describe('Filter button', () => {
   let fixture: ComponentFixture<FilterButtonTestComponent>;

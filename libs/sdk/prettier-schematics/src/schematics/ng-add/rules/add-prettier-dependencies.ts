@@ -1,7 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
 import {
-  addPackageJsonDependency,
   NodeDependencyType,
+  addPackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 
 export function addPrettierDependencies(): Rule {

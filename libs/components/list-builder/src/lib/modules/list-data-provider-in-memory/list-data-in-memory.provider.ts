@@ -1,14 +1,13 @@
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ListItemModel, compare, getData } from '@skyux/list-builder-common';
 
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map as observableMap } from 'rxjs/operators';
 
-import { compare, getData, ListItemModel } from '@skyux/list-builder-common';
-
-import { ListDataProvider } from '../list/list-data.provider';
+import { ListFilterModel } from '../list-filters/filter.model';
 import { ListDataRequestModel } from '../list/list-data-request.model';
 import { ListDataResponseModel } from '../list/list-data-response.model';
+import { ListDataProvider } from '../list/list-data.provider';
 import { ListSearchModel } from '../list/state/search/search.model';
-import { ListFilterModel } from '../list-filters/filter.model';
 
 let idIndex = 0;
 

@@ -1,21 +1,16 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
-  tick,
   async,
+  fakeAsync,
+  tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
-
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
-
 import { SkyRadioGroupReactiveFixtureComponent } from './fixtures/radio-group-reactive.component.fixture';
-
 import { SkyRadioGroupFixtureComponent } from './fixtures/radio-group.component.fixture';
 
 //#region helpers

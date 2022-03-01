@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyAgGridAdapterFixtureComponent } from './fixtures/ag-grid-adapter.component.fixture';
-
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyAgGridAdapterFixtureComponent } from './fixtures/ag-grid-adapter.component.fixture';
 
 describe('SkyAgGridAdapterService', () => {
   let agGridAdapterService: SkyAgGridAdapterService;

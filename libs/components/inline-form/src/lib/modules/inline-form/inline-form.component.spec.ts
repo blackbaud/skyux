@@ -1,23 +1,17 @@
 import { DebugElement } from '@angular/core';
-
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import {
-  async,
   ComponentFixture,
   TestBed,
-  tick,
+  async,
   fakeAsync,
+  tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyInlineFormFixtureComponent } from './fixtures/inline-form.fixture';
-
 import { SkyInlineFormFixtureModule } from './fixtures/inline-form.fixture.module';
-
 import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
 
 function getPrimaryButton(fixture: ComponentFixture<any>): DebugElement {

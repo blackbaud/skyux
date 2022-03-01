@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 
 @Component({
