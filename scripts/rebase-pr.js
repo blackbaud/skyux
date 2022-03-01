@@ -2,6 +2,12 @@
 
 const { execSync } = require('child_process');
 
+function exec(command) {
+  execSync(command, {
+    stdio: ['pipe', 'pipe', 'pipe'],
+  });
+}
+
 /**
  * Rebases the pull request branch onto the target branch.
  *
@@ -25,12 +31,9 @@ function rebasePullRequest() {
 
     console.log(` - Target branch: ${targetBranch}`);
 
-    execSync('git config user.name "blackbaud-sky-build-user"');
-    execSync('git config user.email "sky-build-user@blackbaud.com"');
-
-    execSync(`git rebase origin/${targetBranch}`, {
-      stdio: ['pipe', 'pipe', 'pipe'],
-    });
+    exec('git config user.name "blackbaud-sky-build-user"');
+    exec('git config user.email "sky-build-user@blackbaud.com"');
+    exec(`git rebase origin/${targetBranch}`);
 
     console.log(`Rebased current branch onto ${targetBranch}.`);
   } catch (err) {
