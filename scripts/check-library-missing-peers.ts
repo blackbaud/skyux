@@ -1,10 +1,10 @@
 import { readFile, readJson, writeJson } from 'fs-extra';
 import glob from 'glob';
 import { join } from 'path';
-import { PackageConfig } from 'shared/package-config';
-import { PackageJson } from 'shared/package-json';
 
 import { getPublishableProjects } from './lib/get-publishable-projects';
+import { PackageConfig } from './shared/package-config';
+import { PackageJson } from './shared/package-json';
 import { sortObjectByKeys } from './utils/sort-object-by-keys';
 
 const argv = require('minimist')(process.argv.slice(2));

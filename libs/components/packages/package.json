@@ -1,7 +1,21 @@
 {
   "name": "@skyux/packages",
   "version": "0.0.0-PACKAGES_PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
   "description": "Handles the `ng update` command for SKY UX component libraries.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
   "schematics": "./collection.json",
   "ng-add": {
     "save": "dependencies"
@@ -67,22 +81,11 @@
       "@skyux/validation": "0.0.0-PLACEHOLDER"
     }
   },
+  "peerDependencies": {
+    "@angular/cli": "^12.2.16"
+  },
   "dependencies": {
     "fs-extra": "10.0.0",
     "latest-version": "5.1.0"
-  },
-  "author": "Blackbaud, Inc.",
-  "keywords": [
-    "blackbaud",
-    "skyux"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blackbaud/skyux.git"
-  },
-  "bugs": {
-    "url": "https://github.com/blackbaud/skyux/issues"
-  },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  }
 }

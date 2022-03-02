@@ -1,18 +1,6 @@
 {
   "name": "@skyux/i18n",
   "version": "0.0.0-PLACEHOLDER",
-  "schematics": "./schematics/collection.json",
-  "ng-add": {
-    "save": "dependencies"
-  },
-  "peerDependencies": {
-    "@angular/core": "^12.2.16",
-    "@angular/common": "^12.2.16",
-    "@skyux/assets": "0.0.0-PLACEHOLDER"
-  },
-  "dependencies": {
-    "tslib": "^2.3.1"
-  },
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
@@ -26,5 +14,18 @@
   "bugs": {
     "url": "https://github.com/blackbaud/skyux/issues"
   },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "peerDependencies": {
+    "@angular/cli": "^12.2.16",
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@skyux/assets": "0.0.0-PLACEHOLDER"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
 }
