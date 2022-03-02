@@ -87,7 +87,7 @@ async function findUnlistedPeers(
 
           if (!version) {
             errors.push(
-              `A version could not be located for package ${foundPackage}. Is it installed?`
+              `A version could not be located for package ${foundPackage}. Is it installed?\n`
             );
           } else {
             packageJson.peerDependencies = packageJson.peerDependencies || {};
@@ -99,9 +99,11 @@ async function findUnlistedPeers(
             }
           }
         } else {
+          const affectedFile = fileName.replace(join(CWD, '/'), '');
           errors.push(
-            `The library '${projectName}' imports from ${foundPackage} but it is not listed as a peer! ` +
-              `(see: ${fileName.replace(join(CWD, '/'), '')})`
+            `The library '${projectName}' imports from ${foundPackage} but it is not listed as a peer!\n` +
+              `   see: ${affectedFile}\n` +
+              `        ${'^'.repeat(affectedFile.length)}\n`
           );
         }
       }
@@ -155,12 +157,11 @@ async function findUnusedPeers(
         );
       }
     } else {
+      const affectedFile = join(packageConfig.root, 'package.json');
       errors.push(
-        `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code. ` +
-          `Please remove the peer from '${join(
-            packageConfig.root,
-            'package.json'
-          )}'.`
+        `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code.\n` +
+          `   Remove the peer from: '${affectedFile}'.\n` +
+          `                          ${'^'.repeat(affectedFile.length)}\n`
       );
     }
   }
@@ -169,7 +170,7 @@ async function findUnusedPeers(
 }
 
 async function checkLibraryMissingPeers() {
-  console.log('Checking libraries for missing peer dependencies...');
+  console.log('Checking libraries for missing peer dependencies...\n');
 
   let errors: string[] = [];
 
