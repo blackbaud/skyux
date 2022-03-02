@@ -10,10 +10,38 @@ import { sortObjectByKeys } from './utils/sort-object-by-keys';
 const argv = require('minimist')(process.argv.slice(2));
 const CWD = process.cwd();
 
-function getPackageDependencyNames(packageJson: PackageJson): string[] {
-  return Object.keys(packageJson.dependencies || {}).concat(
-    Object.keys(packageJson.peerDependencies || {})
-  );
+function cloneAndArrangePackageJsonFields(packageJson: any) {
+  const fieldOrder = [
+    'name',
+    'version',
+    'author',
+    'description',
+    'keywords',
+    'license',
+    'repository',
+    'bugs',
+    'homepage',
+    'schematics',
+    'ng-add',
+    'ng-update',
+    'peerDependencies',
+    'dependencies',
+  ];
+
+  const newJson: any = {};
+
+  for (const field of fieldOrder) {
+    if (packageJson[field]) {
+      newJson[field] = packageJson[field];
+      delete packageJson[field];
+    }
+  }
+
+  for (const k in packageJson) {
+    newJson[k] = packageJson[k];
+  }
+
+  return newJson;
 }
 
 async function findUnlistedPeers(
@@ -27,7 +55,9 @@ async function findUnlistedPeers(
 
   const packageLockJson = await readJson(join(CWD, 'package-lock.json'));
 
-  const dependencies = getPackageDependencyNames(packageJson);
+  const dependencies = Object.keys(packageJson.dependencies || {}).concat(
+    Object.keys(packageJson.peerDependencies || {})
+  );
 
   // Find all import statements within source files.
   const files = glob.sync(join(CWD, packageConfig.root, '**/*.ts'), {
@@ -57,23 +87,28 @@ async function findUnlistedPeers(
         continue;
       }
 
-      packagesFoundInSourceCode.push(foundPackage);
-
-      // ng2-dragula also requires the dragula package.
-      if (foundPackage === 'ng2-dragula') {
-        packagesFoundInSourceCode.push('dragula');
-      }
-
       const ignoredPackages = [
-        '@angular-devkit/core', // direct dependency of @angular-devkit/build-angular
-        '@angular-devkit/schematics', // direct dependency of @angular/cli
-        '@schematics/angular', // direct dependency of @angular/cli
         'path', // system level package
         'rxjs', // peer of @angular/core
       ];
       if (ignoredPackages.includes(foundPackage)) {
         continue;
       }
+
+      // ng2-dragula also requires the dragula package.
+      if (foundPackage === 'ng2-dragula') {
+        packagesFoundInSourceCode.push('dragula');
+      }
+
+      // The following dependencies are provided by @angular/cli.
+      if (
+        foundPackage.startsWith('@angular-devkit/') ||
+        foundPackage.startsWith('@schematics/')
+      ) {
+        foundPackage = '@angular/cli';
+      }
+
+      packagesFoundInSourceCode.push(foundPackage);
 
       if (dependencies.includes(foundPackage)) {
         continue;
@@ -125,41 +160,31 @@ async function findUnusedPeers(
 ): Promise<{ errors: string[] }> {
   const errors: string[] = [];
 
-  const dependencies = getPackageDependencyNames(packageJson);
+  const peers = Object.keys(packageJson.peerDependencies || {});
 
   // All component libraries should have these dependencies.
   const ignoredPackages = ['@angular/core', '@angular/common', 'tslib'];
 
-  for (const dependency of dependencies) {
-    if (ignoredPackages.includes(dependency)) {
+  for (const peer of peers) {
+    if (ignoredPackages.includes(peer)) {
       continue;
     }
 
-    if (packagesFoundInSourceCode.includes(dependency)) {
+    if (packagesFoundInSourceCode.includes(peer)) {
       continue;
     }
 
     if (fix) {
-      if (
-        packageJson.peerDependencies &&
-        packageJson.peerDependencies[dependency]
-      ) {
-        delete packageJson.peerDependencies[dependency];
+      if (packageJson.peerDependencies && packageJson.peerDependencies[peer]) {
+        delete packageJson.peerDependencies[peer];
         console.log(
-          ` [fix] --> ${projectName}: Removed '${dependency}' as a peer dependency since it is not being used.`
-        );
-      }
-
-      if (packageJson.dependencies && packageJson.dependencies[dependency]) {
-        delete packageJson.dependencies[dependency];
-        console.log(
-          ` [fix] --> ${projectName}: Removed '${dependency}' as a dependency since it is not being used.`
+          ` [fix] --> ${projectName}: Removed '${peer}' as a peer dependency since it is not being used.`
         );
       }
     } else {
       const affectedFile = join(packageConfig.root, 'package.json');
       errors.push(
-        `The library '${projectName}' requests a peer of '${dependency}' but it is not found in the source code.\n` +
+        `The library '${projectName}' requests a peer of '${peer}' but it is not found in the source code.\n` +
           `   Remove the peer from: '${affectedFile}'.\n` +
           `                          ${'^'.repeat(affectedFile.length)}\n`
       );
@@ -211,7 +236,13 @@ async function checkLibraryMissingPeers() {
         packageJson.peerDependencies
       );
 
-      await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+      await writeJson(
+        packageJsonPath,
+        cloneAndArrangePackageJsonFields(packageJson),
+        {
+          spaces: 2,
+        }
+      );
     }
   }
 
@@ -223,13 +254,12 @@ async function checkLibraryMissingPeers() {
   [!] Missing peers found!
       Append the command with '-- --fix' to fix them.
 ======================================================
-
 `
     );
     process.exit(1);
   }
 
-  console.log(' ✔ Done checking library peers. OK.');
+  console.log('\n ✔ Done checking library peers. OK.');
 }
 
 checkLibraryMissingPeers();
