@@ -18,7 +18,8 @@ function getPackageDependencyNames(packageJson: PackageJson): string[] {
 
 async function findUnlistedPeers(
   projectName: string,
-  projectConfigs: PackageConfigs,
+  packageConfig: PackageConfig,
+  monorepoPackageNames: string[],
   packageJson: PackageJson,
   fix = false
 ): Promise<{ errors: string[]; packagesFoundInSourceCode: string[] }> {
@@ -28,11 +29,8 @@ async function findUnlistedPeers(
 
   const dependencies = getPackageDependencyNames(packageJson);
 
-  const projectConfig = projectConfigs[projectName];
-  const publishableProjectNames = Object.keys(projectConfigs);
-
   // Find all import statements within source files.
-  const files = glob.sync(join(CWD, projectConfig.root, '**/*.ts'), {
+  const files = glob.sync(join(CWD, packageConfig.root, '**/*.ts'), {
     nodir: true,
     ignore: ['**/fixtures/**', '**/*.fixture.ts', '**/*.spec.ts', '**/test.ts'],
   });
@@ -77,35 +75,37 @@ async function findUnlistedPeers(
         continue;
       }
 
-      if (!dependencies.includes(foundPackage)) {
-        if (fix) {
-          const version = packageLockJson.dependencies[foundPackage]
-            ? `^${packageLockJson.dependencies[foundPackage].version}`
-            : publishableProjectNames.includes(foundPackage)
-            ? '0.0.0-PLACEHOLDER'
-            : undefined;
+      if (dependencies.includes(foundPackage)) {
+        continue;
+      }
 
-          if (!version) {
-            errors.push(
-              `A version could not be located for package '${foundPackage}'. Is it installed?\n`
-            );
-          } else {
-            packageJson.peerDependencies = packageJson.peerDependencies || {};
-            if (!packageJson.peerDependencies[foundPackage]) {
-              packageJson.peerDependencies[foundPackage] = version;
-              console.log(
-                ` [fix] --> ${projectName}: Added '${foundPackage}' as a peer dependency.`
-              );
-            }
-          }
-        } else {
-          const affectedFile = fileName.replace(join(CWD, '/'), '');
+      if (fix) {
+        const version = packageLockJson.dependencies[foundPackage]
+          ? `^${packageLockJson.dependencies[foundPackage].version}`
+          : monorepoPackageNames.includes(foundPackage)
+          ? '0.0.0-PLACEHOLDER'
+          : undefined;
+
+        if (!version) {
           errors.push(
-            `The library '${projectName}' imports from '${foundPackage}' but it is not listed as a peer!\n` +
-              `   see: ${affectedFile}\n` +
-              `        ${'^'.repeat(affectedFile.length)}\n`
+            `A version could not be located for package '${foundPackage}'. Is it installed?\n`
           );
+        } else {
+          packageJson.peerDependencies = packageJson.peerDependencies || {};
+          if (!packageJson.peerDependencies[foundPackage]) {
+            packageJson.peerDependencies[foundPackage] = version;
+            console.log(
+              ` [fix] --> ${projectName}: Added '${foundPackage}' as a peer dependency.`
+            );
+          }
         }
+      } else {
+        const affectedFile = fileName.replace(join(CWD, '/'), '');
+        errors.push(
+          `The library '${projectName}' imports from '${foundPackage}' but it is not listed as a peer!\n` +
+            `   see: ${affectedFile}\n` +
+            `        ${'^'.repeat(affectedFile.length)}\n`
+        );
       }
     }
   }
@@ -174,16 +174,22 @@ async function checkLibraryMissingPeers() {
 
   let errors: string[] = [];
 
-  const projectConfigs = await getPublishableProjects();
+  const packageConfigs = await getPublishableProjects();
 
-  for (const projectName in projectConfigs) {
-    const packageConfig = projectConfigs[projectName];
+  const monorepoPackageNames: string[] = [];
+  for (const p in packageConfigs) {
+    monorepoPackageNames.push(packageConfigs[p].npmName!);
+  }
+
+  for (const projectName in packageConfigs) {
+    const packageConfig = packageConfigs[projectName];
     const packageJsonPath = join(CWD, packageConfig.root, 'package.json');
     const packageJson = await readJson(packageJsonPath);
 
     const unlistedPeersResult = await findUnlistedPeers(
       projectName,
-      projectConfigs,
+      packageConfig,
+      monorepoPackageNames,
       packageJson,
       argv.fix
     );
