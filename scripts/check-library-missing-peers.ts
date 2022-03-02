@@ -1,7 +1,7 @@
 import { readFile, readJson, writeJson } from 'fs-extra';
 import glob from 'glob';
 import { join } from 'path';
-import { PackageConfig, PackageConfigs } from 'shared/package-config';
+import { PackageConfig } from 'shared/package-config';
 import { PackageJson } from 'shared/package-json';
 
 import { getPublishableProjects } from './lib/get-publishable-projects';
