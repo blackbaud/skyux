@@ -87,21 +87,21 @@ async function findUnlistedPeers(
 
           if (!version) {
             errors.push(
-              `A version could not be located for package ${foundPackage}. Is it installed?\n`
+              `A version could not be located for package '${foundPackage}'. Is it installed?\n`
             );
           } else {
             packageJson.peerDependencies = packageJson.peerDependencies || {};
             if (!packageJson.peerDependencies[foundPackage]) {
               packageJson.peerDependencies[foundPackage] = version;
               console.log(
-                ` [fix] --> ${projectName}: Added ${foundPackage} as a peer dependency.`
+                ` [fix] --> ${projectName}: Added '${foundPackage}' as a peer dependency.`
               );
             }
           }
         } else {
           const affectedFile = fileName.replace(join(CWD, '/'), '');
           errors.push(
-            `The library '${projectName}' imports from ${foundPackage} but it is not listed as a peer!\n` +
+            `The library '${projectName}' imports from '${foundPackage}' but it is not listed as a peer!\n` +
               `   see: ${affectedFile}\n` +
               `        ${'^'.repeat(affectedFile.length)}\n`
           );
@@ -146,20 +146,20 @@ async function findUnusedPeers(
       ) {
         delete packageJson.peerDependencies[dependency];
         console.log(
-          ` [fix] --> ${projectName}: Removed ${dependency} as a peer dependency since it is not being used.`
+          ` [fix] --> ${projectName}: Removed '${dependency}' as a peer dependency since it is not being used.`
         );
       }
 
       if (packageJson.dependencies && packageJson.dependencies[dependency]) {
         delete packageJson.dependencies[dependency];
         console.log(
-          ` [fix] --> ${projectName}: Removed ${dependency} as a dependency since it is not being used.`
+          ` [fix] --> ${projectName}: Removed '${dependency}' as a dependency since it is not being used.`
         );
       }
     } else {
       const affectedFile = join(packageConfig.root, 'package.json');
       errors.push(
-        `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code.\n` +
+        `The library '${projectName}' requests a peer of '${dependency}' but it is not found in the source code.\n` +
           `   Remove the peer from: '${affectedFile}'.\n` +
           `                          ${'^'.repeat(affectedFile.length)}\n`
       );
