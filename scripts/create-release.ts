@@ -118,8 +118,10 @@ async function promptPushOrigin(version: string) {
   ]);
 
   if (!answer.pushOrigin) {
+    // Reset the commit and delete the tag.
     await runCommand('git', ['reset', '--soft', 'HEAD~1']);
     await runCommand('git', ['tag', '-d', version]);
+
     console.log('Release aborted. Thanks for playing!');
     process.exit(0);
   }
@@ -129,7 +131,7 @@ async function promptPushOrigin(version: string) {
 }
 
 /**
- * Bumps the version provided in package.json, creates a tag with release notes, and pushes them to origin.
+ * Bumps the version provided in package.json, creates a tag with release notes, and pushes to origin.
  */
 async function createRelease() {
   try {
