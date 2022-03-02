@@ -28,6 +28,6 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.vars.outputs.tag }} to NPM. http://github.com/${{ github.repository }}/blob/${{ steps.vars.outputs.tag }}/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.vars.outputs.tag }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
