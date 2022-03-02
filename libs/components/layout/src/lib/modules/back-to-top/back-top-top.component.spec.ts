@@ -62,26 +62,29 @@ function scrollElement(
 describe('back to top component', () => {
   let fixture: ComponentFixture<SkyBackToTopFixtureComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkyBackToTopFixturesModule],
-    });
-
-    fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
-    fixture.detectChanges();
-  });
-
   afterEach(() => {
     fixture.destroy();
   });
 
   describe('when parent is window', () => {
-    it('should show when backToTopTarget is defined and the target element is scrolled out of view', fakeAsync(() => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [SkyBackToTopFixturesModule],
+      });
+
+      fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
+      fixture.detectChanges();
+    });
+
+    it('should show when backToTopTarget is defined and the target element is scrolled out of view', async () => {
       scrollWindowToBottom(fixture);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
 
       const backToTopElement = getBackToTop();
       expect(backToTopElement).not.toBeNull();
-    }));
+    });
 
     it('should not show when user scrolls back to the top', fakeAsync(() => {
       scrollWindowToBottom(fixture);
@@ -149,6 +152,11 @@ describe('back to top component', () => {
     let parentElement: HTMLElement;
 
     beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [SkyBackToTopFixturesModule],
+      });
+
+      fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
       fixture.componentInstance.height = 200;
       fixture.componentInstance.scrollableParent = true;
       fixture.detectChanges();
@@ -188,6 +196,15 @@ describe('back to top component', () => {
   });
 
   describe('when the message stream is used', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [SkyBackToTopFixturesModule],
+      });
+
+      fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
+      fixture.detectChanges();
+    });
+
     it('should scroll to target element when a BackToTop message is sent', () => {
       fixture.detectChanges();
       scrollWindowToBottom(fixture);
