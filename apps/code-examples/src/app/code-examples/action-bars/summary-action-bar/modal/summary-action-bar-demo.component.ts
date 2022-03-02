@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarModalDemoComponent } from './summary-action-bar-modal-demo.component';

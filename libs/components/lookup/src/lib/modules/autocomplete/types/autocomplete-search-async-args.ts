@@ -1,5 +1,6 @@
-import { SkyAutocompleteSearchAsyncResult } from './autocomplete-search-async-result';
 import { Observable } from 'rxjs';
+
+import { SkyAutocompleteSearchAsyncResult } from './autocomplete-search-async-result';
 import { AutocompleteSearchAsyncResultDisplayType } from './autocomplete-search-async-result-display-type';
 
 /**

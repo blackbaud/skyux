@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { SkyModalBeforeCloseHandler } from '../modal-before-close-handler';
-
 import { SkyModalInstance } from '../modal-instance';
 
 @Component({

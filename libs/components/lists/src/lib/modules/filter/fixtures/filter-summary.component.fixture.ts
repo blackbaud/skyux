@@ -16,9 +16,9 @@ export class FilterSummaryTestComponent {
     },
   ];
 
-  public dismissed: boolean = false;
+  public dismissed = false;
 
-  public summaryClicked: boolean = false;
+  public summaryClicked = false;
 
   public onDismiss() {
     this.dismissed = true;

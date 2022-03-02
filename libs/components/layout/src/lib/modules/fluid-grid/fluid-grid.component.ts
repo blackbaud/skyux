@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
-
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 /**

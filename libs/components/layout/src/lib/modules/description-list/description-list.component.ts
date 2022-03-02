@@ -12,20 +12,15 @@ import {
   QueryList,
   ViewChild,
 } from '@angular/core';
-
 import { MutationObserverService } from '@skyux/core';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
-import { SkyDescriptionListModeType } from './types/description-list-mode-type';
-
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
-
 import { SkyDescriptionListContentComponent } from './description-list-content.component';
-
 import { SkyDescriptionListService } from './description-list.service';
+import { SkyDescriptionListModeType } from './types/description-list-mode-type';
 
 /**
  * Creates a description list to display term-description pairs.

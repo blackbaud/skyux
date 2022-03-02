@@ -5,7 +5,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   Injector,
   Input,
   OnDestroy,
@@ -15,34 +14,28 @@ import {
   TemplateRef,
   Type,
   ViewChild,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
   FormControl,
+  NG_VALIDATORS,
   NgControl,
   NgModel,
-  NG_VALIDATORS,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-
 import { SkyAppWindowRef } from '@skyux/core';
-
+import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyInputBoxHostService } from '@skyux/forms';
-
 import 'intl-tel-input';
-
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
-
 import { SkyAutocompleteInputDirective } from '../autocomplete/autocomplete-input.directive';
+import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomplete-selection-change';
 
 import { SkyCountryFieldCountry } from './types/country';
 
@@ -54,7 +47,7 @@ const SKY_COUNTRY_FIELD_VALIDATOR = {
 };
 
 // tslint:enable
-let uniqueId: number = 0;
+let uniqueId = 0;
 
 @Component({
   selector: 'sky-country-field',
@@ -168,9 +161,9 @@ export class SkyCountryFieldComponent
 
   public countrySearchFormControl: FormControl;
 
-  public isInputFocused: boolean = false;
+  public isInputFocused = false;
 
-  public searchTextMinimumCharacters: number = 2;
+  public searchTextMinimumCharacters = 2;
 
   @ViewChild(SkyAutocompleteInputDirective)
   public countrySearchAutocompleteDirective: SkyAutocompleteInputDirective;
@@ -178,7 +171,7 @@ export class SkyCountryFieldComponent
   public set selectedCountry(newCountry: SkyCountryFieldCountry) {
     if (!this.countriesAreEqual(this.selectedCountry, newCountry)) {
       if (newCountry && newCountry.iso2) {
-        let isoCountry = this.countries.find(
+        const isoCountry = this.countries.find(
           (country) => country.iso2 === newCountry.iso2
         );
 
@@ -227,7 +220,7 @@ export class SkyCountryFieldComponent
     return this._selectedCountry;
   }
 
-  public currentTheme: string = 'default';
+  public currentTheme = 'default';
 
   public inputId: string;
 
@@ -247,9 +240,9 @@ export class SkyCountryFieldComponent
 
   private idle: Subject<any> = new Subject();
 
-  private internalFormChange: boolean = false;
+  private internalFormChange = false;
 
-  private isInitialChange: boolean = true;
+  private isInitialChange = true;
 
   private ngControl: NgControl;
 
@@ -257,9 +250,9 @@ export class SkyCountryFieldComponent
 
   private _defaultCountry: string;
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
-  private _includePhoneInfo: boolean = false;
+  private _includePhoneInfo = false;
 
   private _selectedCountry: SkyCountryFieldCountry;
 
@@ -471,9 +464,9 @@ export class SkyCountryFieldComponent
     // istanbul ignore next
     if (!this.includePhoneInfo && !this.hideSelectedCountryFlag) {
       if (
-        (<HTMLElement>(
-          this.elRef.nativeElement.parentElement
-        ))?.classList?.contains('sky-phone-field-country-search')
+        (
+          this.elRef.nativeElement.parentElement as HTMLElement
+        )?.classList?.contains('sky-phone-field-country-search')
       ) {
         this.includePhoneInfo = true;
         this.hideSelectedCountryFlag = true;
@@ -510,7 +503,7 @@ export class SkyCountryFieldComponent
     let selectedCountryIndex: number;
     let selectedCountryData: SkyCountryFieldCountry;
 
-    let sortedNewCountries = this.countries.sort((a, b) => {
+    const sortedNewCountries = this.countries.sort((a, b) => {
       if (
         ((this.defaultCountryData &&
           this.countriesEqual(a, this.defaultCountryData)) ||

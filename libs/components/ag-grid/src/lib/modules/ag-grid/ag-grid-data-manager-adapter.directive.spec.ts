@@ -1,11 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DebugElement } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { expect } from '@skyux-sdk/testing';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+} from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import {
   Column,
   ColumnApi,
@@ -16,17 +18,8 @@ import {
   RowSelectedEvent,
 } from 'ag-grid-community';
 
-import { expect } from '@skyux-sdk/testing';
-
-import {
-  SkyDataManagerService,
-  SkyDataManagerState,
-} from '@skyux/data-manager';
-
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
-
 import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';
-
 import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridDataManagerAdapterDirective', () => {
@@ -189,7 +182,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should not update the data state when a column is dragged and released in the same spot', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    let colIds = ['col1', 'col2'];
+    const colIds = ['col1', 'col2'];
     const columnApi = {
       getAllDisplayedVirtualColumns: () => {
         return colIds.map((colId) => {

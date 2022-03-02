@@ -1,9 +1,6 @@
 import { SkyViewkeeperBoundaryInfo } from './viewkeeper-boundary-info';
-
 import { SkyViewkeeperFixedStyles } from './viewkeeper-fixed-styles';
-
 import { SkyViewkeeperOffset } from './viewkeeper-offset';
-
 import { SkyViewkeeperOptions } from './viewkeeper-options';
 
 const CLS_VIEWKEEPER_FIXED = 'sky-viewkeeper-fixed';
@@ -16,7 +13,7 @@ function ensureStyleEl(): void {
   if (!styleEl) {
     styleEl = document.createElement('style');
 
-    let css = document.createTextNode(`
+    const css = document.createTextNode(`
 .${CLS_VIEWKEEPER_FIXED} {
   position: fixed !important;
   z-index: 999;

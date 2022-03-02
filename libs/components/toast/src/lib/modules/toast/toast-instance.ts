@@ -2,6 +2,7 @@
 import { EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs';
+
 // #endregion
 
 export class SkyToastInstance {

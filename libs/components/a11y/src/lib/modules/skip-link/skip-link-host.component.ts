@@ -1,11 +1,10 @@
 import {
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
 } from '@angular/core';
 
 import { SkySkipLink } from './skip-link';
-
 import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
 
 @Component({

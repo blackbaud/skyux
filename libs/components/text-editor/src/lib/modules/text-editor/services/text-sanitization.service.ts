@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import createDOMPurify from 'dompurify';
+
 const domPurify = createDOMPurify(window);
 
 domPurify.addHook('afterSanitizeAttributes', (node: Element) => {
   // Set all elements owning target to target=_blank
   // so we only allow the target attribute with that value.
-  if (!!node.getAttribute('target')) {
+  if (node.getAttribute('target')) {
     node.setAttribute('target', '_blank');
     node.setAttribute('rel', 'noopener noreferrer');
   }

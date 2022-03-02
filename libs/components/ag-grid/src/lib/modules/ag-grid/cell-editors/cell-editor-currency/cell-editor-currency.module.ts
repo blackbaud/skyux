@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { SkyAutonumericModule } from '@skyux/autonumeric';
 

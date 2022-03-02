@@ -1,7 +1,5 @@
 import { SkyDateRangeCalculatorId } from './date-range-calculator-id';
-
 import { SKY_DEFAULT_CALCULATOR_CONFIGS as configs } from './date-range-default-calculator-configs';
-
 import { SkyDateRangeRelativeValue } from './date-range-relative-value';
 
 describe('Default calculator configs', function () {

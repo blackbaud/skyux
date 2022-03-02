@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SkyPopoverAdapterArrowCoordinates } from './types/popover-adapter-arrow-coordinates';
-
 import { SkyPopoverAdapterElements } from './types/popover-adapter-elements';
-
 import { SkyPopoverPlacement } from './types/popover-placement';
 
 /**

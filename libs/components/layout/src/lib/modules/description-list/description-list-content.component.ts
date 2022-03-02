@@ -1,8 +1,7 @@
 import { Component, ContentChildren, QueryList } from '@angular/core';
 
-import { SkyDescriptionListTermComponent } from './description-list-term.component';
-
 import { SkyDescriptionListDescriptionComponent } from './description-list-description.component';
+import { SkyDescriptionListTermComponent } from './description-list-term.component';
 
 /**
  * Wraps the term-description pairs in the description list.

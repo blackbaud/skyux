@@ -1,20 +1,14 @@
 import { ComponentRef, Injectable, OnDestroy, Provider } from '@angular/core';
+import { SkyDynamicComponentService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { SkyDynamicComponentService } from '@skyux/core';
-
-import { SkyToastConfig } from './types/toast-config';
-
 import { SkyToast } from './toast';
-
-import { SkyToastBodyComponent } from './toast-body.component';
-
-import { SkyToastInstance } from './toast-instance';
-
 import { SkyToastBodyContext } from './toast-body-context';
-
+import { SkyToastBodyComponent } from './toast-body.component';
+import { SkyToastInstance } from './toast-instance';
 import { SkyToasterComponent } from './toaster.component';
+import { SkyToastConfig } from './types/toast-config';
 
 @Injectable({
   providedIn: 'root',

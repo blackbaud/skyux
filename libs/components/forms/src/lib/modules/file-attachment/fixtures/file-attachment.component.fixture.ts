@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
@@ -13,11 +12,11 @@ export class FileAttachmentTestComponent implements OnInit {
 
   public fileForm: FormGroup;
 
-  public labelText: string = 'Choose file';
+  public labelText = 'Choose file';
 
-  public required: boolean = false;
+  public required = false;
 
-  public showLabel: boolean = true;
+  public showLabel = true;
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent: SkyFileAttachmentComponent;

@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyActionButtonModule } from '@skyux/layout';
 
 import { ActionButtonDemoComponent } from './action-button-demo.component';

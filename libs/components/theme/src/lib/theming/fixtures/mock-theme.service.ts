@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyThemeSettings } from '../theme-settings';
-
 import { SkyThemeSettingsChange } from '../theme-settings-change';
 
 export class MockThemeService {

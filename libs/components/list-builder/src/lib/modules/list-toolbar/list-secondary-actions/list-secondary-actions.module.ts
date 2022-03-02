@@ -1,20 +1,14 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
-
 import { SkyIconModule } from '@skyux/indicators';
-
 import { SkyDropdownModule } from '@skyux/popovers';
 
 import { SkyListBuilderResourcesModule } from '../../shared/sky-list-builder-resources.module';
 
-import { SkyListSecondaryActionsComponent } from './list-secondary-actions.component';
-
 import { SkyListSecondaryActionComponent } from './list-secondary-action.component';
-
 import { SkyListSecondaryActionsHostComponent } from './list-secondary-actions-host.component';
+import { SkyListSecondaryActionsComponent } from './list-secondary-actions.component';
 
 @NgModule({
   declarations: [

@@ -13,7 +13,7 @@ export class SkyModalHostService {
   }
 
   public static get fullPageModalCount(): number {
-    let fullPageModals = SkyModalHostService.modalHosts.filter(
+    const fullPageModals = SkyModalHostService.modalHosts.filter(
       (modal) => modal.fullPage
     );
     return fullPageModals.length;

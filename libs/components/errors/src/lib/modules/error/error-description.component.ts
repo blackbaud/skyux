@@ -14,5 +14,5 @@ export class SkyErrorDescriptionComponent {
    * @default false
    */
   @Input()
-  public replaceDefaultDescription: boolean = false;
+  public replaceDefaultDescription = false;
 }

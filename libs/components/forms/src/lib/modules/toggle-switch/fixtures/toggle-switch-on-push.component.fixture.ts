@@ -9,9 +9,9 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyToggleSwitchOnPushFixtureComponent {
-  public isChecked: boolean = false;
+  public isChecked = false;
 
-  public showLabel: boolean = true;
+  public showLabel = true;
 
   constructor(public ref: ChangeDetectorRef) {}
 }

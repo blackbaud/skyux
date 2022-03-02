@@ -1,13 +1,12 @@
 import {
   Component,
-  Input,
   ContentChildren,
-  TemplateRef,
-  QueryList,
-  OnInit,
   EventEmitter,
+  Input,
+  OnInit,
+  QueryList,
+  TemplateRef,
 } from '@angular/core';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 /**

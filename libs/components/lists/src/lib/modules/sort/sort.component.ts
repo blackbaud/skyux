@@ -4,12 +4,12 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
 import { Subject } from 'rxjs';
 
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
-
 import { SkySortService } from './sort.service';
+
 @Component({
   selector: 'sky-sort',
   styleUrls: ['./sort.component.scss'],

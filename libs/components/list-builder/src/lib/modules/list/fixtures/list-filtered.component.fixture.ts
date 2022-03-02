@@ -1,7 +1,6 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 
 import { ListFilterModel } from '../../list-filters/filter.model';
-
 import { SkyListComponent } from '../list.component';
 
 @Component({

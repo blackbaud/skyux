@@ -5,13 +5,12 @@ import {
   Component,
   ContentChildren,
   EventEmitter,
-  forwardRef,
   Input,
+  OnDestroy,
   Output,
   QueryList,
-  OnDestroy,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -22,12 +21,10 @@ import {
 } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyToggleSwitchChange } from './types/toggle-switch-change';
-
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
+import { SkyToggleSwitchChange } from './types/toggle-switch-change';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR: any = {
@@ -121,11 +118,11 @@ export class SkyToggleSwitchComponent
   private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
 
   private control: AbstractControl;
-  private isFirstChange: boolean = true;
+  private isFirstChange = true;
   private ngUnsubscribe = new Subject<void>();
   private toggleSwitchId = uniqueId++;
 
-  private _checked: boolean = false;
+  private _checked = false;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

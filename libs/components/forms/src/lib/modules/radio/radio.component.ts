@@ -3,13 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  forwardRef,
   Input,
   OnDestroy,
   Output,
   Provider,
+  forwardRef,
 } from '@angular/core';
-
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -253,7 +252,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   private _change = new EventEmitter<SkyRadioChange>();
   private _checked = false;
   private _checkedChange = new BehaviorSubject<boolean>(this._checked);
-  private _disabled: boolean = false;
+  private _disabled = false;
   private _disabledChange = new BehaviorSubject<boolean>(this._disabled);
   private _name: string;
   private _radioType: string;

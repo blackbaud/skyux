@@ -8,7 +8,6 @@ import {
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
-
 import { SkyCurrencyProperties } from '../../types/currency-properties';
 
 /**

@@ -1,37 +1,27 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   flush,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
 import { DragulaService } from 'ng2-dragula';
 
 import { MockDragulaService } from './fixtures/mock-dragula.service';
-
-import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
-
-import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
-
-import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
-
-import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
-
-import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
-
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
-
-import { SkyRepeaterComponent } from './repeater.component';
-
-import { SkyRepeaterService } from './repeater.service';
+import { RepeaterAsyncItemsTestComponent } from './fixtures/repeater-async-items.component.fixture';
+import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
+import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
+import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
+import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
+import { SkyRepeaterComponent } from './repeater.component';
+import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
   // #region helpers
@@ -112,8 +102,8 @@ describe('Repeater item component', () => {
   });
 
   it('should default expand mode to "none" when no expand mode is specified', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
-    let cmp: RepeaterTestComponent = fixture.componentInstance;
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const cmp: RepeaterTestComponent = fixture.componentInstance;
     cmp.expandMode = undefined;
 
     fixture.detectChanges();
@@ -126,9 +116,9 @@ describe('Repeater item component', () => {
   }));
 
   it('should allow removing all items dynamically', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
-    let el = fixture.nativeElement;
-    let cmp: RepeaterTestComponent = fixture.componentInstance;
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const el = fixture.nativeElement;
+    const cmp: RepeaterTestComponent = fixture.componentInstance;
     cmp.showRepeaterWithNgFor = true;
 
     fixture.detectChanges();
@@ -144,8 +134,8 @@ describe('Repeater item component', () => {
   }));
 
   it('should have aria-control set pointed at content', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
     tick();
@@ -160,7 +150,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should create default aria labels when itemName is not defined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.selectable = true;
     fixture.componentInstance.reorderable = true;
     fixture.detectChanges();
@@ -185,7 +175,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should create aria labels when itemName is defined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.showItemName = true; // Show item name to remove default labels
     fixture.componentInstance.selectable = true;
     fixture.componentInstance.reorderable = true;
@@ -213,7 +203,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should not have aria-selected attribute when item is not selectable', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.selectable = undefined;
     fixture.detectChanges();
     tick();
@@ -226,7 +216,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should set aria-selected when items are selected', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.selectable = true;
     fixture.componentInstance.lastItemSelected = true;
 
@@ -241,7 +231,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should hide the chevron and disable expand/collapse for items with no content', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.showItemWithNoContent = true;
 
     fixture.detectChanges();
@@ -254,7 +244,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should show/hide the chevron for dynamically added and removed content', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.componentInstance.showItemWithNoContent = true;
     fixture.componentInstance.showDynamicContent = true;
 
@@ -276,15 +266,15 @@ describe('Repeater item component', () => {
   }));
 
   it('should be accessible', async () => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   it("should properly get an item's index from the service", fakeAsync(() => {
-    let repeaterService = new SkyRepeaterService();
-    let fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
+    const repeaterService = new SkyRepeaterService();
+    const fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
       add: {
         viewProviders: [
           { provide: SkyRepeaterService, useValue: repeaterService },
@@ -314,7 +304,7 @@ describe('Repeater item component', () => {
   }));
 
   it('should not error when a non-reorderable repeater is interacted with', fakeAsync(() => {
-    let fixture = TestBed.createComponent(RepeaterTestComponent);
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
 
     fixture.detectChanges();
     tick();
@@ -340,8 +330,8 @@ describe('Repeater item component', () => {
 
   describe('with expand mode of "single"', () => {
     it('should collapse other items when an item is expanded', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
 
       cmp.expandMode = 'single';
       fixture.detectChanges();
@@ -370,8 +360,8 @@ describe('Repeater item component', () => {
     }));
 
     it('should collapse other items when a new expanded item is added', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
 
       cmp.expandMode = 'single';
       cmp.removeLastItem = true;
@@ -402,9 +392,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should toggle its collapsed state when an item's header is clicked", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.expandMode = 'single';
       fixture.detectChanges();
@@ -427,9 +417,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should toggle its collapsed state when an item's chevron is clicked", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.expandMode = 'single';
 
@@ -455,15 +445,15 @@ describe('Repeater item component', () => {
     }));
 
     it('should select items based on input', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
       cmp.expandMode = 'single';
       cmp.lastItemSelected = true;
 
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater.items.toArray();
 
       expect(repeaterItems[0].isSelected).toBe(false);
       expect(repeaterItems[1].isSelected).toBe(false);
@@ -473,7 +463,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should be accessible', async () => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       fixture.componentInstance.expandMode = 'single';
       fixture.detectChanges();
@@ -496,7 +486,7 @@ describe('Repeater item component', () => {
       collapseSpy.calls.reset();
       expandSpy.calls.reset();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater.items.toArray();
       expect(repeaterItems[0].isExpanded).toBe(true);
 
       getChrevronButtons(el).item(0).click();
@@ -520,8 +510,8 @@ describe('Repeater item component', () => {
 
   describe('with expand mode of "multiple"', () => {
     it('should not collapse other items when an item is expanded', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
 
       cmp.expandMode = 'multiple';
 
@@ -550,9 +540,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should toggle its collapsed state when an item's header is clicked", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.expandMode = 'multiple';
 
@@ -578,9 +568,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should toggle its collapsed state when an item's chevron is clicked", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.expandMode = 'multiple';
 
@@ -606,15 +596,15 @@ describe('Repeater item component', () => {
     }));
 
     it('should select items based on input', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
       cmp.expandMode = 'multiple';
       cmp.lastItemSelected = true;
 
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater.items.toArray();
 
       expect(repeaterItems[0].isSelected).toBe(false);
       expect(repeaterItems[1].isSelected).toBe(false);
@@ -624,7 +614,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should be accessible', async () => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       fixture.componentInstance.expandMode = 'multiple';
       fixture.detectChanges();
@@ -635,8 +625,8 @@ describe('Repeater item component', () => {
 
   describe('with expand mode of "none"', () => {
     it('should not allow items to be collapsed', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
 
       cmp.expandMode = 'none';
 
@@ -647,7 +637,7 @@ describe('Repeater item component', () => {
 
       expect(item.isExpanded).toBe(true);
 
-      let warnSpy = spyOn(console, 'warn');
+      const warnSpy = spyOn(console, 'warn');
 
       item.isExpanded = false;
 
@@ -664,9 +654,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should hide each item's chevron button", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
 
@@ -686,8 +676,8 @@ describe('Repeater item component', () => {
     }));
 
     it('should expand all items when mode was previously set to "single" or "multiple"', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
 
       cmp.expandMode = 'multiple';
 
@@ -696,7 +686,7 @@ describe('Repeater item component', () => {
 
       let repeaterItems = cmp.repeater.items.toArray();
 
-      for (let repeaterItem of repeaterItems) {
+      for (const repeaterItem of repeaterItems) {
         repeaterItem.isExpanded = false;
       }
 
@@ -710,7 +700,7 @@ describe('Repeater item component', () => {
 
       repeaterItems = cmp.repeater.items.toArray();
 
-      for (let repeaterItem of repeaterItems) {
+      for (const repeaterItem of repeaterItems) {
         expect(repeaterItem.isExpanded).toBe(true);
       }
 
@@ -718,9 +708,9 @@ describe('Repeater item component', () => {
     }));
 
     it("should not toggle its collapsed state when an item's header is clicked", fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.expandMode = 'none';
 
@@ -746,15 +736,15 @@ describe('Repeater item component', () => {
     }));
 
     it('should select items based on input', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
       cmp.expandMode = 'none';
       cmp.lastItemSelected = true;
 
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater.items.toArray();
 
       expect(repeaterItems[0].isSelected).toBe(false);
       expect(repeaterItems[1].isSelected).toBe(false);
@@ -764,7 +754,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should be accessible', async () => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       fixture.componentInstance.expandMode = 'none';
       fixture.detectChanges();
@@ -775,9 +765,9 @@ describe('Repeater item component', () => {
 
   describe('with selectability "true"', () => {
     it('should add selected css class when selected', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -812,7 +802,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should be accessible', async () => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       fixture.componentInstance.repeater.items.forEach(
         (item) => (item.selectable = true)
@@ -824,9 +814,9 @@ describe('Repeater item component', () => {
     });
 
     it('should update the isSelected property when the user clicks the checkbox', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let el = fixture.nativeElement;
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const el = fixture.nativeElement;
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
       fixture.detectChanges();
       tick();
       // Make each repeater item selectable.
@@ -850,9 +840,9 @@ describe('Repeater item component', () => {
     }));
 
     it('should select item with space and enter keys when selectable is set to true', fakeAsync(() => {
-      let fixture = TestBed.createComponent(RepeaterTestComponent);
-      let cmp: RepeaterTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      const cmp: RepeaterTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -1206,7 +1196,7 @@ describe('Repeater item component', () => {
     it("should set the repeater item's grab handle as the drag handle", fakeAsync(
       inject([DragulaService], (dragulaService: DragulaService) => {
         let movesCallback: Function;
-        let setOptionsSpy = spyOn(dragulaService, 'setOptions').and.callFake(
+        const setOptionsSpy = spyOn(dragulaService, 'setOptions').and.callFake(
           (bagId: any, options: any) => {
             movesCallback = options.moves;
           }
@@ -1296,7 +1286,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should move an item to the top via the "Top" button', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       el.querySelectorAll('.sky-repeater-item-reorder-top')[1].click();
       fixture.detectChanges();
@@ -1307,7 +1297,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should not move the top item via the "Top" button', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[0];
       el.querySelectorAll('.sky-repeater-item-reorder-top')[0].click();
       fixture.detectChanges();
@@ -1339,14 +1329,14 @@ describe('Repeater item component', () => {
     }));
 
     it('should move an item up via keyboard controls using "Space" to activate', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       reorderItemWithKey(fixture, 1, 'up');
       expect(el.querySelectorAll('sky-repeater-item')[0]).toBe(itemToTest);
     }));
 
     it('should move an item up via keyboard controls using "Enter" to activate', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       reorderItemWithKey(fixture, 1, 'up', 'Enter');
 
@@ -1354,7 +1344,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should move an item down via keyboard controls', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       reorderItemWithKey(fixture, 1, 'down');
 
@@ -1362,14 +1352,14 @@ describe('Repeater item component', () => {
     }));
 
     it('should not move an item down via keyboard controls if it is the last item', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[2];
       reorderItemWithKey(fixture, 2, 'down');
       expect(el.querySelectorAll('sky-repeater-item')[2]).toBe(itemToTest);
     }));
 
     it('should not move an item when the left and right arrows are received keyboard controls', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       const itemDragHandle = getReorderHandles(el)[1];
       SkyAppTestUtility.fireDomEvent(itemDragHandle, 'keydown', {
@@ -1392,7 +1382,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should not move an item up via keyboard controls if the blur event is received', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       const itemDragHandle = getReorderHandles(el)[1];
       SkyAppTestUtility.fireDomEvent(itemDragHandle, 'keydown', {
@@ -1414,7 +1404,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should turn off reordering when escape is hit', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       const itemDragHandle = getReorderHandles(el)[1];
       SkyAppTestUtility.fireDomEvent(itemDragHandle, 'keydown', {
@@ -1434,7 +1424,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should revert any reordering up when escape is hit', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       const itemDragHandle = getReorderHandles(el)[1];
       SkyAppTestUtility.fireDomEvent(itemDragHandle, 'keydown', {
@@ -1454,7 +1444,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should revert any reordering down when escape is hit', fakeAsync(() => {
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       const itemDragHandle = getReorderHandles(el)[1];
       SkyAppTestUtility.fireDomEvent(itemDragHandle, 'keydown', {
@@ -1510,7 +1500,7 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toBeUndefined();
 
       const groupName = fixture.componentInstance.repeater.dragulaGroupName;
-      let repeaterItem: HTMLElement =
+      const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
       mockDragulaService.drag.emit([groupName, repeaterItem]);
       detectChangesAndTick(fixture);
@@ -1539,7 +1529,7 @@ describe('Repeater item component', () => {
       expect(cmp.sortedItemTags).toBeUndefined();
 
       const groupName = fixture.componentInstance.repeater.dragulaGroupName;
-      let repeaterItem: HTMLElement =
+      const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
       mockDragulaService.drag.emit([groupName, repeaterItem]);
       detectChangesAndTick(fixture);
@@ -1559,7 +1549,7 @@ describe('Repeater item component', () => {
       cmp.reorderable = true;
       detectChangesAndTick(fixture);
 
-      let items = el.querySelectorAll('sky-repeater-item');
+      const items = el.querySelectorAll('sky-repeater-item');
       const itemToTest = items[1];
       el.querySelectorAll('.sky-repeater-item-reorder-top')[1].click();
       detectChangesAndTick(fixture);
@@ -1622,10 +1612,10 @@ describe('Repeater item component', () => {
     }));
 
     it('should reorder top-level repeater items', fakeAsync(() => {
-      let initialTopRepeaterItem = el.querySelector(
+      const initialTopRepeaterItem = el.querySelector(
         'sky-repeater-item[tag="top-item"]'
       );
-      let initialBottomRepeaterItem = el.querySelector(
+      const initialBottomRepeaterItem = el.querySelector(
         'sky-repeater-item[tag="bottom-item"]'
       );
 

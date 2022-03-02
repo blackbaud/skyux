@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyListViewGridComponent } from '../list-view-grid.component';
 
 @Component({

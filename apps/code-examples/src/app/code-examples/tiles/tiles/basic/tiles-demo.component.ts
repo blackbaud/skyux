@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-
 import { SkyTileDashboardConfig } from '@skyux/tiles';
 
 import { TileDemoTile1Component } from './tile-demo-tile1.component';
-
 import { TileDemoTile2Component } from './tile-demo-tile2.component';
 
 @Component({

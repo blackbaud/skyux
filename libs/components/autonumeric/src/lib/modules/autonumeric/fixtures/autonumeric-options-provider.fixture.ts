@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { SkyAutonumericOptions } from '../autonumeric-options';
 
+import { SkyAutonumericOptions } from '../autonumeric-options';
 import { SkyAutonumericOptionsProvider } from '../autonumeric-options-provider';
 
 @Injectable()

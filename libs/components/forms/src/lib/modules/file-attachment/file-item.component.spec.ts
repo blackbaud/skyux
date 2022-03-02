@@ -1,16 +1,11 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
-
-import { SkyFileItemComponent } from './file-item.component';
-
 import { SkyFileItem } from './file-item';
-
+import { SkyFileItemComponent } from './file-item.component';
 import { SkyFileLink } from './file-link';
-
-import { By } from '@angular/platform-browser';
 
 describe('File item component', () => {
   let fixture: ComponentFixture<SkyFileItemComponent>;
@@ -41,7 +36,7 @@ describe('File item component', () => {
   }
 
   function triggerDelete() {
-    let deleteEl = fixture.debugElement.query(
+    const deleteEl = fixture.debugElement.query(
       By.css('.sky-file-item-btn-delete')
     );
     deleteEl.nativeElement.click();
@@ -59,37 +54,37 @@ describe('File item component', () => {
   }
 
   function testImage(extension: string) {
-    componentInstance.fileItem = <SkyFileItem>{
+    componentInstance.fileItem = {
       file: {
         name: 'myFile.' + extension,
         type: 'image/' + extension,
         size: 1000,
       },
       url: '$/myFile.' + extension,
-    };
+    } as SkyFileItem;
 
     fixture.detectChanges();
 
-    let imageEl = getImage();
+    const imageEl = getImage();
     expect(imageEl.nativeElement.getAttribute('src')).toBe(
       '$/myFile.' + extension
     );
 
-    let otherEl = getOtherPreview();
+    const otherEl = getOtherPreview();
     expect(otherEl).toBeFalsy();
   }
 
   function testOtherPreview(extension: string, type: string) {
-    componentInstance.fileItem = <SkyFileItem>{
+    componentInstance.fileItem = {
       file: {
         name: 'myFile.' + extension,
         type: type + '/' + extension,
         size: 1000,
       },
       url: '$/myFile.' + extension,
-    };
+    } as SkyFileItem;
     fixture.detectChanges();
-    let otherEl = getOtherPreview();
+    const otherEl = getOtherPreview();
     let expectedClassExtension = type;
 
     if (
@@ -114,40 +109,40 @@ describe('File item component', () => {
       'fa-file-' + expectedClassExtension + '-o'
     );
 
-    let imageEl = getImage();
+    const imageEl = getImage();
     expect(imageEl).toBeFalsy();
   }
   //#endregion
 
   it('shows the name and size if the item is a file', () => {
-    componentInstance.fileItem = <SkyFileItem>{
+    componentInstance.fileItem = {
       file: {
         name: 'myFile.txt',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
     fixture.detectChanges();
 
-    let nameEl = getNameEl();
+    const nameEl = getNameEl();
 
     expect(nameEl.nativeElement.textContent).toBe('myFile.txt');
 
-    let sizeEl = getSizeEl();
+    const sizeEl = getSizeEl();
     expect(sizeEl.nativeElement.textContent).toContain('(1 KB)');
   });
 
   it('shows the url if the item is a link', async(() => {
-    componentInstance.fileItem = <SkyFileLink>{
+    componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
 
     fixture.detectChanges();
 
-    let nameEl = getNameEl();
+    const nameEl = getNameEl();
 
     expect(nameEl.nativeElement.textContent).toBe('$/myFile.txt');
 
-    let sizeEl = getSizeEl();
+    const sizeEl = getSizeEl();
     expect(sizeEl).toBeFalsy();
 
     // Test Accessibility
@@ -157,7 +152,7 @@ describe('File item component', () => {
   }));
 
   it('emits the delete event when the delete button is clicked', () => {
-    componentInstance.fileItem = <SkyFileLink>{
+    componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
     let deletedItem: SkyFileLink;
@@ -171,13 +166,13 @@ describe('File item component', () => {
 
     expect(deletedItem.url).toBe('$/myFile.txt');
 
-    componentInstance.fileItem = <SkyFileItem>{
+    componentInstance.fileItem = {
       file: {
         name: 'myFile.txt',
         size: 1000,
         type: 'file/txt',
       },
-    };
+    } as SkyFileItem;
 
     let deletedFile: SkyFileItem;
 
@@ -221,12 +216,12 @@ describe('File item component', () => {
   }));
 
   it('should pass accessibility', async(() => {
-    componentInstance.fileItem = <SkyFileItem>{
+    componentInstance.fileItem = {
       file: {
         name: 'myFile.txt',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(fixture.nativeElement).toBeAccessible();

@@ -1,13 +1,8 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { SkyIdModule } from '@skyux/core';
-
 import { SkyRadioModule, SkySelectionBoxModule } from '@skyux/forms';
-
 import { SkyIconModule } from '@skyux/indicators';
 
 import { SelectionBoxDemoComponent } from './selection-box-demo.component';

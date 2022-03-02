@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-
 import {
   SkyDataManagerFilterData,
   SkyDataManagerFilterModalContext,
 } from '@skyux/data-manager';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({

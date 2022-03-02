@@ -11,30 +11,22 @@ import {
   Output,
   ViewContainerRef,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyOverlayService,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import { RowNode } from 'ag-grid-community';
-
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridRowDeleteComponent } from './ag-grid-row-delete.component';
-
 import { SkyAgGridRowDeleteCancelArgs } from './types/ag-grid-row-delete-cancel-args';
-
 import { SkyAgGridRowDeleteConfig } from './types/ag-grid-row-delete-config';
-
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
-
 import { SkyAgGridRowDeleteContents } from './types/ag-grid-row-delete-contents';
 
 /**
@@ -54,7 +46,7 @@ export class SkyAgGridRowDeleteDirective
     this._rowDeleteIds = value;
 
     if (!value) {
-      for (let config of this.rowDeleteConfigs) {
+      for (const config of this.rowDeleteConfigs) {
         this.destroyRowDelete(config.id);
       }
 
@@ -63,7 +55,7 @@ export class SkyAgGridRowDeleteDirective
       return;
     }
 
-    for (let id of value) {
+    for (const id of value) {
       const existingConfig = this.rowDeleteConfigs.find(
         (config) => config.id === id
       );
@@ -75,7 +67,7 @@ export class SkyAgGridRowDeleteDirective
           pending: false,
         });
 
-        let overlay = this.overlayService.create({
+        const overlay = this.overlayService.create({
           enableScroll: true,
           showBackdrop: false,
           closeOnNavigation: true,
@@ -110,7 +102,7 @@ export class SkyAgGridRowDeleteDirective
             .find((elRef) => {
               return elRef.nativeElement.id === 'row-delete-ref-' + id;
             });
-          let affixer = this.affixService.createAffixer(inlineDeleteRef);
+          const affixer = this.affixService.createAffixer(inlineDeleteRef);
 
           this.affixToRow(affixer, id);
 
@@ -122,7 +114,7 @@ export class SkyAgGridRowDeleteDirective
       }
     }
 
-    for (let config of this.rowDeleteConfigs) {
+    for (const config of this.rowDeleteConfigs) {
       if (value.indexOf(config.id) < 0) {
         this.destroyRowDelete(config.id);
       }

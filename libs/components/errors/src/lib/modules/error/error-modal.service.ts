@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
-
 import { SkyErrorModalFormComponent } from './error-modal-form.component';
 
 /**

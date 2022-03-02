@@ -7,9 +7,8 @@ import {
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
-
 import { SkyAutocompleteProperties } from '../../types/autocomplete-properties';
+import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 
 /**
  * @internal

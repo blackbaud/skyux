@@ -1,13 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { By } from '@angular/platform-browser';
-
 import { Component } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-
 import { SkyTabsModule } from '@skyux/tabs';
 
 import { SkyTabsetFixture } from './tabset-fixture';

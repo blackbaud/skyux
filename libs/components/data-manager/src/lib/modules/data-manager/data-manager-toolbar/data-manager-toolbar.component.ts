@@ -5,32 +5,21 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
-import { Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
-import { SkyDataManagerService } from '../data-manager.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
-
-import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
-
 import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
-
-import { SkyDataManagerConfig } from '../models/data-manager-config';
-
-import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
-
-import { SkyDataManagerState } from '../models/data-manager-state';
-
-import { SkyDataViewConfig } from '../models/data-view-config';
-
 import { SkyDataManagerFilterModalContext } from '../data-manager-filter-context';
+import { SkyDataManagerService } from '../data-manager.service';
+import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
+import { SkyDataManagerConfig } from '../models/data-manager-config';
+import { SkyDataManagerSortOption } from '../models/data-manager-sort-option';
+import { SkyDataManagerState } from '../models/data-manager-state';
+import { SkyDataViewConfig } from '../models/data-view-config';
 
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`

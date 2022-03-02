@@ -2,9 +2,9 @@ import {
   Component,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
   SimpleChanges,
-  OnChanges,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -64,7 +64,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
   }
 
   public getClassNames(): string {
-    let classnames = ['sky-column'];
+    const classnames = ['sky-column'];
 
     if (this.screenXSmall) {
       classnames.push(`sky-column-xs-${this.screenXSmall}`);

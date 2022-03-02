@@ -6,6 +6,7 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,7 +14,6 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
 
 import { SkyViewkeeper } from './viewkeeper';
-
 import { SkyViewkeeperService } from './viewkeeper.service';
 
 @Directive({
@@ -80,7 +80,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
       viewkeeperEls = [];
 
       for (const item of this.skyViewkeeper) {
-        let matchingEls = Array.from(
+        const matchingEls = Array.from(
           (this.el.nativeElement as HTMLElement).querySelectorAll(item)
         ) as HTMLElement[];
 
@@ -112,7 +112,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
   }
 
   private detectElements(): void {
-    let viewkeeperEls = this.getViewkeeperEls();
+    const viewkeeperEls = this.getViewkeeperEls();
 
     if (this.viewkeeperElsChanged(viewkeeperEls)) {
       if (this.scrollableHostWatchUnsubscribe) {

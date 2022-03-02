@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyRowComponent } from './row.component';

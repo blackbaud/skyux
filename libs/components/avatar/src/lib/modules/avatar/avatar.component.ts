@@ -5,15 +5,11 @@ import {
   Output,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
-
 import { SkyFileDropChange, SkyFileItem, SkyFileSizePipe } from '@skyux/forms';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyAvatarSize } from './avatar-size';
-
 import { SkyAvatarSrc } from './avatar-src';
 
 @Component({

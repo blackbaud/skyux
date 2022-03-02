@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
 } from 'libs/components/data-manager/src/index';
 
 @Component({

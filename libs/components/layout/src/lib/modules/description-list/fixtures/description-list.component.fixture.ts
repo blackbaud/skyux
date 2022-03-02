@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { asyncScheduler, Observable, scheduled } from 'rxjs';
+import { Observable, asyncScheduler, scheduled } from 'rxjs';
 
 import { SkyDescriptionListModeType } from '../types/description-list-mode-type';
 

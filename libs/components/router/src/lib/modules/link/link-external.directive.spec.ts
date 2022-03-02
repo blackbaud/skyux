@@ -1,17 +1,12 @@
 import { Component, DebugElement, Provider } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { RouterTestingModule } from '@angular/router/testing';
-
 import {
   SkyAppConfig,
   SkyAppConfigHost,
   SkyAppRuntimeConfigParamsProvider,
 } from '@skyux/config';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkyAppLinkExternalDirective } from './link-external.directive';
@@ -27,7 +22,7 @@ class SkyAppLinkExternalTestComponent {}
 })
 class SkyAppLinkExternalWithParamsTestComponent {}
 
-const testUrl: string = 'testUrl';
+const testUrl = 'testUrl';
 
 describe('SkyAppLinkExternal Directive', () => {
   let fixture: ComponentFixture<SkyAppLinkExternalTestComponent>;

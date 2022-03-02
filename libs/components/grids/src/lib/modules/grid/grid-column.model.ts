@@ -16,7 +16,7 @@ export class SkyGridColumnModel {
   public hidden: boolean;
   public locked: boolean;
   public description: string;
-  public isSortable: boolean = true;
+  public isSortable = true;
   public excludeFromHighlighting: boolean;
 
   /**

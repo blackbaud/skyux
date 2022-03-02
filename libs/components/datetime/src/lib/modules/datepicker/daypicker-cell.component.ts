@@ -5,17 +5,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
 import { SkyDatepickerDate } from './datepicker-date';
-
 import { SkyDatepickerService } from './datepicker.service';
 
 /**
@@ -39,15 +35,15 @@ export class SkyDayPickerCellComponent implements OnInit, OnDestroy {
   @Input()
   public date: SkyDatepickerDate;
 
-  public hasTooltip: boolean = false;
+  public hasTooltip = false;
 
   public popoverController = new Subject<SkyPopoverMessage>();
 
-  private activeUid: string = '';
+  private activeUid = '';
 
-  private cancelPopover: boolean = false;
+  private cancelPopover = false;
 
-  private popoverOpen: boolean = false;
+  private popoverOpen = false;
 
   private ngUnsubscribe = new Subject<void>();
 

@@ -3,20 +3,17 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
+  NgZone,
   OnDestroy,
   OnInit,
   Optional,
   Output,
-  NgZone,
 } from '@angular/core';
+import { MutationObserverService } from '@skyux/core';
+import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
-
-import { MutationObserverService } from '@skyux/core';
-
-import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
 

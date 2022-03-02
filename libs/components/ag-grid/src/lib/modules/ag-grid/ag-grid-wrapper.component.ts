@@ -1,14 +1,13 @@
 import {
   AfterContentInit,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ContentChild,
   ElementRef,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import { DetailGridInfo } from 'ag-grid-community';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
@@ -106,7 +105,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
       if (primaryGridEditing) {
         return true;
       } else {
-        let innerEditing: boolean = false;
+        let innerEditing = false;
         this.agGrid.api.forEachDetailGridInfo((detailGrid: DetailGridInfo) => {
           if (detailGrid.api.getEditingCells().length > 0) {
             innerEditing = true;

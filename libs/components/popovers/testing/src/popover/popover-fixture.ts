@@ -1,5 +1,4 @@
 import { ComponentFixture } from '@angular/core/testing';
-
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**

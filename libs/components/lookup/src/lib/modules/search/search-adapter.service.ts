@@ -16,9 +16,9 @@ export class SkySearchAdapterService {
   }
 
   public startInputAnimation(searchEl: ElementRef) {
-    let buttonWidth = this.getSearchOpenButtonEl(searchEl).clientWidth;
-    let offsetWidth = this.getSearchContainerEl(searchEl).offsetLeft;
-    let minWidth = buttonWidth + offsetWidth;
+    const buttonWidth = this.getSearchOpenButtonEl(searchEl).clientWidth;
+    const offsetWidth = this.getSearchContainerEl(searchEl).offsetLeft;
+    const minWidth = buttonWidth + offsetWidth;
 
     this.getInputContainerEl(searchEl).style.minWidth =
       minWidth.toString() + 'px';

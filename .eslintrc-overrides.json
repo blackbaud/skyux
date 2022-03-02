@@ -4,10 +4,8 @@
       "files": ["*.ts"],
       "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "warn",
-        "@typescript-eslint/ban-ts-comment": "warn",
         "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/member-ordering": "warn",
-        "@typescript-eslint/no-inferrable-types": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-empty-interface": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn",
@@ -17,7 +15,6 @@
         "no-case-declarations": "warn",
         "no-empty": "warn",
         "no-extra-boolean-cast": "warn",
-        "no-fallthrough": "warn",
         "no-irregular-whitespace": "warn",
         "no-prototype-builtins": "warn",
         "no-self-assign": "warn",
@@ -31,7 +28,8 @@
       "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": "warn",
-        "@angular-eslint/component-selector": "warn"
+        "@angular-eslint/component-selector": "warn",
+        "@typescript-eslint/ban-ts-comment": "warn"
       }
     }
   ]

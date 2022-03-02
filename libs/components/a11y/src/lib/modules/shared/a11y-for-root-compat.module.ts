@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SkyAppWindowRef, SkyDynamicComponentService } from '@skyux/core';
 
 /**

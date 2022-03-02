@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
-
 import { SkySelectField } from '@skyux/select-field';
 
 import { SelectFieldDemoCustomPickerContext } from './select-field-demo-custom-picker-context';

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyLookupComponent } from '../lookup.component';
@@ -16,7 +15,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
 
   public autocompleteAttribute: string;
   public data: any[];
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
   public friends: any[];
   public form: FormGroup;
 

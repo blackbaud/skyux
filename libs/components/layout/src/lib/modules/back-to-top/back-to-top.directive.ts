@@ -5,21 +5,15 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-
 import { SkyDockItem, SkyDockService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyBackToTopDomAdapterService } from './back-to-top-adapter.service';
-
 import { SkyBackToTopComponent } from './back-to-top.component';
-
 import { SkyBackToTopMessage } from './models/back-to-top-message';
-
 import { SkyBackToTopMessageType } from './models/back-to-top-message-type';
-
 import { SkyBackToTopOptions } from './models/back-to-top-options';
 
 /**

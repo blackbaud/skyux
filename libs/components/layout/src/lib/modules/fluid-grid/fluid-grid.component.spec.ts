@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
-
 import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
-
 import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
-
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 // #region helpers
@@ -37,7 +33,7 @@ describe('SkyFluidGridComponent', () => {
       'sky-fluid-grid-gutter-size-large',
     ];
 
-    for (let gutterSizeClass of gutterSizeClasses) {
+    for (const gutterSizeClass of gutterSizeClasses) {
       if (gutterSizeClass === expectedGutterSizeClass) {
         expect(fluidGrid).toHaveCssClass(gutterSizeClass);
       } else {

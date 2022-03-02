@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SkyPagingModule } from '@skyux/lists';
 
 @NgModule({

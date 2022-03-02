@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
 import { ListFilterModel } from '@skyux/list-builder';
-
+import { ListItemModel } from '@skyux/list-builder-common';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { ListFiltersDemoModalContext } from './list-filters-demo-modal-context';

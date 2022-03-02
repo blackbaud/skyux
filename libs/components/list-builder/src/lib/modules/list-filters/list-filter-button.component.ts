@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
 import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
 
 /**
@@ -28,7 +27,7 @@ export class SkyListFilterButtonComponent implements AfterViewInit {
   })
   private filterButtonTemplate: TemplateRef<any>;
 
-  private filterButtonItemToolbarIndex: number = 5000;
+  private filterButtonItemToolbarIndex = 5000;
 
   constructor(private dispatcher: ListStateDispatcher) {}
 

@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
 
 import { MutationObserverService } from '../mutation/mutation-observer-service';

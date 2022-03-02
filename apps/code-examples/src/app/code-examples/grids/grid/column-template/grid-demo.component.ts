@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
 import { BehaviorSubject } from 'rxjs';

@@ -1,4 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
 
 import {
   CellClassParams,
@@ -9,23 +17,10 @@ import {
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
-
 import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
-
 import { BehaviorSubject } from 'rxjs';
 
-import { expect } from '@skyux-sdk/testing';
-
-import {
-  SkyTheme,
-  SkyThemeMode,
-  SkyThemeService,
-  SkyThemeSettings,
-  SkyThemeSettingsChange,
-} from '@skyux/theme';
-
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-
 import { SkyAgGridService } from './ag-grid.service';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
@@ -213,7 +208,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('unsubscribes from the theme service when destroyed', () => {
-      let overrideOptions = { gridOptions: {} };
+      const overrideOptions = { gridOptions: {} };
       let gridOptions = agGridService.getGridOptions(overrideOptions);
 
       expect(gridOptions.rowHeight).toBe(38);
@@ -913,12 +908,12 @@ describe('SkyAgGridService', () => {
 
     it('should use the row id for the row class', () => {
       expect(
-        defaultGridOptions.getRowClass(<RowClassParams>{
+        defaultGridOptions.getRowClass({
           ...params,
           node: {
             id: '123',
           },
-        })
+        } as RowClassParams)
       ).toEqual('sky-ag-grid-row-123');
     });
 

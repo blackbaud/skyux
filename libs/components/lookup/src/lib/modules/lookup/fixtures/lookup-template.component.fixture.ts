@@ -1,22 +1,16 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+
 import { SkyAutocompleteSearchAsyncArgs } from '../../autocomplete/types/autocomplete-search-async-args';
-
 import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
-
 import { SkyLookupComponent } from '../lookup.component';
-
 import { SkyLookupAddCallbackArgs } from '../types/lookup-add-click-callback-args';
-
 import { SkyLookupAddClickEventArgs } from '../types/lookup-add-click-event-args';
-
 import { SkyLookupSelectModeType } from '../types/lookup-select-mode-type';
-
 import { SkyLookupShowMoreConfig } from '../types/lookup-show-more-config';
-
 import { SkyLookupShowMoreCustomPickerContext } from '../types/lookup-show-more-custom-picker-context';
-
 import { SkyLookupShowMoreNativePickerConfig } from '../types/lookup-show-more-native-picker-config';
 
 @Component({
@@ -45,18 +39,18 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
   public descriptorProperty: string;
-  public disabled: boolean = false;
+  public disabled = false;
   public enabledSearchResultTemplate: TemplateRef<any>;
-  public enableShowMore: boolean = false;
+  public enableShowMore = false;
   public idProperty: string;
-  public ignoreAddDataUpdate: boolean = false;
+  public ignoreAddDataUpdate = false;
   public placeholderText: string;
   public propertiesToSearch: string[];
-  public required: boolean = false;
+  public required = false;
   public selectedFriends: any;
   public selectedFriendsAsync: any;
   public selectMode: SkyLookupSelectModeType;
-  public showAddButton: boolean = false;
+  public showAddButton = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public ngOnInit(): void {
@@ -148,7 +142,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
     const totalCount = items.length;
     let hasMore = false;
-    let itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
+    const itemCountToReturn = args.displayType === 'popover' ? 5 : 10;
 
     items = items.slice(args.offset, args.offset + itemCountToReturn);
     hasMore = args.offset + itemCountToReturn < totalCount;

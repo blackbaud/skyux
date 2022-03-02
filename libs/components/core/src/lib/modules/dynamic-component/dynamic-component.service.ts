@@ -13,7 +13,6 @@ import {
 import { SkyAppWindowRef } from '../window/window-ref';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';
-
 import { SkyDynamicComponentOptions } from './dynamic-component-options';
 
 /**

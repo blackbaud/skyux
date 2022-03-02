@@ -1,11 +1,7 @@
 import { DebugElement } from '@angular/core';
-
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -17,7 +13,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkySelectionBoxFixturesModule } from './fixtures/selection-box-fixtures.module';
-
 import { SelectionBoxTestComponent } from './fixtures/selection-box.component.fixture';
 
 describe('Selection box component', () => {
@@ -95,7 +90,7 @@ describe('Selection box component', () => {
   });
 
   it('should enable and disable AfterViewInit', async () => {
-    let outermostDiv = debugElement.query(
+    const outermostDiv = debugElement.query(
       By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')
     ).nativeElement;
     fixture.detectChanges();

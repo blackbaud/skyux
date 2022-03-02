@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { SkyRepeaterComponent } from '../repeater.component';
 
-let nextItemId: number = 0;
+let nextItemId = 0;
 
 @Component({
   selector: 'sky-test-cmp',
@@ -46,7 +46,7 @@ export class RepeaterTestComponent {
 
   public showContextMenu: boolean;
 
-  public showItemName: boolean = false;
+  public showItemName = false;
 
   public showDynamicContent: boolean;
 

@@ -1,11 +1,7 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { SkyFileAttachmentsModule } from '@skyux/forms';
-
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
 import { FileAttachmentDemoComponent } from './file-attachment-demo.component';

@@ -1,15 +1,13 @@
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   flush,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyTreeViewFixtureComponent } from './fixtures/tree-view.fixture.component';
-
 import { SkyTreeViewFixturesModule } from './fixtures/tree-view.fixture.module';
 
 describe('tree view', () => {

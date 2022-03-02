@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { SkyDescriptionListAdapterService } from './description-list-adapter-service';
 

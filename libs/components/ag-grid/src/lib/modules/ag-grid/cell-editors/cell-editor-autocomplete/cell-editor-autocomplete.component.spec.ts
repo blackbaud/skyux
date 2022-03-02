@@ -1,13 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { Column, RowNode } from 'ag-grid-community';
 
-import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
-
-import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 import { SkyAgGridModule } from '../../ag-grid.module';
+import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
+import { SkyAgGridCellEditorAutocompleteComponent } from '../cell-editor-autocomplete/cell-editor-autocomplete.component';
 
 describe('SkyCellEditorAutocompleteComponent', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
@@ -36,7 +34,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
   it('should render an autocomplete input', () => {
     fixture.detectChanges();
 
-    let element = nativeElement.querySelector('sky-autocomplete');
+    const element = nativeElement.querySelector('sky-autocomplete');
     expect(element).toBeVisible();
   });
 
@@ -92,7 +90,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
 
   describe('getValue', () => {
     it('should return the selected object if one is selected', () => {
-      let selection = data[0];
+      const selection = data[0];
       component.currentSelection = selection;
 
       fixture.detectChanges();

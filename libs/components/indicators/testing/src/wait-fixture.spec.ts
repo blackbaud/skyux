@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-
 import { TestBed } from '@angular/core/testing';
-
 import { SkyWaitModule } from '@skyux/indicators';
 
 import { SkyWaitFixture } from './wait-fixture';

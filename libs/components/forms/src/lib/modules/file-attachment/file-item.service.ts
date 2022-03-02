@@ -8,7 +8,7 @@ import { SkyFileItem } from './file-item';
 @Injectable()
 export class SkyFileItemService {
   public isFile(fileItem: SkyFileItem): boolean {
-    let file = fileItem.file;
+    const file = fileItem.file;
 
     /* tslint:disable */
     return (
@@ -49,7 +49,7 @@ export class SkyFileItemService {
     /* istanbul ignore else */
     /* sanity check */
     if (fileItem) {
-      let file = fileItem.file;
+      const file = fileItem.file;
       if (file) {
         /* istanbul ignore next */
         name = file.name || '';
@@ -68,7 +68,7 @@ export class SkyFileItemService {
     /* istanbul ignore else */
     /* sanity check */
     if (fileItem) {
-      let file = fileItem.file;
+      const file = fileItem.file;
       if (file) {
         fileType = file.type || '';
       } else {

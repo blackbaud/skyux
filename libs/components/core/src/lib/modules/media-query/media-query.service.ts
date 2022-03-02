@@ -3,7 +3,6 @@ import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
-
 import { SkyMediaQueryListener } from './media-query-listener';
 
 @Injectable({

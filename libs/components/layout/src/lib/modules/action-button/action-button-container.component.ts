@@ -14,20 +14,15 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { MutationObserverService, SkyCoreAdapterService } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
-import { SkyActionButtonContainerAlignItemsType } from './types/action-button-container-align-items-type';
-
 import { SkyActionButtonAdapterService } from './action-button-adapter-service';
-
 import { SkyActionButtonComponent } from './action-button.component';
+import { SkyActionButtonContainerAlignItemsType } from './types/action-button-container-align-items-type';
 
 /**
  * Wraps action buttons to ensures that they have consistent height and spacing.

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import {
   AbstractControl,
   FormBuilder,
@@ -7,7 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
 import { SkyValidators } from '@skyux/validation';
 
 @Component({

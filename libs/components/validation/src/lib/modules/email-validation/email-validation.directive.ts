@@ -1,6 +1,5 @@
 import { Directive, forwardRef } from '@angular/core';
-
-import { Validator, NG_VALIDATORS, AbstractControl } from '@angular/forms';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
@@ -23,7 +22,7 @@ const SKY_EMAIL_VALIDATION_VALIDATOR = {
 })
 export class SkyEmailValidationDirective implements Validator {
   public validate(control: AbstractControl): { [key: string]: any } {
-    let value = control.value;
+    const value = control.value;
 
     if (!value) {
       return;

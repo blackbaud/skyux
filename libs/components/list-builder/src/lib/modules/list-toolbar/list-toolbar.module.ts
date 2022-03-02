@@ -1,36 +1,22 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyI18nModule } from '@skyux/i18n';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
-
+import { SkyFilterModule, SkySortModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
 
-import { SkyFilterModule, SkySortModule } from '@skyux/lists';
-
-import { SkyCheckboxModule } from '@skyux/forms';
-
-import { SkyI18nModule } from '@skyux/i18n';
-
 import { SkyListFiltersModule } from '../list-filters/list-filters.module';
-
-import { SkyIconModule } from '@skyux/indicators';
-
-import { SkyListToolbarComponent } from './list-toolbar.component';
-
-import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
-
-import { SkyListToolbarItemRendererComponent } from './list-toolbar-item-renderer.component';
-
-import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
-
-import { SkyListMultiselectToolbarComponent } from './list-multiselect-toolbar.component';
-
-import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
-
 import { SkyListBuilderResourcesModule } from '../shared/sky-list-builder-resources.module';
 
+import { SkyListMultiselectToolbarComponent } from './list-multiselect-toolbar.component';
+import { SkyListToolbarItemRendererComponent } from './list-toolbar-item-renderer.component';
+import { SkyListToolbarItemComponent } from './list-toolbar-item.component';
 import { SkyListToolbarSearchActionsComponent } from './list-toolbar-search-actions.component';
+import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
+import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
+import { SkyListToolbarComponent } from './list-toolbar.component';
 
 @NgModule({
   declarations: [

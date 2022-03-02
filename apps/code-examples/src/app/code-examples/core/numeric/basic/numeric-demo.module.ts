@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyNumericModule } from '@skyux/core';
-
 import { SkyDefinitionListModule } from '@skyux/layout';
 
 import { NumericDemoComponent } from './numeric-demo.component';

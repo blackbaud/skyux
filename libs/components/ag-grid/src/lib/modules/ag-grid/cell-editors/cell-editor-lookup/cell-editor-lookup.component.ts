@@ -5,12 +5,14 @@ import {
   ElementRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
+
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 import {
-  applySkyLookupPropertiesDefaults,
   SkyLookupProperties,
+  applySkyLookupPropertiesDefaults,
 } from '../../types/lookup-properties';
 
 @Component({
@@ -30,7 +32,7 @@ export class SkyAgGridCellEditorLookupComponent
       disabled: false,
     }),
   });
-  public useAsyncSearch: boolean = false;
+  public useAsyncSearch = false;
 
   private params: SkyCellEditorLookupParams;
 

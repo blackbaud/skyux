@@ -1,11 +1,10 @@
 import {
-  Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   OnInit,
   ViewChild,
 } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyCharacterCounterInputDirective } from '../character-counter.directive';
@@ -18,8 +17,8 @@ import { SkyCharacterCounterInputDirective } from '../character-counter.directiv
 export class CharacterCountTestComponent implements OnInit {
   public testForm: FormGroup;
   public firstName: FormControl;
-  public firstNameLabel: string = 'Field label';
-  public maxCharacterCount: number = 5;
+  public firstNameLabel = 'Field label';
+  public maxCharacterCount = 5;
 
   @ViewChild(SkyCharacterCounterInputDirective)
   public inputDirective: SkyCharacterCounterInputDirective;

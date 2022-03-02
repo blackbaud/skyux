@@ -1,6 +1,6 @@
-import { ListSearchSetSearchTextAction } from './set-search-text.action';
 import { ListSearchSetFieldSelectorsAction } from './set-field-selectors.action';
 import { ListSearchSetFunctionsAction } from './set-functions.action';
+import { ListSearchSetSearchTextAction } from './set-search-text.action';
 
 /**
  * @internal

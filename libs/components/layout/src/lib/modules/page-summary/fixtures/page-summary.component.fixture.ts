@@ -4,5 +4,5 @@ import { Component } from '@angular/core';
   templateUrl: './page-summary.component.fixture.html',
 })
 export class SkyPageSummaryTestComponent {
-  public showKeyInfo: boolean = true;
+  public showKeyInfo = true;
 }

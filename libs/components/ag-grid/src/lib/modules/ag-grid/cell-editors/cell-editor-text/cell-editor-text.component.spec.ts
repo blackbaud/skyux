@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { Column, ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCellClass } from '../../types/cell-class';
-
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import { SkyCellClass } from '../../types/cell-class';
 
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
@@ -70,7 +67,7 @@ describe('SkyCellEditorTextComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      let cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test text cell' },
         rowIndex: 1,
@@ -103,7 +100,7 @@ describe('SkyCellEditorTextComponent', () => {
 
   describe('getValue', () => {
     it('returns the value if it is set', () => {
-      let value = 'cat';
+      const value = 'cat';
       textEditorComponent.value = value;
 
       textEditorFixture.detectChanges();

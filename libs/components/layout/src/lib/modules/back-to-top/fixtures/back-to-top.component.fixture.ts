@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { SkyBackToTopMessage } from '../models/back-to-top-message';
-
 import { SkyBackToTopOptions } from '../models/back-to-top-options';
 
 @Component({

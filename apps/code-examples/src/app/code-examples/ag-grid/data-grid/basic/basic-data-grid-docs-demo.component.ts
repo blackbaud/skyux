@@ -3,12 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import { SkyCellType, SkyAgGridService } from '@skyux/ag-grid';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
   GridApi,
-  GridReadyEvent,
   GridOptions,
+  GridReadyEvent,
   ValueFormatterParams,
 } from 'ag-grid-community';
 

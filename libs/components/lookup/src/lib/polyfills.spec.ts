@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
 import './polyfills';
 
@@ -38,15 +37,15 @@ describe('Polyfills', () => {
 
   describe('matches()', () => {
     it('should return true if element matches', () => {
-      let targetEl = nativeElement.querySelector('#one');
-      let actual = targetEl.matches('#one');
+      const targetEl = nativeElement.querySelector('#one');
+      const actual = targetEl.matches('#one');
 
       expect(actual).toBe(true);
     });
 
     it('should return false if element does not match', () => {
-      let targetEl = nativeElement.querySelector('#two');
-      let actual = targetEl.matches('#one');
+      const targetEl = nativeElement.querySelector('#two');
+      const actual = targetEl.matches('#one');
 
       expect(actual).toBe(false);
     });
@@ -54,24 +53,24 @@ describe('Polyfills', () => {
 
   describe('closest()', () => {
     it('should find the closest element through several ancestors', () => {
-      let parentEl = nativeElement.querySelector('#parent');
-      let childEl = nativeElement.querySelector('#child');
-      let actual = childEl.closest('#parent');
+      const parentEl = nativeElement.querySelector('#parent');
+      const childEl = nativeElement.querySelector('#child');
+      const actual = childEl.closest('#parent');
 
       expect(actual).toEqual(parentEl);
     });
 
     it('should find the closest element through a single ancestor', () => {
-      let parentEl = nativeElement.querySelector('#hyperlink');
-      let childEl = nativeElement.querySelector('#child');
-      let actual = childEl.closest('a') as Element;
+      const parentEl = nativeElement.querySelector('#hyperlink');
+      const childEl = nativeElement.querySelector('#child');
+      const actual = childEl.closest('a') as Element;
 
       expect(actual).toEqual(parentEl);
     });
 
     it('should return undefined if no ancestor is found', () => {
-      let childEl = nativeElement.querySelector('#child');
-      let actual = childEl.closest('#not-found');
+      const childEl = nativeElement.querySelector('#child');
+      const actual = childEl.closest('#not-found');
 
       expect(actual).toBeNull();
     });

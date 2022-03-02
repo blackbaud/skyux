@@ -1,14 +1,13 @@
 import {
   AfterViewInit,
   Component,
-  Input,
   ElementRef,
   Host,
   HostBinding,
   HostListener,
+  Input,
   ViewChild,
 } from '@angular/core';
-
 import {
   SkyAppWindowRef,
   SkyCoreAdapterService,
@@ -16,17 +15,13 @@ import {
   SkyDockService,
 } from '@skyux/core';
 
-import { SkyModalHostService } from './modal-host.service';
-
-import { SkyModalConfiguration } from './modal-configuration';
-
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
-
+import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostService } from './modal-host.service';
 import { SkyModalScrollShadowEventArgs } from './modal-scroll-shadow-event-args';
-
 import { skyAnimationModalState } from './modal-state-animation';
 
-let skyModalUniqueIdentifier: number = 0;
+let skyModalUniqueIdentifier = 0;
 
 /**
  * Provides a common look-and-feel for modal content with options to display
@@ -130,7 +125,7 @@ export class SkyModalComponent implements AfterViewInit {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
-      let topModal = SkyModalHostService.topModal;
+      const topModal = SkyModalHostService.topModal;
       if (topModal && topModal === this.hostService) {
         if (event.which === 27) {
           // Escape key up
@@ -146,13 +141,13 @@ export class SkyModalComponent implements AfterViewInit {
     /* istanbul ignore else */
     /* sanity check */
     if (SkyModalHostService.openModalCount > 0) {
-      let topModal = SkyModalHostService.topModal;
+      const topModal = SkyModalHostService.topModal;
       if (topModal && topModal === this.hostService) {
         if (event.which === 9) {
           // Tab pressed
           let focusChanged = false;
 
-          let focusElementList = this.coreAdapter.getFocusableChildren(
+          const focusElementList = this.coreAdapter.getFocusableChildren(
             this.elRef.nativeElement
           );
 

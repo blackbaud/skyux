@@ -1,4 +1,5 @@
 import { EventEmitter, Pipe, PipeTransform } from '@angular/core';
+
 import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-async-args';
 
 /**

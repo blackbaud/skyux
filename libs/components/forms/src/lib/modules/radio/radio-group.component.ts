@@ -10,18 +10,15 @@ import {
   QueryList,
   Self,
 } from '@angular/core';
-
 import { NgControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
-import { SkyRadioChange } from './types/radio-change';
-
 import { SkyRadioComponent } from './radio.component';
+import { SkyRadioChange } from './types/radio-change';
 
 let nextUniqueId = 0;
 
@@ -96,7 +93,7 @@ export class SkyRadioGroupComponent
    * @default false
    */
   @Input()
-  public required: boolean = false;
+  public required = false;
 
   /**
    * Specifies the value of the radio button to select by default when the group loads.
@@ -141,7 +138,7 @@ export class SkyRadioGroupComponent
 
   private ngUnsubscribe = new Subject();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _name = `sky-radio-group-${nextUniqueId++}`;
 

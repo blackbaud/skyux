@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
-import { NumericOptions } from './numeric.options';
-
 import { SkyNumericSymbol } from './numeric-symbol';
+import { NumericOptions } from './numeric.options';
 
 @Injectable({
   providedIn: 'any',
@@ -56,7 +54,7 @@ export class SkyNumericService {
     // Get the symbol for the number after rounding, since rounding could push the number
     // into a different symbol range.
     let roundedNumber = this.roundNumber(value, options.digits);
-    let roundedNumberAbs = Math.abs(roundedNumber);
+    const roundedNumberAbs = Math.abs(roundedNumber);
 
     let suffix = '';
 

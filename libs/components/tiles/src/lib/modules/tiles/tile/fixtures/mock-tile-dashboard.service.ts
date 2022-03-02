@@ -1,8 +1,7 @@
 import { EventEmitter } from '@angular/core';
 
-import { SkyTileComponent } from '../tile.component';
-
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
+import { SkyTileComponent } from '../tile.component';
 
 export class MockSkyTileDashboardService {
   public configChange = new EventEmitter<SkyTileDashboardConfig>();

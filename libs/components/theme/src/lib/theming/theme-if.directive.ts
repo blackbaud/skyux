@@ -9,11 +9,9 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyThemeSettings } from './theme-settings';
-
 import { SkyThemeService } from './theme.service';
 
 /**

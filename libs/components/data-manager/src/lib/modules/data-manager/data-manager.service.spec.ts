@@ -1,18 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyUIConfigService } from '@skyux/core';
-
-import { Observable, Subject } from 'rxjs';
-
-import { DataManagerFixtureComponent } from './fixtures/data-manager.component.fixture';
-
-import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
-
-import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
-
-import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
 
 import {
   SkyDataManagerConfig,
@@ -22,6 +10,12 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from 'libs/components/data-manager/src/index';
+import { Observable, Subject } from 'rxjs';
+
+import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
+import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
+import { DataManagerFixtureComponent } from './fixtures/data-manager.component.fixture';
+import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';
 
 describe('SkyDataManagerService', () => {
   let dataManagerFixture: ComponentFixture<DataManagerFixtureComponent>;

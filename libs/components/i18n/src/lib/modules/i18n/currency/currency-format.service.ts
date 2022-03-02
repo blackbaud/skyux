@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
+
 import { SkyI18nCurrencyFormat } from './currency-format';
 import { SkyI18nCurrencySymbolLocation } from './currency-symbol-location';
-import { Injectable } from '@angular/core';
 
 const DEFAULT_LOCALE = 'en-US';
 const DEFAULT_CURRENCY_CODE = 'USD';
@@ -54,7 +55,7 @@ export class SkyI18nCurrencyFormatService {
   }
 
   private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
-    const BIG_VALUE_TO_GET_PART_INFO: number = 100_000_000;
+    const BIG_VALUE_TO_GET_PART_INFO = 100_000_000;
 
     const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
 

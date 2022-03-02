@@ -1,11 +1,11 @@
 // spell-checker:ignore Colorpicker
 import {
   Directive,
-  Input,
-  Output,
   ElementRef,
   EventEmitter,
   HostListener,
+  Input,
+  Output,
 } from '@angular/core';
 
 import { SkyColorpickerChangeAxis } from './types/colorpicker-axis';
@@ -41,10 +41,10 @@ export class SkyColorpickerSliderDirective {
   }
 
   public setCursor(event: any) {
-    let height = this.el.nativeElement.offsetHeight;
-    let width = this.el.nativeElement.offsetWidth;
-    let xAxis = Math.max(0, Math.min(this.getX(event), width));
-    let yAxis = Math.max(0, Math.min(this.getY(event), height));
+    const height = this.el.nativeElement.offsetHeight;
+    const width = this.el.nativeElement.offsetWidth;
+    const xAxis = Math.max(0, Math.min(this.getX(event), width));
+    const yAxis = Math.max(0, Math.min(this.getY(event), height));
     if (this.xAxis !== undefined && this.yAxis !== undefined) {
       this.newColorContrast.emit({
         xCoordinate: xAxis / width,

@@ -1,20 +1,16 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { CharacterCountTestComponent } from './fixtures/character-count.component.fixture';
-
-import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
-
-import { CharacterCountTestModule } from './fixtures/character-count.module.fixture';
-
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
+import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
+import { CharacterCountTestComponent } from './fixtures/character-count.component.fixture';
+import { CharacterCountTestModule } from './fixtures/character-count.module.fixture';
 
 describe('Character Counter component', () => {
   function setInputValue(

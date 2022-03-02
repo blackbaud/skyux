@@ -1,17 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
-
 import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
 
 import { of as observableOf } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { SkyListViewChecklistFixture } from './list-view-checklist-fixture';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const testItems = [
   { id: '1', column1: 101, column2: 'Apple', column3: 'Anne eats apples' },

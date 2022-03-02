@@ -1,16 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDateRangeCalculation } from '../types/date-range-calculation';
-
-import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
-
 import { SkyDateRangePickerComponent } from '../date-range-picker.component';
+import { SkyDateRangeCalculation } from '../types/date-range-calculation';
+import { SkyDateRangeCalculatorId } from '../types/date-range-calculator-id';
 
 @Component({
   selector: 'sky-date-range-picker-test',
@@ -28,14 +24,14 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
 
   public calculatorIds: SkyDateRangeCalculatorId[];
   public dateFormat: string;
-  public disableReactiveOnInit: boolean = false;
-  public endDateRequired: boolean = false;
-  public initialDisabled: boolean = false;
+  public disableReactiveOnInit = false;
+  public endDateRequired = false;
+  public initialDisabled = false;
   public initialValue: SkyDateRangeCalculation;
   public label: string;
   public numValueChangeNotifications = 0;
   public reactiveForm: FormGroup;
-  public startDateRequired: boolean = false;
+  public startDateRequired = false;
   public templateDisable: boolean = undefined;
 
   private ngUnsubscribe = new Subject<void>();

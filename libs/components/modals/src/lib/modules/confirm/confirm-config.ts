@@ -1,6 +1,5 @@
-import { SkyConfirmType } from './confirm-type';
-
 import { SkyConfirmButtonConfig } from './confirm-button-config';
+import { SkyConfirmType } from './confirm-type';
 
 export interface SkyConfirmConfig {
   /**

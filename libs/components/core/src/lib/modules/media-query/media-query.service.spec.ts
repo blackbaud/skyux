@@ -3,7 +3,6 @@ import { inject } from '@angular/core/testing';
 import { Subscription } from 'rxjs';
 
 import { SkyMediaBreakpoints } from './media-breakpoints';
-
 import { SkyMediaQueryService } from './media-query.service';
 
 describe('Media query service', () => {

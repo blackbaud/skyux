@@ -25,6 +25,7 @@
 !.vscode/extensions.json
 
 # misc
+/.nyc_output
 /.sass-cache
 /connect.lock
 /coverage
@@ -37,3 +38,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# SKY UX DevInfra files
+__test-affected.ts
+__tsconfig.test-affected.json

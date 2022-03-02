@@ -1,7 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { SkyCardModule } from '@skyux/layout';
 
 import { SkyCardFixture } from './card-fixture';

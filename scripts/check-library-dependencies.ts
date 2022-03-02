@@ -3,7 +3,6 @@ import { join } from 'path';
 
 import { getPublishableProjects } from './lib/get-publishable-projects';
 import { verifyLibraryDependencies } from './lib/verify-library-dependencies';
-
 import { PackageConfigs } from './shared/package-config';
 import { PackageJson } from './shared/package-json';
 

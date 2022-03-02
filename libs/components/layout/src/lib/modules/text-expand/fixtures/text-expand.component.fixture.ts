@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyTextExpandComponent } from '../text-expand.component';
 
 @Component({
@@ -13,5 +14,5 @@ export class TextExpandTestComponent {
   public textExpand: SkyTextExpandComponent;
   public text: string;
   public maxLength: number;
-  public truncateNewlines: boolean = true;
+  public truncateNewlines = true;
 }

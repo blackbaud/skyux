@@ -1,26 +1,24 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ElementRef,
-  ViewChild,
-  EventEmitter,
-  Output,
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 
-import { style, trigger, transition, animate } from '@angular/animations';
-
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import {
-  SkyVerticalTabsetService,
   HIDDEN_STATE,
+  SkyVerticalTabsetService,
   VISIBLE_STATE,
 } from './../vertical-tabset/vertical-tabset.service';
 
@@ -57,7 +55,7 @@ export class SkySectionedFormComponent
    * @default false
    */
   @Input()
-  public maintainSectionContent: boolean = false;
+  public maintainSectionContent = false;
 
   /**
    * Fires when the active tab changes and emits the index of the active

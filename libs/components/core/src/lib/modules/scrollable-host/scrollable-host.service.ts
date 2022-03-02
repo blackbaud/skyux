@@ -1,6 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { fromEvent, Observable, Subject, Subscriber, Subscription } from 'rxjs';
+
+import { Observable, Subject, Subscriber, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { MutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyAppWindowRef } from '../window/window-ref';
 
@@ -38,7 +40,7 @@ export class SkyScrollableHostService {
   public watchScrollableHost(
     elementRef: ElementRef
   ): Observable<HTMLElement | Window> {
-    let subscribers: Subscriber<HTMLElement | Window>[] = [];
+    const subscribers: Subscriber<HTMLElement | Window>[] = [];
     let mutationObserver: MutationObserver;
 
     return new Observable((subscriber) => {
@@ -47,7 +49,7 @@ export class SkyScrollableHostService {
       let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
       if (subscribers.length === 1) {
         mutationObserver = this.mutationObserverSvc.create(() => {
-          let newScrollableHost = this.findScrollableHost(
+          const newScrollableHost = this.findScrollableHost(
             elementRef.nativeElement
           );
 
@@ -90,7 +92,7 @@ export class SkyScrollableHostService {
   public watchScrollableHostScrollEvents(
     elementRef: ElementRef
   ): Observable<void> {
-    let subscribers: Subscriber<void>[] = [];
+    const subscribers: Subscriber<void>[] = [];
     let scrollableHost: HTMLElement | Window;
 
     let newScrollableHostObservable = new Subject();
@@ -150,7 +152,7 @@ export class SkyScrollableHostService {
     let parent: HTMLElement = element;
 
     do {
-      parent = <HTMLElement>parent.parentNode;
+      parent = parent.parentNode as HTMLElement;
 
       /* Sanity check for if this function is called for an element which has been removed from the DOM */
       if (!(parent instanceof HTMLElement)) {

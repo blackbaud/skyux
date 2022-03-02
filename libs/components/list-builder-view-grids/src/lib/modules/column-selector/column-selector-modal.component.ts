@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 import { SkyColumnSelectorContext } from './column-selector-context';

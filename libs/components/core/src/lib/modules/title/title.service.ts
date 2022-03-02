@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Title } from '@angular/platform-browser';
 
 import { SkyAppSetTitleArgs } from './set-title-args';

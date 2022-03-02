@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-
 import {
   SkyToken,
   SkyTokenSelectedEventArgs,

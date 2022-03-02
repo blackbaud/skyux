@@ -10,25 +10,16 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAffixAutoFitContext } from './affix-auto-fit-context';
-
 import { SkyAffixHorizontalAlignment } from './affix-horizontal-alignment';
-
-import { SkyAffixPlacement } from './affix-placement';
-
-import { SkyAffixPlacementChange } from './affix-placement-change';
-
-import { SkyAffixVerticalAlignment } from './affix-vertical-alignment';
-
-import { SkyAffixService } from './affix.service';
-
-import { SkyAffixOffsetChange } from './affix-offset-change';
-
 import { SkyAffixOffset } from './affix-offset';
-
+import { SkyAffixOffsetChange } from './affix-offset-change';
+import { SkyAffixPlacement } from './affix-placement';
+import { SkyAffixPlacementChange } from './affix-placement-change';
+import { SkyAffixVerticalAlignment } from './affix-vertical-alignment';
+import { SkyAffixService } from './affix.service';
 import { SkyAffixer } from './affixer';
 
 /**

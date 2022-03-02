@@ -1,7 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SkyMediaBreakpoints } from '@skyux/core';
 
 import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';

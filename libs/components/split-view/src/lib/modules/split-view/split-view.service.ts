@@ -1,11 +1,8 @@
-import { Injectable, ElementRef, OnDestroy } from '@angular/core';
-
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 /**

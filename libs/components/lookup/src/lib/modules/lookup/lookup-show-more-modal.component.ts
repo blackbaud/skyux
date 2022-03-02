@@ -5,7 +5,6 @@ import {
   Component,
   OnDestroy,
 } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -55,12 +54,12 @@ export class SkyLookupShowMoreModalComponent
   };
 
   public displayedItems: any[] = [];
-  public itemsHaveMore: boolean = false;
-  public onlyShowSelected: boolean = false;
+  public itemsHaveMore = false;
+  public onlyShowSelected = false;
   public searchText: string;
   public selectedItems: { index: number; itemData: any }[] = [];
 
-  private itemIndex: number = 0;
+  private itemIndex = 0;
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
@@ -85,7 +84,7 @@ export class SkyLookupShowMoreModalComponent
 
   public addItems(): void {
     if (!this.items || this.items.length === 0) {
-      let selectedItems: any[] = this.selectedItems.slice();
+      const selectedItems: any[] = this.selectedItems.slice();
 
       this.items = this.context.items
         ? this.context.items.map((item) => {
@@ -180,12 +179,12 @@ export class SkyLookupShowMoreModalComponent
         ];
       }
     } else {
-      let selectedItems: { index: number; itemData: any }[] =
+      const selectedItems: { index: number; itemData: any }[] =
         this.selectedItems;
       const allItemsIndex = this.items.findIndex(
         (item) => item.value === itemToSelect.value
       );
-      let selectedItemsIndex = selectedItems.findIndex(
+      const selectedItemsIndex = selectedItems.findIndex(
         (selectedItem) => selectedItem.index === allItemsIndex
       );
 
@@ -214,7 +213,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public searchItems(items: any[]): Promise<any[]> {
-    let searchText = this.searchText;
+    const searchText = this.searchText;
 
     if (searchText) {
       const resultValues = this.context.search(
@@ -243,7 +242,8 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public selectAll(): void {
-    let selectedItems: { index: number; itemData: any }[] = this.selectedItems;
+    const selectedItems: { index: number; itemData: any }[] =
+      this.selectedItems;
 
     this.displayedItems.forEach((item: any) => {
       if (!item.selected) {
@@ -272,7 +272,8 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public updateDataState(): void {
-    let selectedItems: { index: number; itemData: any }[] = this.selectedItems;
+    const selectedItems: { index: number; itemData: any }[] =
+      this.selectedItems;
     this.items.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(

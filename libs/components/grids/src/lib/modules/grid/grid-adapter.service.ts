@@ -1,8 +1,8 @@
 import {
+  ElementRef,
   Injectable,
   Renderer2,
   RendererFactory2,
-  ElementRef,
 } from '@angular/core';
 
 import { DragulaService } from 'ng2-dragula';
@@ -37,13 +37,13 @@ export class SkyGridAdapterService {
     );
 
     dragulaService.drop.subscribe(([, , container]: Array<HTMLElement>) => {
-      let columnIds: string[] = [];
-      let nodes = container.querySelectorAll(
+      const columnIds: string[] = [];
+      const nodes = container.querySelectorAll(
         `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`
       );
       for (let i = 0; i < nodes.length; i++) {
-        let el = nodes[i];
-        let id = el.getAttribute('sky-cmp-id');
+        const el = nodes[i];
+        const id = el.getAttribute('sky-cmp-id');
         columnIds.push(id);
       }
       dropCallback(columnIds);
@@ -105,7 +105,7 @@ export class SkyGridAdapterService {
     columns: NodeListOf<HTMLElement>
   ): boolean {
     let sourceColumn = handle;
-    for (let column of Array.from(columns)) {
+    for (const column of Array.from(columns)) {
       if (column.contains(handle)) {
         sourceColumn = column;
       }

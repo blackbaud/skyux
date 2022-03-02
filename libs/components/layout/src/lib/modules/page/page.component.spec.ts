@@ -1,14 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyPageComponent } from './page.component';
-
-import { SkyPageTestComponent } from './fixtures/page.component.fixture';
-
 import { SkyPageFixturesModule } from './fixtures/page-fixtures.module';
+import { SkyPageTestComponent } from './fixtures/page.component.fixture';
+import { SkyPageComponent } from './page.component';
 
 describe('Page component', () => {
   const defaultBackgroundColor = 'rgb(0, 0, 0)';

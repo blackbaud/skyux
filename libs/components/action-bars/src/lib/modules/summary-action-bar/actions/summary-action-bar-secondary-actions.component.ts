@@ -1,18 +1,16 @@
 import {
   AfterContentInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChildren,
   OnDestroy,
   QueryList,
-  ChangeDetectionStrategy,
 } from '@angular/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
 import { Subject, Subscription } from 'rxjs';
-
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
-import { SkyDropdownMessage, SkyDropdownMessageType } from '@skyux/popovers';
 
 import { SkySummaryActionBarSecondaryActionComponent } from './summary-action-bar-secondary-action.component';
 

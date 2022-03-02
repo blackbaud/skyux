@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
-import { ToastContentDemoComponent } from './toast-content-demo.component';
-
 import { ToastContentDemoContext } from './toast-content-demo-context';
+import { ToastContentDemoComponent } from './toast-content-demo.component';
 
 @Component({
   selector: 'app-toast-demo',

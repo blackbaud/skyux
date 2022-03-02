@@ -3,15 +3,12 @@ import {
   ComponentFactoryResolver,
   Injectable,
 } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
-import { defer as observableDefer, Observable } from 'rxjs';
-
+import { Observable, defer as observableDefer } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { SkyWaitPageAdapterService } from './wait-page-adapter.service';
-
 import { SkyWaitPageComponent } from './wait-page.component';
 
 // Need to add the following to classes which contain static methods.

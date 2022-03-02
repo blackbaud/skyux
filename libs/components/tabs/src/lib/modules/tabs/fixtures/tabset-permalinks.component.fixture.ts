@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './tabset-permalinks.component.fixture.html',
 })
 export class SkyTabsetPermalinksFixtureComponent {
-  public activeIndex: number = 0;
+  public activeIndex = 0;
 
   public permalinkId: string;
 

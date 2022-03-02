@@ -13,9 +13,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { SkyTabIndex } from './tab-index';
-
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
-
 import { SkyTabsetService } from './tabset.service';
 
 let nextId = 0;
@@ -133,7 +131,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this._tabIndexChange.asObservable();
   }
 
-  public showContent: boolean = false;
+  public showContent = false;
 
   public tabButtonId: string;
 
