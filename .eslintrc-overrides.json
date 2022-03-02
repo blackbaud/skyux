@@ -19,7 +19,6 @@
         "no-prototype-builtins": "warn",
         "no-self-assign": "warn",
         "no-useless-escape": "warn",
-        "prefer-const": "warn",
         "prefer-rest-params": "warn",
         "prefer-spread": "warn"
       }
