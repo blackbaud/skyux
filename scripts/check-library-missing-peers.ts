@@ -1,48 +1,14 @@
-import { readFile, readJson, writeJson } from 'fs-extra';
+import { readFile, readJson } from 'fs-extra';
 import glob from 'glob';
 import { join } from 'path';
 
 import { getPublishableProjects } from './lib/get-publishable-projects';
 import { PackageConfig } from './shared/package-config';
 import { PackageJson } from './shared/package-json';
-import { sortObjectByKeys } from './utils/sort-object-by-keys';
+import { writePackageJson } from './utils/write-package-json';
 
 const argv = require('minimist')(process.argv.slice(2));
 const CWD = process.cwd();
-
-function cloneAndArrangePackageJsonFields(packageJson: any) {
-  const fieldOrder = [
-    'name',
-    'version',
-    'author',
-    'description',
-    'keywords',
-    'license',
-    'repository',
-    'bugs',
-    'homepage',
-    'schematics',
-    'ng-add',
-    'ng-update',
-    'peerDependencies',
-    'dependencies',
-  ];
-
-  const newJson: any = {};
-
-  for (const field of fieldOrder) {
-    if (packageJson[field]) {
-      newJson[field] = packageJson[field];
-      delete packageJson[field];
-    }
-  }
-
-  for (const k in packageJson) {
-    newJson[k] = packageJson[k];
-  }
-
-  return newJson;
-}
 
 async function findUnlistedPeers(
   projectName: string,
@@ -232,17 +198,7 @@ async function checkLibraryMissingPeers() {
       .concat(unusedPeersResult.errors);
 
     if (argv.fix) {
-      packageJson.peerDependencies = sortObjectByKeys(
-        packageJson.peerDependencies
-      );
-
-      await writeJson(
-        packageJsonPath,
-        cloneAndArrangePackageJsonFields(packageJson),
-        {
-          spaces: 2,
-        }
-      );
+      await writePackageJson(packageJsonPath, packageJson);
     }
   }
 
@@ -259,7 +215,7 @@ async function checkLibraryMissingPeers() {
     process.exit(1);
   }
 
-  console.log('\n ✔ Done checking library peers. OK.');
+  console.log(' ✔ Done checking library peers. OK.\n');
 }
 
 checkLibraryMissingPeers();

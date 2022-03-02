@@ -2,27 +2,30 @@ import { readJson } from 'fs-extra';
 import { join } from 'path';
 import semver from 'semver';
 
-interface PackageJson {
-  dependencies?: { [packageName: string]: string };
-  devDependencies?: { [packageName: string]: string };
-  peerDependencies?: { [packageName: string]: string };
-}
+import { PackageJson } from '../shared/package-json';
 
 function verifyDependencySection(
   section: 'dependencies' | 'peerDependencies',
   projectRoot: string,
   projectPackageJson: PackageJson,
-  workspacePackageJson: PackageJson
+  workspacePackageJson: PackageJson,
+  npmPackageNames: string[]
 ): string[] {
   const errors: string[] = [];
 
   for (const packageName in projectPackageJson[section]) {
-    // Skip @skyux libraries, except for @skyux/icons.
-    if (/^@skyux\/((?!icons).)*$/.test(packageName)) {
+    const targetVersion = projectPackageJson[section]![packageName];
+
+    if (npmPackageNames.includes(packageName)) {
+      if (targetVersion !== '0.0.0-PLACEHOLDER') {
+        errors.push(
+          `The package "${packageName}" listed in the \`${section}\` section of '${projectRoot}/package.json' ` +
+            "is not set to the required version of '0.0.0-PLACEHOLDER'!"
+        );
+      }
       continue;
     }
 
-    const targetVersion = projectPackageJson[section]![packageName];
     const minTargetVersion = semver.minVersion(targetVersion)!.version;
 
     const workspaceVersion =
@@ -62,7 +65,8 @@ function verifyDependencySection(
 
 export async function verifyLibraryDependencies(
   projects: { [projectName: string]: { root: string } },
-  workspacePackageJson: PackageJson
+  workspacePackageJson: PackageJson,
+  npmPackageNames: string[]
 ) {
   console.log('Validating library dependencies...');
 
@@ -82,7 +86,8 @@ export async function verifyLibraryDependencies(
           'peerDependencies',
           projectConfig.root,
           projectPackageJson,
-          workspacePackageJson
+          workspacePackageJson,
+          npmPackageNames
         )
       );
     }
@@ -94,7 +99,8 @@ export async function verifyLibraryDependencies(
           'dependencies',
           projectConfig.root,
           projectPackageJson,
-          workspacePackageJson
+          workspacePackageJson,
+          npmPackageNames
         )
       );
     }
