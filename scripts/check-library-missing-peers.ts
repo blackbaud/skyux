@@ -128,8 +128,8 @@ async function findUnusedPeers(
 
   const peers = Object.keys(packageJson.peerDependencies || {});
 
-  // All component libraries should have these dependencies.
-  const ignoredPackages = ['@angular/core', '@angular/common', 'tslib'];
+  // All component libraries should have these peer dependencies.
+  const ignoredPackages = ['@angular/core', '@angular/common'];
 
   for (const peer of peers) {
     if (ignoredPackages.includes(peer)) {
@@ -151,7 +151,7 @@ async function findUnusedPeers(
       const affectedFile = join(packageConfig.root, 'package.json');
       errors.push(
         `The library '${projectName}' requests a peer of '${peer}' but it is not found in the source code.\n` +
-          `   Remove the peer from: '${affectedFile}'.\n` +
+          `   Remove the peer from: '${affectedFile}'\n` +
           `                          ${'^'.repeat(affectedFile.length)}\n`
       );
     }
