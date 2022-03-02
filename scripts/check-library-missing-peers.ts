@@ -87,10 +87,12 @@ async function checkLibraryMissingPeers() {
               );
             } else {
               packageJson.peerDependencies = packageJson.peerDependencies || {};
-              packageJson.peerDependencies[foundPackage] = version;
-              console.log(
-                ` [fix] --> Added ${foundPackage}@${version} as a peer dependency of '${projectName}'.`
-              );
+              if (!packageJson.peerDependencies[foundPackage]) {
+                packageJson.peerDependencies[foundPackage] = version;
+                console.log(
+                  ` [fix] --> ${projectName}: Added ${foundPackage} as a peer dependency.`
+                );
+              }
             }
           } else {
             errors.push(
@@ -106,23 +108,31 @@ async function checkLibraryMissingPeers() {
 
     foundPackages = [...new Set(foundPackages)];
     for (const dependency of dependencies) {
-      if (['tslib'].includes(dependency)) {
+      if (['@angular/core', '@angular/common', 'tslib'].includes(dependency)) {
         continue;
       }
 
       if (!foundPackages.includes(dependency)) {
         if (argv.fix) {
-          if (packageJson.peerDependencies) {
+          if (
+            packageJson.peerDependencies &&
+            packageJson.peerDependencies[dependency]
+          ) {
             delete packageJson.peerDependencies[dependency];
+            console.log(
+              ` [fix] --> ${projectName}: Removed ${dependency} as a peer dependency since it is not being used.`
+            );
           }
 
-          if (packageJson.dependencies) {
+          if (
+            packageJson.dependencies &&
+            packageJson.dependencies[dependency]
+          ) {
             delete packageJson.dependencies[dependency];
+            console.log(
+              ` [fix] --> ${projectName}: Removed ${dependency} as a dependency since it is not being used.`
+            );
           }
-
-          console.log(
-            ` [fix] --> Removed ${dependency} as a peer dependency of '${projectName}' since it is not being used.`
-          );
         } else {
           errors.push(
             `The library '${projectName}' requests a peer of ${dependency} but it is not found in the source code. Please remove the peer from '${join(
