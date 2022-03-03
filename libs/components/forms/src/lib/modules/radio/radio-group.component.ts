@@ -146,6 +146,9 @@ export class SkyRadioGroupComponent
 
   private _value: any;
 
+  private onChange: (value: any) => void;
+  private onTouched: () => void;
+
   constructor(
     private changeDetector: ChangeDetectorRef,
     @Self() @Optional() private ngControl: NgControl
@@ -225,11 +228,6 @@ export class SkyRadioGroupComponent
   public registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
-
-  /* istanbul ignore next */
-  private onChange: (value: any) => void = () => {};
-  /* istanbul ignore next */
-  private onTouched: () => any = () => {};
 
   private updateRadioButtonDisabled(): void {
     if (this.radios) {

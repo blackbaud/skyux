@@ -161,6 +161,9 @@ export class SkyFileAttachmentComponent
 
   private _value: any;
 
+  private _onChange: (_: any) => void;
+  private _onTouched: () => void;
+
   constructor(
     public themeSvc: SkyThemeService,
     private changeDetector: ChangeDetectorRef,
@@ -417,9 +420,4 @@ export class SkyFileAttachmentComponent
     );
     this.changeDetector.markForCheck();
   }
-
-  /*istanbul ignore next */
-  private _onChange = (_: any) => {};
-  /*istanbul ignore next */
-  private _onTouched = () => {};
 }

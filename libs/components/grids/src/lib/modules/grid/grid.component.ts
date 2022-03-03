@@ -39,8 +39,10 @@ import {
   Subscription,
   fromEvent,
   merge,
+  of,
 } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   map,
   take,
@@ -1297,16 +1299,14 @@ export class SkyGridComponent
       return;
     }
 
-    this.uiConfigService
-      .setConfig(this.settingsKey, config)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(
-        () => {},
-        (err) => {
-          console.warn('Could not save grid settings.');
-          console.warn(err);
-        }
-      );
+    this.uiConfigService.setConfig(this.settingsKey, config).pipe(
+      takeUntil(this.ngUnsubscribe),
+      catchError((err) => {
+        console.warn('Could not save grid settings.');
+        console.warn(err);
+        return of(null);
+      })
+    );
   }
 
   private initColumns(): void {

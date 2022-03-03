@@ -172,7 +172,9 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set skyFuzzyDatepickerInput(
     value: SkyDatepickerComponent | undefined | ''
-  ) {}
+  ) {
+    // TODO: Remove this attribute in a future version of SKY UX.
+  }
 
   /**
    * Specifies the starting day of the week in the calendar, where `0` sets the starting day
@@ -308,6 +310,10 @@ export class SkyFuzzyDatepickerInputDirective
   private _value: any;
 
   private _yearRequired = false;
+
+  private onChange: (_: any) => void;
+  private onTouched: () => void;
+  private onValidatorChange: () => void;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -595,9 +601,4 @@ export class SkyFuzzyDatepickerInputDirective
       ((!dateA.year && !dateB.year) || dateA.year === dateB.year)
     );
   }
-
-  private onChange = (_: any) => {};
-  /*istanbul ignore next */
-  private onTouched = () => {};
-  private onValidatorChange = () => {};
 }

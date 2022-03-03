@@ -239,6 +239,10 @@ export class SkyDateRangePickerComponent
   private _disabled = false;
   private _value: SkyDateRangeCalculation;
 
+  private onChange: (_: SkyDateRangeCalculation) => void;
+  private onTouched: () => void;
+  private onValidatorChange: () => void;
+
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dateRangeService: SkyDateRangeService,
@@ -565,11 +569,4 @@ export class SkyDateRangePickerComponent
   ): boolean {
     return JSON.stringify(rangeA) === JSON.stringify(rangeB);
   }
-
-  /* istanbul ignore next */
-  private onChange = (_: SkyDateRangeCalculation) => {};
-  /* istanbul ignore next */
-  private onTouched = () => {};
-  /* istanbul ignore next */
-  private onValidatorChange = () => {};
 }

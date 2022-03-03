@@ -30,7 +30,6 @@ import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component
 class MockModalService {
   public closeCallback: Function;
 
-  constructor() {}
   public open(): any {
     return {
       closed: {

@@ -220,6 +220,10 @@ export class SkySelectFieldComponent
   private _value: any;
   private isPickerOpen = false;
 
+  // Angular automatically constructs these methods.
+  public onChange: (value: any) => void;
+  private _registeredTouchCallback: () => void;
+
   constructor(
     private changeDetector: ChangeDetectorRef,
     private modalService: SkyModalService,
@@ -296,10 +300,6 @@ export class SkySelectFieldComponent
     }
   }
 
-  // Angular automatically constructs these methods.
-  /* istanbul ignore next */
-  public onChange = (value: any) => {};
-
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;
   }
@@ -319,9 +319,6 @@ export class SkySelectFieldComponent
       .focus();
     this.value = undefined;
   }
-
-  /* istanbul ignore next */
-  private _registeredTouchCallback = () => {};
 
   private setTokensFromValue() {
     // Tokens only appear for multiple select mode.

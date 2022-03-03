@@ -51,6 +51,8 @@ export class SkyCharacterCounterInputDirective implements Validator {
 
   private _skyCharacterCounterLimit: number;
 
+  private _validatorChange: () => void;
+
   public validate(control: AbstractControl): ValidationErrors {
     const value = control.value;
 
@@ -87,6 +89,4 @@ export class SkyCharacterCounterInputDirective implements Validator {
       this.skyCharacterCounterIndicator.characterCountLimit = limit;
     }
   }
-
-  private _validatorChange = () => {};
 }

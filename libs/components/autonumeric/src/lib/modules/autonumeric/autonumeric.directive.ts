@@ -67,6 +67,9 @@ export class SkyAutonumericDirective
 
   private ngUnsubscribe = new Subject<void>();
 
+  private onChange: (_: number | undefined) => void;
+  private onTouched: () => void;
+
   constructor(
     private elementRef: ElementRef,
     private globalConfig: SkyAutonumericOptionsProvider,
@@ -215,9 +218,4 @@ export class SkyAutonumericDirective
 
     return Object.assign({}, globalOptions, newOptions);
   }
-
-  /* istanbul ignore next */
-  private onChange = (_: number | undefined) => {};
-  /* istanbul ignore next */
-  private onTouched = () => {};
 }

@@ -117,6 +117,10 @@ export class SkyPhoneFieldInputDirective
 
   private _modelValue: string;
 
+  private onChange: (_: any) => void;
+  private onTouched: () => void;
+  private validatorChange: () => void;
+
   public constructor(
     private changeDetector: ChangeDetectorRef,
     private elRef: ElementRef,
@@ -346,12 +350,4 @@ export class SkyPhoneFieldInputDirective
       return phoneNumber;
     }
   }
-
-  private onChange = (_: any) => {};
-
-  /* istanbul ignore next */
-  private onTouched = () => {};
-
-  /* istanbul ignore next */
-  private validatorChange = () => {};
 }

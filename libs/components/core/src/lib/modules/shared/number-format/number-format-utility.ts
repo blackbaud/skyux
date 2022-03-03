@@ -27,7 +27,6 @@ export class SkyNumberFormatUtility {
   private static _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
   /* istanbul ignore next */
-  constructor() {}
 
   public static formatNumber(
     locale: string,

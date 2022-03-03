@@ -19,7 +19,6 @@ export class SkyDateFormatUtility {
   };
 
   /* istanbul ignore next */
-  constructor() {}
 
   public static format(
     locale: string,

@@ -114,6 +114,9 @@ export class SkyToggleSwitchComponent
     return `sky-toggle-switch-label-${this.toggleSwitchId}`;
   }
 
+  private onTouched: () => void;
+  private onChange: (value: boolean) => void;
+
   @ContentChildren(SkyToggleSwitchLabelComponent)
   private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
 
@@ -160,7 +163,7 @@ export class SkyToggleSwitchComponent
     return;
   }
 
-  public registerOnChange(fn: (value: any) => void) {
+  public registerOnChange(fn: (value: boolean) => void) {
     this.onChange = fn;
   }
 
@@ -182,10 +185,6 @@ export class SkyToggleSwitchComponent
   public onButtonBlur(): void {
     this.onTouched();
   }
-
-  /* istanbul ignore next */
-  private onTouched: () => any = () => {};
-  private onChange: (value: any) => void = () => {};
 
   private emitChangeEvent(): void {
     this.onChange(this._checked);

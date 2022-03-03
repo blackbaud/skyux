@@ -12,8 +12,6 @@ import { SkyColorpickerRgba } from './types/colorpicker-rgba';
  */
 @Injectable()
 export class SkyColorpickerService {
-  constructor() {}
-
   public hsla2hsva(hsla: SkyColorpickerHsla): SkyColorpickerHsva {
     const alpha: number = Math.min(hsla.alpha, 1);
     const hue: number = Math.min(hsla.hue, 1);

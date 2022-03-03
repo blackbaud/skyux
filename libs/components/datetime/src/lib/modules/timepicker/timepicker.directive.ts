@@ -129,6 +129,10 @@ export class SkyTimepickerInputDirective
   private _modelValue: SkyTimepickerTimeOutput;
   private _skyTimepickerInput: SkyTimepickerComponent;
 
+  private _onChange: (_: any) => void;
+  private _onTouched: () => void;
+  private _validatorChange: () => void;
+
   constructor(
     private renderer: Renderer2,
     private elRef: ElementRef,
@@ -290,11 +294,4 @@ export class SkyTimepickerInputDirective
       }
     }
   }
-
-  /*istanbul ignore next */
-  private _onChange = (_: any) => {};
-  /*istanbul ignore next */
-  private _onTouched = () => {};
-  /* istanbul ignore next */
-  private _validatorChange = () => {};
 }

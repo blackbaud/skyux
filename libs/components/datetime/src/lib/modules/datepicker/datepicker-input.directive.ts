@@ -252,6 +252,10 @@ export class SkyDatepickerInputDirective
   private _strict: boolean;
   private _value: any;
 
+  private onChange: (_: any) => void;
+  private onTouched: () => void;
+  private onValidatorChange: () => void;
+
   constructor(
     private adapter: SkyDatepickerAdapterService,
     private changeDetector: ChangeDetectorRef,
@@ -511,11 +515,6 @@ export class SkyDatepickerInputDirective
 
     return isValidIso;
   }
-
-  private onChange = (_: any) => {};
-  /*istanbul ignore next */
-  private onTouched = () => {};
-  private onValidatorChange = () => {};
 
   private notifyUpdatedValue(): void {
     this.onChange(this._value);
