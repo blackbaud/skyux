@@ -129,12 +129,9 @@ export class SkyTextHighlightDirective
   }
 
   public ngAfterViewInit(): void {
-    const self = this;
-    this.observer = this.observerService.create(
-      (mutations: MutationRecord[]) => {
-        self.highlight();
-      }
-    );
+    this.observer = this.observerService.create(() => {
+      this.highlight();
+    });
 
     this.observeDom();
     if (this._skyHighlight && this._skyHighlight.length > 0) {
