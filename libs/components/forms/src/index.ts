@@ -11,6 +11,7 @@ export * from './lib/modules/file-attachment/file-item';
 export * from './lib/modules/file-attachment/file-item-error-type';
 export * from './lib/modules/file-attachment/file-link';
 export * from './lib/modules/file-attachment/file-size.pipe';
+export * from './lib/modules/file-attachment/file-validation-function';
 
 export * from './lib/modules/input-box/input-box.module';
 export * from './lib/modules/input-box/input-box-host.service';

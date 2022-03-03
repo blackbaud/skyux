@@ -167,17 +167,25 @@ describe('File attachment', () => {
   }
 
   function getFileReaderSpy(): {
-    loadCallbacks: Function[];
-    errorCallbacks: Function[];
-    abortCallbacks: Function[];
+    loadCallbacks: ((opts: {
+      target: {
+        result: string;
+      };
+    }) => void)[];
+    errorCallbacks: (() => void)[];
+    abortCallbacks: (() => void)[];
   } {
-    const loadCallbacks: Function[] = [];
-    const errorCallbacks: Function[] = [];
-    const abortCallbacks: Function[] = [];
+    const loadCallbacks: ((opts: {
+      target: {
+        result: string;
+      };
+    }) => void)[] = [];
+    const errorCallbacks: (() => void)[] = [];
+    const abortCallbacks: (() => void)[] = [];
 
     spyOn(window as any, 'FileReader').and.returnValue({
-      readAsDataURL: function (file: any): void {},
-      addEventListener: function (type: string, callback: Function): void {
+      readAsDataURL: function (): void {},
+      addEventListener: function (type, callback): void {
         if (type === 'load') {
           loadCallbacks.push(callback);
         } else if (type === 'error') {

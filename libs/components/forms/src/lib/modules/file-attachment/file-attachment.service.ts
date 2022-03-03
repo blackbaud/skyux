@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SkyFileItem } from './file-item';
+import { SkyFileValidationFunction } from './file-validation-function';
 
 /**
  * @internal
@@ -12,7 +13,7 @@ export class SkyFileAttachmentService {
     minFileSize: number,
     maxFileSize: number,
     acceptedTypes: string,
-    validateFn: Function
+    validateFn: SkyFileValidationFunction
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 

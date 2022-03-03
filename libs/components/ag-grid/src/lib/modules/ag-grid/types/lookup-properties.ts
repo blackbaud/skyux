@@ -1,4 +1,4 @@
-import { EventEmitter, TemplateRef } from '@angular/core';
+import { TemplateRef } from '@angular/core';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchFunction,
@@ -9,7 +9,7 @@ import {
 } from '@skyux/lookup';
 
 export interface SkyLookupProperties {
-  addClick?: (args: SkyLookupAddClickEventArgs) => {};
+  addClick?: (args: SkyLookupAddClickEventArgs) => void;
   ariaLabel?: string;
   autocompleteAttribute?: string;
   data: any[];
@@ -21,7 +21,7 @@ export interface SkyLookupProperties {
   placeholderText?: string;
   propertiesToSearch?: string[];
   search?: SkyAutocompleteSearchFunction;
-  searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => {};
+  searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => void;
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<any>;

@@ -193,6 +193,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       isSelectedValues: boolean[],
       dataPropertySet: boolean = false
     ) {
+      /* eslint-disable-next-line @typescript-eslint/ban-types */ /* Function is the type used by AgGrid */
       let rowClickListener: Function;
       const rowNode = new RowNode();
       rowNode.data = {};

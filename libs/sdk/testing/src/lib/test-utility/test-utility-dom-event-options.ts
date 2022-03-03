@@ -2,5 +2,5 @@ export interface SkyAppTestUtilityDomEventOptions {
   bubbles?: boolean;
   cancelable?: boolean;
   keyboardEventInit?: KeyboardEventInit;
-  customEventInit?: object;
+  customEventInit?: Record<string, unknown>;
 }

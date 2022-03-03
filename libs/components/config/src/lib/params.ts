@@ -126,7 +126,7 @@ export class SkyAppRuntimeConfigParams {
    * Returns the params object.
    * @param excludeDefaults Exclude params that have default values
    */
-  public getAll(excludeDefaults?: boolean): Object {
+  public getAll(excludeDefaults?: boolean): { [key: string]: string } {
     const filteredParams: { [key: string]: string } = {};
 
     this.getAllKeys().forEach((key) => {

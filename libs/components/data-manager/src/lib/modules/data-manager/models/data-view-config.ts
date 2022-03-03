@@ -10,7 +10,7 @@ export interface SkyDataViewConfig {
    * An untyped property that can track any view config information relevant to a
    * data view that the existing options do not include.
    */
-  additionalOptions?: Object;
+  additionalOptions?: Record<string, unknown>;
   /**
    * The column data to pass to the column picker. Columns that are always displayed should be
    * passed in addition to the optional columns. See SkyDataManagerColumnPickerOption.
@@ -50,12 +50,12 @@ export interface SkyDataViewConfig {
    * The function called when a user selects the "Clear all" button on the multi-select toolbar.
    * Update your displayed data to indicate it is not selected in this function.
    */
-  onClearAllClick?: Function;
+  onClearAllClick?: () => void;
   /**
    * The function called when a user selects the "Select all" button on the multi-select toolbar.
    * Update your displayed data to indicate it is selected in this function.
    */
-  onSelectAllClick?: Function;
+  onSelectAllClick?: () => void;
   /**
    * Indicates whether to display the search box for this view.
    */

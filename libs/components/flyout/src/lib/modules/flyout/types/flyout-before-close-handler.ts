@@ -5,9 +5,9 @@ export class SkyFlyoutBeforeCloseHandler {
   /**
    * Function which should be called to close the flyout. This should be called once any intervening actions have completed.
    */
-  public readonly closeFlyout: Function;
+  public readonly closeFlyout: () => void;
 
-  constructor(closeFlyoutFunction: Function) {
+  constructor(closeFlyoutFunction: () => void) {
     this.closeFlyout = closeFlyoutFunction;
   }
 }

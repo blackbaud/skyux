@@ -89,17 +89,18 @@ describe('SkyAgGridWrapperComponent', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [{ rowIndex: 0, column: col, rowPinned: '' }];
               },
             },
-          });
-        }
-      );
+          } as any,
+          0
+        );
+      });
 
       fireKeydownOnGrid('Tab', false);
 
@@ -118,17 +119,18 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [];
               },
             },
-          });
-        }
-      );
+          } as any,
+          0
+        );
+      });
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
         skyAgGridDivEl
       );

@@ -4,7 +4,6 @@
       "files": ["*.ts"],
       "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "warn",
-        "@typescript-eslint/ban-types": "warn",
         "@typescript-eslint/member-ordering": "warn",
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-empty-interface": "warn",

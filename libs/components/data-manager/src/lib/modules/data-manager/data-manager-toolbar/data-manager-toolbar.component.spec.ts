@@ -28,13 +28,13 @@ import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
-  public closeCallback: Function;
+  public closeCallback: (args: { reason: string; data?: unknown }) => void;
 
   constructor() {}
   public open(): any {
     return {
       closed: {
-        subscribe: (callback: Function) => {
+        subscribe: (callback) => {
           this.closeCallback = callback;
         },
       },

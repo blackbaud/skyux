@@ -10,10 +10,12 @@ import {
 
 import {
   CellClassParams,
+  CellFocusedEvent,
   ColumnApi,
   GridOptions,
   RowClassParams,
   RowNode,
+  SuppressKeyboardEventParams,
   ValueFormatterFunc,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -257,7 +259,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('dateFormatter', () => {
-    let dateValueFormatter: Function;
+    let dateValueFormatter: ValueFormatterFunc;
     let dateValueFormatterParams: ValueFormatterParams;
 
     // remove the invisible characters IE11 includes in the output of toLocaleDateString
@@ -276,7 +278,7 @@ describe('SkyAgGridService', () => {
 
     beforeEach(() => {
       dateValueFormatter = defaultGridOptions.columnTypes[SkyCellType.Date]
-        .valueFormatter as Function;
+        .valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams = {
         value: undefined,
         node: undefined,
@@ -316,7 +318,7 @@ describe('SkyAgGridService', () => {
       });
       const britishDateValueFormatter = britishGridOptions.columnTypes[
         SkyCellType.Date
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams.value = new Date('12/1/2019');
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
@@ -332,7 +334,7 @@ describe('SkyAgGridService', () => {
       });
       const britishDateValueFormatter = britishGridOptions.columnTypes[
         SkyCellType.Date
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       dateValueFormatterParams.value = '3/1/2019';
 
       const formattedDate = britishDateValueFormatter(dateValueFormatterParams);
@@ -359,7 +361,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('dateComparator', () => {
-    let dateComparator: Function;
+    let dateComparator: any;
     const earlyDateString = '1/1/19';
     const lateDateString = '12/1/19';
     const earlyDate = new Date(earlyDateString);
@@ -392,13 +394,13 @@ describe('SkyAgGridService', () => {
   });
 
   describe('autocompleteFormatter', () => {
-    let autocompleteValueFormatter: Function;
+    let autocompleteValueFormatter: ValueFormatterFunc;
     let autocompleteValueFormatterParams: ValueFormatterParams;
 
     beforeEach(() => {
       autocompleteValueFormatter = defaultGridOptions.columnTypes[
         SkyCellType.Autocomplete
-      ].valueFormatter as Function;
+      ].valueFormatter as ValueFormatterFunc;
       autocompleteValueFormatterParams = {
         value: undefined,
         node: undefined,
@@ -433,7 +435,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('autocompleteComparator', () => {
-    let autocompleteComparator: Function;
+    let autocompleteComparator: any;
     const cat = { id: '1', name: 'cat' };
     const dog = { id: '2', name: 'dog' };
 
@@ -497,7 +499,9 @@ describe('SkyAgGridService', () => {
 
   describe('suppressKeyboardEvent', () => {
     const mockEl = document.createElement('div');
-    let suppressKeypressFunction: Function;
+    let suppressKeypressFunction: (
+      params: SuppressKeyboardEventParams
+    ) => boolean;
 
     beforeEach(() => {
       suppressKeypressFunction =
@@ -505,7 +509,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('should return true to suppress the event when the tab key is pressed and cells are not being edited', () => {
-      const params = { event: { code: 'Tab' } };
+      const params = { event: { code: 'Tab' } } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(true);
     });
 
@@ -515,7 +519,7 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab',
         },
-      };
+      } as SuppressKeyboardEventParams;
 
       spyOn(
         agGridAdapterService,
@@ -534,7 +538,7 @@ describe('SkyAgGridService', () => {
         event: {
           code: 'Tab',
         },
-      };
+      } as SuppressKeyboardEventParams;
 
       spyOn(
         agGridAdapterService,
@@ -548,13 +552,15 @@ describe('SkyAgGridService', () => {
     });
 
     it('should return false for non-tab keys to allow the keypress event', () => {
-      const params = { event: { code: 'Enter' } };
+      const params = {
+        event: { code: 'Enter' },
+      } as SuppressKeyboardEventParams;
       expect(suppressKeypressFunction(params)).toBe(false);
     });
   });
 
   describe('onCellFocused', () => {
-    let onCellFocusedFunction: Function;
+    let onCellFocusedFunction: (event?: CellFocusedEvent) => void;
 
     beforeEach(() => {
       onCellFocusedFunction = defaultGridOptions.onCellFocused;
@@ -572,7 +578,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('getDefaultGridOptions getEditableFn', () => {
-    let cellClassRuleEditableFunction: Function;
+    let cellClassRuleEditableFunction: (params: CellClassParams) => boolean;
     let cellClassParams: CellClassParams;
 
     beforeEach(() => {
@@ -626,7 +632,7 @@ describe('SkyAgGridService', () => {
     });
 
     it("returns false when the columnDefinion's editable property is true and checking for uneditable", () => {
-      let cellClassRuleUneditableFunction: Function;
+      let cellClassRuleUneditableFunction: (params: CellClassParams) => boolean;
 
       const cellClassRuleUneditable =
         defaultGridOptions.defaultColDef.cellClassRules[
@@ -644,7 +650,7 @@ describe('SkyAgGridService', () => {
   });
 
   describe('getDefaultGridOptions validator', () => {
-    let cellClassRuleValidatorFunction: Function;
+    let cellClassRuleValidatorFunction: (params: CellClassParams) => boolean;
     let cellClassParams: CellClassParams;
     let cellRendererParams: ICellRendererParams;
 

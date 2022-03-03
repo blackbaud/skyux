@@ -13,5 +13,5 @@ export interface SkyAutocompleteProperties {
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<any>;
   searchTextMinimumCharacters?: number;
-  selectionChange?: Function;
+  selectionChange?: () => void;
 }
