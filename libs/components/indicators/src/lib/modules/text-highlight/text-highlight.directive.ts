@@ -124,7 +124,7 @@ export class SkyTextHighlightDirective
   }
 
   private static cleanRegex(regex: string): string {
-    return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return regex.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
 
   private static markNode(node: any, searchTerms: string[]): number {

@@ -499,7 +499,7 @@ export class SkyDatepickerInputDirective
     }
 
     // Does the value only include digits, dashes, or slashes?
-    const regexp = /^[\d\/\-]+$/;
+    const regexp = /^[\d/-]+$/;
     const isValid = regexp.test(value);
 
     if (isValid) {
