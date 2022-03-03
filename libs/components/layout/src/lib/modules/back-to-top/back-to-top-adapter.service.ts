@@ -40,10 +40,10 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
 
     scrollableHostObservable
       .pipe(takeUntil(this.scrollableHostScrollEventUnsubscribe))
-      .subscribe((scrollableHost) => {
+      .subscribe(() => {
         const isInView = this.isElementScrolledInView(
           elementRef.nativeElement,
-          scrollableHost
+          this.scrollableHostService.getScrollableHost(elementRef)
         );
         returnedObservable.next(isInView);
       });
@@ -85,6 +85,9 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
   }
 
   public isElementScrolledInView(element: any, parentElement: any): boolean {
+    if (!element.offsetTop) {
+      return true;
+    }
     const buffer = 25;
     const elementRect = element.getBoundingClientRect();
 

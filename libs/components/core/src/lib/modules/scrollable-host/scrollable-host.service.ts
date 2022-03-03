@@ -87,7 +87,7 @@ export class SkyScrollableHostService {
    * Returns an observable which emits whenever the element's scrollable host emits a scroll event. The observable will always emit the scroll events from the elements current scrollable host and will update based on any scrollable host changes. The observable will also emit once whenever the scrollable host changes.
    * @param elementRef The element whose scrollable host scroll events are being requested
    * @param completionObservable An observable which alerts the internal observers that they should complete
-   * @returns An observable which emits the scroll events from the given element's scrollable host
+   * @returns An observable which emits when the elements scrollable host is scrolled or is changed
    */
   public watchScrollableHostScrollEvents(
     elementRef: ElementRef

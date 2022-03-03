@@ -15,7 +15,7 @@ import { sortByStackOrder } from './sort-by-stack-order';
  * This service docks components to specific areas on the page.
  */
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class SkyDockService {
   /**
