@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 
 /**
  * @internal
@@ -13,5 +14,5 @@ export interface SkyAutocompleteProperties {
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<any>;
   searchTextMinimumCharacters?: number;
-  selectionChange?: () => void;
+  selectionChange?: (event: SkyAutocompleteSelectionChange) => void;
 }
