@@ -80,7 +80,7 @@ export class SkyAutocompleteComponent
   /**
    * Specifies a static data source for the autocomplete component to search
    * when users enter text. For a dynamic data source such as an array that
-   * changes due to server calls, use the `search` property instead.
+   * changes due to server calls, use `search` or `searchAsync` instead.
    */
   @Input()
   public set data(value: any[]) {
@@ -163,7 +163,9 @@ export class SkyAutocompleteComponent
    * Specifies a function to dynamically manage the data source when users
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
-   * useful when the data source does not live in the source code.
+   * useful when the data source does not live in the source code. If the
+   * search requires calling a remote data source, use `searchAsync` instead of
+   * `search`.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction) {
@@ -282,6 +284,10 @@ export class SkyAutocompleteComponent
     return this._selectionChange;
   }
 
+  /**
+   * Fires when users enter new search information and allows results to be
+   * returned via an observable.
+   */
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
