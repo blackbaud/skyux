@@ -12,7 +12,6 @@
         "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
         "@typescript-eslint/no-this-alias": "warn",
         "@typescript-eslint/no-var-requires": "warn",
-        "no-case-declarations": "warn",
         "no-empty": "warn",
         "no-extra-boolean-cast": "warn",
         "no-irregular-whitespace": "warn",
