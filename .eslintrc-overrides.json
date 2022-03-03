@@ -12,7 +12,6 @@
         "no-empty": "warn",
         "no-extra-boolean-cast": "warn",
         "no-irregular-whitespace": "warn",
-        "no-prototype-builtins": "warn",
         "no-self-assign": "warn",
         "no-useless-escape": "warn",
         "prefer-const": "warn",

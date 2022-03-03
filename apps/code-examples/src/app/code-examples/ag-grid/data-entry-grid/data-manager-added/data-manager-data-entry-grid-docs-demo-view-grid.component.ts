@@ -284,7 +284,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toLowerCase();
