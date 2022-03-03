@@ -16,13 +16,8 @@ function verifyDependencySection(
   for (const packageName in projectPackageJson[section]) {
     const targetVersion = projectPackageJson[section]![packageName];
 
+    // Ignore packages that live in the monorepo.
     if (npmPackageNames.includes(packageName)) {
-      if (targetVersion !== '0.0.0-PLACEHOLDER') {
-        errors.push(
-          `The package "${packageName}" listed in the \`${section}\` section of '${projectRoot}/package.json' ` +
-            "is not set to the required version of '0.0.0-PLACEHOLDER'!"
-        );
-      }
       continue;
     }
 
