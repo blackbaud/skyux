@@ -56,6 +56,72 @@ export class SkyTextHighlightDirective
     private observerService: MutationObserverService
   ) {}
 
+  private static cleanRegex(regex: string): string {
+    return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  }
+
+  private static markNode(node: any, searchTerms: string[]): number {
+    /* istanbul ignore else */
+    if (searchTerms) {
+      const text = node.nodeValue;
+      for (let i = 0; i < searchTerms.length; i++) {
+        searchTerms[i] = this.cleanRegex(searchTerms[i]);
+      }
+      const searchRegex = new RegExp(searchTerms.join('|'), 'gi');
+      const match = searchRegex.exec(text);
+      if (match) {
+        // Split apart text node with mark tags in the middle on the search term.
+        const matchIndex = match.index;
+
+        const middle = node.splitText(matchIndex);
+        middle.splitText(searchRegex.lastIndex - matchIndex);
+        const middleClone = middle.cloneNode(true);
+
+        const markNode = document.createElement('mark');
+        markNode.className = className;
+        markNode.appendChild(middleClone);
+        middle.parentNode.replaceChild(markNode, middle);
+
+        return 1;
+      }
+    }
+    return 0;
+  }
+
+  private static markTextNodes(
+    node: HTMLElement,
+    searchTerms: string[]
+  ): number {
+    if (node.nodeType === 3) {
+      return SkyTextHighlightDirective.markNode(node, searchTerms);
+    } else if (node.nodeType === 1 && node.childNodes) {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        const childNode = node.childNodes[i] as HTMLElement;
+        i += SkyTextHighlightDirective.markTextNodes(childNode, searchTerms);
+      }
+    }
+
+    return 0;
+  }
+
+  private static removeHighlight(el: ElementRef): void {
+    const matchedElements = el.nativeElement.querySelectorAll(
+      `mark.${className}`
+    ) as NodeList;
+
+    /* istanbul ignore else */
+    /* sanity check */
+    if (matchedElements) {
+      for (let i = 0; i < matchedElements.length; i++) {
+        const node = matchedElements[i];
+        const parentNode = node.parentNode;
+
+        parentNode.replaceChild(node.firstChild, node);
+        parentNode.normalize();
+      }
+    }
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
       this.highlight();
@@ -120,72 +186,6 @@ export class SkyTextHighlightDirective
         characterData: true,
       };
       this.observer.observe(this.el.nativeElement, config);
-    }
-  }
-
-  private static cleanRegex(regex: string): string {
-    return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  }
-
-  private static markNode(node: any, searchTerms: string[]): number {
-    /* istanbul ignore else */
-    if (searchTerms) {
-      const text = node.nodeValue;
-      for (let i = 0; i < searchTerms.length; i++) {
-        searchTerms[i] = this.cleanRegex(searchTerms[i]);
-      }
-      const searchRegex = new RegExp(searchTerms.join('|'), 'gi');
-      const match = searchRegex.exec(text);
-      if (match) {
-        // Split apart text node with mark tags in the middle on the search term.
-        const matchIndex = match.index;
-
-        const middle = node.splitText(matchIndex);
-        middle.splitText(searchRegex.lastIndex - matchIndex);
-        const middleClone = middle.cloneNode(true);
-
-        const markNode = document.createElement('mark');
-        markNode.className = className;
-        markNode.appendChild(middleClone);
-        middle.parentNode.replaceChild(markNode, middle);
-
-        return 1;
-      }
-    }
-    return 0;
-  }
-
-  private static markTextNodes(
-    node: HTMLElement,
-    searchTerms: string[]
-  ): number {
-    if (node.nodeType === 3) {
-      return SkyTextHighlightDirective.markNode(node, searchTerms);
-    } else if (node.nodeType === 1 && node.childNodes) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        const childNode = node.childNodes[i] as HTMLElement;
-        i += SkyTextHighlightDirective.markTextNodes(childNode, searchTerms);
-      }
-    }
-
-    return 0;
-  }
-
-  private static removeHighlight(el: ElementRef): void {
-    const matchedElements = el.nativeElement.querySelectorAll(
-      `mark.${className}`
-    ) as NodeList;
-
-    /* istanbul ignore else */
-    /* sanity check */
-    if (matchedElements) {
-      for (let i = 0; i < matchedElements.length; i++) {
-        const node = matchedElements[i];
-        const parentNode = node.parentNode;
-
-        parentNode.replaceChild(node.firstChild, node);
-        parentNode.normalize();
-      }
     }
   }
 }
