@@ -33,7 +33,7 @@ function rebasePullRequest() {
 
     exec('git config user.name "blackbaud-sky-build-user"');
     exec('git config user.email "sky-build-user@blackbaud.com"');
-    exec(`git rebase origin/${targetBranch}`);
+    exec(`git rebase --rebase-merges origin/${targetBranch}`);
 
     console.log(`Rebased current branch onto ${targetBranch}.`);
   } catch (err) {
