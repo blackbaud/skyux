@@ -189,7 +189,7 @@ export async function createDocumentationJson(
     (await fs.readJson(
       path.join(process.cwd(), distPackage.distRoot!, 'package.json')
     )) as PackageJson
-  ).name;
+  ).name!;
 
   const documentationJsonPath = `${distPackage.distRoot!}/documentation.json`;
 
