@@ -40,11 +40,11 @@ async function createPackagesDist(): Promise<void> {
 
     const packageJson: PackageJson = await readJson(join(cwd, 'package.json'));
 
-    const skyuxVersion = packageJson.version;
+    const skyuxVersion = packageJson.version!;
 
     // Add 1000 to the minor version number.
     // e.g. 5.5.1 --> 5.1005.1
-    const skyuxPackagesVersion = packageJson.version.replace(
+    const skyuxPackagesVersion = skyuxVersion.replace(
       /\.([0-9])\./,
       (match, group) => {
         return match.replace(/[0-9]/, `${+group + 1000}`);
