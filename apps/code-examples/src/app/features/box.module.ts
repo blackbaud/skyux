@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { BoxDemoComponent as BasicComponent } from '../code-examples/layout/box/basic/box-demo.component';
 import { BoxDemoModule as BasicModule } from '../code-examples/layout/box/basic/box-demo.module';
 
