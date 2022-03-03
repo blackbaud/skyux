@@ -8,9 +8,9 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
-    path: 'box',
+    path: 'layout',
     loadChildren: () =>
-      import('./features/box.module').then((m) => m.BoxModule),
+      import('./features/layout.module').then((m) => m.LayoutModule),
   },
 ];
 
