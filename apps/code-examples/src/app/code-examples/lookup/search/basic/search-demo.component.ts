@@ -46,7 +46,7 @@ export class SearchDemoComponent {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'title' || property === 'note')
           ) {
             if (item[property].indexOf(searchText) > -1) {

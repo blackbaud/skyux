@@ -108,7 +108,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       );
     }));
 
-    it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node\'s selected
+    it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node's selected
       value since no column field provided`, fakeAsync(() => {
       const rowNode = new RowNode();
       cellRendererParams.value = true;

@@ -232,7 +232,7 @@ export class SkyColorpickerService {
     let hsva: SkyColorpickerHsva = undefined;
     for (const key in stringParsers) {
       /* istanbul ignore else */ /* for in must be filtered by an if */
-      if (stringParsers.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(stringParsers, key)) {
         const parser = stringParsers[key];
         const match = parser.re.exec(colorString);
         const color: any = match && parser.parse(match);
@@ -286,7 +286,6 @@ export class SkyColorpickerService {
   }
 
   public skyColorpickerOut(color: SkyColorpickerHsva) {
-    let formatColor: SkyColorpickerOutput;
     const cmykText: string = this.outputFormat(color, 'cmyk', true);
     const hslaText: string = this.outputFormat(color, 'hsla', true);
     const rgbaText: string = this.outputFormat(color, 'rgba', true);
@@ -295,7 +294,7 @@ export class SkyColorpickerService {
     const cmyk: SkyColorpickerCmyk = this.rgbaToCmyk(rgba);
     const hex: string = this.outputFormat(color, 'hex', false);
 
-    formatColor = {
+    const formatColor: SkyColorpickerOutput = {
       cmykText: cmykText,
       hslaText: hslaText,
       rgbaText: rgbaText,
@@ -305,6 +304,7 @@ export class SkyColorpickerService {
       cmyk: this.denormalizeCMYK(cmyk),
       hex: hex,
     };
+
     return formatColor;
   }
 

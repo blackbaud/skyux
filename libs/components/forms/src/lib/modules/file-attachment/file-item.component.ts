@@ -62,11 +62,11 @@ export class SkyFileItemComponent implements DoCheck {
     const changes = this.differ.diff(this.fileItem);
 
     if (changes) {
-      let cls: string,
-        extensionUpper = this.fileItemService.getFileExtensionUpper(
-          this.fileItem as SkyFileItem
-        ),
-        fileTypeUpper: string;
+      let cls: string;
+      const extensionUpper = this.fileItemService.getFileExtensionUpper(
+        this.fileItem as SkyFileItem
+      );
+      let fileTypeUpper: string;
 
       switch (extensionUpper) {
         case '.PDF':

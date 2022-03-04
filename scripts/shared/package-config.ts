@@ -7,6 +7,11 @@ export interface PackageConfig {
    * The root path of the project's source code, relative to the workspace root.
    */
   root: string;
+
+  /**
+   * The name of the NPM package.
+   */
+  npmName?: string;
 }
 
 export interface PackageConfigs {

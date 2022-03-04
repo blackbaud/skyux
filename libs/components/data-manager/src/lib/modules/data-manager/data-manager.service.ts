@@ -346,7 +346,7 @@ export class SkyDataManagerService implements OnDestroy {
     const filteredStateProperties: any = {};
     for (const property of properties) {
       /* istanbul ignore else */
-      if (stateProperties.hasOwnProperty(property)) {
+      if (Object.prototype.hasOwnProperty.call(stateProperties, property)) {
         filteredStateProperties[property] = stateProperties[property];
       }
     }

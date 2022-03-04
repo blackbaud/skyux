@@ -321,13 +321,12 @@ export class SkyColorpickerInputDirective
       return color;
     }
 
-    let formatColor: SkyColorpickerOutput;
     const hsva: SkyColorpickerHsva = this.service.stringToHsva(
       color,
       this.alphaChannel === 'hex8'
     );
 
-    formatColor = this.service.skyColorpickerOut(hsva);
+    const formatColor = this.service.skyColorpickerOut(hsva);
 
     return formatColor;
   }
