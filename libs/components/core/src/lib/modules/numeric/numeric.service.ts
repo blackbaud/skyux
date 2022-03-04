@@ -88,6 +88,8 @@ export class SkyNumericService {
     const locale = options.locale || this.currentLocale;
 
     let digits: string;
+    let isDecimal: boolean;
+
     // Checks the string entered for format. Using toLowerCase to ignore case.
     switch (options.format?.toLowerCase()) {
       // In a case where a decimal value was not shortened and
@@ -96,7 +98,7 @@ export class SkyNumericService {
       // Note: This will need to be reviewed if we support currencies with
       // three decimal digits.
       case 'currency':
-        const isDecimal = value % 1 !== 0;
+        isDecimal = value % 1 !== 0;
 
         if (options.minDigits) {
           digits = `1.${options.minDigits}-${options.digits}`;
@@ -106,19 +108,17 @@ export class SkyNumericService {
           digits = `1.0-${options.digits}`;
         }
 
-        // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
-        // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
-        // and the appropriate string value for Angular 5+.
-        // See: https://angular.io/api/common/CurrencyPipe#parameters
-        const symbolDisplay: any = 'symbol';
-
         output = SkyNumberFormatUtility.formatNumber(
           locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Currency,
           digits,
           options.iso,
-          symbolDisplay,
+          // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
+          // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
+          // and the appropriate string value for Angular 5+.
+          // See: https://angular.io/api/common/CurrencyPipe#parameters
+          'symbol' as any,
           options.currencySign
         );
         break;
