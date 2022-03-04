@@ -26,6 +26,10 @@ jobs:
         with:
           cache: npm
           node-version: '14'
+      # Workaround to avoid "Post Run actions/setup-node" failures.
+      # See: https://github.com/actions/setup-node/issues/317
+      - run: mkdir -p /home/runner/.npm
+        continue-on-error: true
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
