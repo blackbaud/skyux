@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
 import { MutationObserverService } from '../mutation/mutation-observer-service';
@@ -147,14 +147,12 @@ describe('Scrollable host service', () => {
   it('should unsubscribe from watching the scrollable host correctly', (done) => {
     let observable1Count = 0;
     let observable2Count = 0;
-    let subscription1: Subscription;
-    let subscription2: Subscription;
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
     spyOn(MutationObserver.prototype, 'disconnect').and.callThrough();
 
-    subscription1 = scrollableHostObservable
+    const subscription1 = scrollableHostObservable
       .pipe(take(2), delay(10))
       .subscribe((scrollableHost) => {
         if (observable1Count === 0) {
@@ -183,7 +181,7 @@ describe('Scrollable host service', () => {
     // Disconnect is called via the setup as we use a shared method any time we set up the observer.
     expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(1);
 
-    subscription2 = scrollableHostObservable
+    const subscription2 = scrollableHostObservable
       .pipe(take(2), delay(10))
       .subscribe((scrollableHost) => {
         if (observable2Count === 0) {
@@ -369,70 +367,72 @@ describe('Scrollable host service', () => {
   it('should unsubscribe from watching the scrollable host correctly', (done) => {
     let observable1Count = 0;
     let observable2Count = 0;
-    let subscription1: Subscription;
-    let subscription2: Subscription;
 
     const scrollObservable = cmp.watchScrollableHostScrollEvents();
 
-    subscription1 = scrollObservable.pipe(take(2), delay(10)).subscribe(() => {
-      if (observable1Count === 0) {
-        if (observable2Count === 1) {
-          subscription1.unsubscribe();
-          subscription2.unsubscribe();
+    const subscription1 = scrollObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        if (observable1Count === 0) {
+          if (observable2Count === 1) {
+            subscription1.unsubscribe();
+            subscription2.unsubscribe();
 
-          SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
+            SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
+
+            fixture.detectChanges();
+
+            cmp.isGrandparentScrollable = true;
+            cmp.isParentScrollable = false;
+
+            fixture.detectChanges();
+
+            SkyAppTestUtility.fireDomEvent(
+              cmp.grandparent.nativeElement,
+              'scroll'
+            );
+
+            done();
+          }
 
           fixture.detectChanges();
-
-          cmp.isGrandparentScrollable = true;
-          cmp.isParentScrollable = false;
-
-          fixture.detectChanges();
-
-          SkyAppTestUtility.fireDomEvent(
-            cmp.grandparent.nativeElement,
-            'scroll'
-          );
-
-          done();
+          observable1Count++;
+        } else {
+          fail('each subscription should only be hit once');
         }
+      });
 
-        fixture.detectChanges();
-        observable1Count++;
-      } else {
-        fail('each subscription should only be hit once');
-      }
-    });
+    const subscription2 = scrollObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        if (observable2Count === 0) {
+          if (observable1Count === 1) {
+            subscription1.unsubscribe();
+            subscription2.unsubscribe();
 
-    subscription2 = scrollObservable.pipe(take(2), delay(10)).subscribe(() => {
-      if (observable2Count === 0) {
-        if (observable1Count === 1) {
-          subscription1.unsubscribe();
-          subscription2.unsubscribe();
+            SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
 
-          SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
+            fixture.detectChanges();
+
+            cmp.isGrandparentScrollable = true;
+            cmp.isParentScrollable = false;
+
+            fixture.detectChanges();
+
+            SkyAppTestUtility.fireDomEvent(
+              cmp.grandparent.nativeElement,
+              'scroll'
+            );
+
+            done();
+          }
 
           fixture.detectChanges();
-
-          cmp.isGrandparentScrollable = true;
-          cmp.isParentScrollable = false;
-
-          fixture.detectChanges();
-
-          SkyAppTestUtility.fireDomEvent(
-            cmp.grandparent.nativeElement,
-            'scroll'
-          );
-
-          done();
+          observable2Count++;
+        } else {
+          fail('each subscription should only be hit once');
         }
-
-        fixture.detectChanges();
-        observable2Count++;
-      } else {
-        fail('each subscription should only be hit once');
-      }
-    });
+      });
 
     SkyAppTestUtility.fireDomEvent(cmp.parent.nativeElement, 'scroll');
   });

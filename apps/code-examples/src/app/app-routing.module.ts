@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
+  {
+    path: 'layout',
+    loadChildren: () =>
+      import('./features/layout.module').then((m) => m.LayoutModule),
+  },
 ];
 
 @NgModule({
