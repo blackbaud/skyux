@@ -306,6 +306,20 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.arrowLeft = left;
   }
 
+  private isFocusLeavingElement(event: KeyboardEvent): boolean {
+    const focusableItems = this.coreAdapterService.getFocusableChildren(
+      this.elementRef.nativeElement
+    );
+
+    const isFirstItem = focusableItems[0] === event.target && event.shiftKey;
+
+    const isLastItem =
+      focusableItems[focusableItems.length - 1] === event.target &&
+      !event.shiftKey;
+
+    return focusableItems.length === 0 || isFirstItem || isLastItem;
+  }
+
   private addEventListeners(): void {
     const hostElement = this.elementRef.nativeElement;
 
@@ -339,18 +353,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
               return;
             }
 
-            const focusableItems =
-              this.coreAdapterService.getFocusableChildren(hostElement);
-
-            const isFirstItem =
-              focusableItems[0] === event.target && event.shiftKey;
-
-            const isLastItem =
-              focusableItems[focusableItems.length - 1] === event.target &&
-              !event.shiftKey;
-
             /*istanbul ignore else*/
-            if (focusableItems.length === 0 || isFirstItem || isLastItem) {
+            if (this.isFocusLeavingElement(event)) {
               this.close();
               this.caller.nativeElement.focus();
               event.preventDefault();
