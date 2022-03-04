@@ -288,7 +288,6 @@ export class SkyColorpickerService {
   }
 
   public skyColorpickerOut(color: SkyColorpickerHsva) {
-    let formatColor: SkyColorpickerOutput;
     const cmykText: string = this.outputFormat(color, 'cmyk', true);
     const hslaText: string = this.outputFormat(color, 'hsla', true);
     const rgbaText: string = this.outputFormat(color, 'rgba', true);
@@ -297,7 +296,7 @@ export class SkyColorpickerService {
     const cmyk: SkyColorpickerCmyk = this.rgbaToCmyk(rgba);
     const hex: string = this.outputFormat(color, 'hex', false);
 
-    formatColor = {
+    const formatColor: SkyColorpickerOutput = {
       cmykText: cmykText,
       hslaText: hslaText,
       rgbaText: rgbaText,
@@ -307,6 +306,7 @@ export class SkyColorpickerService {
       cmyk: this.denormalizeCMYK(cmyk),
       hex: hex,
     };
+
     return formatColor;
   }
 

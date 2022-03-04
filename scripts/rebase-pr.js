@@ -26,7 +26,8 @@ function rebasePullRequest() {
 
     const targetBranch = process.env.GITHUB_BASE_REF || '';
     if (!targetBranch) {
-      throw new Error('The target branch is not specified!');
+      console.log('Skipping rebase since event is not a pull request.');
+      process.exit();
     }
 
     console.log(` - Target branch: ${targetBranch}`);
