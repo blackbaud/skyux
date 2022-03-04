@@ -1,6 +1,6 @@
 name: Validate pull request
 on:
-  pull_request:
+  pull_request_target:
     types:
       - edited
       - opened
