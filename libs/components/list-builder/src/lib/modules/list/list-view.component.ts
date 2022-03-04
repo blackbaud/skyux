@@ -45,8 +45,6 @@ export abstract class ListViewComponent {
     return this.viewName;
   }
 
-  /* istanbul ignore next */
-  public onViewActive() {}
-
-  public onViewInactive() {}
+  public onViewActive: () => void;
+  public onViewInactive: () => void;
 }
