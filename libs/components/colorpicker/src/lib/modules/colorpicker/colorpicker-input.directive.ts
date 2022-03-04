@@ -128,10 +128,6 @@ export class SkyColorpickerInputDirective
   private _initialColor: string;
   private modelValue: SkyColorpickerOutput;
 
-  private _onChange: (_: any) => void;
-  private _onTouched: () => void;
-  private _validatorChange: () => void;
-
   constructor(
     private elementRef: ElementRef,
     private renderer: Renderer2,
@@ -335,4 +331,11 @@ export class SkyColorpickerInputDirective
     // TODO: Need to implement the async `getString` method in a breaking change.
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onChange = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _validatorChange = () => {};
 }

@@ -264,9 +264,10 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouched(): void {}
+  public onTouched: () => any = () => {};
+
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _controlValueAccessorChangeFn = (_: boolean) => {};
+  private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
   private _emitChangeEvent() {
     const event = new SkyCheckboxChange();

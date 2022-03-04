@@ -252,10 +252,6 @@ export class SkyDatepickerInputDirective
   private _strict: boolean;
   private _value: any;
 
-  private onChange: (_: any) => void;
-  private onTouched: () => void;
-  private onValidatorChange: () => void;
-
   constructor(
     private adapter: SkyDatepickerAdapterService,
     private changeDetector: ChangeDetectorRef,
@@ -515,6 +511,13 @@ export class SkyDatepickerInputDirective
 
     return isValidIso;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onValidatorChange = () => {};
 
   private notifyUpdatedValue(): void {
     this.onChange(this._value);

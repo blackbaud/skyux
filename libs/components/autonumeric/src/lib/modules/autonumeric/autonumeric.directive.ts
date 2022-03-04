@@ -67,9 +67,6 @@ export class SkyAutonumericDirective
 
   private ngUnsubscribe = new Subject<void>();
 
-  private onChange: (_: number | undefined) => void;
-  private onTouched: () => void;
-
   constructor(
     private elementRef: ElementRef,
     private globalConfig: SkyAutonumericOptionsProvider,
@@ -218,4 +215,9 @@ export class SkyAutonumericDirective
 
     return Object.assign({}, globalOptions, newOptions);
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange = (_: number | undefined) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched = () => {};
 }

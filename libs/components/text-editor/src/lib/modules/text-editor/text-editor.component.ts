@@ -386,5 +386,5 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
   private _onTouched = () => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onChange = (_: string) => {};
+  private _onChange: (value: any) => void = () => {};
 }
