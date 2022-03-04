@@ -69,7 +69,7 @@ describe('Avatar component', () => {
   }
 
   function getBackgroundImageUrl(el: Element): string {
-    const regex = /url\(\"(.*?)\"\)/gi;
+    const regex = /url\("(.*?)"\)/gi;
     const backgroundImage = getComputedStyle(getPhotoEl(el)).backgroundImage;
 
     const match = regex.exec(backgroundImage);
