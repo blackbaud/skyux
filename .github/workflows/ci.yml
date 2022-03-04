@@ -24,12 +24,7 @@ jobs:
       - uses: actions/setup-node@v3
         if: steps.cache.outputs.cache-hit != 'true'
         with:
-          cache: npm
           node-version: '14'
-      # Workaround to avoid "Post Run actions/setup-node" failures.
-      # See: https://github.com/actions/setup-node/issues/317
-      - run: mkdir -p /home/runner/.npm
-        continue-on-error: true
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -74,7 +69,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -107,7 +101,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -134,7 +127,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -163,7 +155,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -189,7 +180,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
