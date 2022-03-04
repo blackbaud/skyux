@@ -224,10 +224,6 @@ export class SkyCountryFieldComponent
 
   public inputId: string;
 
-  // Angular automatically constructs these methods.
-  public onChange: (value: SkyCountryFieldCountry) => void;
-  public onTouched: () => void;
-
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
@@ -364,6 +360,13 @@ export class SkyCountryFieldComponent
       this.writeValue(undefined);
     }
   }
+
+  // Angular automatically constructs these methods.
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onChange = (value: SkyCountryFieldCountry) => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTouched = () => {};
 
   public registerOnChange(fn: (value: SkyCountryFieldCountry) => void): void {
     this.onChange = fn;

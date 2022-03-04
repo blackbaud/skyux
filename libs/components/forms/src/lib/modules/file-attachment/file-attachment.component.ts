@@ -161,9 +161,6 @@ export class SkyFileAttachmentComponent
 
   private _value: any;
 
-  private _onChange: (_: any) => void;
-  private _onTouched: () => void;
-
   constructor(
     public themeSvc: SkyThemeService,
     private changeDetector: ChangeDetectorRef,
@@ -420,4 +417,9 @@ export class SkyFileAttachmentComponent
     );
     this.changeDetector.markForCheck();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onChange = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onTouched = () => {};
 }

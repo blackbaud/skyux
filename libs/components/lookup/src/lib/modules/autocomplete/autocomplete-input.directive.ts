@@ -140,11 +140,6 @@ export class SkyAutocompleteInputDirective
     }
   }
 
-  // Angular automatically constructs these methods.
-  public onChange: (value: any) => void;
-  public onTouched: () => void;
-  public onValidatorChange: () => void;
-
   private control: AbstractControl;
 
   private isFirstChange = true;
@@ -276,6 +271,14 @@ export class SkyAutocompleteInputDirective
       );
     }
   }
+
+  // Angular automatically constructs these methods.
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onChange(value: any): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTouched(): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {
     this.renderer.setAttribute(

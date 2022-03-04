@@ -200,13 +200,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   private _required = false;
 
-  /**
-   * Called when the checkbox is blurred.
-   * Needed to properly implement ControlValueAccessor.
-   */
-  private onTouched: () => void;
-  private _controlValueAccessorChangeFn: (value: any) => void;
-
   constructor(@Self() @Optional() private ngControl: NgControl) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
@@ -268,6 +261,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public onInputBlur() {
     this.onTouched();
   }
+
+  /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched(): void {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _controlValueAccessorChangeFn = (_: boolean) => {};
 
   private _emitChangeEvent() {
     const event = new SkyCheckboxChange();

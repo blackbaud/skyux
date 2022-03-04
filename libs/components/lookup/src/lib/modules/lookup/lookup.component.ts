@@ -269,10 +269,6 @@ export class SkyLookupComponent
   private _tokens: SkyToken[];
   private _value: any[];
 
-  // Angular automatically constructs these methods.
-  public onChange: (value: any[]) => void;
-  public onTouched: () => void;
-
   constructor(
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
@@ -406,6 +402,12 @@ export class SkyLookupComponent
     this.value = value ? value : [];
     this.updateForSelectMode();
   }
+
+  // Angular automatically constructs these methods.
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onChange = (value: any[]) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTouched = () => {};
 
   public registerOnChange(fn: (value: any) => void) {
     this.onChange = fn;

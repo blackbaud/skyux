@@ -129,10 +129,6 @@ export class SkyTimepickerInputDirective
   private _modelValue: SkyTimepickerTimeOutput;
   private _skyTimepickerInput: SkyTimepickerComponent;
 
-  private _onChange: (_: any) => void;
-  private _onTouched: () => void;
-  private _validatorChange: () => void;
-
   constructor(
     private renderer: Renderer2,
     private elRef: ElementRef,
@@ -293,4 +289,11 @@ export class SkyTimepickerInputDirective
       }
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onChange = (_: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _validatorChange = () => {};
 }

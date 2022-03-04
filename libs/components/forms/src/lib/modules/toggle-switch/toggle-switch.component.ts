@@ -114,9 +114,6 @@ export class SkyToggleSwitchComponent
     return `sky-toggle-switch-label-${this.toggleSwitchId}`;
   }
 
-  private onTouched: () => void;
-  private onChange: (value: boolean) => void;
-
   @ContentChildren(SkyToggleSwitchLabelComponent)
   private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
 
@@ -185,6 +182,11 @@ export class SkyToggleSwitchComponent
   public onButtonBlur(): void {
     this.onTouched();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched: () => any = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange: (value: any) => void = () => {};
 
   private emitChangeEvent(): void {
     this.onChange(this._checked);

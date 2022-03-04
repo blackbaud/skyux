@@ -117,10 +117,6 @@ export class SkyPhoneFieldInputDirective
 
   private _modelValue: string;
 
-  private onChange: (_: any) => void;
-  private onTouched: () => void;
-  private validatorChange: () => void;
-
   public constructor(
     private changeDetector: ChangeDetectorRef,
     private elRef: ElementRef,
@@ -350,4 +346,13 @@ export class SkyPhoneFieldInputDirective
       return phoneNumber;
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange = (_: any) => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouched = () => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private validatorChange = () => {};
 }

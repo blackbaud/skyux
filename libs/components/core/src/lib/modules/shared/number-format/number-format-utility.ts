@@ -26,8 +26,6 @@ function parseIntAutoRadix(text: string): number {
 export class SkyNumberFormatUtility {
   private static _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
-  /* istanbul ignore next */
-
   public static formatNumber(
     locale: string,
     value: number | string,

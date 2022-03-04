@@ -260,10 +260,6 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   private _tabindex: number;
   private _value: any;
 
-  private removeUniqueSelectionListener: () => void;
-  private onChangeCallback: (value: any) => void;
-  private onTouchedCallback: () => void;
-
   constructor(private changeDetector: ChangeDetectorRef) {}
 
   public ngOnDestroy(): void {
@@ -316,4 +312,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.onTouchedCallback();
     this.blur.next();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private removeUniqueSelectionListener = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChangeCallback = (value: any) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouchedCallback = () => {};
 }

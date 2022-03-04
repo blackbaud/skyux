@@ -238,9 +238,6 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
 
   private _value = '<p></p>';
 
-  private _onTouched: () => void;
-  private _onChange: (value: any) => void;
-
   constructor(
     private changeDetector: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
@@ -384,4 +381,10 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
       this._onChange(this._value);
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onTouched = () => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _onChange = (_: string) => {};
 }
