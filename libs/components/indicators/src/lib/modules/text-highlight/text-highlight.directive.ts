@@ -56,73 +56,6 @@ export class SkyTextHighlightDirective
     private observerService: MutationObserverService
   ) {}
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
-      this.highlight();
-    }
-  }
-
-  public ngAfterViewInit(): void {
-    const self = this;
-    this.observer = this.observerService.create(
-      (mutations: MutationRecord[]) => {
-        self.highlight();
-      }
-    );
-
-    this.observeDom();
-    if (this._skyHighlight && this._skyHighlight.length > 0) {
-      this.highlight();
-    }
-  }
-
-  public ngOnDestroy(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-  }
-
-  private readyForHighlight(searchText: string[]): boolean {
-    return searchText && searchText.length > 0 && this.el.nativeElement;
-  }
-
-  private highlight(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-
-    const searchText = this._skyHighlight;
-
-    if (this.existingHighlight) {
-      SkyTextHighlightDirective.removeHighlight(this.el);
-    }
-
-    /* istanbul ignore else */
-    if (this.readyForHighlight(searchText)) {
-      const node: HTMLElement = this.el.nativeElement;
-
-      // mark all matched text in the DOM
-      SkyTextHighlightDirective.markTextNodes(node, searchText);
-      this.existingHighlight = true;
-    }
-
-    this.observeDom();
-  }
-
-  private observeDom(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
-      const config = {
-        attributes: false,
-        childList: true,
-        characterData: true,
-      };
-      this.observer.observe(this.el.nativeElement, config);
-    }
-  }
-
   private static cleanRegex(regex: string): string {
     return regex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   }
@@ -186,6 +119,70 @@ export class SkyTextHighlightDirective
         parentNode.replaceChild(node.firstChild, node);
         parentNode.normalize();
       }
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
+      this.highlight();
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    this.observer = this.observerService.create(() => {
+      this.highlight();
+    });
+
+    this.observeDom();
+    if (this._skyHighlight && this._skyHighlight.length > 0) {
+      this.highlight();
+    }
+  }
+
+  public ngOnDestroy(): void {
+    /* istanbul ignore else */
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  private readyForHighlight(searchText: string[]): boolean {
+    return searchText && searchText.length > 0 && this.el.nativeElement;
+  }
+
+  private highlight(): void {
+    /* istanbul ignore else */
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+
+    const searchText = this._skyHighlight;
+
+    if (this.existingHighlight) {
+      SkyTextHighlightDirective.removeHighlight(this.el);
+    }
+
+    /* istanbul ignore else */
+    if (this.readyForHighlight(searchText)) {
+      const node: HTMLElement = this.el.nativeElement;
+
+      // mark all matched text in the DOM
+      SkyTextHighlightDirective.markTextNodes(node, searchText);
+      this.existingHighlight = true;
+    }
+
+    this.observeDom();
+  }
+
+  private observeDom(): void {
+    /* istanbul ignore else */
+    if (this.observer) {
+      const config = {
+        attributes: false,
+        childList: true,
+        characterData: true,
+      };
+      this.observer.observe(this.el.nativeElement, config);
     }
   }
 }

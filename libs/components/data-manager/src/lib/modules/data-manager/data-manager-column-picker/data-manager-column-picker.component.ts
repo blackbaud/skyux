@@ -115,7 +115,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'label' || property === 'description')
           ) {
             const propertyText: string =

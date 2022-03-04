@@ -1,24 +1,6 @@
 {
   "name": "@skyux/lists",
   "version": "0.0.0-PLACEHOLDER",
-  "peerDependencies": {
-    "@angular/common": "^12.2.16",
-    "@angular/core": "^12.2.16",
-    "@angular/platform-browser": "^12.2.16",
-    "@skyux/animations": "0.0.0-PLACEHOLDER",
-    "@skyux/core": "0.0.0-PLACEHOLDER",
-    "@skyux/forms": "0.0.0-PLACEHOLDER",
-    "@skyux/i18n": "0.0.0-PLACEHOLDER",
-    "@skyux/indicators": "0.0.0-PLACEHOLDER",
-    "@skyux/inline-form": "0.0.0-PLACEHOLDER",
-    "@skyux/popovers": "0.0.0-PLACEHOLDER",
-    "@skyux/theme": "0.0.0-PLACEHOLDER"
-  },
-  "dependencies": {
-    "dragula": "3.7.3",
-    "ng2-dragula": "1.5.0",
-    "tslib": "^2.3.1"
-  },
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
@@ -32,5 +14,24 @@
   "bugs": {
     "url": "https://github.com/blackbaud/skyux/issues"
   },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "peerDependencies": {
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@angular/platform-browser": "^12.2.16",
+    "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
+    "@skyux/animations": "0.0.0-PLACEHOLDER",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
+    "@skyux/forms": "0.0.0-PLACEHOLDER",
+    "@skyux/i18n": "0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "0.0.0-PLACEHOLDER",
+    "@skyux/inline-form": "0.0.0-PLACEHOLDER",
+    "@skyux/popovers": "0.0.0-PLACEHOLDER",
+    "@skyux/theme": "0.0.0-PLACEHOLDER"
+  },
+  "dependencies": {
+    "dragula": "3.7.3",
+    "ng2-dragula": "1.5.0",
+    "tslib": "^2.3.1"
+  }
 }
