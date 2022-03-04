@@ -257,7 +257,6 @@ export class SkyTimepickerInputDirective
         return '';
       }
       let currentFormat: string;
-      let formatTime: SkyTimepickerTimeOutput;
       if (this.timeFormat === 'hh') {
         currentFormat = 'h:mm A';
       }
@@ -267,7 +266,7 @@ export class SkyTimepickerInputDirective
       if (typeof this.returnFormat === 'undefined') {
         this.returnFormat = currentFormat;
       }
-      formatTime = {
+      const formatTime: SkyTimepickerTimeOutput = {
         hour: moment(time, currentFormat).hour(),
         minute: moment(time, currentFormat).minute(),
         meridie: moment(time, currentFormat).format('A'),

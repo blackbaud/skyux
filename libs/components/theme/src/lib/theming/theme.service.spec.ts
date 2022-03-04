@@ -77,7 +77,7 @@ describe('Theme service', () => {
     themeSvc.init(mockHostEl, mockRenderer, settings);
 
     let expectedCurrentSettings = settings;
-    let expectedPreviousSettings: SkyThemeSettings;
+    let expectedPreviousSettings: SkyThemeSettings = undefined;
 
     themeSvc.settingsChange.subscribe((settingsChange) => {
       expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);

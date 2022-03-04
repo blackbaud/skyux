@@ -18,7 +18,7 @@ function parseMessage(violations: axe.Result[]): string {
     );
 
     const error = [
-      `aXe - [Rule: \'${violation.id}\'] ${violation.help} - WCAG: ${wcagTags}`,
+      `aXe - [Rule: '${violation.id}'] ${violation.help} - WCAG: ${wcagTags}`,
       `       Get help at: ${violation.helpUrl}\n`,
       `${html}\n\n`,
     ].join('\n');

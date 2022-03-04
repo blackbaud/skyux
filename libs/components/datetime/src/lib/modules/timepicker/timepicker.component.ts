@@ -61,7 +61,6 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public set selectedHour(setHour: number) {
-    let hour: number;
     let hourOffset = 0;
     if (this.selectedMeridies === 'AM' && setHour === 12) {
       hourOffset = -12;
@@ -72,7 +71,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     if (this.is8601) {
       hourOffset = 0;
     }
-    hour = moment({ hour: setHour }).add(hourOffset, 'hours').hour();
+    const hour = moment({ hour: setHour }).add(hourOffset, 'hours').hour();
 
     this.activeTime = moment({
       hour: hour,
@@ -298,14 +297,13 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       localeFormat = 'HH:mm';
       this.is8601 = true;
     }
-    let data: {
-      hours: Array<number>;
-      minutes: Array<number>;
+
+    const data: {
+      hours: number[];
+      minutes: number[];
       localeFormat: string;
       minuteMultiplier: number;
-    };
-
-    data = {
+    } = {
       // Create a sparse array with a length equal to the hour.
       hours: Array(...Array(h)).map((_, i) => {
         if (format === 'hh') {

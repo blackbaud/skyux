@@ -264,7 +264,6 @@ export class SkyViewkeeper {
     verticalOffset: number
   ): boolean {
     let anchorTop: number;
-    let doFixEl: boolean;
 
     if (boundaryInfo.spacerEl) {
       anchorTop = getOffset(boundaryInfo.spacerEl, this.scrollableHost).top;
@@ -272,7 +271,7 @@ export class SkyViewkeeper {
       anchorTop = getOffset(this.el, this.scrollableHost).top;
     }
 
-    doFixEl =
+    const doFixEl =
       boundaryInfo.scrollTop + verticalOffset + this.viewportMarginTop >
       anchorTop;
 
@@ -283,13 +282,11 @@ export class SkyViewkeeper {
     boundaryInfo: SkyViewkeeperBoundaryInfo,
     verticalOffset: number
   ): SkyViewkeeperFixedStyles {
-    let elFixedTop: number;
-
     // If the element needs to be fixed, this will calculate its position.  The position
     // will be 0 (fully visible) unless the user is scrolling the boundary out of view.
     // In that case, the element should begin to scroll out of view with the
     // rest of the boundary by setting its top position to a negative value.
-    elFixedTop = Math.min(
+    const elFixedTop = Math.min(
       boundaryInfo.boundaryBottom -
         boundaryInfo.elHeight -
         boundaryInfo.scrollTop,
