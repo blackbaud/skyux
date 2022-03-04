@@ -8,9 +8,6 @@
         "@typescript-eslint/no-empty-interface": "warn",
         "@typescript-eslint/no-non-null-assertion": "warn",
         "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
-        "no-extra-boolean-cast": "warn",
-        "no-irregular-whitespace": "warn",
-        "no-self-assign": "warn",
         "no-useless-escape": "warn",
         "prefer-const": "warn"
       }
