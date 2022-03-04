@@ -45,6 +45,8 @@ export abstract class ListViewComponent {
     return this.viewName;
   }
 
-  public onViewActive: () => void;
-  public onViewInactive: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onViewActive() {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onViewInactive() {}
 }
