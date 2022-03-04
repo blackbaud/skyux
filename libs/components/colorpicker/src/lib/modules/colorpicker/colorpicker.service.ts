@@ -234,7 +234,7 @@ export class SkyColorpickerService {
     let hsva: SkyColorpickerHsva = undefined;
     for (const key in stringParsers) {
       /* istanbul ignore else */ /* for in must be filtered by an if */
-      if (stringParsers.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(stringParsers, key)) {
         const parser = stringParsers[key];
         const match = parser.re.exec(colorString);
         const color: any = match && parser.parse(match);

@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
 
-import '../../polyfills';
-
 /**
  * @internal
  */

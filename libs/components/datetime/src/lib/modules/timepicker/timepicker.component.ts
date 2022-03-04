@@ -304,10 +304,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       localeFormat: string;
       minuteMultiplier: number;
     } = {
-      hours: Array.apply(undefined, Array(h)).map(function (
-        x: number,
-        i: number
-      ) {
+      // Create a sparse array with a length equal to the hour.
+      hours: Array(...Array(h)).map((_, i) => {
         if (format === 'hh') {
           return ++i;
         }
@@ -319,10 +317,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         /* sanity check */
         return 0;
       }),
-      minutes: Array.apply(undefined, Array(m)).map(function (
-        x: number,
-        i: number
-      ) {
+      // Create a sparse array with a length equal to the minute.
+      minutes: Array(...Array(m)).map(function (_, i) {
         return i * minuteMultiplier;
       }),
       localeFormat: localeFormat,
