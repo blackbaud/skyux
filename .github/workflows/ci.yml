@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  pull_request:
+  pull_request_target:
 
 env:
   BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
@@ -21,10 +21,9 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         if: steps.cache.outputs.cache-hit != 'true'
         with:
-          cache: npm
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -68,9 +67,8 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -101,9 +99,8 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -128,9 +125,8 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -157,9 +153,8 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       # Rebase must happen before installing dependencies.
       - name: Rebase current branch
@@ -183,9 +178,8 @@ jobs:
     needs: [lint, build, coverage, browserstack]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
-          cache: 'npm'
           node-version: '14'
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
