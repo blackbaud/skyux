@@ -18,11 +18,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && refs/pull/${{ github.event.number }}/merge || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
-        if: steps.cache.outputs.cache-hit != 'true'
         with:
           node-version: '14'
       # Rebase must happen before installing dependencies.
@@ -64,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && refs/pull/${{ github.event.number }}/merge || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -96,7 +95,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && refs/pull/${{ github.event.number }}/merge || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -122,7 +121,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && refs/pull/${{ github.event.number }}/merge || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -150,7 +149,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && refs/pull/${{ github.event.number }}/merge || github.ref }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
