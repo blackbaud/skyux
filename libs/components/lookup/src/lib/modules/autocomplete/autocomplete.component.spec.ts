@@ -457,7 +457,7 @@ describe('Autocomplete component', () => {
       const customFunction: SkyAutocompleteSearchFunction = (
         searchText: string
       ): Promise<any> => {
-        return new Promise((resolve: Function) => {
+        return new Promise((resolve) => {
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
         });

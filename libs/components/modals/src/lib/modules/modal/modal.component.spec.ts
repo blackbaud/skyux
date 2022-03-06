@@ -50,7 +50,7 @@ describe('Modal component', () => {
     return TestBed.inject<any>(MutationObserverService);
   }
 
-  function openModal(modalType: any, config?: Object) {
+  function openModal<T>(modalType: T, config?: Record<string, any>) {
     const modalInstance = getModalService().open(modalType, config);
 
     modalInstance.closed.subscribe(() => {
