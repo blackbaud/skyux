@@ -313,10 +313,10 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.blur.next();
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private removeUniqueSelectionListener = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChangeCallback = (value: any) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouchedCallback = () => {};
 }

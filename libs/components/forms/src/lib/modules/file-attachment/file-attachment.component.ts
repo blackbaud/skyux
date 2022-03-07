@@ -418,8 +418,8 @@ export class SkyFileAttachmentComponent
     this.changeDetector.markForCheck();
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
 }

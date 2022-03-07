@@ -332,9 +332,10 @@ export class SkyColorpickerInputDirective
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

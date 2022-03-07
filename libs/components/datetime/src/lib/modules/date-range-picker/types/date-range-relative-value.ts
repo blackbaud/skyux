@@ -7,10 +7,6 @@ import { SkyDateRange } from './date-range';
  * @dynamic
  */
 export abstract class SkyDateRangeRelativeValue {
-  // Abstract classes are not covered properly.
-  /* istanbul ignore next */
-  constructor() {}
-
   public static get today(): SkyDateRange {
     const today = new Date();
 

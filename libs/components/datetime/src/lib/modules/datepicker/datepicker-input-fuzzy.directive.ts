@@ -172,7 +172,9 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set skyFuzzyDatepickerInput(
     value: SkyDatepickerComponent | undefined | ''
-  ) {}
+  ) {
+    // TODO: Remove this property in a future version of SKY UX.
+  }
 
   /**
    * Specifies the starting day of the week in the calendar, where `0` sets the starting day
@@ -596,8 +598,10 @@ export class SkyFuzzyDatepickerInputDirective
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
 }
