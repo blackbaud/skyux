@@ -28,7 +28,13 @@ async function findUnlistedPeers(
   // Find all import statements within source files.
   const files = glob.sync(join(CWD, packageConfig.root, '**/*.ts'), {
     nodir: true,
-    ignore: ['**/fixtures/**', '**/*.fixture.ts', '**/*.spec.ts', '**/test.ts'],
+    ignore: [
+      '**/fixtures/**',
+      '**/*.fixture.ts',
+      '**/*.spec.ts',
+      '**/*.stores.ts',
+      '**/test.ts',
+    ],
   });
 
   const packagesFoundInSourceCode: string[] = [];
