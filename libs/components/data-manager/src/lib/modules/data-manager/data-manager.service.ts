@@ -1,9 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 
-import { BehaviorSubject, Observable, ReplaySubject, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import {
-  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -98,13 +97,14 @@ export class SkyDataManagerService implements OnDestroy {
         .subscribe((state: SkyDataManagerState) => {
           this.uiConfigService
             .setConfig(settingsKey, state.getStateOptions())
-            .pipe(
-              takeUntil(this._ngUnsubscribe),
-              catchError((err) => {
+            .pipe(takeUntil(this._ngUnsubscribe))
+            .subscribe(
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              () => {},
+              (err) => {
                 console.warn('Could not save data manager settings.');
                 console.warn(err);
-                return of(null);
-              })
+              }
             );
         });
     }
