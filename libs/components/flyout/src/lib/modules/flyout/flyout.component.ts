@@ -28,8 +28,8 @@ import {
 } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Subject, fromEvent } from 'rxjs';
-import { take, takeUntil, takeWhile } from 'rxjs/operators';
+import { Subject, fromEvent, of } from 'rxjs';
+import { catchError, take, takeUntil, takeWhile } from 'rxjs/operators';
 
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutInstance } from './flyout-instance';
@@ -514,13 +514,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         .setConfig(this.config.settingsKey, {
           flyoutWidth: this.flyoutWidth,
         })
-        .pipe(take(1))
-        .subscribe(
-          () => {},
-          (err) => {
+        .pipe(
+          take(1),
+          catchError((err) => {
             console.warn('Could not save flyout data.');
             console.warn(err);
-          }
+            return of(null);
+          })
         );
     }
   }

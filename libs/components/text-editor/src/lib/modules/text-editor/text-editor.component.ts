@@ -382,9 +382,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange: (value: any) => void = () => {};
 }

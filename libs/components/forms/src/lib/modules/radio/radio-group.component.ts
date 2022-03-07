@@ -226,9 +226,9 @@ export class SkyRadioGroupComponent
     this.onTouched = fn;
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: any) => void = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
 
   private updateRadioButtonDisabled(): void {

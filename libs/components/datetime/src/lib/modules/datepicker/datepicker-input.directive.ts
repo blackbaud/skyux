@@ -512,9 +512,11 @@ export class SkyDatepickerInputDirective
     return isValidIso;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
 
   private notifyUpdatedValue(): void {

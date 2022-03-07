@@ -13,8 +13,8 @@ import {
 } from '@skyux/core';
 
 import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, of } from 'rxjs';
+import { catchError, take } from 'rxjs/operators';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
@@ -644,12 +644,12 @@ export class SkyTileDashboardService {
         persisted: true,
         tileIds: this.defaultConfig.tiles.map((elem) => elem.id),
       })
-      .subscribe(
-        () => {},
-        (err) => {
+      .pipe(
+        catchError((err) => {
           console.warn('Could not save tile dashboard settings.');
           console.warn(err);
-        }
+          return of(null);
+        })
       );
   }
 
