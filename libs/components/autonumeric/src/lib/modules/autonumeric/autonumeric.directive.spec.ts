@@ -477,7 +477,7 @@ describe('Autonumeric directive', () => {
     it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
       detectChanges();
       const formControl =
-        fixture.componentInstance.formGroup?.get('donationAmount')!;
+        fixture.componentInstance.formGroup.get('donationAmount')!;
       const input = getReactiveInput();
 
       // Disable the form via form control.

@@ -8,15 +8,15 @@ import { SkyMediaQueryService } from './media-query.service';
 describe('Media query service', () => {
   let mediaQueryListPrototype: any;
   let listenerCount: number;
-  let xsListener: Function;
-  let smListener: Function;
-  let mdListener: Function;
-  let lgListener: Function;
+  let xsListener: (args: { matches: boolean }) => void;
+  let smListener: (args: { matches: boolean }) => void;
+  let mdListener: (args: { matches: boolean }) => void;
+  let lgListener: (args: { matches: boolean }) => void;
   let matchMediaSpy: jasmine.Spy;
 
   function setUpListeners(): void {
     spyOn(mediaQueryListPrototype, 'addListener').and.callFake(
-      (serviceListener: Function) => {
+      (serviceListener) => {
         if (listenerCount === 0) {
           xsListener = serviceListener;
         } else if (listenerCount === 1) {

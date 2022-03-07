@@ -80,7 +80,7 @@ export class SkyAffixer {
 
   private resizeListener: Subscription;
 
-  private scrollListeners: Function[];
+  private scrollListeners: (() => void)[];
 
   private _config: SkyAffixConfig;
 

@@ -111,13 +111,17 @@ describe('File drop component', () => {
   }
 
   function setupFileReaderSpy() {
-    const loadCallbacks: Function[] = [];
-    const errorCallbacks: Function[] = [];
-    const abortCallbacks: Function[] = [];
+    const loadCallbacks: ((opts: {
+      target: {
+        result: string;
+      };
+    }) => void)[] = [];
+    const errorCallbacks: (() => void)[] = [];
+    const abortCallbacks: (() => void)[] = [];
 
     spyOn(window as any, 'FileReader').and.returnValue({
-      readAsDataURL: function (file: any) {},
-      addEventListener: function (type: string, callback: Function) {
+      readAsDataURL: function () {},
+      addEventListener: function (type: string, callback) {
         if (type === 'load') {
           loadCallbacks.push(callback);
         } else if (type === 'error') {
