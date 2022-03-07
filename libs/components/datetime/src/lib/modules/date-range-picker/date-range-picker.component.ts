@@ -566,10 +566,10 @@ export class SkyDateRangePickerComponent
     return JSON.stringify(rangeA) === JSON.stringify(rangeB);
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: SkyDateRangeCalculation) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
 }

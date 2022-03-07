@@ -117,7 +117,7 @@ export class SkyFileAttachmentComponent
   /**
    * Indicates whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
-   * attributes to the input element so that forms display an invalid state until the input element
+   * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
    */
   @Input()
@@ -418,8 +418,8 @@ export class SkyFileAttachmentComponent
     this.changeDetector.markForCheck();
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
 }

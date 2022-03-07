@@ -404,9 +404,9 @@ export class SkyLookupComponent
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange = (value: any[]) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouched = () => {};
 
   public registerOnChange(fn: (value: any) => void) {

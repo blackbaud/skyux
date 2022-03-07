@@ -9,7 +9,7 @@ export class SkyInlineDeleteAdapterService {
   private element: HTMLElement;
   private focussableElements: HTMLElement[];
   private parentEl: HTMLElement;
-  private parentElUnlistenFn: Function;
+  private parentElUnlistenFn: () => void;
   private renderer: Renderer2;
 
   constructor(

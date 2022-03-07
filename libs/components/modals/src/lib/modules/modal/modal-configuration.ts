@@ -17,7 +17,6 @@ export class SkyModalConfiguration {
   public wrapperClass?: string;
 
   constructor() {
-    this.fullPage = this.fullPage;
     this.size = 'medium';
   }
 }

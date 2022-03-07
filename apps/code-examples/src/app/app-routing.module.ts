@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'layout',
+    loadChildren: () =>
+      import('./features/layout.module').then((m) => m.LayoutModule),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./features/lookup.module').then((m) => m.LookupModule),

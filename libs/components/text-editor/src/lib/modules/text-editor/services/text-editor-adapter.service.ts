@@ -541,9 +541,8 @@ export class SkyTextEditorAdapterService {
 
       const el = documentEl.createElement('div');
       el.innerHTML = html;
-      let frag = documentEl.createDocumentFragment(),
-        node,
-        lastNode;
+      const frag = documentEl.createDocumentFragment();
+      let node, lastNode;
       while (el.firstChild) {
         node = el.firstChild;
         lastNode = frag.appendChild(node);

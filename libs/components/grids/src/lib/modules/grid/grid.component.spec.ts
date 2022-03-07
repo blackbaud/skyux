@@ -2953,17 +2953,13 @@ describe('Grid Component', () => {
 
   describe('Dynamic columns', () => {
     it('should handle columns changing after initialization', () => {
-      let component: GridDynamicTestComponent,
-        fixture: ComponentFixture<GridDynamicTestComponent>,
-        element: DebugElement;
-
       TestBed.configureTestingModule({
         imports: [GridFixturesModule],
       });
 
-      fixture = TestBed.createComponent(GridDynamicTestComponent);
-      element = fixture.debugElement as DebugElement;
-      component = fixture.componentInstance;
+      const fixture = TestBed.createComponent(GridDynamicTestComponent);
+      const element = fixture.debugElement as DebugElement;
+      const component = fixture.componentInstance;
 
       fixture.detectChanges();
 
