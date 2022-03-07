@@ -7,6 +7,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
+  {
+    path: 'lookup',
+    loadChildren: () =>
+      import('./features/lookup.module').then((m) => m.LookupModule),
+  },
 ];
 
 @NgModule({
