@@ -99,6 +99,7 @@ export class SkyDataManagerService implements OnDestroy {
             .setConfig(settingsKey, state.getStateOptions())
             .pipe(takeUntil(this._ngUnsubscribe))
             .subscribe(
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
               () => {},
               (err) => {
                 console.warn('Could not save data manager settings.');

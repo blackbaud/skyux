@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './list-column-selector-button.component.html',
   styleUrls: ['./list-column-selector-button.component.scss'],
 })
-export class SkyListColumnSelectorButtonComponent {
-  constructor() {}
-}
+export class SkyListColumnSelectorButtonComponent {}

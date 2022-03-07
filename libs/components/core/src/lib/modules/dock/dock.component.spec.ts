@@ -22,7 +22,7 @@ const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
 describe('Dock component', () => {
   let fixture: ComponentFixture<DockFixtureComponent>;
-  let mutationCallbacks: Function[];
+  let mutationCallbacks: (() => void)[];
 
   function resetDockItems(itemConfigs: SkyDockInsertComponentConfig[]): void {
     fixture.componentInstance.removeAllItems();
@@ -93,7 +93,7 @@ describe('Dock component', () => {
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback: Function): any {
+            create: function (callback): any {
               mutationCallbacks.push(callback);
               return {
                 observe() {},

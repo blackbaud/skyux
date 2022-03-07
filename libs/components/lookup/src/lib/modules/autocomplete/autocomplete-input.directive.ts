@@ -273,11 +273,11 @@ export class SkyAutocompleteInputDirective
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange(value: any): void {}
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouched(): void {}
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {

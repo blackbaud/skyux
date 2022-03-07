@@ -1303,6 +1303,7 @@ export class SkyGridComponent
       .setConfig(this.settingsKey, config)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         () => {},
         (err) => {
           console.warn('Could not save grid settings.');

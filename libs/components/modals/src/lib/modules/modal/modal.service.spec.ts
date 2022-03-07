@@ -14,7 +14,7 @@ describe('Modal service', () => {
   let modalService: SkyModalService;
   let applicationRef: ApplicationRef;
 
-  function openModal(modalType: any, config?: Object) {
+  function openModal<T>(modalType: T, config?: Record<string, any>) {
     const modalInstance = modalService.open(modalType, config);
 
     tick();
