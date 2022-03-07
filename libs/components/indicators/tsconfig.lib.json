@@ -8,6 +8,11 @@
     "inlineSources": true,
     "lib": ["dom", "es2018"]
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"],
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts",
+    "**/*.stories.ts",
+    "**/*.stories.js"
+  ],
   "include": ["**/*.ts"]
 }

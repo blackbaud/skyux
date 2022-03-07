@@ -1276,6 +1276,63 @@
               "libs/components/indicators/src/**/*.html"
             ]
           }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/components/indicators/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/indicators",
+            "config": {
+              "configFolder": "libs/components/indicators/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
+    "indicators-e2e": {
+      "root": "apps/indicators-e2e",
+      "sourceRoot": "apps/indicators-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/indicators-e2e/cypress.json",
+            "devServerTarget": "indicators:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "indicators:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/indicators-e2e/**/*.{js,ts}"]
+          }
         }
       }
     },
@@ -2264,7 +2321,12 @@
               "apps/playground/src/favicon.ico",
               "apps/playground/src/assets"
             ],
-            "styles": ["apps/playground/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/playground/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
