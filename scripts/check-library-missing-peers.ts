@@ -32,7 +32,7 @@ async function findUnlistedPeers(
       '**/fixtures/**',
       '**/*.fixture.ts',
       '**/*.spec.ts',
-      '**/*.stores.ts',
+      '**/*.stories.ts',
       '**/test.ts',
     ],
   });
