@@ -3,13 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
   Optional,
   SimpleChanges,
   forwardRef,
-  NgZone,
 } from '@angular/core';
 import {
   AbstractControl,
