@@ -501,13 +501,16 @@ describe('Date range picker', function () {
     expect(control.errors).toBeFalsy();
   }));
 
-  fit('should catch validation errors from date picker on initialization', fakeAsync(function () {
+  it('should catch validation errors from date picker on initialization', async function () {
     component.initialValue = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: 'invalid',
     } as any;
 
-    detectChanges();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     const control = component.dateRange;
 
@@ -516,7 +519,7 @@ describe('Date range picker', function () {
         invalid: 'invalid',
       },
     });
-  }));
+  });
 
   it('should error when end date comes before start date', fakeAsync(function () {
     detectChanges();
