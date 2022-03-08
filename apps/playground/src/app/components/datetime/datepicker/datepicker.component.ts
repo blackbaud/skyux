@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import {
   AbstractControl,
   FormBuilder,
@@ -11,8 +10,8 @@ import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
 } from '@skyux/datetime';
-import { of } from 'rxjs';
 
+import { of } from 'rxjs';
 import { delay, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SkyDatePipeModule, SkyDateRangePickerModule } from '@skyux/datetime';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DateRangePickerComponent } from './date-range-picker.component';
+import { SkyInputBoxModule } from '@skyux/forms';
+
 import { DateRangePickerRoutingModule } from './date-range-picker-routing.module';
+import { DateRangePickerComponent } from './date-range-picker.component';
 
 @NgModule({
   declarations: [DateRangePickerComponent],
