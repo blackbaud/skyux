@@ -3,25 +3,9 @@
     {
       "files": ["*.ts"],
       "rules": {
-        "@typescript-eslint/adjacent-overload-signatures": "warn",
         "@typescript-eslint/ban-types": "warn",
-        "@typescript-eslint/member-ordering": "warn",
         "@typescript-eslint/no-empty-function": "warn",
-        "@typescript-eslint/no-empty-interface": "warn",
-        "@typescript-eslint/no-non-null-assertion": "warn",
-        "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
-        "@typescript-eslint/no-this-alias": "warn",
-        "@typescript-eslint/no-var-requires": "warn",
-        "no-case-declarations": "warn",
-        "no-empty": "warn",
-        "no-extra-boolean-cast": "warn",
-        "no-irregular-whitespace": "warn",
-        "no-prototype-builtins": "warn",
-        "no-self-assign": "warn",
-        "no-useless-escape": "warn",
-        "prefer-const": "warn",
-        "prefer-rest-params": "warn",
-        "prefer-spread": "warn"
+        "@typescript-eslint/no-non-null-assertion": "warn"
       }
     },
     {
@@ -29,6 +13,7 @@
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": "warn",
         "@angular-eslint/component-selector": "warn",
+        "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/ban-ts-comment": "warn"
       }
     }

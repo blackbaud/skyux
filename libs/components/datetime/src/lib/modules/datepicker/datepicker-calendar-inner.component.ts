@@ -16,6 +16,9 @@ import { SkyDateFormatter } from './date-formatter';
 import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 import { SkyDatepickerDate } from './datepicker-date';
 
+type DateComparator = (date1: Date, date2: Date) => number | undefined;
+type KeyboardEventHandler = (key: string, event: KeyboardEvent) => void;
+
 let nextDatepickerId = 0;
 
 /**
@@ -88,16 +91,16 @@ export class SkyDatepickerCalendarInnerComponent
   protected modes: string[] = ['day', 'month', 'year'];
   protected dateFormatter: SkyDateFormatter = new SkyDateFormatter();
 
-  public refreshViewHandlerDay: Function;
-  public compareHandlerDay: Function;
-  public refreshViewHandlerMonth: Function;
-  public compareHandlerMonth: Function;
-  public refreshViewHandlerYear: Function;
-  public compareHandlerYear: Function;
+  public refreshViewHandlerDay: () => void;
+  public compareHandlerDay: DateComparator;
+  public refreshViewHandlerMonth: () => void;
+  public compareHandlerMonth: DateComparator;
+  public refreshViewHandlerYear: () => void;
+  public compareHandlerYear: DateComparator;
 
-  public handleKeydownDay: Function;
-  public handleKeydownMonth: Function;
-  public handleKeydownYear: Function;
+  public handleKeydownDay: KeyboardEventHandler;
+  public handleKeydownMonth: KeyboardEventHandler;
+  public handleKeydownYear: KeyboardEventHandler;
 
   public keys: any = {
     13: 'enter',
@@ -133,7 +136,7 @@ export class SkyDatepickerCalendarInnerComponent
     this.ngUnsubscribe.complete();
   }
 
-  public setCompareHandler(handler: Function, type: string): void {
+  public setCompareHandler(handler: DateComparator, type: string): void {
     if (type === 'day') {
       this.compareHandlerDay = handler;
     }
@@ -147,7 +150,7 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public compare(date1: Date, date2: Date) {
+  public compare(date1: Date, date2: Date): undefined | number {
     if (date1 === undefined || date2 === undefined) {
       return undefined;
     }
@@ -167,7 +170,7 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public setRefreshViewHandler(handler: Function, type: string): void {
+  public setRefreshViewHandler(handler: () => void, type: string): void {
     if (type === 'day') {
       this.refreshViewHandlerDay = handler;
     }
@@ -195,7 +198,7 @@ export class SkyDatepickerCalendarInnerComponent
     }
   }
 
-  public setKeydownHandler(handler: Function, type: string) {
+  public setKeydownHandler(handler: KeyboardEventHandler, type: string) {
     if (type === 'day') {
       this.handleKeydownDay = handler;
     }

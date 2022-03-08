@@ -362,13 +362,13 @@ export class SkyCountryFieldComponent
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
-  public onChange: Function = (value: SkyCountryFieldCountry) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onChange = (value: SkyCountryFieldCountry) => {};
 
-  /* istanbul ignore next */
-  public onTouched: Function = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTouched = () => {};
 
-  public registerOnChange(fn: (value: any) => void): void {
+  public registerOnChange(fn: (value: SkyCountryFieldCountry) => void): void {
     this.onChange = fn;
   }
 

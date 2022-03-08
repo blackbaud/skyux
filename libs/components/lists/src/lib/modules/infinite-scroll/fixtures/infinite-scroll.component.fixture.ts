@@ -23,7 +23,7 @@ export class SkyInfiniteScrollTestComponent {
 
   public loading: boolean;
 
-  public items: object[] = [];
+  public items: Record<string, any>[] = [];
 
   public onScrollEnd(): void {
     const num: number = this.items.length;

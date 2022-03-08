@@ -9,11 +9,17 @@ export async function verifyPackagesDist(
 ) {
   const configs: PackageConfigs = {};
 
+  const npmPackageNames: string[] = [];
   for (const packageName in projects) {
     configs[packageName] = {
       root: projects[packageName].distRoot!,
     };
+    npmPackageNames.push(projects[packageName].npmName!);
   }
 
-  await verifyLibraryDependencies(configs, workspacePackageJson);
+  await verifyLibraryDependencies(
+    configs,
+    workspacePackageJson,
+    npmPackageNames
+  );
 }

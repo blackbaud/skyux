@@ -15,8 +15,6 @@ export class SkyWizardTestFormComponent {
 
   public selectedTab = 0;
 
-  constructor() {}
-
   public validateStep1() {
     return true;
   }

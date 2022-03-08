@@ -376,8 +376,6 @@ export class SkyListViewChecklistComponent
   }
 
   private reapplyFilter(isSelected: boolean) {
-    const self = this;
-
     this.state
       .pipe(
         observableMap((state) => state.filters),
@@ -385,7 +383,7 @@ export class SkyListViewChecklistComponent
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
-        filters.push(self.getShowSelectedFilter(isSelected));
+        filters.push(this.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
   }

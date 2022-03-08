@@ -183,8 +183,9 @@ export class SkyToggleSwitchComponent
     this.onTouched();
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: any) => void = () => {};
 
   private emitChangeEvent(): void {

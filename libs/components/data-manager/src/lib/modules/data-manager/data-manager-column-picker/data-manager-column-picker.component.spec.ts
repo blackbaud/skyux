@@ -20,8 +20,6 @@ class MockModalInstance {
   public closeResult: any;
   public closeReason: any;
 
-  constructor() {}
-
   public save(result: any): void {
     this.saveResult = result;
   }
@@ -37,16 +35,12 @@ class MockModalInstance {
 }
 
 class MockModalHostService {
-  constructor() {}
-
   public getModalZIndex(): void {}
   public onClose(): void {}
 }
 
 class MockModalConfiguration {
   public fullPage: boolean;
-
-  constructor() {}
 }
 
 describe('SkyDataManagerColumnPickerComponent', () => {
