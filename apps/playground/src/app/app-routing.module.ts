@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'components/datepicker',
+    path: '',
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: 'components',
     loadChildren: () =>
-      import('./components/datetime/datepicker/datepicker.module').then(
-        (m) => m.DatepickerModule
-      ),
+      import('./components/components.module').then((m) => m.ComponentsModule),
   },
 ];
 
