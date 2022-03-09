@@ -16,8 +16,15 @@
     "ci:create-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/create-packages-dist.ts",
     "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
     "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",
+    "dev:commit": "npx cz",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
-    "dev:format": "npx prettier --write ."
+    "dev:format": "npx prettier --write .",
+    "dev:pristine": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-pristine"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "private": true,
   "dependencies": {
@@ -90,6 +97,7 @@
     "browserstack-local": "1.4.8",
     "cross-spawn": "7.0.3",
     "cypress": "8.7.0",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "7.22.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-cypress": "2.12.1",
