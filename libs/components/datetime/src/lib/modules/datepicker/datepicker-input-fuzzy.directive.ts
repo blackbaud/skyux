@@ -534,7 +534,12 @@ export class SkyFuzzyDatepickerInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
 
-  private updateValue(value: any, isProgramatic = false): void {
+  /**
+   * Update the value of the form control and input element
+   * @param isProgrammatic Denotes if the value is being updated via an internal implementation, a `setValue` call, or a `patchValue` call.
+   * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
+   */
+  private updateValue(value: any, isProgrammatic = false): void {
     if (this._value === value) {
       return;
     }
@@ -591,7 +596,7 @@ export class SkyFuzzyDatepickerInputDirective
     this._value = fuzzyDate || value;
 
     if (isNewValue) {
-      if (isProgramatic) {
+      if (isProgrammatic) {
         this.control?.setValue(this._value, { emitEvent: false });
       } else {
         this.onChange(this._value);

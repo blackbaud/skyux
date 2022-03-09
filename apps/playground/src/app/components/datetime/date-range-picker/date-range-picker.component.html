@@ -42,9 +42,17 @@
 
   <h3>&lt;sky-date-range-picker&gt; value</h3>
 
-  <!-- <pre><code style="display:block;">calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
-startDate: {{ reactiveForm.value.lastDonation?.startDate | skyDate }}
-endDate: {{ reactiveForm.value.lastDonation?.endDate | skyDate }}</code></pre> -->
+  <pre *ngIf="reactiveForm.valid">
+    <code style="display:block">
+      calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
+      startDate: {{ reactiveForm.value.lastDonation?.startDate | skyDate }}
+      endDate: {{ reactiveForm.value.lastDonation?.endDate | skyDate }}
+    </code>
+  </pre>
+
+  <pre *ngIf="!reactiveForm.valid">
+    Invalid - fix validity to show value
+  </pre>
 
   <h3>Manipulate value and state</h3>
 

@@ -489,8 +489,13 @@ export class SkyDatepickerInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
 
-  private notifyUpdatedValue(isProgramatic = false): void {
-    if (isProgramatic) {
+  /**
+   * Notify the form control about changes to the value of the component.
+   * @param isProgrammatic Denotes if the value is being updated via an internal implementation, a `setValue` call, or a `patchValue` call.
+   * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
+   */
+  private notifyUpdatedValue(isProgrammatic = false): void {
+    if (isProgrammatic) {
       this.control?.setValue(this._value, { emitEvent: false });
     } else {
       this.onChange(this._value);
@@ -505,7 +510,12 @@ export class SkyDatepickerInputDirective
     }
   }
 
-  private updateValue(value: any, isProgramatic = false): void {
+  /**
+   * Update the value of the form control and input element
+   * @param isProgrammatic Denotes if the value is being updated via an internal implementation, a `setValue` call, or a `patchValue` call.
+   * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
+   */
+  private updateValue(value: any, isProgrammatic = false): void {
     if (this._value === value) {
       return;
     }
@@ -523,10 +533,10 @@ export class SkyDatepickerInputDirective
     // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
     if (!isValidDateString) {
       this._value = value;
-      this.notifyUpdatedValue(isProgramatic);
+      this.notifyUpdatedValue(isProgrammatic);
     } else if (dateValue !== this._value || !areDatesEqual) {
       this._value = dateValue || value;
-      this.notifyUpdatedValue(isProgramatic);
+      this.notifyUpdatedValue(isProgrammatic);
     }
 
     if (dateValue && isValidDateString) {

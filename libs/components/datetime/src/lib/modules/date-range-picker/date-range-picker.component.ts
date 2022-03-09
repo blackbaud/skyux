@@ -277,6 +277,7 @@ export class SkyDateRangePickerComponent
 
       this.showRelevantFormFields();
 
+      // We need to let Angular be stable and have rendered the components prior to setting the values and form controls. This ensures all initial validation will be ran correctly.
       this.ngZone.onStable.pipe(first()).subscribe(() => {
         // Fill in any unprovided values after the calculators have been initialized.
         // For example, if the control is initialized with only the `calculatorId`,
@@ -479,11 +480,6 @@ export class SkyDateRangePickerComponent
   }
 
   private resetFormGroupValue(value?: SkyDateRangeCalculation): void {
-    // Do not emit a value change event on the underlying form group
-    // because we're already watching for changes that are triggered by the end user.
-    // For example, if we change the value of the form group internally, we don't want the event
-    // listeners to be triggered, as those are reserved for user interactions.
-    // (See the event listeners listed below.)
     this.formGroup.reset(value || this.value);
   }
 
