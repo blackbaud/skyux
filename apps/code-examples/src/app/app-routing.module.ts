@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'forms',
+    loadChildren: () =>
+      import('./features/forms.module').then((m) => m.FormsModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./features/layout.module').then((m) => m.LayoutModule),
