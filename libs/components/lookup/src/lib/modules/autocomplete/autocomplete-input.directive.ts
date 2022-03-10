@@ -277,6 +277,7 @@ export class SkyAutocompleteInputDirective
   public onChange(value: any): void {}
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouched(): void {}
+  // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
