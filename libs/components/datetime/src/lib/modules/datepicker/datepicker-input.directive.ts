@@ -497,7 +497,7 @@ export class SkyDatepickerInputDirective
 
   /**
    * Update the value of the form control and input element
-   * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call, or a `patchValue` call.
+   * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call or a `patchValue` call as this is already handled by Angular.
    * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
    */
   private updateValue(value: any, emitEvent = true): void {
