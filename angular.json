@@ -1369,7 +1369,12 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ],
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/integration/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
