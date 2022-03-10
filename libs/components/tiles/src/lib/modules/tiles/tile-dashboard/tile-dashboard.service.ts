@@ -645,6 +645,7 @@ export class SkyTileDashboardService {
         tileIds: this.defaultConfig.tiles.map((elem) => elem.id),
       })
       .subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         () => {},
         (err) => {
           console.warn('Could not save tile dashboard settings.');

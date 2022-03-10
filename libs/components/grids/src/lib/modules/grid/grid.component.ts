@@ -1006,7 +1006,7 @@ export class SkyGridComponent
     const selectedRows = this.getSelectedRows();
     return this.data.map((item) => {
       let checked;
-      if (item.hasOwnProperty(this.multiselectRowId)) {
+      if (Object.prototype.hasOwnProperty.call(item, this.multiselectRowId)) {
         checked = selectedRows.indexOf(item[this.multiselectRowId]) > -1;
       } else {
         checked = selectedRows.indexOf(item.id) > -1;
@@ -1234,7 +1234,9 @@ export class SkyGridComponent
         return item.isSelected;
       })
       .map((item) => {
-        if (item.data.hasOwnProperty(this.multiselectRowId)) {
+        if (
+          Object.prototype.hasOwnProperty.call(item.data, this.multiselectRowId)
+        ) {
           return item.data[this.multiselectRowId];
         }
         return item.id;
@@ -1301,6 +1303,7 @@ export class SkyGridComponent
       .setConfig(this.settingsKey, config)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         () => {},
         (err) => {
           console.warn('Could not save grid settings.');

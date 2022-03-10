@@ -50,7 +50,7 @@ describe('Modal component', () => {
     return TestBed.inject<any>(MutationObserverService);
   }
 
-  function openModal(modalType: any, config?: Object) {
+  function openModal<T>(modalType: T, config?: Record<string, any>) {
     const modalInstance = getModalService().open(modalType, config);
 
     modalInstance.closed.subscribe(() => {
@@ -790,7 +790,7 @@ describe('Modal component', () => {
 
       if (expectedAlpha) {
         const rgbaMatch = boxShadowStyle.match(
-          /rgba\(0,\s*0,\s*0,\s*([0-9\.]*)\)/
+          /rgba\(0,\s*0,\s*0,\s*([0-9.]*)\)/
         );
         const alpha = parseFloat(rgbaMatch[1]);
 

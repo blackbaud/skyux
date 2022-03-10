@@ -216,8 +216,8 @@ export class SkyAutonumericDirective
     return Object.assign({}, globalOptions, newOptions);
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: number | undefined) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
 }

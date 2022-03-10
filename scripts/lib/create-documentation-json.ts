@@ -74,21 +74,40 @@ function getAnchorIds(json: Partial<JSONOutput.ProjectReflection>): AnchorIds {
  */
 function fixSourcesPaths(
   json: Partial<JSONOutput.ProjectReflection>,
-  projectName: string
-) {
+  projectName: string,
+  distPackage: PackageConfig
+): void {
+  const projectRootPath = new RegExp(`^(${distPackage.root}/src/)?lib/`);
+
   if (json.children) {
+    // Some types (read: List Builder) extend third-party types found in `node_modules`.
+    // We should remove them because TypeDoc pulls in all of the third-party's properties into our documentation.
+    json.children = json.children.filter((child) => {
+      const fileName = child.sources && child.sources[0].fileName;
+      // Only return children that...
+      return (
+        // ...have a source file,
+        fileName &&
+        // ...aren't found in node_modules,
+        !/node_modules/.test(fileName) &&
+        // ...and, are only found in this project.
+        projectRootPath.test(fileName)
+      );
+    });
+
     for (const child of json.children) {
       if (child.sources) {
         for (const source of child.sources) {
-          source.fileName = source.fileName.replace(
-            /^lib\//, // e.g. 'lib/modules/core/foobar.service.ts'
-            `projects/${projectName}/src/` // becomes: 'projects/core/src/modules/core/foobar.service.ts'
+          const fixedFileName = source.fileName.replace(
+            projectRootPath,
+            `projects/${projectName}/src/`
           );
+          source.fileName = fixedFileName;
         }
       }
 
       if (child.children) {
-        fixSourcesPaths(child, projectName);
+        fixSourcesPaths(child, projectName, distPackage);
       }
     }
   }
@@ -154,7 +173,7 @@ async function getCodeExamples(
  */
 function remapComponentExports(
   json: Partial<JSONOutput.ProjectReflection>
-): Partial<JSONOutput.ProjectReflection> {
+): void {
   json.children
     ?.filter((child) => {
       return child.name.startsWith('λ');
@@ -175,8 +194,6 @@ function remapComponentExports(
       // Fix the class's name.
       child.name = originalName;
     });
-
-  return json;
 }
 
 export async function createDocumentationJson(
@@ -189,7 +206,7 @@ export async function createDocumentationJson(
     (await fs.readJson(
       path.join(process.cwd(), distPackage.distRoot!, 'package.json')
     )) as PackageJson
-  ).name;
+  ).name!;
 
   const documentationJsonPath = `${distPackage.distRoot!}/documentation.json`;
 
@@ -218,14 +235,14 @@ export async function createDocumentationJson(
     path.resolve(process.cwd(), documentationJsonPath)
   );
 
-  fixSourcesPaths(typedocOutput, projectName);
+  remapComponentExports(typedocOutput);
+  fixSourcesPaths(typedocOutput, projectName, distPackage);
 
-  const typedocJson = remapComponentExports(typedocOutput);
-  const anchorIds = getAnchorIds(typedocJson);
+  const anchorIds = getAnchorIds(typedocOutput);
 
   const documentationJson: DocumentationJson = {};
   documentationJson.anchorIds = anchorIds;
-  documentationJson.typedoc = typedocJson;
+  documentationJson.typedoc = typedocOutput;
   documentationJson.codeExamples = await getCodeExamples(
     projectName,
     distPackage,

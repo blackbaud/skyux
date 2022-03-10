@@ -88,5 +88,6 @@ export class SkyCharacterCounterInputDirective implements Validator {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

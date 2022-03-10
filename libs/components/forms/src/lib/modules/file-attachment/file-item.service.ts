@@ -22,10 +22,8 @@ export class SkyFileItemService {
   }
 
   public isImage(fileItem: SkyFileItem): boolean {
-    let fileTypeUpper = this.getFileTypeUpper(fileItem),
-      slashIndex: number;
-
-    slashIndex = fileTypeUpper.indexOf('/');
+    const fileTypeUpper = this.getFileTypeUpper(fileItem);
+    const slashIndex = fileTypeUpper.indexOf('/');
 
     if (slashIndex >= 0) {
       switch (fileTypeUpper.substr(fileTypeUpper.indexOf('/') + 1)) {

@@ -62,10 +62,6 @@ export class SkySplitViewDrawerComponent
     }
   }
 
-  public isMobile = false;
-
-  public splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
-
   public get width(): number {
     if (this.isMobile) {
       return undefined;
@@ -78,6 +74,10 @@ export class SkySplitViewDrawerComponent
       return this._width || this.widthDefault;
     }
   }
+
+  public isMobile = false;
+
+  public splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
 
   public widthDefault = 320;
 

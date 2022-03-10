@@ -296,7 +296,6 @@ export class SkyFileDropComponent implements OnDestroy {
     const validFileArray: Array<SkyFileItem> = [];
     const rejectedFileArray: Array<SkyFileItem> = [];
     const totalFiles = files.length;
-    const fileDrop = this;
 
     // tslint:disable-next-line: max-line-length
     const processedFiles = this.fileAttachmentService.checkFiles(
@@ -312,7 +311,7 @@ export class SkyFileDropComponent implements OnDestroy {
         this.filesRejected(file, validFileArray, rejectedFileArray, totalFiles);
       } else {
         this.loadFile(
-          fileDrop,
+          this,
           file,
           validFileArray,
           rejectedFileArray,

@@ -88,7 +88,7 @@ export class SkyRadioGroupComponent
   /**
    * Indicates whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
-   * attributes to the input element so that forms display an invalid state until the input element
+   * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
    * @default false
    */
@@ -226,9 +226,9 @@ export class SkyRadioGroupComponent
     this.onTouched = fn;
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: any) => void = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
 
   private updateRadioButtonDisabled(): void {

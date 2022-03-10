@@ -317,13 +317,12 @@ export class SkyColorpickerInputDirective
       return color;
     }
 
-    let formatColor: SkyColorpickerOutput;
     const hsva: SkyColorpickerHsva = this.service.stringToHsva(
       color,
       this.alphaChannel === 'hex8'
     );
 
-    formatColor = this.service.skyColorpickerOut(hsva);
+    const formatColor = this.service.skyColorpickerOut(hsva);
 
     return formatColor;
   }
@@ -333,9 +332,10 @@ export class SkyColorpickerInputDirective
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

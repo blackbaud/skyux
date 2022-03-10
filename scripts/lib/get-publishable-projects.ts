@@ -22,6 +22,11 @@ export async function getPublishableProjects() {
           projectConfig.architect.build.outputs[0],
         root: projectConfig.root,
       };
+
+      // Get the name of the NPM package.
+      distPackages[projectName].npmName = fs.readJsonSync(
+        path.join(process.cwd(), distPackages[projectName].root, 'package.json')
+      ).name;
     }
   }
 

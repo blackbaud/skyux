@@ -516,6 +516,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         })
         .pipe(take(1))
         .subscribe(
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           () => {},
           (err) => {
             console.warn('Could not save flyout data.');

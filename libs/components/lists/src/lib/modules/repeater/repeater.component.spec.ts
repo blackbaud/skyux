@@ -1195,9 +1195,14 @@ describe('Repeater item component', () => {
 
     it("should set the repeater item's grab handle as the drag handle", fakeAsync(
       inject([DragulaService], (dragulaService: DragulaService) => {
-        let movesCallback: Function;
+        let movesCallback: (
+          el: HTMLElement,
+          _: any,
+          handle: HTMLElement
+        ) => boolean;
+
         const setOptionsSpy = spyOn(dragulaService, 'setOptions').and.callFake(
-          (bagId: any, options: any) => {
+          (bagId, options) => {
             movesCallback = options.moves;
           }
         );

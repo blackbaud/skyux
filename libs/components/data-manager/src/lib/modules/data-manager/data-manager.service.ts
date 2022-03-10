@@ -99,6 +99,7 @@ export class SkyDataManagerService implements OnDestroy {
             .setConfig(settingsKey, state.getStateOptions())
             .pipe(takeUntil(this._ngUnsubscribe))
             .subscribe(
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
               () => {},
               (err) => {
                 console.warn('Could not save data manager settings.');
@@ -345,7 +346,7 @@ export class SkyDataManagerService implements OnDestroy {
     const filteredStateProperties: any = {};
     for (const property of properties) {
       /* istanbul ignore else */
-      if (stateProperties.hasOwnProperty(property)) {
+      if (Object.prototype.hasOwnProperty.call(stateProperties, property)) {
         filteredStateProperties[property] = stateProperties[property];
       }
     }
