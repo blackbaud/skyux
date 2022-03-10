@@ -1,6 +1,6 @@
+import axios from 'axios';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
-import fetch from 'node-fetch';
 import { outside as semverOutside, parse as semverParse } from 'semver';
 import standardVersion from 'standard-version';
 
@@ -131,10 +131,11 @@ async function promptPushOrigin(version: string) {
 }
 
 async function getBranchBuildStatus(branch: string): Promise<string> {
-  const result = await fetch(
+  console.log(`Checking build status for branch '${branch}'...`);
+  const result = await axios(
     `https://api.github.com/repos/blackbaud/skyux/actions/workflows/ci.yml/runs?branch=${branch}&event=push`
   );
-  return ((await result.json()) as any).workflow_runs[0].status;
+  return result.data.workflow_runs[0].status;
 }
 
 /**
@@ -149,6 +150,10 @@ async function createRelease() {
       throw new Error(
         `The main branch has a build status of '${buildStatus}'. ` +
           'Wait until the workflow completes successfully before creating a release.'
+      );
+    } else {
+      console.log(
+        `The main branch has a build status of '${buildStatus}'. OK.`
       );
     }
 
