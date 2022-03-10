@@ -1,0 +1,107 @@
+<div class="date-range-demo">
+  <form id="screenshot-date-range-picker" novalidate [formGroup]="reactiveForm">
+    <div class="sky-form-group">
+      <sky-date-range-picker
+        formControlName="lastDonation"
+        label="Last donation"
+        [calculatorIds]="calculatorIds"
+        [dateFormat]="dateFormat"
+        [endDateRequired]="endDateRequired"
+        [startDateRequired]="startDateRequired"
+      >
+      </sky-date-range-picker>
+    </div>
+
+    <div class="sky-form-group">
+      <button class="sky-btn sky-btn-default" type="button" (click)="submit()">
+        Submit
+      </button>
+    </div>
+  </form>
+
+  <h3>&lt;sky-date-range-picker&gt; statuses</h3>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ pickerFormControl.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ pickerFormControl.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ pickerFormControl.valid }}</td>
+    </tr>
+  </table>
+
+  <div *ngIf="pickerFormControl.errors" class="sky-error-label">
+    {{ pickerFormControl.errors | json }}
+  </div>
+
+  <h3>&lt;sky-date-range-picker&gt; value</h3>
+
+  <pre *ngIf="reactiveForm.valid">
+    <code style="display:block">
+      calculatorId: {{ reactiveForm.value.lastDonation?.calculatorId }}
+      startDate: {{ reactiveForm.value.lastDonation?.startDate | skyDate }}
+      endDate: {{ reactiveForm.value.lastDonation?.endDate | skyDate }}
+    </code>
+  </pre>
+
+  <pre *ngIf="!reactiveForm.valid">
+    Invalid - fix validity to show value
+  </pre>
+
+  <h3>Manipulate value and state</h3>
+
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleDisabled()"
+  >
+    Toggle disabled
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleStartDateRequired()"
+  >
+    Toggle start date required
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="toggleEndDateRequired()"
+  >
+    Toggle end date required
+  </button>
+  <button class="sky-btn sky-btn-default" type="button" (click)="resetForm()">
+    Reset form
+  </button>
+  <button class="sky-btn sky-btn-default" type="button" (click)="setRange()">
+    Set specific range
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setInvalidRange()"
+  >
+    Set invalid range
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setInvalidDates()"
+  >
+    Set invalid dates
+  </button>
+  <button
+    class="sky-btn sky-btn-default"
+    type="button"
+    (click)="setDateFormat()"
+  >
+    Set date format
+  </button>
+</div>

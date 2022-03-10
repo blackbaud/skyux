@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'datetime',
+    loadChildren: () =>
+      import('./datetime/datetime.module').then((m) => m.DatetimeModule),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),
