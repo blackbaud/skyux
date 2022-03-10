@@ -2661,6 +2661,19 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
             }));
+
+            it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+
+              performSearch('', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getModalSearchInputValue()).toEqual('');
+
+              closeModal(fixture);
+            }));
           });
 
           describe('async', () => {
@@ -2841,6 +2854,19 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               clickSearchButton(fixture, true);
+
+              expect(getModalSearchInputValue()).toEqual('');
+
+              closeModal(fixture);
+            }));
+
+            it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+
+              performSearch('', fixture);
+
+              clickSearchButton(fixture);
 
               expect(getModalSearchInputValue()).toEqual('');
 
@@ -5414,6 +5440,19 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
             }));
+
+            it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+
+              performSearch('', fixture);
+
+              clickSearchButton(fixture);
+
+              expect(getModalSearchInputValue()).toEqual('');
+
+              closeModal(fixture);
+            }));
           });
 
           describe('async', () => {
@@ -5594,6 +5633,19 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               clickSearchButton(fixture, true);
+
+              expect(getModalSearchInputValue()).toEqual('');
+
+              closeModal(fixture);
+            }));
+
+            it('should open the show more modal correctly when the input box is empty', fakeAsync(() => {
+              component.enableShowMore = true;
+              fixture.detectChanges();
+
+              performSearch('', fixture);
+
+              clickSearchButton(fixture);
 
               expect(getModalSearchInputValue()).toEqual('');
 
