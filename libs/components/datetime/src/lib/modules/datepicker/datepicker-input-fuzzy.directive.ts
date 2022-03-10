@@ -355,7 +355,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    this.updateValue(value, true);
+    this.updateValue(value, false);
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -536,10 +536,10 @@ export class SkyFuzzyDatepickerInputDirective
 
   /**
    * Update the value of the form control and input element
-   * @param isProgrammatic Denotes if the value is being updated via an internal implementation, a `setValue` call, or a `patchValue` call.
+   * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call, or a `patchValue` call.
    * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
    */
-  private updateValue(value: any, isProgrammatic = false): void {
+  private updateValue(value: any, emitEvent = true): void {
     if (this._value === value) {
       return;
     }
@@ -596,10 +596,10 @@ export class SkyFuzzyDatepickerInputDirective
     this._value = fuzzyDate || value;
 
     if (isNewValue) {
-      if (isProgrammatic) {
-        this.control?.setValue(this._value, { emitEvent: false });
-      } else {
+      if (emitEvent) {
         this.onChange(this._value);
+      } else {
+        this.control?.setValue(this._value, { emitEvent: false });
       }
 
       this.datepickerComponent.selectedDate = dateValue;
