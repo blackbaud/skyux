@@ -17,4 +17,4 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class FlyoutWithTabsContentComponent {}
+export class FlyoutWithTabsContentIntegrationComponent {}

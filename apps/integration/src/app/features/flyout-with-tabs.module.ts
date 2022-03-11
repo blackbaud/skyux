@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
-import { FlyoutWithTabsModule } from '../integrations/flyout-with-tabs/flyout-with-tabs.module';
-import { CountryFieldDemoComponent } from '../code-examples/lookup/country-field/basic/country-field-demo.component';
-
-import { FlyoutWithTabsComponent } from '../integrations/flyout-with-tabs/flyout-demo.component';
+import { FlyoutWithTabsIntegrationComponent } from '../integrations/flyout-with-tabs/basic/flyout-demo.component';
+import { FlyoutWithTabsIntegrationModule } from '../integrations/flyout-with-tabs/basic/flyout-with-tabs.module';
 
 const routes: Routes = [
   {
-    path: 'flyout-with-tabs',
-    component: FlyoutWithTabsComponent,
+    path: 'basic',
+    component: FlyoutWithTabsIntegrationComponent,
   },
 ];
 
@@ -18,22 +15,9 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LookupRoutingModule {}
+export class FlyoutWithTabsRoutingModule {}
 
 @NgModule({
-  imports: [
-    AdvancedAutocompleteModule,
-    BasicAutocompleteModule,
-    CustomSearchAutocompleteModule,
-    SearchFiltersAutocompleteModule,
-    CountryFieldDemoModule,
-    LookupAsyncDemoModule,
-    LookupCustomPickerDemoModule,
-    LookupMultipleSelectDemoModule,
-    LookupResultTemplatesDemoModule,
-    LookupSingleSelectDemoModule,
-    SearchDemoModule,
-    LookupRoutingModule,
-  ],
+  imports: [FlyoutWithTabsIntegrationModule, FlyoutWithTabsRoutingModule],
 })
 export class FlyoutWithTabsModule {}

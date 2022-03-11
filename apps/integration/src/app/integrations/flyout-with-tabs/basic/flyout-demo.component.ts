@@ -5,15 +5,15 @@ import {
   SkyFlyoutService,
 } from '@skyux/flyout';
 
-import { FlyoutWithTabsContentComponent } from './flyout-with-tabs-content.component';
+import { FlyoutWithTabsContentIntegrationComponent } from './flyout-with-tabs-content.component';
 
 screenY;
 @Component({
   selector: 'app-flyout-demo',
   templateUrl: './flyout-demo.component.html',
 })
-export class FlyoutWithTabsComponent {
-  public flyout: SkyFlyoutInstance<any>;
+export class FlyoutWithTabsIntegrationComponent {
+  public flyout?: SkyFlyoutInstance<any>;
 
   constructor(private flyoutService: SkyFlyoutService) {}
 
@@ -33,7 +33,7 @@ export class FlyoutWithTabsComponent {
       minWidth: 200,
     };
     this.flyout = this.flyoutService.open(
-      FlyoutWithTabsContentComponent,
+      FlyoutWithTabsContentIntegrationComponent,
       flyoutConfig
     );
 
@@ -48,7 +48,7 @@ export class FlyoutWithTabsComponent {
       ariaRole: 'dialog',
     };
     this.flyout = this.flyoutService.open(
-      FlyoutWithTabsContentComponent,
+      FlyoutWithTabsContentIntegrationComponent,
       flyoutConfig
     );
 
