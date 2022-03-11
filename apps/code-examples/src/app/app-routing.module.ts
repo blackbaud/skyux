@@ -17,6 +17,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/layout.module').then((m) => m.LayoutModule),
   },
+  {
+    path: 'lookup',
+    loadChildren: () =>
+      import('./features/lookup.module').then((m) => m.LookupModule),
+  },
 ];
 
 @NgModule({
