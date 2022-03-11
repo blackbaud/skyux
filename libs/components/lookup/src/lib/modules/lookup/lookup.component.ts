@@ -495,8 +495,9 @@ export class SkyLookupComponent
     let isValueInTextBox = false;
     if (this.selectMode === 'single') {
       isValueInTextBox =
+        this.autocompleteInputDirective.value &&
         this.autocompleteInputDirective.inputTextValue ===
-        this.autocompleteInputDirective.value[this.descriptorProperty];
+          this.autocompleteInputDirective.value[this.descriptorProperty];
     }
 
     this.openPicker(
