@@ -14,30 +14,14 @@ export async function getCommandOutput(
     },
   };
 
-  return new Promise((resolve, reject) => {
-    const child = crossSpawn(command, args, spawnOptions);
-
-    let output = '';
-    if (child.stdout) {
-      child.stdout.on('data', (x) => (output += x));
-    }
-
-    child.on('error', (error) => {
-      console.error(`[skyux:getCommandOutput] error: ${error.message}`);
-      reject(error);
-    });
-
-    child.on('exit', () => {
-      resolve(output.trim());
-    });
-  });
+  return runCommand(command, args, spawnOptions) as Promise<string>;
 }
 
 export async function runCommand(
   command: string,
   args: string[] = [],
   spawnOptions: SpawnOptions = {}
-): Promise<void> {
+): Promise<string | void> {
   spawnOptions = {
     ...{
       stdio: 'inherit',
@@ -49,16 +33,14 @@ export async function runCommand(
   return new Promise((resolve, reject) => {
     const child = crossSpawn(command, args, spawnOptions);
 
+    let output = '';
     if (child.stdout) {
-      child.stdout.on('data', (x) =>
-        console.log('[skyux:runCommand] stdout:', x)
-      );
+      child.stdout.on('data', (x) => (output += x.toString().trim()));
     }
 
+    let error = '';
     if (child.stderr) {
-      child.stderr.on('data', (x) =>
-        console.error('[skyux:runCommand] stderr:', x)
-      );
+      child.stderr.on('data', (x) => (error += x.toString().trim()));
     }
 
     child.on('error', (error) => {
@@ -68,9 +50,13 @@ export async function runCommand(
 
     child.on('exit', (code) => {
       if (code === 0) {
-        resolve();
+        if (output) {
+          resolve(output);
+        } else {
+          resolve();
+        }
       } else {
-        reject();
+        reject(new Error(error));
       }
     });
   });
