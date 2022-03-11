@@ -94,6 +94,7 @@
     "@types/standard-version": "7.0.1",
     "@typescript-eslint/eslint-plugin": "4.31.2",
     "@typescript-eslint/parser": "4.31.2",
+    "axios": "0.26.1",
     "browserstack-local": "1.4.8",
     "cross-spawn": "7.0.3",
     "cypress": "8.7.0",

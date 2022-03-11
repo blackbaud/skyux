@@ -1,3 +1,4 @@
+import axios from 'axios';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import { outside as semverOutside, parse as semverParse } from 'semver';
@@ -36,9 +37,8 @@ function isPrerelease(version: string): string | undefined {
  */
 async function getStandardVersionConfig(nextVersion: string, overrides = {}) {
   const config: standardVersion.Options = {
+    header: '# Changelog',
     noVerify: true, // skip any precommit hooks
-    releaseCommitMessageFormat:
-      'docs: Add release notes for {{currentTag}} release',
     tagPrefix: '', // don't prefix tags with 'v'
   };
 
@@ -130,12 +130,32 @@ async function promptPushOrigin(version: string) {
   console.log('Successfully pushed tag and commits to origin.');
 }
 
+async function getBranchBuildStatus(branch: string): Promise<string> {
+  console.log(`Checking build status for branch '${branch}'...`);
+  const result = await axios(
+    `https://api.github.com/repos/blackbaud/skyux/actions/workflows/ci.yml/runs?branch=${branch}&event=push`
+  );
+  return result.data.workflow_runs[0].status;
+}
+
 /**
  * Bumps the version provided in package.json, creates a tag with release notes, and pushes to origin.
  */
 async function createRelease() {
   try {
     console.log('Preparing workspace for release...');
+
+    const buildStatus = await getBranchBuildStatus('main');
+    if (buildStatus !== 'completed') {
+      throw new Error(
+        `The main branch has a build status of '${buildStatus}'. ` +
+          'Wait until the workflow completes successfully before creating a release.'
+      );
+    } else {
+      console.log(
+        `The main branch has a build status of '${buildStatus}'. OK.`
+      );
+    }
 
     // Ensure all remote changes are represented locally.
     await fetchAll();
@@ -203,7 +223,7 @@ async function createRelease() {
 
     await promptPushOrigin(nextVersion);
   } catch (err) {
-    console.error(err);
+    console.error(`\n[dev:create-release error]: ${err.message}\n`);
     process.exit(1);
   }
 }
