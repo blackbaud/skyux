@@ -1,6 +1,29 @@
+import inquirer from 'inquirer';
 import minimist from 'minimist';
 
 import { getCommandOutput, runCommand } from './utils/spawn';
+
+async function promptContinue() {
+  return inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'cherryPick',
+      message:
+        'This command will cherry-pick a commit into a new branch. Proceed?',
+      default: true,
+    },
+  ]);
+}
+
+async function promptHash() {
+  return inquirer.prompt([
+    {
+      type: 'input',
+      name: 'commitHash',
+      message: 'Which commit hash should be cherry-picked?',
+    },
+  ]);
+}
 
 async function isValidHash(hash: string): Promise<boolean> {
   try {
@@ -36,7 +59,6 @@ async function checkoutNewBranch(hash: string): Promise<string> {
   console.log(`Using hash '${hash}' to generate cherry-pick branch...`);
 
   const branch = `cherry-pick_${hash}_${new Date().getTime()}`;
-
   await runCommand('git', ['checkout', '-b', branch]);
 
   return branch;
@@ -58,12 +80,17 @@ async function gitCherryPick(hash: string): Promise<boolean> {
 async function cherryPick() {
   try {
     const argv = minimist(process.argv.slice(2));
-    const hash = argv.hash;
+    let hash = argv.hash;
+
+    const answer1 = await promptContinue();
+    if (!answer1.cherryPick) {
+      console.log('Cherry-pick aborted.');
+      process.exit();
+    }
 
     if (!hash) {
-      throw new Error(
-        "A hash for the cherry-pick was not provided. Rerun the command and append: '-- --hash=<hash>'."
-      );
+      const answer2 = await promptHash();
+      hash = answer2.commitHash;
     }
 
     if (!(await isValidHash(hash))) {
@@ -76,7 +103,7 @@ async function cherryPick() {
 
     if (hasMergeConflicts) {
       console.log(
-        'Done creating cherry-pick branch. After reviewing the changes and resolving conflicts, run the following:\n' +
+        '\nDone creating cherry-pick branch. After reviewing the changes and resolving conflicts, run the following:\n' +
           '---\n' +
           '    git add .\n' +
           `    git commit -m "${commitMessage}"\n` +
@@ -84,7 +111,7 @@ async function cherryPick() {
       );
     } else {
       console.log(
-        'Done creating cherry-pick branch. After reviewing the changes, run the following:\n' +
+        '\nDone creating cherry-pick branch. After reviewing the changes, run the following:\n' +
           '---\n' +
           `    git push --set-upstream origin ${branch}\n` +
           '---\n'
