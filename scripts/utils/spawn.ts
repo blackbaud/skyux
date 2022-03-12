@@ -17,6 +17,10 @@ export async function getCommandOutput(
   return runCommand(command, args, spawnOptions) as Promise<string>;
 }
 
+/**
+ * Executes a given command in a cross-platform child process.
+ * If spawnOptions.stdio is set to 'pipe', the promise will return the command's output as a string.
+ */
 export async function runCommand(
   command: string,
   args: string[] = [],
