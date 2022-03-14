@@ -1,16 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
-import { Column, ColumnApi, GridApi } from 'ag-grid-community';
+import { Column, ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
-
-import { SkyAgGridModule } from './ag-grid.module';
-
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
+import { SkyAgGridModule } from './ag-grid.module';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridAdapterService: SkyAgGridAdapterService;
@@ -78,7 +74,7 @@ describe('SkyAgGridWrapperComponent', () => {
     }
 
     it('should not move focus when tab is pressed but cells are being edited', () => {
-      let col = {} as Column;
+      const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([
         { rowIndex: 0, column: col, rowPinned: '' },
@@ -90,20 +86,21 @@ describe('SkyAgGridWrapperComponent', () => {
     });
 
     it('should not move focus when tab is pressed but master/detail cells are being edited', () => {
-      let col = {} as Column;
+      const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [{ rowIndex: 0, column: col, rowPinned: '' }];
               },
-            },
-          });
-        }
-      );
+            } as GridApi,
+          } as DetailGridInfo,
+          0
+        );
+      });
 
       fireKeydownOnGrid('Tab', false);
 
@@ -122,17 +119,18 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [];
               },
-            },
-          });
-        }
-      );
+            } as GridApi,
+          } as DetailGridInfo,
+          0
+        );
+      });
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
         skyAgGridDivEl
       );

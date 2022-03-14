@@ -4,39 +4,32 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator,
   ValidationErrors,
+  Validator,
 } from '@angular/forms';
-
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 
+import moment from 'moment';
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
-
 import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
-
 import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDatepickerComponent } from './datepicker.component';
-
-import moment from 'moment';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
@@ -214,39 +207,11 @@ export class SkyDatepickerInputDirective
   }
 
   private set value(value: any) {
-    const dateValue = this.getDateValue(value);
-
-    const areDatesEqual =
-      this._value instanceof Date &&
-      dateValue &&
-      dateValue.getTime() === this._value.getTime();
-
-    const isValidDateString = this.isDateStringValid(value);
-
-    // If the string value supplied is malformed, do not set the value to its Date equivalent.
-    // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
-    if (!isValidDateString) {
-      this._value = value;
-      this.notifyUpdatedValue();
-    } else if (dateValue !== this._value || !areDatesEqual) {
-      this._value = dateValue || value;
-      this.notifyUpdatedValue();
-    }
-
-    if (dateValue && isValidDateString) {
-      const formattedDate = this.dateFormatter.format(
-        dateValue,
-        this.dateFormat
-      );
-      this.setInputElementValue(formattedDate);
-    } else {
-      this.setInputElementValue(value || '');
-    }
+    this.updateValue(value);
   }
 
   private control: AbstractControl;
   private dateFormatter = new SkyDateFormatter();
-  private isFirstChange = true;
   private initialPlaceholder: string;
   private preferredShortDateFormat: string;
   private ngUnsubscribe = new Subject<void>();
@@ -312,7 +277,6 @@ export class SkyDatepickerInputDirective
       .pipe(distinctUntilChanged())
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((value: Date) => {
-        this.isFirstChange = false;
         this.value = value;
         this.onTouched();
       });
@@ -379,7 +343,7 @@ export class SkyDatepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    this.updateValue(value, false);
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -471,7 +435,6 @@ export class SkyDatepickerInputDirective
   }
 
   private onValueChange(newValue: string): void {
-    this.isFirstChange = false;
     this.value = newValue;
   }
 
@@ -506,7 +469,7 @@ export class SkyDatepickerInputDirective
     }
 
     // Does the value only include digits, dashes, or slashes?
-    const regexp = /^[\d\/\-]+$/;
+    const regexp = /^[\d/-]+$/;
     const isValid = regexp.test(value);
 
     if (isValid) {
@@ -519,30 +482,68 @@ export class SkyDatepickerInputDirective
     return isValidIso;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
-
-  private notifyUpdatedValue(): void {
-    this.onChange(this._value);
-
-    // Do not mark the field as "dirty"
-    // if the field has been initialized with a value.
-    if (this.isFirstChange && this.control) {
-      this.control.markAsPristine();
-    }
-
-    if (this.isFirstChange && this._value) {
-      this.isFirstChange = false;
-    }
-
-    this.datepickerComponent.selectedDate = this._value;
-  }
 
   private updatePlaceholder(): void {
     if (!this.initialPlaceholder) {
       this.adapter.setPlaceholder(this.elementRef, this.dateFormat);
+    }
+  }
+
+  /**
+   * Update the value of the form control and input element
+   * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call or a `patchValue` call as this is already handled by Angular.
+   * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
+   */
+  private updateValue(value: any, emitEvent = true): void {
+    if (this._value === value) {
+      return;
+    }
+
+    const dateValue = this.getDateValue(value);
+
+    const areDatesEqual =
+      this._value instanceof Date &&
+      dateValue &&
+      dateValue.getTime() === this._value.getTime();
+
+    const isValidDateString = this.isDateStringValid(value);
+
+    // If the string value supplied is malformed, do not set the value to its Date equivalent.
+    // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
+    if (!isValidDateString) {
+      this._value = value;
+      if (emitEvent) {
+        this.onChange(this._value);
+      } else {
+        this.control?.setValue(this._value, { emitEvent: false });
+      }
+
+      this.datepickerComponent.selectedDate = this._value;
+    } else if (dateValue !== this._value || !areDatesEqual) {
+      this._value = dateValue || value;
+      if (emitEvent) {
+        this.onChange(this._value);
+      } else {
+        this.control?.setValue(this._value, { emitEvent: false });
+      }
+
+      this.datepickerComponent.selectedDate = this._value;
+    }
+
+    if (dateValue && isValidDateString) {
+      const formattedDate = this.dateFormatter.format(
+        dateValue,
+        this.dateFormat
+      );
+      this.setInputElementValue(formattedDate);
+    } else {
+      this.setInputElementValue(value || '');
     }
   }
 }

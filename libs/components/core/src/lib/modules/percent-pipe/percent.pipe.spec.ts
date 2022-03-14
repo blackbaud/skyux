@@ -1,15 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { BehaviorSubject } from 'rxjs';
 
 import { PercentPipeTestComponent } from './fixtures/percent-pipe.component.fixture';
-
 import { PercentPipeTestModule } from './fixtures/percent-pipe.module.fixture';
-
 import { SkyPercentPipe } from './percent.pipe';
 
 describe('Percent pipe', () => {

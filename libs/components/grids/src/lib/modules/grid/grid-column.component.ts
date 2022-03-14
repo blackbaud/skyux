@@ -11,11 +11,8 @@ import {
 } from '@angular/core';
 
 import { SkyGridColumnAlignment } from './types/grid-column-alignment';
-
 import { SkyGridColumnDescriptionModelChange } from './types/grid-column-description-model-change';
-
 import { SkyGridColumnHeadingModelChange } from './types/grid-column-heading-model-change';
-
 import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-inline-help-popover-model-change';
 
 /**
@@ -89,7 +86,7 @@ export class SkyGridColumnComponent implements OnChanges {
    * @default true
    */
   @Input()
-  public isSortable: boolean = true;
+  public isSortable = true;
 
   /**
    * Indicates whether the column is locked. The intent is to display locked columns first

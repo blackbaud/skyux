@@ -1,37 +1,25 @@
 import { ApplicationRef, DebugElement } from '@angular/core';
-
 import {
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   inject,
-  TestBed,
   tick,
-  async,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
+import { expect } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import { SkyModalService } from '@skyux/modals';
 
-import { expect } from '@skyux-sdk/testing';
-
-import { SkySummaryActionBarComponent } from './summary-action-bar.component';
-
-import { SkySummaryActionBarFixtureModule } from './fixtures/summary-action-bar.module.fixture';
-
-import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
-
-import { SkySummaryActionBarTabsTestComponent } from './fixtures/summary-action-bar-tabs.component.fixture';
-
-import { SkySummaryActionBarTestComponent } from './fixtures/summary-action-bar.component.fixture';
-
-import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
-
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
+import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
+import { SkySummaryActionBarTabsTestComponent } from './fixtures/summary-action-bar-tabs.component.fixture';
+import { SkySummaryActionBarTestComponent } from './fixtures/summary-action-bar.component.fixture';
+import { SkySummaryActionBarFixtureModule } from './fixtures/summary-action-bar.module.fixture';
+import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.service';
+import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 
 describe('Summary Action Bar component', () => {
   let mockMediaQueryService: MockSkyMediaQueryService;
@@ -93,7 +81,7 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        let actionBarHeight = debugElement.query(
+        const actionBarHeight = debugElement.query(
           By.css('.sky-summary-action-bar')
         ).nativeElement.offsetHeight;
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
@@ -117,7 +105,7 @@ describe('Summary Action Bar component', () => {
       it('should set a new margin on the body if the window is resized', () => {
         const initialBottomMargin = document.body.style.marginBottom;
         fixture.detectChanges();
-        let resizeEvent: any = document.createEvent('CustomEvent');
+        const resizeEvent: any = document.createEvent('CustomEvent');
         resizeEvent.initEvent('resize', true, true);
         window.dispatchEvent(resizeEvent);
         fixture.detectChanges();
@@ -192,7 +180,7 @@ describe('Summary Action Bar component', () => {
           .nativeElement.click();
         fixture.detectChanges();
         expect(
-          (<HTMLElement>document.querySelector('.sky-modal-footer-container'))
+          (document.querySelector('.sky-modal-footer-container') as HTMLElement)
             .style.padding
         ).toBe('0px');
       });
@@ -204,19 +192,21 @@ describe('Summary Action Bar component', () => {
           .query(By.css('#empty-modal-trigger'))
           .nativeElement.click();
         fixture.detectChanges();
-        (<HTMLElement>document.querySelector('#modal-trigger')).click();
+        (document.querySelector('#modal-trigger') as HTMLElement).click();
         fixture.detectChanges();
         expect(
-          (<HTMLElement>(
+          (
             document.querySelector(
               '#action-bar-modal .sky-modal-footer-container'
-            )
-          )).style.padding
+            ) as HTMLElement
+          ).style.padding
         ).toBe('0px');
         expect(
-          (<HTMLElement>(
-            document.querySelector('#empty-modal .sky-modal-footer-container')
-          )).style.padding
+          (
+            document.querySelector(
+              '#empty-modal .sky-modal-footer-container'
+            ) as HTMLElement
+          ).style.padding
         ).not.toBe('0px');
       }));
     });
@@ -352,7 +342,7 @@ describe('Summary Action Bar component', () => {
         cmp.hideMainActionBar = true;
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
-        let actionBarHeight = debugElement.query(
+        const actionBarHeight = debugElement.query(
           By.css('.sky-summary-action-bar')
         ).nativeElement.offsetHeight;
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
@@ -413,7 +403,9 @@ describe('Summary Action Bar component', () => {
           // Testing modal host here due to the modal not being contained in the fixture
           const modalHostElem = document.querySelector('sky-modal-host');
           expect(modalHostElem).toBeAccessible();
-          (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+          (
+            document.querySelector('.sky-modal-btn-close') as HTMLElement
+          ).click();
           fixture.detectChanges();
         });
       }));
@@ -428,19 +420,19 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           // Using query selector here due to the modal not being inside the debugElement
-          (<HTMLElement>(
+          (
             document.querySelector(
               '.sky-summary-action-bar-details-collapse button'
-            )
-          )).click();
+            ) as HTMLElement
+          ).click();
           fixture.detectChanges();
           fixture.whenStable().then(() => {
             // Testing modal host here due to the modal not being contained in the fixture
             const modalHostElem = document.querySelector('sky-modal-host');
             expect(modalHostElem).toBeAccessible();
-            (<HTMLElement>(
-              document.querySelector('.sky-modal-btn-close')
-            )).click();
+            (
+              document.querySelector('.sky-modal-btn-close') as HTMLElement
+            ).click();
             fixture.detectChanges();
           });
         });
@@ -456,7 +448,9 @@ describe('Summary Action Bar component', () => {
           // Testing modal host here due to the modal not being contained in the fixture
           const modalHostElem = document.querySelector('sky-modal-host');
           expect(modalHostElem).toBeAccessible();
-          (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+          (
+            document.querySelector('.sky-modal-btn-close') as HTMLElement
+          ).click();
           fixture.detectChanges();
         });
       }));
@@ -473,7 +467,9 @@ describe('Summary Action Bar component', () => {
           // Testing modal host here due to the modal not being contained in the fixture
           const modalHostElem = document.querySelector('sky-modal-host');
           expect(modalHostElem).toBeAccessible();
-          (<HTMLElement>document.querySelector('.sky-modal-btn-close')).click();
+          (
+            document.querySelector('.sky-modal-btn-close') as HTMLElement
+          ).click();
           fixture.detectChanges();
         });
       }));
@@ -488,19 +484,19 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           // Using query selector here due to the modal not being inside the debugElement
-          (<HTMLElement>(
+          (
             document.querySelector(
               '.sky-summary-action-bar-details-collapse button'
-            )
-          )).click();
+            ) as HTMLElement
+          ).click();
           fixture.detectChanges();
           fixture.whenStable().then(() => {
             // Testing modal host here due to the modal not being contained in the fixture
             const modalHostElem = document.querySelector('sky-modal-host');
             expect(modalHostElem).toBeAccessible();
-            (<HTMLElement>(
-              document.querySelector('.sky-modal-btn-close')
-            )).click();
+            (
+              document.querySelector('.sky-modal-btn-close') as HTMLElement
+            ).click();
             fixture.detectChanges();
           });
         });
@@ -528,7 +524,7 @@ describe('Summary Action Bar component', () => {
           setTimeout(() => {
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let actionBarHeight = debugElement.query(
+              const actionBarHeight = debugElement.query(
                 By.css('.sky-summary-action-bar')
               ).nativeElement.offsetHeight;
               expect(document.body.style.marginBottom).toBe(
@@ -563,7 +559,7 @@ describe('Summary Action Bar component', () => {
             setTimeout(() => {
               fixture.detectChanges();
               fixture.whenStable().then(() => {
-                let actionBarHeight = debugElement.query(
+                const actionBarHeight = debugElement.query(
                   By.css('.sky-summary-action-bar')
                 ).nativeElement.offsetHeight;
                 expect(document.body.style.marginBottom).toBe(
@@ -591,7 +587,7 @@ describe('Summary Action Bar component', () => {
               setTimeout(() => {
                 fixture.detectChanges();
                 fixture.whenStable().then(() => {
-                  let actionBarHeight = debugElement.query(
+                  const actionBarHeight = debugElement.query(
                     By.css('.sky-summary-action-bar')
                   ).nativeElement.offsetHeight;
                   expect(document.body.style.marginBottom).toBe(
@@ -657,13 +653,13 @@ describe('Summary Action Bar component', () => {
 
     describe('body stylings', () => {
       it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
-        spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => {
+        spyOn(window as any, 'setTimeout').and.callFake((fun) => {
           fun();
         });
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let workspacePaddingBottom = debugElement.query(
+          const workspacePaddingBottom = debugElement.query(
             By.css('.sky-split-view-workspace-content')
           ).nativeElement.style.paddingBottom;
           expect(workspacePaddingBottom).toBe('20px');
@@ -676,7 +672,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          let workspacePaddingBottom = debugElement.query(
+          const workspacePaddingBottom = debugElement.query(
             By.css('.sky-split-view-workspace-content')
           ).nativeElement.style.paddingBottom;
           expect(workspacePaddingBottom).toBe('');

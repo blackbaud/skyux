@@ -1,17 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { SummaryActionBarTestComponent } from './fixtures/summary-action-bar-fixture-test.component';
-
 import { SkySummaryActionBarFixture } from './summary-action-bar-fixture';
-
 import { SkySummaryActionBarTestingModule } from './summary-action-bar.module';
 
 describe('Summary action bar fixture', () => {

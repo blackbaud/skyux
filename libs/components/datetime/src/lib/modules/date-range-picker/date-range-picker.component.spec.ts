@@ -1,11 +1,11 @@
 import {
-  async,
   ComponentFixture,
   TestBed,
+  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -14,21 +14,14 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 
 import { DateRangePickerTestComponent } from './fixtures/date-range-picker.component.fixture';
-
 import { DateRangePickerTestModule } from './fixtures/date-range-picker.module.fixture';
-
 import { SkyDateRangeCalculation } from './types/date-range-calculation';
-
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
-
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
-
-import moment from 'moment';
 
 const defaultCalculatorIds = [
   SkyDateRangeCalculatorId.AnyTime,
@@ -508,13 +501,16 @@ describe('Date range picker', function () {
     expect(control.errors).toBeFalsy();
   }));
 
-  it('should catch validation errors from date picker on initialization', fakeAsync(function () {
+  it('should catch validation errors from date picker on initialization', async function () {
     component.initialValue = {
       calculatorId: SkyDateRangeCalculatorId.SpecificRange,
       startDate: 'invalid',
     } as any;
 
-    detectChanges();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await fixture.whenStable();
 
     const control = component.dateRange;
 
@@ -523,7 +519,7 @@ describe('Date range picker', function () {
         invalid: 'invalid',
       },
     });
-  }));
+  });
 
   it('should error when end date comes before start date', fakeAsync(function () {
     detectChanges();

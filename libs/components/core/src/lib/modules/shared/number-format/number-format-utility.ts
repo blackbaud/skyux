@@ -1,10 +1,8 @@
 /* tslint:disable:no-null-keyword */
-
 // This file is mostly ported from the Angular 4.x NumberPipe in order to maintain the old
 // behavior of using the `Intl` API for formatting numbers rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/number_pipe.ts
-
 import { SkyIntlNumberFormatStyle, SkyIntlNumberFormatter } from '@skyux/i18n';
 
 function isNumeric(value: any): boolean {
@@ -26,10 +24,7 @@ function parseIntAutoRadix(text: string): number {
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 // @dynamic
 export class SkyNumberFormatUtility {
-  private static _NUMBER_FORMAT_REGEXP: RegExp = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
-
-  /* istanbul ignore next */
-  constructor() {}
+  private static _NUMBER_FORMAT_REGEXP = /^(\d+)?\.((\d+)(-(\d+))?)?$/;
 
   public static formatNumber(
     locale: string,

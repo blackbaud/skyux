@@ -14,18 +14,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { fromEvent as observableFromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDropdownComponent } from './dropdown.component';
-
 import { SkyDropdownItemComponent } from './dropdown-item.component';
-
+import { SkyDropdownComponent } from './dropdown.component';
 import { SkyDropdownMenuChange } from './types/dropdown-menu-change';
-
 import { SkyDropdownMessage } from './types/dropdown-message';
-
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 let nextId = 0;
@@ -92,7 +87,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   @Output()
   public menuChanges = new EventEmitter<SkyDropdownMenuChange>();
 
-  public dropdownMenuId: string = `sky-dropdown-menu-${++nextId}`;
+  public dropdownMenuId = `sky-dropdown-menu-${++nextId}`;
 
   private get hasFocusableItems(): boolean {
     const found = this.menuItems.find((item) => item.isFocusable());

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
 @Component({

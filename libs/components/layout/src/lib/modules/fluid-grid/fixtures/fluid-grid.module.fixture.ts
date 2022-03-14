@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-
 import { NgModule } from '@angular/core';
 
-import { FluidGridTestComponent } from './fluid-grid.component.fixture';
-
 import { SkyFluidGridModule } from '../fluid-grid.module';
+
+import { FluidGridTestComponent } from './fluid-grid.component.fixture';
 
 @NgModule({
   declarations: [FluidGridTestComponent],

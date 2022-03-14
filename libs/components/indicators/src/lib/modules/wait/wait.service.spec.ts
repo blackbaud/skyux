@@ -1,15 +1,11 @@
 import { ApplicationRef } from '@angular/core';
-
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-
+import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { ReplaySubject } from 'rxjs';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
-
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
-
 import { SkyWaitService } from './wait.service';
 
 const NO_OP_FUNC: () => void = () => {};

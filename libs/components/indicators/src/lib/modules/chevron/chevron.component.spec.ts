@@ -1,13 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { take } from 'rxjs/operators';
 
 import { SkyChevronComponent } from './chevron.component';
-
 import { SkyChevronModule } from './chevron.module';
 
 describe('Chevron component', () => {

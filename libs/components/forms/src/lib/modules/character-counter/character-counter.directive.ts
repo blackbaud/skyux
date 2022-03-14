@@ -1,5 +1,4 @@
 import { Directive, Input } from '@angular/core';
-
 import {
   AbstractControl,
   NG_VALIDATORS,
@@ -89,5 +88,6 @@ export class SkyCharacterCounterInputDirective implements Validator {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

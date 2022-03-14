@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { NgModel } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
-
 import { SkyCountryFieldCountry } from '../types/country';
 
 @Component({
@@ -23,9 +21,9 @@ export class CountryFieldTestComponent {
 
   public defaultCountry: string;
 
-  public isDisabled: boolean = false;
+  public isDisabled = false;
 
-  public isRequired: boolean = false;
+  public isRequired = false;
 
   public modelValue: SkyCountryFieldCountry;
 

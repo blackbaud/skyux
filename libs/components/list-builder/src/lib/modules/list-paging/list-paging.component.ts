@@ -1,15 +1,13 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
-  ChangeDetectionStrategy,
-  forwardRef,
   OnInit,
+  forwardRef,
 } from '@angular/core';
-
-import { AsyncList, getValue, ListItemModel } from '@skyux/list-builder-common';
+import { AsyncList, ListItemModel, getValue } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -17,12 +15,10 @@ import {
 } from 'rxjs/operators';
 
 import { ListPagingComponent } from '../list/list-paging.component';
-import { ListState } from '../list/state/list-state.state-node';
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-import { ListPagingSetMaxPagesAction } from '../list/state/paging/set-max-pages.action';
-
+import { ListState } from '../list/state/list-state.state-node';
 import { ListPagingSetItemsPerPageAction } from '../list/state/paging/set-items-per-page.action';
-
+import { ListPagingSetMaxPagesAction } from '../list/state/paging/set-max-pages.action';
 import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
 
 /* istanbul ignore next */

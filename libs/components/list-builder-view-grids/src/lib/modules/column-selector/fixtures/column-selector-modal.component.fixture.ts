@@ -1,14 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
-
 import {
-  SkyModalService,
   SkyModalCloseArgs,
   SkyModalInstance,
+  SkyModalService,
 } from '@skyux/modals';
 
-import { SkyColumnSelectorComponent } from '../column-selector-modal.component';
-
 import { SkyColumnSelectorContext } from '../column-selector-context';
+import { SkyColumnSelectorComponent } from '../column-selector-modal.component';
 
 @Component({
   selector: 'sky-test-cmp',

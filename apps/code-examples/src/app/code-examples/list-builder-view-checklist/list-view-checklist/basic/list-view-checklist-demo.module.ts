@@ -1,13 +1,8 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
 import { SkyRadioModule } from '@skyux/forms';
-
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
-
 import { SkyListViewChecklistModule } from '@skyux/list-builder-view-checklist';
 
 import { ListViewChecklistDemoComponent } from './list-view-checklist-demo.component';

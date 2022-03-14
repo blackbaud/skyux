@@ -1,29 +1,21 @@
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   flush,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import {
   FormsModule,
+  NgModel,
   ReactiveFormsModule,
   Validators,
-  NgModel,
 } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { BehaviorSubject } from 'rxjs';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -32,15 +24,13 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { TimepickerTestComponent } from './fixtures/timepicker-component.fixture';
-
-import { TimepickerInputBoxTestComponent } from './fixtures/timepicker-input-box-component.fixture';
-
-import { TimepickerReactiveTestComponent } from './fixtures/timepicker-reactive-component.fixture';
-
-import { SkyTimepickerModule } from './timepicker.module';
-
 import moment from 'moment';
+import { BehaviorSubject } from 'rxjs';
+
+import { TimepickerTestComponent } from './fixtures/timepicker-component.fixture';
+import { TimepickerInputBoxTestComponent } from './fixtures/timepicker-input-box-component.fixture';
+import { TimepickerReactiveTestComponent } from './fixtures/timepicker-reactive-component.fixture';
+import { SkyTimepickerModule } from './timepicker.module';
 
 //#region helpers
 function getInput(fixture: ComponentFixture<any>): HTMLInputElement {

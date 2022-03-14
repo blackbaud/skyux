@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SkyTabIndex } from './tab-index';
-
 import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregistered-args';
 
 /**

@@ -1,10 +1,7 @@
 import { SkyTheme } from './theme';
-
 import { SkyThemeMode } from './theme-mode';
-
-import { SkyThemeService } from './theme.service';
-
 import { SkyThemeSettings } from './theme-settings';
+import { SkyThemeService } from './theme.service';
 
 describe('Theme service', () => {
   let mockHostEl: any;
@@ -80,7 +77,7 @@ describe('Theme service', () => {
     themeSvc.init(mockHostEl, mockRenderer, settings);
 
     let expectedCurrentSettings = settings;
-    let expectedPreviousSettings: SkyThemeSettings;
+    let expectedPreviousSettings: SkyThemeSettings = undefined;
 
     themeSvc.settingsChange.subscribe((settingsChange) => {
       expect(settingsChange.currentSettings).toBe(expectedCurrentSettings);

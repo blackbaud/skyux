@@ -8,13 +8,9 @@ import {
 } from '@angular/core';
 
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
-
 import { SkyOverlayConfig } from './overlay-config';
-
 import { SkyOverlayContext } from './overlay-context';
-
 import { SkyOverlayInstance } from './overlay-instance';
-
 import { SkyOverlayComponent } from './overlay.component';
 
 /**

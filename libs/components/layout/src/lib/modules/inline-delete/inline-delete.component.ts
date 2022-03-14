@@ -1,13 +1,12 @@
 import {
-  animate,
   AnimationEvent,
+  animate,
   group,
   query,
   style,
   transition,
   trigger,
 } from '@angular/animations';
-
 import {
   ChangeDetectorRef,
   Component,
@@ -19,11 +18,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
 import { SkyCoreAdapterService } from '@skyux/core';
 
 import { SkyInlineDeleteAdapterService } from './inline-delete-adapter.service';
-
 import { SkyInlineDeleteType } from './inline-delete-type';
 
 /**
@@ -91,7 +88,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @default false
    */
   @Input()
-  public pending: boolean = false;
+  public pending = false;
 
   /**
    * Fires when users click the cancel button.
@@ -105,9 +102,9 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
   @Output()
   public deleteTriggered = new EventEmitter<void>();
 
-  public animationState: string = 'shown';
+  public animationState = 'shown';
 
-  public assistiveTextId: string = `sky-inline-delete-assistive-text-${++nextId}`;
+  public assistiveTextId = `sky-inline-delete-assistive-text-${++nextId}`;
 
   public type: SkyInlineDeleteType = SkyInlineDeleteType.Standard;
 

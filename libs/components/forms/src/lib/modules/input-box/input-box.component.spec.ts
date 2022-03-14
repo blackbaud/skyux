@@ -1,29 +1,24 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { AbstractControl } from '@angular/forms';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
-  SkyThemeSettingsChange,
   SkyThemeSettings,
+  SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { BehaviorSubject } from 'rxjs';
 
 import { InputBoxFixtureComponent } from './fixtures/input-box.component.fixture';
-
 import { InputBoxFixturesModule } from './fixtures/input-box.module.fixture';
-
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
 
 describe('Input box component', () => {

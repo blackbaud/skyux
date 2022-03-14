@@ -2,9 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   flush,
-  TestBed,
   tick,
 } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';

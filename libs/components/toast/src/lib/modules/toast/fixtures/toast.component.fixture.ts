@@ -1,9 +1,9 @@
 // #region imports
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyToastComponent } from '../toast.component';
 import { SkyToastType } from '../types/toast-type';
 
-import { SkyToastComponent } from '../toast.component';
 // #endregion
 
 @Component({

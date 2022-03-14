@@ -1,14 +1,6 @@
 {
   "name": "@skyux/navbar",
   "version": "0.0.0-PLACEHOLDER",
-  "peerDependencies": {
-    "@angular/common": "^12.2.16",
-    "@angular/core": "^12.2.16",
-    "@skyux/theme": "0.0.0-PLACEHOLDER"
-  },
-  "dependencies": {
-    "tslib": "^2.3.1"
-  },
   "author": "Blackbaud, Inc.",
   "keywords": [
     "blackbaud",
@@ -22,5 +14,12 @@
   "bugs": {
     "url": "https://github.com/blackbaud/skyux/issues"
   },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  "homepage": "https://github.com/blackbaud/skyux#readme",
+  "peerDependencies": {
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  }
 }

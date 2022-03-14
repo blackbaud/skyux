@@ -1,33 +1,14 @@
 import { Component } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxChange } from '@skyux/forms';
-
 import { SkyModalService } from '@skyux/modals';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { Subject } from 'rxjs';
-
-import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
-
-import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
-
-import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
-
-import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
-
-import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
-
-import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 
 import {
   SkyDataManagerColumnPickerSortStrategy,
@@ -36,15 +17,23 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from 'libs/components/data-manager/src/index';
+import { Subject } from 'rxjs';
+
+import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
+import { SkyDataManagerColumnPickerComponent } from '../data-manager-column-picker/data-manager-column-picker.component';
+import { DataManagerFixtureComponent } from '../fixtures/data-manager.component.fixture';
+import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
+import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
+
+import { SkyDataManagerToolbarComponent } from './data-manager-toolbar.component';
 
 class MockModalService {
-  public closeCallback: Function;
+  public closeCallback: (args: { reason: string; data?: any }) => void;
 
-  constructor() {}
   public open(): any {
     return {
       closed: {
-        subscribe: (callback: Function) => {
+        subscribe: (callback) => {
           this.closeCallback = callback;
         },
       },
@@ -64,7 +53,9 @@ describe('SkyDataManagerToolbarComponent', () => {
   let viewConfig: SkyDataViewConfig;
 
   function setSearchInput(text: string): void {
-    let inputEl = dataManagerToolbarFixture.debugElement.query(By.css('input'));
+    const inputEl = dataManagerToolbarFixture.debugElement.query(
+      By.css('input')
+    );
     inputEl.nativeElement.value = text;
 
     SkyAppTestUtility.fireDomEvent(inputEl.nativeElement, 'input', {
@@ -81,7 +72,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   }
 
   function triggerSearchInputEnter(): void {
-    let inputEl = dataManagerToolbarFixture.debugElement.query(
+    const inputEl = dataManagerToolbarFixture.debugElement.query(
       By.css('.sky-search-container input')
     );
 
@@ -96,7 +87,7 @@ describe('SkyDataManagerToolbarComponent', () => {
   }
 
   function triggerSearchApplyButton(): void {
-    let applyEl = dataManagerToolbarFixture.debugElement.query(
+    const applyEl = dataManagerToolbarFixture.debugElement.query(
       By.css('.sky-search-btn-apply')
     );
     SkyAppTestUtility.fireDomEvent(applyEl.nativeElement, 'click');
@@ -302,7 +293,7 @@ describe('SkyDataManagerToolbarComponent', () => {
     dataManagerToolbarFixture.detectChanges();
 
     const event = { checked: true } as SkyCheckboxChange;
-    let updatedDataState = dataManagerToolbarComponent.dataState;
+    const updatedDataState = dataManagerToolbarComponent.dataState;
     updatedDataState.onlyShowSelected = true;
     spyOn(dataManagerService, 'updateDataState');
 
@@ -341,7 +332,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     dataState.activeSortOption = sortOption;
     dataManagerToolbarComponent.sortSelected(sortOption);
 
@@ -357,7 +348,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     dataState.searchText = searchText;
     dataManagerToolbarComponent.searchApplied(searchText);
 
@@ -373,7 +364,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');
@@ -392,7 +383,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');
@@ -415,7 +406,7 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    let dataState = dataManagerToolbarComponent.dataState;
+    const dataState = dataManagerToolbarComponent.dataState;
     expect(dataState.searchText).toBeUndefined();
 
     setSearchInput('testing');

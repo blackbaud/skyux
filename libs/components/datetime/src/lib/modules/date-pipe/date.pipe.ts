@@ -1,9 +1,7 @@
 import { OnDestroy, Pipe, PipeTransform } from '@angular/core';
-
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatUtility } from './date-format-utility';

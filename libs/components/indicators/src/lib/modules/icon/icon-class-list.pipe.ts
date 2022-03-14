@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { SkyIconResolverService } from './icon-resolver.service';
-
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 /**

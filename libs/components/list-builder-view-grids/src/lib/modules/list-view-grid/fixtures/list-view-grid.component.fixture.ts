@@ -7,22 +7,16 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-
 import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 
 import { BehaviorSubject } from 'rxjs';
-
 import { Subject } from 'rxjs';
 
-import { SkyListViewGridMessage } from '../types/list-view-grid-message';
-
-import { SkyListViewGridMessageType } from '../types/list-view-grid-message-type';
-
-import { SkyListViewGridRowDeleteCancelArgs } from '../types/list-view-grid-row-delete-cancel-args';
-
-import { SkyListViewGridRowDeleteConfirmArgs } from '../types/list-view-grid-row-delete-confirm-args';
-
 import { SkyListViewGridComponent } from '../list-view-grid.component';
+import { SkyListViewGridMessage } from '../types/list-view-grid-message';
+import { SkyListViewGridMessageType } from '../types/list-view-grid-message-type';
+import { SkyListViewGridRowDeleteCancelArgs } from '../types/list-view-grid-row-delete-cancel-args';
+import { SkyListViewGridRowDeleteConfirmArgs } from '../types/list-view-grid-row-delete-confirm-args';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -50,7 +44,7 @@ export class ListViewGridFixtureComponent implements OnInit {
 
   public searchFn: (data: any, searchText: string) => boolean;
 
-  public showNgIfCol: boolean = false;
+  public showNgIfCol = false;
 
   public ngOnInit() {
     setTimeout(() => {

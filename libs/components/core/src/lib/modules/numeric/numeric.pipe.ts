@@ -1,19 +1,16 @@
 import {
+  ChangeDetectorRef,
+  OnDestroy,
   Pipe,
   PipeTransform,
-  OnDestroy,
-  ChangeDetectorRef,
 } from '@angular/core';
-
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Subject } from 'rxjs';
-
-import { SkyNumericService } from './numeric.service';
-
 import { NumericOptions } from './numeric.options';
+import { SkyNumericService } from './numeric.service';
 
 /**
  * Shortens numbers to rounded numbers and abbreviation characters such as K for thousands,
@@ -59,7 +56,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   }
 
   public transform(value: number, config?: NumericOptions): string {
-    let newCacheKey =
+    const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
       `${value}_${config?.locale || this.providerLocale}`;
 

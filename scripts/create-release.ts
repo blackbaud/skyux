@@ -1,16 +1,13 @@
+import axios from 'axios';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
-import standardVersion from 'standard-version';
 import { outside as semverOutside, parse as semverParse } from 'semver';
-import {
-  checkoutNewBranch,
-  fetchAll,
-  getCurrentBranch,
-  isGitClean,
-} from './utils/git-utils';
-import { checkVersionExists } from './utils/npm-utils';
-import { getCommandOutput } from './utils/spawn';
+import standardVersion from 'standard-version';
+
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
+import { fetchAll, getCurrentBranch, isGitClean } from './utils/git-utils';
+import { checkVersionExists } from './utils/npm-utils';
+import { getCommandOutput, runCommand } from './utils/spawn';
 
 /**
  * Determines if a version is a prerelease.
@@ -40,9 +37,8 @@ function isPrerelease(version: string): string | undefined {
  */
 async function getStandardVersionConfig(nextVersion: string, overrides = {}) {
   const config: standardVersion.Options = {
+    header: '# Changelog',
     noVerify: true, // skip any precommit hooks
-    releaseCommitMessageFormat:
-      'docs: Add release notes for {{currentTag}} release',
     tagPrefix: '', // don't prefix tags with 'v'
   };
 
@@ -109,11 +105,57 @@ async function validateVersion(version: string) {
 }
 
 /**
- * Creates a 'releases/x.x.x' branch, tags it, and automatically adds release notes to CHANGELOG.md.
+ * Prompts the developer to confirm the final push of the tag/commit to origin.
+ */
+async function promptPushOrigin(version: string) {
+  const answer = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'pushOrigin',
+      message: `Push to origin to trigger release?`,
+      default: true,
+    },
+  ]);
+
+  if (!answer.pushOrigin) {
+    // Reset the commit and delete the tag.
+    await runCommand('git', ['reset', '--soft', 'HEAD~1']);
+    await runCommand('git', ['tag', '-d', version]);
+
+    console.log('Release aborted. Thanks for playing!');
+    process.exit(0);
+  }
+
+  await runCommand('git', ['push', '--follow-tags', 'origin', 'main']);
+  console.log('Successfully pushed tag and commits to origin.');
+}
+
+async function getBranchBuildStatus(branch: string): Promise<string> {
+  console.log(`Checking build status for branch '${branch}'...`);
+  const result = await axios(
+    `https://api.github.com/repos/blackbaud/skyux/actions/workflows/ci.yml/runs?branch=${branch}&event=push`
+  );
+  return result.data.workflow_runs[0].status;
+}
+
+/**
+ * Bumps the version provided in package.json, creates a tag with release notes, and pushes to origin.
  */
 async function createRelease() {
   try {
     console.log('Preparing workspace for release...');
+
+    const buildStatus = await getBranchBuildStatus('main');
+    if (buildStatus !== 'completed') {
+      throw new Error(
+        `The main branch has a build status of '${buildStatus}'. ` +
+          'Wait until the workflow completes successfully before creating a release.'
+      );
+    } else {
+      console.log(
+        `The main branch has a build status of '${buildStatus}'. OK.`
+      );
+    }
 
     // Ensure all remote changes are represented locally.
     await fetchAll();
@@ -139,7 +181,7 @@ async function createRelease() {
       currentVersion
     );
 
-    let nextVersion;
+    let nextVersion: string;
     if (versionExists) {
       nextVersion = await getNextVersion(currentVersion);
     } else {
@@ -166,12 +208,6 @@ async function createRelease() {
       process.exit(0);
     }
 
-    const branch = `releases/${nextVersion}`;
-
-    console.log(`Creating new branch named '${branch}'...`);
-
-    await checkoutNewBranch(branch);
-
     console.log('Generating release artifacts...');
 
     const standardVersionConfig = await getStandardVersionConfig(nextVersion, {
@@ -184,8 +220,10 @@ async function createRelease() {
 
     // Bump version and create changelog.
     await standardVersion(standardVersionConfig);
+
+    await promptPushOrigin(nextVersion);
   } catch (err) {
-    console.error(err);
+    console.error(`\n[dev:create-release error]: ${err.message}\n`);
     process.exit(1);
   }
 }

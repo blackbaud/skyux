@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
 import {
   SkyDataManagerService,
   SkyDataManagerState,
@@ -88,7 +87,7 @@ export class DataViewCardsDemoComponent implements OnInit {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toUpperCase();

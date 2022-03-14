@@ -1,10 +1,10 @@
 import {
   Component,
-  ViewContainerRef,
-  ViewChild,
   Input,
-  TemplateRef,
   OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 
 /**

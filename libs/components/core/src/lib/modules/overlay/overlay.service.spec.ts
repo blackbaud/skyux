@@ -1,36 +1,26 @@
 import { NgZone } from '@angular/core';
-
 import {
-  async,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
 import { Router } from '@angular/router';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { take } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 
 import { OverlayFixtureContext } from './fixtures/overlay-context.fixture';
-
 import { OverlayEntryFixtureComponent } from './fixtures/overlay-entry.component.fixture';
-
 import { OverlayFixtureComponent } from './fixtures/overlay.component.fixture';
-
 import { OverlayFixturesModule } from './fixtures/overlay.fixtures.module';
-
-import { SkyOverlayConfig } from './overlay-config';
-
 import { SkyOverlayAdapterService } from './overlay-adapter.service';
-
+import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayInstance } from './overlay-instance';
-
 import { SkyOverlayService } from './overlay.service';
 
 describe('Overlay service', () => {

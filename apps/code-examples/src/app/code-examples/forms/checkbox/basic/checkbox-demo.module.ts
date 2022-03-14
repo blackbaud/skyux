@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { SkyCheckboxModule } from '@skyux/forms';
 
 import { CheckboxDemoComponent } from './checkbox-demo.component';
@@ -13,4 +10,4 @@ import { CheckboxDemoComponent } from './checkbox-demo.component';
   declarations: [CheckboxDemoComponent],
   exports: [CheckboxDemoComponent],
 })
-export class SkyCheckboxDemoModule {}
+export class CheckboxDemoModule {}

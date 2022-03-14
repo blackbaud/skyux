@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { SkyListToolbarComponent } from '@skyux/list-builder';
 
 import { Observable, of as observableOf } from 'rxjs';

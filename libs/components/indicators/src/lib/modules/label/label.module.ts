@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { SkyIconModule } from '../icon/icon.module';
 

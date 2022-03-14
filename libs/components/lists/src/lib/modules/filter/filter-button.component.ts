@@ -56,7 +56,7 @@ export class SkyFilterButtonComponent {
    * Indicates whether to disable the filter button.
    */
   @Input()
-  public disabled: boolean = false;
+  public disabled = false;
 
   /**
    * Indicates whether to display a **Filter** label beside the icon on the filter button.

@@ -1,7 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { SkyPageSummaryModule } from '@skyux/layout';
 
 import { SkyPageSummaryFixture } from './page-summary-fixture';

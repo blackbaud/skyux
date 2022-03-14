@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyFileItem } from '@skyux/forms';
 
 @Component({

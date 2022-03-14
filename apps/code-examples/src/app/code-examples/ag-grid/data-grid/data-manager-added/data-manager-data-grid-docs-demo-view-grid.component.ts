@@ -7,9 +7,9 @@ import {
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
 } from '@skyux/data-manager';
 
 import {
@@ -247,7 +247,7 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toLowerCase();

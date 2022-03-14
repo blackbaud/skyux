@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormControl, FormGroup } from '@angular/forms';
-
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
   SkyConfirmType,
 } from '@skyux/modals';
-
 import {
   SkySplitViewMessage,
   SkySplitViewMessageType,

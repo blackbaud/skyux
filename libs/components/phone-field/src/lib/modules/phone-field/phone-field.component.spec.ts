@@ -1,26 +1,20 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import {
   FormControl,
   FormsModule,
   NgModel,
   ReactiveFormsModule,
 } from '@angular/forms';
-
 import { By } from '@angular/platform-browser';
-
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -29,15 +23,12 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyPhoneFieldModule } from './phone-field.module';
+import { BehaviorSubject } from 'rxjs';
 
 import { PhoneFieldInputBoxTestComponent } from './fixtures/phone-field-input-box.component.fixture';
-
-import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
-
 import { PhoneFieldReactiveTestComponent } from './fixtures/phone-field-reactive.component.fixture';
+import { PhoneFieldTestComponent } from './fixtures/phone-field.component.fixture';
+import { SkyPhoneFieldModule } from './phone-field.module';
 
 describe('Phone Field Component', () => {
   // #region helpers
@@ -76,7 +67,7 @@ describe('Phone Field Component', () => {
     compFixture: ComponentFixture<any>,
     isAsync?: boolean
   ): void {
-    let inputEl = element.querySelector('input');
+    const inputEl = element.querySelector('input');
     inputEl.value = text;
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'input');
@@ -97,7 +88,7 @@ describe('Phone Field Component', () => {
     text: string,
     compFixture: ComponentFixture<any>
   ): void {
-    let inputEl = element.querySelector('input');
+    const inputEl = element.querySelector('input');
     inputEl.value = text;
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'change');
@@ -113,7 +104,7 @@ describe('Phone Field Component', () => {
     countryInput.click();
     detectChangesAndTick(compFixture);
 
-    let countrySearchInput = getCountrySearchInput(compFixture);
+    const countrySearchInput = getCountrySearchInput(compFixture);
 
     countrySearchInput.value = countryName;
 
@@ -136,7 +127,7 @@ describe('Phone Field Component', () => {
     countryInput.click();
     detectChangesAndTick(compFixture);
 
-    let countrySearchInput: HTMLInputElement = compFixture.debugElement.query(
+    const countrySearchInput: HTMLInputElement = compFixture.debugElement.query(
       By.css('textarea')
     ).nativeElement;
     countrySearchInput.value = countryName;
@@ -152,7 +143,7 @@ describe('Phone Field Component', () => {
     compFixture: ComponentFixture<any>,
     isAsync?: boolean
   ): void {
-    let inputEl = element.querySelector('input');
+    const inputEl = element.querySelector('input');
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'blur');
     compFixture.detectChanges();
@@ -453,8 +444,8 @@ describe('Phone Field Component', () => {
 
       beforeEach(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        ngModel = inputElement.injector.get(NgModel);
       });
 
       it('should validate properly when invalid number is passed through input change', async () => {
@@ -720,7 +711,7 @@ describe('Phone Field Component', () => {
 
       it('should update the placeholder to the new country', fakeAsync(() => {
         fixture.detectChanges();
-        let originalCountryData =
+        const originalCountryData =
           component.phoneFieldComponent.countries.slice(0);
 
         setCountry('Canada', fixture);
@@ -734,8 +725,8 @@ describe('Phone Field Component', () => {
 
       it('should revalidate after the country is changed', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -765,8 +756,8 @@ describe('Phone Field Component', () => {
 
       it('should change to a new country based on a passed in dial code on a model change', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -804,8 +795,8 @@ describe('Phone Field Component', () => {
 
       it('should change to a new country based on a passed in dial code on a input change', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -838,8 +829,8 @@ describe('Phone Field Component', () => {
 
       it('should not change to a new country when the dial code is for an unsupported country', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         component.supportedCountryISOs = ['us'];
@@ -873,8 +864,8 @@ describe('Phone Field Component', () => {
 
       it('should not change to a new country when the dial code is not found', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -913,8 +904,8 @@ describe('Phone Field Component', () => {
 
       it('should change to a new country and not error when only the dial code is given', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -947,8 +938,8 @@ describe('Phone Field Component', () => {
 
       it('should validate correctly after country is changed', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -990,8 +981,8 @@ describe('Phone Field Component', () => {
 
       it('should add the country code to non-default country data', fakeAsync(() => {
         fixture.detectChanges();
-        let inputElement = fixture.debugElement.query(By.css('input'));
-        let ngModel = <NgModel>inputElement.injector.get(NgModel);
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        const ngModel = inputElement.injector.get(NgModel);
 
         component.defaultCountry = 'us';
         fixture.detectChanges();
@@ -1598,7 +1589,7 @@ describe('Phone Field Component', () => {
 
       it('should update the placeholder to the new country', fakeAsync(() => {
         fixture.detectChanges();
-        let originalCountryData =
+        const originalCountryData =
           component.phoneFieldComponent.countries.slice(0);
 
         setCountry('Canada', fixture);

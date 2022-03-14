@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import iconManifest from '@skyux/icons/assets/manifest.json';
 
 import { SkyThemeIconManifest } from './icon-manifest';
 
-import iconManifest from '@skyux/icons/assets/manifest.json';
 const manifest: SkyThemeIconManifest = iconManifest;
 
 /**
@@ -13,8 +13,6 @@ const manifest: SkyThemeIconManifest = iconManifest;
   providedIn: 'root',
 })
 export class SkyThemeIconManifestService {
-  constructor() {}
-
   /**
    * Gets metadata about the SKY UX icon font.
    */

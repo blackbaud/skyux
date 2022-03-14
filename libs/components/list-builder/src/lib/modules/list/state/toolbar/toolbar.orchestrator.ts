@@ -1,20 +1,13 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
 
-import { ListToolbarModel } from './toolbar.model';
-
-import { ListToolbarItemModel } from './toolbar-item.model';
-
-import { ListToolbarItemsLoadAction } from './load.action';
-
-import { ListToolbarItemsRemoveAction } from './remove.action';
-
-import { ListToolbarSetExistsAction } from './set-exists.action';
-
-import { ListToolbarSetTypeAction } from './set-type.action';
-
 import { ListToolbarItemsDisableAction } from './disable.action';
-
+import { ListToolbarItemsLoadAction } from './load.action';
+import { ListToolbarItemsRemoveAction } from './remove.action';
+import { ListToolbarSetExistsAction } from './set-exists.action';
+import { ListToolbarSetTypeAction } from './set-type.action';
 import { ListToolbarShowMultiselectToolbarAction } from './show-multiselect-toolbar.action';
+import { ListToolbarItemModel } from './toolbar-item.model';
+import { ListToolbarModel } from './toolbar.model';
 
 /**
  * @internal

@@ -1,14 +1,11 @@
-import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
-import { AdapterServiceFixtureComponent } from './fixtures/adapter-service.fixture';
-
-import { SkyAdapterServiceFixturesModule } from './fixtures/adapter-service.fixtures.module';
-
 import { SkyCoreAdapterService } from './adapter.service';
+import { AdapterServiceFixtureComponent } from './fixtures/adapter-service.fixture';
+import { SkyAdapterServiceFixturesModule } from './fixtures/adapter-service.fixtures.module';
 
 describe('Core adapter service', () => {
   let fixture: ComponentFixture<AdapterServiceFixtureComponent>;
@@ -229,7 +226,7 @@ describe('Core adapter service', () => {
 
     //#region helpers
     function heightsSynced(children: HTMLElement[]): boolean {
-      let height = children[0].clientHeight;
+      const height = children[0].clientHeight;
       return children.every((element) => {
         return element.clientHeight === height;
       });

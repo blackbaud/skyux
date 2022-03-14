@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import {
   SkyAppLocaleInfo,
   SkyAppLocaleProvider,
@@ -10,11 +8,9 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { DatePipeTestComponent } from './fixtures/date-pipe.component.fixture';
-
-import { DatePipeTestModule } from './fixtures/date-pipe.module.fixture';
-
 import { SkyDatePipe } from './date.pipe';
+import { DatePipeTestComponent } from './fixtures/date-pipe.component.fixture';
+import { DatePipeTestModule } from './fixtures/date-pipe.module.fixture';
 
 describe('Date pipe', () => {
   let fixture: ComponentFixture<DatePipeTestComponent>;

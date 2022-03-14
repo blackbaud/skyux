@@ -2,11 +2,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { GridOptions } from 'ag-grid-community';
 
+import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';
 
-import { SkyAgGridService } from '../ag-grid.service';
-
-import { SKY_AG_GRID_LOOKUP, SKY_AG_GRID_DATA } from './ag-grid-data.fixture';
+import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
 
 @Component({
   selector: 'sky-ag-grid-component-fixture',

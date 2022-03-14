@@ -477,7 +477,12 @@
               "apps/code-examples/src/favicon.ico",
               "apps/code-examples/src/assets"
             ],
-            "styles": ["apps/code-examples/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/code-examples/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -486,12 +491,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "4mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -2259,7 +2264,12 @@
               "apps/playground/src/favicon.ico",
               "apps/playground/src/assets"
             ],
-            "styles": ["apps/playground/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/playground/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -2268,12 +2278,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -2424,6 +2434,12 @@
             "main": "libs/sdk/prettier-schematics/src/index.ts",
             "assets": ["libs/sdk/prettier-schematics/*.md"],
             "updateBuildableProjectDepsInPackageJson": false
+          }
+        },
+        "postbuild": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-prettier-schematics.ts"
           }
         }
       }

@@ -4,7 +4,6 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { SkySummaryActionBarType } from './types/summary-action-bar-type';

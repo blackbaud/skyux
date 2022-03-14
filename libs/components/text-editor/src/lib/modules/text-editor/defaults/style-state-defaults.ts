@@ -1,6 +1,6 @@
-import { FONT_LIST_DEFAULTS } from './font-list-defaults';
-
 import { SkyTextEditorStyleState } from '../types/style-state';
+
+import { FONT_LIST_DEFAULTS } from './font-list-defaults';
 
 /**
  * @internal

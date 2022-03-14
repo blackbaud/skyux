@@ -18,12 +18,12 @@ export class ListSortLabelModel {
    * Indicates whether to sort all fields.
    * @default false
    */
-  public global: boolean = false;
+  public global = false;
   /**
    * Indicates whether to sort in descending order.
    * @default false
    */
-  public descending: boolean = false;
+  public descending = false;
 
   constructor(data?: any) {
     if (data) {

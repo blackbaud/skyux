@@ -1,18 +1,12 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { BehaviorSubject } from 'rxjs';
-
-import { expect, SkyMatchers } from '@skyux-sdk/testing';
-
-import { SkyErrorModalService, ErrorModalConfig } from '@skyux/errors';
-
-import { SkyFileItem, SkyFileDropChange } from '@skyux/forms';
-
+import { SkyMatchers, expect } from '@skyux-sdk/testing';
+import { ErrorModalConfig, SkyErrorModalService } from '@skyux/errors';
+import { SkyFileDropChange, SkyFileItem } from '@skyux/forms';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,15 +15,13 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { AvatarTestComponent } from './fixtures/avatar.component.fixture';
-
-import { SkyAvatarFixturesModule } from './fixtures/avatar-fixtures.module';
-
-import { MockErrorModalService } from './fixtures/mock-error-modal.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyAvatarSize } from './avatar-size';
-
 import { SkyAvatarComponent } from './avatar.component';
+import { SkyAvatarFixturesModule } from './fixtures/avatar-fixtures.module';
+import { AvatarTestComponent } from './fixtures/avatar.component.fixture';
+import { MockErrorModalService } from './fixtures/mock-error-modal.service';
 
 describe('Avatar component', () => {
   let mockThemeSvc: {
@@ -37,9 +29,9 @@ describe('Avatar component', () => {
   };
 
   /* tslint:disable-next-line max-line-length */
-  let imgBase64 =
+  const imgBase64 =
     'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
-  let imgUrl = 'data:image/png;base64,' + imgBase64;
+  const imgUrl = 'data:image/png;base64,' + imgBase64;
 
   const mockErrorModalService = new MockErrorModalService();
 
@@ -65,22 +57,22 @@ describe('Avatar component', () => {
 
   function getImgBlob() {
     let n = imgBase64.length;
-    let u8arr = new Uint8Array(n);
+    const u8arr = new Uint8Array(n);
 
     while (n--) {
       u8arr[n] = imgBase64.charCodeAt(n);
     }
 
-    let testBlob = new Blob([u8arr]);
+    const testBlob = new Blob([u8arr]);
 
     return testBlob;
   }
 
   function getBackgroundImageUrl(el: Element): string {
-    let regex = /url\(\"(.*?)\"\)/gi;
-    let backgroundImage = getComputedStyle(getPhotoEl(el)).backgroundImage;
+    const regex = /url\("(.*?)"\)/gi;
+    const backgroundImage = getComputedStyle(getPhotoEl(el)).backgroundImage;
 
-    let match = regex.exec(backgroundImage);
+    const match = regex.exec(backgroundImage);
 
     let url: string;
 
@@ -98,7 +90,7 @@ describe('Avatar component', () => {
     url: string,
     startsWith: boolean = false
   ) {
-    let backgroundImageUrl = getBackgroundImageUrl(el);
+    const backgroundImageUrl = getBackgroundImageUrl(el);
 
     if (startsWith) {
       expect(backgroundImageUrl.indexOf(url)).toBe(0);
@@ -134,14 +126,14 @@ describe('Avatar component', () => {
   });
 
   it('should display an image when an image URL is specified', () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
     fixture.componentInstance.src = imgUrl;
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     expect(getPhotoEl(el)).toBeVisible();
     expect(getPlaceholderEl(el)).not.toBeVisible();
@@ -150,14 +142,14 @@ describe('Avatar component', () => {
   });
 
   it('should display an image when an image URL is specified with parenthesis', () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
     fixture.componentInstance.src = 'stff://fake(2).png/';
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     expect(getPhotoEl(el)).toBeVisible();
     expect(getPlaceholderEl(el)).not.toBeVisible();
@@ -166,16 +158,16 @@ describe('Avatar component', () => {
   });
 
   it('should include screen reader text when an image URL is specified', () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
     fixture.componentInstance.src = imgUrl;
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
-    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).not.toBeNull();
     expect(screenReaderEl.textContent.trim()).toBe(
       'Profile picture of Robert Hernandez'
@@ -183,13 +175,13 @@ describe('Avatar component', () => {
   });
 
   it("should display the record name's initials when no image is specified", () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     expect(getPhotoEl(el)).not.toBeVisible();
     expect(getPlaceholderEl(el)).toBeVisible();
@@ -204,24 +196,24 @@ describe('Avatar component', () => {
   });
 
   it('should not include screen reader text when no image is specified', () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
-    const screenReaderEl: HTMLElement = <HTMLElement>getScreenReaderEl(el);
+    const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).toBeNull();
   });
 
   it('should display nothing when no image or name is specified', () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     expect(getPhotoEl(el)).not.toBeVisible();
     expect(getPlaceholderEl(el)).not.toBeVisible();
@@ -229,7 +221,7 @@ describe('Avatar component', () => {
 
   it(`should provide a aria label describing adding a new profile image when one can be uploaded
   and has not been provided`, fakeAsync(() => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
 
@@ -250,7 +242,7 @@ describe('Avatar component', () => {
   }));
 
   it(`should provide a aria label describing changing a profile image when one has been uploaded`, fakeAsync(() => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.name = 'Robert Hernandez';
     fixture.componentInstance.src = imgUrl;
@@ -272,28 +264,28 @@ describe('Avatar component', () => {
   }));
 
   it('should show the avatar when the specified source is a Blob object', function () {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.src = getImgBlob();
 
     fixture.detectChanges();
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     validateImageUrl(el, 'blob:', true);
   });
 
   it(`should clean up the current object URL created when the specified source is a Blbo object
     and the scope is destroyed`, () => {
-    let fixture = TestBed.createComponent(AvatarTestComponent);
+    const fixture = TestBed.createComponent(AvatarTestComponent);
 
     fixture.componentInstance.src = getImgBlob();
 
     fixture.detectChanges();
 
-    let objectUrl = getBackgroundImageUrl(fixture.nativeElement);
+    const objectUrl = getBackgroundImageUrl(fixture.nativeElement);
 
-    let revokeSpy = spyOn(URL, 'revokeObjectURL');
+    const revokeSpy = spyOn(URL, 'revokeObjectURL');
 
     fixture.destroy();
 
@@ -301,22 +293,22 @@ describe('Avatar component', () => {
   });
 
   it('should notify the consumer when the user chooses a new image', function () {
-    let fixture = TestBed.createComponent(SkyAvatarComponent);
-    let instance = fixture.componentInstance;
+    const fixture = TestBed.createComponent(SkyAvatarComponent);
+    const instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    let actualFile = <SkyFileItem>{
-      file: <File>{
+    const actualFile = {
+      file: {
         name: 'foo.png',
         type: 'image/png',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
     instance.canChange = true;
     instance.avatarChanged.subscribe(
       (newFile: SkyFileItem) => (expectedFile = newFile)
     );
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [actualFile],
       rejectedFiles: [],
     });
@@ -326,37 +318,37 @@ describe('Avatar component', () => {
   });
 
   it('should not notify the consumer when the new image is rejected', function () {
-    let fixture = TestBed.createComponent(SkyAvatarComponent);
-    let instance = fixture.componentInstance;
+    const fixture = TestBed.createComponent(SkyAvatarComponent);
+    const instance = fixture.componentInstance;
     let expectedFile: SkyFileItem;
-    let actualFile = <SkyFileItem>{
-      file: <File>{
+    const actualFile = {
+      file: {
         name: 'foo.png',
         type: 'image/png',
         size: 1000,
       },
-    };
+    } as SkyFileItem;
 
     instance.canChange = true;
     instance.avatarChanged.subscribe(
       (newFile: SkyFileItem) => (expectedFile = newFile)
     );
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [actualFile],
-    });
+    } as SkyFileDropChange);
 
     fixture.detectChanges();
     expect(expectedFile).not.toEqual(actualFile);
   });
 
   it('should show error modal when invalid file type is uploaded', function () {
-    let fixture = TestBed.createComponent(SkyAvatarComponent);
-    let instance = fixture.componentInstance;
+    const fixture = TestBed.createComponent(SkyAvatarComponent);
+    const instance = fixture.componentInstance;
 
-    let badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -366,10 +358,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is not an image.',
@@ -381,11 +373,11 @@ describe('Avatar component', () => {
   });
 
   it('should show error modal when file larger than 500KB is uploaded', function () {
-    let fixture = TestBed.createComponent(SkyAvatarComponent);
-    let instance = fixture.componentInstance;
+    const fixture = TestBed.createComponent(SkyAvatarComponent);
+    const instance = fixture.componentInstance;
 
-    let badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -395,10 +387,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
@@ -410,13 +402,13 @@ describe('Avatar component', () => {
   });
 
   it('should show error modal when file larger than 5MB is uploaded', function () {
-    let fixture = TestBed.createComponent(SkyAvatarComponent);
-    let instance = fixture.componentInstance;
+    const fixture = TestBed.createComponent(SkyAvatarComponent);
+    const instance = fixture.componentInstance;
 
     fixture.componentInstance.maxFileSize = 5000000;
 
-    let badFileType = <SkyFileItem>{
-      file: <File>{
+    const badFileType = {
+      file: {
         name: 'foo.txt',
         type: 'text',
         size: 1,
@@ -426,10 +418,10 @@ describe('Avatar component', () => {
 
     spyOn(mockErrorModalService, 'open');
 
-    instance.photoDrop(<SkyFileDropChange>{
+    instance.photoDrop({
       files: [],
       rejectedFiles: [badFileType],
-    });
+    } as SkyFileDropChange);
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',

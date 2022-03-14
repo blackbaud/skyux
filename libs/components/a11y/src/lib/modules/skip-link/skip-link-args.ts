@@ -1,5 +1,4 @@
 //#region imports
-
 import { SkySkipLink } from './skip-link';
 
 //#endregion

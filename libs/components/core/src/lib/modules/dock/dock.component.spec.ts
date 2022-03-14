@@ -1,25 +1,19 @@
 import { StaticProvider } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { DockFixtureComponent } from './fixtures/dock.component.fixture';
-
-import { DockFixturesModule } from './fixtures/dock.module.fixture';
-
-import { DockItemFixtureContext } from './fixtures/dock-item-context.fixture';
-
-import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
-
-import { SkyDockLocation } from './dock-location';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { MutationObserverService } from '../mutation/mutation-observer-service';
+
+import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
+import { SkyDockLocation } from './dock-location';
+import { DockItemFixtureContext } from './fixtures/dock-item-context.fixture';
+import { DockFixtureComponent } from './fixtures/dock.component.fixture';
+import { DockFixturesModule } from './fixtures/dock.module.fixture';
 
 const STYLE_ELEMENT_SELECTOR =
   '[data-test-selector="sky-layout-dock-bottom-styles"]';
@@ -28,7 +22,7 @@ const isIE = window.navigator.userAgent.indexOf('rv:11.0') >= 0;
 
 describe('Dock component', () => {
   let fixture: ComponentFixture<DockFixtureComponent>;
-  let mutationCallbacks: Function[];
+  let mutationCallbacks: (() => void)[];
 
   function resetDockItems(itemConfigs: SkyDockInsertComponentConfig[]): void {
     fixture.componentInstance.removeAllItems();
@@ -99,7 +93,7 @@ describe('Dock component', () => {
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback: Function): any {
+            create: function (callback): any {
               mutationCallbacks.push(callback);
               return {
                 observe() {},
@@ -361,6 +355,6 @@ describe('Dock component', () => {
     tick();
 
     /// The `toString` is needed for IE
-    expect((<any>getDockStyle().zIndex).toString()).toBe('5');
+    expect(getDockStyle().zIndex.toString()).toBe('5');
   }));
 });

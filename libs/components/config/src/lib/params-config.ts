@@ -1,7 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
 
 import { SkyuxConfigParams } from './config-params';
-
 import { SkyAppParamsConfigArgs } from './params-config-args';
 
 const DEFAULTS = {

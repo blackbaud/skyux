@@ -9,19 +9,16 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
 import {
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
 
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil, takeWhile } from 'rxjs/operators';
 
-import { fromEvent, Subject } from 'rxjs';
-
 import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
-
 import { SkySplitViewService } from './split-view.service';
 
 let skySplitViewNextId = 0;
@@ -65,10 +62,6 @@ export class SkySplitViewDrawerComponent
     }
   }
 
-  public isMobile = false;
-
-  public splitViewDrawerId: string = `sky-split-view-drawer-${++skySplitViewNextId}`;
-
   public get width(): number {
     if (this.isMobile) {
       return undefined;
@@ -81,6 +74,10 @@ export class SkySplitViewDrawerComponent
       return this._width || this.widthDefault;
     }
   }
+
+  public isMobile = false;
+
+  public splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
 
   public widthDefault = 320;
 

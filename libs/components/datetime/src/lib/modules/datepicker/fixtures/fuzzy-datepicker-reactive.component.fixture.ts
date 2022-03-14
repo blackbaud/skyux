@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
@@ -25,7 +24,7 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
 
   public minDate: any;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public startingDay = 0;
 

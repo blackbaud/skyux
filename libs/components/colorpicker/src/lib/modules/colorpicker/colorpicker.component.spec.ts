@@ -1,17 +1,13 @@
 import { DebugElement } from '@angular/core';
-
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
   waitForAsync,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -21,19 +17,13 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
-
 import { sampleTime } from 'rxjs/operators';
 
 import { SkyColorpickerInputDirective } from './colorpicker-input.directive';
-
 import { SkyColorpickerComponent } from './colorpicker.component';
-
 import { ColorpickerTestComponent } from './fixtures/colorpicker-component.fixture';
-
 import { SkyColorpickerFixturesModule } from './fixtures/colorpicker-fixtures.module';
-
 import { ColorpickerReactiveTestComponent } from './fixtures/colorpicker-reactive-component.fixture';
-
 import { SkyColorpickerMessageType } from './types/colorpicker-message-type';
 
 describe('Colorpicker Component', () => {
@@ -147,11 +137,12 @@ describe('Colorpicker Component', () => {
   }
 
   function mouseHelper(x: number, y: number, event: string) {
-    let document = <HTMLDocument>nativeElement.parentNode.parentNode.parentNode;
+    const document = nativeElement.parentNode.parentNode
+      .parentNode as HTMLDocument;
 
     try {
       // Deprecated browser API... IE
-      let mouseEventDeprecated = document.createEvent('MouseEvents');
+      const mouseEventDeprecated = document.createEvent('MouseEvents');
       mouseEventDeprecated.initMouseEvent(
         event,
         true,
@@ -172,7 +163,7 @@ describe('Colorpicker Component', () => {
       document.dispatchEvent(mouseEventDeprecated);
     } catch (error) {
       // Chrome, Safari, Firefox
-      let mouseEvent = new MouseEvent(event, {
+      const mouseEvent = new MouseEvent(event, {
         clientX: x,
         clientY: y,
       });
@@ -188,16 +179,16 @@ describe('Colorpicker Component', () => {
   ) {
     fixture.detectChanges();
     fixture.whenStable();
-    let inputElement: HTMLInputElement = element.querySelector('input');
+    const inputElement: HTMLInputElement = element.querySelector('input');
     expect(inputElement.value).toBe(spaColor);
-    let selectedColor: HTMLDivElement = <HTMLDivElement>(
-      element.querySelector('.sky-colorpicker-input')
+    const selectedColor: HTMLDivElement = element.querySelector(
+      '.sky-colorpicker-input'
     );
-    let browserCSS = selectedColor.style.backgroundColor
-      .replace(/[rgba\(\)]/g, '')
+    const browserCSS = selectedColor.style.backgroundColor
+      .replace(/[rgba()]/g, '')
       .split(',');
     // Some browsers convert RGBA to multiple points pass the decimal.
-    let outcome = browserCSS.map((eachNumber) => {
+    const outcome = browserCSS.map((eachNumber) => {
       return Math.round(Number(eachNumber) * 100) / 100;
     });
     expect(outcome.toString()).toContain(
@@ -220,9 +211,9 @@ describe('Colorpicker Component', () => {
   ) {
     fixture.detectChanges();
     fixture.whenStable();
-    let inputElement: NodeListOf<Element> =
+    const inputElement: NodeListOf<Element> =
       getColorpickerContainer().querySelectorAll('.rgba-text input');
-    let input: any = {
+    const input: any = {
       hex: inputElement[0],
       red: inputElement[1],
       green: inputElement[2],
@@ -230,13 +221,13 @@ describe('Colorpicker Component', () => {
       alpha: inputElement[4],
     };
     input[name].value = value;
-    let params: any = {
+    const params: any = {
       bubbles: false,
       cancelable: false,
     };
-    let inputEvent = document.createEvent('Event');
+    const inputEvent = document.createEvent('Event');
     inputEvent.initEvent('input', params.bubbles, params.cancelable);
-    let changeEvent = document.createEvent('Event');
+    const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', params.bubbles, params.cancelable);
     input[name].dispatchEvent(inputEvent);
     input[name].dispatchEvent(changeEvent);
@@ -295,7 +286,7 @@ describe('Colorpicker Component', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(ColorpickerTestComponent);
       nativeElement = fixture.nativeElement as HTMLElement;
-      component = <ColorpickerTestComponent>fixture.componentInstance;
+      component = fixture.componentInstance;
       colorpickerComponent = component.colorpickerComponent;
       debugElement = fixture.debugElement;
     });
@@ -729,10 +720,10 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'hex';
       openColorpicker(nativeElement, fixture);
 
-      let slBar = getColorpickerContainer().querySelector(
+      const slBar = getColorpickerContainer().querySelector(
         '.saturation-lightness'
       );
-      let axis = getElementCoords(slBar);
+      const axis = getElementCoords(slBar);
 
       SkyAppTestUtility.fireDomEvent(slBar, 'mousedown', {
         customEventInit: { pageX: axis.x, pageY: axis.y },
@@ -828,9 +819,9 @@ describe('Colorpicker Component', () => {
       component.selectedOutputFormat = 'rgba';
       openColorpicker(nativeElement, fixture);
       nativeElement.querySelector('input').value = '#4523FC';
-      let inputEvent = document.createEvent('Event');
+      const inputEvent = document.createEvent('Event');
       inputEvent.initEvent('input', true, false);
-      let changeEvent = document.createEvent('Event');
+      const changeEvent = document.createEvent('Event');
       changeEvent.initEvent('change', true, false);
       nativeElement.querySelector('input').dispatchEvent(inputEvent);
       nativeElement.querySelector('input').dispatchEvent(changeEvent);
@@ -922,7 +913,7 @@ describe('Colorpicker Component', () => {
     }));
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
-      let spyOnResetColorPicker = spyOn(
+      const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
         'onResetClick'
       ).and.callThrough();
@@ -1041,7 +1032,7 @@ describe('Colorpicker Component', () => {
     }));
 
     it('should enable and disable AfterViewInit using a template-driven form', async () => {
-      let outermostDiv = debugElement.query(
+      const outermostDiv = debugElement.query(
         By.css('div > sky-colorpicker > div')
       ).nativeElement;
 
@@ -1130,7 +1121,7 @@ describe('Colorpicker Component', () => {
 
     it('should reset colorpicker via reset button.', fakeAsync(() => {
       fixture.detectChanges();
-      let spyOnResetColorPicker = spyOn(
+      const spyOnResetColorPicker = spyOn(
         colorpickerComponent,
         'onResetClick'
       ).and.callThrough();
@@ -1195,8 +1186,8 @@ describe('Colorpicker Component', () => {
 
     it('should only emit the form control valueChanged event once per change', (done) => {
       fixture.detectChanges();
-      let callback = function () {};
-      let callbackSpy = jasmine.createSpy('callback', callback);
+      const callback = function () {};
+      const callbackSpy = jasmine.createSpy('callback', callback);
       component.colorForm.valueChanges.subscribe(() => {
         callbackSpy();
       });
@@ -1264,7 +1255,7 @@ describe('Colorpicker Component', () => {
     }));
 
     it('should enable and disable AfterViewInit using a reactive form', async () => {
-      let outermostDiv = debugElement.query(
+      const outermostDiv = debugElement.query(
         By.css('form > sky-colorpicker > div')
       ).nativeElement;
 

@@ -14,10 +14,10 @@ export class SkyFileAttachmentService {
     acceptedTypes: string,
     validateFn: Function
   ): SkyFileItem[] {
-    let fileResults: SkyFileItem[] = [];
+    const fileResults: SkyFileItem[] = [];
 
     for (let index = 0; index < files.length; index++) {
-      let fileItem = {
+      const fileItem = {
         file: files.item(index),
       } as SkyFileItem;
 
@@ -34,9 +34,9 @@ export class SkyFileAttachmentService {
         fileItem.errorParam = acceptedTypes;
         fileResults.push(fileItem);
       } else if (validateFn) {
-        let errorParam = validateFn(fileItem);
+        const errorParam = validateFn(fileItem);
 
-        if (!!errorParam) {
+        if (errorParam) {
           fileItem.errorType = 'validate';
           fileItem.errorParam = errorParam;
         }
@@ -75,8 +75,8 @@ export class SkyFileAttachmentService {
       return true;
     }
 
-    let acceptedTypesUpper = acceptedTypes.toUpperCase();
-    let typeArray = acceptedTypesUpper.split(',');
+    const acceptedTypesUpper = acceptedTypes.toUpperCase();
+    const typeArray = acceptedTypesUpper.split(',');
 
     return !this.fileTypeInArray(typeArray, fileType.toUpperCase());
   }

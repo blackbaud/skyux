@@ -1,4 +1,4 @@
-import { chain, Rule } from '@angular-devkit/schematics';
+import { Rule, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import { getWorkspace } from '../utility/workspace';

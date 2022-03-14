@@ -10,11 +10,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-
 import { skyAnimationSlide } from '@skyux/animations';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTileDashboardService } from '../tile-dashboard/tile-dashboard.service';
@@ -167,7 +165,7 @@ export class SkyTileComponent implements OnDestroy {
   public moveTile(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (this.isInDashboardColumn) {
-      let direction = event.key.toLowerCase().replace('arrow', '');
+      const direction = event.key.toLowerCase().replace('arrow', '');
       /* istanbul ignore else */
       if (
         direction === 'up' ||

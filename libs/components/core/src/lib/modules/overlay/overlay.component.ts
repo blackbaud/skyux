@@ -16,17 +16,14 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
 import { NavigationStart, Router } from '@angular/router';
 
-import { fromEvent, Observable, Subject, Subscription } from 'rxjs';
-
+import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 
 import { SkyOverlayConfig } from './overlay-config';
-
 import { SkyOverlayContext } from './overlay-context';
 
 /**
@@ -68,7 +65,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public showBackdrop = false;
 
-  public zIndex: string = `${++uniqueZIndex}`;
+  public zIndex = `${++uniqueZIndex}`;
 
   @ViewChild('overlayContentRef', {
     read: ElementRef,

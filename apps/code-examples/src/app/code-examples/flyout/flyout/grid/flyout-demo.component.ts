@@ -1,21 +1,16 @@
 import { Component, ViewChild } from '@angular/core';
-
 import {
   SkyFlyoutConfig,
   SkyFlyoutInstance,
   SkyFlyoutService,
 } from '@skyux/flyout';
-
 import { ListItemModel } from '@skyux/list-builder-common';
-
 import { SkyListViewGridComponent } from '@skyux/list-builder-view-grids';
 
-import { of, Subject } from 'rxjs';
-
+import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FlyoutDemoContext } from './flyout-demo-context';
-
 import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
 
 @Component({

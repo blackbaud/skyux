@@ -1,8 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 
-import { SkyModalCloseArgs } from './modal-close-args';
-
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
+import { SkyModalCloseArgs } from './modal-close-args';
 
 // TODO: this class won't show in the generated docs until this work is done:
 // https://github.com/blackbaud/skyux-docs-tools/issues/30

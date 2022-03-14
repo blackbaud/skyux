@@ -1,16 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyCountryFieldCountry } from '@skyux/lookup';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { SkyCountryFieldTestingModule } from './country-field-testing.module';
-
 import { SkyCountryFieldFixture } from './country-field-fixture';
+import { SkyCountryFieldTestingModule } from './country-field-testing.module';
 
 const COUNTRY: SkyCountryFieldCountry = {
   name: 'United States',

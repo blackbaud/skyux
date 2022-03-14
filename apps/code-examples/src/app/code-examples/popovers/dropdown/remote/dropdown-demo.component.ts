@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-
 import {
+  SkyDropdownMenuChange,
   SkyDropdownMessage,
   SkyDropdownMessageType,
-  SkyDropdownMenuChange,
 } from '@skyux/popovers';
 
 import { Subject } from 'rxjs';

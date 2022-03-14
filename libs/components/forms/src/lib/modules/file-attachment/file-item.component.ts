@@ -1,18 +1,16 @@
 import {
   Component,
-  Input,
-  Output,
   DoCheck,
-  KeyValueDiffers,
-  KeyValueDiffer,
   EventEmitter,
+  Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
+  Output,
 } from '@angular/core';
 
 import { SkyFileItem } from './file-item';
-
-import { SkyFileLink } from './file-link';
-
 import { SkyFileItemService } from './file-item.service';
+import { SkyFileLink } from './file-link';
 
 @Component({
   selector: 'sky-file-item',
@@ -38,15 +36,15 @@ export class SkyFileItemComponent implements DoCheck {
   public deleteFile = new EventEmitter<SkyFileLink | SkyFileItem>();
 
   public get fileName(): string {
-    return (<SkyFileItem>this.fileItem).file.name;
+    return (this.fileItem as SkyFileItem).file.name;
   }
 
   public get fileSize(): number {
-    return (<SkyFileItem>this.fileItem).file.size;
+    return (this.fileItem as SkyFileItem).file.size;
   }
 
   public get url(): string {
-    return (<SkyFileLink>this.fileItem).url;
+    return this.fileItem.url;
   }
 
   public icon: string;
@@ -61,14 +59,14 @@ export class SkyFileItemComponent implements DoCheck {
   }
 
   public ngDoCheck() {
-    let changes = this.differ.diff(this.fileItem);
+    const changes = this.differ.diff(this.fileItem);
 
     if (changes) {
-      let cls: string,
-        extensionUpper = this.fileItemService.getFileExtensionUpper(
-          <SkyFileItem>this.fileItem
-        ),
-        fileTypeUpper: string;
+      let cls: string;
+      const extensionUpper = this.fileItemService.getFileExtensionUpper(
+        this.fileItem as SkyFileItem
+      );
+      let fileTypeUpper: string;
 
       switch (extensionUpper) {
         case '.PDF':
@@ -105,7 +103,7 @@ export class SkyFileItemComponent implements DoCheck {
 
       if (!cls) {
         fileTypeUpper = this.fileItemService.getFileTypeUpper(
-          <SkyFileItem>this.fileItem
+          this.fileItem as SkyFileItem
         );
 
         switch (fileTypeUpper.substr(0, fileTypeUpper.indexOf('/'))) {
@@ -137,10 +135,10 @@ export class SkyFileItemComponent implements DoCheck {
   }
 
   public isFile() {
-    return this.fileItemService.isFile(<SkyFileItem>this.fileItem);
+    return this.fileItemService.isFile(this.fileItem as SkyFileItem);
   }
 
   public isImage() {
-    return this.fileItemService.isImage(<SkyFileItem>this.fileItem);
+    return this.fileItemService.isImage(this.fileItem as SkyFileItem);
   }
 }

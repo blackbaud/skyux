@@ -1,7 +1,5 @@
 import { Location } from '@angular/common';
-
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subject, SubscriptionLike } from 'rxjs';
@@ -122,10 +120,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
       .toLowerCase()
 
       // Remove special characters.
-      .replace(
-        /[\_\~\`\@\!\#\$\%\^\&\*\(\)\[\]\{\}\;\:\'\/\\\<\>\,\.\?\=\+\|"]/g,
-        ''
-      )
+      .replace(/[_~`@!#$%^&*()[\]{};:'/\\<>,.?=+|"]/g, '')
 
       // Replace space characters with a dash.
       .replace(/\s/g, '-')

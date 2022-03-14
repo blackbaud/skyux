@@ -8,7 +8,7 @@ import { SkyFileItem } from './file-item';
 @Injectable()
 export class SkyFileItemService {
   public isFile(fileItem: SkyFileItem): boolean {
-    let file = fileItem.file;
+    const file = fileItem.file;
 
     /* tslint:disable */
     return (
@@ -22,10 +22,8 @@ export class SkyFileItemService {
   }
 
   public isImage(fileItem: SkyFileItem): boolean {
-    let fileTypeUpper = this.getFileTypeUpper(fileItem),
-      slashIndex: number;
-
-    slashIndex = fileTypeUpper.indexOf('/');
+    const fileTypeUpper = this.getFileTypeUpper(fileItem);
+    const slashIndex = fileTypeUpper.indexOf('/');
 
     if (slashIndex >= 0) {
       switch (fileTypeUpper.substr(fileTypeUpper.indexOf('/') + 1)) {
@@ -49,7 +47,7 @@ export class SkyFileItemService {
     /* istanbul ignore else */
     /* sanity check */
     if (fileItem) {
-      let file = fileItem.file;
+      const file = fileItem.file;
       if (file) {
         /* istanbul ignore next */
         name = file.name || '';
@@ -68,7 +66,7 @@ export class SkyFileItemService {
     /* istanbul ignore else */
     /* sanity check */
     if (fileItem) {
-      let file = fileItem.file;
+      const file = fileItem.file;
       if (file) {
         fileType = file.type || '';
       } else {

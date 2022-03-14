@@ -4,25 +4,19 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-
-import { Subject } from 'rxjs';
-
-import { takeUntil } from 'rxjs/operators';
-
+import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalInstance } from '@skyux/modals';
 
-import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from '../data-manager.service';
-
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
-
 import { SkyDataManagerColumnPickerSortStrategy } from '../models/data-manager-column-picker-sort-strategy';
-
 import { SkyDataManagerState } from '../models/data-manager-state';
-
 import { SkyDataViewConfig } from '../models/data-view-config';
-import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { SkyDataManagerColumnPickerContext } from './data-manager-column-picker-context';
 
 /**
  * @internal
@@ -112,7 +106,8 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public searchColumns(columns: Column[]): Column[] {
     let searchedColumns = columns;
-    let searchText = this.dataState && this.dataState.searchText?.toUpperCase();
+    const searchText =
+      this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
       searchedColumns = columns.filter(function (item: any) {
@@ -120,7 +115,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'label' || property === 'description')
           ) {
             const propertyText: string =
@@ -165,12 +160,12 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     const allColumnOptions = this.context.columnOptions;
     const visibleColumnIds = this.context.displayedColumnIds;
     let formattedColumnOptions: Column[] = [];
-    let unselectedColumnOptions: Column[] = [];
+    const unselectedColumnOptions: Column[] = [];
 
-    for (let columnOption of allColumnOptions) {
+    for (const columnOption of allColumnOptions) {
       // format the column with the properties the column picker needs
       const colIndex = visibleColumnIds.indexOf(columnOption.id);
-      let formattedColumn: Column = {
+      const formattedColumn: Column = {
         alwaysDisplayed: columnOption.alwaysDisplayed,
         id: columnOption.id,
         label: columnOption.label,

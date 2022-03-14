@@ -1,7 +1,7 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -10,42 +10,27 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { NgControl } from '@angular/forms';
-
-import { takeUntil } from 'rxjs/operators';
-
-import { Subject } from 'rxjs';
-
 import { SkyCoreAdapterService } from '@skyux/core';
 
-import { MENU_DEFAULTS } from './defaults/menu-defaults';
-
-import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
-
-import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
-
-import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
-
-import { SkyTextEditorService } from './services/text-editor.service';
-
-import { SkyTextSanitizationService } from './services/text-sanitization.service';
-
-import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
-
-import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
-
-import { SkyTextEditorFont } from './types/font-state';
-
-import { SkyTextEditorMenuType } from './types/menu-type';
-
-import { SkyTextEditorStyleState } from './types/style-state';
-
-import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
-
-import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
+
+import { FONT_LIST_DEFAULTS } from './defaults/font-list-defaults';
+import { FONT_SIZE_LIST_DEFAULTS } from './defaults/font-size-list-defaults';
+import { MENU_DEFAULTS } from './defaults/menu-defaults';
+import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
+import { TOOLBAR_ACTION_DEFAULTS } from './defaults/toolbar-action-defaults';
+import { SkyTextEditorAdapterService } from './services/text-editor-adapter.service';
+import { SkyTextEditorService } from './services/text-editor.service';
+import { SkyTextSanitizationService } from './services/text-sanitization.service';
+import { SkyTextEditorFont } from './types/font-state';
+import { SkyTextEditorMenuType } from './types/menu-type';
+import { SkyTextEditorStyleState } from './types/style-state';
+import { SkyTextEditorMergeField } from './types/text-editor-merge-field';
+import { SkyTextEditorToolbarActionType } from './types/toolbar-action-type';
 
 /**
  * Auto-incrementing integer used to generate unique ids for radio components.
@@ -67,7 +52,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
    * Indicates whether to put focus on the editor after it renders.
    */
   @Input()
-  public autofocus: boolean = false;
+  public autofocus = false;
 
   /**
    * Indicates whether to disable the text editor.
@@ -236,22 +221,22 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this._value;
   }
 
-  private focusInitialized: boolean = false;
+  private focusInitialized = false;
 
   @ViewChild('iframe')
   private iframeRef: ElementRef;
 
-  private initialized: boolean = false;
+  private initialized = false;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _initialStyleState = Object.assign({}, STYLE_STATE_DEFAULTS);
 
   private _placeholder = '';
 
-  private _value: string = '<p></p>';
+  private _value = '<p></p>';
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -397,9 +382,9 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange: (value: any) => void = () => {};
 }

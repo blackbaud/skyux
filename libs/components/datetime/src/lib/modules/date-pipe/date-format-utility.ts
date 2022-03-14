@@ -2,7 +2,6 @@
 // behavior of using the `Intl` API for formatting dates rather than having to register every
 // supported locale.
 // https://github.com/angular/angular/blob/4.4.x/packages/common/src/pipes/date_pipe.ts
-
 import { SkyIntlDateFormatter } from '@skyux/i18n';
 
 import moment from 'moment';
@@ -18,9 +17,6 @@ export class SkyDateFormatUtility {
     mediumTime: 'jms',
     shortTime: 'jm',
   };
-
-  /* istanbul ignore next */
-  constructor() {}
 
   public static format(
     locale: string,

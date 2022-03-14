@@ -8,9 +8,7 @@ import {
 
 import { skyAutocompleteDefaultSearchFunction } from '../autocomplete/autocomplete-default-search-function';
 import { SkyAutocompleteSearchAsyncArgs } from '../autocomplete/types/autocomplete-search-async-args';
-
 import { SkyAutocompleteSearchFunction } from '../autocomplete/types/autocomplete-search-function';
-
 import { SkyAutocompleteSearchFunctionFilter } from '../autocomplete/types/autocomplete-search-function-filter';
 
 /**
@@ -57,7 +55,9 @@ export class SkyLookupAutocompleteAdapter {
    * Specifies a function to dynamically manage the data source when users
    * change the text in the lookup field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
-   * useful when the data source does not live in the source code.
+   * useful when the data source does not live in the source code. If the
+   * search requires calling a remote data source, use `searchAsync` instead of
+   * `search`.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction) {
@@ -108,6 +108,10 @@ export class SkyLookupAutocompleteAdapter {
   @Input()
   public searchResultsLimit: number;
 
+  /**
+   * Fires when users enter new search information and allows results to be
+   * returned via an observable.
+   */
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 

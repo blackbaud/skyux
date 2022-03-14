@@ -1,11 +1,10 @@
 import { ListStateOrchestrator } from '../list-state.rxstate';
-import { ListSortModel } from './sort.model';
+
 import { ListSortLabelModel } from './label.model';
-import { ListSortSetFieldSelectorsAction } from './set-field-selectors.action';
-
 import { ListSortSetAvailableAction } from './set-available.action';
-
+import { ListSortSetFieldSelectorsAction } from './set-field-selectors.action';
 import { ListSortSetGlobalAction } from './set-global.action';
+import { ListSortModel } from './sort.model';
 
 /**
  * @internal

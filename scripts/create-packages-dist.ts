@@ -7,14 +7,12 @@ import {
 } from 'fs-extra';
 import { join } from 'path';
 
-import { PackageJson } from './shared/package-json';
-
 import { createDocumentationJson } from './lib/create-documentation-json';
 import { getPublishableProjects } from './lib/get-publishable-projects';
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
 import { inlineExternalResourcesPaths } from './lib/inline-external-resources-paths';
 import { verifyPackagesDist } from './lib/verify-packages-dist';
-
+import { PackageJson } from './shared/package-json';
 import { runCommand } from './utils/spawn';
 
 /**
@@ -42,11 +40,11 @@ async function createPackagesDist(): Promise<void> {
 
     const packageJson: PackageJson = await readJson(join(cwd, 'package.json'));
 
-    const skyuxVersion = packageJson.version;
+    const skyuxVersion = packageJson.version!;
 
     // Add 1000 to the minor version number.
     // e.g. 5.5.1 --> 5.1005.1
-    const skyuxPackagesVersion = packageJson.version.replace(
+    const skyuxPackagesVersion = skyuxVersion.replace(
       /\.([0-9])\./,
       (match, group) => {
         return match.replace(/[0-9]/, `${+group + 1000}`);

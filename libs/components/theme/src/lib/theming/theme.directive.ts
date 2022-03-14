@@ -1,13 +1,9 @@
 import { Directive } from '@angular/core';
-
 import { ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 
 import { SkyTheme } from './theme';
-
 import { SkyThemeMode } from './theme-mode';
-
 import { SkyThemeSettings } from './theme-settings';
-
 import { SkyThemeService } from './theme.service';
 
 const defaultTheme = new SkyThemeSettings(

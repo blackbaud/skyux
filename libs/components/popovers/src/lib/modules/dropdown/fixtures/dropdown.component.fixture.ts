@@ -8,19 +8,13 @@ import {
 
 import { Subject } from 'rxjs';
 
-import { SkyDropdownHorizontalAlignment } from '../types/dropdown-horizontal-alignment';
-
-import { SkyDropdownMessage } from '../types/dropdown-message';
-
-import { SkyDropdownMessageType } from '../types/dropdown-message-type';
-
-import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
-
 import { SkyDropdownItemComponent } from '../dropdown-item.component';
-
 import { SkyDropdownMenuComponent } from '../dropdown-menu.component';
-
 import { SkyDropdownComponent } from '../dropdown.component';
+import { SkyDropdownHorizontalAlignment } from '../types/dropdown-horizontal-alignment';
+import { SkyDropdownMessage } from '../types/dropdown-message';
+import { SkyDropdownMessageType } from '../types/dropdown-message-type';
+import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -77,7 +71,7 @@ export class DropdownFixtureComponent {
     { name: 'Option 4', disabled: false },
   ];
 
-  public show: boolean = true;
+  public show = true;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

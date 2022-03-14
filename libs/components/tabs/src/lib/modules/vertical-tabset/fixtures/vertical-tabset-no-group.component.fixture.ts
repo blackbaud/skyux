@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class VerticalTabsetNoGroupTestComponent {
   public currentIndex: number = undefined;
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
   public indexChanged(index: number) {
     this.currentIndex = index;

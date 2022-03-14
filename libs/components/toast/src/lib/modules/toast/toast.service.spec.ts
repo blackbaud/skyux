@@ -1,17 +1,14 @@
 // #region imports
 import { TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyDynamicComponentService } from '@skyux/core';
 
 import { take } from 'rxjs/operators';
 
+import { SkyToast } from './toast';
+import { SkyToastService } from './toast.service';
 import { SkyToastType } from './types/toast-type';
 
-import { SkyToast } from './toast';
-
-import { SkyToastService } from './toast.service';
 // #endregion
 
 describe('Toast service', () => {

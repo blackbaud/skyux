@@ -6,20 +6,15 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
 import { NavigationStart, Router } from '@angular/router';
 
 import { takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
-
-import { SkyModalInstance } from './modal-instance';
-
-import { SkyModalHostService } from './modal-host.service';
-
-import { SkyModalConfigurationInterface } from './modal.interface';
-
 import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostService } from './modal-host.service';
+import { SkyModalInstance } from './modal-instance';
+import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
  * @internal
@@ -89,13 +84,13 @@ export class SkyModalHostComponent {
       SkyModalHostService.fullPageModalCount > 0
     );
 
-    let providers = params.providers || /* istanbul ignore next */ [];
+    const providers = params.providers || /* istanbul ignore next */ [];
     const injector = Injector.create({
       providers,
       parent: this.injector,
     });
 
-    let modalComponentRef = this.target.createComponent(
+    const modalComponentRef = this.target.createComponent(
       factory,
       undefined,
       injector

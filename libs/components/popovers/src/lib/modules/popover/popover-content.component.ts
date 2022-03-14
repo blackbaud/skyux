@@ -1,5 +1,4 @@
 import { AnimationEvent } from '@angular/animations';
-
 import {
   ChangeDetectorRef,
   Component,
@@ -10,37 +9,28 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
   SkyAffixConfig,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyCoreAdapterService,
 } from '@skyux/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
-
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyPopoverAlignment } from './types/popover-alignment';
-
-import { SkyPopoverPlacement } from './types/popover-placement';
-
 import { SkyPopoverAdapterService } from './popover-adapter.service';
-
 import { skyPopoverAnimation } from './popover-animation';
-
 import { SkyPopoverAnimationState } from './popover-animation-state';
-
 import { SkyPopoverContext } from './popover-context';
-
 import {
   parseAffixHorizontalAlignment,
   parseAffixPlacement,
 } from './popover-extensions';
+import { SkyPopoverAlignment } from './types/popover-alignment';
+import { SkyPopoverPlacement } from './types/popover-placement';
 
 /**
  * @internal
@@ -75,13 +65,13 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public arrowTop: number;
 
-  public dismissOnBlur: boolean = true;
+  public dismissOnBlur = true;
 
-  public enableAnimations: boolean = true;
+  public enableAnimations = true;
 
   public horizontalAlignment: SkyPopoverAlignment;
 
-  public isOpen: boolean = false;
+  public isOpen = false;
 
   public placement: SkyPopoverPlacement;
 
@@ -316,6 +306,20 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.arrowLeft = left;
   }
 
+  private isFocusLeavingElement(event: KeyboardEvent): boolean {
+    const focusableItems = this.coreAdapterService.getFocusableChildren(
+      this.elementRef.nativeElement
+    );
+
+    const isFirstItem = focusableItems[0] === event.target && event.shiftKey;
+
+    const isLastItem =
+      focusableItems[focusableItems.length - 1] === event.target &&
+      !event.shiftKey;
+
+    return focusableItems.length === 0 || isFirstItem || isLastItem;
+  }
+
   private addEventListeners(): void {
     const hostElement = this.elementRef.nativeElement;
 
@@ -349,18 +353,8 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
               return;
             }
 
-            const focusableItems =
-              this.coreAdapterService.getFocusableChildren(hostElement);
-
-            const isFirstItem =
-              focusableItems[0] === event.target && event.shiftKey;
-
-            const isLastItem =
-              focusableItems[focusableItems.length - 1] === event.target &&
-              !event.shiftKey;
-
             /*istanbul ignore else*/
-            if (focusableItems.length === 0 || isFirstItem || isLastItem) {
+            if (this.isFocusLeavingElement(event)) {
               this.close();
               this.caller.nativeElement.focus();
               event.preventDefault();

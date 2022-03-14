@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyListModule, SkyListToolbarModule } from '@skyux/list-builder';
-
 import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
 import { ListViewGridDemoComponent } from './list-view-grid-demo.component';

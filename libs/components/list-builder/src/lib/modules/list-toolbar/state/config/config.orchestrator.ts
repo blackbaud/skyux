@@ -1,8 +1,7 @@
 import { ListToolbarStateOrchestrator } from '../toolbar-state.rxstate';
+
 import { ListToolbarConfigModel } from './config.model';
-
 import { ListToolbarConfigSetSearchEnabledAction } from './set-search-enabled.action';
-
 import { ListToolbarConfigSetSortSelectorEnabledAction } from './set-sort-selector-enabled.action';
 
 /**

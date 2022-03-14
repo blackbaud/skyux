@@ -1,16 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { forkJoin } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
-import { ErrorTestComponent } from './fixtures/error.component.fixture';
-
 import { SkyErrorFixturesModule } from './fixtures/error-fixtures.module';
+import { ErrorTestComponent } from './fixtures/error.component.fixture';
 
 describe('Error component', () => {
   let component: ErrorTestComponent;

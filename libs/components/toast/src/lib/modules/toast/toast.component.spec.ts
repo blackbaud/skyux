@@ -1,25 +1,18 @@
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
-
-import { SkyToastTestComponent } from './fixtures/toast.component.fixture';
-
 import { SkyToastWithToasterServiceTestComponent } from './fixtures/toast-with-toaster-service.component.fixture';
-
+import { SkyToastTestComponent } from './fixtures/toast.component.fixture';
 import { SkyToastComponent } from './toast.component';
-
 import { SkyToastService } from './toast.service';
-
 import { SkyToasterService } from './toaster.service';
-
 import { SkyToastType } from './types/toast-type';
 
 describe('Toast component', () => {

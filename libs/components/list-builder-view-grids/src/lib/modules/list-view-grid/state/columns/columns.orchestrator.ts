@@ -1,8 +1,7 @@
-import { GridStateOrchestrator } from '../grid-state.rxstate';
-
+import { SkyGridColumnModel } from '@skyux/grids';
 import { AsyncList } from '@skyux/list-builder-common';
 
-import { SkyGridColumnModel } from '@skyux/grids';
+import { GridStateOrchestrator } from '../grid-state.rxstate';
 
 import { ListViewGridColumnsLoadAction } from './load.action';
 

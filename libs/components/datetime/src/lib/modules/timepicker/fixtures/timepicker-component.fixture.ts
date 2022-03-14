@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyTimepickerComponent } from '../timepicker.component';
-
 import { SkyTimepickerInputDirective } from '../timepicker.directive';
-
 import { SkyTimepickerTimeOutput } from '../timepicker.interface';
 
 @Component({
@@ -25,5 +23,5 @@ export class TimepickerTestComponent {
 
   public selectedTime: SkyTimepickerTimeOutput;
 
-  public timeFormat: string = 'hh';
+  public timeFormat = 'hh';
 }

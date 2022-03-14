@@ -57,7 +57,7 @@ describe('Intl date formatter', function () {
       })
       .split(' ');
 
-    let timezone = timezoneFragments[timezoneFragments.length - 1];
+    const timezone = timezoneFragments[timezoneFragments.length - 1];
 
     expect(formattedDate).toBe(`2019 ${hours} ${meridiem} ${timezone}`);
   });

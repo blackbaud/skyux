@@ -1,8 +1,7 @@
 import { take } from 'rxjs/operators';
 
-import { SkyFlyoutMessageType } from './types/flyout-message-type';
-
 import { SkyFlyoutInstance } from './flyout-instance';
+import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 describe('Flyout instance', () => {
   it('should expose observables for closed event', () => {

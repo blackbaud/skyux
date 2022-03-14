@@ -1,13 +1,9 @@
 import { DebugElement } from '@angular/core';
-
 import { ComponentFixture } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { SkySortFixtureMenu } from './sort-fixture-menu';
-
 import { SkySortFixtureMenuItem } from './sort-fixture-menu-item';
 
 /**

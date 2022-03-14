@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
-
 import { SkyModalInstance } from '@skyux/modals';
-
 import { SkyValidation } from '@skyux/validation';
 
-import { UrlModalResult } from './text-editor-url-modal-result';
-
 import { SkyUrlModalContext } from './text-editor-url-modal-context';
-
+import { UrlModalResult } from './text-editor-url-modal-result';
 import { UrlTarget } from './text-editor-url-target';
 
 const emailKey = 'mailto:';
@@ -45,19 +41,19 @@ export class SkyTextEditorUrlModalComponent {
     return this._url;
   }
 
-  public emailAddressValid: boolean = false;
+  public emailAddressValid = false;
 
-  public subject: string = '';
+  public subject = '';
 
-  public target: number = 0;
+  public target = 0;
 
-  public valid: boolean = false;
+  public valid = false;
 
   public _activeTab = 0;
 
-  private _emailAddress: string = '';
+  private _emailAddress = '';
 
-  private _url: string = 'https://';
+  private _url = 'https://';
 
   constructor(
     private readonly modalInstance: SkyModalInstance,

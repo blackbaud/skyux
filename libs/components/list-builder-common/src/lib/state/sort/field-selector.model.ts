@@ -2,7 +2,7 @@ export class ListSortFieldSelectorModel {
   /**
    * Indicates whether to sort in descending order.
    */
-  public descending: boolean = false;
+  public descending = false;
 
   /**
    * Specifies the fields to sort.

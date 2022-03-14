@@ -1,16 +1,12 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -19,16 +15,12 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyCountryFieldModule } from './country-field.module';
-
 import { CountryFieldInputBoxTestComponent } from './fixtures/country-field-input-box.component.fixture';
-
 import { CountryFieldNoFormTestComponent } from './fixtures/country-field-no-form.component.fixture';
-
 import { CountryFieldReactiveTestComponent } from './fixtures/country-field-reactive.component.fixture';
-
 import { CountryFieldTestComponent } from './fixtures/country-field.component.fixture';
 
 describe('Country Field Component', () => {
@@ -410,9 +402,9 @@ describe('Country Field Component', () => {
           nativeElement.querySelector('textarea');
 
         expect(
-          (<HTMLElement>(
-            nativeElement.querySelector('textarea')
-          )).attributes.getNamedItem('disabled')
+          (
+            nativeElement.querySelector('textarea') as HTMLElement
+          ).attributes.getNamedItem('disabled')
         ).not.toBeNull();
         component.isDisabled = false;
         fixture.detectChanges();
@@ -423,9 +415,9 @@ describe('Country Field Component', () => {
         tick();
 
         expect(
-          (<HTMLElement>(
-            nativeElement.querySelector('textarea')
-          )).attributes.getNamedItem('disabled')
+          (
+            nativeElement.querySelector('textarea') as HTMLElement
+          ).attributes.getNamedItem('disabled')
         ).toBeNull();
         expect(component.countryFieldComponent.isInputFocused).toBeTruthy();
 
@@ -438,7 +430,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -473,7 +465,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -500,7 +492,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -898,7 +890,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        let results = searchAndGetResults('us', fixture);
+        const results = searchAndGetResults('us', fixture);
 
         expect(results[0].innerText.trim()).toBe('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti-flag');
@@ -1050,7 +1042,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1085,7 +1077,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly with an initial value', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1107,7 +1099,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly when no initial value', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1125,7 +1117,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the valueChange form control event correctly when initialized to undefined', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1144,7 +1136,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1170,7 +1162,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'formValueChanged'
         ).and.callThrough();
@@ -1518,7 +1510,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1536,7 +1528,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should not include dial code information when the `includePhoneInfo` input is not set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();
@@ -1558,7 +1550,7 @@ describe('Country Field Component', () => {
       }));
 
       it('should include dial code information when the `includePhoneInfo` input is set', fakeAsync(() => {
-        let changeEventSpy = spyOn(
+        const changeEventSpy = spyOn(
           component,
           'countryChanged'
         ).and.callThrough();

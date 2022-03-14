@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+
 import { SkyFuzzyDatepickerInputDirective } from '../datepicker-input-fuzzy.directive';
 
 @Component({
@@ -16,7 +17,7 @@ export class FuzzyDatepickerTestComponent {
 
   public minDate: any;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public selectedDate: any;
 

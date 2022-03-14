@@ -12,27 +12,22 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   SkyAffixAutoFitContext,
-  SkyAffixer,
   SkyAffixService,
+  SkyAffixer,
   SkyCoreAdapterService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
-
 import { SkyInputBoxHostService } from '@skyux/forms';
-
 import { SkyThemeService } from '@skyux/theme';
 
-import { fromEvent, Subject, Subscription } from 'rxjs';
-
+import moment from 'moment';
+import { Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyTimepickerTimeOutput } from './timepicker.interface';
-
-import moment from 'moment';
 
 let nextId = 0;
 
@@ -66,8 +61,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public set selectedHour(setHour: number) {
-    let hour: number;
-    let hourOffset: number = 0;
+    let hourOffset = 0;
     if (this.selectedMeridies === 'AM' && setHour === 12) {
       hourOffset = -12;
     }
@@ -77,7 +71,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     if (this.is8601) {
       hourOffset = 0;
     }
-    hour = moment({ hour: setHour }).add(hourOffset, 'hours').hour();
+    const hour = moment({ hour: setHour }).add(hourOffset, 'hours').hour();
 
     this.activeTime = moment({
       hour: hour,
@@ -158,7 +152,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public hours: Array<number>;
 
-  public is8601: boolean = false;
+  public is8601 = false;
 
   public isOpen: boolean;
 
@@ -172,7 +166,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   public returnFormat: string;
 
-  public timeFormat: string = 'hh';
+  public timeFormat = 'hh';
 
   public timepickerId: string;
 
@@ -285,10 +279,10 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   }
 
   public setFormat(format: string): void {
-    let h: number = 12;
-    let m: number = 12;
-    let minuteMultiplier: number = 5;
-    let localeFormat: string = 'h:mm A';
+    let h = 12;
+    let m = 12;
+    let minuteMultiplier = 5;
+    let localeFormat = 'h:mm A';
     if (format === 'hh') {
       h = 12;
       m = 12;
@@ -303,18 +297,15 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
       localeFormat = 'HH:mm';
       this.is8601 = true;
     }
-    let data: {
-      hours: Array<number>;
-      minutes: Array<number>;
+
+    const data: {
+      hours: number[];
+      minutes: number[];
       localeFormat: string;
       minuteMultiplier: number;
-    };
-
-    data = {
-      hours: Array.apply(undefined, Array(h)).map(function (
-        x: number,
-        i: number
-      ) {
+    } = {
+      // Create a sparse array with a length equal to the hour.
+      hours: Array(...Array(h)).map((_, i) => {
         if (format === 'hh') {
           return ++i;
         }
@@ -326,10 +317,8 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
         /* sanity check */
         return 0;
       }),
-      minutes: Array.apply(undefined, Array(m)).map(function (
-        x: number,
-        i: number
-      ) {
+      // Create a sparse array with a length equal to the minute.
+      minutes: Array(...Array(m)).map(function (_, i) {
         return i * minuteMultiplier;
       }),
       localeFormat: localeFormat,

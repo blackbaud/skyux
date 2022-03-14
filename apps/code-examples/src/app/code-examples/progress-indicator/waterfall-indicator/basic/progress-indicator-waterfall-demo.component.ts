@@ -1,22 +1,18 @@
 import {
-  Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
 } from '@angular/core';
-
-import { SkyModalService, SkyModalCloseArgs } from '@skyux/modals';
-
+import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
   SkyProgressIndicatorChange,
   SkyProgressIndicatorMessageType,
 } from '@skyux/progress-indicator';
 
 import { Subject } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { SkyProgressIndicatorWaterfallDemoContext } from './progress-indicator-waterfall-demo-context';
-
 import { SkyProgressIndicatorWaterfallDemoFormComponent } from './progress-indicator-waterfall-demo-form.component';
 
 @Component({

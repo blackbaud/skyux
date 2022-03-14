@@ -10,18 +10,15 @@ import {
   QueryList,
   Self,
 } from '@angular/core';
-
 import { NgControl } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
-import { SkyRadioChange } from './types/radio-change';
-
 import { SkyRadioComponent } from './radio.component';
+import { SkyRadioChange } from './types/radio-change';
 
 let nextUniqueId = 0;
 
@@ -91,12 +88,12 @@ export class SkyRadioGroupComponent
   /**
    * Indicates whether the input is required for form validation.
    * When you set this property to `true`, the component adds `aria-required` and `required`
-   * attributes to the input element so that forms display an invalid state until the input element
+   * attributes to the input element so that forms display an invalid state until the input element
    * is complete.
    * @default false
    */
   @Input()
-  public required: boolean = false;
+  public required = false;
 
   /**
    * Specifies the value of the radio button to select by default when the group loads.
@@ -141,7 +138,7 @@ export class SkyRadioGroupComponent
 
   private ngUnsubscribe = new Subject();
 
-  private _disabled: boolean = false;
+  private _disabled = false;
 
   private _name = `sky-radio-group-${nextUniqueId++}`;
 
@@ -229,9 +226,9 @@ export class SkyRadioGroupComponent
     this.onTouched = fn;
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: any) => void = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
 
   private updateRadioButtonDisabled(): void {

@@ -1,21 +1,15 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
-
 import { SkyChevronModule, SkyIconModule } from '@skyux/indicators';
-
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyTilesResourcesModule } from '../../shared/sky-tiles-resources.module';
 
-import { SkyTileComponent } from './tile.component';
-
 import { SkyTileSummaryComponent } from './tile-summary.component';
-
 import { SkyTileTitleComponent } from './tile-title.component';
-import { SkyIdModule } from '@skyux/core';
+import { SkyTileComponent } from './tile.component';
 
 @NgModule({
   declarations: [

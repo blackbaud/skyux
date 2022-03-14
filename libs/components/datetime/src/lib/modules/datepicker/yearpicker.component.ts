@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
 import { SkyDatepickerDate } from './datepicker-date';
 
 /**
@@ -52,9 +51,13 @@ export class SkyYearPickerComponent implements OnInit {
   }
 
   private refreshYearView() {
-    let years: Array<SkyDatepickerDate> = new Array(this.datepicker.yearRange);
+    const years: Array<SkyDatepickerDate> = new Array(
+      this.datepicker.yearRange
+    );
     let date: Date;
-    let start = this.getStartingYear(this.datepicker.activeDate.getFullYear());
+    const start = this.getStartingYear(
+      this.datepicker.activeDate.getFullYear()
+    );
 
     for (let i = 0; i < this.datepicker.yearRange; i++) {
       date = new Date(this.datepicker.activeDate);

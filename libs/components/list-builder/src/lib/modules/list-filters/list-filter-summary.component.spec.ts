@@ -1,21 +1,16 @@
-import { ListState } from '../list/state/list-state.state-node';
-
-import { ListStateDispatcher } from '../list/state/list-state.rxstate';
-
-import { ListFilterModel } from './filter.model';
-
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListFilterSummaryTestComponent } from './fixtures/list-filter-summary.component.fixture';
-
 import { SkyListToolbarModule } from '../list-toolbar/list-toolbar.module';
+import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
 
+import { ListFilterModel } from './filter.model';
+import { ListFilterSummaryTestComponent } from './fixtures/list-filter-summary.component.fixture';
 import { SkyListFiltersModule } from './list-filters.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('List filter summary', () => {
   let state: ListState,
@@ -90,7 +85,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
+      const summaryItems = getSummaryItems();
 
       // verify first item with no dismiss
       expect(summaryItems.item(0)).toHaveText('blue');
@@ -142,7 +137,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
+      const summaryItems = getSummaryItems();
 
       expect(summaryItems.length).toBe(2);
 
@@ -161,7 +156,7 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItem = getSummaryItems().item(0) as HTMLElement;
+      const summaryItem = getSummaryItems().item(0) as HTMLElement;
       summaryItem.click();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -176,8 +171,8 @@ describe('List filter summary', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
 
-      let summaryItems = getSummaryItems();
-      let closeButton = summaryItems
+      const summaryItems = getSummaryItems();
+      const closeButton = summaryItems
         .item(1)
         .querySelector('.sky-token-btn-close') as HTMLElement;
       closeButton.click();

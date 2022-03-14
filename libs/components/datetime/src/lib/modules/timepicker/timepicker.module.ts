@@ -1,19 +1,14 @@
-import { NgModule } from '@angular/core';
-
-import { SkyAffixModule, SkyOverlayModule } from '@skyux/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import { SkyAffixModule, SkyOverlayModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
-
 import { SkyIconModule } from '@skyux/indicators';
-
 import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyTimepickerInputDirective } from './timepicker.directive';
+import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
 
 import { SkyTimepickerComponent } from './timepicker.component';
-import { SkyDatetimeResourcesModule } from '../shared/sky-datetime-resources.module';
+import { SkyTimepickerInputDirective } from './timepicker.directive';
 
 @NgModule({
   declarations: [SkyTimepickerInputDirective, SkyTimepickerComponent],

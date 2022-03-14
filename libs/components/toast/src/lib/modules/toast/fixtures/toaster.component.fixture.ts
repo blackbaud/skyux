@@ -1,5 +1,6 @@
 // #region imports
 import { Component } from '@angular/core';
+
 // #endregion
 
 @Component({

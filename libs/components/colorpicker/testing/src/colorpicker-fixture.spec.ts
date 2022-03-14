@@ -1,13 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyColorpickerModule } from '@skyux/colorpicker';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyColorpickerFixture } from './colorpicker-fixture';

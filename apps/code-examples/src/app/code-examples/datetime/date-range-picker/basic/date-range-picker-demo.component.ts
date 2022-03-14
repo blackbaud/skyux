@@ -1,12 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
 } from '@angular/forms';
-
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
@@ -15,7 +13,6 @@ import {
 } from '@skyux/datetime';
 
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({

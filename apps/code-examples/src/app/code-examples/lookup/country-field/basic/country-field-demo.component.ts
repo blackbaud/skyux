@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { SkyCountryFieldCountry } from '@skyux/lookup';
 
 @Component({
@@ -14,8 +12,6 @@ export class CountryFieldDemoComponent implements OnInit {
   public countryData: SkyCountryFieldCountry;
 
   public countryForm: FormGroup;
-
-  constructor() {}
 
   public ngOnInit(): void {
     this.countryControl = new FormControl();

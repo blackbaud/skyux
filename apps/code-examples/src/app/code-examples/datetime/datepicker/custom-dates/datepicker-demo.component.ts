@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
 } from '@skyux/datetime';
+
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 

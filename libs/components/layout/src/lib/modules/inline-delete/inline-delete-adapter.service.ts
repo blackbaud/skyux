@@ -1,5 +1,4 @@
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
-
 import { SkyCoreAdapterService } from '@skyux/core';
 
 /**
@@ -10,7 +9,7 @@ export class SkyInlineDeleteAdapterService {
   private element: HTMLElement;
   private focussableElements: HTMLElement[];
   private parentEl: HTMLElement;
-  private parentElUnlistenFn: Function;
+  private parentElUnlistenFn: () => void;
   private renderer: Renderer2;
 
   constructor(

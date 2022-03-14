@@ -1,14 +1,12 @@
 //#region imports
-
 import { Injectable } from '@angular/core';
-
-import jwtDecode from 'jwt-decode';
-
 import {
   SkyAuthGetTokenArgs,
   SkyAuthToken,
   SkyAuthTokenContextArgs,
 } from '@skyux/http';
+
+import jwtDecode from 'jwt-decode';
 
 /**
  * Provides a mock token to downstream consumers for unit testing purposes.

@@ -1,13 +1,8 @@
-import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
 import { Component } from '@angular/core';
-
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyDatepickerModule } from '@skyux/datetime';
-
 import { SkyPopoverModule } from '@skyux/popovers';
 
 import { SkyDatepickerFixture } from './datepicker-fixture';

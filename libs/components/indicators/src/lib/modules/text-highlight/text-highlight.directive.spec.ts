@@ -1,13 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
 import { MutationObserverService } from '@skyux/core';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
-
 import { SkyTextHighlightModule } from './text-highlight.module';
 
 function getContainerEl(
@@ -57,7 +53,7 @@ describe('Text Highlight', () => {
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback: Function): any {
+            create: function (callback): any {
               callbacks.push(callback);
 
               return {

@@ -1,6 +1,6 @@
 import {
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnDestroy,
@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from './data-manager.service';

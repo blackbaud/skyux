@@ -1,5 +1,4 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-
 import { SkyCheckboxChange } from '@skyux/forms';
 
 import { SkyListViewChecklistComponent } from '../list-view-checklist.component';
@@ -11,7 +10,7 @@ import { SkyListViewChecklistComponent } from '../list-view-checklist.component'
 export class ListViewChecklistToolbarTestComponent {
   public selectedItems: Map<string, boolean>;
 
-  public selectMode: string = 'multiple';
+  public selectMode = 'multiple';
 
   public showOnlySelected = false;
 
@@ -33,7 +32,7 @@ export class ListViewChecklistToolbarTestComponent {
   }
 
   public changeVisibleItems(checked: boolean): void {
-    let checkbox = new SkyCheckboxChange();
+    const checkbox = new SkyCheckboxChange();
     checkbox.checked = checked;
     this.checklist.changeVisibleItems(checkbox);
   }

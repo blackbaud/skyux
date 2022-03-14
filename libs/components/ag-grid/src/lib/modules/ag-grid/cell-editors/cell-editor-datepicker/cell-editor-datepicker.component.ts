@@ -6,15 +6,12 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-
 import { PopupComponent } from 'ag-grid-community';
 
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
-
 import { SkyDatepickerProperties } from '../../types/datepicker-properties';
 
 /**

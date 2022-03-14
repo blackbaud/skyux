@@ -1,15 +1,12 @@
 import { HttpHandler } from '@angular/common/http';
-
+import { TestBed } from '@angular/core/testing';
 import { SkyAppConfig, SkyAppRuntimeConfigParams } from '@skyux/config';
 
-import { TestBed } from '@angular/core/testing';
-
 import { SkyNoAuthInterceptor } from './no-auth-interceptor';
-
 import {
+  Spy,
   createAppConfig,
   createRequest,
-  Spy,
   validateRequest,
 } from './testing/sky-http-interceptor.test-utils';
 

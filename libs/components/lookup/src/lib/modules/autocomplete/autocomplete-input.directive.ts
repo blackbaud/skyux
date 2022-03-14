@@ -1,13 +1,12 @@
 import {
   Directive,
   ElementRef,
-  forwardRef,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -17,8 +16,7 @@ import {
   Validator,
 } from '@angular/forms';
 
-import { fromEvent as observableFromEvent, Observable, Subject } from 'rxjs';
-
+import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputTextChange } from './types/autocomplete-input-text-change';
@@ -144,7 +142,7 @@ export class SkyAutocompleteInputDirective
 
   private control: AbstractControl;
 
-  private isFirstChange: boolean = true;
+  private isFirstChange = true;
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -275,11 +273,12 @@ export class SkyAutocompleteInputDirective
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange(value: any): void {}
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouched(): void {}
-  /* istanbul ignore next */
+  // istanbul ignore next
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
   private setAttributes(element: any): void {

@@ -1,9 +1,9 @@
 // #region imports
 import { Provider } from '@angular/core';
 
+import { SkyToastInstance } from './toast-instance';
 import { SkyToastConfig } from './types/toast-config';
 
-import { SkyToastInstance } from './toast-instance';
 // #endregion
 
 let toastCount = 0;

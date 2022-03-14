@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
-
-import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
-
 import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
+import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 const ALERT_TYPE_DEFAULT = 'warning';
 

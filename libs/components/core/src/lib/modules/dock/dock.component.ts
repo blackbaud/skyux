@@ -11,15 +11,10 @@ import {
 } from '@angular/core';
 
 import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
-
 import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
-
 import { SkyDockItemReference } from './dock-item-reference';
-
 import { SkyDockLocation } from './dock-location';
-
 import { SkyDockOptions } from './dock-options';
-
 import { sortByStackOrder } from './sort-by-stack-order';
 
 /**

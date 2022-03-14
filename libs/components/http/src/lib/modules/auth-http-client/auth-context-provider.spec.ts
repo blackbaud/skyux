@@ -1,7 +1,6 @@
 import { BBAuthClientFactory } from '@skyux/auth-client-factory';
 
 import { SkyAuthContextArgs } from './auth-context-args';
-
 import { SkyAuthContextProvider } from './auth-context-provider';
 
 describe('Auth context provider', () => {

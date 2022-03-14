@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import {
   FormControl,
   FormGroup,
@@ -9,14 +7,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
-
 import {
   SkyPhoneFieldCountry,
   SkyPhoneFieldNumberReturnFormat,
 } from '@skyux/phone-field';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -28,7 +23,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyPhoneFieldFixture } from './phone-field-fixture';
-
 import { SkyPhoneFieldTestingModule } from './phone-field-testing.module';
 
 const COUNTRY_AU: SkyPhoneFieldCountry = {

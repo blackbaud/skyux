@@ -1,20 +1,15 @@
 import { AsyncItem } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
-
 import { take } from 'rxjs/operators';
 
 import { ListStateOrchestrator } from '../list-state.rxstate';
 
-import { ListSelectedModel } from './selected.model';
-
-import { ListSelectedSetLoadingAction } from './set-loading.action';
-
-import { ListSelectedSetItemSelectedAction } from './set-item-selected.action';
-
-import { ListSelectedSetItemsSelectedAction } from './set-items-selected.action';
-
 import { ListSelectedLoadAction } from './load.action';
+import { ListSelectedModel } from './selected.model';
+import { ListSelectedSetItemSelectedAction } from './set-item-selected.action';
+import { ListSelectedSetItemsSelectedAction } from './set-items-selected.action';
+import { ListSelectedSetLoadingAction } from './set-loading.action';
 
 /**
  * @internal
@@ -101,7 +96,7 @@ export class ListSelectedOrchestrator extends ListStateOrchestrator<
   }
 
   private cloneListSelectedModel(source: ListSelectedModel) {
-    let newListItems = new ListSelectedModel();
+    const newListItems = new ListSelectedModel();
     newListItems.selectedIdMap = new Map<string, boolean>(source.selectedIdMap);
 
     return newListItems;

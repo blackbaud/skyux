@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { Column, ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCellClass } from '../../types/cell-class';
-
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
-
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
+import { SkyCellClass } from '../../types/cell-class';
 
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 
@@ -62,7 +59,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      let cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test currency cell' },
         rowIndex: 1,
@@ -104,7 +101,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
   describe('getValue', () => {
     it('returns the value if it is set', () => {
-      let value = 7;
+      const value = 7;
       currencyEditorComponent.value = value;
 
       currencyEditorFixture.detectChanges();
@@ -113,7 +110,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
     });
 
     it('returns the value if it is 0', () => {
-      let value = 0;
+      const value = 0;
       currencyEditorComponent.value = value;
 
       currencyEditorFixture.detectChanges();

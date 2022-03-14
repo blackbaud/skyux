@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { SkyDatepickerComponent } from '../datepicker.component';
-
 import { SkyDatepickerInputDirective } from '../datepicker-input.directive';
+import { SkyDatepickerComponent } from '../datepicker.component';
 
 @Component({
   selector: 'sky-datepicker-reactive-test',
@@ -25,7 +23,7 @@ export class DatepickerReactiveTestComponent implements OnInit {
 
   public minDate: Date;
 
-  public noValidate: boolean = false;
+  public noValidate = false;
 
   public startingDay = 0;
 

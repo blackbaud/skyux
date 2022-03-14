@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
-
 import { SkyAgGridRowDeleteFixtureComponent } from './fixtures/ag-grid-row-delete.component.fixture';
+import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
 
 describe('SkyAgGridRowDeleteDirective', () => {
   let fixture: ComponentFixture<SkyAgGridRowDeleteFixtureComponent>;
@@ -182,9 +181,11 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-standard').length
     ).toBe(1);
 
-    (<HTMLElement>(
-      document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-    )).click();
+    (
+      document.querySelectorAll(
+        '.sky-inline-delete .sky-btn-default'
+      )[0] as HTMLElement
+    ).click();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -216,9 +217,9 @@ describe('SkyAgGridRowDeleteDirective', () => {
       ).length
     ).toBe(0);
 
-    (<HTMLElement>(
-      document.querySelectorAll('.sky-inline-delete-button')[0]
-    )).click();
+    (
+      document.querySelectorAll('.sky-inline-delete-button')[0] as HTMLElement
+    ).click();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -267,9 +268,9 @@ describe('SkyAgGridRowDeleteDirective', () => {
 
     expect(fixture.componentInstance.finishRowDelete).not.toHaveBeenCalled();
 
-    (<HTMLElement>(
-      document.querySelectorAll('.sky-inline-delete-button')[0]
-    )).click();
+    (
+      document.querySelectorAll('.sky-inline-delete-button')[0] as HTMLElement
+    ).click();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
@@ -298,11 +299,11 @@ describe('SkyAgGridRowDeleteDirective', () => {
     ).toBe(2);
     expect(fixture.componentInstance.cancelRowDelete).not.toHaveBeenCalled();
 
-    (<HTMLElement>(
+    (
       document.querySelectorAll(
         '.sky-inline-delete-standard .sky-btn-default'
-      )[0]
-    )).click();
+      )[0] as HTMLElement
+    ).click();
     fixture.detectChanges();
     await fixture.whenStable();
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['1']);
@@ -351,7 +352,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
-      expect((<HTMLElement>columns[i]).offsetWidth).toEqual(columnWidths[i]);
+      expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
     }
   });
 
@@ -376,7 +377,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(fixture.componentInstance.rowDeleteIds).toEqual(['0']);
     columns = Array.from(document.querySelectorAll('.sky-grid-heading'));
     for (let i = 0; i < columns.length; i++) {
-      expect((<HTMLElement>columns[i]).offsetWidth).toEqual(columnWidths[i]);
+      expect((columns[i] as HTMLElement).offsetWidth).toEqual(columnWidths[i]);
     }
   });
 

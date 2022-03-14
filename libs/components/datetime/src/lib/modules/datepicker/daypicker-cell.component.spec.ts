@@ -1,20 +1,15 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyPopoverMessageType } from '@skyux/popovers';
 
 import { SkyDatepickerCalendarInnerComponent } from './datepicker-calendar-inner.component';
-
 import { SkyDatepickerModule } from './datepicker.module';
-
 import { SkyDatepickerService } from './datepicker.service';
-
 import { SkyDayPickerCellComponent } from './daypicker-cell.component';
 
 function getShowTooltipSpy(component: any): jasmine.Spy {

@@ -57,8 +57,15 @@
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js'; // Included with Angular CLI.
+import 'zone.js';
+
+// Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// Fix for crossvent `global is not defined` error. The crossvent library is used by Dragula,
+// which in turn is used by multiple SKY UX components.
+// https://github.com/bevacqua/dragula/issues/602
+(window as any).global = window;

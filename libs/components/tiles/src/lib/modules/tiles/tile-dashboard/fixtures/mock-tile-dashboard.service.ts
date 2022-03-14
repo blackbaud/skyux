@@ -1,10 +1,11 @@
 import { EventEmitter, QueryList } from '@angular/core';
 
+import { SkyTileDashboardColumnComponent } from '../../tile-dashboard-column/tile-dashboard-column.component';
 import { SkyTileDashboardConfig } from '../../tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardConfigTile } from '../../tile-dashboard-config/tile-dashboard-config-tile';
+
 import { Tile1TestComponent } from './tile1.component.fixture';
 import { Tile2TestComponent } from './tile2.component.fixture';
-import { SkyTileDashboardColumnComponent } from '../../tile-dashboard-column/tile-dashboard-column.component';
 
 export class MockTileDashboardService {
   public bagId = 'id-1';

@@ -3,33 +3,28 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
   NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
 
+import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
 import { BehaviorSubject, Subject } from 'rxjs';
-
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
-
-import { SkyPhoneFieldComponent } from './phone-field.component';
-
 import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
-
+import { SkyPhoneFieldComponent } from './phone-field.component';
 import { SkyPhoneFieldCountry } from './types/country';
 
 // tslint:disable:no-forward-ref no-use-before-declare
@@ -89,7 +84,7 @@ export class SkyPhoneFieldInputDirective
    * @default false
    */
   @Input()
-  public skyPhoneFieldNoValidate: boolean = false;
+  public skyPhoneFieldNoValidate = false;
 
   private set modelValue(value: string) {
     this._modelValue = value;
@@ -97,7 +92,7 @@ export class SkyPhoneFieldInputDirective
     this.adapterService.setElementValue(this.elRef, value);
 
     if (value) {
-      let formattedValue = this.formatNumber(value.toString());
+      const formattedValue = this.formatNumber(value.toString());
 
       this.onChange(formattedValue);
     } else {
@@ -352,11 +347,12 @@ export class SkyPhoneFieldInputDirective
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: any) => {};
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private validatorChange = () => {};
 }

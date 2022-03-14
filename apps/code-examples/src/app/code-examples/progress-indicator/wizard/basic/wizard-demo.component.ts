@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { SkyModalService } from '@skyux/modals';
 
 import { WizardDemoModalComponent } from './wizard-demo-modal.component';

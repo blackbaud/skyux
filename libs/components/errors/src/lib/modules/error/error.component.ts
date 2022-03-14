@@ -1,11 +1,8 @@
-import { Component, Input, OnInit, ContentChild } from '@angular/core';
-
+import { Component, ContentChild, Input, OnInit } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { SkyErrorTitleComponent } from './error-title.component';
-
 import { SkyErrorDescriptionComponent } from './error-description.component';
-
+import { SkyErrorTitleComponent } from './error-title.component';
 import { SkyErrorType } from './error-type';
 
 /**
@@ -37,7 +34,7 @@ export class SkyErrorComponent implements OnInit {
    * @default true
    */
   @Input()
-  public showImage: boolean = true;
+  public showImage = true;
 
   public title: string = undefined;
   public description: string = undefined;

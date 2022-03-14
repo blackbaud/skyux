@@ -1,4 +1,5 @@
-import { Component, ViewChild, AfterContentChecked } from '@angular/core';
+import { AfterContentChecked, Component, ViewChild } from '@angular/core';
+
 import { SkySectionedFormComponent } from '../sectioned-form.component';
 
 @Component({
@@ -9,9 +10,9 @@ export class SkySectionedFormFixtureComponent implements AfterContentChecked {
   @ViewChild(SkySectionedFormComponent)
   public sectionedForm: SkySectionedFormComponent;
 
-  public activeTab: boolean = true;
+  public activeTab = true;
   public activeIndexDisplay: number;
-  public maintainSectionContent: boolean = false;
+  public maintainSectionContent = false;
 
   private _activeIndex: number;
 

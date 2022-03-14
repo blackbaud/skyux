@@ -1,15 +1,12 @@
 import { Component, Injectable } from '@angular/core';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
 import {
   ListDataProvider,
   ListDataRequestModel,
   ListDataResponseModel,
 } from '@skyux/list-builder';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
-
 import { map } from 'rxjs/operators';
 
 @Injectable()

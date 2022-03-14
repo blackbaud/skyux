@@ -14,5 +14,5 @@ export class SkyErrorTitleComponent {
    * @default false
    */
   @Input()
-  public replaceDefaultTitle: boolean = false;
+  public replaceDefaultTitle = false;
 }

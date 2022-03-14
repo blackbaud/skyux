@@ -1,19 +1,16 @@
 import {
   ComponentFixture,
+  TestBed,
   fakeAsync,
   inject,
-  TestBed,
   tick,
 } from '@angular/core/testing';
-
-import { expect, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
   SkyAffixAutoFitContext,
   SkyAffixPlacementChange,
   SkyAffixService,
 } from '@skyux/core';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -25,9 +22,7 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { PopoverFixtureComponent } from './fixtures/popover.component.fixture';
-
 import { PopoverFixturesModule } from './fixtures/popover.module.fixture';
-
 import { SkyPopoverMessageType } from './types/popover-message-type';
 
 describe('Popover directive', () => {

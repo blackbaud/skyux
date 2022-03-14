@@ -4,10 +4,7 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-
 import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
-
-import '../../polyfills';
 
 /**
  * @internal

@@ -1,6 +1,8 @@
-import { SkyAppLocaleInfo } from './locale-info';
 import { Injectable } from '@angular/core';
+
 import { Observable, of as observableOf } from 'rxjs';
+
+import { SkyAppLocaleInfo } from './locale-info';
 
 @Injectable({
   providedIn: 'root',

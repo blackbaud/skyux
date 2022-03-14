@@ -4,38 +4,31 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Optional,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  Validator,
   ValidationErrors,
+  Validator,
 } from '@angular/forms';
-
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
-
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkyDateFormatter } from './date-formatter';
-
 import { SkyDatepickerConfigService } from './datepicker-config.service';
-
 import { SkyDatepickerComponent } from './datepicker.component';
-
 import { SkyFuzzyDate } from './fuzzy-date';
-
 import { SkyFuzzyDateService } from './fuzzy-date.service';
 
 // tslint:disable:no-forward-ref no-use-before-declare
@@ -179,7 +172,9 @@ export class SkyFuzzyDatepickerInputDirective
   @Input()
   public set skyFuzzyDatepickerInput(
     value: SkyDatepickerComponent | undefined | ''
-  ) {}
+  ) {
+    // TODO: Remove this property in a future version of SKY UX.
+  }
 
   /**
    * Specifies the starting day of the week in the calendar, where `0` sets the starting day
@@ -218,81 +213,12 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   private set value(value: any) {
-    let fuzzyDate: SkyFuzzyDate;
-    let fuzzyMoment: any;
-    let dateValue: Date;
-    let formattedDate: string;
-
-    if (value instanceof Date) {
-      dateValue = value;
-      formattedDate = this.dateFormatter.format(value, this.dateFormat);
-      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromSelectedDate(
-        value,
-        this.dateFormat
-      );
-    } else if (typeof value === 'string') {
-      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromString(
-        value,
-        this.dateFormat
-      );
-      formattedDate = this.fuzzyDateService.format(
-        fuzzyDate,
-        this.dateFormat,
-        this.locale
-      );
-
-      if (!formattedDate) {
-        formattedDate = value;
-      }
-
-      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
-
-      if (fuzzyMoment) {
-        dateValue = fuzzyMoment.toDate();
-      }
-    } else {
-      fuzzyDate = value as SkyFuzzyDate;
-      formattedDate = this.fuzzyDateService.format(
-        fuzzyDate,
-        this.dateFormat,
-        this.locale
-      );
-      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
-
-      if (fuzzyMoment) {
-        dateValue = fuzzyMoment.toDate();
-      }
-    }
-
-    const areFuzzyDatesEqual = this.fuzzyDatesEqual(this._value, fuzzyDate);
-    const isNewValue = fuzzyDate !== this._value || !areFuzzyDatesEqual;
-
-    this._value = fuzzyDate || value;
-
-    if (isNewValue) {
-      this.onChange(this._value);
-
-      // Do not mark the field as "dirty"
-      // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
-      }
-
-      if (this.isFirstChange && this._value) {
-        this.isFirstChange = false;
-      }
-
-      this.datepickerComponent.selectedDate = dateValue;
-    }
-
-    this.setInputElementValue(formattedDate || '');
+    this.updateValue(value);
   }
 
   private control: AbstractControl;
 
   private dateFormatter = new SkyDateFormatter();
-
-  private isFirstChange = true;
 
   private locale: string;
 
@@ -300,7 +226,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _futureDisabled: boolean = false;
+  private _futureDisabled = false;
 
   private _dateFormat: string;
 
@@ -314,7 +240,7 @@ export class SkyFuzzyDatepickerInputDirective
 
   private _value: any;
 
-  private _yearRequired: boolean = false;
+  private _yearRequired = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -374,7 +300,6 @@ export class SkyFuzzyDatepickerInputDirective
     this.datepickerComponent.dateChange
       .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe))
       .subscribe((value: Date) => {
-        this.isFirstChange = false;
         this.value = value;
         this.onTouched();
       });
@@ -413,7 +338,7 @@ export class SkyFuzzyDatepickerInputDirective
   public onInputBlur(): void {
     this.onTouched();
 
-    let formattedDate = this.fuzzyDateService.format(
+    const formattedDate = this.fuzzyDateService.format(
       this.value,
       this.dateFormat,
       this.locale
@@ -430,7 +355,7 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    this.updateValue(value, false);
   }
 
   public validate(control: AbstractControl): ValidationErrors {
@@ -558,7 +483,6 @@ export class SkyFuzzyDatepickerInputDirective
   }
 
   private onValueChange(newValue: string): void {
-    this.isFirstChange = false;
     this.value = newValue;
   }
 
@@ -603,8 +527,84 @@ export class SkyFuzzyDatepickerInputDirective
     );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onValidatorChange = () => {};
+
+  /**
+   * Update the value of the form control and input element
+   * @param emitEvent Denotes if we emit an event to the consumer's form control. We do not want to do this if the value is being updated via a `setValue` call or a `patchValue` call as this is already handled by Angular.
+   * In these cases we do not want to fire `onChange` as it will cause extra `valueChange` and `statusChange` events and the status of the form should not be affected by these changes.
+   */
+  private updateValue(value: any, emitEvent = true): void {
+    if (this._value === value) {
+      return;
+    }
+
+    let fuzzyDate: SkyFuzzyDate;
+    let fuzzyMoment: any;
+    let dateValue: Date;
+    let formattedDate: string;
+
+    if (value instanceof Date) {
+      dateValue = value;
+      formattedDate = this.dateFormatter.format(value, this.dateFormat);
+      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromSelectedDate(
+        value,
+        this.dateFormat
+      );
+    } else if (typeof value === 'string') {
+      fuzzyDate = this.fuzzyDateService.getFuzzyDateFromString(
+        value,
+        this.dateFormat
+      );
+      formattedDate = this.fuzzyDateService.format(
+        fuzzyDate,
+        this.dateFormat,
+        this.locale
+      );
+
+      if (!formattedDate) {
+        formattedDate = value;
+      }
+
+      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
+
+      if (fuzzyMoment) {
+        dateValue = fuzzyMoment.toDate();
+      }
+    } else {
+      fuzzyDate = value as SkyFuzzyDate;
+      formattedDate = this.fuzzyDateService.format(
+        fuzzyDate,
+        this.dateFormat,
+        this.locale
+      );
+      fuzzyMoment = this.fuzzyDateService.getMomentFromFuzzyDate(fuzzyDate);
+
+      if (fuzzyMoment) {
+        dateValue = fuzzyMoment.toDate();
+      }
+    }
+
+    const areFuzzyDatesEqual = this.fuzzyDatesEqual(this._value, fuzzyDate);
+    const isNewValue = fuzzyDate !== this._value || !areFuzzyDatesEqual;
+
+    this._value = fuzzyDate || value;
+
+    if (isNewValue) {
+      if (emitEvent) {
+        this.onChange(this._value);
+      } else {
+        this.control?.setValue(this._value, { emitEvent: false });
+      }
+
+      this.datepickerComponent.selectedDate = dateValue;
+    }
+
+    this.setInputElementValue(formattedDate || '');
+  }
 }

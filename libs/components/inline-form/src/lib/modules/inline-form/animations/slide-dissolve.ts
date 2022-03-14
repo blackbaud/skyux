@@ -1,6 +1,6 @@
 import {
-  animate,
   AnimationTriggerMetadata,
+  animate,
   group,
   query,
   style,

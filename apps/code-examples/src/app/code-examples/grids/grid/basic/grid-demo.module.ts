@@ -1,7 +1,5 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyGridModule } from '@skyux/grids';
 
 import { GridDemoComponent } from './grid-demo.component';

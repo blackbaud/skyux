@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           cache: npm
           node-version: '14'
@@ -24,3 +24,10 @@ jobs:
           export NX_CLOUD_DISTRIBUTED_EXECUTION=false
           npm run ci:create-packages-dist
           npm run ci:publish-packages-dist
+      - name: Notify Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.vars.outputs.tag }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_ICON: https://github.com/blackbaud.png?size=48
+          SLACK_USERNAME: SKY UX

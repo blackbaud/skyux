@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './summary-action-bar-split-view.component.fixture.html',
 })
 export class SkySummaryActionBarSplitViewTestComponent {
-  public showBar: boolean = true;
+  public showBar = true;
 }

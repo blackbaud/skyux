@@ -1,6 +1,6 @@
-import { SkySelectField } from './select-field';
-
 import { SkySelectFieldPickerContext } from '../select-field-picker-context';
+
+import { SkySelectField } from './select-field';
 
 export interface SkySelectFieldCustomPicker {
   /**

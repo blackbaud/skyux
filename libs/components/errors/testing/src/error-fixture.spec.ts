@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-
 import { TestBed } from '@angular/core/testing';
-
 import { SkyErrorModule } from '@skyux/errors';
 
 import { SkyErrorFixture } from './error-fixture';

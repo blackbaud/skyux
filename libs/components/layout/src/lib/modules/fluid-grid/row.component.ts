@@ -15,5 +15,5 @@ export class SkyRowComponent {
    * @default false
    */
   @Input()
-  public reverseColumnOrder: boolean = false;
+  public reverseColumnOrder = false;
 }

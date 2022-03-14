@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SkyAutocompleteComponent } from '../autocomplete.component';
@@ -25,8 +24,8 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     { name: 'Black' },
   ];
 
-  public enableShowMore: boolean = false;
-  public showAddButton: boolean = false;
+  public enableShowMore = false;
+  public showAddButton = false;
 
   @ViewChild(SkyAutocompleteComponent, {
     read: SkyAutocompleteComponent,

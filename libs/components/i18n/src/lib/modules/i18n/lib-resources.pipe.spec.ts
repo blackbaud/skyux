@@ -1,7 +1,8 @@
 // #region imports
+import { of as observableOf } from 'rxjs';
+
 import { SkyLibResourcesPipe } from './lib-resources.pipe';
 import { SkyLibResourcesService } from './lib-resources.service';
-import { of as observableOf } from 'rxjs';
 
 // #endregion
 

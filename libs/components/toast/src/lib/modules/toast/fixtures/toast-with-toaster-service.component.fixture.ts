@@ -2,8 +2,8 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyToastComponent } from '../toast.component';
-
 import { SkyToasterService } from '../toaster.service';
+
 // #endregion
 
 @Component({

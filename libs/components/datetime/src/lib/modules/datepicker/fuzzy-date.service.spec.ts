@@ -1,16 +1,12 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
+import moment from 'moment';
 import { take } from 'rxjs/operators';
 
-import { SkyFuzzyDateService } from './fuzzy-date.service';
-
 import { SkyFuzzyDate } from './fuzzy-date';
-
-import moment from 'moment';
+import { SkyFuzzyDateService } from './fuzzy-date.service';
 
 describe('SkyFuzzyDateservice', () => {
   let service: SkyFuzzyDateService;

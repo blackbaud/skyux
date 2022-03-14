@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { SkyCheckboxChange } from '@skyux/forms';
+import { ListItemModel } from '@skyux/list-builder-common';
 
 import { Subject } from 'rxjs';
-
 import {
   distinctUntilChanged,
   map as observableMap,
@@ -9,19 +10,11 @@ import {
   takeUntil,
 } from 'rxjs/operators';
 
-import { SkyCheckboxChange } from '@skyux/forms';
-
 import { ListFilterModel } from '../list-filters/filter.model';
-
-import { ListItemModel } from '@skyux/list-builder-common';
-
-import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
-
-import { ListSelectedModel } from '../list/state/selected/selected.model';
-
-import { ListState } from '../list/state/list-state.state-node';
-
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
+import { ListState } from '../list/state/list-state.state-node';
+import { ListPagingSetPageNumberAction } from '../list/state/paging/set-page-number.action';
+import { ListSelectedModel } from '../list/state/selected/selected.model';
 
 let uniqueId = 0;
 
@@ -126,8 +119,6 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
   }
 
   private reapplyFilter(isSelected: boolean): void {
-    let self = this;
-
     this.state
       .pipe(
         observableMap((state) => state.filters),
@@ -135,7 +126,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
       )
       .subscribe((filters: ListFilterModel[]) => {
         filters = filters.filter((filter) => filter.name !== 'show-selected');
-        filters.push(self.getShowSelectedFilter(isSelected));
+        filters.push(this.getShowSelectedFilter(isSelected));
         this.dispatcher.filtersUpdate(filters);
       });
 

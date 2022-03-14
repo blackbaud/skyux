@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';

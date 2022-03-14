@@ -1,52 +1,37 @@
+import { DebugElement } from '@angular/core';
 import {
+  ComponentFixture,
   TestBed,
   async,
   fakeAsync,
   flush,
   tick,
-  ComponentFixture,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyGridColumnModel, SkyGridComponent } from '@skyux/grids';
-
 import {
+  ListItemsLoadAction,
   ListState,
   ListStateDispatcher,
-  ListViewsLoadAction,
   ListViewModel,
-  ListItemsLoadAction,
+  ListViewsLoadAction,
   SkyListComponent,
 } from '@skyux/list-builder';
-
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
-
-import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
-
-import { ListViewGridDynamicTestComponent } from './fixtures/list-view-grid-dynamic.component.fixture';
-
 import { ListViewGridDisplayTestComponent } from './fixtures/list-view-grid-display.component.fixture';
-
+import { ListViewGridDynamicTestComponent } from './fixtures/list-view-grid-dynamic.component.fixture';
 import { ListViewGridEmptyTestComponent } from './fixtures/list-view-grid-empty.component.fixture';
-
+import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
+import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';
-
 import { ListViewDisplayedGridColumnsLoadAction } from './state/displayed-columns/load.action';
-
-import { GridState } from './state/grid-state.state-node';
-
-import { GridStateDispatcher } from './state/grid-state.rxstate';
-
 import { GridStateModel } from './state/grid-state.model';
+import { GridStateDispatcher } from './state/grid-state.rxstate';
+import { GridState } from './state/grid-state.state-node';
 
 describe('List View Grid Component', () => {
   describe('Basic Fixture', () => {
@@ -90,7 +75,7 @@ describe('List View Grid Component', () => {
 
       fixture.detectChanges();
 
-      let items = [
+      const items = [
         new ListItemModel('1', {
           id: '1',
           column1: '1',
@@ -248,11 +233,11 @@ describe('List View Grid Component', () => {
         fixture.whenStable().then(() => {
           fixture.detectChanges();
 
-          let idsChangeSpy = spyOn(
+          const idsChangeSpy = spyOn(
             component.grid.selectedColumnIdsChange,
             'emit'
           ).and.callThrough();
-          let dispatcherSpy = spyOn(
+          const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
             'next'
           ).and.callThrough();
@@ -290,7 +275,7 @@ describe('List View Grid Component', () => {
             }
           );
 
-          let dispatcherSpy = spyOn(
+          const dispatcherSpy = spyOn(
             component.grid.gridDispatcher,
             'next'
           ).and.callThrough();
@@ -323,7 +308,7 @@ describe('List View Grid Component', () => {
       it('should listen for the sortFieldChange event', fakeAsync(() => {
         setupTest();
         tick(110); // wait for async heading
-        let headerEl = nativeElement
+        const headerEl = nativeElement
           .querySelectorAll('th')
           .item(0) as HTMLElement;
         SkyAppTestUtility.fireDomEvent(headerEl, 'mouseup');
@@ -347,7 +332,7 @@ describe('List View Grid Component', () => {
         fixture.detectChanges();
         tick();
 
-        let headerIconEl = nativeElement
+        const headerIconEl = nativeElement
           .querySelectorAll('th i')
           .item(0) as HTMLElement;
         expect(headerIconEl).toHaveCssClass('fa-caret-up');
@@ -399,7 +384,7 @@ describe('List View Grid Component', () => {
         tick();
 
         state.pipe(take(1)).subscribe((current) => {
-          let searchFound = current.search.functions[0](
+          const searchFound = current.search.functions[0](
             { column1: 'foobar' },
             'foobar'
           );
@@ -407,7 +392,7 @@ describe('List View Grid Component', () => {
         });
 
         state.pipe(take(1)).subscribe((current) => {
-          let searchFound = current.search.functions[0](
+          const searchFound = current.search.functions[0](
             { column1: 'foobar' },
             'baz'
           );
@@ -468,10 +453,10 @@ describe('List View Grid Component', () => {
       describe('Models and State', () => {
         it('should run ListViewGridColumnsLoadAction action', async(() => {
           setupTest();
-          let gridDispatcher = new GridStateDispatcher();
-          let gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridDispatcher = new GridStateDispatcher();
+          const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
-          let columns = [
+          const columns = [
             new SkyGridColumnModel(component.viewtemplates.first),
             new SkyGridColumnModel(component.viewtemplates.first),
           ];
@@ -483,10 +468,10 @@ describe('List View Grid Component', () => {
 
         it('should run ListViewDisplayedGridColumnsLoadAction action with no refresh', async(() => {
           setupTest();
-          let gridDispatcher = new GridStateDispatcher();
-          let gridState = new GridState(new GridStateModel(), gridDispatcher);
+          const gridDispatcher = new GridStateDispatcher();
+          const gridState = new GridState(new GridStateModel(), gridDispatcher);
 
-          let columns = [
+          const columns = [
             new SkyGridColumnModel(component.viewtemplates.first),
             new SkyGridColumnModel(component.viewtemplates.first),
           ];
@@ -656,9 +641,11 @@ describe('List View Grid Component', () => {
         expect(
           document.querySelectorAll('.sky-inline-delete-standard').length
         ).toBe(1);
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete .sky-btn-default'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -688,9 +675,11 @@ describe('List View Grid Component', () => {
           ).length
         ).toBe(0);
 
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -736,9 +725,11 @@ describe('List View Grid Component', () => {
         expect(
           fixture.componentInstance.finishRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete-button')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete-button'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -765,9 +756,11 @@ describe('List View Grid Component', () => {
         expect(
           fixture.componentInstance.cancelRowDelete
         ).not.toHaveBeenCalled();
-        (<HTMLElement>(
-          document.querySelectorAll('.sky-inline-delete .sky-btn-default')[0]
-        )).click();
+        (
+          document.querySelectorAll(
+            '.sky-inline-delete .sky-btn-default'
+          )[0] as HTMLElement
+        ).click();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();

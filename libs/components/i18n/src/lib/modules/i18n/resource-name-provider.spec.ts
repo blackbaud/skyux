@@ -1,5 +1,6 @@
-import { SkyAppResourceNameProvider } from './resource-name-provider';
 import { take } from 'rxjs/operators';
+
+import { SkyAppResourceNameProvider } from './resource-name-provider';
 
 describe('Resource name provider', () => {
   it('should return the input resouce name', (done) => {

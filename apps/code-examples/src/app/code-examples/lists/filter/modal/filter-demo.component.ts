@@ -3,11 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { FilterDemoModalContext } from './filter-demo-modal-context';
-
 import { FilterDemoModalComponent } from './filter-demo-modal.component';
 
 @Component({
@@ -109,9 +107,8 @@ export class FilterDemoComponent {
   }
 
   private filterItems(items: any[], filters: any[]): any[] {
-    let i: number,
-      passesFilter: boolean,
-      result: any[] = [];
+    let i: number, passesFilter: boolean;
+    const result: any[] = [];
 
     for (i = 0; i < items.length; i++) {
       passesFilter = this.itemIsShown(filters, items[i]);

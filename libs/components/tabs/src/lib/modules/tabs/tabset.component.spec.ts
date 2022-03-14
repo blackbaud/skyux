@@ -1,19 +1,14 @@
 import { Location } from '@angular/common';
-
+import { DebugElement } from '@angular/core';
 import {
-  async,
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  async,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
-import { DebugElement } from '@angular/core';
-
 import { By } from '@angular/platform-browser';
-
-import { BehaviorSubject } from 'rxjs';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -22,29 +17,19 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
-import { SkyTabsetAdapterService } from './tabset-adapter.service';
-
-import { SkyTabsetComponent } from './tabset.component';
-
-import { SkyTabsetService } from './tabset.service';
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyTabsFixturesModule } from './fixtures/tabs-fixtures.module';
-
-import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
-
-import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
-
 import { TabsetActiveTwoWayBindingTestComponent } from './fixtures/tabset-active-two-way.component.fixture';
-
+import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fixture';
 import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
-
 import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixture';
-
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
-
+import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
+import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
+import { SkyTabsetComponent } from './tabset.component';
+import { SkyTabsetService } from './tabset.service';
 
 // #region helpers
 function getTabs(fixture: ComponentFixture<any>): NodeListOf<HTMLElement> {
@@ -90,7 +75,7 @@ describe('Tabset component', () => {
   ) {
     let selectedCls: string;
     let buttonEls: NodeListOf<Element>;
-    let inDropDownMode = el.querySelector('.sky-tabset-mode-dropdown');
+    const inDropDownMode = el.querySelector('.sky-tabset-mode-dropdown');
 
     if (inDropDownMode) {
       selectedCls = 'sky-tab-dropdown-item-selected';
@@ -100,11 +85,11 @@ describe('Tabset component', () => {
       buttonEls = el.querySelectorAll('.sky-btn-tab');
     }
 
-    let contentEls = el.querySelectorAll('.sky-tab');
+    const contentEls = el.querySelectorAll('.sky-tab');
 
     for (let i = 0, n = buttonEls.length; i < n; i++) {
-      let buttonEl = buttonEls[i];
-      let panelDisplay = getComputedStyle(contentEls[i]).display;
+      const buttonEl = buttonEls[i];
+      const panelDisplay = getComputedStyle(contentEls[i]).display;
       let expectedHasClass: boolean;
       let expectedDisplay: string;
 
@@ -164,7 +149,7 @@ describe('Tabset component', () => {
       }
     }
 
-    let template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
+    const template = `<sky-tabset (newTab)="newTab()" (openTab)="openTab()">
   <sky-tab
     tabHeading="Tab 1"
   >
@@ -172,7 +157,7 @@ describe('Tabset component', () => {
   </sky-tab>
 </sky-tabset>`;
 
-    let fixture = TestBed.overrideComponent(TabsetTestComponent, {
+    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
       set: {
         template: template,
       },
@@ -206,9 +191,9 @@ describe('Tabset component', () => {
 
   describe('tabs with active attribute', () => {
     it('should change the active tab when tab active is set to true', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetTestComponent);
-      let cmp: TabsetTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+      const cmp: TabsetTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -235,8 +220,8 @@ describe('Tabset component', () => {
     }));
 
     it('should change the active tab when the tab is clicked manually', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -252,16 +237,16 @@ describe('Tabset component', () => {
     }));
 
     it('should not change the active tab when a disabled tab is clicked', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.componentInstance.tab2Disabled = true;
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
 
-      let tab = el.querySelectorAll('.sky-btn-tab')[1];
-      let closeBtn = el.querySelector('.sky-btn-tab-close');
+      const tab = el.querySelectorAll('.sky-btn-tab')[1];
+      const closeBtn = el.querySelector('.sky-btn-tab-close');
       expect(closeBtn.getAttribute('disabled')).toBe('');
       expect(closeBtn).toHaveCssClass('sky-btn-tab-close-disabled');
 
@@ -271,9 +256,9 @@ describe('Tabset component', () => {
     }));
 
     it('should initialize the tabs properly when active is set to true', () => {
-      let fixture = TestBed.createComponent(TabsetTestComponent);
-      let cmp: TabsetTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetTestComponent);
+      const cmp: TabsetTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       cmp.activeTab = 1;
 
@@ -284,20 +269,20 @@ describe('Tabset component', () => {
   });
 
   it('should notify the consumer when the add tab button is clicked', () => {
-    let template = `<sky-tabset (newTab)="newTab()"></sky-tabset>`;
+    const template = `<sky-tabset (newTab)="newTab()"></sky-tabset>`;
 
-    let fixture = TestBed.overrideComponent(TabsetTestComponent, {
+    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
       set: {
         template: template,
       },
     }).createComponent(TabsetTestComponent);
 
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
-    let newTabSpy = spyOn(cmp, 'newTab');
+    const newTabSpy = spyOn(cmp, 'newTab');
 
     el.querySelector('.sky-tabset-btn-new').click();
 
@@ -305,20 +290,20 @@ describe('Tabset component', () => {
   });
 
   it('should notify the consumer when the new tab button is clicked', () => {
-    let template = `<sky-tabset (openTab)="openTab()"></sky-tabset>`;
+    const template = `<sky-tabset (openTab)="openTab()"></sky-tabset>`;
 
-    let fixture = TestBed.overrideComponent(TabsetTestComponent, {
+    const fixture = TestBed.overrideComponent(TabsetTestComponent, {
       set: {
         template: template,
       },
     }).createComponent(TabsetTestComponent);
 
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
-    let openTabSpy = spyOn(cmp, 'openTab');
+    const openTabSpy = spyOn(cmp, 'openTab');
 
     el.querySelector('.sky-tabset-btn-open').click();
 
@@ -326,16 +311,16 @@ describe('Tabset component', () => {
   });
 
   it("should notify the consumer when a tab's close button is clicked", fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
     tick();
 
-    let closeTabSpy = spyOn(cmp, 'closeTab2');
+    const closeTabSpy = spyOn(cmp, 'closeTab2');
 
     el.querySelector('.sky-btn-tab-close').click();
 
@@ -452,9 +437,9 @@ describe('Tabset component', () => {
   }));
 
   it('should select the next tab when the active tab is closed', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
 
@@ -472,9 +457,9 @@ describe('Tabset component', () => {
   }));
 
   it('should select the previous tab when the last tab is closed and the last tab was active', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
     fixture.detectChanges();
     tick();
 
@@ -494,8 +479,8 @@ describe('Tabset component', () => {
   // This test was added due to a real life error when `skyAuthIf` was causing things to load
   // after initialization of the tabset but before the `ngAfterViewInit`'s `setTimeout`.
   it('should handle a quick addition of a tab on initialization', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
     cmp.tab3Available = false;
     fixture.detectChanges();
 
@@ -512,9 +497,9 @@ describe('Tabset component', () => {
   }));
 
   it('should maintain the currently active tab when a non-active tab is closed', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
     cmp.tab3Content = 'tab 3 content';
     fixture.detectChanges();
     tick();
@@ -536,16 +521,16 @@ describe('Tabset component', () => {
   }));
 
   it('should display count in tab when tabHeaderCount is defined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
-    let count = 99;
+    const count = 99;
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    let tabEl = el
+    const tabEl = el
       .querySelectorAll('.sky-btn-tab')[2]
       .querySelector('.sky-tab-header-count');
 
@@ -553,16 +538,16 @@ describe('Tabset component', () => {
   }));
 
   it('tabHeaderCount span element should not exist when tabHeaderCount is undefined', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
-    let count: number = undefined;
+    const count: number = undefined;
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    let tabEl = el
+    const tabEl = el
       .querySelectorAll('.sky-btn-tab')[2]
       .querySelector('.sky-tab-header-count');
 
@@ -570,16 +555,16 @@ describe('Tabset component', () => {
   }));
 
   it('should display zero in tab when tabHeaderCount is set to zero', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let cmp: TabsetTestComponent = fixture.componentInstance;
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const cmp: TabsetTestComponent = fixture.componentInstance;
+    const el = fixture.nativeElement;
 
-    let count = 0;
+    const count = 0;
     cmp.tab3HeaderCount = count;
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    let tabEl = el
+    const tabEl = el
       .querySelectorAll('.sky-btn-tab')[2]
       .querySelector('.sky-tab-header-count');
 
@@ -587,8 +572,8 @@ describe('Tabset component', () => {
   }));
 
   it('should add no buttons if add and open are not defined', () => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
-    let el = fixture.nativeElement;
+    const fixture = TestBed.createComponent(TabsetTestComponent);
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
 
@@ -597,7 +582,7 @@ describe('Tabset component', () => {
   });
 
   it('should collapse into a dropdown when the width of the tabs is greater than its container', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
+    const fixture = TestBed.createComponent(TabsetTestComponent);
 
     function fireResizeEvent() {
       SkyAppTestUtility.fireDomEvent(window, 'resize');
@@ -606,7 +591,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
     }
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
     tick();
@@ -631,17 +616,17 @@ describe('Tabset component', () => {
   }));
 
   it('should collapse into a dropdown  on initialization', fakeAsync(() => {
-    let fixture = TestBed.createComponent(TabsetTestComponent);
+    const fixture = TestBed.createComponent(TabsetTestComponent);
     fixture.componentInstance.tabMaxWidth = 20;
 
-    let el = fixture.nativeElement;
+    const el = fixture.nativeElement;
 
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
     tick();
 
-    let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
+    const tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
     expect(tabEl).not.toBeNull();
   }));
@@ -677,8 +662,8 @@ describe('Tabset component', () => {
     });
 
     it('should display the selected tab in the collapsed tab dropdown button', fakeAsync(() => {
-      let el = fixture.nativeElement;
-      let cmp: TabsetTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
+      const cmp: TabsetTestComponent = fixture.componentInstance;
 
       fixture.detectChanges();
       tick();
@@ -704,7 +689,7 @@ describe('Tabset component', () => {
     }));
 
     it('should allow another tab to be selected from the dropdown', fakeAsync(() => {
-      let el = fixture.nativeElement;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -714,13 +699,13 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
+      const tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
       tabEl.click();
       fixture.detectChanges();
       tick();
 
-      let dropdownTabButtons = document.querySelectorAll(
+      const dropdownTabButtons = document.querySelectorAll(
         '.sky-tab-dropdown-item .sky-btn-tab'
       );
       expect(dropdownTabButtons[1]).toHaveText('Tab 2');
@@ -733,7 +718,7 @@ describe('Tabset component', () => {
     }));
 
     it('should allow another not allow tab to be selected from the dropdown when disabled', fakeAsync(() => {
-      let el = fixture.nativeElement;
+      const el = fixture.nativeElement;
 
       fixture.componentInstance.tab2Disabled = true;
 
@@ -745,13 +730,13 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
+      const tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
       tabEl.click();
       fixture.detectChanges();
       tick();
 
-      let dropdownTabButtons = document.querySelectorAll(
+      const dropdownTabButtons = document.querySelectorAll(
         '.sky-tab-dropdown-item .sky-btn-tab'
       );
 
@@ -777,7 +762,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let el = fixture.nativeElement;
+      const el = fixture.nativeElement;
 
       const closeSpy = spyOn(
         fixture.componentInstance,
@@ -792,7 +777,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let tabEl = el.querySelector('.sky-dropdown-button-type-tab');
+      const tabEl = el.querySelector('.sky-dropdown-button-type-tab');
 
       tabEl.click();
 
@@ -820,7 +805,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
 
-      let el = fixture.nativeElement;
+      const el = fixture.nativeElement;
 
       const closeSpy = spyOn(
         fixture.componentInstance,
@@ -833,7 +818,7 @@ describe('Tabset component', () => {
       fixture.detectChanges();
       tick();
 
-      let tabEl: HTMLElement = document.querySelector('.sky-dropdown-button');
+      const tabEl: HTMLElement = document.querySelector('.sky-dropdown-button');
       tabEl.click();
       fixture.detectChanges();
       tick();
@@ -866,8 +851,8 @@ describe('Tabset component', () => {
 
   describe('active state on tabset', () => {
     it('should initialize active state based on active', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const el = fixture.nativeElement;
 
       // Set to something other than first tab.
       fixture.componentInstance.activeIndex = 1;
@@ -880,8 +865,8 @@ describe('Tabset component', () => {
     }));
 
     it('should activate the first tab if active is set to invalid index', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.componentInstance.activeIndex = 'invalid';
       fixture.detectChanges();
@@ -893,8 +878,8 @@ describe('Tabset component', () => {
     }));
 
     it('should initialize active state based on string tabIndex values', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const el = fixture.nativeElement;
 
       fixture.componentInstance.activeIndex = 'something';
 
@@ -907,9 +892,9 @@ describe('Tabset component', () => {
     }));
 
     it('should listen for changes in active state', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let cmp: TabsetActiveTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -931,9 +916,9 @@ describe('Tabset component', () => {
     }));
 
     it('should emit an event on tab change', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let cmp: TabsetActiveTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
 
       fixture.detectChanges();
       tick();
@@ -960,9 +945,9 @@ describe('Tabset component', () => {
     }));
 
     it('handles removing and then changing tabs', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let cmp: TabsetActiveTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
       cmp.tab1Content = 'tab 1 content';
       cmp.tab3Content = 'tab 3 content';
 
@@ -1062,9 +1047,9 @@ describe('Tabset component', () => {
     }));
 
     it('handles initialized tabs', fakeAsync(() => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
-      let cmp: TabsetActiveTestComponent = fixture.componentInstance;
-      let el = fixture.nativeElement;
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const cmp: TabsetActiveTestComponent = fixture.componentInstance;
+      const el = fixture.nativeElement;
       cmp.activeIndex = 1;
       fixture.detectChanges();
       tick();
@@ -1151,7 +1136,7 @@ describe('Tabset component', () => {
     }));
 
     it('should be accessible', async(async () => {
-      let fixture = TestBed.createComponent(TabsetActiveTestComponent);
+      const fixture = TestBed.createComponent(TabsetActiveTestComponent);
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -1274,7 +1259,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
 
-      let butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+      const butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
         .nativeElement;
       expect(butEl.getAttribute('tabindex')).toBe('0');
       expect(butEl.getAttribute('aria-disabled')).toBe('false');
@@ -1288,7 +1273,7 @@ describe('Tabset component', () => {
       tick();
       fixture.detectChanges();
 
-      let butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+      const butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
         .nativeElement;
       expect(butEl.getAttribute('tabindex')).toBe('-1');
       expect(butEl.getAttribute('aria-disabled')).toBe('true');

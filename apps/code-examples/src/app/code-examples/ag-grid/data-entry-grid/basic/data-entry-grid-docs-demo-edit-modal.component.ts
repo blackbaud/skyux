@@ -23,9 +23,9 @@ import {
 } from 'ag-grid-community';
 
 import {
-  SkyAgGridDemoRow,
   SKY_DEPARTMENTS,
   SKY_JOB_TITLES,
+  SkyAgGridDemoRow,
 } from './data-entry-grid-docs-demo-data';
 import { SkyDataEntryGridEditModalContext } from './data-entry-grid-docs-demo-edit-modal-context';
 

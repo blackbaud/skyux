@@ -2,14 +2,13 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
-  forwardRef,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
+  forwardRef,
 } from '@angular/core';
-
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -20,13 +19,10 @@ import {
 } from '@angular/forms';
 
 import AutoNumeric from 'autonumeric';
-
-import { fromEvent, Subject } from 'rxjs';
-
+import { Subject, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutonumericOptions } from './autonumeric-options';
-
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
 
 // tslint:disable:no-forward-ref no-use-before-declare
@@ -141,7 +137,7 @@ export class SkyAutonumericDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    const noErrors: null = null; // tslint:disable-line: no-null-keyword
+    const noErrors = null; // tslint:disable-line: no-null-keyword
 
     if (!this.control) {
       this.control = control;
@@ -176,7 +172,7 @@ export class SkyAutonumericDirective
   private getNumericValue(): number | undefined {
     const inputValue = this.getInputValue();
     return inputValue && !this.isInputValueTheCurrencySymbol(inputValue)
-      ? <number>this.autonumericInstance.getNumber()
+      ? this.autonumericInstance.getNumber()
       : undefined;
   }
 
@@ -220,8 +216,8 @@ export class SkyAutonumericDirective
     return Object.assign({}, globalOptions, newOptions);
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange = (_: number | undefined) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
 }

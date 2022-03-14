@@ -1,25 +1,19 @@
 import { DebugElement } from '@angular/core';
-
 import {
-  TestBed,
   ComponentFixture,
+  TestBed,
+  async,
   fakeAsync,
   tick,
-  async,
 } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
-
-import { expect, expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
-
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
 } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -30,13 +24,10 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { ActionButtonTestComponent } from './fixtures/action-button.component.fixture';
-
-import { SkyActionButtonFixturesModule } from './fixtures/action-button.module.fixture';
-
-import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
-
 import { SkyActionButtonComponent } from './action-button.component';
+import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
+import { ActionButtonTestComponent } from './fixtures/action-button.component.fixture';
+import { SkyActionButtonFixturesModule } from './fixtures/action-button.module.fixture';
 
 //#region helpers
 function getFlexParent(fixture: ComponentFixture<any>): HTMLElement {
@@ -108,7 +99,7 @@ describe('Action button component', () => {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
-    let actionButton = el.querySelectorAll('.sky-action-button').item(1);
+    const actionButton = el.querySelectorAll('.sky-action-button').item(1);
     expect(actionButton.tagName === 'a');
     expect(actionButton.getAttribute('href')).toBe(
       'https://developer.blackbaud.com/skyux/components'
@@ -116,22 +107,22 @@ describe('Action button component', () => {
   }));
 
   it('should see if there is a permalink route included as an input to the element', () => {
-    let actionButton = el.querySelectorAll('.sky-action-button').item(2);
+    const actionButton = el.querySelectorAll('.sky-action-button').item(2);
     expect(actionButton.tagName === 'a');
     expect(actionButton.getAttribute('href')).toBe('/?page=1#fragment');
   });
 
   it('should use a div element when permalink is not provided', () => {
-    let actionButton = '.sky-action-button';
+    const actionButton = '.sky-action-button';
     expect(el.querySelectorAll(actionButton).item(0).tagName === 'div');
   });
 
   it('should transclude icon, header, and detail sections', () => {
-    let iconContainer =
+    const iconContainer =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container';
-    let headerContainer =
+    const headerContainer =
       '.sky-action-button-icon-header-container .sky-action-button-header';
-    let detailsContainer = '.sky-action-button sky-action-button-details';
+    const detailsContainer = '.sky-action-button sky-action-button-details';
 
     expect(el.querySelector(iconContainer)).not.toBeNull();
 
@@ -172,15 +163,15 @@ describe('Action button component', () => {
   });
 
   it('should display an icon based on iconType', () => {
-    let iconSelector =
+    const iconSelector =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-filter';
     expect(debugElement.query(By.css(iconSelector))).not.toBeNull();
   });
 
   it('should change icon size based on media breakpoints query', () => {
-    let smallIconSelector =
+    const smallIconSelector =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-2x';
-    let largeIconSelector =
+    const largeIconSelector =
       '.sky-action-button-icon-header-container .sky-action-button-icon-container i.fa-3x';
     mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.detectChanges();

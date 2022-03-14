@@ -1,23 +1,20 @@
-import {
-  fakeAsync,
-  TestBed,
-  tick,
-  ComponentFixture,
-} from '@angular/core/testing';
-
 import { Component, NgModule } from '@angular/core';
-
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { SkyThemeService } from '@skyux/theme';
-
-import { SkyModalFixture } from './modal-fixture';
 import {
   SkyModalInstance,
   SkyModalModule,
   SkyModalService,
 } from '@skyux/modals';
+import { SkyThemeService } from '@skyux/theme';
+
 import { ModalMockThemeService } from './mock-theme.service';
+import { SkyModalFixture } from './modal-fixture';
 
 //#region Test component
 @Component({

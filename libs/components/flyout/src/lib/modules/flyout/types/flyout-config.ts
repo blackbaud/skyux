@@ -1,5 +1,4 @@
 import { SkyFlyoutAction } from './flyout-action';
-
 import { SkyFlyoutPermalink } from './flyout-permalink';
 
 /**

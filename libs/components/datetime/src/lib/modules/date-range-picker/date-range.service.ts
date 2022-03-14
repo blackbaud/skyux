@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
-import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
-
-import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
-
 import { SkyDateRangeCalculator } from './types/date-range-calculator';
-
+import { SkyDateRangeCalculatorConfig } from './types/date-range-calculator-config';
+import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SKY_DEFAULT_CALCULATOR_CONFIGS } from './types/date-range-default-calculator-configs';
 
 /**

@@ -1,5 +1,4 @@
 import { Component, OnInit, Optional } from '@angular/core';
-
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { BehaviorSubject, Observable, zip as observableZip } from 'rxjs';
@@ -7,14 +6,10 @@ import { BehaviorSubject, Observable, zip as observableZip } from 'rxjs';
 import { SkyModalInstance } from '../modal/modal-instance';
 
 import { SkyConfirmButton } from './confirm-button';
-
 import { SkyConfirmButtonConfig } from './confirm-button-config';
-
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
-
-import { SkyConfirmType } from './confirm-type';
-
 import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SkyConfirmType } from './confirm-type';
 
 @Component({
   selector: 'sky-confirm',

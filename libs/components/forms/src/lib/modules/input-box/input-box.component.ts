@@ -8,7 +8,6 @@ import {
   TemplateRef,
   ViewEncapsulation,
 } from '@angular/core';
-
 import {
   AbstractControlDirective,
   FormControlDirective,
@@ -17,9 +16,7 @@ import {
 } from '@angular/forms';
 
 import { SkyInputBoxAdapterService } from './input-box-adapter.service';
-
 import { SkyInputBoxHostService } from './input-box-host.service';
-
 import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
 
 /**

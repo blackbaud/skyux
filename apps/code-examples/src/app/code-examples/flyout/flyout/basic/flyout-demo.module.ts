@@ -1,12 +1,9 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { SkyFlyoutModule } from '@skyux/flyout';
 
-import { FlyoutDemoComponent } from './flyout-demo.component';
-
 import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
+import { FlyoutDemoComponent } from './flyout-demo.component';
 
 @NgModule({
   imports: [CommonModule, SkyFlyoutModule],

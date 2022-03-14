@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-
 import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
 
 @Component({

@@ -4,28 +4,24 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
+  Optional,
   Output,
   QueryList,
   ViewChild,
   ViewChildren,
-  Optional,
 } from '@angular/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable, Subject } from 'rxjs';
-
 import { take, takeUntil } from 'rxjs/operators';
-
-import { SkyMediaQueryService, SkyMediaBreakpoints } from '@skyux/core';
-
-import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
-import { SkyTileDashboardService } from './tile-dashboard.service';
 
 import { SkyTileDashboardMessage } from './tile-dashboard-message';
-
 import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
+import { SkyTileDashboardService } from './tile-dashboard.service';
 
 /**
  * Specifies a container to group multiple tiles.

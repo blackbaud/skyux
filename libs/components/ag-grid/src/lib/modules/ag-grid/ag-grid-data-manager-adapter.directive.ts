@@ -7,13 +7,14 @@ import {
   OnDestroy,
   QueryList,
 } from '@angular/core';
-
-import { Subject, Subscription } from 'rxjs';
-
-import { takeUntil, filter } from 'rxjs/operators';
+import {
+  SkyDataManagerService,
+  SkyDataManagerSortOption,
+  SkyDataManagerState,
+  SkyDataViewConfig,
+} from '@skyux/data-manager';
 
 import { AgGridAngular } from 'ag-grid-angular';
-
 import {
   ColumnApi,
   ColumnMovedEvent,
@@ -22,13 +23,8 @@ import {
   DragStoppedEvent,
   RowSelectedEvent,
 } from 'ag-grid-community';
-
-import {
-  SkyDataManagerService,
-  SkyDataManagerSortOption,
-  SkyDataManagerState,
-  SkyDataViewConfig,
-} from '@skyux/data-manager';
+import { Subject, Subscription } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 
@@ -206,7 +202,7 @@ export class SkyAgGridDataManagerAdapterDirective
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((event: RowSelectedEvent) => {
         const row = event.node;
-        let selectedIds = this.currentDataState.selectedIds || [];
+        const selectedIds = this.currentDataState.selectedIds || [];
         const rowIndex = selectedIds.indexOf(row.data.id);
 
         if (row.isSelected() && rowIndex === -1) {
