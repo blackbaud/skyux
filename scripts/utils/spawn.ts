@@ -39,12 +39,12 @@ export async function runCommand(
 
     let output = '';
     if (child.stdout) {
-      child.stdout.on('data', (x) => (output += x.toString().trim()));
+      child.stdout.on('data', (x) => (output += x.toString()));
     }
 
     let error = '';
     if (child.stderr) {
-      child.stderr.on('data', (x) => (error += x.toString().trim()));
+      child.stderr.on('data', (x) => (error += x.toString()));
     }
 
     child.on('error', (error) => {
@@ -55,7 +55,7 @@ export async function runCommand(
     child.on('exit', (code) => {
       if (code === 0) {
         if (output) {
-          resolve(output);
+          resolve(output.trim());
         } else {
           resolve();
         }
