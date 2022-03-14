@@ -16,6 +16,7 @@
     "ci:create-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/create-packages-dist.ts",
     "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
     "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",
+    "dev:cherry-pick": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-cherry-pick.ts",
     "dev:commit": "npx cz",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
     "dev:format": "npx prettier --write .",
