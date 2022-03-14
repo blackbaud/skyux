@@ -11,7 +11,13 @@ module.exports = function (config) {
     },
     reporters: ['dots'],
     autoWatch: false,
-    browsers: ['ChromeHeadless'], // Fallback browser in case env variables not set.
+    browsers: ['ChromeHeadless_flags'], // Fallback browser in case env variables not set.
+    customLaunchers: {
+      ChromeHeadless_flags: {
+        base: 'ChromeHeadless',
+        flags: ['--disable-extensions', '--disable-gpu', '--no-sandbox'],
+      },
+    },
     singleRun: true,
     restartOnFileChange: false,
   });
