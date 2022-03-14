@@ -22,7 +22,7 @@ export class SkyModalInstance {
 
   /**
    * An event that the modal instance emits when it closes.
-   * It emits a `SkyCloseModalArgs` object with a `data` property that includes
+   * It emits a `SkyModalCloseArgs` object with a `data` property that includes
    * data passed from users on close or save and a `reason` property that indicates
    * whether the modal was saved or closed without saving.
    * The `reason` property accepts any string value.
