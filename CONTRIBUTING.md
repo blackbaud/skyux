@@ -5,19 +5,19 @@ We encourage contributions from all SKY UX users. To contribute, follow this ste
 - [Contribution process](#contribution-process)
 - [Coding rules](#coding-rules)
 - [Commit message guidelines](#commit-message-guidelines)
-- [Local development cheat sheet](#local-development)
+- [Local development cheat sheet](#local-development-cheat-sheet)
 
-## <a name="contribution-process"></a> Contribution process
+## Contribution process
 
 ### File an issue
 
-Before you start any work, file an issue. If an issue already exists, comment on it and mention the `@blackbaud/skyux-maintainers` team so that we know you intend to work on it. The sooner we discuss potential code changes, the better.
+Before you start any work, file an issue. If an issue already exists, comment on it so that we know you intend to work on it. The sooner we discuss potential code changes, the better.
 
 Keep in mind that the Blackbaud design council must approve changes that impact the UI, such as new components or changes to existing components. Contributions that do not have design approval must include detailed design specifications. The design approval process can take significant time if components are complex or designs require significant changes, so account for that in your development timeline. If you need help with the design approval process, ask the SKY UX team.
 
 ### Discuss the contribution with the SKY UX team
 
-After you file an issue, discuss the architecture and implementation details, requirements, and timelines with the `@blackbaud/skyux-maintainers`. We will assign a developer to your issue to help answer questions.
+After you file an issue, discuss the architecture and implementation details, requirements, and timelines with a SKY UX engineer. We will assign a developer to your issue to help answer questions.
 
 ### Developer setup
 
@@ -27,7 +27,7 @@ After you file an issue, discuss the architecture and implementation details, re
 
 ### Request a preliminary review
 
-Create a pull request with the initial implementation, functionality, and styling, and mention the `@blackbaud/skyux-maintainers` to request a review. Make changes and request additional reviews as necessary. For [large changes that effect more than 50 files](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines#pull-requests), submit changes in multiple small pull requests instead of one large pull request.
+Create a pull request with the initial implementation, functionality, and styling for an initial review. Make changes and request additional reviews as necessary. For [large changes that effect more than 50 files](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines#pull-requests), submit changes in multiple small pull requests instead of one large pull request.
 
 Wait until after the initial review to add tests and documentation because implementation details may change.
 
@@ -38,7 +38,7 @@ Write tests for your feature. All code requires 100 percent [unit test](https://
 ### Request a final review
 
 1. Before requesting a final review, [squash all commits on your feature branch into one](#squashing-all-commits-into-one). This will consolidate all your work and include a well-formed commit message to be used in the changelog.
-1. Mention the `@blackbaud/skyux-maintainers` team to review the complete contribution. We review the implementation, testing, functionality, styling, localization, and accessibility.
+1. Reach out to a SKY UX engineer to review the complete contribution. We review the implementation, testing, functionality, styling, localization, and accessibility.
 
 #### Address review feedback
 
@@ -72,7 +72,7 @@ Run the following command to squash all commits in your feature branch with a ne
 npm run dev:pristine
 ```
 
-## <a name="coding-rules"></a> Coding rules
+## Coding rules
 
 1. All features and bug fixes must include at least one test spec and must not lower the overall code coverage percentage.
 1. Provide JSDocs comments for all public API component inputs and outputs and all public service methods.
@@ -82,7 +82,7 @@ npm run dev:pristine
 npm run dev:format
 ```
 
-## <a name="commit-message-guidelines"></a> Commit message guidelines
+## Commit message guidelines
 
 - We strictly follow [Angular's commit message format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format).
 - See the [full list of supported **scopes**](https://github.com/blackbaud/skyux/blob/main/.github/workflows/validate-pr.yml).
@@ -92,7 +92,7 @@ npm run dev:format
 npm run dev:commit
 ```
 
-## <a name="local-development"></a> Local development cheat sheet
+## Local development cheat sheet
 
 #### Run tests for a specific project
 
