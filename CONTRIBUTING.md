@@ -60,7 +60,7 @@ git commit --amend
 git push --force-with-lease
 ```
 
-_Note: If you need to ammend an earlier commit, you'll need to [squash all commits into one](#squashing-all-commits-into-one)._
+_Note: To amend a previous commit, you need to [squash all commits into one](#squashing-all-commits-into-one)._
 
 #### Squash all commits into one
 
