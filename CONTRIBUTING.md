@@ -1,6 +1,6 @@
 # Contributing to SKY UX
 
-We encourage contributions from all SKY UX users. To contribute, follow this step-by-step guide. For more additional guidance, see the [SKY UX Contribution Guidelines](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines).
+We encourage contributions from all SKY UX users. To contribute, follow this step-by-step guide. For additional guidance, see the [SKY UX Contribution Guidelines](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines).
 
 - [Contribution process](#contribution-process)
 - [Coding rules](#coding-rules)
@@ -38,7 +38,7 @@ Write tests for your feature. All code requires 100 percent [unit test](https://
 
 ### Request a final review
 
-1. Before requesting a final review, [squash all commits on your feature branch into one](#squashing-all-commits-into-one). This will consolidate all your work and include a well-formed commit message to be used in the changelog.
+1. Before requesting a final review, [squash all commits on your feature branch into one](#squash-all-commits-into-one). This will consolidate all your work and include a well-formed commit message to be used in the changelog.
 1. Reach out to a SKY UX engineer to review the complete contribution. We review the implementation, testing, functionality, styling, localization, and accessibility.
 
 #### Address review feedback
@@ -61,7 +61,7 @@ git commit --amend
 git push --force-with-lease
 ```
 
-_Note: To amend a previous commit, you need to [squash all commits into one](#squashing-all-commits-into-one)._
+_Note: To amend a previous commit, you need to [squash all commits into one](#squash-all-commits-into-one)._
 
 #### Squash all commits into one
 
