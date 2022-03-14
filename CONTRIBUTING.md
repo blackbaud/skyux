@@ -1,13 +1,13 @@
 # Contributing to SKY UX
 
-We encourage contributions from all SKY UX users. To contribute, follow this step-by-step guide. For more information about our contribution guidelines, see [SKY UX Contribution Guidelines](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines).
+We encourage contributions from all SKY UX users. To contribute, follow this step-by-step guide. For more additional guidance, see the [SKY UX Contribution Guidelines](https://developer.blackbaud.com/skyux/contribute/contribution-process/guidelines).
 
-- [Contribution Process](#contribution-process)
-- [Coding Rules](#coding-rules)
-- [Commit Message Guidelines](#commit-message-guidelines)
-- [Local Development Cheatsheet](#local-development)
+- [Contribution process](#contribution-process)
+- [Coding rules](#coding-rules)
+- [Commit message guidelines](#commit-message-guidelines)
+- [Local development cheat sheet](#local-development)
 
-## <a name="contribution-process"></a> Contribution Process
+## <a name="contribution-process"></a> Contribution process
 
 ### File an issue
 
@@ -22,8 +22,8 @@ After you file an issue, discuss the architecture and implementation details, re
 ### Developer setup
 
 1. Fork the repo into your own GitHub repo.
-1. Create a branch off of `main`. Name it after the feature to contribute, and use kebab-case (e.g. `my-new-feature`).
-1. Clone your repo locally and run `nvm use` to ensure you have the preferred version of Node.js installed. Then run `npm install` to install all required dependencies. For more information on prerequisites, see [SKY UX prerequisites](https://developer.blackbaud.com/skyux/learn/get-started/prereqs).
+1. Create a branch off of `main`. Name it after the feature to contribute, and use kebab-case (`my-new-feature`).
+1. Clone your repo locally and run `nvm use` to ensure you have the preferred version of Node.js installed. Then run `npm install` to install all required dependencies. For more information on prerequisites, see [SKY UX prerequisites](https://developer.blackbaud.com/skyux/learn/get-started).
 
 ### Request a preliminary review
 
@@ -38,9 +38,9 @@ Write tests for your feature. All code requires 100 percent [unit test](https://
 ### Request a final review
 
 1. Before requesting a final review, [squash all commits on your feature branch into one](#squashing-all-commits-into-one). This will consolidate all your work and include a well-formed commit message to be used in the changelog.
-1. After pushing the squashed commits, mention the `@blackbaud/skyux-maintainers` to review the complete contribution. We review the implementation, testing, functionality, styling, localization, and accessibility.
+1. Mention the `@blackbaud/skyux-maintainers` team to review the complete contribution. We review the implementation, testing, functionality, styling, localization, and accessibility.
 
-#### Addressing review feedback
+#### Address review feedback
 
 1. Make required changes to the source code.
 1. Rerun all test suites.
@@ -51,9 +51,9 @@ git commit --all --fixup HEAD
 git push
 ```
 
-#### Updating the commit message
+#### Update the commit message
 
-Sometimes, the reviewer will ask that you reword your commit message. You can do so using the `--amend` flag:
+If the reviewer asks you to reword your commit message, use the `--amend` flag:
 
 ```
 git commit --amend
@@ -62,37 +62,37 @@ git push --force-with-lease
 
 _Note: If you need to ammend an earlier commit, you'll need to [squash all commits into one](#squashing-all-commits-into-one)._
 
-#### Squashing all commits into one
+#### Squash all commits into one
 
-If your pull request branch has several non-fixup commits, you'll need to squash all of the commits into one commit with a message that meets the [`conventional-changelog` specification](https://github.com/conventional-changelog/conventional-changelog).
+If your pull request branch has multiple non-fixup commits, you need to squash all commits into one commit with a message that meets the [`conventional-changelog` specification](https://github.com/conventional-changelog/conventional-changelog).
 
-Run the following command to squash all commits in your feature branch with a new commit message that you provide. While local changes will remain intact, it does rewrite your feature branch's commit history.
+Run the following command to squash all commits in your feature branch with a new commit message that you provide. Local changes remain intact, but this rewrites your feature branch's commit history.
 
 ```
 npm run dev:pristine
 ```
 
-## <a name="coding-rules"></a> Coding Rules
+## <a name="coding-rules"></a> Coding rules
 
-1. All features and bug fixes should include at least one test spec and should not lower the overall code coverage percentage.
-1. All public API component inputs and outputs and public service methods should be documented with JSDocs comments.
-1. Code should be styled using our Prettier rules.
+1. All features and bug fixes must include at least one test spec and must not lower the overall code coverage percentage.
+1. Provide JSDocs comments for all public API component inputs and outputs and all public service methods.
+1. Style code using our Prettier rules.
 
 ```
 npm run dev:format
 ```
 
-## <a name="commit-message-guidelines"></a> Commit Message Guidelines
+## <a name="commit-message-guidelines"></a> Commit message guidelines
 
 - We strictly follow [Angular's commit message format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format).
-- A full list of supported **scopes** can be found [here](https://github.com/blackbaud/skyux/blob/main/.github/workflows/validate-pr.yml).
+- See the [full list of supported **scopes**](https://github.com/blackbaud/skyux/blob/main/.github/workflows/validate-pr.yml).
 - Run the following command to create a commit message using the [`conventional-changelog` specification](https://github.com/conventional-changelog/conventional-changelog):
 
 ```
 npm run dev:commit
 ```
 
-## <a name="local-development"></a> Local Development Cheatsheet
+## <a name="local-development"></a> Local development cheat sheet
 
 #### Run tests for a specific project
 
