@@ -42,7 +42,7 @@ export class NumericOptions {
 
   /**
    * Indicates whether to shorten numbers to rounded numbers and abbreviation characters
-   * such as K for thousands, M for millions, B for billions, and T for trillion.
+   * such as K for thousands, M for millions, B for billions, and T for trillions.
    */
   public truncate?: boolean = true;
 
