@@ -19,7 +19,6 @@ import { SkyToasterTestComponent } from './toaster.component.fixture';
   ],
   imports: [CommonModule, SkyToastModule, NoopAnimationsModule],
   exports: [SkyToastTestComponent, SkyToasterTestComponent],
-  entryComponents: [SkyToastBodyTestComponent],
   providers: [SkyLibResourcesService],
 })
 export class SkyToastFixturesModule {}

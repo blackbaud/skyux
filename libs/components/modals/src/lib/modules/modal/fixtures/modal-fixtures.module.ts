@@ -39,15 +39,5 @@ import { ModalTestComponent } from './modal.component.fixture';
       useClass: ModalMockMutationObserverService,
     },
   ],
-  entryComponents: [
-    ModalTestComponent,
-    ModalWithValuesTestComponent,
-    ModalAutofocusTestComponent,
-    ModalFooterTestComponent,
-    ModalNoHeaderTestComponent,
-    ModalTiledBodyTestComponent,
-    ModalWithFocusContentTestComponent,
-    ModalWithCloseConfirmTestComponent,
-  ],
 })
 export class SkyModalFixturesModule {}

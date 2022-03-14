@@ -1,4 +1,5 @@
 # Ignore artifacts:
+.angular
 __skyux
 coverage
 dist

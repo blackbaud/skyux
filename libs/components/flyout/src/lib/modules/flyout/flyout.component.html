@@ -35,12 +35,7 @@
     <div class="sky-flyout-header-content">
       <button
         *skyThemeIf="'modern'"
-        class="
-          sky-btn
-          sky-btn-icon-borderless
-          sky-margin-inline-sm
-          sky-flyout-header-grab-handle
-        "
+        class="sky-btn sky-btn-icon-borderless sky-margin-inline-sm sky-flyout-header-grab-handle"
         [attr.aria-label]="'skyux_flyout_resize_handle' | skyLibResources"
         (keydown)="onHeaderGrabHandleKeyDown($event)"
         (mousedown)="onHeaderGrabHandleMouseDown($event)"
@@ -139,12 +134,7 @@
   <ng-template [ngIf]="primaryAction && primaryAction.callback">
     <button
       type="button"
-      class="
-        sky-btn
-        sky-btn-default
-        sky-flyout-btn-primary-action
-        sky-margin-inline-default
-      "
+      class="sky-btn sky-btn-default sky-flyout-btn-primary-action sky-margin-inline-default"
       (click)="invokePrimaryAction()"
     >
       {{ primaryActionLabel }}

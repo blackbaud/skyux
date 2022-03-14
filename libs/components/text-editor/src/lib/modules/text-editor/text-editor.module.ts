@@ -50,6 +50,5 @@ import { SkyTextEditorUrlModalComponent } from './url-modal/text-editor-url-moda
     SkyTextEditorToolbarComponent,
     SkyTextEditorMenubarComponent,
   ],
-  entryComponents: [SkyTextEditorUrlModalComponent],
 })
 export class SkyTextEditorModule {}

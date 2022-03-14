@@ -19,6 +19,5 @@ import { SkySummaryActionBarModalDemoComponent } from './summary-action-bar-moda
     SummaryActionBarDemoComponent,
     SkySummaryActionBarModalDemoComponent,
   ],
-  entryComponents: [SkySummaryActionBarModalDemoComponent],
 })
 export class SummaryActionBarDemoModule {}

@@ -16,6 +16,5 @@ import { SkyConfirmComponent } from './confirm.component';
     SkyThemeModule,
   ],
   exports: [SkyConfirmComponent],
-  entryComponents: [SkyConfirmComponent],
 })
 export class SkyConfirmModule {}
