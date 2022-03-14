@@ -4,6 +4,7 @@ We encourage contributions from all SKY UX users. To contribute, follow this ste
 
 - [Contribution process](#contribution-process)
 - [Coding rules](#coding-rules)
+- [Branches overview](#branches-overview)
 - [Commit message guidelines](#commit-message-guidelines)
 - [Local development cheat sheet](#local-development-cheat-sheet)
 
@@ -81,6 +82,14 @@ npm run dev:pristine
 ```
 npm run dev:format
 ```
+
+## Branches overview
+
+The SKY UX repo includes at least three types of branches:
+
+- The **Next branch**, which holds beta features for the upcoming major version of SKY UX (e.g. `7.0.0-beta.0`). This branch is always named `main` and is the default branch of the repo.
+- The **Latest branch** holds the features of the stable version of SKY UX. This version is actively maintained with new features and bug fixes. This branch's name starts with the major version number, followed by the letter "x" as placeholders for the minor and patch versions (e.g. `6.x.x`).
+- The **LTS branch** holds the features of the LTS (long-term support) version of SKY UX. This version is only updated when a critical security vulnerability is discovered. New features are generally not added to this branch. This branch's name starts with the major version number, followed by the letter "x" as placeholders for the minor and patch versions (e.g. `5.x.x`).
 
 ## Commit message guidelines
 
