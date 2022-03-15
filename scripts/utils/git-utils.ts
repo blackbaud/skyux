@@ -24,3 +24,7 @@ export async function checkoutNewBranch(branch: string): Promise<void> {
 
   await runCommand('git', ['checkout', '-b', branch]);
 }
+
+export async function addAll(): Promise<void> {
+  await runCommand('git', ['add', '.']);
+}
