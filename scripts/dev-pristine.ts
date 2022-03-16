@@ -1,6 +1,11 @@
 import inquirer from 'inquirer';
 
-import { addAll, fetchAll, getCurrentBranch } from './utils/git-utils';
+import {
+  addAll,
+  fetchAll,
+  getCurrentBranch,
+  isGitClean,
+} from './utils/git-utils';
 import { getCommandOutput, runCommand } from './utils/spawn';
 
 async function promptCommit() {
@@ -76,10 +81,17 @@ async function devPristine() {
       throw new Error("This command may not be executed on the 'main' branch.");
     }
 
+    // Ensure local git is clean.
+    if (!(await isGitClean())) {
+      throw new Error(
+        'Uncommitted changes detected. Stash or commit the changes and try again.'
+      );
+    }
+
     await promptCommit();
     await promptPush();
   } catch (err) {
-    console.error(err);
+    console.error(`[dev:pristine error] ${err.message}\n`);
     process.exit(1);
   }
 }
