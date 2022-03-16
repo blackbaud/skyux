@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.0-beta.13 (2022-02-23)
 
 - Fixed the `SkyDocsTypeDocAdapterService` to properly handle constructors that don't have parameters. [#200](https://github.com/blackbaud/skyux-docs-tools/pull/200)
