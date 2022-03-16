@@ -13,8 +13,8 @@ import {
   template: ''
 })
 export class HelpKeyComponent implements OnDestroy {
-  private _helpKey: string = '';
-  private _pageDefaultKey: string = '';
+  private _helpKey = '';
+  private _pageDefaultKey = '';
 
   @Input()
   set pageDefaultKey(defaultKey: string) {

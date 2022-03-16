@@ -1,13 +1,9 @@
 import { expect } from '@skyux-sdk/testing';
 
 import { MockTypeDocAdapterService } from './fixtures/mock-type-definitions.service';
-
 import { SkyDocsTypeDefinitions } from './type-definitions';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
-
 import { SkyDocsTypeDefinitionsService } from './type-definitions.service';
-
 import { SkyDocsTypeDocAdapterService } from './typedoc-adapter.service';
 
 describe('Type definitions service', function () {
@@ -228,7 +224,7 @@ describe('Type definitions service', function () {
     );
 
     for (const key in result) {
-      if (result.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
         const lookup = key as keyof SkyDocsTypeDefinitions;
         expect(result[lookup].length)
           .withContext(
@@ -246,7 +242,7 @@ describe('Type definitions service', function () {
     );
 
     for (const key in result) {
-      if (result.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
         const lookup = key as keyof SkyDocsTypeDefinitions;
 
         if (lookup === 'classes') {
@@ -272,7 +268,7 @@ describe('Type definitions service', function () {
     );
 
     for (const key in result) {
-      if (result.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
         const lookup = key as keyof SkyDocsTypeDefinitions;
         expect(result[lookup].length)
           .withContext(

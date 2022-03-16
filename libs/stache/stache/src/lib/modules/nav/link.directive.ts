@@ -26,9 +26,9 @@ import {
 })
 export class StacheRouterLinkDirective implements OnChanges, AfterViewInit {
 
-  private _stacheRouterLink: string = '';
+  private _stacheRouterLink = '';
 
-  @Input('stacheRouterLink')
+  @Input()
   set stacheRouterLink(routerLink: string) {
     if (routerLink === '.') {
       this._stacheRouterLink = this.routerService.getActiveUrl();

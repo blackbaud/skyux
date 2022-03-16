@@ -38,7 +38,7 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
 
   private filterRoutes(activeRoutes: StacheNavLink[]): StacheNavLink[] {
     const root = activeRoutes[0];
-    let breadcrumbRoutes: StacheNavLink[] = [];
+    const breadcrumbRoutes: StacheNavLink[] = [];
 
     breadcrumbRoutes.push({
       name: 'Home',

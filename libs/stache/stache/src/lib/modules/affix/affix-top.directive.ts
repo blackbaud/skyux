@@ -22,8 +22,8 @@ export class StacheAffixTopDirective implements AfterViewInit {
   public isAffixed = false;
 
   private footerWrapper: HTMLElement;
-  private omnibarHeight: number = 0;
-  private offsetTop: number = 0;
+  private omnibarHeight = 0;
+  private offsetTop = 0;
   private element: HTMLElement;
 
   constructor (

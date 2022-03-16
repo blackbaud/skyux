@@ -1,22 +1,14 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
+import _get from 'lodash.get';
 
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-const _get = require('lodash.get');
+import { StacheRouteService } from '../router/route.service';
 
 @Component({
   selector: 'stache-edit-button',
   templateUrl: './edit-button.component.html',
-  styleUrls: ['./edit-button.component.scss']
+  styleUrls: ['./edit-button.component.scss'],
 })
 export class StacheEditButtonComponent implements OnInit {
   public editButtonText: string;
@@ -29,11 +21,15 @@ export class StacheEditButtonComponent implements OnInit {
   constructor(
     private config: SkyAppConfig,
     private routeService: StacheRouteService
-  ) { }
+  ) {}
 
   public ngOnInit() {
     this.url = this.getUrl();
-    this.editButtonText = _get(this.config, 'skyux.appSettings.stache.editButton.text', 'Edit');
+    this.editButtonText = _get(
+      this.config,
+      'skyux.appSettings.stache.editButton.text',
+      'Edit'
+    );
   }
 
   private getUrl(): string {
@@ -41,12 +37,23 @@ export class StacheEditButtonComponent implements OnInit {
     if (!base) {
       return '';
     }
-    const type = base.includes('visualstudio') || base.includes('azure') ? 'vsts' : 'github';
+    const type =
+      base.includes('visualstudio') || base.includes('azure')
+        ? 'vsts'
+        : 'github';
     const activeUrl = this.routeService.getActiveUrl();
-    const frag = encodeURIComponent(activeUrl === '/' ? activeUrl : activeUrl + '/');
+    const frag = encodeURIComponent(
+      activeUrl === '/' ? activeUrl : activeUrl + '/'
+    );
 
     if (type === 'vsts') {
-      return base + this.vstsFilePathRoot + frag + 'index.html' + this.vstsBranchSelector;
+      return (
+        base +
+        this.vstsFilePathRoot +
+        frag +
+        'index.html' +
+        this.vstsBranchSelector
+      );
     } else {
       return base + this.githubFilePathRoot + frag + 'index.html';
     }

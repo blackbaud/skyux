@@ -1,29 +1,22 @@
 import {
-  Component,
-  Input,
-  ViewChild,
   AfterViewInit,
   ChangeDetectorRef,
-  OnInit
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-
-import {
-  DomSanitizer,
-  SafeHtml
-} from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import * as Prism from 'prismjs';
-
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
-import {
-  prismLanguages
-} from './prism-languages';
+import { prismLanguages } from './prism-languages';
 
 @Component({
   selector: 'sky-code-block',
   templateUrl: './code-block.component.html',
-  styleUrls: ['./code-block.component.scss']
+  styleUrls: ['./code-block.component.scss'],
 })
 export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   @Input()
@@ -42,15 +35,15 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
     }
   }
 
+  public get languageType(): string {
+    return this._languageType;
+  }
+
   @Input()
   public hideCopyToClipboard = false;
 
   @Input()
   public hideHeader: boolean;
-
-  public get languageType(): string {
-    return this._languageType;
-  }
 
   @ViewChild('codeFromContent')
   public codeTemplateRef: any;
@@ -69,8 +62,9 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
   }
 
   public ngOnInit(): void {
-    this.hideHeader = this.hideHeader
-      || (!this.displayName && !this.fileName && this.hideCopyToClipboard);
+    this.hideHeader =
+      this.hideHeader ||
+      (!this.displayName && !this.fileName && this.hideCopyToClipboard);
   }
 
   public ngAfterViewInit(): void {
@@ -102,13 +96,17 @@ export class SkyCodeBlockComponent implements AfterViewInit, OnInit {
       'remove-indent': true,
       'left-trim': true,
       'right-trim': true,
-      'indent': 0,
+      indent: 0,
       'remove-initial-line-feed': true,
-      'tabs-to-spaces': 2
+      'tabs-to-spaces': 2,
     });
   }
 
   private highlightCode(code: string): string {
-    return Prism.highlight(code, Prism.languages[this.languageType], this.languageType);
+    return Prism.highlight(
+      code,
+      Prism.languages[this.languageType],
+      this.languageType
+    );
   }
 }

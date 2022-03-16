@@ -4,12 +4,19 @@
     "excludeProjects": [
       "animations",
       "assets",
+      "clipboard",
+      "code-block",
       "config",
+      "docs-tools",
+      "help",
       "http",
+      "media",
       "omnibar-interop",
       "packages",
       "prettier-schematics",
+      "restricted-view",
       "router",
+      "stache",
       "testing"
     ]
   }

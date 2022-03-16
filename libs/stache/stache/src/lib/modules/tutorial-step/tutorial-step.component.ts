@@ -16,5 +16,5 @@ import {
 export class StacheTutorialStepComponent {
   @Input()
   @InputConverter(booleanConverter)
-  public showNumber: boolean = true;
+  public showNumber = true;
 }

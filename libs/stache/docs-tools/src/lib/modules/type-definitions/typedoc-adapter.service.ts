@@ -1,41 +1,25 @@
 import { Injectable, Optional } from '@angular/core';
 
+import orderBy from 'lodash.orderby';
+
 import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
-
 import { SkyDocsClassDefinition } from './class-definition';
-
-import { SkyDocsClassPropertyDefinition } from './property-definition';
-
 import { SkyDocsCommentTags } from './comment-tags';
-
 import { SkyDocsDirectiveDefinition } from './directive-definition';
-
 import { SkyDocsEnumerationDefinition } from './enumeration-definition';
-
 import { SkyDocsEnumerationMemberDefinition } from './enumeration-member-definition';
-
 import { SkyDocsIndexSignatureDefinition } from './index-signature-definition';
-
 import { SkyDocsInterfaceDefinition } from './interface-definition';
-
 import { SkyDocsInterfacePropertyDefinition } from './interface-property-definition';
-
 import { SkyDocsClassMethodDefinition } from './method-definition';
-
 import { SkyDocsParameterDefinition } from './parameter-definition';
-
 import { SkyDocsPipeDefinition } from './pipe-definition';
-
 import { SkyDocsPropertyDecoratorDefinition } from './property-decorator';
-
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
-
 import { SkyDocsTypeDefinition } from './type-definition';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
-
 import { SkyDocsTypeParameterDefinition } from './type-parameter-definition';
-
 import {
   TypeDocComment,
   TypeDocEntry,
@@ -45,8 +29,6 @@ import {
   TypeDocType,
   TypeDocTypeParameter,
 } from './typedoc-types';
-
-import orderBy from 'lodash.orderby';
 
 /**
  * Converts TypeDoc types into SKY UX docs-tools types, to be supplied to the various definitions components.
@@ -218,7 +200,7 @@ export class SkyDocsTypeDocAdapterService {
           child.kindString === 'Property' || child.kindString === 'Accessor'
       )
       .map((child) => {
-        let definition: SkyDocsClassPropertyDefinition = {
+        const definition: SkyDocsClassPropertyDefinition = {
           isOptional: true,
           name: this.getPropertyName(child),
           type: this.getTypeDefinition(child),
@@ -424,6 +406,9 @@ export class SkyDocsTypeDocAdapterService {
   private getTypeDefinition(child: TypeDocEntryChild): SkyDocsTypeDefinition {
     let definition: SkyDocsTypeDefinition;
 
+    const name: string =
+      child.type.name || child.type.elementType?.name || child.type.value;
+
     const kindString = child.kindString;
     switch (kindString) {
       case 'Accessor':
@@ -444,9 +429,6 @@ export class SkyDocsTypeDocAdapterService {
         return definition;
 
       default:
-        let name: string =
-          child.type.name || child.type.elementType?.name || child.type.value;
-
         definition = {
           type: child.type.type,
         };
@@ -601,10 +583,10 @@ export class SkyDocsTypeDocAdapterService {
 
   private getCommentTags(comment: TypeDocComment): SkyDocsCommentTags {
     let codeExample: string;
-    let codeExampleLanguage: string = 'markup';
+    let codeExampleLanguage = 'markup';
     let deprecationWarning: string;
     let defaultValue: string;
-    let description: string = '';
+    let description = '';
 
     let parameters: {
       name: string;
@@ -618,6 +600,9 @@ export class SkyDocsTypeDocAdapterService {
     if (comment) {
       if (comment.tags) {
         comment.tags.forEach((tag) => {
+          codeExample = tag.text.trim().split('```')[1].trim();
+          const language = codeExample.split('\n')[0];
+
           switch (tag.tag) {
             case 'deprecated':
               deprecationWarning = tag.text.trim();
@@ -629,8 +614,6 @@ export class SkyDocsTypeDocAdapterService {
               break;
 
             case 'example':
-              codeExample = tag.text.trim().split('```')[1].trim();
-              const language = codeExample.split('\n')[0];
               if (language === 'markup' || language === 'typescript') {
                 codeExample = codeExample.slice(language.length).trim();
                 codeExampleLanguage = language;
@@ -732,7 +715,7 @@ export class SkyDocsTypeDocAdapterService {
     // Use the Input's bound property name, if found.
     // e.g. @Input('foobar')
     return decorators?.arguments?.bindingPropertyName
-      ? decorators.arguments.bindingPropertyName.replace(/(\'|\")/g, '')
+      ? decorators.arguments.bindingPropertyName.replace(/('|")/g, '')
       : property.name;
   }
 

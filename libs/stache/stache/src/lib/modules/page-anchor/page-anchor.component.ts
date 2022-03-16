@@ -47,7 +47,7 @@ export class StachePageAnchorComponent implements
   OnInit,
   AfterViewChecked,
   AfterContentInit {
-  public name: string = '';
+  public name = '';
   public fragment: string;
   public path: string[];
   public offsetTop: number;

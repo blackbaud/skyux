@@ -1,26 +1,21 @@
 {
-  "extends": [
-    "../../../.eslintrc.json"
-  ],
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "extends": ["../../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "plugin:@nrwl/nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "../../../.eslintrc-overrides.json"
+        "../../../.eslintrc-overrides.json",
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "sky",
+            "prefix": "bbHelp",
             "style": "camelCase"
           }
         ],
@@ -28,29 +23,20 @@
           "error",
           {
             "type": "element",
-            "prefix": "sky",
+            "prefix": "bb-help",
             "style": "kebab-case"
           }
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@nrwl/nx/angular-template"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@nrwl/nx/angular-template", "prettier"],
       "rules": {}
     },
     {
-      "files": [
-        "*.spec.ts",
-        "**/fixtures/**/*.ts"
-      ],
-      "extends": [
-        "../../../.eslintrc-overrides.json"
-      ]
+      "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
+      "extends": ["../../../.eslintrc-overrides.json", "prettier"]
     }
   ]
 }

@@ -61,7 +61,7 @@ export class StacheNavComponent implements OnDestroy, OnInit, StacheNav {
     return this._isAuthenticated || false;
   }
 
-  public classname: string = '';
+  public classname = '';
 
   public filteredRoutes: StacheNavLink[];
 

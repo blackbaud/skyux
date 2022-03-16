@@ -20,9 +20,9 @@ import {
   selector: '[stacheGoogleAnalytics]'
 })
 export class StacheGoogleAnalyticsDirective implements OnInit {
-  private tagManagerContainerId: string = 'GTM-W56QP9';
-  private analyticsClientId: string = 'UA-2418840-1';
-  private isEnabled: boolean = true;
+  private tagManagerContainerId = 'GTM-W56QP9';
+  private analyticsClientId = 'UA-2418840-1';
+  private isEnabled = true;
   private appName: string;
 
   public constructor(

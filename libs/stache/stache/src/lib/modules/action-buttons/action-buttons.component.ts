@@ -25,7 +25,7 @@ export class StacheActionButtonsComponent implements OnInit {
 
   @Input()
   @InputConverter(booleanConverter)
-  public showSearch: boolean = true;
+  public showSearch = true;
 
   public filteredRoutes: StacheNavLink[];
 

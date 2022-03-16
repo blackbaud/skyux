@@ -9,7 +9,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/a11y"],
+          "outputs": [
+            "dist/libs/components/a11y"
+          ],
           "options": {
             "project": "libs/components/a11y/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -35,7 +37,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -57,7 +63,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/action-bars"],
+          "outputs": [
+            "dist/libs/components/action-bars"
+          ],
           "options": {
             "project": "libs/components/action-bars/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -83,7 +91,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -110,7 +122,11 @@
             "tsConfig": "libs/components/action-bars/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/action-bars/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -127,7 +143,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/ag-grid"],
+          "outputs": [
+            "dist/libs/components/ag-grid"
+          ],
           "options": {
             "project": "libs/components/ag-grid/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -154,7 +172,11 @@
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -182,7 +204,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/angular-tree-component"],
+          "outputs": [
+            "dist/libs/components/angular-tree-component"
+          ],
           "options": {
             "project": "libs/components/angular-tree-component/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -208,7 +232,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -230,7 +258,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/animations"],
+          "outputs": [
+            "dist/libs/components/animations"
+          ],
           "options": {
             "project": "libs/components/animations/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -256,7 +286,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -278,7 +312,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/assets"],
+          "outputs": [
+            "dist/libs/components/assets"
+          ],
           "options": {
             "project": "libs/components/assets/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -304,7 +340,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -326,7 +366,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/autonumeric"],
+          "outputs": [
+            "dist/libs/components/autonumeric"
+          ],
           "options": {
             "project": "libs/components/autonumeric/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -352,7 +394,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -374,7 +420,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/avatar"],
+          "outputs": [
+            "dist/libs/components/avatar"
+          ],
           "options": {
             "project": "libs/components/avatar/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -400,7 +448,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -427,7 +479,11 @@
             "tsConfig": "libs/components/avatar/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/avatar/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -457,6 +513,114 @@
         }
       }
     },
+    "clipboard": {
+      "projectType": "library",
+      "root": "libs/stache/clipboard",
+      "sourceRoot": "libs/stache/clipboard/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/stache/clipboard"
+          ],
+          "options": {
+            "project": "libs/stache/clipboard/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/clipboard/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/clipboard/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/clipboard/src/test.ts",
+            "tsConfig": "libs/stache/clipboard/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/clipboard/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/clipboard/src/**/*.ts",
+              "libs/stache/clipboard/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "code-block": {
+      "projectType": "library",
+      "root": "libs/stache/code-block",
+      "sourceRoot": "libs/stache/code-block/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/stache/code-block"
+          ],
+          "options": {
+            "project": "libs/stache/code-block/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/code-block/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/code-block/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/code-block/src/test.ts",
+            "tsConfig": "libs/stache/code-block/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/code-block/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/code-block/src/**/*.ts",
+              "libs/stache/code-block/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "code-examples": {
       "projectType": "application",
       "root": "apps/code-examples",
@@ -465,7 +629,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/code-examples",
             "index": "apps/code-examples/src/index.html",
@@ -567,7 +733,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/colorpicker"],
+          "outputs": [
+            "dist/libs/components/colorpicker"
+          ],
           "options": {
             "project": "libs/components/colorpicker/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -593,7 +761,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -620,7 +792,11 @@
             "tsConfig": "libs/components/colorpicker/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/colorpicker/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -637,7 +813,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/config"],
+          "outputs": [
+            "dist/libs/components/config"
+          ],
           "options": {
             "project": "libs/components/config/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -663,7 +841,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -685,7 +867,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/core"],
+          "outputs": [
+            "dist/libs/components/core"
+          ],
           "options": {
             "project": "libs/components/core/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -711,7 +895,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -738,7 +926,11 @@
             "tsConfig": "libs/components/core/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/core/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -755,7 +947,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/data-manager"],
+          "outputs": [
+            "dist/libs/components/data-manager"
+          ],
           "options": {
             "project": "libs/components/data-manager/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -781,7 +975,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -803,7 +1001,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/datetime"],
+          "outputs": [
+            "dist/libs/components/datetime"
+          ],
           "options": {
             "project": "libs/components/datetime/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -829,7 +1029,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -856,10 +1060,68 @@
             "tsConfig": "libs/components/datetime/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/datetime/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          }
+        }
+      }
+    },
+    "docs-tools": {
+      "projectType": "library",
+      "root": "libs/stache/docs-tools",
+      "sourceRoot": "libs/stache/docs-tools/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/stache/docs-tools"
+          ],
+          "options": {
+            "project": "libs/stache/docs-tools/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/docs-tools/src/test.ts",
+            "tsConfig": "libs/stache/docs-tools/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/docs-tools/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/docs-tools/src/**/*.ts",
+              "libs/stache/docs-tools/src/**/*.html"
             ]
           }
         }
@@ -873,7 +1135,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/errors"],
+          "outputs": [
+            "dist/libs/components/errors"
+          ],
           "options": {
             "project": "libs/components/errors/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -899,7 +1163,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -926,7 +1194,11 @@
             "tsConfig": "libs/components/errors/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/errors/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -943,7 +1215,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/flyout"],
+          "outputs": [
+            "dist/libs/components/flyout"
+          ],
           "options": {
             "project": "libs/components/flyout/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -969,7 +1243,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -991,7 +1269,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/forms"],
+          "outputs": [
+            "dist/libs/components/forms"
+          ],
           "options": {
             "project": "libs/components/forms/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1017,7 +1297,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1044,7 +1328,11 @@
             "tsConfig": "libs/components/forms/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/forms/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1061,7 +1349,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/grids"],
+          "outputs": [
+            "dist/libs/components/grids"
+          ],
           "options": {
             "project": "libs/components/grids/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1087,7 +1377,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1109,9 +1403,12 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/help/help"],
+          "outputs": [
+            "dist/libs/help/help"
+          ],
           "options": {
-            "project": "libs/help/help/ng-package.json"
+            "project": "libs/help/help/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
           },
           "configurations": {
             "production": {
@@ -1128,7 +1425,17 @@
           "options": {
             "main": "libs/help/help/src/test.ts",
             "tsConfig": "libs/help/help/tsconfig.spec.json",
-            "karmaConfig": "libs/help/help/karma.conf.js"
+            "karmaConfig": "libs/help/help/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1150,7 +1457,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/http"],
+          "outputs": [
+            "dist/libs/components/http"
+          ],
           "options": {
             "project": "libs/components/http/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1176,7 +1485,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1203,7 +1516,11 @@
             "tsConfig": "libs/components/http/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/http/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1220,7 +1537,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/i18n"],
+          "outputs": [
+            "dist/libs/components/i18n"
+          ],
           "options": {
             "project": "libs/components/i18n/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1246,7 +1565,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1280,7 +1603,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/indicators"],
+          "outputs": [
+            "dist/libs/components/indicators"
+          ],
           "options": {
             "project": "libs/components/indicators/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1306,7 +1631,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1333,7 +1662,11 @@
             "tsConfig": "libs/components/indicators/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/indicators/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1350,7 +1683,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/inline-form"],
+          "outputs": [
+            "dist/libs/components/inline-form"
+          ],
           "options": {
             "project": "libs/components/inline-form/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1376,7 +1711,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1398,7 +1737,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/integration",
             "index": "apps/integration/src/index.html",
@@ -1410,7 +1751,9 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ],
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": [
+              "apps/integration/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -1506,9 +1849,13 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["apps/integration-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/integration-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -1521,7 +1868,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/layout"],
+          "outputs": [
+            "dist/libs/components/layout"
+          ],
           "options": {
             "project": "libs/components/layout/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1547,7 +1896,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1574,7 +1927,11 @@
             "tsConfig": "libs/components/layout/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/layout/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1591,7 +1948,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/list-builder"],
+          "outputs": [
+            "dist/libs/components/list-builder"
+          ],
           "options": {
             "project": "libs/components/list-builder/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1617,7 +1976,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1639,7 +2002,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/list-builder-common"],
+          "outputs": [
+            "dist/libs/components/list-builder-common"
+          ],
           "options": {
             "project": "libs/components/list-builder-common/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1665,7 +2030,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1687,7 +2056,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/list-builder-view-checklist"],
+          "outputs": [
+            "dist/libs/components/list-builder-view-checklist"
+          ],
           "options": {
             "project": "libs/components/list-builder-view-checklist/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1713,7 +2084,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1740,7 +2115,11 @@
             "tsConfig": "libs/components/list-builder-view-checklist/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/list-builder-view-checklist/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1757,7 +2136,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/list-builder-view-grids"],
+          "outputs": [
+            "dist/libs/components/list-builder-view-grids"
+          ],
           "options": {
             "project": "libs/components/list-builder-view-grids/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1783,7 +2164,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1810,7 +2195,11 @@
             "tsConfig": "libs/components/list-builder-view-grids/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/list-builder-view-grids/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1827,7 +2216,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/lists"],
+          "outputs": [
+            "dist/libs/components/lists"
+          ],
           "options": {
             "project": "libs/components/lists/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1853,7 +2244,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1880,7 +2275,11 @@
             "tsConfig": "libs/components/lists/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/lists/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -1897,7 +2296,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/lookup"],
+          "outputs": [
+            "dist/libs/components/lookup"
+          ],
           "options": {
             "project": "libs/components/lookup/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1923,7 +2324,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -1950,10 +2355,68 @@
             "tsConfig": "libs/components/lookup/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/lookup/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          }
+        }
+      }
+    },
+    "media": {
+      "projectType": "library",
+      "root": "libs/stache/media",
+      "sourceRoot": "libs/stache/media/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/stache/media"
+          ],
+          "options": {
+            "project": "libs/stache/media/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/media/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/media/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/media/src/test.ts",
+            "tsConfig": "libs/stache/media/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/media/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/media/src/**/*.ts",
+              "libs/stache/media/src/**/*.html"
             ]
           }
         }
@@ -1967,7 +2430,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/modals"],
+          "outputs": [
+            "dist/libs/components/modals"
+          ],
           "options": {
             "project": "libs/components/modals/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1993,7 +2458,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2020,7 +2489,11 @@
             "tsConfig": "libs/components/modals/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/modals/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -2037,7 +2510,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/navbar"],
+          "outputs": [
+            "dist/libs/components/navbar"
+          ],
           "options": {
             "project": "libs/components/navbar/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2063,7 +2538,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2085,7 +2564,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/omnibar-interop"],
+          "outputs": [
+            "dist/libs/components/omnibar-interop"
+          ],
           "options": {
             "project": "libs/components/omnibar-interop/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2111,7 +2592,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2132,30 +2617,48 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["libs/components/packages/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/components/packages/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/components/packages"],
+          "outputs": [
+            "coverage/libs/components/packages"
+          ],
           "options": {
             "jestConfig": "libs/components/packages/jest.config.js",
             "passWithNoTests": true,
             "codeCoverage": true,
-            "coverageReporters": ["html", "text"]
+            "coverageReporters": [
+              "html",
+              "text"
+            ],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "build": {
           "builder": "@nrwl/node:package",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/libs/components/packages",
             "tsConfig": "libs/components/packages/tsconfig.lib.json",
             "packageJson": "libs/components/packages/package.json",
             "main": "libs/components/packages/src/index.ts",
-            "assets": ["libs/components/packages/*.md"],
+            "assets": [
+              "libs/components/packages/*.md"
+            ],
             "updateBuildableProjectDepsInPackageJson": false
           }
         },
@@ -2175,7 +2678,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/pages"],
+          "outputs": [
+            "dist/libs/components/pages"
+          ],
           "options": {
             "project": "libs/components/pages/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2201,7 +2706,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2223,7 +2732,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/phone-field"],
+          "outputs": [
+            "dist/libs/components/phone-field"
+          ],
           "options": {
             "project": "libs/components/phone-field/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2249,7 +2760,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2276,7 +2791,11 @@
             "tsConfig": "libs/components/phone-field/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/phone-field/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -2293,7 +2812,9 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/playground",
             "index": "apps/playground/src/index.html",
@@ -2383,7 +2904,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/popovers"],
+          "outputs": [
+            "dist/libs/components/popovers"
+          ],
           "options": {
             "project": "libs/components/popovers/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2409,7 +2932,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2436,7 +2963,11 @@
             "tsConfig": "libs/components/popovers/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/popovers/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -2452,28 +2983,43 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
+          "outputs": [
+            "{options.outputFile}"
+          ],
           "options": {
-            "lintFilePatterns": ["libs/sdk/prettier-schematics/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/sdk/prettier-schematics/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/sdk/prettier-schematics"],
+          "outputs": [
+            "coverage/libs/sdk/prettier-schematics"
+          ],
           "options": {
             "jestConfig": "libs/sdk/prettier-schematics/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "build": {
           "builder": "@nrwl/node:package",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/libs/sdk/prettier-schematics",
             "tsConfig": "libs/sdk/prettier-schematics/tsconfig.lib.json",
             "packageJson": "libs/sdk/prettier-schematics/package.json",
             "main": "libs/sdk/prettier-schematics/src/index.ts",
-            "assets": ["libs/sdk/prettier-schematics/*.md"],
+            "assets": [
+              "libs/sdk/prettier-schematics/*.md"
+            ],
             "updateBuildableProjectDepsInPackageJson": false
           }
         },
@@ -2493,7 +3039,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/progress-indicator"],
+          "outputs": [
+            "dist/libs/components/progress-indicator"
+          ],
           "options": {
             "project": "libs/components/progress-indicator/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2519,7 +3067,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2533,6 +3085,60 @@
         }
       }
     },
+    "restricted-view": {
+      "projectType": "library",
+      "root": "libs/stache/restricted-view",
+      "sourceRoot": "libs/stache/restricted-view/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": [
+            "dist/libs/stache/restricted-view"
+          ],
+          "options": {
+            "project": "libs/stache/restricted-view/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/restricted-view/src/test.ts",
+            "tsConfig": "libs/stache/restricted-view/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/restricted-view/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/restricted-view/src/**/*.ts",
+              "libs/stache/restricted-view/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "router": {
       "projectType": "library",
       "root": "libs/components/router",
@@ -2541,7 +3147,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/router"],
+          "outputs": [
+            "dist/libs/components/router"
+          ],
           "options": {
             "project": "libs/components/router/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2567,7 +3175,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2589,7 +3201,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/select-field"],
+          "outputs": [
+            "dist/libs/components/select-field"
+          ],
           "options": {
             "project": "libs/components/select-field/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2615,7 +3229,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2637,7 +3255,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/split-view"],
+          "outputs": [
+            "dist/libs/components/split-view"
+          ],
           "options": {
             "project": "libs/components/split-view/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2663,7 +3283,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2690,215 +3314,14 @@
             "tsConfig": "libs/components/split-view/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/split-view/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
-            ]
-          }
-        }
-      }
-    },
-    "clipboard": {
-      "projectType": "library",
-      "root": "libs/stache/clipboard",
-      "sourceRoot": "libs/stache/clipboard/src",
-      "prefix": "sky",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/clipboard"],
-          "options": {
-            "project": "libs/stache/clipboard/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/stache/clipboard/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/stache/clipboard/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/stache/clipboard/src/test.ts",
-            "tsConfig": "libs/stache/clipboard/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/clipboard/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/stache/clipboard/src/**/*.ts",
-              "libs/stache/clipboard/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "code-block": {
-      "projectType": "library",
-      "root": "libs/stache/code-block",
-      "sourceRoot": "libs/stache/code-block/src",
-      "prefix": "sky",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/code-block"],
-          "options": {
-            "project": "libs/stache/code-block/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/stache/code-block/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/stache/code-block/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/stache/code-block/src/test.ts",
-            "tsConfig": "libs/stache/code-block/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/code-block/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/stache/code-block/src/**/*.ts",
-              "libs/stache/code-block/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "docs-tools": {
-      "projectType": "library",
-      "root": "libs/stache/docs-tools",
-      "sourceRoot": "libs/stache/docs-tools/src",
-      "prefix": "sky",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/docs-tools"],
-          "options": {
-            "project": "libs/stache/docs-tools/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/stache/docs-tools/src/test.ts",
-            "tsConfig": "libs/stache/docs-tools/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/docs-tools/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/stache/docs-tools/src/**/*.ts",
-              "libs/stache/docs-tools/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "media": {
-      "projectType": "library",
-      "root": "libs/stache/media",
-      "sourceRoot": "libs/stache/media/src",
-      "prefix": "sky",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/media"],
-          "options": {
-            "project": "libs/stache/media/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/stache/media/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/stache/media/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/stache/media/src/test.ts",
-            "tsConfig": "libs/stache/media/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/media/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/stache/media/src/**/*.ts",
-              "libs/stache/media/src/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "restricted-view": {
-      "projectType": "library",
-      "root": "libs/stache/restricted-view",
-      "sourceRoot": "libs/stache/restricted-view/src",
-      "prefix": "sky",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/restricted-view"],
-          "options": {
-            "project": "libs/stache/restricted-view/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/stache/restricted-view/src/test.ts",
-            "tsConfig": "libs/stache/restricted-view/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/restricted-view/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/stache/restricted-view/src/**/*.ts",
-              "libs/stache/restricted-view/src/**/*.html"
             ]
           }
         }
@@ -2912,9 +3335,12 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/stache/stache"],
+          "outputs": [
+            "dist/libs/stache/stache"
+          ],
           "options": {
-            "project": "libs/stache/stache/ng-package.json"
+            "project": "libs/stache/stache/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
           },
           "configurations": {
             "production": {
@@ -2931,7 +3357,17 @@
           "options": {
             "main": "libs/stache/stache/src/test.ts",
             "tsConfig": "libs/stache/stache/tsconfig.spec.json",
-            "karmaConfig": "libs/stache/stache/karma.conf.js"
+            "karmaConfig": "libs/stache/stache/karma.conf.js",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -2953,7 +3389,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/tabs"],
+          "outputs": [
+            "dist/libs/components/tabs"
+          ],
           "options": {
             "project": "libs/components/tabs/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2979,7 +3417,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3006,7 +3448,11 @@
             "tsConfig": "libs/components/tabs/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/tabs/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -3023,7 +3469,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/sdk/testing"],
+          "outputs": [
+            "dist/libs/sdk/testing"
+          ],
           "options": {
             "project": "libs/sdk/testing/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3049,7 +3497,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3071,7 +3523,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/text-editor"],
+          "outputs": [
+            "dist/libs/components/text-editor"
+          ],
           "options": {
             "project": "libs/components/text-editor/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3097,7 +3551,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3119,7 +3577,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/theme"],
+          "outputs": [
+            "dist/libs/components/theme"
+          ],
           "options": {
             "project": "libs/components/theme/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3145,7 +3605,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3173,7 +3637,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/tiles"],
+          "outputs": [
+            "dist/libs/components/tiles"
+          ],
           "options": {
             "project": "libs/components/tiles/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3199,7 +3665,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3221,7 +3691,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/toast"],
+          "outputs": [
+            "dist/libs/components/toast"
+          ],
           "options": {
             "project": "libs/components/toast/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3247,7 +3719,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {
@@ -3274,7 +3750,11 @@
             "tsConfig": "libs/components/toast/testing/tsconfig.spec.json",
             "karmaConfig": "libs/components/toast/testing/karma.conf.js",
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"],
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ],
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
@@ -3291,7 +3771,9 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": ["dist/libs/components/validation"],
+          "outputs": [
+            "dist/libs/components/validation"
+          ],
           "options": {
             "project": "libs/components/validation/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3317,7 +3799,11 @@
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
             ],
             "codeCoverage": true,
-            "codeCoverageExclude": ["**/fixtures/**"]
+            "codeCoverageExclude": [
+              "**/fixtures/**",
+              "*.fixture.ts",
+              "*.spec.ts"
+            ]
           }
         },
         "lint": {

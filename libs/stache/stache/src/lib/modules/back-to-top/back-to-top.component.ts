@@ -21,9 +21,9 @@ import {
 export class StacheBackToTopComponent {
   @Input()
   @InputConverter(numberConverter)
-  public offset: number = 200;
+  public offset = 200;
 
-  public isHidden: boolean = true;
+  public isHidden = true;
 
   public constructor(
     private windowRef: StacheWindowRef) { }
