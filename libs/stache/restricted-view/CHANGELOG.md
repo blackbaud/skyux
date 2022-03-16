@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 4.2.1 (2021-02-19)
 
 - Fixed the restricted content alert component to render when the restricted view auth service was initialized on another page. [#13](https://github.com/blackbaud/skyux-lib-restricted-view/pull/13)

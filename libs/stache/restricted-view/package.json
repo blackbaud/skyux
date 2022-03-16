@@ -1,0 +1,28 @@
+{
+  "name": "@blackbaud/skyux-lib-restricted-view",
+  "version": "0.0.0-PLACEHOLDER",
+  "peerDependencies": {
+    "@angular/common": "^12.2.16",
+    "@angular/core": "^12.2.16",
+    "@blackbaud/auth-client": "^2.50.0",
+    "@skyux/http": "0.0.0-PLACEHOLDER",
+    "@skyux/indicators": "0.0.0-PLACEHOLDER"
+  },
+  "dependencies": {
+    "tslib": "^2.3.1"
+  },
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme"
+}
