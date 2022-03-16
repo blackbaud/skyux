@@ -1,0 +1,42 @@
+@import '~@skyux/theme/scss/mixins';
+
+.sky-image-wrapper {
+  display: table;
+  margin: 0;
+  padding: 0;
+}
+
+.sky-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+}
+
+.sky-image-border {
+  border: 1px solid $sky-border-color-neutral-medium;
+}
+
+.sky-image-caption {
+  border-top: 5px solid $sky-border-color-neutral-medium;
+  display: table-caption;
+  caption-side: bottom;
+  margin: $sky-margin-stacked-default 0;
+  padding: $sky-margin-stacked-compact 0 0;
+}
+
+.sky-image-caption-success {
+  border-color: $sky-highlight-color-success;
+}
+
+.sky-image-caption-danger {
+  border-color: $sky-highlight-color-danger;
+}
+
+.sky-image-caption-warning {
+  border-color: $sky-highlight-color-warning;
+}
+
+.sky-image-caption-info {
+  border-color: $sky-highlight-color-info;
+}

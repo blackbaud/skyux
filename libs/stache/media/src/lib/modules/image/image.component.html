@@ -1,0 +1,36 @@
+<figure
+  class="sky-image-wrapper"
+>
+  <img
+    class="sky-image"
+    [alt]="imageAlt"
+    [ngClass]="{
+      'sky-image-border': showBorder
+    }"
+    [src]="imageSource"
+  />
+  <figcaption *ngIf="caption"
+    class="sky-image-caption"
+    [ngClass]="{
+      'sky-image-caption-default': captionType === 'default',
+      'sky-image-caption-info sky-text-info': captionType === 'info',
+      'sky-image-caption-success sky-text-success': captionType === 'success',
+      'sky-image-caption-warning sky-text-warning': captionType === 'warning',
+      'sky-image-caption-danger sky-text-danger': captionType === 'danger'
+    }"
+  >
+    <ng-container [ngSwitch]="captionType">
+      <ng-container *ngSwitchCase="'success'">
+        <ng-container *ngIf="showCaptionPrefix">
+          <strong>{{ 'skyux_image_do_text' | skyLibResources }}</strong>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'danger'">
+        <ng-container *ngIf="showCaptionPrefix">
+          <strong>{{ 'skyux_image_dont_text' | skyLibResources }}</strong>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    {{ caption }}
+  </figcaption>
+</figure>
