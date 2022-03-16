@@ -7,7 +7,7 @@ import { BBHelpClient } from '@blackbaud/help-client';
 export class HelpWidgetService {
   private _pageDefaultKey: string;
 
-  public disabledCount: number = 0;
+  public disabledCount = 0;
 
   set pageDefaultKey(helpKey: string) {
     this._pageDefaultKey = helpKey;

@@ -405,7 +405,6 @@ export class SkyDocsTypeDocAdapterService {
 
   private getTypeDefinition(child: TypeDocEntryChild): SkyDocsTypeDefinition {
     let definition: SkyDocsTypeDefinition;
-
     let name: string;
 
     const kindString = child.kindString;
@@ -602,9 +601,7 @@ export class SkyDocsTypeDocAdapterService {
     if (comment) {
       if (comment.tags) {
         comment.tags.forEach((tag) => {
-          codeExample = tag.text.trim().split('```')[1].trim();
-          const language = codeExample.split('\n')[0];
-
+          let language: string;
           switch (tag.tag) {
             case 'deprecated':
               deprecationWarning = tag.text.trim();
@@ -616,6 +613,8 @@ export class SkyDocsTypeDocAdapterService {
               break;
 
             case 'example':
+              codeExample = tag.text.trim().split('```')[1].trim();
+              language = codeExample.split('\n')[0];
               if (language === 'markup' || language === 'typescript') {
                 codeExample = codeExample.slice(language.length).trim();
                 codeExampleLanguage = language;

@@ -28,10 +28,10 @@ describe('HelpKeyComponent', () => {
       .and.callFake(() => {});
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockWidgetService = new MockWidgetService();
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [HelpKeyModule],
       providers: [{ provide: HelpWidgetService, useValue: mockWidgetService }],
     }).compileComponents();

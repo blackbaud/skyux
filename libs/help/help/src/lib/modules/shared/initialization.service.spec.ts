@@ -25,6 +25,16 @@ describe('HelpInitializationService', () => {
     expect(BBHelpClient.load).toHaveBeenCalledWith(givenConfig);
   }));
 
+  it('should allow calling BBHelpClient.load without config', fakeAsync(() => {
+    const initializationService = new HelpInitializationService(
+      buildWindow(),
+      buildConfig()
+    );
+    initializationService.load();
+    tick();
+    expect(BBHelpClient.load).toHaveBeenCalledWith({});
+  }));
+
   it('should call BBHelpClient.load with svcid from SkyAppConfig', fakeAsync(() => {
     const svcid = 'svcid';
     const initializationService = new HelpInitializationService(

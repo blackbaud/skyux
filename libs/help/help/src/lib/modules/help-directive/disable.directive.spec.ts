@@ -9,7 +9,7 @@ import { BBHelpDisableModule } from './disable.module';
 import { HelpBBHelpTestComponent } from './fixtures/help.component.fixture';
 
 class MockWidgetService {
-  public disabledCount: number = 0;
+  public disabledCount = 0;
 
   public disableWidget(): void {
     this.disabledCount++;
@@ -27,10 +27,10 @@ describe('bbHelpDisableWidget Directive', () => {
   let mockWidgetService: MockWidgetService;
   let directiveElement: any;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockWidgetService = new MockWidgetService();
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [HelpBBHelpTestComponent],
       providers: [{ provide: HelpWidgetService, useValue: mockWidgetService }],
       imports: [HelpModule, BBHelpDisableModule],
@@ -43,7 +43,7 @@ describe('bbHelpDisableWidget Directive', () => {
   });
 
   it('should call disableWidget on init when disableWidget is true ', () => {
-    let directiveInstance = directiveElement.injector.get(
+    const directiveInstance = directiveElement.injector.get(
       BBHelpDisableWidgetDirective
     );
     spyOn(mockWidgetService, 'disableWidget').and.callThrough();
@@ -53,7 +53,7 @@ describe('bbHelpDisableWidget Directive', () => {
   });
 
   it('should call enableWidget on destroy when disabledWidget is true', () => {
-    let directiveInstance = directiveElement.injector.get(
+    const directiveInstance = directiveElement.injector.get(
       BBHelpDisableWidgetDirective
     );
     spyOn(mockWidgetService, 'enableWidget').and.callThrough();

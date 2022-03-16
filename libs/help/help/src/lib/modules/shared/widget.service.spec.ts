@@ -1,10 +1,10 @@
-import { fakeAsync, tick } from '@angular/core/testing';
+import { async, fakeAsync, tick } from '@angular/core/testing';
 import { BBHelpClient } from '@blackbaud/help-client';
 
 import { HelpWidgetService } from './widget.service';
 
 describe('BBHelpClientService', () => {
-  let dataService = new HelpWidgetService();
+  const dataService = new HelpWidgetService();
   let resolvePromise = true;
   let setHelpKeySpy: jasmine.Spy;
 
@@ -13,6 +13,7 @@ describe('BBHelpClientService', () => {
     setHelpKeySpy = spyOn(BBHelpClient, 'setCurrentHelpKey').and.callFake(
       (key: string) => {}
     );
+
     spyOn(BBHelpClient, 'ready').and.callFake(() => {
       if (resolvePromise) {
         return Promise.resolve();
@@ -23,14 +24,14 @@ describe('BBHelpClientService', () => {
   });
 
   it("should call the helpClient's setCurrentHelpKey and pass the helpKey to it", () => {
-    let helpKey = 'test-key.html';
+    const helpKey = 'test-key.html';
     dataService.setCurrentHelpKey(helpKey);
     expect(setHelpKeySpy).toHaveBeenCalledWith(helpKey);
   });
 
   it("should call the helpClient's openToHelpKey and pass the helpKey to it", () => {
-    let helpKey = 'test-key.html';
-    let spyHelp = spyOn(BBHelpClient, 'openWidgetToHelpKey').and.callFake(
+    const helpKey = 'test-key.html';
+    const spyHelp = spyOn(BBHelpClient, 'openWidgetToHelpKey').and.callFake(
       () => {}
     );
     dataService.openToHelpKey(helpKey);
@@ -38,7 +39,7 @@ describe('BBHelpClientService', () => {
   });
 
   it("should call the helpClient's setHelpKeyToDefault method", () => {
-    let spyHelp = spyOn(BBHelpClient, 'setHelpKeyToDefault').and.callFake(
+    const spyHelp = spyOn(BBHelpClient, 'setHelpKeyToDefault').and.callFake(
       () => {}
     );
     dataService.setHelpKeyToGlobalDefault();
@@ -46,21 +47,21 @@ describe('BBHelpClientService', () => {
   });
 
   it('should store a pageDefaultKey', () => {
-    let pageDefaultKey = 'page-default-key.html';
+    const pageDefaultKey = 'page-default-key.html';
     expect(dataService.pageDefaultKey).toBe('');
     dataService.setPageDefaultKey(pageDefaultKey);
     expect(dataService.pageDefaultKey).toBe(pageDefaultKey);
   });
 
   it("should call the helpClient's setCurrentHelpKey with the pageDefaultKey when it is defined", () => {
-    let pageDefaultKey = 'page-default-key.html';
+    const pageDefaultKey = 'page-default-key.html';
     dataService.setPageDefaultKey(pageDefaultKey);
     expect(setHelpKeySpy).toHaveBeenCalledWith(pageDefaultKey);
   });
 
   it("should remove the pageDefaultKey and call the helpClient's setHelpKeyToDefault method", () => {
-    let defaultPageKey = 'default-page-key.html';
-    let spyHelp = spyOn(BBHelpClient, 'setHelpKeyToDefault').and.callFake(
+    const defaultPageKey = 'default-page-key.html';
+    const spyHelp = spyOn(BBHelpClient, 'setHelpKeyToDefault').and.callFake(
       () => {}
     );
     dataService.setPageDefaultKey(defaultPageKey);
@@ -72,7 +73,7 @@ describe('BBHelpClientService', () => {
   });
 
   it("should call the helpClient's setCurrentHelpKey with the pageDefaultKey", () => {
-    let defaultPageKey = 'default-page-key.html';
+    const defaultPageKey = 'default-page-key.html';
 
     dataService.pageDefaultKey = defaultPageKey;
     dataService.setHelpKeyToPageDefault();
@@ -80,15 +81,14 @@ describe('BBHelpClientService', () => {
     expect(setHelpKeySpy).toHaveBeenCalledWith(defaultPageKey);
   });
 
-  it('should see if the client is ready before calling async methods', fakeAsync(() => {
-    let spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
-    dataService.openWidget().then(() => {
-      expect(spyHelp).toHaveBeenCalled();
-    });
-  }));
+  it('should see if the client is ready before calling async methods', async () => {
+    const spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
+    await dataService.openWidget();
+    expect(spyHelp).toHaveBeenCalled();
+  });
 
-  it('should not call any async methods if ready check fails', () => {
-    let spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
+  it('should not call any async methods if ready check fails', async(() => {
+    const spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
     resolvePromise = false;
 
     dataService
@@ -98,44 +98,43 @@ describe('BBHelpClientService', () => {
         expect(spyHelp).not.toHaveBeenCalled();
         expect(error).toEqual('reason');
       });
-  });
+  }));
 
-  it("should call the helpClient's openWidget method", () => {
-    let spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
+  it("should call the helpClient's openWidget method", async () => {
+    const spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
+
     resolvePromise = true;
 
-    dataService.openWidget().then(() => {
-      expect(spyHelp).toHaveBeenCalled();
-      expect(spyHelp).toHaveBeenCalledWith(undefined);
-    });
+    await dataService.openWidget();
+
+    expect(spyHelp).toHaveBeenCalled();
+    expect(spyHelp).toHaveBeenCalledWith(undefined);
   });
 
-  it("should call the helpClient's openWidget method with a helpKey", () => {
-    let spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
+  it("should call the helpClient's openWidget method with a helpKey", async () => {
+    const spyHelp = spyOn(BBHelpClient, 'openWidget').and.callFake(() => {});
     resolvePromise = true;
-    let testKey = 'foo.html';
+    const testKey = 'foo.html';
 
-    dataService.openWidget(testKey).then(() => {
-      expect(spyHelp).toHaveBeenCalledWith(testKey);
-    });
+    await dataService.openWidget(testKey);
+    expect(spyHelp).toHaveBeenCalledWith(testKey);
   });
 
-  it("should call the helpClient's closeWidget method", () => {
-    let spyHelp = spyOn(BBHelpClient, 'closeWidget').and.callFake(() => {});
+  it("should call the helpClient's closeWidget method", async () => {
+    const spyHelp = spyOn(BBHelpClient, 'closeWidget').and.callFake(() => {});
 
-    dataService.closeWidget().then(() => {
-      expect(spyHelp).toHaveBeenCalled();
-    });
+    await dataService.closeWidget();
+    expect(spyHelp).toHaveBeenCalled();
   });
 
   it("should call the helpClient's toggleOpen method", () => {
-    let spyHelp = spyOn(BBHelpClient, 'toggleOpen').and.callFake(() => {});
+    const spyHelp = spyOn(BBHelpClient, 'toggleOpen').and.callFake(() => {});
     dataService.toggleOpen();
     expect(spyHelp).toHaveBeenCalled();
   });
 
   it('should increase the disableCount each time disableWidget is called', fakeAsync(() => {
-    let spyHelp = spyOn(BBHelpClient, 'disableWidget').and.callFake(() => {});
+    const spyHelp = spyOn(BBHelpClient, 'disableWidget').and.callFake(() => {});
     expect(dataService.disabledCount).toEqual(0);
     dataService.disableWidget();
     tick(1000);
@@ -149,7 +148,7 @@ describe('BBHelpClientService', () => {
   }));
 
   it('should enable the HelpWidget when the disabledCount decreases below 1', fakeAsync(() => {
-    let spyHelpEnable = spyOn(BBHelpClient, 'enableWidget').and.callFake(
+    const spyHelpEnable = spyOn(BBHelpClient, 'enableWidget').and.callFake(
       () => {}
     );
 
@@ -173,7 +172,7 @@ describe('BBHelpClientService', () => {
   }));
 
   it('should not allow disabledCount to decrease below 0', fakeAsync(() => {
-    let spyHelpEnable = spyOn(BBHelpClient, 'enableWidget').and.callFake(
+    const spyHelpEnable = spyOn(BBHelpClient, 'enableWidget').and.callFake(
       () => {}
     );
 
@@ -188,9 +187,8 @@ describe('BBHelpClientService', () => {
     expect(spyHelpEnable).toHaveBeenCalled();
   }));
 
-  it('should provide a ready check for async methods', fakeAsync(() => {
-    dataService.ready().then(() => {
-      expect(BBHelpClient.ready).toHaveBeenCalled();
-    });
-  }));
+  it('should provide a ready check for async methods', async () => {
+    await dataService.ready();
+    expect(BBHelpClient.ready).toHaveBeenCalled();
+  });
 });

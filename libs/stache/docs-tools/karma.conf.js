@@ -11,6 +11,14 @@ module.exports = function (config) {
     coverageReporter: {
       ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../../coverage/libs/stache/docs-tools'),
+      check: {
+        global: {
+          statements: 95,
+          branches: 94,
+          functions: 96,
+          lines: 95,
+        },
+      },
     },
   });
 };

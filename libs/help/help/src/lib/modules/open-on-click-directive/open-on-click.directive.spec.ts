@@ -20,10 +20,10 @@ describe('bbHelpDisableWidget Directive', () => {
   let fixture: ComponentFixture<HelpBBHelpTestComponent>;
   let mockWidgetService: MockWidgetService;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockWidgetService = new MockWidgetService();
 
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       declarations: [HelpBBHelpTestComponent],
       providers: [{ provide: HelpWidgetService, useValue: mockWidgetService }],
       imports: [HelpModule, OpenOnClickDirectiveModule],
@@ -33,8 +33,8 @@ describe('bbHelpDisableWidget Directive', () => {
   });
 
   it('should call the widget service open method with a helpKey on click', fakeAsync(() => {
-    let aTag = fixture.debugElement.nativeElement.querySelector('a');
-    let openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
+    const aTag = fixture.debugElement.nativeElement.querySelector('a');
+    const openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
     fixture.detectChanges();
     aTag.click();
     fixture.whenStable().then(() => {
@@ -45,8 +45,8 @@ describe('bbHelpDisableWidget Directive', () => {
   it('should call the widget service open method on enter keypress', fakeAsync(() => {
     fixture.detectChanges();
 
-    let aTag = fixture.debugElement.nativeElement.querySelector('a');
-    let openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
+    const aTag = fixture.debugElement.nativeElement.querySelector('a');
+    const openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
 
     SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
       keyboardEventInit: {
@@ -61,8 +61,8 @@ describe('bbHelpDisableWidget Directive', () => {
   }));
 
   it('should not call the widget service open method on other keypresses', fakeAsync(() => {
-    let aTag = fixture.debugElement.nativeElement.querySelector('a');
-    let openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
+    const aTag = fixture.debugElement.nativeElement.querySelector('a');
+    const openSpy = spyOn(mockWidgetService, 'openWidget').and.callThrough();
 
     SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
       keyboardEventInit: {

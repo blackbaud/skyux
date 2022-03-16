@@ -6,8 +6,8 @@ import { HelpModule } from './help.module';
 describe('HelpComponent', () => {
   let fixture: ComponentFixture<HelpComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [HelpModule],
     }).compileComponents();
 
