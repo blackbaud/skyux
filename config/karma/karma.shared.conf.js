@@ -7,9 +7,9 @@ module.exports = function (config) {
     ...baseConfig,
     client: {
       ...baseConfig.client,
-      // captureConsole: false,
+      captureConsole: false,
     },
-    reporters: ['progress'],
+    reporters: ['dots'],
     autoWatch: false,
     browsers: ['ChromeHeadless'], // Fallback browser in case env variables not set.
     singleRun: true,
