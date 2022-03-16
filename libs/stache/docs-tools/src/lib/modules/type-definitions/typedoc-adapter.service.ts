@@ -406,8 +406,7 @@ export class SkyDocsTypeDocAdapterService {
   private getTypeDefinition(child: TypeDocEntryChild): SkyDocsTypeDefinition {
     let definition: SkyDocsTypeDefinition;
 
-    const name: string =
-      child.type.name || child.type.elementType?.name || child.type.value;
+    let name: string;
 
     const kindString = child.kindString;
     switch (kindString) {
@@ -429,6 +428,9 @@ export class SkyDocsTypeDocAdapterService {
         return definition;
 
       default:
+        name =
+          child.type.name || child.type.elementType?.name || child.type.value;
+
         definition = {
           type: child.type.type,
         };
