@@ -1,45 +1,20 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
-  tick
+  fakeAsync,
+  tick,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  NO_ERRORS_SCHEMA
-} from '@angular/core';
+import { StacheRouteMetadataService } from '../router/route-metadata.service';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheLayoutComponent
-} from './layout.component';
-
-import {
-  StacheLayoutModule
-} from './layout.module';
-
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheRouteMetadataService
-} from '../router/route-metadata.service';
+import { StacheLayoutComponent } from './layout.component';
+import { StacheLayoutModule } from './layout.module';
 
 let mockRoutes = [
   {
@@ -52,19 +27,19 @@ let mockRoutes = [
             path: 'parent/child',
             children: [
               {
-                path: 'parent/child/grandchild'
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                path: 'parent/child/grandchild',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 class MockSkyAppConfig {
   public runtime: any = {
-    routes: mockRoutes
+    routes: mockRoutes,
   };
 }
 
@@ -84,20 +59,14 @@ describe('StacheLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheLayoutModule,
-        RouterTestingModule
-      ],
+      imports: [StacheLayoutModule, RouterTestingModule],
       providers: [
         { provide: StacheRouteService, useClass: MockRouteService },
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
-        { provide: StacheRouteMetadataService, useValue: { routes: [] } }
+        { provide: StacheRouteMetadataService, useValue: { routes: [] } },
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheLayoutComponent);
     component = fixture.componentInstance;
@@ -193,9 +162,10 @@ describe('StacheLayoutComponent', () => {
     component.ngOnChanges();
     fixture.detectChanges();
     tick();
-    const wrapper = fixture.debugElement.query(By.css('.stache-layout-wrapper')).nativeElement;
+    const wrapper = fixture.debugElement.query(
+      By.css('.stache-layout-wrapper')
+    ).nativeElement;
     expect(spy.calls.argsFor(0)[0]).toEqual(wrapper);
     expect(spy.calls.argsFor(0)[1]).toEqual('min-height');
   }));
-
 });

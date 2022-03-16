@@ -18,24 +18,26 @@
   }
 }
 
-::ng-deep
-.stache-sidebar-enabled {
+::ng-deep .stache-sidebar-enabled {
   .stache-container {
     padding-left: $stache-container-padding;
 
     @media (min-width: $stache-screen-md-min) {
-        padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+      padding-left: calc(
+        #{$stache-sidebar-column-width} + #{$stache-container-padding}
+      );
     }
   }
 }
 
-::ng-deep
-.stache-table-of-contents-enabled {
+::ng-deep .stache-table-of-contents-enabled {
   .stache-container {
     padding-right: $stache-container-padding;
 
     @media (min-width: $stache-screen-lg-min) {
-        padding-right: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+      padding-right: calc(
+        #{$stache-sidebar-column-width} + #{$stache-container-padding}
+      );
     }
   }
 }

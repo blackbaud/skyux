@@ -43,8 +43,7 @@
     }
   }
 
-  ::ng-deep
-  &.stache-affix-top {
+  ::ng-deep &.stache-affix-top {
     position: fixed !important;
     left: auto;
   }

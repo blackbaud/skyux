@@ -1,20 +1,14 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {
-  Router
-} from '@angular/router';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheWindowRef } from '../shared/window-ref';
 
 @Injectable()
 export class StacheNavService {
   public constructor(
     private router: Router,
-    private windowRef: StacheWindowRef) {}
+    private windowRef: StacheWindowRef
+  ) {}
 
   public navigate(route: any): void {
     let extras: any = { queryParamsHandling: 'merge' };
@@ -53,18 +47,24 @@ export class StacheNavService {
     return /^(https?|mailto|ftp):+|^(www)/.test(path);
   }
 
-  private isCurrentRoute(routePath: string | string[], currentPath: string): boolean {
+  private isCurrentRoute(
+    routePath: string | string[],
+    currentPath: string
+  ): boolean {
     let path = routePath;
 
     if (Array.isArray(path)) {
       path = path.join('/');
     }
 
-    return (path === '.' || currentPath.replace(/^\//, '') === path.replace(/^\//, ''));
+    return (
+      path === '.' || currentPath.replace(/^\//, '') === path.replace(/^\//, '')
+    );
   }
 
   private navigateInPage(fragment: string): void {
-    const element = this.windowRef.nativeWindow.document.getElementById(fragment);
+    const element =
+      this.windowRef.nativeWindow.document.getElementById(fragment);
 
     if (element) {
       element.scrollIntoView();

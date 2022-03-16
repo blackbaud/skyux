@@ -4,7 +4,5 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "allowedNonPeerDependencies": [
-    "lodash.get"
-  ]
+  "allowedNonPeerDependencies": ["lodash.get"]
 }

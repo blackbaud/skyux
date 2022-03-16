@@ -1,10 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { SkyDocsAnchorLinkConfig } from './anchor-link-service-config';
-
-import { SkyDocsAnchorLinkService } from './anchor-link.service';
-
 import { SkyDocsAnchorLinkServiceFormatType } from './anchor-link-service-format';
+import { SkyDocsAnchorLinkService } from './anchor-link.service';
 
 /**
  * Adds same-page anchor tags around known TypeScript types.

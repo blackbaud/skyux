@@ -1,26 +1,15 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StachePageTitleComponent
-} from './page-title.component';
+import { StachePageTitleComponent } from './page-title.component';
 
 describe('StachePageTitleComponent', () => {
   let fixture: ComponentFixture<StachePageTitleComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StachePageTitleComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [StachePageTitleComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StachePageTitleComponent);
   });

@@ -1,27 +1,10 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  MockSkyRestrictedViewAuthService
-} from './fixtures/mock-restricted-view-auth.service';
-
-import {
-  RestrictedViewTestComponent
-} from './fixtures/restricted-view.component.fixture';
-
-import {
-  RestrictedViewFixtureModule
-} from './fixtures/restricted-view.module.fixture';
-
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { MockSkyRestrictedViewAuthService } from './fixtures/mock-restricted-view-auth.service';
+import { RestrictedViewTestComponent } from './fixtures/restricted-view.component.fixture';
+import { RestrictedViewFixtureModule } from './fixtures/restricted-view.module.fixture';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 describe('SkyRestrictedViewComponent', () => {
   let fixture: ComponentFixture<RestrictedViewTestComponent>;
@@ -31,15 +14,13 @@ describe('SkyRestrictedViewComponent', () => {
     mockAuth = new MockSkyRestrictedViewAuthService();
 
     TestBed.configureTestingModule({
-      imports: [
-        RestrictedViewFixtureModule
-      ],
+      imports: [RestrictedViewFixtureModule],
       providers: [
         {
           provide: SkyRestrictedViewAuthService,
-          useValue: mockAuth
-        }
-      ]
+          useValue: mockAuth,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(RestrictedViewTestComponent);

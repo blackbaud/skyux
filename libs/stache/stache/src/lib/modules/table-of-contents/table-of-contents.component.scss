@@ -1,7 +1,6 @@
 @import '../../styles/_variables';
 
-::ng-deep
-.stache-table-of-contents {
+::ng-deep .stache-table-of-contents {
   padding-right: $stache-padding;
 
   @media (max-width: $stache-screen-lg-min) {
@@ -15,7 +14,7 @@
   .stache-nav-list-item {
     font-size: 15px;
     margin: 3px 0;
-    padding-left: .5em;
+    padding-left: 0.5em;
     line-height: $stache-line-height-base;
     border-left: 4px solid transparent;
     hyphens: auto;

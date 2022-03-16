@@ -1,15 +1,7 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyHeroSubheadingComponent
-} from './hero-subheading.component';
+import { SkyHeroSubheadingComponent } from './hero-subheading.component';
 
 describe('SkyHeroSubheadingComponent', () => {
   let component: SkyHeroSubheadingComponent;
@@ -17,9 +9,7 @@ describe('SkyHeroSubheadingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyHeroSubheadingComponent
-      ]
+      declarations: [SkyHeroSubheadingComponent],
     });
 
     fixture = TestBed.createComponent(SkyHeroSubheadingComponent);
@@ -36,9 +26,8 @@ describe('SkyHeroSubheadingComponent', () => {
     const textColorHex: string = '#fff';
     const textColorRGB: string = 'rgb(255, 255, 255)';
 
-     const TEXT_COLOR: string = (el.style.color.indexOf('rgb') > -1)
-      ? textColorHex
-      : textColorRGB;
+    const TEXT_COLOR: string =
+      el.style.color.indexOf('rgb') > -1 ? textColorHex : textColorRGB;
 
     fixture.detectChanges();
     expect(el.style.color).toBe(TEXT_COLOR);
@@ -51,9 +40,8 @@ describe('SkyHeroSubheadingComponent', () => {
     const textColorRGB: string = 'rgb(0, 0, 0)';
     component.heroTextColor = textColorHex;
 
-     const TEXT_COLOR: string = (el.style.color.indexOf('rgb') > -1)
-      ? textColorHex
-      : textColorRGB;
+    const TEXT_COLOR: string =
+      el.style.color.indexOf('rgb') > -1 ? textColorHex : textColorRGB;
 
     fixture.detectChanges();
     expect(el.style.color).toBe(TEXT_COLOR);

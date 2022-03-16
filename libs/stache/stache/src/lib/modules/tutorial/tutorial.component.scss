@@ -5,7 +5,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 ($stache-padding-double) ($stache-padding * 4) ($stache-padding * 3);
+  padding: 0 ($stache-padding-double) ($stache-padding * 4)
+    ($stache-padding * 3);
   background: $stache-background-color-neutral-light;
   border: 1px solid $stache-border-color-neutral-medium;
 

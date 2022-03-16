@@ -1,42 +1,16 @@
-import {
-  NgModule
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { StacheOmnibarAdapterService } from '../shared/omnibar-adapter.service';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  StacheOmnibarAdapterService
-} from '../shared/omnibar-adapter.service';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheAffixComponent
-} from './affix.component';
-
-import {
-  StacheAffixTopDirective
-} from './affix-top.directive';
+import { StacheAffixTopDirective } from './affix-top.directive';
+import { StacheAffixComponent } from './affix.component';
 
 @NgModule({
-  declarations: [
-    StacheAffixComponent,
-    StacheAffixTopDirective
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    StacheAffixComponent,
-    StacheAffixTopDirective
-  ],
-  providers: [
-    StacheOmnibarAdapterService,
-    StacheWindowRef
-  ]
+  declarations: [StacheAffixComponent, StacheAffixTopDirective],
+  imports: [CommonModule],
+  exports: [StacheAffixComponent, StacheAffixTopDirective],
+  providers: [StacheOmnibarAdapterService, StacheWindowRef],
 })
-export class StacheAffixModule { }
+export class StacheAffixModule {}

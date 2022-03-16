@@ -9,13 +9,10 @@ import {
 
 import { SkyDocsSourceCodeService } from '../source-code/source-code.service';
 
-import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
-
-import { SkyDocsCodeExampleComponent } from './code-example.component';
-
-import { SkyDocsCodeExampleModuleDependencies } from './code-example-module-dependencies';
-
 import { SkyDocsCodeExample } from './code-example';
+import { SkyDocsCodeExampleModuleDependencies } from './code-example-module-dependencies';
+import { SkyDocsCodeExampleComponent } from './code-example.component';
+import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
 
 /**
  * Wraps all code examples and handles their configuration and styles.

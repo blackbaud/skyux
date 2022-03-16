@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
-
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,14 +8,10 @@ import {
 } from '@skyux/theme';
 
 import { SkyDocsCodeExampleTheme } from './code-example-theme';
-
-import { CodeExampleFixtureComponent } from './fixtures/code-example-fixture.component';
-
-import { CodeExampleFixturesModule } from './fixtures/code-example-fixtures.module';
-
-import { CodeExampleWithThemeServiceFixtureComponent } from './fixtures/code-example-with-theme-service-fixture.component';
-
 import { SkyDocsCodeExampleComponent } from './code-example.component';
+import { CodeExampleFixtureComponent } from './fixtures/code-example-fixture.component';
+import { CodeExampleFixturesModule } from './fixtures/code-example-fixtures.module';
+import { CodeExampleWithThemeServiceFixtureComponent } from './fixtures/code-example-with-theme-service-fixture.component';
 
 describe('Code example component', () => {
   let fixture: ComponentFixture<CodeExampleFixtureComponent>;

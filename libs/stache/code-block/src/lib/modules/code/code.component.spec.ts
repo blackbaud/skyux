@@ -1,41 +1,19 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyCodeComponent
-} from './code.component';
-
-import {
-  SkyCodeModule
-} from './code.module';
-
-import {
-  SkyCodeTestComponent
-} from './fixtures/code.component.fixture';
+import { SkyCodeComponent } from './code.component';
+import { SkyCodeModule } from './code.module';
+import { SkyCodeTestComponent } from './fixtures/code.component.fixture';
 
 describe('SkyCodeComponent', () => {
   let fixture: ComponentFixture<SkyCodeComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyCodeTestComponent
-      ],
-      imports: [
-        SkyCodeModule
-      ]
-    })
-    .compileComponents();
+      declarations: [SkyCodeTestComponent],
+      imports: [SkyCodeModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SkyCodeComponent);
   });
@@ -49,7 +27,9 @@ describe('SkyCodeComponent', () => {
 
     testFixture.detectChanges();
 
-    const codeElement = testFixture.debugElement.query(By.css('.sky-code')).nativeElement;
+    const codeElement = testFixture.debugElement.query(
+      By.css('.sky-code')
+    ).nativeElement;
     expect(codeElement).toHaveText('some code');
   });
 });

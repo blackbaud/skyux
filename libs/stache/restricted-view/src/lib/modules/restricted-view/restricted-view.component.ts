@@ -1,18 +1,12 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { Observable } from 'rxjs';
 
-import {
-  Observable
-} from 'rxjs';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 @Component({
   selector: 'sky-restricted-view',
-  templateUrl: './restricted-view.component.html'
+  templateUrl: './restricted-view.component.html',
 })
 export class SkyRestrictedViewComponent {
   public isAuthenticated: Observable<boolean>;

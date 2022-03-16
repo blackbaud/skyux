@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyDocsClassDefinition } from '../class-definition';
-
 import { SkyDocsClassDefinitionComponent } from '../class-definition.component';
 
 @Component({

@@ -1,7 +1,6 @@
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyDocsAnchorLinkService } from './anchor-link.service';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Anchor link service', function () {

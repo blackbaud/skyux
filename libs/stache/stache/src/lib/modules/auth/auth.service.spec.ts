@@ -1,5 +1,6 @@
-import { waitForAsync } from "@angular/core/testing";
-import { StacheAuthService } from "./auth.service";
+import { waitForAsync } from '@angular/core/testing';
+
+import { StacheAuthService } from './auth.service';
 
 describe('Auth service', () => {
   it('should indicate the user is not authenticated', async () => {

@@ -1,51 +1,18 @@
-import {
-  ChangeDetectorRef
-} from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { Subject } from 'rxjs';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { StacheRouteService } from '../router/route.service';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  Subject
-} from 'rxjs';
-
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StachePageAnchorTestComponent
-} from './fixtures/page-anchor.component.fixture';
-
-import {
-  StachePageAnchorComponent
-} from './page-anchor.component';
-
-import {
-  StachePageAnchorModule
-} from './page-anchor.module';
-
-import {
-  StachePageAnchorService
-} from './page-anchor.service';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
+import { StachePageAnchorTestComponent } from './fixtures/page-anchor.component.fixture';
+import { StachePageAnchorComponent } from './page-anchor.component';
+import { StachePageAnchorModule } from './page-anchor.module';
+import { StachePageAnchorService } from './page-anchor.service';
 
 describe('StachePageAnchorComponent', () => {
   let fixtureComponent: StachePageAnchorTestComponent;
@@ -64,17 +31,21 @@ describe('StachePageAnchorComponent', () => {
   class MockWindowService {
     public nativeWindow = {
       document: {
-        querySelector: jasmine.createSpy('querySelector').and.callFake((fragment: any) => {
+        querySelector: jasmine
+          .createSpy('querySelector')
+          .and.callFake((fragment: any) => {
             return this.testElement;
-          })
+          }),
       },
       location: {
-        href: ''
-      }
+        href: '',
+      },
     };
 
     public testElement = {
-      scrollIntoView: jasmine.createSpy('scrollIntoView').and.callFake(() => {})
+      scrollIntoView: jasmine
+        .createSpy('scrollIntoView')
+        .and.callFake(() => {}),
     };
   }
 
@@ -88,25 +59,21 @@ describe('StachePageAnchorComponent', () => {
     mockRouteService = new MockRouteService();
 
     TestBed.configureTestingModule({
-      declarations: [
-        StachePageAnchorTestComponent
-      ],
-      imports: [
-        RouterTestingModule,
-        StachePageAnchorModule
-      ],
+      declarations: [StachePageAnchorTestComponent],
+      imports: [RouterTestingModule, StachePageAnchorModule],
       providers: [
         { provide: StacheWindowRef, useValue: mockWindowService },
         { provide: StachePageAnchorService, useValue: mockAnchorService },
         { provide: StacheRouteService, useValue: mockRouteService },
-        ChangeDetectorRef
-      ]
-    })
-    .compileComponents();
+        ChangeDetectorRef,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StachePageAnchorTestComponent);
     fixtureComponent = fixture.componentInstance;
-    anchorComponent = fixture.debugElement.query(By.directive(StachePageAnchorComponent)).componentInstance;
+    anchorComponent = fixture.debugElement.query(
+      By.directive(StachePageAnchorComponent)
+    ).componentInstance;
   });
 
   it('should scroll to anchor', () => {
@@ -129,7 +96,9 @@ describe('StachePageAnchorComponent', () => {
   it('should set the anchors id/fragment from the anchor content', () => {
     fixtureComponent.anchorContent = 'foo';
     fixture.detectChanges();
-    const el = fixture.debugElement.nativeElement.querySelector('.stache-page-anchor');
+    const el = fixture.debugElement.nativeElement.querySelector(
+      '.stache-page-anchor'
+    );
     expect(anchorComponent.fragment).toEqual('foo');
     expect(el.id).toBe('foo');
   });
@@ -138,7 +107,9 @@ describe('StachePageAnchorComponent', () => {
     fixtureComponent.anchorId = 'bar';
     fixtureComponent.anchorContent = 'foo';
     fixture.detectChanges();
-    const el = fixture.debugElement.nativeElement.querySelector('.stache-page-anchor');
+    const el = fixture.debugElement.nativeElement.querySelector(
+      '.stache-page-anchor'
+    );
     expect(anchorComponent.fragment).toEqual('bar');
     expect(el.id).toBe('bar');
   });
@@ -165,7 +136,7 @@ describe('StachePageAnchorComponent', () => {
     let offsetValue = 100;
 
     spyOn<any>(anchorComponent, 'getOffset').and.callFake(() => {
-        return offsetValue;
+      return offsetValue;
     });
 
     fixture.detectChanges();

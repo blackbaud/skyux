@@ -2,21 +2,12 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  tick
+  tick,
 } from '@angular/core/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
-import {
-  expect,
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
-
-import {
-  AffixFixtureComponent
-} from './fixtures/affix.component.fixture';
-
-import {
-  AffixFixtureModule
-} from './fixtures/affix.module.fixture';
+import { AffixFixtureComponent } from './fixtures/affix.component.fixture';
+import { AffixFixtureModule } from './fixtures/affix.module.fixture';
 
 describe('StacheAffixComponent', () => {
   let component: AffixFixtureComponent;
@@ -33,9 +24,7 @@ describe('StacheAffixComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AffixFixtureModule
-      ]
+      imports: [AffixFixtureModule],
     });
 
     fixture = TestBed.createComponent(AffixFixtureComponent);
@@ -45,7 +34,9 @@ describe('StacheAffixComponent', () => {
   it('should set defaults', fakeAsync(() => {
     detectChanges();
     const affixComponent = component.affixComponent;
-    expect(affixComponent.minHeightFormatted).toEqual(`${fixture.nativeElement.offsetHeight}px`);
+    expect(affixComponent.minHeightFormatted).toEqual(
+      `${fixture.nativeElement.offsetHeight}px`
+    );
     expect(affixComponent.maxWidthFormatted).toEqual(`${window.innerWidth}px`);
   }));
 
@@ -81,7 +72,9 @@ describe('StacheAffixComponent', () => {
 
     const affixElement = getAffixElement();
 
-    expect(affixElement.children[0].getAttribute('stacheaffixtop')).toBeDefined();
+    expect(
+      affixElement.children[0].getAttribute('stacheaffixtop')
+    ).toBeDefined();
   }));
 
   it('should set the minHeight and maxWidth on window resize', fakeAsync(() => {
@@ -89,11 +82,21 @@ describe('StacheAffixComponent', () => {
 
     const affixComponent = component.affixComponent;
 
-    expect(affixComponent.minHeightFormatted).toEqual(`${fixture.nativeElement.offsetHeight}px`);
+    expect(affixComponent.minHeightFormatted).toEqual(
+      `${fixture.nativeElement.offsetHeight}px`
+    );
     expect(affixComponent.maxWidthFormatted).toEqual(`${window.innerWidth}px`);
 
-    spyOnProperty(affixComponent.wrapper.nativeElement, 'offsetHeight', 'get').and.returnValue(10);
-    spyOnProperty(affixComponent.wrapper.nativeElement, 'offsetWidth', 'get').and.returnValue(20);
+    spyOnProperty(
+      affixComponent.wrapper.nativeElement,
+      'offsetHeight',
+      'get'
+    ).and.returnValue(10);
+    spyOnProperty(
+      affixComponent.wrapper.nativeElement,
+      'offsetWidth',
+      'get'
+    ).and.returnValue(20);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     detectChanges();

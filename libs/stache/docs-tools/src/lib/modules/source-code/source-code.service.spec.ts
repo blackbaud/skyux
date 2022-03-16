@@ -1,5 +1,4 @@
 import { SkyDocsSourceCodeProvider } from './source-code-provider';
-
 import { SkyDocsSourceCodeService } from './source-code.service';
 
 describe('Source code service', () => {

@@ -1,6 +1,4 @@
-import {
-  StacheNavService
-} from './nav.service';
+import { StacheNavService } from './nav.service';
 
 class MockRouter {
   public url = '/internal#element-id';
@@ -15,34 +13,38 @@ class MockWindowService {
     getBoundingClientRect() {
       return {
         y: 0,
-        bottom: 0
+        bottom: 0,
       };
     },
     scrollIntoView() {
       elementScrollCalled = true;
       return;
-    }
+    },
   };
 
   public nativeWindow = {
     pageYOffset: 0,
     innerHeight: 0,
     document: {
-      getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-        if (id === 'element-id') {
+      getElementById: jasmine
+        .createSpy('getElementById')
+        .and.callFake((id: any) => {
+          if (id === 'element-id') {
+            return this.testElement;
+          }
+          return false;
+        }),
+      querySelector: jasmine
+        .createSpy('querySelector')
+        .and.callFake((selector: any) => {
           return this.testElement;
-        }
-        return false;
-      }),
-      querySelector: jasmine.createSpy('querySelector').and.callFake((selector: any) => {
-        return this.testElement;
-      }),
-      documentElement: this.testElement
+        }),
+      documentElement: this.testElement,
     },
     location: {
-      href: ''
+      href: '',
     },
-    scroll: jasmine.createSpy('scroll')
+    scroll: jasmine.createSpy('scroll'),
   };
 }
 
@@ -54,27 +56,27 @@ describe('StacheNavService', () => {
   beforeEach(() => {
     router = new MockRouter();
     windowRef = new MockWindowService();
-    navService = new StacheNavService((router as any), (windowRef as any));
+    navService = new StacheNavService(router as any, windowRef as any);
     elementScrollCalled = false;
   });
 
   it('should return true if a given route is external www', () => {
-    let www = navService.isExternal({path: 'www.external.com'});
+    let www = navService.isExternal({ path: 'www.external.com' });
     expect(www).toBe(true);
   });
 
   it('should return true if a given route is external http', () => {
-    let isHttp = navService.isExternal({path: 'http://www.external.com'});
+    let isHttp = navService.isExternal({ path: 'http://www.external.com' });
     expect(isHttp).toBe(true);
   });
 
   it('should return true if a given route is external mailto', () => {
-    let mailto = navService.isExternal({path: 'mailto:test@email.com'});
+    let mailto = navService.isExternal({ path: 'mailto:test@email.com' });
     expect(mailto).toBe(true);
   });
 
   it('should return true if a given route is external ftp', () => {
-    let ftp = navService.isExternal({path: 'ftp://address'});
+    let ftp = navService.isExternal({ path: 'ftp://address' });
     expect(ftp).toBe(true);
   });
 
@@ -94,51 +96,61 @@ describe('StacheNavService', () => {
   });
 
   it('should navigate to an external url', () => {
-    navService.navigate({path: 'www.external.com' });
+    navService.navigate({ path: 'www.external.com' });
     expect(windowRef.nativeWindow.location.href).toEqual('www.external.com');
   });
 
   it('should navigate to an internal url without a fragment', () => {
     spyOn(router, 'navigate').and.callThrough();
-    navService.navigate({path: '/internal' });
-    expect(router.navigate).toHaveBeenCalledWith(['/internal'], { queryParamsHandling: 'merge' });
+    navService.navigate({ path: '/internal' });
+    expect(router.navigate).toHaveBeenCalledWith(['/internal'], {
+      queryParamsHandling: 'merge',
+    });
   });
 
   it('should navigate to an internal url when the path is an array of paths', () => {
     spyOn(router, 'navigate').and.callThrough();
-    navService.navigate({path: ['/internal', '/deeper-internal'] });
-    expect(router.navigate).toHaveBeenCalledWith(['/internal', '/deeper-internal'], { queryParamsHandling: 'merge' });
+    navService.navigate({ path: ['/internal', '/deeper-internal'] });
+    expect(router.navigate).toHaveBeenCalledWith(
+      ['/internal', '/deeper-internal'],
+      { queryParamsHandling: 'merge' }
+    );
   });
 
   it('should navigate to a new page with a fragment', () => {
     spyOn(router, 'navigate').and.callThrough();
-    navService.navigate({ path: '/internal-foo', fragment: 'foo'});
-    expect(router.navigate).toHaveBeenCalledWith(['/internal-foo'], { queryParamsHandling: 'merge',  fragment: 'foo' });
+    navService.navigate({ path: '/internal-foo', fragment: 'foo' });
+    expect(router.navigate).toHaveBeenCalledWith(['/internal-foo'], {
+      queryParamsHandling: 'merge',
+      fragment: 'foo',
+    });
   });
 
   it('should navigate to an internal url with a fragment', () => {
-    navService.navigate({path: 'internal', fragment: 'element-id'});
+    navService.navigate({ path: 'internal', fragment: 'element-id' });
     expect(elementScrollCalled).toBe(true);
   });
 
   it('should navigate to an internal url if the path provided is .', () => {
-    navService.navigate({path: '.', fragment: 'element-id'});
+    navService.navigate({ path: '.', fragment: 'element-id' });
     expect(elementScrollCalled).toBe(true);
   });
 
   it('should navigate to an internal url if the path provided is an array of paths', () => {
-    navService.navigate({path: ['/internal'], fragment: 'element-id'});
+    navService.navigate({ path: ['/internal'], fragment: 'element-id' });
     expect(elementScrollCalled).toBe(true);
   });
 
   it('should not navigate to an internal url if the path provided is an array of paths that do not match currentUrl', () => {
-    navService.navigate({path: ['/internal', 'not-in-page'], fragment: 'element-id'});
+    navService.navigate({
+      path: ['/internal', 'not-in-page'],
+      fragment: 'element-id',
+    });
     expect(elementScrollCalled).toBe(false);
   });
 
-  it('should navigate to an internal url',
-   () => {
-    navService.navigate({path: 'internal', fragment: 'does-not-exist'});
+  it('should navigate to an internal url', () => {
+    navService.navigate({ path: 'internal', fragment: 'does-not-exist' });
     expect(windowRef.nativeWindow.scroll).toHaveBeenCalled();
   });
 });

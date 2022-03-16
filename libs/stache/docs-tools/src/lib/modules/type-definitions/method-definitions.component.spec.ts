@@ -1,16 +1,13 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
 import { expect } from '@skyux-sdk/testing';
 
 import { MethodDefinitionsFixtureComponent } from './fixtures/method-definitions.component.fixture';
-
 import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Method definitions component', function () {

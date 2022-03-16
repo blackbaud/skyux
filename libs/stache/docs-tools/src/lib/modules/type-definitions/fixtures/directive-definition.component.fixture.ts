@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyDocsDirectiveDefinition } from '../directive-definition';
-
 import { SkyDocsDirectiveDefinitionComponent } from '../directive-definition.component';
 
 @Component({

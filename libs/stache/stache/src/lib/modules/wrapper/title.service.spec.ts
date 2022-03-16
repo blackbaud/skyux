@@ -1,23 +1,16 @@
-import {
-  Title
-} from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheTitleService
-} from './title.service';
+import { StacheTitleService } from './title.service';
 
 class MockSkyAppConfig {
   public skyux = {
     app: {
-      title: 'My Title'
-    }
+      title: 'My Title',
+    },
   };
 
-  public runtime = { };
+  public runtime = {};
 }
 
 class MockTitle extends Title {

@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkyDocsSourceCodeService } from '../source-code/source-code.service';
 import { SkyDocsSourceCodeFile } from '../source-code/source-code-file';
+import { SkyDocsSourceCodeService } from '../source-code/source-code.service';
 
-import { CodeExamplesFixtureComponent } from './fixtures/code-examples-fixture.component';
-import { CodeExampleFixturesModule } from './fixtures/code-example-fixtures.module';
-import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
 import { SkyDocsCodeExampleTheme } from './code-example-theme';
+import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
+import { CodeExampleFixturesModule } from './fixtures/code-example-fixtures.module';
+import { CodeExamplesFixtureComponent } from './fixtures/code-examples-fixture.component';
 
 const MOCK_SOURCE_CODE = [
   {

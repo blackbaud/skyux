@@ -3,23 +3,16 @@ import {
   OnDestroy,
   Renderer2,
   TemplateRef,
-  ViewContainerRef
+  ViewContainerRef,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
-
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 @Directive({
-  selector: '[skyRestrictedView]'
+  selector: '[skyRestrictedView]',
 })
 export class SkyRestrictedViewDirective implements OnDestroy {
   private ngUnsubscribe = new Subject<void>();
@@ -34,7 +27,7 @@ export class SkyRestrictedViewDirective implements OnDestroy {
 
     this.authService.isAuthenticated
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(isAuthenticated => {
+      .subscribe((isAuthenticated) => {
         if (isAuthenticated) {
           this.viewContainer.createEmbeddedView(this.templateRef);
 

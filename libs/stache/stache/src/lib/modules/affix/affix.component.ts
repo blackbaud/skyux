@@ -1,33 +1,27 @@
 import {
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  AfterViewInit,
-  ViewChild,
   ElementRef,
-  OnDestroy
+  OnDestroy,
+  ViewChild,
 } from '@angular/core';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  StacheAffixTopDirective
-} from './affix-top.directive';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheAffixTopDirective } from './affix-top.directive';
 
 @Component({
   selector: 'stache-affix',
   templateUrl: './affix.component.html',
-  styleUrls: ['./affix.component.scss']
+  styleUrls: ['./affix.component.scss'],
 })
 export class StacheAffixComponent implements AfterViewInit, OnDestroy {
   @ViewChild('stacheAffixWrapper', {
     read: ElementRef,
-    static: false
+    static: false,
   })
   public wrapper: ElementRef;
   public minHeightFormatted: string;
@@ -35,7 +29,7 @@ export class StacheAffixComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(StacheAffixTopDirective, {
     read: StacheAffixTopDirective,
-    static: true
+    static: true,
   })
   public affixTopDirective: StacheAffixTopDirective;
 
@@ -43,11 +37,12 @@ export class StacheAffixComponent implements AfterViewInit, OnDestroy {
 
   public constructor(
     private windowRef: StacheWindowRef,
-    private cdRef: ChangeDetectorRef) {
-      this.windowSubscription = this.windowRef.onResizeStream.subscribe(() => {
-        this.setElementRefDimensions();
-      });
-    }
+    private cdRef: ChangeDetectorRef
+  ) {
+    this.windowSubscription = this.windowRef.onResizeStream.subscribe(() => {
+      this.setElementRefDimensions();
+    });
+  }
 
   public ngAfterViewInit() {
     this.setElementRefDimensions();
@@ -62,7 +57,7 @@ export class StacheAffixComponent implements AfterViewInit, OnDestroy {
     return {
       'min-height': this.getCssMinHeight(),
       'max-width': this.getCssMaxWidth(),
-      position: this.getCssPosition()
+      position: this.getCssPosition(),
     };
   }
 

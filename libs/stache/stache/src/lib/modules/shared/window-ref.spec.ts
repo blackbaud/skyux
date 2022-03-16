@@ -1,10 +1,6 @@
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  StacheWindowRef
-} from './window-ref';
+import { StacheWindowRef } from './window-ref';
 
 describe('StacheWindowRef', () => {
   it('should provide a way to access the native window object', () => {

@@ -5,11 +5,9 @@ import {
   OnDestroy,
   Optional,
 } from '@angular/core';
-
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
-
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyDocsCodeExampleTheme } from './code-example-theme';

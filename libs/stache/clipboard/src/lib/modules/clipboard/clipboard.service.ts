@@ -1,8 +1,5 @@
 // adapted from ngx-clipboard
-
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import clipboard from 'clipboard-polyfill';
 
@@ -14,7 +11,6 @@ export class SkyCopyToClipboardService {
   }
 
   private getTextFromElement(element: HTMLElement): string {
-
     if (this.isValidInputElement(element)) {
       const targetEl = element as HTMLInputElement | HTMLTextAreaElement;
       return targetEl.value;
@@ -24,6 +20,9 @@ export class SkyCopyToClipboardService {
   }
 
   private isValidInputElement(element: HTMLElement): boolean {
-    return (element instanceof HTMLTextAreaElement || element instanceof HTMLInputElement);
+    return (
+      element instanceof HTMLTextAreaElement ||
+      element instanceof HTMLInputElement
+    );
   }
 }

@@ -1,8 +1,8 @@
 import {
   InputConverter,
   booleanConverter,
+  numberConverter,
   stringConverter,
-  numberConverter
 } from './input-converter';
 
 class MockComponentExplicit {

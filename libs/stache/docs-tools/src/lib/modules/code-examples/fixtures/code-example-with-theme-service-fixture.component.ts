@@ -5,7 +5,6 @@ import {
   Renderer2,
   ViewChildren,
 } from '@angular/core';
-
 import {
   SkyTheme,
   SkyThemeMode,

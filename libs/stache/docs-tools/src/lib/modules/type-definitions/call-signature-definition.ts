@@ -1,5 +1,4 @@
 import { SkyDocsParameterDefinition } from './parameter-definition';
-
 import { SkyDocsTypeDefinition } from './type-definition';
 
 /**

@@ -1,12 +1,9 @@
-import {
-  Component,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'stache-layout-blank',
   templateUrl: './layout-blank.component.html',
-  styleUrls: ['./layout-blank.component.scss']
+  styleUrls: ['./layout-blank.component.scss'],
 })
 export class StacheLayoutBlankComponent {
   @Input()

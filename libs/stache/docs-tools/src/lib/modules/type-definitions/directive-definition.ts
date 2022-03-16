@@ -1,6 +1,5 @@
-import { SkyDocsClassPropertyDefinition } from './property-definition';
-
 import { SkyDocsEntryDefinition } from './entry-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 
 /**
  * Describes components and directives.

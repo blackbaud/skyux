@@ -1,23 +1,11 @@
-import {
-  Directive,
-  OnInit
-} from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  Router,
-  NavigationEnd
-} from '@angular/router';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheWindowRef } from '../shared/window-ref';
 
 @Directive({
-  selector: '[stacheGoogleAnalytics]'
+  selector: '[stacheGoogleAnalytics]',
 })
 export class StacheGoogleAnalyticsDirective implements OnInit {
   private tagManagerContainerId = 'GTM-W56QP9';
@@ -28,7 +16,8 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
   public constructor(
     private windowRef: StacheWindowRef,
     private configService: SkyAppConfig,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     const isLoaded = this.windowRef.nativeWindow.ga;
@@ -71,7 +60,7 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
   }
 
   public bindPageViewsToRouter(): void {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event) => {
       /* istanbul ignore else*/
       if (event instanceof NavigationEnd) {
         const ga = this.windowRef.nativeWindow.ga;
@@ -86,10 +75,12 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
     // TODO: the config service should handle defaults!
     const appSettings = this.configService.skyux.appSettings || {};
     appSettings.stache = appSettings.stache || {};
-    appSettings.stache.googleAnalytics = appSettings.stache.googleAnalytics || {};
+    appSettings.stache.googleAnalytics =
+      appSettings.stache.googleAnalytics || {};
 
     if (appSettings.stache.googleAnalytics.tagManagerContainerId) {
-      this.tagManagerContainerId = appSettings.stache.googleAnalytics.tagManagerContainerId;
+      this.tagManagerContainerId =
+        appSettings.stache.googleAnalytics.tagManagerContainerId;
     }
 
     if (appSettings.stache.googleAnalytics.clientId) {
@@ -102,9 +93,9 @@ export class StacheGoogleAnalyticsDirective implements OnInit {
       case false:
       case 'false':
         this.isEnabled = false;
-      break;
+        break;
       default:
-      break;
+        break;
     }
   }
 }

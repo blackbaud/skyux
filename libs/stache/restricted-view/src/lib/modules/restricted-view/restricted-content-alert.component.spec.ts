@@ -1,27 +1,10 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  MockSkyRestrictedViewAuthService
-} from './fixtures/mock-restricted-view-auth.service';
-
-import {
-  RestrictedViewTestComponent
-} from './fixtures/restricted-view.component.fixture';
-
-import {
-  RestrictedViewFixtureModule
-} from './fixtures/restricted-view.module.fixture';
-
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { MockSkyRestrictedViewAuthService } from './fixtures/mock-restricted-view-auth.service';
+import { RestrictedViewTestComponent } from './fixtures/restricted-view.component.fixture';
+import { RestrictedViewFixtureModule } from './fixtures/restricted-view.module.fixture';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 describe('Restricted content alert component', () => {
   let mockAuth: MockSkyRestrictedViewAuthService;
@@ -37,15 +20,13 @@ describe('Restricted content alert component', () => {
     mockAuth = new MockSkyRestrictedViewAuthService();
 
     TestBed.configureTestingModule({
-      imports: [
-        RestrictedViewFixtureModule
-      ],
+      imports: [RestrictedViewFixtureModule],
       providers: [
         {
           provide: SkyRestrictedViewAuthService,
-          useValue: mockAuth
-        }
-      ]
+          useValue: mockAuth,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(RestrictedViewTestComponent);
@@ -109,7 +90,9 @@ describe('Restricted content alert component', () => {
 
     element = fixture.elementRef.nativeElement.querySelector('sky-alert');
     expect(element).not.toBeNull();
-    expect(element.querySelector('.sky-alert').attributes['hidden']).not.toBeNull();
+    expect(
+      element.querySelector('.sky-alert').attributes['hidden']
+    ).not.toBeNull();
     expect(mockAuth.clearHasBeenAuthenticated).toHaveBeenCalled();
   });
 });

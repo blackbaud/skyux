@@ -1,33 +1,17 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StachePageSummaryModule
-} from './page-summary.module';
-
-import {
-  StachePageSummaryTestComponent
-} from './fixtures/page-summary.component.fixture';
+import { StachePageSummaryTestComponent } from './fixtures/page-summary.component.fixture';
+import { StachePageSummaryModule } from './page-summary.module';
 
 describe('StachePageSummaryComponent', () => {
   let fixture: ComponentFixture<StachePageSummaryTestComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StachePageSummaryModule
-      ],
-      declarations: [
-        StachePageSummaryTestComponent
-      ]
-    })
-    .compileComponents();
+      imports: [StachePageSummaryModule],
+      declarations: [StachePageSummaryTestComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StachePageSummaryTestComponent);
   });

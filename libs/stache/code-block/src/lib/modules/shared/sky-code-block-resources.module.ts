@@ -4,19 +4,22 @@
  * the 'ng generate @skyux/i18n:lib-resources-module modules/shared/sky-code-block' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
-  getLibStringForLocale,
+  SKY_LIB_RESOURCES_PROVIDERS,
   SkyAppLocaleInfo,
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  getLibStringForLocale,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"sky_copy_to_clipboard_button_title":{"message":"Copy to clipboard"},"sky_copy_to_clipboard_button":{"message":"Copy"},"sky_copy_to_clipboard_button_success":{"message":"Copied!"}},
+  'EN-US': {
+    sky_copy_to_clipboard_button_title: { message: 'Copy to clipboard' },
+    sky_copy_to_clipboard_button: { message: 'Copy' },
+    sky_copy_to_clipboard_button_success: { message: 'Copied!' },
+  },
 };
 
 export class SkyCodeBlockResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +33,12 @@ export class SkyCodeBlockResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyCodeBlockResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyCodeBlockResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyCodeBlockResourcesModule { }
+export class SkyCodeBlockResourcesModule {}

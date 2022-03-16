@@ -2,31 +2,18 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  tick
+  tick,
 } from '@angular/core/testing';
+import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
-import {
-  SkyAppTestUtility
-} from '@skyux-sdk/testing';
+import { HelpModule } from '../help/help.module';
+import { HelpWidgetService } from '../shared/widget.service';
 
-import {
-  HelpWidgetService
-} from '../shared/widget.service';
-
-import {
-  HelpModule
-} from '../help/help.module';
-
-import {
-  HelpBBHelpTestComponent
-} from './fixtures/help.component.fixture';
-
-import {
-  OpenOnClickDirectiveModule
-} from './open-on-click.module';
+import { HelpBBHelpTestComponent } from './fixtures/help.component.fixture';
+import { OpenOnClickDirectiveModule } from './open-on-click.module';
 
 class MockWidgetService {
-  public openWidget(helpKey: string): void { }
+  public openWidget(helpKey: string): void {}
 }
 
 describe('bbHelpDisableWidget Directive', () => {
@@ -37,16 +24,9 @@ describe('bbHelpDisableWidget Directive', () => {
     mockWidgetService = new MockWidgetService();
 
     TestBed.configureTestingModule({
-      declarations: [
-        HelpBBHelpTestComponent
-      ],
-      providers: [
-        { provide: HelpWidgetService, useValue: mockWidgetService }
-      ],
-      imports: [
-        HelpModule,
-        OpenOnClickDirectiveModule
-      ]
+      declarations: [HelpBBHelpTestComponent],
+      providers: [{ provide: HelpWidgetService, useValue: mockWidgetService }],
+      imports: [HelpModule, OpenOnClickDirectiveModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HelpBBHelpTestComponent);
@@ -70,8 +50,8 @@ describe('bbHelpDisableWidget Directive', () => {
 
     SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
       keyboardEventInit: {
-        key: 'Enter'
-      }
+        key: 'Enter',
+      },
     });
 
     fixture.detectChanges();
@@ -86,8 +66,8 @@ describe('bbHelpDisableWidget Directive', () => {
 
     SkyAppTestUtility.fireDomEvent(aTag, 'keydown', {
       keyboardEventInit: {
-        key: 'Tab'
-      }
+        key: 'Tab',
+      },
     });
 
     fixture.detectChanges();

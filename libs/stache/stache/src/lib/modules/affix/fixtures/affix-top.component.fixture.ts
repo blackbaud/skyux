@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'affix-top-test-component',
-  templateUrl: './affix-top.component.fixture.html'
+  templateUrl: './affix-top.component.fixture.html',
 })
-export class AffixTopFixtureComponent { }
+export class AffixTopFixtureComponent {}

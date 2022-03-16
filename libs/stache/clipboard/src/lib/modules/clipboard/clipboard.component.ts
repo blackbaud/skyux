@@ -1,20 +1,11 @@
-import {
-  Component,
-  Input,
-  ChangeDetectorRef
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
-
-import {
-  SkyCopyToClipboardService
-} from './clipboard.service';
+import { SkyCopyToClipboardService } from './clipboard.service';
 
 @Component({
   selector: 'sky-copy-to-clipboard',
-  templateUrl: './clipboard.component.html'
+  templateUrl: './clipboard.component.html',
 })
 export class SkyCopyToClipboardComponent {
   @Input()

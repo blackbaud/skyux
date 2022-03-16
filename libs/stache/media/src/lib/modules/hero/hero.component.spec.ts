@@ -1,27 +1,10 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  DebugElement
-} from '@angular/core';
-
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyHeroModule
-} from './hero.module';
-
-import {
-  SkyHeroComponent
-} from './hero.component';
+import { SkyHeroComponent } from './hero.component';
+import { SkyHeroModule } from './hero.module';
 
 describe('SkyHeroComponent', () => {
   let component: SkyHeroComponent;
@@ -30,9 +13,7 @@ describe('SkyHeroComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SkyHeroModule
-      ]
+      imports: [SkyHeroModule],
     });
 
     fixture = TestBed.createComponent(SkyHeroComponent);
@@ -62,7 +43,7 @@ describe('SkyHeroComponent', () => {
 
     component.overlayOpacity = 'Invalid input.';
     expect(component.overlayOpacity).toEqual('0.4');
-});
+  });
 
   it('should remove any character other than numbers and . from an opacity input.', () => {
     component.overlayOpacity = 'Inva 0 id . inp 5 ut';

@@ -1,43 +1,16 @@
-import {
-  NO_ERRORS_SCHEMA
-} from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { of as observableOf } from 'rxjs';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheOmnibarAdapterService } from '../shared/omnibar-adapter.service';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  of as observableOf
-} from 'rxjs';
-
-import {
-  StacheTableOfContentsComponent
-} from './table-of-contents.component';
-
-import {
-  StacheTableOfContentsModule
-} from './table-of-contents.module';
-
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheOmnibarAdapterService
-} from '../shared/omnibar-adapter.service';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheTableOfContentsComponent } from './table-of-contents.component';
+import { StacheTableOfContentsModule } from './table-of-contents.module';
 
 class MockWindowService {
   public testElement = {
@@ -45,33 +18,37 @@ class MockWindowService {
     getBoundingClientRect() {
       return {
         y: 0,
-        bottom: 0
+        bottom: 0,
       };
     },
     scrollIntoView() {
       return;
-    }
+    },
   };
 
   public nativeWindow = {
     pageYOffset: 0,
     innerHeight: 0,
     document: {
-      getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-        if (id === 'element-id') {
+      getElementById: jasmine
+        .createSpy('getElementById')
+        .and.callFake((id: any) => {
+          if (id === 'element-id') {
+            return this.testElement;
+          }
+          return false;
+        }),
+      querySelector: jasmine
+        .createSpy('querySelector')
+        .and.callFake((selector: any) => {
           return this.testElement;
-        }
-        return false;
-      }),
-      querySelector: jasmine.createSpy('querySelector').and.callFake((selector: any) => {
-        return this.testElement;
-      }),
-      documentElement: this.testElement
+        }),
+      documentElement: this.testElement,
     },
     location: {
-      href: ''
+      href: '',
     },
-    scroll: jasmine.createSpy('scroll')
+    scroll: jasmine.createSpy('scroll'),
   };
 
   public scrollEventStream = observableOf(true);
@@ -91,7 +68,7 @@ describe('StacheTableOfContentsComponent', () => {
     name: 'string',
     path: '/test',
     offsetTop: 100,
-    isCurrent: false
+    isCurrent: false,
   };
 
   beforeEach(() => {
@@ -99,19 +76,13 @@ describe('StacheTableOfContentsComponent', () => {
     mockOmnibarService = new MockOmnibarService();
 
     TestBed.configureTestingModule({
-      imports: [
-        StacheTableOfContentsModule,
-        RouterTestingModule
-      ],
+      imports: [StacheTableOfContentsModule, RouterTestingModule],
       providers: [
         { provide: StacheWindowRef, useValue: mockWindowRef },
-        { provide: StacheOmnibarAdapterService, useValue: mockOmnibarService }
+        { provide: StacheOmnibarAdapterService, useValue: mockOmnibarService },
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheTableOfContentsComponent);
     component = fixture.componentInstance;
@@ -134,8 +105,8 @@ describe('StacheTableOfContentsComponent', () => {
       {
         name: 'testRoute',
         path: [],
-        offsetTop: 0
-      } as StacheNavLink
+        offsetTop: 0,
+      } as StacheNavLink,
     ]);
     expect(component.updateView).toHaveBeenCalled();
   });
@@ -145,8 +116,8 @@ describe('StacheTableOfContentsComponent', () => {
       {
         name: 'testRoute',
         path: [],
-        offsetTop: 0
-      } as StacheNavLink
+        offsetTop: 0,
+      } as StacheNavLink,
     ];
 
     component.updateView(routes);
@@ -161,12 +132,12 @@ describe('StacheTableOfContentsComponent', () => {
       getBoundingClientRect() {
         return {
           y: 0,
-          bottom: 150
+          bottom: 150,
         };
       },
       scrollIntoView() {
         return;
-      }
+      },
     };
     mockWindowRef = {
       testElement: test,
@@ -174,38 +145,45 @@ describe('StacheTableOfContentsComponent', () => {
         pageYOffset: 0,
         innerHeight: 0,
         document: {
-          getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-            if (id === 'element-id') {
+          getElementById: jasmine
+            .createSpy('getElementById')
+            .and.callFake((id: any) => {
+              if (id === 'element-id') {
+                return test;
+              }
+              return false;
+            }),
+          querySelector: jasmine
+            .createSpy('querySelector')
+            .and.callFake((selector: any) => {
               return test;
-            }
-            return false;
-          }),
-          querySelector: jasmine.createSpy('querySelector').and.callFake((selector: any) => {
-            return test;
-          }),
-          documentElement: test
+            }),
+          documentElement: test,
         },
         location: {
-          href: ''
+          href: '',
         },
-        scroll: jasmine.createSpy('scroll')
+        scroll: jasmine.createSpy('scroll'),
       },
-      scrollEventStream: observableOf(true)
+      scrollEventStream: observableOf(true),
     };
 
-    component = new StacheTableOfContentsComponent(mockWindowRef as any, mockOmnibarService as any);
+    component = new StacheTableOfContentsComponent(
+      mockWindowRef as any,
+      mockOmnibarService as any
+    );
 
     const routes = [
       {
         name: 'testRoute0',
         path: [],
-        offsetTop: 10
+        offsetTop: 10,
       } as StacheNavLink,
       {
         name: 'testRoute1',
         path: [],
-        offsetTop: 100
-      } as StacheNavLink
+        offsetTop: 100,
+      } as StacheNavLink,
     ];
 
     component.updateView(routes);
@@ -220,12 +198,12 @@ describe('StacheTableOfContentsComponent', () => {
       getBoundingClientRect() {
         return {
           y: 0,
-          bottom: 150
+          bottom: 150,
         };
       },
       scrollIntoView() {
         return;
-      }
+      },
     };
     mockWindowRef = {
       testElement: test,
@@ -233,38 +211,45 @@ describe('StacheTableOfContentsComponent', () => {
         pageYOffset: 200,
         innerHeight: 200,
         document: {
-          getElementById: jasmine.createSpy('getElementById').and.callFake((id: any) => {
-            if (id === 'element-id') {
+          getElementById: jasmine
+            .createSpy('getElementById')
+            .and.callFake((id: any) => {
+              if (id === 'element-id') {
+                return test;
+              }
+              return false;
+            }),
+          querySelector: jasmine
+            .createSpy('querySelector')
+            .and.callFake((selector: any) => {
               return test;
-            }
-            return false;
-          }),
-          querySelector: jasmine.createSpy('querySelector').and.callFake((selector: any) => {
-            return test;
-          }),
-          documentElement: test
+            }),
+          documentElement: test,
         },
         location: {
-          href: ''
+          href: '',
         },
-        scroll: jasmine.createSpy('scroll')
+        scroll: jasmine.createSpy('scroll'),
       },
-      scrollEventStream: observableOf(true)
+      scrollEventStream: observableOf(true),
     };
 
-    component = new StacheTableOfContentsComponent(mockWindowRef as any, mockOmnibarService as any);
+    component = new StacheTableOfContentsComponent(
+      mockWindowRef as any,
+      mockOmnibarService as any
+    );
 
     const routes = [
       {
         name: 'testRoute0',
         path: [],
-        offsetTop: 10
+        offsetTop: 10,
       } as StacheNavLink,
       {
         name: 'testRoute1',
         path: [],
-        offsetTop: 100
-      } as StacheNavLink
+        offsetTop: 100,
+      } as StacheNavLink,
     ];
 
     component['viewTop'] = 250;

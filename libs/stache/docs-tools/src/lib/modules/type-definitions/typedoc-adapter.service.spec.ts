@@ -1,5 +1,4 @@
 import { SkyDocsTypeDocAdapterService } from './typedoc-adapter.service';
-
 import { TypeDocEntry } from './typedoc-types';
 
 describe('TypeDoc adapter', () => {

@@ -1,36 +1,13 @@
-import {
-  ComponentFixture,
-  TestBed,
-  async
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
+import { SkyMediaQueryModule } from '@skyux/core';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheFooterComponent
-} from './footer.component';
-
-import {
-  StacheFooterModule
-} from './footer.module';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  SkyMediaQueryModule
-} from '@skyux/core';
+import { StacheFooterComponent } from './footer.component';
+import { StacheFooterModule } from './footer.module';
 
 describe('StacheFooterComponent', () => {
   let component: StacheFooterComponent;
@@ -41,48 +18,45 @@ describe('StacheFooterComponent', () => {
   let footerConfig = {
     nav: {
       items: [
-      {
-        title: 'Privacy Policy',
-        route: '/demos/privacy-policy'
-      },
-      {
-        title: 'Terms of Use',
-        route: '/demos/anchor-link'
-      }
-    ]},
-    copyrightLabel: 'test copyright'
+        {
+          title: 'Privacy Policy',
+          route: '/demos/privacy-policy',
+        },
+        {
+          title: 'Terms of Use',
+          route: '/demos/anchor-link',
+        },
+      ],
+    },
+    copyrightLabel: 'test copyright',
   };
 
   class MockConfigService {
     public skyux = {
       app: {
-        title: 'Some Name'
+        title: 'Some Name',
       },
       appSettings: {
         stache: {
-          footer: footerConfig
-        }
-      }
+          footer: footerConfig,
+        },
+      },
     };
   }
 
   class MockRouterService {
-    public getActiveUrl() { }
+    public getActiveUrl() {}
   }
 
   beforeEach(() => {
     mockConfigService = new MockConfigService();
     mockRouterService = new MockRouterService();
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        SkyMediaQueryModule,
-        StacheFooterModule
-      ],
+      imports: [RouterTestingModule, SkyMediaQueryModule, StacheFooterModule],
       providers: [
         { provide: StacheRouteService, useValue: mockRouterService },
-        { provide: SkyAppConfig, useValue: mockConfigService }
-      ]
+        { provide: SkyAppConfig, useValue: mockConfigService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StacheFooterComponent);
@@ -110,7 +84,7 @@ describe('StacheFooterComponent', () => {
         name: navItem.title,
         path: navItem.route,
         isActive: false,
-        isCurrent: false
+        isCurrent: false,
       };
     });
 
@@ -126,7 +100,9 @@ describe('StacheFooterComponent', () => {
     expect(component.footerLinks).toEqual([]);
 
     expect(component.copyrightLabel).not.toEqual(footerConfig.copyrightLabel);
-    expect(component.copyrightLabel).toEqual('Blackbaud, Inc. All rights reserved.');
+    expect(component.copyrightLabel).toEqual(
+      'Blackbaud, Inc. All rights reserved.'
+    );
 
     expect(component.siteName).toBe(undefined);
   });

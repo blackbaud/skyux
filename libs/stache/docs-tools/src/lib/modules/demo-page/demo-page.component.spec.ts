@@ -1,18 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
 import { of } from 'rxjs';
 
 import { SkyDocsSupportalService } from '../shared/docs-tools-supportal.service';
-
 import { SkyDocsTypeDefinitionsProvider } from '../type-definitions/type-definitions-provider';
 
-import { DemoPageFixtureComponent } from './fixtures/demo-page.component.fixture';
-
 import { DemoPageFixturesModule } from './fixtures/demo-page-fixtures.module';
+import { DemoPageFixtureComponent } from './fixtures/demo-page.component.fixture';
 
 //#region helpers
 function getSidebarLinks(

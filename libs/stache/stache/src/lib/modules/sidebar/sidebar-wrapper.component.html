@@ -3,9 +3,9 @@
   [attr.aria-label]="'stache_sidebar_label' | skyLibResources"
   [ngClass]="{
     'stache-sidebar-closed': !sidebarOpen,
-    'stache-sidebar-open': sidebarOpen  }"
-  >
-
+    'stache-sidebar-open': sidebarOpen
+  }"
+>
   <div class="stache-sidebar-buttons">
     <button
       type="button"
@@ -16,14 +16,15 @@
       [attr.title]="'stache_sidebar_toggle_button' | skyLibResources"
     >
       <i *ngIf="sidebarOpen" class="fa fa-chevron-left" aria-hidden="true"></i>
-      <i *ngIf="!sidebarOpen" class="fa fa-chevron-right" aria-hidden="true"></i>
+      <i
+        *ngIf="!sidebarOpen"
+        class="fa fa-chevron-right"
+        aria-hidden="true"
+      ></i>
     </button>
   </div>
 
-  <div
-    class="stache-sidebar-content"
-    [id]="elementId"
-  >
+  <div class="stache-sidebar-content" [id]="elementId">
     <stache-sidebar *ngIf="sidebarOpen" [routes]="sidebarRoutes">
     </stache-sidebar>
   </div>

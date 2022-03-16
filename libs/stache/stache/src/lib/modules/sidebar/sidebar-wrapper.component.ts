@@ -1,27 +1,16 @@
 import {
+  AfterViewInit,
   Component,
   Input,
-  Renderer2,
   OnDestroy,
-  AfterViewInit
+  Renderer2,
 } from '@angular/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
-
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheWindowRef } from '../shared/window-ref';
 
 const SIDEBAR_CSS_CLASS_NAME = 'stache-sidebar-enabled';
 let nextUniqueId = 0;
@@ -29,9 +18,9 @@ let nextUniqueId = 0;
 @Component({
   selector: 'stache-sidebar-wrapper',
   templateUrl: './sidebar-wrapper.component.html',
-  styleUrls: ['./sidebar-wrapper.component.scss']
+  styleUrls: ['./sidebar-wrapper.component.scss'],
 })
-export class StacheSidebarWrapperComponent implements  OnDestroy, AfterViewInit {
+export class StacheSidebarWrapperComponent implements OnDestroy, AfterViewInit {
   @Input()
   public sidebarRoutes: StacheNavLink[];
 
@@ -48,12 +37,12 @@ export class StacheSidebarWrapperComponent implements  OnDestroy, AfterViewInit 
     private windowRef: StacheWindowRef,
     private mediaQueryService: SkyMediaQueryService
   ) {
-
-    this.mediaQuerySubscription = this.mediaQueryService
-      .subscribe((args: SkyMediaBreakpoints) => {
-        this.sidebarOpen = (args <= SkyMediaBreakpoints.sm);
+    this.mediaQuerySubscription = this.mediaQueryService.subscribe(
+      (args: SkyMediaBreakpoints) => {
+        this.sidebarOpen = args <= SkyMediaBreakpoints.sm;
         this.toggleSidebar();
-      });
+      }
+    );
   }
 
   public ngAfterViewInit(): void {

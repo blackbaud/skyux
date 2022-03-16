@@ -12,8 +12,7 @@
     }
   }
 
-  ::ng-deep
-  .stache-omnibar-enabled & {
+  ::ng-deep .stache-omnibar-enabled & {
     padding-top: 5em !important;
     margin-top: -3em !important;
   }

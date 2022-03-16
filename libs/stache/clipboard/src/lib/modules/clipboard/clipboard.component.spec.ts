@@ -2,32 +2,18 @@ import {
   ComponentFixture,
   TestBed,
   async,
+  fakeAsync,
   tick,
-  fakeAsync
 } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
-
-import {
-  SkyCopyToClipboardComponent
-} from './clipboard.component';
-
-import {
-  SkyCopyToClipboardService
-} from './clipboard.service';
-
-import {
-  SkyClipboardModule
-} from './clipboard.module';
+import { SkyCopyToClipboardComponent } from './clipboard.component';
+import { SkyClipboardModule } from './clipboard.module';
+import { SkyCopyToClipboardService } from './clipboard.service';
 
 class MockClipboardService {
-  public copyContent(element: HTMLElement) { }
+  public copyContent(element: HTMLElement) {}
   public verifyCopyCommandBrowserSupport() {}
 }
 
@@ -42,13 +28,11 @@ describe('SkyCopyToClipboardComponent', () => {
     mockClipboardService = new MockClipboardService();
 
     TestBed.configureTestingModule({
-      imports: [
-        SkyClipboardModule
-      ],
+      imports: [SkyClipboardModule],
       providers: [
         SkyAppWindowRef,
-        { provide: SkyCopyToClipboardService, useValue: mockClipboardService }
-      ]
+        { provide: SkyCopyToClipboardService, useValue: mockClipboardService },
+      ],
     });
 
     fixture = TestBed.createComponent(SkyCopyToClipboardComponent);
@@ -63,7 +47,9 @@ describe('SkyCopyToClipboardComponent', () => {
     fixture.detectChanges();
     component.copyToClipboard();
     tick(1000);
-    expect(mockClipboardService.copyContent).toHaveBeenCalledWith(mockTestElement);
+    expect(mockClipboardService.copyContent).toHaveBeenCalledWith(
+      mockTestElement
+    );
   }));
 
   it('should set the value of buttonActive to true for 1 second after click', fakeAsync(() => {

@@ -1,40 +1,30 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StacheJsonDataService
-} from './json-data.service';
-
-import {
-  STACHE_JSON_DATA_SERVICE_CONFIG
-} from './json-data-service-config-token';
+import { STACHE_JSON_DATA_SERVICE_CONFIG } from './json-data-service-config-token';
+import { StacheJsonDataService } from './json-data.service';
 
 describe('StacheJsonDataService', () => {
   let dataService: StacheJsonDataService;
   let config: any = {
     global: {
-      productNameLong: 'Stache 2'
+      productNameLong: 'Stache 2',
     },
     parent: {
       child: {
         grandChild: {
-          name: 'grand child'
+          name: 'grand child',
         },
         childList: [
           {
-            name: 'list child 1'
+            name: 'list child 1',
           },
           {
-            name: 'list child 2'
-          }
-        ]
-      }
-    }
+            name: 'list child 2',
+          },
+        ],
+      },
+    },
   };
 
   beforeEach(() => {
@@ -42,10 +32,9 @@ describe('StacheJsonDataService', () => {
       declarations: [],
       providers: [
         { provide: STACHE_JSON_DATA_SERVICE_CONFIG, useValue: config },
-        { provide: StacheJsonDataService, useClass: StacheJsonDataService }
-      ]
-    })
-    .compileComponents();
+        { provide: StacheJsonDataService, useClass: StacheJsonDataService },
+      ],
+    }).compileComponents();
 
     dataService = new StacheJsonDataService(config);
   });
@@ -66,7 +55,12 @@ describe('StacheJsonDataService', () => {
   });
 
   it('should return nested data from an array', () => {
-    let data = dataService.getNestedData(['parent', 'child', 'grandChild', 'name']);
+    let data = dataService.getNestedData([
+      'parent',
+      'child',
+      'grandChild',
+      'name',
+    ]);
     expect(data).toBe('grand child');
   });
 

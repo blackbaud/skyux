@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SkyDocsDemoControlPanelRadioChoice } from './demo-control-panel-radio-choice';
-
 import { SkyDocsDemoModule } from './demo.module';
 
 //#region Helpers

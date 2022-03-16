@@ -1,31 +1,11 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ViewContainerRef } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
-import {
-  ViewContainerRef
-} from '@angular/core';
-
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  MockSkyRestrictedViewAuthService
-} from './fixtures/mock-restricted-view-auth.service';
-
-import {
-  RestrictedViewTestComponent
-} from './fixtures/restricted-view.component.fixture';
-
-import {
-  RestrictedViewFixtureModule
-} from './fixtures/restricted-view.module.fixture';
-
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { MockSkyRestrictedViewAuthService } from './fixtures/mock-restricted-view-auth.service';
+import { RestrictedViewTestComponent } from './fixtures/restricted-view.component.fixture';
+import { RestrictedViewFixtureModule } from './fixtures/restricted-view.module.fixture';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 class MockViewContainer {
   public createEmbeddedView(ref: any) {
@@ -48,19 +28,17 @@ describe('SkyRestrictedViewDirective', () => {
     mockViewContainer = new MockViewContainer();
 
     TestBed.configureTestingModule({
-      imports: [
-        RestrictedViewFixtureModule
-      ],
+      imports: [RestrictedViewFixtureModule],
       providers: [
         {
           provide: SkyRestrictedViewAuthService,
-          useValue: mockAuth
+          useValue: mockAuth,
         },
         {
           provide: ViewContainerRef,
-          useValue: mockViewContainer
-        }
-      ]
+          useValue: mockViewContainer,
+        },
+      ],
     });
 
     fixture = TestBed.createComponent(RestrictedViewTestComponent);
@@ -69,14 +47,18 @@ describe('SkyRestrictedViewDirective', () => {
   it('should display content if user is authenticated', () => {
     mockAuth.isAuthenticated.next(true);
 
-    directiveElement = fixture.debugElement.query(By.css('.skyux-restricted-view'));
+    directiveElement = fixture.debugElement.query(
+      By.css('.skyux-restricted-view')
+    );
     expect(directiveElement).toBeTruthy();
   });
 
   it('should not display content if use is not authenticated', () => {
     mockAuth.isAuthenticated.next(false);
 
-    directiveElement = fixture.debugElement.query(By.css('.skyux-restricted-view'));
+    directiveElement = fixture.debugElement.query(
+      By.css('.skyux-restricted-view')
+    );
     expect(directiveElement).not.toBeTruthy();
   });
 });

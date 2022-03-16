@@ -1,23 +1,18 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
-  ChangeDetectorRef
 } from '@angular/core';
-
-import {
-  DomSanitizer,
-  SafeResourceUrl
-} from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'sky-video',
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyVideoComponent {
-
   @Input()
   public set videoSource(value: string) {
     this.src = this.sanitizer.bypassSecurityTrustResourceUrl(value);
@@ -29,5 +24,5 @@ export class SkyVideoComponent {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 }

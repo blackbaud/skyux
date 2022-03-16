@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({

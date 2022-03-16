@@ -1,29 +1,15 @@
-import {
-  Component,
-  Input,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 
-import {
-  Subscription
-} from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheOmnibarAdapterService
-} from '../shared/omnibar-adapter.service';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheOmnibarAdapterService } from '../shared/omnibar-adapter.service';
+import { StacheWindowRef } from '../shared/window-ref';
 
 @Component({
   selector: 'stache-table-of-contents',
   templateUrl: './table-of-contents.component.html',
-  styleUrls: ['./table-of-contents.component.scss']
+  styleUrls: ['./table-of-contents.component.scss'],
 })
 export class StacheTableOfContentsComponent implements OnDestroy {
   @Input()
@@ -57,14 +43,18 @@ export class StacheTableOfContentsComponent implements OnDestroy {
   }
 
   private trackViewTop() {
-    this.viewTop = (this.windowRef.nativeWindow.pageYOffset + this.omnibarService.getHeight());
-    this.documentBottom = Math.round(this.windowRef.nativeWindow.document.documentElement.getBoundingClientRect().bottom);
+    this.viewTop =
+      this.windowRef.nativeWindow.pageYOffset + this.omnibarService.getHeight();
+    this.documentBottom = Math.round(
+      this.windowRef.nativeWindow.document.documentElement.getBoundingClientRect()
+        .bottom
+    );
   }
 
   private isCurrent(routes: StacheNavLink[]): void {
     if (this.scrolledToEndOfPage()) {
       routes.forEach((route: StacheNavLink, idx: number) => {
-        route.isCurrent = (idx === (routes.length - 1));
+        route.isCurrent = idx === routes.length - 1;
       });
       return;
     }
@@ -79,6 +69,6 @@ export class StacheTableOfContentsComponent implements OnDestroy {
   }
 
   private scrolledToEndOfPage() {
-    return (this.windowRef.nativeWindow.innerHeight + 5) >= this.documentBottom;
+    return this.windowRef.nativeWindow.innerHeight + 5 >= this.documentBottom;
   }
 }

@@ -1,29 +1,22 @@
 import {
   Component,
+  ElementRef,
+  Input,
   OnChanges,
   OnInit,
-  Input,
+  Renderer2,
   ViewChild,
-  ElementRef,
-  Renderer2
 } from '@angular/core';
 
-import {
-  StacheLayout
-} from './layout';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
+import { StacheLayout } from './layout';
 
 @Component({
   selector: 'stache-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class StacheLayoutComponent implements OnInit, OnChanges, StacheLayout {
   @Input()
@@ -56,17 +49,17 @@ export class StacheLayoutComponent implements OnInit, OnChanges, StacheLayout {
   public templateRef: any;
 
   @ViewChild('blankLayout', {
-    static: true
+    static: true,
   })
   private blankTemplateRef: any;
 
   @ViewChild('containerLayout', {
-    static: true
+    static: true,
   })
   private containerTemplateRef: any;
 
   @ViewChild('sidebarLayout', {
-    static: true
+    static: true,
   })
   private sidebarTemplateRef: any;
 
@@ -74,7 +67,7 @@ export class StacheLayoutComponent implements OnInit, OnChanges, StacheLayout {
     private elementRef: ElementRef,
     private renderer: Renderer2,
     private windowRef: StacheWindowRef
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     switch (this.layoutType) {
@@ -98,8 +91,12 @@ export class StacheLayoutComponent implements OnInit, OnChanges, StacheLayout {
   }
 
   private setMinHeight() {
-    const wrapper = this.elementRef.nativeElement.querySelector('.stache-layout-wrapper');
-    const minHeight = this.windowRef.nativeWindow.innerHeight - wrapper.getBoundingClientRect().top;
+    const wrapper = this.elementRef.nativeElement.querySelector(
+      '.stache-layout-wrapper'
+    );
+    const minHeight =
+      this.windowRef.nativeWindow.innerHeight -
+      wrapper.getBoundingClientRect().top;
     this.renderer.setStyle(wrapper, 'min-height', `${minHeight}px`);
   }
 }

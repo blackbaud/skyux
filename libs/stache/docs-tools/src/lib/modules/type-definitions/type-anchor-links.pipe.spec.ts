@@ -1,11 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { By } from '@angular/platform-browser';
 
 import { TypeAnchorLinksPipeFixtureComponent } from './fixtures/type-anchor-links.pipe.component.fixture';
-
 import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Anchor links pipe', () => {

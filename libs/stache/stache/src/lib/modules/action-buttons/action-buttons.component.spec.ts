@@ -1,36 +1,13 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  By
-} from '@angular/platform-browser';
-
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheActionButtonsComponent
-} from './action-buttons.component';
-
-import {
-  StacheActionButtonsModule
-} from './action-buttons.module';
+import { StacheActionButtonsComponent } from './action-buttons.component';
+import { StacheActionButtonsModule } from './action-buttons.module';
 
 describe('StacheActionButtonsComponent', () => {
   let mockActiveUrl = '';
@@ -45,14 +22,14 @@ describe('StacheActionButtonsComponent', () => {
               path: 'parent/child',
               children: [
                 {
-                  path: 'parent/child/grandchild'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+                  path: 'parent/child/grandchild',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   class MockRouteService {
@@ -75,11 +52,8 @@ describe('StacheActionButtonsComponent', () => {
         StacheActionButtonsModule,
         RouterTestingModule,
       ],
-      providers: [
-        { provide: StacheRouteService, useValue: mockRouteService }
-      ]
-    })
-    .compileComponents();
+      providers: [{ provide: StacheRouteService, useValue: mockRouteService }],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheActionButtonsComponent);
     component = fixture.componentInstance;
@@ -90,30 +64,36 @@ describe('StacheActionButtonsComponent', () => {
   });
 
   it('should display action buttons', () => {
-    component.routes = [{
-      name: 'Test',
-      icon: 'fa-circle',
-      summary: '',
-      path: []
-    }];
+    component.routes = [
+      {
+        name: 'Test',
+        icon: 'fa-circle',
+        summary: '',
+        path: [],
+      },
+    ];
 
     fixture.detectChanges();
-    const actionButtons = fixture.debugElement.queryAll(By.css('.sky-action-button'));
+    const actionButtons = fixture.debugElement.queryAll(
+      By.css('.sky-action-button')
+    );
 
     expect(actionButtons.length).toBe(1);
   });
 
   it('should pass the value of the search input to searchApplied on key up', () => {
-    component.routes = [{
-      name: 'Test',
-      icon: 'fa-circle',
-      summary: '',
-      path: []
-    }];
+    component.routes = [
+      {
+        name: 'Test',
+        icon: 'fa-circle',
+        summary: '',
+        path: [],
+      },
+    ];
 
     spyOn(component, 'searchApplied');
     component.onKeyUp({
-      target: { value: 'Test' }
+      target: { value: 'Test' },
     } as any);
     fixture.detectChanges();
 
@@ -124,17 +104,17 @@ describe('StacheActionButtonsComponent', () => {
     component.routes = [
       {
         name: 'Test',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Different',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Still good',
         path: '/',
-        summary: 'Test'
-      }
+        summary: 'Test',
+      },
     ];
     fixture.detectChanges();
     component.searchApplied('Test');
@@ -147,17 +127,17 @@ describe('StacheActionButtonsComponent', () => {
     component.routes = [
       {
         name: 'Test',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Different',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Still good',
         path: '/',
-        summary: 'Test'
-      }
+        summary: 'Test',
+      },
     ];
     fixture.detectChanges();
     component.searchApplied('');
@@ -170,17 +150,17 @@ describe('StacheActionButtonsComponent', () => {
     component.routes = [
       {
         name: 'Test',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Different',
-        path: '/'
+        path: '/',
       },
       {
         name: 'Still good',
         path: '/',
-        summary: 'Test'
-      }
+        summary: 'Test',
+      },
     ];
 
     fixture.detectChanges();
@@ -193,10 +173,12 @@ describe('StacheActionButtonsComponent', () => {
 
     expect(component.filteredRoutes.length).toBe(0);
 
-    component.routes = [{
-      name: 'Sample',
-      path: '/'
-    }];
+    component.routes = [
+      {
+        name: 'Sample',
+        path: '/',
+      },
+    ];
     fixture.detectChanges();
 
     expect(component.filteredRoutes.length).toBe(1);

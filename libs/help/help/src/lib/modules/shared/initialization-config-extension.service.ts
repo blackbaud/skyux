@@ -1,16 +1,12 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-  HelpWidgetConfig
-} from './widget-config';
+import { Observable } from 'rxjs';
 
-import {
-  Observable
-} from 'rxjs';
+import { HelpWidgetConfig } from './widget-config';
 
 @Injectable()
 export abstract class InitializationConfigExtensionService {
-  public abstract extend(config: HelpWidgetConfig): Observable<HelpWidgetConfig>;
+  public abstract extend(
+    config: HelpWidgetConfig
+  ): Observable<HelpWidgetConfig>;
 }

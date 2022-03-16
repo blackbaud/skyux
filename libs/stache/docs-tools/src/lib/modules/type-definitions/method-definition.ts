@@ -1,5 +1,4 @@
 import { SkyDocsEntryChildDefinition } from './entry-child-definition';
-
 import { SkyDocsTypeParameterDefinition } from './type-parameter-definition';
 
 /**

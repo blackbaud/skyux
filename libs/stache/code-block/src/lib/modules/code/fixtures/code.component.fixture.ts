@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-component',
-  templateUrl: './code.component.fixture.html'
+  templateUrl: './code.component.fixture.html',
 })
-export class SkyCodeTestComponent { }
+export class SkyCodeTestComponent {}

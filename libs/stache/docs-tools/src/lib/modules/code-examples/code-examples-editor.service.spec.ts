@@ -1,12 +1,9 @@
 import { expect } from '@skyux-sdk/testing';
-
 import StackBlitzSDK from '@stackblitz/sdk';
 
 import { SkyDocsCodeExample } from './code-example';
-
-import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
-
 import { SkyDocsCodeExampleTheme } from './code-example-theme';
+import { SkyDocsCodeExamplesEditorService } from './code-examples-editor.service';
 
 //#region helpers
 const moduleImports: string[] = [

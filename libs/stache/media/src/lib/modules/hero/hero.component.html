@@ -4,16 +4,13 @@
     'background-image': 'url(' + backgroundImageUrl + ')'
   }"
 >
-  <div
-    class="sky-hero-body sky-max-width-container"
-  >
+  <div class="sky-hero-body sky-max-width-container">
     <ng-content></ng-content>
   </div>
   <div
     class="sky-hero-overlay"
     [ngStyle]="{
-      'opacity': overlayOpacity
+      opacity: overlayOpacity
     }"
-  >
-  </div>
+  ></div>
 </div>

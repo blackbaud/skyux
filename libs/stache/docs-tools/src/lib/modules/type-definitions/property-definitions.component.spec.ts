@@ -1,20 +1,15 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { expect } from '@skyux-sdk/testing';
 import { SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import { expect } from '@skyux-sdk/testing';
-
 import { PropertyDefinitionsFixtureComponent } from './fixtures/property-definitions.component.fixture';
-
 import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Property definitions component', function () {

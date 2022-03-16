@@ -1,6 +1,4 @@
-import {
-  StacheNavLink
-} from '../nav/nav-link';
+import { StacheNavLink } from '../nav/nav-link';
 
 export interface StacheLayout {
   pageTitle: string;

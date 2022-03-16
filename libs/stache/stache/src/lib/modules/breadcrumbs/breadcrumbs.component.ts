@@ -1,33 +1,19 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import {
-  StacheNav
-} from '../nav/nav';
-
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
+import { StacheNav } from '../nav/nav';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheRouteService } from '../router/route.service';
 
 @Component({
   selector: 'stache-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss']
+  styleUrls: ['./breadcrumbs.component.scss'],
 })
 export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
   @Input()
   public routes: StacheNavLink[];
 
-  public constructor(
-    private routeService: StacheRouteService
-  ) { }
+  public constructor(private routeService: StacheRouteService) {}
 
   public ngOnInit(): void {
     if (!this.routes) {
@@ -42,7 +28,7 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
 
     breadcrumbRoutes.push({
       name: 'Home',
-      path: '/'
+      path: '/',
     });
 
     if (root.path === '') {
@@ -51,13 +37,13 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
 
     breadcrumbRoutes.push({
       name: root.name,
-      path: root.path
+      path: root.path,
     });
 
     const addRoute = (route: StacheNavLink) => {
       breadcrumbRoutes.push({
         name: route.name,
-        path: route.path
+        path: route.path,
       });
 
       if (route.children && route.children.length) {
@@ -70,7 +56,10 @@ export class StacheBreadcrumbsComponent implements StacheNav, OnInit {
     return breadcrumbRoutes;
   }
 
-  private findActiveBranch(routes: StacheNavLink[], callback: (navLink: StacheNavLink) => void) {
+  private findActiveBranch(
+    routes: StacheNavLink[],
+    callback: (navLink: StacheNavLink) => void
+  ) {
     const activeUrl = `${this.routeService.getActiveUrl()}/`;
     routes.forEach((route: StacheNavLink) => {
       if (activeUrl.indexOf(`/${route.path}/`) === 0) {

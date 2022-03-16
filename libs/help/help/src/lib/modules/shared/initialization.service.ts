@@ -1,42 +1,23 @@
-import {
-  Injectable,
-  Optional
-} from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
+import { BBHelpClient } from '@blackbaud/help-client';
+import { SkyAppConfig } from '@skyux/config';
+import { SkyAppWindowRef } from '@skyux/core';
 
-import {
-  BBHelpClient
-} from '@blackbaud/help-client';
+import { Observable, of } from 'rxjs';
 
-import {
-  SkyAppWindowRef
-} from '@skyux/core';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  HelpWidgetConfig
-} from './widget-config';
-
-import {
-  InitializationConfigExtensionService
-} from './initialization-config-extension.service';
-
-import {
-  Observable,
-  of
-} from 'rxjs';
+import { InitializationConfigExtensionService } from './initialization-config-extension.service';
+import { HelpWidgetConfig } from './widget-config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HelpInitializationService {
   public constructor(
     private windowRef: SkyAppWindowRef,
     private config: SkyAppConfig,
-    @Optional() private configExtensionService: InitializationConfigExtensionService = undefined
-  ) { }
+    @Optional()
+    private configExtensionService: InitializationConfigExtensionService = undefined
+  ) {}
 
   public load(config: HelpWidgetConfig = {}): Promise<void> {
     if (this.config.runtime.params.has('svcid')) {
@@ -52,10 +33,14 @@ export class HelpInitializationService {
       const languages = skyuxHost.acceptLanguage || '';
       config.locale = languages.split(',')[0];
     }
-    const configObservable: Observable<HelpWidgetConfig> = this.configExtensionService
+    const configObservable: Observable<HelpWidgetConfig> = this
+      .configExtensionService
       ? this.configExtensionService.extend(config)
       : of(config);
-    return configObservable.toPromise()
-      .then((extendedConfig: HelpWidgetConfig) => BBHelpClient.load(extendedConfig));
+    return configObservable
+      .toPromise()
+      .then((extendedConfig: HelpWidgetConfig) =>
+        BBHelpClient.load(extendedConfig)
+      );
   }
 }

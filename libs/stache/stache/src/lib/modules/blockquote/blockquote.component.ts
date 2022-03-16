@@ -1,13 +1,9 @@
-import {
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'stache-blockquote',
   templateUrl: './blockquote.component.html',
-  styleUrls: ['./blockquote.component.scss']
+  styleUrls: ['./blockquote.component.scss'],
 })
 export class StacheBlockquoteComponent implements OnInit {
   @Input()
@@ -29,4 +25,4 @@ export class StacheBlockquoteComponent implements OnInit {
   public hasQuoteSource(): boolean {
     return this.quoteSource !== undefined;
   }
- }
+}

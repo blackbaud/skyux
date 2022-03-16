@@ -1,19 +1,8 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StacheTutorialStepComponent
-} from './tutorial-step.component';
-
-import {
-  StacheTutorialStepModule
-} from './tutorial-step.module';
+import { StacheTutorialStepComponent } from './tutorial-step.component';
+import { StacheTutorialStepModule } from './tutorial-step.module';
 
 describe('StacheTutorialStepComponent', () => {
   let component: StacheTutorialStepComponent;
@@ -21,11 +10,8 @@ describe('StacheTutorialStepComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheTutorialStepModule
-      ]
-    })
-    .compileComponents();
+      imports: [StacheTutorialStepModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheTutorialStepComponent);
     component = fixture.componentInstance;

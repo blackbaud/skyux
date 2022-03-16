@@ -1,22 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
-
-import { SkyDocsClassPropertyDefinition } from './property-definition';
-
 import { SkyDocsInterfaceDefinition } from './interface-definition';
-
-import { SkyDocsClassMethodDefinition } from './method-definition';
-
-import { SkyDocsParameterDefinition } from './parameter-definition';
-
-import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
-
-import { SkyDocsTypeDefinition } from './type-definition';
-
-import { SkyDocsTypeParameterDefinition } from './type-parameter-definition';
-
 import { SkyDocsInterfacePropertyDefinition } from './interface-property-definition';
+import { SkyDocsClassMethodDefinition } from './method-definition';
+import { SkyDocsParameterDefinition } from './parameter-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
+import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
+import { SkyDocsTypeDefinition } from './type-definition';
+import { SkyDocsTypeParameterDefinition } from './type-parameter-definition';
 
 interface GetFormattedTypeConfig {
   escapeSpecialCharacters: boolean;

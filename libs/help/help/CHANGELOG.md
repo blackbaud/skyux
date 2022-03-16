@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 ## 5.0.0 (2021-10-07)
 
 - Initial `5.0.0` release.
@@ -47,17 +48,21 @@ ___
 - Fixed a bug where `HelpInitializationService` was not being provided by `BBHelpModule`. [#52](https://github.com/blackbaud/skyux-lib-help/pull/52)
 
 # 3.1.0 (2019-06-21)
+
 - Updated peer dependency to point to the official `2.0.0` release of `@blackbaud/help-client`. [#50](https://github.com/blackbaud/skyux-lib-help/pull/50)
 
 # 3.0.0 (2019-06-21)
+
 - Official 3.0.0 release.
 - Added environmentId property to the HelpWidgetConfig model.
 
 # 3.0.0-beta.0 (2019-06-14)
+
 - Updated the library to support BB Help Widget V2. [#46](https://github.com/blackbaud/skyux-lib-help/pull/46)
   - Removed the Help Client as a direct dependency, now listed as a Peer Dependency to support custom versioning.
 
 # 2.0.0 (2019-02-25)
+
 - Updated the library for SKY UX 3 compatibility. [#44](https://github.com/blackbaud/skyux-lib-help/pull/44) - Thanks [Scott Freeman](https://github.com/Blackbaud-ScottFreeman)!
 
 # 1.3.1 (2018-09-19)
@@ -84,15 +89,17 @@ ___
 - Added a new method to interact with the `toggleOpen` method from the client. [#20](https://github.com/blackbaud/skyux-lib-help/pull/20)
 
 # 1.0.1 (2017-10-06)
+
 - `bb-help-key` added a new attribute, pageDefaultKey, for assigning a default help key to a page. [Pull #14](https://github.com/blackbaud/skyux-lib-help/pull/14)
 - `bb-help-key` now watches for changes to the `helpKey` and `pageDefaultkey` and updates the `currentHelpKey` accordingly. [pull #18](https://github.com/blackbaud/skyux-lib-help/pull/18)
 
 # 1.0.0 (2017-09-13)
+
 - Initial Release
 
 [Pull #5](https://github.com/blackbaud/skyux-lib-help/pull/5)
+
 - `bb-help-key` component released.
 - `HelpWidgetService` released.
 - `HelpInitializationService` released.
 - Shifting the dependency for `HelpClient` to this library from `skyux-builder`.
-

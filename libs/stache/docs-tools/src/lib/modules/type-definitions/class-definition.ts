@@ -1,8 +1,6 @@
-import { SkyDocsClassPropertyDefinition } from './property-definition';
-
 import { SkyDocsEntryDefinition } from './entry-definition';
-
 import { SkyDocsClassMethodDefinition } from './method-definition';
+import { SkyDocsClassPropertyDefinition } from './property-definition';
 
 /**
  * Describes classes and services.

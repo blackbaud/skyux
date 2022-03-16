@@ -1,35 +1,13 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { StacheRouteMetadataService } from '../router/route-metadata.service';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StacheBreadcrumbsComponent
-} from './breadcrumbs.component';
-
-import {
-  StacheBreadcrumbsModule
-} from './breadcrumbs.module';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheRouteMetadataService
-} from '../router/route-metadata.service';
+import { StacheBreadcrumbsComponent } from './breadcrumbs.component';
+import { StacheBreadcrumbsModule } from './breadcrumbs.module';
 
 describe('StacheBreadcrumbsComponent', () => {
   let component: StacheBreadcrumbsComponent;
@@ -46,14 +24,14 @@ describe('StacheBreadcrumbsComponent', () => {
               path: 'parent/child',
               children: [
                 {
-                  path: 'parent/child/grandchild'
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+                  path: 'parent/child/grandchild',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   let mockActiveUrl = '';
@@ -69,18 +47,13 @@ describe('StacheBreadcrumbsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-      ],
-      imports: [
-        RouterTestingModule,
-        StacheBreadcrumbsModule
-      ],
+      declarations: [],
+      imports: [RouterTestingModule, StacheBreadcrumbsModule],
       providers: [
         { provide: StacheRouteService, useClass: MockRouteService },
-        { provide: StacheRouteMetadataService, useValue: { routes: [] } }
-      ]
-    })
-    .compileComponents();
+        { provide: StacheRouteMetadataService, useValue: { routes: [] } },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheBreadcrumbsComponent);
     component = fixture.componentInstance;
@@ -96,8 +69,8 @@ describe('StacheBreadcrumbsComponent', () => {
     mockRoutes = [
       {
         path: '',
-        children: []
-      }
+        children: [],
+      },
     ];
     fixture.detectChanges();
     const links = fixture.debugElement.queryAll(By.css('.stache-nav-anchor'));
@@ -108,7 +81,7 @@ describe('StacheBreadcrumbsComponent', () => {
   it('should display navigation links', () => {
     component.routes = [
       { name: 'Test 1', path: [] },
-      { name: 'Test 2', path: [] }
+      { name: 'Test 2', path: [] },
     ];
 
     fixture.detectChanges();
@@ -122,14 +95,18 @@ describe('StacheBreadcrumbsComponent', () => {
     mockRoutes = [
       {
         path: 'parent',
-        children: [{
-          path: 'parent/child',
-          children: [{
-            path: 'parent/child/grandchild',
-            children: []
-          }]
-        }]
-      }
+        children: [
+          {
+            path: 'parent/child',
+            children: [
+              {
+                path: 'parent/child/grandchild',
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
     ];
     component.ngOnInit();
     fixture.detectChanges();

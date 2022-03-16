@@ -1,9 +1,7 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'stache-markdown',
-  template: `<ng-content></ng-content>`
+  template: `<ng-content></ng-content>`,
 })
-export class StacheMarkdownComponent { }
+export class StacheMarkdownComponent {}

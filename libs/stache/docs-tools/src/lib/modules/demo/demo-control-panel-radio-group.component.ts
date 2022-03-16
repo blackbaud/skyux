@@ -3,14 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
 import { SkyDocsDemoControlPanelChange } from './demo-control-panel-change';
-
 import { SkyDocsDemoControlPanelRadioChoice } from './demo-control-panel-radio-choice';
 
 /**

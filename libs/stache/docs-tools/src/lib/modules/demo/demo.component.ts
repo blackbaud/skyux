@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { SkyDocsDemoContentAlignment } from './demo-content-alignment';
-
 import { SkyDocsDemoControlPanelComponent } from './demo-control-panel.component';
 
 /**

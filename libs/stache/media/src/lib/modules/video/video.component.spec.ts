@@ -1,19 +1,8 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-   DebugElement
-} from '@angular/core';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyVideoComponent
-} from './video.component';
+import { SkyVideoComponent } from './video.component';
 
 describe('SkyVideoComponent', () => {
   let component: SkyVideoComponent;
@@ -21,14 +10,14 @@ describe('SkyVideoComponent', () => {
   let debugElement: DebugElement;
 
   function getIframeSourceUrl(): string {
-    return debugElement.nativeElement.querySelector('iframe').getAttribute('src');
+    return debugElement.nativeElement
+      .querySelector('iframe')
+      .getAttribute('src');
   }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyVideoComponent
-      ]
+      declarations: [SkyVideoComponent],
     });
 
     fixture = TestBed.createComponent(SkyVideoComponent);
@@ -67,5 +56,4 @@ describe('SkyVideoComponent', () => {
 
     expect(src).toEqual(expectedSource);
   });
-
 });

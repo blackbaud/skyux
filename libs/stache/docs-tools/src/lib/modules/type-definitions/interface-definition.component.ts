@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyDocsInterfaceDefinition } from './interface-definition';
-
 import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 @Component({

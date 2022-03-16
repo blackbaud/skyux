@@ -4,19 +4,21 @@
  * the 'ng generate @skyux/i18n:lib-resources-module modules/shared/sky-media' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
-  getLibStringForLocale,
+  SKY_LIB_RESOURCES_PROVIDERS,
   SkyAppLocaleInfo,
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  getLibStringForLocale,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"skyux_image_do_text":{"message":"Do"},"skyux_image_dont_text":{"message":"Don't"}},
+  'EN-US': {
+    skyux_image_do_text: { message: 'Do' },
+    skyux_image_dont_text: { message: "Don't" },
+  },
 };
 
 export class SkyMediaResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +32,12 @@ export class SkyMediaResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyMediaResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyMediaResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyMediaResourcesModule { }
+export class SkyMediaResourcesModule {}

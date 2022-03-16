@@ -7,15 +7,13 @@
   }
 }
 
-::ng-deep
-.stache-affix {
+::ng-deep .stache-affix {
   .stache-affix-top {
     max-width: inherit;
   }
 }
 
-::ng-deep
-.stache-omnibar-enabled {
+::ng-deep .stache-omnibar-enabled {
   .stache-affix-top {
     @media (min-width: $stache-screen-sm-min) {
       margin-top: $stache-omnibar-height;

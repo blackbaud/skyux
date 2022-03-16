@@ -1,19 +1,12 @@
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyDocsEnumerationMemberDefinition } from './enumeration-member-definition';
-
 import { SkyDocsInterfaceDefinition } from './interface-definition';
-
 import { SkyDocsClassMethodDefinition } from './method-definition';
-
 import { SkyDocsParameterDefinition } from './parameter-definition';
-
 import { SkyDocsClassPropertyDefinition } from './property-definition';
-
 import { SkyDocsTypeAliasDefinition } from './type-alias-definition';
-
 import { SkyDocsTypeDefinition } from './type-definition';
-
 import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 describe('Type definitions format service', () => {

@@ -1,17 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  BBHelpOpenOnClickDirective
-} from './open-on-click.directive';
+import { BBHelpOpenOnClickDirective } from './open-on-click.directive';
 
 @NgModule({
-  declarations: [
-    BBHelpOpenOnClickDirective
-  ],
-  exports: [
-    BBHelpOpenOnClickDirective
-  ]
+  declarations: [BBHelpOpenOnClickDirective],
+  exports: [BBHelpOpenOnClickDirective],
 })
-export class OpenOnClickDirectiveModule { }
+export class OpenOnClickDirectiveModule {}

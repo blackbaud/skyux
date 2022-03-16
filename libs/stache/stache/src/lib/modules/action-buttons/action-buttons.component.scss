@@ -13,8 +13,7 @@
   margin: 15px 0px;
   width: 100%;
 
-  ::ng-deep
-  .sky-action-button-header {
+  ::ng-deep .sky-action-button-header {
     display: block;
     margin-bottom: 20px;
   }
@@ -37,8 +36,7 @@
   flex-wrap: wrap;
 }
 
-::ng-deep
-.stache-action-buttons {
+::ng-deep .stache-action-buttons {
   .sky-column {
     display: inline-flex;
   }

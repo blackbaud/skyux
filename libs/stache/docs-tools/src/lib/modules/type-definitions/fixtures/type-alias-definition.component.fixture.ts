@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyDocsTypeAliasDefinition } from '../type-alias-definition';
-
 import { SkyDocsTypeAliasDefinitionComponent } from '../type-alias-definition.component';
 
 @Component({

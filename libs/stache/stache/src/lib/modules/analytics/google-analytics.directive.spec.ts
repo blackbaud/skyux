@@ -1,45 +1,16 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  of as observableOf
-} from 'rxjs';
+import { of as observableOf } from 'rxjs';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
-
-import {
-  Router,
-  NavigationEnd
-} from '@angular/router';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheGoogleAnalyticsDirective
-} from './google-analytics.directive';
-
-import {
-  StacheGoogleAnalyticsTestComponent
-} from './fixtures/google-analytics.component.fixture';
-
-import {
-  StacheAnalyticsModule
-} from './analytics.module';
+import { StacheAnalyticsModule } from './analytics.module';
+import { StacheGoogleAnalyticsTestComponent } from './fixtures/google-analytics.component.fixture';
+import { StacheGoogleAnalyticsDirective } from './google-analytics.directive';
 
 describe('StacheGoogleAnalyticsDirective', () => {
   let fixture: ComponentFixture<StacheGoogleAnalyticsTestComponent>;
@@ -55,10 +26,12 @@ describe('StacheGoogleAnalyticsDirective', () => {
       },
       ga: false,
       document: {
-        getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
-          return false;
-        })
-      }
+        getElementById: jasmine
+          .createSpy('getElementById')
+          .and.callFake(function (id: any) {
+            return false;
+          }),
+      },
     };
   }
 
@@ -66,17 +39,17 @@ describe('StacheGoogleAnalyticsDirective', () => {
     public runtime = {
       command: 'build',
       app: {
-        base: '/test-base/'
-      }
+        base: '/test-base/',
+      },
     };
     public skyux = {
       appSettings: {
         stache: {
           googleAnalytics: {
-            clientId: ''
-          }
-        }
-      }
+            clientId: '',
+          },
+        },
+      },
     };
   }
 
@@ -90,26 +63,25 @@ describe('StacheGoogleAnalyticsDirective', () => {
     mockRouter = new MockRouter();
 
     TestBed.configureTestingModule({
-      declarations: [
-        StacheGoogleAnalyticsTestComponent
-      ],
-      imports: [
-        StacheAnalyticsModule
-      ],
+      declarations: [StacheGoogleAnalyticsTestComponent],
+      imports: [StacheAnalyticsModule],
       providers: [
         { provide: SkyAppConfig, useValue: mockConfigService },
         { provide: StacheWindowRef, useValue: mockWindowService },
-        { provide: Router, useValue: mockRouter }
-      ]
-    })
-    .compileComponents();
+        { provide: Router, useValue: mockRouter },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheGoogleAnalyticsTestComponent);
-    directiveElement = fixture.debugElement.query(By.directive(StacheGoogleAnalyticsDirective));
+    directiveElement = fixture.debugElement.query(
+      By.directive(StacheGoogleAnalyticsDirective)
+    );
   });
 
   it('should use config settings over defaults', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
 
     expect(directiveInstance['tagManagerContainerId']).toEqual('GTM-W56QP9');
     expect(directiveInstance['analyticsClientId']).toEqual('UA-2418840-1');
@@ -120,9 +92,9 @@ describe('StacheGoogleAnalyticsDirective', () => {
         googleAnalytics: {
           tagManagerContainerId: '1',
           clientId: '2',
-          enabled: 'false'
-        }
-      }
+          enabled: 'false',
+        },
+      },
     };
 
     directiveInstance.updateDefaultConfigs();
@@ -133,21 +105,29 @@ describe('StacheGoogleAnalyticsDirective', () => {
   });
 
   it('should format and store the appName from the runtime.base', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     directiveInstance.updateDefaultConfigs();
-    expect(directiveInstance['configService'].runtime.app.base).toEqual('/test-base/');
+    expect(directiveInstance['configService'].runtime.app.base).toEqual(
+      '/test-base/'
+    );
     expect(directiveInstance['appName']).toEqual('test-base');
   });
 
   it('should add the Google Tag Manager script if it does not exist, from ngOnInit', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     directiveInstance.ngOnInit();
     expect(directiveInstance.addGoogleTagManagerScript).toHaveBeenCalled();
   });
 
   it('should run none of the other methods if the GTM script exists already', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     mockWindowService.nativeWindow.ga = () => true;
     directiveInstance.ngOnInit();
@@ -155,7 +135,9 @@ describe('StacheGoogleAnalyticsDirective', () => {
   });
 
   it('should handle empty stache config in skyuxconfig.json', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     mockConfigService.skyux.appSettings = undefined;
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     directiveInstance.ngOnInit();
@@ -163,15 +145,20 @@ describe('StacheGoogleAnalyticsDirective', () => {
   });
 
   it('should not run if enabled is set to `false`', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
-    mockConfigService.skyux.appSettings.stache.googleAnalytics.enabled = 'false';
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
+    mockConfigService.skyux.appSettings.stache.googleAnalytics.enabled =
+      'false';
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     directiveInstance.ngOnInit();
     expect(directiveInstance.addGoogleTagManagerScript).not.toHaveBeenCalled();
   });
 
-  it('should not run if enabled is set to `\'false\'`', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+  it("should not run if enabled is set to `'false'`", () => {
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     mockConfigService.skyux.appSettings.stache.googleAnalytics.enabled = false;
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     directiveInstance.ngOnInit();
@@ -179,7 +166,9 @@ describe('StacheGoogleAnalyticsDirective', () => {
   });
 
   it('should not run if in development mode', () => {
-    let directiveInstance = directiveElement.injector.get(StacheGoogleAnalyticsDirective);
+    let directiveInstance = directiveElement.injector.get(
+      StacheGoogleAnalyticsDirective
+    );
     mockConfigService.runtime.command = 'none';
     spyOn(directiveInstance, 'addGoogleTagManagerScript').and.callThrough();
     fixture.detectChanges();

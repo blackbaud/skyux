@@ -9,15 +9,12 @@ import {
   QueryList,
 } from '@angular/core';
 
-import { merge, Subject, Subscription } from 'rxjs';
-
+import { Subject, Subscription, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyDocsDemoControlPanelCheckboxComponent } from './demo-control-panel-checkbox.component';
-
-import { SkyDocsDemoControlPanelRadioGroupComponent } from './demo-control-panel-radio-group.component';
-
 import { SkyDocsDemoControlPanelChange } from './demo-control-panel-change';
+import { SkyDocsDemoControlPanelCheckboxComponent } from './demo-control-panel-checkbox.component';
+import { SkyDocsDemoControlPanelRadioGroupComponent } from './demo-control-panel-radio-group.component';
 
 /**
  * Handles the appearance and configuration of the behavior demo control panel.

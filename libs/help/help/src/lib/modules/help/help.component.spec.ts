@@ -1,24 +1,14 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  HelpComponent
-} from './help.component';
-
-import {
-  HelpModule
-} from './help.module';
+import { HelpComponent } from './help.component';
+import { HelpModule } from './help.module';
 
 describe('HelpComponent', () => {
   let fixture: ComponentFixture<HelpComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HelpModule
-      ]
+      imports: [HelpModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HelpComponent);

@@ -3,29 +3,21 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
-import {
-  Subject
-} from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
-
-import {
-  SkyRestrictedViewAuthService
-} from './restricted-view-auth.service';
+import { SkyRestrictedViewAuthService } from './restricted-view-auth.service';
 
 @Component({
   selector: 'sky-restricted-content-alert',
   templateUrl: './restricted-content-alert.component.html',
   styleUrls: ['./restricted-content-alert.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRestrictedContentAlertComponent implements OnInit, OnDestroy {
-
   public showAlert: boolean;
 
   public get alertClosed(): boolean {
@@ -50,18 +42,18 @@ export class SkyRestrictedContentAlertComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     private svc: SkyRestrictedViewAuthService
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-    this.signInUrl = 'https://signin.blackbaud.com?redirectUrl=' +
+    this.signInUrl =
+      'https://signin.blackbaud.com?redirectUrl=' +
       encodeURIComponent(location.href);
 
     this.svc.isAuthenticated
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((isAuthenticated) => {
-        this.showAlert = (isAuthenticated === false) && this.svc.hasBeenAuthenticated;
+        this.showAlert =
+          isAuthenticated === false && this.svc.hasBeenAuthenticated;
         this.changeDetector.markForCheck();
       });
   }
@@ -70,5 +62,4 @@ export class SkyRestrictedContentAlertComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
-
 }

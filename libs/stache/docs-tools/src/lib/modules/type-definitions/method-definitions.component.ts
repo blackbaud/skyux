@@ -5,13 +5,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
-
 import { SkyDocsClassMethodDefinition } from './method-definition';
-
 import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 interface MethodViewModel {

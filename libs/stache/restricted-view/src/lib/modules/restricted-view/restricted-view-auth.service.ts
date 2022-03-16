@@ -1,24 +1,13 @@
-import {
-  Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BBAuthGetTokenArgs } from '@blackbaud/auth-client';
+import { SkyAuthTokenProvider } from '@skyux/http';
 
-import {
-  BBAuthGetTokenArgs
-} from '@blackbaud/auth-client';
-
-import {
-  BehaviorSubject
-} from 'rxjs';
-
-import {
-  SkyAuthTokenProvider
-} from '@skyux/http';
+import { BehaviorSubject } from 'rxjs';
 
 const STORAGE_KEY_HAS_BEEN_AUTHENTICATED = 'bb_has_logged_in_as_employee';
 
 @Injectable()
 export class SkyRestrictedViewAuthService {
-
   /**
    * Indicates if the user is an authenticated Blackbaud user.
    */
@@ -26,8 +15,10 @@ export class SkyRestrictedViewAuthService {
 
   public get hasBeenAuthenticated(): boolean {
     try {
-      return localStorage &&
-        localStorage.getItem(STORAGE_KEY_HAS_BEEN_AUTHENTICATED) === '1';
+      return (
+        localStorage &&
+        localStorage.getItem(STORAGE_KEY_HAS_BEEN_AUTHENTICATED) === '1'
+      );
     } catch (err) {
       // Local storage may not be available.
       return false;
@@ -48,12 +39,11 @@ export class SkyRestrictedViewAuthService {
 
   private checkForAuth() {
     const args: BBAuthGetTokenArgs = {
-      disableRedirect: true
+      disableRedirect: true,
     };
 
-    this.auth
-      .getDecodedToken(args)
-      .then((token) => {
+    this.auth.getDecodedToken(args).then(
+      (token) => {
         let permissions = token['1bb.perms'];
         if (permissions) {
           if (typeof permissions === 'number') {
@@ -69,8 +59,9 @@ export class SkyRestrictedViewAuthService {
         this.isAuthenticated.next(false);
       },
       () => {
-          this.isAuthenticated.next(false);
-      });
+        this.isAuthenticated.next(false);
+      }
+    );
   }
 
   private setHasBeenAuthenticated(): void {

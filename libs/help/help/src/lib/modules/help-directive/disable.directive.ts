@@ -1,14 +1,12 @@
-import { Directive, OnInit, OnDestroy } from '@angular/core';
+import { Directive, OnDestroy, OnInit } from '@angular/core';
 
 import { HelpWidgetService } from '../shared/widget.service';
 
 @Directive({
-  selector: '[bbHelpDisableWidget]'
+  selector: '[bbHelpDisableWidget]',
 })
 export class BBHelpDisableWidgetDirective implements OnInit, OnDestroy {
-constructor(
-  private widgetService: HelpWidgetService
-) {}
+  constructor(private widgetService: HelpWidgetService) {}
 
   public ngOnInit() {
     this.widgetService.disableWidget();

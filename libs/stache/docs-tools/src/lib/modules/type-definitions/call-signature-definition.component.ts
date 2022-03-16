@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
-
 import { SkyDocsTypeDefinitionsFormatService } from './type-definitions-format.service';
 
 interface ParameterViewModel {

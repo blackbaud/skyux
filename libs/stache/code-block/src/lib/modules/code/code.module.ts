@@ -1,24 +1,11 @@
-import {
-  NgModule
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
-
-import {
-  SkyCodeComponent
-} from './code.component';
+import { SkyCodeComponent } from './code.component';
 
 @NgModule({
-  declarations: [
-    SkyCodeComponent
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    SkyCodeComponent
-  ]
+  declarations: [SkyCodeComponent],
+  imports: [CommonModule],
+  exports: [SkyCodeComponent],
 })
-export class SkyCodeModule { }
+export class SkyCodeModule {}

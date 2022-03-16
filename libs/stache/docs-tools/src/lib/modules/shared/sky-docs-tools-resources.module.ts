@@ -4,15 +4,14 @@
  * the 'ng generate @skyux/i18n:lib-resources-module modules/shared/sky-docs-tools' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
-  getLibStringForLocale,
+  SKY_LIB_RESOURCES_PROVIDERS,
   SkyAppLocaleInfo,
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS,
+  getLibStringForLocale,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {

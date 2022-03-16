@@ -1,52 +1,38 @@
 import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   OnDestroy,
-  AfterViewInit,
-  ChangeDetectorRef,
   OnInit,
-  AfterViewChecked,
-  AfterContentInit
 } from '@angular/core';
 
-import {
-  BehaviorSubject,
-  Subject
- } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  takeUntil
-} from 'rxjs/operators';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheRouteService } from '../router/route.service';
+import { StacheWindowRef } from '../shared/window-ref';
 
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StachePageAnchorService
-} from './page-anchor.service';
+import { StachePageAnchorService } from './page-anchor.service';
 
 @Component({
   selector: 'stache-page-anchor',
   templateUrl: './page-anchor.component.html',
-  styleUrls: ['./page-anchor.component.scss']
+  styleUrls: ['./page-anchor.component.scss'],
 })
-export class StachePageAnchorComponent implements
-  StacheNavLink,
-  OnDestroy,
-  AfterViewInit,
-  OnInit,
-  AfterViewChecked,
-  AfterContentInit {
+export class StachePageAnchorComponent
+  implements
+    StacheNavLink,
+    OnDestroy,
+    AfterViewInit,
+    OnInit,
+    AfterViewChecked,
+    AfterContentInit
+{
   public name = '';
   public fragment: string;
   public path: string[];
@@ -67,17 +53,18 @@ export class StachePageAnchorComponent implements
     private windowRef: StacheWindowRef,
     private anchorService: StachePageAnchorService,
     private changeDetectorRef: ChangeDetectorRef,
-    private routeService: StacheRouteService) { }
+    private routeService: StacheRouteService
+  ) {}
 
   public scrollToAnchor(): void {
-    this.windowRef.nativeWindow.document.querySelector(`#${this.fragment}`).scrollIntoView();
+    this.windowRef.nativeWindow.document
+      .querySelector(`#${this.fragment}`)
+      .scrollIntoView();
   }
 
   public ngOnInit() {
     this.anchorService.refreshRequestedStream
-      .pipe(
-        takeUntil(this.ngUnsubscribe)
-      )
+      .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.updatePageAnchor();
       });
@@ -105,12 +92,14 @@ export class StachePageAnchorComponent implements
     const currentContent = this.elementRef.nativeElement.textContent;
     const currentOffset = this.getOffset(this.elementRef.nativeElement);
 
-    if (currentContent !== this.textContent
-      || currentOffset !== this.offsetTop) {
-        this.textContent = currentContent;
-        this.updatePageAnchor();
+    if (
+      currentContent !== this.textContent ||
+      currentOffset !== this.offsetTop
+    ) {
+      this.textContent = currentContent;
+      this.updatePageAnchor();
     }
-}
+  }
 
   private setValues() {
     const element = this.elementRef.nativeElement;
@@ -126,7 +115,7 @@ export class StachePageAnchorComponent implements
       path: this.path,
       name: this.name,
       fragment: this.fragment,
-      offsetTop: this.offsetTop
+      offsetTop: this.offsetTop,
     } as StacheNavLink);
     this.changeDetectorRef.detectChanges();
   }

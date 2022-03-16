@@ -1,13 +1,10 @@
-import {
-  Component
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-test-image-cmp',
-  templateUrl: './image.component.fixture.html'
+  templateUrl: './image.component.fixture.html',
 })
 export class SkyImageTestComponent {
-
   public caption: string;
 
   public captionType = 'default';

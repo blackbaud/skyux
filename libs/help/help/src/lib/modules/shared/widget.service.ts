@@ -1,13 +1,8 @@
-import {
-  Injectable
-} from '@angular/core';
-
-import {
-  BBHelpClient
-} from '@blackbaud/help-client';
+import { Injectable } from '@angular/core';
+import { BBHelpClient } from '@blackbaud/help-client';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HelpWidgetService {
   private _pageDefaultKey: string;
@@ -49,25 +44,22 @@ export class HelpWidgetService {
   }
 
   public openWidget(helpKey?: string): Promise<any> {
-    return this.ready()
-      .then(() => {
-        BBHelpClient.openWidget(helpKey);
-      });
+    return this.ready().then(() => {
+      BBHelpClient.openWidget(helpKey);
+    });
   }
 
   public closeWidget(): Promise<any> {
-    return this.ready()
-      .then(() => {
-        BBHelpClient.closeWidget();
-      });
+    return this.ready().then(() => {
+      BBHelpClient.closeWidget();
+    });
   }
 
   public disableWidget(): Promise<any> {
     this.disabledCount++;
-    return this.ready()
-      .then(() => {
-        BBHelpClient.disableWidget();
-      });
+    return this.ready().then(() => {
+      BBHelpClient.disableWidget();
+    });
   }
 
   public enableWidget(): Promise<any> {
@@ -76,10 +68,9 @@ export class HelpWidgetService {
     }
 
     if (this.disabledCount === 0) {
-      return this.ready()
-        .then(() => {
-          BBHelpClient.enableWidget();
-        });
+      return this.ready().then(() => {
+        BBHelpClient.enableWidget();
+      });
     }
 
     return Promise.resolve();

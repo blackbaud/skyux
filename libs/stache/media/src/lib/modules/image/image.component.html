@@ -1,6 +1,4 @@
-<figure
-  class="sky-image-wrapper"
->
+<figure class="sky-image-wrapper">
   <img
     class="sky-image"
     [alt]="imageAlt"
@@ -9,7 +7,8 @@
     }"
     [src]="imageSource"
   />
-  <figcaption *ngIf="caption"
+  <figcaption
+    *ngIf="caption"
     class="sky-image-caption"
     [ngClass]="{
       'sky-image-caption-default': captionType === 'default',

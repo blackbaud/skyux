@@ -1,39 +1,14 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  NO_ERRORS_SCHEMA
-} from '@angular/core';
+import { StacheRouteMetadataService } from '../router/route-metadata.service';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheLayoutSidebarComponent
-} from './layout-sidebar.component';
-
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  StacheLayoutModule
-} from './layout.module';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheRouteMetadataService
-} from '../router/route-metadata.service';
+import { StacheLayoutSidebarComponent } from './layout-sidebar.component';
+import { StacheLayoutModule } from './layout.module';
 
 let mockRoutes = [
   {
@@ -46,19 +21,19 @@ let mockRoutes = [
             path: 'parent/child',
             children: [
               {
-                path: 'parent/child/grandchild'
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                path: 'parent/child/grandchild',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 class MockSkyAppConfig {
   public runtime: any = {
-    routes: mockRoutes
+    routes: mockRoutes,
   };
 }
 
@@ -78,20 +53,14 @@ describe('StacheLayoutSidebarComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheLayoutModule,
-        RouterTestingModule
-      ],
+      imports: [StacheLayoutModule, RouterTestingModule],
       providers: [
         { provide: StacheRouteService, useClass: MockRouteService },
         { provide: SkyAppConfig, useClass: MockSkyAppConfig },
-        { provide: StacheRouteMetadataService, useValue: { routes: [] } }
+        { provide: StacheRouteMetadataService, useValue: { routes: [] } },
       ],
-      schemas: [
-        NO_ERRORS_SCHEMA
-      ]
-    })
-    .compileComponents();
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheLayoutSidebarComponent);
     component = fixture.componentInstance;

@@ -1,18 +1,8 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  STACHE_ROUTE_METADATA_SERVICE_CONFIG
-} from './route-metadata-service-config-token';
-
-import {
-  StacheRouteMetadataService
-} from './route-metadata.service';
+import { STACHE_ROUTE_METADATA_SERVICE_CONFIG } from './route-metadata-service-config-token';
+import { StacheRouteMetadataService } from './route-metadata.service';
 
 describe('StacheRouteMetadataService', () => {
   let routeMetadataService: StacheRouteMetadataService;
@@ -20,22 +10,22 @@ describe('StacheRouteMetadataService', () => {
     {
       path: '/',
       name: 'foo',
-      order: '1'
+      order: '1',
     },
     {
       path: '/',
-      name: 'bar'
+      name: 'bar',
     },
     {
       path: '/one',
       name: 'one',
-      order: '-100'
+      order: '-100',
     },
     {
       path: '/two',
       name: 'two',
-      order: 0
-    }
+      order: 0,
+    },
   ];
 
   beforeEach(() => {
@@ -44,15 +34,14 @@ describe('StacheRouteMetadataService', () => {
       providers: [
         {
           provide: STACHE_ROUTE_METADATA_SERVICE_CONFIG,
-          useValue: config
+          useValue: config,
         },
         {
           provide: StacheRouteMetadataService,
-          useClass: StacheRouteMetadataService
-        }
-      ]
-    })
-    .compileComponents();
+          useClass: StacheRouteMetadataService,
+        },
+      ],
+    }).compileComponents();
 
     routeMetadataService = new StacheRouteMetadataService(config);
   });

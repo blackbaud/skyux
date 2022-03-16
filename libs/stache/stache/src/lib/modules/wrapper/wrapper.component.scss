@@ -1,7 +1,6 @@
 @import '../../styles/_variables';
 
-::ng-deep
-.stache-wrapper {
+::ng-deep .stache-wrapper {
   background-color: #fff;
   line-height: $stache-line-height-base;
 
@@ -46,8 +45,7 @@
     }
   }
 
-  ::ng-deep
-  .stache-edit-button {
+  ::ng-deep .stache-edit-button {
     text-align: right;
   }
 }
@@ -60,15 +58,13 @@
   }
 }
 
-::ng-deep
-.stache-omnibar-enabled {
+::ng-deep .stache-omnibar-enabled {
   .stache-affix-top {
     margin-top: $stache-omnibar-height;
   }
 }
 
-::ng-deep
-.stache-max-width-container {
+::ng-deep .stache-max-width-container {
   max-width: $stache-container-max-width;
   margin: 0 auto;
 }

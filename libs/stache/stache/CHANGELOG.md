@@ -1,6 +1,7 @@
 **Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
 
-___
+---
+
 # 5.0.0-beta.2 (2021-10-11)
 
 - Released new version to work around NPM outage.
@@ -118,13 +119,16 @@ ___
 - Initial migration to SKY UX 3 and Builder 3. [#1](https://github.com/blackbaud/skyux-lib-stache/pull/1)
 
 # 2.18.0 (2019-04-22)
+
 - Updated `stache-sidebar` to listen for updates to custom routes, which allows users to generate sidebar routes with dynamic data.
 
 # 2.17.0 (2019-04-09)
+
 - Added `stache-internal` component and directive, which allows content to be hidden from view if a user is not logged in with a BBID.
   - Lindsey Rix will be writing up documentation for this after she is able to test use cases for this feature.
 
 # 2.16.0 (2019-04-05)
+
 - Added CSS selector to prevent Stache from overwriting SKY UX styles. [#579](https://github.com/blackbaud/stache2/pull/579)
 - Fixed issue where sidebar header didn't align properly when text wrapped. [#580](https://github.com/blackbaud/stache2/pull/580)
 - Fixed issues with table of contents component. [#568](https://github.com/blackbaud/stache2/pull/568)
@@ -132,6 +136,7 @@ ___
   - Fixed use cases around page anchor generation and tracking.
 
 # 2.15.3 (2019-02-07)
+
 - Fixed bug in `sky-code` component to correctly wrap long strings. [#569](https://github.com/blackbaud/stache2/pull/569)
 - Updated `StacheJsonDataService` to allow for nested object access. [#570](https://github.com/blackbaud/stache2/pull/570)
   - Created `StacheJsonDataService` method `getNestedData` to fetch nested data by array.
@@ -140,13 +145,16 @@ ___
 - Updated dependencies for `skyux-lib-code-block` and `skyux-lib-clipboard` libraries. [#576](https://github.com/blackbaud/stache2/pull/576)
 
 # 2.15.2 (2019-01-14)
+
 - Updated version of SKY UX to 2.39.0.
 - Updated the `stache-page-anchor` icon color to match the new SKY UX color scheme. [#566](https://github.com/blackbaud/stache2/pull/566)
 
 # 2.15.1 (2019-01-07)
+
 - Updated Sky code block to version `1.0.0-rc.2` to support the new `hideHeader` feature.
 
 # 2.15.0 (2018-12-17)
+
 - Separated out the Code Block and Clipboard modules [#563](https://github.com/blackbaud/stache2/pull/563)
   - Updated the `stache-copy-to-clipboard` component to use the new `sky-copy-to-clipboard` component.
   - Added the `skyux-lib-code-block` to the Stache module exports.
@@ -154,9 +162,11 @@ ___
   - Updated the versions of SKY UX and the skyux-builder-plugin-stache.
 
 # 2.14.1 (2018-12-10)
+
 - Updated `stache-action-buttons` component to fix style bug where an action button appeared squished when displayed without other action buttons. [#561](https://github.com/blackbaud/stache2/pull/561)
 
 # 2.14.0 (2018-11-29)
+
 - Added `stache-hide-from-search` component to allow users to exclude content from Stache search results. [#557](https://github.com/blackbaud/stache2/pull/557)
 - Fixed alignment issue with sidebar and table of contents. [#556](https://github.com/blackbaud/stache2/pull/556)
 - Updated dependencies to use SKY UX components directly. [#553](https://github.com/blackbaud/stache2/pull/553)
@@ -166,6 +176,7 @@ ___
 - Updated `sky-code-block` component to improve accessibility by increasing the color contrast. [#551](https://github.com/blackbaud/stache2/pull/551)
 
 # 2.13.0 (2018-10-23)
+
 - Updated [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) dependency to `~1.7.0`.
   - Added the `skyux stache-update` command to update your projects SKY UX, SKY UX Builder, and Stache dependencies. The command also deletes the `node_modules` folder and runs `npm install`.
 - Style changes to the `stache-table-of-contents` component. [#512](https://github.com/blackbaud/stache2/pull/512)
@@ -174,6 +185,7 @@ ___
   - Updated TOC to provide a visual indication of the current location on the page on full-size views.
 
 # 2.12.0 (2018-09-20)
+
 - Updated prismjs to version `1.15.0` to support all of the latest languages. [#532](https://github.com/blackbaud/stache2/pull/532) [#537](https://github.com/blackbaud/stache2/pull/537)
 - Updated `code-block` component to allow for users to hide the `copy-to-clipboard` button. [#536](https://github.com/blackbaud/stache2/pull/536)
 - Added `showInNav` property to `stache-wrapper`to allow users to hide pages from the sidebar. [#531](https://github.com/blackbaud/stache2/pull/531)
@@ -181,38 +193,47 @@ ___
 - Fixed an issue where Stache header styles were overwriting Skyux style classes. [#535](https://github.com/blackbaud/stache2/pull/535)
 
 # 2.11.4 (2018-09-10)
+
 - Updated the SKYUX dependencies to the latest to avoid certifiacation issues when serving. [#529](https://github.com/blackbaud/stache2/pull/529)
 - Added a `caption` input to the `stache-image` component, allowing users to add a caption to their images. [#528](https://github.com/blackbaud/stache2/pull/528)
 - Thanks [@Blackbaud-ThomasOrtiz](https://github.com/Blackbaud-ThomasOrtiz)!
 
 # 2.11.3 (2018-08-14)
+
 - Fixed a bug with the `stacheNavLink` directive that prevented the use of external urls. [#521](https://github.com/blackbaud/stache2/pull/521)
 - Updated the dependencies to `"@blackbaud/skyux": "2.19.0"` and ` "@blackbaud/skyux-builder": "1.19.2"`. [#521](https://github.com/blackbaud/stache2/pull/521)
 
 # 2.11.2 (2018-08-07)
+
 - Updated the [skyux-builder-plugin-stache](https://github.com/blackbaud/skyux-builder-plugin-stache/blob/master/CHANGELOG.md#151-2018-08-02) to `1.5.1`.
 
 # 2.11.1 (2018-08-03)
+
 - Updated version number for `skyux-builder-plugin-stache` to `1.5.0`, allowing users to have nested directories in the global Stache application data.
 
 # 2.11.0 (2018-08-02)
+
 - Added a header to the `sky-code-block` component that holds the copy-to-clipboard button and shows which language is being displayed. [#515](https://github.com/blackbaud/stache2/pull/515)
 
 # 2.10.0 (2018-07-20)
+
 - Created a `stache-copy-to-clipboard` component. [#506](https://github.com/blackbaud/stache2/pull/506)
 - Added the `stache-copy-to-clipboard` to the `sky-code-block`.
 - Added accessibility changes to the back to top button. [#505](https://github.com/blackbaud/stache2/pull/505)
 - Fixed a bug causing the back to top button to move under the footer. [#504](https://github.com/blackbaud/stache2/pull/504)
 
 # 2.9.2 (2018-07-02)
+
 - Style adjustments [#498](https://github.com/blackbaud/stache2/pull/498)
   - Added padding to the `stache-hero` at mobile sizes.
   - Adjusted padding to be even at mobile sizes on the container layout.
 
 # 2.9.1 (2018-07-02)
+
 - Fixed a style bug that was adding extra margin to the `stache-hero` component. [#496](https://github.com/blackbaud/stache2/pull/496)
 
 # 2.9.0 (2018-06-28)
+
 - Style fixes. [#489](https://github.com/blackbaud/stache2/pull/489)
   - The sidebar now properly positions itself under the omnibar, dev bar, and elements above the stache-layout.
   - The sidebar now adjusts its height to not overlap the footer.

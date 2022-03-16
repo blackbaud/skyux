@@ -1,34 +1,20 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
+import { SkyImageTestComponent } from './fixtures/image.component.fixture';
+import { SkyImageModule } from './image.module';
 
-import {
-  SkyImageModule
-} from './image.module';
-
-import {
-  SkyImageTestComponent
-} from './fixtures/image.component.fixture';
-
-function getCaptionElement(fixture: ComponentFixture<SkyImageTestComponent>): HTMLElement {
+function getCaptionElement(
+  fixture: ComponentFixture<SkyImageTestComponent>
+): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-image-caption');
 }
 
 describe('Image component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SkyImageTestComponent
-      ],
-      imports: [
-        SkyImageModule
-      ]
+      declarations: [SkyImageTestComponent],
+      imports: [SkyImageModule],
     });
   });
 
@@ -56,10 +42,12 @@ describe('Image component', () => {
     const caption = captionElement.textContent.trim();
     expect(caption).toBe('test caption');
     expect(cmp.captionType).toBe('default');
-    expect(captionElement.classList.contains('sky-image-caption-default')).toBe(true);
+    expect(captionElement.classList.contains('sky-image-caption-default')).toBe(
+      true
+    );
   }));
 
-  it('should display \'Do\' before the caption for success captionTypes', async(() => {
+  it("should display 'Do' before the caption for success captionTypes", async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
     cmp.imageSource = '~/assets/demo-image.jpg';
@@ -70,10 +58,12 @@ describe('Image component', () => {
 
     const captionElement = getCaptionElement(fixture);
     expect(captionElement.innerText.trim()).toBe('Do test caption');
-    expect(captionElement.classList.contains('sky-image-caption-success')).toBe(true);
+    expect(captionElement.classList.contains('sky-image-caption-success')).toBe(
+      true
+    );
   }));
 
-  it('should display \'Dont\' before the caption for danger captionTypes', async(() => {
+  it("should display 'Dont' before the caption for danger captionTypes", async(() => {
     const fixture = TestBed.createComponent(SkyImageTestComponent);
     const cmp = fixture.componentInstance as SkyImageTestComponent;
     cmp.imageSource = '~/assets/demo-image.jpg';
@@ -83,8 +73,10 @@ describe('Image component', () => {
     fixture.detectChanges();
 
     const captionElement = getCaptionElement(fixture);
-    expect(captionElement.innerText.trim()).toBe('Don\'t test caption');
-    expect(captionElement.classList.contains('sky-image-caption-danger')).toBe(true);
+    expect(captionElement.innerText.trim()).toBe("Don't test caption");
+    expect(captionElement.classList.contains('sky-image-caption-danger')).toBe(
+      true
+    );
   }));
 
   it('should allow removing caption prefixes', async(() => {

@@ -1,5 +1,4 @@
 import { SkyDocsEntryDefinition } from './entry-definition';
-
 import { SkyDocsClassMethodDefinition } from './method-definition';
 
 /**

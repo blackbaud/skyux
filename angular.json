@@ -9,9 +9,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/a11y"
-          ],
+          "outputs": ["dist/libs/components/a11y"],
           "options": {
             "project": "libs/components/a11y/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -63,9 +61,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/action-bars"
-          ],
+          "outputs": ["dist/libs/components/action-bars"],
           "options": {
             "project": "libs/components/action-bars/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -143,9 +139,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/ag-grid"
-          ],
+          "outputs": ["dist/libs/components/ag-grid"],
           "options": {
             "project": "libs/components/ag-grid/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -204,9 +198,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/angular-tree-component"
-          ],
+          "outputs": ["dist/libs/components/angular-tree-component"],
           "options": {
             "project": "libs/components/angular-tree-component/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -258,9 +250,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/animations"
-          ],
+          "outputs": ["dist/libs/components/animations"],
           "options": {
             "project": "libs/components/animations/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -312,9 +302,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/assets"
-          ],
+          "outputs": ["dist/libs/components/assets"],
           "options": {
             "project": "libs/components/assets/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -366,9 +354,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/autonumeric"
-          ],
+          "outputs": ["dist/libs/components/autonumeric"],
           "options": {
             "project": "libs/components/autonumeric/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -420,9 +406,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/avatar"
-          ],
+          "outputs": ["dist/libs/components/avatar"],
           "options": {
             "project": "libs/components/avatar/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -521,9 +505,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/clipboard"
-          ],
+          "outputs": ["dist/libs/stache/clipboard"],
           "options": {
             "project": "libs/stache/clipboard/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -575,9 +557,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/code-block"
-          ],
+          "outputs": ["dist/libs/stache/code-block"],
           "options": {
             "project": "libs/stache/code-block/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -629,9 +609,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/code-examples",
             "index": "apps/code-examples/src/index.html",
@@ -733,9 +711,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/colorpicker"
-          ],
+          "outputs": ["dist/libs/components/colorpicker"],
           "options": {
             "project": "libs/components/colorpicker/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -813,9 +789,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/config"
-          ],
+          "outputs": ["dist/libs/components/config"],
           "options": {
             "project": "libs/components/config/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -867,9 +841,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/core"
-          ],
+          "outputs": ["dist/libs/components/core"],
           "options": {
             "project": "libs/components/core/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -947,9 +919,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/data-manager"
-          ],
+          "outputs": ["dist/libs/components/data-manager"],
           "options": {
             "project": "libs/components/data-manager/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1001,9 +971,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/datetime"
-          ],
+          "outputs": ["dist/libs/components/datetime"],
           "options": {
             "project": "libs/components/datetime/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1081,9 +1049,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/docs-tools"
-          ],
+          "outputs": ["dist/libs/stache/docs-tools"],
           "options": {
             "project": "libs/stache/docs-tools/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1135,9 +1101,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/errors"
-          ],
+          "outputs": ["dist/libs/components/errors"],
           "options": {
             "project": "libs/components/errors/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1215,9 +1179,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/flyout"
-          ],
+          "outputs": ["dist/libs/components/flyout"],
           "options": {
             "project": "libs/components/flyout/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1269,9 +1231,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/forms"
-          ],
+          "outputs": ["dist/libs/components/forms"],
           "options": {
             "project": "libs/components/forms/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1349,9 +1309,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/grids"
-          ],
+          "outputs": ["dist/libs/components/grids"],
           "options": {
             "project": "libs/components/grids/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1403,9 +1361,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/help/help"
-          ],
+          "outputs": ["dist/libs/help/help"],
           "options": {
             "project": "libs/help/help/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1457,9 +1413,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/http"
-          ],
+          "outputs": ["dist/libs/components/http"],
           "options": {
             "project": "libs/components/http/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1537,9 +1491,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/i18n"
-          ],
+          "outputs": ["dist/libs/components/i18n"],
           "options": {
             "project": "libs/components/i18n/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1603,9 +1555,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/indicators"
-          ],
+          "outputs": ["dist/libs/components/indicators"],
           "options": {
             "project": "libs/components/indicators/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1683,9 +1633,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/inline-form"
-          ],
+          "outputs": ["dist/libs/components/inline-form"],
           "options": {
             "project": "libs/components/inline-form/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1737,9 +1685,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/integration",
             "index": "apps/integration/src/index.html",
@@ -1751,9 +1697,7 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ],
-            "styles": [
-              "apps/integration/src/styles.scss"
-            ],
+            "styles": ["apps/integration/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -1849,13 +1793,9 @@
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "apps/integration-e2e/**/*.{js,ts}"
-            ]
+            "lintFilePatterns": ["apps/integration-e2e/**/*.{js,ts}"]
           }
         }
       }
@@ -1868,9 +1808,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/layout"
-          ],
+          "outputs": ["dist/libs/components/layout"],
           "options": {
             "project": "libs/components/layout/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -1948,9 +1886,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/list-builder"
-          ],
+          "outputs": ["dist/libs/components/list-builder"],
           "options": {
             "project": "libs/components/list-builder/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2002,9 +1938,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/list-builder-common"
-          ],
+          "outputs": ["dist/libs/components/list-builder-common"],
           "options": {
             "project": "libs/components/list-builder-common/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2056,9 +1990,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/list-builder-view-checklist"
-          ],
+          "outputs": ["dist/libs/components/list-builder-view-checklist"],
           "options": {
             "project": "libs/components/list-builder-view-checklist/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2136,9 +2068,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/list-builder-view-grids"
-          ],
+          "outputs": ["dist/libs/components/list-builder-view-grids"],
           "options": {
             "project": "libs/components/list-builder-view-grids/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2216,9 +2146,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/lists"
-          ],
+          "outputs": ["dist/libs/components/lists"],
           "options": {
             "project": "libs/components/lists/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2296,9 +2224,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/lookup"
-          ],
+          "outputs": ["dist/libs/components/lookup"],
           "options": {
             "project": "libs/components/lookup/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2376,9 +2302,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/media"
-          ],
+          "outputs": ["dist/libs/stache/media"],
           "options": {
             "project": "libs/stache/media/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2430,9 +2354,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/modals"
-          ],
+          "outputs": ["dist/libs/components/modals"],
           "options": {
             "project": "libs/components/modals/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2510,9 +2432,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/navbar"
-          ],
+          "outputs": ["dist/libs/components/navbar"],
           "options": {
             "project": "libs/components/navbar/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2564,9 +2484,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/omnibar-interop"
-          ],
+          "outputs": ["dist/libs/components/omnibar-interop"],
           "options": {
             "project": "libs/components/omnibar-interop/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2617,28 +2535,19 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/components/packages/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/components/packages/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/components/packages"
-          ],
+          "outputs": ["coverage/libs/components/packages"],
           "options": {
             "jestConfig": "libs/components/packages/jest.config.js",
             "passWithNoTests": true,
             "codeCoverage": true,
-            "coverageReporters": [
-              "html",
-              "text"
-            ],
+            "coverageReporters": ["html", "text"],
             "codeCoverageExclude": [
               "**/fixtures/**",
               "*.fixture.ts",
@@ -2648,17 +2557,13 @@
         },
         "build": {
           "builder": "@nrwl/node:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/components/packages",
             "tsConfig": "libs/components/packages/tsconfig.lib.json",
             "packageJson": "libs/components/packages/package.json",
             "main": "libs/components/packages/src/index.ts",
-            "assets": [
-              "libs/components/packages/*.md"
-            ],
+            "assets": ["libs/components/packages/*.md"],
             "updateBuildableProjectDepsInPackageJson": false
           }
         },
@@ -2678,9 +2583,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/pages"
-          ],
+          "outputs": ["dist/libs/components/pages"],
           "options": {
             "project": "libs/components/pages/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2732,9 +2635,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/phone-field"
-          ],
+          "outputs": ["dist/libs/components/phone-field"],
           "options": {
             "project": "libs/components/phone-field/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2812,9 +2713,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/playground",
             "index": "apps/playground/src/index.html",
@@ -2904,9 +2803,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/popovers"
-          ],
+          "outputs": ["dist/libs/components/popovers"],
           "options": {
             "project": "libs/components/popovers/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -2983,20 +2880,14 @@
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
-          "outputs": [
-            "{options.outputFile}"
-          ],
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": [
-              "libs/sdk/prettier-schematics/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/sdk/prettier-schematics/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/sdk/prettier-schematics"
-          ],
+          "outputs": ["coverage/libs/sdk/prettier-schematics"],
           "options": {
             "jestConfig": "libs/sdk/prettier-schematics/jest.config.js",
             "passWithNoTests": true,
@@ -3009,17 +2900,13 @@
         },
         "build": {
           "builder": "@nrwl/node:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/sdk/prettier-schematics",
             "tsConfig": "libs/sdk/prettier-schematics/tsconfig.lib.json",
             "packageJson": "libs/sdk/prettier-schematics/package.json",
             "main": "libs/sdk/prettier-schematics/src/index.ts",
-            "assets": [
-              "libs/sdk/prettier-schematics/*.md"
-            ],
+            "assets": ["libs/sdk/prettier-schematics/*.md"],
             "updateBuildableProjectDepsInPackageJson": false
           }
         },
@@ -3039,9 +2926,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/progress-indicator"
-          ],
+          "outputs": ["dist/libs/components/progress-indicator"],
           "options": {
             "project": "libs/components/progress-indicator/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3093,9 +2978,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/restricted-view"
-          ],
+          "outputs": ["dist/libs/stache/restricted-view"],
           "options": {
             "project": "libs/stache/restricted-view/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3147,9 +3030,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/router"
-          ],
+          "outputs": ["dist/libs/components/router"],
           "options": {
             "project": "libs/components/router/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3201,9 +3082,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/select-field"
-          ],
+          "outputs": ["dist/libs/components/select-field"],
           "options": {
             "project": "libs/components/select-field/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3255,9 +3134,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/split-view"
-          ],
+          "outputs": ["dist/libs/components/split-view"],
           "options": {
             "project": "libs/components/split-view/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3335,9 +3212,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/stache/stache"
-          ],
+          "outputs": ["dist/libs/stache/stache"],
           "options": {
             "project": "libs/stache/stache/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3389,9 +3264,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/tabs"
-          ],
+          "outputs": ["dist/libs/components/tabs"],
           "options": {
             "project": "libs/components/tabs/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3469,9 +3342,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/sdk/testing"
-          ],
+          "outputs": ["dist/libs/sdk/testing"],
           "options": {
             "project": "libs/sdk/testing/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3523,9 +3394,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/text-editor"
-          ],
+          "outputs": ["dist/libs/components/text-editor"],
           "options": {
             "project": "libs/components/text-editor/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3577,9 +3446,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/theme"
-          ],
+          "outputs": ["dist/libs/components/theme"],
           "options": {
             "project": "libs/components/theme/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3637,9 +3504,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/tiles"
-          ],
+          "outputs": ["dist/libs/components/tiles"],
           "options": {
             "project": "libs/components/tiles/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3691,9 +3556,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/toast"
-          ],
+          "outputs": ["dist/libs/components/toast"],
           "options": {
             "project": "libs/components/toast/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false
@@ -3771,9 +3634,7 @@
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
-          "outputs": [
-            "dist/libs/components/validation"
-          ],
+          "outputs": ["dist/libs/components/validation"],
           "options": {
             "project": "libs/components/validation/ng-package.json",
             "updateBuildableProjectDepsInPackageJson": false

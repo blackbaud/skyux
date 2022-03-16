@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { SkyDocsAnchorLinkConfig } from './anchor-link-service-config';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 /**

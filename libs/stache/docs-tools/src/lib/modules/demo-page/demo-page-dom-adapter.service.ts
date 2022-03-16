@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-
 import { SkyAppWindowRef } from '@skyux/core';
 
 import { Observable, Subject } from 'rxjs';

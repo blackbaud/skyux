@@ -1,24 +1,11 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import {
-  RouterModule
-} from '@angular/router';
-
-import {
-  StacheGoogleAnalyticsDirective
-} from './google-analytics.directive';
+import { StacheGoogleAnalyticsDirective } from './google-analytics.directive';
 
 @NgModule({
-  imports: [
-    RouterModule
-  ],
-  declarations: [
-    StacheGoogleAnalyticsDirective
-  ],
-  exports: [
-    StacheGoogleAnalyticsDirective
-  ]
+  imports: [RouterModule],
+  declarations: [StacheGoogleAnalyticsDirective],
+  exports: [StacheGoogleAnalyticsDirective],
 })
-export class StacheAnalyticsModule { }
+export class StacheAnalyticsModule {}

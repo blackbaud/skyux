@@ -1,6 +1,4 @@
-import {
-  BehaviorSubject
-} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export class MockSkyRestrictedViewAuthService {
   public isAuthenticated = new BehaviorSubject<boolean>(undefined);

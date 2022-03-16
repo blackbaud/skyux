@@ -5,9 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { SkyDocsTypeDefinitionsService } from '../type-definitions/type-definitions.service';
-
 import { SkyDocsTypeDefinitions } from '../type-definitions/type-definitions';
+import { SkyDocsTypeDefinitionsService } from '../type-definitions/type-definitions.service';
 
 /**
  * @internal

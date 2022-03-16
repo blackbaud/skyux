@@ -1,36 +1,31 @@
-import {
-  BehaviorSubject,
-  Subject
-} from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
-import {
-  StachePageAnchorService
-} from './page-anchor.service';
+import { StacheNavLink } from '../nav/nav-link';
 
-import {
-  StacheNavLink
-} from '../nav/nav-link';
+import { StachePageAnchorService } from './page-anchor.service';
 
 class MockWindowRef {
   private mockPageAnchors: StacheNavLink[] = [
     {
       name: 'test',
-      path: '/'
-    }
+      path: '/',
+    },
   ];
 
   public nativeWindow = {
     document: {
-      querySelectorAll: jasmine.createSpy('querySelectorAll').and.callFake((id: any) => {
-        return this.mockPageAnchors;
-      }),
+      querySelectorAll: jasmine
+        .createSpy('querySelectorAll')
+        .and.callFake((id: any) => {
+          return this.mockPageAnchors;
+        }),
       body: {
-        scrollHeight: 5
-      }
+        scrollHeight: 5,
+      },
     },
     addEventListener: (eventType: string, func: any) => {
       func();
-    }
+    },
   };
 
   public scrollEventStream = new BehaviorSubject(0);
@@ -38,7 +33,7 @@ class MockWindowRef {
   public testElement = {
     getBoundingClientRect() {
       return { y: 0 };
-    }
+    },
   };
 }
 
@@ -47,9 +42,7 @@ describe('PageAnchorService', () => {
   let windowRef = new MockWindowRef();
 
   beforeEach(() => {
-    service = new StachePageAnchorService(
-      (windowRef as any)
-    );
+    service = new StachePageAnchorService(windowRef as any);
   });
 
   it('should request page anchors update when body height changes', () => {
@@ -71,7 +64,7 @@ describe('PageAnchorService', () => {
   it('should not add an anchor when unsubscribe', () => {
     const anchorStream = new BehaviorSubject({
       name: 'Test Anchor',
-      path: '/'
+      path: '/',
     });
     service.addAnchor(anchorStream);
     service.ngOnDestroy();
@@ -82,7 +75,7 @@ describe('PageAnchorService', () => {
   it('should add an anchor', () => {
     const anchorStream = new BehaviorSubject({
       name: 'Test Anchor',
-      path: '/'
+      path: '/',
     });
     service.addAnchor(anchorStream);
 
@@ -92,11 +85,11 @@ describe('PageAnchorService', () => {
   it('should remove anchor', () => {
     const anchor0 = new BehaviorSubject({
       name: 'b',
-      path: '/'
+      path: '/',
     });
     const anchor1 = new BehaviorSubject({
       name: 'a',
-      path: '/'
+      path: '/',
     });
 
     service.pageAnchors = [anchor0, anchor1];
@@ -110,11 +103,11 @@ describe('PageAnchorService', () => {
   it('should update anchor stream', () => {
     const anchor0 = new BehaviorSubject({
       name: 'b',
-      path: '/'
+      path: '/',
     });
     const anchor1 = new BehaviorSubject({
       name: 'a',
-      path: '/'
+      path: '/',
     });
 
     service.pageAnchors = [anchor0, anchor1];

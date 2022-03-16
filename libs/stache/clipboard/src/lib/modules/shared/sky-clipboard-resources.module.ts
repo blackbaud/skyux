@@ -4,19 +4,20 @@
  * the 'ng generate @skyux/i18n:lib-resources-module modules/shared/sky-clipboard' schematic.
  * To update this file, simply rerun the command.
  */
-
 import { NgModule } from '@angular/core';
 import {
-  getLibStringForLocale,
+  SKY_LIB_RESOURCES_PROVIDERS,
   SkyAppLocaleInfo,
   SkyI18nModule,
   SkyLibResources,
   SkyLibResourcesProvider,
-  SKY_LIB_RESOURCES_PROVIDERS
+  getLibStringForLocale,
 } from '@skyux/i18n';
 
 const RESOURCES: { [locale: string]: SkyLibResources } = {
-  'EN-US': {"sky_copy_to_clipboard_button_title":{"message":"Copy to clipboard"}},
+  'EN-US': {
+    sky_copy_to_clipboard_button_title: { message: 'Copy to clipboard' },
+  },
 };
 
 export class SkyClipboardResourcesProvider implements SkyLibResourcesProvider {
@@ -30,10 +31,12 @@ export class SkyClipboardResourcesProvider implements SkyLibResourcesProvider {
  */
 @NgModule({
   exports: [SkyI18nModule],
-  providers: [{
-    provide: SKY_LIB_RESOURCES_PROVIDERS,
-    useClass: SkyClipboardResourcesProvider,
-    multi: true
-  }]
+  providers: [
+    {
+      provide: SKY_LIB_RESOURCES_PROVIDERS,
+      useClass: SkyClipboardResourcesProvider,
+      multi: true,
+    },
+  ],
 })
-export class SkyClipboardResourcesModule { }
+export class SkyClipboardResourcesModule {}

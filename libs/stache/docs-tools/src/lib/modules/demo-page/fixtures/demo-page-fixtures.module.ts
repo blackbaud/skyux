@@ -1,25 +1,18 @@
 import { CommonModule } from '@angular/common';
-
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
 import { ActivatedRoute } from '@angular/router';
-
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { SkyAppConfig } from '@skyux/config';
 
 import { of } from 'rxjs';
 
 import { SkyDocsSupportalService } from '../../shared/docs-tools-supportal.service';
-
-import { DemoPageFixtureComponent } from './demo-page.component.fixture';
-
 import { SkyDocsDemoPageDomAdapterService } from '../demo-page-dom-adapter.service';
-
+import { SkyDocsDemoPageTitleService } from '../demo-page-title.service';
 import { SkyDocsDemoPageModule } from '../demo-page.module';
 
-import { SkyDocsDemoPageTitleService } from '../demo-page-title.service';
-import { HttpClientModule } from '@angular/common/http';
+import { DemoPageFixtureComponent } from './demo-page.component.fixture';
 
 class MockActivatedRoute {
   public fragment = of({});

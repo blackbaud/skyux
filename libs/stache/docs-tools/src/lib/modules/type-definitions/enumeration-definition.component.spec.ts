@@ -1,20 +1,15 @@
 import {
   ComponentFixture,
-  fakeAsync,
   TestBed,
+  fakeAsync,
   tick,
 } from '@angular/core/testing';
-
+import { expect } from '@skyux-sdk/testing';
 import { SkyMediaQueryService } from '@skyux/core';
-
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import { expect } from '@skyux-sdk/testing';
-
 import { EnumerationDefinitionFixtureComponent } from './fixtures/enumeration-definition.component.fixture';
-
 import { TypeDefinitionsFixturesModule } from './fixtures/type-definitions.module.fixture';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
 
 describe('Enumeration definition component', function () {

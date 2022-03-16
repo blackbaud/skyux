@@ -8,8 +8,7 @@
   }
 }
 
-::ng-deep
-.stache-tutorial-step-heading {
+::ng-deep .stache-tutorial-step-heading {
   div.stache-page-anchor {
     border-bottom: none;
     padding: 0;
@@ -31,6 +30,8 @@
 }
 
 ::ng-deep
-.stache-omnibar-enabled .stache-tutorial-step-heading .stache-page-anchor {
+  .stache-omnibar-enabled
+  .stache-tutorial-step-heading
+  .stache-page-anchor {
   padding-top: 3em !important;
 }

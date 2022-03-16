@@ -1,30 +1,16 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect } from '@skyux-sdk/testing';
 
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  StacheTutorialSummaryComponent
-} from './tutorial-summary.component';
-
-import {
-  StacheTutorialModule
-} from './tutorial.module';
+import { StacheTutorialSummaryComponent } from './tutorial-summary.component';
+import { StacheTutorialModule } from './tutorial.module';
 
 describe('StacheTutorialSummaryComponent', () => {
   let fixture: ComponentFixture<StacheTutorialSummaryComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StacheTutorialModule
-      ]
-    })
-    .compileComponents();
+      imports: [StacheTutorialModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheTutorialSummaryComponent);
   });

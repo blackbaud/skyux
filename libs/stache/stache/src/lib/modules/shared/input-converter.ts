@@ -32,7 +32,7 @@ export function InputConverter(converter: (value: any) => any) {
         this['__' + key] = converter(value);
       },
       enumerable: true,
-      configurable: true
+      configurable: true,
     });
   };
 }

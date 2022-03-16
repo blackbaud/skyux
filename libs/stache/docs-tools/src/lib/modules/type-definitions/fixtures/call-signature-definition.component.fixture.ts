@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { SkyDocsCallSignatureDefinition } from '../call-signature-definition';
-
 import { SkyDocsCallSignatureDefinitionComponent } from '../call-signature-definition.component';
 
 @Component({

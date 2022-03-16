@@ -1,34 +1,14 @@
-import {
-  NgModule
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { SkyClipboardModule } from '@blackbaud/skyux-lib-clipboard';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { SkyCodeBlockResourcesModule } from '../shared/sky-code-block-resources.module';
 
-import {
-  SkyClipboardModule
-} from '@blackbaud/skyux-lib-clipboard';
-
-import {
-  SkyCodeBlockResourcesModule
-} from '../shared/sky-code-block-resources.module';
-
-import {
-  SkyCodeBlockComponent
-} from './code-block.component';
+import { SkyCodeBlockComponent } from './code-block.component';
 
 @NgModule({
-  declarations: [
-    SkyCodeBlockComponent
-  ],
-  imports: [
-    CommonModule,
-    SkyClipboardModule,
-    SkyCodeBlockResourcesModule
-  ],
-  exports: [
-    SkyCodeBlockComponent
-  ]
+  declarations: [SkyCodeBlockComponent],
+  imports: [CommonModule, SkyClipboardModule, SkyCodeBlockResourcesModule],
+  exports: [SkyCodeBlockComponent],
 })
-export class SkyCodeBlockModule { }
+export class SkyCodeBlockModule {}

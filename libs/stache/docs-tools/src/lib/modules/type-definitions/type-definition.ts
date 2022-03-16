@@ -1,7 +1,5 @@
 import { SkyDocsCallSignatureDefinition } from './call-signature-definition';
-
 import { SkyDocsIndexSignatureDefinition } from './index-signature-definition';
-
 import { SkyDocsInterfacePropertyDefinition } from './interface-property-definition';
 
 /**

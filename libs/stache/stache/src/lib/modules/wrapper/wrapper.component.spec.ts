@@ -1,88 +1,27 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
+import { SkyMediaQueryModule } from '@skyux/core';
 
-import {
-  ActivatedRoute
-} from '@angular/router';
+import { Observable, Subject, of as observableOf } from 'rxjs';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  SkyMediaQueryModule
-} from '@skyux/core';
-
-import {
-  Observable,
-  of as observableOf,
-  Subject
-} from 'rxjs';
-
-import {
-  StacheWrapperTestComponent
-} from './fixtures/wrapper.component.fixture';
-
-import {
-  StacheWrapperComponent
-} from './wrapper.component';
-
-import {
-  StacheWrapperModule
-} from './wrapper.module';
-
-import {
-  StacheFooterModule
-} from '../footer/footer.module';
-
-import {
-  StacheTitleService
-} from './title.service';
-
-import {
-  StacheNavLink
-} from '../nav/nav-link';
-
-import {
-  StacheNavService
-} from '../nav/nav.service';
-
-import {
-  StacheWindowRef
-} from '../shared/window-ref';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
-
-import {
-  StacheOmnibarAdapterService
-} from '../shared/omnibar-adapter.service';
-
-import {
-  StacheJsonDataService
-} from '../json-data/json-data.service';
-
-import {
-  StacheLayoutModule
-} from '../layout/layout.module';
-
-import {
-  StachePageAnchorModule
-} from '../page-anchor/page-anchor.module';
-
+import { StacheFooterModule } from '../footer/footer.module';
+import { StacheJsonDataService } from '../json-data/json-data.service';
+import { StacheLayoutModule } from '../layout/layout.module';
+import { StacheNavLink } from '../nav/nav-link';
+import { StacheNavService } from '../nav/nav.service';
+import { StachePageAnchorModule } from '../page-anchor/page-anchor.module';
 import { StachePageAnchorService } from '../page-anchor/page-anchor.service';
+import { StacheRouteService } from '../router/route.service';
+import { StacheOmnibarAdapterService } from '../shared/omnibar-adapter.service';
+import { StacheWindowRef } from '../shared/window-ref';
+
+import { StacheWrapperTestComponent } from './fixtures/wrapper.component.fixture';
+import { StacheTitleService } from './title.service';
+import { StacheWrapperComponent } from './wrapper.component';
+import { StacheWrapperModule } from './wrapper.module';
 
 describe('StacheWrapperComponent', () => {
   let component: StacheWrapperComponent;
@@ -108,7 +47,7 @@ describe('StacheWrapperComponent', () => {
   }
 
   class MockNavService {
-    public navigate(route: any) { }
+    public navigate(route: any) {}
 
     public isExternal() {
       return false;
@@ -125,26 +64,26 @@ describe('StacheWrapperComponent', () => {
       appSettings: {
         stache: {
           editButton: {
-            url: 'https://google.com'
-          }
-        }
-      }
+            url: 'https://google.com',
+          },
+        },
+      },
     };
     public runtime: any = {
       routes: [],
       app: {
-        base: ''
-      }
+        base: '',
+      },
     };
     public stache: any = {
       footer: {
         nav: [
           {
             title: 'Some Title',
-            text: 'Some text'
-          }
-        ]
-      }
+            text: 'Some text',
+          },
+        ],
+      },
     };
   }
 
@@ -159,87 +98,97 @@ describe('StacheWrapperComponent', () => {
   }
 
   class MockAnchorService {
-    public pageAnchorsStream = observableOf(
-    [
+    public pageAnchorsStream = observableOf([
       {
         path: 'First Path',
         name: 'First Heading',
         fragment: 'First Fragment',
-        offsetTop: 1
+        offsetTop: 1,
       } as StacheNavLink,
       {
         path: 'Second Path',
         name: 'Second Heading',
         fragment: 'Second Fragment',
-        offsetTop: 2
-      } as StacheNavLink
-    ]
-    );
+        offsetTop: 2,
+      } as StacheNavLink,
+    ]);
     public refreshRequestedStream = new Subject();
-    public addAnchor = function() {};
+    public addAnchor = function () {};
   }
 
   class MockWindowService {
     public nativeWindow = {
       document: {
         body: document.createElement('div'),
-        getElementById: jasmine.createSpy('getElementById').and.callFake(function(id: any) {
-          if (id !== undefined) {
-            return {
-              scrollIntoView() { }
-            };
-          }
-          return id;
-        }),
-        querySelector: jasmine.createSpy('querySelector').and.callFake(function(selector: string) {
-          return {
-            textContent: mockTextContent,
-            classList: {
-              add(cssClass: string) { }
-            },
-            scrollIntoView() { },
-            offsetHeight: 50,
-            getBoundingClientRect() {
+        getElementById: jasmine
+          .createSpy('getElementById')
+          .and.callFake(function (id: any) {
+            if (id !== undefined) {
               return {
-                top: 100
+                scrollIntoView() {},
               };
             }
-          };
-        }),
-        querySelectorAll: jasmine.createSpy('querySelectorAll').and.callFake((selector: string): any[] => {
-          if (selector === '.stache-container') {
-            let mockDiv = document.createElement('div');
-            return [mockDiv];
-          }
-            return [];
-        }),
-        documentElement: {
-          querySelector: jasmine.createSpy('querySelector').and.callFake(function(selector: string) {
+            return id;
+          }),
+        querySelector: jasmine
+          .createSpy('querySelector')
+          .and.callFake(function (selector: string) {
             return {
               textContent: mockTextContent,
               classList: {
-                add(cssClass: string) { }
+                add(cssClass: string) {},
               },
-              scrollIntoView() { },
+              scrollIntoView() {},
               offsetHeight: 50,
               getBoundingClientRect() {
                 return {
-                  top: 100
+                  top: 100,
                 };
-              }
+              },
             };
-          })
-        }
+          }),
+        querySelectorAll: jasmine
+          .createSpy('querySelectorAll')
+          .and.callFake((selector: string): any[] => {
+            if (selector === '.stache-container') {
+              let mockDiv = document.createElement('div');
+              return [mockDiv];
+            }
+            return [];
+          }),
+        documentElement: {
+          querySelector: jasmine
+            .createSpy('querySelector')
+            .and.callFake(function (selector: string) {
+              return {
+                textContent: mockTextContent,
+                classList: {
+                  add(cssClass: string) {},
+                },
+                scrollIntoView() {},
+                offsetHeight: 50,
+                getBoundingClientRect() {
+                  return {
+                    top: 100,
+                  };
+                },
+              };
+            }),
+        },
       },
-      setTimeout: jasmine.createSpy('setTimeout').and.callFake(function(callback: any) {
-        return callback();
-      }),
-      scroll: jasmine.createSpy('scroll').and.callFake(function (x: number, y: number) {
-        return true;
-      }),
+      setTimeout: jasmine
+        .createSpy('setTimeout')
+        .and.callFake(function (callback: any) {
+          return callback();
+        }),
+      scroll: jasmine
+        .createSpy('scroll')
+        .and.callFake(function (x: number, y: number) {
+          return true;
+        }),
       location: {
-        href: ''
-      }
+        href: '',
+      },
     };
 
     public scrollEventStream = observableOf(true);
@@ -250,7 +199,7 @@ describe('StacheWrapperComponent', () => {
 
     constructor(eventManager: any) {
       eventManager = {
-        addGlobalEventListener: () => {}
+        addGlobalEventListener: () => {},
       };
     }
   }
@@ -271,11 +220,9 @@ describe('StacheWrapperComponent', () => {
         StacheLayoutModule,
         StacheFooterModule,
         StacheWrapperModule,
-        SkyMediaQueryModule
+        SkyMediaQueryModule,
       ],
-      declarations: [
-        StacheWrapperTestComponent
-      ],
+      declarations: [StacheWrapperTestComponent],
       providers: [
         StacheRouteService,
         { provide: StachePageAnchorService, useClass: MockAnchorService },
@@ -285,10 +232,9 @@ describe('StacheWrapperComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: StacheTitleService, useValue: mockTitleService },
         { provide: StacheWindowRef, useValue: mockWindowService },
-        { provide: SkyAppConfig, useValue: mockConfigService }
-      ]
-    })
-    .compileComponents();
+        { provide: SkyAppConfig, useValue: mockConfigService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheWrapperComponent);
     component = fixture.componentInstance;
@@ -316,7 +262,7 @@ describe('StacheWrapperComponent', () => {
     expect(component.layout).toBe('sidebar');
   });
 
-   it('should have a sidebarRoutes input', () => {
+  it('should have a sidebarRoutes input', () => {
     component.sidebarRoutes = [{ name: 'test', path: '/test' }];
     fixture.detectChanges();
     expect(component.sidebarRoutes.length).toBe(1);
@@ -359,10 +305,9 @@ describe('StacheWrapperComponent', () => {
 
   it('should set the showEditButton based on the config option if set', () => {
     fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(component.showEditButton).toBe(true);
-      });
+    fixture.whenStable().then(() => {
+      expect(component.showEditButton).toBe(true);
+    });
   });
 
   it('should set the showEditButton to false by default', async(() => {
@@ -370,10 +315,9 @@ describe('StacheWrapperComponent', () => {
     fixture = TestBed.createComponent(StacheWrapperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(component.showEditButton).toBe(false);
-      });
+    fixture.whenStable().then(() => {
+      expect(component.showEditButton).toBe(false);
+    });
   }));
 
   it('should set the input, layout, to "sidebar" by default', () => {
@@ -475,7 +419,7 @@ describe('StacheWrapperComponent', () => {
     const testNavLink = {
       name: 'test-anchor',
       path: './',
-      fragment: '#test-anchor'
+      fragment: '#test-anchor',
     };
     const testComponent = testFixture.componentInstance;
     testComponent.inPageRoutes = [testNavLink];
@@ -487,7 +431,10 @@ describe('StacheWrapperComponent', () => {
 
   it('should not navigate to a fragment if none exist', () => {
     mockActivatedRoute.setFragment(undefined);
-    let subscribeSpy = spyOn(mockActivatedRoute.fragment, 'subscribe').and.callThrough();
+    let subscribeSpy = spyOn(
+      mockActivatedRoute.fragment,
+      'subscribe'
+    ).and.callThrough();
     let navSpy = spyOn(mockNavService, 'navigate').and.callThrough();
     const testFixture = TestBed.createComponent(StacheWrapperTestComponent);
 
@@ -497,7 +444,7 @@ describe('StacheWrapperComponent', () => {
   });
 
   it('should not use in page routes from anchor service if custom routes are passed in', () => {
-    const routes = [{name: 'testRoute'} as StacheNavLink];
+    const routes = [{ name: 'testRoute' } as StacheNavLink];
     component.inPageRoutes = routes;
     component.ngAfterViewInit();
     expect(component.inPageRoutes).toEqual(routes);

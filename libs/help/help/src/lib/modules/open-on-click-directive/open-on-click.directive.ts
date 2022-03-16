@@ -1,23 +1,21 @@
 import {
   Directive,
+  ElementRef,
   HostListener,
   Input,
   Renderer2,
-  ElementRef
 } from '@angular/core';
 
-import {
-  HelpWidgetService
-} from '../shared/widget.service';
+import { HelpWidgetService } from '../shared/widget.service';
 
 @Directive({
-  selector: '[bbHelpOpenOnClick]'
+  selector: '[bbHelpOpenOnClick]',
 })
 export class BBHelpOpenOnClickDirective {
   @Input()
   public bbHelpOpenOnClick: string;
 
-  constructor (
+  constructor(
     private widgetService: HelpWidgetService,
     private elementRef: ElementRef,
     private renderer: Renderer2

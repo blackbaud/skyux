@@ -1,21 +1,11 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  SkyRestrictedViewModule
-} from '../restricted-view.module';
+import { SkyRestrictedViewModule } from '../restricted-view.module';
 
-import {
-  RestrictedViewTestComponent
-} from './restricted-view.component.fixture';
+import { RestrictedViewTestComponent } from './restricted-view.component.fixture';
 
 @NgModule({
-  imports: [
-    SkyRestrictedViewModule
-  ],
-  declarations: [
-    RestrictedViewTestComponent
-  ]
+  imports: [SkyRestrictedViewModule],
+  declarations: [RestrictedViewTestComponent],
 })
-export class RestrictedViewFixtureModule { }
+export class RestrictedViewFixtureModule {}

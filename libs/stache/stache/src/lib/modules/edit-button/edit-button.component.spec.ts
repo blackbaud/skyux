@@ -1,35 +1,13 @@
-import {
-  ComponentFixture,
-  TestBed
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { expect } from '@skyux-sdk/testing';
+import { SkyAppConfig } from '@skyux/config';
 
-import {
-  By
-} from '@angular/platform-browser';
+import { StacheRouteService } from '../router/route.service';
 
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
-
-import {
-  expect
-} from '@skyux-sdk/testing';
-
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
-import {
-  StacheEditButtonComponent
-} from './edit-button.component';
-
-import {
-  StacheEditButtonModule
-} from './edit-button.module';
-
-import {
-  StacheRouteService
-} from '../router/route.service';
+import { StacheEditButtonComponent } from './edit-button.component';
+import { StacheEditButtonModule } from './edit-button.module';
 
 describe('StacheEditButtonComponent', () => {
   let component: StacheEditButtonComponent;
@@ -42,15 +20,17 @@ describe('StacheEditButtonComponent', () => {
       appSettings: {
         stache: {
           editButton: {
-            url: 'https://github.com/blackbaud/skyux-lib-stache'
-          }
-        }
-      }
+            url: 'https://github.com/blackbaud/skyux-lib-stache',
+          },
+        },
+      },
     };
   }
 
   class MockRouteService {
-    public getActiveUrl = jasmine.createSpy('getActiveRoute').and.callFake(() => '/test/route');
+    public getActiveUrl = jasmine
+      .createSpy('getActiveRoute')
+      .and.callFake(() => '/test/route');
   }
 
   beforeEach(() => {
@@ -58,16 +38,12 @@ describe('StacheEditButtonComponent', () => {
     mockRouteService = new MockRouteService();
 
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StacheEditButtonModule
-      ],
+      imports: [RouterTestingModule, StacheEditButtonModule],
       providers: [
         { provide: SkyAppConfig, useValue: mockConfigService },
-        { provide: StacheRouteService, useValue: mockRouteService }
-      ]
-    })
-      .compileComponents();
+        { provide: StacheRouteService, useValue: mockRouteService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StacheEditButtonComponent);
     component = fixture.componentInstance;
@@ -87,29 +63,30 @@ describe('StacheEditButtonComponent', () => {
     fixture = TestBed.createComponent(StacheEditButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    fixture.whenStable()
-      .then(() => {
-        expect(component['editButtonText']).toBe('Edit Test');
-      });
+    fixture.whenStable().then(() => {
+      expect(component['editButtonText']).toBe('Edit Test');
+    });
   });
 
   it('should set the url for a gitHub repo', () => {
     fixture.detectChanges();
-    expect(component['url']).toBe('https://github.com/blackbaud/skyux-lib-stache/tree/master/src/app%2Ftest%2Froute%2Findex.html');
+    expect(component['url']).toBe(
+      'https://github.com/blackbaud/skyux-lib-stache/tree/master/src/app%2Ftest%2Froute%2Findex.html'
+    );
   });
 
   it('should set the url for a VSTS repo', () => {
     // tslint:disable-next-line:max-line-length
-    mockConfigService.skyux.appSettings.stache.editButton.url = 'https://blackbaud.visualstudio.com/Products/_git/skyux-spa-stache-test-pipeline';
+    mockConfigService.skyux.appSettings.stache.editButton.url =
+      'https://blackbaud.visualstudio.com/Products/_git/skyux-spa-stache-test-pipeline';
 
     fixture = TestBed.createComponent(StacheEditButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(component['url'])
-      .toBe(
-        // tslint:disable-next-line:max-line-length
-        'https://blackbaud.visualstudio.com/Products/_git/skyux-spa-stache-test-pipeline?path=%2Fsrc%2Fapp%2Ftest%2Froute%2Findex.html&version=GBmaster'
-      );
+    expect(component['url']).toBe(
+      // tslint:disable-next-line:max-line-length
+      'https://blackbaud.visualstudio.com/Products/_git/skyux-spa-stache-test-pipeline?path=%2Fsrc%2Fapp%2Ftest%2Froute%2Findex.html&version=GBmaster'
+    );
   });
 
   it('should not append a forward slash for the home route', () => {
@@ -117,7 +94,9 @@ describe('StacheEditButtonComponent', () => {
     fixture = TestBed.createComponent(StacheEditButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(component.url).toEqual('https://github.com/blackbaud/skyux-lib-stache/tree/master/src/app%2Findex.html');
+    expect(component.url).toEqual(
+      'https://github.com/blackbaud/skyux-lib-stache/tree/master/src/app%2Findex.html'
+    );
   });
 
   it('should not display if no url is set', () => {

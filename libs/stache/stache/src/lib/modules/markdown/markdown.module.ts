@@ -1,17 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  StacheMarkdownComponent
-} from './markdown.component';
+import { StacheMarkdownComponent } from './markdown.component';
 
 @NgModule({
-  declarations: [
-    StacheMarkdownComponent
-  ],
-  exports: [
-    StacheMarkdownComponent
-  ]
+  declarations: [StacheMarkdownComponent],
+  exports: [StacheMarkdownComponent],
 })
-export class StacheMarkdownModule { }
+export class StacheMarkdownModule {}

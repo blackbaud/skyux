@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { SkyDocsTypeDefinitions } from './type-definitions';
-
 import { SkyDocsTypeDefinitionsProvider } from './type-definitions-provider';
-
 import { SkyDocsTypeDocAdapterService } from './typedoc-adapter.service';
 
 /**

@@ -10,23 +10,16 @@ import {
   OnInit,
   QueryList,
 } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { StacheNavLink } from '@blackbaud/skyux-lib-stache';
 import { SkyAppConfig } from '@skyux/config';
 
-import { StacheNavLink } from '@blackbaud/skyux-lib-stache';
-
 import { SkyDocsCodeExamplesComponent } from '../code-examples/code-examples.component';
-
 import { SkyDocsDesignGuidelinesComponent } from '../design-guidelines/design-guidelines.component';
-
+import { SkyDocsComponentInfo } from '../shared/docs-tools-component-info';
 import { SkyDocsSupportalService } from '../shared/docs-tools-supportal.service';
 
-import { SkyDocsComponentInfo } from '../shared/docs-tools-component-info';
-
 import { SkyDocsDemoPageDomAdapterService } from './demo-page-dom-adapter.service';
-
 import { SkyDocsDemoPageTitleService } from './demo-page-title.service';
 
 /**

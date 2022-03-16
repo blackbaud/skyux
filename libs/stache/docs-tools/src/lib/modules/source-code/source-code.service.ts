@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { SkyDocsSourceCodeFile } from './source-code-file';
-
 import { SkyDocsSourceCodeProvider } from './source-code-provider';
 
 @Injectable({

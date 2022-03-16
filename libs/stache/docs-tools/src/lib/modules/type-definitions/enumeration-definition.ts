@@ -1,5 +1,4 @@
 import { SkyDocsEntryDefinition } from './entry-definition';
-
 import { SkyDocsEnumerationMemberDefinition } from './enumeration-member-definition';
 
 /**

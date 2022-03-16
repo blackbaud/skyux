@@ -1,17 +1,9 @@
-import {
-  NgModule
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 
-import {
-  StacheIncludeComponent
-} from './include.component';
+import { StacheIncludeComponent } from './include.component';
 
 @NgModule({
-  declarations: [
-    StacheIncludeComponent
-  ],
-  exports: [
-    StacheIncludeComponent
-  ]
+  declarations: [StacheIncludeComponent],
+  exports: [StacheIncludeComponent],
 })
-export class StacheIncludeModule { }
+export class StacheIncludeModule {}

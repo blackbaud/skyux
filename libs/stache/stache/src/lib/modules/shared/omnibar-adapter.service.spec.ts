@@ -1,18 +1,11 @@
-import {
-  RendererFactory2
-} from '@angular/core';
+import { RendererFactory2 } from '@angular/core';
 
-import {
-  StacheWindowRef
-} from './window-ref';
-
-import {
-  StacheOmnibarAdapterService
-} from './omnibar-adapter.service';
+import { StacheOmnibarAdapterService } from './omnibar-adapter.service';
+import { StacheWindowRef } from './window-ref';
 
 let mockEnabled: boolean = false;
 
-let mockElement: any = { };
+let mockElement: any = {};
 
 class MockRenderer {
   public data: any;
@@ -31,9 +24,9 @@ class MockWindowService {
         return undefined;
       },
       body: {
-        classList: []
-      }
-    }
+        classList: [],
+      },
+    },
   };
 }
 
@@ -71,7 +64,9 @@ describe('StacheOmnibarAdapterService', () => {
       mockRendererFactory as RendererFactory2
     );
     const testHeight = omnibarService.getHeight();
-    expect(testHeight).toBe(StacheOmnibarAdapterService.EXPECTED_OMNIBAR_HEIGHT);
+    expect(testHeight).toBe(
+      StacheOmnibarAdapterService.EXPECTED_OMNIBAR_HEIGHT
+    );
   });
 
   it('should add the class stache-omnibar-enabled to the body if omnibar exists', () => {
@@ -81,7 +76,9 @@ describe('StacheOmnibarAdapterService', () => {
       mockRendererFactory as RendererFactory2
     );
     omnibarService.checkForOmnibar();
-    expect(mockWindowService.nativeWindow.document.body.classList).toContain(className);
+    expect(mockWindowService.nativeWindow.document.body.classList).toContain(
+      className
+    );
   });
 
   it('should not add the class stache-omnibar-enabled to the body if omnibar exists', () => {
@@ -91,7 +88,9 @@ describe('StacheOmnibarAdapterService', () => {
       mockRendererFactory as RendererFactory2
     );
     omnibarService.checkForOmnibar();
-    expect(mockWindowService.nativeWindow.document.body.classList).not.toContain(className);
+    expect(
+      mockWindowService.nativeWindow.document.body.classList
+    ).not.toContain(className);
   });
 
   it('should return false if the omnibar does not exist', () => {

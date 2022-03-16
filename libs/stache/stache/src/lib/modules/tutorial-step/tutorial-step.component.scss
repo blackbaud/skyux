@@ -58,8 +58,7 @@
   }
 }
 
-::ng-deep
-.stache-tutorial-step {
+::ng-deep .stache-tutorial-step {
   stache-tutorial-step-heading + stache-tutorial-step-body {
     .stache-tutorial-step-body {
       margin-top: -5px;

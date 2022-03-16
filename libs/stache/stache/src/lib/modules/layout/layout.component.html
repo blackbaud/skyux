@@ -11,8 +11,7 @@
   <stache-layout-blank>
     <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
     </ng-template>
-    <ng-template [ngTemplateOutlet]="content">
-    </ng-template>
+    <ng-template [ngTemplateOutlet]="content"> </ng-template>
   </stache-layout-blank>
 </ng-template>
 
@@ -24,11 +23,11 @@
     [showEditButton]="showEditButton"
     [showTableOfContents]="showTableOfContents"
     [inPageRoutes]="inPageRoutes"
-    [breadcrumbsRoutes]="breadcrumbsRoutes">
+    [breadcrumbsRoutes]="breadcrumbsRoutes"
+  >
     <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
     </ng-template>
-    <ng-template [ngTemplateOutlet]="content">
-    </ng-template>
+    <ng-template [ngTemplateOutlet]="content"> </ng-template>
   </stache-layout-container>
 </ng-template>
 
@@ -41,15 +40,14 @@
     [showTableOfContents]="showTableOfContents"
     [sidebarRoutes]="sidebarRoutes"
     [inPageRoutes]="inPageRoutes"
-    [breadcrumbsRoutes]="breadcrumbsRoutes">
+    [breadcrumbsRoutes]="breadcrumbsRoutes"
+  >
     <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
     </ng-template>
-    <ng-template [ngTemplateOutlet]="content">
-    </ng-template>
+    <ng-template [ngTemplateOutlet]="content"> </ng-template>
   </stache-layout-sidebar>
 </ng-template>
 
 <div class="stache-layout-wrapper stache-max-width-container">
-  <ng-template [ngTemplateOutlet]="templateRef">
-  </ng-template>
+  <ng-template [ngTemplateOutlet]="templateRef"> </ng-template>
 </div>
