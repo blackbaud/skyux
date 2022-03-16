@@ -1,0 +1,28 @@
+<div
+  *ngIf="config"
+  class="sky-docs-interface-definition sky-docs-type-definition-wrapper"
+>
+  <sky-docs-heading-anchor headingLevel="3" [anchorId]="config.anchorId">
+    {{ config.name }}
+  </sky-docs-heading-anchor>
+
+  <sky-docs-safe-html
+    *ngIf="config.description"
+    class="sky-docs-interface-definition-description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+  ></sky-docs-safe-html>
+
+  <sky-code-block
+    *ngIf="sourceCode"
+    class="sky-docs-code-block"
+    languageType="typescript"
+    [code]="sourceCode"
+    [hideHeader]="true"
+  ></sky-code-block>
+
+  <sky-docs-property-definitions
+    *ngIf="config.properties"
+    [config]="{ properties: config.properties }"
+    [showOptionalStatus]="false"
+  ></sky-docs-property-definitions>
+</div>

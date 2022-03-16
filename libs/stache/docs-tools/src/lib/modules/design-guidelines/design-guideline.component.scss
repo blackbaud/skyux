@@ -1,0 +1,16 @@
+@import '../../styles/mixins';
+
+.sky-docs-design-guideline-heading {
+  @include sky-docs-tools-heading(3);
+}
+
+.sky-docs-design-guideline-thumbnails {
+  display: flex;
+  flex-wrap: wrap;
+
+  ::ng-deep {
+    sky-docs-design-guideline-thumbnail:first-child {
+      padding-right: $sky-padding-double;
+    }
+  }
+}

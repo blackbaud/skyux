@@ -1,0 +1,29 @@
+<div
+  *ngIf="config"
+  class="sky-docs-pipe-definition sky-docs-type-definition-wrapper"
+>
+  <sky-docs-heading-anchor headingLevel="3" [anchorId]="config.anchorId">
+    {{ config.name }}
+  </sky-docs-heading-anchor>
+
+  <sky-docs-safe-html
+    *ngIf="config.description"
+    [innerHtml]="config.description | skyDocsTypeAnchorLinks | skyDocsMarkdown"
+  ></sky-docs-safe-html>
+
+  <ng-container *ngIf="config.codeExample">
+    <h4 class="sky-docs-pipe-definition-heading">Example</h4>
+    <sky-code-block
+      class="sky-docs-code-block"
+      [code]="config.codeExample"
+      [hideHeader]="true"
+      [languageType]="config.codeExampleLanguage"
+    ></sky-code-block>
+  </ng-container>
+
+  <sky-docs-method-definitions
+    [config]="{
+      methods: [config.transformMethod]
+    }"
+  ></sky-docs-method-definitions>
+</div>

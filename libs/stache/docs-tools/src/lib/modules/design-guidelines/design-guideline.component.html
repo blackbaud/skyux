@@ -1,0 +1,27 @@
+<div class="sky-docs-design-guideline">
+  <h3
+    *ngIf="heading"
+    class="sky-docs-design-guideline-heading"
+    [ngClass]="classNames"
+  >
+    {{ heading }}
+  </h3>
+  <sky-row *ngIf="hasThumbnails; else content">
+    <sky-column screenSmall="6" screenMedium="5" screenLarge="4">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    </sky-column>
+    <sky-column screenSmall="6" screenMedium="7" screenLarge="8">
+      <div class="sky-docs-design-guideline-thumbnails">
+        <ng-container *ngTemplateOutlet="thumbnails"></ng-container>
+      </div>
+    </sky-column>
+  </sky-row>
+</div>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #thumbnails>
+  <ng-content select="sky-docs-design-guideline-thumbnail"></ng-content>
+</ng-template>

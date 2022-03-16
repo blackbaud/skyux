@@ -1,0 +1,34 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+:host {
+  margin: $sky-margin-plus-half 0;
+}
+
+.sky-docs-property-definitions {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.sky-docs-table-column-header-name {
+  width: 25%;
+}
+
+.sky-docs-property-definition-label-optional {
+  color: $sky-text-color-deemphasized;
+  margin-bottom: $sky-margin;
+}
+
+.sky-docs-property-definition-list {
+  margin: 0;
+}
+
+.sky-docs-property-definition-list-item {
+  @include sky-border(row);
+  margin: $sky-margin 0;
+
+  .sky-field-label {
+    margin: $sky-margin 0;
+  }
+}

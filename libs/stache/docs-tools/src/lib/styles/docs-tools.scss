@@ -1,0 +1,66 @@
+@import './mixins';
+
+.sky-docs-table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: #fff;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.sky-docs-table-column-header {
+  padding: $sky-padding-squish-large;
+  background-color: $sky-background-color-info-light;
+  border-bottom-color: transparent;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.sky-docs-table-cell-primary {
+  width: 50%;
+
+  @media (min-width: $sky-screen-md-min) {
+    width: 41.66667%;
+  }
+
+  @media (min-width: $sky-screen-lg-min) {
+    width: 33.33333%;
+  }
+}
+
+.sky-docs-table-cell {
+  @include sky-border('row');
+  padding: $sky-padding-squish-large;
+  vertical-align: top;
+
+  &:first-child {
+    .sky-code {
+      display: inline-block;
+    }
+  }
+
+  p {
+    margin: $sky-margin 0;
+
+    &:first-child {
+      margin-top: 0 !important;
+    }
+  }
+}
+
+.sky-docs-text-block {
+  width: 690px;
+  max-width: 100%;
+}
+
+.sky-docs-code,
+code:not([class]) {
+  @include sky-docs-tools-code();
+
+  a {
+    text-decoration: underline;
+    color: darken($sky-background-color-danger-dark, 5%);
+  }
+}

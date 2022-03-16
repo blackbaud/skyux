@@ -1,0 +1,61 @@
+@import '../../styles/mixins';
+
+.sky-docs-demo-page {
+  ::ng-deep {
+    p {
+      margin: $sky-margin-plus-half 0;
+    }
+
+    .stache-max-width-container {
+      max-width: none;
+      margin: 0;
+    }
+
+    .sky-docs-code-block {
+      margin: $sky-margin-plus-half 0;
+      display: block;
+
+      .sky-code-block {
+        font-size: 13.5px;
+      }
+
+      .sky-code-output {
+        margin: -2px 0 0 0;
+        padding: 0 0 0 $sky-padding-plus-half;
+        background: transparent;
+        border: 0;
+      }
+    }
+
+    .sky-definition-list {
+      margin: 0;
+
+      .sky-docs-code-block {
+        margin: 0;
+      }
+    }
+
+    .sky-docs-type-definition-wrapper {
+      margin-bottom: $sky-margin * 4;
+    }
+  }
+}
+
+.sky-docs-demo-page-main {
+  padding: $sky-padding-triple 0;
+
+  table {
+    margin-top: $sky-margin-plus-half;
+    margin-bottom: $sky-margin-plus-half;
+  }
+
+  // Make the tabset's bottom border stretch the full width of the page.
+  ::ng-deep {
+    .sky-tabset {
+      margin-left: -45px;
+      margin-right: -45px;
+      padding-left: 45px;
+      padding-right: 45px;
+    }
+  }
+}

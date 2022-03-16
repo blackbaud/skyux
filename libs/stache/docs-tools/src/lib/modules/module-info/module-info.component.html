@@ -1,0 +1,59 @@
+<div class="sky-docs-module-info">
+  <sky-definition-list defaultValue="" labelWidth="120px">
+    <sky-definition-list-content *ngIf="moduleName">
+      <sky-definition-list-label> Defined in </sky-definition-list-label>
+      <sky-definition-list-value>
+        <sky-code>{{ moduleName }}</sky-code>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+    <sky-definition-list-content *ngIf="packageName">
+      <sky-definition-list-label> NPM package </sky-definition-list-label>
+      <sky-definition-list-value>
+        <span class="sky-docs-module-info-package-name"
+          ><sky-code>{{ packageName }}</sky-code></span
+        >
+        <ng-container *ngFor="let externalLink of externalLinks; let i = index">
+          <a [attr.href]="externalLink.url">{{ externalLink.label }}</a>
+          <ng-container *ngIf="i < externalLinks.length - 1"
+            >&nbsp;|
+          </ng-container>
+        </ng-container>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+
+    <sky-definition-list-content *ngIf="installationCommand">
+      <sky-definition-list-label>
+        Installation
+        <sky-help-inline
+          [skyPopover]="installationCommandPopover"
+          skyPopoverPlacement="right"
+        >
+        </sky-help-inline>
+      </sky-definition-list-label>
+      <sky-definition-list-value>
+        <sky-popover #installationCommandPopover>
+          To use this module, you must install peer dependencies along with its
+          package. Also, after you install the package, you must add the module
+          as an export in your SPA's main module to make exports available to
+          your SPA.
+        </sky-popover>
+        <div class="sky-docs-module-info-installation-command">
+          <span
+            class="sky-docs-module-info-installation-command-code"
+            #copyTarget
+          >
+            <sky-code>{{ installationCommand }}</sky-code>
+          </span>
+          <sky-copy-to-clipboard
+            buttonText="Copy"
+            [copyTarget]="copyTarget"
+          ></sky-copy-to-clipboard>
+        </div>
+      </sky-definition-list-value>
+    </sky-definition-list-content>
+  </sky-definition-list>
+
+  <div class="sky-docs-module-info-additional-content">
+    <ng-content></ng-content>
+  </div>
+</div>

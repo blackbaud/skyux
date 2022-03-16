@@ -1,0 +1,77 @@
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/_compat/mixins';
+
+@mixin sky-docs-tools-heading($level: 0) {
+  line-height: 1.1;
+  font-family: $sky-font-family;
+  color: $sky-text-color-default;
+  font-weight: 400;
+  margin: $sky-margin-triple 0 $sky-margin-plus-half;
+
+  @if $level == 1 {
+    font-weight: 300;
+    font-size: 34px;
+  }
+
+  @if $level == 2 {
+    font-weight: 300;
+    font-size: 26px;
+    margin-bottom: $sky-margin-triple;
+  }
+
+  @if $level == 3 {
+    font-size: 19px;
+    font-weight: 400;
+  }
+
+  @if $level == 4 {
+    font-weight: 600;
+    font-size: 15px;
+    margin: 0 0 $sky-margin;
+  }
+
+  @if $level == 5 {
+  }
+
+  @if $level == 6 {
+  }
+}
+
+@mixin sky-docs-tools-headings($suffix) {
+  .sky-docs-tools-#{$suffix}-h1,
+  .sky-docs-tools-#{$suffix}-h2,
+  .sky-docs-tools-#{$suffix}-h3,
+  .sky-docs-tools-#{$suffix}-h4,
+  .sky-docs-tools-#{$suffix}-h5,
+  .sky-docs-tools-#{$suffix}-h6 {
+    @include sky-docs-tools-heading();
+  }
+
+  .sky-docs-tools-#{$suffix}-h1 {
+    @include sky-docs-tools-heading(1);
+  }
+
+  .sky-docs-tools-#{$suffix}-h2 {
+    @include sky-docs-tools-heading(2);
+  }
+
+  .sky-docs-tools-#{$suffix}-h3 {
+    @include sky-docs-tools-heading(3);
+  }
+
+  .sky-docs-tools-#{$suffix}-h4 {
+    @include sky-docs-tools-heading(4);
+  }
+}
+
+// Auto-generated code elements need to be styled like `sky-code` component.
+// TODO: Need to address this so that there isn't duplicate code.
+@mixin sky-docs-tools-code {
+  @include sky-border('dark', 'top', 'right', 'bottom', 'left');
+  overflow-wrap: break-word;
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  font-size: 90%;
+  color: darken($sky-background-color-danger-dark, 5%);
+  padding: 0 4px;
+  background-color: $sky-background-color-selected;
+}

@@ -1,0 +1,10 @@
+@import '../../styles/mixins';
+
+.sky-docs-directive-definition-h4 {
+  @include sky-docs-tools-heading(4);
+}
+
+.sky-docs-directive-selector {
+  margin-left: $sky-margin-plus-half !important;
+  margin-top: $sky-margin !important;
+}
