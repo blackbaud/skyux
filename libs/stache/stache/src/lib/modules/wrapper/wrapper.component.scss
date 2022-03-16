@@ -1,0 +1,74 @@
+@import '../../styles/_variables';
+
+::ng-deep
+.stache-wrapper {
+  background-color: #fff;
+  line-height: $stache-line-height-base;
+
+  p:not([class]),
+  ul:not([class]),
+  ol:not([class]),
+  li:not([class]),
+  td:not([class]),
+  th:not([class]) {
+    line-height: $stache-line-height-base;
+    color: $stache-text-color-default;
+    font-size: inherit;
+  }
+
+  h1:not([class]),
+  h2:not([class]),
+  h3:not([class]),
+  h4:not([class]),
+  h5:not([class]),
+  h6:not([class]) {
+    line-height: $stache-line-height-headings;
+    color: $stache-text-color-default;
+    margin: ($stache-margin * 2) 0;
+  }
+
+  p,
+  blockquote,
+  table {
+    margin: ($stache-margin * 2) 0;
+  }
+
+  ul:not([class]),
+  ol:not([class]) {
+    margin: ($stache-margin * 2) 0;
+
+    > li {
+      margin-bottom: $stache-margin;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  ::ng-deep
+  .stache-edit-button {
+    text-align: right;
+  }
+}
+
+// TODO: Remove this line once auth client gets updated:
+// https://github.com/blackbaud/auth-client/issues/70
+::ng-deep {
+  .sky-omnibar-iframe-session-watcher {
+    position: absolute;
+  }
+}
+
+::ng-deep
+.stache-omnibar-enabled {
+  .stache-affix-top {
+    margin-top: $stache-omnibar-height;
+  }
+}
+
+::ng-deep
+.stache-max-width-container {
+  max-width: $stache-container-max-width;
+  margin: 0 auto;
+}

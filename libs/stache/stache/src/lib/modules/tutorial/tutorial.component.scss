@@ -1,0 +1,21 @@
+@import '../../styles/_variables';
+
+.stache-tutorial {
+  counter-reset: myCounter;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 ($stache-padding-double) ($stache-padding * 4) ($stache-padding * 3);
+  background: $stache-background-color-neutral-light;
+  border: 1px solid $stache-border-color-neutral-medium;
+
+  @media (min-width: $stache-screen-sm-min) {
+    margin: 0 auto;
+    padding: 0 ($stache-padding-double) ($stache-padding-double);
+    padding-bottom: ($stache-padding * 8);
+  }
+
+  @media (min-width: $stache-screen-md-min) {
+    padding: 0 ($stache-padding * 4) ($stache-padding * 4);
+  }
+}

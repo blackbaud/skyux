@@ -1,0 +1,18 @@
+<nav class="stache-nav" [ngClass]="classname" *ngIf="hasRoutes()">
+  <ol class="stache-nav-list">
+    <li class="stache-nav-list-item"
+      *ngFor="let route of filteredRoutes"
+      [attr.aria-current]="route.isCurrent ? 'page' : false"
+      [ngClass]="{'active': route.isActive, 'current': route.isCurrent}">
+      <a class="stache-nav-anchor"
+        stacheRouterLink="{{route.path}}"
+        fragment="{{route.fragment}}"
+        queryParamsHandling="merge">{{route.name}}</a>
+      <stache-nav
+        navType="sidebar stache-nav-sub"
+        [routes]="route.children"
+        *ngIf="hasChildRoutes(route)">
+      </stache-nav>
+    </li>
+  </ol>
+</nav>

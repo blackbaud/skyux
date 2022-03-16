@@ -1,0 +1,30 @@
+<stache-sidebar-wrapper stacheAffixTop [sidebarRoutes]="sidebarRoutes">
+</stache-sidebar-wrapper>
+
+<stache-layout-blank identifier="sidebar">
+  <stache-container>
+
+    <stache-breadcrumbs *ngIf="showBreadcrumbs" [routes]="breadcrumbsRoutes">
+    </stache-breadcrumbs>
+
+    <stache-edit-button *ngIf="showEditButton">
+    </stache-edit-button>
+
+    <stache-page-header *ngIf="pageTitle">
+      <stache-page-title>
+        {{pageTitle}}
+      </stache-page-title>
+    </stache-page-header>
+
+    <ng-content select="[stachePageSummary]"></ng-content>
+    <ng-content select="stache-page-summary"></ng-content>
+
+    <stache-table-of-contents-wrapper *ngIf="showTableOfContents" [tocRoutes]="inPageRoutes">
+    </stache-table-of-contents-wrapper>
+
+    <ng-content></ng-content>
+  </stache-container>
+</stache-layout-blank>
+
+<stache-back-to-top *ngIf="showBackToTop">
+</stache-back-to-top>

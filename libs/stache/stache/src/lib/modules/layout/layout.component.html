@@ -1,0 +1,55 @@
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #contentSummary>
+  <ng-content select="[stachePageSummary]"></ng-content>
+  <ng-content select="stache-page-summary"></ng-content>
+</ng-template>
+
+<ng-template #blankLayout>
+  <stache-layout-blank>
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
+  </stache-layout-blank>
+</ng-template>
+
+<ng-template #containerLayout>
+  <stache-layout-container
+    [pageTitle]="pageTitle"
+    [showBackToTop]="showBackToTop"
+    [showBreadcrumbs]="showBreadcrumbs"
+    [showEditButton]="showEditButton"
+    [showTableOfContents]="showTableOfContents"
+    [inPageRoutes]="inPageRoutes"
+    [breadcrumbsRoutes]="breadcrumbsRoutes">
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
+  </stache-layout-container>
+</ng-template>
+
+<ng-template #sidebarLayout>
+  <stache-layout-sidebar
+    [pageTitle]="pageTitle"
+    [showBackToTop]="showBackToTop"
+    [showBreadcrumbs]="showBreadcrumbs"
+    [showEditButton]="showEditButton"
+    [showTableOfContents]="showTableOfContents"
+    [sidebarRoutes]="sidebarRoutes"
+    [inPageRoutes]="inPageRoutes"
+    [breadcrumbsRoutes]="breadcrumbsRoutes">
+    <ng-template stachePageSummary [ngTemplateOutlet]="contentSummary">
+    </ng-template>
+    <ng-template [ngTemplateOutlet]="content">
+    </ng-template>
+  </stache-layout-sidebar>
+</ng-template>
+
+<div class="stache-layout-wrapper stache-max-width-container">
+  <ng-template [ngTemplateOutlet]="templateRef">
+  </ng-template>
+</div>

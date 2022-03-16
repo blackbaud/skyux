@@ -1,0 +1,16 @@
+@import '../../styles/_variables';
+
+.stache-layout {
+  padding-top: $stache-padding-double;
+  padding-bottom: $stache-padding * 4;
+}
+
+.stache-layout-blank {
+  padding: 0;
+  background-color: $stache-background-color-neutral-light;
+
+  ::ng-deep
+  .stache-tutorial {
+    border: none;
+  }
+}

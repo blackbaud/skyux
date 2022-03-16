@@ -1,0 +1,21 @@
+@import '../../styles/_variables';
+
+.stache-tutorial-summary {
+  font-weight: 300;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0 0 20px;
+
+  @media (min-width: $stache-screen-sm-min) {
+    font-size: 19.5px;
+  }
+
+  &,
+  p {
+    color: $stache-text-color-default;
+  }
+
+  p + p {
+    margin-top: 15px;
+  }
+}

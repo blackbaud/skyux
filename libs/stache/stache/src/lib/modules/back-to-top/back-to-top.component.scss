@@ -1,0 +1,15 @@
+@import '../../styles/_variables';
+
+.stache-back-to-top {
+  position: fixed;
+  z-index: $stache-back-to-top-z-index;
+  bottom: 10px;
+  right: 10px;
+  opacity: 1;
+  transition: opacity .5s;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

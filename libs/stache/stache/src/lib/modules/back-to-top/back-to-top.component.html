@@ -1,0 +1,8 @@
+<button class="sky-btn sky-btn-primary stache-back-to-top"
+  [ngClass]="{ 'hidden': isHidden }"
+  type="button"
+  [attr.aria-label]="'stache_back_to_top_button' | skyLibResources"
+  [attr.aria-hidden]="isHidden"
+  (click)="scrollToTop()">
+  <i class="fa fa-chevron-up"></i>
+</button>

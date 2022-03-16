@@ -1,0 +1,7 @@
+<div [attr.id]="fragment" class="stache-page-anchor">
+  <a routerLink="{{path}}" fragment="{{fragment}}" queryParamsHandling="merge" (click)="scrollToAnchor()">
+    <h2 class="stache-page-anchor-heading">
+      <ng-content></ng-content> <i class="fa fa-link stache-page-anchor-icon"></i>
+    </h2>
+  </a>
+</div>

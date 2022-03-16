@@ -1,0 +1,27 @@
+@import '../../styles/_variables';
+
+.stache-blockquote {
+  border-left: 4px solid $stache-background-color-primary-dark;
+  font-size: $stache-font-size-base * 1.12;
+  color: $stache-text-color-deemphasized;
+  padding: 15px 20px;
+  padding-bottom: $stache-padding-double;
+  margin-bottom: $stache-margin;
+  line-height: $stache-line-height-base;
+  display: inline-flex;
+
+  .stache-blockquote-icon {
+    padding-right: $stache-padding;
+    color: $stache-border-color-neutral-medium;
+  }
+
+  .stache-blockquote-content {
+    margin: 0;
+
+    .stache-blockquote-source {
+      padding-top: $stache-padding;
+      font-weight: lighter;
+      font-size: $stache-font-size-base;
+    }
+  }
+}

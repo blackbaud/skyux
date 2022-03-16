@@ -1,0 +1,33 @@
+@import '../../styles/_variables';
+
+.stache-page-anchor {
+  padding-top: 2em;
+  margin: 0 0 1em;
+  padding-bottom: 0.6em;
+  border-bottom: 1px solid $stache-border-color-neutral-light;
+
+  &:hover {
+    .stache-page-anchor-icon {
+      opacity: 1;
+    }
+  }
+
+  ::ng-deep
+  .stache-omnibar-enabled & {
+    padding-top: 5em !important;
+    margin-top: -3em !important;
+  }
+}
+
+.stache-page-anchor-heading {
+  margin: 0;
+  display: inline-block;
+  color: $stache-text-color-default;
+}
+
+.stache-page-anchor-icon {
+  color: #0974a1;
+  opacity: 0;
+  font-size: 0.85em;
+  transition: opacity 300ms;
+}

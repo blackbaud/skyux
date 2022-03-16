@@ -1,0 +1,41 @@
+@import '../../styles/_variables';
+
+.stache-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 $stache-padding-plus-half;
+}
+
+@media (min-width: $stache-screen-sm-min) {
+  .stache-container {
+    padding: 0 $stache-container-padding;
+  }
+}
+
+@media (min-width: $stache-screen-md-min) {
+  .stache-container {
+    width: 100%;
+  }
+}
+
+::ng-deep
+.stache-sidebar-enabled {
+  .stache-container {
+    padding-left: $stache-container-padding;
+
+    @media (min-width: $stache-screen-md-min) {
+        padding-left: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+    }
+  }
+}
+
+::ng-deep
+.stache-table-of-contents-enabled {
+  .stache-container {
+    padding-right: $stache-container-padding;
+
+    @media (min-width: $stache-screen-lg-min) {
+        padding-right: calc( #{ $stache-sidebar-column-width } + #{ $stache-container-padding });
+    }
+  }
+}
