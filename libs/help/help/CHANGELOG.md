@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 ## 5.0.0 (2021-10-07)
 
 - Initial `5.0.0` release.
