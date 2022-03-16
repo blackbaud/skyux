@@ -3,5 +3,8 @@
   "dest": "../../../dist/libs/stache/code-block",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "prismjs"
+  ]
 }

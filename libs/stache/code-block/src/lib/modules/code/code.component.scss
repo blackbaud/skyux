@@ -1,4 +1,4 @@
-@import '~@skyux/theme/scss/mixins';
+@import 'libs/components/theme/src/lib/styles/mixins';
 
 .sky-code {
   @include sky-border("dark", "top", "right", "bottom", "left");

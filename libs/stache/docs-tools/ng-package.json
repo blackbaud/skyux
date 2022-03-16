@@ -3,5 +3,10 @@
   "dest": "../../../dist/libs/stache/docs-tools",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@stackblitz/sdk",
+    "lodash.orderby",
+    "marked"
+  ]
 }
