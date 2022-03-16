@@ -21,11 +21,11 @@ $stache-border-radius: 3px !default;
 
 $stache-padding: 10px !default;
 $stache-padding-double: $stache-padding * 2;
-$stache-padding-half: $stache-padding / 2 !default;
+$stache-padding-half: $stache-padding * 0.5 !default;
 $stache-padding-plus-half: $stache-padding + $stache-padding-half !default;
 
 $stache-margin: 10px !default;
-$stache-margin-half: $stache-margin / 2 !default;
+$stache-margin-half: $stache-margin * 0.5 !default;
 $stache-margin-plus-half: $stache-margin + $stache-margin-half !default;
 
 $stache-screen-sm-min: 768px !default;

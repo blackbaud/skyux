@@ -4,7 +4,6 @@ import 'prismjs/components/prism-ada';
 import 'prismjs/components/prism-apacheconf';
 import 'prismjs/components/prism-apl';
 import 'prismjs/components/prism-applescript';
-import 'prismjs/components/prism-arduino';
 import 'prismjs/components/prism-arff';
 import 'prismjs/components/prism-asciidoc';
 import 'prismjs/components/prism-asm6502';
@@ -14,7 +13,6 @@ import 'prismjs/components/prism-autoit';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-basic';
 import 'prismjs/components/prism-batch';
-import 'prismjs/components/prism-bison';
 import 'prismjs/components/prism-brainfuck';
 import 'prismjs/components/prism-bro';
 import 'prismjs/components/prism-c';
@@ -22,7 +20,6 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-clojure';
 import 'prismjs/components/prism-coffeescript';
 import 'prismjs/components/prism-cpp';
-import 'prismjs/components/prism-crystal';
 import 'prismjs/components/prism-csharp';
 import 'prismjs/components/prism-csp';
 import 'prismjs/components/prism-css';
@@ -30,7 +27,6 @@ import 'prismjs/components/prism-css-extras';
 import 'prismjs/components/prism-d';
 import 'prismjs/components/prism-dart';
 import 'prismjs/components/prism-diff';
-import 'prismjs/components/prism-django';
 import 'prismjs/components/prism-docker';
 import 'prismjs/components/prism-eiffel';
 import 'prismjs/components/prism-elixir';
@@ -99,7 +95,6 @@ import 'prismjs/components/prism-pascal';
 import 'prismjs/components/prism-perl';
 import 'prismjs/components/prism-php';
 import 'prismjs/components/prism-php-extras';
-import 'prismjs/components/prism-plsql';
 import 'prismjs/components/prism-powershell';
 import 'prismjs/components/prism-processing';
 import 'prismjs/components/prism-prolog';
@@ -161,14 +156,12 @@ export const prismLanguages: { [_: string]: string } = {
   ada: 'Ada',
   apacheconf: 'Apache Configuration',
   applescript: 'AppleScript',
-  arduino: 'Arduino',
   asciidoc: 'AsciiDoc',
   autohotkey: 'AutoHotkey',
   autoit: 'AutoIt',
   basic: 'BASIC',
   bash: 'Bash',
   batch: 'Batch',
-  bison: 'Bison',
   brainfuck: 'Brainfuck',
   bro: 'Bro',
   c: 'C',
@@ -180,11 +173,9 @@ export const prismLanguages: { [_: string]: string } = {
   clojure: 'Clojure',
   coffeescript: 'CoffeeScript',
   csp: 'Content-Security-Policy',
-  crystal: 'Crystal',
   d: 'D',
   dart: 'Dart',
   diff: 'Diff',
-  django: 'Django/Jinja2',
   docker: 'Docker',
   erb: 'ERB',
   eiffel: 'Eiffel',
@@ -250,7 +241,6 @@ export const prismLanguages: { [_: string]: string } = {
   parigp: 'PARI/GP',
   php: 'PHP',
   'php-extras': 'PHP Extras',
-  plsql: 'PL/SQL',
   parser: 'Parser',
   pascal: 'Pascal',
   perl: 'Perl',

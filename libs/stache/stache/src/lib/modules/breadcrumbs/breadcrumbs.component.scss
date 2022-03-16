@@ -22,7 +22,7 @@
       & + li {
         &:before {
           content: '/';
-          margin-right: $stache-margin / 2;
+          margin-right: $stache-margin * 0.5;
           color: $stache-text-color-deemphasized;
         }
       }

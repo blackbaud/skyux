@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import * as Prism from 'prismjs';
+import Prism from 'prismjs';
 import 'prismjs/plugins/normalize-whitespace/prism-normalize-whitespace';
 
 import { prismLanguages } from './prism-languages';

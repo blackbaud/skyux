@@ -136,7 +136,7 @@ jobs:
       - name: Code coverage
         run: |
           export NX_CLOUD_DISTRIBUTED_EXECUTION=false
-          npm run ci:test-affected --codeCoverage=false
+          npm run ci:test-affected
 
   browserstack:
     name: Cross-browser testing
