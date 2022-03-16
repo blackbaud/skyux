@@ -1,15 +1,32 @@
 {
   "name": "@skyux/docs-tools",
   "version": "0.0.0-PLACEHOLDER",
+  "author": "Blackbaud, Inc.",
+  "keywords": [
+    "blackbaud",
+    "skyux"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackbaud/skyux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/blackbaud/skyux/issues"
+  },
+  "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
     "@angular/common": "^12.2.16",
     "@angular/core": "^12.2.16",
     "@angular/forms": "^12.2.16",
     "@angular/platform-browser": "^12.2.16",
-    "@blackbaud/skyux-lib-code-block": "^5.0.0-beta.0",
-    "@blackbaud/skyux-lib-clipboard": "^5.0.0-beta.0",
-    "@blackbaud/skyux-lib-media": "^5.0.0-beta.0",
-    "@blackbaud/skyux-lib-stache": "^5.0.0-beta.2",
+    "@angular/platform-browser-dynamic": "^12.2.16",
+    "@angular/router": "^12.2.16",
+    "@blackbaud/skyux-lib-clipboard": "0.0.0-PLACEHOLDER",
+    "@blackbaud/skyux-lib-code-block": "0.0.0-PLACEHOLDER",
+    "@blackbaud/skyux-lib-media": "0.0.0-PLACEHOLDER",
+    "@blackbaud/skyux-lib-stache": "0.0.0-PLACEHOLDER",
+    "@skyux/config": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/http": "0.0.0-PLACEHOLDER",
@@ -26,19 +43,5 @@
     "lodash.orderby": "4.6.0",
     "marked": "2.1.3",
     "tslib": "^2.3.1"
-  },
-  "author": "Blackbaud, Inc.",
-  "keywords": [
-    "blackbaud",
-    "skyux"
-  ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blackbaud/skyux.git"
-  },
-  "bugs": {
-    "url": "https://github.com/blackbaud/skyux/issues"
-  },
-  "homepage": "https://github.com/blackbaud/skyux#readme"
+  }
 }

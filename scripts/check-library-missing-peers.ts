@@ -36,7 +36,9 @@ async function findUnlistedPeers(
   for (const fileName of files) {
     const contents = (await readFile(join(fileName))).toString();
 
-    const matches = contents.matchAll(/(?:import|from)\s+\'((?!\.).*)\'/g);
+    const matches = contents.matchAll(
+      /[^@](?:import|from)\s+\'((?!\.)((@?[a-z0-9-~][a-z0-9-._~]*)((\/[a-z0-9-~][a-z0-9-._~]*)+)?))\'/g
+    );
     for (const match of matches) {
       let foundPackage = match[1];
 
@@ -56,6 +58,7 @@ async function findUnlistedPeers(
       const ignoredPackages = [
         'path', // system level package
         'rxjs', // peer of @angular/core
+        'zone.js', // peer of @angular/core
       ];
       if (ignoredPackages.includes(foundPackage)) {
         continue;
