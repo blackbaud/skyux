@@ -35,9 +35,6 @@
     ]
   },
   "projects": {
-    "code-examples": {
-      "tags": []
-    },
     "a11y": {
       "tags": ["component"]
     },
@@ -61,6 +58,9 @@
     },
     "avatar": {
       "tags": ["component"]
+    },
+    "code-examples": {
+      "tags": []
     },
     "colorpicker": {
       "tags": ["component"]
@@ -89,6 +89,9 @@
     "grids": {
       "tags": ["component"]
     },
+    "help": {
+      "tags": ["help"]
+    },
     "http": {
       "tags": ["component"]
     },
@@ -100,6 +103,13 @@
     },
     "inline-form": {
       "tags": ["component"]
+    },
+    "integration": {
+      "tags": []
+    },
+    "integration-e2e": {
+      "tags": [],
+      "implicitDependencies": ["integration"]
     },
     "layout": {
       "tags": ["component"]
@@ -140,8 +150,14 @@
     "phone-field": {
       "tags": ["component"]
     },
+    "playground": {
+      "tags": []
+    },
     "popovers": {
       "tags": ["component"]
+    },
+    "prettier-schematics": {
+      "tags": ["sdk"]
     },
     "progress-indicator": {
       "tags": ["component"]
@@ -155,8 +171,29 @@
     "split-view": {
       "tags": ["component"]
     },
+    "clipboard": {
+      "tags": ["stache"]
+    },
+    "code-block": {
+      "tags": ["stache"]
+    },
+    "docs-tools": {
+      "tags": ["stache"]
+    },
+    "media": {
+      "tags": ["stache"]
+    },
+    "restricted-view": {
+      "tags": ["stache"]
+    },
+    "stache": {
+      "tags": ["stache"]
+    },
     "tabs": {
       "tags": ["component"]
+    },
+    "testing": {
+      "tags": ["sdk"]
     },
     "text-editor": {
       "tags": ["component"]
@@ -172,22 +209,6 @@
     },
     "validation": {
       "tags": ["component"]
-    },
-    "integration": {
-      "tags": []
-    },
-    "integration-e2e": {
-      "tags": [],
-      "implicitDependencies": ["integration"]
-    },
-    "playground": {
-      "tags": []
-    },
-    "prettier-schematics": {
-      "tags": ["sdk"]
-    },
-    "testing": {
-      "tags": ["sdk"]
     }
   }
 }

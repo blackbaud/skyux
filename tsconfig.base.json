@@ -15,6 +15,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@blackbaud/skyux-lib-clipboard": ["libs/stache/clipboard/src/index.ts"],
+      "@blackbaud/skyux-lib-code-block": [
+        "libs/stache/code-block/src/index.ts"
+      ],
+      "@blackbaud/skyux-lib-help": ["libs/help/help/src/index.ts"],
+      "@blackbaud/skyux-lib-media": ["libs/stache/media/src/index.ts"],
+      "@blackbaud/skyux-lib-restricted-view": [
+        "libs/stache/restricted-view/src/index.ts"
+      ],
+      "@blackbaud/skyux-lib-stache": ["libs/stache/stache/src/index.ts"],
       "@skyux-sdk/prettier-schematics": [
         "libs/sdk/prettier-schematics/src/index.ts"
       ],
@@ -47,6 +57,7 @@
       "@skyux/datetime/testing": [
         "libs/components/datetime/testing/src/public-api.ts"
       ],
+      "@skyux/docs-tools": ["libs/stache/docs-tools/src/index.ts"],
       "@skyux/errors": ["libs/components/errors/src/index.ts"],
       "@skyux/errors/testing": [
         "libs/components/errors/testing/src/public-api.ts"

@@ -1101,6 +1101,47 @@
         }
       }
     },
+    "help": {
+      "projectType": "library",
+      "root": "libs/help/help",
+      "sourceRoot": "libs/help/help/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/help/help"],
+          "options": {
+            "project": "libs/help/help/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/help/help/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/help/help/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/help/help/src/test.ts",
+            "tsConfig": "libs/help/help/tsconfig.spec.json",
+            "karmaConfig": "libs/help/help/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/help/help/src/**/*.ts",
+              "libs/help/help/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "http": {
       "projectType": "library",
       "root": "libs/components/http",
@@ -2653,6 +2694,252 @@
             "styles": [
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          }
+        }
+      }
+    },
+    "clipboard": {
+      "projectType": "library",
+      "root": "libs/stache/clipboard",
+      "sourceRoot": "libs/stache/clipboard/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/clipboard"],
+          "options": {
+            "project": "libs/stache/clipboard/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/clipboard/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/clipboard/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/clipboard/src/test.ts",
+            "tsConfig": "libs/stache/clipboard/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/clipboard/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/clipboard/src/**/*.ts",
+              "libs/stache/clipboard/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "code-block": {
+      "projectType": "library",
+      "root": "libs/stache/code-block",
+      "sourceRoot": "libs/stache/code-block/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/code-block"],
+          "options": {
+            "project": "libs/stache/code-block/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/code-block/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/code-block/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/code-block/src/test.ts",
+            "tsConfig": "libs/stache/code-block/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/code-block/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/code-block/src/**/*.ts",
+              "libs/stache/code-block/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "docs-tools": {
+      "projectType": "library",
+      "root": "libs/stache/docs-tools",
+      "sourceRoot": "libs/stache/docs-tools/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/docs-tools"],
+          "options": {
+            "project": "libs/stache/docs-tools/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/docs-tools/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/docs-tools/src/test.ts",
+            "tsConfig": "libs/stache/docs-tools/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/docs-tools/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/docs-tools/src/**/*.ts",
+              "libs/stache/docs-tools/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "media": {
+      "projectType": "library",
+      "root": "libs/stache/media",
+      "sourceRoot": "libs/stache/media/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/media"],
+          "options": {
+            "project": "libs/stache/media/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/media/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/media/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/media/src/test.ts",
+            "tsConfig": "libs/stache/media/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/media/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/media/src/**/*.ts",
+              "libs/stache/media/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "restricted-view": {
+      "projectType": "library",
+      "root": "libs/stache/restricted-view",
+      "sourceRoot": "libs/stache/restricted-view/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/restricted-view"],
+          "options": {
+            "project": "libs/stache/restricted-view/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/restricted-view/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/restricted-view/src/test.ts",
+            "tsConfig": "libs/stache/restricted-view/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/restricted-view/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/restricted-view/src/**/*.ts",
+              "libs/stache/restricted-view/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "stache": {
+      "projectType": "library",
+      "root": "libs/stache/stache",
+      "sourceRoot": "libs/stache/stache/src",
+      "prefix": "sky",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/stache/stache"],
+          "options": {
+            "project": "libs/stache/stache/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/stache/stache/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/stache/stache/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/stache/stache/src/test.ts",
+            "tsConfig": "libs/stache/stache/tsconfig.spec.json",
+            "karmaConfig": "libs/stache/stache/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/stache/stache/src/**/*.ts",
+              "libs/stache/stache/src/**/*.html"
             ]
           }
         }
