@@ -1,3 +1,6 @@
+**Note:** Change logs for individual libraries are no longer maintained. For the most recent changes, reference the `CHANGELOG.md` file located at the workspace root.
+
+___
 # 5.0.0-beta.0 (2021-10-08)
 
 - Added support for Angular 12. [#54](https://github.com/blackbaud/skyux-lib-code-block/pull/54)
