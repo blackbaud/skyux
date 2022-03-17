@@ -204,7 +204,9 @@ async function runKarmaTests(
     npxArgs.push(`--karmaConfig=${config.karmaConfig}`);
   }
 
-  await runCommand('npx', npxArgs);
+  await runCommand('npx', npxArgs, {
+    env: { ...process.env, NX_CLOUD_DISTRIBUTED_EXECUTION: 'false' },
+  });
 }
 
 function logProjectsArray(message: string, projects: string[]) {
@@ -284,7 +286,9 @@ async function testAffected() {
     }
 
     // Run posttest steps.
-    await runCommand('npx', ['nx', 'affected', '--target=posttest']);
+    await runCommand('npx', ['nx', 'affected', '--target=posttest'], {
+      env: { ...process.env, NX_CLOUD_DISTRIBUTED_EXECUTION: 'false' },
+    });
 
     console.log('Library tests completed successfully.');
   } catch (err) {

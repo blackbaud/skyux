@@ -1,11 +1,27 @@
 import { getCommandOutput, runCommand } from './spawn';
 
-export async function isGitClean() {
+interface IsGitCleanOptions {
+  compareAgainstRemote?: boolean;
+}
+
+export async function isGitClean(config?: IsGitCleanOptions) {
   const result = await getCommandOutput('git', ['status']);
-  return (
-    result.includes('nothing to commit, working tree clean') &&
-    result.includes('Your branch is up to date')
-  );
+
+  let options: IsGitCleanOptions = {
+    compareAgainstRemote: false,
+  };
+
+  if (config) {
+    options = { ...options, ...config };
+  }
+
+  let isClean = result.includes('nothing to commit, working tree clean');
+
+  if (isClean && options.compareAgainstRemote) {
+    isClean = result.includes('Your branch is up to date');
+  }
+
+  return isClean;
 }
 
 export async function getCurrentBranch() {
