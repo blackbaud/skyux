@@ -5,8 +5,6 @@ interface IsGitCleanOptions {
 }
 
 export async function isGitClean(config?: IsGitCleanOptions) {
-  const result = await getCommandOutput('git', ['status']);
-
   let options: IsGitCleanOptions = {
     compareAgainstRemote: false,
   };
@@ -15,8 +13,14 @@ export async function isGitClean(config?: IsGitCleanOptions) {
     options = { ...options, ...config };
   }
 
-  let isClean = result.includes('nothing to commit, working tree clean');
+  // Fetch any upstream changes before getting the status.
+  if (options.compareAgainstRemote) {
+    await fetchAll();
+  }
 
+  const result = await getCommandOutput('git', ['status']);
+
+  let isClean = result.includes('nothing to commit, working tree clean');
   if (isClean && options.compareAgainstRemote) {
     isClean = result.includes('Your branch is up to date');
   }

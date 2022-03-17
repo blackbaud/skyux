@@ -157,9 +157,6 @@ async function createRelease() {
       );
     }
 
-    // Ensure all remote changes are represented locally.
-    await fetchAll();
-
     // Ensure releases are executed against the main branch.
     if ((await getCurrentBranch()) !== 'main') {
       throw new Error('Releases can only be triggered on the "main" branch!');
