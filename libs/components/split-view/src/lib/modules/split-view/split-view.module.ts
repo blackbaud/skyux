@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { SplitViewResourcesModule } from '../shared/split-view-resources.module';
+import { SkySplitViewResourcesModule } from '../shared/sky-split-view-resources.module';
 
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
 import { SkySplitViewWorkspaceContentComponent } from './split-view-workspace-content.component';
@@ -24,7 +24,7 @@ import { SkySplitViewComponent } from './split-view.component';
   imports: [
     CommonModule,
     SkyIconModule,
-    SplitViewResourcesModule,
+    SkySplitViewResourcesModule,
     SkyThemeModule,
   ],
   exports: [

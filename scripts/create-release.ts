@@ -157,16 +157,13 @@ async function createRelease() {
       );
     }
 
-    // Ensure all remote changes are represented locally.
-    await fetchAll();
-
     // Ensure releases are executed against the main branch.
     if ((await getCurrentBranch()) !== 'main') {
       throw new Error('Releases can only be triggered on the "main" branch!');
     }
 
     // Ensure local git is clean.
-    if (!(await isGitClean())) {
+    if (!(await isGitClean({ compareAgainstRemote: true }))) {
       throw new Error(
         'Your local branch does not match the remote. ' +
           'Please pull any changes from the remote (or stash any local changes) before creating a release.'

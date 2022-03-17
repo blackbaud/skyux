@@ -151,3 +151,9 @@ npx nx run my-project:postbuild
 ```
 npm run ci:create-packages-dist
 ```
+
+#### Regenerate resources modules for all libraries
+
+```
+npm run dev:create-library-resources
+```

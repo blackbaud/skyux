@@ -85,6 +85,7 @@ async function createPackagesDist(): Promise<void> {
       ],
       {
         stdio: 'inherit',
+        env: { ...process.env, NX_CLOUD_DISTRIBUTED_EXECUTION: 'false' },
       }
     );
 
