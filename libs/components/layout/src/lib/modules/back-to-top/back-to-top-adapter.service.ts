@@ -1,8 +1,8 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 import { SkyAppWindowRef, SkyScrollableHostService } from '@skyux/core';
 
-import { Observable, Subject, fromEvent, BehaviorSubject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 /**
  * @internal
@@ -85,7 +85,7 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
   }
 
   public isElementScrolledInView(element: any, parentElement: any): boolean {
-    if (!element.offsetTop) {
+    if (!element.offsetParent) {
       return true;
     }
     const buffer = 25;

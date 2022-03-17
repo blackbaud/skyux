@@ -146,12 +146,12 @@ describe('Viewkeeper directive', () => {
 
     validateViewkeepersCreated(fixture);
 
-    // Disconnect is called three times from the scrollable host service when we watch for scrollable parents.
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(3);
+    // Disconnect is called four times from the scrollable host service when we watch for scrollable parents.
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
 
     fixture.destroy();
 
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(5);
   });
 
   it('should create viewkeeper objects for elements that appear after initial render', () => {
@@ -237,11 +237,11 @@ describe('Viewkeeper directive', () => {
 
     validateViewkeepersCreated(fixture);
 
-    // Disconnect is called three times from the scrollable host service when we watch for scrollable parents.
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(3);
+    // Disconnect is called four times from the scrollable host service when we watch for scrollable parents.
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
 
     fixture.destroy();
 
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(5);
   });
 });

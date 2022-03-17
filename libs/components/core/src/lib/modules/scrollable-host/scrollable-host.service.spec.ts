@@ -141,7 +141,8 @@ describe('Scrollable host service', () => {
         }
       });
 
-    expect(mutationObserverSvc.create).toHaveBeenCalledTimes(1);
+    // Should have been called once to the document observer and once for the parent observer
+    expect(mutationObserverSvc.create).toHaveBeenCalledTimes(2);
   });
 
   it('should unsubscribe from watching the scrollable host correctly', (done) => {
@@ -150,7 +151,10 @@ describe('Scrollable host service', () => {
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
-    spyOn(MutationObserver.prototype, 'disconnect').and.callThrough();
+    const disconnectSpy = spyOn(
+      MutationObserver.prototype,
+      'disconnect'
+    ).and.callThrough();
 
     const subscription1 = scrollableHostObservable
       .pipe(take(2), delay(10))
@@ -165,8 +169,9 @@ describe('Scrollable host service', () => {
             cmp.isParentScrollable = false;
             fixture.detectChanges();
 
+            // Should disconnect both the document observer and the parent observer
             expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
-              1
+              2
             );
             done();
           }
@@ -180,6 +185,7 @@ describe('Scrollable host service', () => {
 
     // Disconnect is called via the setup as we use a shared method any time we set up the observer.
     expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(1);
+    disconnectSpy.calls.reset();
 
     const subscription2 = scrollableHostObservable
       .pipe(take(2), delay(10))
@@ -194,6 +200,7 @@ describe('Scrollable host service', () => {
             cmp.isParentScrollable = false;
             fixture.detectChanges();
 
+            // Should disconnect both the document observer and the parent observer
             expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
               2
             );

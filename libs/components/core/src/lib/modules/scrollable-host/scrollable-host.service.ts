@@ -41,29 +41,61 @@ export class SkyScrollableHostService {
     elementRef: ElementRef
   ): Observable<HTMLElement | Window> {
     const subscribers: Subscriber<HTMLElement | Window>[] = [];
-    let mutationObserver: MutationObserver;
+    let parentMutationObserver: MutationObserver;
+    let documentHiddenElementMutationObserver: MutationObserver;
 
     return new Observable((subscriber) => {
       subscribers.push(subscriber);
 
       let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
       if (subscribers.length === 1) {
-        mutationObserver = this.mutationObserverSvc.create(() => {
+        parentMutationObserver = this.mutationObserverSvc.create(() => {
           const newScrollableHost = this.findScrollableHost(
             elementRef.nativeElement
           );
 
-          if (newScrollableHost !== scrollableHost) {
+          if (
+            newScrollableHost !== scrollableHost &&
+            elementRef.nativeElement.offsetParent
+          ) {
             scrollableHost = newScrollableHost;
             this.observeForScrollableHostChanges(
               scrollableHost,
-              mutationObserver
+              parentMutationObserver
             );
 
             notifySubscribers(subscribers, scrollableHost);
           }
         });
-        this.observeForScrollableHostChanges(scrollableHost, mutationObserver);
+        this.observeForScrollableHostChanges(
+          scrollableHost,
+          parentMutationObserver
+        );
+
+        documentHiddenElementMutationObserver = this.mutationObserverSvc.create(
+          () => {
+            if (!elementRef.nativeElement.offsetParent) {
+              scrollableHost = undefined;
+
+              this.observeForScrollableHostChanges(
+                scrollableHost,
+                parentMutationObserver
+              );
+
+              notifySubscribers(subscribers, scrollableHost);
+            }
+          }
+        );
+
+        documentHiddenElementMutationObserver.observe(
+          document.documentElement,
+          {
+            attributes: true,
+            attributeFilter: ['style.display', 'hidden'],
+            childList: true,
+            subtree: true,
+          }
+        );
       }
       subscriber.next(scrollableHost);
 
@@ -77,7 +109,8 @@ export class SkyScrollableHostService {
         }
 
         if (subscribers.length === 0) {
-          mutationObserver.disconnect();
+          documentHiddenElementMutationObserver.disconnect();
+          parentMutationObserver.disconnect();
         }
       });
     });
@@ -112,11 +145,13 @@ export class SkyScrollableHostService {
           }
           scrollableHost = newScrollableHost;
           newScrollableHostObservable = new Subject();
-          scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
-            .pipe(takeUntil(newScrollableHostObservable))
-            .subscribe(() => {
-              notifySubscribers(subscribers);
-            });
+          if (newScrollableHost) {
+            scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
+              .pipe(takeUntil(newScrollableHostObservable))
+              .subscribe(() => {
+                notifySubscribers(subscribers);
+              });
+          }
         });
       }
 

@@ -1,6 +1,7 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyScrollableHostService } from '../scrollable-host.service';
 
@@ -9,7 +10,7 @@ import { SkyScrollableHostService } from '../scrollable-host.service';
   styleUrls: ['./scrollable-host.component.fixture.scss'],
   templateUrl: './scrollable-host.component.fixture.html',
 })
-export class ScrollableHostFixtureComponent {
+export class ScrollableHostFixtureComponent implements OnDestroy {
   public isParentScrollable = true;
   public isGrandparentScrollable = false;
 
@@ -25,7 +26,14 @@ export class ScrollableHostFixtureComponent {
   @ViewChild('target')
   public target: ElementRef;
 
+  public ngUnsubscribe = new Subject();
+
   constructor(private scrollableHostService: SkyScrollableHostService) {}
+
+  public ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
 
   public getScrollableHost(alernative?: ElementRef): HTMLElement | Window {
     return this.scrollableHostService.getScrollableHost(
@@ -40,16 +48,16 @@ export class ScrollableHostFixtureComponent {
   public watchScrollableHost(
     alternativeTarget?: ElementRef
   ): Observable<HTMLElement | Window> {
-    return this.scrollableHostService.watchScrollableHost(
-      alternativeTarget || this.target
-    );
+    return this.scrollableHostService
+      .watchScrollableHost(alternativeTarget || this.target)
+      .pipe(takeUntil(this.ngUnsubscribe));
   }
 
   public watchScrollableHostScrollEvents(
     alternativeTarget?: ElementRef
   ): Observable<void> {
-    return this.scrollableHostService.watchScrollableHostScrollEvents(
-      alternativeTarget || this.target
-    );
+    return this.scrollableHostService
+      .watchScrollableHostScrollEvents(alternativeTarget || this.target)
+      .pipe(takeUntil(this.ngUnsubscribe));
   }
 }
