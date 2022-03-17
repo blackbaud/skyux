@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 import { VerticalTabsetBackToTopComponent } from './vertical-tabset-back-to-top.component';
@@ -11,34 +10,22 @@ describe('Vertical tabset with a back to top', () => {
     return document.querySelector('.sky-back-to-top');
   }
 
-  function getTabGroups(fixture: ComponentFixture<any>): HTMLElement[] {
+  function getTabGroups(
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
+  ): HTMLElement[] {
     return fixture.nativeElement.querySelectorAll('.sky-vertical-tabset-group');
   }
 
   function getVisibleTabContentPane(
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
   ): HTMLElement {
     return fixture.nativeElement.querySelector(
       '.sky-vertical-tab-content-pane:not(.sky-vertical-tab-hidden)'
     );
   }
 
-  // function getOpenTabGroups(fixture: ComponentFixture<any>): HTMLElement[] {
-  //   return fixture.nativeElement.querySelectorAll(
-  //     '.sky-expansion-indicator-up'
-  //   );
-  // }
-
-  // function clickGroupButton(
-  //   fixture: ComponentFixture<any>,
-  //   index: number
-  // ): void {
-  //   getTabGroups(fixture)[index]?.querySelector('button')?.click();
-  //   fixture.detectChanges();
-  // }
-
   function clickTab(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>,
     groupIndex: number,
     tabIndex: number
   ): void {
@@ -49,15 +36,16 @@ describe('Vertical tabset with a back to top', () => {
     fixture.detectChanges();
   }
 
-  function scrollTabContent(fixture: ComponentFixture<any>): void {
-    const wrappingDiv = getVisibleTabContentPane(fixture)?.querySelector('div');
-    wrappingDiv?.scrollTo({
+  function scrollTabContent(
+    fixture: ComponentFixture<VerticalTabsetBackToTopComponent>
+  ): void {
+    const wrappingDiv = getVisibleTabContentPane(fixture)?.querySelector(
+      'div'
+    ) as HTMLElement | EventTarget;
+    (wrappingDiv as HTMLElement)?.scrollTo({
       top: 1000,
     });
-    SkyAppTestUtility.fireDomEvent(
-      <any> wrappingDiv,
-      'scroll'
-    );
+    SkyAppTestUtility.fireDomEvent(wrappingDiv, 'scroll');
   }
 
   let fixture: ComponentFixture<VerticalTabsetBackToTopComponent>;
@@ -75,7 +63,7 @@ describe('Vertical tabset with a back to top', () => {
     // Destroy the fixture to ensure all `ngOnDestroy` functions run to clear all back to top elements
     fixture.destroy();
     fixture.detectChanges();
-  })
+  });
 
   it('should not show a back to top on initialization', () => {
     expect(getBackToTopButton()).toBeNull();
@@ -93,7 +81,6 @@ describe('Vertical tabset with a back to top', () => {
 
     expect(getBackToTopButton()).not.toBeNull();
   });
-
 
   it('should remove a back to top if one is visible and the tab changes', async () => {
     clickTab(fixture, 0, 0);
