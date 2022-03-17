@@ -1444,7 +1444,10 @@
             "tsConfig": "apps/integration/tsconfig.spec.json",
             "karmaConfig": "apps/integration/karma.conf.js",
             "polyfills": "apps/integration/src/polyfills.ts",
-            "styles": [],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
             "scripts": [],
             "assets": []
           }
