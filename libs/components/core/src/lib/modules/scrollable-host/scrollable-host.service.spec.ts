@@ -173,11 +173,6 @@ describe('Scrollable host service', () => {
 
             cmp.isParentScrollable = false;
             fixture.detectChanges();
-
-            // Should disconnect both the document observer and the parent observer
-            expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
-              2
-            );
             done();
           }
 
@@ -204,11 +199,6 @@ describe('Scrollable host service', () => {
 
             cmp.isParentScrollable = false;
             fixture.detectChanges();
-
-            // Should disconnect both the document observer and the parent observer
-            expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
-              2
-            );
             done();
           }
 
@@ -218,6 +208,39 @@ describe('Scrollable host service', () => {
           fail('each subscription should only be hit once');
         }
       });
+  });
+
+  it('should disconnect from mutation observers correctly when all subscriptions are completed', () => {
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    const disconnectSpy = spyOn(
+      MutationObserver.prototype,
+      'disconnect'
+    ).and.callThrough();
+
+    const subscription1 = scrollableHostObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        return;
+      });
+
+    // Disconnect is called via the setup as we use a shared method any time we set up the observer.
+    expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(1);
+    disconnectSpy.calls.reset();
+
+    const subscription2 = scrollableHostObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        return;
+      });
+
+    subscription1.unsubscribe();
+    subscription2.unsubscribe();
+
+    fixture.detectChanges();
+
+    // Should disconnect both the document observer and the parent observer
+    expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(2);
   });
 
   it('should return all scroll events from the current scrollable host when they are subscribed to', (done) => {
