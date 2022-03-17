@@ -1,13 +1,12 @@
-import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 
-import { getCurrentBranch } from './utils/git-utils';
-
-function exec(command: string) {
-  execSync(command, {
-    stdio: 'inherit',
-  });
-}
+import {
+  addAll,
+  fetchAll,
+  getCurrentBranch,
+  isGitClean,
+} from './utils/git-utils';
+import { getCommandOutput, runCommand } from './utils/spawn';
 
 async function promptCommit() {
   const answer = await inquirer.prompt([
@@ -29,18 +28,24 @@ async function promptCommit() {
 
   try {
     console.log('Attempting to merge origin/main into feature branch...');
-    await exec('git fetch --all');
-    await exec('git merge origin/main');
+    await fetchAll();
+    await runCommand('git', ['merge', 'origin/main']);
   } catch (err) {
     console.log('Address any conflicts and try running the command again.');
     process.exit();
   }
 
-  await exec(
-    'git reset $(git merge-base origin/main $(git branch --show-current))'
-  );
-  await exec('git add .');
-  await exec('npx cz');
+  const currentBranch = await getCurrentBranch();
+
+  const hash = await getCommandOutput('git', [
+    'merge-base',
+    'origin/main',
+    currentBranch,
+  ]);
+
+  await runCommand('git', ['reset', hash]);
+  await addAll();
+  await runCommand('npx', ['cz']);
 }
 
 async function promptPush() {
@@ -54,9 +59,14 @@ async function promptPush() {
   ]);
 
   if (answer.pushOrigin) {
-    await exec(
-      'git push --force-with-lease --set-upstream origin $(git branch --show-current)'
-    );
+    const branch = await getCurrentBranch();
+    await runCommand('git', [
+      'push',
+      '--force-with-lease',
+      '--set-upstream',
+      'origin',
+      branch,
+    ]);
     console.log('Commits squashed and pushed!');
   } else {
     console.log(
@@ -71,10 +81,17 @@ async function devPristine() {
       throw new Error("This command may not be executed on the 'main' branch.");
     }
 
+    // Ensure local git is clean.
+    if (!(await isGitClean())) {
+      throw new Error(
+        'Uncommitted changes detected. Stash or commit the changes and try again.'
+      );
+    }
+
     await promptCommit();
     await promptPush();
   } catch (err) {
-    console.error(err);
+    console.error(`[dev:pristine error] ${err.message}\n`);
     process.exit(1);
   }
 }

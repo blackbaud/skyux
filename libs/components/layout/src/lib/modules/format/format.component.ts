@@ -19,7 +19,7 @@ export class SkyFormatComponent {
 
   /**
    * The tokenized string that represents the template. Tokens use the `{n}` notation
-   * where n is the ordinal of the item to replace the token.
+   * where `n` is the ordinal of the item to replace the token.
    */
   @Input()
   public set text(value: string) {

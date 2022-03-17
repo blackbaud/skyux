@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
+  SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchAsyncResult,
   SkyAutocompleteSearchFunctionFilter,
 } from '@skyux/lookup';
 
-import { SkyAutocompleteSearchAsyncArgs } from 'lookup';
 import { Subject } from 'rxjs';
 
 @Component({
