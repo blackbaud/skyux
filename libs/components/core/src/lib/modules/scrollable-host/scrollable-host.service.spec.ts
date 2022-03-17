@@ -23,6 +23,11 @@ describe('Scrollable host service', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+    fixture.detectChanges();
+  });
+
   it('should return the current scrollable parent', () => {
     expect(cmp.getScrollableHost()).toBe(cmp.parent.nativeElement);
   });
