@@ -5,15 +5,11 @@ import { Component } from '@angular/core';
   template: `
     <div class="sky-padding-even-large">
       <h2 id="flyout-title">Sample flyout</h2>
-      <p>
-        Flyouts can display large quantities of supplementary information
-        related to a task, including:
-      </p>
-      <ul>
-        <li>lists</li>
-        <li>records</li>
-        <li>analytics</li>
-      </ul>
+      <sky-tabset ariaLabel="Tab demonstration">
+        <sky-tab [tabHeading]="'Tab 1'"> Content for Tab 1 </sky-tab>
+        <sky-tab [tabHeading]="'Tab 2'"> Content for Tab 2 </sky-tab>
+        <sky-tab [tabHeading]="'Tab 3'"> Content for Tab 3 </sky-tab>
+      </sky-tabset>
     </div>
   `,
 })
