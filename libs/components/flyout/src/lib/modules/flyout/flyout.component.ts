@@ -185,7 +185,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     private uiConfigService: SkyUIConfigService,
     private readonly _ngZone: NgZone
   ) {
-    console.log('here we are');
     // All commands flow through the message stream.
     this.messageStream
       .pipe(takeUntil(this.ngUnsubscribe))
