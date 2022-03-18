@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
-import { SkyA11yResourcesModule } from '../shared/a11y-resources.module';
+import { SkyA11yResourcesModule } from '../shared/sky-a11y-resources.module';
 
 import { SkySkipLinkHostComponent } from './skip-link-host.component';
 

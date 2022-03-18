@@ -14,7 +14,7 @@ import { SkyThemeModule } from '@skyux/theme';
 import { SkyLinkListComponent } from '../link-list/link-list.component';
 import { SkyNeedsAttentionComponent } from '../needs-attention/needs-attention.component';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
-import { PagesResourcesModule } from '../shared/pages-resources.module';
+import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
 import { SkyActionHubContentComponent } from './action-hub-content.component';
@@ -23,7 +23,7 @@ import { SkyActionHubComponent } from './action-hub.component';
 @NgModule({
   imports: [
     CommonModule,
-    PagesResourcesModule,
+    SkyPagesResourcesModule,
     RouterModule,
     SkyActionButtonModule,
     SkyAppLinkModule,

@@ -12,7 +12,7 @@ const DEST_ROOT = path.resolve(__dirname, '../dist/libs/components/ag-grid');
 function copyScss() {
   const result = sass.renderSync({
     file: path.join(STYLES_ROOT, 'ag-grid-styles.scss'),
-    importer: tildeImporter,
+    importer: tildeImporter as any,
   });
 
   const target = path.join(DEST_ROOT, 'css/sky-ag-grid.css');

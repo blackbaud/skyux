@@ -81,6 +81,8 @@ jobs:
         run: npm run ci:check-library-dependencies
       - name: Check library missing peers
         run: npm run ci:check-library-missing-peers
+      - name: Check library resources
+        run: npm run ci:check-library-resources
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
@@ -135,8 +137,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          export NX_CLOUD_DISTRIBUTED_EXECUTION=false
-          npm run ci:test-affected --codeCoverage=false
+          npm run ci:test-affected
 
   browserstack:
     name: Cross-browser testing
@@ -162,7 +163,6 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Cross-browser tests
         run: |
-          export NX_CLOUD_DISTRIBUTED_EXECUTION=false
           npm run ci:test-affected -- --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
 
   stop-agents:

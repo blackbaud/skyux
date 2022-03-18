@@ -108,8 +108,7 @@ export class SkyGridComponent
    * Indicates whether to enable the multiselect feature to display a column of
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
-   * the `data` object. To include options to select and clear all multiselect checkboxes,
-   * we recommend the [list view grid](https://developer.blackbaud.com/skyux/components/list/grid) component.
+   * the `data` object.
    * @default false
    */
   @Input()
