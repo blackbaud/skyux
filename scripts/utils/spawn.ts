@@ -34,6 +34,8 @@ export async function runCommand(
     ...spawnOptions,
   };
 
+  console.log(` [skyux] Running command '${command} ${args.join(' ')}'...`);
+
   return new Promise((resolve, reject) => {
     const child = crossSpawn(command, args, spawnOptions);
 

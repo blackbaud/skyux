@@ -134,9 +134,7 @@ describe('Test utility', () => {
 
     expect(imageUrl).toBe('https://example.com/bg/');
 
-    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(
-      new DebugElement(bgEl, document.body, undefined)
-    );
+    imageUrl = SkyAppTestUtility.getBackgroundImageUrl(new DebugElement(bgEl));
 
     expect(imageUrl).toBe('https://example.com/bg/');
 
