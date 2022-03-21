@@ -86,15 +86,8 @@ export class SkyScrollableHostService {
             }
           }
         );
-
-        documentHiddenElementMutationObserver.observe(
-          document.documentElement,
-          {
-            attributes: true,
-            attributeFilter: ['style.display', 'hidden'],
-            childList: true,
-            subtree: true,
-          }
+        this.observeDocumentHiddenElemntChanges(
+          documentHiddenElementMutationObserver
         );
       }
       subscriber.next(scrollableHost);
@@ -208,6 +201,17 @@ export class SkyScrollableHostService {
     return parent;
   }
 
+  private observeDocumentHiddenElemntChanges(
+    mutationObserver: MutationObserver
+  ) {
+    mutationObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'style', 'hidden'],
+      childList: true,
+      subtree: true,
+    });
+  }
+
   private observeForScrollableHostChanges(
     element: HTMLElement | Window,
     mutationObserver: MutationObserver
@@ -216,14 +220,14 @@ export class SkyScrollableHostService {
     if (element instanceof HTMLElement) {
       mutationObserver.observe(element, {
         attributes: true,
-        attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        attributeFilter: ['class', 'style'],
         childList: true,
         subtree: true,
       });
     } else {
       mutationObserver.observe(document.documentElement, {
         attributes: true,
-        attributeFilter: ['class', 'style.overflow', 'style.overflow-y'],
+        attributeFilter: ['class', 'style'],
         childList: true,
         subtree: true,
       });

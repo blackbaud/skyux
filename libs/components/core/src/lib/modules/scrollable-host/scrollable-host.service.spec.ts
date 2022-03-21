@@ -89,6 +89,89 @@ describe('Scrollable host service', () => {
     });
   });
 
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when it changes via a style change', (done) => {
+    cmp.isParentScrollable = false;
+    fixture.detectChanges();
+
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(window);
+        cmp.isParentScrollableStyle = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using a class with "display: none"', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentDisplayNoneClass = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using "display: none" directly', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentDisplayNoneStyle = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using the "hidden" attribute', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentHidden = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
+        done();
+      }
+    });
+  });
+
   it('should only setup the mutation observer once for multiple observations of the scrollable host', (done) => {
     let observable1Count = 0;
     let observable2Count = 0;

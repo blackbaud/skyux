@@ -3,7 +3,7 @@ export * from './lib/modules/action-button/action-button.module';
 export * from './lib/modules/action-button/types/action-button-container-align-items';
 export * from './lib/modules/action-button/types/action-button-container-align-items-type';
 
-export * from './lib/modules/back-to-top/back-top-top.module';
+export * from './lib/modules/back-to-top/back-to-top.module';
 export * from './lib/modules/back-to-top/models/back-to-top-message';
 export * from './lib/modules/back-to-top/models/back-to-top-message-type';
 export * from './lib/modules/back-to-top/models/back-to-top-options';

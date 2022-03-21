@@ -5,11 +5,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import {
-  SkyDockItem,
-  SkyDockService,
-  SkyScrollableHostService,
-} from '@skyux/core';
+import { SkyDockItem, SkyDockService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -66,18 +62,11 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   constructor(
     private dockService: SkyDockService,
     private domAdapter: SkyBackToTopDomAdapterService,
-    private element: ElementRef,
-    private scrollableHostService: SkyScrollableHostService
+    private element: ElementRef
   ) {}
 
   public ngAfterViewInit(): void {
-    const scrollableHost = this.scrollableHostService.getScrollableHost(
-      this.element
-    );
-    this.elementInView = this.domAdapter.isElementScrolledInView(
-      this.element.nativeElement,
-      scrollableHost
-    );
+    this.elementInView = this.domAdapter.isElementScrolledInView(this.element);
 
     this.handleBackToTopButton(this.elementInView);
     this.setBackToTopListeners();

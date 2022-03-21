@@ -12,6 +12,10 @@ import { SkyBackToTopOptions } from '../models/back-to-top-options';
 export class SkyBackToTopFixtureComponent {
   public height: number;
 
+  public hideElement = false;
+
+  public hideParent = false;
+
   public scrollableParent: boolean;
 
   public backToTopController: Subject<SkyBackToTopMessage> = new Subject();

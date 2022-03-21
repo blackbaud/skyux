@@ -32,19 +32,13 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
     const scrollableHostObservable =
       this.scrollableHostService.watchScrollableHostScrollEvents(elementRef);
 
-    const isInitiallyInView = this.isElementScrolledInView(
-      elementRef.nativeElement,
-      this.scrollableHostService.getScrollableHost(elementRef)
-    );
+    const isInitiallyInView = this.isElementScrolledInView(elementRef);
     const returnedObservable = new BehaviorSubject<boolean>(isInitiallyInView);
 
     scrollableHostObservable
       .pipe(takeUntil(this.scrollableHostScrollEventUnsubscribe))
       .subscribe(() => {
-        const isInView = this.isElementScrolledInView(
-          elementRef.nativeElement,
-          this.scrollableHostService.getScrollableHost(elementRef)
-        );
+        const isInView = this.isElementScrolledInView(elementRef);
         returnedObservable.next(isInView);
       });
 
@@ -84,12 +78,15 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
     }
   }
 
-  public isElementScrolledInView(element: any, parentElement: any): boolean {
-    if (!element.offsetParent) {
+  public isElementScrolledInView(element: ElementRef): boolean {
+    const parentElement = this.scrollableHostService.getScrollableHost(
+      element.nativeElement
+    );
+    if (!element.nativeElement.offsetParent) {
       return true;
     }
     const buffer = 25;
-    const elementRect = element.getBoundingClientRect();
+    const elementRect = element.nativeElement.getBoundingClientRect();
 
     /* istanbul ignore else */
     if (parentElement instanceof HTMLElement) {
