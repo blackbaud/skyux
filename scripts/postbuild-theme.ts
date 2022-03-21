@@ -54,7 +54,7 @@ function validateSkyuxIconVersionMatch() {
 function renderScss(file: string, target: string) {
   const result = sass.renderSync({
     file: file,
-    importer: tildeImporter,
+    importer: tildeImporter as any,
     quietDeps: true,
   });
 
