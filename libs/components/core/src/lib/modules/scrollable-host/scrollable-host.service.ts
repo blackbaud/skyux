@@ -86,7 +86,7 @@ export class SkyScrollableHostService {
             }
           }
         );
-        this.observeDocumentHiddenElemntChanges(
+        this.observeDocumentHiddenElementChanges(
           documentHiddenElementMutationObserver
         );
       }
@@ -201,7 +201,7 @@ export class SkyScrollableHostService {
     return parent;
   }
 
-  private observeDocumentHiddenElemntChanges(
+  private observeDocumentHiddenElementChanges(
     mutationObserver: MutationObserver
   ) {
     mutationObserver.observe(document.documentElement, {
