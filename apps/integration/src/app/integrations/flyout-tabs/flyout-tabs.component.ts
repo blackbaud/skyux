@@ -9,7 +9,7 @@ import { FlyoutTabsContentComponent } from './flyout-tabs-content.component';
 
 screenY;
 @Component({
-  selector: 'app-flyout-demo',
+  selector: 'app-flyout-tabs',
   templateUrl: './flyout-tabs.component.html',
 })
 export class FlyoutTabsComponent {
