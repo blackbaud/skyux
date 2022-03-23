@@ -13,6 +13,16 @@ export class HrefResolverFixtureService implements SkyHrefResolver {
         url: 'https://success' + path,
         userHasAccess: true,
       });
+    } else if (url.startsWith('slow://')) {
+      return new Promise<SkyHref>((resolve) => {
+        setTimeout(
+          resolve.bind(null, {
+            url: 'https://success' + path,
+            userHasAccess: true,
+          }),
+          500
+        );
+      });
     } else if (url.startsWith('1bb-nav://')) {
       return Promise.resolve<SkyHref>({
         url: 'https://example.com' + path + '?query=param',
