@@ -5,7 +5,7 @@ import { outside as semverOutside, parse as semverParse } from 'semver';
 import standardVersion from 'standard-version';
 
 import { getSkyuxDevConfig } from './lib/get-skyux-dev-config';
-import { fetchAll, getCurrentBranch, isGitClean } from './utils/git-utils';
+import { getCurrentBranch, isGitClean } from './utils/git-utils';
 import { checkVersionExists } from './utils/npm-utils';
 import { getCommandOutput, runCommand } from './utils/spawn';
 

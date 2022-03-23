@@ -68,20 +68,39 @@ describe('back to top component', () => {
     });
 
     fixture = TestBed.createComponent(SkyBackToTopFixtureComponent);
-    fixture.detectChanges();
-  });
-
-  afterEach(() => {
-    fixture.destroy();
   });
 
   describe('when parent is window', () => {
-    it('should show when backToTopTarget is defined and the target element is scrolled out of view', fakeAsync(() => {
+    it('should show when backToTopTarget is defined and the target element is scrolled out of view', async () => {
       scrollWindowToBottom(fixture);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
 
       const backToTopElement = getBackToTop();
       expect(backToTopElement).not.toBeNull();
-    }));
+    });
+
+    // The done function and setTimeout are because for an unknown reason - jasmine was not updating the components correctly when just using
+    // `whenStable` and so not all of the underlying mutation observers were finishing prior to needing to be checked.
+    it('should not show when backToTopTarget is defined and the target element is scrolled out of view but then hidden', (done) => {
+      scrollWindowToBottom(fixture);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        fixture.componentInstance.hideElement = true;
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          setTimeout(() => {
+            fixture.detectChanges();
+
+            const backToTopElement = getBackToTop();
+            expect(backToTopElement).toBeNull();
+            done();
+          }, 10);
+        });
+      });
+    });
 
     it('should not show when user scrolls back to the top', fakeAsync(() => {
       scrollWindowToBottom(fixture);
@@ -164,6 +183,20 @@ describe('back to top component', () => {
       expect(backToTopElement).not.toBeNull();
     }));
 
+    it('should not show when backToTopTarget is defined and the target element is scrolled out of view but then hidden', async () => {
+      scrollWindowToBottom(fixture);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      fixture.componentInstance.hideParent = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      const backToTopElement = getBackToTop();
+      expect(backToTopElement).toBeNull();
+    });
+
     it('should not show when user scrolls back to the top', fakeAsync(() => {
       scrollElement(parentElement, 999, fixture);
       let backToTopElement = getBackToTop();
@@ -203,6 +236,7 @@ describe('back to top component', () => {
     });
 
     it('unsubscribes from old back to top subscription streams', () => {
+      fixture.detectChanges();
       const newStream = new Subject<SkyBackToTopMessage>();
       const oldStream = fixture.componentInstance.backToTopController;
       spyOn(oldStream, 'unsubscribe');
