@@ -154,13 +154,19 @@ describe('Summary Action Bar component', () => {
 
       it('should recognize when the summary tag when it is toggled externally', () => {
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).toExist();
-        (<HTMLElement> document.querySelector('#summary-trigger')).click();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).toExist();
+        (document.querySelector('#summary-trigger') as HTMLElement).click();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).not.toExist();
-        (<HTMLElement> document.querySelector('#summary-trigger')).click();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).not.toExist();
+        (document.querySelector('#summary-trigger') as HTMLElement).click();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).toExist();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).toExist();
       });
     });
 
@@ -262,13 +268,19 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).toExist();
-        (<HTMLElement> document.querySelector('#summary-trigger')).click();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).toExist();
+        (document.querySelector('#summary-trigger') as HTMLElement).click();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).not.toExist();
-        (<HTMLElement> document.querySelector('#summary-trigger')).click();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).not.toExist();
+        (document.querySelector('#summary-trigger') as HTMLElement).click();
         fixture.detectChanges();
-        expect(document.querySelector('.sky-summary-action-bar-summary')).toExist();
+        expect(
+          document.querySelector('.sky-summary-action-bar-summary')
+        ).toExist();
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen and normal modal', () => {
