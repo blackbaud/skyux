@@ -1,4 +1,3 @@
-import { not } from '@angular/compiler/src/output/output_ast';
 import {
   ComponentFixture,
   TestBed,
@@ -1007,6 +1006,24 @@ describe('Autocomplete component', () => {
             .innerHTML.trim()
             .toLowerCase()
         ).toBe('bl');
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(2);
+      }));
+
+      it('should highlight matches when data contains empty descriptor property', fakeAsync(() => {
+        component.propertiesToSearch = ['text'];
+        component.data = [
+          { name: 'Misty Island', text: 'Misty Island', objectid: '1' },
+          { name: 'Mississippi', text: 'Mississippi', objectid: '2' },
+          { text: 'Missing the display field', objectid: '3' },
+        ];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('mis', fixture);
+
         expect(
           getSearchResultsContainer().querySelectorAll('mark').length
         ).toBe(2);

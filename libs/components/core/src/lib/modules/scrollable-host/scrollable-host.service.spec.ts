@@ -23,6 +23,11 @@ describe('Scrollable host service', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+    fixture.detectChanges();
+  });
+
   it('should return the current scrollable parent', () => {
     expect(cmp.getScrollableHost()).toBe(cmp.parent.nativeElement);
   });
@@ -79,6 +84,89 @@ describe('Scrollable host service', () => {
         fixture.detectChanges();
       } else {
         expect(scrollableHost).toBe(window);
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when it changes via a style change', (done) => {
+    cmp.isParentScrollable = false;
+    fixture.detectChanges();
+
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(window);
+        cmp.isParentScrollableStyle = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using a class with "display: none"', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentDisplayNoneClass = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using "display: none" directly', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentDisplayNoneStyle = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
+        done();
+      }
+    });
+  });
+
+  // Using `done` here as with just `async` the test runner is moving the content when it shouldn't
+  // which causes issues with finding the parent correctly.
+  it('should update observable with new scrollable parent when parent is hidden using the "hidden" attribute', (done) => {
+    let obserableCount = 0;
+
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    scrollableHostObservable.pipe(take(2)).subscribe((scrollableHost) => {
+      if (obserableCount === 0) {
+        expect(scrollableHost).toBe(cmp.parent.nativeElement);
+        cmp.isParentHidden = true;
+        obserableCount++;
+        fixture.detectChanges();
+      } else {
+        expect(scrollableHost).toBeUndefined();
         done();
       }
     });
@@ -141,7 +229,8 @@ describe('Scrollable host service', () => {
         }
       });
 
-    expect(mutationObserverSvc.create).toHaveBeenCalledTimes(1);
+    // Should have been called once to the document observer and once for the parent observer
+    expect(mutationObserverSvc.create).toHaveBeenCalledTimes(2);
   });
 
   it('should unsubscribe from watching the scrollable host correctly', (done) => {
@@ -150,7 +239,10 @@ describe('Scrollable host service', () => {
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
-    spyOn(MutationObserver.prototype, 'disconnect').and.callThrough();
+    const disconnectSpy = spyOn(
+      MutationObserver.prototype,
+      'disconnect'
+    ).and.callThrough();
 
     const subscription1 = scrollableHostObservable
       .pipe(take(2), delay(10))
@@ -164,10 +256,6 @@ describe('Scrollable host service', () => {
 
             cmp.isParentScrollable = false;
             fixture.detectChanges();
-
-            expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
-              1
-            );
             done();
           }
 
@@ -180,6 +268,7 @@ describe('Scrollable host service', () => {
 
     // Disconnect is called via the setup as we use a shared method any time we set up the observer.
     expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(1);
+    disconnectSpy.calls.reset();
 
     const subscription2 = scrollableHostObservable
       .pipe(take(2), delay(10))
@@ -193,10 +282,6 @@ describe('Scrollable host service', () => {
 
             cmp.isParentScrollable = false;
             fixture.detectChanges();
-
-            expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(
-              2
-            );
             done();
           }
 
@@ -206,6 +291,39 @@ describe('Scrollable host service', () => {
           fail('each subscription should only be hit once');
         }
       });
+  });
+
+  it('should disconnect from mutation observers correctly when all subscriptions are completed', () => {
+    const scrollableHostObservable = cmp.watchScrollableHost();
+
+    const disconnectSpy = spyOn(
+      MutationObserver.prototype,
+      'disconnect'
+    ).and.callThrough();
+
+    const subscription1 = scrollableHostObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        return;
+      });
+
+    // Disconnect is called via the setup as we use a shared method any time we set up the observer.
+    expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(1);
+    disconnectSpy.calls.reset();
+
+    const subscription2 = scrollableHostObservable
+      .pipe(take(2), delay(10))
+      .subscribe(() => {
+        return;
+      });
+
+    subscription1.unsubscribe();
+    subscription2.unsubscribe();
+
+    fixture.detectChanges();
+
+    // Should disconnect both the document observer and the parent observer
+    expect(MutationObserver.prototype.disconnect).toHaveBeenCalledTimes(2);
   });
 
   it('should return all scroll events from the current scrollable host when they are subscribed to', (done) => {

@@ -1,5 +1,10 @@
 <div [ngClass]="{ 'scrollable-host': isGrandparentScrollable }" #grandparent>
-  <div [ngClass]="{ 'scrollable-host': isParentScrollable }" #parent>
+  <div
+    [ngClass]="{ 'scrollable-host': isParentScrollable, 'display-none': isParentDisplayNoneClass }"
+    [ngStyle]="{ 'display': isParentDisplayNoneStyle ? 'none' : undefined, 'overflow-y': isParentScrollableStyle ? 'scroll': undefined}"
+    [hidden]="isParentHidden"
+    #parent
+  >
     <div #target></div>
   </div>
 </div>

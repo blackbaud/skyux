@@ -633,7 +633,9 @@ export class SkyAutocompleteComponent
       this.currentSearchSub = this.performSearch()
         .pipe(take(1))
         .subscribe((result) => {
-          const items = result.items;
+          const items = result.items.filter((item: never) => {
+            return item && this.descriptorProperty in item;
+          });
 
           this.isSearchingAsync = false;
 

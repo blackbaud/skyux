@@ -15,21 +15,23 @@ import { sortByStackOrder } from './sort-by-stack-order';
  * This service docks components to specific areas on the page.
  */
 @Injectable({
-  providedIn: 'root',
+  // Must be 'any' so that the dock component is created in the context of its module's injector.
+  // If set to 'root', the component's dependency injections would only be derived from the root
+  // injector and may loose context if the dock was opened from within a lazy-loaded module.
+  providedIn: 'any',
 })
 export class SkyDockService {
+  private static dockRef: ComponentRef<SkyDockComponent>;
+  private static _items: SkyDockItem<any>[] = [];
+
   /**
    * Returns all docked items.
    */
   public get items(): SkyDockItem<any>[] {
-    return this._items;
+    return SkyDockService._items;
   }
 
-  private dockRef: ComponentRef<SkyDockComponent>;
-
   private options: SkyDockOptions;
-
-  private _items: SkyDockItem<any>[] = [];
 
   constructor(private dynamicComponentService: SkyDynamicComponentService) {}
 
@@ -42,26 +44,29 @@ export class SkyDockService {
     component: Type<T>,
     config?: SkyDockInsertComponentConfig
   ): SkyDockItem<T> {
-    if (!this.dockRef) {
+    if (!SkyDockService.dockRef) {
       this.createDock();
     }
 
-    const itemRef = this.dockRef.instance.insertComponent(component, config);
+    const itemRef = SkyDockService.dockRef.instance.insertComponent(
+      component,
+      config
+    );
     const item = new SkyDockItem(
       itemRef.componentRef.instance,
       itemRef.stackOrder
     );
 
     item.destroyed.subscribe(() => {
-      this.dockRef.instance.removeItem(itemRef);
-      this._items.splice(this._items.indexOf(item), 1);
-      if (this._items.length === 0) {
+      SkyDockService.dockRef.instance.removeItem(itemRef);
+      SkyDockService._items.splice(SkyDockService._items.indexOf(item), 1);
+      if (SkyDockService._items.length === 0) {
         this.destroyDock();
       }
     });
 
-    this._items.push(item);
-    this._items.sort(sortByStackOrder);
+    SkyDockService._items.push(item);
+    SkyDockService._items.sort(sortByStackOrder);
 
     return item;
   }
@@ -100,15 +105,15 @@ export class SkyDockService {
       };
     }
 
-    this.dockRef = this.dynamicComponentService.createComponent(
+    SkyDockService.dockRef = this.dynamicComponentService.createComponent(
       SkyDockComponent,
       dockOptions
     );
-    this.dockRef.instance.setOptions(this.options);
+    SkyDockService.dockRef.instance.setOptions(this.options);
   }
 
   private destroyDock(): void {
-    this.dynamicComponentService.removeComponent(this.dockRef);
-    this.dockRef = undefined;
+    this.dynamicComponentService.removeComponent(SkyDockService.dockRef);
+    SkyDockService.dockRef = undefined;
   }
 }
