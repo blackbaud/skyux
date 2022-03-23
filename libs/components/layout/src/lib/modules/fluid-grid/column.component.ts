@@ -11,7 +11,7 @@ import {
 /**
  * Displays a column within a row of the fluid grid.
  */
- @Component({
+@Component({
   selector: 'sky-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.scss'],
