@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
   },
   {
+    path: 'flyout',
+    loadChildren: () =>
+      import('./flyout/flyout.module').then((m) => m.FlyoutModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
