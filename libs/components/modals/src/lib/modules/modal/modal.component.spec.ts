@@ -7,6 +7,7 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -78,6 +79,7 @@ describe('Modal component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyModalFixturesModule],
+      providers: [SkyResizeObserverMediaQueryService],
     });
 
     testModals = [];

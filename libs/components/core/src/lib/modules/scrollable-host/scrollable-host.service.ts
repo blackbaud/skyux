@@ -138,6 +138,7 @@ export class SkyScrollableHostService {
           }
           scrollableHost = newScrollableHost;
           newScrollableHostObservable = new Subject();
+          /* istanbul ignore else */
           if (newScrollableHost) {
             scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
               .pipe(takeUntil(newScrollableHostObservable))

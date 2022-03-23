@@ -1,6 +1,7 @@
 import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyResizeObserverMediaQueryService } from '@skyux/core';
 
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalTestValues } from './fixtures/modal-values.fixture';
@@ -31,6 +32,7 @@ describe('Modal service', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyModalModule, SkyModalFixturesModule],
+      providers: [SkyResizeObserverMediaQueryService],
     });
   });
 

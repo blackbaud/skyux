@@ -13,6 +13,9 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
+  SkyResizeObserverService,
 } from '@skyux/core';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
@@ -34,7 +37,22 @@ let skyModalUniqueIdentifier = 0;
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [skyAnimationModalState],
-  providers: [SkyModalComponentAdapterService, SkyDockService],
+  providers: [
+    SkyModalComponentAdapterService,
+    SkyDockService,
+    SkyResizeObserverMediaQueryService,
+    SkyResizeObserverService,
+    {
+      provide: SkyMediaQueryService,
+      useFactory: /* istanbul ignore next */ (
+        resizeObserverService: SkyResizeObserverService
+      ) => {
+        /* istanbul ignore next */
+        return new SkyResizeObserverMediaQueryService(resizeObserverService);
+      },
+      deps: [SkyResizeObserverService],
+    },
+  ],
 })
 export class SkyModalComponent implements AfterViewInit {
   @HostBinding('class')
@@ -117,6 +135,7 @@ export class SkyModalComponent implements AfterViewInit {
     private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
+    private mediaQueryService: SkyResizeObserverMediaQueryService,
     @Host() private dockService: SkyDockService
   ) {}
 
@@ -193,6 +212,8 @@ export class SkyModalComponent implements AfterViewInit {
       referenceEl: this.modalContentWrapperElement.nativeElement,
       zIndex: 5,
     });
+
+    this.mediaQueryService.observe(this.elRef);
   }
 
   public helpButtonClick() {
