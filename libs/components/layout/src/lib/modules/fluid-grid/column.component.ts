@@ -8,6 +8,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+/**
+ * Displays a column within a row of the fluid grid.
+ */
 @Component({
   selector: 'sky-column',
   templateUrl: './column.component.html',
