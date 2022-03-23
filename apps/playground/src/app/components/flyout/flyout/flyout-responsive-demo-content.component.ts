@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 @Component({
