@@ -9,6 +9,13 @@ const routes: Routes = [
         './vertical-tabset-back-to-top/vertical-tabset-back-to-top.module'
       ).then((m) => m.VerticalTabsetBackToTopModule),
   },
+  {
+    path: 'flyout-tabs',
+    loadChildren: () =>
+      import('./flyout-tabs/flyout-tabs.module').then(
+        (m) => m.FlyoutTabsModule
+      ),
+  },
 ];
 
 @NgModule({

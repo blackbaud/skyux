@@ -13,13 +13,6 @@ const routes: Routes = [
         (m) => m.IntegrationsModule
       ),
   },
-  {
-    path: 'flyout-with-tabs',
-    loadChildren: () =>
-      import('./features/flyout-with-tabs.module').then(
-        (m) => m.FlyoutWithTabsModule
-      ),
-  },
 ];
 
 @NgModule({
