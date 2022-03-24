@@ -24,6 +24,5 @@ import { LookupCustomPickerDemoComponent } from './lookup-custom-picker-demo.com
     LookupCustomPickerDemoModalComponent,
   ],
   exports: [LookupCustomPickerDemoComponent],
-  entryComponents: [LookupCustomPickerDemoModalComponent],
 })
 export class LookupCustomPickerDemoModule {}

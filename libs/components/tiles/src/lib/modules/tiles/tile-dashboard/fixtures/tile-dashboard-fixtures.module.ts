@@ -22,6 +22,5 @@ import { TileDashboardTestComponent } from './tile-dashboard.component.fixture';
     TileDashboardTestComponent,
     TileDashboardOnPushTestComponent,
   ],
-  entryComponents: [Tile1TestComponent, Tile2TestComponent],
 })
 export class SkyTileDashboardFixturesModule {}

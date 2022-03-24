@@ -31,6 +31,5 @@ import { SkyColorpickerComponent } from './colorpicker.component';
     SkyThemeModule,
   ],
   exports: [SkyColorpickerComponent, SkyColorpickerInputDirective],
-  entryComponents: [SkyColorpickerComponent],
 })
 export class SkyColorpickerModule {}

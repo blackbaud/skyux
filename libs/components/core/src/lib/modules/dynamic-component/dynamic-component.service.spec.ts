@@ -57,12 +57,6 @@ describe('Dynamic component service', () => {
       imports: [],
       declarations: [DynamicComponentTestComponent],
     });
-
-    TestBed.overrideModule(BrowserDynamicTestingModule, {
-      set: {
-        entryComponents: [DynamicComponentTestComponent],
-      },
-    });
   });
 
   beforeEach(inject([ApplicationRef], (_applicationRef: ApplicationRef) => {

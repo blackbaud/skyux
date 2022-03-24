@@ -8,7 +8,6 @@ import { SkyDockComponent } from './dock.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [SkyDockComponent],
-  entryComponents: [SkyDockComponent],
   providers: [MutationObserverService],
 })
 export class SkyDockModule {}
