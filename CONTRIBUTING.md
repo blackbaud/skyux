@@ -157,3 +157,9 @@ npm run ci:create-packages-dist
 ```
 npm run dev:create-library-resources
 ```
+
+#### Migrate to the next version of Nx/Angular CLI
+
+```
+npm run dev:migrate
+```

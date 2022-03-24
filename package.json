@@ -22,6 +22,7 @@
     "dev:create-library-resources": "ts-node --project ./scripts/tsconfig.json ./scripts/create-library-resources.ts",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
     "dev:format": "npx prettier --write .",
+    "dev:migrate": "npx -p @skyux/dev-infra-private skyux-dev migrate",
     "dev:pristine": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-pristine"
   },
   "config": {
@@ -117,6 +118,7 @@
     "karma-jasmine": "4.0.1",
     "karma-jasmine-html-reporter": "1.7.0",
     "ng-packagr": "12.2.7",
+    "node-sass-tilde-importer": "1.0.2",
     "nyc": "15.1.0",
     "prettier": "2.4.1",
     "semver": "7.3.5",

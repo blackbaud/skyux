@@ -115,7 +115,7 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['target']).toEqual('_top');
-    expect(directive.properties['href']).toEqual('testUrl/test');
+    expect(directive.properties['href'].endsWith('testUrl/test')).toBeTrue();
   });
 
   it('should set the target to _top when the window name is an empty string', () => {
@@ -124,7 +124,7 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['target']).toEqual('_top');
-    expect(directive.properties['href']).toEqual('testUrl/test');
+    expect(directive.properties['href'].endsWith('testUrl/test')).toBeTrue();
   });
 
   it('should set the target to the name of the frame if it has one', () => {
@@ -134,7 +134,7 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['target']).toEqual(windowName);
-    expect(directive.properties['href']).toEqual('testUrl/test');
+    expect(directive.properties['href'].endsWith('testUrl/test')).toBeTrue();
   });
 
   it('should set href with app config queryParams', () => {
@@ -150,9 +150,9 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual(
-      'testUrl/test?asdf=123&jkl=mno'
-    );
+    expect(
+      directive.properties['href'].endsWith('testUrl/test?asdf=123&jkl=mno')
+    ).toBeTrue();
   });
 
   it('should set href with queryParams supplied by the queryParams attribute', () => {
@@ -161,9 +161,9 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual(
-      'testUrl/test?qp1=1&qp2=false'
-    );
+    expect(
+      directive.properties['href'].endsWith('testUrl/test?qp1=1&qp2=false')
+    ).toBeTrue();
   });
 
   it('should set href with merged queryParams supplied by the queryParams attribute and app config', () => {
@@ -179,9 +179,11 @@ describe('SkyAppLinkExternal Directive', () => {
       By.directive(SkyAppLinkExternalDirective)
     );
     expect(directive.attributes['skyAppLinkExternal']).toEqual('test');
-    expect(directive.properties['href']).toEqual(
-      'testUrl/test?qp1=1&qp2=false&asdf=123&jkl=mno'
-    );
+    expect(
+      directive.properties['href'].endsWith(
+        'testUrl/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
+    ).toBeTrue();
   });
 
   it('should get config from separate providers if SkyAppConfig undefined', () => {
