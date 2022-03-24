@@ -11,18 +11,15 @@
     "test": "nx run-many --target=test --all --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci",
     "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5 --exclude=ci",
     "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 && nx affected --target=posttest --parallel --maxParallel=5 --exclude=ci",
-    "ci:check-library-dependencies": "ts-node --project ./scripts/tsconfig.json ./scripts/check-library-dependencies.ts",
-    "ci:check-library-missing-peers": "ts-node --project ./scripts/tsconfig.json ./scripts/check-library-missing-peers.ts",
-    "ci:check-library-resources": "ts-node --project ./scripts/tsconfig.json ./scripts/check-library-resources.ts",
-    "ci:create-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/create-packages-dist.ts",
-    "ci:publish-packages-dist": "ts-node --project ./scripts/tsconfig.json ./scripts/publish-packages-dist.ts",
-    "ci:test-affected": "ts-node --project ./scripts/tsconfig.json ./scripts/test-affected.ts",
-    "dev:cherry-pick": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-cherry-pick.ts",
+    "dev:check-library-dependencies": "npx -p @skyux/dev-infra-private skyux-dev check-lib-dependencies",
+    "dev:check-library-missing-peers": "npx -p @skyux/dev-infra-private skyux-dev check-lib-missing-peers",
+    "dev:test-affected": "npx -p @skyux/dev-infra-private skyux-dev test-affected",
+    "dev:cherry-pick": "npx -p @skyux/dev-infra-private skyux-dev dev-cherry-pick",
     "dev:commit": "npx cz",
-    "dev:create-library-resources": "ts-node --project ./scripts/tsconfig.json ./scripts/create-library-resources.ts",
-    "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
+    "dev:create-library-resources": "npx -p @skyux/dev-infra-private skyux-dev create-lib-resources",
+    "dev:create-release": "npx -p @skyux/dev-infra-private skyux-dev create-release",
     "dev:format": "npx prettier --write .",
-    "dev:pristine": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-pristine"
+    "dev:pristine": "npx -p @skyux/dev-infra-private skyux-dev dev-pristine"
   },
   "config": {
     "commitizen": {
