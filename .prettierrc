@@ -1,5 +1,6 @@
 {
   "singleQuote": true,
+  "endOfLine": "lf",
   "importOrder": ["^@(.*)$", "^\\w(.*)$", "^(../)(.*)$", "^(./)(.*)$"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,

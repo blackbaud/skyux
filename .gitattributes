@@ -1,2 +1,4 @@
 # Must use lf for Prettier to work consistently on all platforms.
 * text=auto eol=lf
+*.js eol=lf
+*.json eol=lf
