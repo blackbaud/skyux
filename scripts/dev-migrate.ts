@@ -62,9 +62,6 @@ async function migrate() {
 
       await runCommand('npx', ['nx', 'migrate', '--run-migrations']);
 
-      // Update Nx CLI global install.
-      await runCommand('npm', ['install', '--global', 'nx@latest']);
-
       await Promise.all([
         fixCrossvent(),
         fixEslintNumericService(),
