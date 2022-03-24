@@ -22,6 +22,14 @@
 >
   Open Fullscreen Modal
 </button>
+<button
+  type="button"
+  class="sky-btn sky-btn-primary"
+  id="summary-trigger"
+  (click)="toggleSummary()"
+>
+  Toggle summary
+</button>
 <sky-summary-action-bar *ngIf="!hideMainActionBar" id="summary-action-bar">
   <sky-summary-action-bar-actions>
     <sky-summary-action-bar-primary-action

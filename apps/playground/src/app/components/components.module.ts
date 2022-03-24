@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'action-bars',
+    loadChildren: () =>
+      import('./action-bars/action-bars.module').then(
+        (m) => m.ActionBarsModule
+      ),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
