@@ -22,7 +22,7 @@
     "dev:create-library-resources": "ts-node --project ./scripts/tsconfig.json ./scripts/create-library-resources.ts",
     "dev:create-release": "ts-node --project ./scripts/tsconfig.json ./scripts/create-release.ts",
     "dev:format": "npx prettier --write .",
-    "dev:migrate": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-migrate.ts",
+    "dev:migrate": "npx -p @skyux/dev-infra-private skyux-dev migrate",
     "dev:pristine": "ts-node --project ./scripts/tsconfig.json ./scripts/dev-pristine"
   },
   "config": {
