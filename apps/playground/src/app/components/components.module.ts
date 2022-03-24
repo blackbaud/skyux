@@ -13,6 +13,11 @@ const routes: Routes = [
       import('./flyout/flyout.module').then((m) => m.FlyoutModule),
   },
   {
+    path: 'forms',
+    loadChildren: () =>
+      import('./forms/forms.module').then((m) => m.FormsModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
