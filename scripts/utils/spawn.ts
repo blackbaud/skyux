@@ -2,21 +2,6 @@ import { SpawnOptions } from 'child_process';
 import crossSpawn from 'cross-spawn';
 import path from 'path';
 
-export async function getCommandOutput(
-  command: string,
-  args: string[] = [],
-  spawnOptions: SpawnOptions = {}
-): Promise<string> {
-  spawnOptions = {
-    ...spawnOptions,
-    ...{
-      stdio: 'pipe', // <-- required to get output
-    },
-  };
-
-  return runCommand(command, args, spawnOptions) as Promise<string>;
-}
-
 /**
  * Executes a given command in a cross-platform child process.
  * If spawnOptions.stdio is set to 'pipe', the promise will return the command's output as a string.
