@@ -27,7 +27,6 @@ import { ListFiltersDemoComponent } from './list-filters-demo.component';
     SkyModalModule,
   ],
   declarations: [ListFiltersDemoComponent, ListFilterDemoModalComponent],
-  entryComponents: [ListFilterDemoModalComponent],
   exports: [ListFiltersDemoComponent],
 })
 export class ListFiltersDemoModule {}

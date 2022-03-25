@@ -30,9 +30,5 @@ import { DataViewRepeaterDemoComponent } from './data-view-repeater.component';
     SkyToolbarModule,
   ],
   exports: [DataManagerDemoComponent],
-  entryComponents: [
-    DataManagerDemoComponent,
-    DataManagerFiltersModalDemoComponent,
-  ],
 })
 export class DataManagerDemoModule {}
