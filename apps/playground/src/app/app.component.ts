@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+} from '@skyux/theme';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +15,20 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'playground';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    renderer: Renderer2,
+    themeService: SkyThemeService
+  ) {
+    themeService.init(
+      document.body,
+      renderer,
+      new SkyThemeSettings(
+        SkyTheme.presets['default'],
+        SkyThemeMode.presets.light
+      )
+    );
+  }
 
   public isHome(): boolean {
     return this.router.url === '/';
