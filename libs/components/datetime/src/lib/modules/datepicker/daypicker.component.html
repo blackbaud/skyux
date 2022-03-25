@@ -9,9 +9,7 @@
         <th class="sky-datepicker-header-left" scope="col">
           <button
             type="button"
-            class="
-              sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous
-            "
+            class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-btn-previous"
             (click)="datepicker.moveCalendar($event, -1)"
             tabindex="-1"
             aria-hidden="true"
@@ -31,9 +29,7 @@
           <button
             [id]="datepicker.datepickerId + '-title'"
             type="button"
-            class="
-              sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title
-            "
+            class="sky-btn sky-btn-default sky-btn-sm sky-datepicker-calendar-title"
             (click)="datepicker.toggleModeCalendar($event)"
             [disabled]="datepicker.datepickerMode === datepicker.maxMode"
             [ngClass]="{

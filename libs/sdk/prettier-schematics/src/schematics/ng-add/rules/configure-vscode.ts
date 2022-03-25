@@ -11,7 +11,7 @@ export function configureVSCode(): Rule {
     const settingsPath = `${vsCodePath}/settings.json`;
     const prettierExtensionName = 'esbenp.prettier-vscode';
 
-    if (tree.getDir('.vscode').subfiles.length) {
+    if (tree.exists(extensionsPath) && tree.exists(settingsPath)) {
       context.logger.info(
         `Found files in ${vsCodePath} folder. Configuring Visual Studio Code for Prettier extension...`
       );

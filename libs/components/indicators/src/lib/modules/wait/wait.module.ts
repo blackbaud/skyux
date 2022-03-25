@@ -11,6 +11,5 @@ import { SkyWaitComponent } from './wait.component';
   declarations: [SkyWaitComponent, SkyWaitPageComponent],
   imports: [CommonModule, SkyI18nModule, SkyIndicatorsResourcesModule],
   exports: [SkyWaitComponent],
-  entryComponents: [SkyWaitPageComponent],
 })
 export class SkyWaitModule {}

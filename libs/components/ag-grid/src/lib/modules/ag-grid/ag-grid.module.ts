@@ -62,17 +62,5 @@ import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-vali
     SkyAgGridRowDeleteDirective,
     SkyAgGridWrapperComponent,
   ],
-  entryComponents: [
-    SkyAgGridCellEditorAutocompleteComponent,
-    SkyAgGridCellEditorDatepickerComponent,
-    SkyAgGridCellEditorNumberComponent,
-    SkyAgGridCellEditorCurrencyComponent,
-    SkyAgGridCellRendererCurrencyComponent,
-    SkyAgGridCellRendererCurrencyValidatorComponent,
-    SkyAgGridCellRendererRowSelectorComponent,
-    SkyAgGridCellRendererValidatorTooltipComponent,
-    SkyAgGridCellEditorTextComponent,
-    SkyAgGridRowDeleteComponent,
-  ],
 })
 export class SkyAgGridModule {}

@@ -29,6 +29,5 @@ import { SkyPopoverDirective } from './popover.directive';
     SkyPopoverContentComponent,
     SkyPopoverDirective,
   ],
-  entryComponents: [SkyPopoverContentComponent],
 })
 export class SkyPopoverModule {}

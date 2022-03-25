@@ -35,6 +35,5 @@ import { SkySelectFieldComponent } from './select-field.component';
   ],
   exports: [SkySelectFieldComponent],
   declarations: [SkySelectFieldComponent, SkySelectFieldPickerComponent],
-  entryComponents: [SkySelectFieldPickerComponent],
 })
 export class SkySelectFieldModule {}
