@@ -86,7 +86,7 @@ jobs:
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5
+        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5 --exclude=ci
 
   build:
     name: Build
@@ -111,7 +111,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
+        run: npx nx affected --target=build --parallel --maxParallel=5 --exclude=ci
 
   coverage:
     name: Code coverage
