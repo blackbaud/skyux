@@ -28,5 +28,6 @@ import { SkyErrorComponent } from './error.component';
     SkyErrorDescriptionComponent,
     SkyErrorActionComponent,
   ],
+  entryComponents: [SkyErrorModalFormComponent],
 })
 export class SkyErrorModule {}

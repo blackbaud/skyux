@@ -27,5 +27,6 @@ import { SkyFlyoutComponent } from './flyout.component';
     SkyHrefModule,
   ],
   exports: [SkyFlyoutComponent],
+  entryComponents: [SkyFlyoutComponent],
 })
 export class SkyFlyoutModule {}

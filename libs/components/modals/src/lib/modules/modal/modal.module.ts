@@ -35,5 +35,6 @@ import { SkyModalComponent } from './modal.component';
     SkyModalFooterComponent,
     SkyModalHeaderComponent,
   ],
+  entryComponents: [SkyModalHostComponent],
 })
 export class SkyModalModule {}

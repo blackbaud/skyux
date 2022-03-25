@@ -17,5 +17,6 @@ import { SkyTextExpandComponent } from './text-expand.component';
     CommonModule,
   ],
   exports: [SkyTextExpandComponent],
+  entryComponents: [SkyTextExpandModalComponent],
 })
 export class SkyTextExpandModule {}

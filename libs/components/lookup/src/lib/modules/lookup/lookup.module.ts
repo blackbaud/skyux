@@ -48,6 +48,10 @@ import { SkyLookupComponent } from './lookup.component';
     SkyViewkeeperModule,
     SkyWaitModule,
   ],
+  entryComponents: [
+    SkyLookupShowMoreAsyncModalComponent,
+    SkyLookupShowMoreModalComponent,
+  ],
   exports: [SkyLookupComponent],
 })
 export class SkyLookupModule {}

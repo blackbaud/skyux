@@ -6,5 +6,6 @@ import { SkyOverlayComponent } from './overlay.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [SkyOverlayComponent],
+  entryComponents: [SkyOverlayComponent],
 })
 export class SkyOverlayModule {}
