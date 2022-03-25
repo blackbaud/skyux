@@ -78,11 +78,11 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
-        run: npx -p @skyux/dev-infra-private skyux-dev check-lib-dependencies
+        run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
-        run: npx -p @skyux/dev-infra-private skyux-dev check-lib-missing-peers
+        run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
-        run: npx -p @skyux/dev-infra-private skyux-dev check-lib-resources
+        run: npx skyux-dev check-lib-resources
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
@@ -137,7 +137,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx -p @skyux/dev-infra-private skyux-dev test-affected
+          npx skyux-dev test-affected
 
   browserstack:
     name: Cross-browser testing
@@ -163,7 +163,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Cross-browser tests
         run: |
-          npx -p @skyux/dev-infra-private skyux-dev test-affected --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
+          npx skyux-dev test-affected --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
 
   stop-agents:
     name: Stop Nx Cloud agents

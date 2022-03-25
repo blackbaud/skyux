@@ -21,8 +21,8 @@ jobs:
         run: npm ci
       - name: Build and publish
         run: |
-          npx -p @skyux/dev-infra-private skyux-dev create-packages-dist
-          npx -p @skyux/dev-infra-private skyux-dev publish-packages-dist
+          npx skyux-dev create-packages-dist
+          npx skyux-dev publish-packages-dist
       - name: Notify Slack
         uses: rtCamp/action-slack-notify@v2
         env:
