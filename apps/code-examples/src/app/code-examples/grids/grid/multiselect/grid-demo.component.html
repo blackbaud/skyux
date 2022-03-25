@@ -1,6 +1,7 @@
 <sky-grid
   [data]="data"
   [enableMultiselect]="true"
+  [selectedRowIds]="selectedRowIds"
   (multiselectSelectionChange)="onMultiselectSelectionChange($event)"
   (sortFieldChange)="onSortChangeForGrid($event)"
 >
@@ -10,7 +11,7 @@
   <sky-grid-column field="status" heading="Status"></sky-grid-column>
 </sky-grid>
 
-<p>Selected rows:</p>
+<p>Selected rows (name property):</p>
 <p>
   {{ selectedRows }}
 </p>

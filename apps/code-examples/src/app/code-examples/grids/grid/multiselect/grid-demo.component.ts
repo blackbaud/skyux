@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { SkyGridSelectedRowsModelChange } from '@skyux/grids';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 
@@ -60,15 +60,28 @@ export class GridDemoComponent {
   ];
 
   public selectedRows: string;
+  public selectedRowIds: string[];
+
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public onMultiselectSelectionChange(
     value: SkyGridSelectedRowsModelChange
   ): void {
-    this.selectedRows = value.selectedRowIds.toString();
+    this.selectedRowIds = value.selectedRowIds.slice().sort();
+    this.selectedRows = this.data
+      .reduce((newArray, item) => {
+        if (value.selectedRowIds.indexOf(item.id) > -1) {
+          newArray.push(item.name);
+        }
+        return newArray;
+      }, [])
+      .sort();
+    this.changeDetector.markForCheck();
   }
 
   public onSortChangeForGrid(activeSort: ListSortFieldSelectorModel): void {
     this.data = this.sortGridData(activeSort, this.data);
+    this.changeDetector.markForCheck();
   }
 
   private sortGridData(
