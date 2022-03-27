@@ -400,8 +400,10 @@ export class SkyAgGridService implements OnDestroy {
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Currency],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
-            return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
+          validator: (value: any) => {
+            return !!`${value || ''}`.match(
+              /^[^0-9]*([0-9]+[,.]?)+[0-9]*[^0-9]*$/
+            );
           },
           validatorMessage: 'Please enter a valid currency',
         },
