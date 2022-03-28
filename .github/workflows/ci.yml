@@ -3,8 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 5.x.x
   pull_request:
+    branches:
+      - 5.x.x
 
 env:
   BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
