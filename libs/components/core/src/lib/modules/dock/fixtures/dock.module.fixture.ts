@@ -10,6 +10,5 @@ import { DockFixtureComponent } from './dock.component.fixture';
   imports: [CommonModule, SkyDockModule],
   exports: [DockFixtureComponent, DockItemFixtureComponent],
   declarations: [DockFixtureComponent, DockItemFixtureComponent],
-  entryComponents: [DockItemFixtureComponent],
 })
 export class DockFixturesModule {}

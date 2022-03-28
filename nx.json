@@ -1,7 +1,7 @@
 {
   "npmScope": "skyux",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "5.x.x"
   },
   "implicitDependencies": {
     "package.json": {

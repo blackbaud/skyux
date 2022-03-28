@@ -20,7 +20,6 @@ import { SelectFieldDemoComponent } from './select-field-demo.component';
     SelectFieldDemoComponent,
     SelectFieldDemoCustomPickerComponent,
   ],
-  entryComponents: [SelectFieldDemoCustomPickerComponent],
   exports: [SelectFieldDemoComponent],
 })
 export class SelectFieldDemoModule {}

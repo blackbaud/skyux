@@ -81,7 +81,7 @@ describe('SkyAppLink Directive', () => {
     setup({}, false);
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
-    expect(directive.properties['href']).toEqual('/test');
+    expect(directive.properties['href'].endsWith('/test')).toBeTrue();
   });
 
   it('should set href with queryParams', () => {
@@ -94,14 +94,18 @@ describe('SkyAppLink Directive', () => {
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
-    expect(directive.properties['href']).toEqual('/test?asdf=123&jkl=mno');
+    expect(
+      directive.properties['href'].endsWith('/test?asdf=123&jkl=mno')
+    ).toBeTrue();
   });
 
   it('should set href with queryParams supplied by the queryParams attribute', () => {
     setup({}, true);
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
-    expect(directive.properties['href']).toEqual('/test?qp1=1&qp2=false');
+    expect(
+      directive.properties['href'].endsWith('/test?qp1=1&qp2=false')
+    ).toBeTrue();
   });
 
   it('should set href with merged queryParams supplied by the queryParams attribute and app config', () => {
@@ -114,9 +118,11 @@ describe('SkyAppLink Directive', () => {
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
     expect(directive.attributes['skyAppLink']).toEqual('test');
-    expect(directive.properties['href']).toEqual(
-      '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
-    );
+    expect(
+      directive.properties['href'].endsWith(
+        '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
+    ).toBeTrue();
   });
 
   it('should call getAll with excludeDefaults set to true', () => {
@@ -135,8 +141,10 @@ describe('SkyAppLink Directive', () => {
       false
     );
     const directive = debugElement.query(By.directive(SkyAppLinkDirective));
-    expect(directive.properties['href']).toEqual(
-      '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
-    );
+    expect(
+      directive.properties['href'].endsWith(
+        '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
+    ).toBeTrue();
   });
 });

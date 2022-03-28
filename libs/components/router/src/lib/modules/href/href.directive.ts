@@ -1,5 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import {
+  ApplicationRef,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
   HostListener,
@@ -57,7 +59,9 @@ export class SkyHrefDirective {
     private element: ElementRef,
     @Optional() private skyAppConfig?: SkyAppConfig,
     @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider,
-    @Optional() private hrefResolver?: SkyHrefResolverService
+    @Optional() private hrefResolver?: SkyHrefResolverService,
+    @Optional() private applicationRef?: ApplicationRef,
+    @Optional() private changeDetectorRef?: ChangeDetectorRef
   ) {}
 
   /* istanbul ignore next */
@@ -130,6 +134,11 @@ export class SkyHrefDirective {
         this.hrefResolver.resolveHref({ url: this._skyHref }).then((route) => {
           this._route = { ...route };
           this.applyChanges(this.getChanges());
+          /* istanbul ignore else */
+          if (this.changeDetectorRef && this.applicationRef) {
+            this.changeDetectorRef.markForCheck();
+            this.applicationRef.tick();
+          }
         });
       } catch (error) {
         this.applyChanges(this.getChanges());
