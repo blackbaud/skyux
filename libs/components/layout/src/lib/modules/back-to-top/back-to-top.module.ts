@@ -17,6 +17,5 @@ import { SkyBackToTopDirective } from './back-to-top.directive';
     SkyLayoutResourcesModule,
   ],
   exports: [SkyBackToTopComponent, SkyBackToTopDirective],
-  entryComponents: [SkyBackToTopComponent],
 })
 export class SkyBackToTopModule {}

@@ -18,10 +18,5 @@ import { SkyToasterComponent } from './toaster.component';
     SkyToastResourcesModule,
   ],
   exports: [SkyToastComponent],
-  entryComponents: [
-    SkyToastBodyComponent,
-    SkyToastComponent,
-    SkyToasterComponent,
-  ],
 })
 export class SkyToastModule {}

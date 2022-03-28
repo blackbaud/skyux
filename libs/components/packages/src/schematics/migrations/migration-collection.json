@@ -4,26 +4,6 @@
       "version": "0.0.0-PACKAGES_PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
-    },
-    "update-peer-dependencies": {
-      "version": "5.0.0-beta.177",
-      "factory": "./update-peer-dependencies/update-peer-dependencies.schematic",
-      "description": "Update library peer dependencies"
-    },
-    "setup-coverage-for-testing-module": {
-      "version": "5.0.0-beta.0",
-      "factory": "./setup-coverage-for-testing-module/setup-coverage-for-testing-module.schematic",
-      "description": "Setup coverage for the testing module"
-    },
-    "remove-package-json-scripts": {
-      "version": "5.0.0-beta.0",
-      "factory": "./remove-package-json-scripts/remove-package-json-scripts.schematic",
-      "description": "Remove SKY UX scripts from package.json"
-    },
-    "add-cdk": {
-      "version": "5.144.0",
-      "factory": "./add-cdk/add-cdk.schematic",
-      "description": "Add Angular CDK"
     }
   }
 }

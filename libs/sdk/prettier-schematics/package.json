@@ -21,7 +21,7 @@
     "save": "devDependencies"
   },
   "peerDependencies": {
-    "@angular/cli": "^12.2.16"
+    "@angular/cli": "^13.2.6"
   },
   "dependencies": {
     "comment-json": "4.1.1"

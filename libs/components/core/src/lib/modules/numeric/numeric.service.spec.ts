@@ -1,3 +1,6 @@
+/*eslint no-loss-of-precision: "warn"*/
+
+/*eslint @typescript-eslint/no-loss-of-precision: "warn"*/
 import { TestBed, inject } from '@angular/core/testing';
 import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
 

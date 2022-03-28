@@ -310,13 +310,16 @@ test.ts`);
   });
 
   it('should not configure VSCode if .vscode folder does not exist', async () => {
+    tree.delete('.vscode/extensions.json');
+
     const updatedTree = await runSchematic(tree);
 
     expect(updatedTree.exists('.vscode/extensions.json')).toEqual(false);
   });
 
-  it('should configure VSCode if files exist in the .vscode folder', async () => {
-    tree.create('.vscode/extensions.json', '{}');
+  it('should configure VSCode', async () => {
+    tree.overwrite('.vscode/extensions.json', '{}');
+    tree.create('.vscode/settings.json', '{}');
 
     const updatedTree = await runSchematic(tree);
 
@@ -331,18 +334,19 @@ test.ts`);
     });
   });
 
-  it('should configure VSCode if files exist in the .vscode folder', async () => {
-    tree.create(
+  it('should ignore existing VSCode config', async () => {
+    tree.overwrite(
       '.vscode/extensions.json',
       commentJson.stringify({
-        recommendations: ['esbenp.prettier-vscode'],
+        recommendations: ['esbenp.prettier-vscode', 'foobar'],
       })
     );
+    tree.create('.vscode/settings.json', '{}');
 
     const updatedTree = await runSchematic(tree);
 
     validateJsonFile(updatedTree, '.vscode/extensions.json', {
-      recommendations: ['esbenp.prettier-vscode'],
+      recommendations: ['esbenp.prettier-vscode', 'foobar'],
     });
   });
 });

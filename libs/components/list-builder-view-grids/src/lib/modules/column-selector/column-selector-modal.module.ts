@@ -17,6 +17,5 @@ import { SkyColumnSelectorComponent } from './column-selector-modal.component';
     SkyListToolbarModule,
     SkyListViewChecklistModule,
   ],
-  entryComponents: [SkyColumnSelectorComponent],
 })
 export class SkyColumnSelectorModule {}
