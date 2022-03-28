@@ -1,5 +1,15 @@
 # Changelog
 
+## [6.0.0-beta.0](https://github.com/blackbaud/skyux/compare/5.7.1...6.0.0-beta.0) (2022-03-28)
+
+### ⚠ BREAKING CHANGES
+
+- **migrations:** Drop support for Angular 12
+
+### Features
+
+- **migrations:** add support for Angular v13 ([#85](https://github.com/blackbaud/skyux/issues/85)) ([291a024](https://github.com/blackbaud/skyux/commit/291a024398b0b291329b4be47488788b73c18273))
+
 ### [5.7.1](https://github.com/blackbaud/skyux/compare/5.7.0...5.7.1) (2022-03-28)
 
 ### Bug Fixes
