@@ -721,9 +721,9 @@ export class SkyAutocompleteComponent
    * Returns the text to highlight based on exact matches, case-insensitive matches, and matches for corresponding diacritical characters (a will match à).
    */
   private getHighlightText(searchText: string): string[] {
-    const normalizedSearchText = normalizeDiacritics(
-      this.searchText
-    ).toLocaleUpperCase().trim();
+    const normalizedSearchText = normalizeDiacritics(searchText)
+      .toLocaleUpperCase()
+      .trim();
     if (!normalizedSearchText) {
       return [];
     }
