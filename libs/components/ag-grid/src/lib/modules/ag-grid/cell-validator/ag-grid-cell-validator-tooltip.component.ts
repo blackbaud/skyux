@@ -12,6 +12,8 @@ import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
 
+import Timeout = NodeJS.Timeout;
+
 /**
  * @internal
  */
@@ -50,10 +52,30 @@ export class SkyAgGridCellValidatorTooltipComponent {
       }
     });
 
+    this.cellRendererParams.eGridCell?.addEventListener('mouseover', () => {
+      if (!this._hoverTimeout) {
+        this._hoverTimeout = setTimeout(() => {
+          this.showPopover();
+        }, 300);
+      }
+    });
+
+    this.cellRendererParams.eGridCell?.addEventListener('mouseout', () => {
+      if (this._hoverTimeout) {
+        clearTimeout(this._hoverTimeout);
+        this._hoverTimeout = undefined;
+      }
+      this.hidePopover();
+    });
+
     /*istanbul ignore next*/
     this.cellRendererParams.api?.addEventListener(
       Events.EVENT_CELL_EDITING_STARTED,
       () => {
+        if (this._hoverTimeout) {
+          clearTimeout(this._hoverTimeout);
+          this._hoverTimeout = undefined;
+        }
         this.hidePopover();
       }
     );
@@ -81,6 +103,8 @@ export class SkyAgGridCellValidatorTooltipComponent {
   public validatorMessage: string;
 
   public cellRendererParams: SkyCellRendererValidatorParams;
+
+  private _hoverTimeout: Timeout;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
