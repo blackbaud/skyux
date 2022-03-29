@@ -1,4 +1,4 @@
-import { ICellRendererParams } from 'ag-grid-community';
+import { ICellRendererParams } from '@ag-grid-community/core';
 
 import { SkyLookupProperties } from './lookup-properties';
 

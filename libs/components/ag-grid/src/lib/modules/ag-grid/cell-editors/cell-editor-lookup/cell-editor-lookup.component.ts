@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 import {
@@ -22,7 +21,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridCellEditorLookupComponent
-  implements ICellEditorAngularComp, IPopupComponent<any>
+  implements ICellEditorAngularComp
 {
   public skyComponentProperties?: SkyLookupProperties;
   public isAlive = false;

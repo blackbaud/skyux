@@ -11,7 +11,7 @@ import {
   GridOptions,
   GridReadyEvent,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 import { SkyDataEntryGridContextMenuComponent } from './data-entry-grid-docs-demo-context-menu.component';
 import { SKY_AG_GRID_DEMO_DATA } from './data-entry-grid-docs-demo-data';

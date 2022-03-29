@@ -14,15 +14,15 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import { AgGridAngular } from 'ag-grid-angular';
+import { AgGridAngular } from '@ag-grid-community/angular';
 import {
   ColumnApi,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
   DragStoppedEvent,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+  RowSelectedEvent
+} from '@ag-grid-community/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 

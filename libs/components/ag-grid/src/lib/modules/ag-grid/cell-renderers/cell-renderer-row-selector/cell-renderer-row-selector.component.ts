@@ -5,12 +5,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import {
   ICellRendererParams,
   RowNode,
   RowSelectedEvent,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 /**
  * @internal

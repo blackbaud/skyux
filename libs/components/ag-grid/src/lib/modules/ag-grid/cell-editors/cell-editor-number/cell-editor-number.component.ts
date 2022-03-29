@@ -5,8 +5,8 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ICellEditorParams } from 'ag-grid-community';
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
+import { ICellEditorParams } from '@ag-grid-community/core';
 
 /**
  * @internal

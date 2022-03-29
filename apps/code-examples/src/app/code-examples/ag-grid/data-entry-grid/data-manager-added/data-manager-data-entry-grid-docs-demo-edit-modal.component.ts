@@ -13,7 +13,6 @@ import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance } from '@skyux/modals';
 
 import {
-  CellValueChangedEvent,
   ColDef,
   GridApi,
   GridOptions,
@@ -21,7 +20,7 @@ import {
   ICellEditorParams,
   NewValueParams,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 import {
   SKY_DEPARTMENTS,

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Column, RowNode } from '@ag-grid-community/core';
 
 import { SkyAgGridModule } from '../../ag-grid.module';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';

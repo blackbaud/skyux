@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NumericOptions } from '@skyux/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
 import { ValidatorOptions } from '../../types/validator-options';

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
-import { CellFocusedEvent, Events } from 'ag-grid-community';
+import { CellFocusedEvent, Events } from '@ag-grid-community/core';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';

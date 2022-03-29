@@ -8,7 +8,7 @@ import {
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from '@ag-grid-community/angular';
 
 import { SkyBasicDataGridDemoComponent } from './basic-data-grid-docs-demo.component';
 

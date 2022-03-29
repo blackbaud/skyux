@@ -18,8 +18,8 @@ import {
   SkyOverlayService,
 } from '@skyux/core';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import { RowNode } from 'ag-grid-community';
+import { AgGridAngular } from '@ag-grid-community/angular';
+import { RowNode } from '@ag-grid-community/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

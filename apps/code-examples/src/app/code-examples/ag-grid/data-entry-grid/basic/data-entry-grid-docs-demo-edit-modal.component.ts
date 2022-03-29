@@ -20,7 +20,7 @@ import {
   ICellEditorParams,
   NewValueParams,
   RowNode,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 import {
   SKY_DEPARTMENTS,

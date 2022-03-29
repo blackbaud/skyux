@@ -2,8 +2,8 @@
 @import 'libs/components/theme/src/lib/styles/_compat/mixins';
 @import 'libs/components/theme/src/lib/styles/variables';
 @import 'libs/components/theme/src/lib/styles/_compat/variables';
-@import '~ag-grid-community/src/styles/ag-grid.scss';
-@import '~ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-theme-base/sass/ag-theme-base-mixin.scss';
 
 $sky-standard-border: 1px solid $sky-border-color-neutral-medium;
 $sky-standard-border-theme-modern: 1px solid

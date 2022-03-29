@@ -4,7 +4,7 @@ import {
   Component,
 } from '@angular/core';
 
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 import {

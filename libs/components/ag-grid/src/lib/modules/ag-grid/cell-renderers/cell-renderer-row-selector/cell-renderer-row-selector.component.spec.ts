@@ -11,8 +11,8 @@ import {
   ColDef,
   ICellRendererParams,
   RowClickedEvent,
-  RowNode,
-} from 'ag-grid-community';
+  RowNode
+} from '@ag-grid-community/core';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

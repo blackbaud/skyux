@@ -7,16 +7,15 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { AgGridAngular } from 'ag-grid-angular';
+import { AgGridAngular } from '@ag-grid-community/angular';
 import {
   Column,
-  ColumnApi,
   ColumnMovedEvent,
   DragStartedEvent,
   DragStoppedEvent,
   RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+  RowSelectedEvent
+} from '@ag-grid-community/core';
 
 import { SkyAgGridDataManagerAdapterDirective } from './ag-grid-data-manager-adapter.directive';
 import { SkyAgGridDataManagerFixtureComponent } from './fixtures/ag-grid-data-manager.component.fixture';

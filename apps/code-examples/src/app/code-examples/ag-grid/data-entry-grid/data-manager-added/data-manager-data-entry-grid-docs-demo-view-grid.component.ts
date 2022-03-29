@@ -20,7 +20,7 @@ import {
   GridReadyEvent,
   RowSelectedEvent,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 @Component({
   selector: 'app-data-manager-data-entry-grid-docs-demo-view-grid',

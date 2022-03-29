@@ -10,7 +10,7 @@ import {
   GridOptions,
   GridReadyEvent,
   ValueFormatterParams,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
 

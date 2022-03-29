@@ -12,12 +12,13 @@ import {
   CellClassParams,
   ColumnApi,
   GridOptions,
+  ICellRendererParams,
   RowClassParams,
   RowNode,
   ValueFormatterFunc,
-  ValueFormatterParams,
-} from 'ag-grid-community';
-import { ICellRendererParams } from 'ag-grid-community/dist/lib/rendering/cellRenderers/iCellRenderer';
+  ValueFormatterParams
+} from '@ag-grid-community/core';
+
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';

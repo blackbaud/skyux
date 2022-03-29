@@ -5,7 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { ICellEditorAngularComp } from 'ag-grid-angular';
+import { ICellEditorAngularComp } from '@ag-grid-community/angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 import { SkyCurrencyProperties } from '../../types/currency-properties';

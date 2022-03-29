@@ -5,7 +5,7 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
-} from 'ag-grid-community';
+} from '@ag-grid-community/core';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyAgGridRowDeleteCancelArgs } from '../types/ag-grid-row-delete-cancel-args';

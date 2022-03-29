@@ -8,7 +8,7 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Column, RowNode } from '@ag-grid-community/core';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';

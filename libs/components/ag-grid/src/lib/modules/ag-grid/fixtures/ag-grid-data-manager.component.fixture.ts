@@ -6,8 +6,8 @@ import {
   SkyDataViewConfig,
 } from '@skyux/data-manager';
 
-import { AgGridAngular } from 'ag-grid-angular';
-import { GridOptions } from 'ag-grid-community';
+import { AgGridAngular } from '@ag-grid-community/angular';
+import { GridOptions } from '@ag-grid-community/core';
 
 import { SkyAgGridService } from '../ag-grid.service';
 import { SkyCellType } from '../types/cell-type';

@@ -4,13 +4,13 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  EditableCallbackParams,
   GridOptions,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
-  ValueFormatterParams,
-} from 'ag-grid-community';
-import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
+  ValueFormatterParams
+} from '@ag-grid-community/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
