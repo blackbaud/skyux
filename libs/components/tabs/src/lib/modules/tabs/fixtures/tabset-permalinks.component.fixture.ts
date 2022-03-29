@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sky-tabset-permalinks-test',
@@ -13,11 +14,19 @@ export class SkyTabsetPermalinksFixtureComponent {
 
   public secondTabDisabled = false;
 
+  public showIt = true;
+
+  constructor(public router: Router) {}
+
   public onActiveChange(index: number): void {
     this.activeIndex = index;
   }
 
   public disableSecondTab(): void {
     this.secondTabDisabled = true;
+  }
+
+  public removeFromExistence(): void {
+    this.showIt = false;
   }
 }

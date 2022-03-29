@@ -1,4 +1,5 @@
 <sky-tabset
+  *ngIf="showIt"
   [active]="activeIndex"
   [permalinkId]="permalinkId"
   (activeChange)="onActiveChange($event)"

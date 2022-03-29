@@ -8,6 +8,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -58,7 +59,25 @@ describe('Tabset component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [SkyTabsFixturesModule],
+      imports: [
+        SkyTabsFixturesModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: 'example-path',
+            children: [
+              {
+                path: 'example-child-path',
+                children: [
+                  {
+                    path: '',
+                    component: SkyTabsetPermalinksFixtureComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ]),
+      ],
       providers: [
         {
           provide: SkyThemeService,
@@ -1572,6 +1591,55 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(fixture.nativeElement, 0);
+    }));
+  });
+
+  describe('Permalinks with non-base URLs', () => {
+    let fixture: ComponentFixture<SkyTabsetPermalinksFixtureComponent>;
+    let location: Location;
+
+    beforeEach(() => {
+      location = TestBed.inject(Location);
+      fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
+    });
+
+    it('should not affect the base URL when opened or closed', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.router.navigate([
+        'example-path',
+        'example-child-path',
+      ]);
+      // it doesn't even work without the router.navigate. i have no clue what is happening.
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual(
+        '/example-path/example-child-path?foobar-active-tab=api'
+      );
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      fixture.componentInstance.removeFromExistence();
+
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/example-path/example-child-path');
     }));
   });
 });
