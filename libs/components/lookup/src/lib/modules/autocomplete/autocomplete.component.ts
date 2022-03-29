@@ -723,7 +723,10 @@ export class SkyAutocompleteComponent
   private getHighlightText(searchText: string): string[] {
     const normalizedSearchText = normalizeDiacritics(
       this.searchText
-    ).toLocaleUpperCase();
+    ).toLocaleUpperCase().trim();
+    if (!normalizedSearchText) {
+      return [];
+    }
 
     let matchesToHighlight: string[] = [];
     for (let i = 0, n = this._searchResults.length; i < n; i++) {
