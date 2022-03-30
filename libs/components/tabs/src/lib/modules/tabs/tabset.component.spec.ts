@@ -1610,7 +1610,6 @@ describe('Tabset component', () => {
         'example-path',
         'example-child-path',
       ]);
-      // it doesn't even work without the router.navigate. i have no clue what is happening.
 
       fixture.detectChanges();
       tick();
