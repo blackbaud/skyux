@@ -54,7 +54,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
     this.cellRendererParams.eGridCell?.addEventListener('mouseover', () => {
       if (!this._hoverTimeout) {
-        this._hoverTimeout = setTimeout(() => {
+        this._hoverTimeout = window.setTimeout(() => {
           this.showPopover();
         }, 300);
       }
@@ -62,7 +62,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
     this.cellRendererParams.eGridCell?.addEventListener('mouseout', () => {
       if (this._hoverTimeout) {
-        clearTimeout(this._hoverTimeout);
+        window.clearTimeout(this._hoverTimeout);
         this._hoverTimeout = undefined;
       }
       this.hidePopover();
@@ -73,7 +73,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
       Events.EVENT_CELL_EDITING_STARTED,
       () => {
         if (this._hoverTimeout) {
-          clearTimeout(this._hoverTimeout);
+          window.clearTimeout(this._hoverTimeout);
           this._hoverTimeout = undefined;
         }
         this.hidePopover();
@@ -104,7 +104,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
 
   public cellRendererParams: SkyCellRendererValidatorParams;
 
-  private _hoverTimeout: Timeout;
+  private _hoverTimeout: number;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
