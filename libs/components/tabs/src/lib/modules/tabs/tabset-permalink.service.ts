@@ -64,7 +64,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     // Update the URL without triggering a navigation state change.
     // See: https://stackoverflow.com/a/46486677
     const url = this.router
-      .createUrlTree(['.'], {
+      .createUrlTree([], {
         relativeTo: this.activatedRoute,
         queryParams: params,
         queryParamsHandling: 'merge',
