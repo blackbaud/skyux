@@ -1,16 +1,15 @@
 {
   "allowedSemverRange": "^5.0.0",
-  "documentation": {
-    "excludeProjects": [
-      "animations",
-      "assets",
-      "config",
-      "http",
-      "omnibar-interop",
-      "packages",
-      "prettier-schematics",
-      "router",
-      "testing"
-    ]
-  }
+  "baseBranch": "5.x.x",
+  "documentationExcludeProjects": [
+    "animations",
+    "assets",
+    "config",
+    "http",
+    "omnibar-interop",
+    "packages",
+    "prettier-schematics",
+    "router",
+    "testing"
+  ]
 }

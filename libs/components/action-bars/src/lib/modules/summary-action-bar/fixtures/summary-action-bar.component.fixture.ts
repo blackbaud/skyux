@@ -75,6 +75,10 @@ export class SkySummaryActionBarTestComponent implements OnDestroy {
     this.openedModal = this.modalInstance.componentInstance;
   }
 
+  public toggleSummary(): void {
+    this.noSummary = !this.noSummary;
+  }
+
   private closeModal(): void {
     if (this.modalInstance) {
       this.modalInstance.close();

@@ -1,10 +1,15 @@
-<button
-  *ngIf="!isHome()"
-  class="sky-btn sky-btn-primary"
-  id="home-btn"
-  routerLink="/"
->
-  Go home
-</button>
+<div id="controls">
+  <div>
+    <button
+      *ngIf="!isHome()"
+      class="sky-btn sky-btn-primary"
+      id="home-btn"
+      routerLink="/"
+    >
+      Go home
+    </button>
+  </div>
+  <sky-theme-selector></sky-theme-selector>
+</div>
 
 <router-outlet></router-outlet>

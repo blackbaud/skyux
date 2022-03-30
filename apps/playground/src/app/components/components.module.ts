@@ -3,9 +3,26 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'action-bars',
+    loadChildren: () =>
+      import('./action-bars/action-bars.module').then(
+        (m) => m.ActionBarsModule
+      ),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
+  },
+  {
+    path: 'flyout',
+    loadChildren: () =>
+      import('./flyout/flyout.module').then((m) => m.FlyoutModule),
+  },
+  {
+    path: 'forms',
+    loadChildren: () =>
+      import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
     path: 'layout',

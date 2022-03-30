@@ -10,6 +10,5 @@ import { SkyWaitTestComponent } from './wait.component.fixture';
   declarations: [SkyWaitTestComponent],
   imports: [CommonModule, SkyWaitModule],
   providers: [SkyAppWindowRef],
-  entryComponents: [SkyWaitTestComponent],
 })
 export class SkyWaitFixturesModule {}

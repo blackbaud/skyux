@@ -20,7 +20,6 @@ import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.com
     SectionedFormModalDemoComponent,
     SectionedFormDemoComponent,
   ],
-  entryComponents: [SectionedFormModalDemoComponent],
   exports: [SectionedFormDemoComponent],
   imports: [
     CommonModule,

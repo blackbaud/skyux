@@ -8,7 +8,6 @@ import { FlyoutDemoComponent } from './flyout-demo.component';
 @NgModule({
   imports: [CommonModule, SkyFlyoutModule],
   declarations: [FlyoutDemoComponent, FlyoutDemoFlyoutComponent],
-  entryComponents: [FlyoutDemoFlyoutComponent],
   exports: [FlyoutDemoComponent],
 })
 export class FlyoutDemoModule {}

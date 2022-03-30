@@ -3,8 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 5.x.x
   pull_request:
+    branches:
+      - 5.x.x
 
 env:
   BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
@@ -78,11 +80,11 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
-        run: npm run ci:check-library-dependencies
+        run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
-        run: npm run ci:check-library-missing-peers
+        run: npx skyux-dev check-lib-missing-peers
       - name: Check library resources
-        run: npm run ci:check-library-resources
+        run: npx skyux-dev check-lib-resources
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
@@ -137,7 +139,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npm run ci:test-affected
+          npx skyux-dev test-affected
 
   browserstack:
     name: Cross-browser testing
@@ -163,7 +165,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Cross-browser tests
         run: |
-          npm run ci:test-affected -- --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
+          npx skyux-dev test-affected --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
 
   stop-agents:
     name: Stop Nx Cloud agents

@@ -41,9 +41,5 @@ import { SkyDataManagerDataEntryGridDemoComponent } from './data-manager-data-en
     SkyCheckboxModule,
   ],
   exports: [SkyDataManagerDataEntryGridDemoComponent],
-  entryComponents: [
-    SkyDataManagerDataEntryGridEditModalComponent,
-    DataManagerDataEntryGridDocsDemoFiltersModalComponent,
-  ],
 })
 export class SkyDataManagerDataEntryGridDocsDemoModule {}
