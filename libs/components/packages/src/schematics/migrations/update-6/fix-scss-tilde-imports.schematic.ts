@@ -4,8 +4,8 @@ import { Rule } from '@angular-devkit/schematics';
 import { readRequiredFile } from '../../utility/tree';
 
 /**
- * Replaces the tilde character in SCSS import statements with 'node_modules', since support for
- * the tilde was dropped in Angular 13.
+ * Replaces the tilde character in SCSS import statements with 'node_modules', since
+ * support for the tilde was dropped in Angular 13.
  * @see: https://github.com/angular/components/commit/f2ff9e31425f0e395e6926bcaf48f876688000d8
  */
 export default function fixScssTildeImports(): Rule {
@@ -16,8 +16,8 @@ export default function fixScssTildeImports(): Rule {
         const content = readRequiredFile(tree, filePath);
 
         const migratedContent = content
-          // Simply remove the tilde for known @skyux/theme imports, since we added exports for these
-          // files in libs/components/theme/package.json.
+          // Simply remove the tilde for known @skyux/theme imports, since we added
+          // exports for these files in libs/components/theme/package.json.
           .replace(
             /@(?:import|use) +['"]~@skyux\/theme\/scss\/(variables|mixins).*['"].*;?/g,
             (match) => {
