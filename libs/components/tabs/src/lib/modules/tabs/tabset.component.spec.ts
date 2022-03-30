@@ -1366,15 +1366,6 @@ describe('Tabset component', () => {
       fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
     });
 
-    afterEach(() => {
-      const spy = spyOn(location, 'go');
-      fixture.destroy();
-      expect(spy.calls.mostRecent().args[0].indexOf('?foobar-active-tab')).toBe(
-        -1,
-        'The permalink param should be cleared when the tabset is destroyed.'
-      );
-    });
-
     it('should activate a tab based on a query param on init', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
@@ -1592,18 +1583,8 @@ describe('Tabset component', () => {
 
       validateTabSelected(fixture.nativeElement, 0);
     }));
-  });
 
-  describe('Permalinks with non-base URLs', () => {
-    let fixture: ComponentFixture<SkyTabsetPermalinksFixtureComponent>;
-    let location: Location;
-
-    beforeEach(() => {
-      location = TestBed.inject(Location);
-      fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
-    });
-
-    it('should not affect the base URL when opened or closed', fakeAsync(() => {
+    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
       fixture.componentInstance.router.navigate([
