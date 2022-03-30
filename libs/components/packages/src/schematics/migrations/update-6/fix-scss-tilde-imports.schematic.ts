@@ -22,16 +22,10 @@ export default function fixScssTildeImports(): Rule {
             /@(?:import|use) +['"]~@skyux\/theme\/scss\/(variables|mixins).*['"].*;?/g,
             (match) => {
               return match.replace('~', '');
-              // const index = match.indexOf('~');
-              // return match.slice(0, index) + match.slice(index + 1);
             }
           )
           // For all other tilde imports, replace with 'node_modules'.
           .replace(/@(?:import|use) +['"]~.*['"].*;?/g, (match) => {
-            // const index = match.indexOf('~');
-            // return (
-            //   match.slice(0, index) + 'node_modules/' + match.slice(index + 1)
-            // );
             return match.replace('~', 'node_modules/');
           });
 
