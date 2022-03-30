@@ -7,7 +7,7 @@ import path from 'path';
 
 import { createTestApp } from '../../testing/scaffold';
 
-fdescribe('Migrations > Fix SCSS tilde imports', () => {
+describe('Migrations > Fix SCSS tilde imports', () => {
   const collectionPath = path.join(__dirname, '../migration-collection.json');
   const defaultProjectName = 'my-app';
   const schematicName = 'fix-scss-tilde-imports';
