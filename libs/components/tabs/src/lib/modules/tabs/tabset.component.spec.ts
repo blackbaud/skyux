@@ -8,6 +8,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -58,7 +59,25 @@ describe('Tabset component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [SkyTabsFixturesModule],
+      imports: [
+        SkyTabsFixturesModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: 'example-path',
+            children: [
+              {
+                path: 'example-child-path',
+                children: [
+                  {
+                    path: '',
+                    component: SkyTabsetPermalinksFixtureComponent,
+                  },
+                ],
+              },
+            ],
+          },
+        ]),
+      ],
       providers: [
         {
           provide: SkyThemeService,
@@ -1347,15 +1366,6 @@ describe('Tabset component', () => {
       fixture = TestBed.createComponent(SkyTabsetPermalinksFixtureComponent);
     });
 
-    afterEach(() => {
-      const spy = spyOn(location, 'go');
-      fixture.destroy();
-      expect(spy.calls.mostRecent().args[0].indexOf('?foobar-active-tab')).toBe(
-        -1,
-        'The permalink param should be cleared when the tabset is destroyed.'
-      );
-    });
-
     it('should activate a tab based on a query param on init', fakeAsync(() => {
       fixture.componentInstance.activeIndex = 0;
       fixture.componentInstance.permalinkId = 'foobar';
@@ -1572,6 +1582,32 @@ describe('Tabset component', () => {
       tick();
 
       validateTabSelected(fixture.nativeElement, 0);
+    }));
+
+    it('should not affect the current route when a tab is opened for the first time or destroyed', fakeAsync(() => {
+      fixture.componentInstance.activeIndex = 0;
+      fixture.componentInstance.permalinkId = 'foobar';
+      fixture.componentInstance.router.navigate([
+        'example-path',
+        'example-child-path',
+      ]);
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual(
+        '/example-path/example-child-path?foobar-active-tab=api'
+      );
+
+      fixture.detectChanges();
+      tick();
+
+      fixture.componentInstance.removeFromExistence();
+
+      fixture.detectChanges();
+      tick();
+
+      expect(location.path()).toEqual('/example-path/example-child-path');
     }));
   });
 });
