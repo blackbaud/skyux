@@ -4,6 +4,11 @@
       "version": "0.0.0-PACKAGES_PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
+    },
+    "fix-scss-tilde-imports": {
+      "version": "6.0.0-0",
+      "factory": "./update-6/fix-scss-tilde-imports.schematic",
+      "description": "Remove tilde character from SCSS imports"
     }
   }
 }
