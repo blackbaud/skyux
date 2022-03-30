@@ -22,7 +22,7 @@ describe('Migrations > Fix SCSS tilde imports', () => {
     "@import '~@skyux/theme/scss/themes/modern/_compat/mixins';", // ours, non-public API
     "@import '~@angular/material';", // angular
     "@import '~@foo/bar/~/baz.scss';", // third-party
-    "@import '@skyux/theme/scss/variables';", // already valid node_modules
+    "@import '@skyux/theme/scss/variables';", // no tilde, should be ignored
     "@import 'node_modules/@skyux/theme/scss/_compat/mixins';", // already valid root-relative
     "@import './mixins';", // document-relative
   ];
@@ -53,9 +53,9 @@ describe('Migrations > Fix SCSS tilde imports', () => {
     await runSchematic();
 
     expect(tree.readContent('src/styles.scss'))
-      .toBe(`@use '@skyux/theme/scss/variables';
-@import '@skyux/theme/scss/variables';
-@import '@skyux/theme/scss/mixins';
+      .toBe(`@use 'node_modules/@skyux/theme/scss/variables';
+@import 'node_modules/@skyux/theme/scss/variables';
+@import 'node_modules/@skyux/theme/scss/mixins';
 @import 'node_modules/@skyux/theme/scss/_compat/variables';
 @import 'node_modules/@skyux/theme/scss/themes/modern/_compat/mixins';
 @import 'node_modules/@angular/material';
@@ -71,9 +71,9 @@ describe('Migrations > Fix SCSS tilde imports', () => {
     await runSchematic();
 
     expect(tree.readContent('src/global.css'))
-      .toBe(`@use '@skyux/theme/scss/variables';
-@import '@skyux/theme/scss/variables';
-@import '@skyux/theme/scss/mixins';
+      .toBe(`@use 'node_modules/@skyux/theme/scss/variables';
+@import 'node_modules/@skyux/theme/scss/variables';
+@import 'node_modules/@skyux/theme/scss/mixins';
 @import 'node_modules/@skyux/theme/scss/_compat/variables';
 @import 'node_modules/@skyux/theme/scss/themes/modern/_compat/mixins';
 @import 'node_modules/@angular/material';

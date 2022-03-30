@@ -15,19 +15,12 @@ export default function fixScssTildeImports(): Rule {
       if (extension === '.scss' || extension === '.css') {
         const content = readRequiredFile(tree, filePath);
 
-        const migratedContent = content
-          // Simply remove the tilde for known @skyux/theme imports, since we added
-          // exports for these files in libs/components/theme/package.json.
-          .replace(
-            /@(?:import|use) +['"]~@skyux\/theme\/scss\/(variables|mixins).*['"].*;?/g,
-            (match) => {
-              return match.replace('~', '');
-            }
-          )
-          // For all other tilde imports, replace with 'node_modules'.
-          .replace(/@(?:import|use) +['"]~.*['"].*;?/g, (match) => {
+        const migratedContent = content.replace(
+          /@(?:import|use) +['"]~.*['"].*;?/g,
+          (match) => {
             return match.replace('~', 'node_modules/');
-          });
+          }
+        );
 
         if (content !== migratedContent) {
           tree.overwrite(filePath, migratedContent);
