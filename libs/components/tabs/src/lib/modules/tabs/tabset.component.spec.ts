@@ -1613,10 +1613,6 @@ describe('Tabset component', () => {
 
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
 
       expect(location.path()).toEqual(
         '/example-path/example-child-path?foobar-active-tab=api'
@@ -1624,17 +1620,9 @@ describe('Tabset component', () => {
 
       fixture.detectChanges();
       tick();
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
 
       fixture.componentInstance.removeFromExistence();
 
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
       fixture.detectChanges();
       tick();
 
