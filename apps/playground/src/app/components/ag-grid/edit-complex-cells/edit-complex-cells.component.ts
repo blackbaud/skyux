@@ -257,6 +257,7 @@ export class EditComplexCellsComponent implements OnInit {
 
   public saveData(): void {
     this.uneditedGridData = this.cloneGridData(this.gridData);
+    console.table(this.uneditedGridData);
     this.setEditMode(false);
     alert('save your data here!');
   }

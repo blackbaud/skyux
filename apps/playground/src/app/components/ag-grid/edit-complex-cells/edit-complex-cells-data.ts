@@ -9,7 +9,7 @@ export class EditableGridRow {
   public name: string;
   public language: 'English' | 'Spanish' | 'French' | 'Portuguese' | '(other)';
   public validationAutocomplete?: EditableGridOption;
-  public validationCurrency: string;
+  public validationCurrency?: number | string;
   public validationDate: Date;
   public lookupSingle: { id: string; name: string; interestingFact: string }[];
   public lookupMultiple: {
@@ -92,7 +92,7 @@ export const EDITABLE_GRID_DATA_FACTORY = function (
         EDITABLE_GRID_OPTIONS[i % EDITABLE_GRID_OPTIONS.length],
       validationCurrency:
         i % 3 === 0
-          ? `${(1.23 * i).toFixed(2)}`
+          ? parseFloat((1.23 * i).toFixed(2))
           : i % 3 === 2
           ? 'other value'
           : '',
