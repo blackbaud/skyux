@@ -23,7 +23,7 @@ fdescribe('Migrations > Fix SCSS tilde imports', () => {
     "@import '~@angular/material';", // angular
     "@import '~@foo/bar/~/baz.scss';", // third-party
     "@import '@skyux/theme/scss/variables';", // already valid node_modules
-    "@import 'node_modules/@skyux/theme/scss/mixins';", // already valid root-relative
+    "@import 'node_modules/@skyux/theme/scss/_compat/mixins';", // already valid root-relative
     "@import './mixins';", // document-relative
   ];
 
@@ -61,7 +61,7 @@ fdescribe('Migrations > Fix SCSS tilde imports', () => {
 @import 'node_modules/@angular/material';
 @import 'node_modules/@foo/bar/~/baz.scss';
 @import '@skyux/theme/scss/variables';
-@import 'node_modules/@skyux/theme/scss/mixins';
+@import 'node_modules/@skyux/theme/scss/_compat/mixins';
 @import './mixins';`);
   });
 
@@ -79,7 +79,7 @@ fdescribe('Migrations > Fix SCSS tilde imports', () => {
 @import 'node_modules/@angular/material';
 @import 'node_modules/@foo/bar/~/baz.scss';
 @import '@skyux/theme/scss/variables';
-@import 'node_modules/@skyux/theme/scss/mixins';
+@import 'node_modules/@skyux/theme/scss/_compat/mixins';
 @import './mixins';`);
   });
 });

@@ -4,8 +4,8 @@ import { Rule } from '@angular-devkit/schematics';
 import { readRequiredFile } from '../../utility/tree';
 
 /**
- * Replaces the tilde character from SCSS imports with 'node_modules'.
- * Angular 13 dropped support for tilde import statements in SCSS/CSS files.
+ * Replaces the tilde character in SCSS import statements with 'node_modules', since support for
+ * the tilde was dropped in Angular 13.
  * @see: https://github.com/angular/components/commit/f2ff9e31425f0e395e6926bcaf48f876688000d8
  */
 export default function fixScssTildeImports(): Rule {
