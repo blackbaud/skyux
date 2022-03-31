@@ -102,7 +102,7 @@ export class SkyMediaQueryService implements OnDestroy {
     this.currentSubject.complete();
   }
 
-  private addListeners(): void {
+  protected addListeners(): void {
     this.mediaQueries = this.breakpoints.map((breakpoint: any) => {
       const mq = matchMedia(breakpoint.mediaQueryString);
 
@@ -130,14 +130,14 @@ export class SkyMediaQueryService implements OnDestroy {
     });
   }
 
-  private removeListeners(): void {
+  protected removeListeners(): void {
     this.mediaQueries.forEach((mediaQuery) => {
       mediaQuery.mediaQueryList.removeListener(mediaQuery.listener);
     });
     this.mediaQueries = [];
   }
 
-  private notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
+  protected notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
     this._current = breakpoint;
     this.currentSubject.next(breakpoint);
   }

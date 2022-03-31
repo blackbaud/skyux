@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyResizeObserverMediaQueryService } from '@skyux/core';
 
 import { SkyModalConfiguration } from '../modal/modal-configuration';
 import { SkyModalHostService } from '../modal/modal-host.service';
@@ -42,7 +41,6 @@ describe('Confirm component', () => {
       providers: [
         { provide: SkyModalHostService, useValue: modalHost },
         { provide: SkyModalConfiguration, useValue: {} },
-        SkyResizeObserverMediaQueryService,
       ],
     });
   });

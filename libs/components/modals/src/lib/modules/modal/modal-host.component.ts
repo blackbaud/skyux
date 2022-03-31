@@ -3,6 +3,8 @@ import {
   Component,
   ComponentFactoryResolver,
   Injector,
+  NgModuleRef,
+  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,6 +17,7 @@ import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
+import { SkyModalModule } from './modal.module';
 
 /**
  * @internal
@@ -51,7 +54,8 @@ export class SkyModalHostComponent {
     private adapter: SkyModalAdapterService,
     private injector: Injector,
     private router: Router,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    @Optional() private ngModuleRef: NgModuleRef<SkyModalModule>
   ) {}
 
   public open(
@@ -93,7 +97,9 @@ export class SkyModalHostComponent {
     const modalComponentRef = this.target.createComponent(
       factory,
       undefined,
-      injector
+      injector,
+      undefined,
+      this.ngModuleRef
     );
 
     modalInstance.componentInstance = modalComponentRef.instance;

@@ -1,10 +1,11 @@
-import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
+import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
@@ -12,17 +13,20 @@ import { SkyResizeObserverService } from './resize-observer.service';
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
 @Injectable()
-export class SkyResizeObserverMediaQueryService implements OnDestroy {
+export class SkyResizeObserverMediaQueryService
+  extends SkyMediaQueryService
+  implements OnDestroy
+{
   /**
    * Returns the current breakpoint.
    */
   public get current(): SkyMediaBreakpoints {
-    return this._current;
+    return this._currentBreakpoint;
   }
 
-  private currentSubject = new ReplaySubject<SkyMediaBreakpoints>(1);
+  private currentBreakpoint = new ReplaySubject<SkyMediaBreakpoints>(1);
 
-  private _current: SkyMediaBreakpoints;
+  private _currentBreakpoint: SkyMediaBreakpoints;
   private _observable: Observable<ResizeObserverEntry>;
   private _breakpoints: {
     check: (width: number) => boolean;
@@ -47,12 +51,17 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   ];
   private stopListening = new Subject<void>();
 
-  constructor(private resizeObserverService: SkyResizeObserverService) {}
+  constructor(
+    zone: NgZone,
+    private resizeObserverService: SkyResizeObserverService
+  ) {
+    super(zone);
+  }
 
   public ngOnDestroy(): void {
     this.removeListeners();
     this.stopListening.complete();
-    this.currentSubject.complete();
+    this.currentBreakpoint.complete();
   }
 
   /**
@@ -72,26 +81,44 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   }
 
   /**
+   * Stop watching the container element.
+   */
+  public unobserve(): void {
+    this.stopListening.next();
+  }
+
+  /**
    * Subscribes to element size changes.
    * @param listener Specifies a function that is called when breakpoints change.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentSubject
+    return this.currentBreakpoint
       .pipe(takeUntil(this.stopListening))
       .subscribe(listener);
   }
 
   private checkBreakpointChange(width: number) {
     this._breakpoints.forEach((breakpoint) => {
-      if (this._current !== breakpoint.name && breakpoint.check(width)) {
-        this._current = breakpoint.name;
-        this.currentSubject.next(breakpoint.name);
+      if (
+        this._currentBreakpoint !== breakpoint.name &&
+        breakpoint.check(width)
+      ) {
+        this.notifyBreakpointChange(breakpoint.name);
       }
     });
   }
 
-  private removeListeners(): void {
+  protected addListeners() {
+    // do not add listeners in the constructor
+  }
+
+  protected notifyBreakpointChange(breakpoint: SkyMediaBreakpoints) {
+    this._currentBreakpoint = breakpoint;
+    this.currentBreakpoint.next(breakpoint);
+  }
+
+  protected removeListeners(): void {
     this.stopListening.next();
-    this._current = undefined;
+    this._currentBreakpoint = undefined;
   }
 }
