@@ -9,6 +9,11 @@
       "version": "6.0.0-0",
       "factory": "./update-6/fix-scss-tilde-imports.schematic",
       "description": "Remove tilde character from SCSS imports"
+    },
+    "add-cdk": {
+      "version": "6.0.0-0",
+      "factory": "./update-6/add-cdk.schematic",
+      "description": "Add @angular/cdk if applicable"
     }
   }
 }
