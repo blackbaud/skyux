@@ -24,4 +24,4 @@ import { FlyoutDemoComponent } from './flyout-demo.component';
   declarations: [FlyoutDemoComponent, FlyoutDemoFlyoutComponent],
   exports: [FlyoutDemoComponent],
 })
-export class AutocompleteDemoModule {}
+export class FlyoutDemoModule {}
