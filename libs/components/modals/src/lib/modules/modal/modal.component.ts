@@ -6,6 +6,7 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnDestroy,
   ViewChild,
 } from '@angular/core';
 import {
@@ -16,6 +17,9 @@ import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -36,9 +40,16 @@ let skyModalUniqueIdentifier = 0;
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [skyAnimationModalState],
-  providers: [SkyModalComponentAdapterService, SkyDockService],
+  providers: [
+    SkyModalComponentAdapterService,
+    SkyDockService,
+    {
+      provide: SkyMediaQueryService,
+      useExisting: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
-export class SkyModalComponent implements AfterViewInit {
+export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
   public get wrapperClass(): string {
     return this.config.wrapperClass;
@@ -111,6 +122,8 @@ export class SkyModalComponent implements AfterViewInit {
 
   @ViewChild('modalContentWrapper', { read: ElementRef })
   private modalContentWrapperElement: ElementRef;
+
+  private ngDestroy = new Subject<void>();
 
   constructor(
     private hostService: SkyModalHostService,
@@ -197,16 +210,26 @@ export class SkyModalComponent implements AfterViewInit {
       zIndex: 5,
     });
 
+    /* istanbul ignore else */
     if (this.mediaQueryService instanceof SkyResizeObserverMediaQueryService) {
       this.mediaQueryService.observe(this.modalContentWrapperElement);
-      this.hostService.close.subscribe(() => {
-        if (
-          this.mediaQueryService instanceof SkyResizeObserverMediaQueryService
-        ) {
-          this.mediaQueryService.unobserve();
-        }
-      });
+      this.hostService.close
+        ?.asObservable()
+        .pipe(takeUntil(this.ngDestroy))
+        .subscribe(() => {
+          /* istanbul ignore else */
+          if (
+            this.mediaQueryService instanceof SkyResizeObserverMediaQueryService
+          ) {
+            this.mediaQueryService.unobserve();
+          }
+        });
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.ngDestroy.next();
+    this.ngDestroy.complete();
   }
 
   public helpButtonClick() {

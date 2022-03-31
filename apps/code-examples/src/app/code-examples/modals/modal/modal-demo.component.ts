@@ -10,7 +10,7 @@ import { ModalDemoModalComponent } from './modal-demo-modal.component';
 export class ModalDemoComponent {
   public helpKey = 'help-demo.html';
 
-  public modalSize = 'large';
+  public modalSize = 'medium';
 
   constructor(private modal: SkyModalService) {}
 
