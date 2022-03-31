@@ -9,6 +9,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+/**
+ * Specifies the items to display on the dropdown menu.
+ */
 @Component({
   selector: 'sky-dropdown-item',
   templateUrl: './dropdown-item.component.html',
