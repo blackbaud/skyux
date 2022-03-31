@@ -81,7 +81,7 @@
     "@nrwl/node": "13.9.4",
     "@nrwl/nx-cloud": "13.1.6",
     "@nrwl/workspace": "13.9.4",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#db2201148fde96cb2de2966b27d70966d0754d9d",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#35e53b7d8f77be9a2929c4803aacc6351a263099",
     "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/cross-spawn": "6.0.2",
     "@types/fontfaceobserver": "2.1.0",
