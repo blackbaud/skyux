@@ -6,7 +6,9 @@ import { finalize } from 'rxjs/operators';
 /**
  * Service to create rxjs observables for changes to the content box dimensions of elements.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyResizeObserverService implements OnDestroy {
   private tracking: {
     element: Element;

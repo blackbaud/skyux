@@ -20,7 +20,7 @@ export class SkyResizeObserverMediaQueryService
   /**
    * Returns the current breakpoint.
    */
-  public get current(): SkyMediaBreakpoints {
+  public get current(): SkyMediaBreakpoints | undefined {
     return this._currentBreakpoint;
   }
 
@@ -56,6 +56,9 @@ export class SkyResizeObserverMediaQueryService
     private resizeObserverService: SkyResizeObserverService
   ) {
     super(zone);
+    this.stopListening.subscribe(() => {
+      this.notifyBreakpointChange(undefined);
+    });
   }
 
   public ngOnDestroy(): void {
