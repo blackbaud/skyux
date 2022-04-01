@@ -105,6 +105,27 @@ export class SkyAgGridEditModalComponent implements OnInit {
           return editParams;
         },
       },
+      {
+        colId: 'validationCurrency',
+        field: 'validationCurrency',
+        headerName: 'Validation currency',
+        type: [SkyCellType.CurrencyValidator],
+        editable: true,
+      },
+      {
+        colId: 'validationDate',
+        field: 'validationDate',
+        headerName: 'Validation date',
+        type: [SkyCellType.Date, SkyCellType.Validator],
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: Date) =>
+              !!value && value > new Date(1985, 9, 26),
+            validatorMessage: 'Please enter a future date',
+          },
+        },
+        editable: true,
+      },
     ];
 
     this.gridOptions = {
@@ -134,5 +155,9 @@ export class SkyAgGridEditModalComponent implements OnInit {
   private clearJobTitle(node: RowNode) {
     node.data.jobTitle = undefined;
     this.gridApi.refreshCells({ rowNodes: [node] });
+  }
+
+  public onPressEscape($event: KeyboardEvent) {
+    $event.stopPropagation();
   }
 }

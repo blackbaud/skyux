@@ -1,6 +1,6 @@
 <sky-modal>
   <sky-modal-header> Edit employee info </sky-modal-header>
-  <sky-modal-content>
+  <sky-modal-content (keyup.escape)="onPressEscape($event)">
     <div id="docs-edit-grid-modal-content">
       <sky-ag-grid-wrapper>
         <ag-grid-angular

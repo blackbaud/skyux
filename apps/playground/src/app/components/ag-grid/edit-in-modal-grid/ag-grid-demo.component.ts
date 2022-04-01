@@ -60,6 +60,24 @@ export class SkyAgGridDemoComponent implements OnInit {
       headerName: 'Title',
       type: SkyCellType.Autocomplete,
     },
+    {
+      colId: 'validationCurrency',
+      field: 'validationCurrency',
+      headerName: 'Validation currency',
+      type: [SkyCellType.CurrencyValidator],
+    },
+    {
+      colId: 'validationDate',
+      field: 'validationDate',
+      headerName: 'Validation date',
+      type: [SkyCellType.Date, SkyCellType.Validator],
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value: Date) => !!value && value > new Date(1985, 9, 26),
+          validatorMessage: 'Please enter a future date',
+        },
+      },
+    },
   ];
 
   public gridOptions: GridOptions;
