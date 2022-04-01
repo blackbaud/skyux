@@ -104,6 +104,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
   }
 
   private scheduleDelayedPopover() {
+    /* istanbul ignore else */
     if (!this._hoverTimeout) {
       this._hoverTimeout = window.setTimeout(() => {
         this.showPopover();

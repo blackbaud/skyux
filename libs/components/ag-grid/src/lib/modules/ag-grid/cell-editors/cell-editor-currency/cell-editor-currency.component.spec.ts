@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, ICellEditorParams } from 'ag-grid-community';
+import { Column, GridApi, ICellEditorParams } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -59,6 +59,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       column.setActualWidth(columnWidth);
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const api: GridApi = {
+        stopEditing: () => {},
+        setFocusedCell: () => {},
+      };
       const cellEditorParams: ICellEditorParams = {
         value,
         colDef: { headerName: 'Test currency cell' },
@@ -69,7 +75,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
-        api: undefined,
+        api,
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
@@ -96,6 +102,12 @@ describe('SkyCellEditorCurrencyComponent', () => {
       currencyEditorComponent.agInit(cellEditorParams);
 
       expect(currencyEditorComponent.rowHeightWithoutBorders).toEqual(96);
+
+      const stopEditingSpy = spyOn(api, 'stopEditing');
+      const setFocusedCellSpy = spyOn(api, 'setFocusedCell');
+      currencyEditorComponent.onPressEscape();
+      expect(stopEditingSpy).toHaveBeenCalled();
+      expect(setFocusedCellSpy).toHaveBeenCalled();
     });
   });
 

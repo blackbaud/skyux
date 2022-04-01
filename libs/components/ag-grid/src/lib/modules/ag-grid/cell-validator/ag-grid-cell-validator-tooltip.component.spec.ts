@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, flush, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyAgGridCellValidatorTooltipFixtureComponent } from '../fixtures/ag-grid-cell-validator-tooltip.component.fixture';
@@ -86,16 +86,9 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     };
     fixture.detectChanges();
     expect(fixture.componentInstance).toBeTruthy();
-    expect(fixture.componentInstance.indicatorShouldShow).toBeTrue();
 
     fixture.componentInstance.showPopover();
     tick();
-    expect(fixture.componentInstance.indicatorShouldShow).toBeFalse();
-
-    fixture.componentInstance.hidePopover();
-    fixture.componentInstance.showIndicator();
-    tick();
-    expect(fixture.componentInstance.indicatorShouldShow).toBeTrue();
 
     fixture.componentInstance.params = {
       ...parameters,
@@ -104,5 +97,70 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       },
     };
     expect(fixture.componentInstance.validatorMessage).toBe('Test message XYZ');
+  }));
+
+  it('should show popover on delayed hover', fakeAsync(() => {
+    const fixture = TestBed.createComponent(
+      SkyAgGridCellValidatorTooltipComponent
+    );
+    const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
+    fixture.componentInstance.params = {
+      $scope: undefined,
+      addRenderedRowListener(): void {},
+      api: undefined,
+      colDef: undefined,
+      // @ts-ignore
+      column: {
+        getActualWidth(): number {
+          return -1;
+        },
+      },
+      columnApi: undefined,
+      context: undefined,
+      data: undefined,
+      eGridCell: {
+        addEventListener: (eventName, handler) => {
+          eventHandlers[eventName] = handler;
+        },
+      } as HTMLElement,
+      eParentOfValue: undefined,
+      formatValue(): any {},
+      getValue(): any {},
+      node: undefined,
+      refreshCell(): void {},
+      rowIndex: 0,
+      setValue(): void {},
+      value: undefined,
+      valueFormatted: undefined,
+      skyComponentProperties: {
+        validatorMessage: 'Test message ABC',
+      },
+    };
+    const popover = () =>
+      (fixture.nativeElement as HTMLElement).ownerDocument.querySelector(
+        'sky-popover-content'
+      );
+    fixture.detectChanges();
+    expect(eventHandlers.keyup).toBeTruthy();
+    expect(eventHandlers.mouseover).toBeTruthy();
+    expect(eventHandlers.mouseout).toBeTruthy();
+    eventHandlers.keyup({ key: 'ArrowRight' } as KeyboardEvent);
+    tick();
+    fixture.detectChanges();
+    fixture.whenStable();
+    expect(popover()).toBeTruthy();
+    eventHandlers.mouseout({} as MouseEvent);
+    tick();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+    fixture.whenStable();
+    expect(popover()).toBeFalsy();
+    eventHandlers.mouseover({} as MouseEvent);
+    tick();
+    flush();
+    fixture.detectChanges();
+    fixture.whenStable();
+    expect(popover()).toBeTruthy();
   }));
 });
