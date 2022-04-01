@@ -28,6 +28,9 @@ import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
 
+/**
+ * Creates a dropdown menu that displays menu items that users may select.
+ */
 @Component({
   selector: 'sky-dropdown',
   templateUrl: './dropdown.component.html',
