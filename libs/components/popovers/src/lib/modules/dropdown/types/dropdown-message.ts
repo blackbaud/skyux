@@ -1,7 +1,7 @@
 import { SkyDropdownMessageType } from './dropdown-message-type';
 
 /**
- * Specifies the type of message to send.
+ * Specifies the type of message to send to the dropdown component.
  */
 export interface SkyDropdownMessage {
   /**

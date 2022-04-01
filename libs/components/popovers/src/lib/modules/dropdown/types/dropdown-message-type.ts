@@ -1,5 +1,5 @@
 /**
- * Specifies the type of message to send to the dropdown component.
+ * Specifies the type of message to send.
  */
 export enum SkyDropdownMessageType {
   /**
