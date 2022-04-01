@@ -24,6 +24,7 @@ jobs:
             dev-infra
             migrations
             packaging
+            release
             apps/code-examples
             apps/integration
             apps/playground
