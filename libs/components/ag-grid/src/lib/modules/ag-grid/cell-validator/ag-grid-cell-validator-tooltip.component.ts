@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  NgZone,
 } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
@@ -11,8 +10,6 @@ import { CellFocusedEvent, Events } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
-
-import Timeout = NodeJS.Timeout;
 
 /**
  * @internal
@@ -53,20 +50,10 @@ export class SkyAgGridCellValidatorTooltipComponent {
     });
 
     this.cellRendererParams.eGridCell?.addEventListener('mouseover', () => {
-      if (!this._hoverTimeout) {
-        // Delay showing popover on mouseover.
-        this._hoverTimeout = window.setTimeout(() => {
-          this.showPopover();
-        }, 300);
-      }
+      this.scheduleDelayedPopover();
     });
 
     this.cellRendererParams.eGridCell?.addEventListener('mouseout', () => {
-      if (this._hoverTimeout) {
-        // Cancel the delayed popover on mouseout.
-        window.clearTimeout(this._hoverTimeout);
-        this._hoverTimeout = undefined;
-      }
       this.hidePopover();
     });
 
@@ -74,11 +61,6 @@ export class SkyAgGridCellValidatorTooltipComponent {
     this.cellRendererParams.api?.addEventListener(
       Events.EVENT_CELL_EDITING_STARTED,
       () => {
-        if (this._hoverTimeout) {
-          // Cancel the delayed popover when editing starts.
-          window.clearTimeout(this._hoverTimeout);
-          this._hoverTimeout = undefined;
-        }
         this.hidePopover();
       }
     );
@@ -101,38 +83,38 @@ export class SkyAgGridCellValidatorTooltipComponent {
     this.changeDetector.markForCheck();
   }
 
-  public indicatorShouldShow = true;
   public popoverMessageStream = new Subject<SkyPopoverMessage>();
+
   public validatorMessage: string;
 
   public cellRendererParams: SkyCellRendererValidatorParams;
 
   private _hoverTimeout: number;
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private zone: NgZone
-  ) {}
-
-  public hideIndicator(): void {
-    this.zone.run(() => {
-      this.indicatorShouldShow = false;
-      this.changeDetector.detectChanges();
-    });
-  }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   public hidePopover(): void {
+    this.cancelDelayedPopover();
     this.popoverMessageStream.next({ type: SkyPopoverMessageType.Close });
   }
 
-  public showIndicator(): void {
-    this.zone.run(() => {
-      this.indicatorShouldShow = true;
-      this.changeDetector.detectChanges();
-    });
+  public showPopover(): void {
+    this.cancelDelayedPopover();
+    this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
   }
 
-  public showPopover(): void {
-    this.popoverMessageStream.next({ type: SkyPopoverMessageType.Open });
+  private scheduleDelayedPopover() {
+    if (!this._hoverTimeout) {
+      this._hoverTimeout = window.setTimeout(() => {
+        this.showPopover();
+      }, 300);
+    }
+  }
+
+  private cancelDelayedPopover() {
+    if (this._hoverTimeout) {
+      window.clearTimeout(this._hoverTimeout);
+      this._hoverTimeout = undefined;
+    }
   }
 }

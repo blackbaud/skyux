@@ -57,7 +57,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         field: 'age',
         headerName: 'Age',
         type: SkyCellType.Number,
-        maxWidth: 100,
+        maxWidth: 60,
         editable: true,
       },
       {
@@ -125,6 +125,27 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
           return editParams;
         },
       },
+      {
+        colId: 'validationCurrency',
+        field: 'validationCurrency',
+        headerName: 'Validation currency',
+        type: [SkyCellType.CurrencyValidator],
+        editable: true,
+      },
+      {
+        colId: 'validationDate',
+        field: 'validationDate',
+        headerName: 'Validation date',
+        type: [SkyCellType.Date, SkyCellType.Validator],
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: Date) =>
+              !!value && value > new Date(1985, 9, 26),
+            validatorMessage: 'Please enter a future date',
+          },
+        },
+        editable: true,
+      },
     ];
     this.gridData = this.context.gridData;
     this.gridOptions = {
@@ -161,5 +182,9 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
       }
     }
     this.changeDetector.markForCheck();
+  }
+
+  public onPressEscape($event: KeyboardEvent) {
+    $event.stopPropagation();
   }
 }

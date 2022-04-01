@@ -65,4 +65,9 @@ export class SkyAgGridCellEditorCurrencyComponent
   public getValue(): number {
     return this.value;
   }
+
+  public onPressEscape() {
+    this.params.api.stopEditing(true);
+    this.params.api.setFocusedCell(this.params.rowIndex, this.params.column);
+  }
 }
