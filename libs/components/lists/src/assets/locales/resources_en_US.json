@@ -23,6 +23,10 @@
     "_description": "Text for the label for the next button on the pagination component",
     "message": "Next"
   },
+  "skyux_paging_page_link_aria_label": {
+    "_description": "Aria label used for pagination link label",
+    "message": "Page {0}"
+  },
   "skyux_paging_previous": {
     "_description": "Text for the label for the previous button on the pagination component",
     "message": "Previous"
