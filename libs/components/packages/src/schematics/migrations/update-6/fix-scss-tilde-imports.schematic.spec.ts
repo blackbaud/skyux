@@ -21,10 +21,11 @@ describe('Migrations > Fix SCSS tilde imports', () => {
     "@import '~@skyux/theme/scss/_compat/variables';", // ours, non-public API
     "@import '~@skyux/theme/scss/themes/modern/_compat/mixins';", // ours, non-public API
     "@import '~@angular/material';", // angular
-    "@import '~@foo/bar/~/baz.scss';", // third-party
+    "@import '~@foo/bar/~/baz.scss';", // third-party, extension
     "@import '@skyux/theme/scss/variables';", // no tilde, should be ignored
     "@import 'node_modules/@skyux/theme/scss/_compat/mixins';", // already valid root-relative
     "@import './mixins';", // document-relative
+    "@import '~@gooddata/react-components/styles/css/main.css';", // includes extension
   ];
 
   let tree: UnitTestTree;
@@ -59,10 +60,11 @@ describe('Migrations > Fix SCSS tilde imports', () => {
 @import 'node_modules/@skyux/theme/scss/_compat/variables';
 @import 'node_modules/@skyux/theme/scss/themes/modern/_compat/mixins';
 @import 'node_modules/@angular/material';
-@import 'node_modules/@foo/bar/~/baz.scss';
+@import 'node_modules/@foo/bar/~/baz';
 @import '@skyux/theme/scss/variables';
 @import 'node_modules/@skyux/theme/scss/_compat/mixins';
-@import './mixins';`);
+@import './mixins';
+@import 'node_modules/@gooddata/react-components/styles/css/main';`);
   });
 
   it('should fix tilde imports for CSS files', async () => {
@@ -77,9 +79,10 @@ describe('Migrations > Fix SCSS tilde imports', () => {
 @import 'node_modules/@skyux/theme/scss/_compat/variables';
 @import 'node_modules/@skyux/theme/scss/themes/modern/_compat/mixins';
 @import 'node_modules/@angular/material';
-@import 'node_modules/@foo/bar/~/baz.scss';
+@import 'node_modules/@foo/bar/~/baz';
 @import '@skyux/theme/scss/variables';
 @import 'node_modules/@skyux/theme/scss/_compat/mixins';
-@import './mixins';`);
+@import './mixins';
+@import 'node_modules/@gooddata/react-components/styles/css/main';`);
   });
 });

@@ -16,9 +16,16 @@ export default function fixScssTildeImports(): Rule {
         const content = readRequiredFile(tree, filePath);
 
         const migratedContent = content.replace(
-          /@(?:import|use) +['"]~.*['"].*;?/g,
-          (match) => {
-            return match.replace('~', 'node_modules/');
+          /@(?:import|use) +['"](~.*)['"].*;?/g,
+          (match, importPath) => {
+            return match.replace(
+              importPath,
+              importPath
+                // Replace leading tilde.
+                .replace(/^~/, 'node_modules/')
+                // Remove path extensions.
+                .replace(/\.(s?css)$/, '')
+            );
           }
         );
 
