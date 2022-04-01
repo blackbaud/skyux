@@ -226,7 +226,7 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
     });
 
-    it('should be able to udpate autocomplete attribute', () => {
+    it('should be able to update autocomplete attribute', () => {
       component.autocompleteAttribute = 'new-custom-field';
 
       fixture.detectChanges();
@@ -931,7 +931,7 @@ describe('Autocomplete component', () => {
     });
 
     describe('highlighting', () => {
-      it('should highlight when one letter is pressesd', fakeAsync(() => {
+      it('should highlight when one letter is pressed', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -949,6 +949,28 @@ describe('Autocomplete component', () => {
         expect(
           getSearchResultsContainer().querySelectorAll('mark').length
         ).toBe(6);
+      }));
+
+      it('should remove highlight when input is cleared', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('r', fixture);
+        tick();
+        fixture.detectChanges();
+
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(6);
+
+        enterSearch('\u0305', fixture);
+        tick();
+        fixture.detectChanges();
+
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(0);
       }));
 
       it('should highlight when returning from a no results search', fakeAsync(() => {
