@@ -10,6 +10,10 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'core',
+    loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),

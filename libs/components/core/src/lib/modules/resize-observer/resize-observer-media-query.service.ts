@@ -12,7 +12,9 @@ import { SkyResizeObserverService } from './resize-observer.service';
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class SkyResizeObserverMediaQueryService
   extends SkyMediaQueryService
   implements OnDestroy
