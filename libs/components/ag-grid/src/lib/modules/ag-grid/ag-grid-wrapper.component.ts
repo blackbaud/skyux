@@ -4,7 +4,8 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
-  ElementRef, HostListener,
+  ElementRef,
+  HostListener,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
