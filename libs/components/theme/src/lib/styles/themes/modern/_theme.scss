@@ -1,11 +1,15 @@
-@import '../../mixins';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
+  defaultTokensVars;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as *;
+@use '../../_compat/variables' as defaultCompatVars;
 
 .sky-theme-modern,
 .sky-theme-modern form {
   font-size: $sky-theme-modern-font-body-default-size;
   font-weight: $sky-theme-modern-font-body-default-weight;
-  transition: background-color $sky-transition-time-short,
-    color $sky-transition-time-short;
+  transition: background-color defaultCompatVars.$sky-transition-time-short,
+    color defaultCompatVars.$sky-transition-time-short;
 
   &.sky-theme-mode-dark {
     color: $sky-theme-modern-mode-dark-font-body-default-color;
@@ -17,21 +21,21 @@
 
   h1,
   .sky-font-heading-1 {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-heading-1-size;
     font-weight: $sky-theme-modern-font-heading-1-weight;
   }
 
   h2,
   .sky-font-heading-2 {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-heading-2-size;
     font-weight: $sky-theme-modern-font-heading-2-weight;
   }
 
   h3,
   .sky-font-heading-3 {
-    color: $sky-text-color-default;
+    color: defaultTokensVars.$sky-text-color-default;
     font-size: $sky-theme-modern-font-heading-3-size;
     font-weight: $sky-theme-modern-font-heading-3-weight;
   }
@@ -57,8 +61,8 @@
   }
 
   mark.sky-highlight-mark {
-    background-color: $sky-background-color-danger-dark;
-    color: $sky-text-color-on-dark;
+    background-color: defaultTokensVars.$sky-background-color-danger-dark;
+    color: defaultTokensVars.$sky-text-color-on-dark;
   }
 
   &.sky-theme-mode-dark {

@@ -1,18 +1,19 @@
-@import '../../mixins';
-@import '../../variables';
-@import '../../variables-public';
-@import './_compat/mixins';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as *;
+@use '../../_compat/variables' as compatVariables;
+@use '_compat/mixins' as modernCompatMixins;
+@use '../../variables' as *;
+@use '../../mixins' as defaultMixins;
 
 .sky-theme-modern {
   .sky-btn {
     border: none;
     border-radius: $sky-theme-modern-border-radius-md;
     font-size: $sky-theme-modern-font-body-default-size;
-    transition: box-shadow $sky-transition-time-short;
+    transition: box-shadow compatVariables.$sky-transition-time-short;
   }
 
   .sky-btn-default {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-text-color-default,
       $sky-color-white,
       $sky-theme-modern-border-color-neutral-medium,
@@ -21,7 +22,7 @@
   }
 
   .sky-btn-primary {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-color-white,
       $sky-theme-modern-background-color-primary-dark,
       $sky-theme-modern-background-color-primary-dark,
@@ -30,7 +31,7 @@
   }
 
   .sky-btn-danger {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-color-white,
       $sky-background-color-danger-dark,
       $sky-background-color-danger-dark,
@@ -39,7 +40,7 @@
   }
 
   .sky-btn-link {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-theme-modern-text-color-action-primary,
       transparent,
       transparent,
@@ -48,7 +49,7 @@
   }
 
   .sky-btn-borderless {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-theme-modern-font-deemphasized-color,
       transparent,
       transparent,
@@ -61,7 +62,7 @@
   }
 
   .sky-btn-icon {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-text-color-default,
       $sky-color-white,
       $sky-theme-modern-border-color-neutral-medium,
@@ -71,7 +72,7 @@
   }
 
   .sky-btn-icon-borderless {
-    @include sky-theme-modern-button-variant(
+    @include modernCompatMixins.sky-theme-modern-button-variant(
       $sky-theme-modern-font-deemphasized-color,
       transparent,
       transparent,
@@ -89,11 +90,11 @@
   }
 
   .sky-btn-tab {
-    @include sky-theme-modern-btn-tab;
+    @include modernCompatMixins.sky-theme-modern-btn-tab;
   }
 
   .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-    @include sky-theme-modern-btn-tab-selected;
+    @include modernCompatMixins.sky-theme-modern-btn-tab-selected;
   }
 
   .sky-tab-header-count {
@@ -103,10 +104,10 @@
 
   .sky-tab-dropdown-menu-item {
     .sky-btn-tab {
-      @include sky-theme-modern-btn-tab-dropdown-item;
+      @include modernCompatMixins.sky-theme-modern-btn-tab-dropdown-item;
 
       &.sky-btn-tab-selected {
-        @include sky-theme-modern-btn-tab-selected-dropdown-item;
+        @include modernCompatMixins.sky-theme-modern-btn-tab-selected-dropdown-item;
       }
     }
   }
@@ -117,7 +118,7 @@
     }
 
     .sky-btn-default {
-      @include sky-button-variant(
+      @include defaultMixins.sky-button-variant(
         $sky-theme-modern-mode-dark-font-body-default-color,
         transparent,
         $sky-theme-modern-color-gray-70
@@ -127,7 +128,7 @@
     .sky-btn-danger,
     .sky-btn-default,
     .sky-btn-primary {
-      @include sky-theme-modern-btn-disabled(
+      @include modernCompatMixins.sky-theme-modern-btn-disabled(
         $sky-theme-modern-font-deemphasized-color,
         transparent,
         $sky-theme-modern-color-gray-70
@@ -137,7 +138,7 @@
     .sky-btn-borderless,
     .sky-btn-icon-borderless,
     .sky-btn-link {
-      @include sky-theme-modern-btn-disabled(
+      @include modernCompatMixins.sky-theme-modern-btn-disabled(
         $sky-theme-modern-font-deemphasized-color,
         transparent,
         transparent
@@ -154,7 +155,7 @@
     }
 
     .sky-btn-tab-selected {
-      @include sky-theme-modern-dark-btn-tab-selected;
+      @include modernCompatMixins.sky-theme-modern-dark-btn-tab-selected;
     }
 
     .sky-btn-tab:hover:not(.sky-btn-tab-disabled),
@@ -164,10 +165,10 @@
 
     .sky-tab-dropdown-menu-item {
       .sky-btn-tab {
-        @include sky-theme-modern-dark-btn-tab-dropdown-item;
+        @include modernCompatMixins.sky-theme-modern-dark-btn-tab-dropdown-item;
 
         &.sky-btn-tab-selected {
-          @include sky-theme-modern-dark-btn-tab-selected-dropdown-item;
+          @include modernCompatMixins.sky-theme-modern-dark-btn-tab-selected-dropdown-item;
         }
       }
     }

@@ -1,4 +1,7 @@
-@import '../../variables-public';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as *;
+
+@use '../../_compat/variables' as defaultCompatVars;
 
 .sky-theme-modern {
   .sky-font-body-default {
@@ -40,26 +43,26 @@
   }
 
   .sky-font-display-1 {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-display-1-size;
     font-weight: $sky-theme-modern-font-display-1-weight;
   }
 
   .sky-font-display-2 {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-display-2-size;
     font-weight: $sky-theme-modern-font-display-2-weight;
   }
 
   .sky-font-display-3,
   .sky-headline {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-display-3-size;
     font-weight: $sky-theme-modern-font-display-3-weight;
   }
 
   .sky-font-display-4 {
-    font-family: $sky-font-family;
+    font-family: defaultCompatVars.$sky-font-family;
     font-size: $sky-theme-modern-font-display-4-size;
     font-weight: $sky-theme-modern-font-display-4-weight;
   }

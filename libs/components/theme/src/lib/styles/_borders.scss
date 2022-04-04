@@ -1,21 +1,21 @@
-@import 'mixins';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins' as tokensMixins;
 
 .sky-border-bottom-dark {
-  @include sky-border(dark);
+  @include tokensMixins.sky-border(dark);
 }
 
 .sky-border-bottom-light {
-  @include sky-border(light);
+  @include tokensMixins.sky-border(light);
 }
 
 .sky-border-bottom-row {
-  @include sky-border(row);
+  @include tokensMixins.sky-border(row);
 }
 
 .sky-border-dark {
-  @include sky-border(dark, top, bottom, left, right);
+  @include tokensMixins.sky-border(dark, top, bottom, left, right);
 }
 
 .sky-border-light {
-  @include sky-border(light, top, bottom, left, right);
+  @include tokensMixins.sky-border(light, top, bottom, left, right);
 }

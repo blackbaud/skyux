@@ -1,6 +1,4 @@
-@import 'mixins-public';
-@import 'variables';
-@import '_compat/mixins';
+@use 'variables' as *;
 
 @mixin sky-deemphasized {
   font-family: $sky-font-family;

@@ -1,4 +1,5 @@
-@import 'variables';
+@use '../variables' as *;
+@use 'variables' as compat;
 
 @mixin sky-btn-tab {
   background-color: transparent;

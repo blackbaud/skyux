@@ -1,4 +1,6 @@
-@import '../../variables-public';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
+@use '../../_compat/variables' as defaultCompatVars;
 
 $sky-switch-size-modern: 26px !default;
 
@@ -6,23 +8,25 @@ $sky-switch-size-modern: 26px !default;
   .sky-switch-input:not(:disabled) {
     &:checked + .sky-switch-control,
     &:hover + .sky-switch-control {
-      border: solid 1px $sky-theme-modern-background-color-primary-dark;
+      border: solid 1px
+        modernTokensVars.$sky-theme-modern-background-color-primary-dark;
     }
 
     &:focus + .sky-switch-control,
     &:active + .sky-switch-control {
-      border: solid 2px $sky-theme-modern-background-color-primary-dark;
+      border: solid 2px
+        modernTokensVars.$sky-theme-modern-background-color-primary-dark;
     }
 
     &:focus:not(:active) + .sky-switch-control {
-      box-shadow: $sky-theme-modern-elevation-3-shadow-size
-        $sky-theme-modern-elevation-3-shadow-color;
+      box-shadow: modernTokensVars.$sky-theme-modern-elevation-3-shadow-size
+        modernTokensVars.$sky-theme-modern-elevation-3-shadow-color;
       outline: none;
     }
   }
 
   .sky-switch-control {
-    transition: box-shadow $sky-transition-time-short;
+    transition: box-shadow defaultCompatVars.$sky-transition-time-short;
 
     &:not(.sky-switch-control-icon) {
       width: $sky-switch-size-modern;
@@ -37,8 +41,9 @@ $sky-switch-size-modern: 26px !default;
   }
 
   .sky-switch-input:disabled + .sky-switch-control {
-    background-color: $sky-theme-modern-background-color-neutral-medium;
-    border: solid 1px $sky-theme-modern-background-color-disabled;
+    background-color: modernTokensVars.$sky-theme-modern-background-color-neutral-medium;
+    border: solid 1px
+      modernTokensVars.$sky-theme-modern-background-color-disabled;
   }
 
   .sky-switch-disabled {
@@ -56,20 +61,20 @@ $sky-switch-size-modern: 26px !default;
       }
 
       &:disabled + .sky-switch-control {
-        background-color: $sky-theme-modern-background-color-neutral-medium;
+        background-color: modernTokensVars.$sky-theme-modern-background-color-neutral-medium;
         border: none;
-        color: $sky-theme-modern-font-deemphasized-color;
+        color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
       }
 
       &:checked + .sky-switch-control,
       &:disabled:checked + .sky-switch-control {
-        color: $sky-theme-modern-background-color-primary-dark;
+        color: modernTokensVars.$sky-theme-modern-background-color-primary-dark;
       }
     }
 
     .sky-switch-control {
       border: none;
-      border-radius: $sky-theme-modern-box-border-radius-default;
+      border-radius: modernTokensVars.$sky-theme-modern-box-border-radius-default;
 
       &.sky-switch-control-icon {
         font-size: 20px;
@@ -87,19 +92,19 @@ $sky-switch-size-modern: 26px !default;
     }
 
     sky-radio .sky-switch-control-icon {
-      border-radius: $sky-theme-modern-box-border-radius-default;
+      border-radius: modernTokensVars.$sky-theme-modern-box-border-radius-default;
     }
   }
 
   &.sky-theme-mode-dark {
     .sky-switch-input:disabled + .sky-switch-control {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
-      border-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-3;
+      border-color: modernTokensVars.$sky-theme-modern-mode-dark-border-color-neutral-medium;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-deemphasized-color;
     }
     .sky-switch-icon-group {
       .sky-switch-control {
-        color: $sky-theme-modern-mode-dark-font-body-default-color;
+        color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
       }
     }
   }

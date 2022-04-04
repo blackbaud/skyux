@@ -1,4 +1,5 @@
-@import 'mixins';
+@use '_compat/mixins' as compatMixins;
+@use 'variables' as *;
 
 * {
   box-sizing: border-box;
@@ -115,13 +116,13 @@ mark.sky-highlight-mark {
 }
 
 .sky-field-status-active {
-  @include sky-field-status('active');
+  @include compatMixins.sky-field-status('active');
 }
 
 .sky-field-status-invalid {
-  @include sky-field-status('invalid');
+  @include compatMixins.sky-field-status('invalid');
 }
 
 .sky-field-status-success {
-  @include sky-field-status('success');
+  @include compatMixins.sky-field-status('success');
 }
