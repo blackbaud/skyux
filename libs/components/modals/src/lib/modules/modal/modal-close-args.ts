@@ -1,6 +1,6 @@
 /**
  * Contains an object with the data passed from users when
- * a modal is closed, and the reason that the modal was closed.
+ * a modal is closed and the reason that the modal was closed.
  */
 export class SkyModalCloseArgs {
   /**
