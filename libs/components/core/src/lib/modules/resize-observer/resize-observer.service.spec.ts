@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import {
   mockResizeObserver,
+  mockResizeObserverEntry,
   mockResizeObserverHandle,
   mockResizeObserverReset,
 } from './fixtures/resize-observer-mock';
@@ -27,12 +28,6 @@ describe('ResizeObserver service', async () => {
     const target: ElementRef = {
       nativeElement: { id: 'element' },
     } as ElementRef;
-    const entry: ResizeObserverEntry = {
-      target: target.nativeElement,
-      borderBoxSize: [],
-      contentBoxSize: [],
-      contentRect: {} as DOMRectReadOnly,
-    };
     let result: ResizeObserverEntry | undefined = undefined;
     const service = new SkyResizeObserverService(TestBed.inject(NgZone));
     const subscription = service
@@ -41,8 +36,47 @@ describe('ResizeObserver service', async () => {
         result = { ...resizeObserverEntry };
       });
     expect(result).toBeFalsy();
-    mockResizeObserverHandle.emit([entry]);
-    expect(result).toEqual(entry);
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+      },
+    ]);
+    expect(result).toEqual({
+      ...mockResizeObserverEntry,
+      target: target.nativeElement,
+    });
     subscription.unsubscribe();
+  });
+
+  it('should handle multiple observers', async () => {
+    const target: ElementRef = {
+      nativeElement: { id: 'element' },
+    } as ElementRef;
+    let result: ResizeObserverEntry | undefined = undefined;
+    const service = new SkyResizeObserverService(TestBed.inject(NgZone));
+    const subscription1 = service
+      .observe(target)
+      .subscribe((resizeObserverEntry) => {
+        result = { ...resizeObserverEntry };
+      });
+    const subscription2 = service
+      .observe(target)
+      .subscribe((resizeObserverEntry) => {
+        result = { ...resizeObserverEntry };
+      });
+    expect(result).toBeFalsy();
+    mockResizeObserverHandle.emit([
+      {
+        ...mockResizeObserverEntry,
+        target: target.nativeElement,
+      },
+    ]);
+    expect(result).toEqual({
+      ...mockResizeObserverEntry,
+      target: target.nativeElement,
+    });
+    subscription1.unsubscribe();
+    subscription2.unsubscribe();
   });
 });

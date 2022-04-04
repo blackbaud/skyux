@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 
-import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
@@ -24,10 +24,6 @@ export class SkyResizeObserverMediaQueryService
     return this._currentBreakpoint;
   }
 
-  private currentBreakpoint = new ReplaySubject<SkyMediaBreakpoints>(1);
-
-  private _currentBreakpoint: SkyMediaBreakpoints;
-  private _observable: Observable<ResizeObserverEntry>;
   private _breakpoints: {
     check: (width: number) => boolean;
     name: SkyMediaBreakpoints;
@@ -49,66 +45,75 @@ export class SkyResizeObserverMediaQueryService
       name: SkyMediaBreakpoints.lg,
     },
   ];
-  private stopListening = new Subject<void>();
+  private _currentBreakpointObservable = new ReplaySubject<SkyMediaBreakpoints>(
+    1
+  );
+  private _currentBreakpoint: SkyMediaBreakpoints;
+  private _resizeSubscription: Subscription;
+  private _stopListening = new Subject<void>();
+  private _target?: ElementRef;
 
   constructor(
     zone: NgZone,
     private resizeObserverService: SkyResizeObserverService
   ) {
     super(zone);
-    this.stopListening.subscribe(() => {
+    this._stopListening.subscribe(() => {
+      this._target = undefined;
       this.notifyBreakpointChange(undefined);
     });
   }
 
   public ngOnDestroy(): void {
     this.removeListeners();
-    this.stopListening.complete();
-    this.currentBreakpoint.complete();
+    this._stopListening.complete();
+    this._currentBreakpointObservable.complete();
   }
 
   /**
    * Sets the container element to watch. The `SkyResizeObserverMediaQueryService` will only observe one element at a
    * time. Any previous subscriptions will be unsubscribed when a new element is observed.
-   * @param element
    */
-  public observe(element: ElementRef): void {
-    this.stopListening.next();
-    this._observable = this.resizeObserverService
+  public observe(element: ElementRef): SkyResizeObserverMediaQueryService {
+    if (this._target) {
+      if (this._target === element) {
+        return this;
+      }
+      this._stopListening.next();
+    }
+    this._target = element;
+    const width = (element.nativeElement as HTMLElement).offsetWidth;
+    if (width) {
+      const breakpoint = this.checkBreakpoint(width);
+      this.notifyBreakpointChange(breakpoint);
+    }
+    this._resizeSubscription = this.resizeObserverService
       .observe(element)
-      .pipe(takeUntil(this.stopListening));
-    this.checkBreakpointChange(element.nativeElement.scrollWidth);
-    this._observable.subscribe((entry) => {
-      this.checkBreakpointChange(entry.contentRect.width);
-    });
+      .pipe(takeUntil(this._stopListening))
+      .subscribe((value) => {
+        const breakpoint = this.checkBreakpoint(value.contentRect.width);
+        /* istanbul ignore else */
+        if (breakpoint !== this._currentBreakpoint) {
+          this.notifyBreakpointChange(breakpoint);
+        }
+      });
+    return this;
   }
 
   /**
    * Stop watching the container element.
    */
   public unobserve(): void {
-    this.stopListening.next();
+    this._stopListening.next();
   }
 
   /**
-   * Subscribes to element size changes.
-   * @param listener Specifies a function that is called when breakpoints change.
+   * Subscribes to element size changes that cross breakpoints.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentBreakpoint
-      .pipe(takeUntil(this.stopListening))
+    return this._currentBreakpointObservable
+      .pipe(takeUntil(this._stopListening))
       .subscribe(listener);
-  }
-
-  private checkBreakpointChange(width: number) {
-    this._breakpoints.forEach((breakpoint) => {
-      if (
-        this._currentBreakpoint !== breakpoint.name &&
-        breakpoint.check(width)
-      ) {
-        this.notifyBreakpointChange(breakpoint.name);
-      }
-    });
   }
 
   protected addListeners() {
@@ -117,11 +122,16 @@ export class SkyResizeObserverMediaQueryService
 
   protected notifyBreakpointChange(breakpoint: SkyMediaBreakpoints) {
     this._currentBreakpoint = breakpoint;
-    this.currentBreakpoint.next(breakpoint);
+    this._currentBreakpointObservable.next(breakpoint);
   }
 
   protected removeListeners(): void {
-    this.stopListening.next();
+    this._stopListening.next();
     this._currentBreakpoint = undefined;
+  }
+
+  private checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
+    return this._breakpoints.find((breakpoint) => breakpoint.check(width))
+      ?.name;
   }
 }

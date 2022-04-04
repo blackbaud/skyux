@@ -55,7 +55,7 @@ export class SkyModalHostComponent {
     private injector: Injector,
     private router: Router,
     private changeDetector: ChangeDetectorRef,
-    @Optional() private ngModuleRef: NgModuleRef<SkyModalModule>
+    @Optional() private ngModuleRef?: NgModuleRef<SkyModalModule>
   ) {}
 
   public open(

@@ -7,6 +7,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import {
@@ -17,9 +18,6 @@ import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
@@ -123,8 +121,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @ViewChild('modalContentWrapper', { read: ElementRef })
   private modalContentWrapperElement: ElementRef;
 
-  private ngDestroy = new Subject<void>();
-
   constructor(
     private hostService: SkyModalHostService,
     private config: SkyModalConfiguration,
@@ -132,8 +128,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
-    private mediaQueryService: SkyMediaQueryService,
-    @Host() private dockService: SkyDockService
+    @Host() private dockService: SkyDockService,
+    @Optional() @Host() private mediaQueryService?: SkyMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
@@ -213,23 +209,11 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     /* istanbul ignore else */
     if (this.mediaQueryService instanceof SkyResizeObserverMediaQueryService) {
       this.mediaQueryService.observe(this.modalContentWrapperElement);
-      this.hostService.close
-        ?.asObservable()
-        .pipe(takeUntil(this.ngDestroy))
-        .subscribe(() => {
-          /* istanbul ignore else */
-          if (
-            this.mediaQueryService instanceof SkyResizeObserverMediaQueryService
-          ) {
-            this.mediaQueryService.unobserve();
-          }
-        });
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngDestroy.next();
-    this.ngDestroy.complete();
+    this.mediaQueryService.destroy();
   }
 
   public helpButtonClick() {
