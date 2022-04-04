@@ -1,15 +1,9 @@
-<div id="controls">
+<div id="controls" *ngIf="router.url !== '/'">
   <div>
-    <button
-      *ngIf="router.url !== '/'"
-      class="sky-btn sky-btn-primary"
-      id="home-btn"
-      routerLink="/"
-    >
+    <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
       Go home
     </button>
   </div>
-  <sky-theme-selector></sky-theme-selector>
 </div>
 
 <ul *ngIf="router.url === '/'">
