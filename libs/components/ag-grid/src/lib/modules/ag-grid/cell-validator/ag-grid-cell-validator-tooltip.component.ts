@@ -49,11 +49,11 @@ export class SkyAgGridCellValidatorTooltipComponent {
       }
     });
 
-    this.cellRendererParams.eGridCell?.addEventListener('mouseover', () => {
+    this.cellRendererParams.eGridCell?.addEventListener('mouseenter', () => {
       this.scheduleDelayedPopover();
     });
 
-    this.cellRendererParams.eGridCell?.addEventListener('mouseout', () => {
+    this.cellRendererParams.eGridCell?.addEventListener('mouseleave', () => {
       this.hidePopover();
     });
 

@@ -180,8 +180,4 @@ export class SkyDataEntryGridEditModalComponent {
       }
     }
   }
-
-  public onPressEscape($event: KeyboardEvent) {
-    $event.stopPropagation();
-  }
 }

@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChild,
-  ElementRef,
+  ElementRef, HostListener,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -61,6 +61,11 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
     ) {
       this.viewkeeperClasses.push('.ag-header');
     }
+  }
+
+  public onKeyUpEscape($event: Event) {
+    $event.stopPropagation();
+    this.agGrid.api.stopEditing(true);
   }
 
   public onGridKeydown(event: KeyboardEvent): void {

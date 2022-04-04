@@ -156,8 +156,4 @@ export class SkyAgGridEditModalComponent implements OnInit {
     node.data.jobTitle = undefined;
     this.gridApi.refreshCells({ rowNodes: [node] });
   }
-
-  public onPressEscape($event: KeyboardEvent) {
-    $event.stopPropagation();
-  }
 }

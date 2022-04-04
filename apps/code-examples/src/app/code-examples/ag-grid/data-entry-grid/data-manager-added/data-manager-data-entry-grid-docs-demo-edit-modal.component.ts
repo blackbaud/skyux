@@ -183,8 +183,4 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
     }
     this.changeDetector.markForCheck();
   }
-
-  public onPressEscape($event: KeyboardEvent) {
-    $event.stopPropagation();
-  }
 }
