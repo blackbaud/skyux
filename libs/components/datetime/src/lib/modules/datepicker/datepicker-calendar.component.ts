@@ -64,7 +64,7 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   /**
    * @internal
-   * Indicates if the calendar element's visiblity property is 'visible'.
+   * Indicates if the calendar element's visibility property is 'visible'.
    */
   public get isVisible(): boolean {
     return this.adapter.elementIsVisible();

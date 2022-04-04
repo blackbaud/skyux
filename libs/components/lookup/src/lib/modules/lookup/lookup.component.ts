@@ -142,7 +142,7 @@ export class SkyLookupComponent
 
   /**
    * Specifies whether users can select one option or multiple options.
-   * @default "mulitple"
+   * @default "multiple"
    */
   @Input()
   public set selectMode(value: SkyLookupSelectModeType) {
