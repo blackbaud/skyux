@@ -7,5 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title = 'code-examples';
+
   constructor(public activatedRoute: ActivatedRoute, public router: Router) {}
 }
