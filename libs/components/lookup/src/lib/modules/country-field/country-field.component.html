@@ -31,8 +31,8 @@
           class="sky-country-field-flag"
         >
           <div
-            class="iti-flag"
-            [ngClass]="selectedCountry.iso2.toLowerCase()"
+            class="iti__flag"
+            [ngClass]="'iti__' + selectedCountry.iso2.toLowerCase()"
           ></div>
         </div>
         <textarea
@@ -62,7 +62,7 @@
 <ng-template let-item="item" #countrySearchResultTemplate>
   <div
     class="sky-country-field-search-result-flag"
-    [ngClass]="'iti-flag ' + item.iso2.toLowerCase()"
+    [ngClass]="'iti__flag iti__' + item.iso2.toLowerCase()"
   ></div>
   {{ item.name }}
   <span *ngIf="includePhoneInfo" class="sky-deemphasized">

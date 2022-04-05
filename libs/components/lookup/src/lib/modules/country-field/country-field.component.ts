@@ -457,6 +457,7 @@ export class SkyCountryFieldComponent
      * to the main window object.
      */
     this.countries = JSON.parse(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       JSON.stringify((window as any).intlTelInputGlobals.getCountryData())
     );
 

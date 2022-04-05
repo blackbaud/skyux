@@ -35,6 +35,13 @@ const routes: Routes = [
       import('./lookup/lookup.module').then((m) => m.LookupModule),
   },
   {
+    path: 'phone-field',
+    loadChildren: () =>
+      import('./phone-field/phone-field.module').then(
+        (m) => m.PhoneFieldModule
+      ),
+  },
+  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
