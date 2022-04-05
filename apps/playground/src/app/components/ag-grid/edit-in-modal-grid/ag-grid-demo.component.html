@@ -1,0 +1,39 @@
+<ng-container
+  *ngIf="
+    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+      'modern';
+    then grid;
+    else grid
+  "
+>
+</ng-container>
+
+<ng-template #grid>
+  <div>
+    <sky-toolbar>
+      <sky-toolbar-item>
+        <button
+          class="sky-btn sky-btn-primary"
+          id="edit-btn"
+          (click)="openModal()"
+        >
+          Edit
+        </button>
+      </sky-toolbar-item>
+      <sky-toolbar-item>
+        <sky-search
+          [searchText]="searchText"
+          [debounceTime]="250"
+          (searchApply)="searchApplied($event)"
+          (searchChange)="searchApplied($event)"
+          (searchClear)="searchApplied($event)"
+        >
+        </sky-search>
+      </sky-toolbar-item>
+    </sky-toolbar>
+    <sky-ag-grid-wrapper>
+      <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData">
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+  </div>
+</ng-template>
