@@ -5,17 +5,12 @@ import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-  mockResizeObserverReset,
 } from './fixtures/resize-observer-mock';
 import { SkyResizeObserverService } from './resize-observer.service';
 
 describe('ResizeObserver service', async () => {
   beforeAll(() => {
     mockResizeObserver();
-  });
-
-  afterAll(() => {
-    mockResizeObserverReset();
   });
 
   it('should return a new instance of a resize observer', async () => {

@@ -73,6 +73,5 @@ export class ResizeObserverBasicComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.skyResizeObserverMediaQueryService.destroy();
   }
 }

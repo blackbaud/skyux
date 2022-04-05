@@ -130,14 +130,14 @@ export class SkyMediaQueryService implements OnDestroy {
     });
   }
 
-  protected removeListeners(): void {
+  private removeListeners(): void {
     this.mediaQueries.forEach((mediaQuery) => {
       mediaQuery.mediaQueryList.removeListener(mediaQuery.listener);
     });
     this.mediaQueries = [];
   }
 
-  protected notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
+  private notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
     this._current = breakpoint;
     this.currentSubject.next(breakpoint);
   }

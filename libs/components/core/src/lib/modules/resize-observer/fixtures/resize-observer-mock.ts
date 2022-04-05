@@ -1,5 +1,3 @@
-const originalResizeObserver = global.ResizeObserver;
-
 export const mockResizeObserverEntry: ResizeObserverEntry = {
   target: {} as Element,
   borderBoxSize: [],
@@ -28,13 +26,8 @@ export const mockResizeObserverHandle = {
   },
 };
 
-export function mockResizeObserverReset() {
-  mockResizeObserverHandle.callback = defaultCallback;
-  global.ResizeObserver = originalResizeObserver;
-}
-
 export function mockResizeObserver() {
-  global.ResizeObserver = class {
+  window.ResizeObserver = class {
     constructor(callback) {
       mockResizeObserverHandle.callback = callback;
     }

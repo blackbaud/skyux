@@ -36,7 +36,6 @@ export class ResizeObserverContentComponent
 
   public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.skyResizeObserverMediaQueryService.destroy();
   }
 
   public tabsHidden(): boolean {

@@ -6,7 +6,6 @@ import {
   mockResizeObserver,
   mockResizeObserverEntry,
   mockResizeObserverHandle,
-  mockResizeObserverReset,
 } from './fixtures/resize-observer-mock';
 import { SkyResizeObserverMediaQueryService } from './resize-observer-media-query.service';
 import { SkyResizeObserverService } from './resize-observer.service';
@@ -14,10 +13,6 @@ import { SkyResizeObserverService } from './resize-observer.service';
 describe('SkyResizeObserverMediaQueryService service', async () => {
   beforeAll(() => {
     mockResizeObserver();
-  });
-
-  afterAll(() => {
-    mockResizeObserverReset();
   });
 
   it('should return a new instance of a resize observer media query service', async () => {
@@ -65,6 +60,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     expect(result).toEqual(SkyMediaBreakpoints.lg);
     expect(service.current).toEqual(SkyMediaBreakpoints.lg);
     service.unobserve();
+    service.destroy();
     expect(subscription.closed).toBeTrue();
     expect(service.current).toBeFalsy();
     expect(result).toBeFalsy();

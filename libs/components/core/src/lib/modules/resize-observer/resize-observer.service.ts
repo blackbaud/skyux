@@ -1,16 +1,12 @@
 import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-
-import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 type ResizeObserverTracking = {
   element: Element;
   subject: Subject<ResizeObserverEntry>;
   subjectObservable: Observable<ResizeObserverEntry>;
-  breakpointChanges?: Subject<SkyMediaBreakpoints>;
-  currentBreakpoint?: SkyMediaBreakpoints;
 };
 
 /**

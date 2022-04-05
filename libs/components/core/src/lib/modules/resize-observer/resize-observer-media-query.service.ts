@@ -47,7 +47,7 @@ export class SkyResizeObserverMediaQueryService
       name: SkyMediaBreakpoints.lg,
     },
   ];
-  private _currentBreakpointObservable = new ReplaySubject<SkyMediaBreakpoints>(
+  private _currentBreakpointObservable = new ReplaySubject<SkyMediaBreakpoints | undefined>(
     1
   );
   private _currentBreakpoint: SkyMediaBreakpoints;
@@ -62,14 +62,22 @@ export class SkyResizeObserverMediaQueryService
     super(zone);
     this._stopListening.subscribe(() => {
       this._target = undefined;
-      this.notifyBreakpointChange(undefined);
+      this.updateBreakpoint(undefined);
     });
   }
 
   public ngOnDestroy(): void {
-    this.removeListeners();
+    this._stopListening.next();
+    this._currentBreakpoint = undefined;
     this._stopListening.complete();
     this._currentBreakpointObservable.complete();
+  }
+
+  /**
+   * @internal
+   */
+  public destroy(): void {
+    this.ngOnDestroy();
   }
 
   /**
@@ -87,7 +95,7 @@ export class SkyResizeObserverMediaQueryService
     const width = (element.nativeElement as HTMLElement).offsetWidth;
     if (width) {
       const breakpoint = this.checkBreakpoint(width);
-      this.notifyBreakpointChange(breakpoint);
+      this.updateBreakpoint(breakpoint);
     }
     this._resizeSubscription = this.resizeObserverService
       .observe(element)
@@ -96,7 +104,7 @@ export class SkyResizeObserverMediaQueryService
         const breakpoint = this.checkBreakpoint(value.contentRect.width);
         /* istanbul ignore else */
         if (breakpoint !== this._currentBreakpoint) {
-          this.notifyBreakpointChange(breakpoint);
+          this.updateBreakpoint(breakpoint);
         }
       });
     return this;
@@ -122,14 +130,9 @@ export class SkyResizeObserverMediaQueryService
     // do not add listeners in the constructor
   }
 
-  protected notifyBreakpointChange(breakpoint: SkyMediaBreakpoints) {
+  protected updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
     this._currentBreakpoint = breakpoint;
     this._currentBreakpointObservable.next(breakpoint);
-  }
-
-  protected removeListeners(): void {
-    this._stopListening.next();
-    this._currentBreakpoint = undefined;
   }
 
   private checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
