@@ -40,11 +40,24 @@ export class SkyDataEntryGridDemoComponent {
     {
       field: 'name',
       headerName: 'Name',
+      type: SkyCellType.Text,
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value): boolean => String(value).length <= 10,
+          validatorMessage: `Value exceeds maximum length`,
+        },
+      },
     },
     {
       field: 'age',
       headerName: 'Age',
       type: SkyCellType.Number,
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value: any) => value >= 18,
+          validatorMessage: `Age must be 18+`,
+        },
+      },
       maxWidth: 60,
     },
     {

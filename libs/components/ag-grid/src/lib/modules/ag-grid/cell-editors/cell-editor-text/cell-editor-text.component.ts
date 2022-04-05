@@ -42,7 +42,7 @@ export class SkyAgGridCellEditorTextComponent
   public agInit(params: SkyCellEditorTextParams): void {
     this.params = params;
     this.value = this.params.charPress || this.params.value;
-    this.maxlength = params?.skyComponentProperties?.maxlength;
+    this.maxlength = params.skyComponentProperties?.maxlength;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
