@@ -47,9 +47,9 @@ export class SkyResizeObserverMediaQueryService
       name: SkyMediaBreakpoints.lg,
     },
   ];
-  private _currentBreakpointObservable = new ReplaySubject<SkyMediaBreakpoints | undefined>(
-    1
-  );
+  private _currentBreakpointObservable = new ReplaySubject<
+    SkyMediaBreakpoints | undefined
+  >(1);
   private _currentBreakpoint: SkyMediaBreakpoints;
   private _resizeSubscription: Subscription;
   private _stopListening = new Subject<void>();
