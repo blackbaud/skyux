@@ -63,6 +63,9 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
     }
   }
 
+  /**
+   * Prevent closing a modal when focused in AG Grid.
+   */
   public onKeyUpEscape($event: Event) {
     $event.stopPropagation();
     this.agGrid.api.stopEditing(true);
