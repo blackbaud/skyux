@@ -83,7 +83,7 @@ export class SkyMediaQueryService implements OnDestroy {
   }
 
   /**
-   * Suscribes to screen size changes.
+   * Subscribes to screen size changes.
    * @param listener Specifies a function that is called when breakpoints change.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
