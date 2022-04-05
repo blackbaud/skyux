@@ -206,14 +206,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       zIndex: 5,
     });
 
-    (this.mediaQueryService as SkyResizeObserverMediaQueryService)
-      .observe(this.modalContentWrapperElement);
+    (this.mediaQueryService as SkyResizeObserverMediaQueryService).observe(
+      this.modalContentWrapperElement
+    );
   }
 
   public ngOnDestroy(): void {
     if (this.mediaQueryService) {
-      (this.mediaQueryService as SkyResizeObserverMediaQueryService)
-        .unobserve();
+      (
+        this.mediaQueryService as SkyResizeObserverMediaQueryService
+      ).unobserve();
     }
   }
 
