@@ -1,3 +1,6 @@
+/**
+ * Specifies the type of message to send.
+ */
 export enum SkyDropdownMessageType {
   /**
    * Opens the dropdown menu.

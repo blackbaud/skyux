@@ -1,6 +1,6 @@
 {
   "allowedSemverRange": "^5.0.0",
-  "baseBranch": "main",
+  "baseBranch": "5.x.x",
   "documentationExcludeProjects": [
     "animations",
     "assets",

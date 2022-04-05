@@ -23,7 +23,7 @@ After you file an issue, discuss the architecture and implementation details, re
 ### Developer setup
 
 1. Fork the repo into your own GitHub repo.
-1. Create a branch off of `main`. Name it after the feature to contribute, and use kebab-case (`my-new-feature`).
+1. Create a branch off of `5.x.x`. Name it after the feature to contribute, and use kebab-case (`my-new-feature`).
 1. Clone your repo locally and run `nvm use` to ensure you have the preferred version of Node.js installed. Then run `npm install` to install all required dependencies. For more information on prerequisites, see [SKY UX prerequisites](https://developer.blackbaud.com/skyux/learn/get-started).
 
 ### Request a preliminary review
@@ -94,7 +94,7 @@ The SKY UX repo includes at least three types of branches:
 ## Commit message guidelines
 
 - We strictly follow [Angular's commit message format](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format).
-- See the [full list of supported **scopes**](https://github.com/blackbaud/skyux/blob/main/.github/workflows/validate-pr.yml).
+- See the [full list of supported **scopes**](https://github.com/blackbaud/skyux/blob/5.x.x/.github/workflows/validate-pr.yml).
 - Run the following command to create a commit message using the [`conventional-changelog` specification](https://github.com/conventional-changelog/conventional-changelog):
 
 ```

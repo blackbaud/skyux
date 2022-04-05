@@ -24,7 +24,10 @@ import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 let nextId = 0;
-
+/**
+ * Creates a menu that contains dropdown menu items.
+ *
+ */
 @Component({
   selector: 'sky-dropdown-menu',
   templateUrl: './dropdown-menu.component.html',
