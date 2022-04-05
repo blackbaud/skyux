@@ -65,4 +65,12 @@ export class SkyAgGridCellEditorCurrencyComponent
   public getValue(): number {
     return this.value;
   }
+
+  /**
+   * The autoNumeric library's event handler suppresses the escape key event. This additional handler re-enables AG Grid's default functionality.
+   */
+  public onPressEscape() {
+    this.params.api.stopEditing(true);
+    this.params.api.setFocusedCell(this.params.rowIndex, this.params.column);
+  }
 }

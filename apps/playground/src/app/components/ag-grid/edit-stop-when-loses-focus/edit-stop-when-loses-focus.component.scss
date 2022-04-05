@@ -1,0 +1,31 @@
+@import 'mixins';
+
+.complete i {
+  color: $sky-highlight-color-success;
+}
+
+.current i {
+  color: $sky-highlight-color-warning;
+}
+
+.behind i {
+  color: $sky-highlight-color-danger;
+}
+
+.status {
+  padding: 0 2px;
+}
+
+::ng-deep {
+  .green {
+    color: #86bf6d;
+  }
+
+  .red {
+    color: #ff4848;
+  }
+
+  .yellow {
+    color: #fad448;
+  }
+}

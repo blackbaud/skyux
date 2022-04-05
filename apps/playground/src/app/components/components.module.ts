@@ -10,6 +10,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'ag-grid',
+    loadChildren: () =>
+      import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),
