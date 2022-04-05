@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
   {
+    path: 'ag-grid',
+    loadChildren: () =>
+      import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./datetime/datetime.module').then((m) => m.DatetimeModule),

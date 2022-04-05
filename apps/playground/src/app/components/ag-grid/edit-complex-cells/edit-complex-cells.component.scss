@@ -1,0 +1,46 @@
+@import 'mixins';
+
+.complete i {
+  color: $sky-highlight-color-success;
+}
+
+.current i {
+  color: $sky-highlight-color-warning;
+}
+
+.behind i {
+  color: $sky-highlight-color-danger;
+}
+
+.status {
+  padding: 0 2px;
+}
+
+::ng-deep {
+  .green {
+    color: #86bf6d;
+  }
+
+  .red {
+    color: #ff4848;
+  }
+
+  .yellow {
+    color: #fad448;
+  }
+}
+
+.editable-grid {
+  max-width: 100%;
+}
+
+ag-grid-angular {
+  height: calc(100vh - 129px);
+  width: 100%;
+}
+
+.sky-theme-modern {
+  ag-grid-angular {
+    height: calc(100vh - 150px);
+  }
+}
