@@ -2316,7 +2316,10 @@
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
               "apps/playground/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/components/theme/src/lib/styles"]
+            }
           },
           "configurations": {
             "production": {

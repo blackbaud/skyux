@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/lookup.module').then((m) => m.LookupModule),
   },
+  {
+    path: 'ag-grid',
+    loadChildren: () =>
+      import('./features/ag-grid.module').then((m) => m.AgGridFeatureModule),
+  },
 ];
 
 @NgModule({

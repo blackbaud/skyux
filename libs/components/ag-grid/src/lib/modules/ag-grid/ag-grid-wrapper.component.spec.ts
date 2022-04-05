@@ -161,6 +161,30 @@ describe('SkyAgGridWrapperComponent', () => {
     });
   });
 
+  describe('onKeyUpEscape', () => {
+    let skyAgGridDivEl: HTMLElement;
+    beforeEach(() => {
+      skyAgGridDivEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.gridId}`
+      );
+    });
+
+    function fireKeyupEscape(): void {
+      SkyAppTestUtility.fireDomEvent(skyAgGridDivEl, 'keyup', {
+        keyboardEventInit: {
+          key: 'Escape',
+        },
+      });
+      gridWrapperFixture.detectChanges();
+    }
+
+    it('should not move focus when tab is pressed but cells are being edited', () => {
+      spyOn(agGrid.api, 'stopEditing');
+      fireKeyupEscape();
+      expect(agGrid.api.stopEditing).toHaveBeenCalled();
+    });
+  });
+
   describe('onAnchorFocus', () => {
     function focusOnAnchor(
       anchorEl: HTMLElement,

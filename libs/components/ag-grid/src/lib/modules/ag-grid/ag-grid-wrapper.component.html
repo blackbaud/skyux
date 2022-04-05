@@ -11,6 +11,7 @@
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"
   (keydown)="onGridKeydown($event)"
+  (keyup.escape)="onKeyUpEscape($event)"
 >
   <ng-content></ng-content>
 </div>
