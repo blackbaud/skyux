@@ -43,7 +43,7 @@ let skyModalUniqueIdentifier = 0;
     SkyDockService,
     {
       provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
+      useClass: SkyResizeObserverMediaQueryService,
     },
   ],
 })

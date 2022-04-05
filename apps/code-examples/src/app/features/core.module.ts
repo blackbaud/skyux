@@ -9,8 +9,6 @@ import { NumericDemoComponent as NumericBasicNumericDemoComponent } from '../cod
 import { NumericDemoModule as NumericBasicNumericDemoModule } from '../code-examples/core/numeric/basic/numeric-demo.module';
 import { ResizeObserverBasicComponent as ResizeObserverBasicResizeObserverBasicComponent } from '../code-examples/core/resize-observer/basic/resize-observer-basic.component';
 import { ResizeObserverBasicModule as ResizeObserverBasicResizeObserverBasicModule } from '../code-examples/core/resize-observer/basic/resize-observer-basic.module';
-import { ResizeObserverBaseComponent as ResizeObserverModalResizeObserverBaseComponent } from '../code-examples/core/resize-observer/modal/resize-observer-base.component';
-import { ResizeObserverModalModule as ResizeObserverModalResizeObserverModalModule } from '../code-examples/core/resize-observer/modal/resize-observer-modal.module';
 
 const routes: Routes = [
   { path: 'id', component: IdIdDemoComponent },
@@ -22,10 +20,6 @@ const routes: Routes = [
   {
     path: 'resize-observer/basic',
     component: ResizeObserverBasicResizeObserverBasicComponent,
-  },
-  {
-    path: 'resize-observer/modal',
-    component: ResizeObserverModalResizeObserverBaseComponent,
   },
 ];
 
@@ -41,7 +35,6 @@ export class CoreFeatureRoutingModule {}
     MediaQueryBasicMediaQueryDemoModule,
     NumericBasicNumericDemoModule,
     ResizeObserverBasicResizeObserverBasicModule,
-    ResizeObserverModalResizeObserverModalModule,
     CoreFeatureRoutingModule,
   ],
 })
