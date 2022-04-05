@@ -10,7 +10,7 @@
     "build:affected": "nx affected:build --parallel --maxParallel=5 && nx affected --target=postbuild --parallel --maxParallel=5 --exclude=ci",
     "test": "nx run-many --target=test --all --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci",
     "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5 --exclude=ci",
-    "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 && nx affected --target=posttest --parallel --maxParallel=5 --exclude=ci",
+    "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci && nx affected --target=posttest --parallel --maxParallel=5 --exclude=ci",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers",
     "dev:cherry-pick": "skyux-dev cherry-pick",
