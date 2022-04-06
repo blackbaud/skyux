@@ -22,6 +22,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_infinite_scroll_load_more_button: { message: 'Load more' },
     skyux_paging_label: { message: 'Pagination' },
     skyux_paging_next: { message: 'Next' },
+    skyux_paging_page_link_aria_label: { message: 'Page {0}' },
     skyux_paging_previous: { message: 'Previous' },
     skyux_repeater_label: { message: 'List of items' },
     skyux_repeater_item_expand: { message: 'Expand or collapse {0}' },

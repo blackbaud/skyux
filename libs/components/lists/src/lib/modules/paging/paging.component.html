@@ -29,6 +29,9 @@
         type="button"
         [attr.aria-current]="currentPage === pageNumber ? 'page' : null"
         [attr.sky-cmp-id]="pageNumber"
+        [attr.aria-label]="
+          'skyux_paging_page_link_aria_label' | skyLibResources: pageNumber
+        "
         [disabled]="currentPage === pageNumber"
         [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
         (click)="setPage(pageNumber)"
