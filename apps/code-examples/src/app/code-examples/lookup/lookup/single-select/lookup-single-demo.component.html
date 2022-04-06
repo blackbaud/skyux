@@ -12,6 +12,7 @@
       <sky-lookup
         formControlName="name"
         selectMode="single"
+        (addClick)="onAddButtonClicked()"
         [ariaLabelledBy]="nameLabel.id"
         [data]="people"
         [enableShowMore]="true"
