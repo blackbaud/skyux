@@ -1,4 +1,12 @@
-<ul>
+<div id="controls" *ngIf="router.url !== '/'">
+  <div>
+    <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
+      Go home
+    </button>
+  </div>
+</div>
+
+<ul *ngIf="router.url === '/'">
   <li>
     Action bars
     <ul>
@@ -87,5 +95,4 @@
     </ul>
   </li>
 </ul>
-
 <router-outlet></router-outlet>

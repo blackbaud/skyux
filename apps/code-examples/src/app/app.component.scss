@@ -1,0 +1,19 @@
+#home-btn {
+  display: block;
+  margin: 5px;
+}
+
+#controls {
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  display: flex;
+  background-color: #ffd597;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+#controls > * {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+}

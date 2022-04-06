@@ -6,6 +6,7 @@ import { Column, ICellEditorParams } from 'ag-grid-community';
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
 
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
@@ -67,7 +68,7 @@ describe('SkyCellEditorTextComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      const cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: SkyCellEditorTextParams = {
         value,
         colDef: { headerName: 'Test text cell' },
         rowIndex: 1,
@@ -86,6 +87,9 @@ describe('SkyCellEditorTextComponent', () => {
         eGridCell: undefined,
         parseValue: undefined,
         formatValue: undefined,
+        skyComponentProperties: {
+          maxlength: undefined,
+        },
       };
 
       expect(textEditorComponent.value).toBeUndefined();
