@@ -10,6 +10,10 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'core',
+    loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
+  },
+  {
     path: 'ag-grid',
     loadChildren: () =>
       import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
