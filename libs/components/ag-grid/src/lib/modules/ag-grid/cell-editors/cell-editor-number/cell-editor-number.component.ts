@@ -8,6 +8,9 @@ import {
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
+import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
+
 /**
  * @internal
  */
@@ -25,6 +28,8 @@ export class SkyAgGridCellEditorNumberComponent
   public columnWidth: number;
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
+  public max: number;
+  public min: number;
 
   private params: ICellEditorParams;
 
@@ -35,9 +40,11 @@ export class SkyAgGridCellEditorNumberComponent
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
-  public agInit(params: ICellEditorParams): void {
+  public agInit(params: SkyCellEditorNumberParams): void {
     this.params = params;
     this.value = this.params.value;
+    this.max = params.skyComponentProperties?.max;
+    this.min = params.skyComponentProperties?.min;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
