@@ -14,5 +14,6 @@ import { TilesDemoComponent } from './tiles-demo.component';
     TileDemoTile2Component,
   ],
   exports: [TilesDemoComponent],
+  entryComponents: [TileDemoTile1Component, TileDemoTile2Component],
 })
 export class TilesDemoModule {}
