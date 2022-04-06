@@ -20,6 +20,7 @@ import { SkyDataManagerDataGridDemoComponent } from './data-manager-data-grid-do
     DataManagerDataGridDocsDemoFiltersModalComponent,
     DataManagerDataGridsDocsDemoViewGridComponent,
   ],
+  entryComponents: [DataManagerDataGridDocsDemoFiltersModalComponent],
   exports: [SkyDataManagerDataGridDemoComponent],
   imports: [
     CommonModule,

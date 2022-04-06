@@ -22,6 +22,7 @@ import { FilterDemoComponent } from './filter-demo.component';
     SkyToolbarModule,
   ],
   declarations: [FilterDemoComponent, FilterDemoModalComponent],
+  entryComponents: [FilterDemoModalComponent],
   exports: [FilterDemoComponent],
 })
 export class FilterDemoModule {}

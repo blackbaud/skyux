@@ -112,6 +112,7 @@ class TestComponent {
       useClass: ModalMockThemeService,
     },
   ],
+  entryComponents: [TestModalComponent],
 })
 class TestModule {}
 
