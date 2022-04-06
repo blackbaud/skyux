@@ -13,7 +13,7 @@ export interface SkyDataManagerStateOptions {
    */
   additionalData?: any;
   /**
-   * The state of filters.
+   * The state of the filters.
    */
   filterData?: SkyDataManagerFilterData;
   /**
