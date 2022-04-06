@@ -6,6 +6,8 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnDestroy,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import {
@@ -13,6 +15,8 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
@@ -34,9 +38,16 @@ let skyModalUniqueIdentifier = 0;
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [skyAnimationModalState],
-  providers: [SkyModalComponentAdapterService, SkyDockService],
+  providers: [
+    SkyModalComponentAdapterService,
+    SkyDockService,
+    {
+      provide: SkyMediaQueryService,
+      useClass: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
-export class SkyModalComponent implements AfterViewInit {
+export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
   public get wrapperClass(): string {
     return this.config.wrapperClass;
@@ -117,7 +128,8 @@ export class SkyModalComponent implements AfterViewInit {
     private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
-    @Host() private dockService: SkyDockService
+    @Host() private dockService: SkyDockService,
+    @Optional() @Host() private mediaQueryService?: SkyMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
@@ -193,6 +205,18 @@ export class SkyModalComponent implements AfterViewInit {
       referenceEl: this.modalContentWrapperElement.nativeElement,
       zIndex: 5,
     });
+
+    (this.mediaQueryService as SkyResizeObserverMediaQueryService).observe(
+      this.modalContentWrapperElement
+    );
+  }
+
+  public ngOnDestroy(): void {
+    if (this.mediaQueryService) {
+      (
+        this.mediaQueryService as SkyResizeObserverMediaQueryService
+      ).unobserve();
+    }
   }
 
   public helpButtonClick() {

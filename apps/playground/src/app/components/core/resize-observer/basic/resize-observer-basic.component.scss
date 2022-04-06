@@ -1,0 +1,16 @@
+.resizable {
+  resize: horizontal;
+  width: 300px;
+  max-width: 100%;
+  height: 300px;
+  margin: 20px;
+  padding: 20px;
+  border: 4px groove #2f4050;
+  overflow: auto;
+}
+
+@media (min-width: 1024px) {
+  .resizable {
+    width: 940px;
+  }
+}

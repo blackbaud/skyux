@@ -23,6 +23,21 @@ const routes: Routes = [
       import('./features/lookup.module').then((m) => m.LookupModule),
   },
   {
+    path: 'modals',
+    loadChildren: () =>
+      import('./features/modals.module').then((m) => m.ModalsFeatureModule),
+  },
+  {
+    path: 'core',
+    loadChildren: () =>
+      import('./features/core.module').then((m) => m.CoreFeatureModule),
+  },
+  {
+    path: 'tabs',
+    loadChildren: () =>
+      import('./features/tabs.module').then((m) => m.TabsFeatureModule),
+  },
+  {
     path: 'ag-grid',
     loadChildren: () =>
       import('./features/ag-grid.module').then((m) => m.AgGridFeatureModule),
