@@ -351,8 +351,9 @@ describe('Paging component', () => {
         component.maxPages = 8;
         fixture.detectChanges();
 
-        const pageElement = element.query(By.css(getPagingSelector('2')))
-          .nativeElement as HTMLButtonElement;
+        const pageElement = element.query(
+          By.css(getPagingSelector('2'))
+        ).nativeElement;
 
         expect(pageElement.ariaLabel).toBe('Page 2');
       });
