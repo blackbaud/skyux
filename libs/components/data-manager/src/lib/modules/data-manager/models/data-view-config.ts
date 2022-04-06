@@ -26,7 +26,7 @@ export interface SkyDataViewConfig {
    */
   columnPickerSortStrategy?: SkyDataManagerColumnPickerSortStrategy;
   /**
-   * Inidicates whether to display the filter button for this view.
+   * Indicates whether to display the filter button for this view.
    */
   filterButtonEnabled?: boolean;
   /**
