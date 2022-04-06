@@ -22,6 +22,7 @@ import { FlyoutDemoComponent } from './flyout-demo.component';
     SkyPageSummaryModule,
   ],
   declarations: [FlyoutDemoComponent, FlyoutDemoFlyoutComponent],
+  entryComponents: [FlyoutDemoFlyoutComponent],
   exports: [FlyoutDemoComponent],
 })
 export class FlyoutDemoModule {}

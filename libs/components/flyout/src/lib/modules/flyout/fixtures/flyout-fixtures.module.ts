@@ -32,5 +32,10 @@ import { SkyFlyoutTestComponent } from './flyout.component.fixture';
     SkyFlyoutHostsTestComponent,
     SkyFlyoutModalFixtureFormComponent,
   ],
+  entryComponents: [
+    SkyFlyoutTestSampleComponent,
+    SkyFlyoutHostsTestComponent,
+    SkyFlyoutModalFixtureFormComponent,
+  ],
 })
 export class SkyFlyoutFixturesModule {}

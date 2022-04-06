@@ -18,5 +18,6 @@ import { ModalDemoComponent } from './modal-demo.component';
   ],
   declarations: [ModalDemoComponent, ModalDemoModalComponent],
   exports: [ModalDemoComponent],
+  entryComponents: [ModalDemoModalComponent],
 })
 export class ModalDemoModule {}

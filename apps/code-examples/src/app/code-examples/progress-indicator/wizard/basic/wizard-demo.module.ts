@@ -18,5 +18,6 @@ import { WizardDemoComponent } from './wizard-demo.component';
   ],
   exports: [WizardDemoComponent],
   declarations: [WizardDemoComponent, WizardDemoModalComponent],
+  entryComponents: [WizardDemoModalComponent],
 })
 export class SkyProgressIndicatorPassiveDemoModule {}

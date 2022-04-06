@@ -5,17 +5,11 @@
 >
   <ng-content></ng-content>
   <sky-status-indicator
-    *ngIf="indicatorShouldShow"
     descriptionType="none"
     indicatorType="danger"
     class="sky-pull-right"
   ></sky-status-indicator>
 </div>
-<sky-popover
-  #validatorPopover
-  (popoverClosed)="showIndicator()"
-  (popoverOpened)="hideIndicator()"
-  popoverType="danger"
->
+<sky-popover #validatorPopover popoverType="danger">
   {{ validatorMessage }}
 </sky-popover>

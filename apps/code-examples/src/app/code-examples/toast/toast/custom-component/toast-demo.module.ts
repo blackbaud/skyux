@@ -9,5 +9,6 @@ import { ToastDemoComponent } from './toast-demo.component';
   imports: [CommonModule, SkyToastModule],
   declarations: [ToastContentDemoComponent, ToastDemoComponent],
   exports: [ToastDemoComponent],
+  entryComponents: [ToastContentDemoComponent],
 })
 export class ToastDemoModule {}

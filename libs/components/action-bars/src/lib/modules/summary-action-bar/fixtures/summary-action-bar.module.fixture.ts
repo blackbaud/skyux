@@ -41,5 +41,9 @@ import { SkySummaryActionBarTestComponent } from './summary-action-bar.component
     SkySummaryActionBarModule,
     SplitViewMockComponent,
   ],
+  entryComponents: [
+    SkySummaryActionBarModalTestComponent,
+    SkySummaryActionBarModalEmptyTestComponent,
+  ],
 })
 export class SkySummaryActionBarFixtureModule {}
