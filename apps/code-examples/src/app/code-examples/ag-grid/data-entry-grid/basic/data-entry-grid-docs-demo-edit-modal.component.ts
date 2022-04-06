@@ -50,12 +50,36 @@ export class SkyDataEntryGridEditModalComponent {
       {
         field: 'name',
         headerName: 'Name',
+        type: SkyCellType.Text,
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value): boolean => String(value).length <= 10,
+            validatorMessage: `Value exceeds maximum length`,
+          },
+        },
+        cellEditorParams: {
+          skyComponentProperties: {
+            maxlength: 10,
+          },
+        },
+        editable: true,
       },
       {
         field: 'age',
         headerName: 'Age',
         type: SkyCellType.Number,
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: any) => value >= 18,
+            validatorMessage: `Age must be 18+`,
+          },
+        },
         maxWidth: 60,
+        cellEditorParams: {
+          skyComponentProperties: {
+            min: 18,
+          },
+        },
         editable: true,
       },
       {
