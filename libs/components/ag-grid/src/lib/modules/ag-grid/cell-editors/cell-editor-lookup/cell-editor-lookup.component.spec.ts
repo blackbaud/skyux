@@ -1,16 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
+
+import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let component: SkyAgGridCellEditorLookupComponent;
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
-  const params = {
+  const params: SkyCellEditorLookupParams = {
     $scope: undefined,
     api: undefined,
     cellStartedEdit: false,
@@ -24,7 +26,6 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     data: undefined,
     eGridCell: undefined,
     formatValue(): any {},
-    keyPress: undefined,
     node: undefined,
     onKeyDown(): void {},
     parseValue(): any {},
@@ -34,6 +35,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     },
     stopEditing(): void {},
     value: [],
+    key: undefined,
+    eventKey: undefined,
   };
 
   beforeEach(async () => {

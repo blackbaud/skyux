@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, ICellEditorParams } from 'ag-grid-community';
+import { Column } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -75,7 +75,6 @@ describe('SkyCellEditorNumberComponent', () => {
         rowIndex: 1,
         column,
         node: undefined,
-        keyPress: undefined,
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
@@ -92,6 +91,8 @@ describe('SkyCellEditorNumberComponent', () => {
           max: undefined,
           min: undefined,
         },
+        key: undefined,
+        eventKey: undefined,
       };
 
       expect(numberEditorComponent.value).toBeUndefined();

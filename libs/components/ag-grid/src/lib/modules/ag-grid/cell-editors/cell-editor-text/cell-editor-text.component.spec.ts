@@ -74,7 +74,6 @@ describe('SkyCellEditorTextComponent', () => {
         rowIndex: 1,
         column,
         node: undefined,
-        keyPress: undefined,
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
@@ -90,6 +89,8 @@ describe('SkyCellEditorTextComponent', () => {
         skyComponentProperties: {
           maxlength: undefined,
         },
+        key: undefined,
+        eventKey: undefined,
       };
 
       expect(textEditorComponent.value).toBeUndefined();

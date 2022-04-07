@@ -174,7 +174,7 @@ export class DataViewGridComponent implements OnInit {
         if (column.getColId() === sortOption.propertyName) {
           column.setSort(sortOption.descending ? 'desc' : 'asc');
         } else {
-          column.setSort('none');
+          column.setSort(undefined);
         }
       });
     }

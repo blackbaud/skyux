@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import {
+  ColDef,
   ColumnApi,
   GridApi,
   GridOptions,
@@ -25,7 +26,7 @@ import {
 export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
   public allColumnWidth: number = undefined;
 
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       headerName: '',
@@ -38,6 +39,7 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
       field: 'name',
       headerName: 'First Name',
       width: this.allColumnWidth,
+      filter: true,
     },
     {
       field: 'nickname',
@@ -116,6 +118,10 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         filter: 'Mar',
       },
     });
+  }
+
+  public clearFilter(): void {
+    this.gridApi.setFilterModel(undefined);
   }
 
   public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {

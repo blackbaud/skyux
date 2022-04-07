@@ -885,13 +885,29 @@ describe('SkyAgGridService', () => {
     });
   });
 
-  describe('getRowNodeId', () => {
+  describe('getRowId', () => {
     it('should use the id field when available', () => {
-      expect(defaultGridOptions.getRowNodeId({ id: 123 })).toEqual('123');
+      expect(
+        defaultGridOptions.getRowId({
+          data: { id: 123 },
+          columnApi: undefined,
+          api: undefined,
+          level: undefined,
+          parentKeys: undefined,
+        })
+      ).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
-      expect(defaultGridOptions.getRowNodeId({})).toBeTruthy();
+      expect(
+        defaultGridOptions.getRowId({
+          data: { fact: 'fiction' },
+          columnApi: undefined,
+          api: undefined,
+          level: undefined,
+          parentKeys: undefined,
+        })
+      ).toBeTruthy();
     });
   });
 

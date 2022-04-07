@@ -71,7 +71,6 @@ describe('SkyCellEditorCurrencyComponent', () => {
         rowIndex: 1,
         column,
         node: undefined,
-        keyPress: undefined,
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
@@ -84,6 +83,8 @@ describe('SkyCellEditorCurrencyComponent', () => {
         eGridCell: undefined,
         parseValue: undefined,
         formatValue: undefined,
+        key: undefined,
+        eventKey: undefined,
       };
 
       expect(currencyEditorComponent.value).toBeUndefined();

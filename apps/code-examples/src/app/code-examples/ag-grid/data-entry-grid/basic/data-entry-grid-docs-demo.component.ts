@@ -7,6 +7,7 @@ import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -25,7 +26,7 @@ import { SkyDataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-
 })
 export class SkyDataEntryGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -166,7 +167,7 @@ export class SkyDataEntryGridDemoComponent {
       this.searchText = '';
     }
     if (this.gridApi) {
-      this.gridApi.setQuickFilter(searchText);
+      this.gridApi.setQuickFilter(this.searchText);
       const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.gridApi.hideOverlay();

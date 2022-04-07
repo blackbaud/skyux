@@ -14,7 +14,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Beans, Column, RowNode } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
@@ -100,7 +100,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     let cellEditorParams: SkyCellEditorDatepickerParams;
     let column: Column;
     const columnWidth = 200;
-    const rowNode = new RowNode();
+    const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
@@ -134,7 +134,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         eGridCell: undefined,
         parseValue: undefined,
         formatValue: undefined,
-      };
+      } as unknown as SkyCellEditorDatepickerParams;
     });
 
     it('initializes the SkyAgGridCellEditorDatepickerComponent properties', fakeAsync(() => {
