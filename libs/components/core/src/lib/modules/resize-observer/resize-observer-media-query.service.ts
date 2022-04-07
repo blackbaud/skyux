@@ -1,11 +1,10 @@
-import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 
 import { ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
-import { SkyMediaQueryService } from '../media-query/media-query.service';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
@@ -15,10 +14,7 @@ import { SkyResizeObserverService } from './resize-observer.service';
 @Injectable({
   providedIn: 'any',
 })
-export class SkyResizeObserverMediaQueryService
-  extends SkyMediaQueryService
-  implements OnDestroy
-{
+export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Returns the current breakpoint.
    */
@@ -55,11 +51,7 @@ export class SkyResizeObserverMediaQueryService
   private _stopListening = new Subject<void>();
   private _target?: ElementRef;
 
-  constructor(
-    zone: NgZone,
-    private resizeObserverService: SkyResizeObserverService
-  ) {
-    super(zone);
+  constructor(private resizeObserverService: SkyResizeObserverService) {
     this._stopListening.subscribe(() => {
       this._target = undefined;
       this.updateBreakpoint(undefined);
@@ -126,11 +118,7 @@ export class SkyResizeObserverMediaQueryService
       .subscribe(listener);
   }
 
-  protected addListeners() {
-    // do not add listeners in the constructor
-  }
-
-  protected updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
+  private updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
     this._currentBreakpoint = breakpoint;
     this._currentBreakpointObservable.next(breakpoint);
   }

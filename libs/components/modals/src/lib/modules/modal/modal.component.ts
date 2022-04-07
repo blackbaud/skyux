@@ -128,7 +128,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
     @Host() private dockService: SkyDockService,
-    @Optional() @Host() private mediaQueryService?: SkyMediaQueryService
+    @Optional()
+    @Host()
+    private mediaQueryService?: SkyResizeObserverMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
@@ -205,16 +207,16 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       zIndex: 5,
     });
 
-    (this.mediaQueryService as SkyResizeObserverMediaQueryService).observe(
-      this.modalContentWrapperElement
-    );
+    /* istanbul ignore next */
+    if (this.mediaQueryService) {
+      this.mediaQueryService.observe(this.modalContentWrapperElement);
+    }
   }
 
   public ngOnDestroy(): void {
+    /* istanbul ignore next */
     if (this.mediaQueryService) {
-      (
-        this.mediaQueryService as SkyResizeObserverMediaQueryService
-      ).unobserve();
+      this.mediaQueryService.unobserve();
     }
   }
 

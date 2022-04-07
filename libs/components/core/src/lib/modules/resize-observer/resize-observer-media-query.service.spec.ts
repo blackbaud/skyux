@@ -18,7 +18,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
   it('should return a new instance of a resize observer media query service', async () => {
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
-      zone,
       new SkyResizeObserverService(zone)
     );
     expect(service).toBeTruthy();
@@ -32,7 +31,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     let result: SkyMediaBreakpoints | undefined = undefined;
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
-      zone,
       new SkyResizeObserverService(zone)
     );
     service.observe(target);
@@ -76,7 +74,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     let result: SkyMediaBreakpoints | undefined = undefined;
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
-      zone,
       new SkyResizeObserverService(zone)
     );
     service.observe(target1);
