@@ -51,9 +51,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   private _stopListening = new Subject<void>();
   private _target?: ElementRef;
 
-  constructor(
-    private resizeObserverService: SkyResizeObserverService
-  ) {
+  constructor(private resizeObserverService: SkyResizeObserverService) {
     this._stopListening.subscribe(() => {
       this._target = undefined;
       this.updateBreakpoint(undefined);

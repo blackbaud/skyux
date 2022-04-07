@@ -129,7 +129,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
     @Host() private dockService: SkyDockService,
-    @Optional() @Host() private mediaQueryService?: SkyResizeObserverMediaQueryService
+    @Optional()
+    @Host()
+    private mediaQueryService?: SkyResizeObserverMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
