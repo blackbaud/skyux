@@ -102,7 +102,7 @@ export class SkyMediaQueryService implements OnDestroy {
     this.currentSubject.complete();
   }
 
-  protected addListeners(): void {
+  private addListeners(): void {
     this.mediaQueries = this.breakpoints.map((breakpoint: any) => {
       const mq = matchMedia(breakpoint.mediaQueryString);
 
