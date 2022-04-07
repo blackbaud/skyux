@@ -309,8 +309,12 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Number]: {
           cellClassRules: {
             [SkyCellClass.Number]: cellClassRuleTrueExpression,
+            ...validatorCellClassRules,
             ...editableCellClassRules,
           },
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-validator-tooltip'
+          ),
           cellEditorFramework: SkyAgGridCellEditorNumberComponent,
           headerClass: SkyHeaderClass.RightAligned,
         },
@@ -329,9 +333,13 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Text]: {
           cellClassRules: {
             [SkyCellClass.Text]: cellClassRuleTrueExpression,
+            ...validatorCellClassRules,
             ...editableCellClassRules,
           },
           cellEditorFramework: SkyAgGridCellEditorTextComponent,
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-validator-tooltip'
+          ),
         },
         [SkyCellType.Validator]: {
           cellClassRules: {

@@ -346,6 +346,17 @@ describe('Paging component', () => {
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
       });
 
+      it('should have an aria label for page number link', () => {
+        component.currentPage = 1;
+        component.maxPages = 8;
+        fixture.detectChanges();
+
+        const pageElement = element.query(By.css(getPagingSelector('2')))
+          .nativeElement as HTMLButtonElement;
+
+        expect(pageElement.ariaLabel).toBe('Page 2');
+      });
+
       it('should be accessible', async () => {
         fixture.detectChanges();
         await fixture.whenStable();

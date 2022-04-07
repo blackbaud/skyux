@@ -1,10 +1,62 @@
-<ul>
+<div id="controls" *ngIf="router.url !== '/'">
+  <div>
+    <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
+      Go home
+    </button>
+  </div>
+</div>
+
+<ul *ngIf="router.url === '/'">
   <li>
     Action bars
     <ul>
       <li><a routerLink="action-bars/basic">Action bars (basic)</a></li>
       <li><a routerLink="action-bars/modal">Action bars (modal)</a></li>
       <li><a routerLink="action-bars/tab">Action bars (tabs)</a></li>
+    </ul>
+  </li>
+  <li>
+    AG Grid: Data Grid / Data Entry Grid
+    <ul>
+      <li>
+        <a routerLink="ag-grid/data-entry-grid/basic"
+          >Data Entry Grid (basic)</a
+        >
+      </li>
+      <li>
+        <a routerLink="ag-grid/data-entry-grid/data-manager-added"
+          >Data Entry Grid with Data Manager</a
+        >
+      </li>
+      <li><a routerLink="ag-grid/data-grid/basic">Data Grid (basic)</a></li>
+      <li>
+        <a routerLink="ag-grid/data-grid/data-manager-added"
+          >Data Grid with Data Manager</a
+        >
+      </li>
+    </ul>
+  </li>
+  <li>
+    Core
+    <ul>
+      <li><a routerLink="core/media-query/basic">Media Query (basic)</a></li>
+      <li><a routerLink="core/numeric/basic">Numeric (basic)</a></li>
+      <li>
+        Resize Observer
+        <ul>
+          <li>
+            <a routerLink="core/resize-observer/basic"
+              >Resize Observer (basic)</a
+            >
+          </li>
+          <li>
+            <a routerLink="core/resize-observer/modal"
+              >Resize Observer (modal)</a
+            >
+          </li>
+        </ul>
+      </li>
+      <li><a routerLink="core/id">ID</a></li>
     </ul>
   </li>
   <li>
@@ -49,12 +101,16 @@
         Lookup
         <ul>
           <li><a routerLink="lookup/lookup/async">Async</a></li>
-          <li><a routerLink="lookup/lookup/custom-picker">Custom picker</a></li>
+          <li>
+            <a routerLink="lookup/lookup/custom-picker">Custom picker</a>
+          </li>
           <li><a routerLink="lookup/lookup/multi-select">Multi-select</a></li>
           <li>
             <a routerLink="lookup/lookup/result-templates">Result templates</a>
           </li>
-          <li><a routerLink="lookup/lookup/single-select">Single select</a></li>
+          <li>
+            <a routerLink="lookup/lookup/single-select">Single select</a>
+          </li>
         </ul>
       </li>
       <li>
@@ -65,6 +121,37 @@
       </li>
     </ul>
   </li>
-</ul>
 
+  <li>
+    Modals
+    <ul>
+      <li><a routerLink="modals/confirm">Confirm</a></li>
+      <li><a routerLink="modals/modal">Modal</a></li>
+    </ul>
+  </li>
+
+  <li>
+    Tabs
+    <ul>
+      <li>
+        <a routerLink="tabs/sectioned-form/modal">Sectioned Form Modal</a>
+      </li>
+      <li><a routerLink="tabs/tabs/counts">Tabs Counts</a></li>
+      <li><a routerLink="tabs/tabs/dynamic">Tabs Dynamic (basic)</a></li>
+      <li>
+        <a routerLink="tabs/tabs/dynamic-add-close">Tabs Dynamic (add close)</a>
+      </li>
+      <li><a routerLink="tabs/tabs/static">Tabs Static (basic)</a></li>
+      <li>
+        <a routerLink="tabs/tabs/static-add-close">Tabs Static (add close)</a>
+      </li>
+      <li>
+        <a routerLink="tabs/vertical-tabs/basic">Vertical Tabs (basic)</a>
+      </li>
+      <li>
+        <a routerLink="tabs/vertical-tabs/grouped">Vertical Tabs (grouped)</a>
+      </li>
+    </ul>
+  </li>
+</ul>
 <router-outlet></router-outlet>

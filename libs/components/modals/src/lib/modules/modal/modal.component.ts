@@ -6,6 +6,8 @@ import {
   HostBinding,
   HostListener,
   Input,
+  OnDestroy,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import {
@@ -13,6 +15,8 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMediaQueryService,
+  SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
@@ -26,17 +30,23 @@ let skyModalUniqueIdentifier = 0;
 /**
  * Provides a common look-and-feel for modal content with options to display
  * a common modal header, specify body content, and display a common modal footer
- * and buttons. For information about how to test modals in SKY UX, see
- * [write unit tests for modals](https://developer.blackbaud.com/skyux/learn/get-started/advanced/unit-test-modals).
+ * and buttons.
  */
 @Component({
   selector: 'sky-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [skyAnimationModalState],
-  providers: [SkyModalComponentAdapterService, SkyDockService],
+  providers: [
+    SkyModalComponentAdapterService,
+    SkyDockService,
+    {
+      provide: SkyMediaQueryService,
+      useClass: SkyResizeObserverMediaQueryService,
+    },
+  ],
 })
-export class SkyModalComponent implements AfterViewInit {
+export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
   public get wrapperClass(): string {
     return this.config.wrapperClass;
@@ -117,7 +127,10 @@ export class SkyModalComponent implements AfterViewInit {
     private windowRef: SkyAppWindowRef,
     private componentAdapter: SkyModalComponentAdapterService,
     private coreAdapter: SkyCoreAdapterService,
-    @Host() private dockService: SkyDockService
+    @Host() private dockService: SkyDockService,
+    @Optional()
+    @Host()
+    private mediaQueryService?: SkyResizeObserverMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
@@ -193,6 +206,18 @@ export class SkyModalComponent implements AfterViewInit {
       referenceEl: this.modalContentWrapperElement.nativeElement,
       zIndex: 5,
     });
+
+    /* istanbul ignore next */
+    if (this.mediaQueryService) {
+      this.mediaQueryService.observe(this.modalContentWrapperElement);
+    }
+  }
+
+  public ngOnDestroy(): void {
+    /* istanbul ignore next */
+    if (this.mediaQueryService) {
+      this.mediaQueryService.unobserve();
+    }
   }
 
   public helpButtonClick() {

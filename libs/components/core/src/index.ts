@@ -55,6 +55,9 @@ export * from './lib/modules/overlay/overlay.service';
 export * from './lib/modules/percent-pipe/percent-pipe.module';
 export * from './lib/modules/percent-pipe/percent.pipe';
 
+export * from './lib/modules/resize-observer/resize-observer.service';
+export * from './lib/modules/resize-observer/resize-observer-media-query.service';
+
 export * from './lib/modules/scrollable-host/scrollable-host.service';
 
 export * from './lib/modules/title/set-title-args';
