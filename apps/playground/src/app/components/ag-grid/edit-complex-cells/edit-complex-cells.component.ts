@@ -170,8 +170,8 @@ export class EditComplexCellsComponent implements OnInit {
       {
         colId: 'lookupMultiple',
         field: 'lookupMultiple',
-        minWidth: 235,
-        maxWidth: 285,
+        minWidth: 335,
+        maxWidth: 385,
         editable: this.editMode,
         type: SkyCellType.Lookup,
         cellEditorParams: {

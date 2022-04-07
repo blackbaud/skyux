@@ -1,15 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule } from '@skyux/lookup';
+
+import { Column } from 'ag-grid-community';
+import { EventCallback } from 'typedoc/dist/lib/utils/events';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let component: SkyAgGridCellEditorLookupComponent;
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
+  let callback: EventCallback | undefined;
   const params = {
     $scope: undefined,
     api: undefined,
@@ -18,7 +22,13 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     colDef: {
       headerName: 'header',
     },
-    column: undefined,
+    column: {
+      getActualWidth: () => 123,
+      addEventListener: (event: string, listener: EventCallback) => {
+        callback = listener;
+        [event].pop();
+      },
+    } as Column,
     columnApi: undefined,
     context: undefined,
     data: undefined,
@@ -49,6 +59,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   });
 
   beforeEach(() => {
+    callback = undefined;
     fixture = TestBed.createComponent(SkyAgGridCellEditorLookupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -100,5 +111,18 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     } catch (e) {
       expect(e.message).toBe('Lookup value must be an array');
     }
+  });
+
+  it('should maintain column width', () => {
+    component.agInit({ ...params });
+    fixture.detectChanges();
+    expect(component.width).toBe(123);
+    expect(callback).toBeTruthy();
+    callback({
+      column: {
+        getActualWidth: () => 456,
+      } as Column,
+    });
+    expect(component.width).toBe(456);
   });
 });

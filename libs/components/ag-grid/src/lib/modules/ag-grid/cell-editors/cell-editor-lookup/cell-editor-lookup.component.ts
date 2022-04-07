@@ -3,10 +3,12 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
+import { ColumnResizedEvent, EventService } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
@@ -24,6 +26,9 @@ import {
 export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp, IPopupComponent<any>
 {
+  @HostBinding('style.width.px')
+  public width: number;
+
   public skyComponentProperties?: SkyLookupProperties;
   public isAlive = false;
   public lookupForm = new FormGroup({
@@ -55,6 +60,14 @@ export class SkyAgGridCellEditorLookupComponent
     this.useAsyncSearch =
       typeof this.skyComponentProperties.searchAsync === 'function';
     this.isAlive = true;
+    this.width = this.params.column.getActualWidth();
+    this.params.column.addEventListener(
+      'uiColumnResized',
+      (event: ColumnResizedEvent) => {
+        this.width = event.column.getActualWidth();
+        this.changeDetector.markForCheck();
+      }
+    );
     this.changeDetector.markForCheck();
   }
 
