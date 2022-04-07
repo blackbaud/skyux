@@ -1,5 +1,5 @@
 /**
- * These options specify the sorting applied to columns.
+ * These options specify the sorting strategy applied to columns when `columnPickerEnabled` is enabled.
  */
 export enum SkyDataManagerColumnPickerSortStrategy {
   /**
@@ -7,8 +7,8 @@ export enum SkyDataManagerColumnPickerSortStrategy {
    */
   None = 'none',
   /**
-   * If `columnPickerEnabled` and `sortEnabled` are set to `true`, then the columns are sorted by the order in which they are displayed, and then alphabetically. Columns that are not displayed are added after the displayed ones.
-   * If `sortEnabled` is set to `false`, the columns are displayed in the order specified in `columnOptions`.
+   * If `sortEnabled` is set to `true`, then the selected columns are displayed before the unselected columns. Unselected columns are sorted alphabetically.
+   * If `sortEnabled` is set to `false`, then the columns are displayed in the order specified by `columnOptions`.
    */
   SelectedThenAlphabetical = 'selectedThenAlphabetical',
 }

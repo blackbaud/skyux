@@ -5,7 +5,7 @@ import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
 /**
- * Provides options for dictating what data is displayed.
+ * Provides options that control which data to display.
  */
 export class SkyDataManagerState {
   /**
@@ -13,8 +13,8 @@ export class SkyDataManagerState {
    */
   public activeSortOption: SkyDataManagerSortOption;
   /**
-   * An untyped property that can track any state information relevant to a data
-   * manager that the existing properties do not cover.
+   * An untyped property that tracks any state information that's relevant to a data
+   * manager but that the existing properties do not cover.
    */
   public additionalData: any;
   /**
@@ -82,7 +82,7 @@ export class SkyDataManagerState {
   }
 
   /**
-   * Adds a `SkyDataViewState` to a view or updates an existing one.
+   * Adds a `SkyDataViewState` to a view or updates an existing view.
    * @param viewId The ID for the view.
    * @param view The `SkyDataViewState` option to add or update.
    * @returns The state of the data manager for the specified view.
