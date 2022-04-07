@@ -6,8 +6,7 @@ import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
 
 /**
- * A service that launches modals. For information about how to test modals in SKY UX, see
- * [write unit tests for modals](https://developer.blackbaud.com/skyux/learn/accessibility/test).
+ * A service that launches modals.
  * @dynamic
  */
 @Injectable({
