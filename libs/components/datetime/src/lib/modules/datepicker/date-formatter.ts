@@ -43,6 +43,7 @@ export class SkyDateFormatter {
   }
 
   public dateIsValid(date: Date): boolean {
+    // test
     return (
       date &&
       date instanceof Date &&
