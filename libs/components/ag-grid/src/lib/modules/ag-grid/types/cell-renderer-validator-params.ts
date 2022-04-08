@@ -1,7 +1,10 @@
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { ValidatorOptions } from './validator-options';
+import { SkyAgGridValidatorProperties } from './validator-properties';
 
+/**
+ * @internal
+ */
 export interface SkyCellRendererValidatorParams extends ICellRendererParams {
-  skyComponentProperties: ValidatorOptions;
+  skyComponentProperties: SkyAgGridValidatorProperties;
 }

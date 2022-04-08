@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 import { SkyAgGridCellEditorDatepickerComponent } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
@@ -29,7 +30,6 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
-import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(

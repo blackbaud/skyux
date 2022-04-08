@@ -2,8 +2,11 @@ import { NumericOptions } from '@skyux/core';
 
 import { ICellRendererParams } from 'ag-grid-community';
 
-import { ValidatorOptions } from './validator-options';
+import { SkyAgGridValidatorProperties } from './validator-properties';
 
+/**
+ * @internal
+ */
 export interface SkyCellRendererCurrencyParams extends ICellRendererParams {
-  skyComponentProperties?: NumericOptions & ValidatorOptions;
+  skyComponentProperties?: NumericOptions & SkyAgGridValidatorProperties;
 }
