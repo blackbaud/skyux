@@ -1,7 +1,7 @@
-@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokens;
+@use '../variables' as defaultVars;
 
 // PADDING
-$sky-padding: tokens.$sky-space-md !default;
+$sky-padding: defaultVars.$sky-space-md !default;
 $sky-padding-half: $sky-padding * 0.5 !default;
 $sky-padding-3_4: floor(($sky-padding * 0.75)) !default;
 $sky-padding-plus-half: $sky-padding + $sky-padding-half !default;
@@ -9,7 +9,7 @@ $sky-padding-double: $sky-padding * 2 !default;
 $sky-padding-triple: $sky-padding * 3 !default;
 
 // MARGIN
-$sky-margin: tokens.$sky-space-md !default;
+$sky-margin: defaultVars.$sky-space-md !default;
 $sky-margin-half: $sky-margin * 0.5 !default;
 $sky-margin-3_4: floor(($sky-margin * 0.75)) !default;
 $sky-margin-plus-half: $sky-margin + $sky-margin-half !default;

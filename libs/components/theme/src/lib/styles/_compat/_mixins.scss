@@ -1,5 +1,6 @@
+@forward 'variables';
+
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
-@use '../variables' as *;
 @use 'variables' as compatVars;
 
 @mixin sky-btn-tab {

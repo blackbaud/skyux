@@ -1,10 +1,11 @@
-@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
+@forward 'mixins-public';
+
 @use '_compat/variables' as compatVars;
-@use 'variables' as *;
+@use 'variables' as defaultVars;
 
 @mixin sky-deemphasized {
   font-family: compatVars.$sky-font-family;
-  color: tokensVars.$sky-text-color-deemphasized;
+  color: defaultVars.$sky-text-color-deemphasized;
   font-weight: 400;
   font-size: compatVars.$sky-font-size-base;
   font-style: italic;
@@ -13,26 +14,26 @@
 @mixin sky-experimental(
   $property,
   $value,
-  $moz: $sky-experimental-support-for-mozilla,
-  $webkit: $sky-experimental-support-for-webkit,
-  $o: $sky-experimental-support-for-opera,
-  $ms: $sky-experimental-support-for-microsoft,
-  $khtml: $sky-experimental-support-for-khtml,
+  $moz: defaultVars.$sky-experimental-support-for-mozilla,
+  $webkit: defaultVars.$sky-experimental-support-for-webkit,
+  $o: defaultVars.$sky-experimental-support-for-opera,
+  $ms: defaultVars.$sky-experimental-support-for-microsoft,
+  $khtml: defaultVars.$sky-experimental-support-for-khtml,
   $official: true
 ) {
-  @if $webkit and $sky-experimental-support-for-webkit {
+  @if $webkit and defaultVars.$sky-experimental-support-for-webkit {
     -webkit-#{$property}: $value;
   }
-  @if $khtml and $sky-experimental-support-for-khtml {
+  @if $khtml and defaultVars.$sky-experimental-support-for-khtml {
     -khtml-#{$property}: $value;
   }
-  @if $moz and $sky-experimental-support-for-mozilla {
+  @if $moz and defaultVars.$sky-experimental-support-for-mozilla {
     -moz-#{$property}: $value;
   }
-  @if $ms and $sky-experimental-support-for-microsoft {
+  @if $ms and defaultVars.$sky-experimental-support-for-microsoft {
     -ms-#{$property}: $value;
   }
-  @if $o and $sky-experimental-support-for-opera {
+  @if $o and defaultVars.$sky-experimental-support-for-opera {
     -o-#{$property}: $value;
   }
   @if $official {

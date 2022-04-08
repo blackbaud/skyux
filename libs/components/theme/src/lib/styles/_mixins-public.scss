@@ -1,4 +1,7 @@
 @forward 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins';
+@forward 'variables-public';
+
+@use 'variables' as defaultVars;
 
 @mixin sky-host-responsive-container-xs-min($encapsulate: true) {
   @if $encapsulate {
@@ -26,7 +29,7 @@
 
 @mixin sky-host-responsive-container-sm-min($encapsulate: true) {
   @if $encapsulate {
-    @media (min-width: $sky-screen-sm-min) {
+    @media (min-width: defaultVars.$sky-screen-sm-min) {
       :host {
         @content;
       }
@@ -38,7 +41,7 @@
       @content;
     }
   } @else {
-    @media (min-width: $sky-screen-sm-min) {
+    @media (min-width: defaultVars.$sky-screen-sm-min) {
       @content;
     }
 
@@ -52,7 +55,7 @@
 
 @mixin sky-host-responsive-container-md-min($encapsulate: true) {
   @if $encapsulate {
-    @media (min-width: $sky-screen-md-min) {
+    @media (min-width: defaultVars.$sky-screen-md-min) {
       :host {
         @content;
       }
@@ -63,7 +66,7 @@
       @content;
     }
   } @else {
-    @media (min-width: $sky-screen-md-min) {
+    @media (min-width: defaultVars.$sky-screen-md-min) {
       @content;
     }
 
@@ -76,7 +79,7 @@
 
 @mixin sky-host-responsive-container-lg-min($encapsulate: true) {
   @if $encapsulate {
-    @media (min-width: $sky-screen-lg-min) {
+    @media (min-width: defaultVars.$sky-screen-lg-min) {
       :host {
         @content;
       }
@@ -86,7 +89,7 @@
       @content;
     }
   } @else {
-    @media (min-width: $sky-screen-lg-min) {
+    @media (min-width: defaultVars.$sky-screen-lg-min) {
       @content;
     }
 
@@ -115,30 +118,30 @@
 }
 
 @mixin sky-theme-modern-border(
-  $color: $sky-theme-modern-border-color-neutral-medium
+  $color: defaultVars.$sky-theme-modern-border-color-neutral-medium
 ) {
   border: none;
   box-shadow: inset 0 0 0 1px $color;
 }
 
 @mixin sky-theme-modern-border-hover(
-  $color: $sky-theme-modern-background-color-primary-dark
+  $color: defaultVars.$sky-theme-modern-background-color-primary-dark
 ) {
   border: none;
   box-shadow: inset 0 0 0 1px $color;
 }
 
 @mixin sky-theme-modern-border-active(
-  $color: $sky-theme-modern-background-color-primary-dark
+  $color: defaultVars.$sky-theme-modern-background-color-primary-dark
 ) {
   border: none;
   box-shadow: inset 0 0 0 2px $color;
 }
 
 @mixin sky-theme-modern-border-focus(
-  $color: $sky-theme-modern-background-color-primary-dark,
-  $shadow-size: $sky-theme-modern-elevation-1-shadow-size,
-  $shadow-color: $sky-theme-modern-elevation-1-shadow-color
+  $color: defaultVars.$sky-theme-modern-background-color-primary-dark,
+  $shadow-size: defaultVars.$sky-theme-modern-elevation-1-shadow-size,
+  $shadow-color: defaultVars.$sky-theme-modern-elevation-1-shadow-color
 ) {
   border: none;
   box-shadow: inset 0 0 0 2px $color, $shadow-size $shadow-color;
@@ -146,7 +149,7 @@
 
 @mixin sky-theme-modern-border-invalid() {
   border: none;
-  box-shadow: inset 0 0 0 2px $sky-highlight-color-danger;
+  box-shadow: inset 0 0 0 2px defaultVars.$sky-highlight-color-danger;
 }
 
 // Adds 1px padding to each side to adjust for the use of an inset box shadow instead
