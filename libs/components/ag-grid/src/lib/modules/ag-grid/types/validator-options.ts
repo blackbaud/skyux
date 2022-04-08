@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface ValidatorOptions {
   validator?: (value: any, data?: any, rowIndex?: number) => boolean;
   validatorMessage?:

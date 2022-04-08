@@ -1,4 +1,4 @@
-import { EventEmitter, TemplateRef } from '@angular/core';
+import { TemplateRef } from '@angular/core';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchFunction,
@@ -8,6 +8,9 @@ import {
   SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
+/**
+ * @internal
+ */
 export interface SkyLookupProperties {
   addClick?: (args: SkyLookupAddClickEventArgs) => {};
   ariaLabel?: string;
