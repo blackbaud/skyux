@@ -15,6 +15,9 @@ import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-lookup',
   templateUrl: './cell-editor-lookup.component.html',

@@ -10,6 +10,9 @@ import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
 import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-cell-renderer-lookup',
   templateUrl: './cell-renderer-lookup.component.html',
