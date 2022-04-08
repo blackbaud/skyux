@@ -6,11 +6,9 @@ import {
 
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
+import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyCellRendererLookupParams } from '../../types/cell-renderer-lookup-params';
-import {
-  SkyLookupProperties,
-  applySkyLookupPropertiesDefaults,
-} from '../../types/lookup-properties';
+import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 @Component({
   selector: 'sky-cell-renderer-lookup',
@@ -23,7 +21,7 @@ export class SkyAgGridCellRendererLookupComponent
 {
   public value = '';
   public summaryCount = 0;
-  private lookupProperties: SkyLookupProperties;
+  private lookupProperties: SkyAgGridLookupProperties;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 

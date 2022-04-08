@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 import { SkyAgGridCellEditorDatepickerComponent } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
@@ -29,8 +30,12 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
-import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
-import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
+import {
+  SkyAgGridGetGridOptionsArgs,
+  SkyGetGridOptionsArgs,
+} from './types/sky-grid-options';
+
+type GetGridOptions = SkyAgGridGetGridOptionsArgs | SkyGetGridOptionsArgs;
 
 function autocompleteComparator(
   value1: { name: string },
@@ -151,7 +156,7 @@ export class SkyAgGridService implements OnDestroy {
    * @param args
    * @returns
    */
-  public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  public getGridOptions(args: GetGridOptions): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
     const mergedGridOptions = this.mergeGridOptions(
       defaultGridOptions,
@@ -166,7 +171,7 @@ export class SkyAgGridService implements OnDestroy {
    * @param args
    * @returns
    */
-  public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  public getEditableGridOptions(args: GetGridOptions): GridOptions {
     const defaultGridOptions = this.getDefaultEditableGridOptions(args);
     const mergedGridOptions = this.mergeGridOptions(
       defaultGridOptions,
@@ -203,7 +208,7 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
+  private getDefaultGridOptions(args: GetGridOptions): GridOptions {
     // cellClassRules can be functions or string expressions
     const cellClassRuleTrueExpression = 'true';
 
@@ -463,9 +468,7 @@ export class SkyAgGridService implements OnDestroy {
     this.agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
-  private getDefaultEditableGridOptions(
-    args: SkyGetGridOptionsArgs
-  ): GridOptions {
+  private getDefaultEditableGridOptions(args: GetGridOptions): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
 
     defaultGridOptions.rowSelection = 'none';

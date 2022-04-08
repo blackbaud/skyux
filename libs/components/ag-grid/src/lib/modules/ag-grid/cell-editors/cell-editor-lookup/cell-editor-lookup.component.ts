@@ -8,14 +8,12 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
-import { ColumnResizedEvent, EventService } from 'ag-grid-community';
+import { ColumnResizedEvent } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
+import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
-import {
-  SkyLookupProperties,
-  applySkyLookupPropertiesDefaults,
-} from '../../types/lookup-properties';
+import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 @Component({
   selector: 'sky-ag-grid-cell-editor-lookup',
@@ -29,7 +27,7 @@ export class SkyAgGridCellEditorLookupComponent
   @HostBinding('style.width.px')
   public width: number;
 
-  public skyComponentProperties?: SkyLookupProperties;
+  public skyComponentProperties?: SkyAgGridLookupProperties;
   public isAlive = false;
   public lookupForm = new FormGroup({
     currentSelection: new FormControl({
@@ -97,7 +95,7 @@ export class SkyAgGridCellEditorLookupComponent
 
   private updateComponentProperties(
     params: SkyCellEditorLookupParams
-  ): SkyLookupProperties {
+  ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
   }
