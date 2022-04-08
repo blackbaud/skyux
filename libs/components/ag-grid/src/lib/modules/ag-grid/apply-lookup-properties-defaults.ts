@@ -1,5 +1,8 @@
 import { SkyAgGridLookupProperties } from './types/lookup-properties';
 
+/**
+ * @internal
+ */
 export function applySkyLookupPropertiesDefaults(
   skyLookupProperties: SkyAgGridLookupProperties
 ) {

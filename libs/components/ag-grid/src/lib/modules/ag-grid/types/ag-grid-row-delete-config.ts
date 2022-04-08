@@ -3,12 +3,8 @@
  * @internal
  */
 export interface SkyAgGridRowDeleteConfig {
-  /**
-   * The id of the data in the row.
-   */
+  /** The id of the data in the row. */
   id: string;
-  /**
-   * The pending status of the inline delete.
-   */
+  /** The pending status of the inline delete. */
   pending: boolean;
 }

@@ -12,7 +12,7 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { PopupComponent } from 'ag-grid-community';
 
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
-import { SkyDatepickerProperties } from '../../types/datepicker-properties';
+import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties';
 
 /**
  * @internal
@@ -32,7 +32,7 @@ export class SkyAgGridCellEditorDatepickerComponent
   public currentDate: Date;
   public columnWidthWithoutBorders: number;
   public rowHeightWithoutBorders: number;
-  public skyComponentProperties: SkyDatepickerProperties = {};
+  public skyComponentProperties: SkyAgGridDatepickerProperties = {};
   private params: SkyCellEditorDatepickerParams;
 
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })

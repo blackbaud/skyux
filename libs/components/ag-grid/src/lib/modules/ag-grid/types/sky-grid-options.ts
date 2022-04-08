@@ -1,6 +1,6 @@
 import { GridOptions } from 'ag-grid-community';
 
-export interface SkyAgGridGetGridOptionsArgs {
+export interface SkyGetGridOptionsArgs {
   /**
    * Specifies the [AG Grid `gridOptions`](https://www.ag-grid.com/javascript-grid-properties/) used to override default SKY UX gridOptions. SKY UX column types for components and column `cellClassRules` enforce required cell styling and cannot be overridden.
    */
@@ -10,9 +10,3 @@ export interface SkyAgGridGetGridOptionsArgs {
    */
   locale?: string;
 }
-
-/**
- * @deprecated Use SkyAgGridGetGridOptionsArgs instead.
- */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyGetGridOptionsArgs extends SkyAgGridGetGridOptionsArgs {}

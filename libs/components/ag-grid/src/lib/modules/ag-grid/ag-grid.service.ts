@@ -30,12 +30,7 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
-import {
-  SkyAgGridGetGridOptionsArgs,
-  SkyGetGridOptionsArgs,
-} from './types/sky-grid-options';
-
-type GetGridOptions = SkyAgGridGetGridOptionsArgs | SkyGetGridOptionsArgs;
+import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
   value1: { name: string },
@@ -156,7 +151,7 @@ export class SkyAgGridService implements OnDestroy {
    * @param args
    * @returns
    */
-  public getGridOptions(args: GetGridOptions): GridOptions {
+  public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
     const mergedGridOptions = this.mergeGridOptions(
       defaultGridOptions,
@@ -171,7 +166,7 @@ export class SkyAgGridService implements OnDestroy {
    * @param args
    * @returns
    */
-  public getEditableGridOptions(args: GetGridOptions): GridOptions {
+  public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultEditableGridOptions(args);
     const mergedGridOptions = this.mergeGridOptions(
       defaultGridOptions,
@@ -208,7 +203,7 @@ export class SkyAgGridService implements OnDestroy {
     return mergedGridOptions;
   }
 
-  private getDefaultGridOptions(args: GetGridOptions): GridOptions {
+  private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
     const cellClassRuleTrueExpression = 'true';
 
@@ -468,7 +463,9 @@ export class SkyAgGridService implements OnDestroy {
     this.agGridAdapterService.focusOnFocusableChildren(currentElement);
   }
 
-  private getDefaultEditableGridOptions(args: GetGridOptions): GridOptions {
+  private getDefaultEditableGridOptions(
+    args: SkyGetGridOptionsArgs
+  ): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
 
     defaultGridOptions.rowSelection = 'none';
