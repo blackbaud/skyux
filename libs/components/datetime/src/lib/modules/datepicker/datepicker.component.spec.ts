@@ -615,7 +615,82 @@ describe('datepicker', () => {
         const inputElement = fixture.debugElement.query(By.css('input'));
         ngModel = inputElement.injector.get(NgModel);
       });
+      it('should attempt to convert the date from 02022024 by appending separator', fakeAsync(() => {
+        fixture.detectChanges();
+        const date = '02022024'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('02/02/2024');
+        expect(component.selectedDate).toEqual(new Date('02/02/2024'));
+        expect(ngModel.valid).toEqual(true);
+      }));
 
+      it('should attempt to convert the date from 0202 by appending the current year', fakeAsync(() => {
+        fixture.detectChanges();
+        const date = '0202'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('02/02/2022');
+        expect(component.selectedDate).toEqual(new Date('02/02/2022'));
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 020224 by appending separator', fakeAsync(() => {
+        fixture.detectChanges();
+        const date = '020224'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('02/02/2024');
+        expect(component.selectedDate).toEqual(new Date('02/02/2024'));
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 20 to 04/20/2022', fakeAsync(() => {
+        fixture.detectChanges();
+        setInputProperty('5/12/98', component, fixture);
+        const date = '20'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('04/20/2022');
+        expect(component.selectedDate).toEqual(new Date('04/20/2022'));
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 0202 by appending the current year', fakeAsync(() => {
+        component.dateFormat = 'DD/MM/YYYY';
+        fixture.detectChanges();
+        const date = '02/02'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('02/02/2022');
+        expect(component.selectedDate).toEqual(new Date('02/02/2022'));
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 02022024 by appending separator', fakeAsync(() => {
+        component.dateFormat = 'YYYY/DD/MM';
+        fixture.detectChanges();
+        const date = '02022024'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('0203/20/12');
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 020224 by appending separator', fakeAsync(() => {
+        component.dateFormat = 'YYYY/DD/MM';
+        fixture.detectChanges();
+        const date = '020224'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('2003/02/12');
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 020224 by appending separator', fakeAsync(() => {
+        component.dateFormat = 'YYYY/DD/MM';
+        fixture.detectChanges();
+        const date = '0202'
+        setInputProperty(date, component, fixture);
+        expect(getInputElementValue(fixture)).toBe('2022/02/02');
+        expect(ngModel.valid).toEqual(true);
+      }));
+      it('should attempt to convert the date from 32 to 1932/04/04', fakeAsync(() => {
+        component.dateFormat = 'YYYY/DD/MM';
+        fixture.detectChanges();
+        const todaysDate = new Date();
+        const date = '1932/' + '0' + todaysDate.getUTCDate() + '/' + ('0' + (todaysDate.getUTCMonth() + 1))
+        setInputProperty('32', component, fixture);
+        expect(getInputElementValue(fixture)).toBe(date);
+        expect(ngModel.valid).toEqual(true);
+      }));
       it('should handle model change with a Date object', fakeAsync(() => {
         fixture.detectChanges();
         setInputProperty(new Date('5/12/2017'), component, fixture);
@@ -626,7 +701,6 @@ describe('datepicker', () => {
       it('should handle model change with a string with the expected format', fakeAsync(() => {
         fixture.detectChanges();
         setInputProperty('5/12/2017', component, fixture);
-
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
         expect(component.selectedDate).toEqual(new Date('5/12/2017'));
       }));
@@ -634,7 +708,6 @@ describe('datepicker', () => {
       it('should handle model change with a ISO string', fakeAsync(() => {
         fixture.detectChanges();
         setInputProperty('2009-06-15T00:00:01', component, fixture);
-
         expect(getInputElementValue(fixture)).toBe('06/15/2009');
         expect(component.selectedDate).toEqual(
           moment('2009-06-15T00:00:01', isoFormat).toDate()
@@ -644,7 +717,6 @@ describe('datepicker', () => {
       it('should handle model change with an ISO string with offset', fakeAsync(() => {
         fixture.detectChanges();
         setInputProperty('1994-11-05T08:15:30-05:00', component, fixture);
-
         expect(getInputElementValue(fixture)).toBe('11/05/1994');
         expect(component.selectedDate).toEqual(
           moment('1994-11-05T08:15:30-05:00', isoFormatWithOffset).toDate()
@@ -731,41 +803,6 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('abcdebf');
         expect(component.selectedDate).toBe('abcdebf');
-        expect(ngModel.valid).toBe(false);
-      }));
-
-      it('should validate properly when a non-convertable date is passed through input change', fakeAsync(() => {
-        detectChanges(fixture);
-        setInputElementValue(nativeElement, '133320', fixture);
-
-        expect(getInputElementValue(fixture)).toBe('133320');
-        expect(component.selectedDate).toBe('133320');
-        expect(ngModel.valid).toBe(false);
-        expect(ngModel.pristine).toBe(false);
-        expect(ngModel.touched).toBe(true);
-      }));
-
-      it('should validate properly when a non-convertable date on initialization', fakeAsync(() => {
-        setInputProperty('133320', component, fixture);
-
-        expect(getInputElementValue(fixture)).toBe('133320');
-        expect(component.selectedDate).toBe('133320');
-        expect(ngModel.valid).toBe(false);
-        expect(ngModel.touched).toBe(true);
-
-        blurInput(fixture.nativeElement, fixture);
-
-        expect(ngModel.valid).toBe(false);
-        expect(ngModel.touched).toBe(true);
-      }));
-
-      it('should validate properly when a non-convertable date on model change', fakeAsync(() => {
-        detectChanges(fixture);
-
-        setInputProperty('133320', component, fixture);
-
-        expect(getInputElementValue(fixture)).toBe('133320');
-        expect(component.selectedDate).toBe('133320');
         expect(ngModel.valid).toBe(false);
       }));
 
@@ -969,7 +1006,7 @@ describe('datepicker', () => {
     describe('disabled state', () => {
       it(
         'should disable the input and trigger button when disabled is set to true ' +
-          'and enable them when disabled is changed to false',
+        'and enable them when disabled is changed to false',
         fakeAsync(() => {
           component.isDisabled = true;
           detectChanges(fixture);
@@ -1504,7 +1541,7 @@ describe('datepicker', () => {
     describe('disabled state', () => {
       it(
         'should disable the input and trigger button when disabled is set to true ' +
-          'and enable them when disabled is changed to false',
+        'and enable them when disabled is changed to false',
         () => {
           fixture.detectChanges();
           component.isDisabled = true;
