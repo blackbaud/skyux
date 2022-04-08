@@ -1,7 +1,10 @@
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyNumberProperties } from './number-properties';
+import { SkyAgGridNumberProperties } from './number-properties';
 
+/**
+ * @internal
+ */
 export interface SkyCellEditorNumberParams extends ICellEditorParams {
-  skyComponentProperties?: SkyNumberProperties;
+  skyComponentProperties?: SkyAgGridNumberProperties;
 }

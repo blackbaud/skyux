@@ -1,7 +1,10 @@
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCurrencyProperties } from './currency-properties';
+import { SkyAgGridCurrencyProperties } from './currency-properties';
 
+/**
+ * @internal
+ */
 export interface SkyCellEditorCurrencyParams extends ICellEditorParams {
-  skyComponentProperties?: SkyCurrencyProperties;
+  skyComponentProperties?: SkyAgGridCurrencyProperties;
 }

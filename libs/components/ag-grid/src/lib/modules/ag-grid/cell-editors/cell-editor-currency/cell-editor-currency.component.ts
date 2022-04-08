@@ -8,7 +8,7 @@ import {
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
-import { SkyCurrencyProperties } from '../../types/currency-properties';
+import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 
 /**
  * @internal
@@ -23,7 +23,7 @@ export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
 {
   public value: number;
-  public skyComponentProperties: SkyCurrencyProperties = {};
+  public skyComponentProperties: SkyAgGridCurrencyProperties = {};
   public columnHeader: string;
   public columnWidth: number;
   public rowHeightWithoutBorders: number;

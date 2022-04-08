@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellRendererValidatorParams } from '../../types/cell-renderer-validator-params';
-import { ValidatorOptions } from '../../types/validator-options';
+import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderer-validator-tooltip.component';
 
@@ -40,7 +40,7 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       refreshCell(): void {},
       rowIndex: 0,
       setValue(): void {},
-      skyComponentProperties: {} as ValidatorOptions,
+      skyComponentProperties: {} as SkyAgGridValidatorProperties,
       value: undefined,
       valueFormatted: undefined,
     } as unknown as SkyCellRendererValidatorParams;

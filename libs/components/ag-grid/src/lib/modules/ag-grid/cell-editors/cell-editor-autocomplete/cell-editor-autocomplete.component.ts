@@ -7,7 +7,7 @@ import {
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { SkyAutocompleteProperties } from '../../types/autocomplete-properties';
+import { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
 
 /**
@@ -25,7 +25,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
   public currentSelection: any;
   public columnHeader: string;
   public rowNumber: number;
-  public skyComponentProperties: SkyAutocompleteProperties = {};
+  public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
   private params: SkyCellEditorAutocompleteParams;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })

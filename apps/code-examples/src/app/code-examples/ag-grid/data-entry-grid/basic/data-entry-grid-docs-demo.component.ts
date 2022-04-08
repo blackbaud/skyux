@@ -54,7 +54,7 @@ export class SkyDataEntryGridDemoComponent {
       type: SkyCellType.Number,
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any) => value >= 18,
+          validator: (value) => value >= 18,
           validatorMessage: `Age must be 18+`,
         },
       },

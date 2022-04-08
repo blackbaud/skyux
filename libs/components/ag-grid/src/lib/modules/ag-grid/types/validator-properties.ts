@@ -1,4 +1,4 @@
-export interface ValidatorOptions {
+export interface SkyAgGridValidatorProperties {
   validator?: (value: any, data?: any, rowIndex?: number) => boolean;
   validatorMessage?:
     | string
