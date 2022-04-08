@@ -2,8 +2,8 @@
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 @use '_compat/mixins' as compatMixins;
 @use '_compat/variables' as compatVars;
-@use 'mixins' as mixins;
-@use 'variables' as *;
+@use 'mixins' as defaultMixins;
+@use 'variables' as defaultVars;
 
 button {
   &:active {
@@ -19,7 +19,7 @@ button {
 .sky-btn {
   background-color: transparent;
   @include tokensMixins.sky-border(dark, top, bottom, left, right);
-  border-radius: $sky-border-radius;
+  border-radius: defaultVars.$sky-border-radius;
   color: tokensVars.$sky-text-color-default;
   cursor: pointer;
   display: inline-block;
@@ -49,7 +49,7 @@ a.sky-btn {
 }
 
 .sky-btn-default {
-  @include mixins.sky-button-variant(
+  @include defaultMixins.sky-button-variant(
     tokensVars.$sky-text-color-default,
     tokensVars.$sky-color-white,
     tokensVars.$sky-border-color-neutral-medium,
@@ -58,7 +58,7 @@ a.sky-btn {
 }
 
 .sky-btn-primary {
-  @include mixins.sky-button-variant(
+  @include defaultMixins.sky-button-variant(
     tokensVars.$sky-color-white,
     tokensVars.$sky-background-color-primary-dark,
     tokensVars.$sky-background-color-primary-dark
@@ -66,7 +66,7 @@ a.sky-btn {
 }
 
 .sky-btn-danger {
-  @include mixins.sky-button-variant(
+  @include defaultMixins.sky-button-variant(
     tokensVars.$sky-color-white,
     tokensVars.$sky-background-color-danger-dark,
     tokensVars.$sky-background-color-danger-dark
@@ -156,7 +156,7 @@ a.sky-btn {
 .sky-btn-tab-wizard {
   background-color: tokensVars.$sky-color-white;
   @include tokensMixins.sky-border(light, top, bottom, left, right);
-  border-radius: $sky-border-radius;
+  border-radius: defaultVars.$sky-border-radius;
   font-weight: 400;
   color: tokensVars.$sky-text-color-default;
   line-height: 1.6em;

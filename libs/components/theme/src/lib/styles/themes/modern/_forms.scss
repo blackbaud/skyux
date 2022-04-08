@@ -1,11 +1,5 @@
-// @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
-//   defaultTokensVars;
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
   as modernTokensVars;
-// @use '../../_compat/variables' as compatVars;
-// @use '_compat/mixins' as modernCompatMixins;
-// @use '../../mixins' as mixins;
-// @use '../../variables' as *;
 
 .sky-theme-modern {
   &.sky-theme-mode-dark {

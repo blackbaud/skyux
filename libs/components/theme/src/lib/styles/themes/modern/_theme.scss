@@ -1,63 +1,63 @@
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
   defaultTokensVars;
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
-  as *;
+  as modernTokensVars;
 @use '../../_compat/variables' as defaultCompatVars;
 
 .sky-theme-modern,
 .sky-theme-modern form {
-  font-size: $sky-theme-modern-font-body-default-size;
-  font-weight: $sky-theme-modern-font-body-default-weight;
+  font-size: modernTokensVars.$sky-theme-modern-font-body-default-size;
+  font-weight: modernTokensVars.$sky-theme-modern-font-body-default-weight;
   transition: background-color defaultCompatVars.$sky-transition-time-short,
     color defaultCompatVars.$sky-transition-time-short;
 
   &.sky-theme-mode-dark {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
+    color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
   }
 }
 
 .sky-theme-modern {
-  background-color: $sky-theme-modern-background-color-page-default;
+  background-color: modernTokensVars.$sky-theme-modern-background-color-page-default;
 
   h1,
   .sky-font-heading-1 {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-heading-1-size;
-    font-weight: $sky-theme-modern-font-heading-1-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-heading-1-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-heading-1-weight;
   }
 
   h2,
   .sky-font-heading-2 {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-heading-2-size;
-    font-weight: $sky-theme-modern-font-heading-2-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-heading-2-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-heading-2-weight;
   }
 
   h3,
   .sky-font-heading-3 {
     color: defaultTokensVars.$sky-text-color-default;
-    font-size: $sky-theme-modern-font-heading-3-size;
-    font-weight: $sky-theme-modern-font-heading-3-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-heading-3-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-heading-3-weight;
   }
 
   h4,
   .sky-font-heading-4 {
-    color: $sky-theme-modern-font-heading-4-color;
-    font-size: $sky-theme-modern-font-heading-4-size;
-    font-weight: $sky-theme-modern-font-heading-4-weight;
-    text-transform: $sky-theme-modern-font-heading-4-transform;
+    color: modernTokensVars.$sky-theme-modern-font-heading-4-color;
+    font-size: modernTokensVars.$sky-theme-modern-font-heading-4-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-heading-4-weight;
+    text-transform: modernTokensVars.$sky-theme-modern-font-heading-4-transform;
   }
 
   h5,
   .sky-font-heading-5 {
-    color: $sky-theme-modern-font-heading-5-color;
-    font-size: $sky-theme-modern-font-heading-5-size;
-    font-weight: $sky-theme-modern-font-heading-5-weight;
-    text-transform: $sky-theme-modern-font-heading-5-transform;
+    color: modernTokensVars.$sky-theme-modern-font-heading-5-color;
+    font-size: modernTokensVars.$sky-theme-modern-font-heading-5-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-heading-5-weight;
+    text-transform: modernTokensVars.$sky-theme-modern-font-heading-5-transform;
   }
 
   p {
-    line-height: $sky-theme-modern-font-paragraph-line-height;
+    line-height: modernTokensVars.$sky-theme-modern-font-paragraph-line-height;
   }
 
   mark.sky-highlight-mark {
@@ -66,7 +66,7 @@
   }
 
   &.sky-theme-mode-dark {
-    background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+    background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-page-default;
 
     h1,
     h2,
@@ -76,18 +76,18 @@
     .sky-font-heading-2,
     .sky-font-heading-3,
     .sky-font-heading-6 {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
     }
 
     h4,
     h5,
     .sky-font-heading-4,
     .sky-font-heading-5 {
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-deemphasized-color;
     }
 
     a {
-      color: $sky-theme-modern-mode-dark-text-color-action-primary;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-text-color-action-primary;
 
       &.sky-href[href=''],
       &.sky-href:not([href]) {

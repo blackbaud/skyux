@@ -1,70 +1,70 @@
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
-  as *;
+  as modernTokensVars;
 
 @use '../../_compat/variables' as defaultCompatVars;
 
 .sky-theme-modern {
   .sky-font-body-default {
-    font-size: $sky-theme-modern-font-body-default-size;
-    font-weight: $sky-theme-modern-font-body-default-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-body-default-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-body-default-weight;
   }
 
   .sky-font-body-sm {
-    font-size: $sky-theme-modern-font-body-sm-size;
-    font-weight: $sky-theme-modern-font-body-sm-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-body-sm-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-body-sm-weight;
   }
 
   .sky-font-body-lg {
-    font-size: $sky-theme-modern-font-body-lg-size;
-    font-weight: $sky-theme-modern-font-body-lg-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-body-lg-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-body-lg-weight;
   }
 
   .sky-font-data-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: modernTokensVars.$sky-theme-modern-font-data-label-color;
+    font-size: modernTokensVars.$sky-theme-modern-font-data-label-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-data-label-weight;
   }
 
   .sky-font-field-label {
-    color: $sky-theme-modern-font-data-label-color;
-    font-size: $sky-theme-modern-font-data-label-size;
-    font-weight: $sky-theme-modern-font-data-label-weight;
+    color: modernTokensVars.$sky-theme-modern-font-data-label-color;
+    font-size: modernTokensVars.$sky-theme-modern-font-data-label-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-data-label-weight;
   }
 
   .sky-font-deemphasized {
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
+    font-style: modernTokensVars.$sky-theme-modern-font-deemphasized-style;
     font-size: inherit;
   }
 
   .sky-font-emphasized {
-    font-weight: $sky-theme-modern-font-emphasized-weight;
+    font-weight: modernTokensVars.$sky-theme-modern-font-emphasized-weight;
     font-size: inherit;
   }
 
   .sky-font-display-1 {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-display-1-size;
-    font-weight: $sky-theme-modern-font-display-1-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-display-1-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-display-1-weight;
   }
 
   .sky-font-display-2 {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-display-2-size;
-    font-weight: $sky-theme-modern-font-display-2-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-display-2-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-display-2-weight;
   }
 
   .sky-font-display-3,
   .sky-headline {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-display-3-size;
-    font-weight: $sky-theme-modern-font-display-3-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-display-3-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-display-3-weight;
   }
 
   .sky-font-display-4 {
     font-family: defaultCompatVars.$sky-font-family;
-    font-size: $sky-theme-modern-font-display-4-size;
-    font-weight: $sky-theme-modern-font-display-4-weight;
+    font-size: modernTokensVars.$sky-theme-modern-font-display-4-size;
+    font-weight: modernTokensVars.$sky-theme-modern-font-display-4-weight;
   }
 
   &.sky-theme-mode-dark {
@@ -75,14 +75,14 @@
     .sky-font-display-4,
     .sky-font-emphasized,
     .sky-headline {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
     }
 
     .sky-font-deemphasized,
     .sky-field-label,
     .sky-font-data-label,
     .sky-font-field-label {
-      color: $sky-theme-modern-mode-dark-font-deemphasized-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-deemphasized-color;
     }
   }
 }
