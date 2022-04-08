@@ -1,4 +1,4 @@
-@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokens;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 
 /*
   The "Blackbaud Sans" font faces are deprecated and will be removed in a future version.
@@ -8,111 +8,111 @@
 @font-face {
   font-family: 'Blackbaud Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-regular-value;
-  src: url(tokens.$sky-text-weight-regular-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-regular-value;
+  src: url(tokensVars.$sky-text-weight-regular-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-semibold-value;
-  src: url(tokens.$sky-text-weight-semibold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-semibold-value;
+  src: url(tokensVars.$sky-text-weight-semibold-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-bold-value;
-  src: url(tokens.$sky-text-weight-bold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-bold-value;
+  src: url(tokensVars.$sky-text-weight-bold-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans';
-  font-style: tokens.$sky-text-style-italic-value;
-  font-weight: tokens.$sky-text-weight-regular-value;
-  src: url(tokens.$sky-text-style-italic-file) format('woff');
-}
-
-@font-face {
-  font-family: 'Blackbaud Sans';
-  font-style: normal;
-  font-weight: tokens.$sky-text-weight-light-value;
-  src: url(tokens.$sky-text-weight-light-file) format('woff');
+  font-style: tokensVars.$sky-text-style-italic-value;
+  font-weight: tokensVars.$sky-text-weight-regular-value;
+  src: url(tokensVars.$sky-text-style-italic-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-thin-value;
-  src: url(tokens.$sky-text-weight-thin-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-light-value;
+  src: url(tokensVars.$sky-text-weight-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'Blackbaud Sans';
+  font-style: normal;
+  font-weight: tokensVars.$sky-text-weight-thin-value;
+  src: url(tokensVars.$sky-text-weight-thin-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans Condensed';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-condensed-light-value;
-  src: url(tokens.$sky-text-weight-condensed-light-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-condensed-light-value;
+  src: url(tokensVars.$sky-text-weight-condensed-light-file) format('woff');
 }
 
 @font-face {
   font-family: 'Blackbaud Sans Condensed';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-condensed-semibold-value;
-  src: url(tokens.$sky-text-weight-condensed-semibold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-condensed-semibold-value;
+  src: url(tokensVars.$sky-text-weight-condensed-semibold-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-regular-value;
-  src: url(tokens.$sky-text-weight-regular-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-regular-value;
+  src: url(tokensVars.$sky-text-weight-regular-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-semibold-value;
-  src: url(tokens.$sky-text-weight-semibold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-semibold-value;
+  src: url(tokensVars.$sky-text-weight-semibold-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-bold-value;
-  src: url(tokens.$sky-text-weight-bold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-bold-value;
+  src: url(tokensVars.$sky-text-weight-bold-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans';
-  font-style: tokens.$sky-text-style-italic-value;
-  font-weight: tokens.$sky-text-weight-regular-value;
-  src: url(tokens.$sky-text-style-italic-file) format('woff');
-}
-
-@font-face {
-  font-family: 'BLKB Sans';
-  font-style: normal;
-  font-weight: tokens.$sky-text-weight-light-value;
-  src: url(tokens.$sky-text-weight-light-file) format('woff');
+  font-style: tokensVars.$sky-text-style-italic-value;
+  font-weight: tokensVars.$sky-text-weight-regular-value;
+  src: url(tokensVars.$sky-text-style-italic-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-thin-value;
-  src: url(tokens.$sky-text-weight-thin-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-light-value;
+  src: url(tokensVars.$sky-text-weight-light-file) format('woff');
+}
+
+@font-face {
+  font-family: 'BLKB Sans';
+  font-style: normal;
+  font-weight: tokensVars.$sky-text-weight-thin-value;
+  src: url(tokensVars.$sky-text-weight-thin-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans Condensed';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-condensed-light-value;
-  src: url(tokens.$sky-text-weight-condensed-light-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-condensed-light-value;
+  src: url(tokensVars.$sky-text-weight-condensed-light-file) format('woff');
 }
 
 @font-face {
   font-family: 'BLKB Sans Condensed';
   font-style: normal;
-  font-weight: tokens.$sky-text-weight-condensed-semibold-value;
-  src: url(tokens.$sky-text-weight-condensed-semibold-file) format('woff');
+  font-weight: tokensVars.$sky-text-weight-condensed-semibold-value;
+  src: url(tokensVars.$sky-text-weight-condensed-semibold-file) format('woff');
 }

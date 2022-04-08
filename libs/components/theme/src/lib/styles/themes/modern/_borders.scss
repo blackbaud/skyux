@@ -1,9 +1,10 @@
-@import '../../mixins';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
 
 .sky-theme-modern {
   &.sky-theme-mode-dark {
     .sky-border-bottom-dark {
-      border-bottom-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+      border-bottom-color: modernTokensVars.$sky-theme-modern-mode-dark-border-color-neutral-medium;
     }
   }
 }

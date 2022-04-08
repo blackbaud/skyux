@@ -1,10 +1,12 @@
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
+@use '_compat/variables' as compatVars;
 @use 'variables' as *;
 
 @mixin sky-deemphasized {
-  font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  font-family: compatVars.$sky-font-family;
+  color: tokensVars.$sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: $sky-font-size-base;
+  font-size: compatVars.$sky-font-size-base;
   font-style: italic;
 }
 

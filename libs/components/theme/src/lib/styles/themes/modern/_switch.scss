@@ -1,3 +1,5 @@
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
+  defaultTokensVars;
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
   as modernTokensVars;
 @use '../../_compat/variables' as defaultCompatVars;
@@ -57,7 +59,7 @@ $sky-switch-size-modern: 26px !default;
 
     .sky-switch-input {
       &:checked + .sky-switch-control {
-        background-color: $sky-background-color-info-light;
+        background-color: defaultTokensVars.$sky-background-color-info-light;
       }
 
       &:disabled + .sky-switch-control {
@@ -84,7 +86,7 @@ $sky-switch-size-modern: 26px !default;
     }
 
     sky-checkbox .sky-switch-control-icon {
-      margin-right: $sky-theme-modern-space-sm;
+      margin-right: modernTokensVars.$sky-theme-modern-space-sm;
     }
 
     sky-checkbox:last-of-type .sky-switch-control-icon {

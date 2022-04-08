@@ -1,74 +1,75 @@
-@import '../../variables-public';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
 
 .sky-theme-modern {
   .sky-elevation-0-bordered {
-    border: $sky-theme-modern-elevation-0-bordered-border;
+    border: modernTokensVars.$sky-theme-modern-elevation-0-bordered-border;
   }
 
   .sky-elevation-1,
   .sky-elevation-1-bordered {
-    box-shadow: $sky-theme-modern-elevation-1-shadow-size
-      $sky-theme-modern-elevation-1-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-1-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-1-shadow-color;
   }
 
   .sky-elevation-1-bordered {
-    border: $sky-theme-modern-elevation-1-bordered-border;
+    border: modernTokensVars.$sky-theme-modern-elevation-1-bordered-border;
   }
 
   .sky-elevation-3 {
-    box-shadow: $sky-theme-modern-elevation-3-shadow-size
-      $sky-theme-modern-elevation-3-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-3-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-3-shadow-color;
   }
 
   .sky-elevation-4 {
-    box-shadow: $sky-theme-modern-elevation-4-shadow-size
-      $sky-theme-modern-elevation-4-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-4-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-4-shadow-color;
   }
 
   .sky-elevation-8 {
-    box-shadow: $sky-theme-modern-elevation-8-shadow-size
-      $sky-theme-modern-elevation-8-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-8-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-8-shadow-color;
   }
 
   .sky-elevation-16 {
-    box-shadow: $sky-theme-modern-elevation-16-shadow-size
-      $sky-theme-modern-elevation-16-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-16-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-16-shadow-color;
   }
 
   .sky-elevation-24 {
-    box-shadow: $sky-theme-modern-elevation-24-shadow-size
-      $sky-theme-modern-elevation-24-shadow-color;
+    box-shadow: modernTokensVars.$sky-theme-modern-elevation-24-shadow-size
+      modernTokensVars.$sky-theme-modern-elevation-24-shadow-color;
   }
 
   &.sky-theme-mode-dark {
     .sky-elevation-0-bordered,
     .sky-elevation-1-bordered {
-      border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;
+      border-color: modernTokensVars.$sky-theme-modern-mode-dark-elevation-0-bordered-border;
     }
 
     .sky-elevation-1,
     .sky-elevation-1-bordered {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-1;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-1;
     }
 
     .sky-elevation-3 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-3;
     }
 
     .sky-elevation-4 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-4;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-4;
     }
 
     .sky-elevation-8 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-8;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-8;
     }
 
     .sky-elevation-16 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-16;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-16;
     }
 
     .sky-elevation-24 {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
+      background-color: modernTokensVars.$sky-theme-modern-mode-dark-background-color-elevation-24;
     }
   }
 }

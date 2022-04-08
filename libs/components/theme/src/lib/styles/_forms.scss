@@ -1,15 +1,17 @@
-@use 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins' as tokens;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins' as tokensMixins;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 @use '_compat/mixins' as compatMixins;
+@use '_compat/variables' as compatVars;
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
-  @include tokens.sky-border(dark, top, bottom, left, right);
-  line-height: $sky-line-height-base;
-  font-size: $sky-font-size-base;
-  color: $sky-text-color-default;
+  @include tokensMixins.sky-border(dark, top, bottom, left, right);
+  line-height: compatVars.$sky-line-height-base;
+  font-size: compatVars.$sky-font-size-base;
+  color: tokensVars.$sky-text-color-default;
 
   &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
     /* Remove device-specific styles */
@@ -25,12 +27,12 @@
   }
 
   &:disabled {
-    background-color: $sky-background-color-disabled;
+    background-color: tokensVars.$sky-background-color-disabled;
   }
 }
 
 .sky-form-group {
-  margin-bottom: $sky-margin;
+  margin-bottom: compatVars.$sky-margin;
 }
 
 input.ng-invalid.ng-touched,
@@ -40,21 +42,21 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-error-label {
-  margin-top: $sky-margin-half;
-  color: $sky-text-color-default;
+  margin-top: compatVars.$sky-margin-half;
+  color: tokensVars.$sky-text-color-default;
 }
 
 .sky-error-label::before {
   content: '\f071';
   font-family: FontAwesome;
   margin-right: 5px;
-  color: $sky-highlight-color-danger;
+  color: tokensVars.$sky-highlight-color-danger;
 }
 
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: $sky-margin-half;
+  margin-bottom: compatVars.$sky-margin-half;
   max-width: 100%;
 }
 
@@ -78,18 +80,19 @@ select {
     url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
     no-repeat right 50%;
   background-size: 15px 30px;
-  @include tokens.sky-border(light, top, bottom, left, right);
+  @include tokensMixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
-  font-size: $sky-font-size-base;
+  font-size: compatVars.$sky-font-size-base;
   height: 34px;
-  padding: $sky-padding-half $sky-padding + 11 $sky-padding-half $sky-padding;
+  padding: compatVars.$sky-padding-half compatVars.$sky-padding + 11
+    compatVars.$sky-padding-half compatVars.$sky-padding;
 }
 
 // Firefox-specific padding
 @-moz-document url-prefix() {
   select {
-    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding -
-      3;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 7
+      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
   }
 }
 
@@ -101,16 +104,16 @@ select::-ms-expand {
 // IE11-specific padding
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   select {
-    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding -
-      2;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 9
+      compatVars.$sky-padding-half compatVars.$sky-padding - 2;
   }
 }
 
 // Edge-specific padding
 @supports (-ms-ime-align: auto) {
   select {
-    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding -
-      3;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 8
+      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
   }
 }
 

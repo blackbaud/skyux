@@ -1,37 +1,44 @@
-@import '../../mixins';
+// @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
+//   defaultTokensVars;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
+// @use '../../_compat/variables' as compatVars;
+// @use '_compat/mixins' as modernCompatMixins;
+// @use '../../mixins' as mixins;
+// @use '../../variables' as *;
 
 .sky-theme-modern {
   &.sky-theme-mode-dark {
     .sky-error-label {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
     }
   }
 
   // Placeholder text
   ::-webkit-input-placeholder {
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
+    font-style: modernTokensVars.$sky-theme-modern-font-deemphasized-style;
     opacity: 1;
   }
 
   ::-moz-placeholder {
     /* Firefox 19+ */
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
+    font-style: modernTokensVars.$sky-theme-modern-font-deemphasized-style;
     opacity: 1;
   }
 
   input:-moz-placeholder {
     /* Firefox 18- */
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
+    font-style: modernTokensVars.$sky-theme-modern-font-deemphasized-style;
     opacity: 1;
   }
 
   :-ms-input-placeholder {
     /* IE */
-    color: $sky-theme-modern-font-deemphasized-color;
-    font-style: $sky-theme-modern-font-deemphasized-style;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
+    font-style: modernTokensVars.$sky-theme-modern-font-deemphasized-style;
     opacity: 1;
   }
 }

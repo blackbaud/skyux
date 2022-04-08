@@ -1,4 +1,6 @@
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 @use '_compat/mixins' as compatMixins;
+@use '_compat/variables' as compatVars;
 @use 'variables' as *;
 
 $sky-switch-size: 22px !default;
@@ -9,7 +11,7 @@ $sky-switch-size: 22px !default;
   position: relative;
 
   &:hover .sky-switch-control {
-    border-color: $sky-highlight-color-info;
+    border-color: tokensVars.$sky-highlight-color-info;
     border-width: 2px;
   }
 }
@@ -35,28 +37,28 @@ $sky-switch-size: 22px !default;
   -webkit-appearance: none;
 
   &:checked + .sky-switch-control {
-    background-color: $sky-background-color-info-light;
-    border-color: $sky-highlight-color-info;
+    background-color: tokensVars.$sky-background-color-info-light;
+    border-color: tokensVars.$sky-highlight-color-info;
     border-width: 2px;
 
     &.sky-switch-control-success {
-      background-color: lighten($sky-background-color-success, 10%);
-      border-color: $sky-highlight-color-success;
+      background-color: lighten(tokensVars.$sky-background-color-success, 10%);
+      border-color: tokensVars.$sky-highlight-color-success;
     }
 
     &.sky-switch-control-warning {
-      background-color: lighten($sky-background-color-warning, 10%);
-      border-color: $sky-highlight-color-warning;
+      background-color: lighten(tokensVars.$sky-background-color-warning, 10%);
+      border-color: tokensVars.$sky-highlight-color-warning;
     }
 
     &.sky-switch-control-danger {
-      background-color: lighten($sky-background-color-danger, 10%);
-      border-color: $sky-highlight-color-danger;
+      background-color: lighten(tokensVars.$sky-background-color-danger, 10%);
+      border-color: tokensVars.$sky-highlight-color-danger;
     }
   }
 
   &:disabled + .sky-switch-control {
-    background-color: $sky-background-color-disabled;
+    background-color: tokensVars.$sky-background-color-disabled;
     border-color: transparent;
   }
 
@@ -73,9 +75,9 @@ $sky-switch-size: 22px !default;
   margin: 0 5px auto auto;
   display: inline-flex;
   position: relative;
-  border: 1px solid $sky-background-color-disabled;
-  background-color: $sky-color-white;
-  color: $sky-text-color-default;
+  border: 1px solid tokensVars.$sky-background-color-disabled;
+  background-color: tokensVars.$sky-color-white;
+  color: tokensVars.$sky-text-color-default;
   text-align: center;
   line-height: 1;
   align-items: center;
@@ -98,7 +100,7 @@ $sky-switch-size: 22px !default;
   line-height: $sky-switch-size;
   flex: 1 1 auto;
   width: 100%;
-  margin-right: $sky-margin;
+  margin-right: compatVars.$sky-margin;
 
   // Prevent truncated text from spilling out of bounds.
   // See: https://css-tricks.com/flexbox-truncated-text/

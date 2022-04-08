@@ -1,32 +1,39 @@
-@import 'variables-public';
-@import './_compat/variables';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 
 $sky-border-radius: 3px;
 
 // begin color palette
 $sky-palette-multi: (
-  scale-color($sky-color-blue-50, $lightness: 8%),
-  scale-color($sky-color-yellow-50, $lightness: 12%),
-  scale-color($sky-color-green-50, $lightness: 8%),
-  scale-color($sky-color-purple-50, $lightness: 26%, $saturation: -30%),
-  scale-color($sky-color-teal-50, $lightness: 8%),
-  scale-color($sky-color-red-50, $lightness: 12%),
-  scale-color($sky-color-gray-70, $lightness: 28%),
-  scale-color($sky-color-blue-50, $lightness: 48%),
-  scale-color($sky-color-yellow-50, $lightness: 42%),
-  scale-color($sky-color-green-50, $lightness: 48%),
-  scale-color($sky-color-purple-50, $lightness: 56%, $saturation: -30%),
-  scale-color($sky-color-teal-50, $lightness: 48%),
-  scale-color($sky-color-red-50, $lightness: 42%),
-  scale-color($sky-color-gray-70, $lightness: 48%)
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: 8%),
+  scale-color(tokensVars.$sky-color-yellow-50, $lightness: 12%),
+  scale-color(tokensVars.$sky-color-green-50, $lightness: 8%),
+  scale-color(
+    tokensVars.$sky-color-purple-50,
+    $lightness: 26%,
+    $saturation: -30%
+  ),
+  scale-color(tokensVars.$sky-color-teal-50, $lightness: 8%),
+  scale-color(tokensVars.$sky-color-red-50, $lightness: 12%),
+  scale-color(tokensVars.$sky-color-gray-70, $lightness: 28%),
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: 48%),
+  scale-color(tokensVars.$sky-color-yellow-50, $lightness: 42%),
+  scale-color(tokensVars.$sky-color-green-50, $lightness: 48%),
+  scale-color(
+    tokensVars.$sky-color-purple-50,
+    $lightness: 56%,
+    $saturation: -30%
+  ),
+  scale-color(tokensVars.$sky-color-teal-50, $lightness: 48%),
+  scale-color(tokensVars.$sky-color-red-50, $lightness: 42%),
+  scale-color(tokensVars.$sky-color-gray-70, $lightness: 48%)
 );
 
 $sky-palette-mono: (
-  scale-color($sky-color-blue-50, $lightness: -25%),
-  $sky-color-blue-50,
-  scale-color($sky-color-blue-50, $lightness: 25%),
-  scale-color($sky-color-blue-50, $lightness: 50%),
-  scale-color($sky-color-blue-50, $lightness: 75%)
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: -25%),
+  tokensVars.$sky-color-blue-50,
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: 25%),
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: 50%),
+  scale-color(tokensVars.$sky-color-blue-50, $lightness: 75%)
 );
 // end color palette
 

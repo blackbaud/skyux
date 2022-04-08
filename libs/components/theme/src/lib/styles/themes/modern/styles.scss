@@ -1,13 +1,13 @@
-@import 'box';
-@import 'buttons';
-@import 'elevation';
-@import 'forms';
-@import 'switch';
-@import 'theme';
-@import 'type';
+@forward 'box';
+@forward 'buttons';
+@forward 'elevation';
+@forward 'forms';
+@forward 'switch';
+@forward 'theme';
+@forward 'type';
 
 /*
   Order is important here since rules in these files should supercede rules in previous files.
 */
-@import 'sizing';
-@import 'borders';
+@forward 'sizing';
+@forward 'borders';

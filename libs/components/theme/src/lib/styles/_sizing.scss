@@ -1,131 +1,131 @@
-@use 'variables' as *;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as tokensVars;
 
 .sky-padding-even-default {
-  padding: $sky-padding-even-default;
+  padding: tokensVars.$sky-padding-even-default;
 }
 
 .sky-padding-even-small {
-  padding: $sky-padding-even-small;
+  padding: tokensVars.$sky-padding-even-small;
 }
 
 .sky-padding-even-large {
-  padding: $sky-padding-even-large;
+  padding: tokensVars.$sky-padding-even-large;
 }
 
 .sky-padding-squish-default {
-  padding: $sky-padding-squish-default;
+  padding: tokensVars.$sky-padding-squish-default;
 }
 
 .sky-padding-squish-small {
-  padding: $sky-padding-squish-small;
+  padding: tokensVars.$sky-padding-squish-small;
 }
 
 .sky-padding-squish-large {
-  padding: $sky-padding-squish-large;
+  padding: tokensVars.$sky-padding-squish-large;
 }
 
 .sky-margin-inline-default {
-  margin-right: $sky-margin-inline-default;
+  margin-right: tokensVars.$sky-margin-inline-default;
 }
 
 .sky-margin-inline-compact {
-  margin-right: $sky-margin-inline-compact;
+  margin-right: tokensVars.$sky-margin-inline-compact;
 }
 
 .sky-margin-stacked-default {
-  margin-bottom: $sky-margin-stacked-default;
+  margin-bottom: tokensVars.$sky-margin-stacked-default;
 }
 
 .sky-margin-stacked-compact {
-  margin-bottom: $sky-margin-stacked-compact;
+  margin-bottom: tokensVars.$sky-margin-stacked-compact;
 }
 
 .sky-margin-stacked-separate {
-  margin-bottom: $sky-margin-stacked-separate;
+  margin-bottom: tokensVars.$sky-margin-stacked-separate;
 }
 
 // Retconning modern theme classes
 
 .sky-padding-even-sm {
-  padding: $sky-space-md;
+  padding: tokensVars.$sky-space-md;
 }
 
 .sky-padding-even-md {
-  padding: $sky-space-lg;
+  padding: tokensVars.$sky-space-lg;
 }
 
 .sky-padding-even-lg {
-  padding: $sky-space-xl;
+  padding: tokensVars.$sky-space-xl;
 }
 
 .sky-padding-even-xl {
-  padding: $sky-space-xl;
+  padding: tokensVars.$sky-space-xl;
 }
 
 .sky-padding-horizontal-sm {
-  padding: 0 $sky-space-sm;
+  padding: 0 tokensVars.$sky-space-sm;
 }
 
 .sky-padding-horizontal-md {
-  padding: 0 $sky-space-md;
+  padding: 0 tokensVars.$sky-space-md;
 }
 
 .sky-padding-horizontal-xl {
-  padding: 0 $sky-space-xl;
+  padding: 0 tokensVars.$sky-space-xl;
 }
 
 .sky-padding-vertical-md {
-  padding: $sky-space-lg 0;
+  padding: tokensVars.$sky-space-lg 0;
 }
 
 .sky-padding-vertical-lg {
-  padding: $sky-space-xl 0;
+  padding: tokensVars.$sky-space-xl 0;
 }
 
 .sky-margin-inline-xs {
-  margin-right: $sky-space-xs;
+  margin-right: tokensVars.$sky-space-xs;
 }
 
 .sky-margin-inline-sm {
-  margin-right: $sky-space-md;
+  margin-right: tokensVars.$sky-space-md;
 }
 
 .sky-margin-inline-md {
-  margin-right: $sky-space-md;
+  margin-right: tokensVars.$sky-space-md;
 }
 
 .sky-margin-inline-lg {
-  margin-right: $sky-space-lg;
+  margin-right: tokensVars.$sky-space-lg;
 }
 
 .sky-margin-inline-xl {
-  margin-right: $sky-space-xl;
+  margin-right: tokensVars.$sky-space-xl;
 }
 
 .sky-margin-inline-xxl {
-  margin-right: $sky-space-xl;
+  margin-right: tokensVars.$sky-space-xl;
 }
 
 .sky-margin-stacked-xs {
-  margin-bottom: $sky-space-xs;
+  margin-bottom: tokensVars.$sky-space-xs;
 }
 
 .sky-margin-stacked-sm {
-  margin-bottom: $sky-space-sm;
+  margin-bottom: tokensVars.$sky-space-sm;
 }
 
 .sky-margin-stacked-md {
-  margin-bottom: $sky-space-lg;
+  margin-bottom: tokensVars.$sky-space-lg;
 }
 
 .sky-margin-stacked-lg {
-  margin-bottom: $sky-space-xl;
+  margin-bottom: tokensVars.$sky-space-xl;
 }
 
 .sky-margin-stacked-xl {
-  margin-bottom: $sky-space-xl;
+  margin-bottom: tokensVars.$sky-space-xl;
 }
 
 .sky-margin-stacked-xxl {
-  margin-bottom: $sky-space-xl;
+  margin-bottom: tokensVars.$sky-space-xl;
 }

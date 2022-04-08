@@ -1,82 +1,85 @@
-@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as *;
-@use '../../_compat/variables' as compatVariables;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
+  defaultTokensVars;
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
+@use '../../_compat/variables' as compatVars;
 @use '_compat/mixins' as modernCompatMixins;
+@use '../../mixins' as mixins;
 @use '../../variables' as *;
-@use '../../mixins' as defaultMixins;
 
 .sky-theme-modern {
   .sky-btn {
     border: none;
-    border-radius: $sky-theme-modern-border-radius-md;
-    font-size: $sky-theme-modern-font-body-default-size;
-    transition: box-shadow compatVariables.$sky-transition-time-short;
+    border-radius: modernTokensVars.$sky-theme-modern-border-radius-md;
+    font-size: modernTokensVars.$sky-theme-modern-font-body-default-size;
+    transition: box-shadow compatVars.$sky-transition-time-short;
   }
 
   .sky-btn-default {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-text-color-default,
-      $sky-color-white,
-      $sky-theme-modern-border-color-neutral-medium,
-      $sky-theme-modern-background-color-primary-dark
+      defaultTokensVars.$sky-text-color-default,
+      defaultTokensVars.$sky-color-white,
+      modernTokensVars.$sky-theme-modern-border-color-neutral-medium,
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark
     );
   }
 
   .sky-btn-primary {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-color-white,
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-background-color-info-light
+      defaultTokensVars.$sky-color-white,
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark,
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark,
+      defaultTokensVars.$sky-background-color-info-light
     );
   }
 
   .sky-btn-danger {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-color-white,
-      $sky-background-color-danger-dark,
-      $sky-background-color-danger-dark,
-      $sky-background-color-danger
+      defaultTokensVars.$sky-color-white,
+      defaultTokensVars.$sky-background-color-danger-dark,
+      defaultTokensVars.$sky-background-color-danger-dark,
+      defaultTokensVars.$sky-background-color-danger
     );
   }
 
   .sky-btn-link {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-theme-modern-text-color-action-primary,
+      modernTokensVars.$sky-theme-modern-text-color-action-primary,
       transparent,
       transparent,
-      $sky-theme-modern-background-color-primary-dark
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark
     );
   }
 
   .sky-btn-borderless {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-theme-modern-font-deemphasized-color,
+      modernTokensVars.$sky-theme-modern-font-deemphasized-color,
       transparent,
       transparent,
-      $sky-theme-modern-background-color-primary-dark
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark
     );
   }
 
   .sky-btn-borderless-inline {
-    color: $sky-theme-modern-font-deemphasized-color;
+    color: modernTokensVars.$sky-theme-modern-font-deemphasized-color;
   }
 
   .sky-btn-icon {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-text-color-default,
-      $sky-color-white,
-      $sky-theme-modern-border-color-neutral-medium,
-      $sky-theme-modern-background-color-primary-dark,
-      $sky-theme-modern-padding-button-icon
+      defaultTokensVars.$sky-text-color-default,
+      defaultTokensVars.$sky-color-white,
+      modernTokensVars.$sky-theme-modern-border-color-neutral-medium,
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark,
+      modernTokensVars.$sky-theme-modern-padding-button-icon
     );
   }
 
   .sky-btn-icon-borderless {
     @include modernCompatMixins.sky-theme-modern-button-variant(
-      $sky-theme-modern-font-deemphasized-color,
+      modernTokensVars.$sky-theme-modern-font-deemphasized-color,
       transparent,
       transparent,
-      $sky-theme-modern-background-color-primary-dark,
+      modernTokensVars.$sky-theme-modern-background-color-primary-dark,
       0
     );
     height: 26px;
@@ -84,7 +87,7 @@
   }
 
   .sky-btn-sm {
-    padding: $sky-padding-half $sky-padding;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding;
     font-size: 12px;
     line-height: 1.5;
   }
@@ -98,8 +101,8 @@
   }
 
   .sky-tab-header-count {
-    color: $sky-text-color-deemphasized;
-    margin-left: $sky-theme-modern-margin-inline-sm;
+    color: defaultTokensVars.$sky-text-color-deemphasized;
+    margin-left: modernTokensVars.$sky-theme-modern-margin-inline-sm;
   }
 
   .sky-tab-dropdown-menu-item {
@@ -114,14 +117,14 @@
 
   &.sky-theme-mode-dark {
     .sky-btn {
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      color: modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color;
     }
 
     .sky-btn-default {
-      @include defaultMixins.sky-button-variant(
-        $sky-theme-modern-mode-dark-font-body-default-color,
+      @include mixins.sky-button-variant(
+        modernTokensVars.$sky-theme-modern-mode-dark-font-body-default-color,
         transparent,
-        $sky-theme-modern-color-gray-70
+        modernTokensVars.$sky-theme-modern-color-gray-70
       );
     }
 
@@ -129,9 +132,9 @@
     .sky-btn-default,
     .sky-btn-primary {
       @include modernCompatMixins.sky-theme-modern-btn-disabled(
-        $sky-theme-modern-font-deemphasized-color,
+        modernTokensVars.$sky-theme-modern-font-deemphasized-color,
         transparent,
-        $sky-theme-modern-color-gray-70
+        modernTokensVars.$sky-theme-modern-color-gray-70
       );
     }
 
@@ -139,7 +142,7 @@
     .sky-btn-icon-borderless,
     .sky-btn-link {
       @include modernCompatMixins.sky-theme-modern-btn-disabled(
-        $sky-theme-modern-font-deemphasized-color,
+        modernTokensVars.$sky-theme-modern-font-deemphasized-color,
         transparent,
         transparent
       );

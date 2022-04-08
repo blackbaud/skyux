@@ -1,9 +1,10 @@
-@import '../../variables-public';
+@use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
+  as modernTokensVars;
 
 .sky-theme-modern {
   .sky-box {
     background-color: #fff;
-    border-radius: $sky-theme-modern-box-border-radius-default;
+    border-radius: modernTokensVars.$sky-theme-modern-box-border-radius-default;
     overflow: hidden;
   }
 }
