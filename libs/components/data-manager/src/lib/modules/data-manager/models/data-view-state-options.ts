@@ -12,8 +12,8 @@ export interface SkyDataViewStateOptions {
    */
   displayedColumnIds?: string[];
   /**
-   * An untyped property that can track any view-specific state information
-   * relevant to a data manager that existing properties do not cover.
+   * An untyped property that tracks any view-specific state information
+   * that is relevant to a data manager but that existing properties do not cover.
    */
   additionalData?: any;
 }
