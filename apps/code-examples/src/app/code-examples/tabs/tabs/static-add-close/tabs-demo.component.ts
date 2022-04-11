@@ -8,6 +8,6 @@ export class TabsDemoComponent {
   public showTab3 = true;
 
   public onNewTabClick(): void {
-    console.log('Add tab clicked!');
+    alert('Add tab clicked!');
   }
 }

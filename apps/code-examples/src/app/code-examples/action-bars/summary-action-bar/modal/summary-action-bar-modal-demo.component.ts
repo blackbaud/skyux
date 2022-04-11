@@ -10,10 +10,10 @@ export class SkySummaryActionBarModalDemoComponent {
   constructor(public instance: SkyModalInstance) {}
 
   public onSecondaryActionClick(): void {
-    console.log('Secondary action button clicked.');
+    alert('Secondary action button clicked.');
   }
 
   public onSecondaryAction2Click(): void {
-    console.log('Secondary action 2 button clicked.');
+    alert('Secondary action 2 button clicked.');
   }
 }

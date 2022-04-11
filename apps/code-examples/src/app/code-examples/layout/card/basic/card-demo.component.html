@@ -8,7 +8,13 @@
     prompts users to action.
   </sky-card-content>
   <sky-card-actions *ngIf="showAction">
-    <button class="sky-btn sky-btn-default" type="button">Action</button>
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="triggerAlert()"
+    >
+      Action
+    </button>
   </sky-card-actions>
 </sky-card>
 <sky-card size="small" [selectable]="showCheckbox">
@@ -21,7 +27,7 @@
     <sky-dropdown buttonType="context-menu">
       <sky-dropdown-menu>
         <sky-dropdown-item>
-          <button type="button">Action</button>
+          <button type="button" (click)="triggerAlert()">Action</button>
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>

@@ -21,6 +21,9 @@ export class InlineDeleteCardDemoComponent {
     setTimeout(() => {
       this.pending = false;
       this.deleting = false;
+      alert(
+        'Card element deletion was triggered. In a real scenario the item would be removed. Item was not removed just for demo purposes.'
+      );
     }, 3000);
 
     this.pending = true;
