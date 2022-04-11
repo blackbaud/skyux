@@ -191,7 +191,7 @@ export class AngularTreeDemoComponent implements OnInit {
 
   public actionClicked(name: string, node: TreeNode): void {
     // Add custom actions here.
-    console.log(name + `: "${node.data.name}"`);
+    alert(name + `: "${node.data.name}"`);
   }
 
   public onTreeStateChange(treeModel: ITreeState): void {

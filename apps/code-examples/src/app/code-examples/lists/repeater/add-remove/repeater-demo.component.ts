@@ -33,6 +33,10 @@ export class RepeaterDemoComponent {
     this.items = tags;
   }
 
+  public onActionClicked(buttonText: string): void {
+    alert(buttonText + ' was clicked!');
+  }
+
   public removeItem(): void {
     this.items.pop();
   }

@@ -18,4 +18,8 @@ export class RepeaterDemoComponent {
       status: 'Past due',
     },
   ];
+
+  public onActionClicked(buttonText: string): void {
+    alert(buttonText + ' was clicked!');
+  }
 }

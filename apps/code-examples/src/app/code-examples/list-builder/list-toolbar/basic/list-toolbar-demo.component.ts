@@ -89,6 +89,10 @@ export class ListToolbarDemoComponent implements OnInit {
     });
   }
 
+  public onAddButtonClicked(): void {
+    alert('Add button clicked');
+  }
+
   public onFilterButtonClicked(): void {
     alert('Filter button clicked');
   }
