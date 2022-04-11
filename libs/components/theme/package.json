@@ -28,7 +28,7 @@
     "@angular/core": "^13.2.7"
   },
   "dependencies": {
-    "@blackbaud/skyux-design-tokens": "0.0.24",
+    "@blackbaud/skyux-design-tokens": "0.0.25",
     "@skyux/icons": "5.0.0",
     "fontfaceobserver": "2.1.0",
     "tslib": "^2.3.1"
