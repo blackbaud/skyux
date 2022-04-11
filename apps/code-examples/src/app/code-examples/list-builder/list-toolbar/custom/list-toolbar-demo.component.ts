@@ -70,4 +70,12 @@ export class ListToolbarDemoComponent {
       status: 'Past Due',
     },
   ];
+
+  public onCenterButtonClicked(): void {
+    alert('Center button clicked!');
+  }
+
+  public onLeftButtonClicked(): void {
+    alert('Left button clicked!');
+  }
 }

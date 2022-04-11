@@ -24,12 +24,24 @@ export class ListViewChecklistDemoComponent {
   ]);
 
   public selectedItems: any[] = [];
+  public selectedItemsId: string[] = [];
 
   public selectMode = 'multiple';
 
   public selectedItemsChange(selectedMap: Map<string, boolean>): void {
     this.items.pipe(take(1)).subscribe((items) => {
       this.selectedItems = items.filter((item) => selectedMap.get(item.id));
+      this.selectedItemsId = Array.from(selectedMap.keys()).filter((key) =>
+        selectedMap.get(key)
+      );
     });
+  }
+
+  public onModeChange(newMode: string): void {
+    if (newMode === 'single') {
+      if (this.selectedItemsId.length > 0) {
+        this.selectedItemsId = [this.selectedItemsId[0]];
+      }
+    }
   }
 }

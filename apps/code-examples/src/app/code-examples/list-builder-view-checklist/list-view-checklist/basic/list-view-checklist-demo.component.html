@@ -1,15 +1,29 @@
 <div class="sky-form-group sky-margin-stacked-default">
   <h3>Selection mode</h3>
-  <sky-radio name="selectMode" value="multiple" [(ngModel)]="selectMode">
+  <sky-radio
+    name="selectMode"
+    value="multiple"
+    (change)="onModeChange('multiple')"
+    [(ngModel)]="selectMode"
+  >
     <sky-radio-label> Default select mode </sky-radio-label>
   </sky-radio>
 
-  <sky-radio name="selectMode" value="single" [(ngModel)]="selectMode">
+  <sky-radio
+    name="selectMode"
+    value="single"
+    (change)="onModeChange('single')"
+    [(ngModel)]="selectMode"
+  >
     <sky-radio-label> Single select mode </sky-radio-label>
   </sky-radio>
 </div>
 <div class="sky-margin-stacked-default">
-  <sky-list [data]="items" (selectedIdsChange)="selectedItemsChange($event)">
+  <sky-list
+    [data]="items"
+    [selectedIds]="selectedItemsId"
+    (selectedIdsChange)="selectedItemsChange($event)"
+  >
     <sky-list-toolbar> </sky-list-toolbar>
     <sky-list-view-checklist
       description="column3"

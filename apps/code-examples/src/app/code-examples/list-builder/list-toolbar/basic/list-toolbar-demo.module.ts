@@ -9,6 +9,7 @@ import {
   SkyListSecondaryActionsModule,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
+import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 import { SkyFilterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -25,6 +26,7 @@ import { ListToolbarDemoComponent } from './list-toolbar-demo.component';
     SkyListModule,
     SkyListSecondaryActionsModule,
     SkyListToolbarModule,
+    SkyListViewGridModule,
     SkyRadioModule,
     ReactiveFormsModule,
   ],
