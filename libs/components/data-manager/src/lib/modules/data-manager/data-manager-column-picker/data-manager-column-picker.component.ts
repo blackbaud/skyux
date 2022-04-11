@@ -53,7 +53,6 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     }
   }
 
-  public title = 'Choose columns to show in the list';
   public columnData: Column[];
   public displayedColumnData: Column[];
   public viewConfig: SkyDataViewConfig = {
