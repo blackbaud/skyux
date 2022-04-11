@@ -1,6 +1,5 @@
 /**
  * Information regarding a row whose deletion has been cancelled.
- * @internal
  */
 export interface SkyAgGridRowDeleteCancelArgs {
   /**

@@ -4,7 +4,7 @@ import { NumericOptions } from '@skyux/core';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-import { ValidatorOptions } from '../../types/validator-options';
+import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 /**
  * @internal
@@ -27,7 +27,8 @@ export class SkyAgGridCellRendererCurrencyComponent
   public columnWidth: number;
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
-  public skyComponentProperties: NumericOptions & ValidatorOptions = {};
+  public skyComponentProperties: NumericOptions & SkyAgGridValidatorProperties =
+    {};
   public numericOptions: NumericOptions = {};
   public value: number;
 

@@ -4,10 +4,10 @@ import {
   Component,
 } from '@angular/core';
 import {
+  SkyAgGridAutocompleteProperties,
+  SkyAgGridDatepickerProperties,
   SkyAgGridService,
-  SkyAutocompleteProperties,
   SkyCellType,
-  SkyDatepickerProperties,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance } from '@skyux/modals';
@@ -70,7 +70,7 @@ export class SkyDataEntryGridEditModalComponent {
         type: SkyCellType.Number,
         cellRendererParams: {
           skyComponentProperties: {
-            validator: (value: any) => value >= 18,
+            validator: (value) => value >= 18,
             validatorMessage: `Age must be 18+`,
           },
         },
@@ -95,7 +95,7 @@ export class SkyDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyDatepickerProperties } => {
+        ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return { skyComponentProperties: { minDate: params.data.startDate } };
         },
       },
@@ -106,7 +106,7 @@ export class SkyDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyAutocompleteProperties } => {
+        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
               data: SKY_DEPARTMENTS,
@@ -131,13 +131,13 @@ export class SkyDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyAutocompleteProperties } => {
+        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           const selectedDepartment: string =
             params.data &&
             params.data.department &&
             params.data.department.name;
           const editParams: {
-            skyComponentProperties: SkyAutocompleteProperties;
+            skyComponentProperties: SkyAgGridAutocompleteProperties;
           } = { skyComponentProperties: { data: [] } };
 
           if (selectedDepartment) {

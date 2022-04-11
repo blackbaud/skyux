@@ -14,7 +14,7 @@ import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixt
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-import { ValidatorOptions } from '../../types/validator-options';
+import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
 
@@ -62,7 +62,8 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       $scope: undefined,
       eGridCell: undefined,
       formatValue: undefined,
-      skyComponentProperties: {} as NumericOptions & ValidatorOptions,
+      skyComponentProperties: {} as NumericOptions &
+        SkyAgGridValidatorProperties,
     } as SkyCellRendererCurrencyParams;
   });
 
