@@ -1,7 +1,4 @@
-/**
- * @internal
- */
-export interface SkyNumberProperties {
+export interface SkyAgGridNumberProperties {
   max?: number;
   min?: number;
 }
