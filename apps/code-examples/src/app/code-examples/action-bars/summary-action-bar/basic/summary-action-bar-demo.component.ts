@@ -7,14 +7,14 @@ import { Component } from '@angular/core';
 })
 export class SummaryActionBarDemoComponent {
   public onPrimaryActionClick(): void {
-    console.log('Primary action button clicked.');
+    alert('Primary action button clicked.');
   }
 
   public onSecondaryActionClick(): void {
-    console.log('Secondary action button clicked.');
+    alert('Secondary action button clicked.');
   }
 
   public onSecondaryAction2Click(): void {
-    console.log('Secondary action 2 button clicked.');
+    alert('Secondary action 2 button clicked.');
   }
 }

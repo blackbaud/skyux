@@ -71,4 +71,8 @@ export class ListViewGridDemoComponent {
       status: 'Past Due',
     },
   ];
+
+  public onDropdownItemClicked(buttonText: string): void {
+    alert(buttonText + ' button clicked!');
+  }
 }

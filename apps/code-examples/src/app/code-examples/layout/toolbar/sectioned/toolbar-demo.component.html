@@ -1,16 +1,29 @@
 <sky-toolbar>
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-primary" type="button">Button 1</button>
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        (click)="onButtonClicked('Button 1')"
+      >
+        Button 1
+      </button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">Button 2</button>
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="onButtonClicked('Button 2')"
+      >
+        Button 2
+      </button>
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
       <button
         class="sky-btn sky-btn-default sky-btn-icon"
         title="Sort descending"
         type="button"
+        (click)="onButtonClicked('Expand')"
       >
         <sky-icon icon="angle-double-down"></sky-icon>
       </button>
@@ -18,6 +31,7 @@
         class="sky-btn sky-btn-default sky-btn-icon"
         title="Sort ascending"
         type="button"
+        (click)="onButtonClicked('Collapse')"
       >
         <sky-icon icon="angle-double-up"></sky-icon>
       </button>
@@ -25,12 +39,20 @@
   </sky-toolbar-section>
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="onButtonClicked('Sort')"
+      >
         <sky-icon icon="sort"></sky-icon>
       </button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button class="sky-btn sky-btn-default" type="button">
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="onButtonClicked('Filter')"
+      >
         <sky-icon icon="filter"></sky-icon>
       </button>
     </sky-toolbar-item>

@@ -2,14 +2,25 @@
   <sky-list-toolbar>
     <sky-list-toolbar-item id="custom-item" location="left">
       <ng-template>
-        <button class="sky-btn sky-btn-default">Left</button>
+        <button class="sky-btn sky-btn-default" (click)="onLeftButtonClicked()">
+          Left
+        </button>
       </ng-template>
     </sky-list-toolbar-item>
     <sky-list-toolbar-item id="custom-item2" index="1" location="center">
       <ng-template>
-        <button class="sky-btn sky-btn-default">Center</button>
+        <button
+          class="sky-btn sky-btn-default"
+          (click)="onCenterButtonClicked()"
+        >
+          Center
+        </button>
       </ng-template>
     </sky-list-toolbar-item>
   </sky-list-toolbar>
-  <!-- Add your list-view here -->
+  <sky-list-view-grid #grid>
+    <sky-grid-column field="name" heading="Name"> </sky-grid-column>
+    <sky-grid-column field="email" heading="Email"> </sky-grid-column>
+    <sky-grid-column field="amount" heading="Amount"> </sky-grid-column>
+  </sky-list-view-grid>
 </sky-list>

@@ -4,13 +4,39 @@ import { SkyDataManagerStateOptions } from './data-manager-state-options';
 import { SkyDataViewState } from './data-view-state';
 import { SkyDataViewStateOptions } from './data-view-state-options';
 
+/**
+ * Provides options that control which data to display.
+ */
 export class SkyDataManagerState {
+  /**
+   * The selected SkyDataManagerSortOption to apply.
+   */
   public activeSortOption: SkyDataManagerSortOption;
+  /**
+   * An untyped property that tracks any state information that's relevant to a data
+   * manager but that the existing properties do not cover.
+   */
   public additionalData: any;
+  /**
+   * The state of the filters.
+   */
   public filterData: SkyDataManagerFilterData;
+  /**
+   * Indicates whether to display only the selected rows or objects. The multiselect toolbar
+   * uses this property.
+   */
   public onlyShowSelected: boolean;
+  /**
+   * The search text to apply.
+   */
   public searchText: string;
+  /**
+   * The currently selected rows or objects.
+   */
   public selectedIds: string[];
+  /**
+   * The states of the individual views.
+   */
   public views: SkyDataViewState[] = [];
 
   constructor(data: SkyDataManagerStateOptions) {
@@ -26,6 +52,10 @@ export class SkyDataManagerState {
     this.views = views || [];
   }
 
+  /**
+   * Returns the `SkyDataManagerStateOptions` for the data manager.
+   * @returns The `SkyDataManagerStateOptions` for the data manager.
+   */
   public getStateOptions(): SkyDataManagerStateOptions {
     const viewStates: SkyDataViewStateOptions[] = this.views.map((view) => {
       return view.getViewStateOptions();
@@ -42,10 +72,21 @@ export class SkyDataManagerState {
     };
   }
 
+  /**
+   * Returns the `SkyDataViewState` for the specified view.
+   * @param viewId The ID for the view.
+   * @returns The `SkyDataViewState` for the specified view.
+   */
   public getViewStateById(viewId: string): SkyDataViewState {
     return this.views.find((view) => view.viewId === viewId);
   }
 
+  /**
+   * Adds a `SkyDataViewState` to a view or updates an existing view.
+   * @param viewId The ID for the view.
+   * @param view The `SkyDataViewState` option to add or update.
+   * @returns The state of the data manager for the specified view.
+   */
   public addOrUpdateView(
     viewId: string,
     view: SkyDataViewState

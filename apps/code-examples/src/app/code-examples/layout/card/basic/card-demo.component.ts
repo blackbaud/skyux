@@ -12,4 +12,8 @@ export class CardDemoComponent {
   public showContent = true;
 
   public showTitle = true;
+
+  public triggerAlert(): void {
+    alert('Action clicked!');
+  }
 }

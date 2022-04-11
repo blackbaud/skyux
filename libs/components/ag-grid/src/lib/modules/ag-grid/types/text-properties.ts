@@ -1,6 +1,3 @@
-/**
- * @internal
- */
-export interface SkyTextProperties {
+export interface SkyAgGridTextProperties {
   maxlength?: number;
 }

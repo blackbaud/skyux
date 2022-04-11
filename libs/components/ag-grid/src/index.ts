@@ -13,7 +13,7 @@ export * from './lib/modules/ag-grid/types/lookup-properties';
 export * from './lib/modules/ag-grid/types/number-properties';
 export * from './lib/modules/ag-grid/types/sky-grid-options';
 export * from './lib/modules/ag-grid/types/text-properties';
-export * from './lib/modules/ag-grid/types/validator-options';
+export * from './lib/modules/ag-grid/types/validator-properties';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

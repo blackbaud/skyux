@@ -8,12 +8,12 @@ export interface SkyDataManagerStateOptions {
    */
   activeSortOption?: SkyDataManagerSortOption;
   /**
-   * An untyped property that can track any state information relevant to a data
-   * manager that the existing properties do not cover.
+   * An untyped property that tracks any state information that's relevant to a data
+   * manager but that the existing properties do not cover.
    */
   additionalData?: any;
   /**
-   * The state of filters.
+   * The state of the filters.
    */
   filterData?: SkyDataManagerFilterData;
   /**

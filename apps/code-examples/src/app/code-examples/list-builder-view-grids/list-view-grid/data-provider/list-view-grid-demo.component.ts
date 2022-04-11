@@ -131,15 +131,19 @@ export class DemoListProvider extends ListDataProvider {
 
         if (request.sort) {
           for (const fieldSelector of request.sort.fieldSelectors) {
-            if (fieldSelector.fieldSelector === 'highAcidity') {
-              modifiedList = modifiedList.sort((itemA: any, itemB: any) => {
-                if (fieldSelector.descending) {
-                  return itemA.data.ph < itemB.data.ph ? 1 : -1;
-                } else {
-                  return itemA.data.ph < itemB.data.ph ? -1 : 1;
-                }
-              });
-            }
+            modifiedList = modifiedList.sort((itemA: any, itemB: any) => {
+              if (fieldSelector.descending) {
+                return itemA.data[fieldSelector.fieldSelector] <
+                  itemB.data[fieldSelector.fieldSelector]
+                  ? 1
+                  : -1;
+              } else {
+                return itemA.data[fieldSelector.fieldSelector] <
+                  itemB.data[fieldSelector.fieldSelector]
+                  ? -1
+                  : 1;
+              }
+            });
           }
         }
 

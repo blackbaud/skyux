@@ -130,6 +130,10 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     ];
   }
 
+  public onAddButtonClicked(): void {
+    alert('Add button clicked!');
+  }
+
   public onSubmit(): void {
     alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
   }
