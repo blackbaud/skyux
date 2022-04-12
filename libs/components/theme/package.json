@@ -15,14 +15,6 @@
     "url": "https://github.com/blackbaud/skyux/issues"
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
-  "exports": {
-    "./scss/variables": {
-      "default": "./scss/variables.scss"
-    },
-    "./scss/mixins": {
-      "default": "./scss/mixins.scss"
-    }
-  },
   "peerDependencies": {
     "@angular/common": "^13.2.7",
     "@angular/core": "^13.2.7"
