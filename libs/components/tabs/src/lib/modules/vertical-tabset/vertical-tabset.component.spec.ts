@@ -152,7 +152,6 @@ describe('Vertical tabset component', () => {
   it('first tab in open group should be selected', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     const fixture = createTestComponent();
-    const el = fixture.nativeElement as HTMLElement;
 
     fixture.detectChanges();
 
@@ -168,7 +167,6 @@ describe('Vertical tabset component', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     const fixture = createTestComponent();
     fixture.detectChanges();
-    const el = fixture.nativeElement;
 
     // check open tab
     expectVisibleTabContentPane(fixture, 'Group 1 Tab 1 content');
@@ -199,7 +197,7 @@ describe('Vertical tabset component', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     const fixture = createTestComponent();
     fixture.detectChanges();
-    const el = fixture.nativeElement;
+
     const tabs = getTabs(fixture);
 
     // open second tab
@@ -220,7 +218,7 @@ describe('Vertical tabset component', () => {
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     const fixture = createTestComponent();
     fixture.detectChanges();
-    const el = fixture.nativeElement;
+
     const tabs = getTabs(fixture);
 
     // open second tab
@@ -772,7 +770,6 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
     fixture.detectChanges();
 
-    const el = fixture.nativeElement;
     fixture.componentInstance.showScrollable = true;
 
     fixture.detectChanges();

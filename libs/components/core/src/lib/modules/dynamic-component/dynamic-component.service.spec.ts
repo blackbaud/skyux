@@ -1,6 +1,5 @@
 import { ApplicationRef, ComponentRef, EmbeddedViewRef } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyDynamicComponentLocation } from './dynamic-component-location';

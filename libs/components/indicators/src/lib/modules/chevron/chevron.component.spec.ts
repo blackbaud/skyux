@@ -24,7 +24,6 @@ describe('Chevron component', () => {
   }
 
   function validateDirection(expectedDirection: string): void {
-    const el = fixture.nativeElement;
     const chevronEl = getChevronEl();
 
     fixture.detectChanges();

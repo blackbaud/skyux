@@ -2,7 +2,7 @@ import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { Subject, of } from 'rxjs';
-import { delay, filter } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 
 import { SkyAutocompleteInputDirective } from '../autocomplete-input.directive';
 import { SkyAutocompleteComponent } from '../autocomplete.component';

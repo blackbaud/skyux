@@ -222,10 +222,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
 
-  let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
-  let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
-  let datepickerEditorNativeElement: HTMLElement;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
@@ -236,12 +232,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
         },
       ],
     });
-
-    datepickerEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorDatepickerComponent
-    );
-    datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
-    datepickerEditorComponent = datepickerEditorFixture.componentInstance;
   });
 
   describe('in ag grid', () => {
