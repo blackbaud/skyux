@@ -103,13 +103,13 @@ function copyPublicScssFiles() {
   console.log('Copying public SCSS files...');
 
   copyScss(
-    path.join(STYLES_ROOT, '_mixins.scss'),
-    path.join(DEST_ROOT, 'scss/_mixins.scss')
+    path.join(STYLES_ROOT, '_mixins-public.scss'),
+    path.join(DEST_ROOT, 'scss/mixins.scss')
   );
 
   copyScss(
-    path.join(STYLES_ROOT, '_variables.scss'),
-    path.join(DEST_ROOT, 'scss/_variables.scss')
+    path.join(STYLES_ROOT, '_variables-public.scss'),
+    path.join(DEST_ROOT, 'scss/variables.scss')
   );
 
   console.log('Done.');
