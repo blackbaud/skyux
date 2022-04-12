@@ -1,10 +1,12 @@
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables';
+
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/variables' as
   defaultTokensVars;
 @use 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables'
   as modernTokensVars;
 
 @use '../../../_compat/variables' as defaultCompatVars;
-@use '../../../mixins-public' as defaultPublicMixins;
+@use '../../../mixins' as defaultPublicMixins;
 
 @use 'variables' as modernCompatVars;
 

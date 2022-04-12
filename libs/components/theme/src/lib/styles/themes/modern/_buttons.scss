@@ -4,7 +4,7 @@
   as modernTokensVars;
 @use '../../_compat/variables' as compatVars;
 @use '_compat/mixins' as modernCompatMixins;
-@use '../../mixins' as defaultMixins;
+@use '../../mixins-internal' as defaultMixins;
 
 .sky-theme-modern {
   .sky-btn {
