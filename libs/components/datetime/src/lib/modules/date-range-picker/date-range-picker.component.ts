@@ -22,7 +22,6 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { SkyAppWindowRef } from '@skyux/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 
@@ -245,7 +244,6 @@ export class SkyDateRangePickerComponent
     private dateRangeService: SkyDateRangeService,
     private formBuilder: FormBuilder,
     private localeProvider: SkyAppLocaleProvider,
-    private windowRef: SkyAppWindowRef,
     private ngZone: NgZone,
     @Optional() themeSvc?: SkyThemeService
   ) {
@@ -412,10 +410,6 @@ export class SkyDateRangePickerComponent
     this.onTouched = fn;
   }
 
-  public registerOnValidatorChange(fn: () => void): void {
-    this.onValidatorChange = fn;
-  }
-
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
@@ -563,6 +557,4 @@ export class SkyDateRangePickerComponent
   private onChange = (_: SkyDateRangeCalculation) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onValidatorChange = () => {};
 }

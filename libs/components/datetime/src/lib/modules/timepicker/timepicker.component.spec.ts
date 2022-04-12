@@ -1,7 +1,6 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   flush,
   tick,

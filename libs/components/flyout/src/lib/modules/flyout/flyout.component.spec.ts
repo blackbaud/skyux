@@ -202,7 +202,6 @@ describe('Flyout component', () => {
   }
 
   function fireKeyDownOnSeparatorHandle(keyName: string): void {
-    const flyoutElement = getFlyoutElement();
     const handle = getFlyoutHandleElement();
     SkyAppTestUtility.fireDomEvent(handle, 'keydown', {
       keyboardEventInit: { key: keyName },

@@ -12,8 +12,6 @@ import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { take } from 'rxjs/operators';
 
-import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
-
 import { OverlayFixtureContext } from './fixtures/overlay-context.fixture';
 import { OverlayEntryFixtureComponent } from './fixtures/overlay-entry.component.fixture';
 import { OverlayFixtureComponent } from './fixtures/overlay.component.fixture';

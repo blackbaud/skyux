@@ -1,4 +1,3 @@
-import { AnimationEvent } from '@angular/animations';
 import {
   ChangeDetectorRef,
   Component,

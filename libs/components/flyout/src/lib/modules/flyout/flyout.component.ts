@@ -150,18 +150,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   private target: ViewContainerRef;
 
-  @ViewChild('flyoutCloseButton', {
-    read: ElementRef,
-    static: true,
-  })
-  private flyoutCloseButton: ElementRef;
-
-  @ViewChild('flyoutContent', {
-    read: ElementRef,
-    static: true,
-  })
-  private flyoutContent: ElementRef;
-
   @ViewChild('flyoutHeader', {
     read: ElementRef,
     static: true,

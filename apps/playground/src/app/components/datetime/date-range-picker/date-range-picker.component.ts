@@ -8,7 +8,6 @@ import {
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
-  SkyDateRangeService,
 } from '@skyux/datetime';
 
 @Component({
@@ -28,10 +27,7 @@ export class DateRangePickerComponent implements OnInit {
     return this.reactiveForm.get('lastDonation');
   }
 
-  constructor(
-    private dateRangeService: SkyDateRangeService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.reactiveForm = this.formBuilder.group({

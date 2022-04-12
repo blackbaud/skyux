@@ -10,7 +10,6 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   Column,
-  ColumnApi,
   ColumnMovedEvent,
   DragStartedEvent,
   DragStoppedEvent,

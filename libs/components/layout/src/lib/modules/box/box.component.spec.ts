@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkyBoxComponent } from './box.component';
 import { SkyBoxModule } from './box.module';
 
 @Component({
