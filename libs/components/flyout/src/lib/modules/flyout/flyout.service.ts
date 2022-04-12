@@ -1,10 +1,8 @@
 import {
-  ApplicationRef,
   ComponentRef,
   Injectable,
   NgZone,
   OnDestroy,
-  Optional,
   Type,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
@@ -43,10 +41,7 @@ export class SkyFlyoutService implements OnDestroy {
     private windowRef: SkyAppWindowRef,
     private dynamicComponentService: SkyDynamicComponentService,
     private router: Router,
-    private readonly _ngZone: NgZone,
-    // NOTE: This used to be used for an `applicationRef.tick` which has since been removed.
-    // We can not remove this due to it being a breaking change for those manually constructing the service.
-    @Optional() private readonly applicationRef?: ApplicationRef
+    private readonly _ngZone: NgZone
   ) {}
 
   public ngOnDestroy(): void {

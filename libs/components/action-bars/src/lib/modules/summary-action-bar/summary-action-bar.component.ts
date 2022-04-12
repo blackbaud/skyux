@@ -64,7 +64,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   private idled = new Subject<boolean>();
 
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
-  private set summaryELement(element: ElementRef) {
+  private set summaryElement(element: ElementRef) {
     this._summaryElement = element;
     this.changeDetector.markForCheck();
   }

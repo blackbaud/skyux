@@ -29,8 +29,6 @@ import { SkyNumericService } from './numeric.service';
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
   private cacheKey: string;
   private formattedValue: string;
-  private lastTransformLocale: string;
-  private rawValue: number;
   private providerLocale: string;
 
   private ngUnsubscribe = new Subject<void>();
@@ -93,8 +91,6 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     Object.assign(options, config);
 
     // Assign properties for proper result caching.
-    this.rawValue = value;
-    this.lastTransformLocale = config?.locale ?? this.providerLocale;
     this.cacheKey = newCacheKey;
 
     this.formattedValue = this.numericService.formatNumber(value, options);

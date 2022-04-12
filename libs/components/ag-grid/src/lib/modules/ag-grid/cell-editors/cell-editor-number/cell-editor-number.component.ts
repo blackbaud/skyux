@@ -8,7 +8,6 @@ import {
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
 
 /**

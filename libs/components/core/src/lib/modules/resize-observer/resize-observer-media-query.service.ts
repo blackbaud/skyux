@@ -47,7 +47,6 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     SkyMediaBreakpoints | undefined
   >(1);
   private _currentBreakpoint: SkyMediaBreakpoints;
-  private _resizeSubscription: Subscription;
   private _stopListening = new Subject<void>();
   private _target?: ElementRef;
 
@@ -89,7 +88,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
       const breakpoint = this.checkBreakpoint(width);
       this.updateBreakpoint(breakpoint);
     }
-    this._resizeSubscription = this.resizeObserverService
+    this.resizeObserverService
       .observe(element)
       .pipe(takeUntil(this._stopListening))
       .subscribe((value) => {

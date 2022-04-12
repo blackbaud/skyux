@@ -1,5 +1,3 @@
-import { SkyAppResources } from './resources';
-
 /**
  * @internal
  * @deprecated Use `getLibStringForLocale` instead.
