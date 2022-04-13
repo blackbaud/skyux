@@ -11,6 +11,7 @@ import {
 import {
   CellClassParams,
   ColumnApi,
+  GetRowIdParams,
   GridOptions,
   RowClassParams,
   RowNode,
@@ -885,13 +886,17 @@ describe('SkyAgGridService', () => {
     });
   });
 
-  describe('getRowNodeId', () => {
+  describe('getRowId', () => {
     it('should use the id field when available', () => {
-      expect(defaultGridOptions.getRowNodeId({ id: 123 })).toEqual('123');
+      expect(
+        defaultGridOptions.getRowId({ data: { id: 123 } } as GetRowIdParams)
+      ).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
-      expect(defaultGridOptions.getRowNodeId({})).toBeTruthy();
+      expect(
+        defaultGridOptions.getRowId({ data: {} } as GetRowIdParams)
+      ).toBeTruthy();
     });
   });
 

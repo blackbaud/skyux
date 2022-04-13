@@ -6,6 +6,7 @@ import {
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -20,7 +21,7 @@ import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyBasicDataGridDemoComponent {
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -85,14 +86,14 @@ export class SkyBasicDataGridDemoComponent {
     this.changeDetector.markForCheck();
   }
 
-  public searchApplied(searchText: string | void): void {
+  public searchApplied(searchText: string | undefined): void {
     if (searchText) {
       this.searchText = searchText;
     } else {
       this.searchText = '';
     }
     if (this.gridApi) {
-      this.gridApi.setQuickFilter(searchText);
+      this.gridApi.setQuickFilter(this.searchText);
       const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.gridApi.hideOverlay();

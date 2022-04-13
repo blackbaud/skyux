@@ -8,7 +8,7 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Beans, Column, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -48,7 +48,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     cellRendererParams = {
       value: 123,
       column,
-      node: new RowNode(),
+      node: new RowNode({} as Beans),
       colDef: {},
       columnApi: undefined,
       data: undefined,

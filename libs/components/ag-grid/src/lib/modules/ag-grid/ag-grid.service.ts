@@ -4,13 +4,13 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  EditableCallbackParams,
   GridOptions,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -123,13 +123,15 @@ export class SkyAgGridService implements OnDestroy {
    * @internal
    */
   public currentTheme: SkyThemeSettings;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
+  private keyMap: WeakMap<any, string>;
 
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
     @Optional() private themeSvc?: SkyThemeService,
     @Optional() private resources?: SkyLibResourcesService
   ) {
+    this.keyMap = new WeakMap<any, string>();
     /*istanbul ignore else*/
     if (this.themeSvc) {
       this.themeSvc.settingsChange
@@ -258,7 +260,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Autocomplete]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
+          cellEditor: SkyAgGridCellEditorAutocompleteComponent,
           valueFormatter: autocompleteFormatter,
           comparator: autocompleteComparator,
           minWidth: 185,
@@ -273,7 +275,7 @@ export class SkyAgGridService implements OnDestroy {
             'sky-ag-grid-cell-renderer-currency-validator',
             { component: 'sky-ag-grid-cell-renderer-currency' }
           ),
-          cellEditorFramework: SkyAgGridCellEditorCurrencyComponent,
+          cellEditor: SkyAgGridCellEditorCurrencyComponent,
           headerClass: SkyHeaderClass.RightAligned,
           minWidth: 185,
         },
@@ -282,7 +284,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorDatepickerComponent,
+          cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
           minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
@@ -293,8 +295,8 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Lookup]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorLookupComponent,
-          cellRendererFramework: SkyAgGridCellRendererLookupComponent,
+          cellEditor: SkyAgGridCellEditorLookupComponent,
+          cellRenderer: SkyAgGridCellRendererLookupComponent,
           valueFormatter: (params) => {
             const lookupProperties = applySkyLookupPropertiesDefaults(params);
             return (params.value || [])
@@ -315,7 +317,7 @@ export class SkyAgGridService implements OnDestroy {
           cellRendererSelector: getValidatorCellRendererSelector(
             'sky-ag-grid-cell-renderer-validator-tooltip'
           ),
-          cellEditorFramework: SkyAgGridCellEditorNumberComponent,
+          cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: SkyHeaderClass.RightAligned,
         },
         [SkyCellType.RowSelector]: {
@@ -323,7 +325,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.RowSelector]: cellClassRuleTrueExpression,
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
-          cellRendererFramework: SkyAgGridCellRendererRowSelectorComponent,
+          cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerName: '',
           minWidth: 55,
           maxWidth: 55,
@@ -336,7 +338,7 @@ export class SkyAgGridService implements OnDestroy {
             ...validatorCellClassRules,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorTextComponent,
+          cellEditor: SkyAgGridCellEditorTextComponent,
           cellRendererSelector: getValidatorCellRendererSelector(
             'sky-ag-grid-cell-renderer-validator-tooltip'
           ),
@@ -361,7 +363,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
-      frameworkComponents: {
+      components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
         'sky-ag-grid-cell-renderer-currency-validator':
@@ -369,11 +371,15 @@ export class SkyAgGridService implements OnDestroy {
         'sky-ag-grid-cell-renderer-validator-tooltip':
           SkyAgGridCellRendererValidatorTooltipComponent,
       },
-      getRowNodeId(data: any): string {
-        if ('id' in data && data.id !== undefined) {
-          return `${data.id}`;
+      getRowId: (params) => {
+        const dataId = params.data.id;
+        if (dataId !== undefined) {
+          return `${params.data.id}`;
         }
-        return `${rowNodeId--}`;
+        if (!this.keyMap.has(params.data)) {
+          this.keyMap.set(params.data, `${rowNodeId--}`);
+        }
+        return this.keyMap.get(params.data);
       },
       getRowClass: (params: RowClassParams) => {
         if (params.node.id) {
@@ -399,7 +405,7 @@ export class SkyAgGridService implements OnDestroy {
       singleClickEdit: true,
       // tslint:disable-next-line: no-null-keyword
       sortingOrder: ['desc', 'asc', null],
-      stopEditingWhenGridLosesFocus: false,
+      stopEditingWhenCellsLoseFocus: false,
       suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true,
     };
