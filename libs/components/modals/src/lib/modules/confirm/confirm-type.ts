@@ -1,11 +1,10 @@
 export enum SkyConfirmType {
   /**
-   * Allows you to define your own `buttons` using the buttons property to
-   * specify an array of `SkyConfirmButtonConfig` objects.
+   * Allows you to define your own buttons using the `buttons` property of `SkyConfirmConfig`.
    */
   Custom = 0,
   /**
-   * Displays one button with an **OK** label.
+   * Displays one button with an **OK** label and an action of `'ok'`.
    */
   OK = 1,
   /**
