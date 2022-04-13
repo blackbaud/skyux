@@ -13,6 +13,7 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
     right: 20,
     toJSON: () => 'true',
   } as DOMRectReadOnly,
+  devicePixelContentBoxSize: [],
 };
 
 const defaultCallback = (entry: ResizeObserverEntry[]) => {
