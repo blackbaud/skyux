@@ -306,7 +306,7 @@ export class EditComplexCellsComponent implements OnInit {
   }
 
   private getGridOptions(): void {
-    this.gridOptions = {
+    const overrides: GridOptions = {
       columnDefs: this.columnDefs,
       datasource: {
         getRows(params: IGetRowsParams) {
@@ -327,10 +327,11 @@ export class EditComplexCellsComponent implements OnInit {
         this.sizeGrid();
       },
       suppressColumnVirtualisation: true,
+      stopEditingWhenCellsLoseFocus: true,
     };
+
     this.gridOptions = this.agGridService.getEditableGridOptions({
-      gridOptions: this.gridOptions,
+      gridOptions: overrides,
     });
-    this.gridOptions.stopEditingWhenCellsLoseFocus = true;
   }
 }

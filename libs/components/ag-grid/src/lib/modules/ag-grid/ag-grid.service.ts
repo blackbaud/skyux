@@ -123,15 +123,16 @@ export class SkyAgGridService implements OnDestroy {
    * @internal
    */
   public currentTheme: SkyThemeSettings;
+
   private ngUnsubscribe = new Subject<void>();
-  private keyMap: WeakMap<any, string>;
+
+  private keyMap = new WeakMap<any, string>();
 
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
     @Optional() private themeSvc?: SkyThemeService,
     @Optional() private resources?: SkyLibResourcesService
   ) {
-    this.keyMap = new WeakMap<any, string>();
     /*istanbul ignore else*/
     if (this.themeSvc) {
       this.themeSvc.settingsChange
@@ -185,6 +186,12 @@ export class SkyAgGridService implements OnDestroy {
     const mergedGridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
+      components: {
+        ...providedGridOptions.components,
+        ...providedGridOptions.frameworkComponents,
+        // Apply default components last to prevent consumers from overwriting our component types.
+        ...defaultGridOptions.components,
+      },
       columnTypes: {
         ...providedGridOptions.columnTypes,
         // apply default second to prevent consumers from overwriting our default column types
@@ -201,6 +208,20 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.icons,
       },
     };
+
+    // Handle the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
+    mergedGridOptions.stopEditingWhenCellsLoseFocus =
+      mergedGridOptions.stopEditingWhenCellsLoseFocus ||
+      mergedGridOptions.stopEditingWhenGridLosesFocus;
+    delete mergedGridOptions.stopEditingWhenGridLosesFocus;
+
+    // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
+    if (mergedGridOptions.getRowNodeId) {
+      delete mergedGridOptions.getRowId;
+    }
+
+    // Remove the deprecated `frameworkComponents` property in favor of `components`.
+    delete mergedGridOptions.frameworkComponents;
 
     return mergedGridOptions;
   }
