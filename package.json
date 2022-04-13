@@ -41,7 +41,7 @@
     "@angular/router": "13.3.2",
     "@blackbaud/auth-client": "2.50.0",
     "@blackbaud/skyux-design-tokens": "0.0.24",
-    "@circlon/angular-tree-component": "11.0.0",
+    "@circlon/angular-tree-component": "11.0.3",
     "@nrwl/angular": "13.10.1",
     "@skyux/auth-client-factory": "1.2.0",
     "@skyux/icons": "5.0.0",
