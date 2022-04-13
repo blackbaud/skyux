@@ -1,8 +1,10 @@
 # Ignore artifacts:
-__skyux
-coverage
-dist
-node_modules
+/.angular
+/.nyc_output
+/coverage
+/dist
+/node_modules
+/temp
 package-lock.json
 
 # Don't format the following since the order of its import statements is deliberate.

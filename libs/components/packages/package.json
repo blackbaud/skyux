@@ -42,7 +42,7 @@
       "@skyux/core": "0.0.0-PLACEHOLDER",
       "@skyux/data-manager": "0.0.0-PLACEHOLDER",
       "@skyux/datetime": "0.0.0-PLACEHOLDER",
-      "@skyux/docs-tools": "^5.0.0-beta.0",
+      "@skyux/docs-tools": "^6.0.0-beta.0",
       "@skyux/errors": "0.0.0-PLACEHOLDER",
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
@@ -78,7 +78,7 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^13.2.6"
+    "@angular/cli": "^13.3.2"
   },
   "dependencies": {
     "fs-extra": "10.0.0",

@@ -16,8 +16,8 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^13.2.7",
-    "@angular/core": "^13.2.7"
+    "@angular/common": "^13.3.2",
+    "@angular/core": "^13.3.2"
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "0.0.24",
