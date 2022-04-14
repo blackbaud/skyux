@@ -1,38 +1,8 @@
 import { DragulaService } from 'ng2-dragula';
+import { Subject } from 'rxjs';
 
 export class MockDragulaService extends DragulaService {
-  public add() {}
+  private drop$ = new Subject<any>();
 
-  public setOptions() {}
-
-  public find() {
-    return {
-      drake: {
-        containers: [
-          {
-            querySelectorAll: () => {
-              return [
-                {
-                  getAttribute: () => {
-                    return 'tile-2';
-                  },
-                },
-              ] as any[];
-            },
-          },
-          {
-            querySelectorAll: () => {
-              return [
-                {
-                  getAttribute: () => {
-                    return 'tile-1';
-                  },
-                },
-              ] as any[];
-            },
-          },
-        ],
-      },
-    };
-  }
+  public drop = () => this.drop$;
 }

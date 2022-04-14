@@ -25,12 +25,10 @@ export class SkyGridAdapterService {
   }
 
   public initializeDragAndDrop(
-    gridId: number,
+    dragulaGroupName: string,
     dragulaService: DragulaService,
     dropCallback: (newColumnIds: Array<string>) => void
   ) {
-    const dragulaGroupName = `sky-grids-group-${gridId}`;
-
     dragulaService
       .drag(dragulaGroupName)
       .subscribe((args) => args.el.classList.add(GRID_HEADER_DRAGGING_CLASS));
@@ -43,7 +41,7 @@ export class SkyGridAdapterService {
 
     dragulaService.drop(dragulaGroupName).subscribe((args) => {
       const columnIds: string[] = [];
-      const nodes = args.el.querySelectorAll(
+      const nodes = args.target.querySelectorAll(
         `th:not(${GRID_MULTISELECT_SELECTOR}):not(${GRID_ROW_DELETE_SELECTOR})`
       );
       for (let i = 0; i < nodes.length; i++) {

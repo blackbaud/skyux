@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -71,16 +70,10 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   constructor(
     public context: SkyDataManagerColumnPickerContext,
     public dataManagerService: SkyDataManagerService,
-    public instance: SkyModalInstance,
-    private libResources: SkyLibResourcesService
+    public instance: SkyModalInstance
   ) {}
 
   public ngOnInit(): void {
-    this.libResources
-      .getString('skyux_data_manager_column_picker_title')
-      .subscribe((value) => {
-        console.log(value);
-      });
     this.dataManagerService.initDataManager({
       activeViewId: this.viewConfig.id,
       dataManagerConfig: {},
@@ -109,10 +102,8 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
       this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
-      searchedColumns = columns.filter(function (item: any) {
-        let property: any;
-
-        for (property in item) {
+      searchedColumns = columns.filter((item) => {
+        for (const property in item) {
           if (
             Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'label' || property === 'description')
