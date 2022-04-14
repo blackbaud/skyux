@@ -372,6 +372,7 @@ export class SkyGridComponent
 
     // Setup column drag-and-drop.
     this.gridAdapter.initializeDragAndDrop(
+      this.gridId,
       this.dragulaService,
       (selectedColumnIds: Array<string>) => {
         this.onHeaderDrop(selectedColumnIds);
