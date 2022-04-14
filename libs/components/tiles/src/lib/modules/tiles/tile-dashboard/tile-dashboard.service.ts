@@ -571,14 +571,14 @@ export class SkyTileDashboardService {
   }
 
   private initDragula() {
-    this.dragulaService.setOptions(this.bagId, {
+    this.dragulaService.createGroup(this.bagId, {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
         const target = el.querySelector('.sky-tile-grab-handle');
         return target.contains(handle);
       },
     });
 
-    this.dragulaService.drop.subscribe((value: any[]) => {
+    this.dragulaService.drop(this.bagId).subscribe(() => {
       const config = this.getConfigForUIState();
 
       /*istanbul ignore else */
