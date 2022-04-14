@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyDefinitionListService } from './definition-list.service';
 
 /**
  * Creates a definition list to display label-value pairs.
+ * @deprecated The `SkyDefinitionListComponent` is deprecated and will be removed in a future version of SKY UX.
  */
 @Component({
   selector: 'sky-definition-list',
@@ -32,5 +34,12 @@ export class SkyDefinitionListComponent {
     this.service.defaultValue.next(value);
   }
 
-  constructor(public service: SkyDefinitionListService) {}
+  constructor(
+    public service: SkyDefinitionListService,
+    logService: SkyLogService
+  ) {
+    logService.deprecated('SkyDefinitionListComponent', {
+      replacementTypes: ['SkyDescriptionListComponent'],
+    });
+  }
 }

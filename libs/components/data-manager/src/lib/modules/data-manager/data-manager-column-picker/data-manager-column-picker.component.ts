@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -71,16 +70,10 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   constructor(
     public context: SkyDataManagerColumnPickerContext,
     public dataManagerService: SkyDataManagerService,
-    public instance: SkyModalInstance,
-    private libResources: SkyLibResourcesService
+    public instance: SkyModalInstance
   ) {}
 
   public ngOnInit(): void {
-    this.libResources
-      .getString('skyux_data_manager_column_picker_title')
-      .subscribe((value) => {
-        console.log(value);
-      });
     this.dataManagerService.initDataManager({
       activeViewId: this.viewConfig.id,
       dataManagerConfig: {},
