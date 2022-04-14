@@ -1,7 +1,7 @@
 import { SkyConfirmButtonAction } from './confirm-button-action';
 
 /**
- * The view-model for button configuration used by the confirm component.
+ * The view model for button configuration that the confirm component uses.
  * @internal
  */
 export interface SkyConfirmButton {

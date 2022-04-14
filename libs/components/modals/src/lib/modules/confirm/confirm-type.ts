@@ -4,7 +4,7 @@ export enum SkyConfirmType {
    */
   Custom = 0,
   /**
-   * Displays one button with an **OK** label and an action of `'ok'`.
+   * Displays one button with an **OK** label and an `'ok'` action.
    */
   OK = 1,
   /**

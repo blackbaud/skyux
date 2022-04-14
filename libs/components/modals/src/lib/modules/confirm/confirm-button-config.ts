@@ -9,10 +9,10 @@ export interface SkyConfirmButtonConfig {
    */
   text: string;
   /**
-   * Specifies a style to apply to the button. The valid options are `primary` to style
-   * the button that triggers the recommended or most-common action, `default` to style
-   * a button that triggers a less-common action, and `link` to style a button that
-   * cancels the action.
+   * Specifies a style to apply to the button. The valid options are `primary` for
+   * the button that triggers the recommended or most-common action, `default` for
+   * buttons that trigger less-common actions, and `link` for a button that
+   * closes the dialog.
    */
   styleType?: 'primary' | 'default' | 'link' | string;
   /**
