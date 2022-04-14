@@ -1,5 +1,6 @@
 import {
   ComponentRef,
+  ElementRef,
   EventEmitter,
   Injectable,
   Injector,
@@ -68,7 +69,14 @@ export class SkyTileDashboardService {
     // this.initDragula();
   }
 
-  public handleDrop() {
+  public handleDrop(args: {
+    tile: ElementRef;
+    newColumnIndex: number;
+    newTileIndex: number;
+    // tileIndex: number;
+    // column: ElementRef;
+    // previousColumn: SkyTileDashboardConfigLayoutColumn;
+  }) {
     // const config = this.getConfigForUIState();
     // /*istanbul ignore else */
     // if (config) {
@@ -77,6 +85,47 @@ export class SkyTileDashboardService {
     //   }
     //   this.configChange.emit(config);
     // }
+
+    // const tile = this.
+
+    const tileId = this.getTileIdByElementRef(args.tile);
+    const tileConfig = this.findTile(tileId);
+    const previousColumn = this.findTileColumn(tileId);
+
+    const newColumn = this.config.layout.multiColumn[args.newColumnIndex];
+    console.log('EH?', this.config.layout.multiColumn, args.newColumnIndex);
+
+    previousColumn.tiles.splice(previousColumn.tiles.indexOf(tileConfig), 1);
+    newColumn.tiles.splice(args.newTileIndex, 0, tileConfig);
+
+    console.log(this.config);
+
+    // args.previousColumn.tiles.splice(
+    //   args.previousColumn.tiles.indexOf(tileConfig),
+    //   1
+    // );
+    // args.column.tiles.splice(args.tileIndex, 0, tileConfig);
+
+    // const columnIndex = this.config.layout.multiColumn.indexOf(args.column);
+    // const previousColumnIndex = this.config.layout.multiColumn.indexOf(
+    //   args.previousColumn
+    // );
+
+    // const config: SkyTileDashboardConfig = {
+    //   tiles: this.config.tiles,
+    //   layout: {
+    //     singleColumn: {
+    //       tiles: [],
+    //     },
+    //     multiColumn: [{}, {}],
+    //   },
+    // };
+    if (this.settingsKey) {
+      this.setUserConfig();
+    }
+
+    this.configChange.emit(this.config);
+    this.loadTiles();
   }
 
   /**
@@ -366,6 +415,21 @@ export class SkyTileDashboardService {
     return undefined;
   }
 
+  private getTileIdByElementRef(elementRef: ElementRef): string {
+    let el = elementRef.nativeElement;
+    let tileId: string;
+
+    while (el) {
+      tileId = el.getAttribute(ATTR_TILE_ID);
+
+      if (tileId) {
+        return tileId;
+      }
+
+      el = el.parentElement;
+    }
+  }
+
   private getTileOrRemoveFromLayout(
     layoutTile: SkyTileDashboardConfigLayoutTile
   ): SkyTileDashboardConfigTile {
@@ -407,6 +471,10 @@ export class SkyTileDashboardService {
   }
 
   private loadTiles() {
+    this.columns.forEach((column) => {
+      column.content.clear();
+    });
+
     const layout = this.config.layout;
 
     if (

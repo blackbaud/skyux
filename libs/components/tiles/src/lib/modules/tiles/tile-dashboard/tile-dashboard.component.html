@@ -4,7 +4,7 @@
 <div class="sky-tile-dashboard" cdkDropListGroup>
   <sky-tile-dashboard-column
     cdkDropList
-    (cdkDropListDropped)="drop($event)"
+    (cdkDropListDropped)="drop($event, column)"
     *ngFor="let column of config?.layout?.multiColumn"
     class="sky-tile-dashboard-layout-multi"
     [ngStyle]="{
