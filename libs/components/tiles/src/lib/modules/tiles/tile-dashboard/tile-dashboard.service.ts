@@ -12,16 +12,16 @@ import {
   SkyUIConfigService,
 } from '@skyux/core';
 
-import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
 import { SkyTileDashboardConfigLayoutColumn } from '../tile-dashboard-config/tile-dashboard-config-layout-column';
 import { SkyTileDashboardConfigLayoutTile } from '../tile-dashboard-config/tile-dashboard-config-layout-tile';
 import { SkyTileDashboardConfigTile } from '../tile-dashboard-config/tile-dashboard-config-tile';
 import { SkyTileComponent } from '../tile/tile.component';
+
+import { SkyTileDashboardColumnComponent } from './tile-dashboard-column.component';
 
 const ATTR_TILE_ID = '_sky-tile-dashboard-tile-id';
 
@@ -60,13 +60,25 @@ export class SkyTileDashboardService {
   private settingsKey: string;
 
   constructor(
-    private dragulaService: DragulaService,
     private mediaQuery: SkyMediaQueryService,
     private uiConfigService: SkyUIConfigService
   ) {
     this.bagId = 'sky-tile-dashboard-bag-' + ++bagIdIndex;
 
-    this.initDragula();
+    // this.initDragula();
+  }
+
+  public handleDrop() {
+    const config = this.getConfigForUIState();
+
+    /*istanbul ignore else */
+    if (config) {
+      if (this.settingsKey) {
+        this.setUserConfig(config);
+      }
+
+      this.configChange.emit(config);
+    }
   }
 
   /**
@@ -570,27 +582,27 @@ export class SkyTileDashboardService {
     }
   }
 
-  private initDragula() {
-    this.dragulaService.setOptions(this.bagId, {
-      moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-        const target = el.querySelector('.sky-tile-grab-handle');
-        return target.contains(handle);
-      },
-    });
+  // private initDragula() {
+  //   this.dragulaService.setOptions(this.bagId, {
+  //     moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
+  //       const target = el.querySelector('.sky-tile-grab-handle');
+  //       return target.contains(handle);
+  //     },
+  //   });
 
-    this.dragulaService.drop.subscribe((value: any[]) => {
-      const config = this.getConfigForUIState();
+  //   this.dragulaService.drop.subscribe((value: any[]) => {
+  //     const config = this.getConfigForUIState();
 
-      /*istanbul ignore else */
-      if (config) {
-        if (this.settingsKey) {
-          this.setUserConfig(config);
-        }
+  //     /*istanbul ignore else */
+  //     if (config) {
+  //       if (this.settingsKey) {
+  //         this.setUserConfig(config);
+  //       }
 
-        this.configChange.emit(config);
-      }
-    });
-  }
+  //       this.configChange.emit(config);
+  //     }
+  //   });
+  // }
 
   private getColumnEl(column: SkyTileDashboardColumnComponent): Element {
     return column.content.element.nativeElement.parentNode;

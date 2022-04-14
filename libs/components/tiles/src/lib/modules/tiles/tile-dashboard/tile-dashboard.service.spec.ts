@@ -280,7 +280,6 @@ describe('Tile dashboard service', () => {
 
     (function () {
       return new SkyTileDashboardService(
-        mockDragulaService,
         mockMediaQueryService as any,
         mockUIConfigService
       );

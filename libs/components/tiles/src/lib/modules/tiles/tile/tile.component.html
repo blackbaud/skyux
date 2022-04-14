@@ -1,5 +1,6 @@
 <section
   class="sky-tile"
+  cdkDrag
   [ngClass]="{
     'sky-tile-collapsed': isCollapsed
   }"
@@ -90,6 +91,7 @@
           [attr.aria-describedby]="
             dashboardService?.bagId + '-move-instructions'
           "
+          cdkDragHandle
           [skyThemeClass]="{
             'sky-tile-tools-control': 'default',
             'sky-btn-icon-borderless': 'modern'

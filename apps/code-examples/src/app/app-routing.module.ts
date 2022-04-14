@@ -42,6 +42,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/ag-grid.module').then((m) => m.AgGridFeatureModule),
   },
+  {
+    path: 'tiles',
+    loadChildren: () =>
+      import('./features/tiles.module').then((m) => m.TilesFeatureModule),
+  },
 ];
 
 @NgModule({

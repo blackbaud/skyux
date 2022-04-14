@@ -1,3 +1,4 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
@@ -19,6 +20,7 @@ import { SkyTileComponent } from './tile.component';
   ],
   imports: [
     CommonModule,
+    DragDropModule,
     SkyChevronModule,
     SkyIdModule,
     SkyI18nModule,

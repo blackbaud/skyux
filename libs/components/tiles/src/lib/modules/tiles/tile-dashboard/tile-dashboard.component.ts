@@ -1,3 +1,4 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   Component,
@@ -16,9 +17,9 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { SkyTileDashboardColumnComponent } from '../tile-dashboard-column/tile-dashboard-column.component';
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
 
+import { SkyTileDashboardColumnComponent } from './tile-dashboard-column.component';
 import { SkyTileDashboardMessage } from './tile-dashboard-message';
 import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
 import { SkyTileDashboardService } from './tile-dashboard.service';
@@ -139,6 +140,11 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
         }
       }
     );
+  }
+
+  public drop(event: CdkDragDrop<string[]>) {
+    console.log('DROP:', event);
+    this.dashboardService.handleDrop();
   }
 
   public ngAfterViewInit(): void {

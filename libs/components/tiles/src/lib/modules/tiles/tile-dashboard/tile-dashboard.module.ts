@@ -1,21 +1,15 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { DragulaService } from 'ng2-dragula';
-
 import { SkyTilesResourcesModule } from '../../shared/sky-tiles-resources.module';
-import { SkyTileDashboardColumnModule } from '../tile-dashboard-column/tile-dashboard-column.module';
 
+import { SkyTileDashboardColumnComponent } from './tile-dashboard-column.component';
 import { SkyTileDashboardComponent } from './tile-dashboard.component';
 
 @NgModule({
-  declarations: [SkyTileDashboardComponent],
-  providers: [DragulaService],
-  imports: [
-    CommonModule,
-    SkyTileDashboardColumnModule,
-    SkyTilesResourcesModule,
-  ],
+  declarations: [SkyTileDashboardComponent, SkyTileDashboardColumnComponent],
+  imports: [CommonModule, DragDropModule, SkyTilesResourcesModule],
   exports: [SkyTileDashboardComponent],
 })
 export class SkyTileDashboardModule {}

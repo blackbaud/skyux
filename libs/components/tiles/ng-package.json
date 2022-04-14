@@ -3,6 +3,5 @@
   "dest": "../../../dist/libs/components/tiles",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "allowedNonPeerDependencies": ["dragula", "ng2-dragula"]
+  }
 }

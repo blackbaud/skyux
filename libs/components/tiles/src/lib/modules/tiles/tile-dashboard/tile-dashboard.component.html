@@ -1,19 +1,25 @@
 <span aria-live="assertive" class="sky-assistive-text">
   {{ tileMovedReport }}
 </span>
-<sky-tile-dashboard-column
-  *ngFor="let column of config?.layout?.multiColumn"
-  class="sky-tile-dashboard-layout-multi"
-  [ngStyle]="{
-    'flex-basis': 100 / config?.layout?.multiColumn.length + '%'
-  }"
->
-</sky-tile-dashboard-column>
-<sky-tile-dashboard-column
-  class="sky-tile-dashboard-layout-single"
-  #singleColumn
->
-</sky-tile-dashboard-column>
+<div class="sky-tile-dashboard" cdkDropListGroup>
+  <sky-tile-dashboard-column
+    cdkDropList
+    (cdkDropListDropped)="drop($event)"
+    *ngFor="let column of config?.layout?.multiColumn"
+    class="sky-tile-dashboard-layout-multi"
+    [ngStyle]="{
+      'flex-basis': 100 / config?.layout?.multiColumn.length + '%'
+    }"
+  >
+  </sky-tile-dashboard-column>
+  <sky-tile-dashboard-column
+    cdkDropList
+    class="sky-tile-dashboard-layout-single"
+    #singleColumn
+  >
+  </sky-tile-dashboard-column>
+</div>
+
 <span class="sky-screen-reader-only" [id]="moveInstructionsId">{{
   'skyux_tile_move_instructions' | skyLibResources
 }}</span>

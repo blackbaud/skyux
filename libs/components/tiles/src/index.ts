@@ -7,8 +7,6 @@ export * from './lib/modules/tiles/tile-dashboard/tile-dashboard-message-type';
 export * from './lib/modules/tiles/tile-dashboard/tile-dashboard.module';
 export * from './lib/modules/tiles/tile-dashboard/tile-dashboard.service';
 
-export * from './lib/modules/tiles/tile-dashboard-column/tile-dashboard-column.module';
-
 export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config';
 export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout';
 export * from './lib/modules/tiles/tile-dashboard-config/tile-dashboard-config-layout-column';
@@ -25,5 +23,5 @@ export { SkyTileSummaryComponent as λ2 } from './lib/modules/tiles/tile/tile-su
 export { SkyTileTitleComponent as λ3 } from './lib/modules/tiles/tile/tile-title.component';
 export { SkyTileContentSectionComponent as λ4 } from './lib/modules/tiles/tile-content/tile-content-section.component';
 export { SkyTileContentComponent as λ5 } from './lib/modules/tiles/tile-content/tile-content.component';
-export { SkyTileDashboardColumnComponent as λ6 } from './lib/modules/tiles/tile-dashboard-column/tile-dashboard-column.component';
+export { SkyTileDashboardColumnComponent as λ6 } from './lib/modules/tiles/tile-dashboard/tile-dashboard-column.component';
 export { SkyTileDashboardComponent as λ7 } from './lib/modules/tiles/tile-dashboard/tile-dashboard.component';
