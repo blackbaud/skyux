@@ -65,66 +65,27 @@ export class SkyTileDashboardService {
     private uiConfigService: SkyUIConfigService
   ) {
     this.bagId = 'sky-tile-dashboard-bag-' + ++bagIdIndex;
-
-    // this.initDragula();
   }
 
   public handleDrop(args: {
     tile: ElementRef;
     newColumnIndex: number;
     newTileIndex: number;
-    // tileIndex: number;
-    // column: ElementRef;
-    // previousColumn: SkyTileDashboardConfigLayoutColumn;
   }) {
-    // const config = this.getConfigForUIState();
-    // /*istanbul ignore else */
-    // if (config) {
-    //   if (this.settingsKey) {
-    //     this.setUserConfig(config);
-    //   }
-    //   this.configChange.emit(config);
-    // }
-
-    // const tile = this.
-
     const tileId = this.getTileIdByElementRef(args.tile);
     const tileConfig = this.findTile(tileId);
     const previousColumn = this.findTileColumn(tileId);
-
     const newColumn = this.config.layout.multiColumn[args.newColumnIndex];
-    console.log('EH?', this.config.layout.multiColumn, args.newColumnIndex);
 
     previousColumn.tiles.splice(previousColumn.tiles.indexOf(tileConfig), 1);
     newColumn.tiles.splice(args.newTileIndex, 0, tileConfig);
 
-    console.log(this.config);
-
-    // args.previousColumn.tiles.splice(
-    //   args.previousColumn.tiles.indexOf(tileConfig),
-    //   1
-    // );
-    // args.column.tiles.splice(args.tileIndex, 0, tileConfig);
-
-    // const columnIndex = this.config.layout.multiColumn.indexOf(args.column);
-    // const previousColumnIndex = this.config.layout.multiColumn.indexOf(
-    //   args.previousColumn
-    // );
-
-    // const config: SkyTileDashboardConfig = {
-    //   tiles: this.config.tiles,
-    //   layout: {
-    //     singleColumn: {
-    //       tiles: [],
-    //     },
-    //     multiColumn: [{}, {}],
-    //   },
-    // };
     if (this.settingsKey) {
       this.setUserConfig();
     }
 
     this.configChange.emit(this.config);
+
     this.loadTiles();
   }
 
@@ -398,18 +359,7 @@ export class SkyTileDashboardService {
 
   private getTileId(tile: SkyTileComponent): string {
     if (tile) {
-      let el = tile.elementRef.nativeElement;
-      let tileId: string;
-
-      while (el) {
-        tileId = el.getAttribute(ATTR_TILE_ID);
-
-        if (tileId) {
-          return tileId;
-        }
-
-        el = el.parentElement;
-      }
+      return this.getTileIdByElementRef(tile.elementRef);
     }
 
     return undefined;
@@ -560,81 +510,6 @@ export class SkyTileDashboardService {
     }
   }
 
-  // private getConfigForUIState(): SkyTileDashboardConfig {
-  //   /*istanbul ignore else */
-  //   if (this.config) {
-  //     this.config = {
-  //       tiles: this.config.tiles,
-  //       layout: {
-  //         singleColumn: this.getSingleColumnLayoutForUIState(),
-  //         multiColumn: this.getMultiColumnLayoutForUIState(),
-  //       },
-  //     };
-  //   }
-
-  //   return this.config;
-  // }
-
-  // private getSingleColumnLayoutForUIState(): SkyTileDashboardConfigLayoutColumn {
-  //   if (
-  //     this.mediaQuery.current === SkyMediaBreakpoints.xs ||
-  //     this.mediaQuery.current === SkyMediaBreakpoints.sm
-  //   ) {
-  //     return {
-  //       tiles: this.getTilesInEl(this.getColumnEl(this.singleColumn)),
-  //     };
-  //   }
-
-  //   return this.config.layout.singleColumn;
-  // }
-
-  // private getMultiColumnLayoutForUIState(): SkyTileDashboardConfigLayoutColumn[] {
-  //   if (
-  //     !(
-  //       this.mediaQuery.current === SkyMediaBreakpoints.xs ||
-  //       this.mediaQuery.current === SkyMediaBreakpoints.sm
-  //     )
-  //   ) {
-  //     const layoutColumns: SkyTileDashboardConfigLayoutColumn[] = [];
-  //     const columns = this.columns.toArray();
-
-  //     for (const column of columns) {
-  //       if (column !== this.singleColumn) {
-  //         const layoutColumn: SkyTileDashboardConfigLayoutColumn = {
-  //           tiles: this.getTilesInEl(this.getColumnEl(column)),
-  //         };
-
-  //         layoutColumns.push(layoutColumn);
-  //       }
-  //     }
-
-  //     return layoutColumns;
-  //   }
-
-  //   return this.config.layout.multiColumn;
-  // }
-
-  // private getTilesInEl(el: Element): SkyTileDashboardConfigLayoutTile[] {
-  //   const tileEls: any = el.querySelectorAll('[' + ATTR_TILE_ID + ']');
-  //   const layoutTiles: SkyTileDashboardConfigLayoutTile[] = [];
-
-  //   /*istanbul ignore else */
-  //   if (tileEls) {
-  //     for (let i = 0, n = tileEls.length; i < n; i++) {
-  //       const tileEl = tileEls[i];
-  //       const tileId = tileEl.getAttribute(ATTR_TILE_ID);
-  //       const tile = this.findTile(tileId);
-
-  //       /*istanbul ignore else */
-  //       if (tile) {
-  //         layoutTiles.push(tile);
-  //       }
-  //     }
-  //   }
-
-  //   return layoutTiles;
-  // }
-
   private initMediaQueries() {
     /*istanbul ignore else */
     if (!this.mediaSubscription) {
@@ -647,28 +522,6 @@ export class SkyTileDashboardService {
       );
     }
   }
-
-  // private initDragula() {
-  //   this.dragulaService.setOptions(this.bagId, {
-  //     moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
-  //       const target = el.querySelector('.sky-tile-grab-handle');
-  //       return target.contains(handle);
-  //     },
-  //   });
-
-  //   this.dragulaService.drop.subscribe((value: any[]) => {
-  //     const config = this.getConfigForUIState();
-
-  //     /*istanbul ignore else */
-  //     if (config) {
-  //       if (this.settingsKey) {
-  //         this.setUserConfig(config);
-  //       }
-
-  //       this.configChange.emit(config);
-  //     }
-  //   });
-  // }
 
   private getColumnEl(column: SkyTileDashboardColumnComponent): Element {
     return column.content.element.nativeElement.parentNode;

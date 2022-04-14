@@ -20,7 +20,6 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
 
-// import { SkyTileComponent } from '../tile/tile.component';
 import { SkyTileDashboardColumnComponent } from './tile-dashboard-column.component';
 import { SkyTileDashboardMessage } from './tile-dashboard-message';
 import { SkyTileDashboardMessageType } from './tile-dashboard-message-type';
@@ -147,19 +146,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  public drop(event: CdkDragDrop<string[]>, column: any) {
-    console.log('DROP:', event, column, this.config?.layout?.multiColumn);
-
-    // this.columnViewContainerRefs.first.detach(1);
-
-    // for (const column of this.config.layout.multiColumn) {
-    //   for (const tile of column.tiles) {
-    //     if (tile.id)
-    //   }
-    // }
-
-    // if (event.container.element === )
-
+  public drop(event: CdkDragDrop<string[]>) {
     const columnIndex = this.columnElementRefs.toArray().findIndex((x) => {
       return x.nativeElement === event.container.element.nativeElement;
     });
