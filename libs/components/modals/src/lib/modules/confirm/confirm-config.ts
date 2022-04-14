@@ -12,18 +12,16 @@ export interface SkyConfirmConfig {
    */
   body?: string;
   /**
-   * Specifies an array of `SkyConfirmButtonConfig` objects that overwrite the default
-   * configuration for buttons. The number of items in the array must match the number of
-   * buttons that the `type` property specifies.
+   * Specifies a list of buttons to display when the `type` property is set to `SkyConfirmType.Custom`.
    */
   buttons?: SkyConfirmButtonConfig[];
   /**
-   * Indicates whether to preserve whitespace and new lines inside the confirm component.
+   * Indicates whether to preserve whitespace and new lines inside the dialog.
    * @default false
    */
   preserveWhiteSpace?: boolean;
   /**
-   * Specifies a SkyConfirmType enum that indicates how many buttons to include in the dialog.
+   * Specifies a preset button configuration for the dialog.
    */
   type?: SkyConfirmType;
 }
