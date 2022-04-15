@@ -13,9 +13,19 @@ const routes: Routes = [
       import('./features/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'grids',
+    loadChildren: () =>
+      import('./features/grids.module').then((m) => m.GridsFeatureModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./features/layout.module').then((m) => m.LayoutModule),
+  },
+  {
+    path: 'lists',
+    loadChildren: () =>
+      import('./features/lists.module').then((m) => m.ListsFeatureModule),
   },
   {
     path: 'lookup',
@@ -41,6 +51,11 @@ const routes: Routes = [
     path: 'ag-grid',
     loadChildren: () =>
       import('./features/ag-grid.module').then((m) => m.AgGridFeatureModule),
+  },
+  {
+    path: 'tiles',
+    loadChildren: () =>
+      import('./features/tiles.module').then((m) => m.TilesFeatureModule),
   },
 ];
 
