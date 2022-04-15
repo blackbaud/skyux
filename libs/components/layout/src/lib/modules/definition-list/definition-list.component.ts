@@ -39,7 +39,10 @@ export class SkyDefinitionListComponent {
     logService: SkyLogService
   ) {
     logService.deprecated('SkyDefinitionListComponent', {
-      replacementTypes: ['SkyDescriptionListComponent'],
+      depcrecationVersion: '6.0.0',
+      replacementType: 'SkyDescriptionListComponent',
+      removalVersion: '7.0.0',
+      url: 'https://developer.blackbaud.com/skyux/components/description-list',
     });
   }
 }

@@ -1,12 +1,4 @@
 {
-  "skyux_deprecation_warning": {
-    "_description": "Warning for when a user is using a deprecated feature",
-    "message": "{0} has been deprecated and will be removed in a futre major version of SKY UX."
-  },
-  "skyux_deprecation_replacement": {
-    "_description": "Information on how to replace a deprecated feature",
-    "message": "We recommend you use the following type(s) instead: {0}."
-  },
   "skyux_numeric_billions_symbol": {
     "_description": "Symbol to be used when abbreviating a \"billion\" number.",
     "message": "B"

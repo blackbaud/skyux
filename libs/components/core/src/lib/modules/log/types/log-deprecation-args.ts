@@ -4,6 +4,9 @@ import { SkyLogLevel } from './log-level';
  * @internal
  */
 export interface SkyLogDepcrecationArgs {
-  replacementTypes?: string | string[];
+  depcrecationVersion?: string;
+  removalVersion?: string;
+  replacementType?: string;
   logLevel?: SkyLogLevel;
+  url?: string;
 }
