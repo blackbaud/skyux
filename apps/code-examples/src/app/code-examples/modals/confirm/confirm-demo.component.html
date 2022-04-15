@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <button
   aria-haspopup="dialog"
   class="sky-btn sky-btn-default sky-margin-inline-sm"
@@ -15,6 +16,27 @@
 >
   Custom confirm
 </button>
+=======
+<div class="sky-margin-stacked-lg">
+  <button
+    aria-haspopup="dialog"
+    class="sky-btn sky-btn-default sky-margin-inline-lg"
+    type="button"
+    (click)="openOKConfirm()"
+  >
+    OK confirm
+  </button>
+
+  <button
+    aria-haspopup="dialog"
+    class="sky-btn sky-btn-default sky-margin-inline-lg"
+    type="button"
+    (click)="openCustomConfirm()"
+  >
+    Custom confirm
+  </button>
+</div>
+>>>>>>> Stashed changes
 
 <p *ngIf="selectedAction && selectedText">
   You selected the "{{ selectedText }}" button, which has an action of "{{

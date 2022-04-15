@@ -7,7 +7,7 @@
     (inlineFormClose)="onInlineFormClose($event)"
   >
     <sky-repeater-item-title class="demo-repeater-flex">
-      <div class="sky-emphasized">
+      <div class="sky-font-emphasized">
         {{ item.title }}
       </div>
       <div>
@@ -38,7 +38,7 @@
   <form novalidate [formGroup]="myForm">
     <div class="sky-form-group">
       <sky-input-box>
-        <label class="sky-control-label" [for]="myTitle.id"> Title </label>
+        <label class="sky-font-data-label" [for]="myTitle.id"> Title </label>
         <input
           class="sky-form-control"
           formControlName="title"
@@ -50,7 +50,7 @@
     </div>
     <div class="sky-form-group">
       <sky-input-box>
-        <label class="sky-control-label" [for]="myNote.id"> Note </label>
+        <label class="sky-font-data-label" [for]="myNote.id"> Note </label>
         <input
           class="sky-form-control"
           formControlName="note"
