@@ -19,6 +19,19 @@ jobs:
         with:
           # subject should not start with a capital letter or end with a period
           subjectPattern: ^(?![A-Z]).+(?<!\.)$
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+            deprecation
           scopes: |
             changelog
             dev-infra
