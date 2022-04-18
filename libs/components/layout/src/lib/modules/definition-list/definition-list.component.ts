@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyDefinitionListService } from './definition-list.service';
 
+/**
+ * Creates a definition list to display label-value pairs.
+ */
 @Component({
   selector: 'sky-definition-list',
   templateUrl: './definition-list.component.html',
