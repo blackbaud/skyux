@@ -8,13 +8,15 @@ import { SkyLookupModule } from '@skyux/lookup';
 import { Column } from 'ag-grid-community';
 import { EventCallback } from 'typedoc/dist/lib/utils/events';
 
+import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
+
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let component: SkyAgGridCellEditorLookupComponent;
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
   let callback: EventCallback | undefined;
-  const params = {
+  const params: SkyCellEditorLookupParams = {
     $scope: undefined,
     api: undefined,
     cellStartedEdit: false,
@@ -34,7 +36,8 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     data: undefined,
     eGridCell: undefined,
     formatValue(): any {},
-    keyPress: undefined,
+    key: undefined,
+    eventKey: undefined,
     node: undefined,
     onKeyDown(): void {},
     parseValue(): any {},
