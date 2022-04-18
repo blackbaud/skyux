@@ -22,7 +22,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { DragulaService } from 'ng2-dragula';
+import { DragulaOptions, DragulaService, Group } from 'ng2-dragula';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyTileDashboardConfig } from '../tile-dashboard-config/tile-dashboard-config';
@@ -41,7 +41,7 @@ import { TileDashboardTestComponent } from './fixtures/tile-dashboard.component.
 
 describe('Tile dashboard service', () => {
   let dashboardConfig: SkyTileDashboardConfig;
-  let mockDragulaService: DragulaService;
+  let mockDragulaService: MockDragulaService;
   let mockMediaQueryService: MockSkyMediaQueryService;
   let mockUIConfigService: MockSkyUIConfigService;
   let mockThemeSvc: {
@@ -255,7 +255,7 @@ describe('Tile dashboard service', () => {
 
     columnEls[1].appendChild(columnEls[0].querySelector('div.sky-test-tile-1'));
 
-    mockDragulaService.drop.emit({});
+    mockDragulaService.drop().next({});
     tick();
 
     expect(configChanged).toBe(true);
@@ -270,11 +270,11 @@ describe('Tile dashboard service', () => {
       'div.sky-test-tile-1'
     );
     const handle: Element = tile.querySelector('.sky-tile-grab-handle i');
-    const setOptionsSpy = spyOn(mockDragulaService, 'setOptions').and.callFake(
-      (bagId: any, options: any) => {
+    const setOptionsSpy = spyOn(mockDragulaService, 'createGroup').and.callFake(
+      (name: string, options: DragulaOptions) => {
         const result = options.moves(tile, undefined, handle);
-
         expect(result).toBe(true);
+        return {} as Group;
       }
     );
 
@@ -651,7 +651,7 @@ describe('Tile dashboard service', () => {
 
     mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
 
-    mockDragulaService.drop.emit({});
+    mockDragulaService.drop().next({});
 
     fixture.detectChanges();
     tick();
@@ -660,7 +660,7 @@ describe('Tile dashboard service', () => {
 
     mockMediaQueryService.fire(SkyMediaBreakpoints.lg);
 
-    mockDragulaService.drop.emit({});
+    mockDragulaService.drop().next({});
 
     fixture.detectChanges();
     tick();

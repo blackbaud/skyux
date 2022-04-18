@@ -19,7 +19,7 @@
   >
     <table class="sky-grid-table" [ngClass]="getTableClassNames()" #gridTable>
       <thead>
-        <tr dragula="sky-grid-heading">
+        <tr [dragula]="dragulaGroupName">
           <th
             *ngIf="enableMultiselect"
             class="sky-grid-heading sky-grid-multiselect-cell sky-grid-header-locked"

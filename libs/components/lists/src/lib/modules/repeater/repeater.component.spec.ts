@@ -9,7 +9,7 @@ import {
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
 
-import { DragulaService } from 'ng2-dragula';
+import { DragulaService, Group } from 'ng2-dragula';
 
 import { MockDragulaService } from './fixtures/mock-dragula.service';
 import { NestedRepeaterTestComponent } from './fixtures/nested-repeater.component.fixture';
@@ -1200,9 +1200,26 @@ describe('Repeater item component', () => {
           handle: HTMLElement
         ) => boolean;
 
-        const setOptionsSpy = spyOn(dragulaService, 'setOptions').and.callFake(
-          (bagId, options) => {
+        let counter = 0;
+        spyOn(dragulaService, 'find').and.callFake(() => {
+          // Ignore the first call to 'find' (called in the repeater component),
+          // we only want to mock out ng2-dragula's internal call.
+          if (++counter === 1) {
+            return;
+          }
+
+          return {
+            drake: {
+              destroy() {},
+              containers: [],
+            },
+          } as Group;
+        });
+
+        const setOptionsSpy = spyOn(dragulaService, 'createGroup').and.callFake(
+          (name, options) => {
             movesCallback = options.moves;
+            return undefined;
           }
         );
 
@@ -1233,7 +1250,7 @@ describe('Repeater item component', () => {
     let fixture: ComponentFixture<RepeaterTestComponent>;
     let cmp: RepeaterTestComponent;
     let el: any;
-    let mockDragulaService: DragulaService;
+    let mockDragulaService: MockDragulaService;
     let consoleSpy: jasmine.Spy;
 
     beforeEach(fakeAsync(() => {
@@ -1314,7 +1331,7 @@ describe('Repeater item component', () => {
     it('should update css classes correctly while dragging', fakeAsync(() => {
       const groupName = fixture.componentInstance.repeater.dragulaGroupName;
       let repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
-      mockDragulaService.drag.emit([groupName, repeaterItem]);
+      mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1322,7 +1339,7 @@ describe('Repeater item component', () => {
       expect(
         repeaterItem.classList.contains('sky-repeater-item-dragging')
       ).toBeTruthy();
-      mockDragulaService.dragend.emit([groupName, repeaterItem]);
+      mockDragulaService.dragend().next({ name: groupName, el: repeaterItem });
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
@@ -1506,7 +1523,7 @@ describe('Repeater item component', () => {
       const groupName = fixture.componentInstance.repeater.dragulaGroupName;
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
-      mockDragulaService.drag.emit([groupName, repeaterItem]);
+      mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
       detectChangesAndTick(fixture);
       const repeaterDiv: HTMLElement =
         fixture.nativeElement.querySelector('.sky-repeater');
@@ -1515,7 +1532,7 @@ describe('Repeater item component', () => {
       const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[2];
 
       repeaterDiv.insertBefore(repeaterItem, nextSibling);
-      mockDragulaService.dragend.emit([groupName, repeaterItem]);
+      mockDragulaService.dragend().next({ name: groupName, el: repeaterItem });
       detectChangesAndTick(fixture);
       expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
     }));
@@ -1535,7 +1552,7 @@ describe('Repeater item component', () => {
       const groupName = fixture.componentInstance.repeater.dragulaGroupName;
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
-      mockDragulaService.drag.emit([groupName, repeaterItem]);
+      mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
       detectChangesAndTick(fixture);
       const repeaterDiv: HTMLElement =
         fixture.nativeElement.querySelector('.sky-repeater');
@@ -1544,7 +1561,7 @@ describe('Repeater item component', () => {
       const nextSibling = repeaterDiv.querySelectorAll('sky-repeater-item')[2];
 
       repeaterDiv.insertBefore(repeaterItem, nextSibling);
-      mockDragulaService.dragend.emit([groupName, repeaterItem]);
+      mockDragulaService.dragend().next({ name: groupName, el: repeaterItem });
       detectChangesAndTick(fixture);
       expect(cmp.sortedItemTags).toEqual(['item2', 'item3', 'item1']);
     }));

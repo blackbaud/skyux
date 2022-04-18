@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAppWindowRef, SkyUIConfigService } from '@skyux/core';
 
-import { DragulaService } from 'ng2-dragula';
+import { DragulaOptions, DragulaService, Group } from 'ng2-dragula';
 import { of as observableOf, throwError as observableThrowError } from 'rxjs';
 
 import { GridAsyncTestComponent } from './fixtures/grid-async.component.fixture';
@@ -2212,7 +2212,7 @@ describe('Grid Component', () => {
   });
 
   describe('dragula functionality', () => {
-    let mockDragulaService: DragulaService;
+    let mockDragulaService: MockDragulaService;
     let component: GridTestComponent,
       fixture: ComponentFixture<GridTestComponent>,
       element: DebugElement;
@@ -2246,9 +2246,8 @@ describe('Grid Component', () => {
 
       let addCalled: boolean;
 
-      mockDragulaService.drag.emit([
-        undefined,
-        {
+      mockDragulaService.drag().next({
+        el: {
           classList: {
             add(cls: string) {
               addCalled = true;
@@ -2256,7 +2255,7 @@ describe('Grid Component', () => {
             },
           },
         },
-      ]);
+      });
 
       tick();
       fixture.detectChanges();
@@ -2270,9 +2269,8 @@ describe('Grid Component', () => {
 
       let removeCalled: boolean;
 
-      mockDragulaService.dragend.emit([
-        undefined,
-        {
+      mockDragulaService.dragend().next({
+        el: {
           classList: {
             remove(cls: string) {
               removeCalled = true;
@@ -2280,7 +2278,7 @@ describe('Grid Component', () => {
             },
           },
         },
-      ]);
+      });
 
       tick();
       fixture.detectChanges();
@@ -2311,10 +2309,8 @@ describe('Grid Component', () => {
         ];
       });
 
-      mockDragulaService.drop.emit([
-        undefined,
-        undefined,
-        {
+      mockDragulaService.drop().next({
+        target: {
           querySelectorAll(elementSelector: string) {
             expect(elementSelector).toBe(
               'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)'
@@ -2349,7 +2345,7 @@ describe('Grid Component', () => {
             ];
           },
         },
-      ]);
+      });
       tick();
       fixture.detectChanges();
 
@@ -2378,10 +2374,8 @@ describe('Grid Component', () => {
         'onSelectedColumnIdsChange'
       ).and.callThrough();
 
-      mockDragulaService.drop.emit([
-        undefined,
-        undefined,
-        {
+      mockDragulaService.drop().next({
+        target: {
           querySelectorAll(elementSelector: string) {
             expect(elementSelector).toBe(
               'th:not(.sky-grid-multiselect-cell):not(.sky-grid-row-delete-heading)'
@@ -2416,7 +2410,7 @@ describe('Grid Component', () => {
             ];
           },
         },
-      ]);
+      });
       tick();
       fixture.detectChanges();
 
@@ -2549,8 +2543,12 @@ describe('Grid Component', () => {
 
       const setOptionsSpy = spyOn(
         mockDragulaService,
-        'setOptions'
-      ).and.callFake((bagId: any, options: any) => {
+        'createGroup'
+      ).and.callFake((name: string, options: DragulaOptions) => {
+        if (!options.moves) {
+          return;
+        }
+
         const moveOptionValid = options.moves(
           standardMockElement,
           standardMockElement,
@@ -2648,6 +2646,8 @@ describe('Grid Component', () => {
         expect(acceptsOptionLockedHandle).toBeFalsy();
         expect(acceptsOptionResizeHandle).toBeFalsy();
         expect(acceptsOptionLeftOfLocked).toBeFalsy();
+
+        return {} as unknown as Group;
       });
 
       fixture.detectChanges();
@@ -2669,16 +2669,15 @@ describe('Grid Component', () => {
       fixture.detectChanges();
       fixture.detectChanges();
 
-      mockDragulaService.drag.emit([
-        undefined,
-        {
+      mockDragulaService.drag().next({
+        el: {
           classList: {
             add(cls: string) {
               expect(cls).toBe('sky-grid-header-dragging');
             },
           },
         },
-      ]);
+      });
 
       fixture.detectChanges();
       await fixture.whenStable();
