@@ -423,7 +423,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   private handleIncomingMessages(message: SkyFlyoutMessage): void {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
         if (!this.isOpen) {

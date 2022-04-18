@@ -31,7 +31,6 @@ import { SkyDatepickerComponent } from './datepicker.component';
 import { SkyFuzzyDate } from './fuzzy-date';
 import { SkyFuzzyDateService } from './fuzzy-date.service';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_FUZZY_DATEPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyFuzzyDatepickerInputDirective),
@@ -43,7 +42,6 @@ const SKY_FUZZY_DATEPICKER_VALIDATOR = {
   useExisting: forwardRef(() => SkyFuzzyDatepickerInputDirective),
   multi: true,
 };
-// tslint:enable
 
 @Directive({
   selector: '[skyFuzzyDatepickerInput]',

@@ -336,7 +336,6 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
-        /* tslint:disable-next-line:switch-default */
         switch (key) {
           case 'escape':
             this.close();

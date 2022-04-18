@@ -4,6 +4,7 @@ import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import { SkyThemeService } from '@skyux/theme';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -20,7 +21,7 @@ import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 })
 export class SkyAgGridDemoComponent implements OnInit {
   public gridData = SKY_AG_GRID_DEMO_DATA;
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       headerName: '',

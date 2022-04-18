@@ -364,10 +364,9 @@ describe('List column selector action', () => {
         dispatcher.viewsSetActive('other');
         tick();
 
-        /* tslint:disable */
         const query =
           '.sky-list-toolbar-container .sky-toolbar-item .sky-list-secondary-actions .sky-dropdown .sky-dropdown-menu sky-list-secondary-action';
-        /* tslint:enable */
+
         expect(nativeElement.querySelector(query)).toBeNull();
       });
 

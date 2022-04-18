@@ -185,11 +185,9 @@ export class SkyGridColumnComponent implements OnChanges {
   }
 
   private search(value: any, searchText: string): boolean {
-    /* tslint:disable:no-null-keyword */
     if (value !== undefined && value !== null) {
       return value.toString().toLowerCase().indexOf(searchText) !== -1;
     }
-    /* tslint:enable */
 
     return false;
   }

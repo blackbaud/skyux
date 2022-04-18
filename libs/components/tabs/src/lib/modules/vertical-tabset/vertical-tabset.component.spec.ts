@@ -526,7 +526,6 @@ describe('Vertical tabset component', () => {
     const activeTab = el.querySelectorAll('.sky-vertical-tab-active');
     expect(activeTab.length).toBe(1);
     const headerCount = activeTab[0].querySelector('.sky-vertical-tab-count');
-    // tslint:disable-next-line:no-null-keyword
     expect(headerCount).toBe(null);
 
     flush();

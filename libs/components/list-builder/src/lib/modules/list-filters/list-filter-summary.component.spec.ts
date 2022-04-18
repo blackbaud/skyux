@@ -73,11 +73,9 @@ describe('List filter summary', () => {
   }));
 
   function getSummaryItems() {
-    /* tslint:disable */
     return nativeElement.querySelectorAll(
       '.sky-list-toolbar-container .sky-toolbar-section .sky-filter-summary .sky-filter-summary-item'
     );
-    /* tslint:enable */
   }
 
   it('should show filter summary in the appropriate area when filters exist', async(() => {

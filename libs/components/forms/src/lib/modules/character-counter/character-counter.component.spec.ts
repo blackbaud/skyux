@@ -69,9 +69,7 @@ describe('Character Counter component', () => {
     }));
 
     it('should handle undefined input', fakeAsync(() => {
-      /* tslint:disable */
       setInputValue(fixture, null);
-      /* tslint:enable */
 
       expect(characterCountComponent.characterCount).toBe(0);
       expect(characterCountLabel.innerText.trim()).toBe('0/5');
@@ -169,9 +167,7 @@ describe('Character Counter component', () => {
     });
 
     it('should handle undefined input', fakeAsync(() => {
-      /* tslint:disable */
       setInputValue(fixture, null);
-      /* tslint:enable */
 
       expect(component.firstName.valid).toBeTruthy();
     }));

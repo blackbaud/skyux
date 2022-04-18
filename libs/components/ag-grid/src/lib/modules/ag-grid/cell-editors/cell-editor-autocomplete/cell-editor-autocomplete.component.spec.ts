@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Beans, Column, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridModule } from '../../ag-grid.module';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
@@ -43,7 +43,7 @@ describe('SkyCellEditorAutocompleteComponent', () => {
     let column: Column;
     const columnWidth = 200;
     const selection = data[0];
-    const rowNode = new RowNode();
+    const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
@@ -62,7 +62,8 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         value: selection,
         column,
         node: rowNode,
-        keyPress: undefined,
+        key: undefined,
+        eventKey: undefined,
         charPress: undefined,
         colDef: {},
         columnApi: undefined,

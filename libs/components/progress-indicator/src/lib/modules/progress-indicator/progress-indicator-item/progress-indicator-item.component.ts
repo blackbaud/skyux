@@ -50,7 +50,6 @@ export class SkyProgressIndicatorItemComponent {
   public get statusName(): string {
     let name: string;
 
-    /* tslint:disable-next-line:switch-default */
     switch (this.status) {
       case SkyProgressIndicatorItemStatus.Active:
         name = 'active';

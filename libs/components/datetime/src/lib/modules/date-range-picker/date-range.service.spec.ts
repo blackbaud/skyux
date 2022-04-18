@@ -66,13 +66,11 @@ describe('Date range service', function () {
     expect(typeof calculator.getValue).toEqual('function');
     expect(typeof calculator.validate).toEqual('function');
 
-    /* tslint:disable:no-null-keyword */
     expect(calculator.getValue()).toEqual({
       calculatorId: calculator.calculatorId,
       startDate: expectedValue,
       endDate: null,
     });
-    /* tslint:enable */
   });
 
   it('should increment the IDs if multiple calculators are created', function () {

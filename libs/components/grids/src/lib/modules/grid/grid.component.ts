@@ -289,6 +289,7 @@ export class SkyGridComponent
   public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
   public displayedColumns: Array<SkyGridColumnModel>;
+  public dragulaGroupName: string;
   public gridId: number = ++nextId;
   public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
   public items: Array<any>;
@@ -351,6 +352,7 @@ export class SkyGridComponent
       fieldSelector: '',
       descending: false,
     });
+    this.dragulaGroupName = `sky-grids-group-${this.gridId}`;
   }
 
   public ngOnInit() {
@@ -372,6 +374,7 @@ export class SkyGridComponent
 
     // Setup column drag-and-drop.
     this.gridAdapter.initializeDragAndDrop(
+      this.dragulaGroupName,
       this.dragulaService,
       (selectedColumnIds: Array<string>) => {
         this.onHeaderDrop(selectedColumnIds);
@@ -444,6 +447,8 @@ export class SkyGridComponent
     Object.keys(this.rowDeleteContents).forEach((id) => {
       this.destroyRowDelete(id);
     });
+
+    this.dragulaService.destroy(this.dragulaGroupName);
   }
 
   @HostListener('window:resize')
@@ -858,7 +863,6 @@ export class SkyGridComponent
   }
 
   private handleIncomingMessages(message: SkyGridMessage) {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyGridMessageType.SelectAll:
         this.multiselectSelectAll();

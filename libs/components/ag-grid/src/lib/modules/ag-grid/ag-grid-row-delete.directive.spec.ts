@@ -83,6 +83,7 @@ describe('SkyAgGridRowDeleteDirective', () => {
       document.querySelectorAll('.sky-inline-delete-standard').length
     ).toBe(2);
 
+    fixture.componentInstance.clearFilter();
     fixture.componentInstance.changeToLongData();
 
     fixture.detectChanges();

@@ -457,7 +457,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   private handleIncomingMessages(message: SkyColorpickerMessage) {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyColorpickerMessageType.Open:
         if (!this.isOpen) {

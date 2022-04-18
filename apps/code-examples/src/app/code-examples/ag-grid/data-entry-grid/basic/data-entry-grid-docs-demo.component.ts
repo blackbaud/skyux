@@ -7,6 +7,7 @@ import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -25,7 +26,7 @@ import { SkyDataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-
 })
 export class SkyDataEntryGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -35,7 +36,7 @@ export class SkyDataEntryGridDemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRendererFramework: SkyDataEntryGridContextMenuComponent,
+      cellRenderer: SkyDataEntryGridContextMenuComponent,
     },
     {
       field: 'name',
@@ -159,14 +160,14 @@ export class SkyDataEntryGridDemoComponent {
     });
   }
 
-  public searchApplied(searchText: string | void): void {
+  public searchApplied(searchText: string | undefined): void {
     if (searchText) {
       this.searchText = searchText;
     } else {
       this.searchText = '';
     }
     if (this.gridApi) {
-      this.gridApi.setQuickFilter(searchText);
+      this.gridApi.setQuickFilter(this.searchText);
       const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.gridApi.hideOverlay();

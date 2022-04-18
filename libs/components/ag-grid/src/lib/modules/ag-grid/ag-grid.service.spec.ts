@@ -11,6 +11,7 @@ import {
 import {
   CellClassParams,
   ColumnApi,
+  GetRowIdParams,
   GridOptions,
   RowClassParams,
   RowNode,
@@ -243,6 +244,38 @@ describe('SkyAgGridService', () => {
       // Get new grid options after theme change, but expect heights have not changed
       gridOptions = agGridService.getGridOptions(overrideOptions);
       expect(gridOptions.rowHeight).toBe(60);
+    });
+
+    it('should respect the value of the deprecated stopEditingWhenGridLosesFocus property', () => {
+      const options = agGridService.getGridOptions({
+        gridOptions: { stopEditingWhenGridLosesFocus: true },
+      });
+
+      expect(options.stopEditingWhenGridLosesFocus).toBeUndefined();
+      expect(options.stopEditingWhenCellsLoseFocus).toBe(true);
+    });
+
+    it('should not overwrite default component definitions', () => {
+      const options = agGridService.getGridOptions({
+        gridOptions: {
+          components: {
+            foo: 'bar',
+          },
+          frameworkComponents: {
+            frameworkFoo: 'framework-bar',
+          },
+        },
+      });
+
+      expect(Object.keys(options.components)).toEqual([
+        'foo',
+        'frameworkFoo',
+        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-validator-tooltip',
+      ]);
+
+      expect(options.frameworkComponents).toBeUndefined();
     });
   });
 
@@ -885,13 +918,36 @@ describe('SkyAgGridService', () => {
     });
   });
 
-  describe('getRowNodeId', () => {
+  describe('getRowId', () => {
     it('should use the id field when available', () => {
-      expect(defaultGridOptions.getRowNodeId({ id: 123 })).toEqual('123');
+      expect(
+        defaultGridOptions.getRowId({ data: { id: 123 } } as GetRowIdParams)
+      ).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
-      expect(defaultGridOptions.getRowNodeId({})).toBeTruthy();
+      expect(
+        defaultGridOptions.getRowId({ data: {} } as GetRowIdParams)
+      ).toBeTruthy();
+    });
+
+    it('should prefer the deprecated getRowNodeId if set by consumer', () => {
+      expect(defaultGridOptions.getRowId).toBeDefined();
+      expect(defaultGridOptions.getRowNodeId).toBeUndefined();
+
+      const options = agGridService.getGridOptions({
+        gridOptions: {
+          getRowNodeId: (data) => {
+            if ('id' in data && data.id !== undefined) {
+              return `${data.id}`;
+            }
+            return '-1';
+          },
+        },
+      });
+
+      expect(options.getRowId).toBeUndefined();
+      expect(options.getRowNodeId).toBeDefined();
     });
   });
 

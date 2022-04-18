@@ -44,7 +44,6 @@ export class SkyNumericService {
    * @param options Format options.
    */
   public formatNumber(value: number, options: NumericOptions): string {
-    /* tslint:disable-next-line:no-null-keyword */
     if (isNaN(value) || value === null) {
       return '';
     }
@@ -166,7 +165,6 @@ export class SkyNumericService {
       throw new Error('SkyInvalidArgument: precision must be >= 0');
     }
 
-    /* tslint:disable-next-line:no-null-keyword */
     /* Sanity check - ignoring coverage but should not ignore if we make this method public */
     /* istanbul ignore next */
     if (isNaN(value) || value === null) {

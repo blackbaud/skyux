@@ -58,12 +58,10 @@ describe('Radio group component (reactive)', function () {
   it('should update ngModel properly when nothing is selected on init', fakeAsync(function () {
     fixture.detectChanges();
 
-    // tslint:disable-next-line:no-null-keyword
     expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
     expect(componentInstance.radioForm.touched).toEqual(false);
     expect(componentInstance.radioForm.pristine).toEqual(true);
     expect(componentInstance.radioForm.dirty).toEqual(false);
-    // tslint:enable
 
     clickCheckbox(fixture, 0);
 
@@ -82,14 +80,12 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
-    // tslint:disable-next-line:no-null-keyword
     expect(componentInstance.radioForm.value).toEqual({
       radioGroup: { name: 'Lillith Corharvest', disabled: false },
     });
     expect(componentInstance.radioForm.touched).toEqual(false);
     expect(componentInstance.radioForm.pristine).toEqual(true);
     expect(componentInstance.radioForm.dirty).toEqual(false);
-    // tslint:enable
 
     clickCheckbox(fixture, 1);
 
@@ -391,11 +387,9 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    /* tslint:disable:no-null-keyword */
     expect(componentInstance.radioForm.value).toEqual({
       radioGroup: null,
     });
-    /* tslint:enable */
   }));
 
   it(`should update disabled attribute and disabled class when form control's disable method is called`, fakeAsync(() => {

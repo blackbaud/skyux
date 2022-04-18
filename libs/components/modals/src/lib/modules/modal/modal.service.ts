@@ -19,7 +19,6 @@ export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent>;
 
   // TODO: In future breaking change - remove extra parameters as they are no longer used.
-  /* tslint:disable:no-unused-variable */
   constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
 
   /**
@@ -36,7 +35,7 @@ export class SkyModalService {
   /**
    * Opens a modal using the specified component.
    * @param component Determines the component to render.
-   * @param {SkyModalConfigurationInterface} config Populates the modal based on the `SkyModalConfigurationInterface` object.
+   * @param {SkyModalConfigurationInterface} config Specifies configuration options for the modal.
    */
   public open(
     component: any,

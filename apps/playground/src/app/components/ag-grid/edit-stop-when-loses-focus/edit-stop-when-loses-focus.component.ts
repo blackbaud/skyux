@@ -239,6 +239,6 @@ export class EditStopWhenLosesFocusComponent implements OnInit {
     this.gridOptions = this.agGridService.getEditableGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.gridOptions.stopEditingWhenGridLosesFocus = true;
+    this.gridOptions.stopEditingWhenCellsLoseFocus = true;
   }
 }

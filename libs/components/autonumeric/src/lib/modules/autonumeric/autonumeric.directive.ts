@@ -25,7 +25,6 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyAutonumericOptions } from './autonumeric-options';
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_AUTONUMERIC_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyAutonumericDirective),
@@ -37,7 +36,6 @@ const SKY_AUTONUMERIC_VALIDATOR = {
   useExisting: forwardRef(() => SkyAutonumericDirective),
   multi: true,
 };
-// tslint:enable
 
 /**
  * Wraps the [autoNumeric utility](https://github.com/autoNumeric/autoNumeric) to format
@@ -137,7 +135,7 @@ export class SkyAutonumericDirective
   }
 
   public validate(control: AbstractControl): ValidationErrors | null {
-    const noErrors = null; // tslint:disable-line: no-null-keyword
+    const noErrors = null;
 
     if (!this.control) {
       this.control = control;

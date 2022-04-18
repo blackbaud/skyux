@@ -495,7 +495,6 @@ export class SkyAutocompleteComponent
         (r) => r.elementId === activeElementId
       );
 
-      /* tslint:disable-next-line:switch-default */
       switch (key) {
         case 'enter':
           if (targetIsSearchResult) {
@@ -810,7 +809,6 @@ export class SkyAutocompleteComponent
   }
 
   private removeActiveDescendant(): void {
-    /* tslint:disable-next-line:no-null-keyword */
     this.inputDirective.setActiveDescendant(null);
   }
 
@@ -896,7 +894,6 @@ export class SkyAutocompleteComponent
       this.messageStreamSub = this.messageStream
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyAutocompleteMessage) => {
-          /* tslint:disable-next-line:switch-default */
           switch (message.type) {
             case SkyAutocompleteMessageType.CloseDropdown:
               this.closeDropdown();

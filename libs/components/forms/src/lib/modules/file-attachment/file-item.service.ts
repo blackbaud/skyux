@@ -10,7 +10,6 @@ export class SkyFileItemService {
   public isFile(fileItem: SkyFileItem): boolean {
     const file = fileItem.file;
 
-    /* tslint:disable */
     return (
       file &&
       file !== undefined &&
@@ -18,7 +17,6 @@ export class SkyFileItemService {
       file.size !== undefined &&
       file.size !== null
     );
-    /* tslint:enable */
   }
 
   public isImage(fileItem: SkyFileItem): boolean {

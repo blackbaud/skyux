@@ -191,7 +191,6 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   }
 
   private handleIncomingMessages(message: SkySplitViewMessage): void {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkySplitViewMessageType.FocusWorkspace:
         // If mobile, wait until animation is complete then set focus on workspace panel.

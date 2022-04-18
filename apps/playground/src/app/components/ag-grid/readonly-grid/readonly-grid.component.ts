@@ -41,7 +41,7 @@ export class ReadonlyGridComponent implements OnInit {
       colId: 'contextMenu',
       headerName: '',
       sortable: false,
-      cellRendererFramework: ReadonlyGridContextMenuComponent,
+      cellRenderer: ReadonlyGridContextMenuComponent,
       maxWidth: 55,
     },
     {

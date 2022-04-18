@@ -12,7 +12,6 @@ export class SkyIndicatorIconUtility {
     let baseIcon: string;
     let topIcon: string;
 
-    // tslint:disable-next-line: switch-default
     switch (indicatorType) {
       case 'danger':
       case 'warning':

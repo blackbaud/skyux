@@ -378,7 +378,6 @@ export class SkyLookupComponent
   public onTokensKeyUp(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (this.selectMode !== 'single') {
-      /* tslint:disable-next-line:switch-default */
       switch (event.key) {
         case 'Backspace':
           this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);

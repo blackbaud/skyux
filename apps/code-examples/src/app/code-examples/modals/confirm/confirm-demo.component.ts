@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  SkyConfirmButtonAction,
+  SkyConfirmButtonConfig,
   SkyConfirmInstance,
   SkyConfirmService,
   SkyConfirmType,
@@ -11,30 +11,30 @@ import {
   templateUrl: './confirm-demo.component.html',
 })
 export class ConfirmDemoComponent {
-  public selectedAction: SkyConfirmButtonAction;
+  public selectedAction: string | undefined;
 
-  public selectedText: string;
+  public selectedText: string | undefined;
 
   constructor(private confirmService: SkyConfirmService) {}
 
-  public openOKConfirm() {
+  public openOKConfirm(): void {
     const dialog: SkyConfirmInstance = this.confirmService.open({
       message:
         'Use the OK button type for information that does not require user action.',
       type: SkyConfirmType.OK,
     });
 
-    dialog.closed.subscribe((result: any) => {
+    dialog.closed.subscribe((result) => {
       this.selectedText = undefined;
       this.selectedAction = result.action;
     });
   }
 
-  public openCustomConfirm() {
-    const buttons = [
+  public openCustomConfirm(): void {
+    const buttons: SkyConfirmButtonConfig[] = [
       { text: 'Save', action: 'save', styleType: 'primary' },
       { text: 'Delete', action: 'delete' },
-      { text: 'Cancel', action: 'cancel', autofocus: true, styleType: 'link' },
+      { text: 'Cancel', action: 'cancel', styleType: 'link' },
     ];
 
     const dialog: SkyConfirmInstance = this.confirmService.open({
@@ -44,15 +44,15 @@ export class ConfirmDemoComponent {
       buttons,
     });
 
-    dialog.closed.subscribe((result: any) => {
+    dialog.closed.subscribe((result) => {
       this.selectedAction = result.action;
 
-      buttons.some((button: any) => {
+      for (const button of buttons) {
         if (button.action === result.action) {
           this.selectedText = button.text;
-          return true;
+          break;
         }
-      });
+      }
     });
   }
 }
