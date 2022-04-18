@@ -209,11 +209,12 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
 
-    // Handle the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
-    mergedGridOptions.stopEditingWhenCellsLoseFocus =
-      mergedGridOptions.stopEditingWhenCellsLoseFocus ||
-      mergedGridOptions.stopEditingWhenGridLosesFocus;
-    delete mergedGridOptions.stopEditingWhenGridLosesFocus;
+    // Prefer the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
+    if (mergedGridOptions.stopEditingWhenGridLosesFocus !== undefined) {
+      mergedGridOptions.stopEditingWhenCellsLoseFocus =
+        mergedGridOptions.stopEditingWhenGridLosesFocus;
+      delete mergedGridOptions.stopEditingWhenGridLosesFocus;
+    }
 
     // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
     if (mergedGridOptions.getRowNodeId) {
