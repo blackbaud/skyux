@@ -139,7 +139,6 @@ describe('Dock component', () => {
         stackOrder: 0,
       },
       {
-        // tslint:disable-next-line:no-null-keyword
         stackOrder: null, // Should default to top of stack.
       },
       {

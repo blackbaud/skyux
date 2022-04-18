@@ -63,8 +63,6 @@ describe('File size pipe', () => {
 
   it('should return an empty string when the input is null or undefined', function () {
     validateFormatted(undefined, '', fileSizePipe);
-    /* tslint:disable */
     validateFormatted(null, '', fileSizePipe);
-    /* tslint:enable */
   });
 });

@@ -449,7 +449,6 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       closeable: tab.closeable,
       ariaControls: tab.tabPanelId,
       disabled: tab.disabled,
-      /*tslint:disable-next-line:no-null-keyword*/
       buttonHref: tab.disabled
         ? null
         : this.permalinkService.getParamHref(

@@ -77,11 +77,9 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   }
 
   public isFocusable(): boolean {
-    /*tslint:disable no-null-keyword */
     const isFocusable =
       this.buttonElement &&
       this.buttonElement.getAttribute('disabled') === null;
-    /*tslint:enable */
     return isFocusable;
   }
 

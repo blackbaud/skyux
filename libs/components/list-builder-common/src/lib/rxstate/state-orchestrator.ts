@@ -27,7 +27,6 @@ export class StateOrchestrator<TStateNode, TAction> {
     initialState: TStateNode,
     actions: Observable<TAction>
   ): Observable<any> {
-    /* tslint:disable-next-line:no-null-keyword */
     if (initialState == null) {
       throw new Error(
         'Initial state for an orchestrator should never be null. Check your StateNode definition and registrations.'

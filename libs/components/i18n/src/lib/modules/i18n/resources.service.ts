@@ -41,7 +41,6 @@ export class SkyAppResourcesService {
 
   constructor(
     private http: HttpClient,
-    /* tslint:disable-next-line no-forward-ref */
     @Optional()
     @Inject(forwardRef(() => SkyAppAssetsService))
     private assets: SkyAppAssetsService,
@@ -147,11 +146,9 @@ export class SkyAppResourcesService {
           obs =
             this.httpObsCache[resourcesUrl] ||
             this.http.get<SkyResourceType>(resourcesUrl).pipe(
-              /* tslint:disable max-line-length */
               // publishReplay(1).refCount() will ensure future subscribers to
               // this observable will use a cached result.
               // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
-              /* tslint:enable max-line-length */
               publishReplay(1),
               refCount(),
               catchError(() => {

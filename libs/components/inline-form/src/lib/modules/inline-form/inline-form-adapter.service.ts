@@ -1,6 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
 
-/* tslint:disable */
 const SKY_TABBABLE_SELECTOR = [
   'a[href]',
   'area[href]',
@@ -14,7 +13,6 @@ const SKY_TABBABLE_SELECTOR = [
   "*[tabindex]:not([tabindex='-1'])",
   '*[contenteditable=true]',
 ].join(', ');
-/* tslint:enable */
 
 /**
  * @internal

@@ -515,7 +515,6 @@ describe('Timepicker', () => {
       openTimepicker(fixture);
 
       const affixer = component.timepickerComponent['affixer'];
-      // tslint:disable-next-line: no-null-keyword
       affixer['_placementChange'].next({ placement: null });
       detectChangesAndTick(fixture);
 

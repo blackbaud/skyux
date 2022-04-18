@@ -371,7 +371,6 @@ describe('datepicker', () => {
       clickTrigger(fixture);
 
       const affixer = component.datepicker['affixer'];
-      // tslint:disable-next-line: no-null-keyword
       affixer['_placementChange'].next({ placement: null });
       fixture.detectChanges();
       tick();

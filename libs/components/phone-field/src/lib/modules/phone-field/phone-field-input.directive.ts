@@ -27,7 +27,6 @@ import { SkyPhoneFieldAdapterService } from './phone-field-adapter.service';
 import { SkyPhoneFieldComponent } from './phone-field.component';
 import { SkyPhoneFieldCountry } from './types/country';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_PHONE_FIELD_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
@@ -39,7 +38,6 @@ const SKY_PHONE_FIELD_VALIDATOR = {
   useExisting: forwardRef(() => SkyPhoneFieldInputDirective),
   multi: true,
 };
-// tslint:enable
 
 /**
  * Creates a button, search input, and text input for entering and validating

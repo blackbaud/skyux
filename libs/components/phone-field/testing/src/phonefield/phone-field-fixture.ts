@@ -202,7 +202,6 @@ export class SkyPhoneFieldFixture {
   }
 
   private coerceBooleanProperty(value: any): boolean {
-    // tslint:disable-next-line: no-null-keyword
     return value != null && `${value}` !== 'false';
   }
 }

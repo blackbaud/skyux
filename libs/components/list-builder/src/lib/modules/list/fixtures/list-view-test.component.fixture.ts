@@ -15,7 +15,6 @@ import { ListState } from '../state/list-state.state-node';
   selector: 'sky-list-view-test',
   templateUrl: './list-view-test.component.fixture.html',
   providers: [
-    /* tslint:disable-next-line */
     {
       provide: ListViewComponent,
       useExisting: forwardRef(() => ListViewTestComponent),

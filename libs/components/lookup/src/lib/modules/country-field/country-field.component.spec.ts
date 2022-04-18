@@ -514,8 +514,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          // Disabling null linting here as the library that sets this uses null here.
-          // tslint:disable-next-line: no-null-keyword
           areaCodes: null,
         });
 
@@ -1183,8 +1181,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          // Disabling null linting here as the library that sets this uses null here.
-          // tslint:disable-next-line: no-null-keyword
           areaCodes: null,
         });
 
@@ -1567,8 +1563,6 @@ describe('Country Field Component', () => {
           iso2: 'au',
           dialCode: '61',
           priority: 0,
-          // Disabling null linting here as the library that sets this uses null here.
-          // tslint:disable-next-line: no-null-keyword
           areaCodes: null,
         });
 

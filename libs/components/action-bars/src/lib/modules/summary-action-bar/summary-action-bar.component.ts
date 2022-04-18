@@ -214,7 +214,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         this.observer.observe(el, config);
       }
       el = el.parentElement;
-      // tslint:disable-next-line:no-null-keyword
     } while (el !== null && el.nodeType === 1);
   }
 

@@ -19,7 +19,6 @@ export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent>;
 
   // TODO: In future breaking change - remove extra parameters as they are no longer used.
-  /* tslint:disable:no-unused-variable */
   constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
 
   /**

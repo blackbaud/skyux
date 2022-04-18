@@ -39,14 +39,12 @@ import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomple
 
 import { SkyCountryFieldCountry } from './types/country';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_COUNTRY_FIELD_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyCountryFieldComponent),
   multi: true,
 };
 
-// tslint:enable
 let uniqueId = 0;
 
 @Component({
@@ -278,7 +276,6 @@ export class SkyCountryFieldComponent
   public ngOnInit(): void {
     this.updateInputBox();
 
-    // tslint:disable-next-line: no-null-keyword
     this.ngControl = this.injector.get<NgControl>(
       NgControl as unknown as Type<NgControl>,
       null

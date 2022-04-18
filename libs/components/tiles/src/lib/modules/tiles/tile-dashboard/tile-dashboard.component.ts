@@ -172,7 +172,6 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   private handleIncomingMessages(message: SkyTileDashboardMessage): void {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyTileDashboardMessageType.ExpandAll:
         this.dashboardService.setAllTilesCollapsed(false);

@@ -112,7 +112,6 @@ export class SkySelectionBoxAdapterService {
 
     let newClass: string;
 
-    // tslint:disable-next-line: switch-default
     switch (breakpoint) {
       case SkyMediaBreakpoints.xs: {
         newClass = RESPONSIVE_CLASS_XS;

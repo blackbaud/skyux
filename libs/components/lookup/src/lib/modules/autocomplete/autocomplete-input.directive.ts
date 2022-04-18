@@ -21,7 +21,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyAutocompleteInputTextChange } from './types/autocomplete-input-text-change';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_AUTOCOMPLETE_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyAutocompleteInputDirective),
@@ -33,7 +32,6 @@ const SKY_AUTOCOMPLETE_VALIDATOR = {
   useExisting: forwardRef(() => SkyAutocompleteInputDirective),
   multi: true,
 };
-// tslint:enable
 
 @Directive({
   selector: 'input[skyAutocomplete], textarea[skyAutocomplete]',

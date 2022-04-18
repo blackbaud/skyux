@@ -161,7 +161,6 @@ export class SkyColorpickerService {
   public stringToHsva(colorString: string, hex8: boolean): SkyColorpickerHsva {
     const stringParsers = [
       {
-        // tslint:disable max-line-length
         re: /(rgb)a?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*%?,\s*(\d{1,3})\s*%?(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
         parse: (execResult: any) => {
           const rgba: SkyColorpickerRgba = {
@@ -183,7 +182,6 @@ export class SkyColorpickerService {
             alpha: parseFloat(execResult[5]),
           };
           return hsla;
-          // tslint:enable max-line-length
         },
       },
     ];
@@ -309,7 +307,6 @@ export class SkyColorpickerService {
   }
 
   public hexText(rgba: SkyColorpickerRgba, allowHex8: boolean): string {
-    // tslint:disable no-bitwise
     let hexText =
       '#' +
       ((1 << 24) | (rgba.red << 16) | (rgba.green << 8) | rgba.blue)
@@ -330,7 +327,6 @@ export class SkyColorpickerService {
         .substr(1);
     }
     return hexText;
-    // tslint:enable no-bitwise
   }
 
   public denormalizeRGBA(rgba: SkyColorpickerRgba): SkyColorpickerRgba {
