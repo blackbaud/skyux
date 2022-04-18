@@ -10,9 +10,6 @@ import { SkyDefinitionListLabelComponent } from './definition-list-label.compone
 import { SkyDefinitionListValueComponent } from './definition-list-value.component';
 import { SkyDefinitionListComponent } from './definition-list.component';
 
-/**
- * @deprecated The `SkyDefinitionListComponent` is deprecated and will be removed in a future version of SKY UX.
- */
 @NgModule({
   declarations: [
     SkyDefinitionListComponent,
