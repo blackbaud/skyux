@@ -1,3 +1,4 @@
+export * from './lib/modules/alert/alert-type';
 export * from './lib/modules/alert/alert.module';
 
 export * from './lib/modules/chevron/chevron.module';
