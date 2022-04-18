@@ -42,9 +42,6 @@ export class SkyDateRangeCalculator {
   ): SkyDateRangeCalculation {
     const result = this.config.getValue(startDateInput, endDateInput);
 
-    /* tslint:disable:no-null-keyword */
-    // (Angular form controls use null for the "empty" value.)
-
     let startDate: Date = null;
     if (result.startDate instanceof Date) {
       startDate = this.parseDateWithoutTime(result.startDate);
@@ -54,8 +51,6 @@ export class SkyDateRangeCalculator {
     if (result.endDate instanceof Date) {
       endDate = this.parseDateWithoutTime(result.endDate);
     }
-
-    /* tslint:enable */
 
     return {
       calculatorId: this.calculatorId,

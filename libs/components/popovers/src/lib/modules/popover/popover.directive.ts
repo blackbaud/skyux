@@ -116,7 +116,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
         const key = event.key.toLowerCase();
 
-        /* tslint:disable-next-line:switch-default */
         switch (key) {
           case 'escape':
             this.sendMessage(SkyPopoverMessageType.Close);
@@ -193,7 +192,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   private handleIncomingMessages(message: SkyPopoverMessage): void {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyPopoverMessageType.Open:
         this.positionPopover();

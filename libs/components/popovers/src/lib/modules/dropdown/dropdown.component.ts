@@ -278,7 +278,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
-        /* tslint:disable-next-line:switch-default */
         switch (key) {
           case 'escape':
             /*istanbul ignore else*/
@@ -399,7 +398,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   private handleIncomingMessages(message: SkyDropdownMessage): void {
     if (!this.disabled) {
-      /* tslint:disable-next-line:switch-default */
       switch (message.type) {
         case SkyDropdownMessageType.Open:
           this.isOpen = true;

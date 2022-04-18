@@ -31,7 +31,6 @@ import { SkyDatepickerAdapterService } from './datepicker-adapter.service';
 import { SkyDatepickerConfigService } from './datepicker-config.service';
 import { SkyDatepickerComponent } from './datepicker.component';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_DATEPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyDatepickerInputDirective),
@@ -43,7 +42,6 @@ const SKY_DATEPICKER_VALIDATOR = {
   useExisting: forwardRef(() => SkyDatepickerInputDirective),
   multi: true,
 };
-// tslint:enable
 
 @Directive({
   selector: '[skyDatepickerInput]',

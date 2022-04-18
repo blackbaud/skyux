@@ -397,7 +397,6 @@ export class SkyAgGridService implements OnDestroy {
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
-      // tslint:disable-next-line: no-null-keyword
       sortingOrder: ['desc', 'asc', null],
       stopEditingWhenGridLosesFocus: false,
       suppressRowClickSelection: true,

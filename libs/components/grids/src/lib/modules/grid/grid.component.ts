@@ -858,7 +858,6 @@ export class SkyGridComponent
   }
 
   private handleIncomingMessages(message: SkyGridMessage) {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyGridMessageType.SelectAll:
         this.multiselectSelectAll();

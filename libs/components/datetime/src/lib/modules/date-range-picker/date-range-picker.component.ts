@@ -36,7 +36,6 @@ import { SkyDateRangeCalculator } from './types/date-range-calculator';
 import { SkyDateRangeCalculatorId } from './types/date-range-calculator-id';
 import { SkyDateRangeCalculatorType } from './types/date-range-calculator-type';
 
-/* tslint:disable:no-forward-ref no-use-before-declare */
 const SKY_DATE_RANGE_PICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyDateRangePickerComponent),
@@ -48,7 +47,6 @@ const SKY_DATE_RANGE_PICKER_VALIDATOR = {
   useExisting: forwardRef(() => SkyDateRangePickerComponent),
   multi: true,
 };
-/* tslint:enable */
 
 let uniqueId = 0;
 
@@ -382,7 +380,6 @@ export class SkyDateRangePickerComponent
 
     if (!errors) {
       // Clear any errors on the calculator select.
-      // tslint:disable-next-line:no-null-keyword
       idControl.setErrors(null);
       return;
     }

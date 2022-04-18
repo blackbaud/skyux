@@ -222,7 +222,6 @@ export class SkyCoreAdapterService {
     if (children.length > 0) {
       for (let i = 0; i < children.length; i++) {
         // Setting style attributes with Web API requires null instead of undefined.
-        // tslint:disable-next-line: no-null-keyword
         children[i].style.height = null;
       }
     }

@@ -26,13 +26,11 @@ let nextUniqueId = 0;
  * Provider Expression that allows sky-radio to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
  */
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyRadioComponent),
   multi: true,
 };
-// tslint:enable
 
 /**
  * Renders a SKY UX-themed replacement for an HTML `input` element

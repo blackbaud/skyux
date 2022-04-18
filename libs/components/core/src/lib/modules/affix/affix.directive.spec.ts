@@ -640,7 +640,6 @@ describe('Affix directive', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      /* tslint:disable-next-line:no-null-keyword */
       placement: null,
     });
     expect(spy.calls.count()).toEqual(1);
@@ -821,7 +820,6 @@ describe('Affix directive', () => {
     fixture.detectChanges();
 
     expect(spy).toHaveBeenCalledWith({
-      /*tslint:disable-next-line:no-null-keyword*/
       placement: null,
     });
   });

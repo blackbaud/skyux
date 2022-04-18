@@ -971,11 +971,9 @@ describe('Popover directive', () => {
       expect(isElementVisible(popover)).toEqual(true);
 
       // Trigger a null placement change.
-      /*tslint:disable:no-null-keyword*/
       mockAffixer.placementChange.next({
         placement: null,
       });
-      /*tslint:enable:no-null-keyword*/
 
       detectChangesFakeAsync();
 

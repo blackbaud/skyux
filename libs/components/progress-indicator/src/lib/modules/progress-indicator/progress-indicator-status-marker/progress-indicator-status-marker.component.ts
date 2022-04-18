@@ -55,7 +55,6 @@ export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   public get statusName(): string {
     let name: string;
 
-    /* tslint:disable-next-line:switch-default */
     switch (this._status) {
       case SkyProgressIndicatorItemStatus.Active:
         name = 'active';

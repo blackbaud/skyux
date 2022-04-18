@@ -96,7 +96,6 @@ export class SkyFuzzyDateService implements OnDestroy {
 
       /* istanbul ignore else */
       if (token) {
-        // tslint:disable-next-line: switch-default
         switch (token.substr(0, 1).toLowerCase()) {
           case 'y':
             if (fuzzyDate.year) {

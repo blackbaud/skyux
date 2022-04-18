@@ -41,7 +41,6 @@ export class SkyDatepickerFixture {
 
     const calendarId = button.getAttribute('aria-controls');
     if (!calendarId) {
-      /* tslint:disable-next-line:no-null-keyword */
       return null;
     }
 

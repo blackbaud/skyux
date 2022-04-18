@@ -3187,7 +3187,6 @@ describe('Grid Component', () => {
       const spy = spyOn(console, 'warn');
 
       spyOn(uiConfigService, 'setConfig').and.callFake(() => {
-        // tslint:disable-next-line: deprecation
         return observableThrowError(new Error());
       });
 

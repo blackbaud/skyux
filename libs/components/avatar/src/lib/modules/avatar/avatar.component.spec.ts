@@ -28,7 +28,6 @@ describe('Avatar component', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  /* tslint:disable-next-line max-line-length */
   const imgBase64 =
     'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAYAAAD0In+KAAAAFElEQVR42gEJAPb/AP//////////I+UH+Rtap+gAAAAASUVORK5CYII=';
   const imgUrl = 'data:image/png;base64,' + imgBase64;
