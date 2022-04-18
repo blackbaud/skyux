@@ -5,7 +5,7 @@ import { SKY_LOG_LEVEL } from '../../../injection-tokens';
 import { SkyLogService } from './log.service';
 import { SkyLogLevel } from './types/log-level';
 
-fdescribe('Log service', () => {
+describe('Log service', () => {
   let logService: SkyLogService;
 
   describe('no provider', () => {
@@ -83,7 +83,7 @@ fdescribe('Log service', () => {
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
@@ -186,7 +186,7 @@ fdescribe('Log service', () => {
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
@@ -276,7 +276,7 @@ fdescribe('Log service', () => {
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
     });
@@ -292,7 +292,7 @@ fdescribe('Log service', () => {
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
@@ -382,7 +382,7 @@ fdescribe('Log service', () => {
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
     });
@@ -398,7 +398,7 @@ fdescribe('Log service', () => {
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
@@ -419,7 +419,7 @@ fdescribe('Log service', () => {
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        '`Test` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`Test` is deprecated. We will remove it in a future major version.',
         undefined
       );
       expect(consoleWarnSpy).not.toHaveBeenCalled();
@@ -441,7 +441,7 @@ fdescribe('Log service', () => {
       const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType');
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`TestType` is deprecated. We will remove it in a future major version.',
         undefined
       );
     });
@@ -452,7 +452,7 @@ fdescribe('Log service', () => {
         depcrecationVersion: '6.0.0',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Since version 6.0.0, `TestType` has been deprecated and will be removed in a future major version of SKY UX.',
+        '`TestType` is deprecated starting in SKY UX 6.0.0. We will remove it in a future major version.',
         undefined
       );
     });
@@ -463,7 +463,7 @@ fdescribe('Log service', () => {
         removalVersion: '7.0.0',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` has been deprecated and will be removed in version 7.0.0 of SKY UX.',
+        '`TestType` is deprecated. We will remove it in version 7.0.0.',
         undefined
       );
     });
@@ -474,7 +474,7 @@ fdescribe('Log service', () => {
         replacementType: '`TestReplacementType`',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` has been deprecated and will be removed in a future major version of SKY UX. We recommend you use `TestReplacementType` instead.',
+        '`TestType` is deprecated. We will remove it in a future major version. We recommend `TestReplacementType` instead.',
         undefined
       );
     });
@@ -485,7 +485,7 @@ fdescribe('Log service', () => {
         url: 'tar.dis',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` has been deprecated and will be removed in a future major version of SKY UX. For more information, see tar.dis.',
+        '`TestType` is deprecated. We will remove it in a future major version. For more information, see tar.dis.',
         undefined
       );
     });
@@ -499,7 +499,7 @@ fdescribe('Log service', () => {
         url: 'tar.dis',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Since version 6.0.0, `TestType` has been deprecated and will be removed in version 7.0.0 of SKY UX. We recommend you use `TestReplacementType` instead. For more information, see tar.dis.',
+        '`TestType` is deprecated starting in SKY UX 6.0.0. We will remove it in version 7.0.0. We recommend `TestReplacementType` instead. For more information, see tar.dis.',
         undefined
       );
     });

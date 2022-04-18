@@ -38,31 +38,28 @@ export class SkyLogService {
 
       if (args?.depcrecationVersion) {
         localizedStrings.push(
-          'Since version {0},'.replace('{0}', args.depcrecationVersion)
+          '{0} is deprecated starting in SKY UX {1}.'
+            .replace('{0}', type)
+            .replace('{1}', args.depcrecationVersion)
         );
+      } else {
+        localizedStrings.push('{0} is deprecated.'.replace('{0}', type));
       }
 
-      if (!args?.removalVersion) {
+      if (args?.removalVersion) {
         localizedStrings.push(
-          '{0} has been deprecated and will be removed in a future major version of SKY UX.'.replace(
+          'We will remove it in version {0}.'.replace(
             '{0}',
-            type
+            args.removalVersion
           )
         );
       } else {
-        localizedStrings.push(
-          '{0} has been deprecated and will be removed in version {1} of SKY UX.'
-            .replace('{0}', type)
-            .replace('{1}', args.removalVersion)
-        );
+        localizedStrings.push('We will remove it in a future major version.');
       }
 
       if (args?.replacementType) {
         localizedStrings.push(
-          'We recommend you use {0} instead.'.replace(
-            '{0}',
-            args.replacementType
-          )
+          'We recommend {0} instead.'.replace('{0}', args.replacementType)
         );
       }
 
