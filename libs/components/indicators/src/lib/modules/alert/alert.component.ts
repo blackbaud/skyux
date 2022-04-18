@@ -4,6 +4,8 @@ import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
+import { SkyAlertType } from './alert-type';
+
 const ALERT_TYPE_DEFAULT = 'warning';
 
 @Component({
@@ -14,16 +16,15 @@ const ALERT_TYPE_DEFAULT = 'warning';
 export class SkyAlertComponent implements OnInit {
   /**
    * Specifies a style for the alert to determine the icon and background color.
-   * The valid options are `danger`, `info`, `success`, and `warning`.
    * @default "warning"
    */
   @Input()
-  public set alertType(value: string) {
+  public set alertType(value: SkyAlertType | undefined) {
     this._alertType = value;
     this.updateAlertIcon();
   }
 
-  public get alertType(): string {
+  public get alertType(): SkyAlertType {
     return this._alertType || ALERT_TYPE_DEFAULT;
   }
 
@@ -51,7 +52,7 @@ export class SkyAlertComponent implements OnInit {
 
   public alertTopIcon: SkyIconStackItem;
 
-  private _alertType: string;
+  private _alertType: SkyAlertType;
 
   public ngOnInit(): void {
     this.updateAlertIcon();
