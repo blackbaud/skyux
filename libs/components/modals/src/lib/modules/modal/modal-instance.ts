@@ -3,12 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
-// TODO: this class won't show in the generated docs until this work is done:
-// https://github.com/blackbaud/skyux-docs-tools/issues/30
-
-/**
- * Allows you to close the modal and return data from the launched modal.
- */
 export class SkyModalInstance {
   /**
    * An event that the modal instance emits when it is about to close.

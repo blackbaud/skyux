@@ -1,10 +1,10 @@
+// TODO: confirm-button is internal and should be removed in a future version
 export * from './lib/modules/confirm/confirm-button';
 export * from './lib/modules/confirm/confirm-button-action';
 export * from './lib/modules/confirm/confirm-button-config';
 export * from './lib/modules/confirm/confirm-closed-event-args';
 export * from './lib/modules/confirm/confirm-config';
 export * from './lib/modules/confirm/confirm-instance';
-export * from './lib/modules/confirm/confirm-modal-context';
 export * from './lib/modules/confirm/confirm-type';
 export * from './lib/modules/confirm/confirm.module';
 export * from './lib/modules/confirm/confirm.service';
