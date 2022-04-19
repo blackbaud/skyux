@@ -160,7 +160,7 @@ export class SkyDataEntryGridDemoComponent {
     });
   }
 
-  public searchApplied(searchText: string | undefined): void {
+  public searchApplied(searchText: string | void): void {
     if (searchText) {
       this.searchText = searchText;
     } else {
