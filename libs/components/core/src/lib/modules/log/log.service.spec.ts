@@ -9,13 +9,7 @@ describe('Log service', () => {
   let logService: SkyLogService;
 
   beforeEach(() => {
-    consoleSpy = jasmine.createSpyObj('console', [
-      'debug',
-      'error',
-      'info',
-      'log',
-      'warn',
-    ]);
+    consoleSpy = spyOnAllFunctions(console);
   });
 
   describe('no provider', () => {
