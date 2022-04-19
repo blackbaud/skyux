@@ -23,6 +23,7 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAppWindowRef,
+  SkyLogService,
   SkyOverlayService,
   SkyUIConfigService,
 } from '@skyux/core';
@@ -344,8 +345,16 @@ export class SkyGridComponent
     private gridAdapter: SkyGridAdapterService,
     private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    logger: SkyLogService
   ) {
+    logger.deprecated('SkyGridComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/data-grid',
+      replacementRecommendation:
+        'We recommend `SkyAgGridWrapperComponent` instead.',
+    });
+
     this.displayedColumns = new Array<SkyGridColumnModel>();
     this.items = new Array<any>();
     this.currentSortField = new BehaviorSubject<ListSortFieldSelectorModel>({
