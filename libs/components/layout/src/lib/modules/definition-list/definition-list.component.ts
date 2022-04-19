@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyDefinitionListService } from './definition-list.service';
 
@@ -32,5 +33,13 @@ export class SkyDefinitionListComponent {
     this.service.defaultValue.next(value);
   }
 
-  constructor(public service: SkyDefinitionListService) {}
+  constructor(public service: SkyDefinitionListService, logger: SkyLogService) {
+    logger.deprecated('SkyDefinitionListComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/description-list',
+      replacementRecommendation:
+        'We recommend `SkyDescriptionListComponent` instead.',
+    });
+  }
 }
