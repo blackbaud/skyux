@@ -17,7 +17,6 @@ describe('SkyAgGridCellRendererCurrencyValidatorComponent', () => {
       SkyAgGridCellRendererCurrencyValidatorComponent
     );
     fixture.componentInstance.parameters = {
-      $scope: undefined,
       addRenderedRowListener(): void {},
       // @ts-ignore
       api: undefined,

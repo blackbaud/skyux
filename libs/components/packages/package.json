@@ -75,8 +75,9 @@
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
       "@skyux/validation": "0.0.0-PLACEHOLDER",
-      "ag-grid-angular": "^27.1.1",
-      "ag-grid-community": "^27.1.0"
+      "ag-grid-angular": "^27.2.0",
+      "ag-grid-community": "^27.2.0",
+      "ag-grid-enterprise": "^27.2.0"
     }
   },
   "peerDependencies": {
