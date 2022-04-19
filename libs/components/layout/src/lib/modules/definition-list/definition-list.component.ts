@@ -38,8 +38,7 @@ export class SkyDefinitionListComponent {
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/description-list',
-      replacementRecommendation:
-        'We recommend `SkyDescriptionListComponent` instead.',
+      replacementRecommendation: 'Use `SkyDescriptionListComponent` instead.',
     });
   }
 }
