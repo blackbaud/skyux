@@ -33,6 +33,8 @@ export * from './lib/modules/id/id.module';
 
 export * from './lib/modules/log/log.module';
 export * from './lib/modules/log/log.service';
+export * from './lib/modules/log/types/log-level';
+export * from './lib/modules/log/types/log-level-token';
 
 export * from './lib/modules/media-query/media-breakpoints';
 export * from './lib/modules/media-query/media-query-listener';
