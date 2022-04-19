@@ -72,7 +72,7 @@
           "title": "Reverts"
         },
         "deprecation": {
-          "description": "A type is marked deprecated",
+          "description": "A type, property, or solution is marked deprecated",
           "title": "Deprecations"
         }
       }
