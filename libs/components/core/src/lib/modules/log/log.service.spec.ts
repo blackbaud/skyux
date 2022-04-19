@@ -1,12 +1,28 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SKY_LOG_LEVEL } from '../../../injection-tokens';
-
 import { SkyLogService } from './log.service';
 import { SkyLogLevel } from './types/log-level';
+import { SKY_LOG_LEVEL } from './types/log-level-token';
 
 describe('Log service', () => {
+  let consoleDebugSpy: jasmine.Spy;
+  let consoleErrorSpy: jasmine.Spy;
+  let consoleInfoSpy: jasmine.Spy;
+  let consoleLogSpy: jasmine.Spy;
+  let consoleWarnSpy: jasmine.Spy;
   let logService: SkyLogService;
+
+  function setupSpys(): void {
+    consoleDebugSpy = spyOn(console, 'debug');
+    consoleErrorSpy = spyOn(console, 'error');
+    consoleInfoSpy = spyOn(console, 'info');
+    consoleLogSpy = spyOn(console, 'log');
+    consoleWarnSpy = spyOn(console, 'warn');
+  }
+
+  beforeEach(() => {
+    setupSpys();
+  });
 
   describe('no provider', () => {
     beforeEach(() => {
@@ -17,25 +33,28 @@ describe('Log service', () => {
     });
 
     it('should log errors to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.error('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should log errors to the console with parameters', () => {
+      logService.error('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.info('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -44,12 +63,7 @@ describe('Log service', () => {
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
-    it('should not log wanrings to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
+    it('should not log warnings to the console', () => {
       logService.warn('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -59,11 +73,6 @@ describe('Log service', () => {
     });
 
     it('should not log deprecations to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -73,18 +82,12 @@ describe('Log service', () => {
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
@@ -92,11 +95,6 @@ describe('Log service', () => {
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
@@ -120,25 +118,28 @@ describe('Log service', () => {
     });
 
     it('should log errors to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.error('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should log errors to the console with parameters', () => {
+      logService.error('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.info('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -147,12 +148,7 @@ describe('Log service', () => {
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
-    it('should not log wanrings to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
+    it('should not log warnings to the console', () => {
       logService.warn('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -162,11 +158,6 @@ describe('Log service', () => {
     });
 
     it('should not log deprecations to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -176,18 +167,12 @@ describe('Log service', () => {
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
@@ -195,11 +180,6 @@ describe('Log service', () => {
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
@@ -223,25 +203,28 @@ describe('Log service', () => {
     });
 
     it('should log errors to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.error('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should log errors to the console with parameters', () => {
+      logService.error('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.info('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
@@ -250,50 +233,42 @@ describe('Log service', () => {
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
-    it('should log wanrings to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
+    it('should log warnings to the console', () => {
       logService.warn('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Test');
+    });
+
+    it('should log warnings to the console with parameters', () => {
+      logService.warn('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
     });
 
     it('should log deprecations to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
@@ -301,11 +276,6 @@ describe('Log service', () => {
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
@@ -329,77 +299,81 @@ describe('Log service', () => {
     });
 
     it('should log errors to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.error('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should log errors to the console with parameters', () => {
+      logService.error('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
     it('should log info to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.info('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleLogSpy).toHaveBeenCalledWith('Test');
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
 
-    it('should log wanrings to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
+    it('should log info to the console with parameters', () => {
+      logService.info('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+    });
+
+    it('should log warnings to the console', () => {
       logService.warn('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test', undefined);
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Test');
+    });
+
+    it('should log warnings to the console with parameters', () => {
+      logService.warn('Test {0} {1}', ['foo', 'bar']);
+      expect(consoleDebugSpy).not.toHaveBeenCalled();
+      expect(consoleErrorSpy).not.toHaveBeenCalled();
+      expect(consoleInfoSpy).not.toHaveBeenCalled();
+      expect(consoleLogSpy).not.toHaveBeenCalled();
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
     });
 
     it('should log deprecations to the console', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test');
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
       expect(consoleDebugSpy).not.toHaveBeenCalled();
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).not.toHaveBeenCalled();
@@ -407,11 +381,6 @@ describe('Log service', () => {
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Info` is given', () => {
-      const consoleDebugSpy = spyOn(console, 'debug');
-      const consoleErrorSpy = spyOn(console, 'error');
-      const consoleInfoSpy = spyOn(console, 'info');
-      const consoleLogSpy = spyOn(console, 'log');
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
@@ -419,8 +388,7 @@ describe('Log service', () => {
       expect(consoleErrorSpy).not.toHaveBeenCalled();
       expect(consoleInfoSpy).not.toHaveBeenCalled();
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        '`Test` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`Test` is deprecated. We will remove it in a future major version.'
       );
       expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
@@ -438,69 +406,59 @@ describe('Log service', () => {
     });
 
     it('should log deprecations with only a type given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType');
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated. We will remove it in a future major version.',
-        undefined
+        '`TestType` is deprecated. We will remove it in a future major version.'
       );
     });
 
     it('should log deprecations with a type and depcrecation version given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType', {
-        depcrecationVersion: '6.0.0',
+        deprecationMajorVersion: 6,
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated starting in SKY UX 6.0.0. We will remove it in a future major version.',
-        undefined
+        '`TestType` is deprecated starting in SKY UX 6. We will remove it in a future major version.'
       );
     });
 
     it('should log deprecations with a type and removal version given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType', {
-        removalVersion: '7.0.0',
+        removalMajorVersion: 7,
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated. We will remove it in version 7.0.0.',
-        undefined
+        '`TestType` is deprecated. We will remove it in version 7.'
       );
     });
 
     it('should log deprecations with a type and replacment type given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType', {
-        replacementType: '`TestReplacementType`',
+        replacementRecommendation:
+          'We recommend `TestReplacementType` instead.',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated. We will remove it in a future major version. We recommend `TestReplacementType` instead.',
-        undefined
+        '`TestType` is deprecated. We will remove it in a future major version. We recommend `TestReplacementType` instead.'
       );
     });
 
     it('should log deprecations with a type and url given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType', {
-        url: 'tar.dis',
+        moreInfoUrl: 'tar.dis',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated. We will remove it in a future major version. For more information, see tar.dis.',
-        undefined
+        '`TestType` is deprecated. We will remove it in a future major version. For more information, see tar.dis.'
       );
     });
 
     it('should log deprecations with all possible values given correctly', () => {
-      const consoleWarnSpy = spyOn(console, 'warn');
       logService.deprecated('TestType', {
-        depcrecationVersion: '6.0.0',
-        removalVersion: '7.0.0',
-        replacementType: 'TestReplacementType',
-        url: 'tar.dis',
+        deprecationMajorVersion: 6,
+        removalMajorVersion: 7,
+        replacementRecommendation:
+          'We recommend `TestReplacementType` instead.',
+        moreInfoUrl: 'tar.dis',
       });
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '`TestType` is deprecated starting in SKY UX 6.0.0. We will remove it in version 7.0.0. We recommend `TestReplacementType` instead. For more information, see tar.dis.',
-        undefined
+        '`TestType` is deprecated starting in SKY UX 6. We will remove it in version 7. We recommend `TestReplacementType` instead. For more information, see tar.dis.'
       );
     });
   });

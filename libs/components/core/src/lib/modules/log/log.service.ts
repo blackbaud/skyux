@@ -1,11 +1,13 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 
-import { SKY_LOG_LEVEL } from '../../../injection-tokens';
+import { SkyAppFormat } from '../format/app-format';
 
-import { SkyLogDepcrecationArgs } from './types/log-deprecation-args';
+import { SkyLogDeprecationArgs } from './types/log-deprecation-args';
 import { SkyLogLevel } from './types/log-level';
+import { SKY_LOG_LEVEL } from './types/log-level-token';
 
 /**
+ * Logs information to the console based on the application's log level as provided by the `SKY_LOG_LEVEL` injection token. If no token is provided, only `error` logs will be shown.
  * @internal
  */
 @Injectable({
@@ -13,6 +15,7 @@ import { SkyLogLevel } from './types/log-level';
 })
 export class SkyLogService {
   constructor(
+    private formatter: SkyAppFormat,
     @Optional()
     @Inject(SKY_LOG_LEVEL)
     private applicationLogLevel: SkyLogLevel
@@ -22,50 +25,57 @@ export class SkyLogService {
     }
   }
 
+  /**
+   * Logs a deprecation warning for a class, property, function, etc. This will be logged as a console warning unless a different log level is given in the the `args` parameter.
+   * @param name The name of the deprecated class, property, function, etc.
+   * @param args Information about the deprecation and replacement recommendations.
+   * @returns
+   */
   public async deprecated(
-    type: string,
-    args?: SkyLogDepcrecationArgs
+    name: string,
+    args?: SkyLogDeprecationArgs
   ): Promise<void> {
     const logLevel = args?.logLevel ?? SkyLogLevel.Warn;
-    type = this.convertStringToCode(type);
-
-    if (args?.replacementType) {
-      args.replacementType = this.convertStringToCode(args.replacementType);
-    }
+    name = this.convertStringToCode(name);
 
     if (this.canLog(logLevel)) {
       const localizedStrings = [];
 
-      if (args?.depcrecationVersion) {
+      if (args?.deprecationMajorVersion) {
         localizedStrings.push(
-          '{0} is deprecated starting in SKY UX {1}.'
-            .replace('{0}', type)
-            .replace('{1}', args.depcrecationVersion)
+          this.formatter.formatText(
+            '{0} is deprecated starting in SKY UX {1}.',
+            name,
+            args.deprecationMajorVersion.toLocaleString()
+          )
         );
       } else {
-        localizedStrings.push('{0} is deprecated.'.replace('{0}', type));
+        localizedStrings.push(
+          this.formatter.formatText('{0} is deprecated.', name)
+        );
       }
 
-      if (args?.removalVersion) {
+      if (args?.removalMajorVersion) {
         localizedStrings.push(
-          'We will remove it in version {0}.'.replace(
-            '{0}',
-            args.removalVersion
+          this.formatter.formatText(
+            'We will remove it in version {0}.',
+            args.removalMajorVersion.toLocaleString()
           )
         );
       } else {
         localizedStrings.push('We will remove it in a future major version.');
       }
 
-      if (args?.replacementType) {
-        localizedStrings.push(
-          'We recommend {0} instead.'.replace('{0}', args.replacementType)
-        );
+      if (args?.replacementRecommendation) {
+        localizedStrings.push(args.replacementRecommendation);
       }
 
-      if (args?.url) {
+      if (args?.moreInfoUrl) {
         localizedStrings.push(
-          'For more information, see {0}.'.replace('{0}', args.url)
+          this.formatter.formatText(
+            'For more information, see {0}.',
+            args.moreInfoUrl
+          )
         );
       }
 
@@ -74,22 +84,48 @@ export class SkyLogService {
     return Promise.resolve();
   }
 
+  /**
+   * Logs a console error if the application's log level is `SkyLogLevel.Error`.
+   * @param message The error message
+   * @param params Optional parameters for the error message.
+   */
   public error(message: string, params?: unknown[]): void {
     if (this.canLog(SkyLogLevel.Error)) {
-      console.error(message, params);
+      if (params) {
+        console.error(message, ...params);
+      } else {
+        console.error(message);
+      }
     }
   }
 
+  /**
+   * Logs console information if the application's log level is `SkyLogLevel.Info` or above.
+   * @param message The infomational message
+   * @param params Optional parameters for the informational message.
+   */
   public info(message: string, params?: unknown[]): void {
     if (this.canLog(SkyLogLevel.Info)) {
-      // eslint-disable-next-line no-restricted-syntax
-      console.log(message, params);
+      if (params) {
+        console.log(message, ...params);
+      } else {
+        console.log(message);
+      }
     }
   }
 
+  /**
+   * Logs a console warning if the application's log level is `SkyLogLevel.Warn` or above.
+   * @param message The warning message
+   * @param params Optional parameters for the warning message.
+   */
   public warn(message: string, params?: unknown[]): void {
     if (this.canLog(SkyLogLevel.Warn)) {
-      console.warn(message, params);
+      if (params) {
+        console.warn(message, ...params);
+      } else {
+        console.warn(message);
+      }
     }
   }
 
