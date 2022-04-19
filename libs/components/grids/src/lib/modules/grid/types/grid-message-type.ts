@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export enum SkyGridMessageType {
   /**
    * Selects the multiselect checkboxes for all rows in the grid.

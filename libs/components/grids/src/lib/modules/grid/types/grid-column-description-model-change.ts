@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export interface SkyGridColumnDescriptionModelChange {
   value?: string;

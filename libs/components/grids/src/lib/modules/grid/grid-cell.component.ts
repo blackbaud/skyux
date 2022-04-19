@@ -11,6 +11,7 @@ import { ListItemModel, getData } from '@skyux/list-builder-common';
 
 /**
  * @internal
+ * @deprecated
  */
 @Component({
   selector: 'sky-grid-cell',

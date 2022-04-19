@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export interface SkyGridColumnInlineHelpPopoverModelChange {
   value?: any;

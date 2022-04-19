@@ -68,6 +68,9 @@ import { SkyGridUIConfig } from './types/grid-ui-config';
 
 let nextId = 0;
 
+/**
+ * @deprecated Use `SkyAgGridWrapperComponent` instead.
+ */
 @Component({
   selector: 'sky-grid',
   templateUrl: './grid.component.html',
@@ -351,8 +354,7 @@ export class SkyGridComponent
     logger.deprecated('SkyGridComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/data-grid',
-      replacementRecommendation:
-        'We recommend `SkyAgGridWrapperComponent` instead.',
+      replacementRecommendation: 'Use `SkyAgGridWrapperComponent` instead.',
     });
 
     this.displayedColumns = new Array<SkyGridColumnModel>();

@@ -4,6 +4,7 @@ import { SkyGridColumnAlignment } from './types/grid-column-alignment';
 
 /**
  * @internal
+ * @deprecated
  */
 export class SkyGridColumnModel {
   public template: TemplateRef<any>;

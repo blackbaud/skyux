@@ -19,6 +19,9 @@ import { SkyGridCellComponent } from './grid-cell.component';
 import { SkyGridColumnComponent } from './grid-column.component';
 import { SkyGridComponent } from './grid.component';
 
+/**
+ * @deprecated Use `SkyAgGridModule` instead.
+ */
 @NgModule({
   declarations: [
     SkyGridComponent,

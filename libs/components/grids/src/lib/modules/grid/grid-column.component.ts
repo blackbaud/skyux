@@ -17,6 +17,7 @@ import { SkyGridColumnInlineHelpPopoverModelChange } from './types/grid-column-i
 
 /**
  * Specifies the column information.
+ * @deprecated
  */
 @Component({
   selector: 'sky-grid-column',

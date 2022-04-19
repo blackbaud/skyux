@@ -1,5 +1,8 @@
 import { SkyGridMessageType } from './grid-message-type';
 
+/**
+ * @deprecated
+ */
 export interface SkyGridMessage {
   /**
    * Indicates what type of message is being sent.

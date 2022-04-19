@@ -1,5 +1,8 @@
 import { SkyGridSelectedRowsSource } from './grid-selected-rows-source';
 
+/**
+ * @deprecated
+ */
 export interface SkyGridSelectedRowsModelChange {
   /**
    * Indicates the `id`s of the rows that are selected.

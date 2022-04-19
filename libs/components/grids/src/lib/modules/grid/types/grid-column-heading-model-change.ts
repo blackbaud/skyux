@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export interface SkyGridColumnHeadingModelChange {
   value?: string;
