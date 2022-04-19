@@ -83,7 +83,6 @@ describe('SkyCellEditorTextComponent', () => {
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
-        $scope: undefined,
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,

@@ -53,7 +53,6 @@ describe('SkyCellRendererCheckboxComponent', () => {
         field: dataField,
       },
       column: undefined,
-      $scope: undefined,
       api: undefined,
       columnApi: undefined,
       rowIndex: undefined,

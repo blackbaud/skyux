@@ -6,7 +6,6 @@ describe('CellRendererLookupComponent', () => {
   let component: SkyAgGridCellRendererLookupComponent;
   let fixture: ComponentFixture<SkyAgGridCellRendererLookupComponent>;
   const params = {
-    $scope: undefined,
     api: undefined,
     columnApi: undefined,
     context: undefined,

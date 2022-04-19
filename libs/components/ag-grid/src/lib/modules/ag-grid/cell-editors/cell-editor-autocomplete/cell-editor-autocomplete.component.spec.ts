@@ -73,7 +73,6 @@ describe('SkyCellEditorAutocompleteComponent', () => {
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
-        $scope: undefined,
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
