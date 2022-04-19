@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional } from '@angular/core';
 
 import { SkyAppFormat } from '../format/app-format';
 
-import { SkyLogDeprecationArgs } from './types/log-deprecation-args';
+import { SkyLogDeprecatedArgs } from './types/log-deprecation-args';
 import { SkyLogLevel } from './types/log-level';
 import { SKY_LOG_LEVEL } from './types/log-level-token';
 
@@ -33,7 +33,7 @@ export class SkyLogService {
    */
   public async deprecated(
     name: string,
-    args?: SkyLogDeprecationArgs
+    args?: SkyLogDeprecatedArgs
   ): Promise<void> {
     const logLevel = args?.logLevel ?? SkyLogLevel.Warn;
     name = this.convertStringToCode(name);

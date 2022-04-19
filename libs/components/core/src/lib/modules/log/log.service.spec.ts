@@ -5,23 +5,17 @@ import { SkyLogLevel } from './types/log-level';
 import { SKY_LOG_LEVEL } from './types/log-level-token';
 
 describe('Log service', () => {
-  let consoleDebugSpy: jasmine.Spy;
-  let consoleErrorSpy: jasmine.Spy;
-  let consoleInfoSpy: jasmine.Spy;
-  let consoleLogSpy: jasmine.Spy;
-  let consoleWarnSpy: jasmine.Spy;
+  let consoleSpy: jasmine.SpyObj<Console>;
   let logService: SkyLogService;
 
-  function setupSpys(): void {
-    consoleDebugSpy = spyOn(console, 'debug');
-    consoleErrorSpy = spyOn(console, 'error');
-    consoleInfoSpy = spyOn(console, 'info');
-    consoleLogSpy = spyOn(console, 'log');
-    consoleWarnSpy = spyOn(console, 'warn');
-  }
-
   beforeEach(() => {
-    setupSpys();
+    consoleSpy = jasmine.createSpyObj('console', [
+      'debug',
+      'error',
+      'info',
+      'log',
+      'warn',
+    ]);
   });
 
   describe('no provider', () => {
@@ -34,75 +28,75 @@ describe('Log service', () => {
 
     it('should log errors to the console', () => {
       logService.error('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log errors to the console with parameters', () => {
       logService.error('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         'Test {0} {1}',
         'foo',
         'bar'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
       logService.info('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log warnings to the console', () => {
       logService.warn('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log deprecations to the console', () => {
       logService.deprecated('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
   });
 
@@ -119,75 +113,75 @@ describe('Log service', () => {
 
     it('should log errors to the console', () => {
       logService.error('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log errors to the console with parameters', () => {
       logService.error('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         'Test {0} {1}',
         'foo',
         'bar'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
       logService.info('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log warnings to the console', () => {
       logService.warn('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log deprecations to the console', () => {
       logService.deprecated('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Error` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
   });
 
@@ -204,60 +198,64 @@ describe('Log service', () => {
 
     it('should log errors to the console', () => {
       logService.error('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log errors to the console with parameters', () => {
       logService.error('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         'Test {0} {1}',
         'foo',
         'bar'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log info to the console', () => {
       logService.info('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log warnings to the console', () => {
       logService.warn('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith('Test');
     });
 
     it('should log warnings to the console with parameters', () => {
       logService.warn('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
     });
 
     it('should log deprecations to the console', () => {
       logService.deprecated('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
     });
@@ -266,24 +264,24 @@ describe('Log service', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should not log deprecations to the console when `SkyLogLevel.Info` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
   });
 
@@ -300,69 +298,73 @@ describe('Log service', () => {
 
     it('should log errors to the console', () => {
       logService.error('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Test');
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log errors to the console with parameters', () => {
       logService.error('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         'Test {0} {1}',
         'foo',
         'bar'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log info to the console', () => {
       logService.info('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).toHaveBeenCalledWith('Test');
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log info to the console with parameters', () => {
       logService.info('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log warnings to the console', () => {
       logService.warn('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test');
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith('Test');
     });
 
     it('should log warnings to the console with parameters', () => {
       logService.warn('Test {0} {1}', ['foo', 'bar']);
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Test {0} {1}', 'foo', 'bar');
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
+        'Test {0} {1}',
+        'foo',
+        'bar'
+      );
     });
 
     it('should log deprecations to the console', () => {
       logService.deprecated('Test');
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
     });
@@ -371,26 +373,26 @@ describe('Log service', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Error,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).not.toHaveBeenCalled();
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
 
     it('should log deprecations to the console when `SkyLogLevel.Info` is given', () => {
       logService.deprecated('Test', {
         logLevel: SkyLogLevel.Info,
       });
-      expect(consoleDebugSpy).not.toHaveBeenCalled();
-      expect(consoleErrorSpy).not.toHaveBeenCalled();
-      expect(consoleInfoSpy).not.toHaveBeenCalled();
-      expect(consoleLogSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.debug).not.toHaveBeenCalled();
+      expect(consoleSpy.error).not.toHaveBeenCalled();
+      expect(consoleSpy.info).not.toHaveBeenCalled();
+      expect(consoleSpy.log).toHaveBeenCalledWith(
         '`Test` is deprecated. We will remove it in a future major version.'
       );
-      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(consoleSpy.warn).not.toHaveBeenCalled();
     });
   });
 
@@ -407,7 +409,7 @@ describe('Log service', () => {
 
     it('should log deprecations with only a type given correctly', () => {
       logService.deprecated('TestType');
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated. We will remove it in a future major version.'
       );
     });
@@ -416,7 +418,7 @@ describe('Log service', () => {
       logService.deprecated('TestType', {
         deprecationMajorVersion: 6,
       });
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated starting in SKY UX 6. We will remove it in a future major version.'
       );
     });
@@ -425,7 +427,7 @@ describe('Log service', () => {
       logService.deprecated('TestType', {
         removalMajorVersion: 7,
       });
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated. We will remove it in version 7.'
       );
     });
@@ -435,7 +437,7 @@ describe('Log service', () => {
         replacementRecommendation:
           'We recommend `TestReplacementType` instead.',
       });
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated. We will remove it in a future major version. We recommend `TestReplacementType` instead.'
       );
     });
@@ -444,7 +446,7 @@ describe('Log service', () => {
       logService.deprecated('TestType', {
         moreInfoUrl: 'tar.dis',
       });
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated. We will remove it in a future major version. For more information, see tar.dis.'
       );
     });
@@ -457,7 +459,7 @@ describe('Log service', () => {
           'We recommend `TestReplacementType` instead.',
         moreInfoUrl: 'tar.dis',
       });
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect(consoleSpy.warn).toHaveBeenCalledWith(
         '`TestType` is deprecated starting in SKY UX 6. We will remove it in version 7. We recommend `TestReplacementType` instead. For more information, see tar.dis.'
       );
     });

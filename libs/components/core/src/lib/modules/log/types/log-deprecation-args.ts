@@ -4,7 +4,7 @@ import { SkyLogLevel } from './log-level';
  * @internal
  * Arguments used when logging that a class, property, function, etc. is depcrecated.
  */
-export interface SkyLogDeprecationArgs {
+export interface SkyLogDeprecatedArgs {
   /**
    * The major version which deprecated the feature.
    */
