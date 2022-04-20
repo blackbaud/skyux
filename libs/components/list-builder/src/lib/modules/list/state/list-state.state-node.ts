@@ -14,6 +14,7 @@ import { ListViewsOrchestrator } from './views/views.orchestrator';
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class ListState extends StateNode<ListStateModel> {

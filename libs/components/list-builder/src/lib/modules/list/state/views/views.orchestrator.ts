@@ -6,6 +6,7 @@ import { ListViewsModel } from './views.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListViewsOrchestrator extends ListStateOrchestrator<ListViewsModel> {
   /* istanbul ignore next */

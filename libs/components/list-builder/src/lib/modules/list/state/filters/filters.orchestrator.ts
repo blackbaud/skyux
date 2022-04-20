@@ -5,6 +5,7 @@ import { ListFiltersUpdateAction } from './update.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListFiltersOrchestrator extends ListStateOrchestrator<
   ListFilterModel[]

@@ -11,6 +11,7 @@ import { ListToolbarModel } from './toolbar.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListToolbarOrchestrator extends ListStateOrchestrator<ListToolbarModel> {
   /* istanbul ignore next */

@@ -11,6 +11,7 @@ import {
   QueryList,
   SimpleChanges,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { AsyncItem, getValue } from '@skyux/list-builder-common';
 import {
   ListItemModel,
@@ -57,6 +58,9 @@ import { ListViewModel } from './state/views/view.model';
 
 let idIndex = 0;
 
+/**
+ * @deprecated List builder and its features are deprecated. Use data manager instead. For more information, see https://developer.blackbaud.com/skyux/components/data-manager.
+ */
 @Component({
   selector: 'sky-list',
   template: '<ng-content></ng-content>',
@@ -162,8 +166,16 @@ export class SkyListComponent
 
   constructor(
     private state: ListState,
-    private dispatcher: ListStateDispatcher
-  ) {}
+    private dispatcher: ListStateDispatcher,
+    logger: SkyLogService
+  ) {
+    logger.deprecated('SkyListComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/data-manager',
+      replacementRecommendation: 'Use `SkyDataManagerComponent` instead.',
+    });
+  }
 
   public ngAfterContentInit(): void {
     if (this.data && this.dataProvider && this.initialTotal) {

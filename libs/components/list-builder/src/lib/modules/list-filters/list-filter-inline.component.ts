@@ -4,6 +4,7 @@ import {
   ContentChildren,
   QueryList,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { take } from 'rxjs/operators';
 
@@ -18,6 +19,7 @@ import { SkyListFilterInlineModel } from './list-filter-inline.model';
 /**
  * Creates an inline filter area for the list. Place each filter
  * in a `sky-list-filter-inline-item` component.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-filter-inline',

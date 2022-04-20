@@ -9,6 +9,7 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
 
 /**
  * Adds actions to the secondary actions dropdown in the list toolbar.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-secondary-action',

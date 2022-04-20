@@ -11,6 +11,7 @@ import { ListItemModel } from '@skyux/list-builder-common';
 
 /**
  * Creates a filter in the list's inline filter area.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-filter-inline-item',

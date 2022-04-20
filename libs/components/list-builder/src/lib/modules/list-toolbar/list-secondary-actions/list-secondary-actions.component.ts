@@ -14,6 +14,7 @@ import { SkyListSecondaryActionsService } from './list-secondary-actions.service
 /**
  * Adds a dropdown to the list toolbar for secondary actions. If the dropdown does not
  * include actions, the secondary actions dropdown is hidden.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-secondary-actions',

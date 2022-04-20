@@ -1,5 +1,8 @@
 import { ListItemModel } from '@skyux/list-builder-common';
 
+/**
+ * @deprecated
+ */
 export class ListDataResponseModel {
   /**
    * The total number of records in the list.

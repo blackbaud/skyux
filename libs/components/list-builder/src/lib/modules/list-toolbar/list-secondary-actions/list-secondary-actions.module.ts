@@ -10,6 +10,9 @@ import { SkyListSecondaryActionComponent } from './list-secondary-action.compone
 import { SkyListSecondaryActionsHostComponent } from './list-secondary-actions-host.component';
 import { SkyListSecondaryActionsComponent } from './list-secondary-actions.component';
 
+/**
+ * @deprecated List builder and its features are deprecated. Use data manager instead. For more information, see https://developer.blackbaud.com/skyux/components/data-manager.
+ */
 @NgModule({
   declarations: [
     SkyListSecondaryActionsComponent,

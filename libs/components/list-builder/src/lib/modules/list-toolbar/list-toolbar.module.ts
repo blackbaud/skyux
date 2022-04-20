@@ -18,6 +18,9 @@ import { SkyListToolbarSortComponent } from './list-toolbar-sort.component';
 import { SkyListToolbarViewActionsComponent } from './list-toolbar-view-actions.component';
 import { SkyListToolbarComponent } from './list-toolbar.component';
 
+/**
+ * @deprecated List builder and its features are deprecated. Use data manager instead. For more information, see https://developer.blackbaud.com/skyux/components/data-manager.
+ */
 @NgModule({
   declarations: [
     SkyListToolbarComponent,

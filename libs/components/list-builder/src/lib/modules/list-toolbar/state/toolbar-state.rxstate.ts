@@ -5,6 +5,7 @@ import { ListToolbarStateAction } from './toolbar-state-action.type';
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class ListToolbarStateDispatcher extends StateDispatcher<ListToolbarStateAction> {}

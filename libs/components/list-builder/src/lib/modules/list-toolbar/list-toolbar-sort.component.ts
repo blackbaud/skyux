@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 
 /**
  * Adds a sort dropdown to the list toolbar.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-toolbar-sort',

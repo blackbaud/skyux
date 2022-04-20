@@ -4,6 +4,7 @@ import { ListSortLabelModel } from './label.model';
 
 /**
  * Specifies a set of fields to sort by.
+ * @deprecated
  */
 export class ListSortModel {
   /**

@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export class ListViewModel {
   public id: string;

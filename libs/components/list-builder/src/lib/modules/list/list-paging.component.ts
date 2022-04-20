@@ -6,6 +6,7 @@ import { ListState } from './state/list-state.state-node';
 /**
  * Provides a SKY UX-themed pagination control to display list data across multiple pages.
  * @internal
+ * @deprecated
  */
 export abstract class ListPagingComponent {
   protected initialized: BehaviorSubject<boolean> = new BehaviorSubject(false);

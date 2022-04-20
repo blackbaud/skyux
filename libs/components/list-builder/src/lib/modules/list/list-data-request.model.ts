@@ -3,6 +3,9 @@ import { ListFilterModel } from '../list-filters/filter.model';
 import { ListSearchModel } from './state/search/search.model';
 import { ListSortModel } from './state/sort/sort.model';
 
+/**
+ * @deprecated
+ */
 export class ListDataRequestModel {
   /**
    * Specifies a function to determine whether items are filtered.

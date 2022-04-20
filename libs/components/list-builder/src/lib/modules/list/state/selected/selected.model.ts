@@ -1,5 +1,6 @@
 /**
  * Contains data about the selected items in the list.
+ * @deprecated
  */
 export class ListSelectedModel {
   /**

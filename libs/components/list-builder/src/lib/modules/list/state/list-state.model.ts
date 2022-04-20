@@ -12,6 +12,7 @@ import { ListViewsModel } from './views/views.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListStateModel {
   public filters: ListFilterModel[] = [];

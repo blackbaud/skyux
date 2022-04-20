@@ -2,6 +2,7 @@ import { ListToolbarItemModel } from './toolbar-item.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListToolbarModel {
   public exists: boolean;

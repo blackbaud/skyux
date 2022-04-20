@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export class ListPagingModel {
   public itemsPerPage: number;

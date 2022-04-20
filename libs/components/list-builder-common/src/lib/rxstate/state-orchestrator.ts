@@ -3,6 +3,7 @@ import { scan } from 'rxjs/operators';
 
 /**
  * @internal
+ * @deprecated
  */
 export class StateOrchestrator<TStateNode, TAction> {
   private registeredActions: Array<any> = [];

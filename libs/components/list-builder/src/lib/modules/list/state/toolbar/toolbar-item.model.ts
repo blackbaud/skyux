@@ -2,6 +2,7 @@ import { TemplateRef } from '@angular/core';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListToolbarItemModel {
   public index = -1;

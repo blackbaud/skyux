@@ -4,6 +4,7 @@ import { ListSearchSetSearchTextAction } from './set-search-text.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListSearchSetOptionsAction {
   constructor(
