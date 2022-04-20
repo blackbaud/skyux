@@ -10,6 +10,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { SkyLogService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyToken } from '@skyux/indicators';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
@@ -23,6 +24,9 @@ import { SkySelectField } from './types/select-field';
 import { SkySelectFieldCustomPicker } from './types/select-field-custom-picker';
 import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
+/**
+ * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
+ */
 @Component({
   selector: 'sky-select-field',
   templateUrl: './select-field.component.html',
@@ -223,8 +227,15 @@ export class SkySelectFieldComponent
     private changeDetector: ChangeDetectorRef,
     private modalService: SkyModalService,
     private resourcesService: SkyLibResourcesService,
-    private elementRef: ElementRef
-  ) {}
+    private elementRef: ElementRef,
+    logger: SkyLogService
+  ) {
+    logger.deprecated('SkySelectFieldComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/lookup',
+      replacementRecommendation: 'Use `SkyLookupComponent` instead.',
+    });
+  }
 
   public ngOnDestroy() {
     this.blur.complete();
