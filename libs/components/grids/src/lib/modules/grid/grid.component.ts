@@ -354,7 +354,7 @@ export class SkyGridComponent
     logger.deprecated('SkyGridComponent', {
       deprecationMajorVersion: 6,
       moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/data-grid',
-      replacementRecommendation: 'Use `SkyAgGridWrapperComponent` instead.',
+      replacementRecommendation: 'Use data grid instead.',
     });
 
     this.displayedColumns = new Array<SkyGridColumnModel>();
