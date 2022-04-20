@@ -5,6 +5,7 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
 
 /**
  * Provides values to a custom picker.
+ * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
  */
 export class SkySelectFieldPickerContext {
   /**

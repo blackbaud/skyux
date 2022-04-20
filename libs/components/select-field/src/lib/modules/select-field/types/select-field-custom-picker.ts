@@ -2,6 +2,9 @@ import { SkySelectFieldPickerContext } from '../select-field-picker-context';
 
 import { SkySelectField } from './select-field';
 
+/**
+ * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
+ */
 export interface SkySelectFieldCustomPicker {
   /**
    * Specifies a function to call when users select the text field or button.
