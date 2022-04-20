@@ -69,7 +69,7 @@ import { SkyGridUIConfig } from './types/grid-ui-config';
 let nextId = 0;
 
 /**
- * @deprecated Use `SkyAgGridWrapperComponent` instead.
+ * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
  */
 @Component({
   selector: 'sky-grid',
