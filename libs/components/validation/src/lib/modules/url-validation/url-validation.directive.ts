@@ -3,13 +3,11 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyUrlValidationDirective),
   multi: true,
 };
-// tslint:enable
 
 /**
  * Creates an input to validate URLs. Place this attribute on an `input` element.

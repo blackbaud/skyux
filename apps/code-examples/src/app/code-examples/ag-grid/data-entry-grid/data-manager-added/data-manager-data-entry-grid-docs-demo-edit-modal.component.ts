@@ -4,16 +4,15 @@ import {
   Component,
 } from '@angular/core';
 import {
+  SkyAgGridAutocompleteProperties,
+  SkyAgGridDatepickerProperties,
   SkyAgGridService,
-  SkyAutocompleteProperties,
   SkyCellType,
-  SkyDatepickerProperties,
 } from '@skyux/ag-grid';
 import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
 import { SkyModalInstance } from '@skyux/modals';
 
 import {
-  CellValueChangedEvent,
   ColDef,
   GridApi,
   GridOptions,
@@ -57,7 +56,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         field: 'age',
         headerName: 'Age',
         type: SkyCellType.Number,
-        maxWidth: 100,
+        maxWidth: 60,
         editable: true,
       },
       {
@@ -73,7 +72,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyDatepickerProperties } => {
+        ): { skyComponentProperties: SkyAgGridDatepickerProperties } => {
           return { skyComponentProperties: { minDate: params.data.startDate } };
         },
       },
@@ -84,7 +83,7 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyAutocompleteProperties } => {
+        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           return {
             skyComponentProperties: {
               data: SKY_DEPARTMENTS,
@@ -109,13 +108,13 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
         editable: true,
         cellEditorParams: (
           params: ICellEditorParams
-        ): { skyComponentProperties: SkyAutocompleteProperties } => {
+        ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
           const selectedDepartment: string =
             params.data &&
             params.data.department &&
             params.data.department.name;
           const editParams: {
-            skyComponentProperties: SkyAutocompleteProperties;
+            skyComponentProperties: SkyAgGridAutocompleteProperties;
           } = { skyComponentProperties: { data: [] } };
 
           if (selectedDepartment) {
@@ -124,6 +123,27 @@ export class SkyDataManagerDataEntryGridEditModalComponent {
           }
           return editParams;
         },
+      },
+      {
+        colId: 'validationCurrency',
+        field: 'validationCurrency',
+        headerName: 'Validation currency',
+        type: [SkyCellType.CurrencyValidator],
+        editable: true,
+      },
+      {
+        colId: 'validationDate',
+        field: 'validationDate',
+        headerName: 'Validation date',
+        type: [SkyCellType.Date, SkyCellType.Validator],
+        cellRendererParams: {
+          skyComponentProperties: {
+            validator: (value: Date) =>
+              !!value && value > new Date(1985, 9, 26),
+            validatorMessage: 'Please enter a future date',
+          },
+        },
+        editable: true,
       },
     ];
     this.gridData = this.context.gridData;

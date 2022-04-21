@@ -15,12 +15,12 @@ export async function createTestApp(
   return await runner
     .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
       directory: '/',
-      legacyBrowsers: true,
+
       name: appOptions.defaultProjectName,
       routing: true,
       strict: true,
       style: 'scss',
-      version: '12',
+      version: '13',
     })
     .toPromise();
 }
@@ -40,7 +40,7 @@ export async function createTestLibrary(
       name: `${libOptions.name}-workspace`,
       createApplication: false,
       strict: true,
-      version: '12',
+      version: '13',
     })
     .toPromise();
 

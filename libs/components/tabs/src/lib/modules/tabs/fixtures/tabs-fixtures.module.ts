@@ -37,6 +37,5 @@ import { TabsetTestComponent } from './tabset.component.fixture';
     TabsetActiveTestComponent,
     TabsetActiveTwoWayBindingTestComponent,
   ],
-  entryComponents: [SkyWizardTestFormComponent],
 })
 export class SkyTabsFixturesModule {}

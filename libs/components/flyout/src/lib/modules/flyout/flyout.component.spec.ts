@@ -202,7 +202,6 @@ describe('Flyout component', () => {
   }
 
   function fireKeyDownOnSeparatorHandle(keyName: string): void {
-    const flyoutElement = getFlyoutElement();
     const handle = getFlyoutHandleElement();
     SkyAppTestUtility.fireDomEvent(handle, 'keydown', {
       keyboardEventInit: { key: keyName },
@@ -896,14 +895,12 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
 
-    /* tslint:disable:deprecation */
     /**
      * NOTE: We need to update this to use the new throwError Observable creation function
      */
     spyOn(SkyUIConfigService.prototype, 'setConfig').and.returnValue(
       observableThrow({ message: 'Test error' })
     );
-    /* tslint:enable:deprecation */
 
     resizeFlyout(1000, 1100);
 

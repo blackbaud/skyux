@@ -63,7 +63,6 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerToolbarComponent,
     SkyDataViewComponent,
   ],
-  entryComponents: [SkyDataManagerColumnPickerComponent],
   providers: [
     {
       provide: SkyDataManagerColumnPickerService,

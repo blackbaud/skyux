@@ -485,15 +485,12 @@ export class SkyTextEditorAdapterService {
     /* istanbul ignore if */
     if (typeof commandValue === 'number') {
       /* istanbul ignore next */
-      // tslint:disable-next-line: no-bitwise
       return (
         'rgb(' +
         (commandValue & 0xff) +
         ', ' +
-        // tslint:disable-next-line: no-bitwise
         ((commandValue & 0xff00) >> 8) +
         ', ' +
-        // tslint:disable-next-line: no-bitwise
         ((commandValue & 0xff0000) >> 16) +
         ')'
       );

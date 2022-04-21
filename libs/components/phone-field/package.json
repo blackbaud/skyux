@@ -16,11 +16,11 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/animations": "^12.2.16",
-    "@angular/common": "^12.2.16",
-    "@angular/core": "^12.2.16",
-    "@angular/forms": "^12.2.16",
-    "@angular/platform-browser": "^12.2.16",
+    "@angular/animations": "^13.3.2",
+    "@angular/common": "^13.3.2",
+    "@angular/core": "^13.3.2",
+    "@angular/forms": "^13.3.2",
+    "@angular/platform-browser": "^13.3.2",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
@@ -29,8 +29,8 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "google-libphonenumber": "3.2.21",
-    "intl-tel-input": "14.1.0",
+    "google-libphonenumber": "3.2.27",
+    "intl-tel-input": "17.0.16",
     "tslib": "^2.3.1"
   }
 }

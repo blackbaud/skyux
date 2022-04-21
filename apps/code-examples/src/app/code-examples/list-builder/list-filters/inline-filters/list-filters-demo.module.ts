@@ -8,6 +8,7 @@ import {
   SkyListModule,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
+import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 import { SkyFilterModule } from '@skyux/lists';
 
 import { ListFiltersDemoComponent } from './list-filters-demo.component';
@@ -22,6 +23,7 @@ import { ListFiltersDemoComponent } from './list-filters-demo.component';
     SkyListFiltersModule,
     SkyListModule,
     SkyListToolbarModule,
+    SkyListViewGridModule,
   ],
   declarations: [ListFiltersDemoComponent],
   exports: [ListFiltersDemoComponent],

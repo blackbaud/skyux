@@ -46,7 +46,7 @@ describe('Toast adapter service', () => {
   }));
 
   it('should scroll to the bottom of an element correctly', () => {
-    spyOn(window as any, 'setTimeout').and.callFake((fun: Function) => {
+    spyOn(window as any, 'setTimeout').and.callFake((fun) => {
       fun();
     });
     const elementRefMock: any = {

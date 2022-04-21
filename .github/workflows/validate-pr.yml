@@ -17,5 +17,76 @@ jobs:
       - uses: actions/checkout@v2
       - uses: amannn/action-semantic-pull-request@v4
         with:
+          # subject should not start with a capital letter or end with a period
+          subjectPattern: ^(?![A-Z]).+(?<!\.)$
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+            deprecation
+          scopes: |
+            changelog
+            dev-infra
+            migrations
+            packaging
+            release
+            apps/code-examples
+            apps/integration
+            apps/playground
+            components/a11y
+            components/action-bars
+            components/ag-grid
+            components/angular-tree-component
+            components/animations
+            components/assets
+            components/autonumeric
+            components/avatar
+            components/colorpicker
+            components/config
+            components/core
+            components/data-manager
+            components/datetime
+            components/errors
+            components/flyout
+            components/forms
+            components/grids
+            components/http
+            components/i18n
+            components/indicators
+            components/inline-form
+            components/layout
+            components/list-builder
+            components/list-builder-common
+            components/list-builder-view-checklist
+            components/list-builder-view-grids
+            components/lists
+            components/lookup
+            components/modals
+            components/navbar
+            components/omnibar-interop
+            components/packages
+            components/pages
+            components/phone-field
+            components/popovers
+            components/progress-indicator
+            components/router
+            components/select-field
+            components/split-view
+            components/tabs
+            components/text-editor
+            components/theme
+            components/tiles
+            components/toast
+            components/validation
+            sdk/prettier-schematics
+            sdk/testing
           validateSingleCommit: true
           validateSingleCommitMatchesPrTitle: true

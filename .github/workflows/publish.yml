@@ -21,9 +21,8 @@ jobs:
         run: npm ci
       - name: Build and publish
         run: |
-          export NX_CLOUD_DISTRIBUTED_EXECUTION=false
-          npm run ci:create-packages-dist
-          npm run ci:publish-packages-dist
+          npx skyux-dev create-packages-dist
+          npx skyux-dev publish-packages-dist
       - name: Notify Slack
         uses: rtCamp/action-slack-notify@v2
         env:

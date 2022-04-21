@@ -13,7 +13,7 @@ import { SkyPopoverModule } from '@skyux/popovers';
 
 import { DragulaModule } from 'ng2-dragula';
 
-import { SkyuxGridsResourcesModule } from '../shared/skyux-grids-resources.module';
+import { SkyGridsResourcesModule } from '../shared/sky-grids-resources.module';
 
 import { SkyGridCellComponent } from './grid-cell.component';
 import { SkyGridColumnComponent } from './grid-column.component';
@@ -31,7 +31,7 @@ import { SkyGridComponent } from './grid.component';
     FormsModule,
     SkyAffixModule,
     SkyCheckboxModule,
-    SkyuxGridsResourcesModule,
+    SkyGridsResourcesModule,
     SkyHelpInlineModule,
     SkyIconModule,
     SkyInlineDeleteModule,

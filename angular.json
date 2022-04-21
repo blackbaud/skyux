@@ -47,7 +47,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "action-bars": {
       "projectType": "library",
@@ -95,7 +96,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "action-bars-testing": {
       "projectType": "library",
@@ -172,7 +174,8 @@
             "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-ag-grid.ts"
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "angular-tree-component": {
       "projectType": "library",
@@ -220,7 +223,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "animations": {
       "projectType": "library",
@@ -268,7 +272,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "assets": {
       "projectType": "library",
@@ -316,7 +321,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "autonumeric": {
       "projectType": "library",
@@ -364,7 +370,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "avatar": {
       "projectType": "library",
@@ -412,7 +419,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "avatar-testing": {
       "projectType": "library",
@@ -557,7 +565,8 @@
             "assets": []
           }
         }
-      }
+      },
+      "tags": []
     },
     "colorpicker": {
       "projectType": "library",
@@ -605,7 +614,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "colorpicker-testing": {
       "projectType": "library",
@@ -675,7 +685,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "core": {
       "projectType": "library",
@@ -723,7 +734,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "core-testing": {
       "projectType": "library",
@@ -793,7 +805,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "datetime": {
       "projectType": "library",
@@ -841,7 +854,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "datetime-testing": {
       "projectType": "library",
@@ -911,7 +925,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "errors-testing": {
       "projectType": "library",
@@ -981,7 +996,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "forms": {
       "projectType": "library",
@@ -1029,7 +1045,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "forms-testing": {
       "projectType": "library",
@@ -1099,7 +1116,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "http": {
       "projectType": "library",
@@ -1147,7 +1165,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "http-testing": {
       "projectType": "library",
@@ -1229,7 +1248,8 @@
             "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "indicators": {
       "projectType": "library",
@@ -1282,6 +1302,7 @@
           "options": {
             "uiFramework": "@storybook/angular",
             "port": 4400,
+            "projectBuildConfig": "indicators",
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
             }
@@ -1300,7 +1321,12 @@
             "outputPath": "dist/storybook/indicators",
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
-            }
+            },
+            "projectBuildConfig": "indicators",
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
           },
           "configurations": {
             "ci": {
@@ -1334,7 +1360,8 @@
             "lintFilePatterns": ["apps/indicators-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "indicators-testing": {
       "projectType": "library",
@@ -1404,7 +1431,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "integration": {
       "projectType": "application",
@@ -1426,7 +1454,12 @@
               "apps/integration/src/favicon.ico",
               "apps/integration/src/assets"
             ],
-            "styles": ["apps/integration/src/styles.scss"],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "apps/integration/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -1435,12 +1468,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -1496,12 +1529,16 @@
             "tsConfig": "apps/integration/tsconfig.spec.json",
             "karmaConfig": "apps/integration/karma.conf.js",
             "polyfills": "apps/integration/src/polyfills.ts",
-            "styles": [],
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
             "scripts": [],
             "assets": []
           }
         }
-      }
+      },
+      "tags": []
     },
     "integration-e2e": {
       "root": "apps/integration-e2e",
@@ -1527,7 +1564,9 @@
             "lintFilePatterns": ["apps/integration-e2e/**/*.{js,ts}"]
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["integration"]
     },
     "layout": {
       "projectType": "library",
@@ -1575,7 +1614,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "layout-testing": {
       "projectType": "library",
@@ -1645,7 +1685,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "list-builder-common": {
       "projectType": "library",
@@ -1693,7 +1734,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "list-builder-view-checklist": {
       "projectType": "library",
@@ -1741,7 +1783,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "list-builder-view-checklist-testing": {
       "projectType": "library",
@@ -1811,7 +1854,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "list-builder-view-grids-testing": {
       "projectType": "library",
@@ -1881,7 +1925,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "lists-testing": {
       "projectType": "library",
@@ -1951,7 +1996,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "lookup-testing": {
       "projectType": "library",
@@ -2021,7 +2067,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "modals-testing": {
       "projectType": "library",
@@ -2091,7 +2138,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "omnibar-interop": {
       "projectType": "library",
@@ -2139,7 +2187,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "packages": {
       "root": "libs/components/packages",
@@ -2164,7 +2213,7 @@
           }
         },
         "build": {
-          "builder": "@nrwl/node:package",
+          "builder": "@nrwl/js:tsc",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/components/packages",
@@ -2181,7 +2230,8 @@
             "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-packages.ts"
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "pages": {
       "projectType": "library",
@@ -2229,7 +2279,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "phone-field": {
       "projectType": "library",
@@ -2277,7 +2328,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "phone-field-testing": {
       "projectType": "library",
@@ -2327,7 +2379,10 @@
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
               "apps/playground/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/components/theme/src/lib/styles"]
+            }
           },
           "configurations": {
             "production": {
@@ -2340,7 +2395,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -2389,7 +2444,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": []
     },
     "popovers": {
       "projectType": "library",
@@ -2437,7 +2493,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "popovers-testing": {
       "projectType": "library",
@@ -2482,7 +2539,7 @@
           }
         },
         "build": {
-          "builder": "@nrwl/node:package",
+          "builder": "@nrwl/js:tsc",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/libs/sdk/prettier-schematics",
@@ -2499,7 +2556,8 @@
             "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-prettier-schematics.ts"
           }
         }
-      }
+      },
+      "tags": ["sdk"]
     },
     "progress-indicator": {
       "projectType": "library",
@@ -2547,7 +2605,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "router": {
       "projectType": "library",
@@ -2595,7 +2654,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "select-field": {
       "projectType": "library",
@@ -2643,7 +2703,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "split-view": {
       "projectType": "library",
@@ -2691,7 +2752,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "split-view-testing": {
       "projectType": "library",
@@ -2761,7 +2823,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "tabs-testing": {
       "projectType": "library",
@@ -2831,7 +2894,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["sdk"]
     },
     "text-editor": {
       "projectType": "library",
@@ -2879,7 +2943,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "theme": {
       "projectType": "library",
@@ -2933,7 +2998,8 @@
             "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-theme.ts"
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "tiles": {
       "projectType": "library",
@@ -2981,7 +3047,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "toast": {
       "projectType": "library",
@@ -3029,7 +3096,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     },
     "toast-testing": {
       "projectType": "library",
@@ -3099,30 +3167,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["component"]
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular",
-    "packageManager": "npm"
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "karma",
-      "e2eTestRunner": "cypress",
-      "strict": false
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "karma",
-      "strict": false
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  },
-  "defaultProject": "playground"
+  }
 }

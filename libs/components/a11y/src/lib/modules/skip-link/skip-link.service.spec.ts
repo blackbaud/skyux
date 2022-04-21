@@ -2,8 +2,6 @@ import { ApplicationRef, ElementRef } from '@angular/core';
 import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyA11yForRootCompatModule } from '../shared/a11y-for-root-compat.module';
-
 import { SkySkipLink } from './skip-link';
 import { SkySkipLinkArgs } from './skip-link-args';
 import { SkySkipLinkModule } from './skip-link.module';
@@ -31,7 +29,7 @@ describe('Skip link service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkySkipLinkModule, SkyA11yForRootCompatModule],
+      imports: [SkySkipLinkModule],
     });
   });
 

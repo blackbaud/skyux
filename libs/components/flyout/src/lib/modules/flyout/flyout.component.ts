@@ -150,18 +150,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   })
   private target: ViewContainerRef;
 
-  @ViewChild('flyoutCloseButton', {
-    read: ElementRef,
-    static: true,
-  })
-  private flyoutCloseButton: ElementRef;
-
-  @ViewChild('flyoutContent', {
-    read: ElementRef,
-    static: true,
-  })
-  private flyoutContent: ElementRef;
-
   @ViewChild('flyoutHeader', {
     read: ElementRef,
     static: true,
@@ -435,7 +423,6 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   private handleIncomingMessages(message: SkyFlyoutMessage): void {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
         if (!this.isOpen) {
@@ -516,6 +503,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         })
         .pipe(take(1))
         .subscribe(
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           () => {},
           (err) => {
             console.warn('Could not save flyout data.');

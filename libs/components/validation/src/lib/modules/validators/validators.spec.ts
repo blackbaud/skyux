@@ -17,7 +17,6 @@ describe('Validators', () => {
 
     it('should be valid on empty input (null)', () => {
       const control = new FormControl('', SkyValidators.email);
-      /* tslint:disable:no-null-keyword */
       control.setValue(null);
       expect(control.valid).toBeTruthy();
     });

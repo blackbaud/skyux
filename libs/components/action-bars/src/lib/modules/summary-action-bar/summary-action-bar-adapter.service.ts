@@ -105,7 +105,6 @@ export class SkySummaryActionBarAdapterService {
         return SkySummaryActionBarType.SplitView;
       }
       el = el.parentElement;
-      // tslint:disable-next-line:no-null-keyword
     } while (el !== null && el.nodeType === 1);
     return SkySummaryActionBarType.Page;
   }

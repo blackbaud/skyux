@@ -1,0 +1,548 @@
+<div class="input-box-visual sky-padding-even-large" id="screenshot-input-box">
+  <div id="input-box-basic">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxBasic.id"> Input </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="Value"
+        #inputBoxBasic="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-textarea">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxTextarea.id">
+        Textarea
+      </label>
+      <textarea class="sky-form-control" skyId #inputBoxTextarea="skyId">
+Value</textarea
+      >
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <label class="sky-control-label" [for]="inputBoxInlineHelp.id">
+        Input with inline help
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="Value"
+        #inputBoxInlineHelp="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-required-with-character-counter">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <sky-help-inline class="sky-control-help"></sky-help-inline>
+      <label
+        class="sky-control-label sky-control-label-required"
+        [for]="inputBoxInlineHelpRequiredCharacterCounter.id"
+      >
+        Required input with inline help and character counter
+      </label>
+      <sky-character-counter-indicator #indicator>
+      </sky-character-counter-indicator>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        required
+        skyCharacterCounter
+        [(ngModel)]="myValue"
+        [skyCharacterCounterIndicator]="indicator"
+        [skyCharacterCounterLimit]="10"
+        #inputBoxInlineHelpRequiredCharacterCounter="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-help-inline-overflow">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <sky-help-inline
+        class="sky-control-help"
+        (actionClick)="onActionClick()"
+      ></sky-help-inline>
+      <label class="sky-control-label" [for]="inputBoxInlineHelpOverflow.id">
+        Input with inline help and overflowing text. The label should wrap while
+        the inline help icon should stick to the top right of the input box.
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="Value"
+        #inputBoxInlineHelpOverflow="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-single">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxButtonSingle.id">
+        Input with one button
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonSingle="skyId"
+      />
+      <div class="sky-input-group-btn">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-multiple">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxButtonMultiple.id">
+        Input with multiple buttons
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonMultiple="skyId"
+      />
+      <div class="sky-input-group-btn">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+      <div class="sky-input-group-btn">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="clock-o"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-side-by-side">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxSideBySide1.id">
+        Input left
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxSideBySide1="skyId"
+      />
+    </sky-input-box>
+
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxSideBySide2.id">
+        Input right with a label with a lot of text that should wrap and cause
+        the height of the input box to expand to fit the extra text instead of
+        truncating it.
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxSideBySide2="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-form-control-error">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxFormControlError.id">
+        Form control error
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        [formControl]="errorField"
+        #inputBoxFormControlError="skyId"
+      />
+      <div class="sky-error-label">Field is required.</div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-form-control-name-error">
+    <form [formGroup]="errorForm">
+      <sky-input-box class="sky-margin-stacked-lg">
+        <label
+          class="sky-control-label"
+          [for]="inputBoxFormControlNameError.id"
+        >
+          Form control by name error
+        </label>
+        <input
+          class="sky-form-control"
+          formControlName="errorFormField"
+          skyId
+          type="text"
+          #inputBoxFormControlNameError="skyId"
+        />
+        <div class="sky-error-label">Field is required.</div>
+      </sky-input-box>
+    </form>
+  </div>
+
+  <div id="input-box-ngmodel-error">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxNgModelError.id">
+        NgModel error
+      </label>
+      <input
+        class="sky-form-control"
+        name="errorNgModel"
+        required
+        skyId
+        type="text"
+        [(ngModel)]="errorNgModelValue"
+        #errorNgModel="ngModel"
+        #inputBoxNgModelError="skyId"
+      />
+      <div class="sky-error-label">Field is required.</div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-form-control-error-button-single">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label
+        class="sky-control-label"
+        [for]="inputBoxFormControlErrorButtonSingle.id"
+      >
+        Form control error with one button
+      </label>
+      <input
+        class="sky-form-control"
+        id="field8"
+        skyId
+        type="text"
+        [formControl]="errorField"
+        #inputBoxFormControlErrorButtonSingle="skyId"
+      />
+      <div class="sky-input-group-btn">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+      <div class="sky-error-label">Field is required.</div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-disabled">
+    <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+      <label class="sky-control-label" [for]="inputBoxDisabled.id">
+        Disabled
+      </label>
+      <input
+        class="sky-form-control"
+        disabled
+        skyId
+        type="text"
+        value="Disabled value"
+        #inputBoxDisabled="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-disabled">
+    <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+      <label class="sky-control-label" [for]="inputBoxButtonDisabled.id">
+        Input with one button disabled
+      </label>
+      <input
+        disabled
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonDisabled
+      />
+      <div class="sky-input-group-btn">
+        <button disabled class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-select">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxSelect.id">
+        Select
+      </label>
+      <select class="sky-form-control" skyId #inputBoxSelect="skyId">
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+        <option>Option 4</option>
+      </select>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-select-disabled">
+    <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+      <label class="sky-control-label" [for]="inputBoxSelectDisabled.id">
+        Select disabled
+      </label>
+      <select
+        disabled
+        class="sky-form-control"
+        skyId
+        #inputBoxSelectDisabled="skyId"
+      >
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+        <option>Option 4</option>
+      </select>
+    </sky-input-box>
+  </div>
+
+  <!-- For automation to click to set focus -->
+  <label class="test-label" [for]="inputBoxBasicNoLabel.id"></label>
+  <div id="input-box-basic-no-label">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="No label"
+        #inputBoxBasicNoLabel="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <!-- For automation to click to set focus -->
+  <label
+    class="test-label"
+    id="label-input-box-button-single-no-label"
+    [for]="inputBoxButtonSingleNoLabel.id"
+  >
+  </label>
+  <div id="input-box-button-single-no-label">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="No label with one button"
+        #inputBoxButtonSingleNoLabel="skyId"
+      />
+      <div class="sky-input-group-btn">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <!-- For automation to click to set focus -->
+  <label
+    class="test-label"
+    id="label-input-box-select-no-label"
+    [for]="inputBoxSelectNoLabel.id"
+  >
+  </label>
+  <div id="input-box-select-no-label">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <select class="sky-form-control" skyId #inputBoxSelectNoLabel="skyId">
+        <option>Option 1</option>
+        <option>Option 2</option>
+        <option>Option 3</option>
+        <option>Option 4</option>
+      </select>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-basic-wrapper">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxBasicWrapper.id">
+        Wrapper
+      </label>
+      <app-input-box-visual-host>
+        <input
+          class="sky-form-control"
+          skyId
+          type="text"
+          #inputBoxBasicWrapper="skyId"
+        />
+      </app-input-box-visual-host>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-single-left">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxButtonLeft.id">
+        Input with left button
+      </label>
+      <div class="sky-input-group-btn sky-input-box-btn-left">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="calendar"></sky-icon>
+        </button>
+      </div>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonLeft="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-inset">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxButtonInset.id">
+        Input with inset button
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonInset="skyId"
+      />
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="search"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-inset-no-label">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <input class="sky-form-control" skyId type="text" />
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="search"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-button-inset-narrow">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxButtonInsetNarrow.id">
+        Input with inset button (narrow)
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxButtonInsetNarrow="skyId"
+      />
+      <div class="sky-input-group-btn sky-input-box-btn-inset">
+        <button class="sky-btn sky-btn-default" type="button">
+          <sky-icon icon="search"></sky-icon>
+        </button>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-icon-inset">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxIconInset.id">
+        Input with inset icon
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxIconInset="skyId"
+      />
+      <div class="sky-input-group-icon sky-input-box-icon-inset">
+        <sky-icon icon="search"></sky-icon>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-icon-inset-left">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxIconInsetLeft.id">
+        Input with left inset icon
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        #inputBoxIconInsetLeft="skyId"
+      />
+      <div class="sky-input-group-icon sky-input-box-icon-inset-left">
+        <sky-icon icon="search"></sky-icon>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-icon-inset-disabled">
+    <sky-input-box class="sky-margin-stacked-lg" [disabled]="true">
+      <label class="sky-control-label" [for]="inputBoxIconInsetDisabled.id">
+        Disabled input with inset icon
+      </label>
+      <input
+        class="sky-form-control"
+        disabled
+        skyId
+        type="text"
+        #inputBoxIconInsetDisabled="skyId"
+      />
+      <div class="sky-input-group-icon sky-input-box-icon-inset">
+        <sky-icon icon="search"></sky-icon>
+      </div>
+    </sky-input-box>
+  </div>
+
+  <div class="sky-form-group" id="input-box-placeholder">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxPlaceholder.id">
+        Input W/ Placeholder
+      </label>
+      <input
+        class="sky-form-control"
+        placeholder="Placeholder Text"
+        skyId
+        type="text"
+        #inputBoxPlaceholder="skyId"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-basic-autofill">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxBasic.id"
+        >First name (autocomplete)
+      </label>
+      <input
+        class="sky-form-control"
+        skyId
+        type="text"
+        value="Value"
+        #inputBoxBasic="skyId"
+        name="fname"
+        autocomplete="given-name"
+      />
+    </sky-input-box>
+  </div>
+
+  <div id="input-box-textarea-autofill">
+    <sky-input-box class="sky-margin-stacked-lg">
+      <label class="sky-control-label" [for]="inputBoxTextarea.id">
+        Last name (autocomplete)
+      </label>
+      <textarea
+        class="sky-form-control"
+        skyId
+        #inputBoxTextarea="skyId"
+        name="lname"
+        autocomplete="family-name"
+      >
+Value</textarea
+      >
+    </sky-input-box>
+  </div>
+</div>

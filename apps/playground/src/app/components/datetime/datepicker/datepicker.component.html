@@ -1,0 +1,219 @@
+<div
+  class="app-screenshot"
+  id="screenshot-datepicker-calendar"
+  style="display: inline-block"
+>
+  <sky-datepicker-calendar
+    [selectedDate]="selectedDate"
+    (selectedDateChange)="selectedDate = $event"
+    #datepicker
+  >
+  </sky-datepicker-calendar>
+</div>
+<br />
+<div
+  class="app-screenshot"
+  id="screenshot-datepicker"
+  style="max-width: 50%; height: 500px"
+>
+  <p>Template form</p>
+  <sky-datepicker #picker>
+    <input
+      skyDatepickerInput
+      [disabled]="disabled"
+      [maxDate]="maxDate"
+      [minDate]="minDate"
+      [skyDatepickerNoValidate]="noValidate"
+      [startingDay]="startingDay"
+      [strict]="strict"
+      [(ngModel)]="selectedDate"
+      #date="ngModel"
+    />
+  </sky-datepicker>
+
+  <table>
+    <tr>
+      <th>Touched</th>
+      <td>{{ date.touched }}</td>
+    </tr>
+    <tr>
+      <th>Pristine</th>
+      <td>{{ date.pristine }}</td>
+    </tr>
+    <tr>
+      <th>Valid</th>
+      <td>{{ date.valid }}</td>
+    </tr>
+  </table>
+
+  <p *ngIf="date.errors && date.errors.skyDate" class="sky-error-label">
+    <span *ngIf="date.errors.skyDate.invalid">
+      Please enter a valid date.
+    </span>
+
+    <span *ngIf="date.errors.skyDate.minDate">
+      Date is prior to minimum date range.
+    </span>
+
+    <span *ngIf="date.errors.skyDate.maxDate">
+      Date is after maximum date range.
+    </span>
+  </p>
+
+  <p>
+    Model value: <code>{{ selectedDate }}</code>
+  </p>
+</div>
+
+<div class="app-screenshot" style="max-width: 50%; height: 500px">
+  <p>Reactive form</p>
+  <form novalidate [formGroup]="reactiveForm">
+    <sky-datepicker>
+      <input
+        formControlName="selectedDate"
+        skyDatepickerInput
+        type="text"
+        [maxDate]="maxDate"
+        [minDate]="minDate"
+        [skyDatepickerNoValidate]="noValidate"
+        [startingDay]="startingDay"
+      />
+    </sky-datepicker>
+
+    <table>
+      <tr>
+        <th>Touched</th>
+        <td>{{ reactiveDate.touched }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ reactiveDate.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ reactiveDate.valid }}</td>
+      </tr>
+    </table>
+
+    <p *ngIf="reactiveDate.errors" class="sky-error-label">
+      <span *ngIf="reactiveDate.errors.skyDate?.invalid">
+        Please enter a valid date.
+      </span>
+
+      <span *ngIf="reactiveDate.errors.skyDate?.minDate">
+        Date is prior to minimum date range.
+      </span>
+
+      <span *ngIf="reactiveDate.errors.skyDate?.maxDate">
+        Date is after maximum date range.
+      </span>
+    </p>
+
+    <p>
+      Model value: <code>{{ reactiveForm.value.selectedDate }}</code>
+    </p>
+  </form>
+</div>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setReactiveString(false)"
+>
+  Set string value with emitEvent: false
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setReactiveString()"
+>
+  Set string value with emitEvent: true
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setReactiveDate(false)"
+>
+  Set date value with emitEvent: false
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setReactiveDate()"
+>
+  Set date value with emitEvent: true
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setMinMaxDates()"
+>
+  Set min and max dates
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  type="button"
+  (click)="setStartingDay()"
+>
+  Set starting day to Monday
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  id="toggle-disabled-btn"
+  type="button"
+  (click)="toggleDisabled()"
+>
+  Toggle disabled
+</button>
+<button class="sky-btn sky-btn-primary" type="button" (click)="setValue()">
+  Set new value
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  id="button-set-invalid-value"
+  type="button"
+  (click)="setInvalidValue()"
+>
+  Set invalid value
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  id="button-set-invalid-value"
+  type="button"
+  (click)="strict = !strict"
+>
+  Toggle strict formatting
+</button>
+<button
+  class="sky-btn sky-btn-primary"
+  id="button-set-custom-dates"
+  type="button"
+  (click)="onToggleCustomDatesClick()"
+>
+  Toggle custom dates
+</button>
+
+<div
+  class="app-screenshot"
+  id="screenshot-datepicker-input-box"
+  style="max-width: 50%; height: 500px"
+>
+  <sky-input-box [disabled]="disabled">
+    <label class="sky-control-label"> Input box </label>
+    <sky-datepicker
+      (calendarDateRangeChange)="onCalendarDateRangeChange($event)"
+      #inputBoxPicker
+    >
+      <input
+        skyDatepickerInput
+        [disabled]="disabled"
+        [maxDate]="maxDate"
+        [minDate]="minDate"
+        [skyDatepickerNoValidate]="noValidate"
+        [startingDay]="startingDay"
+        [strict]="strict"
+        [(ngModel)]="selectedDate"
+        #date="ngModel"
+      />
+    </sky-datepicker>
+  </sky-input-box>
+</div>

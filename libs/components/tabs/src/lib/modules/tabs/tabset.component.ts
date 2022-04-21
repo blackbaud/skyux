@@ -250,7 +250,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.unsubscribeTabComponentsStateChange();
-    this.permalinkService.clearParam(this.permalinkId);
+    if (this.permalinkId) {
+      this.permalinkService.clearParam(this.permalinkId);
+    }
   }
 
   public onWindowResize(): void {
@@ -447,7 +449,6 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       closeable: tab.closeable,
       ariaControls: tab.tabPanelId,
       disabled: tab.disabled,
-      /*tslint:disable-next-line:no-null-keyword*/
       buttonHref: tab.disabled
         ? null
         : this.permalinkService.getParamHref(

@@ -142,7 +142,7 @@ export class SkyLookupComponent
 
   /**
    * Specifies whether users can select one option or multiple options.
-   * @default "mulitple"
+   * @default "multiple"
    */
   @Input()
   public set selectMode(value: SkyLookupSelectModeType) {
@@ -378,7 +378,6 @@ export class SkyLookupComponent
   public onTokensKeyUp(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (this.selectMode !== 'single') {
-      /* tslint:disable-next-line:switch-default */
       switch (event.key) {
         case 'Backspace':
           this.sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
@@ -404,9 +403,9 @@ export class SkyLookupComponent
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange = (value: any[]) => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onTouched = () => {};
 
   public registerOnChange(fn: (value: any) => void) {
@@ -495,8 +494,9 @@ export class SkyLookupComponent
     let isValueInTextBox = false;
     if (this.selectMode === 'single') {
       isValueInTextBox =
+        this.autocompleteInputDirective.value &&
         this.autocompleteInputDirective.inputTextValue ===
-        this.autocompleteInputDirective.value[this.descriptorProperty];
+          this.autocompleteInputDirective.value[this.descriptorProperty];
     }
 
     this.openPicker(

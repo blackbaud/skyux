@@ -8,5 +8,6 @@
   [style.height.px]="rowHeightWithoutBorders"
   [(ngModel)]="value"
   [skyAutonumeric]="skyComponentProperties"
+  (keyup.escape)="onPressEscape()"
   #skyCellEditorCurrency
 />

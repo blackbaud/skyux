@@ -13,9 +13,5 @@ import { WaterfallIndicatorDocsComponent } from './progress-indicator-waterfall-
     WaterfallIndicatorDocsComponent,
     SkyProgressIndicatorWaterfallDemoFormComponent,
   ],
-  entryComponents: [
-    WaterfallIndicatorDocsComponent,
-    SkyProgressIndicatorWaterfallDemoFormComponent,
-  ],
 })
 export class SkyProgressIndicatorPassiveDemoModule {}

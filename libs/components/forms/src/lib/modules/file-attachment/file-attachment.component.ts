@@ -127,7 +127,6 @@ export class SkyFileAttachmentComponent
     // The null check is needed to address a bug in Angular 4.
     // writeValue is being called twice, first time with a phantom null value
     // See: https://github.com/angular/angular/issues/14988
-    // tslint:disable-next-line:no-null-keyword
     const isNewValue = value !== this.value && value !== null;
 
     if (isNewValue) {
@@ -312,7 +311,6 @@ export class SkyFileAttachmentComponent
 
   public getFileName(truncate = true): string | undefined {
     if (this.value) {
-      // tslint:disable-next-line: max-line-length
       const dropName =
         this.fileItemService.isFile(this.value) && this.value.file.name
           ? this.value.file.name
@@ -393,7 +391,6 @@ export class SkyFileAttachmentComponent
   }
 
   private handleFiles(files: FileList): void {
-    // tslint:disable-next-line: max-line-length
     const processedFiles = this.fileAttachmentService.checkFiles(
       files,
       this.minFileSize,
@@ -418,8 +415,8 @@ export class SkyFileAttachmentComponent
     this.changeDetector.markForCheck();
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
 }

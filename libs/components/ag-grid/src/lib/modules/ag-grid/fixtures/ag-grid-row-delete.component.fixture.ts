@@ -118,6 +118,10 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
     });
   }
 
+  public clearFilter(): void {
+    this.gridApi.setFilterModel(undefined);
+  }
+
   public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
     return;
   }

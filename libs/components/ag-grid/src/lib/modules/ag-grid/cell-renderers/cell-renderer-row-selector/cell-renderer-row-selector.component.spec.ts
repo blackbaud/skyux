@@ -8,6 +8,7 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCheckboxFixture } from '@skyux/forms/testing';
 
 import {
+  Beans,
   ColDef,
   ICellRendererParams,
   RowClickedEvent,
@@ -52,7 +53,6 @@ describe('SkyCellRendererCheckboxComponent', () => {
         field: dataField,
       },
       column: undefined,
-      $scope: undefined,
       api: undefined,
       columnApi: undefined,
       rowIndex: undefined,
@@ -80,7 +80,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     it(`initializes the SkyuxCheckboxGridCellComponent
       properties and sets the checkbox to the value of the column field provided`, fakeAsync(() => {
       const checked = true;
-      const rowNode = new RowNode();
+      const rowNode = new RowNode({} as Beans);
       cellRendererParams.value = checked;
       cellRendererParams.node = rowNode;
       spyOn(rowNode, 'setSelected');
@@ -110,7 +110,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
 
     it(`initializes the SkyuxCheckboxGridCellComponent properties and sets the checkbox to the node's selected
       value since no column field provided`, fakeAsync(() => {
-      const rowNode = new RowNode();
+      const rowNode = new RowNode({} as Beans);
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
       cellRendererParams.colDef.field = undefined;
@@ -143,7 +143,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
   describe('updateRow', () => {
     it(`should set the rowNode selected property and the row data's column-defined field property
       to the component's checked property value if column field provided`, () => {
-      const rowNode = new RowNode();
+      const rowNode = new RowNode({} as Beans);
       rowNode.data = {};
       cellRendererParams.value = true;
       cellRendererParams.node = rowNode;
@@ -162,7 +162,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
     });
 
     it(`should set the rowNode selected property to the component's checked property value if no column field provided`, () => {
-      const rowNode = new RowNode();
+      const rowNode = new RowNode({} as Beans);
       rowNode.data = {};
       cellRendererParams.node = rowNode;
       cellRendererParams.colDef.field = undefined;
@@ -194,7 +194,7 @@ describe('SkyCellRendererCheckboxComponent', () => {
       dataPropertySet: boolean = false
     ) {
       let rowClickListener: Function;
-      const rowNode = new RowNode();
+      const rowNode = new RowNode({} as Beans);
       rowNode.data = {};
       const rowClickedEvent: RowClickedEvent = {
         node: rowNode,

@@ -6,9 +6,4 @@ module.exports = function (config) {
     __dirname,
     '../../../../coverage/libs/components/lookup/testing'
   );
-
-  // TODO: remove these threshold overrides to meet 100% coverage!
-  config.coverageReporter.check = {
-    global: { statements: 97, branches: 82, functions: 99, lines: 97 },
-  };
 };

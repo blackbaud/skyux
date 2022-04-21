@@ -27,10 +27,7 @@
       "@blackbaud/skyux-lib-code-block": "^5.0.0-beta.0",
       "@blackbaud/skyux-lib-media": "^5.0.0-beta.0",
       "@blackbaud/skyux-lib-stache": "^5.0.0-beta.0",
-      "@skyux-sdk/documentation-schematics": "^5.0.0",
       "@skyux-sdk/prettier-schematics": "0.0.0-PLACEHOLDER",
-      "@skyux-sdk/angular-builders": "^5.0.0-beta.0",
-      "@skyux-sdk/e2e": "^5.0.0",
       "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
       "@skyux/a11y": "0.0.0-PLACEHOLDER",
       "@skyux/action-bars": "0.0.0-PLACEHOLDER",
@@ -45,8 +42,7 @@
       "@skyux/core": "0.0.0-PLACEHOLDER",
       "@skyux/data-manager": "0.0.0-PLACEHOLDER",
       "@skyux/datetime": "0.0.0-PLACEHOLDER",
-      "@skyux/docs-tools": "^5.0.0-beta.0",
-      "@skyux/e2e-client": "^5.0.0",
+      "@skyux/docs-tools": "^6.0.0-beta.0",
       "@skyux/errors": "0.0.0-PLACEHOLDER",
       "@skyux/flyout": "0.0.0-PLACEHOLDER",
       "@skyux/forms": "0.0.0-PLACEHOLDER",
@@ -78,11 +74,14 @@
       "@skyux/theme": "0.0.0-PLACEHOLDER",
       "@skyux/tiles": "0.0.0-PLACEHOLDER",
       "@skyux/toast": "0.0.0-PLACEHOLDER",
-      "@skyux/validation": "0.0.0-PLACEHOLDER"
+      "@skyux/validation": "0.0.0-PLACEHOLDER",
+      "ag-grid-angular": "^27.2.0",
+      "ag-grid-community": "^27.2.0",
+      "ag-grid-enterprise": "^27.2.0"
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^12.2.16"
+    "@angular/cli": "^13.3.2"
   },
   "dependencies": {
     "fs-extra": "10.0.0",

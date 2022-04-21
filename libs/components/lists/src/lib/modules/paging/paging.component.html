@@ -6,9 +6,7 @@
   <ul>
     <li>
       <button
-        class="
-          sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous sky-box
-        "
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-previous sky-box"
         sky-cmp-id="previous"
         type="button"
         [attr.aria-label]="'skyux_paging_previous' | skyLibResources"
@@ -29,6 +27,9 @@
         type="button"
         [attr.aria-current]="currentPage === pageNumber ? 'page' : null"
         [attr.sky-cmp-id]="pageNumber"
+        [attr.aria-label]="
+          'skyux_paging_page_link_aria_label' | skyLibResources: pageNumber
+        "
         [disabled]="currentPage === pageNumber"
         [ngClass]="{ 'sky-paging-current': currentPage === pageNumber }"
         (click)="setPage(pageNumber)"
@@ -38,9 +39,7 @@
     </li>
     <li>
       <button
-        class="
-          sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next sky-box
-        "
+        class="sky-btn sky-btn-default sky-paging-btn sky-paging-btn-next sky-box"
         sky-cmp-id="next"
         type="button"
         [attr.aria-label]="'skyux_paging_next' | skyLibResources"

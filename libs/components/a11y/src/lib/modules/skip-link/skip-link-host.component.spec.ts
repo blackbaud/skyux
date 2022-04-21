@@ -3,8 +3,6 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { SkyA11yForRootCompatModule } from '../shared/a11y-for-root-compat.module';
-
 import { SkySkipLink } from './skip-link';
 import { SkySkipLinkHostComponent } from './skip-link-host.component';
 import { SkySkipLinkModule } from './skip-link.module';
@@ -36,7 +34,7 @@ describe('Skip link host component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkySkipLinkModule, SkyA11yForRootCompatModule],
+      imports: [SkySkipLinkModule],
     });
 
     testEl1 = createTestDiv();

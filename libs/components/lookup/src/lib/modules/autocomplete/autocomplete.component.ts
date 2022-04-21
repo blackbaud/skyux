@@ -495,7 +495,6 @@ export class SkyAutocompleteComponent
         (r) => r.elementId === activeElementId
       );
 
-      /* tslint:disable-next-line:switch-default */
       switch (key) {
         case 'enter':
           if (targetIsSearchResult) {
@@ -633,7 +632,9 @@ export class SkyAutocompleteComponent
       this.currentSearchSub = this.performSearch()
         .pipe(take(1))
         .subscribe((result) => {
-          const items = result.items;
+          const items = result.items.filter((item: never) => {
+            return item && this.descriptorProperty in item;
+          });
 
           this.isSearchingAsync = false;
 
@@ -719,9 +720,12 @@ export class SkyAutocompleteComponent
    * Returns the text to highlight based on exact matches, case-insensitive matches, and matches for corresponding diacritical characters (a will match à).
    */
   private getHighlightText(searchText: string): string[] {
-    const normalizedSearchText = normalizeDiacritics(
-      this.searchText
-    ).toLocaleUpperCase();
+    const normalizedSearchText = normalizeDiacritics(searchText)
+      .toLocaleUpperCase()
+      .trim();
+    if (!normalizedSearchText) {
+      return [];
+    }
 
     let matchesToHighlight: string[] = [];
     for (let i = 0, n = this._searchResults.length; i < n; i++) {
@@ -805,7 +809,6 @@ export class SkyAutocompleteComponent
   }
 
   private removeActiveDescendant(): void {
-    /* tslint:disable-next-line:no-null-keyword */
     this.inputDirective.setActiveDescendant(null);
   }
 
@@ -891,7 +894,6 @@ export class SkyAutocompleteComponent
       this.messageStreamSub = this.messageStream
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyAutocompleteMessage) => {
-          /* tslint:disable-next-line:switch-default */
           switch (message.type) {
             case SkyAutocompleteMessageType.CloseDropdown:
               this.closeDropdown();

@@ -11,8 +11,7 @@ import { SkyConfirmModalContext } from './confirm-modal-context';
 import { SkyConfirmComponent } from './confirm.component';
 
 /**
- *  The `SkyConfirmService` provider launches the confirmation dialog.
- * Within the service, you can specify the dialog's message and customize the button text.
+ * Launches a dialog.
  */
 @Injectable({
   // Must be 'any' so that the modal component is created in the context of its module's injector.
@@ -24,8 +23,8 @@ export class SkyConfirmService {
   constructor(private modalService: SkyModalService) {}
 
   /**
-   * Opens a confirmation dialog and passes the `config` parameter of type `SkyConfirmConfig`
-   * to the component's constructor. This method returns an object of type `SkyConfirmInstance`.
+   * Opens a dialog using the specified options.
+   * @param config Specifies configuration options for the dialog.
    */
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
     const modalInstance: SkyModalInstance = this.modalService.open(

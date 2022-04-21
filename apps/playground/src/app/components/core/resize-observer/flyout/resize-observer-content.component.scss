@@ -1,0 +1,61 @@
+@import 'libs/components/theme/src/lib/styles/variables';
+@import 'libs/components/theme/src/lib/styles/mixins';
+@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+
+@include sky-host-responsive-container-xs-min() {
+  .responsive {
+    display: block;
+    max-height: none;
+  }
+
+  .responsive-content {
+    flex-basis: auto;
+    overflow-y: visible;
+  }
+
+  .responsive-tabs {
+    flex-basis: auto;
+    overflow-y: visible;
+    @include sky-border(light, right);
+  }
+}
+
+@include sky-host-responsive-container-sm-min() {
+  .responsive {
+    display: flex;
+    max-height: 100%;
+  }
+
+  .responsive-content {
+    flex-basis: 70%;
+    margin: $sky-padding-even-large;
+    overflow-y: auto;
+  }
+
+  .responsive-tabs {
+    flex-basis: 30%;
+    overflow-y: auto;
+  }
+}
+
+.responsive-tabs-hidden {
+  display: none;
+}
+
+.responsive-content-hidden {
+  display: none;
+}
+
+@include sky-theme-modern {
+  .responsive-content {
+    margin: $sky-theme-modern-space-md;
+  }
+  .responsive-tabs {
+    border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;
+  }
+  @include sky-host-responsive-container-sm-min() {
+    .responsive-content {
+      margin: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
+    }
+  }
+}

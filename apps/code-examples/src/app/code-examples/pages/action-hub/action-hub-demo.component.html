@@ -1,4 +1,9 @@
-<sky-action-hub [data]="data">
+<sky-action-hub
+  [needsAttention]="needsAttention"
+  [recentLinks]="recentLinks"
+  [relatedLinks]="relatedLinks"
+  [title]="title"
+>
   <sky-action-hub-buttons>
     <a
       *ngFor="let button of buttons"

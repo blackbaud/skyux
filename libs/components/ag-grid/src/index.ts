@@ -6,9 +6,14 @@ export * from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export * from './lib/modules/ag-grid/types/autocomplete-properties';
 export * from './lib/modules/ag-grid/types/cell-class';
 export * from './lib/modules/ag-grid/types/cell-type';
+export * from './lib/modules/ag-grid/types/currency-properties';
 export * from './lib/modules/ag-grid/types/datepicker-properties';
 export * from './lib/modules/ag-grid/types/header-class';
+export * from './lib/modules/ag-grid/types/lookup-properties';
+export * from './lib/modules/ag-grid/types/number-properties';
 export * from './lib/modules/ag-grid/types/sky-grid-options';
+export * from './lib/modules/ag-grid/types/text-properties';
+export * from './lib/modules/ag-grid/types/validator-properties';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.
@@ -26,3 +31,5 @@ export { SkyAgGridCellValidatorTooltipComponent as λ11 } from './lib/modules/ag
 export { SkyAgGridWrapperComponent as λ12 } from './lib/modules/ag-grid/ag-grid-wrapper.component';
 export { SkyAgGridRowDeleteDirective as λ13 } from './lib/modules/ag-grid/ag-grid-row-delete.directive';
 export { SkyAgGridDataManagerAdapterDirective as λ14 } from './lib/modules/ag-grid/ag-grid-data-manager-adapter.directive';
+export { SkyAgGridCellEditorLookupComponent as λ15 } from './lib/modules/ag-grid/cell-editors/cell-editor-lookup/cell-editor-lookup.component';
+export { SkyAgGridCellRendererLookupComponent as λ16 } from './lib/modules/ag-grid/cell-renderers/cell-renderer-lookup/cell-renderer-lookup.component';

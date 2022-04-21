@@ -8,13 +8,13 @@ import {
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { NumericOptions } from '@skyux/core';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Beans, Column, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
 import { SkyCellRendererCurrencyParams } from '../../types/cell-renderer-currency-params';
-import { ValidatorOptions } from '../../types/validator-options';
+import { SkyAgGridValidatorProperties } from '../../types/validator-properties';
 
 import { SkyAgGridCellRendererCurrencyComponent } from './cell-renderer-currency.component';
 
@@ -48,7 +48,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     cellRendererParams = {
       value: 123,
       column,
-      node: new RowNode(),
+      node: new RowNode({} as Beans),
       colDef: {},
       columnApi: undefined,
       data: undefined,
@@ -59,10 +59,10 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
         },
       },
       context: undefined,
-      $scope: undefined,
       eGridCell: undefined,
       formatValue: undefined,
-      skyComponentProperties: {} as NumericOptions & ValidatorOptions,
+      skyComponentProperties: {} as NumericOptions &
+        SkyAgGridValidatorProperties,
     } as SkyCellRendererCurrencyParams;
   });
 

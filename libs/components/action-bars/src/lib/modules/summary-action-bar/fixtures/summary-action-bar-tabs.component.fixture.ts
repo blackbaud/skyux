@@ -10,6 +10,4 @@ export class SkySummaryActionBarTabsTestComponent {
   public showBar2 = false;
 
   public activeTab = 0;
-
-  constructor() {}
 }

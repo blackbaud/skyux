@@ -4,17 +4,18 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
 import {
   CellClassParams,
+  EditableCallbackParams,
   GridOptions,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { applySkyLookupPropertiesDefaults } from './apply-lookup-properties-defaults';
 import { SkyAgGridCellEditorAutocompleteComponent } from './cell-editors/cell-editor-autocomplete/cell-editor-autocomplete.component';
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editors/cell-editor-currency/cell-editor-currency.component';
 import { SkyAgGridCellEditorDatepickerComponent } from './cell-editors/cell-editor-datepicker/cell-editor-datepicker.component';
@@ -29,7 +30,6 @@ import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
-import { applySkyLookupPropertiesDefaults } from './types/lookup-properties';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
 function autocompleteComparator(
@@ -123,7 +123,10 @@ export class SkyAgGridService implements OnDestroy {
    * @internal
    */
   public currentTheme: SkyThemeSettings;
-  private ngUnsubscribe = new Subject();
+
+  private ngUnsubscribe = new Subject<void>();
+
+  private keyMap = new WeakMap<any, string>();
 
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
@@ -183,6 +186,12 @@ export class SkyAgGridService implements OnDestroy {
     const mergedGridOptions = {
       ...defaultGridOptions,
       ...providedGridOptions,
+      components: {
+        ...providedGridOptions.components,
+        ...providedGridOptions.frameworkComponents,
+        // Apply default components last to prevent consumers from overwriting our component types.
+        ...defaultGridOptions.components,
+      },
       columnTypes: {
         ...providedGridOptions.columnTypes,
         // apply default second to prevent consumers from overwriting our default column types
@@ -199,6 +208,21 @@ export class SkyAgGridService implements OnDestroy {
         ...providedGridOptions.icons,
       },
     };
+
+    // Prefer the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
+    if (mergedGridOptions.stopEditingWhenGridLosesFocus !== undefined) {
+      mergedGridOptions.stopEditingWhenCellsLoseFocus =
+        mergedGridOptions.stopEditingWhenGridLosesFocus;
+      delete mergedGridOptions.stopEditingWhenGridLosesFocus;
+    }
+
+    // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
+    if (mergedGridOptions.getRowNodeId) {
+      delete mergedGridOptions.getRowId;
+    }
+
+    // Remove the deprecated `frameworkComponents` property in favor of `components`.
+    delete mergedGridOptions.frameworkComponents;
 
     return mergedGridOptions;
   }
@@ -258,7 +282,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Autocomplete]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorAutocompleteComponent,
+          cellEditor: SkyAgGridCellEditorAutocompleteComponent,
           valueFormatter: autocompleteFormatter,
           comparator: autocompleteComparator,
           minWidth: 185,
@@ -273,7 +297,7 @@ export class SkyAgGridService implements OnDestroy {
             'sky-ag-grid-cell-renderer-currency-validator',
             { component: 'sky-ag-grid-cell-renderer-currency' }
           ),
-          cellEditorFramework: SkyAgGridCellEditorCurrencyComponent,
+          cellEditor: SkyAgGridCellEditorCurrencyComponent,
           headerClass: SkyHeaderClass.RightAligned,
           minWidth: 185,
         },
@@ -282,7 +306,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Date]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorDatepickerComponent,
+          cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
           minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
@@ -293,8 +317,8 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.Lookup]: cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorLookupComponent,
-          cellRendererFramework: SkyAgGridCellRendererLookupComponent,
+          cellEditor: SkyAgGridCellEditorLookupComponent,
+          cellRenderer: SkyAgGridCellRendererLookupComponent,
           valueFormatter: (params) => {
             const lookupProperties = applySkyLookupPropertiesDefaults(params);
             return (params.value || [])
@@ -309,9 +333,13 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Number]: {
           cellClassRules: {
             [SkyCellClass.Number]: cellClassRuleTrueExpression,
+            ...validatorCellClassRules,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorNumberComponent,
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-validator-tooltip'
+          ),
+          cellEditor: SkyAgGridCellEditorNumberComponent,
           headerClass: SkyHeaderClass.RightAligned,
         },
         [SkyCellType.RowSelector]: {
@@ -319,7 +347,7 @@ export class SkyAgGridService implements OnDestroy {
             [SkyCellClass.RowSelector]: cellClassRuleTrueExpression,
             [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
           },
-          cellRendererFramework: SkyAgGridCellRendererRowSelectorComponent,
+          cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerName: '',
           minWidth: 55,
           maxWidth: 55,
@@ -329,9 +357,13 @@ export class SkyAgGridService implements OnDestroy {
         [SkyCellType.Text]: {
           cellClassRules: {
             [SkyCellClass.Text]: cellClassRuleTrueExpression,
+            ...validatorCellClassRules,
             ...editableCellClassRules,
           },
-          cellEditorFramework: SkyAgGridCellEditorTextComponent,
+          cellEditor: SkyAgGridCellEditorTextComponent,
+          cellRendererSelector: getValidatorCellRendererSelector(
+            'sky-ag-grid-cell-renderer-validator-tooltip'
+          ),
         },
         [SkyCellType.Validator]: {
           cellClassRules: {
@@ -353,7 +385,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       domLayout: 'autoHeight',
       enterMovesDownAfterEdit: true,
-      frameworkComponents: {
+      components: {
         'sky-ag-grid-cell-renderer-currency':
           SkyAgGridCellRendererCurrencyComponent,
         'sky-ag-grid-cell-renderer-currency-validator':
@@ -361,11 +393,15 @@ export class SkyAgGridService implements OnDestroy {
         'sky-ag-grid-cell-renderer-validator-tooltip':
           SkyAgGridCellRendererValidatorTooltipComponent,
       },
-      getRowNodeId(data: any): string {
-        if ('id' in data && data.id !== undefined) {
-          return `${data.id}`;
+      getRowId: (params) => {
+        const dataId = params.data.id;
+        if (dataId !== undefined) {
+          return `${params.data.id}`;
         }
-        return `${rowNodeId--}`;
+        if (!this.keyMap.has(params.data)) {
+          this.keyMap.set(params.data, `${rowNodeId--}`);
+        }
+        return this.keyMap.get(params.data);
       },
       getRowClass: (params: RowClassParams) => {
         if (params.node.id) {
@@ -389,9 +425,8 @@ export class SkyAgGridService implements OnDestroy {
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
-      // tslint:disable-next-line: no-null-keyword
       sortingOrder: ['desc', 'asc', null],
-      stopEditingWhenGridLosesFocus: false,
+      stopEditingWhenCellsLoseFocus: false,
       suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true,
     };

@@ -19,18 +19,6 @@
  */
 
 /**
- * IE11 requires the following for NgClass support on SVG elements
- */
-// import 'classlist.js';  // Run `npm install --save classlist.js`.
-
-/**
- * Web Animations `@angular/platform-browser/animations`
- * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
- * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
- */
-// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
-
-/**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
  * because those flags need to be set before `zone.js` being loaded, and webpack
@@ -64,3 +52,9 @@ import 'zone.js';
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// Fix for crossvent `global is not defined` error. The crossvent library is used by Dragula,
+// which in turn is used by multiple SKY UX components.
+// https://github.com/bevacqua/dragula/issues/602
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).global = window;

@@ -26,7 +26,6 @@ import { takeUntil } from 'rxjs/operators';
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_TOGGLE_SWITCH_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyToggleSwitchComponent),
@@ -37,7 +36,6 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   useExisting: forwardRef(() => SkyToggleSwitchComponent),
   multi: true,
 };
-// tslint:enable
 
 let uniqueId = 0;
 
@@ -183,8 +181,9 @@ export class SkyToggleSwitchComponent
     this.onTouched();
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: any) => void = () => {};
 
   private emitChangeEvent(): void {

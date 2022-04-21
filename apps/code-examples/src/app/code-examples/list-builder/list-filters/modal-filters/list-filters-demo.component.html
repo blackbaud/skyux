@@ -14,5 +14,9 @@
     <sky-list-filter-summary (summaryItemClick)="openFilterModal()">
     </sky-list-filter-summary>
   </sky-list-toolbar>
-  <!-- Add your list-view here -->
+  <sky-list-view-grid>
+    <sky-grid-column field="name" heading="Name"> </sky-grid-column>
+    <sky-grid-column field="description" heading="Description">
+    </sky-grid-column>
+  </sky-list-view-grid>
 </sky-list>

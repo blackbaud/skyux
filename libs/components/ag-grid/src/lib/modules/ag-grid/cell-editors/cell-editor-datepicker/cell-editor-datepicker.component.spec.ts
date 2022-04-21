@@ -14,7 +14,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Beans, Column, RowNode } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
@@ -100,7 +100,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     let cellEditorParams: SkyCellEditorDatepickerParams;
     let column: Column;
     const columnWidth = 200;
-    const rowNode = new RowNode();
+    const rowNode = new RowNode({} as Beans);
     rowNode.rowHeight = 37;
 
     beforeEach(() => {
@@ -119,7 +119,8 @@ describe('SkyCellEditorDatepickerComponent', () => {
         value: undefined,
         column,
         node: rowNode,
-        keyPress: undefined,
+        key: undefined,
+        eventKey: undefined,
         charPress: undefined,
         colDef: {},
         columnApi: undefined,
@@ -129,7 +130,6 @@ describe('SkyCellEditorDatepickerComponent', () => {
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
-        $scope: undefined,
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
@@ -222,10 +222,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
 
-  let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
-  let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
-  let datepickerEditorNativeElement: HTMLElement;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
@@ -236,12 +232,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
         },
       ],
     });
-
-    datepickerEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorDatepickerComponent
-    );
-    datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
-    datepickerEditorComponent = datepickerEditorFixture.componentInstance;
   });
 
   describe('in ag grid', () => {

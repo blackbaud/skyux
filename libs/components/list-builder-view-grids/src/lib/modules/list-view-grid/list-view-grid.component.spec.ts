@@ -16,15 +16,11 @@ import {
   ListStateDispatcher,
   ListViewModel,
   ListViewsLoadAction,
-  SkyListComponent,
 } from '@skyux/list-builder';
 import { ListItemModel } from '@skyux/list-builder-common';
 
 import { skip, take } from 'rxjs/operators';
 
-import { ListViewGridDisplayTestComponent } from './fixtures/list-view-grid-display.component.fixture';
-import { ListViewGridDynamicTestComponent } from './fixtures/list-view-grid-dynamic.component.fixture';
-import { ListViewGridEmptyTestComponent } from './fixtures/list-view-grid-empty.component.fixture';
 import { ListViewGridFixturesModule } from './fixtures/list-view-grid-fixtures.module';
 import { ListViewGridFixtureComponent } from './fixtures/list-view-grid.component.fixture';
 import { ListViewGridColumnsLoadAction } from './state/columns/load.action';

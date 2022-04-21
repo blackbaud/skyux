@@ -187,7 +187,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     let baseIcon: string;
     let topIcon: string;
 
-    // tslint:disable-next-line: switch-default
     switch (this.toastType) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:

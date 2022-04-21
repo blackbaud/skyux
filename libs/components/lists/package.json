@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/blackbaud/skyux#readme",
   "peerDependencies": {
-    "@angular/common": "^12.2.16",
-    "@angular/core": "^12.2.16",
-    "@angular/platform-browser": "^12.2.16",
+    "@angular/common": "^13.3.2",
+    "@angular/core": "^13.3.2",
+    "@angular/platform-browser": "^13.3.2",
     "@skyux-sdk/testing": "0.0.0-PLACEHOLDER",
     "@skyux/animations": "0.0.0-PLACEHOLDER",
     "@skyux/core": "0.0.0-PLACEHOLDER",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "dragula": "3.7.3",
-    "ng2-dragula": "1.5.0",
+    "ng2-dragula": "2.1.1",
     "tslib": "^2.3.1"
   }
 }

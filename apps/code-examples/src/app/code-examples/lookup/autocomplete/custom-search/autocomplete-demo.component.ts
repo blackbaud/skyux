@@ -32,7 +32,7 @@ export class AutocompleteDemoComponent implements OnInit {
       searchText: string,
       oceans: any[]
     ): SkyAutocompleteSearchFunctionResponse => {
-      return new Promise((resolve: Function) => {
+      return new Promise((resolve) => {
         const searchTextLower = searchText.toLowerCase();
 
         const results = oceans.filter((ocean: any) => {

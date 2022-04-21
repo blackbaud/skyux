@@ -161,8 +161,8 @@ export class SkyPopoverComponent implements OnDestroy {
       this.setupOverlay();
     }
 
-    this.placement = placement;
-    this.alignment = alignment;
+    this.placement = placement ?? this.placement;
+    this.alignment = alignment ?? this.alignment;
     this.isActive = true;
 
     this.contentRef.open(caller, {

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { Column, ColumnApi, GridApi } from 'ag-grid-community';
+import { Column, ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -89,17 +89,18 @@ describe('SkyAgGridWrapperComponent', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [{ rowIndex: 0, column: col, rowPinned: '' }];
               },
-            },
-          });
-        }
-      );
+            } as GridApi,
+          } as DetailGridInfo,
+          0
+        );
+      });
 
       fireKeydownOnGrid('Tab', false);
 
@@ -118,17 +119,18 @@ describe('SkyAgGridWrapperComponent', () => {
     it(`should move focus to the anchor after the grid when tab is pressed, no cells are being edited,
       and the grid was previously focused`, () => {
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([]);
-      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake(
-        (fn: Function) => {
-          fn({
+      spyOn(agGrid.api, 'forEachDetailGridInfo').and.callFake((fn) => {
+        fn(
+          {
             api: {
               getEditingCells: (): any[] => {
                 return [];
               },
-            },
-          });
-        }
-      );
+            } as GridApi,
+          } as DetailGridInfo,
+          0
+        );
+      });
       spyOn(gridAdapterService, 'getFocusedElement').and.returnValue(
         skyAgGridDivEl
       );
@@ -156,6 +158,30 @@ describe('SkyAgGridWrapperComponent', () => {
         gridWrapperNativeElement,
         gridWrapperComponent.beforeAnchorId
       );
+    });
+  });
+
+  describe('onKeyUpEscape', () => {
+    let skyAgGridDivEl: HTMLElement;
+    beforeEach(() => {
+      skyAgGridDivEl = gridWrapperNativeElement.querySelector(
+        `#${gridWrapperComponent.gridId}`
+      );
+    });
+
+    function fireKeyupEscape(): void {
+      SkyAppTestUtility.fireDomEvent(skyAgGridDivEl, 'keyup', {
+        keyboardEventInit: {
+          key: 'Escape',
+        },
+      });
+      gridWrapperFixture.detectChanges();
+    }
+
+    it('should not move focus when tab is pressed but cells are being edited', () => {
+      spyOn(agGrid.api, 'stopEditing');
+      fireKeyupEscape();
+      expect(agGrid.api.stopEditing).toHaveBeenCalled();
     });
   });
 

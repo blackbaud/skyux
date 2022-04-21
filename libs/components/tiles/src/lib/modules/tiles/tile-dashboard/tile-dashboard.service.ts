@@ -571,14 +571,14 @@ export class SkyTileDashboardService {
   }
 
   private initDragula() {
-    this.dragulaService.setOptions(this.bagId, {
+    this.dragulaService.createGroup(this.bagId, {
       moves: (el: HTMLElement, container: HTMLElement, handle: HTMLElement) => {
         const target = el.querySelector('.sky-tile-grab-handle');
         return target.contains(handle);
       },
     });
 
-    this.dragulaService.drop.subscribe((value: any[]) => {
+    this.dragulaService.drop(this.bagId).subscribe(() => {
       const config = this.getConfigForUIState();
 
       /*istanbul ignore else */
@@ -645,6 +645,7 @@ export class SkyTileDashboardService {
         tileIds: this.defaultConfig.tiles.map((elem) => elem.id),
       })
       .subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         () => {},
         (err) => {
           console.warn('Could not save tile dashboard settings.');

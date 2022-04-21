@@ -64,7 +64,7 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     // Update the URL without triggering a navigation state change.
     // See: https://stackoverflow.com/a/46486677
     const url = this.router
-      .createUrlTree(['.'], {
+      .createUrlTree([], {
         relativeTo: this.activatedRoute,
         queryParams: params,
         queryParamsHandling: 'merge',
@@ -83,7 +83,6 @@ export class SkyTabsetPermalinkService implements OnDestroy {
    * Removes the provided query param from the URL.
    */
   public clearParam(name: string): void {
-    /*tslint:disable-next-line:no-null-keyword*/
     this.setParam(name, null);
   }
 
@@ -93,7 +92,6 @@ export class SkyTabsetPermalinkService implements OnDestroy {
    */
   public getParamHref(name: string, value: string): string | null {
     if (!name) {
-      /*tslint:disable-next-line:no-null-keyword*/
       return null;
     }
 

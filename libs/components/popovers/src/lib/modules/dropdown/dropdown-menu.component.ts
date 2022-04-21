@@ -24,7 +24,10 @@ import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 let nextId = 0;
-
+/**
+ * Creates a menu that contains dropdown menu items.
+ *
+ */
 @Component({
   selector: 'sky-dropdown-menu',
   templateUrl: './dropdown-menu.component.html',
@@ -136,7 +139,6 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       this.dropdownComponent.messageStream
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyDropdownMessage) => {
-          /* tslint:disable-next-line:switch-default */
           switch (message.type) {
             case SkyDropdownMessageType.Open:
             case SkyDropdownMessageType.Close:
@@ -324,7 +326,6 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       .subscribe((event: KeyboardEvent) => {
         const key = event.key.toLowerCase();
 
-        /*tslint:disable-next-line:switch-default*/
         switch (key) {
           case 'escape':
             this.sendMessage(SkyDropdownMessageType.Close);

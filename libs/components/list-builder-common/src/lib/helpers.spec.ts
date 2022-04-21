@@ -25,12 +25,10 @@ describe('list helpers', () => {
     });
 
     it('returns properly when null data', () => {
-      /* tslint:disable */
       const data: any = {
         myResult: null,
         otherResult: 'nothing',
       };
-      /* tslint:enable */
 
       const result = getData(data, 'myResult');
       expect(result).toBeNull();
@@ -84,10 +82,8 @@ describe('list helpers', () => {
 
   describe('compare', () => {
     it('should compare null values', () => {
-      /* tslint:disable:no-null-keyword */
       expect(compare(null, 'foo')).toEqual(1);
       expect(compare('foo', null)).toEqual(-1);
-      /* tslint:enable:no-null-keyword */
     });
 
     it('should compare strings', () => {

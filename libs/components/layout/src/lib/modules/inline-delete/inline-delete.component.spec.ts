@@ -5,7 +5,6 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';

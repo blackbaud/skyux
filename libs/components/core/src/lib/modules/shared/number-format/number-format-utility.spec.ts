@@ -1,4 +1,3 @@
-/* tslint:disable:no-null-keyword */
 import { SkyIntlNumberFormatStyle } from '@skyux/i18n';
 
 import { SkyNumberFormatUtility } from './number-format-utility';

@@ -80,7 +80,7 @@ export class SkyAffixer {
 
   private resizeListener: Subscription;
 
-  private scrollListeners: Function[];
+  private scrollListeners: (() => void)[];
 
   private _config: SkyAffixConfig;
 
@@ -188,7 +188,6 @@ export class SkyAffixer {
       if (this.isBaseElementVisible()) {
         this.notifyPlacementChange(placement);
       } else {
-        /* tslint:disable-next-line:no-null-keyword */
         this.notifyPlacementChange(null);
       }
 
@@ -196,7 +195,6 @@ export class SkyAffixer {
     }
 
     if (this.config.enableAutoFit) {
-      /* tslint:disable-next-line:no-null-keyword */
       this.notifyPlacementChange(null);
     }
 
@@ -321,7 +319,6 @@ export class SkyAffixer {
     const originalOffsetTop = offset.top;
     const originalOffsetLeft = offset.left;
 
-    /* tslint:disable-next-line:switch-default */
     switch (placement) {
       case 'above':
       case 'below':

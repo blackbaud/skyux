@@ -78,13 +78,15 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Check library dependencies
-        run: npm run ci:check-library-dependencies
+        run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
-        run: npm run ci:check-library-missing-peers
+        run: npx skyux-dev check-lib-missing-peers
+      - name: Check library resources
+        run: npx skyux-dev check-lib-resources
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5
+        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5 --exclude=ci
 
   build:
     name: Build
@@ -109,7 +111,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
+        run: npx nx affected --target=build --parallel --maxParallel=5 --exclude=ci
 
   coverage:
     name: Code coverage
@@ -135,8 +137,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          export NX_CLOUD_DISTRIBUTED_EXECUTION=false
-          npm run ci:test-affected --codeCoverage=false
+          npx skyux-dev test-affected
 
   browserstack:
     name: Cross-browser testing
@@ -162,8 +163,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Cross-browser tests
         run: |
-          export NX_CLOUD_DISTRIBUTED_EXECUTION=false
-          npm run ci:test-affected -- --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
+          npx skyux-dev test-affected --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
 
   stop-agents:
     name: Stop Nx Cloud agents

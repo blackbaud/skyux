@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, ICellEditorParams } from 'ag-grid-community';
+import { Column } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
 import { SkyAgGridCellEditorNumberComponent } from '../cell-editor-number/cell-editor-number.component';
 
 describe('SkyCellEditorNumberComponent', () => {
@@ -68,13 +69,14 @@ describe('SkyCellEditorNumberComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      const cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: SkyCellEditorNumberParams = {
         value,
         colDef: { headerName: 'Test number cell' },
         rowIndex: 1,
         column,
         node: undefined,
-        keyPress: undefined,
+        key: undefined,
+        eventKey: undefined,
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
@@ -82,11 +84,14 @@ describe('SkyCellEditorNumberComponent', () => {
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
-        $scope: undefined,
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
         formatValue: undefined,
+        skyComponentProperties: {
+          max: undefined,
+          min: undefined,
+        },
       };
 
       expect(numberEditorComponent.value).toBeUndefined();

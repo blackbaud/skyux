@@ -117,10 +117,6 @@ describe('Numeric pipe', () => {
 
   describe('caching', () => {
     it('should cache the result when calling `transform` twice with no value change', () => {
-      const options: any = {
-        minDigits: 3,
-        locale: 'en-US',
-      };
       const spy = spyOn(numericService, 'formatNumber').and.callThrough();
       pipe.transform(42.87549);
       expect(spy).toHaveBeenCalledTimes(1);
@@ -143,10 +139,6 @@ describe('Numeric pipe', () => {
     });
 
     it('should not cache the result when calling `transform` twice with a value change', () => {
-      const options: any = {
-        minDigits: 3,
-        locale: 'en-US',
-      };
       const spy = spyOn(numericService, 'formatNumber').and.callThrough();
       pipe.transform(42.8755);
       expect(spy).toHaveBeenCalledTimes(1);

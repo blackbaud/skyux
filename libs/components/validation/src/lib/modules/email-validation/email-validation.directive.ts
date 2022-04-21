@@ -3,13 +3,11 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_EMAIL_VALIDATION_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyEmailValidationDirective),
   multi: true,
 };
-// tslint:enable
 
 /**
  * Creates an input to validate email addresses. Place this attribute on an `input` element.

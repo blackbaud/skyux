@@ -20,8 +20,6 @@ class MockModalInstance {
   public closeResult: any;
   public closeReason: any;
 
-  constructor() {}
-
   public save(result: any): void {
     this.saveResult = result;
   }
@@ -37,16 +35,12 @@ class MockModalInstance {
 }
 
 class MockModalHostService {
-  constructor() {}
-
   public getModalZIndex(): void {}
   public onClose(): void {}
 }
 
 class MockModalConfiguration {
   public fullPage: boolean;
-
-  constructor() {}
 }
 
 describe('SkyDataManagerColumnPickerComponent', () => {
@@ -133,25 +127,22 @@ describe('SkyDataManagerColumnPickerComponent', () => {
   });
 
   describe('column search', () => {
-    it(
-      'should display the expected title',
-      waitForAsync(() => {
-        const libResources =
-          dataManagerColumnPickerFixture.debugElement.injector.get(
-            SkyLibResourcesService
-          );
+    it('should display the expected title', waitForAsync(() => {
+      const libResources =
+        dataManagerColumnPickerFixture.debugElement.injector.get(
+          SkyLibResourcesService
+        );
 
-        libResources
-          .getString('skyux_data_manager_column_picker_title')
-          .subscribe((value) => {
-            console.log(value);
-          });
+      libResources
+        .getString('skyux_data_manager_column_picker_title')
+        .subscribe((value) => {
+          console.log(value);
+        });
 
-        expect(
-          dataManagerColumnPickerElement.querySelector('sky-modal-header')
-        ).toHaveText('Choose columns to show in the list');
-      })
-    );
+      expect(
+        dataManagerColumnPickerElement.querySelector('sky-modal-header')
+      ).toHaveText('Choose columns to show in the list');
+    }));
 
     it('should return all columns when the data state search text is "col"', () => {
       dataManagerColumnPickerComponent.dataState.searchText = 'col';

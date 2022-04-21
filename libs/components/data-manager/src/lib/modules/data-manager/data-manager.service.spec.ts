@@ -104,96 +104,82 @@ describe('SkyDataManagerService', () => {
         uiConfigServiceSetObservable = new Subject<any>();
       });
 
-      it(
-        'should request a data state from the ui config service',
-        waitForAsync(() => {
-          spyOn(uiConfigService, 'getConfig').and.returnValue(
-            uiConfigServiceGetObservable
+      it('should request a data state from the ui config service', waitForAsync(() => {
+        spyOn(uiConfigService, 'getConfig').and.returnValue(
+          uiConfigServiceGetObservable
+        );
+
+        dataManagerService.initDataManager(initArgs);
+
+        dataManagerFixture.whenStable().then(() => {
+          expect(uiConfigService.getConfig).toHaveBeenCalledWith(
+            key,
+            initialDataState.getStateOptions()
           );
+        });
+      }));
 
-          dataManagerService.initDataManager(initArgs);
+      it('should update the data state via the data manager service when the ui config service returns a data state', waitForAsync(() => {
+        spyOn(uiConfigService, 'getConfig').and.returnValue(
+          uiConfigServiceGetObservable
+        );
+        spyOn(dataManagerService, 'updateDataState');
 
-          dataManagerFixture.whenStable().then(() => {
-            expect(uiConfigService.getConfig).toHaveBeenCalledWith(
-              key,
-              initialDataState.getStateOptions()
-            );
-          });
-        })
-      );
+        dataManagerService.initDataManager(initArgs);
 
-      it(
-        'should update the data state via the data manager service when the ui config service returns a data state',
-        waitForAsync(() => {
-          spyOn(uiConfigService, 'getConfig').and.returnValue(
-            uiConfigServiceGetObservable
+        dataManagerFixture.whenStable().then(() => {
+          uiConfigServiceGetObservable.next(initialDataState.getStateOptions());
+          expect(uiConfigService.getConfig).toHaveBeenCalledWith(
+            key,
+            initialDataState.getStateOptions()
           );
-          spyOn(dataManagerService, 'updateDataState');
-
-          dataManagerService.initDataManager(initArgs);
-
-          dataManagerFixture.whenStable().then(() => {
-            uiConfigServiceGetObservable.next(
-              initialDataState.getStateOptions()
-            );
-            expect(uiConfigService.getConfig).toHaveBeenCalledWith(
-              key,
-              initialDataState.getStateOptions()
-            );
-            expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
-              initialDataState,
-              'dataManagerServiceInit'
-            );
-          });
-        })
-      );
-
-      it(
-        'should update the ui config service when the data state changes',
-        waitForAsync(() => {
-          const newDataState = new SkyDataManagerState({ searchText: 'test' });
-          spyOn(uiConfigService, 'getConfig').and.returnValue(
-            uiConfigServiceGetObservable
+          expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
+            initialDataState,
+            'dataManagerServiceInit'
           );
+        });
+      }));
 
-          dataManagerService.initDataManager(initArgs);
+      it('should update the ui config service when the data state changes', waitForAsync(() => {
+        const newDataState = new SkyDataManagerState({ searchText: 'test' });
+        spyOn(uiConfigService, 'getConfig').and.returnValue(
+          uiConfigServiceGetObservable
+        );
 
-          dataManagerFixture.whenStable().then(() => {
-            spyOn(uiConfigService, 'setConfig').and.returnValue(
-              uiConfigServiceSetObservable
-            );
-            dataManagerService.updateDataState(newDataState, sourceId);
+        dataManagerService.initDataManager(initArgs);
 
-            uiConfigServiceSetObservable.next('');
-            expect(uiConfigService.setConfig).toHaveBeenCalled();
-          });
-        })
-      );
-
-      it(
-        'should log an error when unable to update the ui config service when the data state changes',
-        waitForAsync(() => {
-          const newDataState = new SkyDataManagerState({ searchText: 'test' });
-          const errorMessage = 'something went wrong';
-          spyOn(uiConfigService, 'getConfig').and.returnValue(
-            uiConfigServiceGetObservable
+        dataManagerFixture.whenStable().then(() => {
+          spyOn(uiConfigService, 'setConfig').and.returnValue(
+            uiConfigServiceSetObservable
           );
+          dataManagerService.updateDataState(newDataState, sourceId);
 
-          dataManagerService.initDataManager(initArgs);
+          uiConfigServiceSetObservable.next('');
+          expect(uiConfigService.setConfig).toHaveBeenCalled();
+        });
+      }));
 
-          dataManagerFixture.whenStable().then(() => {
-            spyOn(uiConfigService, 'setConfig').and.returnValue(
-              uiConfigServiceSetObservable
-            );
-            spyOn(console, 'warn');
-            dataManagerService.updateDataState(newDataState, sourceId);
+      it('should log an error when unable to update the ui config service when the data state changes', waitForAsync(() => {
+        const newDataState = new SkyDataManagerState({ searchText: 'test' });
+        const errorMessage = 'something went wrong';
+        spyOn(uiConfigService, 'getConfig').and.returnValue(
+          uiConfigServiceGetObservable
+        );
 
-            uiConfigServiceSetObservable.error(errorMessage);
-            expect(uiConfigService.setConfig).toHaveBeenCalled();
-            expect(console.warn).toHaveBeenCalledWith(errorMessage);
-          });
-        })
-      );
+        dataManagerService.initDataManager(initArgs);
+
+        dataManagerFixture.whenStable().then(() => {
+          spyOn(uiConfigService, 'setConfig').and.returnValue(
+            uiConfigServiceSetObservable
+          );
+          spyOn(console, 'warn');
+          dataManagerService.updateDataState(newDataState, sourceId);
+
+          uiConfigServiceSetObservable.error(errorMessage);
+          expect(uiConfigService.setConfig).toHaveBeenCalled();
+          expect(console.warn).toHaveBeenCalledWith(errorMessage);
+        });
+      }));
     });
   });
 
@@ -423,33 +409,30 @@ describe('SkyDataManagerService', () => {
   });
 
   describe('initDataView', () => {
-    it(
-      'should create a new view config and view state when a data state has been set',
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
+    it('should create a new view config and view state when a data state has been set', waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
 
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
 
-        dataManagerFixture.detectChanges();
+      dataManagerFixture.detectChanges();
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView = { id: 'newView', name: 'newView' };
-          let viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.whenStable().then(() => {
+        const newView = { id: 'newView', name: 'newView' };
+        let viewState = currentDataState.getViewStateById(newView.id);
 
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toBeUndefined();
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toBeUndefined();
 
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toBeDefined();
-        });
-      })
-    );
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toBeDefined();
+      });
+    }));
 
     it('should not create a new view and update the data state if a view with that ID is already defined', () => {
       const view = { id: 'view', name: 'View' };
@@ -465,451 +448,423 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it(
-      `should create a new view and update the data state if a view with the ID exists in the
-     state but has not been initialized`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
+    it(`should create a new view and update the data state if a view with the ID exists in the
+     state but has not been initialized`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
 
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(
-          new SkyDataManagerState({
-            views: [
-              {
-                viewId: 'newView',
-              },
-            ],
-          }),
-          'test'
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
+              viewId: 'newView',
+            },
+          ],
+        }),
+        'test'
+      );
+
+      dataManagerFixture.detectChanges();
+
+      dataManagerFixture.whenStable().then(() => {
+        const newView = { id: 'newView', name: 'newView' };
+        let viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: [],
+            displayedColumnIds: [],
+            additionalData: undefined,
+          })
         );
 
-        dataManagerFixture.detectChanges();
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView = { id: 'newView', name: 'newView' };
-          let viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: [],
-              displayedColumnIds: [],
-              additionalData: undefined,
-            })
-          );
-
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: [],
-              displayedColumnIds: [],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
-
-    it(
-      `should not update available or displayed column IDs on an exisitng view state if current columns match`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
-
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(
-          new SkyDataManagerState({
-            views: [
-              {
-                viewId: 'newView',
-                columnIds: ['1', '2'],
-                displayedColumnIds: ['2'],
-              },
-            ],
-          }),
-          'test'
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: [],
+            displayedColumnIds: [],
+            additionalData: undefined,
+          })
         );
+      });
+    }));
 
-        dataManagerFixture.detectChanges();
+    it(`should not update available or displayed column IDs on an exisitng view state if current columns match`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView: SkyDataViewConfig = {
-            id: 'newView',
-            name: 'newView',
-            columnOptions: [
-              {
-                id: '1',
-                label: 'Column 1',
-              },
-              {
-                id: '2',
-                label: 'Column 2',
-              },
-            ],
-          };
-          let viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toEqual(
-            new SkyDataViewState({
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
               viewId: 'newView',
               columnIds: ['1', '2'],
               displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
+            },
+          ],
+        }),
+        'test'
+      );
 
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.detectChanges();
 
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
+      dataManagerFixture.whenStable().then(() => {
+        const newView: SkyDataViewConfig = {
+          id: 'newView',
+          name: 'newView',
+          columnOptions: [
+            {
+              id: '1',
+              label: 'Column 1',
+            },
+            {
+              id: '2',
+              label: 'Column 2',
+            },
+          ],
+        };
+        let viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
+        );
+
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
+        );
+      });
+    }));
+
+    it(`should update available or displayed column IDs on an exisitng view state if a new column exists`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
+
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
               viewId: 'newView',
               columnIds: ['1', '2'],
               displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
+            },
+          ],
+        }),
+        'test'
+      );
 
-    it(
-      `should update available or displayed column IDs on an exisitng view state if a new column exists`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
+      dataManagerFixture.detectChanges();
 
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(
-          new SkyDataManagerState({
-            views: [
-              {
-                viewId: 'newView',
-                columnIds: ['1', '2'],
-                displayedColumnIds: ['2'],
-              },
-            ],
-          }),
-          'test'
+      dataManagerFixture.whenStable().then(() => {
+        const newView: SkyDataViewConfig = {
+          id: 'newView',
+          name: 'newView',
+          columnOptions: [
+            {
+              id: '1',
+              label: 'Column 1',
+            },
+            {
+              id: '2',
+              label: 'Column 2',
+            },
+            {
+              id: '3',
+              label: 'Column 3',
+            },
+          ],
+        };
+        let viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
         );
 
-        dataManagerFixture.detectChanges();
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView: SkyDataViewConfig = {
-            id: 'newView',
-            name: 'newView',
-            columnOptions: [
-              {
-                id: '1',
-                label: 'Column 1',
-              },
-              {
-                id: '2',
-                label: 'Column 2',
-              },
-              {
-                id: '3',
-                label: 'Column 3',
-              },
-            ],
-          };
-          let viewState = currentDataState.getViewStateById(newView.id);
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2', '3'],
+            displayedColumnIds: ['2', '3'],
+            additionalData: undefined,
+          })
+        );
+      });
+    }));
 
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toEqual(
-            new SkyDataViewState({
+    it(`should update available but not displayed column IDs on an exisitng view state if a new
+    column exists with 'initialHide'`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
+
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
               viewId: 'newView',
               columnIds: ['1', '2'],
               displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
+            },
+          ],
+        }),
+        'test'
+      );
 
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.detectChanges();
 
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: ['1', '2', '3'],
-              displayedColumnIds: ['2', '3'],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
+      dataManagerFixture.whenStable().then(() => {
+        const newView: SkyDataViewConfig = {
+          id: 'newView',
+          name: 'newView',
+          columnOptions: [
+            {
+              id: '1',
+              label: 'Column 1',
+            },
+            {
+              id: '2',
+              label: 'Column 2',
+            },
+            {
+              id: '3',
+              label: 'Column 3',
+              initialHide: true,
+            },
+          ],
+        };
+        let viewState = currentDataState.getViewStateById(newView.id);
 
-    it(
-      `should update available but not displayed column IDs on an exisitng view state if a new
-    column exists with 'initialHide'`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
-
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(
-          new SkyDataManagerState({
-            views: [
-              {
-                viewId: 'newView',
-                columnIds: ['1', '2'],
-                displayedColumnIds: ['2'],
-              },
-            ],
-          }),
-          'test'
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
         );
 
-        dataManagerFixture.detectChanges();
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView: SkyDataViewConfig = {
-            id: 'newView',
-            name: 'newView',
-            columnOptions: [
-              {
-                id: '1',
-                label: 'Column 1',
-              },
-              {
-                id: '2',
-                label: 'Column 2',
-              },
-              {
-                id: '3',
-                label: 'Column 3',
-                initialHide: true,
-              },
-            ],
-          };
-          let viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: ['1', '2'],
-              displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
-
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: ['1', '2', '3'],
-              displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
-
-    it(
-      `should update available but not displayed column IDs on an exisitng view state if available
-     columns weren't previously given`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
-
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(
-          new SkyDataManagerState({
-            views: [
-              {
-                viewId: 'newView',
-                columnIds: [],
-                displayedColumnIds: ['2'],
-              },
-            ],
-          }),
-          'test'
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2', '3'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
         );
+      });
+    }));
 
-        dataManagerFixture.detectChanges();
+    it(`should update available but not displayed column IDs on an exisitng view state if available
+     columns weren't previously given`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView: SkyDataViewConfig = {
-            id: 'newView',
-            name: 'newView',
-            columnOptions: [
-              {
-                id: '1',
-                label: 'Column 1',
-              },
-              {
-                id: '2',
-                label: 'Column 2',
-              },
-              {
-                id: '3',
-                label: 'Column 3',
-                initialHide: true,
-              },
-            ],
-          };
-          let viewState = currentDataState.getViewStateById(newView.id);
-
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toEqual(
-            new SkyDataViewState({
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
               viewId: 'newView',
               columnIds: [],
               displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
+            },
+          ],
+        }),
+        'test'
+      );
 
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.detectChanges();
 
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: ['1', '2', '3'],
-              displayedColumnIds: ['2'],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
+      dataManagerFixture.whenStable().then(() => {
+        const newView: SkyDataViewConfig = {
+          id: 'newView',
+          name: 'newView',
+          columnOptions: [
+            {
+              id: '1',
+              label: 'Column 1',
+            },
+            {
+              id: '2',
+              label: 'Column 2',
+            },
+            {
+              id: '3',
+              label: 'Column 3',
+              initialHide: true,
+            },
+          ],
+        };
+        let viewState = currentDataState.getViewStateById(newView.id);
 
-    it(
-      `should update available and displayed column ids on a new view`,
-      waitForAsync(() => {
-        let currentDataState: SkyDataManagerState;
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: [],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
+        );
 
-        dataManagerService
-          .getDataStateUpdates(sourceId)
-          .subscribe((state) => (currentDataState = state));
-        dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
 
-        dataManagerFixture.detectChanges();
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2', '3'],
+            displayedColumnIds: ['2'],
+            additionalData: undefined,
+          })
+        );
+      });
+    }));
 
-        dataManagerFixture.whenStable().then(() => {
-          const newView: SkyDataViewConfig = {
-            id: 'newView',
-            name: 'newView',
-            columnOptions: [
-              {
-                id: '1',
-                label: 'Column 1',
-              },
-              {
-                id: '2',
-                label: 'Column 2',
-              },
-              {
-                id: '3',
-                label: 'Column 3',
-                initialHide: true,
-              },
-            ],
-          };
-          let viewState = currentDataState.getViewStateById(newView.id);
+    it(`should update available and displayed column ids on a new view`, waitForAsync(() => {
+      let currentDataState: SkyDataManagerState;
 
-          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          expect(viewState).toBeUndefined();
+      dataManagerService
+        .getDataStateUpdates(sourceId)
+        .subscribe((state) => (currentDataState = state));
+      dataManagerService.updateDataState(new SkyDataManagerState({}), 'test');
 
-          dataManagerService.initDataView(newView);
-          viewState = currentDataState.getViewStateById(newView.id);
+      dataManagerFixture.detectChanges();
 
-          expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
-          expect(viewState).toEqual(
-            new SkyDataViewState({
-              viewId: 'newView',
-              columnIds: ['1', '2', '3'],
-              displayedColumnIds: ['1', '2'],
-              additionalData: undefined,
-            })
-          );
-        });
-      })
-    );
+      dataManagerFixture.whenStable().then(() => {
+        const newView: SkyDataViewConfig = {
+          id: 'newView',
+          name: 'newView',
+          columnOptions: [
+            {
+              id: '1',
+              label: 'Column 1',
+            },
+            {
+              id: '2',
+              label: 'Column 2',
+            },
+            {
+              id: '3',
+              label: 'Column 3',
+              initialHide: true,
+            },
+          ],
+        };
+        let viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        expect(viewState).toBeUndefined();
+
+        dataManagerService.initDataView(newView);
+        viewState = currentDataState.getViewStateById(newView.id);
+
+        expect(dataManagerService.getViewById(newView.id)).toEqual(newView);
+        expect(viewState).toEqual(
+          new SkyDataViewState({
+            viewId: 'newView',
+            columnIds: ['1', '2', '3'],
+            displayedColumnIds: ['1', '2'],
+            additionalData: undefined,
+          })
+        );
+      });
+    }));
   });
 
   describe('views', () => {
-    it(
-      'getViewById should return the SkyDataViewConfig with the given id',
-      waitForAsync(() => {
+    it('getViewById should return the SkyDataViewConfig with the given id', waitForAsync(() => {
+      dataManagerFixture.whenStable().then(() => {
+        const repeaterViewConfig = dataManagerComponent.repeaterView.viewConfig;
+
+        expect(dataManagerService.getViewById(repeaterViewConfig.id)).toEqual(
+          repeaterViewConfig
+        );
+      });
+    }));
+
+    describe('updateViewConfig', () => {
+      it('returns undefined when trying to update a view that it is not registered', waitForAsync(() => {
+        dataManagerFixture.whenStable().then(() => {
+          const newView = { id: 'newView', name: 'newView' };
+
+          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+
+          dataManagerService.updateViewConfig(newView);
+
+          expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
+        });
+      }));
+
+      it('updates a view config when it is already registered', waitForAsync(() => {
         dataManagerFixture.whenStable().then(() => {
           const repeaterViewConfig =
             dataManagerComponent.repeaterView.viewConfig;
+          const modifiedConfig = {
+            id: repeaterViewConfig.id,
+            name: 'new name',
+          };
 
-          expect(dataManagerService.getViewById(repeaterViewConfig.id)).toEqual(
-            repeaterViewConfig
+          let registeredConfig = dataManagerService.getViewById(
+            repeaterViewConfig.id
           );
+
+          expect(registeredConfig).toEqual(repeaterViewConfig);
+          expect(registeredConfig).not.toEqual(modifiedConfig);
+
+          dataManagerService.updateViewConfig(modifiedConfig);
+          registeredConfig = dataManagerService.getViewById(
+            repeaterViewConfig.id
+          );
+
+          expect(registeredConfig).not.toEqual(repeaterViewConfig);
+          expect(registeredConfig).toEqual(modifiedConfig);
         });
-      })
-    );
-
-    describe('updateViewConfig', () => {
-      it(
-        'returns undefined when trying to update a view that it is not registered',
-        waitForAsync(() => {
-          dataManagerFixture.whenStable().then(() => {
-            const newView = { id: 'newView', name: 'newView' };
-
-            expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-
-            dataManagerService.updateViewConfig(newView);
-
-            expect(dataManagerService.getViewById(newView.id)).toBeUndefined();
-          });
-        })
-      );
-
-      it(
-        'updates a view config when it is already registered',
-        waitForAsync(() => {
-          dataManagerFixture.whenStable().then(() => {
-            const repeaterViewConfig =
-              dataManagerComponent.repeaterView.viewConfig;
-            const modifiedConfig = {
-              id: repeaterViewConfig.id,
-              name: 'new name',
-            };
-
-            let registeredConfig = dataManagerService.getViewById(
-              repeaterViewConfig.id
-            );
-
-            expect(registeredConfig).toEqual(repeaterViewConfig);
-            expect(registeredConfig).not.toEqual(modifiedConfig);
-
-            dataManagerService.updateViewConfig(modifiedConfig);
-            registeredConfig = dataManagerService.getViewById(
-              repeaterViewConfig.id
-            );
-
-            expect(registeredConfig).not.toEqual(repeaterViewConfig);
-            expect(registeredConfig).toEqual(modifiedConfig);
-          });
-        })
-      );
+      }));
     });
   });
 

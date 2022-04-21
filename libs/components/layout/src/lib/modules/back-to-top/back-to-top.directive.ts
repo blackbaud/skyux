@@ -66,13 +66,7 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
   ) {}
 
   public ngAfterViewInit(): void {
-    const scrollableParent = this.domAdapter.findScrollableParent(
-      this.element.nativeElement
-    );
-    this.elementInView = this.domAdapter.isElementScrolledInView(
-      this.element.nativeElement,
-      scrollableParent
-    );
+    this.elementInView = this.domAdapter.isElementScrolledInView(this.element);
 
     this.handleBackToTopButton(this.elementInView);
     this.setBackToTopListeners();

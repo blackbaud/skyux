@@ -102,6 +102,32 @@ describe('Popover directive', () => {
     expect(popoverRef.popoverTitle).toBeUndefined();
   }));
 
+  it('should use placement and alignment values of the popover component', fakeAsync(() => {
+    // Ensure alignment/placement are undefined for directive.
+    fixture.componentInstance.alignment = undefined;
+    fixture.componentInstance.placement = undefined;
+
+    // Set alignment/placement for component.
+    fixture.componentInstance.popoverAlignment = 'left';
+    fixture.componentInstance.popoverPlacement = 'left';
+    detectChangesFakeAsync();
+
+    // Launch popover.
+    const button = getCallerElement();
+    button.click();
+    detectChangesFakeAsync();
+
+    // Confirm popover class properties.
+    const popoverRef = fixture.componentInstance.popoverRef;
+    expect(popoverRef.alignment).toEqual('left');
+    expect(popoverRef.placement).toEqual('left');
+
+    // Confirm popover CSS classes.
+    const popover = getPopoverElement();
+    expect(popover).toHaveCssClass('sky-popover-placement-left');
+    expect(popover).toHaveCssClass('sky-popover-alignment-left');
+  }));
+
   it('should place the popover on all four sides of the caller', fakeAsync(() => {
     fixture.componentInstance.placement = 'above';
     detectChangesFakeAsync();
@@ -945,11 +971,9 @@ describe('Popover directive', () => {
       expect(isElementVisible(popover)).toEqual(true);
 
       // Trigger a null placement change.
-      /*tslint:disable:no-null-keyword*/
       mockAffixer.placementChange.next({
         placement: null,
       });
-      /*tslint:enable:no-null-keyword*/
 
       detectChangesFakeAsync();
 

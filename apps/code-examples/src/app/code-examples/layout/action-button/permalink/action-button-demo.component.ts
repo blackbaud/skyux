@@ -18,6 +18,6 @@ export class ActionButtonDemoComponent {
   };
 
   public url: SkyActionButtonPermalink = {
-    url: 'https://developer.blackbaud.com/skyux/components',
+    url: 'https://www.stackblitz.com',
   };
 }

@@ -31,7 +31,6 @@ import { SkySelectFieldSelectMode } from './types/select-field-select-mode';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      /* tslint:disable-next-line:no-forward-ref */
       useExisting: forwardRef(() => SkySelectFieldComponent),
       multi: true,
     },
@@ -297,7 +296,7 @@ export class SkySelectFieldComponent
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange = (value: any) => {};
 
   public registerOnChange(fn: (value: any) => void) {
@@ -320,7 +319,7 @@ export class SkySelectFieldComponent
     this.value = undefined;
   }
 
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _registeredTouchCallback = () => {};
 
   private setTokensFromValue() {

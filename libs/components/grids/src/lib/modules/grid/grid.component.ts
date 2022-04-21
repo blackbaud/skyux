@@ -108,8 +108,7 @@ export class SkyGridComponent
    * Indicates whether to enable the multiselect feature to display a column of
    * checkboxes on the left side of the grid. You can specify a unique ID with
    * the `multiselectRowId` property, but multiselect defaults to the `id` property on
-   * the `data` object. To include options to select and clear all multiselect checkboxes,
-   * we recommend the [list view grid](https://developer.blackbaud.com/skyux/components/list/grid) component.
+   * the `data` object.
    * @default false
    */
   @Input()
@@ -290,6 +289,7 @@ export class SkyGridComponent
   public columnResizeStep = 10;
   public currentSortField: BehaviorSubject<ListSortFieldSelectorModel>;
   public displayedColumns: Array<SkyGridColumnModel>;
+  public dragulaGroupName: string;
   public gridId: number = ++nextId;
   public rowDeleteConfigs: SkyGridRowDeleteConfig[] = [];
   public items: Array<any>;
@@ -352,6 +352,7 @@ export class SkyGridComponent
       fieldSelector: '',
       descending: false,
     });
+    this.dragulaGroupName = `sky-grids-group-${this.gridId}`;
   }
 
   public ngOnInit() {
@@ -373,6 +374,7 @@ export class SkyGridComponent
 
     // Setup column drag-and-drop.
     this.gridAdapter.initializeDragAndDrop(
+      this.dragulaGroupName,
       this.dragulaService,
       (selectedColumnIds: Array<string>) => {
         this.onHeaderDrop(selectedColumnIds);
@@ -445,6 +447,8 @@ export class SkyGridComponent
     Object.keys(this.rowDeleteContents).forEach((id) => {
       this.destroyRowDelete(id);
     });
+
+    this.dragulaService.destroy(this.dragulaGroupName);
   }
 
   @HostListener('window:resize')
@@ -859,7 +863,6 @@ export class SkyGridComponent
   }
 
   private handleIncomingMessages(message: SkyGridMessage) {
-    /* tslint:disable-next-line:switch-default */
     switch (message.type) {
       case SkyGridMessageType.SelectAll:
         this.multiselectSelectAll();
@@ -1303,6 +1306,7 @@ export class SkyGridComponent
       .setConfig(this.settingsKey, config)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         () => {},
         (err) => {
           console.warn('Could not save grid settings.');

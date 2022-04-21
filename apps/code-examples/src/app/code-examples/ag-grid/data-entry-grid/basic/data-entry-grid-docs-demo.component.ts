@@ -7,6 +7,7 @@ import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
@@ -25,7 +26,7 @@ import { SkyDataEntryGridEditModalComponent } from './data-entry-grid-docs-demo-
 })
 export class SkyDataEntryGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
-  public columnDefs = [
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -35,16 +36,29 @@ export class SkyDataEntryGridDemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRendererFramework: SkyDataEntryGridContextMenuComponent,
+      cellRenderer: SkyDataEntryGridContextMenuComponent,
     },
     {
       field: 'name',
       headerName: 'Name',
+      type: SkyCellType.Text,
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value): boolean => String(value).length <= 10,
+          validatorMessage: `Value exceeds maximum length`,
+        },
+      },
     },
     {
       field: 'age',
       headerName: 'Age',
       type: SkyCellType.Number,
+      cellRendererParams: {
+        skyComponentProperties: {
+          validator: (value) => value >= 18,
+          validatorMessage: `Age must be 18+`,
+        },
+      },
       maxWidth: 60,
     },
     {
@@ -153,7 +167,7 @@ export class SkyDataEntryGridDemoComponent {
       this.searchText = '';
     }
     if (this.gridApi) {
-      this.gridApi.setQuickFilter(searchText);
+      this.gridApi.setQuickFilter(this.searchText);
       const displayedRowCount = this.gridApi.getDisplayedRowCount();
       if (displayedRowCount > 0) {
         this.gridApi.hideOverlay();

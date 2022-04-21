@@ -69,7 +69,6 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        /* tslint:disable */
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
@@ -380,7 +379,6 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        /* tslint:disable */
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
@@ -806,7 +804,6 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        /* tslint:disable */
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },
@@ -1302,7 +1299,6 @@ describe('List Component', () => {
         dispatcher = new ListStateDispatcher();
         state = new ListState(dispatcher);
 
-        /* tslint:disable */
         const itemsArray = [
           { id: '1', column1: '30', column2: 'Apple', column3: 1, column4: 1 },
           { id: '2', column1: '01', column2: 'Banana', column3: 3, column4: 6 },

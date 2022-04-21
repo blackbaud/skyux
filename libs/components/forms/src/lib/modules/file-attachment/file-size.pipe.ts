@@ -19,11 +19,9 @@ export class SkyFileSizePipe implements PipeTransform {
       dividend = 1,
       template: string;
 
-    /* tslint:disable */
     if (input === null || input === undefined) {
       return '';
     }
-    /* tslint:enable */
 
     if (Math.abs(input) === 1) {
       template = 'skyux_file_attachment_file_size_b_singular';

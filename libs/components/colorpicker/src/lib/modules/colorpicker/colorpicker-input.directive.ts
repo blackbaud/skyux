@@ -28,7 +28,6 @@ import { SkyColorpickerService } from './colorpicker.service';
 import { SkyColorpickerHsva } from './types/colorpicker-hsva';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_COLORPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyColorpickerInputDirective),
@@ -40,7 +39,7 @@ const SKY_COLORPICKER_VALIDATOR = {
   useExisting: forwardRef(() => SkyColorpickerInputDirective),
   multi: true,
 };
-// tslint:enable
+
 const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 
 /**
@@ -286,7 +285,6 @@ export class SkyColorpickerInputDirective
     const element = this.elementRef.nativeElement;
 
     let output: string;
-    // tslint:disable-next-line:switch-default
     switch (this.outputFormat) {
       case 'rgba':
         output = model.rgbaText;
@@ -332,9 +330,10 @@ export class SkyColorpickerInputDirective
     return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

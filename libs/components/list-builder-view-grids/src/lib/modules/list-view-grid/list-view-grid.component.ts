@@ -67,12 +67,10 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
   templateUrl: './list-view-grid.component.html',
   styleUrls: ['./list-view-grid.component.scss'],
   providers: [
-    /* tslint:disable */
     {
       provide: ListViewComponent,
       useExisting: forwardRef(() => SkyListViewGridComponent),
     },
-    /* tslint:enable */
     GridState,
     GridStateDispatcher,
     GridStateModel,

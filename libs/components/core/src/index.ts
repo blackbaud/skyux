@@ -33,6 +33,8 @@ export * from './lib/modules/id/id.module';
 
 export * from './lib/modules/log/log.module';
 export * from './lib/modules/log/log.service';
+export * from './lib/modules/log/types/log-level';
+export * from './lib/modules/log/types/log-level-token';
 
 export * from './lib/modules/media-query/media-breakpoints';
 export * from './lib/modules/media-query/media-query-listener';
@@ -54,6 +56,9 @@ export * from './lib/modules/overlay/overlay.service';
 
 export * from './lib/modules/percent-pipe/percent-pipe.module';
 export * from './lib/modules/percent-pipe/percent.pipe';
+
+export * from './lib/modules/resize-observer/resize-observer.service';
+export * from './lib/modules/resize-observer/resize-observer-media-query.service';
 
 export * from './lib/modules/scrollable-host/scrollable-host.service';
 

@@ -1,4 +1,3 @@
-import { not } from '@angular/compiler/src/output/output_ast';
 import {
   ComponentFixture,
   TestBed,
@@ -227,7 +226,7 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
     });
 
-    it('should be able to udpate autocomplete attribute', () => {
+    it('should be able to update autocomplete attribute', () => {
       component.autocompleteAttribute = 'new-custom-field';
 
       fixture.detectChanges();
@@ -457,7 +456,7 @@ describe('Autocomplete component', () => {
       const customFunction: SkyAutocompleteSearchFunction = (
         searchText: string
       ): Promise<any> => {
-        return new Promise((resolve: Function) => {
+        return new Promise((resolve) => {
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
         });
@@ -932,7 +931,7 @@ describe('Autocomplete component', () => {
     });
 
     describe('highlighting', () => {
-      it('should highlight when one letter is pressesd', fakeAsync(() => {
+      it('should highlight when one letter is pressed', fakeAsync(() => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -950,6 +949,28 @@ describe('Autocomplete component', () => {
         expect(
           getSearchResultsContainer().querySelectorAll('mark').length
         ).toBe(6);
+      }));
+
+      it('should remove highlight when input is cleared', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('r', fixture);
+        tick();
+        fixture.detectChanges();
+
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(6);
+
+        enterSearch('\u0305', fixture);
+        tick();
+        fixture.detectChanges();
+
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(0);
       }));
 
       it('should highlight when returning from a no results search', fakeAsync(() => {
@@ -1007,6 +1028,24 @@ describe('Autocomplete component', () => {
             .innerHTML.trim()
             .toLowerCase()
         ).toBe('bl');
+        expect(
+          getSearchResultsContainer().querySelectorAll('mark').length
+        ).toBe(2);
+      }));
+
+      it('should highlight matches when data contains empty descriptor property', fakeAsync(() => {
+        component.propertiesToSearch = ['text'];
+        component.data = [
+          { name: 'Misty Island', text: 'Misty Island', objectid: '1' },
+          { name: 'Mississippi', text: 'Mississippi', objectid: '2' },
+          { text: 'Missing the display field', objectid: '3' },
+        ];
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        enterSearch('mis', fixture);
+
         expect(
           getSearchResultsContainer().querySelectorAll('mark').length
         ).toBe(2);

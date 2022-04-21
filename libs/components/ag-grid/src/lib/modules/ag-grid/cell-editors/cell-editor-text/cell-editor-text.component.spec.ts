@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, ICellEditorParams } from 'ag-grid-community';
+import { Column } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
 
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
@@ -67,13 +68,14 @@ describe('SkyCellEditorTextComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      const cellEditorParams: ICellEditorParams = {
+      const cellEditorParams: SkyCellEditorTextParams = {
         value,
         colDef: { headerName: 'Test text cell' },
         rowIndex: 1,
         column,
         node: undefined,
-        keyPress: undefined,
+        key: undefined,
+        eventKey: undefined,
         charPress: undefined,
         columnApi: undefined,
         data: undefined,
@@ -81,11 +83,13 @@ describe('SkyCellEditorTextComponent', () => {
         cellStartedEdit: undefined,
         onKeyDown: undefined,
         context: undefined,
-        $scope: undefined,
         stopEditing: undefined,
         eGridCell: undefined,
         parseValue: undefined,
         formatValue: undefined,
+        skyComponentProperties: {
+          maxlength: undefined,
+        },
       };
 
       expect(textEditorComponent.value).toBeUndefined();

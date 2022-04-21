@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyThemeService } from '@skyux/theme';
@@ -344,6 +344,17 @@ describe('Paging component', () => {
           component.pagingComponent as any
         ).getDisplayedPageNumbers(6, 8, 6);
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
+      });
+
+      it('should have an aria label for page number link', () => {
+        component.currentPage = 1;
+        component.maxPages = 8;
+        fixture.detectChanges();
+
+        const pageElement = element.query(By.css(getPagingSelector('2')))
+          .nativeElement as HTMLButtonElement;
+
+        expect(pageElement.ariaLabel).toBe('Page 2');
       });
 
       it('should be accessible', async () => {

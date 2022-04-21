@@ -9,6 +9,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
+/**
+ * Specifies the items to display on the dropdown menu.
+ */
 @Component({
   selector: 'sky-dropdown-item',
   templateUrl: './dropdown-item.component.html',
@@ -74,11 +77,9 @@ export class SkyDropdownItemComponent implements AfterViewInit {
   }
 
   public isFocusable(): boolean {
-    /*tslint:disable no-null-keyword */
     const isFocusable =
       this.buttonElement &&
       this.buttonElement.getAttribute('disabled') === null;
-    /*tslint:enable */
     return isFocusable;
   }
 

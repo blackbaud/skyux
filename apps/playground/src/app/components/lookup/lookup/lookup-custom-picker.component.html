@@ -1,0 +1,20 @@
+<sky-modal>
+  <sky-modal-header> Custom picker </sky-modal-header>
+  <sky-modal-content>
+    This is a custom picker!
+    <form [formGroup]="myForm">
+      <sky-checkbox formControlName="selectLast">
+        <sky-checkbox-label> Select last item </sky-checkbox-label>
+      </sky-checkbox>
+    </form>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      class="sky-btn sky-btn-primary"
+      type="button"
+      (click)="modalInstance.save(myForm.get('selectLast').value)"
+    >
+      Save
+    </button>
+  </sky-modal-footer>
+</sky-modal>

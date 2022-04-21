@@ -1,9 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-/**
- * @internal
- */
-export interface SkyAutocompleteProperties {
+export interface SkyAgGridAutocompleteProperties {
   data?: any[];
   debounceTime?: number;
   descriptorProperty?: string;
@@ -15,3 +12,10 @@ export interface SkyAutocompleteProperties {
   searchTextMinimumCharacters?: number;
   selectionChange?: Function;
 }
+
+/**
+ * @deprecated Use SkyAgGridAutocompleteProperties instead.
+ */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SkyAutocompleteProperties
+  extends SkyAgGridAutocompleteProperties {}

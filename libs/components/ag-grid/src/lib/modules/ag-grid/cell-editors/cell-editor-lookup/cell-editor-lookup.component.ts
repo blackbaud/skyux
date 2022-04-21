@@ -3,18 +3,21 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
+import { ColumnResizedEvent } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
+import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
-import {
-  SkyLookupProperties,
-  applySkyLookupPropertiesDefaults,
-} from '../../types/lookup-properties';
+import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-ag-grid-cell-editor-lookup',
   templateUrl: './cell-editor-lookup.component.html',
@@ -24,7 +27,10 @@ import {
 export class SkyAgGridCellEditorLookupComponent
   implements ICellEditorAngularComp, IPopupComponent<any>
 {
-  public skyComponentProperties?: SkyLookupProperties;
+  @HostBinding('style.width.px')
+  public width: number;
+
+  public skyComponentProperties?: SkyAgGridLookupProperties;
   public isAlive = false;
   public lookupForm = new FormGroup({
     currentSelection: new FormControl({
@@ -55,6 +61,14 @@ export class SkyAgGridCellEditorLookupComponent
     this.useAsyncSearch =
       typeof this.skyComponentProperties.searchAsync === 'function';
     this.isAlive = true;
+    this.width = this.params.column.getActualWidth();
+    this.params.column.addEventListener(
+      'uiColumnResized',
+      (event: ColumnResizedEvent) => {
+        this.width = event.column.getActualWidth();
+        this.changeDetector.markForCheck();
+      }
+    );
     this.changeDetector.markForCheck();
   }
 
@@ -84,7 +98,7 @@ export class SkyAgGridCellEditorLookupComponent
 
   private updateComponentProperties(
     params: SkyCellEditorLookupParams
-  ): SkyLookupProperties {
+  ): SkyAgGridLookupProperties {
     const skyLookupProperties = params.skyComponentProperties;
     return applySkyLookupPropertiesDefaults(skyLookupProperties);
   }

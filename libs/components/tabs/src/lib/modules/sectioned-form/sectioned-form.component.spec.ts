@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
@@ -112,7 +112,6 @@ describe('Sectioned form component', () => {
     expect(heading.textContent.trim()).toBe('Information 1');
 
     const count = activeSection[0].querySelector('.sky-vertical-tab-count');
-    // tslint:disable-next-line:no-null-keyword
     expect(count).toBe(null);
 
     // check correct section content is displayed
@@ -397,7 +396,6 @@ describe('Sectioned form component', () => {
     expect(heading.textContent.trim()).toBe('Information 1');
 
     const count = activeSection[0].querySelector('.sky-vertical-tab-count');
-    // tslint:disable-next-line:no-null-keyword
     expect(count).toBe(null);
 
     // check correct section content is displayed

@@ -252,29 +252,27 @@ describe('Colorpicker Component', () => {
   }
   //#endregion
 
-  beforeEach(
-    waitForAsync(() => {
-      mockThemeSvc = {
-        settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
-          currentSettings: new SkyThemeSettings(
-            SkyTheme.presets.default,
-            SkyThemeMode.presets.light
-          ),
-          previousSettings: undefined,
-        }),
-      };
+  beforeEach(waitForAsync(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: new SkyThemeSettings(
+          SkyTheme.presets.default,
+          SkyThemeMode.presets.light
+        ),
+        previousSettings: undefined,
+      }),
+    };
 
-      TestBed.configureTestingModule({
-        imports: [SkyColorpickerFixturesModule],
-        providers: [
-          {
-            provide: SkyThemeService,
-            useValue: mockThemeSvc,
-          },
-        ],
-      }).compileComponents();
-    })
-  );
+    TestBed.configureTestingModule({
+      imports: [SkyColorpickerFixturesModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
+    }).compileComponents();
+  }));
 
   afterEach(() => {
     fixture.destroy();

@@ -26,7 +26,6 @@ import { Subscription } from 'rxjs';
 import { SkyTimepickerComponent } from './timepicker.component';
 import { SkyTimepickerTimeOutput } from './timepicker.interface';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_TIMEPICKER_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => SkyTimepickerInputDirective),
@@ -39,7 +38,6 @@ const SKY_TIMEPICKER_VALIDATOR = {
   multi: true,
 };
 
-// tslint:enable
 @Directive({
   selector: '[skyTimepickerInput]',
   providers: [SKY_TIMEPICKER_VALUE_ACCESSOR, SKY_TIMEPICKER_VALIDATOR],
@@ -290,10 +288,10 @@ export class SkyTimepickerInputDirective
     }
   }
 
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onChange = (_: any) => {};
-  /*istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _onTouched = () => {};
-  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 }

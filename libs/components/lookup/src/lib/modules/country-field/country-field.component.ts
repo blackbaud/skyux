@@ -39,14 +39,12 @@ import { SkyAutocompleteSelectionChange } from '../autocomplete/types/autocomple
 
 import { SkyCountryFieldCountry } from './types/country';
 
-// tslint:disable:no-forward-ref no-use-before-declare
 const SKY_COUNTRY_FIELD_VALIDATOR = {
   provide: NG_VALIDATORS,
   useExisting: forwardRef(() => SkyCountryFieldComponent),
   multi: true,
 };
 
-// tslint:enable
 let uniqueId = 0;
 
 @Component({
@@ -278,7 +276,6 @@ export class SkyCountryFieldComponent
   public ngOnInit(): void {
     this.updateInputBox();
 
-    // tslint:disable-next-line: no-null-keyword
     this.ngControl = this.injector.get<NgControl>(
       NgControl as unknown as Type<NgControl>,
       null
@@ -362,13 +359,13 @@ export class SkyCountryFieldComponent
   }
 
   // Angular automatically constructs these methods.
-  /* istanbul ignore next */
-  public onChange: Function = (value: SkyCountryFieldCountry) => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onChange = (value: SkyCountryFieldCountry) => {};
 
-  /* istanbul ignore next */
-  public onTouched: Function = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public onTouched = () => {};
 
-  public registerOnChange(fn: (value: any) => void): void {
+  public registerOnChange(fn: (value: SkyCountryFieldCountry) => void): void {
     this.onChange = fn;
   }
 
@@ -457,6 +454,7 @@ export class SkyCountryFieldComponent
      * to the main window object.
      */
     this.countries = JSON.parse(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       JSON.stringify((window as any).intlTelInputGlobals.getCountryData())
     );
 

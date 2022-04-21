@@ -53,7 +53,7 @@ describe('Text Highlight', () => {
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback: Function): any {
+            create: function (callback): any {
               callbacks.push(callback);
 
               return {

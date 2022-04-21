@@ -64,7 +64,16 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   private idled = new Subject<boolean>();
 
   @ContentChild(SkySummaryActionBarSummaryComponent, { read: ElementRef })
-  private summaryElement: ElementRef;
+  private set summaryElement(element: ElementRef) {
+    this._summaryElement = element;
+    this.changeDetector.markForCheck();
+  }
+
+  private get summaryElement(): ElementRef {
+    return this._summaryElement;
+  }
+
+  private _summaryElement: ElementRef;
 
   constructor(
     private adapterService: SkySummaryActionBarAdapterService,
@@ -205,7 +214,6 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
         this.observer.observe(el, config);
       }
       el = el.parentElement;
-      // tslint:disable-next-line:no-null-keyword
     } while (el !== null && el.nodeType === 1);
   }
 

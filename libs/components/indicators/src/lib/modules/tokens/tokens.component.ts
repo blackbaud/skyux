@@ -239,7 +239,6 @@ export class SkyTokensComponent implements OnDestroy {
 
   public onTokenKeyDown(event: KeyboardEvent): void {
     if (!this.disabled) {
-      /* tslint:disable-next-line:switch-default */
       switch (event.key) {
         case 'Left':
         case 'ArrowLeft':
@@ -314,7 +313,6 @@ export class SkyTokensComponent implements OnDestroy {
       this.messageStreamSub = this.messageStream
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((message: SkyTokensMessage) => {
-          /* tslint:disable-next-line:switch-default */
           switch (message.type) {
             case SkyTokensMessageType.FocusLastToken:
               this.focusLastToken();

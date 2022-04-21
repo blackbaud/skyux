@@ -50,7 +50,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   public gridView: SkyListViewGridComponent;
 
   /**
-   * Specifies a `helpKey` string and dispays a help button in the grid header. When users select
+   * Specifies a `helpKey` string and displays a help button in the grid header. When users select
    * the button, the `helpOpened` event broadcasts the `helpKey` parameter.
    */
   @Input()

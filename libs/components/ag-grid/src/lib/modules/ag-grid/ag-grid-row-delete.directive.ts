@@ -1,7 +1,6 @@
 import {
   AfterContentInit,
   ChangeDetectorRef,
-  ComponentFactoryResolver,
   ContentChild,
   Directive,
   ElementRef,
@@ -29,9 +28,6 @@ import { SkyAgGridRowDeleteConfig } from './types/ag-grid-row-delete-config';
 import { SkyAgGridRowDeleteConfirmArgs } from './types/ag-grid-row-delete-confirm-args';
 import { SkyAgGridRowDeleteContents } from './types/ag-grid-row-delete-contents';
 
-/**
- * @internal
- */
 @Directive({
   selector: '[skyAgGridRowDelete]',
 })
@@ -165,17 +161,15 @@ export class SkyAgGridRowDeleteDirective
     private affixService: SkyAffixService,
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    private resolver: ComponentFactoryResolver,
     private overlayService: SkyOverlayService,
     private viewContainerRef: ViewContainerRef
   ) {}
 
   public ngAfterContentInit(): void {
-    const factory = this.resolver.resolveComponentFactory(
+    this.rowDeleteComponent = this.viewContainerRef.createComponent(
       SkyAgGridRowDeleteComponent
-    );
-    this.rowDeleteComponent =
-      this.viewContainerRef.createComponent(factory).instance;
+    ).instance;
+
     this.agGrid.rowDataChanged
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
@@ -199,10 +193,6 @@ export class SkyAgGridRowDeleteDirective
       .subscribe(() => {
         this.updateRowDeleteStates();
       });
-
-    this.agGrid.getRowNodeId = (data: any) => {
-      return data.id.toString();
-    };
   }
 
   public ngOnDestroy(): void {

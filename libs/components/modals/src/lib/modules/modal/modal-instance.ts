@@ -3,12 +3,6 @@ import { Observable, Subject } from 'rxjs';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalCloseArgs } from './modal-close-args';
 
-// TODO: this class won't show in the generated docs until this work is done:
-// https://github.com/blackbaud/skyux-docs-tools/issues/30
-
-/**
- * Allows you to close the modal and return data from the launched modal.
- */
 export class SkyModalInstance {
   /**
    * An event that the modal instance emits when it is about to close.
@@ -22,11 +16,11 @@ export class SkyModalInstance {
 
   /**
    * An event that the modal instance emits when it closes.
-   * It emits a `SkyCloseModalArgs` object with a `data` property that includes
+   * It emits a `SkyModalCloseArgs` object with a `data` property that includes
    * data passed from users on close or save and a `reason` property that indicates
    * whether the modal was saved or closed without saving.
    * The `reason` property accepts any string value.
-   * Common examples include `cancel`, `close`, and `save`.
+   * Common examples include `"cancel"`, `"close"`, and `"save"`.
    */
   public get closed(): Observable<SkyModalCloseArgs> {
     return this._closed;
@@ -57,7 +51,7 @@ export class SkyModalInstance {
    * @param result Specifies an object to emit to subscribers of the `closed` event of the
    * modal instance. The `SkyModalInstance` provider can be injected into a component's constructor
    * so that this `close` function can be called from a button in the `sky-modal-footer`.
-   * @param reason Specifies the reason for the modal closing, with the default reason of `close`.
+   * @param reason Specifies the reason for the modal closing, with the default reason of `"close"`.
    * @param ignoreBeforeClose Indicates whether to ignore the modal instance's `beforeClose` event.
    */
   public close(
@@ -73,7 +67,7 @@ export class SkyModalInstance {
   }
 
   /**
-   * Closes the modal instance with `reason=cancel`.
+   * Closes the modal instance with `reason="cancel"`.
    * @param result Specifies an object to emit to subscribers of the `closed` event of the modal
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this cancel function can be called from a button in the `sky-modal-footer`.
@@ -83,7 +77,7 @@ export class SkyModalInstance {
   }
 
   /**
-   * Closes the modal instance with `reason=save`.
+   * Closes the modal instance with `reason="save"`.
    * @param result Specifies an object to emit to subscribers of the `closed` event of the modal
    * instance. The `SkyModalInstance` provider can be injected into a component's constructor so
    * that this `save` function can be called from a button in `the sky-modal-footer`.

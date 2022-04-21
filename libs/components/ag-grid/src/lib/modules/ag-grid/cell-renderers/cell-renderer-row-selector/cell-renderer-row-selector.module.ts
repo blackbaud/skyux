@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyCheckboxModule } from '@skyux/forms';
 
-import { AgGridResourcesModule } from '../../../shared/ag-grid-resources.module';
+import { SkyAgGridResourcesModule } from '../../../shared/sky-ag-grid-resources.module';
 import { SkyAgGridCellRendererRowSelectorComponent } from '../cell-renderer-row-selector/cell-renderer-row-selector.component';
 
 @NgModule({
-  imports: [AgGridResourcesModule, SkyCheckboxModule, FormsModule],
+  imports: [SkyAgGridResourcesModule, SkyCheckboxModule, FormsModule],
   declarations: [SkyAgGridCellRendererRowSelectorComponent],
   exports: [SkyAgGridCellRendererRowSelectorComponent],
 })

@@ -250,7 +250,6 @@ describe('in memory data provider', () => {
     }));
 
     it('should handle sorting with null values', fakeAsync(() => {
-      /* tslint:disable */
       items = observableOf([
         { id: '1', column1: 101, column2: null, column3: 'Anne eats apples' },
         {
@@ -280,7 +279,6 @@ describe('in memory data provider', () => {
           column3: 'Sally eats strawberries',
         },
       ]);
-      /* tslint:enable */
 
       const provider = new SkyListInMemoryDataProvider(items);
 

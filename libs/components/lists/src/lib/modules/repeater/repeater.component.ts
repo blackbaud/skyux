@@ -261,7 +261,7 @@ export class SkyRepeaterComponent
     /* Sanity check that we haven't already set up dragging abilities */
     /* istanbul ignore else */
     if (!this.dragulaService.find(this.dragulaGroupName)) {
-      this.dragulaService.setOptions(this.dragulaGroupName, {
+      this.dragulaService.createGroup(this.dragulaGroupName, {
         moves: (
           el: HTMLElement,
           container: HTMLElement,
@@ -275,24 +275,29 @@ export class SkyRepeaterComponent
 
     let draggedItemIndex: number;
 
-    this.dragulaService.drag
+    this.dragulaService
+      .drag(this.dragulaGroupName)
       .pipe(takeUntil(this.dragulaUnsubscribe))
-      .subscribe(([groupName, subject]: any[]) => {
+      .subscribe((args) => {
         /* istanbul ignore else */
-        if (groupName === this.dragulaGroupName) {
-          this.renderer.addClass(subject, 'sky-repeater-item-dragging');
-          draggedItemIndex = this.adapterService.getRepeaterItemIndex(subject);
+        if (args.name === this.dragulaGroupName) {
+          this.renderer.addClass(args.el, 'sky-repeater-item-dragging');
+          draggedItemIndex = this.adapterService.getRepeaterItemIndex(
+            args.el as HTMLElement
+          );
         }
       });
 
-    this.dragulaService.dragend
+    this.dragulaService
+      .dragend(this.dragulaGroupName)
       .pipe(takeUntil(this.dragulaUnsubscribe))
-      .subscribe(([groupName, subject]: any[]) => {
+      .subscribe((args) => {
         /* istanbul ignore else */
-        if (groupName === this.dragulaGroupName) {
-          this.renderer.removeClass(subject, 'sky-repeater-item-dragging');
-          const newItemIndex =
-            this.adapterService.getRepeaterItemIndex(subject);
+        if (args.name === this.dragulaGroupName) {
+          this.renderer.removeClass(args.el, 'sky-repeater-item-dragging');
+          const newItemIndex = this.adapterService.getRepeaterItemIndex(
+            args.el as HTMLElement
+          );
 
           /* sanity check */
           /* istanbul ignore else */

@@ -8,7 +8,7 @@ import {
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
-import { SkyCurrencyProperties } from '../../types/currency-properties';
+import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 
 /**
  * @internal
@@ -23,7 +23,7 @@ export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
 {
   public value: number;
-  public skyComponentProperties: SkyCurrencyProperties = {};
+  public skyComponentProperties: SkyAgGridCurrencyProperties = {};
   public columnHeader: string;
   public columnWidth: number;
   public rowHeightWithoutBorders: number;
@@ -64,5 +64,13 @@ export class SkyAgGridCellEditorCurrencyComponent
    */
   public getValue(): number {
     return this.value;
+  }
+
+  /**
+   * The autoNumeric library's event handler suppresses the escape key event. This additional handler re-enables AG Grid's default functionality.
+   */
+  public onPressEscape() {
+    this.params.api.stopEditing(true);
+    this.params.api.setFocusedCell(this.params.rowIndex, this.params.column);
   }
 }
