@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Output,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
 
 import { Observable } from 'rxjs';
 import { map as observableMap, take } from 'rxjs/operators';

@@ -4,7 +4,6 @@ import {
   ContentChildren,
   QueryList,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
 
 import { take } from 'rxjs/operators';
 

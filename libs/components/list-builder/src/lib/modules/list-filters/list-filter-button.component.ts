@@ -4,7 +4,6 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
 
 import { ListStateDispatcher } from '../list/state/list-state.rxstate';
 import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
