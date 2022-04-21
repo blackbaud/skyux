@@ -20,6 +20,7 @@ let uniqueId = 0;
 
 /**
  * @internal
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-multiselect-toolbar',

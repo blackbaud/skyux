@@ -5,6 +5,7 @@ import { StateDispatcher } from './state-dispatcher';
 
 /**
  * @internal
+ * @deprecated
  */
 export class StateNode<T> extends BehaviorSubject<T> {
   private stateMap: { [stateKey: string]: any } = {};

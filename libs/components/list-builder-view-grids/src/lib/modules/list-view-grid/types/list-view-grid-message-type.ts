@@ -1,5 +1,6 @@
 /**
  * The command for the list view grid to respond to.
+ * @deprecated
  */
 export enum SkyListViewGridMessageType {
   /**

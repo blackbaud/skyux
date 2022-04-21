@@ -7,6 +7,9 @@ import { SkyModalModule } from '@skyux/modals';
 
 import { SkyColumnSelectorComponent } from './column-selector-modal.component';
 
+/**
+ * @deprecated List builder view grid and its features are deprecated. Use data entry grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-entry-grid.
+ */
 @NgModule({
   declarations: [SkyColumnSelectorComponent],
   imports: [

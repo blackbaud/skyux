@@ -2,6 +2,7 @@ import { ListViewModel } from './view.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListViewsModel {
   public active: string;

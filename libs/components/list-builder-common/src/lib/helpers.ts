@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 
-/** @internal */
+/**
+ * @internal
+ * @deprecated
+ */
 export function getData(item: any, selector: string): any {
   if (!selector) {
     return undefined;
@@ -30,7 +33,10 @@ export function getData(item: any, selector: string): any {
   return result;
 }
 
-/** @internal */
+/**
+ * @internal
+ * @deprecated
+ */
 export function compare(value1: any, value2: any) {
   if (value1 === null) {
     return 1;
@@ -56,7 +62,10 @@ export function compare(value1: any, value2: any) {
   Taken directly from rxjs's internal utility to determine whether an object is an Obserable.
   See: https://github.com/ReactiveX/rxjs/blob/master/src/internal/util/isObservable.ts
 */
-/** @internal */
+/**
+ * @internal
+ * @deprecated
+ */
 export function isObservable<T>(obj: any): obj is Observable<T> {
   /* istanbul ignore next */
   return (

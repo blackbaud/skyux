@@ -7,6 +7,7 @@ import { ListViewGridColumnsLoadAction } from './load.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListViewGridColumnsOrchestrator extends GridStateOrchestrator<
   AsyncList<SkyGridColumnModel>

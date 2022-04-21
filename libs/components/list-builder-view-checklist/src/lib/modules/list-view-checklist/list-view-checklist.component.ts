@@ -8,6 +8,7 @@ import {
   SimpleChanges,
   forwardRef,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyCheckboxChange } from '@skyux/forms';
 import {
   ListFilterModel,
@@ -40,6 +41,9 @@ import { ChecklistState } from './state/checklist-state.state-node';
 import { ListViewChecklistItemModel } from './state/items/item.model';
 import { ListViewChecklistItemsLoadAction } from './state/items/load.action';
 
+/**
+ * @deprecated List builder view checklist and its features are deprecated. Use repeater instead. For more information, see https://developer.blackbaud.com/skyux/components/repeater.
+ */
 @Component({
   selector: 'sky-list-view-checklist',
   templateUrl: './list-view-checklist.component.html',
@@ -142,9 +146,16 @@ export class SkyListViewChecklistComponent
     state: ListState,
     private dispatcher: ListStateDispatcher,
     private checklistState: ChecklistState,
-    private checklistDispatcher: ChecklistStateDispatcher
+    private checklistDispatcher: ChecklistStateDispatcher,
+    logger: SkyLogService
   ) {
     super(state, 'Checklist View');
+
+    logger.deprecated('SkyListViewChecklistComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/repeater',
+      replacementRecommendation: 'Use repeater instead.',
+    });
 
     let lastUpdate: any;
     this.state

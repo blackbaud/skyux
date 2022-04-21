@@ -26,6 +26,7 @@ import { ListViewsSetActiveAction } from './views/set-active.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListStateOrchestrator<T> extends StateOrchestrator<
   T,
@@ -34,6 +35,7 @@ export class ListStateOrchestrator<T> extends StateOrchestrator<
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class ListStateDispatcher extends StateDispatcher<ListStateAction> {

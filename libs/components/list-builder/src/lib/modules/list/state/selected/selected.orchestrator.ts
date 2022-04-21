@@ -13,6 +13,7 @@ import { ListSelectedSetLoadingAction } from './set-loading.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListSelectedOrchestrator extends ListStateOrchestrator<
   AsyncItem<ListSelectedModel>

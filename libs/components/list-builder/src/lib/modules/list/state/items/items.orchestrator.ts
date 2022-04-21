@@ -9,6 +9,7 @@ import { ListItemsSetLoadingAction } from './set-loading.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListItemsOrchestrator extends ListStateOrchestrator<
   AsyncList<ListItemModel>

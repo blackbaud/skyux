@@ -3,6 +3,7 @@ import { AsyncList } from '@skyux/list-builder-common';
 
 /**
  * @internal
+ * @deprecated
  */
 export class GridStateModel {
   public columns: AsyncList<SkyGridColumnModel> =

@@ -11,6 +11,7 @@ import {
   ViewChild,
   forwardRef,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyGridColumnComponent,
   SkyGridColumnDescriptionModelChange,
@@ -61,6 +62,7 @@ import { SkyListViewGridRowDeleteConfirmArgs } from './types/list-view-grid-row-
  * [SKY UX-themed list of data](https://developer.blackbaud.com/skyux/components/list/overview)
  * using the [grid component](https://developer.blackbaud.com/skyux/components/grid).
  * You must install `SkyListModule` as a dependency.
+ * @deprecated List builder view grid and its features are deprecated. Use data entry grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-entry-grid.
  */
 @Component({
   selector: 'sky-list-view-grid',
@@ -255,9 +257,17 @@ export class SkyListViewGridComponent
     state: ListState,
     private dispatcher: ListStateDispatcher,
     public gridState: GridState,
-    public gridDispatcher: GridStateDispatcher
+    public gridDispatcher: GridStateDispatcher,
+    logger: SkyLogService
   ) {
     super(state, 'Grid View');
+
+    logger.deprecated('SkyListViewGridComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/data-entry-grid',
+      replacementRecommendation: 'Use data entry grid instead.',
+    });
   }
 
   public ngAfterContentInit() {

@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export class ListViewChecklistItemModel {
   public id: string;
   public label: string;

@@ -11,6 +11,9 @@ import { ListSearchModel } from '../list/state/search/search.model';
 
 let idIndex = 0;
 
+/**
+ * @deprecated
+ */
 export class SkyListInMemoryDataProvider extends ListDataProvider {
   public items: BehaviorSubject<Array<ListItemModel>> = new BehaviorSubject<
     Array<ListItemModel>

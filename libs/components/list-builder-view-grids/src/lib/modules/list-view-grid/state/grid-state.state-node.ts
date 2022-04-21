@@ -8,6 +8,7 @@ import { GridStateDispatcher } from './grid-state.rxstate';
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class GridState extends StateNode<GridStateModel> {

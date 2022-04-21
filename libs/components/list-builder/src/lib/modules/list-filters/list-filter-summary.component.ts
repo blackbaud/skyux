@@ -18,6 +18,7 @@ import { ListFilterModel } from './filter.model';
  * [list component's](https://developer.blackbaud.com/skyux/components/list/overview#list-properties)
  * `appliedFilters` property. Place this component within the
  * [`sky-list-toolbar`](https://developer.blackbaud.com/skyux/components/list/toolbar) component.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-filter-summary',
