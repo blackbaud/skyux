@@ -10,6 +10,8 @@ export abstract class SkyValidation {
 
   public static isUrl(url: string): boolean {
     const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
+    // ^(https?:\/\/)?(www)?\w[\w-\.]+
+    // ^(https?:\/\/)?(www)?([\w]+\.)+[\w-/=&#\?]+$
     return regex.test(url);
   }
 }
