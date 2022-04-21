@@ -5,15 +5,22 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
   templateUrl: './popover-demo.component.html',
 })
 export class PopoverDemoComponent implements AfterViewInit {
-  public asyncPopoverRef: any;
+  public popover: unknown;
 
-  @ViewChild('asyncPopover')
-  private asyncPopover: any;
+  public popoverExists = false;
+
+  @ViewChild('popoverRef', { static: false })
+  public set popoverRef(value: unknown) {
+    // Wait for popover to render before assigning to directive.
+    setTimeout(() => {
+      this.popover = value;
+    });
+  }
 
   public ngAfterViewInit(): void {
-    // Simulate asynchronous retrieval.
+    // Simulate asynchronous creation of popover element.
     setTimeout(() => {
-      this.asyncPopoverRef = this.asyncPopover;
+      this.popoverExists = true;
     }, 1000);
   }
 }

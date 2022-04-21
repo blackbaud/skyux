@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Subject, fromEvent as observableFromEvent } from 'rxjs';
+import { Subject, Subscription, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyPopoverComponent } from './popover.component';
@@ -19,25 +19,40 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public skyPopover: SkyPopoverComponent;
+  public set skyPopover(value: unknown) {
+    this._popover = value as SkyPopoverComponent | undefined;
+  }
+
+  public get skyPopover(): SkyPopoverComponent | undefined {
+    return this._popover;
+  }
 
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
-   * Options include:`"center"`, `"right"`, and `"left"`.
    * @default "center"
    */
   @Input()
   public skyPopoverAlignment: SkyPopoverAlignment;
 
   /**
-   * Provides an observable to send commands to the popover that respect the `SkyPopoverMessage` type.
+   * Provides an RxJS `Subject` to send commands to the popover that respect the `SkyPopoverMessage` type.
    */
   @Input()
-  public skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
+  public set skyPopoverMessageStream(
+    value: Subject<SkyPopoverMessage> | undefined
+  ) {
+    this.setupMessageStream(value);
+  }
+
+  public get messageStream(): Subject<SkyPopoverMessage> {
+    return this._messageStream;
+  }
+
+  private _messageStream: Subject<SkyPopoverMessage>;
+  private _messageStreamSub: Subscription;
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
-   * Options include:`"above"`, `"below"`, `"right"`, and `"left"`.
    * @default "above"
    */
   @Input()
@@ -57,16 +72,23 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
+  private _popover: SkyPopoverComponent | undefined;
+
   private _trigger: SkyPopoverTrigger;
 
   constructor(private elementRef: ElementRef) {}
 
   public ngOnInit(): void {
     this.addEventListeners();
+
+    if (!this.messageStream) {
+      this.setupMessageStream();
+    }
   }
 
   public ngOnDestroy(): void {
     this.removeEventListeners();
+    this.teardownMessageStream();
   }
 
   public togglePopover(): void {
@@ -100,12 +122,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   private addEventListeners(): void {
     const element = this.elementRef.nativeElement;
-
-    this.skyPopoverMessageStream
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((message) => {
-        this.handleIncomingMessages(message);
-      });
 
     observableFromEvent(element, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -220,6 +236,22 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   private sendMessage(messageType: SkyPopoverMessageType): void {
-    this.skyPopoverMessageStream.next({ type: messageType });
+    this.messageStream.next({ type: messageType });
+  }
+
+  private setupMessageStream(value?: Subject<SkyPopoverMessage>): void {
+    this.teardownMessageStream();
+
+    this._messageStream = value ?? new Subject<SkyPopoverMessage>();
+    this._messageStreamSub = this._messageStream.subscribe((message) => {
+      this.handleIncomingMessages(message);
+    });
+  }
+
+  private teardownMessageStream(): void {
+    if (this._messageStreamSub) {
+      this._messageStreamSub.unsubscribe();
+      this._messageStreamSub = undefined;
+    }
   }
 }

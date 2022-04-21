@@ -1,9 +1,7 @@
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  [skyPopover]="asyncPopoverRef"
->
+<button class="sky-btn sky-btn-default" type="button" [skyPopover]="popover">
   Open popover
 </button>
 
-<sky-popover #asyncPopover> My asynchronous popover. </sky-popover>
+<sky-popover *ngIf="popoverExists" #popoverRef>
+  My asynchronous popover.
+</sky-popover>
