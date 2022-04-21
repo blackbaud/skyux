@@ -35,6 +35,7 @@ export class ListStateOrchestrator<T> extends StateOrchestrator<
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class ListStateDispatcher extends StateDispatcher<ListStateAction> {

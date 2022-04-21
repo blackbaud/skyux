@@ -81,7 +81,7 @@ export class SkyListPagingComponent
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',
       replacementRecommendation:
-        'Use `SkyDataManagerComponent` and `SkyPagingComponent` instead.',
+        'Use data manager and the paging component instead.',
     });
   }
 

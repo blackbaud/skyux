@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 
-/** @internal */
+/**
+ * @internal
+ * @deprecated
+ */
 export function getValue(property: any, callback: any): Observable<any> {
   if (property instanceof Observable) {
     property.subscribe((value) => callback(value));

@@ -173,7 +173,7 @@ export class SkyListComponent
       deprecationMajorVersion: 6,
       moreInfoUrl:
         'https://developer.blackbaud.com/skyux/components/data-manager',
-      replacementRecommendation: 'Use `SkyDataManagerComponent` instead.',
+      replacementRecommendation: 'Use data manager instead.',
     });
   }
 
