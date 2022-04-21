@@ -70,7 +70,7 @@ export class SkyLibResourcesService {
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T
-  ): Observable<{ [_: string]: string }> {
+  ): Observable<{ [K in keyof T]: string }> {
     const resources$: Record<string, Observable<string>> = {};
 
     for (const objKey of Object.keys(dictionary)) {
@@ -84,7 +84,7 @@ export class SkyLibResourcesService {
       }
     }
 
-    return forkJoin(resources$);
+    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
   public getStringForLocale(
