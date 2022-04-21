@@ -117,7 +117,7 @@ export class SkyVerticalTabsetComponent
   private contentWrapper: ElementRef;
 
   private isMobile = false;
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
   private _ariaRole: string;
 
   constructor(

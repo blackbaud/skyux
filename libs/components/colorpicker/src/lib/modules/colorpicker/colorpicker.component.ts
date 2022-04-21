@@ -206,7 +206,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   private hsva: SkyColorpickerHsva;
   private sliderDimMax: SliderDimension;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private affixer: SkyAffixer;
 

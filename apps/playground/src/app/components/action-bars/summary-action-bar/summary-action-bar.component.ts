@@ -15,7 +15,7 @@ export class SummaryActionBarComponent implements OnDestroy {
 
   public showSummary = true;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(private modalService: SkyModalService) {}
 

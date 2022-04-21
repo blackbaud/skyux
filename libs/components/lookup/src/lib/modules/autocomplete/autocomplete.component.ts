@@ -407,11 +407,11 @@ export class SkyAutocompleteComponent
 
   private affixer: SkyAffixer;
 
-  private inputDirectiveUnsubscribe = new Subject();
+  private inputDirectiveUnsubscribe = new Subject<void>();
 
   private messageStreamSub: Subscription;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private overlay: SkyOverlayInstance;
 

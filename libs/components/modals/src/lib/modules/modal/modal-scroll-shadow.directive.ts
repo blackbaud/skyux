@@ -35,7 +35,7 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
 
   private mutationObserver: MutationObserver;
 
-  private ngUnsubscribe = new Subject<any>();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private elRef: ElementRef,

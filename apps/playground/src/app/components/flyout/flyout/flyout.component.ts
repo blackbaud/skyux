@@ -24,7 +24,7 @@ export class FlyoutComponent implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public flyout: SkyFlyoutInstance<any>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(private flyoutService: SkyFlyoutService) {}
 

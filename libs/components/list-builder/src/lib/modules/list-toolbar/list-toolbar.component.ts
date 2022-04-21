@@ -205,7 +205,7 @@ export class SkyListToolbarComponent
   private hasSortSelectors = false;
   private inlineFiltersItemToolbarIndex = 5000;
   private sortSelectorItemToolbarIndex = 6000;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _inMemorySearchEnabled: boolean;
 

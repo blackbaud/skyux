@@ -57,7 +57,7 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
   @ViewChild(SkyVerticalTabComponent)
   public tab: SkyVerticalTabComponent;
 
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     private sectionedFormService: SkySectionedFormService,

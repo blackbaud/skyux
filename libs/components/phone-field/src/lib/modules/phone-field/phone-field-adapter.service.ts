@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
  */
 @Injectable()
 export class SkyPhoneFieldAdapterService implements OnDestroy {
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private renderer: Renderer2,

@@ -53,7 +53,7 @@ export class SkyVerticalTabsetGroupComponent implements OnInit, OnDestroy {
   @ContentChildren(SkyVerticalTabComponent)
   private tabs: QueryList<SkyVerticalTabComponent>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private openBeforeTabsHidden = false;
 

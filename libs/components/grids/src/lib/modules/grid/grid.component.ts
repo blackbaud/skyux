@@ -329,7 +329,7 @@ export class SkyGridComponent
   private activeResizeColumnIndex: string;
   private isDraggingResizeHandle = false;
   private isResized = false;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
   private rowDeleteContents: { [id: string]: SkyGridRowDeleteContents } = {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];

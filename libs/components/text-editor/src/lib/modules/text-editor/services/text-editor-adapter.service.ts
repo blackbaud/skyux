@@ -433,14 +433,14 @@ export class SkyTextEditorAdapterService {
     documentEl.open();
     documentEl.close();
 
-    const selectionObservable = new Subject();
+    const selectionObservable = new Subject<void>();
     const selectionListener = () => selectionObservable.next();
-    const clickObservable = new Subject();
+    const clickObservable = new Subject<void>();
     const clickListener = () => clickObservable.next();
     const pasteListener = this.getPasteOverride(id);
-    const blurObservable = new Subject();
+    const blurObservable = new Subject<void>();
     const blurListener = () => blurObservable.next();
-    const inputObservable = new Subject();
+    const inputObservable = new Subject<void>();
     const inputListener = () => inputObservable.next();
 
     documentEl.addEventListener('selectionchange', selectionListener);

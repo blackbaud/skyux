@@ -65,7 +65,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   };
 
   private _dataState = new SkyDataManagerState({});
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     public context: SkyDataManagerColumnPickerContext,

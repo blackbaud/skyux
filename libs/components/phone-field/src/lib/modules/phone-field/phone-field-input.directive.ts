@@ -107,7 +107,7 @@ export class SkyPhoneFieldInputDirective
 
   private textChanges: BehaviorSubject<string>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private phoneUtils = PhoneNumberUtil.getInstance();
 

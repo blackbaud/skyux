@@ -93,7 +93,7 @@ export class SkyTileDashboardComponent implements AfterViewInit, OnDestroy {
 
   private configSet = false;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private viewReady = false;
 

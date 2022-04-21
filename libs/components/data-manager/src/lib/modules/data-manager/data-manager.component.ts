@@ -56,7 +56,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   private _currentViewkeeperClasses: string[];
   private activeViewId: string;
   private allViewkeeperClasses: { [viewId: string]: string[] } = {};
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
   private sourceId = 'dataManagerComponent';
 
   constructor(

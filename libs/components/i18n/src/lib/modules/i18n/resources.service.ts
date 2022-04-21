@@ -80,7 +80,7 @@ export class SkyAppResourcesService {
    */
   public getStrings<T extends ResourceDictionary>(
     dictionary: T
-  ): Observable<{ [K in keyof T]: string }> {
+  ): Observable<{ [_: string]: string }> {
     const resources$: Record<string, Observable<string>> = {};
 
     for (const objKey of Object.keys(dictionary)) {

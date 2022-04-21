@@ -41,7 +41,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   }
 
   public _isActive = false;
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,

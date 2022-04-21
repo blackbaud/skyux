@@ -77,7 +77,7 @@ export class SkySelectionBoxGridComponent
 
   private mutationObserver: MutationObserver;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _alignItems: SkySelectionBoxGridAlignItemsType;
 
