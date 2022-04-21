@@ -1,22 +1,20 @@
-<div class="sky-margin-stacked-default">
-  <button
-    aria-haspopup="dialog"
-    class="sky-btn sky-btn-default sky-margin-inline-default"
-    type="button"
-    (click)="openOKConfirm()"
-  >
-    OK confirm
-  </button>
+<button
+  aria-haspopup="dialog"
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  type="button"
+  (click)="openOKConfirm()"
+>
+  OK confirm
+</button>
 
-  <button
-    aria-haspopup="dialog"
-    class="sky-btn sky-btn-default sky-margin-inline-default"
-    type="button"
-    (click)="openCustomConfirm()"
-  >
-    Custom confirm
-  </button>
-</div>
+<button
+  aria-haspopup="dialog"
+  class="sky-btn sky-btn-default"
+  type="button"
+  (click)="openCustomConfirm()"
+>
+  Custom confirm
+</button>
 
 <p *ngIf="selectedAction && selectedText">
   You selected the "{{ selectedText }}" button, which has an action of "{{

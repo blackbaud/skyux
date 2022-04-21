@@ -18,7 +18,7 @@
   "peerDependencies": {
     "@angular/common": "^12.2.16",
     "@angular/core": "^12.2.16",
-    "@circlon/angular-tree-component": "^11.0.0",
+    "@circlon/angular-tree-component": "^11.0.3",
     "@skyux/core": "0.0.0-PLACEHOLDER",
     "@skyux/forms": "0.0.0-PLACEHOLDER",
     "@skyux/i18n": "0.0.0-PLACEHOLDER",
