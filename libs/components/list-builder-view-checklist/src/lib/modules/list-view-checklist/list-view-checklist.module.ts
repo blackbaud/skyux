@@ -7,7 +7,7 @@ import { SkyListViewChecklistItemComponent } from './list-view-checklist-item.co
 import { SkyListViewChecklistComponent } from './list-view-checklist.component';
 
 /**
- * @deprecated List builder and its features are deprecated. Use repeater instead. For more information, see https://developer.blackbaud.com/skyux/components/repeater.
+ * @deprecated List builder view checklist and its features are deprecated. Use repeater instead. For more information, see https://developer.blackbaud.com/skyux/components/repeater.
  */
 @NgModule({
   declarations: [
