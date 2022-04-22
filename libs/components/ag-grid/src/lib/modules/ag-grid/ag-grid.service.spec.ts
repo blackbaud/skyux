@@ -246,15 +246,6 @@ describe('SkyAgGridService', () => {
       expect(gridOptions.rowHeight).toBe(60);
     });
 
-    it('should respect the value of the deprecated stopEditingWhenGridLosesFocus property', () => {
-      const options = agGridService.getGridOptions({
-        gridOptions: { stopEditingWhenGridLosesFocus: true },
-      });
-
-      expect(options.stopEditingWhenGridLosesFocus).toBe(true);
-      expect(options.stopEditingWhenCellsLoseFocus).toBe(true);
-    });
-
     it('should respect the value of the deprecated `frameworkComponents` property', () => {
       const options = agGridService.getGridOptions({
         gridOptions: {

@@ -208,12 +208,6 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
 
-    // Prefer the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
-    if (mergedGridOptions.stopEditingWhenGridLosesFocus !== undefined) {
-      mergedGridOptions.stopEditingWhenCellsLoseFocus =
-        mergedGridOptions.stopEditingWhenGridLosesFocus;
-    }
-
     // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
     if (mergedGridOptions.getRowNodeId) {
       delete mergedGridOptions.getRowId;
@@ -421,7 +415,6 @@ export class SkyAgGridService implements OnDestroy {
       rowSelection: 'multiple',
       singleClickEdit: true,
       sortingOrder: ['desc', 'asc', null],
-      stopEditingWhenCellsLoseFocus: false,
       suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true,
     };
