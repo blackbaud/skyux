@@ -251,11 +251,11 @@ describe('SkyAgGridService', () => {
         gridOptions: { stopEditingWhenGridLosesFocus: true },
       });
 
-      expect(options.stopEditingWhenGridLosesFocus).toBeUndefined();
+      expect(options.stopEditingWhenGridLosesFocus).toBe(true);
       expect(options.stopEditingWhenCellsLoseFocus).toBe(true);
     });
 
-    it('should prefer the deprecated `frameworkComponents` property over `components`', () => {
+    it('should respect the value of the deprecated `frameworkComponents` property', () => {
       const options = agGridService.getGridOptions({
         gridOptions: {
           frameworkComponents: {
@@ -266,12 +266,13 @@ describe('SkyAgGridService', () => {
 
       expect(Object.keys(options.frameworkComponents)).toEqual([
         'frameworkFoo',
+      ]);
+
+      expect(Object.keys(options.components)).toEqual([
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
-
-      expect(options.components).toBeUndefined();
     });
 
     it('should not overwrite default component definitions', () => {
@@ -289,8 +290,6 @@ describe('SkyAgGridService', () => {
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
-
-      expect(options.frameworkComponents).toBeUndefined();
     });
   });
 

@@ -188,7 +188,6 @@ export class SkyAgGridService implements OnDestroy {
       ...providedGridOptions,
       components: {
         ...providedGridOptions.components,
-        ...providedGridOptions.frameworkComponents,
         // Apply default components last to prevent consumers from overwriting our component types.
         ...defaultGridOptions.components,
       },
@@ -213,18 +212,11 @@ export class SkyAgGridService implements OnDestroy {
     if (mergedGridOptions.stopEditingWhenGridLosesFocus !== undefined) {
       mergedGridOptions.stopEditingWhenCellsLoseFocus =
         mergedGridOptions.stopEditingWhenGridLosesFocus;
-      delete mergedGridOptions.stopEditingWhenGridLosesFocus;
     }
 
     // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
     if (mergedGridOptions.getRowNodeId) {
       delete mergedGridOptions.getRowId;
-    }
-
-    // Prefer the deprecated `frameworkComponents` if it's set by the consumer.
-    if (mergedGridOptions.frameworkComponents !== undefined) {
-      mergedGridOptions.frameworkComponents = mergedGridOptions.components;
-      delete mergedGridOptions.components;
     }
 
     return mergedGridOptions;
