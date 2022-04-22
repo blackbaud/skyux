@@ -151,7 +151,7 @@ export class SkyAgGridRowDeleteDirective
   @ContentChild(AgGridAngular)
   public agGrid: AgGridAngular;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
   private rowDeleteComponent: SkyAgGridRowDeleteComponent;
   private rowDeleteContents: { [id: string]: SkyAgGridRowDeleteContents } = {};
 

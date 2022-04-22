@@ -84,7 +84,7 @@ export class SkyLibResourcesService {
       }
     }
 
-    return forkJoin(resources$);
+    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
   public getStringForLocale(

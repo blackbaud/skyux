@@ -15,6 +15,7 @@ import { ListToolbarItemModel } from '../list/state/toolbar/toolbar-item.model';
  * To apply filter options, use the
  * [list component's](https://developer.blackbaud.com/skyux/components/list/overview#list-properties)
  * `appliedFilters` property.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-filter-button',

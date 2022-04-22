@@ -26,6 +26,7 @@ import { ListViewsSetActiveAction } from './views/set-active.action';
 
 /**
  * @internal
+ * @deprecated
  */
 export type ListStateAction =
   | ListItemsSetLoadingAction

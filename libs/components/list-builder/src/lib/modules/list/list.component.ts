@@ -11,6 +11,7 @@ import {
   QueryList,
   SimpleChanges,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { AsyncItem, getValue } from '@skyux/list-builder-common';
 import {
   ListItemModel,
@@ -57,6 +58,9 @@ import { ListViewModel } from './state/views/view.model';
 
 let idIndex = 0;
 
+/**
+ * @deprecated List builder and its features are deprecated. Use data manager instead. For more information, see https://developer.blackbaud.com/skyux/components/data-manager.
+ */
 @Component({
   selector: 'sky-list',
   template: '<ng-content></ng-content>',
@@ -158,12 +162,20 @@ export class SkyListComponent
 
   private lastFilters: ListFilterModel[] = [];
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private state: ListState,
-    private dispatcher: ListStateDispatcher
-  ) {}
+    private dispatcher: ListStateDispatcher,
+    logger: SkyLogService
+  ) {
+    logger.deprecated('SkyListComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/data-manager',
+      replacementRecommendation: 'Use data manager instead.',
+    });
+  }
 
   public ngAfterContentInit(): void {
     if (this.data && this.dataProvider && this.initialTotal) {
@@ -329,7 +341,7 @@ export class SkyListComponent
     // This subject is used to cancel previous request to the list's data provider when a new change
     // to the list's state occurs. In a future breaking change this should be replaced or coupled
     // with adding a debounce time to the Observable which watches for state changes.
-    const cancelLastRequest = new Subject();
+    const cancelLastRequest = new Subject<void>();
 
     return observableCombineLatest(
       [

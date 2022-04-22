@@ -28,7 +28,7 @@ export class SkyListSecondaryActionsHostComponent implements OnInit, OnDestroy {
   public dropdownHidden = false;
   public actions: any[] = [];
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,

@@ -201,7 +201,7 @@ export class SkyTokensComponent implements OnDestroy {
   private tokenComponents: QueryList<SkyTokenComponent>;
 
   private messageStreamSub: Subscription;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _activeIndex: number;
   private _disabled: boolean;

@@ -35,7 +35,7 @@ export class SkyDescriptionListDescriptionComponent
   })
   public templateRef: TemplateRef<any>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     public service: SkyDescriptionListService,

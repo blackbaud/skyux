@@ -17,6 +17,9 @@ import { SkySelectFieldResourcesModule } from '../shared/sky-select-field-resour
 import { SkySelectFieldPickerComponent } from './select-field-picker.component';
 import { SkySelectFieldComponent } from './select-field.component';
 
+/**
+ * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

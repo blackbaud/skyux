@@ -195,7 +195,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   private customDatesSubscription: Subscription;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private overlay: SkyOverlayInstance;
 

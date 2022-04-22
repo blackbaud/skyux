@@ -228,7 +228,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
 
   private timepickerUnsubscribe: Subject<void>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private overlay: SkyOverlayInstance;
 

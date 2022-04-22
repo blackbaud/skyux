@@ -3,6 +3,9 @@ import { StateDispatcher, StateOrchestrator } from '@skyux/list-builder-common';
 
 import { ChecklistStateAction } from './checklist-state-action.type';
 
+/**
+ * @deprecated
+ */
 @Injectable()
 export class ChecklistStateDispatcher extends StateDispatcher<ChecklistStateAction> {}
 

@@ -5,6 +5,7 @@ import { GridStateAction } from './grid-state-action.type';
 
 /**
  * @internal
+ * @deprecated
  */
 @Injectable()
 export class GridStateDispatcher extends StateDispatcher<GridStateAction> {}

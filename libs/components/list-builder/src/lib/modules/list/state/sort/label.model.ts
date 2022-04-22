@@ -1,5 +1,6 @@
 /**
  * These properties are a work in progress, and we do not recommend using them.
+ * @deprecated
  */
 export class ListSortLabelModel {
   /**

@@ -2,6 +2,7 @@ import { SkyListViewGridMessageType } from './list-view-grid-message-type';
 
 /**
  * Communicates commands to the list view grid.
+ * @deprecated
  */
 export interface SkyListViewGridMessage {
   /**

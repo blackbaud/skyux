@@ -121,7 +121,7 @@ export class SkyScrollableHostService {
     const subscribers: Subscriber<void>[] = [];
     let scrollableHost: HTMLElement | Window;
 
-    let newScrollableHostObservable = new Subject();
+    let newScrollableHostObservable = new Subject<void>();
     let scrollableHostSubscription: Subscription;
     let scrollEventSubscription: Subscription;
     return new Observable((subscriber) => {

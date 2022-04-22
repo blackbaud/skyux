@@ -23,6 +23,7 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAppWindowRef,
+  SkyLogService,
   SkyOverlayService,
   SkyUIConfigService,
 } from '@skyux/core';
@@ -67,6 +68,9 @@ import { SkyGridUIConfig } from './types/grid-ui-config';
 
 let nextId = 0;
 
+/**
+ * @deprecated `SkyGridComponent` and its features are deprecated. We recommend using the data grid instead. For more information, see https://developer.blackbaud.com/skyux/components/data-grid
+ */
 @Component({
   selector: 'sky-grid',
   templateUrl: './grid.component.html',
@@ -325,7 +329,7 @@ export class SkyGridComponent
   private activeResizeColumnIndex: string;
   private isDraggingResizeHandle = false;
   private isResized = false;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
   private rowDeleteContents: { [id: string]: SkyGridRowDeleteContents } = {};
   private startColumnWidth: number;
   private subscriptions: Subscription[] = [];
@@ -344,8 +348,15 @@ export class SkyGridComponent
     private gridAdapter: SkyGridAdapterService,
     private overlayService: SkyOverlayService,
     private skyWindow: SkyAppWindowRef,
-    private uiConfigService: SkyUIConfigService
+    private uiConfigService: SkyUIConfigService,
+    logger: SkyLogService
   ) {
+    logger.deprecated('SkyGridComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl: 'https://developer.blackbaud.com/skyux/components/data-grid',
+      replacementRecommendation: 'Use data grid instead.',
+    });
+
     this.displayedColumns = new Array<SkyGridColumnModel>();
     this.items = new Array<any>();
     this.currentSortField = new BehaviorSubject<ListSortFieldSelectorModel>({

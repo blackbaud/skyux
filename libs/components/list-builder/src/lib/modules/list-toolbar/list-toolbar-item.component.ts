@@ -10,6 +10,7 @@ let idIndex = 0;
 
 /**
  * Defines a toolbar item for the list toolbar.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-toolbar-item',

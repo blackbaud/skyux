@@ -11,6 +11,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { getValue } from '@skyux/list-builder-common';
 import { ListSortFieldSelectorModel } from '@skyux/list-builder-common';
 import { SkySearchComponent } from '@skyux/lookup';
@@ -51,6 +52,7 @@ let nextId = 0;
 
 /**
  * Displays a toolbar for a SKY UX-themed list of data.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-toolbar',
@@ -165,6 +167,7 @@ export class SkyListToolbarComponent
   /**
    * Fires when users submit a search.
    * @internal
+   * @deprecated
    */
   public searchApplied: Subject<string> = new Subject<string>();
 
@@ -205,7 +208,7 @@ export class SkyListToolbarComponent
   private hasSortSelectors = false;
   private inlineFiltersItemToolbarIndex = 5000;
   private sortSelectorItemToolbarIndex = 6000;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _inMemorySearchEnabled: boolean;
 
@@ -214,8 +217,16 @@ export class SkyListToolbarComponent
     private state: ListState,
     private dispatcher: ListStateDispatcher,
     private toolbarState: ListToolbarState,
-    public toolbarDispatcher: ListToolbarStateDispatcher
-  ) {}
+    public toolbarDispatcher: ListToolbarStateDispatcher,
+    logger: SkyLogService
+  ) {
+    logger.deprecated('SkyListToolbarComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/data-manager',
+      replacementRecommendation: 'Use data manager instead.',
+    });
+  }
 
   public ngOnInit() {
     this.dispatcher.toolbarExists(true);

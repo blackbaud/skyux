@@ -136,7 +136,7 @@ export class SkyRadioGroupComponent
   @ContentChildren(SkyRadioComponent, { descendants: true })
   private radios: QueryList<SkyRadioComponent>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _disabled = false;
 

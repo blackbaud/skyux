@@ -5,6 +5,7 @@ import {
   OnInit,
   forwardRef,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { AsyncList, ListItemModel, getValue } from '@skyux/list-builder-common';
 
 import { Observable } from 'rxjs';
@@ -26,6 +27,7 @@ const listPagingComponentRef = forwardRef(() => SkyListPagingComponent);
 
 /**
  * Displays a pagination control for a SKY UX-themed list of data.
+ * @deprecated
  */
 @Component({
   selector: 'sky-list-paging',
@@ -68,8 +70,19 @@ export class SkyListPagingComponent
 
   public itemCount: Observable<number>;
 
-  constructor(state: ListState, dispatcher: ListStateDispatcher) {
+  constructor(
+    state: ListState,
+    dispatcher: ListStateDispatcher,
+    logger: SkyLogService
+  ) {
     super(state, dispatcher);
+    logger.deprecated('SkyListPagingComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/components/data-manager',
+      replacementRecommendation:
+        'Use data manager and the paging component instead.',
+    });
   }
 
   public ngOnInit() {

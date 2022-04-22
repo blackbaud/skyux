@@ -236,7 +236,7 @@ export class SkyCountryFieldComponent
 
   private defaultCountryData: SkyCountryFieldCountry;
 
-  private idle: Subject<any> = new Subject();
+  private idle = new Subject<void>();
 
   private internalFormChange = false;
 
@@ -244,7 +244,7 @@ export class SkyCountryFieldComponent
 
   private ngControl: NgControl;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _defaultCountry: string;
 

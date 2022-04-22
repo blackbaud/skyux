@@ -5,6 +5,9 @@ import { ChecklistStateOrchestrator } from '../checklist-state.rxstate';
 import { ListViewChecklistItemModel } from './item.model';
 import { ListViewChecklistItemsLoadAction } from './load.action';
 
+/**
+ * @deprecated
+ */
 export class ListViewChecklistItemsOrchestrator extends ChecklistStateOrchestrator<
   AsyncList<ListViewChecklistItemModel>
 > {

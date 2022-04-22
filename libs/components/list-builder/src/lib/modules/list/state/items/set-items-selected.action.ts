@@ -1,5 +1,6 @@
 /**
  * @internal
+ * @deprecated
  */
 export class ListItemsSetSelectedAction {
   constructor(

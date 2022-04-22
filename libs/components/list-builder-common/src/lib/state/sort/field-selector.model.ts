@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export class ListSortFieldSelectorModel {
   /**
    * Indicates whether to sort in descending order.

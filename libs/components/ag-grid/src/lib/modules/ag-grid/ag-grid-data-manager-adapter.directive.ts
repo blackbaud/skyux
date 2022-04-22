@@ -51,7 +51,7 @@ export class SkyAgGridDataManagerAdapterDirective
   private currentSkyAgGridWrapper: SkyAgGridWrapperComponent;
   private dataStateSub: Subscription;
   private viewConfig: SkyDataViewConfig;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,

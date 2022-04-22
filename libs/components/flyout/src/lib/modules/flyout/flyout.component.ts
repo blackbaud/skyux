@@ -158,7 +158,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
   private flyoutInstance: SkyFlyoutInstance<any>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _messageStream = new Subject<SkyFlyoutMessage>();
 

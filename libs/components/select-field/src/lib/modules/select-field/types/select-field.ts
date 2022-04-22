@@ -1,6 +1,7 @@
 /**
  * Extends the `any` type and supports values for data objects that you can inject into
  * the select field component to populate the picker.
+ * @deprecated `SkySelectFieldComponent` is deprecated. Use `SkyLookupComponent` instead.
  */
 export interface SkySelectField {
   /**

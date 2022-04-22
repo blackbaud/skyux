@@ -8,6 +8,7 @@ import { ListSortModel } from './sort.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListSortOrchestrator extends ListStateOrchestrator<ListSortModel> {
   /* istanbul ignore next */

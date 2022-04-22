@@ -9,6 +9,7 @@ let idIndex = 0;
 
 /**
  * @internal
+ * @deprecated
  */
 export abstract class ListViewComponent {
   public active: Observable<boolean>;

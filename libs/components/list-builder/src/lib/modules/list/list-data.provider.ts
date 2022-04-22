@@ -5,6 +5,7 @@ import { ListDataResponseModel } from './list-data-response.model';
 
 /**
  * @internal
+ * @deprecated
  */
 export abstract class ListDataProvider {
   constructor(public data?: Observable<any[]>) {}

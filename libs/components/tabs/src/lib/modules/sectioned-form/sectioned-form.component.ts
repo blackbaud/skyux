@@ -72,7 +72,7 @@ export class SkySectionedFormComponent
   public content: ElementRef;
 
   private isMobile = false;
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
 
   constructor(
     public tabService: SkyVerticalTabsetService,

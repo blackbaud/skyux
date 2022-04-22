@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 /**
  * @internal
+ * @deprecated
  */
 export class ListSelectedSetItemsSelectedAction {
   constructor(

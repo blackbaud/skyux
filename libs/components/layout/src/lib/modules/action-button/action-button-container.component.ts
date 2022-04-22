@@ -63,7 +63,7 @@ export class SkyActionButtonContainerComponent
 
   private mutationObserver: MutationObserver;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private set themeName(value: string) {
     this._themeName = value;

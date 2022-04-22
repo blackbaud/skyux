@@ -200,7 +200,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   private affixer: SkyAffixer;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private overlay: SkyOverlayInstance;
 
