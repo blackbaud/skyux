@@ -30,6 +30,11 @@
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript", "prettier"],
       "rules": {}
+    },
+    {
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "extends": ["plugin:storybook/recommended"],
+      "rules": {}
     }
   ],
   "extends": ["prettier"]
