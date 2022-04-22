@@ -246,13 +246,24 @@ describe('SkyAgGridService', () => {
       expect(gridOptions.rowHeight).toBe(60);
     });
 
-    it('should respect the value of the deprecated stopEditingWhenGridLosesFocus property', () => {
+    it('should respect the value of the deprecated `frameworkComponents` property', () => {
       const options = agGridService.getGridOptions({
-        gridOptions: { stopEditingWhenGridLosesFocus: true },
+        gridOptions: {
+          frameworkComponents: {
+            frameworkFoo: 'framework-bar',
+          },
+        },
       });
 
-      expect(options.stopEditingWhenGridLosesFocus).toBeUndefined();
-      expect(options.stopEditingWhenCellsLoseFocus).toBe(true);
+      expect(Object.keys(options.frameworkComponents)).toEqual([
+        'frameworkFoo',
+      ]);
+
+      expect(Object.keys(options.components)).toEqual([
+        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-validator-tooltip',
+      ]);
     });
 
     it('should not overwrite default component definitions', () => {
@@ -261,21 +272,15 @@ describe('SkyAgGridService', () => {
           components: {
             foo: 'bar',
           },
-          frameworkComponents: {
-            frameworkFoo: 'framework-bar',
-          },
         },
       });
 
       expect(Object.keys(options.components)).toEqual([
         'foo',
-        'frameworkFoo',
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',
       ]);
-
-      expect(options.frameworkComponents).toBeUndefined();
     });
   });
 
