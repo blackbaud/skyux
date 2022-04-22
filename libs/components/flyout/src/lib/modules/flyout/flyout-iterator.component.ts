@@ -33,7 +33,7 @@ export class SkyFlyoutIteratorComponent implements OnDestroy {
     return this._nextButtonClick;
   }
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _nextButtonClick = new EventEmitter<void>();
 

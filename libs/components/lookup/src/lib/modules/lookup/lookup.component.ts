@@ -258,8 +258,8 @@ export class SkyLookupComponent
   })
   private searchIconTemplateRef: TemplateRef<any>;
 
-  private ngUnsubscribe = new Subject();
-  private idle = new Subject();
+  private ngUnsubscribe = new Subject<void>();
+  private idle = new Subject<void>();
   private markForTokenFocusOnKeyUp = false;
   private openNativePicker: SkyModalInstance;
 

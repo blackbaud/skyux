@@ -249,7 +249,7 @@ export class SkyListViewGridComponent
   @ContentChildren(SkyGridColumnComponent)
   private columnComponents: QueryList<SkyGridColumnComponent>;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _messageStream = new Subject<SkyListViewGridMessage>();
 

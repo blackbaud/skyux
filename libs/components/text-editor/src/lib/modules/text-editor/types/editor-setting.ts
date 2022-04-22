@@ -12,7 +12,7 @@ export interface EditorSetting {
 
   clickObservable: Subject<unknown>;
 
-  commandChangeObservable: Subject<unknown>;
+  commandChangeObservable: Subject<void>;
 
   iframeElementRef: HTMLIFrameElement;
 

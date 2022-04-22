@@ -134,7 +134,7 @@ export class SkyListViewChecklistComponent
     return this._showOnlySelected;
   }
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _selectMode = 'multiple';
 

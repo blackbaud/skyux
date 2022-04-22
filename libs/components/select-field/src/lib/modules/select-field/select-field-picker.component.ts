@@ -78,7 +78,7 @@ export class SkySelectFieldPickerComponent
   })
   private listToolbar: SkyListToolbarComponent;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _inMemorySearchEnabled: boolean;
 

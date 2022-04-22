@@ -107,7 +107,7 @@ export class SkyTileComponent implements OnDestroy {
   })
   private title: ElementRef;
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _isCollapsed = false;
 

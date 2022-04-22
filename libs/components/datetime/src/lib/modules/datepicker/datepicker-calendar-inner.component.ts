@@ -115,7 +115,7 @@ export class SkyDatepickerCalendarInnerComponent
     40: 'down',
   };
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   private _selectedDate: Date;
 

@@ -81,7 +81,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
   private _activeView: SkyDataViewConfig;
   private _dataManagerConfig: SkyDataManagerConfig;
   private _dataState: SkyDataManagerState;
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
   private _views: SkyDataViewConfig[] = [];
 
   constructor(

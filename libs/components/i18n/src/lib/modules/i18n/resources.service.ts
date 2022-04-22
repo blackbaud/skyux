@@ -94,7 +94,7 @@ export class SkyAppResourcesService {
       }
     }
 
-    return forkJoin(resources$);
+    return forkJoin(resources$) as Observable<{ [K in keyof T]: string }>;
   }
 
   /**

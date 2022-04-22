@@ -98,7 +98,7 @@ export class SkyTextEditorComponent implements AfterViewInit, OnDestroy {
     return this._disabled;
   }
 
-  public editorFocusStream = new Subject();
+  public editorFocusStream = new Subject<void>();
 
   /**
    * Specifies the fonts to include in the font picker.

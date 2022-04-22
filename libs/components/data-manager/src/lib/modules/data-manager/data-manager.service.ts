@@ -43,7 +43,7 @@ export class SkyDataManagerService implements OnDestroy {
   private readonly dataStateChange =
     new ReplaySubject<SkyDataManagerStateChange>(1);
 
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
   private initSource = 'dataManagerServiceInit';
   private isInitialized = false;
 

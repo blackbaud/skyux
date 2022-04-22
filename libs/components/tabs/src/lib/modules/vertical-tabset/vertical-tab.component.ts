@@ -147,7 +147,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   private _mobileSubscription = new Subject();
 
-  private _ngUnsubscribe = new Subject();
+  private _ngUnsubscribe = new Subject<void>();
 
   private _showTabRightArrow = false;
 

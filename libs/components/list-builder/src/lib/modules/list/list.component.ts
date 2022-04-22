@@ -162,7 +162,7 @@ export class SkyListComponent
 
   private lastFilters: ListFilterModel[] = [];
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private state: ListState,
@@ -341,7 +341,7 @@ export class SkyListComponent
     // This subject is used to cancel previous request to the list's data provider when a new change
     // to the list's state occurs. In a future breaking change this should be replaced or coupled
     // with adding a debounce time to the Observable which watches for state changes.
-    const cancelLastRequest = new Subject();
+    const cancelLastRequest = new Subject<void>();
 
     return observableCombineLatest(
       [

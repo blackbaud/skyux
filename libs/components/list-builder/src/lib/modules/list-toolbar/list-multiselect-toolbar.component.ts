@@ -35,7 +35,7 @@ export class SkyListMultiselectToolbarComponent implements OnInit, OnDestroy {
 
   private selectedIdMap = new Map<string, boolean>();
 
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
 
   constructor(
     private state: ListState,

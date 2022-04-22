@@ -63,7 +63,7 @@ export class SkyThemeClassDirective implements OnDestroy {
   }
 
   private currentTheme: SkyThemeSettings | undefined;
-  private ngUnsubscribe = new Subject();
+  private ngUnsubscribe = new Subject<void>();
   private initialClasses: string[] = [];
   private skyThemeClassMap: SkyThemeClassMap | undefined;
 
