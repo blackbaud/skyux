@@ -255,21 +255,36 @@ describe('SkyAgGridService', () => {
       expect(options.stopEditingWhenCellsLoseFocus).toBe(true);
     });
 
-    it('should not overwrite default component definitions', () => {
+    it('should prefer the deprecated `frameworkComponents` property over `components`', () => {
       const options = agGridService.getGridOptions({
         gridOptions: {
-          components: {
-            foo: 'bar',
-          },
           frameworkComponents: {
             frameworkFoo: 'framework-bar',
           },
         },
       });
 
+      expect(Object.keys(options.frameworkComponents)).toEqual([
+        'frameworkFoo',
+        'sky-ag-grid-cell-renderer-currency',
+        'sky-ag-grid-cell-renderer-currency-validator',
+        'sky-ag-grid-cell-renderer-validator-tooltip',
+      ]);
+
+      expect(options.components).toBeUndefined();
+    });
+
+    it('should not overwrite default component definitions', () => {
+      const options = agGridService.getGridOptions({
+        gridOptions: {
+          components: {
+            foo: 'bar',
+          },
+        },
+      });
+
       expect(Object.keys(options.components)).toEqual([
         'foo',
-        'frameworkFoo',
         'sky-ag-grid-cell-renderer-currency',
         'sky-ag-grid-cell-renderer-currency-validator',
         'sky-ag-grid-cell-renderer-validator-tooltip',

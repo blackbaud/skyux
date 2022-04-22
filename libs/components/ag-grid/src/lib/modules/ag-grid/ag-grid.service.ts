@@ -221,8 +221,11 @@ export class SkyAgGridService implements OnDestroy {
       delete mergedGridOptions.getRowId;
     }
 
-    // Remove the deprecated `frameworkComponents` property in favor of `components`.
-    delete mergedGridOptions.frameworkComponents;
+    // Prefer the deprecated `frameworkComponents` if it's set by the consumer.
+    if (mergedGridOptions.frameworkComponents !== undefined) {
+      mergedGridOptions.frameworkComponents = mergedGridOptions.components;
+      delete mergedGridOptions.components;
+    }
 
     return mergedGridOptions;
   }
