@@ -2777,6 +2777,54 @@
         }
       }
     },
+    "storybook": {
+      "root": "libs/components/storybook",
+      "sourceRoot": "libs/components/storybook/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/storybook",
+            "config": {
+              "configFolder": "libs/components/storybook/.storybook"
+            },
+            "projectBuildConfig": "storybook:build"
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/components/storybook/**/*.ts"]
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/components/storybook/.storybook"
+            },
+            "projectBuildConfig": "storybook:build"
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": []
+    },
     "tabs": {
       "projectType": "library",
       "root": "libs/components/tabs",
