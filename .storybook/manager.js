@@ -1,6 +1,7 @@
 import { addons } from '@storybook/addons';
-import yourTheme from './blackbaud';
+
+import blackbaudTheme from './blackbaud';
 
 addons.setConfig({
-  theme: yourTheme,
+  theme: blackbaudTheme,
 });
