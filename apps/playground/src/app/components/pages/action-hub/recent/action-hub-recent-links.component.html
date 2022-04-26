@@ -1,0 +1,41 @@
+<sky-action-hub
+  title="Action hub recent links playground"
+  [recentLinks]="recentLinks"
+>
+  <sky-action-hub-buttons>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-sm"
+      (click)="switchRecentLinks('foo')"
+    >
+      Foo list
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-sm"
+      (click)="switchRecentLinks('bar')"
+    >
+      Bar list
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-sm"
+      (click)="
+        switchRecentLinks(undefined, [
+          {
+            label: 'Array',
+            lastAccessed: '2022-03-08',
+            permalink: {
+              url: 'https://example.com/array'
+            }
+          }
+        ])
+      "
+    >
+      Links array
+    </button>
+    <button
+      class="sky-btn sky-btn-default sky-margin-inline-sm"
+      (click)="switchRecentLinks()"
+    >
+      Undefined
+    </button>
+  </sky-action-hub-buttons>
+</sky-action-hub>

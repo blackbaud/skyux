@@ -44,6 +44,11 @@ const routes: Routes = [
       import('./lookup/lookup.module').then((m) => m.LookupModule),
   },
   {
+    path: 'pages',
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
+  },
+  {
     path: 'phone-field',
     loadChildren: () =>
       import('./phone-field/phone-field.module').then(
