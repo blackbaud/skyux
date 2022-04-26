@@ -18,6 +18,8 @@ import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyActionHubButtonsComponent } from './action-hub-buttons.component';
 import { SkyActionHubContentComponent } from './action-hub-content.component';
+import { SkyActionHubRecentLinksResolvePipe } from './action-hub-recent-links-resolve.pipe';
+import { SkyActionHubRelatedLinksSortPipe } from './action-hub-related-links-sort.pipe';
 import { SkyActionHubComponent } from './action-hub.component';
 
 @NgModule({
@@ -40,6 +42,8 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyActionHubButtonsComponent,
     SkyActionHubComponent,
     SkyActionHubContentComponent,
+    SkyActionHubRecentLinksResolvePipe,
+    SkyActionHubRelatedLinksSortPipe,
     SkyNeedsAttentionComponent,
     SkyLinkListComponent,
   ],
