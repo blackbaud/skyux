@@ -2803,7 +2803,10 @@
           "builder": "@nrwl/linter:eslint",
           "outputs": ["{options.outputFile}"],
           "options": {
-            "lintFilePatterns": ["libs/components/storybook/**/*.ts"]
+            "lintFilePatterns": [
+              "libs/components/storybook/**/*.js",
+              "libs/components/storybook/**/*.ts"
+            ]
           }
         },
         "serve": {
