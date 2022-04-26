@@ -95,7 +95,7 @@ jobs:
           set -x
           if [[ -z "$(gh pr view ${{ github.event.number }} --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
           then
-            gh pr comment ${{ github.event.number }} -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
+            gh pr comment ${{ github.event.number }} -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
