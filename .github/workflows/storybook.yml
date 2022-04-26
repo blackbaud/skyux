@@ -30,42 +30,49 @@ jobs:
         run: npx nx run storybook:build
       - uses: actions/checkout@v3
         with:
-          repository: 'blackbaud/skyux-pr'
+          repository: 'blackbaud/skyux-pr-preview'
           ref: 'main'
           fetch-depth: 1
-          path: skyux-pr
+          path: skyux-pr-preview
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Remove old PR builds
         run: |
-          ls ./skyux-pr | grep -E '^[0-9]+$' > ${{ runner.temp }}/current_builds.txt
-          gh pr list -q '.[] | .number' --state closed --state merged --json number > ${{ runner.temp }}/old_prs.txt
-          cat ${{ runner.temp }}/old_prs.txt ${{ runner.temp }}/current_builds.txt | sort | uniq -d > ${{ runner.temp }}/old_builds.txt
-          git -C ./skyux-pr rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
+          set -x
+          ls ./skyux-pr-preview | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
+          git branch -r --format '%(refname:lstrip=3)' | sort > ${{ runner.temp }}/expected_builds.txt
+          gh pr list -q '.[] | .number' --state open --json number | sort >> ${{ runner.temp }}/expected_builds.txt
+          comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt > ${{ runner.temp }}/old_builds.txt
+          git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Update PR build
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          rm -rf ./skyux-pr/${{ github.event.number }}
-          mkdir -p ./skyux-pr/${{ github.event.number }}
-          cp -R ./dist/storybook ./skyux-pr/${{ github.event.number }}/storybook
+          set -x
+          rm -rf ./skyux-pr-preview/${{ github.event.number }}
+          mkdir -p ./skyux-pr-preview/${{ github.event.number }}
+          cp -R ./dist/storybook ./skyux-pr-preview/${{ github.event.number }}/storybook
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Update branch build
         if: ${{ github.event_name == 'push' }}
         run: |
-          rm -rf ./skyux-pr/${{ github.ref_name }}
-          mkdir -p ./skyux-pr/${{ github.ref_name }}
-          cp -R ./dist/storybook/storybook ./skyux-pr/${{ github.ref_name }}/storybook
+          set -x
+          rm -rf ./skyux-pr-preview/${{ github.ref_name }}
+          mkdir -p ./skyux-pr-preview/${{ github.ref_name }}
+          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.ref_name }}/storybook
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Commit build to GH Pages
         run: |
-          git -C ./skyux-pr add .
-          git -C ./skyux-pr commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
-          git -C ./skyux-pr push
+          set -x
+          git -C ./skyux-pr-preview add --all
+          git -C ./skyux-pr-preview status
+          git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
+          git -C ./skyux-pr-preview push
       - name: Comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         run: |
+          set -x
           if [[ -z "$(gh pr view --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
           then
-            gh pr comment -b "[Storybook preview](https://blackbaud.github.io/skyux-pr/${{ github.event.number }}/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
+            gh pr comment -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
           fi
