@@ -63,7 +63,7 @@ jobs:
           set -x
           rm -rf ./skyux-pr-preview/${{ github.ref_name }}
           mkdir -p ./skyux-pr-preview/${{ github.ref_name }}
-          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.ref_name }}/storybook
+          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.ref_name }}/
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Commit build to GH Pages
         run: |
@@ -82,3 +82,5 @@ jobs:
           then
             gh pr comment -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
           fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
