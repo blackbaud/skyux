@@ -68,6 +68,8 @@ jobs:
       - name: Commit build to GH Pages
         run: |
           set -x
+          git config --global user.name "Blackbaud Sky Build User"
+          git config --global user.email "sky-build-user@blackbaud.com"
           git -C ./skyux-pr-preview add --all
           git -C ./skyux-pr-preview status
           git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
