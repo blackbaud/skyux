@@ -6,10 +6,6 @@
     "declarationMap": true,
     "inlineSources": true
   },
-  "exclude": [
-    "../**/*.spec.ts",
-    "../**/*.stories.ts",
-    "../**/*.stories.js"
-  ],
+  "exclude": ["../**/*.spec.ts", "../**/*.stories.ts", "../**/*.stories.js"],
   "include": ["../**/*.ts"]
 }
