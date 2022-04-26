@@ -6,8 +6,11 @@ export * from './lib/modules/date-pipe/fuzzy-date.pipe';
 export * from './lib/modules/date-range-picker/types/date-range-calculation';
 export * from './lib/modules/date-range-picker/types/date-range-calculator';
 export * from './lib/modules/date-range-picker/types/date-range-calculator-config';
+export * from './lib/modules/date-range-picker/types/date-range-calculator-date-range-function';
 export * from './lib/modules/date-range-picker/types/date-range-calculator-id';
 export * from './lib/modules/date-range-picker/types/date-range-calculator-type';
+export * from './lib/modules/date-range-picker/types/date-range-calculator-validate-function';
+export * from './lib/modules/date-range-picker/types/date-range';
 export * from './lib/modules/date-range-picker/date-range-picker.module';
 export * from './lib/modules/date-range-picker/date-range.service';
 
