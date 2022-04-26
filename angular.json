@@ -2791,7 +2791,8 @@
             "config": {
               "configFolder": "libs/components/storybook/.storybook"
             },
-            "projectBuildConfig": "storybook:build"
+            "projectBuildConfig": "storybook:build",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"]
           },
           "configurations": {
             "ci": {

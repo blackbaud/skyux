@@ -2,12 +2,20 @@ module.exports = {
   stories: [],
   addons: [
     '@storybook/addon-a11y',
-    {
-      name: '@storybook/addon-essentials',
-      options: {
-        docs: false,
-      },
-    },
+    // '@storybook/addon-actions',
+    '@storybook/addon-backgrounds',
+    // '@storybook/addon-controls',
+    // {
+    //   name: '@storybook/addon-docs',
+    //   options: {
+    //     sourceLoaderOptions: {
+    //       injectStoryParameters: false,
+    //     },
+    //   },
+    // },
+    // '@storybook/addon-storysource',
+    '@storybook/addon-toolbars',
+    '@storybook/addon-viewport',
   ],
   // uncomment the property below if you want to apply some webpack config globally
   // webpackFinal: async (config, { configType }) => {
