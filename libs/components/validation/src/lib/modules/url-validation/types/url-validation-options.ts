@@ -1,3 +1,3 @@
-export interface URLValidationOptions {
+export interface SkyURLValidationOptions {
   useValidatorLibrary: boolean;
 }
