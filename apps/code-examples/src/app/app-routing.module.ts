@@ -43,6 +43,11 @@ const routes: Routes = [
       import('./features/core.module').then((m) => m.CoreFeatureModule),
   },
   {
+    path: 'datetime',
+    loadChildren: () =>
+      import('./features/datetime.module').then((m) => m.DatetimeFeatureModule),
+  },
+  {
     path: 'tabs',
     loadChildren: () =>
       import('./features/tabs.module').then((m) => m.TabsFeatureModule),
