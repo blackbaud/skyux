@@ -134,7 +134,7 @@
     "@nrwl/workspace": "13.10.2",
     "@percy/cli": "1.1.0",
     "@percy/cypress": "3.1.1",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#d1ff8a022a9fc217a7e444d4b0c99ac38f93b024",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#0e14811f6611ca64190fa354defffd1e97a7eba8",
     "@storybook/addon-a11y": "6.4.22",
     "@storybook/addon-essentials": "6.4.22",
     "@storybook/angular": "6.4.22",
