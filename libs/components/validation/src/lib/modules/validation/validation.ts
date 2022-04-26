@@ -1,3 +1,7 @@
+import isURL from 'validator/es/lib/isURL';
+
+import { URLValidationOptions } from '../url-validation/types/url-validation-options';
+
 export abstract class SkyValidation {
   public static isEmail(emailAddress: string): boolean {
     // The regex was obtained from http://emailregex.com/
@@ -8,10 +12,32 @@ export abstract class SkyValidation {
     return regex.test(emailAddress);
   }
 
-  public static isUrl(url: string): boolean {
-    const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
-    // ^(https?:\/\/)?(www)?\w[\w-\.]+
-    // ^(https?:\/\/)?(www)?([\w]+\.)+[\w-/=&#\?]+$
-    return regex.test(url);
+  public static isUrl(
+    url: string,
+    validationOptions?: URLValidationOptions
+  ): boolean {
+    if (validationOptions && validationOptions.useValidatorLibrary) {
+      const ourOptions = {
+        protocols: ['http', 'https', 'ftp'],
+        require_tld: true,
+        require_protocol: false,
+        require_host: true,
+        require_port: false,
+        require_valid_protocol: true,
+        allow_underscores: true,
+        host_whitelist: false,
+        host_blacklist: false,
+        allow_trailing_dot: false,
+        allow_protocol_relative_urls: false,
+        allow_fragments: true,
+        allow_query_components: true,
+        disallow_auth: false,
+        validate_length: true,
+      };
+      return isURL(url, ourOptions);
+    } else {
+      const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
+      return regex.test(url);
+    }
   }
 }
