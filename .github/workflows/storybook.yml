@@ -1,13 +1,10 @@
-name: CI
+name: Storybook
 
 on:
   push:
     branches:
       - main
   pull_request:
-
-env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
 
 jobs:
   publish-storybook:
