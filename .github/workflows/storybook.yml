@@ -65,7 +65,7 @@ jobs:
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
           mkdir -p ./skyux-pr-preview/${{ github.event.number }}
-          cp -R ./dist/storybook ./skyux-pr-preview/${{ github.event.number }}/
+          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Update branch build
         if: ${{ github.event_name == 'push' }}
@@ -82,8 +82,13 @@ jobs:
           git config --global user.email "sky-build-user@blackbaud.com"
           git -C ./skyux-pr-preview add --all
           git -C ./skyux-pr-preview status
-          git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
-          git -C ./skyux-pr-preview push
+          if [[ -n "$(git -C ./skyux-pr-preview status -s)" ]]
+          then
+            git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
+            git -C ./skyux-pr-preview push
+          else
+            echo "No changes"
+          fi
       - name: Comment on PR
         if: ${{ github.event_name == 'pull_request' }}
         run: |
