@@ -44,9 +44,12 @@ jobs:
           cat ${{ runner.temp }}/expected_builds_unsorted.txt | sort > ${{ runner.temp }}/expected_builds.txt
           if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
           then
-            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt > ${{ runner.temp }}/old_builds.txt
+            # Get current builds that are not in expected.
+            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d '[:space:]' > ${{ runner.temp }}/old_builds.txt
             if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
             then
+              ls -l ${{ runner.temp }}/old_builds.txt
+              cat ${{ runner.temp }}/old_builds.txt
               git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
             else
               echo "All builds are current"
@@ -62,7 +65,7 @@ jobs:
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
           mkdir -p ./skyux-pr-preview/${{ github.event.number }}
-          cp -R ./dist/storybook ./skyux-pr-preview/${{ github.event.number }}/storybook
+          cp -R ./dist/storybook ./skyux-pr-preview/${{ github.event.number }}/
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Update branch build
         if: ${{ github.event_name == 'push' }}
