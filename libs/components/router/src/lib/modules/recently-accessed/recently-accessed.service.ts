@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SkyRecentlyAccessedAddLinkArgs } from './recently-accessed-add-link-args';
 import { SkyRecentlyAccessedAddLinkResult } from './recently-accessed-add-link-result';
