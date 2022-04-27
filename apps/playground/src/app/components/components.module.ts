@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'a11y',
+    loadChildren: () => import('./a11y/a11y.module').then((m) => m.A11yModule),
+  },
+  {
     path: 'action-bars',
     loadChildren: () =>
       import('./action-bars/action-bars.module').then(
