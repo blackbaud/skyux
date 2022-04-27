@@ -18,6 +18,11 @@ const routes: Routes = [
       import('./features/layout.module').then((m) => m.LayoutModule),
   },
   {
+    path: 'lists',
+    loadChildren: () =>
+      import('./features/lists.module').then((m) => m.ListsFeatureModule),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./features/lookup.module').then((m) => m.LookupModule),
