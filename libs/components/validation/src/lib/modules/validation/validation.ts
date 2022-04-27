@@ -14,9 +14,13 @@ export abstract class SkyValidation {
 
   public static isUrl(
     url: string,
-    validationOptions?: SkyURLValidationOptions
+    urlValidationOptions?: SkyURLValidationOptions
   ): boolean {
-    if (validationOptions && validationOptions.useValidatorLibrary) {
+    console.log(
+      'skyURLValidationOptions in Validation.ts function',
+      urlValidationOptions
+    );
+    if (urlValidationOptions && urlValidationOptions.useValidatorLibrary) {
       const ourOptions = {
         protocols: ['http', 'https', 'ftp'],
         require_tld: true,
