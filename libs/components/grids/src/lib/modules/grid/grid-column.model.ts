@@ -6,7 +6,7 @@ import { SkyGridColumnAlignment } from './types/grid-column-alignment';
  * @internal
  */
 export class SkyGridColumnModel {
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
   public id: string;
   public field: string;
   public heading: string;
@@ -26,7 +26,7 @@ export class SkyGridColumnModel {
 
   public searchFunction: (data: any, searchText: string) => boolean;
 
-  constructor(template: TemplateRef<any>, data?: any) {
+  constructor(template: TemplateRef<unknown>, data?: any) {
     this.template = template;
 
     if (data) {

@@ -11,13 +11,13 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplate: TemplateRef<any>;
+  private inputTemplate: TemplateRef<unknown>;
 
   @ViewChild('buttonsTemplate', {
     read: TemplateRef,
     static: true,
   })
-  private buttonsTemplate: TemplateRef<any>;
+  private buttonsTemplate: TemplateRef<unknown>;
 
   constructor(private inputBoxHostSvc: SkyInputBoxHostService) {}
 

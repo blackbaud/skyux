@@ -116,7 +116,7 @@ export class SkyPopoverComponent implements OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private templateRef: TemplateRef<any>;
+  private templateRef: TemplateRef<unknown>;
 
   private contentRef: SkyPopoverContentComponent;
 

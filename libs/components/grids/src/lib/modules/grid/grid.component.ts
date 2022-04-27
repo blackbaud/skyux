@@ -311,7 +311,7 @@ export class SkyGridComponent
   @ViewChildren('inlineDeleteRef')
   private inlineDeleteRefs: QueryList<ElementRef>;
   @ViewChild('inlineDeleteTemplateRef', { read: TemplateRef })
-  private inlineDeleteTemplateRef: TemplateRef<any>;
+  private inlineDeleteTemplateRef: TemplateRef<unknown>;
   @ViewChild('gridContainer')
   private tableContainerElementRef: ElementRef;
   @ViewChild('gridTable')

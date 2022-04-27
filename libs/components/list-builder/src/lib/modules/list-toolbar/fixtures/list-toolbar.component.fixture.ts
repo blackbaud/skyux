@@ -24,5 +24,5 @@ export class ListToolbarTestComponent {
     read: TemplateRef,
     static: true,
   })
-  public default: TemplateRef<any>;
+  public default: TemplateRef<unknown>;
 }
