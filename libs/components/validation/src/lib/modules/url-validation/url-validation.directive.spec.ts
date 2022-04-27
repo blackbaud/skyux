@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
+import { UrlValidationThirdPartyTestComponent } from './fixtures/url-validation-thirdparty.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
 describe('Url validation', () => {
@@ -99,6 +100,102 @@ describe('Url validation', () => {
   }));
 
   it('should pass accessibility', async(() => {
+    fixture.detectChanges();
+    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(fixture.nativeElement).toBeAccessible();
+    });
+  }));
+});
+
+describe('3rd party URL validation', () => {
+  function setInput(
+    element: HTMLElement,
+    text: string,
+    compFixture: ComponentFixture<any>
+  ) {
+    const inputEvent = document.createEvent('Event');
+    const params = {
+      bubbles: false,
+      cancelable: false,
+    };
+
+    inputEvent.initEvent('input', params.bubbles, params.cancelable);
+
+    const changeEvent = document.createEvent('Event');
+    changeEvent.initEvent('change', params.bubbles, params.cancelable);
+    const inputEl = element.querySelector('input');
+    inputEl.value = text;
+
+    inputEl.dispatchEvent(inputEvent);
+    compFixture.detectChanges();
+
+    inputEl.dispatchEvent(changeEvent);
+    compFixture.detectChanges();
+  }
+
+  let component: UrlValidationThirdPartyTestComponent;
+  let fixture: ComponentFixture<UrlValidationThirdPartyTestComponent>;
+  let ngModel: NgModel;
+  let nativeElement: HTMLElement;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkyUrlValidationFixturesModule, FormsModule],
+    });
+    fixture = TestBed.createComponent(UrlValidationThirdPartyTestComponent);
+    nativeElement = fixture.nativeElement as HTMLElement;
+    const input = fixture.debugElement.query(By.css('input'));
+    ngModel = input.injector.get(NgModel);
+    component = fixture.componentInstance;
+  });
+
+  it('should validate correct input using 3rd party library', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    setInput(nativeElement, 'https://blackbaud.com', fixture);
+    fixture.detectChanges();
+
+    expect(nativeElement.querySelector('input').value).toBe(
+      'https://blackbaud.com'
+    );
+
+    expect(ngModel.control.valid).toBe(true);
+    expect(ngModel.control.pristine).toBe(false);
+    expect(ngModel.control.touched).toBe(false);
+  }));
+
+  it('should validate incorrect input using 3rd party library', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
+    fixture.detectChanges();
+
+    expect(nativeElement.querySelector('input').value).toBe(
+      '[]awefhawenfc0293ejwf]'
+    );
+
+    expect(ngModel.control.valid).toBe(false);
+    expect(ngModel.control.pristine).toBe(false);
+    expect(ngModel.control.touched).toBe(false);
+  }));
+
+  it('should handle invalid and then valid input using 3rd party library', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
+    setInput(nativeElement, 'blackbaud.com', fixture);
+
+    expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
+    expect(component.urlValidator).toEqual('blackbaud.com');
+
+    expect(ngModel.control.valid).toBe(true);
+    expect(ngModel.control.pristine).toBe(false);
+    expect(ngModel.control.touched).toBe(false);
+  }));
+
+  it('should pass accessibility using 3rd party library', async(() => {
     fixture.detectChanges();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
