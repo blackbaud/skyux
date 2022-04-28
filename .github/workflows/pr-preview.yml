@@ -88,9 +88,11 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Percy
-        run: |
-          npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
-          npx percy exec -- nx run indicators-e2e:e2e
+      - name: Percy Storybook
+        run: npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}
+      - name: Percy e2e
+        run: npx percy exec -- nx run indicators-e2e:e2e
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_E2E}}
