@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
-import { SkyURLValidationOptions } from './types/url-validation-options';
+import { SkyURLValidationOptions } from './models/url-validation-options';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
@@ -28,11 +28,10 @@ export class SkyUrlValidationDirective implements Validator {
    */
   @Input()
   public set skyUrlValidation(value: SkyURLValidationOptions) {
-    console.log('skyURLValidationOptions in the Input setter:', value);
-    this.skyURLValidationOptions = value;
+    this.skyUrlValidationOptions = value;
   }
 
-  private skyURLValidationOptions: SkyURLValidationOptions;
+  private skyUrlValidationOptions: SkyURLValidationOptions;
 
   public validate(control: AbstractControl): { [key: string]: any } {
     const value = control.value;
@@ -51,12 +50,8 @@ export class SkyUrlValidationDirective implements Validator {
   }
 
   public urlIsValid(url: string): boolean {
-    console.log(
-      'skyURLValidationOptions in Directive function:',
-      this.skyURLValidationOptions
-    );
-    if (this.skyURLValidationOptions) {
-      return SkyValidation.isUrl(url, this.skyURLValidationOptions);
+    if (this.skyUrlValidationOptions) {
+      return SkyValidation.isUrl(url, this.skyUrlValidationOptions);
     } else {
       return SkyValidation.isUrl(url);
     }

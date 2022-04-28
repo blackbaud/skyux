@@ -4,15 +4,15 @@ import { FormsModule } from '@angular/forms';
 
 import { SkyUrlValidationModule } from '../url-validation.module';
 
-import { UrlValidationThirdPartyTestComponent } from './url-validation-thirdparty.component.fixture';
+import { UrlValidationRulesetV2TestComponent } from './url-validation-thirdparty.component.fixture';
 import { UrlValidationTestComponent } from './url-validation.component.fixture';
 
 @NgModule({
   declarations: [
     UrlValidationTestComponent,
-    UrlValidationThirdPartyTestComponent,
+    UrlValidationRulesetV2TestComponent,
   ],
   imports: [FormsModule, CommonModule, SkyUrlValidationModule],
-  exports: [UrlValidationTestComponent, UrlValidationThirdPartyTestComponent],
+  exports: [UrlValidationTestComponent, UrlValidationRulesetV2TestComponent],
 })
 export class SkyUrlValidationFixturesModule {}

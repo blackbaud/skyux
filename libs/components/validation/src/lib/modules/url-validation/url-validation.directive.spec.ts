@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
-import { UrlValidationThirdPartyTestComponent } from './fixtures/url-validation-thirdparty.component.fixture';
+import { UrlValidationRulesetV2TestComponent } from './fixtures/url-validation-thirdparty.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
 describe('Url validation', () => {
@@ -109,7 +109,7 @@ describe('Url validation', () => {
   }));
 });
 
-describe('3rd party URL validation', () => {
+describe('URL validation - ruleset v2', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -135,8 +135,8 @@ describe('3rd party URL validation', () => {
     compFixture.detectChanges();
   }
 
-  let component: UrlValidationThirdPartyTestComponent;
-  let fixture: ComponentFixture<UrlValidationThirdPartyTestComponent>;
+  let component: UrlValidationRulesetV2TestComponent;
+  let fixture: ComponentFixture<UrlValidationRulesetV2TestComponent>;
   let ngModel: NgModel;
   let nativeElement: HTMLElement;
 
@@ -144,14 +144,14 @@ describe('3rd party URL validation', () => {
     TestBed.configureTestingModule({
       imports: [SkyUrlValidationFixturesModule, FormsModule],
     });
-    fixture = TestBed.createComponent(UrlValidationThirdPartyTestComponent);
+    fixture = TestBed.createComponent(UrlValidationRulesetV2TestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     const input = fixture.debugElement.query(By.css('input'));
     ngModel = input.injector.get(NgModel);
     component = fixture.componentInstance;
   });
 
-  it('should validate correct input using 3rd party library', fakeAsync(() => {
+  it('should validate correct input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     setInput(nativeElement, 'https://blackbaud.com', fixture);
@@ -166,7 +166,7 @@ describe('3rd party URL validation', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should validate incorrect input using 3rd party library', fakeAsync(() => {
+  it('should validate incorrect input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
@@ -181,7 +181,7 @@ describe('3rd party URL validation', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should handle invalid and then valid input using 3rd party library', fakeAsync(() => {
+  it('should handle invalid and then valid input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
@@ -195,7 +195,7 @@ describe('3rd party URL validation', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should pass accessibility using 3rd party library', async(() => {
+  it('should pass accessibility using ruleset version 2', async(() => {
     fixture.detectChanges();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();

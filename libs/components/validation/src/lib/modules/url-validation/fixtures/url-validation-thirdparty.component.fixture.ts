@@ -1,21 +1,14 @@
 import { Component } from '@angular/core';
 
-import { SkyURLValidationOptions } from '../types/url-validation-options';
+import { SkyURLValidationOptions } from '../models/url-validation-options';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './url-validation.component.fixture.html',
+  templateUrl: './url-validation-thirdparty.component.fixture.html',
 })
-export class UrlValidationThirdPartyTestComponent {
+export class UrlValidationRulesetV2TestComponent {
   public urlValidator: string;
-  public skyURLValidationOptions: SkyURLValidationOptions = {
-    useValidatorLibrary: true,
+  public skyUrlValidationOptions: SkyURLValidationOptions = {
+    rulesetVersion: 2,
   };
-
-  constructor() {
-    console.log(
-      'skyURLValidationOptions in Fixture constructor:',
-      this.skyURLValidationOptions
-    );
-  }
 }

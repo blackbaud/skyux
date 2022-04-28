@@ -1,6 +1,6 @@
 import isURL from 'validator/es/lib/isURL';
 
-import { SkyURLValidationOptions } from '../url-validation/types/url-validation-options';
+import { SkyURLValidationOptions } from '../url-validation/models/url-validation-options';
 
 export abstract class SkyValidation {
   public static isEmail(emailAddress: string): boolean {
@@ -17,10 +17,10 @@ export abstract class SkyValidation {
     urlValidationOptions?: SkyURLValidationOptions
   ): boolean {
     console.log(
-      'skyURLValidationOptions in Validation.ts function',
+      'skyUrlValidationOptions in Validation.ts function',
       urlValidationOptions
     );
-    if (urlValidationOptions && urlValidationOptions.useValidatorLibrary) {
+    if (urlValidationOptions && urlValidationOptions.rulesetVersion === 2) {
       const ourOptions = {
         protocols: ['http', 'https', 'ftp'],
         require_tld: true,
@@ -28,7 +28,7 @@ export abstract class SkyValidation {
         require_host: true,
         require_port: false,
         require_valid_protocol: true,
-        allow_underscores: true,
+        allow_underscores: false,
         host_whitelist: false,
         host_blacklist: false,
         allow_trailing_dot: false,

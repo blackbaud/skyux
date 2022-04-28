@@ -3,7 +3,7 @@
  */
 export interface SkyURLValidationOptions {
   /**
-   * Indicates whether to use the 3rd party validator library.
+   * Indicates which ruleset version of URL validation to use.
    */
-  useValidatorLibrary: boolean;
+  rulesetVersion: 1 | 2;
 }
