@@ -1,9 +1,6 @@
 name: PR Preview
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 jobs:
@@ -38,18 +35,14 @@ jobs:
       - name: Remove old PR builds
         run: |
           set -x
-          ls ./skyux-pr-preview | grep -v README | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
-          git branch -r --format '%(refname:lstrip=3)' > ${{ runner.temp }}/expected_builds_unsorted.txt
-          gh pr list -q '.[] | .number' --state open --json number >> ${{ runner.temp }}/expected_builds_unsorted.txt
-          cat ${{ runner.temp }}/expected_builds_unsorted.txt | sort > ${{ runner.temp }}/expected_builds.txt
+          ls ./skyux-pr-preview | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
+          gh pr list -q '.[] | .number' --state open --json number | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
           if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
           then
             # Get current builds that are not in expected.
-            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d '[:space:]' > ${{ runner.temp }}/old_builds.txt
+            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
             if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
             then
-              ls -l ${{ runner.temp }}/old_builds.txt
-              cat ${{ runner.temp }}/old_builds.txt
               git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
             else
               echo "All builds are current"
@@ -60,20 +53,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Update PR build
-        if: ${{ github.event_name == 'pull_request' }}
         run: |
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
           mkdir -p ./skyux-pr-preview/${{ github.event.number }}
           cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
-          # Other applications can be added here to publish, such as playground or code-examples
-      - name: Update branch build
-        if: ${{ github.event_name == 'push' }}
-        run: |
-          set -x
-          rm -rf ./skyux-pr-preview/${{ github.ref_name }}
-          mkdir -p ./skyux-pr-preview/${{ github.ref_name }}
-          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.ref_name }}/
           # Other applications can be added here to publish, such as playground or code-examples
       - name: Commit build to GH Pages
         run: |
@@ -90,7 +74,6 @@ jobs:
             echo "No changes"
           fi
       - name: Comment on PR
-        if: ${{ github.event_name == 'pull_request' }}
         run: |
           set -x
           if [[ -z "$(gh pr view ${{ github.event.number }} --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
@@ -99,3 +82,7 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Percy
+        run: npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}

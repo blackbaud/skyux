@@ -2829,6 +2829,34 @@
       },
       "tags": []
     },
+    "storybook-e2e": {
+      "root": "apps/storybook-e2e",
+      "sourceRoot": "apps/storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/storybook-e2e/cypress.json",
+            "devServerTarget": "storybook:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "storybook:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["storybook"]
+    },
     "tabs": {
       "projectType": "library",
       "root": "libs/components/tabs",

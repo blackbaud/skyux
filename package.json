@@ -5,12 +5,12 @@
   "scripts": {
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main",
-    "build": "nx run-many --target=build --all --parallel --maxParallel=5 --exclude=ci",
-    "postbuild": "nx run-many --target=postbuild --all --parallel --maxParallel=5 --exclude=ci",
-    "build:affected": "nx affected:build --parallel --maxParallel=5 && nx affected --target=postbuild --parallel --maxParallel=5 --exclude=ci",
-    "test": "nx run-many --target=test --all --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci",
-    "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5 --exclude=ci",
-    "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci && nx affected --target=posttest --parallel --maxParallel=5 --exclude=ci",
+    "build": "nx run-many --target=build --all --parallel --maxParallel=5 --exclude=ci,storybook",
+    "postbuild": "nx run-many --target=postbuild --all --parallel --maxParallel=5 --exclude=ci,storybook",
+    "build:affected": "nx affected:build --parallel --maxParallel=5 && nx affected --target=postbuild --parallel --maxParallel=5 --exclude=ci,storybook",
+    "test": "nx run-many --target=test --all --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci,storybook",
+    "posttest": "nx run-many --target=posttest --all --parallel --maxParallel=5 --exclude=ci,storybook",
+    "test:affected": "nx affected:test --browsers=ChromeHeadless --parallel --maxParallel=5 --exclude=ci,storybook && nx affected --target=posttest --parallel --maxParallel=5 --exclude=ci,storybook",
     "dev:check-library-dependencies": "skyux-dev check-lib-dependencies",
     "dev:check-library-missing-peers": "skyux-dev check-lib-missing-peers",
     "dev:cherry-pick": "skyux-dev cherry-pick",
@@ -78,6 +78,15 @@
       }
     }
   },
+  "percy": {
+    "version": 2,
+    "snapshot": {
+      "widths": [
+        375,
+        1280
+      ]
+    }
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "13.3.2",
@@ -134,6 +143,7 @@
     "@nrwl/workspace": "13.10.2",
     "@percy/cli": "1.1.0",
     "@percy/cypress": "3.1.1",
+    "@percy/storybook": "4.2.0",
     "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#0e14811f6611ca64190fa354defffd1e97a7eba8",
     "@storybook/addon-a11y": "6.4.22",
     "@storybook/addon-essentials": "6.4.22",
