@@ -16,7 +16,7 @@ import {
 })
 export class SkyListFilterInlineItemRendererComponent implements OnInit {
   @Input()
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
   @Input()
   public filter: any;
 

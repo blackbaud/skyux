@@ -205,7 +205,7 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
   @ViewChild('timepickerTemplateRef', {
     read: TemplateRef,
   })
-  private timepickerTemplateRef: TemplateRef<any>;
+  private timepickerTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonRef', {
     read: ElementRef,
@@ -216,13 +216,13 @@ export class SkyTimepickerComponent implements OnInit, OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private triggerButtonTemplateRef: TemplateRef<any>;
+  private triggerButtonTemplateRef: TemplateRef<unknown>;
 
   private affixer: SkyAffixer;
 

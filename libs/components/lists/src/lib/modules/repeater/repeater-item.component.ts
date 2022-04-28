@@ -69,7 +69,7 @@ export class SkyRepeaterItemComponent
    * as a template to instantiate an inline form within the repeater.
    */
   @Input()
-  public inlineFormTemplate: TemplateRef<any>;
+  public inlineFormTemplate: TemplateRef<unknown>;
 
   /**
    * Indicates whether the repeater item is expanded.

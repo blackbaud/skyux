@@ -54,19 +54,19 @@ export class SkyInputBoxComponent implements OnInit {
   @Input()
   public disabled: boolean;
 
-  public hostInputTemplate: TemplateRef<any>;
+  public hostInputTemplate: TemplateRef<unknown>;
 
-  public hostButtonsTemplate: TemplateRef<any>;
+  public hostButtonsTemplate: TemplateRef<unknown>;
 
-  public hostButtonsInsetTemplate: TemplateRef<any>;
+  public hostButtonsInsetTemplate: TemplateRef<unknown>;
 
-  public hostButtonsLeftTemplate: TemplateRef<any>;
+  public hostButtonsLeftTemplate: TemplateRef<unknown>;
 
   public formControlHasFocus: boolean;
 
-  public hostIconsInsetTemplate: TemplateRef<any>;
+  public hostIconsInsetTemplate: TemplateRef<unknown>;
 
-  public hostIconsInsetLeftTemplate: TemplateRef<any>;
+  public hostIconsInsetLeftTemplate: TemplateRef<unknown>;
 
   @ContentChild(FormControlDirective)
   public formControl: FormControlDirective;
