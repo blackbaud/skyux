@@ -1302,7 +1302,7 @@
           "options": {
             "uiFramework": "@storybook/angular",
             "port": 4400,
-            "projectBuildConfig": "indicators",
+            "projectBuildConfig": "indicators:build-storybook",
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
             }
@@ -1322,11 +1322,8 @@
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
             },
-            "projectBuildConfig": "indicators",
-            "styles": [
-              "libs/components/theme/src/lib/styles/sky.scss",
-              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
-            ]
+            "projectBuildConfig": "indicators:build-storybook",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"]
           },
           "configurations": {
             "ci": {

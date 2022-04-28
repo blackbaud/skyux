@@ -1,7 +1,10 @@
-name: PR Preview
+name: Storybook
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
+      - 6.x.x
 
 jobs:
   publish:
@@ -27,23 +30,23 @@ jobs:
         run: npx nx run storybook:build
       - uses: actions/checkout@v3
         with:
-          repository: 'blackbaud/skyux-pr-preview'
+          repository: 'blackbaud/skyux-storybook'
           ref: 'main'
           fetch-depth: 1
-          path: skyux-pr-preview
+          path: skyux-storybook
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Remove old PR builds
+      - name: Remove old branch builds
         run: |
           set -x
-          ls ./skyux-pr-preview | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
-          gh pr list -q '.[] | .number' --state open --json number | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
+          ls -d ./skyux-storybook/*/ | cut -f3 -d/ | sort > ${{ runner.temp }}/current_builds.txt
+          git branch -r --format '%(refname:lstrip=3)' | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
           if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
           then
             # Get current builds that are not in expected.
             comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
             if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
             then
-              git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
+              git -C ./skyux-storybook rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
             else
               echo "All builds are current"
             fi
@@ -52,37 +55,26 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Update PR build
+      - name: Update branch build
         run: |
           set -x
-          rm -rf ./skyux-pr-preview/${{ github.event.number }}
-          mkdir -p ./skyux-pr-preview/${{ github.event.number }}
-          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
-          # Other applications can be added here to publish, such as playground or code-examples
+          rm -rf ./skyux-storybook/${{ github.ref_name }}
+          cp -R ./dist/storybook/storybook ./skyux-storybook/${{ github.ref_name }}
       - name: Commit build to GH Pages
         run: |
           set -x
           git config --global user.name "Blackbaud Sky Build User"
           git config --global user.email "sky-build-user@blackbaud.com"
-          git -C ./skyux-pr-preview add --all
-          git -C ./skyux-pr-preview status
-          if [[ -n "$(git -C ./skyux-pr-preview status -s)" ]]
+          git -C ./skyux-storybook add --all
+          git -C ./skyux-storybook status
+          if [[ -n "$(git -C ./skyux-storybook status -s)" ]]
           then
-            git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
-            git -C ./skyux-pr-preview push
+            git -C ./skyux-storybook commit -m "$(printf 'skyux %s commit %s' ${{ github.ref_name }} ${GITHUB_SHA:0:8})"
+            git -C ./skyux-storybook push
           else
             echo "No changes"
           fi
-      - name: Comment on PR
-        run: |
-          set -x
-          if [[ -z "$(gh pr view ${{ github.event.number }} --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
-          then
-            gh pr comment ${{ github.event.number }} -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
-          fi
-        env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Percy
-        run: npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
+        run: npx percy storybook https://blackbaud.github.io/skyux-storybook/${{ github.ref_name }}/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}

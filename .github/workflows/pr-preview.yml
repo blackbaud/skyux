@@ -1,0 +1,90 @@
+name: PR Preview
+
+on:
+  pull_request:
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build Storybook
+        run: npx nx run storybook:build
+      - uses: actions/checkout@v3
+        with:
+          repository: 'blackbaud/skyux-pr-preview'
+          ref: 'main'
+          fetch-depth: 1
+          path: skyux-pr-preview
+          token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Remove old PR builds
+        run: |
+          set -x
+          ls ./skyux-pr-preview | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
+          gh pr list -q '.[] | .number' --state open --json number | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
+          if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
+          then
+            # Get current builds that are not in expected.
+            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
+            if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
+            then
+              git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
+            else
+              echo "All builds are current"
+            fi
+          else
+            echo "Nothing to remove"
+          fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Update PR build
+        run: |
+          set -x
+          rm -rf ./skyux-pr-preview/${{ github.event.number }}
+          mkdir -p ./skyux-pr-preview/${{ github.event.number }}
+          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
+          # Other applications can be added here to publish, such as playground or code-examples
+      - name: Commit build to GH Pages
+        run: |
+          set -x
+          git config --global user.name "Blackbaud Sky Build User"
+          git config --global user.email "sky-build-user@blackbaud.com"
+          git -C ./skyux-pr-preview add --all
+          git -C ./skyux-pr-preview status
+          if [[ -n "$(git -C ./skyux-pr-preview status -s)" ]]
+          then
+            git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
+            git -C ./skyux-pr-preview push
+          else
+            echo "No changes"
+          fi
+      - name: Comment on PR
+        run: |
+          set -x
+          if [[ -z "$(gh pr view ${{ github.event.number }} --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
+          then
+            gh pr comment ${{ github.event.number }} -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
+          fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Percy
+        run: |
+          npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
+          npx percy exec -- nx run indicators-e2e:e2e
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}
