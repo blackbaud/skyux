@@ -17,6 +17,7 @@ import { SkyPopoverContentComponent } from './popover-content.component';
 import { SkyPopoverContext } from './popover-context';
 import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
+import { SkyPopoverType } from './types/popover-type';
 
 @Component({
   selector: 'sky-popover',
@@ -25,8 +26,7 @@ import { SkyPopoverPlacement } from './types/popover-placement';
 export class SkyPopoverComponent implements OnDestroy {
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
-   * The `skyPopoverAlignment` property on the popover directive overwrites this property.
-   * Options include:`"center"`, `"right"`, and `'"left"`.
+   * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
    * @default "center"
    */
   @Input()
@@ -58,8 +58,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
-   * The `skyPopoverPlacement` property on the popover directive overwrites this property.
-   * Options include:`"above"`, `"below"`, `"right"`, and `"left"`.
+   * The `skyPopoverPlacement` property on the popover directive takes precedence over this property when specified.
    * @default "above"
    */
   @Input()
@@ -79,11 +78,10 @@ export class SkyPopoverComponent implements OnDestroy {
 
   /**
    * Specifies the type of popover.
-   * Options include `"info"` and `"danger"`.
    * @default "info"
    */
   @Input()
-  public popoverType: 'danger' | 'info';
+  public popoverType: SkyPopoverType;
 
   /**
    * Fires when users close the popover.

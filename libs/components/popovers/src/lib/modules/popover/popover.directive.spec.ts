@@ -743,6 +743,30 @@ describe('Popover directive', () => {
   });
 
   describe('message stream', function () {
+    it('should setup a message stream if none provided', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      expect(
+        fixture.componentInstance.noArgsDirectiveRef.skyPopoverMessageStream
+      ).toBeDefined();
+    }));
+
+    it('should setup a message stream if set to `undefined`', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      expect(fixture.componentInstance.messageStream).toEqual(
+        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+      );
+
+      fixture.componentInstance.messageStream = undefined;
+
+      detectChangesFakeAsync();
+
+      expect(
+        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+      ).toBeDefined();
+    }));
+
     it('should open and close the popover', fakeAsync(() => {
       detectChangesFakeAsync();
 
@@ -878,7 +902,6 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'above',
-        verticalAlignment: 'bottom',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
@@ -897,7 +920,6 @@ describe('Popover directive', () => {
         horizontalAlignment: 'center',
         isSticky: true,
         placement: 'below',
-        verticalAlignment: 'top',
       });
 
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Close);
