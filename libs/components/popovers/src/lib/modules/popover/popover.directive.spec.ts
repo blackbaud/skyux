@@ -747,7 +747,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.noArgsDirectiveRef.messageStream
+        fixture.componentInstance.noArgsDirectiveRef.skyPopoverMessageStream
       ).toBeDefined();
     }));
 
