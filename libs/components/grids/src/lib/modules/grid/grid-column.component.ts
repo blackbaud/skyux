@@ -122,7 +122,7 @@ export class SkyGridColumnComponent implements OnChanges {
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('template')
-  public templateInput: TemplateRef<any>;
+  public templateInput: TemplateRef<unknown>;
 
   /**
    * Specifies the width of the column in pixels.
@@ -145,7 +145,7 @@ export class SkyGridColumnComponent implements OnChanges {
     new EventEmitter<SkyGridColumnInlineHelpPopoverModelChange>();
 
   @ContentChildren(TemplateRef)
-  private templates: QueryList<TemplateRef<any>>;
+  private templates: QueryList<TemplateRef<unknown>>;
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.heading && changes.heading.firstChange === false) {
@@ -176,7 +176,7 @@ export class SkyGridColumnComponent implements OnChanges {
     }
   }
 
-  public get template(): TemplateRef<any> {
+  public get template(): TemplateRef<unknown> {
     if (this.templates.length > 0) {
       return this.templates.first;
     }

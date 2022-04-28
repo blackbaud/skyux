@@ -31,8 +31,10 @@ export class SkyListToolbarItemComponent {
    * @default "left"
    */
   @Input() public location = 'left';
-  @ContentChildren(TemplateRef) private templates: QueryList<TemplateRef<any>>;
-  public get template(): TemplateRef<any> {
+  @ContentChildren(TemplateRef) private templates: QueryList<
+    TemplateRef<unknown>
+  >;
+  public get template(): TemplateRef<unknown> {
     return this.templates.length > 0 ? this.templates.first : undefined;
   }
 }

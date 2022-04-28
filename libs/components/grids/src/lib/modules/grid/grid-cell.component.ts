@@ -26,7 +26,7 @@ export class SkyGridCellComponent implements OnInit {
   public columnId: string;
 
   @Input()
-  private template: TemplateRef<any>;
+  private template: TemplateRef<unknown>;
 
   @Input()
   private fieldSelector: string;

@@ -18,5 +18,5 @@ export class SkyDescriptionListTermComponent {
     read: TemplateRef,
     static: true,
   })
-  public templateRef: TemplateRef<any>;
+  public templateRef: TemplateRef<unknown>;
 }

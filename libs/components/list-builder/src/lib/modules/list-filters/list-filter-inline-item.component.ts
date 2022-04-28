@@ -55,12 +55,12 @@ export class SkyListFilterInlineItemComponent implements OnInit {
    */
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('template')
-  public templateInput: TemplateRef<any>;
+  public templateInput: TemplateRef<unknown>;
 
   public onChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ContentChildren(TemplateRef)
-  private templates: QueryList<TemplateRef<any>>;
+  private templates: QueryList<TemplateRef<unknown>>;
 
   public ngOnInit() {
     if (this.name === undefined || this.name.length === 0) {
@@ -68,7 +68,7 @@ export class SkyListFilterInlineItemComponent implements OnInit {
     }
   }
 
-  public get template(): TemplateRef<any> {
+  public get template(): TemplateRef<unknown> {
     return this.templates.length > 0
       ? this.templates.first
       : this.templateInput;

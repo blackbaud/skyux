@@ -44,5 +44,5 @@ export class SkyAgGridRowDeleteComponent {
   @ViewChildren('inlineDeleteRef')
   public inlineDeleteRefs: QueryList<ElementRef>;
   @ViewChild('inlineDeleteTemplateRef', { read: TemplateRef })
-  public inlineDeleteTemplateRef: TemplateRef<any>;
+  public inlineDeleteTemplateRef: TemplateRef<unknown>;
 }
