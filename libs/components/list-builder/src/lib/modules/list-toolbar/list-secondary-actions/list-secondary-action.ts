@@ -5,5 +5,5 @@ import { TemplateRef } from '@angular/core';
  * @deprecated
  */
 export interface SkyListSecondaryAction {
-  template: TemplateRef<any>;
+  template: TemplateRef<unknown>;
 }

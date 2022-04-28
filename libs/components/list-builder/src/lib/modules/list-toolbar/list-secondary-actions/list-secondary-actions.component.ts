@@ -29,7 +29,7 @@ export class SkyListSecondaryActionsComponent implements AfterViewInit {
     read: TemplateRef,
     static: true,
   })
-  private secondaryActionsTemplate: TemplateRef<any>;
+  private secondaryActionsTemplate: TemplateRef<unknown>;
 
   private secondaryActionsItemToolbarIndex = 5000;
 

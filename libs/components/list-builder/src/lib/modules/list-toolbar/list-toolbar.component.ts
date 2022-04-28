@@ -190,19 +190,19 @@ export class SkyListToolbarComponent
     read: TemplateRef,
     static: true,
   })
-  private searchTemplate: TemplateRef<any>;
+  private searchTemplate: TemplateRef<unknown>;
 
   @ViewChild('sortSelector', {
     read: TemplateRef,
     static: true,
   })
-  private sortSelectorTemplate: TemplateRef<any>;
+  private sortSelectorTemplate: TemplateRef<unknown>;
 
   @ViewChild('inlineFilterButton', {
     read: TemplateRef,
     static: true,
   })
-  private inlineFilterButtonTemplate: TemplateRef<any>;
+  private inlineFilterButtonTemplate: TemplateRef<unknown>;
 
   private customItemIds: string[] = [];
   private hasSortSelectors = false;

@@ -188,11 +188,11 @@ export class SkyAutocompleteComponent
    * as `item` variables that reference all of the object properties of the search results.
    */
   @Input()
-  public set searchResultTemplate(value: TemplateRef<any>) {
+  public set searchResultTemplate(value: TemplateRef<unknown>) {
     this._searchResultTemplate = value;
   }
 
-  public get searchResultTemplate(): TemplateRef<any> {
+  public get searchResultTemplate(): TemplateRef<unknown> {
     return this._searchResultTemplate || this.defaultSearchResultTemplate;
   }
 
@@ -325,7 +325,7 @@ export class SkyAutocompleteComponent
     read: TemplateRef,
     static: false,
   })
-  private defaultSearchResultTemplate: TemplateRef<any>;
+  private defaultSearchResultTemplate: TemplateRef<unknown>;
 
   @ContentChild(SkyAutocompleteInputDirective)
   private set inputDirective(directive: SkyAutocompleteInputDirective) {
@@ -383,7 +383,7 @@ export class SkyAutocompleteComponent
   @ViewChild('resultsTemplateRef', {
     read: TemplateRef,
   })
-  private resultsTemplateRef: TemplateRef<any>;
+  private resultsTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('resultsRef', {
     read: ElementRef,
@@ -434,7 +434,7 @@ export class SkyAutocompleteComponent
   private _resultsRef: ElementRef;
   private _search: SkyAutocompleteSearchFunction;
   private _searchResults: SkyAutocompleteSearchResult[];
-  private _searchResultTemplate: TemplateRef<any>;
+  private _searchResultTemplate: TemplateRef<unknown>;
   private _searchResultsLimit: number;
   private _searchTextMinimumCharacters: number;
   private _selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();

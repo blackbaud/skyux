@@ -16,7 +16,7 @@ import {
 })
 export class SkyListToolbarItemRendererComponent implements OnInit {
   @Input()
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
 
   @ViewChild('container', {
     read: ViewContainerRef,

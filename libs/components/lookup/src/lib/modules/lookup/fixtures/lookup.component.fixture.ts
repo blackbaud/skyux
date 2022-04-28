@@ -37,10 +37,10 @@ export class SkyLookupTestComponent implements OnInit {
   public lookupComponent: SkyLookupComponent;
 
   @ViewChild('customSearchResultTemplate')
-  public searchResultTemplate: TemplateRef<any>;
+  public searchResultTemplate: TemplateRef<unknown>;
 
   @ViewChild('customShowMoreTemplate')
-  public showMoreTemplate: TemplateRef<any>;
+  public showMoreTemplate: TemplateRef<unknown>;
 
   public ariaLabel: string;
   public ariaLabelledBy: string;
@@ -49,7 +49,7 @@ export class SkyLookupTestComponent implements OnInit {
   public customSearch: SkyAutocompleteSearchFunction;
   public data: any[];
   public descriptorProperty: string;
-  public enabledSearchResultTemplate: TemplateRef<any>;
+  public enabledSearchResultTemplate: TemplateRef<unknown>;
   public enableShowMore = false;
   public form: FormGroup;
   public idProperty: string;
