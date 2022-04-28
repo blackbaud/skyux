@@ -70,7 +70,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   private _trigger: SkyPopoverTrigger;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) {
+    this.subscribeMessageStream();
+  }
 
   public ngOnInit(): void {
     this.addEventListeners();
