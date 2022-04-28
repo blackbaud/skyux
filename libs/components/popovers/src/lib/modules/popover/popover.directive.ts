@@ -35,22 +35,15 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public set skyPopoverMessageStream(
     value: Subject<SkyPopoverMessage> | undefined
   ) {
-    this.unsubscribeMessageStream();
-
     this._skyPopoverMessageStream = value ?? new Subject<SkyPopoverMessage>();
-
-    this.#messageStreamSub = this._skyPopoverMessageStream.subscribe(
-      (message) => {
-        this.handleIncomingMessages(message);
-      }
-    );
+    this.subscribeMessageStream();
   }
 
   public get skyPopoverMessageStream(): Subject<SkyPopoverMessage> {
     return this._skyPopoverMessageStream;
   }
 
-  private _skyPopoverMessageStream: Subject<SkyPopoverMessage>;
+  private _skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
 
   #messageStreamSub: Subscription | undefined;
 
@@ -81,11 +74,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.addEventListeners();
-
-    // Set to undefined to create a default message stream.
-    if (!this.skyPopoverMessageStream) {
-      this.skyPopoverMessageStream = undefined;
-    }
   }
 
   public ngOnDestroy(): void {
@@ -239,6 +227,16 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   private sendMessage(messageType: SkyPopoverMessageType): void {
     this.skyPopoverMessageStream.next({ type: messageType });
+  }
+
+  private subscribeMessageStream(): void {
+    this.unsubscribeMessageStream();
+
+    this.#messageStreamSub = this.skyPopoverMessageStream.subscribe(
+      (message) => {
+        this.handleIncomingMessages(message);
+      }
+    );
   }
 
   private unsubscribeMessageStream(): void {

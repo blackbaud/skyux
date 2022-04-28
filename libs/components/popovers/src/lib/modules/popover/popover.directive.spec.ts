@@ -751,6 +751,22 @@ describe('Popover directive', () => {
       ).toBeDefined();
     }));
 
+    it('should setup a message stream if set to `undefined`', fakeAsync(() => {
+      detectChangesFakeAsync();
+
+      expect(fixture.componentInstance.messageStream).toEqual(
+        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+      );
+
+      fixture.componentInstance.messageStream = undefined;
+
+      detectChangesFakeAsync();
+
+      expect(
+        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+      ).toBeDefined();
+    }));
+
     it('should open and close the popover', fakeAsync(() => {
       detectChangesFakeAsync();
 
