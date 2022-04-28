@@ -54,6 +54,14 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   })
   public directiveRef: SkyPopoverDirective;
 
+  /**
+   * Used to test popover directives that do not set any inputs.
+   */
+  @ViewChild('noArgsDirectiveRef', {
+    read: SkyPopoverDirective,
+  })
+  public noArgsDirectiveRef: SkyPopoverDirective;
+
   @ViewChild('popoverRef', {
     read: SkyPopoverComponent,
     static: true,
