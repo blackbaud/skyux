@@ -190,7 +190,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private menuContainerTemplateRef: TemplateRef<any>;
+  private menuContainerTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButton', {
     read: ElementRef,

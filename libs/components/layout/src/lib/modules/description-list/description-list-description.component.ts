@@ -33,7 +33,7 @@ export class SkyDescriptionListDescriptionComponent
     read: TemplateRef,
     static: true,
   })
-  public templateRef: TemplateRef<any>;
+  public templateRef: TemplateRef<unknown>;
 
   private ngUnsubscribe = new Subject<void>();
 

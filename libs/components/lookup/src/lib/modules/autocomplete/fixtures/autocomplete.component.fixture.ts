@@ -47,7 +47,7 @@ export class SkyAutocompleteFixtureComponent {
   public search: SkyAutocompleteSearchFunction;
   public searchFilters: SkyAutocompleteSearchFunctionFilter[];
   public searchResultsLimit: number;
-  public searchResultTemplate: TemplateRef<any>;
+  public searchResultTemplate: TemplateRef<unknown>;
   public searchTextMinimumCharacters: number;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
   public showAddButton = false;
@@ -85,7 +85,7 @@ export class SkyAutocompleteFixtureComponent {
     read: TemplateRef,
     static: true,
   })
-  public customSearchResultTemplate: TemplateRef<any>;
+  public customSearchResultTemplate: TemplateRef<unknown>;
 
   public addButtonClicked(): void {
     return;

@@ -170,7 +170,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   @ViewChild('calendarTemplateRef', {
     read: TemplateRef,
   })
-  private calendarTemplateRef: TemplateRef<any>;
+  private calendarTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonRef', {
     read: ElementRef,
@@ -181,13 +181,13 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private triggerButtonTemplateRef: TemplateRef<any>;
+  private triggerButtonTemplateRef: TemplateRef<unknown>;
 
   private affixer: SkyAffixer;
 

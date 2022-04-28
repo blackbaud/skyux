@@ -16,7 +16,7 @@ export class InputBoxVisualHostComponent implements OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   constructor(@Optional() public inputBoxHostSvc?: SkyInputBoxHostService) {}
 

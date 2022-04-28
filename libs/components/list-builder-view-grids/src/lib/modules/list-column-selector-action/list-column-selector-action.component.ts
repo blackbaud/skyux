@@ -65,7 +65,7 @@ export class SkyListColumnSelectorActionComponent implements AfterContentInit {
   @ViewChild('columnChooser', {
     static: true,
   })
-  private columnChooserTemplate: TemplateRef<any>;
+  private columnChooserTemplate: TemplateRef<unknown>;
 
   private columnSelectorActionItemToolbarIndex = 7000;
 

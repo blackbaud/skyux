@@ -226,13 +226,13 @@ export class SkyCountryFieldComponent
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('searchIconTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef: TemplateRef<any>;
+  private searchIconTemplateRef: TemplateRef<unknown>;
 
   private defaultCountryData: SkyCountryFieldCountry;
 

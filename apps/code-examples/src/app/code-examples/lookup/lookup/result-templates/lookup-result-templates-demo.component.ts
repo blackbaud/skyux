@@ -103,7 +103,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
   };
 
   @ViewChild('modalItemTemplate')
-  public set modalItemTempalte(template: TemplateRef<any>) {
+  public set modalItemTempalte(template: TemplateRef<unknown>) {
     this.showMoreConfig.nativePickerConfig.itemTemplate = template;
   }
 
