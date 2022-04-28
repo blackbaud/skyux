@@ -20,8 +20,14 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress
+        id: cypress-cache
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/.cache/Cypress
+          key: cache-cypress-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build Storybook
         run: npx nx run storybook:build
