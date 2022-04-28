@@ -93,6 +93,6 @@ jobs:
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}
       - name: Percy e2e
-        run: npx percy exec -- nx run indicators-e2e:e2e
+        run: npx percy exec -- nx run indicators-e2e:e2e --skip-nx-cache
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_E2E}}
