@@ -231,17 +231,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         placement: parseAffixPlacement(this.placement),
       };
 
-      // Ensure that we are positioning the vertical alginment correctly. These
-      // are the default alignments for all popovers but ensure that we are future proof here.
+      // Ensure vertical alignment is set according to the popover's placement value.
       if (
         affixOptions.placement === 'left' ||
         affixOptions.placement === 'right'
       ) {
         affixOptions.verticalAlignment = 'middle';
-      } else if (affixOptions.placement === 'above') {
-        affixOptions.verticalAlignment = 'bottom';
-      } else {
-        affixOptions.verticalAlignment = 'top';
       }
 
       this.affixer.affixTo(this.caller.nativeElement, affixOptions);

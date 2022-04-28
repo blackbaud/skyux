@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'core',
+    loadChildren: () =>
+      import('./features/core.module').then((m) => m.CoreFeatureModule),
+  },
+  {
     path: 'forms',
     loadChildren: () =>
       import('./features/forms.module').then((m) => m.FormsModule),
@@ -38,9 +43,9 @@ const routes: Routes = [
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
   },
   {
-    path: 'core',
+    path: 'popovers',
     loadChildren: () =>
-      import('./features/core.module').then((m) => m.CoreFeatureModule),
+      import('./features/popovers.module').then((m) => m.PopoversFeatureModule),
   },
   {
     path: 'tabs',
