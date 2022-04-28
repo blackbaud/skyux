@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
-import { UrlValidationRulesetV2TestComponent } from './fixtures/url-validation-thirdparty.component.fixture';
+import { UrlValidationRulesetV2TestComponent } from './fixtures/url-validation-ruleset-v2.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
 describe('Url validation', () => {

@@ -21,6 +21,9 @@ export abstract class SkyValidation {
       urlValidationOptions
     );
     if (urlValidationOptions && urlValidationOptions.rulesetVersion === 2) {
+      /**
+       * these are the default options for Validator.js
+       */
       const ourOptions = {
         protocols: ['http', 'https', 'ftp'],
         require_tld: true,

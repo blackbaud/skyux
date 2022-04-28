@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { SkyUrlValidationModule } from '../url-validation.module';
 
-import { UrlValidationRulesetV2TestComponent } from './url-validation-thirdparty.component.fixture';
+import { UrlValidationRulesetV2TestComponent } from './url-validation-ruleset-v2.component.fixture';
 import { UrlValidationTestComponent } from './url-validation.component.fixture';
 
 @NgModule({
