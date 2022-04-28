@@ -723,13 +723,25 @@ describe('datepicker', () => {
         expect(ngModel.touched).toBe(true);
       }));
 
-      it('should validate properly when invalid date on model change', fakeAsync(() => {
+      it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
         setInputProperty('abcdebf', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('abcdebf');
         expect(component.selectedDate).toBe('abcdebf');
+        expect(ngModel.valid).toBe(false);
+      }));
+
+      it('should validate properly when invalid date on model change', fakeAsync(() => {
+        detectChanges(fixture);
+        const invalidDate = new Date('abcdebf');
+
+        component.selectedDate = invalidDate;
+        detectChanges(fixture);
+
+        expect(getInputElementValue(fixture)).toBe('Invalid date');
+        expect(component.selectedDate).toBe(invalidDate);
         expect(ngModel.valid).toBe(false);
       }));
 
@@ -810,6 +822,78 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('abcdebf');
         expect(component.selectedDate).toBe('abcdebf');
         expect(ngModel.valid).toBe(true);
+      }));
+    });
+
+    describe('shortcut functionality', () => {
+      let ngModel: NgModel;
+      beforeEach(() => {
+        const inputElement = fixture.debugElement.query(By.css('input'));
+        ngModel = inputElement.injector.get(NgModel);
+      });
+
+      it(`should validate properly when a integer is given but is outside the current month's number of days`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputProperty('1995', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('1995');
+        expect(component.selectedDate).toBe('1995');
+        expect(ngModel.valid).toBe(false);
+      }));
+
+      it(`should validate properly when a zero is given`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputProperty('0', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('0');
+        expect(component.selectedDate).toBe('0');
+        expect(ngModel.valid).toBe(false);
+      }));
+
+      it(`should validate properly when a negative number is given`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputProperty('-1', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('-1');
+        expect(component.selectedDate).toBe('-1');
+        expect(ngModel.valid).toBe(false);
+      }));
+
+      it(`should convert an integer in the current month to a date in that month`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        const currentDate = new Date();
+        const monthString = (currentDate.getMonth() + 1).toLocaleString(
+          'en-US',
+          {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          }
+        );
+
+        setInputProperty('15', component, fixture);
+
+        const expectedDateString =
+          monthString + '/15/' + currentDate.getFullYear();
+        expect(getInputElementValue(fixture)).toBe(expectedDateString);
+        expect(component.selectedDate).toEqual(new Date(expectedDateString));
+        expect(ngModel.valid).toBe(true);
+      }));
+
+      it(`should not convert an integer not in the current month but that is valid for another month`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        const baseTime = new Date('2/2/22');
+        jasmine.clock().mockDate(baseTime);
+
+        setInputProperty('30', component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('30');
+        expect(component.selectedDate).toEqual('30');
+        expect(ngModel.valid).toBe(false);
       }));
     });
 
@@ -1385,13 +1469,24 @@ describe('datepicker', () => {
         expect(component.dateControl.touched).toBe(true);
       }));
 
-      it('should validate properly when invalid date on model change', fakeAsync(() => {
+      it('should validate properly when invalid string on model change', fakeAsync(() => {
         detectChanges(fixture);
 
         setFormControlProperty('abcdebf', component, fixture);
 
         expect(getInputElementValue(fixture)).toBe('abcdebf');
         expect(component.dateControl.value).toBe('abcdebf');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when invalid date on model change', fakeAsync(() => {
+        detectChanges(fixture);
+        const invalidDate = new Date('abcdebf');
+
+        setFormControlProperty(invalidDate, component, fixture);
+
+        expect(getInputElementValue(fixture)).toBe('Invalid date');
+        expect(component.dateControl.value).toBe(invalidDate);
         expect(component.dateControl.valid).toBe(false);
       }));
 
@@ -1437,6 +1532,74 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('abcdebf');
         expect(component.dateControl.value).toBe('abcdebf');
         expect(component.dateControl.valid).toBe(true);
+      }));
+    });
+
+    describe('shortcut functionality', () => {
+      it(`should validate properly when a integer is given but is outside the current month's number of days`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputElementValue(fixture.nativeElement, '1995', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('1995');
+        expect(component.dateControl.value).toBe('1995');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it(`should validate properly when a zero is given`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputElementValue(fixture.nativeElement, '0', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('0');
+        expect(component.dateControl.value).toBe('0');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it(`should validate properly when a negative number is given`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        setInputElementValue(fixture.nativeElement, '-1', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('-1');
+        expect(component.dateControl.value).toBe('-1');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it(`should convert an integer in the current month to a date in that month`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        const currentDate = new Date();
+        const monthString = (currentDate.getMonth() + 1).toLocaleString(
+          'en-US',
+          {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          }
+        );
+
+        setInputElementValue(fixture.nativeElement, '15', fixture);
+
+        const expectedDateString =
+          monthString + '/15/' + currentDate.getFullYear();
+        expect(getInputElementValue(fixture)).toBe(expectedDateString);
+        expect(component.dateControl.value).toEqual(
+          new Date(expectedDateString)
+        );
+        expect(component.dateControl.valid).toBe(true);
+      }));
+
+      it(`should not convert an integer not in the current month but that is valid for another month`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        const baseTime = new Date('2/2/22');
+        jasmine.clock().mockDate(baseTime);
+
+        setInputElementValue(fixture.nativeElement, '30', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('30');
+        expect(component.dateControl.value).toEqual('30');
+        expect(component.dateControl.valid).toBe(false);
       }));
     });
 

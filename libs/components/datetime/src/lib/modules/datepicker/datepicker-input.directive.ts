@@ -353,16 +353,55 @@ export class SkyDatepickerInputDirective
       return;
     }
 
-    const value: any = control.value;
+    const value: unknown = control.value;
 
     if (!value) {
       return;
     }
 
-    const dateValue = this.getDateValue(value);
-    const isDateValid = dateValue && this.dateFormatter.dateIsValid(dateValue);
+    if (value instanceof Date) {
+      const isDateValid = this.dateFormatter.dateIsValid(value);
 
-    if (!isDateValid || !this.isDateStringValid(value)) {
+      if (!isDateValid) {
+        // Mark the invalid control as touched so that the input's invalid CSS styles appear.
+        // (This is only required when the invalid value is set by the FormControl constructor.)
+        this.control.markAsTouched();
+
+        return {
+          skyDate: {
+            invalid: value,
+          },
+        };
+      }
+
+      const minDate = this.minDate;
+
+      if (
+        minDate &&
+        this.dateFormatter.dateIsValid(minDate) &&
+        value < minDate
+      ) {
+        return {
+          skyDate: {
+            minDate,
+          },
+        };
+      }
+
+      const maxDate = this.maxDate;
+
+      if (
+        maxDate &&
+        this.dateFormatter.dateIsValid(maxDate) &&
+        value > maxDate
+      ) {
+        return {
+          skyDate: {
+            maxDate,
+          },
+        };
+      }
+    } else {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
       this.control.markAsTouched();
@@ -370,26 +409,6 @@ export class SkyDatepickerInputDirective
       return {
         skyDate: {
           invalid: value,
-        },
-      };
-    }
-
-    const minDate = this.minDate;
-
-    if (minDate && this.dateFormatter.dateIsValid(minDate) && value < minDate) {
-      return {
-        skyDate: {
-          minDate,
-        },
-      };
-    }
-
-    const maxDate = this.maxDate;
-
-    if (maxDate && this.dateFormatter.dateIsValid(maxDate) && value > maxDate) {
-      return {
-        skyDate: {
-          maxDate,
         },
       };
     }
@@ -440,22 +459,43 @@ export class SkyDatepickerInputDirective
     this.renderer.setProperty(this.elementRef.nativeElement, 'value', value);
   }
 
-  private getDateValue(value: any): Date {
-    let dateValue: Date;
+  /**
+   * Gets the date value from a value - if possible.
+   * Will not convert unconvertable dates or numbers outside of the current month's number of days.
+   * Returns `undefined` if the value can not be converted.
+   */
+  private getDateValue(value: unknown): Date | undefined {
     if (value instanceof Date) {
-      dateValue = value;
+      return value;
     } else if (typeof value === 'string') {
+      return this.getShortcutOrDateValue(value);
+    }
+  }
+
+  /**
+   * Converts a string to a date object if the string is a valid date string.
+   * It will also convert numeric input to a date if that number is within the current month's number of days.
+   * If the string can not be converted, `undefined` be returned.
+   */
+  private getShortcutOrDateValue(value: string): Date | undefined {
+    const num = Number(value);
+    if (Number.isInteger(num)) {
+      const now = new Date();
+      const shortcutDate = new Date(now.getFullYear(), now.getMonth(), num);
+      const daysInMonth = shortcutDate.getDate();
+      if (num > 0 && num <= daysInMonth) {
+        return shortcutDate;
+      }
+    } else {
       const date = this.dateFormatter.getDateFromString(
         value,
         this.dateFormat,
         this.strict
       );
       if (this.dateFormatter.dateIsValid(date)) {
-        dateValue = date;
+        return date;
       }
     }
-
-    return dateValue;
   }
 
   /**
@@ -481,10 +521,13 @@ export class SkyDatepickerInputDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onChange = (_: any) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onTouched = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onValidatorChange = () => {};
 
   private updatePlaceholder(): void {
@@ -503,13 +546,6 @@ export class SkyDatepickerInputDirective
       return;
     }
 
-    const dateValue = this.getDateValue(value);
-
-    const areDatesEqual =
-      this._value instanceof Date &&
-      dateValue &&
-      dateValue.getTime() === this._value.getTime();
-
     const isValidDateString = this.isDateStringValid(value);
 
     // If the string value supplied is malformed, do not set the value to its Date equivalent.
@@ -523,25 +559,38 @@ export class SkyDatepickerInputDirective
       }
 
       this.datepickerComponent.selectedDate = this._value;
-    } else if (dateValue !== this._value || !areDatesEqual) {
-      this._value = dateValue || value;
-      if (emitEvent) {
-        this.onChange(this._value);
-      } else {
-        this.control?.setValue(this._value, { emitEvent: false });
+
+      this.setInputElementValue(value || '');
+    } else {
+      // This value represents the date value for the input if possible.
+      // This value will take into account all shortcut functionality.
+      const dateValue: Date | undefined = this.getDateValue(value);
+
+      const areDatesEqual =
+        this._value instanceof Date &&
+        dateValue &&
+        dateValue.getTime() === this._value.getTime();
+
+      if (dateValue !== this._value || !areDatesEqual) {
+        this._value = dateValue || value;
+        if (emitEvent) {
+          this.onChange(this._value);
+        } else {
+          this.control?.setValue(this._value, { emitEvent: false });
+        }
+
+        this.datepickerComponent.selectedDate = this._value;
       }
 
-      this.datepickerComponent.selectedDate = this._value;
-    }
-
-    if (dateValue && isValidDateString) {
-      const formattedDate = this.dateFormatter.format(
-        dateValue,
-        this.dateFormat
-      );
-      this.setInputElementValue(formattedDate);
-    } else {
-      this.setInputElementValue(value || '');
+      if (dateValue) {
+        const formattedDateString = this.dateFormatter.format(
+          dateValue,
+          this.dateFormat
+        );
+        this.setInputElementValue(formattedDateString);
+      } else {
+        this.setInputElementValue(value || '');
+      }
     }
   }
 }
