@@ -1,7 +1,11 @@
 <div>
   <label>
     Test input
-    <input [skyUrlValidation]="skyUrlValidationOptions" [(ngModel)]="urlValidator" #url="ngModel" />
+    <input
+      [skyUrlValidation]="skyUrlValidationOptions"
+      [(ngModel)]="urlValidator"
+      #url="ngModel"
+    />
   </label>
   <div
     class="sky-error-label"
