@@ -82,7 +82,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.addEventListeners();
 
-    // Setting the message stream to undefined creates a default message stream.
+    // Set to undefined to create a default message stream.
     if (!this.skyPopoverMessageStream) {
       this.skyPopoverMessageStream = undefined;
     }
