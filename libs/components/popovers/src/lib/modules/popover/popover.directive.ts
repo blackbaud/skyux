@@ -39,13 +39,11 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.subscribeMessageStream();
   }
 
-  public get messageStream(): Subject<SkyPopoverMessage> {
+  public get skyPopoverMessageStream(): Subject<SkyPopoverMessage> | undefined {
     return this._skyPopoverMessageStream;
   }
 
   private _skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
-
-  #messageStreamSub: Subscription | undefined;
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
@@ -69,6 +67,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   private _trigger: SkyPopoverTrigger;
+
+  // Used internally to avoid non-null assertions when accessing the message stream.
+  get #messageStream(): Subject<SkyPopoverMessage> {
+    return this._skyPopoverMessageStream;
+  }
+
+  #messageStreamSub: Subscription | undefined;
 
   constructor(private elementRef: ElementRef) {
     this.subscribeMessageStream();
@@ -228,13 +233,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   private sendMessage(messageType: SkyPopoverMessageType): void {
-    this.messageStream.next({ type: messageType });
+    this.#messageStream.next({ type: messageType });
   }
 
   private subscribeMessageStream(): void {
     this.unsubscribeMessageStream();
 
-    this.#messageStreamSub = this.messageStream.subscribe((message) => {
+    this.#messageStreamSub = this.#messageStream.subscribe((message) => {
       this.handleIncomingMessages(message);
     });
   }
