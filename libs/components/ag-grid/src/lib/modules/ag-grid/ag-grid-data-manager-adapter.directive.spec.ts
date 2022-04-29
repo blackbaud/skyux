@@ -127,11 +127,11 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     const colId = 'testCol';
     const colDef = { colId };
     const column = new Column(colDef, undefined, colId, true);
+    column.setVisible(true);
 
-    spyOn(
-      agGridComponent.columnApi,
-      'getAllDisplayedVirtualColumns'
-    ).and.returnValue([column]);
+    spyOn(agGridComponent.columnApi, 'getAllGridColumns').and.returnValue([
+      column,
+    ]);
     spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
@@ -155,9 +155,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     let colIds = ['col1', 'col2'];
     const columnApi = {
-      getAllDisplayedVirtualColumns: () => {
+      getAllGridColumns: () => {
         return colIds.map((colId) => {
           return {
+            isVisible: () => true,
             getColDef: () => {
               return { colId };
             },
@@ -184,9 +185,10 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const colIds = ['col1', 'col2'];
     const columnApi = {
-      getAllDisplayedVirtualColumns: () => {
+      getAllGridColumns: () => {
         return colIds.map((colId) => {
           return {
+            isVisible: () => true,
             getColDef: () => {
               return { colId };
             },

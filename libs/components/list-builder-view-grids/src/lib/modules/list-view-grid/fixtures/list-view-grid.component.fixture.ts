@@ -33,10 +33,10 @@ export class ListViewGridFixtureComponent implements OnInit {
   public grid: SkyListViewGridComponent;
 
   @ContentChildren(TemplateRef)
-  public templates: QueryList<TemplateRef<any>>;
+  public templates: QueryList<TemplateRef<unknown>>;
 
   @ViewChildren(TemplateRef)
-  public viewtemplates: QueryList<TemplateRef<any>>;
+  public viewtemplates: QueryList<TemplateRef<unknown>>;
 
   public rowHighlightedId: string;
 

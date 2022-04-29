@@ -270,7 +270,8 @@ export class SkyAgGridDataManagerAdapterDirective
 
   private getColumnOrder(columnApi: ColumnApi): string[] {
     return columnApi
-      .getAllDisplayedVirtualColumns()
+      .getAllGridColumns()
+      .filter((col) => col.isVisible())
       .map((col) => col.getColDef().colId);
   }
 

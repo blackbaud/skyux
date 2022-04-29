@@ -166,7 +166,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   @ViewChild('colorpickerTemplateRef', {
     read: TemplateRef,
   })
-  private colorpickerTemplateRef: TemplateRef<any>;
+  private colorpickerTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonRef', {
     read: ElementRef,
