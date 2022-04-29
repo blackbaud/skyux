@@ -39,7 +39,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
     this.subscribeMessageStream();
   }
 
-  public get skyPopoverMessageStream(): Subject<SkyPopoverMessage> {
+  public get messageStream(): Subject<SkyPopoverMessage> {
     return this._skyPopoverMessageStream;
   }
 
@@ -228,17 +228,15 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   }
 
   private sendMessage(messageType: SkyPopoverMessageType): void {
-    this.skyPopoverMessageStream.next({ type: messageType });
+    this.messageStream.next({ type: messageType });
   }
 
   private subscribeMessageStream(): void {
     this.unsubscribeMessageStream();
 
-    this.#messageStreamSub = this.skyPopoverMessageStream.subscribe(
-      (message) => {
-        this.handleIncomingMessages(message);
-      }
-    );
+    this.#messageStreamSub = this.messageStream.subscribe((message) => {
+      this.handleIncomingMessages(message);
+    });
   }
 
   private unsubscribeMessageStream(): void {

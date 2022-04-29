@@ -747,7 +747,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.noArgsDirectiveRef.skyPopoverMessageStream
+        fixture.componentInstance.noArgsDirectiveRef.messageStream
       ).toBeDefined();
     }));
 
@@ -755,7 +755,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(fixture.componentInstance.messageStream).toEqual(
-        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef.messageStream
       );
 
       fixture.componentInstance.messageStream = undefined;
@@ -763,7 +763,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef.messageStream
       ).toBeDefined();
     }));
 
