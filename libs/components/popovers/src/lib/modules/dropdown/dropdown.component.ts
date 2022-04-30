@@ -45,7 +45,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "default"
    */
   @Input()
-  public set buttonStyle(value: string) {
+  public set buttonStyle(value: string | undefined) {
     this._buttonStyle = value;
   }
 
@@ -62,7 +62,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "select"
    */
   @Input()
-  public set buttonType(value: string) {
+  public set buttonType(value: string | undefined) {
     this._buttonType = value;
   }
 
@@ -75,7 +75,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     this._disabled = value;
   }
 
@@ -105,14 +105,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public label: string;
+  public label: string | undefined;
 
   /**
    * Specifies the horizontal alignment of the dropdown menu in relation to the dropdown button.
    * @default "left"
    */
   @Input()
-  public set horizontalAlignment(value: SkyDropdownHorizontalAlignment) {
+  public set horizontalAlignment(
+    value: SkyDropdownHorizontalAlignment | undefined
+  ) {
     this._horizontalAlignment = value;
   }
 
@@ -132,7 +134,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * Specifies a title to display in a tooltip when users hover the mouse over the dropdown button.
    */
   @Input()
-  public title: string;
+  public title: string | undefined;
 
   /**
    * Specifies how users interact with the dropdown button to expose the dropdown menu.
@@ -145,7 +147,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "click"
    */
   @Input()
-  public set trigger(value: SkyDropdownTriggerType) {
+  public set trigger(value: SkyDropdownTriggerType | undefined) {
     this._trigger = value;
   }
 
@@ -165,16 +167,16 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   @ViewChild('menuContainerElementRef', {
     read: ElementRef,
   })
-  public set menuContainerElementRef(value: ElementRef) {
+  public set menuContainerElementRef(value: ElementRef | undefined) {
     if (value) {
       this._menuContainerElementRef = value;
       this.destroyAffixer();
-      this.createAffixer();
+      this.createAffixer(value);
       this.changeDetector.markForCheck();
     }
   }
 
-  public get menuContainerElementRef(): ElementRef {
+  public get menuContainerElementRef(): ElementRef | undefined {
     return this._menuContainerElementRef;
   }
 
@@ -182,45 +184,45 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   public isVisible = false;
 
-  public menuId: string;
+  public menuId: string | undefined;
 
-  public menuAriaRole: string;
+  public menuAriaRole: string | undefined;
 
   @ViewChild('menuContainerTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private menuContainerTemplateRef: TemplateRef<unknown>;
+  private menuContainerTemplateRef!: TemplateRef<unknown>;
 
   @ViewChild('triggerButton', {
     read: ElementRef,
     static: true,
   })
-  private triggerButton: ElementRef;
+  private triggerButton!: ElementRef;
 
-  private affixer: SkyAffixer;
+  private affixer: SkyAffixer | undefined;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  private overlay: SkyOverlayInstance | undefined;
 
-  private _buttonStyle: string;
+  private _buttonStyle: string | undefined;
 
-  private _buttonType: string;
+  private _buttonType: string | undefined;
 
-  private _disabled: boolean;
+  private _disabled: boolean | undefined;
 
-  private _dismissOnBlur: boolean;
+  private _dismissOnBlur: boolean | undefined;
 
-  private _horizontalAlignment: SkyDropdownHorizontalAlignment;
+  private _horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
 
   private _isOpen = false;
 
-  private _menuContainerElementRef: ElementRef;
+  private _menuContainerElementRef: ElementRef | undefined;
 
-  private _trigger: SkyDropdownTriggerType;
+  private _trigger: SkyDropdownTriggerType | undefined;
 
-  private _positionTimeout: number;
+  #positionTimeout: number | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -249,11 +251,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroyAffixer();
     this.destroyOverlay();
-    clearTimeout(this._positionTimeout);
+    clearTimeout(this.#positionTimeout);
 
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ngUnsubscribe = undefined;
   }
 
   private addEventListeners(): void {
@@ -273,9 +274,9 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
         }
       });
 
-    observableFromEvent(buttonElement, 'keydown')
+    observableFromEvent<KeyboardEvent>(buttonElement, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: KeyboardEvent) => {
+      .subscribe((event) => {
         const key = event.key.toLowerCase();
 
         switch (key) {
@@ -381,10 +382,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createAffixer(): void {
-    const affixer = this.affixService.createAffixer(
-      this.menuContainerElementRef
-    );
+  private createAffixer(menuContainerElementRef: ElementRef): void {
+    const affixer = this.affixService.createAffixer(menuContainerElementRef);
 
     affixer.placementChange
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -435,8 +434,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
     // Explicitly declare the `setTimeout` from the `window` object in order to use the DOM typings
     // during a unit test (instead of confusing this with Node's `setTimeout`).
-    this._positionTimeout = window.setTimeout(() => {
-      this.affixer.affixTo(this.triggerButton.nativeElement, {
+    this.#positionTimeout = window.setTimeout(() => {
+      this.affixer!.affixTo(this.triggerButton.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         horizontalAlignment: parseAffixHorizontalAlignment(
