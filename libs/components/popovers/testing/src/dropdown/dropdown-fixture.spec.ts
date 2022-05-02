@@ -61,9 +61,9 @@ class DropdownTestComponent {
 
   public buttonType: string;
 
-  public disabled: boolean = false;
+  public disabled = false;
 
-  public dropdownButtonText: string = 'Show dropdown';
+  public dropdownButtonText = 'Show dropdown';
 
   public dropdownMenuAriaLabelledBy: string;
 
@@ -73,7 +73,7 @@ class DropdownTestComponent {
 
   public title: string;
 
-  public items: any[] = [
+  public items: { name: string; disabled?: boolean }[] = [
     { name: 'Option 1' },
     { name: 'Option 2', disabled: true },
     { name: 'Option 3' },
