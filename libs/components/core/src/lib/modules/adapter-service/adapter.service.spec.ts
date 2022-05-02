@@ -27,7 +27,7 @@ describe('Core adapter service', () => {
       expect(actual.length).toEqual(8);
     });
 
-    it('should return an empty array if an undefined value is queries for focusable children', () => {
+    it('should return an empty array if an undefined value is queried upon', () => {
       const actual = component.getFocusableChildren(undefined);
       expect(actual).toEqual([]);
     });
