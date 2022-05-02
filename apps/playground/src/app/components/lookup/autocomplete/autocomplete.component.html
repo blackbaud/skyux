@@ -1,0 +1,143 @@
+<div class="app-screenshot" id="autocomplete-visual">
+  <h2>Autocomplete (reactive)</h2>
+  <div id="autocomplete-reactive">
+    <form novalidate [formGroup]="reactiveForm">
+      <sky-autocomplete
+        [data]="data"
+        (selectionChange)="onSelectionChange($event)"
+      >
+        <sky-input-box>
+          <label class="sky-control-label" for="favorite-color-reactive">
+            Favorite color
+          </label>
+          <input
+            class="sky-form-control"
+            formControlName="favoriteColor"
+            id="favorite-color-reactive"
+            skyAutocomplete
+            type="text"
+          />
+        </sky-input-box>
+      </sky-autocomplete>
+
+      <table>
+        <tr>
+          <th>Touched</th>
+          <td>{{ reactiveForm.touched }}</td>
+        </tr>
+        <tr>
+          <th>Pristine</th>
+          <td>{{ reactiveForm.pristine }}</td>
+        </tr>
+        <tr>
+          <th>Valid</th>
+          <td>{{ reactiveForm.valid }}</td>
+        </tr>
+        <tr>
+          <th>Value</th>
+          <td>{{ reactiveForm.value.favoriteColor?.name }}</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <button
+    class="sky-btn sky-btn-primary"
+    id="autocomplete-reactive-disable-button"
+    (click)="toggleReactiveDisabled()"
+  >
+    Toggle reactive autocomplete disabled
+  </button>
+
+  <h2>Autocomplete (template-driven)</h2>
+  <div id="autocomplete-template-driven">
+    <sky-autocomplete
+      [data]="data"
+      (selectionChange)="onSelectionChange($event)"
+    >
+      <sky-input-box>
+        <label class="sky-control-label" for="favorite-color-template">
+          Favorite color
+        </label>
+        <input
+          class="sky-form-control"
+          id="favorite-color-template"
+          skyAutocomplete
+          type="text"
+          [disabled]="templateDisabledState"
+          [(ngModel)]="templateDrivenModel"
+          #model="ngModel"
+        />
+      </sky-input-box>
+    </sky-autocomplete>
+
+    <table>
+      <tr>
+        <th>Touched</th>
+        <td>{{ model.touched }}</td>
+      </tr>
+      <tr>
+        <th>Pristine</th>
+        <td>{{ model.pristine }}</td>
+      </tr>
+      <tr>
+        <th>Valid</th>
+        <td>{{ model.valid }}</td>
+      </tr>
+      <tr>
+        <th>Dirty</th>
+        <td>{{ model.dirty }}</td>
+      </tr>
+      <tr>
+        <th>Value</th>
+        <td>{{ templateDrivenModel?.name }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <button class="sky-btn sky-btn-primary" (click)="toggleTemplateDisabled()">
+    Toggle template autocomplete disabled
+  </button>
+
+  <h2>Autocomplete (async)</h2>
+  <div id="autocomplete-reactive">
+    <form novalidate [formGroup]="reactiveForm">
+      <sky-autocomplete
+        (searchAsync)="favoriteColorSearch($event)"
+        (selectionChange)="onSelectionChange($event)"
+      >
+        <sky-input-box>
+          <label class="sky-control-label" for="favorite-color-reactive"
+            >Favorite color (async)</label
+          >
+          <input
+            class="sky-form-control"
+            formControlName="favoriteColorAsync"
+            id="favorite-color-async-reactive"
+            skyAutocomplete
+            type="text"
+          />
+        </sky-input-box>
+      </sky-autocomplete>
+
+      <table>
+        <tr>
+          <th>Touched</th>
+          <td>{{ reactiveForm.touched }}</td>
+        </tr>
+        <tr>
+          <th>Pristine</th>
+          <td>{{ reactiveForm.pristine }}</td>
+        </tr>
+        <tr>
+          <th>Valid</th>
+          <td>{{ reactiveForm.valid }}</td>
+        </tr>
+        <tr>
+          <th>Value</th>
+          <td>{{ reactiveForm.value.favoriteColorAsync?.name }}</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
