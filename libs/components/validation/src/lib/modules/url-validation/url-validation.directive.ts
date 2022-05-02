@@ -27,11 +27,11 @@ export class SkyUrlValidationDirective implements Validator {
    * Specifies configuration options for the URL validation component.
    */
   @Input()
-  public set skyUrlValidation(value: SkyUrlValidationOptions) {
+  public set skyUrlValidation(value: SkyUrlValidationOptions | undefined) {
     this.skyUrlValidationOptions = value;
   }
 
-  private skyUrlValidationOptions: SkyUrlValidationOptions;
+  private skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
 
   public validate(control: AbstractControl): { [key: string]: any } {
     const value = control.value;
