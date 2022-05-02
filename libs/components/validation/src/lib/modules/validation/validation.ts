@@ -1,6 +1,6 @@
 import isURL from 'validator/es/lib/isURL';
 
-import { SkyUrlValidationOptions } from '../url-validation/models/url-validation-options';
+import { SkyUrlValidationOptions } from '../url-validation/url-validation-options';
 
 export abstract class SkyValidation {
   public static isEmail(emailAddress: string): boolean {

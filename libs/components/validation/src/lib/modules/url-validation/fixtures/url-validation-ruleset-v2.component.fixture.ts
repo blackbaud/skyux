@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SkyUrlValidationOptions } from '../models/url-validation-options';
+import { SkyUrlValidationOptions } from '../url-validation-options';
 
 @Component({
   selector: 'sky-test-cmp',

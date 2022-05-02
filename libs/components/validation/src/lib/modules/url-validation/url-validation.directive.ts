@@ -3,7 +3,7 @@ import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
-import { SkyUrlValidationOptions } from './models/url-validation-options';
+import { SkyUrlValidationOptions } from './url-validation-options';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
