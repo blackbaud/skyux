@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SkyURLValidationOptions } from '../models/url-validation-options';
+import { SkyUrlValidationOptions } from '../models/url-validation-options';
 
 @Component({
   selector: 'sky-test-cmp',
@@ -8,7 +8,7 @@ import { SkyURLValidationOptions } from '../models/url-validation-options';
 })
 export class UrlValidationRulesetV2TestComponent {
   public urlValidator: string;
-  public skyUrlValidationOptions: SkyURLValidationOptions = {
+  public skyUrlValidationOptions: SkyUrlValidationOptions = {
     rulesetVersion: 2,
   };
 }

@@ -1,7 +1,7 @@
 /**
  * Specifies options for the URL validator component.
  */
-export interface SkyURLValidationOptions {
+export interface SkyUrlValidationOptions {
   /**
    * Indicates which ruleset version of URL validation to use.
    */
