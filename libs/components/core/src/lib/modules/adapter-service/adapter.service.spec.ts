@@ -27,6 +27,11 @@ describe('Core adapter service', () => {
       expect(actual.length).toEqual(8);
     });
 
+    it('should return an empty array if an undefined value is queries for focusable children', () => {
+      const actual = component.getFocusableChildren(undefined);
+      expect(actual).toEqual([]);
+    });
+
     it('should not return an input with a specified tab index that is disabled', () => {
       component.disableInput = true;
       fixture.detectChanges();
@@ -101,6 +106,12 @@ describe('Core adapter service', () => {
 
       expect(document.activeElement).toEqual(container);
     });
+
+    it('should not apply focus if the container is undefined', () => {
+      component.getFocusableChildrenAndApplyFocus(fixture, undefined, true);
+
+      expect(document.activeElement).toEqual(document.body);
+    });
   });
 
   describe('applyAutoFocus', () => {
@@ -139,6 +150,12 @@ describe('Core adapter service', () => {
       // Expect focus to have not been moved.
       expect(document.activeElement).toEqual(nonAutoFocusInput);
       expect(actual).toEqual(false);
+    });
+
+    it('should not apply focus if the element passed in is undefined', () => {
+      const actual = component.applyAutoFocus(undefined);
+      expect(document.activeElement).toBe(document.body);
+      expect(actual).toBeFalse();
     });
   });
 
