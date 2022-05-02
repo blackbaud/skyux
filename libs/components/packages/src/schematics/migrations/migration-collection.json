@@ -6,9 +6,44 @@
       "description": "Update all SKY UX component packages"
     },
     "add-cdk": {
-      "version": "6.0.0-0",
+      "version": "6.0.0",
       "factory": "./update-6/add-cdk.schematic",
       "description": "Add @angular/cdk if applicable"
+    },
+    "disable-strict-mode-rules": {
+      "version": "6.0.0",
+      "factory": "./update-6/disable-strict-mode-rules.schematic",
+      "description": "Disable 'strictNullChecks' due to some breaking changes introduced in TypeScript 4.4."
+    },
+    "fix-deep-imports": {
+      "version": "6.0.0",
+      "factory": "./update-6/fix-deep-imports.schematic",
+      "description": "Fix deep imports into @skyux packages"
+    },
+    "fix-imports-with-trailing-slash": {
+      "version": "6.0.0",
+      "factory": "./update-6/fix-imports-with-trailing-slash.schematic",
+      "description": "Remove trailing slashes from TypeScript import statements"
+    },
+    "fix-ng-unsubscribe": {
+      "version": "6.0.0",
+      "factory": "./update-6/fix-ng-unsubscribe.schematic",
+      "description": "Set 'ngUnsubscribe' Subject<any> to Subject<void>"
+    },
+    "fix-rxjs-internal-compatibility-imports": {
+      "version": "6.0.0",
+      "factory": "./update-6/fix-rxjs-internal-compatibility-imports.schematic",
+      "description": "Fix imports from 'rxjs/internal-compatibility'"
+    },
+    "fix-scss-tilde-imports": {
+      "version": "6.0.0",
+      "factory": "./update-6/fix-scss-tilde-imports.schematic",
+      "description": "Remove tilde character from SCSS imports"
+    },
+    "crossvent": {
+      "version": "6.0.0",
+      "factory": "./update-6/crossvent.schematic",
+      "description": "Apply fix for crossvent 'global is not defined' error"
     }
   }
 }

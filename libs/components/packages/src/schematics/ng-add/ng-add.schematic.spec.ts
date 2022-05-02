@@ -73,4 +73,36 @@ describe('ng-add.schematic', () => {
       })
     );
   });
+
+  it('should apply a fix for crossvent "global is not defined" error', async () => {
+    const updatedTree = await runSchematic();
+
+    expect(
+      updatedTree
+        .readContent('projects/my-lib/src/test.ts')
+        .match(/\(window as any\)\.global = window/)?.length
+    ).toEqual(1);
+  });
+
+  it('should install @angular/cdk', async () => {
+    const updatedTree = await runSchematic();
+
+    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+
+    expect(packageJson.dependencies['@angular/cdk']).toBeDefined();
+  });
+
+  it('should add SKY UX theme stylesheets', async () => {
+    const updatedTree = await runSchematic();
+
+    const angularJson = JSON.parse(updatedTree.readContent('angular.json'));
+
+    expect(
+      angularJson.projects['my-lib-showcase'].architect.build.options.styles
+    ).toEqual([
+      'node_modules/@skyux/theme/css/sky.css',
+      'node_modules/@skyux/theme/css/themes/modern/styles.css',
+      'projects/my-lib-showcase/src/styles.css',
+    ]);
+  });
 });
