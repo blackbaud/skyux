@@ -15,7 +15,6 @@ export async function createTestApp(
   return await runner
     .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
       directory: '/',
-
       name: appOptions.defaultProjectName,
       routing: true,
       strict: true,
@@ -50,6 +49,18 @@ export async function createTestLibrary(
       'library',
       {
         name: libOptions.name,
+      },
+      workspaceTree
+    )
+    .toPromise();
+
+  // Create a "showcase" application for library projects.
+  await runner
+    .runExternalSchematicAsync(
+      '@schematics/angular',
+      'application',
+      {
+        name: `${libOptions.name}-showcase`,
       },
       workspaceTree
     )

@@ -1,11 +1,15 @@
-import { Rule, SchematicContext } from '@angular-devkit/schematics';
+import { Rule, SchematicContext, chain } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
 import fs from 'fs-extra';
 import getLatestVersion from 'latest-version';
 import path from 'path';
 
+import { addCrossventFix } from '../rules/add-crossvent-fix';
+import { applySkyuxStylesheetsToWorkspace } from '../rules/apply-skyux-stylesheets-to-workspace';
+import { installAngularCdk } from '../rules/install-angular-cdk';
 import { readRequiredFile } from '../utility/tree';
+import { getWorkspace } from '../utility/workspace';
 
 async function ensureLatestVersions(
   context: SchematicContext,
@@ -40,6 +44,8 @@ async function ensureLatestVersions(
 
 export default function ngAdd(): Rule {
   return async (tree, context) => {
+    const { workspace } = await getWorkspace(tree);
+
     const packageJsonPath = 'package.json';
     const packageJson = JSON.parse(readRequiredFile(tree, packageJsonPath));
 
@@ -57,5 +63,11 @@ export default function ngAdd(): Rule {
     tree.overwrite(packageJsonPath, JSON.stringify(packageJson, undefined, 2));
 
     context.addTask(new NodePackageInstallTask());
+
+    return chain([
+      installAngularCdk(),
+      addCrossventFix(workspace),
+      applySkyuxStylesheetsToWorkspace(),
+    ]);
   };
 }
