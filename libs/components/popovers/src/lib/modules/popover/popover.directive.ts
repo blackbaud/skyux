@@ -19,14 +19,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public skyPopover: SkyPopoverComponent;
+  public skyPopover!: SkyPopoverComponent;
 
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
-   * @default "center"
    */
   @Input()
-  public skyPopoverAlignment: SkyPopoverAlignment;
+  public skyPopoverAlignment: SkyPopoverAlignment | undefined;
 
   /**
    * Provides an RxJS `Subject` to send commands to the popover that respect the `SkyPopoverMessage` type.
@@ -49,16 +48,15 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
-   * @default "above"
    */
   @Input()
-  public skyPopoverPlacement: SkyPopoverPlacement;
+  public skyPopoverPlacement: SkyPopoverPlacement | undefined;
 
   /**
    * Specifies the user action that displays the popover.
    */
   @Input()
-  public set skyPopoverTrigger(value: SkyPopoverTrigger) {
+  public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
     this._trigger = value;
   }
 
@@ -68,7 +66,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _trigger: SkyPopoverTrigger;
+  private _trigger: SkyPopoverTrigger | undefined;
 
   constructor(private elementRef: ElementRef) {
     this.subscribeMessageStream();
@@ -115,9 +113,9 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   private addEventListeners(): void {
     const element = this.elementRef.nativeElement;
 
-    observableFromEvent(element, 'keydown')
+    observableFromEvent<KeyboardEvent>(element, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: KeyboardEvent) => {
+      .subscribe((event) => {
         if (!this.skyPopover.isActive) {
           return;
         }
@@ -197,7 +195,6 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   private removeEventListeners(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ngUnsubscribe = undefined;
   }
 
   private handleIncomingMessages(message: SkyPopoverMessage): void {

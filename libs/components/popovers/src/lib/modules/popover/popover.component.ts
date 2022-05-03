@@ -30,7 +30,7 @@ export class SkyPopoverComponent implements OnDestroy {
    * @default "center"
    */
   @Input()
-  public set alignment(value: SkyPopoverAlignment) {
+  public set alignment(value: SkyPopoverAlignment | undefined) {
     this._alignment = value;
   }
 
@@ -44,7 +44,7 @@ export class SkyPopoverComponent implements OnDestroy {
    * @default true
    */
   @Input()
-  public set dismissOnBlur(value: boolean) {
+  public set dismissOnBlur(value: boolean | undefined) {
     this._dismissOnBlur = value;
   }
 
@@ -74,14 +74,20 @@ export class SkyPopoverComponent implements OnDestroy {
    * Specifies a title for the popover.
    */
   @Input()
-  public popoverTitle: string;
+  public popoverTitle: string | undefined;
 
   /**
    * Specifies the type of popover.
    * @default "info"
    */
   @Input()
-  public popoverType: SkyPopoverType;
+  public set popoverType(value: SkyPopoverType | undefined) {
+    this._popoverType = value;
+  }
+
+  public get popoverType(): SkyPopoverType {
+    return this._popoverType || 'info';
+  }
 
   /**
    * Fires when users close the popover.
@@ -114,28 +120,29 @@ export class SkyPopoverComponent implements OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private templateRef: TemplateRef<unknown>;
+  private templateRef!: TemplateRef<unknown>;
 
-  private contentRef: SkyPopoverContentComponent;
+  private contentRef!: SkyPopoverContentComponent;
 
   private isMarkedForCloseOnMouseLeave = false;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  private overlay: SkyOverlayInstance | undefined;
 
-  private _alignment: SkyPopoverAlignment;
+  private _alignment: SkyPopoverAlignment | undefined;
 
-  private _dismissOnBlur: boolean;
+  private _dismissOnBlur: boolean | undefined;
 
-  private _placement: SkyPopoverPlacement;
+  private _placement: SkyPopoverPlacement | undefined;
+
+  private _popoverType: SkyPopoverType | undefined;
 
   constructor(private overlayService: SkyOverlayService) {}
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ngUnsubscribe = undefined;
 
     if (this.overlay) {
       this.overlayService.close(this.overlay);
@@ -227,7 +234,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
     contentRef.closed.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
       /*istanbul ignore else*/
-      if (this.isActive) {
+      if (this.isActive && this.overlay) {
         this.overlayService.close(this.overlay);
         this.overlay = undefined;
         this.isActive = false;
