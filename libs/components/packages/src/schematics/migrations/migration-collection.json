@@ -44,6 +44,11 @@
       "version": "6.0.0",
       "factory": "./update-6/crossvent.schematic",
       "description": "Apply fix for crossvent 'global is not defined' error"
+    },
+    "ensure-theme-stylesheets": {
+      "version": "6.0.0",
+      "factory": "./update-6/ensure-theme-stylesheets.schematic",
+      "description": "Ensure applications reference SKY UX stylesheets correctly"
     }
   }
 }

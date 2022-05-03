@@ -1,5 +1,3 @@
-import { Tree } from '@angular-devkit/schematics';
-
 export function getThemeStylesheets(): string[] {
   return [
     'node_modules/@skyux/theme/css/sky.css',
@@ -8,7 +6,6 @@ export function getThemeStylesheets(): string[] {
 }
 
 export function ensureSkyuxStylesheets(
-  tree: Tree,
   existingStylesheets: string[]
 ): string[] {
   existingStylesheets = existingStylesheets
