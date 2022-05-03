@@ -12,11 +12,8 @@ export abstract class SkyValidation {
     return regex.test(emailAddress);
   }
 
-  public static isUrl(
-    url: string,
-    urlValidationOptions?: SkyUrlValidationOptions
-  ): boolean {
-    if (urlValidationOptions && urlValidationOptions.rulesetVersion === 2) {
+  public static isUrl(url: string, options?: SkyUrlValidationOptions): boolean {
+    if (options && options.rulesetVersion === 2) {
       // we are using their default options
       return isURL(url);
     } else {
