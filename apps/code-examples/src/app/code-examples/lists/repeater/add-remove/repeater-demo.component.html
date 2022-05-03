@@ -1,8 +1,8 @@
-<div class="sky-margin-stacked-default">
+<div class="sky-margin-stacked-lg">
   <sky-repeater [reorderable]="true" (orderChange)="changeItems($event)">
     <sky-repeater-item *ngFor="let item of items" [tag]="item">
       <sky-repeater-item-title class="demo-repeater-flex">
-        <div class="sky-emphasized">
+        <div class="sky-font-emphasized">
           {{ item.title }}
         </div>
         <div>
@@ -32,10 +32,16 @@
   </sky-repeater>
 </div>
 
-<button class="sky-btn sky-margin-inline-default" (click)="addItem()">
+<button
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  (click)="addItem()"
+>
   Add item
 </button>
 
-<button class="sky-btn sky-margin-inline-default" (click)="removeItem()">
+<button
+  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  (click)="removeItem()"
+>
   Remove item
 </button>
