@@ -39,7 +39,6 @@ describe('Scrollable host service', () => {
     expect(cmp.getScrollableHost()).toBe(window);
   });
 
-  // Sanity check
   it('should return the window if the element ref returns no native element', () => {
     cmp.isParentScrollable = false;
     fixture.detectChanges();
@@ -47,7 +46,6 @@ describe('Scrollable host service', () => {
     expect(cmp.getScrollableHost({ nativeElement: undefined })).toBe(window);
   });
 
-  // Sanity check
   it('should return the window if the element is not scrollable and the parent is not an element', () => {
     cmp.isParentScrollable = false;
     fixture.detectChanges();
