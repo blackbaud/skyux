@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -40,7 +41,7 @@ export class SkyDescriptionListDescriptionComponent
   constructor(
     public service: SkyDescriptionListService,
     private changeRef: ChangeDetectorRef,
-    private themeSvc: SkyThemeService
+    @Optional() private themeSvc?: SkyThemeService
   ) {}
 
   public ngOnInit(): void {

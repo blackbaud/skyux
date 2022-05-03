@@ -6,8 +6,14 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
+    "strict": true,
     "lib": ["dom", "es2018"]
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }

@@ -29,7 +29,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
    * @default "menuitem"
    */
   @Input()
-  public set ariaRole(value: string) {
+  public set ariaRole(value: string | undefined) {
     this._ariaRole = value;
   }
 
@@ -45,7 +45,7 @@ export class SkyDropdownItemComponent implements AfterViewInit {
 
   public isDisabled = false;
 
-  private _ariaRole: string;
+  private _ariaRole: string | undefined;
 
   public constructor(
     public elementRef: ElementRef,

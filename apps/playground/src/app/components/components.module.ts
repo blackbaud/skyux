@@ -60,6 +60,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'split-view',
+    loadChildren: () =>
+      import('./split-view/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },

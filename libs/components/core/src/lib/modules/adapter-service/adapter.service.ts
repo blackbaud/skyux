@@ -96,6 +96,10 @@ export class SkyCoreAdapterService {
    * @return Returns `true` if a child element with autofocus is found.
    */
   public applyAutoFocus(elementRef: ElementRef): boolean {
+    if (!elementRef) {
+      return false;
+    }
+
     const elementWithAutoFocus =
       elementRef.nativeElement.querySelector('[autofocus]');
 
@@ -127,14 +131,17 @@ export class SkyCoreAdapterService {
   ): void {
     const containerElement =
       elementRef.nativeElement.querySelector(containerSelector);
-    const focusableChildren = this.getFocusableChildren(containerElement);
 
-    // Focus first focusable child if available. Otherwise, set focus on container.
-    if (
-      !this.focusFirstElement(focusableChildren) &&
-      focusOnContainerIfNoChildrenFound
-    ) {
-      containerElement.focus();
+    if (containerElement) {
+      const focusableChildren = this.getFocusableChildren(containerElement);
+
+      // Focus first focusable child if available. Otherwise, set focus on container.
+      if (
+        !this.focusFirstElement(focusableChildren) &&
+        focusOnContainerIfNoChildrenFound
+      ) {
+        containerElement.focus();
+      }
     }
   }
 
@@ -148,6 +155,10 @@ export class SkyCoreAdapterService {
     element: HTMLElement,
     options?: SkyFocusableChildrenOptions
   ): HTMLElement[] {
+    if (!element) {
+      return [];
+    }
+
     let elements = Array.prototype.slice.call(
       element.querySelectorAll(SKY_TABBABLE_SELECTOR)
     );
