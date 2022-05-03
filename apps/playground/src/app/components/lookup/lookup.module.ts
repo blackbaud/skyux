@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'autocomplete',
+    loadChildren: () =>
+      import('./autocomplete/autocomplete.module').then(
+        (m) => m.AutocompleteModule
+      ),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),
