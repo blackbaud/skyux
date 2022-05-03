@@ -162,11 +162,11 @@ export class SkyFileAttachmentComponent
   private _value: any;
 
   constructor(
-    public themeSvc: SkyThemeService,
     private changeDetector: ChangeDetectorRef,
     private fileAttachmentService: SkyFileAttachmentService,
     private fileItemService: SkyFileItemService,
-    @Self() @Optional() private ngControl: NgControl
+    @Self() @Optional() private ngControl?: NgControl,
+    @Optional() private themeSvc?: SkyThemeService
   ) {
     this.labelElementId = `sky-file-attachment-label-${this.fileAttachmentId}`;
     this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.fileAttachmentId}`;
@@ -176,12 +176,14 @@ export class SkyFileAttachmentComponent
   }
 
   public ngOnInit(): void {
-    this.themeSvc.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((themeSettings) => {
-        this.currentThemeName = themeSettings.currentSettings.theme.name;
-        this.updateFileAttachmentButton();
-      });
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((themeSettings) => {
+          this.currentThemeName = themeSettings.currentSettings.theme.name;
+          this.updateFileAttachmentButton();
+        });
+    }
   }
 
   public ngAfterViewInit(): void {
