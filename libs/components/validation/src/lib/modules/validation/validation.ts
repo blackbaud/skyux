@@ -13,11 +13,16 @@ export abstract class SkyValidation {
   }
 
   public static isUrl(url: string, options?: SkyUrlValidationOptions): boolean {
-    if (options && options.rulesetVersion === 2) {
-      // we are using their default options
-      return isURL(url);
+    const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
+    if (options) {
+      switch (options.rulesetVersion) {
+        case 1:
+          return regex.test(url);
+        case 2:
+          // we are using Validator's default options
+          return isURL(url);
+      }
     } else {
-      const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
       return regex.test(url);
     }
   }
