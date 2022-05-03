@@ -70,7 +70,7 @@ export class SkyBasicDataGridDemoComponent {
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
+    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
