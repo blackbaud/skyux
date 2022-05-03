@@ -444,27 +444,6 @@
         }
       }
     },
-    "ci": {
-      "projectType": "ci",
-      "root": "/",
-      "sourceRoot": "/",
-      "architect": {
-        "test-affected": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "__test-affected.ts",
-            "tsConfig": "__tsconfig.test-affected.json",
-            "karmaConfig": "config/karma/karma.test-affected.conf.js",
-            "styles": [
-              "libs/components/theme/src/lib/styles/sky.scss",
-              "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
-              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
-            ],
-            "codeCoverage": true
-          }
-        }
-      }
-    },
     "code-examples": {
       "projectType": "application",
       "root": "apps/code-examples",
