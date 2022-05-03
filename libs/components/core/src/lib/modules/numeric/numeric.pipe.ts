@@ -9,7 +9,7 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { NumericOptions } from './numeric.options';
+import { SkyNumericOptions } from './numeric.options';
 import { SkyNumericService } from './numeric.service';
 
 /**
@@ -53,7 +53,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public transform(value: number, config?: NumericOptions): string {
+  public transform(value: number, config?: SkyNumericOptions): string {
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
       `${value}_${config?.locale || this.providerLocale}`;
@@ -64,7 +64,7 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
       return this.formattedValue;
     }
 
-    const options = new NumericOptions();
+    const options = new SkyNumericOptions();
 
     // The default number of digits is `1`. When truncate is disabled, set digits
     // to `0` to avoid the unnecessary addition of `.0` at the end of the formatted number.
