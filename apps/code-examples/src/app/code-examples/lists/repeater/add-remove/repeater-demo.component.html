@@ -2,7 +2,7 @@
   <sky-repeater [reorderable]="true" (orderChange)="changeItems($event)">
     <sky-repeater-item *ngFor="let item of items" [tag]="item">
       <sky-repeater-item-title class="demo-repeater-flex">
-        <div class="sky-font-emphasized">
+        <div class="demo-repeater-item-title sky-font-emphasized">
           {{ item.title }}
         </div>
         <div>
