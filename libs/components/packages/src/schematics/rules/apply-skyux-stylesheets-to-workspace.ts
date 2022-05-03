@@ -4,7 +4,7 @@ import { ensureSkyuxStylesheets } from '../utility/theme';
 import { updateWorkspace } from '../utility/workspace';
 
 export function applySkyuxStylesheetsToWorkspace(): Rule {
-  return (tree) =>
+  return () =>
     updateWorkspace((workspace) => {
       for (const project of workspace.projects.values()) {
         for (const targetName of ['build', 'test']) {
@@ -22,7 +22,6 @@ export function applySkyuxStylesheetsToWorkspace(): Rule {
           /*istanbul ignore else*/
           if (target) {
             target.options.styles = ensureSkyuxStylesheets(
-              tree,
               target.options.styles as string[]
             );
           }
