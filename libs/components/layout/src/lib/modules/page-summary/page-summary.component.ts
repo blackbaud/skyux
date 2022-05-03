@@ -6,7 +6,11 @@ import {
   OnDestroy,
   QueryList,
 } from '@angular/core';
-import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
+import {
+  SkyLogService,
+  SkyMediaBreakpoints,
+  SkyMediaQueryService,
+} from '@skyux/core';
 
 import { Subscription } from 'rxjs';
 
@@ -15,6 +19,7 @@ import { SkyPageSummaryKeyInfoComponent } from './page-summary-key-info.componen
 
 /**
  * Specifies the components to display in the page summary.
+ * @deprecated `SkyPageSummaryComponent` is deprecated. For page templates and techniques to summarize page content, see the page design guidelines. For more information, see https://developer.blackbaud.com/skyux/design/guidelines/page-layouts.
  */
 @Component({
   selector: 'sky-page-summary',
@@ -37,8 +42,17 @@ export class SkyPageSummaryComponent implements OnDestroy, AfterViewInit {
   constructor(
     private elRef: ElementRef,
     private adapter: SkyPageSummaryAdapterService,
-    private mediaQueryService: SkyMediaQueryService
-  ) {}
+    private mediaQueryService: SkyMediaQueryService,
+    logger: SkyLogService
+  ) {
+    logger.deprecated('SkyPageSummaryComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/design/guidelines/page-layouts',
+      replacementRecommendation:
+        'For page templates and techniques to summarize page content, see the page design guidelines.',
+    });
+  }
 
   public ngAfterViewInit() {
     this.breakpointSubscription = this.mediaQueryService.subscribe(
