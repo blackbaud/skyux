@@ -135,7 +135,7 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
   ) {
-    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
+    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
   }
 
   public ngOnInit(): void {

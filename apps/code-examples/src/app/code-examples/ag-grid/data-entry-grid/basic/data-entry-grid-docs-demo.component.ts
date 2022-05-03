@@ -113,7 +113,7 @@ export class SkyDataEntryGridDemoComponent {
     private modalService: SkyModalService,
     private changeDetection: ChangeDetectorRef
   ) {
-    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
+    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
     this.gridOptions = {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
