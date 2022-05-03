@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 /**
  * Highlights important information about a page in the key information section of the
  * page summary.
+ * @deprecated
  */
 @Component({
   selector: 'sky-page-summary-key-info',
