@@ -39,9 +39,9 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
 
   constructor(
     private elRef: ElementRef,
-    @Optional() private themeSvc: SkyThemeService,
     private mutationObserverSvc: MutationObserverService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    @Optional() private themeSvc?: SkyThemeService
   ) {}
 
   @HostListener('window:resize')
