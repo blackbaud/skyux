@@ -1,6 +1,6 @@
 module.exports = {
   displayName: 'components-packages',
-  preset: '../../../jest.preset.js',
+
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -24,4 +24,5 @@ module.exports = {
     '<rootDir>/src/schematics/testing',
     '<rootDir>/src/schematics/utility',
   ],
+  preset: '../../../jest.preset.ts',
 };
