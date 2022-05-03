@@ -4,14 +4,8 @@
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "inlineSources": true,
-    "strict": true
+    "inlineSources": true
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"],
-  "include": ["**/*.ts"],
-  "angularCompilerOptions": {
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  }
+  "include": ["**/*.ts"]
 }
