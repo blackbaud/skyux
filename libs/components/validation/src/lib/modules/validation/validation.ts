@@ -16,10 +16,6 @@ export abstract class SkyValidation {
     url: string,
     urlValidationOptions?: SkyUrlValidationOptions
   ): boolean {
-    console.log(
-      'skyUrlValidationOptions in Validation.ts function',
-      urlValidationOptions
-    );
     if (urlValidationOptions && urlValidationOptions.rulesetVersion === 2) {
       // we are using their default options
       return isURL(url);
