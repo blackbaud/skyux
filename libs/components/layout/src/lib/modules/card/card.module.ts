@@ -12,6 +12,9 @@ import { SkyCardContentComponent } from './card-content.component';
 import { SkyCardTitleComponent } from './card-title.component';
 import { SkyCardComponent } from './card.component';
 
+/**
+ * @deprecated `SkyCardModule` is deprecated. For other SKY UX components that group and list content, see the content containers guidelines. For more information, see https://developer.blackbaud.com/skyux/design/guidelines/content-containers.
+ */
 @NgModule({
   declarations: [
     SkyCardActionsComponent,
