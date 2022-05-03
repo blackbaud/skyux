@@ -4,7 +4,7 @@ import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
 import { SkyNumericSymbol } from './numeric-symbol';
-import { NumericOptions } from './numeric.options';
+import { SkyNumericOptions } from './numeric.options';
 
 @Injectable({
   providedIn: 'any',
@@ -43,7 +43,7 @@ export class SkyNumericService {
    * @param value The number to format.
    * @param options Format options.
    */
-  public formatNumber(value: number, options: NumericOptions): string {
+  public formatNumber(value: number, options: SkyNumericOptions): string {
     if (isNaN(value) || value === null) {
       return '';
     }

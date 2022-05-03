@@ -1,7 +1,7 @@
 /**
  * Provides arguments for the number to format.
  */
-export class NumericOptions {
+export class SkyNumericOptions {
   /**
    * Specifies the maximum number of digits after the decimal separator.
    * @default 1
@@ -53,3 +53,8 @@ export class NumericOptions {
    */
   public truncateAfter?: number = 0;
 }
+
+/**
+ * @deprecated Use `SkyNumericOptions` instead.
+ */
+export class NumericOptions extends SkyNumericOptions {}

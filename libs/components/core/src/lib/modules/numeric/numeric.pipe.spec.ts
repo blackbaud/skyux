@@ -3,22 +3,22 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { NumericPipeFixtureComponent } from './fixtures/numeric.pipe.fixture';
 import { SkyNumericModule } from './numeric.module';
-import { NumericOptions } from './numeric.options';
+import { NumericOptions, SkyNumericOptions } from './numeric.options';
 import { SkyNumericPipe } from './numeric.pipe';
 import { SkyNumericService } from './numeric.service';
 
 describe('Numeric pipe', () => {
-  let pipe: any;
+  let pipe: SkyNumericPipe;
   let changeDetector: any;
-  let numericService: any;
-  let expectedConfig: NumericOptions;
+  let numericService: SkyNumericService;
+  let expectedConfig: SkyNumericOptions;
 
   beforeEach(() => {
     changeDetector = {
       markForCheck: jasmine.createSpy('markForCheck'),
     };
 
-    expectedConfig = new NumericOptions();
+    expectedConfig = new SkyNumericOptions();
     expectedConfig.digits = 1;
     expectedConfig.format = 'number';
     expectedConfig.iso = 'USD';
@@ -53,21 +53,21 @@ describe('Numeric pipe', () => {
   });
 
   it('should default digits to zero if truncate set to false', () => {
-    const options: any = {
+    const options: SkyNumericOptions = {
       truncate: false,
     };
     expect(pipe.transform(42.87, options)).toBe('43');
   });
 
   it('should default digits to minDigits if minDigits is given but digits is not', () => {
-    const options: any = {
+    const options: SkyNumericOptions = {
       minDigits: 3,
     };
     expect(pipe.transform(42.87549, options)).toBe('42.875');
   });
 
   it('should throw an error is minDigits is greater than the given digits', () => {
-    const options: any = {
+    const options: SkyNumericOptions = {
       minDigits: 3,
       digits: 2,
     };
@@ -126,7 +126,7 @@ describe('Numeric pipe', () => {
     });
 
     it('should cache the result when calling `transform` twice with no options changes', () => {
-      const options: any = {
+      const options: SkyNumericOptions = {
         minDigits: 3,
         locale: 'en-US',
       };
