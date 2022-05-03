@@ -2143,7 +2143,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/components/packages"],
           "options": {
-            "jestConfig": "libs/components/packages/jest.config.js",
+            "jestConfig": "libs/components/packages/jest.config.ts",
             "passWithNoTests": true,
             "codeCoverage": true,
             "coverageReporters": ["html", "text"]
@@ -2471,7 +2471,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/sdk/prettier-schematics"],
           "options": {
-            "jestConfig": "libs/sdk/prettier-schematics/jest.config.js",
+            "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
             "passWithNoTests": true
           }
         },
