@@ -16,11 +16,12 @@ type ResizeObserverTracking = {
   providedIn: 'any',
 })
 export class SkyResizeObserverService implements OnDestroy {
-  private _resizeObserver: ResizeObserver;
-  private _tracking: ResizeObserverTracking[] = [];
+  #resizeObserver: ResizeObserver;
+
+  #tracking: ResizeObserverTracking[] = [];
 
   constructor(private zone: NgZone) {
-    this._resizeObserver = new ResizeObserver(
+    this.#resizeObserver = new ResizeObserver(
       (entries: ResizeObserverEntry[]) => {
         entries.forEach((entry) => this.callback(entry));
       }
@@ -28,7 +29,7 @@ export class SkyResizeObserverService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this._resizeObserver.disconnect();
+    this.#resizeObserver.disconnect();
   }
 
   /**
@@ -39,42 +40,47 @@ export class SkyResizeObserverService implements OnDestroy {
   }
 
   private observeAndTrack(element: ElementRef): ResizeObserverTracking {
-    const checkTracking = this._tracking.findIndex((value) => {
+    const checkTracking = this.#tracking.findIndex((value) => {
       return !value.subject.closed && value.element === element.nativeElement;
     });
+
     if (checkTracking === -1) {
-      this._resizeObserver.observe(element.nativeElement);
+      this.#resizeObserver.observe(element.nativeElement);
     }
+
     const subject = new Subject<ResizeObserverEntry>();
     const subjectObservable = subject.pipe(
       finalize(() => {
         // Are there any other tracking entries still watching this element?
-        const checkTracking = this._tracking.findIndex((value) => {
+        const checkTracking = this.#tracking.findIndex((value) => {
           return (
             value.subject !== subject &&
             !value.subject.closed &&
             value.element === element.nativeElement
           );
         });
+
         if (checkTracking === -1) {
-          this._resizeObserver.unobserve(element.nativeElement);
+          this.#resizeObserver.unobserve(element.nativeElement);
         }
       })
     );
+
     const tracking = {
       element: element.nativeElement,
       subject,
       subjectObservable,
     };
-    this._tracking.push(tracking);
+
+    this.#tracking.push(tracking);
+
     return tracking;
   }
 
-  private callback(entry: ResizeObserverEntry) {
-    this._tracking
+  private callback(entry: ResizeObserverEntry): void {
+    this.#tracking
       .filter((value) => !(value.subject.closed || value.subject.isStopped))
       .forEach((value) => {
-        /* istanbul ignore else */
         if (value.element === entry.target) {
           this.zone.run(() => {
             value.subject.next(entry);

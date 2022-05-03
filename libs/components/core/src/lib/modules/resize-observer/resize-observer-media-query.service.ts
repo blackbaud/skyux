@@ -22,7 +22,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     return this._currentBreakpoint;
   }
 
-  private _breakpoints: {
+  #breakpoints: {
     check: (width: number) => boolean;
     name: SkyMediaBreakpoints;
   }[] = [
@@ -43,26 +43,31 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
       name: SkyMediaBreakpoints.lg,
     },
   ];
-  private _currentBreakpointObservable = new ReplaySubject<
+
+  #currentBreakpointObservable = new ReplaySubject<
     SkyMediaBreakpoints | undefined
   >(1);
+
   private _currentBreakpoint: SkyMediaBreakpoints;
-  private _resizeSubscription: Subscription;
-  private _stopListening = new Subject<void>();
-  private _target?: ElementRef;
+
+  #resizeSubscription: Subscription;
+
+  #stopListening = new Subject<void>();
+
+  #target: ElementRef;
 
   constructor(private resizeObserverService: SkyResizeObserverService) {
-    this._stopListening.subscribe(() => {
-      this._target = undefined;
+    this.#stopListening.subscribe(() => {
+      this.#target = undefined;
       this.updateBreakpoint(undefined);
     });
   }
 
   public ngOnDestroy(): void {
-    this._stopListening.next();
+    this.#stopListening.next();
     this._currentBreakpoint = undefined;
-    this._stopListening.complete();
-    this._currentBreakpointObservable.complete();
+    this.#stopListening.complete();
+    this.#currentBreakpointObservable.complete();
   }
 
   /**
@@ -77,21 +82,25 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    * time. Any previous subscriptions will be unsubscribed when a new element is observed.
    */
   public observe(element: ElementRef): SkyResizeObserverMediaQueryService {
-    if (this._target) {
-      if (this._target === element) {
+    if (this.#target) {
+      if (this.#target === element) {
         return this;
       }
-      this._stopListening.next();
+
+      this.#stopListening.next();
     }
-    this._target = element;
+
+    this.#target = element;
+
     const width = (element.nativeElement as HTMLElement).offsetWidth;
     if (width) {
       const breakpoint = this.checkBreakpoint(width);
       this.updateBreakpoint(breakpoint);
     }
-    this._resizeSubscription = this.resizeObserverService
+
+    this.#resizeSubscription = this.resizeObserverService
       .observe(element)
-      .pipe(takeUntil(this._stopListening))
+      .pipe(takeUntil(this.#stopListening))
       .subscribe((value) => {
         const breakpoint = this.checkBreakpoint(value.contentRect.width);
         /* istanbul ignore else */
@@ -106,25 +115,25 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    * Stop watching the container element.
    */
   public unobserve(): void {
-    this._stopListening.next();
+    this.#stopListening.next();
   }
 
   /**
    * Subscribes to element size changes that cross breakpoints.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this._currentBreakpointObservable
-      .pipe(takeUntil(this._stopListening))
+    return this.#currentBreakpointObservable
+      .pipe(takeUntil(this.#stopListening))
       .subscribe(listener);
   }
 
   private updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
     this._currentBreakpoint = breakpoint;
-    this._currentBreakpointObservable.next(breakpoint);
+    this.#currentBreakpointObservable.next(breakpoint);
   }
 
   private checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
-    return this._breakpoints.find((breakpoint) => breakpoint.check(width))
+    return this.#breakpoints.find((breakpoint) => breakpoint.check(width))
       ?.name;
   }
 }

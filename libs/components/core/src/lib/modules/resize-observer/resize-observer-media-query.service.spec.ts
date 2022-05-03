@@ -1,6 +1,7 @@
 import { ElementRef, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SkyMediaBreakpoints } from '@skyux/core';
+
+import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 
 import {
   mockResizeObserver,
