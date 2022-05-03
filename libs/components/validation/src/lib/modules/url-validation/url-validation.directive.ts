@@ -36,20 +36,12 @@ export class SkyUrlValidationDirective implements Validator {
       return;
     }
 
-    if (!this.urlIsValid(value)) {
+    if (!SkyValidation.isUrl(value, this.skyUrlValidation)) {
       return {
         skyUrl: {
           invalid: control.value,
         },
       };
-    }
-  }
-
-  public urlIsValid(url: string): boolean {
-    if (this.skyUrlValidation) {
-      return SkyValidation.isUrl(url, this.skyUrlValidation);
-    } else {
-      return SkyValidation.isUrl(url);
     }
   }
 }
