@@ -75,7 +75,7 @@ export class SkyResizeObserverService implements OnDestroy {
     this.#tracking
       .filter((value) => !(value.subject.closed || value.subject.isStopped))
       .forEach((value) => {
-        /*istanbul ignore else*/
+        /* istanbul ignore else */
         if (value.element === entry.target) {
           // Execute the callback within NgZone because Angular does not "stub"
           // ResizeObserver like it does for other features in the DOM.

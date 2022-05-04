@@ -45,11 +45,9 @@ export class SkyScrollableHostService {
     let documentHiddenElementMutationObserver: MutationObserver;
 
     return new Observable((subscriber) => {
-      let scrollableHost: HTMLElement | Window;
-
       subscribers.push(subscriber);
 
-      scrollableHost = this.findScrollableHost(elementRef.nativeElement);
+      let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
 
       // Setup mutation observers only once, for all subscribers.
       if (subscribers.length === 1) {
@@ -156,7 +154,7 @@ export class SkyScrollableHostService {
           newScrollableHostObservable = new Subject();
 
           // Only subscribe to scroll events if the host element is defined.
-          /*istanbul ignore else*/
+          /* istanbul ignore else */
           if (newScrollableHost) {
             scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
               .pipe(takeUntil(newScrollableHostObservable))
