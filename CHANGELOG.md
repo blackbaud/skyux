@@ -1,5 +1,21 @@
 # Changelog
 
+## [6.0.0-beta.10](https://github.com/blackbaud/skyux/compare/6.0.0-beta.9...6.0.0-beta.10) (2022-05-04)
+
+### Features
+
+- **components/packages:** add `update` schematic to ensure SKY UX stylesheets are configured for all projects ([#226](https://github.com/blackbaud/skyux/issues/226)) ([88c0316](https://github.com/blackbaud/skyux/commit/88c0316883141a163c4aa1af2198e9fdff636f64))
+
+### Bug Fixes
+
+- assume `SkyThemeService` is optional for `SkyFileAttachmentComponent`, `SkySelectionBoxGridComponent`, `SkyDescriptionListDescriptionComponent`, and `SkyModalScrollShadowDirective` ([#214](https://github.com/blackbaud/skyux/issues/214)) ([#216](https://github.com/blackbaud/skyux/issues/216)) ([b83e26f](https://github.com/blackbaud/skyux/commit/b83e26f55fe6cc8b671268a2c824068046108d35))
+
+### Deprecations
+
+- **components/core:** `NumericOptions` is deprecated; use `SkyNumericOptions` instead ([#217](https://github.com/blackbaud/skyux/issues/217)) ([cd3b8c0](https://github.com/blackbaud/skyux/commit/cd3b8c0f9b700cac276d496688bac3bc6f8b3500))
+- **components/layout:** `SkyCardComponent` is deprecated; use a different container from the content container guidelines instead ([#221](https://github.com/blackbaud/skyux/issues/221)) ([b965e76](https://github.com/blackbaud/skyux/commit/b965e76009829b1ac5df6c34fe55d844fd83e068))
+- **components/layout:** `SkyPageSummaryComponent` is deprecated; use a page template or different technique to summarize page content instead ([#222](https://github.com/blackbaud/skyux/issues/222)) ([0bac652](https://github.com/blackbaud/skyux/commit/0bac652a50528aae078bf96863742f046621d82e))
+
 ### [5.9.4](https://github.com/blackbaud/skyux/compare/5.9.3...5.9.4) (2022-05-03)
 
 ### Bug Fixes
