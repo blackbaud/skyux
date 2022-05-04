@@ -27,10 +27,10 @@ const SKY_TABBABLE_SELECTOR = [
   providedIn: 'root',
 })
 export class SkyCoreAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
   constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.#renderer = this.rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -44,12 +44,12 @@ export class SkyCoreAdapterService {
     elementRef: ElementRef,
     breakpoint: SkyMediaBreakpoints
   ): void {
-    const nativeEl: HTMLElement = elementRef.nativeElement;
+    const nativeEl = elementRef.nativeElement;
 
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-md');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
 
     let newClass: string;
 
@@ -72,7 +72,7 @@ export class SkyCoreAdapterService {
       }
     }
 
-    this.renderer.addClass(nativeEl, newClass);
+    this.#renderer.addClass(nativeEl, newClass);
   }
 
   /**
@@ -197,17 +197,16 @@ export class SkyCoreAdapterService {
     target: EventTarget,
     element: HTMLElement
   ): boolean {
-    const zIndex: string = getComputedStyle(element).zIndex;
+    const zIndex = getComputedStyle(element).zIndex;
 
-    let el: HTMLElement = target as HTMLElement;
+    let el = target as HTMLElement;
 
     while (el) {
       // Getting the computed style only works for elements that exist in the DOM.
       // In certain scenarios, an element is removed after a click event; by the time the event
       // bubbles up to other elements, however, the element has been removed and the computed style returns empty.
       // In this case, we'll need to check the z-index directly, via the style property.
-      const targetZIndex: string =
-        getComputedStyle(el).zIndex || el.style.zIndex;
+      const targetZIndex = getComputedStyle(el).zIndex || el.style.zIndex;
       if (
         targetZIndex !== '' &&
         targetZIndex !== 'auto' &&
