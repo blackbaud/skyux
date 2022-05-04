@@ -133,7 +133,13 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   }
 
   private checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
-    return this.#breakpoints.find((breakpoint) => breakpoint.check(width))
-      ?.name;
+    const breakpoint = this.#breakpoints.find((breakpoint) =>
+      breakpoint.check(width)
+    );
+
+    /* istanbul ignore else */
+    if (breakpoint) {
+      return breakpoint.name;
+    }
   }
 }
