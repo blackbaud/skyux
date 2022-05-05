@@ -343,7 +343,10 @@ describe('Autocomplete component', () => {
       autocomplete = fixture.componentInstance.autocomplete;
 
       fixture.componentInstance.searchFilters = [
-        (searchText: string, item: { objectid: string; name?: string; text?: string }): boolean => {
+        (
+          searchText: string,
+          item: { objectid: string; name?: string; text?: string }
+        ): boolean => {
           return item.name !== 'Red';
         },
       ];
@@ -477,7 +480,9 @@ describe('Autocomplete component', () => {
 
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
-      const customFunction: SkyAutocompleteSearchFunction = (): Promise<[{ objectid?: string; name?: string; text?: string }]> => {
+      const customFunction: SkyAutocompleteSearchFunction = (): Promise<
+        [{ objectid?: string; name?: string; text?: string }]
+      > => {
         return new Promise((resolve) => {
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
@@ -498,9 +503,8 @@ describe('Autocomplete component', () => {
 
     it('should handle items that do not have the descriptor property', fakeAsync(() => {
       component.data = [
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <any> {
-          foo: 'bar',
+        {
+          objectid: 'bar',
         },
       ];
 
