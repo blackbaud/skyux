@@ -49,6 +49,11 @@
       "version": "6.0.0",
       "factory": "./update-6/ensure-theme-stylesheets.schematic",
       "description": "Ensure applications reference SKY UX stylesheets correctly"
+    },
+    "prettier-ignore": {
+      "version": "6.0.0",
+      "factory": "./update-6/prettier-ignore.schematic",
+      "description": "Add '.angular/cache' to .prettierignore"
     }
   }
 }
