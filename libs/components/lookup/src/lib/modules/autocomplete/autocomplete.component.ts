@@ -363,13 +363,8 @@ export class SkyAutocompleteComponent
       this._inputDirective.blur
         .pipe(takeUntil(this.inputDirectiveUnsubscribe))
         .subscribe(() => {
-          /* Sanity check as you should not be able to activate the directive from the backdrop */
-          /* istanbul ignore else */
-          if (document.activeElement !== this.inputDirective.inputElement) {
-            this.inputDirective.restoreInputTextValueToPreviousState();
-            this.closeDropdown();
-          }
-
+          this.inputDirective.restoreInputTextValueToPreviousState();
+          this.closeDropdown();
           this.inputDirective.onTouched();
         });
 
