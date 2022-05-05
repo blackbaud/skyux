@@ -66,7 +66,9 @@ describe('Autocomplete component', () => {
 
   function enterSearch(
     newValue: string,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >,
     async: boolean = false
   ): void {
     const inputElement = getInputElement(async);
@@ -84,8 +86,13 @@ describe('Autocomplete component', () => {
 
   function blurInput(
     element: HTMLInputElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ) {
+    (document.querySelector('#testButton') as HTMLElement).focus();
+    fixture.detectChanges();
+    tick();
     SkyAppTestUtility.fireDomEvent(element, 'blur');
     fixture.detectChanges();
     tick();
@@ -94,7 +101,9 @@ describe('Autocomplete component', () => {
   function searchAndSelect(
     newValue: string,
     index: number,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     const inputElement = getInputElement();
 
@@ -110,7 +119,9 @@ describe('Autocomplete component', () => {
 
   function sendArrowUp(
     element: HTMLElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'ArrowUp' },
@@ -121,7 +132,9 @@ describe('Autocomplete component', () => {
 
   function sendArrowDown(
     element: HTMLElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'ArrowDown' },
@@ -132,7 +145,9 @@ describe('Autocomplete component', () => {
 
   function sendEnter(
     element: HTMLElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'Enter' },
@@ -143,7 +158,9 @@ describe('Autocomplete component', () => {
 
   function sendMouseMove(
     element: HTMLElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'mousemove');
     fixture.detectChanges();
@@ -152,7 +169,9 @@ describe('Autocomplete component', () => {
 
   function sendTab(
     element: HTMLElement,
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >,
     shiftKey?: boolean
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
@@ -164,7 +183,9 @@ describe('Autocomplete component', () => {
 
   function sendEscape(
     element: HTMLElement,
-    fixture: ComponentFixture<any>
+    fixture: ComponentFixture<
+      SkyAutocompleteFixtureComponent | SkyAutocompleteReactiveFixtureComponent
+    >
   ): void {
     SkyAppTestUtility.fireDomEvent(element, 'keydown', {
       keyboardEventInit: { key: 'Escape' },
@@ -173,7 +194,10 @@ describe('Autocomplete component', () => {
     tick();
   }
 
-  function updateNgModel(fixture: ComponentFixture<any>, selectedValue: any) {
+  function updateNgModel(
+    fixture: ComponentFixture<SkyAutocompleteFixtureComponent>,
+    selectedValue: { objectid?: string; name?: string; text?: string }
+  ) {
     fixture.componentInstance.model.favoriteColor = selectedValue;
     fixture.detectChanges();
     tick();
@@ -319,7 +343,7 @@ describe('Autocomplete component', () => {
       autocomplete = fixture.componentInstance.autocomplete;
 
       fixture.componentInstance.searchFilters = [
-        (searchText: string, item: any): boolean => {
+        (searchText: string, item: { objectid: string; name?: string; text?: string }): boolean => {
           return item.name !== 'Red';
         },
       ];
@@ -453,9 +477,7 @@ describe('Autocomplete component', () => {
 
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
-      const customFunction: SkyAutocompleteSearchFunction = (
-        searchText: string
-      ): Promise<any> => {
+      const customFunction: SkyAutocompleteSearchFunction = (): Promise<[{ objectid?: string; name?: string; text?: string }]> => {
         return new Promise((resolve) => {
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
@@ -476,7 +498,8 @@ describe('Autocomplete component', () => {
 
     it('should handle items that do not have the descriptor property', fakeAsync(() => {
       component.data = [
-        {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <any> {
           foo: 'bar',
         },
       ];
@@ -1307,24 +1330,19 @@ describe('Autocomplete component', () => {
         expect(getSearchResultsContainer()).toBeNull();
       }));
 
-      it('should reset input text value when user clicks the overlay backdrop', fakeAsync(() => {
+      it('should reset input text value when user blurs the input', fakeAsync(() => {
         fixture.detectChanges();
         const input: SkyAutocompleteInputDirective =
           component.autocompleteInput;
         const inputElement: HTMLInputElement = getInputElement();
         const selectedValue = { name: 'Red' };
-        const btn = document.getElementById('previousButton');
 
         updateNgModel(fixture, selectedValue);
         enterSearch('re', fixture);
 
         expect(inputElement.value).toEqual('re');
 
-        // Firing the click event in a test won't move focus, so we move focus manually here.
-        btn.focus();
-        const overlay = document.querySelector('.sky-overlay') as any;
-        SkyAppTestUtility.fireDomEvent(overlay, 'click');
-        tick();
+        blurInput(inputElement, fixture);
 
         expect(component.myForm.value.favoriteColor).toEqual(selectedValue);
         expect(input.value).toEqual(selectedValue);
