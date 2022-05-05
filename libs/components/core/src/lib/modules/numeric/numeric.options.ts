@@ -49,7 +49,6 @@ export interface SkyNumericOptions {
 /**
  * Provides arguments for the number to format.
  * @deprecated Use the `SkyNumericOptions` interface instead.
- * @internal
  */
 export class NumericOptions implements SkyNumericOptions {
   /**
