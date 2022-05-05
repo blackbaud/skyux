@@ -19,7 +19,7 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
 export class SkyAutocompleteFixtureComponent {
   public autocompleteAttribute: string;
 
-  public data: any[] = [
+  public data: { objectid?: string; name?: string; text?: string }[] = [
     { name: 'Red', objectid: 'abc' },
     { name: 'Blue', objectid: 'def' },
     { name: 'Green', objectid: 'ghi' },
@@ -33,7 +33,9 @@ export class SkyAutocompleteFixtureComponent {
     { name: 'Black', objectid: '456' },
   ];
 
-  public model: any = {
+  public model: {
+    favoriteColor: { objectid?: string; name?: string; text?: string };
+  } = {
     favoriteColor: undefined,
   };
   public customNoResultsMessage: string;
