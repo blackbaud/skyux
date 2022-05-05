@@ -8,9 +8,21 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./features/colorpicker.module').then(
+        (m) => m.ColorpickerFeatureModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () =>
       import('./features/core.module').then((m) => m.CoreFeatureModule),
+  },
+  {
+    path: 'errors',
+    loadChildren: () =>
+      import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
   },
   {
     path: 'forms',
