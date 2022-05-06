@@ -11,7 +11,6 @@ import {
 import {
   CellClassParams,
   ColumnApi,
-  GetRowIdParams,
   GridOptions,
   RowClassParams,
   RowNode,
@@ -244,43 +243,6 @@ describe('SkyAgGridService', () => {
       // Get new grid options after theme change, but expect heights have not changed
       gridOptions = agGridService.getGridOptions(overrideOptions);
       expect(gridOptions.rowHeight).toBe(60);
-    });
-
-    it('should respect the value of the deprecated `frameworkComponents` property', () => {
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          frameworkComponents: {
-            frameworkFoo: 'framework-bar',
-          },
-        },
-      });
-
-      expect(Object.keys(options.frameworkComponents)).toEqual([
-        'frameworkFoo',
-      ]);
-
-      expect(Object.keys(options.components)).toEqual([
-        'sky-ag-grid-cell-renderer-currency',
-        'sky-ag-grid-cell-renderer-currency-validator',
-        'sky-ag-grid-cell-renderer-validator-tooltip',
-      ]);
-    });
-
-    it('should not overwrite default component definitions', () => {
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          components: {
-            foo: 'bar',
-          },
-        },
-      });
-
-      expect(Object.keys(options.components)).toEqual([
-        'foo',
-        'sky-ag-grid-cell-renderer-currency',
-        'sky-ag-grid-cell-renderer-currency-validator',
-        'sky-ag-grid-cell-renderer-validator-tooltip',
-      ]);
     });
   });
 
@@ -625,6 +587,7 @@ describe('SkyAgGridService', () => {
         data: undefined,
         node: undefined,
         rowIndex: undefined,
+        $scope: undefined,
         api: undefined,
         columnApi: new ColumnApi(),
         context: undefined,
@@ -699,6 +662,7 @@ describe('SkyAgGridService', () => {
         data: undefined,
         node: undefined,
         rowIndex: undefined,
+        $scope: undefined,
         api: undefined,
         columnApi: new ColumnApi(),
         context: undefined,
@@ -706,6 +670,7 @@ describe('SkyAgGridService', () => {
       };
 
       cellRendererParams = {
+        $scope: undefined,
         addRenderedRowListener(): void {},
         api: undefined,
         colDef: {},
@@ -920,41 +885,19 @@ describe('SkyAgGridService', () => {
     });
   });
 
-  describe('getRowId', () => {
+  describe('getRowNodeId', () => {
     it('should use the id field when available', () => {
-      expect(
-        defaultGridOptions.getRowId({ data: { id: 123 } } as GetRowIdParams)
-      ).toEqual('123');
+      expect(defaultGridOptions.getRowNodeId({ id: 123 })).toEqual('123');
     });
 
     it('should generate an id regardless', () => {
-      expect(
-        defaultGridOptions.getRowId({ data: {} } as GetRowIdParams)
-      ).toBeTruthy();
-    });
-
-    it('should prefer the deprecated getRowNodeId if set by consumer', () => {
-      expect(defaultGridOptions.getRowId).toBeDefined();
-      expect(defaultGridOptions.getRowNodeId).toBeUndefined();
-
-      const options = agGridService.getGridOptions({
-        gridOptions: {
-          getRowNodeId: (data) => {
-            if ('id' in data && data.id !== undefined) {
-              return `${data.id}`;
-            }
-            return '-1';
-          },
-        },
-      });
-
-      expect(options.getRowId).toBeUndefined();
-      expect(options.getRowNodeId).toBeDefined();
+      expect(defaultGridOptions.getRowNodeId({})).toBeTruthy();
     });
   });
 
   describe('getRowClass', () => {
     const params: RowClassParams = {
+      $scope: undefined,
       api: undefined,
       columnApi: undefined,
       context: undefined,

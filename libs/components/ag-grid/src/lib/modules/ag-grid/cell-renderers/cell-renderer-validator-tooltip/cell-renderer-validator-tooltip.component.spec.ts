@@ -18,6 +18,7 @@ describe('SkyAgGridCellRendererValidatorTooltipComponent', () => {
       SkyAgGridCellRendererValidatorTooltipComponent
     );
     fixture.componentInstance.cellRendererParams = {
+      $scope: undefined,
       addRenderedRowListener(): void {},
       // @ts-ignore
       api: undefined,

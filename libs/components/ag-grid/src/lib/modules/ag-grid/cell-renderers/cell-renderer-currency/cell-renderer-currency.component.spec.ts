@@ -59,6 +59,7 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
         },
       },
       context: undefined,
+      $scope: undefined,
       eGridCell: undefined,
       formatValue: undefined,
       skyComponentProperties: {} as NumericOptions &

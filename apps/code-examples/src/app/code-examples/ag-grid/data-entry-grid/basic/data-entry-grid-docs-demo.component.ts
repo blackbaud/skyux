@@ -36,7 +36,7 @@ export class SkyDataEntryGridDemoComponent {
       headerName: '',
       maxWidth: 50,
       sortable: false,
-      cellRenderer: SkyDataEntryGridContextMenuComponent,
+      cellRendererFramework: SkyDataEntryGridContextMenuComponent,
     },
     {
       field: 'name',

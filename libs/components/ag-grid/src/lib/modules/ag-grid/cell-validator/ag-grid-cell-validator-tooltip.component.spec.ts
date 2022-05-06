@@ -19,6 +19,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       SkyAgGridCellValidatorTooltipFixtureComponent
     );
     fixture.componentInstance.parameters = {
+      $scope: undefined,
       addRenderedRowListener(): void {},
       api: undefined,
       colDef: undefined,
@@ -52,6 +53,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
       SkyAgGridCellValidatorTooltipComponent
     );
     const parameters: SkyCellRendererValidatorParams = {
+      $scope: undefined,
       addRenderedRowListener(): void {},
       api: undefined,
       colDef: undefined,
@@ -103,6 +105,7 @@ describe('SkyAgGridCellValidatorTooltipComponent', () => {
     );
     const eventHandlers: { [eventName: string]: (event: Event) => void } = {};
     fixture.componentInstance.params = {
+      $scope: undefined,
       addRenderedRowListener(): void {},
       api: undefined,
       colDef: undefined,

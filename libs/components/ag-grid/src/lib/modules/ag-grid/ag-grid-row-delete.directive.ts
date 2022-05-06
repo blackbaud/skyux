@@ -193,6 +193,10 @@ export class SkyAgGridRowDeleteDirective
       .subscribe(() => {
         this.updateRowDeleteStates();
       });
+
+    this.agGrid.getRowNodeId = (data) => {
+      return data.id.toString();
+    };
   }
 
   public ngOnDestroy(): void {
