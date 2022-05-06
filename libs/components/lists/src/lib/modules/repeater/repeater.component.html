@@ -1,9 +1,10 @@
 <ng-container #repeaterHost>
   <div
     class="sky-repeater"
-    role="listbox"
+    [attr.role]="role"
     [attr.aria-label]="ariaLabel || ('skyux_repeater_label' | skyLibResources)"
     [dragula]="dragulaGroupName"
+    (cdkObserveContent)="checkContent()"
   >
     <ng-content></ng-content>
   </div>

@@ -2,7 +2,10 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyRepeaterItemComponent } from './repeater-item.component';
+import {
+  SkyRepeaterItemComponent,
+  SkyRepeaterItemRolesType,
+} from './repeater-item.component';
 
 /**
  * @internal
@@ -22,6 +25,8 @@ export class SkyRepeaterService implements OnDestroy {
   public itemCollapseStateChange = new EventEmitter<SkyRepeaterItemComponent>();
 
   public items: SkyRepeaterItemComponent[] = [];
+
+  public itemRole = new BehaviorSubject<SkyRepeaterItemRolesType>({});
 
   public orderChange = new BehaviorSubject<void>(undefined);
 

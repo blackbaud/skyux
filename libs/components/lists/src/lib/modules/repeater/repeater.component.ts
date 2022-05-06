@@ -20,10 +20,15 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
-import { SkyRepeaterItemComponent } from './repeater-item.component';
+import {
+  SkyRepeaterItemComponent,
+  SkyRepeaterItemRolesType,
+} from './repeater-item.component';
 import { SkyRepeaterService } from './repeater.service';
 
 let uniqueId = 0;
+
+export type SkyRepeaterRoleType = 'list' | 'listbox' | 'grid';
 
 /**
  * Creates a container to display repeater items.
@@ -55,6 +60,19 @@ export class SkyRepeaterComponent
    */
   @Input()
   public ariaLabel: string;
+
+  /**
+   * Specifies an ARIA role for the repeater list.
+   * This sets the repeater list's `role` attribute and determines the appropriate role for repeater items
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * The default `auto` value will determine one of `list`, `listbox`, or `grid`.
+   * @default "auto"
+   */
+  @Input()
+  public set ariaRole(value: SkyRepeaterRoleType | 'auto' | undefined) {
+    this._ariaRole = value || '';
+    this.updateRole();
+  }
 
   /**
    * Indicates whether users can change the order of items in the repeater list.
@@ -105,18 +123,22 @@ export class SkyRepeaterComponent
    * This event emits an ordered array of the `tag` properties that the consumer provides for each repeater item.
    */
   @Output()
-  public orderChange = new EventEmitter<any[]>();
+  public orderChange = new EventEmitter<unknown[]>();
 
   @ContentChildren(SkyRepeaterItemComponent)
   public items: QueryList<SkyRepeaterItemComponent>;
 
   public dragulaGroupName: string;
 
+  public role: 'list' | 'listbox' | 'grid' | '' = '';
+
   private dragulaUnsubscribe = new Subject<void>();
 
   private ngUnsubscribe = new Subject<void>();
 
   private _expandMode = 'none';
+
+  private _ariaRole: 'auto' | 'list' | 'listbox' | 'grid' | '' = 'auto';
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -203,6 +225,8 @@ export class SkyRepeaterComponent
       this.items.forEach((item) => {
         item.reorderable = this.reorderable;
       });
+
+      this.updateRole();
     }, 0);
   }
 
@@ -221,6 +245,7 @@ export class SkyRepeaterComponent
       if (this.items) {
         this.items.forEach((item) => (item.reorderable = this.reorderable));
       }
+      this.updateRole();
 
       this.changeDetector.markForCheck();
     }
@@ -230,6 +255,10 @@ export class SkyRepeaterComponent
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.destroyDragAndDrop();
+  }
+
+  public checkContent() {
+    this.updateRole();
   }
 
   private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
@@ -332,5 +361,51 @@ export class SkyRepeaterComponent
     return this.items.toArray().every((item) => {
       return item.tag !== undefined;
     });
+  }
+
+  private updateRole() {
+    // Default to list role.
+    let autoRole: SkyRepeaterRoleType = 'list';
+    const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
+      list: { item: 'listitem', title: undefined, content: undefined },
+      listbox: { item: 'option', title: undefined, content: undefined },
+      grid: { item: 'row', title: 'rowheader', content: 'gridcell' },
+    };
+    if (this._ariaRole === 'auto') {
+      const hasSelectables = this.items?.some((item) => item.selectable);
+      const interactionSelector = [
+        'a[href]',
+        'button',
+        'select',
+        'textarea',
+        'input',
+      ]
+        .map((selector) => `sky-repeater-item-right ${selector}`)
+        .concat([`.sky-repeater[role="grid"]`, `skyux-dropdown`])
+        .join(', ');
+      const hasInteraction =
+        this.reorderable ||
+        !!(this.elementRef.nativeElement as HTMLElement).querySelector(
+          interactionSelector
+        );
+      if (hasInteraction) {
+        autoRole = 'grid';
+      } else if (hasSelectables) {
+        autoRole = 'listbox';
+      }
+      if (this.role !== autoRole) {
+        this.role = autoRole;
+        this.repeaterService.itemRole.next(roleMap[autoRole]);
+        this.changeDetector.markForCheck();
+      }
+    } else if (this.role !== this._ariaRole) {
+      this.role = this._ariaRole;
+      if (this.role && roleMap[this.role]) {
+        this.repeaterService.itemRole.next(roleMap[this.role]);
+      } else {
+        this.repeaterService.itemRole.next({});
+      }
+      this.changeDetector.markForCheck();
+    }
   }
 }

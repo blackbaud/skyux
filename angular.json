@@ -467,6 +467,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
             "outputPath": "dist/apps/code-examples",
             "index": "apps/code-examples/src/index.html",
             "main": "apps/code-examples/src/main.ts",
@@ -2262,6 +2263,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
             "outputPath": "dist/apps/playground",
             "index": "apps/playground/src/index.html",
             "main": "apps/playground/src/main.ts",

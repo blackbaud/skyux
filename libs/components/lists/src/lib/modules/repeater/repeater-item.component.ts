@@ -7,6 +7,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -34,6 +35,15 @@ import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId = 0;
 
+export type SkyRepeaterItemRoleType = 'listitem' | 'option' | 'row' | undefined;
+export type SkyRepeaterItemTitleRoleType = 'rowheader' | undefined;
+export type SkyRepeaterItemContentRoleType = 'gridcell' | undefined;
+export type SkyRepeaterItemRolesType = {
+  item?: SkyRepeaterItemRoleType;
+  title?: SkyRepeaterItemTitleRoleType;
+  content?: SkyRepeaterItemContentRoleType;
+};
+
 /**
  * Creates an individual repeater item.
  */
@@ -47,6 +57,43 @@ let nextContentId = 0;
 export class SkyRepeaterItemComponent
   implements OnDestroy, OnInit, AfterViewInit
 {
+  /**
+   * The first, non-disabled item is tab focusable.
+   */
+  @HostBinding()
+  public get tabindex(): 0 | -1 {
+    return this.repeaterService.items.filter((item) => !item.disabled)[0] ===
+      this
+      ? 0
+      : -1;
+  }
+
+  /**
+   * Whether to exclude an item when cycling through.
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    if (this._isDisabled !== value) {
+      if (value) {
+        this.isSelected = false;
+        this._isDisabled = true;
+      } else {
+        this._isDisabled = false;
+      }
+      if (this.isActive) {
+        this.repeaterService.activateItemByIndex(undefined);
+      }
+      /* istanbul ignore next */
+      if (this.elementRef.nativeElement.matches(':focus-within')) {
+        this.elementRef.nativeElement.blur();
+      }
+      this.changeDetector.markForCheck();
+    }
+  }
+  public get disabled(): boolean {
+    return this._isDisabled;
+  }
+
   /**
    * Specifies a human-readable name for the repeater item that is available for multiple purposes,
    * such as accessibility and instrumentation. For example, the component uses the name to
@@ -91,7 +138,7 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set isSelected(value: boolean) {
-    if (value !== this._isSelected) {
+    if (!this._isDisabled && value !== this._isSelected) {
       this._isSelected = value;
       this.isSelectedChange.emit(this._isSelected);
     }
@@ -127,7 +174,7 @@ export class SkyRepeaterItemComponent
    * if you set the `reorderable` property to `true`.
    */
   @Input()
-  public tag: any;
+  public tag: unknown;
 
   /**
    * Fires when users collapse the repeater item.
@@ -226,12 +273,14 @@ export class SkyRepeaterItemComponent
 
   private _isCollapsible = true;
 
+  private _isDisabled = false;
+
   private _isExpanded = true;
 
   private _isSelected = false;
 
   constructor(
-    private repeaterService: SkyRepeaterService,
+    public repeaterService: SkyRepeaterService,
     private changeDetector: ChangeDetectorRef,
     private adapterService: SkyRepeaterAdapterService,
     private elementRef: ElementRef,
@@ -285,6 +334,90 @@ export class SkyRepeaterItemComponent
     this.ngUnsubscribe.complete();
 
     this.repeaterService.unregisterItem(this);
+  }
+
+  @HostListener('keydown.home', ['$event'])
+  public onKeyupHome($event: KeyboardEvent) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    const items = this.repeaterService.items.filter((item) => !item.disabled);
+    const activateItem = items.shift();
+    /* istanbul ignore else */
+    if (activateItem) {
+      this.repeaterService.activateItem(activateItem);
+      activateItem.elementRef.nativeElement.focus();
+    }
+  }
+
+  @HostListener('keydown.end', ['$event'])
+  public onKeyupEnd($event: KeyboardEvent) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    const items = this.repeaterService.items.filter((item) => !item.disabled);
+    const activateItem = items.pop();
+    /* istanbul ignore else */
+    if (activateItem) {
+      this.repeaterService.activateItem(activateItem);
+      activateItem.elementRef.nativeElement.focus();
+    }
+  }
+
+  @HostListener('keydown.arrowup', ['$event'])
+  public onKeyupArrowUp($event: KeyboardEvent) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    const currentIndex = this.repeaterService.items.findIndex(
+      (item) => item === this
+    );
+    const items = this.repeaterService.items
+      .slice(0, currentIndex)
+      .filter((item) => !item.disabled);
+    const activateItem = items.pop();
+    if (activateItem) {
+      // Item above the current item.
+      this.repeaterService.activateItem(activateItem);
+      activateItem.elementRef.nativeElement.focus();
+    } else {
+      // Last item in the list.
+      const items = this.repeaterService.items
+        .slice(currentIndex + 1)
+        .filter((item) => !item.disabled);
+      const activateItem = items.pop();
+      /* istanbul ignore else */
+      if (activateItem) {
+        this.repeaterService.activateItem(activateItem);
+        activateItem.elementRef.nativeElement.focus();
+      }
+    }
+  }
+
+  @HostListener('keydown.arrowdown', ['$event'])
+  public onKeyupArrowDown($event: KeyboardEvent) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    const currentIndex = this.repeaterService.items.findIndex(
+      (item) => item === this
+    );
+    const items = this.repeaterService.items
+      .slice(currentIndex + 1)
+      .filter((item) => !item.disabled);
+    const activateItem = items.shift();
+    if (activateItem) {
+      // Item below the current item.
+      this.repeaterService.activateItem(activateItem);
+      activateItem.elementRef.nativeElement.focus();
+    } else {
+      // First item.
+      const items = this.repeaterService.items
+        .slice(0, currentIndex)
+        .filter((item) => !item.disabled);
+      const activateItem = items.shift();
+      /* istanbul ignore else */
+      if (activateItem) {
+        this.repeaterService.activateItem(activateItem);
+        activateItem.elementRef.nativeElement.focus();
+      }
+    }
   }
 
   public headerClick(): void {

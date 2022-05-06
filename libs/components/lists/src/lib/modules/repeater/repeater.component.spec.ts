@@ -808,6 +808,10 @@ describe('Repeater item component', () => {
         (item) => (item.selectable = true)
       );
 
+      // Detect selectable change.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // Selectable change updates roles.
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -1088,6 +1092,24 @@ describe('Repeater item component', () => {
       );
       expect(activeRepeaterItem.length).toEqual(1);
       expect(items[0]).toHaveCssClass('sky-repeater-item-active');
+
+      flushDropdownTimer();
+    }));
+
+    it('should clear active item if the item is disabled', fakeAsync(() => {
+      cmp.showRepeaterWithActiveIndex = true;
+      cmp.activeIndex = 0;
+      detectChangesAndTick(fixture);
+      const items = getRepeaterItems(el);
+      expect(items[0]).toHaveCssClass('sky-repeater-item-active');
+
+      cmp.disableFirstItem = true;
+      fixture.detectChanges();
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-active');
+
+      cmp.disableFirstItem = false;
+      fixture.detectChanges();
+      expect(items[0]).not.toHaveCssClass('sky-repeater-item-active');
 
       flushDropdownTimer();
     }));
@@ -1567,10 +1589,134 @@ describe('Repeater item component', () => {
       expect(el.querySelectorAll('sky-repeater-item')[0]).toBe(itemToTest);
     }));
 
+    it('should move through items with keyboard', fakeAsync(() => {
+      cmp.showItemWithNoContent = true;
+      detectChangesAndTick(fixture);
+      const items: Element[] = Array.from(
+        el.querySelectorAll('sky-repeater-item')
+      );
+      expect(items.length).toEqual(4);
+      const sequence = [
+        { startAt: 1, key: 'ArrowDown', expect: 2 },
+        { startAt: 2, key: 'ArrowDown', expect: 3 },
+        { startAt: 3, key: 'ArrowUp', expect: 2 },
+        { startAt: 2, key: 'End', expect: 3 },
+        { startAt: 3, key: 'ArrowDown', expect: 0 },
+        { startAt: 0, key: 'ArrowUp', expect: 3 },
+        { startAt: 3, key: 'ArrowUp', expect: 2 },
+        { startAt: 2, key: 'Home', expect: 0 },
+        { startAt: 0, key: 'ArrowUp', expect: 3 },
+        { startAt: 3, key: 'ArrowDown', expect: 0 },
+        { startAt: 0, key: 'ArrowDown', expect: 1 },
+      ];
+
+      for (const step of sequence) {
+        SkyAppTestUtility.fireDomEvent(items[step.startAt], 'keydown', {
+          keyboardEventInit: { key: step.key },
+        });
+        fixture.detectChanges();
+        expect(document.activeElement).toEqual(items[step.expect]);
+      }
+    }));
+
     it('should be accessible', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  });
+
+  describe('aria roles', () => {
+    let fixture: ComponentFixture<RepeaterTestComponent>;
+    let cmp: RepeaterTestComponent;
+    let el: any;
+    let mockDragulaService: MockDragulaService;
+
+    beforeEach(fakeAsync(() => {
+      mockDragulaService = new MockDragulaService();
+
+      fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
+        add: {
+          viewProviders: [
+            { provide: DragulaService, useValue: mockDragulaService },
+          ],
+        },
+      }).createComponent(RepeaterTestComponent);
+      cmp = fixture.componentInstance;
+      cmp.ariaRole = 'auto';
+      cmp.showRepeaterWithActiveIndex = true;
+      el = fixture.nativeElement;
+    }));
+
+    it('should calculate aria role as list', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'list'
+      );
+      expect(
+        el.querySelector('.sky-repeater-item').getAttribute('role')
+      ).toEqual('listitem');
+      expect(
+        el.querySelector('.sky-repeater-item-title').getAttribute('role')
+      ).toBeFalsy();
+      expect(
+        el.querySelector('.sky-repeater-item-content').getAttribute('role')
+      ).toBeFalsy();
+    });
+
+    it('should calculate aria role as grid', async () => {
+      cmp.showRepeaterWithActiveIndex = false;
+      cmp.reorderable = true;
+      cmp.selectable = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'grid'
+      );
+      expect(
+        el.querySelector('.sky-repeater-item').getAttribute('role')
+      ).toEqual('row');
+      expect(
+        el.querySelector('.sky-repeater-item-title').getAttribute('role')
+      ).toEqual('rowheader');
+      expect(
+        el.querySelector('.sky-repeater-item-content').getAttribute('role')
+      ).toEqual('gridcell');
+    });
+
+    it('should use list aria role', async () => {
+      cmp.ariaRole = 'list';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'list'
+      );
+      expect(
+        el.querySelector('.sky-repeater-item').getAttribute('role')
+      ).toEqual('listitem');
+      expect(
+        el.querySelector('.sky-repeater-item-title').getAttribute('role')
+      ).toBeFalsy();
+      expect(
+        el.querySelector('.sky-repeater-item-content').getAttribute('role')
+      ).toBeFalsy();
+    });
+
+    it('should omit aria role', async () => {
+      cmp.ariaRole = 'list';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
+        'list'
+      );
+
+      cmp.ariaRole = undefined;
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(
+        el.querySelector('.sky-repeater').getAttribute('role')
+      ).toBeFalsy();
     });
   });
 
