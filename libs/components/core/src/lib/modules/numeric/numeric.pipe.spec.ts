@@ -18,7 +18,7 @@ describe('Numeric pipe', () => {
       markForCheck: jasmine.createSpy('markForCheck'),
     };
 
-    expectedConfig = new SkyNumericOptions();
+    expectedConfig = new NumericOptions();
     expectedConfig.digits = 1;
     expectedConfig.format = 'number';
     expectedConfig.iso = 'USD';
