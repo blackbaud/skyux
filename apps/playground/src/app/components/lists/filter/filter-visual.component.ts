@@ -7,9 +7,9 @@ import { SkyFilterModule } from '@skyux/lists';
   templateUrl: './filter-visual.component.html',
 })
 export class FilterVisualComponent {
-  public filtersActive: boolean = false;
+  public filtersActive = false;
 
-  public appliedFilters: Array<any> = [
+  public appliedFilters = [
     {
       label: 'hide orange',
       dismissible: false,
@@ -20,7 +20,7 @@ export class FilterVisualComponent {
     },
   ];
 
-  public lotsOfFilters: Array<any> = [
+  public lotsOfFilters = [
     {
       label: 'Really long filter 1',
       dismissible: false,
