@@ -226,7 +226,7 @@ export class EditComplexCellsComponent implements OnInit {
         minWidth: 235,
         maxWidth: 285,
         editable: false,
-        cellRenderer: CustomMultilineComponent,
+        cellRendererFramework: CustomMultilineComponent,
         autoHeight: true,
         wrapText: true,
         cellClass: 'custom-multiline',
