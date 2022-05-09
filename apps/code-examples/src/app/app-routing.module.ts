@@ -55,6 +55,11 @@ const routes: Routes = [
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
   },
   {
+    path: 'phone-field',
+    loadChildren: () =>
+      import('./features/phone-field.module').then((m) => m.PhoneModule),
+  },
+  {
     path: 'popovers',
     loadChildren: () =>
       import('./features/popovers.module').then((m) => m.PopoversFeatureModule),
