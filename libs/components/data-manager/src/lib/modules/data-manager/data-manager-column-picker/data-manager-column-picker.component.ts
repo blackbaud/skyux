@@ -76,11 +76,6 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.libResources
-      .getString('skyux_data_manager_column_picker_title')
-      .subscribe((value) => {
-        console.log(value);
-      });
     this.dataManagerService.initDataManager({
       activeViewId: this.viewConfig.id,
       dataManagerConfig: {},
