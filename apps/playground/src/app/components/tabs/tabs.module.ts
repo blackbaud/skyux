@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'sectioned-form',
+    loadChildren: () =>
+      import('./sectioned-form/sectioned-form.module').then(
+        (m) => m.SectionedFormModule
+      ),
+  },
+  {
     path: 'vertical-tabset',
     loadChildren: () =>
       import('./vertical-tabset/vertical-tabset.module').then(

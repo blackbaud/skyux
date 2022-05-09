@@ -10,7 +10,7 @@ import { SkyAutocompleteComponent } from '../autocomplete.component';
 export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
   public reactiveForm: FormGroup;
 
-  public data: any[] = [
+  public data: { objectid?: string; name?: string; text?: string }[] = [
     { name: 'Red' },
     { name: 'Blue' },
     { name: 'Green' },
