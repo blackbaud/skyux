@@ -1,5 +1,10 @@
 import { Directive, Input, forwardRef } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
 
@@ -37,20 +42,16 @@ export class SkyUrlValidationDirective implements Validator {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 
-  public validate(control: AbstractControl): { [key: string]: any } {
+  public validate(control: AbstractControl): ValidationErrors | undefined {
     const value = control.value;
 
     if (!value) {
       return;
     }
 
-    if (!SkyValidation.isUrl(value, this._skyUrlValidationOptions)) {
-      return {
-        skyUrl: {
-          invalid: control.value,
-        },
-      };
-    }
+    return SkyValidation.isUrl(value, this._skyUrlValidationOptions)
+      ? undefined
+      : { skyUrl: { invalid: value } };
   }
 
   public registerOnValidatorChange(fn: () => void): void {
