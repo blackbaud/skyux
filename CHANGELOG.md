@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.0.0-beta.11](https://github.com/blackbaud/skyux/compare/6.0.0-beta.10...6.0.0-beta.11) (2022-05-09)
+
+### Features
+
+- **components/packages:** add '.angular/cache' to .prettierignore ([#233](https://github.com/blackbaud/skyux/issues/233)) ([83481a2](https://github.com/blackbaud/skyux/commit/83481a2e742c49f6ab0c852b5fa2a9265135bdb2))
+
+### Bug Fixes
+
+- **components/core:** convert `SkyNumericOptions` from a class to an interface ([#232](https://github.com/blackbaud/skyux/issues/232)) ([8400516](https://github.com/blackbaud/skyux/commit/8400516628977f0ae573861a4d47ce0cf9048345))
+- **components/lookup:** reset single select autocomplete when the input is blurred while under the minimum search text length ([#234](https://github.com/blackbaud/skyux/issues/234)) ([#236](https://github.com/blackbaud/skyux/issues/236)) ([270c118](https://github.com/blackbaud/skyux/commit/270c118c891111a53304f69da7e61bf4cd305730))
+
 ## [6.0.0-beta.10](https://github.com/blackbaud/skyux/compare/6.0.0-beta.9...6.0.0-beta.10) (2022-05-04)
 
 ### Features
