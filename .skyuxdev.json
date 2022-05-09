@@ -1,5 +1,5 @@
 {
-  "allowedSemverRange": ">6.0.0-beta <6.0.0-rc",
+  "allowedSemverRange": "^6.0.0",
   "baseBranch": "main",
   "documentationExcludeProjects": [
     "animations",
