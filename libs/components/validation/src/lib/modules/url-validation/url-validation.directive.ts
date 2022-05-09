@@ -27,7 +27,15 @@ export class SkyUrlValidationDirective implements Validator {
    * Specifies configuration options for the URL validation component.
    */
   @Input()
-  public skyUrlValidation: SkyUrlValidationOptions | undefined;
+  public set skyUrlValidation(value: SkyUrlValidationOptions | undefined) {
+    this._skyUrlValidationOptions = value;
+    this._validatorChange();
+  }
+
+  private _skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _validatorChange = () => {};
 
   public validate(control: AbstractControl): { [key: string]: any } {
     const value = control.value;
@@ -36,12 +44,16 @@ export class SkyUrlValidationDirective implements Validator {
       return;
     }
 
-    if (!SkyValidation.isUrl(value, this.skyUrlValidation)) {
+    if (!SkyValidation.isUrl(value, this._skyUrlValidationOptions)) {
       return {
         skyUrl: {
           invalid: control.value,
         },
       };
     }
+  }
+
+  public registerOnValidatorChange(fn: () => void): void {
+    this._validatorChange = fn;
   }
 }
