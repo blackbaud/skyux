@@ -13,6 +13,7 @@ import { delay } from 'rxjs/operators';
   templateUrl: './autocomplete.component.html',
 })
 export class AutocompleteComponent implements OnInit {
+  public controlForm: FormGroup;
   public reactiveForm: FormGroup;
 
   public templateDrivenModel: NgModel;
@@ -38,6 +39,10 @@ export class AutocompleteComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
+    this.controlForm = this.formBuilder.group({
+      searchTextMin: undefined,
+      searchTextMinTemplate: undefined,
+    });
     this.reactiveForm = this.formBuilder.group({
       favoriteColor: undefined,
       favoriteColorAsync: undefined,
