@@ -1,5 +1,7 @@
 # Changelog
 
+## [6.0.0](https://github.com/blackbaud/skyux/compare/6.0.0-beta.11...6.0.0) (2022-05-09)
+
 ### [5.9.5](https://github.com/blackbaud/skyux/compare/5.9.4...5.9.5) (2022-05-09)
 
 ### Bug Fixes
