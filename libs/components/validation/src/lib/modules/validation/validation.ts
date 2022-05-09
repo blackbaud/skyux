@@ -14,6 +14,7 @@ export abstract class SkyValidation {
 
   public static isUrl(url: string, options?: SkyUrlValidationOptions): boolean {
     const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
+    url = url.toString();
     if (options) {
       switch (options.rulesetVersion) {
         case 1:
