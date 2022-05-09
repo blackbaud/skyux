@@ -8,9 +8,21 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./features/colorpicker.module').then(
+        (m) => m.ColorpickerFeatureModule
+      ),
+  },
+  {
     path: 'core',
     loadChildren: () =>
       import('./features/core.module').then((m) => m.CoreFeatureModule),
+  },
+  {
+    path: 'errors',
+    loadChildren: () =>
+      import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
   },
   {
     path: 'forms',
@@ -41,6 +53,11 @@ const routes: Routes = [
     path: 'modals',
     loadChildren: () =>
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
+  },
+  {
+    path: 'phone-field',
+    loadChildren: () =>
+      import('./features/phone-field.module').then((m) => m.PhoneModule),
   },
   {
     path: 'popovers',

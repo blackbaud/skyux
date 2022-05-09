@@ -1,0 +1,22 @@
+<sky-modal>
+  <sky-modal-content>
+    <div id="screenshot-sectioned-form" style="padding-left: 15px">
+      <sky-sectioned-form [maintainSectionContent]="maintainSectionContent">
+        <sky-sectioned-form-section heading="Basic information">
+          <app-sectioned-form-information-form-demo>
+          </app-sectioned-form-information-form-demo>
+        </sky-sectioned-form-section>
+        <sky-sectioned-form-section
+          active="true"
+          heading="Addresses"
+          itemCount="2"
+        >
+          <app-sectioned-form-address-form-demo></app-sectioned-form-address-form-demo>
+        </sky-sectioned-form-section>
+        <sky-sectioned-form-section heading="Phone numbers" itemCount="3">
+          <app-sectioned-form-phone-form-demo></app-sectioned-form-phone-form-demo>
+        </sky-sectioned-form-section>
+      </sky-sectioned-form>
+    </div>
+  </sky-modal-content>
+</sky-modal>
