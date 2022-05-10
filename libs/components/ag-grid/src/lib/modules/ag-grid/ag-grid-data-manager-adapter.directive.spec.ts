@@ -9,8 +9,6 @@ import {
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
-  Beans,
-  Column,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
@@ -63,7 +61,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a row is selected', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode();
     rowNode.data = { id: '1' };
     spyOn(rowNode, 'isSelected').and.returnValue(true);
     spyOn(dataManagerService, 'updateDataState');
@@ -87,7 +85,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a row is deselected', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    const rowNode = new RowNode({} as Beans);
+    const rowNode = new RowNode();
     rowNode.data = { id: '3' };
     spyOn(rowNode, 'isSelected').and.returnValue(false);
     spyOn(dataManagerService, 'updateDataState');
