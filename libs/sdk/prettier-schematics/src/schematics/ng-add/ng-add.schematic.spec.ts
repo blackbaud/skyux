@@ -130,6 +130,12 @@ dist
 node_modules
 package-lock.json
 
+# Ignore: assets
+src/assets
+
+# Ignore Angular cache
+/.angular/cache
+
 # Don't format the following since the order of its import statements is deliberate.
 test.ts`);
   });
