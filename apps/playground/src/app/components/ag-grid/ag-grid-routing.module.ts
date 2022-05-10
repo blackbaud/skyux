@@ -17,6 +17,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'data-manager-large',
+    loadChildren: () =>
+      import('./data-manager-large/data-manager-large.module').then(
+        (m) => m.DataManagerLargeModule
+      ),
+  },
+  {
     path: 'edit-complex-cells',
     loadChildren: () =>
       import('./edit-complex-cells/edit-complex-cells.module').then(
