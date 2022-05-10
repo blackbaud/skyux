@@ -62,6 +62,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/tiles.module').then((m) => m.TilesFeatureModule),
   },
+  {
+    path: 'validation',
+    loadChildren: () =>
+      import('./features/validation.module').then((m) => m.ValidationModule),
+  },
 ];
 
 @NgModule({
