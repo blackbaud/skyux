@@ -54,6 +54,11 @@
       "version": "6.0.0",
       "factory": "./update-6/prettier-ignore.schematic",
       "description": "Add '.angular/cache' to .prettierignore"
+    },
+    "prettier-ignore-assets": {
+      "version": "6.0.1",
+      "factory": "./prettier-ignore-assets/prettier-ignore-assets.schematic",
+      "description": "Add 'assets' to .prettierignore"
     }
   }
 }
