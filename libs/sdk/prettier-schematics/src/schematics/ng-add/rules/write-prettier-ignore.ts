@@ -22,6 +22,7 @@ package-lock.json
 
 # Ignore: assets
 src/assets
+projects/*/src/assets/
 
 # Ignore Angular cache
 /.angular/cache
