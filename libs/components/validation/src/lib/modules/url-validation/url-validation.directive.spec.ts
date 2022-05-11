@@ -85,10 +85,19 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should handle invalid and then valid input', fakeAsync(() => {
+  it('should validate invalid and then valid input', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
+    fixture.detectChanges();
+    tick();
+    expect(nativeElement.querySelector('input').value).toBe(
+      '[]awefhawenfc0293ejwf]'
+    );
+    expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
+    expect(ngModel.control.valid).toBe(false);
+    fixture.detectChanges();
+    tick();
     setInput(nativeElement, 'blackbaud.com', fixture);
 
     expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
@@ -260,10 +269,19 @@ describe('URL validation via directive - ruleset v2', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should handle invalid and then valid input using ruleset version 2', fakeAsync(() => {
+  it('should validate invalid and then valid input using ruleset version 2', fakeAsync(() => {
     fixture.detectChanges();
     tick();
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
+    fixture.detectChanges();
+    tick();
+    expect(nativeElement.querySelector('input').value).toBe(
+      '[]awefhawenfc0293ejwf]'
+    );
+    expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
+    expect(ngModel.control.valid).toBe(false);
+    fixture.detectChanges();
+    tick();
     setInput(nativeElement, 'blackbaud.com', fixture);
 
     expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
