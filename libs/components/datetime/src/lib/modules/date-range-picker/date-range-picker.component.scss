@@ -4,14 +4,9 @@
 
 .sky-date-range-picker {
   display: flex;
-  margin-left: -$sky-margin-half;
-  margin-right: -$sky-margin-half;
 }
 
 .sky-date-range-picker-form-group {
-  padding-left: $sky-padding-half;
-  padding-right: $sky-padding-half;
-
   &:last-child {
     margin-bottom: 0;
   }
@@ -24,6 +19,14 @@
 
   .sky-date-range-picker-form-group {
     flex-basis: 100%;
+
+    &:not(:first-of-type) {
+      padding-left: initial;
+    }
+
+    &:not(:last-of-type) {
+      padding-right: initial;
+    }
   }
 }
 
@@ -35,6 +38,14 @@
   .sky-date-range-picker-form-group {
     flex-basis: calc(100% / 3);
     margin-bottom: 0;
+
+    &:not(:first-of-type) {
+      padding-left: $sky-padding-half;
+    }
+
+    &:not(:last-of-type) {
+      padding-right: $sky-padding-half;
+    }
   }
 }
 
