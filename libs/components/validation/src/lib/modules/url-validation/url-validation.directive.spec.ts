@@ -13,7 +13,7 @@ import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtur
 import { UrlValidationRulesetTestComponent } from './fixtures/url-validation-ruleset.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
-describe('Url validation', () => {
+describe('URL validation via directive', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -109,7 +109,7 @@ describe('Url validation', () => {
   }));
 });
 
-describe('URL validation - ruleset v1', () => {
+describe('URL validation via directive - ruleset v1', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -188,7 +188,7 @@ describe('URL validation - ruleset v1', () => {
   }));
 });
 
-describe('URL validation - ruleset v2', () => {
+describe('URL validation via directive - ruleset v2', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -283,7 +283,7 @@ describe('URL validation - ruleset v2', () => {
     });
   }));
 });
-describe('URL validation - non-onceability', () => {
+describe('URL validation via directive - non-onceability', () => {
   function setInput(
     element: HTMLElement,
     text: string,

@@ -4,7 +4,7 @@ import { SkyUrlValidationOptions } from '../url-validation/url-validation-option
 
 import { SkyValidators } from './validators';
 
-describe('Validators', () => {
+describe('FormControl Validators', () => {
   describe('Email', () => {
     it('should be valid on empty input (empty string)', () => {
       const control = new FormControl('', SkyValidators.email);
