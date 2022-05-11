@@ -13,7 +13,7 @@ import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtur
 import { UrlValidationRulesetTestComponent } from './fixtures/url-validation-ruleset.component.fixture';
 import { UrlValidationTestComponent } from './fixtures/url-validation.component.fixture';
 
-describe('URL validation via directive', () => {
+describe('URL validation via directive - ruleset v1 (implicit)', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -109,7 +109,7 @@ describe('URL validation via directive', () => {
   }));
 });
 
-describe('URL validation via directive - ruleset v1', () => {
+describe('URL validation via directive - ruleset v1 (explicit)', () => {
   function setInput(
     element: HTMLElement,
     text: string,
@@ -351,43 +351,5 @@ describe('URL validation via directive - non-onceability', () => {
     expect(ngModel.control.valid).toBe(false);
     expect(ngModel.control.pristine).toBe(false);
     expect(ngModel.control.touched).toBe(false);
-  }));
-
-  it('should validate incorrect input using ruleset version 2', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
-    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
-    fixture.detectChanges();
-
-    expect(nativeElement.querySelector('input').value).toBe(
-      '[]awefhawenfc0293ejwf]'
-    );
-
-    expect(ngModel.control.valid).toBe(false);
-    expect(ngModel.control.pristine).toBe(false);
-    expect(ngModel.control.touched).toBe(false);
-  }));
-
-  it('should handle invalid and then valid input using ruleset version 2', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
-    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
-    setInput(nativeElement, 'blackbaud.com', fixture);
-
-    expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
-    expect(component.urlValidator).toEqual('blackbaud.com');
-
-    expect(ngModel.control.valid).toBe(true);
-    expect(ngModel.control.pristine).toBe(false);
-    expect(ngModel.control.touched).toBe(false);
-  }));
-
-  it('should pass accessibility using ruleset version 2', async(() => {
-    fixture.detectChanges();
-    setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
   }));
 });
