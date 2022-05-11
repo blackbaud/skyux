@@ -1,11 +1,13 @@
 <form novalidate>
   <div class="sky-form-group">
     <sky-input-box>
-      <label class="sky-control-label" [for]="urlInput.id"> URL </label>
+      <label class="sky-control-label" [for]="urlInput.id">
+        URL - ruleset v{{ skyUrlValidationOptions.rulesetVersion }}
+      </label>
       <input
         class="sky-form-control"
         name="url"
-        skyUrlValidation
+        [skyUrlValidation]="skyUrlValidationOptions"
         skyId
         [(ngModel)]="demoModel.url"
         #urlInput="skyId"
@@ -21,3 +23,13 @@
     Enter a valid URL in the "http(s)://site.domain" format.
   </div>
 </form>
+
+<button
+  class="sky-btn sky-btn-default sky-col-picker-btn"
+  type="button"
+  attr.aria-label="ruleset-toggle-button"
+  attr.title="ruleset-toggle-button"
+  (click)="toggleRuleset()"
+>
+  <span class="sky-column-selector-action-btn-text"> Toggle Ruleset </span>
+</button>
