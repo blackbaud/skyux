@@ -7,12 +7,13 @@ import path from 'path';
 
 import { createTestApp } from '../../testing/scaffold';
 
-describe('Migrations > Add assets folder to Prettier ignore', () => {
+describe('Migrations > Add assets folders to Prettier ignore', () => {
   const collectionPath = path.join(__dirname, '../migration-collection.json');
   const defaultProjectName = 'my-app';
   const schematicName = 'prettier-ignore-assets';
 
-  const expectedContents = `src/assets
+  let expectedContents = `src/assets
+projects/*/src/assets
 /.angular/cache
 coverage
 dist
@@ -34,7 +35,7 @@ package-lock.json
     return runner.runSchematicAsync(schematicName, {}, tree).toPromise();
   }
 
-  it('should add Angular cache to .prettierignore', async () => {
+  it('should add assets folders to .prettierignore', async () => {
     tree.create(
       '.prettierignore',
       `/.angular/cache
@@ -52,7 +53,52 @@ package-lock.json
     );
   });
 
-  it('should not update .prettierignore if assets path already added', async () => {
+  it('should add SPA assets folder if the library folder already exists within .prettierignore', async () => {
+    tree.create(
+      '.prettierignore',
+      `projects/*/src/assets
+/.angular/cache
+coverage
+dist
+node_modules
+package-lock.json
+`
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.readContent('.prettierignore')).toEqual(
+      expectedContents
+    );
+  });
+
+  it('should add SPA assets folder if the library folder already exists within .prettierignore', async () => {
+    expectedContents = `projects/*/src/assets
+src/assets
+/.angular/cache
+coverage
+dist
+node_modules
+package-lock.json`;
+
+    tree.create(
+      '.prettierignore',
+      `src/assets
+/.angular/cache
+coverage
+dist
+node_modules
+package-lock.json`
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(updatedTree.readContent('.prettierignore')).toEqual(
+      expectedContents
+    );
+  });
+
+  it('should not update .prettierignore if assets paths already added', async () => {
     tree.create('.prettierignore', expectedContents);
 
     const updatedTree = await runSchematic();
@@ -65,6 +111,7 @@ package-lock.json
   it('should not update .prettierignore if assets path already added in a different format', async () => {
     const originalContents = `/.angular/cache
 \\src\\assets
+\\projects\\*\\src\\assets
 coverage
 dist
 node_modules
