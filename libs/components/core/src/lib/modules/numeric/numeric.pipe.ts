@@ -17,10 +17,6 @@ import { SkyNumericService } from './numeric.service';
  * M for millions, B for billions, and T for trillions. The pipe also formats for currency.
  * Be sure you have a space after the two curly brackets opening the pipe and
  * a space before the two curly brackets closing the pipe or it will not work.
- * Usage:
- * ```
- * {{ value | skyNumeric(config) }}
- * ```
  */
 @Pipe({
   name: 'skyNumeric',
@@ -53,6 +49,9 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
+  /**
+   * Formats a number based on the provided options.
+   */
   public transform(value: number, config?: SkyNumericOptions): string {
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
