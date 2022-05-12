@@ -333,11 +333,31 @@ export class SkyRepeaterItemComponent
   }
 
   @HostListener('keydown', ['$event'])
-  public onKeyup($event: KeyboardEvent) {
-    if (['Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)) {
+  public onKeydown($event: KeyboardEvent) {
+    if (
+      $event.target &&
+      ($event.target as Element).matches(
+        [
+          'sky-repeater-item',
+          '.sky-repeater-item',
+          '.sky-repeater-item-left',
+          '.sky-repeater-item-left *',
+          '.sky-repeater-item-title',
+          '.sky-repeater-item-title *',
+        ].join(',')
+      ) &&
+      [' ', 'Enter', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)
+    ) {
       $event.preventDefault();
       $event.stopPropagation();
       let activateItem: SkyRepeaterItemComponent | undefined = undefined;
+      /* istanbul ignore else */
+      if ([' ', 'Enter'].includes($event.key)) {
+        if (this.selectable) {
+          this.isSelected = !this.isSelected;
+        }
+        activateItem = this;
+      }
       /* istanbul ignore else */
       if (['Home', 'End'].includes($event.key)) {
         const items = this.repeaterService.items.filter(
@@ -385,7 +405,13 @@ export class SkyRepeaterItemComponent
       /* istanbul ignore else */
       if (activateItem && !activateItem.isActive) {
         this.repeaterService.activateItem(activateItem);
-        activateItem.elementRef.nativeElement.focus();
+        if (
+          !(activateItem.elementRef.nativeElement as Element).matches(
+            ':focus-within'
+          )
+        ) {
+          activateItem.elementRef.nativeElement.focus();
+        }
       }
     }
   }
@@ -513,31 +539,6 @@ export class SkyRepeaterItemComponent
     this.revertReorderSteps();
     this.reorderButtonLabel = this.reorderInstructions;
     this.reorderState = undefined;
-  }
-
-  public onItemKeyDown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      switch (event.key.toLowerCase()) {
-        case ' ':
-        case 'enter':
-          /* istanbul ignore else */
-          /* Sanity check */
-          // Space/enter should never execute unless focused on the parent item element.
-          if (event.target === this.itemRef.nativeElement) {
-            if (this.selectable) {
-              this.isSelected = !this.isSelected;
-            }
-            this.repeaterService.activateItem(this);
-            event.preventDefault();
-          }
-          break;
-
-        /* istanbul ignore next */
-        default:
-          break;
-      }
-    }
   }
 
   private slideForExpanded(animate: boolean): void {
