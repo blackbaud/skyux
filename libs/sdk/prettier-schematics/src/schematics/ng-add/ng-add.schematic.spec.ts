@@ -131,11 +131,11 @@ node_modules
 package-lock.json
 
 # Ignore assets
-/src/assets
+/src/assets/
 /projects/*/src/assets/
 
 # Ignore standard SPA library path
-/src/app/lib
+/src/app/lib/
 
 # Ignore Angular cache
 /.angular/cache
