@@ -166,7 +166,7 @@ export class SkyRepeaterItemComponent
    * if you set the `reorderable` property to `true`.
    */
   @Input()
-  public tag: unknown;
+  public tag: any;
 
   /**
    * Fires when users collapse the repeater item.
