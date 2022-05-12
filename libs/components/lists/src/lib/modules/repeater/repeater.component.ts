@@ -115,7 +115,7 @@ export class SkyRepeaterComponent
 
   public dragulaGroupName: string;
 
-  public role: 'list' | 'listbox' | 'grid' | '' = '';
+  public role: 'list' | 'listbox' | 'grid' | undefined = undefined;
 
   private dragulaUnsubscribe = new Subject<void>();
 
