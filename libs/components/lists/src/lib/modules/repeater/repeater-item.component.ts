@@ -25,24 +25,16 @@ import {
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import { Subject, forkJoin as observableForkJoin } from 'rxjs';
+import { Observable, Subject, forkJoin as observableForkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
+import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId = 0;
-
-export type SkyRepeaterItemRoleType = 'listitem' | 'option' | 'row' | undefined;
-export type SkyRepeaterItemTitleRoleType = 'rowheader' | undefined;
-export type SkyRepeaterItemContentRoleType = 'gridcell' | undefined;
-export type SkyRepeaterItemRolesType = {
-  item?: SkyRepeaterItemRoleType;
-  title?: SkyRepeaterItemTitleRoleType;
-  content?: SkyRepeaterItemContentRoleType;
-};
 
 /**
  * Creates an individual repeater item.
@@ -227,6 +219,8 @@ export class SkyRepeaterItemComponent
     return this._isCollapsible;
   }
 
+  public itemRole$: Observable<SkyRepeaterItemRolesType>;
+
   public keyboardReorderingEnabled = false;
 
   public reorderButtonLabel: string;
@@ -280,7 +274,7 @@ export class SkyRepeaterItemComponent
   private _isSelected = false;
 
   constructor(
-    public repeaterService: SkyRepeaterService,
+    private repeaterService: SkyRepeaterService,
     private changeDetector: ChangeDetectorRef,
     private adapterService: SkyRepeaterAdapterService,
     private elementRef: ElementRef,
@@ -304,6 +298,8 @@ export class SkyRepeaterItemComponent
       this.reorderMovedText = translatedStrings[4];
       this.reorderButtonLabel = this.reorderInstructions;
     });
+
+    this.itemRole$ = this.repeaterService.itemRole.asObservable();
   }
 
   public ngOnInit(): void {
@@ -336,84 +332,58 @@ export class SkyRepeaterItemComponent
     this.repeaterService.unregisterItem(this);
   }
 
-  @HostListener('keydown.home', ['$event'])
-  public onKeyupHome($event: KeyboardEvent) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    const items = this.repeaterService.items.filter((item) => !item.disabled);
-    const activateItem = items.shift();
-    /* istanbul ignore else */
-    if (activateItem) {
-      this.repeaterService.activateItem(activateItem);
-      activateItem.elementRef.nativeElement.focus();
-    }
-  }
-
-  @HostListener('keydown.end', ['$event'])
-  public onKeyupEnd($event: KeyboardEvent) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    const items = this.repeaterService.items.filter((item) => !item.disabled);
-    const activateItem = items.pop();
-    /* istanbul ignore else */
-    if (activateItem) {
-      this.repeaterService.activateItem(activateItem);
-      activateItem.elementRef.nativeElement.focus();
-    }
-  }
-
-  @HostListener('keydown.arrowup', ['$event'])
-  public onKeyupArrowUp($event: KeyboardEvent) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    const currentIndex = this.repeaterService.items.findIndex(
-      (item) => item === this
-    );
-    const items = this.repeaterService.items
-      .slice(0, currentIndex)
-      .filter((item) => !item.disabled);
-    const activateItem = items.pop();
-    if (activateItem) {
-      // Item above the current item.
-      this.repeaterService.activateItem(activateItem);
-      activateItem.elementRef.nativeElement.focus();
-    } else {
-      // Last item in the list.
-      const items = this.repeaterService.items
-        .slice(currentIndex + 1)
-        .filter((item) => !item.disabled);
-      const activateItem = items.pop();
+  @HostListener('keydown', ['$event'])
+  public onKeyup($event: KeyboardEvent) {
+    if (['Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      let activateItem: SkyRepeaterItemComponent | undefined = undefined;
       /* istanbul ignore else */
-      if (activateItem) {
-        this.repeaterService.activateItem(activateItem);
-        activateItem.elementRef.nativeElement.focus();
+      if (['Home', 'End'].includes($event.key)) {
+        const items = this.repeaterService.items.filter(
+          (item) => !item.disabled
+        );
+        if ($event.key === 'Home') {
+          activateItem = items.shift();
+        } else {
+          activateItem = items.pop();
+        }
       }
-    }
-  }
-
-  @HostListener('keydown.arrowdown', ['$event'])
-  public onKeyupArrowDown($event: KeyboardEvent) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    const currentIndex = this.repeaterService.items.findIndex(
-      (item) => item === this
-    );
-    const items = this.repeaterService.items
-      .slice(currentIndex + 1)
-      .filter((item) => !item.disabled);
-    const activateItem = items.shift();
-    if (activateItem) {
-      // Item below the current item.
-      this.repeaterService.activateItem(activateItem);
-      activateItem.elementRef.nativeElement.focus();
-    } else {
-      // First item.
-      const items = this.repeaterService.items
-        .slice(0, currentIndex)
-        .filter((item) => !item.disabled);
-      const activateItem = items.shift();
       /* istanbul ignore else */
-      if (activateItem) {
+      if (['ArrowUp', 'ArrowDown'].includes($event.key)) {
+        const currentIndex = this.repeaterService.items.findIndex(
+          (item) => item === this
+        );
+        let sliceFrom: number;
+        let sliceTo: number;
+        if ($event.key === 'ArrowUp') {
+          sliceFrom = 0;
+          sliceTo = currentIndex;
+        } else {
+          sliceFrom = currentIndex + 1;
+          sliceTo = undefined;
+        }
+        const items = this.repeaterService.items
+          .slice(sliceFrom, sliceTo)
+          .filter((item) => !item.disabled);
+        activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
+        if (!activateItem) {
+          // Wrap around.
+          if ($event.key === 'ArrowDown') {
+            sliceFrom = 0;
+            sliceTo = currentIndex;
+          } else {
+            sliceFrom = currentIndex + 1;
+            sliceTo = undefined;
+          }
+          const items = this.repeaterService.items
+            .slice(sliceFrom, sliceTo)
+            .filter((item) => !item.disabled);
+          activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
+        }
+      }
+      /* istanbul ignore else */
+      if (activateItem && !activateItem.isActive) {
         this.repeaterService.activateItem(activateItem);
         activateItem.elementRef.nativeElement.focus();
       }

@@ -1,9 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 
-import {
-  SkyRepeaterComponent,
-  SkyRepeaterRoleType,
-} from '../repeater.component';
+import { SkyRepeaterRoleType } from '../repeater-role.type';
+import { SkyRepeaterComponent } from '../repeater.component';
 
 let nextItemId = 0;
 
@@ -19,8 +17,6 @@ export class RepeaterTestComponent {
   public get activeIndex(): number {
     return this._activeIndex;
   }
-
-  public ariaRole: SkyRepeaterRoleType | 'auto' | undefined = 'auto';
 
   public disableFirstItem = false;
 

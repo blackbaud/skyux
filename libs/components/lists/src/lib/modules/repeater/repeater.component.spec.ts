@@ -1643,7 +1643,6 @@ describe('Repeater item component', () => {
         },
       }).createComponent(RepeaterTestComponent);
       cmp = fixture.componentInstance;
-      cmp.ariaRole = 'auto';
       cmp.showRepeaterWithActiveIndex = true;
       el = fixture.nativeElement;
     }));
@@ -1683,40 +1682,6 @@ describe('Repeater item component', () => {
       expect(
         el.querySelector('.sky-repeater-item-content').getAttribute('role')
       ).toEqual('gridcell');
-    });
-
-    it('should use list aria role', async () => {
-      cmp.ariaRole = 'list';
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
-        'list'
-      );
-      expect(
-        el.querySelector('.sky-repeater-item').getAttribute('role')
-      ).toEqual('listitem');
-      expect(
-        el.querySelector('.sky-repeater-item-title').getAttribute('role')
-      ).toBeFalsy();
-      expect(
-        el.querySelector('.sky-repeater-item-content').getAttribute('role')
-      ).toBeFalsy();
-    });
-
-    it('should omit aria role', async () => {
-      cmp.ariaRole = 'list';
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(el.querySelector('.sky-repeater').getAttribute('role')).toEqual(
-        'list'
-      );
-
-      cmp.ariaRole = undefined;
-      fixture.detectChanges();
-      await fixture.whenStable();
-      expect(
-        el.querySelector('.sky-repeater').getAttribute('role')
-      ).toBeFalsy();
     });
   });
 

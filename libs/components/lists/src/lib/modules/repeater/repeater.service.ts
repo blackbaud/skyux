@@ -2,10 +2,8 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import {
-  SkyRepeaterItemComponent,
-  SkyRepeaterItemRolesType,
-} from './repeater-item.component';
+import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
+import { SkyRepeaterItemComponent } from './repeater-item.component';
 
 /**
  * @internal

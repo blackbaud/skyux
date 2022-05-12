@@ -1,6 +1,5 @@
 <sky-repeater
   *ngIf="!showRepeaterWithActiveIndex && !showRepeaterWithNgFor"
-  [ariaRole]="ariaRole"
   [expandMode]="expandMode"
   [reorderable]="reorderable"
   (orderChange)="onOrderChange($event)"
@@ -63,11 +62,7 @@
   </sky-repeater-item>
 </sky-repeater>
 
-<sky-repeater
-  *ngIf="showRepeaterWithActiveIndex"
-  [(activeIndex)]="activeIndex"
-  [ariaRole]="ariaRole"
->
+<sky-repeater *ngIf="showRepeaterWithActiveIndex" [(activeIndex)]="activeIndex">
   <sky-repeater-item [disabled]="disableFirstItem">
     <sky-repeater-item-title> Title 1 </sky-repeater-item-title>
   </sky-repeater-item>
@@ -79,7 +74,7 @@
   </sky-repeater-item>
 </sky-repeater>
 
-<sky-repeater *ngIf="showRepeaterWithNgFor" [ariaRole]="ariaRole">
+<sky-repeater *ngIf="showRepeaterWithNgFor">
   <sky-repeater-item
     *ngFor="let item of items"
     [tag]="item.id"
