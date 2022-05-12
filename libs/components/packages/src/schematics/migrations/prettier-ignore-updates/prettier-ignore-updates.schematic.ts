@@ -1,30 +1,34 @@
 import { Rule } from '@angular-devkit/schematics';
 
+import { regexEscape } from '../../utility/regex';
+
 export default function addNewItemsToPrettierIgnore(): Rule {
   return (tree) => {
-    const pathsToIgnore = [
-      '/src/assets',
-      '/projects/*/src/assets',
-      '/src/app/lib',
+    const ignorePaths = [
+      '/src/assets/',
+      '/projects/*/src/assets/',
+      '/src/app/lib/',
     ];
     const prettierIgnorePath = '/.prettierignore';
-    const prettierIgnore = tree.read(prettierIgnorePath);
+    const prettierIgnore = tree.read(prettierIgnorePath)?.toString();
 
-    let replacementString = prettierIgnore.toString();
+    if (prettierIgnore) {
+      let replacementString = prettierIgnore;
 
-    for (const path of pathsToIgnore) {
-      if (
-        prettierIgnore &&
-        !new RegExp(`^` + path.replace('*', '\\*') + `$`, 'm').exec(
-          replacementString.toString()
-        )
-      ) {
-        replacementString = `${path}\n` + replacementString;
+      for (const ignorePath of ignorePaths) {
+        if (
+          prettierIgnore &&
+          !new RegExp(`^` + regexEscape(ignorePath) + `$`, 'm').exec(
+            replacementString
+          )
+        ) {
+          replacementString = `${ignorePath}\n` + replacementString;
+        }
       }
-    }
 
-    if (replacementString !== prettierIgnore.toString()) {
-      tree.overwrite(prettierIgnorePath, replacementString);
+      if (replacementString !== prettierIgnore) {
+        tree.overwrite(prettierIgnorePath, replacementString);
+      }
     }
   };
 }

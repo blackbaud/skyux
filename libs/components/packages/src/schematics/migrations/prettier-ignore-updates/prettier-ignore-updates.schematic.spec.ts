@@ -12,9 +12,9 @@ describe('Migrations > Add assets folders to Prettier ignore', () => {
   const defaultProjectName = 'my-app';
   const schematicName = 'prettier-ignore-updates';
 
-  let expectedContents = `/src/app/lib
-/projects/*/src/assets
-/src/assets
+  let expectedContents = `/src/app/lib/
+/projects/*/src/assets/
+/src/assets/
 /.angular/cache
 coverage
 dist
@@ -55,9 +55,9 @@ package-lock.json
   });
 
   it('should add SPA assets folder if other items already exists within .prettierignore', async () => {
-    expectedContents = `/src/assets
-/projects/*/src/assets
-/src/app/lib
+    expectedContents = `/src/assets/
+/projects/*/src/assets/
+/src/app/lib/
 /.angular/cache
 coverage
 dist
@@ -66,8 +66,8 @@ package-lock.json`;
 
     tree.create(
       '.prettierignore',
-      `/projects/*/src/assets
-/src/app/lib
+      `/projects/*/src/assets/
+/src/app/lib/
 /.angular/cache
 coverage
 dist
@@ -83,9 +83,9 @@ package-lock.json`
   });
 
   it('should add library assets folder if other items already exists within .prettierignore', async () => {
-    expectedContents = `/projects/*/src/assets
-/src/assets
-/src/app/lib
+    expectedContents = `/projects/*/src/assets/
+/src/assets/
+/src/app/lib/
 /.angular/cache
 coverage
 dist
@@ -94,8 +94,8 @@ package-lock.json`;
 
     tree.create(
       '.prettierignore',
-      `/src/assets
-/src/app/lib
+      `/src/assets/
+/src/app/lib/
 /.angular/cache
 coverage
 dist
@@ -111,9 +111,9 @@ package-lock.json`
   });
 
   it('should add SPA library folder if other items already exists within .prettierignore', async () => {
-    expectedContents = `/src/app/lib
-/projects/*/src/assets
-/src/assets
+    expectedContents = `/src/app/lib/
+/projects/*/src/assets/
+/src/assets/
 /.angular/cache
 coverage
 dist
@@ -122,8 +122,8 @@ package-lock.json`;
 
     tree.create(
       '.prettierignore',
-      `/projects/*/src/assets
-/src/assets
+      `/projects/*/src/assets/
+/src/assets/
 /.angular/cache
 coverage
 dist
