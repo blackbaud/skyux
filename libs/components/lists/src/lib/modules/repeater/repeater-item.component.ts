@@ -136,8 +136,8 @@ export class SkyRepeaterItemComponent
     }
   }
 
-  public get isSelected(): boolean | undefined {
-    return this.selectable ? this._isSelected : undefined;
+  public get isSelected(): boolean {
+    return this._isSelected;
   }
 
   /**
