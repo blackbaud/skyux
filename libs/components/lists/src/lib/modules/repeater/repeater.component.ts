@@ -208,6 +208,8 @@ export class SkyRepeaterComponent
       this.items.forEach((item) => {
         item.reorderable = this.reorderable;
       });
+
+      this.updateRole();
     }, 0);
   }
 
