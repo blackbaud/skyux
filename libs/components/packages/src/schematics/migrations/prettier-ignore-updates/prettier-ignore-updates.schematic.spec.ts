@@ -149,6 +149,8 @@ package-lock.json`
   });
 
   it('should handle when .prettierignore does not exist', async () => {
-    expect(runSchematic()).not.toThrowError();
+    expect(() => {
+      runSchematic();
+    }).not.toThrowError();
   });
 });
