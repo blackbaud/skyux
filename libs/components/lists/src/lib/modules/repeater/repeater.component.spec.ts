@@ -447,6 +447,7 @@ describe('Repeater item component', () => {
     it('should select items based on input', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.selectable = true;
       cmp.expandMode = 'single';
       cmp.lastItemSelected = true;
 
@@ -598,6 +599,7 @@ describe('Repeater item component', () => {
     it('should select items based on input', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.selectable = true;
       cmp.expandMode = 'multiple';
       cmp.lastItemSelected = true;
 
@@ -738,6 +740,7 @@ describe('Repeater item component', () => {
     it('should select items based on input', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       const cmp: RepeaterTestComponent = fixture.componentInstance;
+      cmp.selectable = true;
       cmp.expandMode = 'none';
       cmp.lastItemSelected = true;
 
