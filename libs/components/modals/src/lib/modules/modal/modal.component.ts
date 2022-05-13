@@ -15,7 +15,6 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
-  SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
@@ -37,14 +36,7 @@ let skyModalUniqueIdentifier = 0;
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   animations: [skyAnimationModalState],
-  providers: [
-    SkyModalComponentAdapterService,
-    SkyDockService,
-    {
-      provide: SkyMediaQueryService,
-      useClass: SkyResizeObserverMediaQueryService,
-    },
-  ],
+  providers: [SkyModalComponentAdapterService, SkyDockService],
 })
 export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class')
@@ -129,7 +121,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     @Host() private dockService: SkyDockService,
     @Optional()
-    @Host()
     private mediaQueryService?: SkyResizeObserverMediaQueryService
   ) {}
 
