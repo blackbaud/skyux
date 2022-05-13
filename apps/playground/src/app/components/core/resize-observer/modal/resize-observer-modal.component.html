@@ -87,7 +87,6 @@
     </button>
     <ng-container *ngFor="let sizeOption of sizes">
       <button
-        *ngIf="size !== sizeOption"
         class="sky-btn sky-btn-default"
         type="button"
         (click)="openAnotherModal(sizeOption)"

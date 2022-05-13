@@ -19,6 +19,8 @@ import { SkySectionedFormComponent } from '@skyux/tabs';
 
 type SizeOptions = 'small' | 'medium' | 'large';
 
+let identifier = 1;
+
 @Component({
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
@@ -34,13 +36,17 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public sizes: SizeOptions[] = ['small', 'medium', 'large'];
 
+  public identifier: number;
+
   constructor(
     public modalInstance: SkyModalInstance,
     private changeDetectorRef: ChangeDetectorRef,
     private mediaQueryService: SkyMediaQueryService,
     private modalService: SkyModalService,
     @Inject('size') public size: string
-  ) {}
+  ) {
+    this.identifier = identifier++;
+  }
 
   public ngOnInit(): void {
     this.mediaQueryService.subscribe((breakpoint) => {
@@ -61,7 +67,9 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
           this.breakpoint = `(other breakpoint: ${JSON.stringify(breakpoint)})`;
       }
       if (typeof console === 'object') {
-        console.log(`${this.size} modal: ${this.breakpoint}`);
+        console.log(
+          `${this.size} modal ${this.identifier}: ${this.breakpoint}`
+        );
       }
       this.changeDetectorRef.detectChanges();
     });
