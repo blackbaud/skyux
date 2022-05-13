@@ -1,10 +1,8 @@
 import {
-  ApplicationRef,
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   Injector,
-  Provider,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -12,7 +10,6 @@ import { NavigationStart, Router } from '@angular/router';
 import {
   SkyMediaQueryService,
   SkyResizeObserverMediaQueryService,
-  SkyResizeObserverService,
 } from '@skyux/core';
 
 import { takeWhile } from 'rxjs/operators';
