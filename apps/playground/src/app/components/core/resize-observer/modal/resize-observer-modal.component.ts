@@ -3,9 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Inject,
-  Injector,
   OnInit,
   ViewChild,
 } from '@angular/core';
