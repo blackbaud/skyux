@@ -87,8 +87,8 @@ export class SkyModalHostComponent {
     });
     params.providers.push({
       provide: SkyResizeObserverMediaQueryService,
-      deps: [SkyResizeObserverService, ApplicationRef],
-      useFactory: (resizeObserverService, appRef) => {
+      deps: [SkyResizeObserverService],
+      useFactory: (resizeObserverService) => {
         return new SkyResizeObserverMediaQueryService(resizeObserverService);
       },
     } as Provider);

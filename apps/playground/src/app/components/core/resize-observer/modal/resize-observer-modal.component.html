@@ -74,16 +74,26 @@
     <button
       class="sky-btn sky-btn-primary sky-margin-inline-sm"
       type="button"
-      (click)="instance.save()"
+      (click)="modalInstance.save()"
     >
       Save
     </button>
     <button
       class="sky-btn sky-btn-link"
       type="button"
-      (click)="instance.close()"
+      (click)="modalInstance.close()"
     >
       Close
     </button>
+    <ng-container *ngFor="let sizeOption of sizes">
+      <button
+        *ngIf="size !== sizeOption"
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="openAnotherModal(sizeOption)"
+      >
+        Open a {{ sizeOption }} modal
+      </button>
+    </ng-container>
   </sky-modal-footer>
 </sky-modal>

@@ -4,13 +4,20 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Inject,
   Injector,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
-import { SkyModalInstance } from '@skyux/modals';
+import {
+  SkyModalConfigurationInterface,
+  SkyModalInstance,
+  SkyModalService,
+} from '@skyux/modals';
 import { SkySectionedFormComponent } from '@skyux/tabs';
+
+type SizeOptions = 'small' | 'medium' | 'large';
 
 @Component({
   selector: 'app-resize-observer-modal',
@@ -25,11 +32,14 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public tabsHidden = false;
 
+  public sizes: SizeOptions[] = ['small', 'medium', 'large'];
+
   constructor(
-    public instance: SkyModalInstance,
-    public changeDetectorRef: ChangeDetectorRef,
-    public mediaQueryService: SkyMediaQueryService,
-    public injector: Injector
+    public modalInstance: SkyModalInstance,
+    private changeDetectorRef: ChangeDetectorRef,
+    private mediaQueryService: SkyMediaQueryService,
+    private modalService: SkyModalService,
+    @Inject('size') public size: string
   ) {}
 
   public ngOnInit(): void {
@@ -50,6 +60,9 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
         default:
           this.breakpoint = `(other breakpoint: ${JSON.stringify(breakpoint)})`;
       }
+      if (typeof console === 'object') {
+        console.log(`${this.size} modal: ${this.breakpoint}`);
+      }
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -63,5 +76,19 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public showTabs(): void {
     this.sectionedFormComponent.showTabs();
+  }
+
+  public openAnotherModal(size: SizeOptions): void {
+    const modalInstanceType = ResizeObserverModalComponent;
+    const options: SkyModalConfigurationInterface = {
+      size,
+      providers: [
+        {
+          provide: 'size',
+          useValue: size,
+        },
+      ],
+    };
+    this.modalService.open(modalInstanceType, options);
   }
 }
