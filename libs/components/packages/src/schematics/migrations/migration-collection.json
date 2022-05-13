@@ -57,7 +57,7 @@
     },
     "prettier-ignore-updates": {
       "version": "6.0.1",
-      "factory": "./prettier-ignore-updates/prettier-ignore-updates.schematic",
+      "factory": "./update-6/prettier-ignore-updates.schematic",
       "description": "Add new items to .prettierignore"
     }
   }
