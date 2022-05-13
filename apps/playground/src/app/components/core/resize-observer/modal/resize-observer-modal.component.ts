@@ -12,8 +12,6 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 import { SkySectionedFormComponent } from '@skyux/tabs';
 
-import { SkyModalContentComponent } from '../../../../../../../../libs/components/modals/src/lib/modules/modal/modal-content.component';
-
 @Component({
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
@@ -22,9 +20,6 @@ import { SkyModalContentComponent } from '../../../../../../../../libs/component
 export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   @ViewChild(SkySectionedFormComponent)
   public sectionedFormComponent: SkySectionedFormComponent;
-
-  @ViewChild(SkyModalContentComponent, { read: ElementRef })
-  public modalContentComponent: ElementRef<SkyModalContentComponent>;
 
   public breakpoint = '(breakpoint not set)';
 
