@@ -3,26 +3,61 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  Injector,
+  OnInit,
   ViewChild,
 } from '@angular/core';
+import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 import { SkySectionedFormComponent } from '@skyux/tabs';
+
+import { SkyModalContentComponent } from '../../../../../../../../libs/components/modals/src/lib/modules/modal/modal-content.component';
 
 @Component({
   selector: 'app-resize-observer-modal',
   templateUrl: './resize-observer-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResizeObserverModalComponent implements AfterViewInit {
+export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   @ViewChild(SkySectionedFormComponent)
   public sectionedFormComponent: SkySectionedFormComponent;
+
+  @ViewChild(SkyModalContentComponent, { read: ElementRef })
+  public modalContentComponent: ElementRef<SkyModalContentComponent>;
+
+  public breakpoint = '(breakpoint not set)';
 
   public tabsHidden = false;
 
   constructor(
     public instance: SkyModalInstance,
-    public changeDetectorRef: ChangeDetectorRef
+    public changeDetectorRef: ChangeDetectorRef,
+    public mediaQueryService: SkyMediaQueryService,
+    public injector: Injector
   ) {}
+
+  public ngOnInit(): void {
+    this.mediaQueryService.subscribe((breakpoint) => {
+      switch (breakpoint) {
+        case SkyMediaBreakpoints.xs:
+          this.breakpoint = 'SkyMediaBreakpoints.xs';
+          break;
+        case SkyMediaBreakpoints.sm:
+          this.breakpoint = 'SkyMediaBreakpoints.sm';
+          break;
+        case SkyMediaBreakpoints.md:
+          this.breakpoint = 'SkyMediaBreakpoints.md';
+          break;
+        case SkyMediaBreakpoints.lg:
+          this.breakpoint = 'SkyMediaBreakpoints.lg';
+          break;
+        default:
+          this.breakpoint = `(other breakpoint: ${JSON.stringify(breakpoint)})`;
+      }
+      this.changeDetectorRef.detectChanges();
+    });
+  }
 
   public ngAfterViewInit(): void {
     this.tabsHidden = !this.sectionedFormComponent.tabsVisible();
