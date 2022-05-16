@@ -27,7 +27,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     name: SkyMediaBreakpoints;
   }[] = [
     {
-      check: (width: number) => width <= 767,
+      check: (width: number) => width > 0 && width <= 767,
       name: SkyMediaBreakpoints.xs,
     },
     {
@@ -90,11 +90,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
     this.#target = element;
 
-    const width = (element.nativeElement as HTMLElement).offsetWidth;
-    if (width) {
-      const breakpoint = this.checkBreakpoint(width);
-      this.updateBreakpoint(breakpoint);
-    }
+    this.checkWidth(element);
 
     this.resizeObserverService
       .observe(element)
@@ -102,7 +98,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
       .subscribe((value) => {
         const breakpoint = this.checkBreakpoint(value.contentRect.width);
         /* istanbul ignore else */
-        if (breakpoint !== this._currentBreakpoint) {
+        if (breakpoint !== this.current) {
           this.updateBreakpoint(breakpoint);
         }
       });
@@ -122,7 +118,9 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   public subscribe(listener: SkyMediaQueryListener): Subscription {
     return this.#currentBreakpointObservable
       .pipe(takeUntil(this.#stopListening))
-      .subscribe(listener);
+      .subscribe((value) => {
+        listener(value);
+      });
   }
 
   private updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
@@ -138,6 +136,15 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     /* istanbul ignore else */
     if (breakpoint) {
       return breakpoint.name;
+    }
+  }
+
+  private checkWidth(element: ElementRef) {
+    const width = (element.nativeElement as HTMLElement).offsetWidth || 0;
+    const breakpoint = this.checkBreakpoint(width);
+    /* istanbul ignore else */
+    if (breakpoint !== this._currentBreakpoint) {
+      this.updateBreakpoint(breakpoint);
     }
   }
 }

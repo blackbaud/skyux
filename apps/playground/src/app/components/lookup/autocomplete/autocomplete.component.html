@@ -4,6 +4,7 @@
     <form novalidate [formGroup]="reactiveForm">
       <sky-autocomplete
         [data]="data"
+        [searchTextMinimumCharacters]="controlForm.value.searchTextMin"
         (selectionChange)="onSelectionChange($event)"
       >
         <sky-input-box>
@@ -40,19 +41,33 @@
       </table>
     </form>
   </div>
+  <form novalidate [formGroup]="controlForm">
+    <sky-input-box>
+      <label class="sky-control-label" for="search-text-min">
+        Minimum search characters
+      </label>
+      <input
+        class="sky-form-control"
+        id="search-text-min"
+        type="number"
+        formControlName="searchTextMin"
+      />
+    </sky-input-box>
 
-  <button
-    class="sky-btn sky-btn-primary"
-    id="autocomplete-reactive-disable-button"
-    (click)="toggleReactiveDisabled()"
-  >
-    Toggle reactive autocomplete disabled
-  </button>
+    <button
+      class="sky-btn sky-btn-primary"
+      id="autocomplete-reactive-disable-button"
+      (click)="toggleReactiveDisabled()"
+    >
+      Toggle reactive autocomplete disabled
+    </button>
+  </form>
 
   <h2>Autocomplete (template-driven)</h2>
   <div id="autocomplete-template-driven">
     <sky-autocomplete
       [data]="data"
+      [searchTextMinimumCharacters]="controlForm.value.searchTextMinTemplate"
       (selectionChange)="onSelectionChange($event)"
     >
       <sky-input-box>
@@ -95,9 +110,23 @@
     </table>
   </div>
 
-  <button class="sky-btn sky-btn-primary" (click)="toggleTemplateDisabled()">
-    Toggle template autocomplete disabled
-  </button>
+  <form novalidate [formGroup]="controlForm">
+    <sky-input-box>
+      <label class="sky-control-label" for="search-text-min-template">
+        Minimum search characters
+      </label>
+      <input
+        class="sky-form-control"
+        id="search-text-min-template"
+        type="number"
+        formControlName="searchTextMinTemplate"
+      />
+    </sky-input-box>
+
+    <button class="sky-btn sky-btn-primary" (click)="toggleTemplateDisabled()">
+      Toggle template autocomplete disabled
+    </button>
+  </form>
 
   <h2>Autocomplete (async)</h2>
   <div id="autocomplete-reactive">
