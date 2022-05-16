@@ -3,7 +3,11 @@ import { ElementRef, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { SkyResizeObserverTracking } from './resize-observer-tracking';
+type ResizeObserverTracking = {
+  element: Element;
+  subject: Subject<ResizeObserverEntry>;
+  subjectObservable: Observable<ResizeObserverEntry>;
+};
 
 /**
  * Service to create rxjs observables for changes to the content box dimensions of elements.
@@ -14,7 +18,7 @@ import { SkyResizeObserverTracking } from './resize-observer-tracking';
 export class SkyResizeObserverService implements OnDestroy {
   #resizeObserver: ResizeObserver;
 
-  #tracking: SkyResizeObserverTracking[] = [];
+  #tracking: ResizeObserverTracking[] = [];
 
   constructor(private zone: NgZone) {
     this.#resizeObserver = new ResizeObserver((entries) => {
@@ -33,7 +37,7 @@ export class SkyResizeObserverService implements OnDestroy {
     return this.observeAndTrack(element).subjectObservable;
   }
 
-  private observeAndTrack(element: ElementRef): SkyResizeObserverTracking {
+  private observeAndTrack(element: ElementRef): ResizeObserverTracking {
     const checkTracking = this.#tracking.findIndex((value) => {
       return !value.subject.closed && value.element === element.nativeElement;
     });
@@ -77,7 +81,7 @@ export class SkyResizeObserverService implements OnDestroy {
       .forEach((value) => {
         /* istanbul ignore else */
         if (value.element === entry.target) {
-          // Execute the callback within NgZone because Angular does not "stub"
+          // Execute the callback within NgZone because Angular does not "monkey patch"
           // ResizeObserver like it does for other features in the DOM.
           this.zone.run(() => {
             value.subject.next(entry);

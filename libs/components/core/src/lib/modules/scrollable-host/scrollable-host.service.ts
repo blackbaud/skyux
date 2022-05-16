@@ -81,7 +81,7 @@ export class SkyScrollableHostService {
           () => {
             if (scrollableHost && !this.isElementVisible(elementRef)) {
               // If the scrollable host is not visible, set it to undefined and unsubscribe from its mutation changes.
-              // Instead, observe changes to the document element, so that a new scrollable host can be found.
+              // Then, observe the document element so that a new scrollable host can be found.
               scrollableHost = undefined;
 
               this.observeForScrollableHostChanges(
