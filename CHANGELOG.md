@@ -1,5 +1,23 @@
 # Changelog
 
+### [6.0.1](https://github.com/blackbaud/skyux/compare/6.0.0...6.0.1) (2022-05-13)
+
+### Bug Fixes
+
+- **components/ag-grid:** data manager not persisting column order ([#244](https://github.com/blackbaud/skyux/issues/244)) ([#245](https://github.com/blackbaud/skyux/issues/245)) ([a681791](https://github.com/blackbaud/skyux/commit/a681791911e194fea55a0324df96b36650ef255a))
+- **components/modals:** resize observable media query service ([#252](https://github.com/blackbaud/skyux/issues/252)) ([#253](https://github.com/blackbaud/skyux/issues/253)) ([20b0b41](https://github.com/blackbaud/skyux/commit/20b0b41470276b037af3478fab17fb870e01b56a))
+- **components/packages:** add `src/assets` to existing Prettier ignore files ([#248](https://github.com/blackbaud/skyux/issues/248)) ([98f0f94](https://github.com/blackbaud/skyux/commit/98f0f9463e4a791e8fd77bb78e9bb1fc394c62c9))
+- **components/tabs:** use padding instead of margin when styling sectioned form content sections ([#238](https://github.com/blackbaud/skyux/issues/238)) ([#250](https://github.com/blackbaud/skyux/issues/250)) ([2233cba](https://github.com/blackbaud/skyux/commit/2233cba46f69917311acf963352aefafb255401d))
+- **sdk/prettier-schematics:** include `.angular/cache` and `src/assets` in Prettier's ignore file ([#247](https://github.com/blackbaud/skyux/issues/247)) ([0c8b3b2](https://github.com/blackbaud/skyux/commit/0c8b3b2425ad46046b767ed65645afb7b0b4e277))
+
+### [5.9.6](https://github.com/blackbaud/skyux/compare/5.9.5...5.9.6) (2022-05-13)
+
+### Bug Fixes
+
+- **components/ag-grid:** data manager not persisting column order ([#244](https://github.com/blackbaud/skyux/issues/244)) ([251c65b](https://github.com/blackbaud/skyux/commit/251c65b8c9eb10644ba8d1fe528be48c772daab7))
+- **components/modals:** resize observable media query service ([#252](https://github.com/blackbaud/skyux/issues/252)) ([7a22d4e](https://github.com/blackbaud/skyux/commit/7a22d4e4f74e9d3f5a943488092fd399b5588482))
+- **components/tabs:** use padding instead of margin when styling sectioned form content sections ([#238](https://github.com/blackbaud/skyux/issues/238)) ([7c06f58](https://github.com/blackbaud/skyux/commit/7c06f584d7e34f848bee8211229cd5fd86797dd1))
+
 ## [6.0.0](https://github.com/blackbaud/skyux/compare/6.0.0-beta.11...6.0.0) (2022-05-09)
 
 ### [5.9.5](https://github.com/blackbaud/skyux/compare/5.9.4...5.9.5) (2022-05-09)

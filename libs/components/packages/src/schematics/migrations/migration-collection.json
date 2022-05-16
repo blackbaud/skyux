@@ -54,6 +54,11 @@
       "version": "6.0.0",
       "factory": "./update-6/prettier-ignore.schematic",
       "description": "Add '.angular/cache' to .prettierignore"
+    },
+    "prettier-ignore-updates": {
+      "version": "6.0.1",
+      "factory": "./update-6/prettier-ignore-updates.schematic",
+      "description": "Add new items to .prettierignore"
     }
   }
 }
