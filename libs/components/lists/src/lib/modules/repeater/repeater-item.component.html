@@ -1,15 +1,14 @@
 <div
   class="sky-repeater-item sky-padding-even-default"
-  role="option"
   [attr.aria-label]="itemName"
-  [attr.aria-selected]="selectable ? isSelected : null"
+  [attr.aria-selected]="selectable ? isSelected : undefined"
+  [attr.role]="(itemRole$ | async).item"
   [ngClass]="{
     'sky-repeater-item-active': isActive,
     'sky-repeater-item-collapsible': isCollapsible,
     'sky-repeater-item-selected': isSelected
   }"
   (click)="onRepeaterItemClick($event)"
-  (keydown)="onItemKeyDown($event)"
   #itemRef
 >
   <div #inlineDelete>
@@ -94,7 +93,11 @@
       [hidden]="titleRef.children.length === 0"
       (click)="headerClick()"
     >
-      <div class="sky-repeater-item-title sky-emphasized" #titleRef>
+      <div
+        class="sky-repeater-item-title sky-emphasized"
+        #titleRef
+        [attr.role]="(itemRole$ | async).title"
+      >
         <ng-content select="sky-repeater-item-title"></ng-content>
       </div>
       <button
@@ -142,6 +145,7 @@
       [id]="contentId"
       [@skyAnimationSlide]="slideDirection"
       #itemContentRef
+      [attr.role]="(itemRole$ | async).content"
     >
       <ng-content select="sky-repeater-item-content"></ng-content>
     </div>
