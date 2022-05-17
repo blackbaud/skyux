@@ -231,35 +231,32 @@ describe('Repeater item component', () => {
     expect(repeaterEls[2].getAttribute('aria-selected')).toBe('true');
   }));
 
-  it(
-    'should blur item when item is disabled',
-    waitForAsync(() => {
-      const fixture = TestBed.createComponent(RepeaterTestComponent);
-      fixture.detectChanges();
-      fixture
-        .whenStable()
-        .then(() => {
+  it('should blur item when item is disabled', waitForAsync(() => {
+    const fixture = TestBed.createComponent(RepeaterTestComponent);
+    fixture.detectChanges();
+    fixture
+      .whenStable()
+      .then(() => {
+        fixture.nativeElement
+          .querySelector('sky-repeater-item-content a')
+          .focus();
+        expect(
           fixture.nativeElement
-            .querySelector('sky-repeater-item-content a')
-            .focus();
-          expect(
-            fixture.nativeElement
-              .querySelector('sky-repeater')
-              .matches(':focus-within')
-          ).toBeTruthy();
-          fixture.componentInstance.disableFirstItem = true;
-          fixture.detectChanges();
-          return fixture.whenStable();
-        })
-        .then(() => {
-          expect(
-            fixture.nativeElement
-              .querySelector('sky-repeater')
-              .matches(':focus-within')
-          ).toBeFalsy();
-        });
-    })
-  );
+            .querySelector('sky-repeater')
+            .matches(':focus-within')
+        ).toBeTruthy();
+        fixture.componentInstance.disableFirstItem = true;
+        fixture.detectChanges();
+        return fixture.whenStable();
+      })
+      .then(() => {
+        expect(
+          fixture.nativeElement
+            .querySelector('sky-repeater')
+            .matches(':focus-within')
+        ).toBeFalsy();
+      });
+  }));
 
   it('should hide the chevron and disable expand/collapse for items with no content', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
