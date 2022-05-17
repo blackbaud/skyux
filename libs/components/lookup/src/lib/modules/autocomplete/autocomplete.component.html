@@ -75,7 +75,7 @@
       *ngIf="enableShowMore && (!searchText || searchResults.length > 0)"
       class="sky-autocomplete-action sky-autocomplete-action-more sky-btn sky-btn-link"
       type="button"
-      (click)="moreButtonClicked()"
+      (mousedown)="moreButtonClicked()"
     >
       <ng-container
         *ngIf="
@@ -126,7 +126,7 @@
       tabindex="0"
       type="button"
       [class.focused]="isElementFocused(addButtonEl)"
-      (click)="addButtonClicked()"
+      (mousedown)="addButtonClicked()"
       #addButtonEl
     >
       <sky-icon *skyThemeIf="'modern'" icon="add" iconType="skyux"></sky-icon>

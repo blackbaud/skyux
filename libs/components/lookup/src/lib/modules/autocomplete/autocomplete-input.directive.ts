@@ -90,13 +90,6 @@ export class SkyAutocompleteInputDirective
     this.inputTextValue = this.getValueByKey();
   }
 
-  /**
-   * @internal
-   */
-  public get inputElement(): any {
-    return this.elementRef.nativeElement;
-  }
-
   public get focus(): Observable<void> {
     return this._focus.asObservable();
   }
