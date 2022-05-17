@@ -1,5 +1,12 @@
 # Changelog
 
+### [6.0.2](https://github.com/blackbaud/skyux/compare/6.0.1...6.0.2) (2022-05-17)
+
+### Bug Fixes
+
+- **components/lists:** repeater a11y improvements for aria role and keyboard interaction ([#241](https://github.com/blackbaud/skyux/issues/241)) ([#256](https://github.com/blackbaud/skyux/issues/256)) ([87dd809](https://github.com/blackbaud/skyux/commit/87dd809a0c71ea1b4e68ef58d8a6edc9d27a4aef))
+- **components/lookup:** show more modal opens when triggered from a results dropdown ([#257](https://github.com/blackbaud/skyux/issues/257)) ([#258](https://github.com/blackbaud/skyux/issues/258)) ([b202eac](https://github.com/blackbaud/skyux/commit/b202eaccca1be6723d9688418374274659c50a82))
+
 ### [5.9.7](https://github.com/blackbaud/skyux/compare/5.9.6...5.9.7) (2022-05-17)
 
 ### Bug Fixes
