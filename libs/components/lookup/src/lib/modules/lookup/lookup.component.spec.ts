@@ -1024,7 +1024,6 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -1139,7 +1138,6 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -1264,7 +1262,6 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -1373,7 +1370,6 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -3831,7 +3827,6 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -3946,7 +3941,6 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -4071,7 +4065,6 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
@@ -4180,7 +4173,6 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
               clickAddButton();
               fixture.detectChanges();
               tick();
