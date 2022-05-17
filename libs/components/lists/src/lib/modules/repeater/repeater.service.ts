@@ -24,7 +24,11 @@ export class SkyRepeaterService implements OnDestroy {
 
   public items: SkyRepeaterItemComponent[] = [];
 
-  public itemRole = new BehaviorSubject<SkyRepeaterItemRolesType>({});
+  public readonly itemRole = new BehaviorSubject<SkyRepeaterItemRolesType>({
+    content: undefined,
+    item: undefined,
+    title: undefined,
+  });
 
   public orderChange = new BehaviorSubject<void>(undefined);
 

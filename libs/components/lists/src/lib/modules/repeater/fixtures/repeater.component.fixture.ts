@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { SkyRepeaterRoleType } from '../repeater-role.type';
 import { SkyRepeaterComponent } from '../repeater.component';
 
 let nextItemId = 0;

@@ -27,6 +27,8 @@
       <a href="/"> link 1 </a>
       Content 1
       <a href="/"> link 2 </a>
+      <label for="inputField">Field</label>
+      <input type="text" id="inputField" />
     </sky-repeater-item-content>
   </sky-repeater-item>
   <sky-repeater-item
@@ -62,7 +64,12 @@
   </sky-repeater-item>
 </sky-repeater>
 
-<sky-repeater *ngIf="showRepeaterWithActiveIndex" [(activeIndex)]="activeIndex">
+<sky-repeater
+  *ngIf="showRepeaterWithActiveIndex"
+  [(activeIndex)]="activeIndex"
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+>
   <sky-repeater-item [disabled]="disableFirstItem">
     <sky-repeater-item-title> Title 1 </sky-repeater-item-title>
   </sky-repeater-item>
@@ -74,11 +81,16 @@
   </sky-repeater-item>
 </sky-repeater>
 
-<sky-repeater *ngIf="showRepeaterWithNgFor">
+<sky-repeater
+  *ngIf="showRepeaterWithNgFor"
+  [expandMode]="expandMode"
+  [reorderable]="reorderable"
+>
   <sky-repeater-item
     *ngFor="let item of items"
     [tag]="item.id"
     [disabled]="item.id === 'item1' && disableFirstItem"
+    [selectable]="selectable"
   >
     <sky-repeater-item-title> {{ item.title }} </sky-repeater-item-title>
   </sky-repeater-item>

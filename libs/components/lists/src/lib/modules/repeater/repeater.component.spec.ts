@@ -1,11 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   flush,
   inject,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInlineFormButtonLayout } from '@skyux/inline-form';
@@ -120,6 +120,7 @@ describe('Repeater item component', () => {
     const el = fixture.nativeElement;
     const cmp: RepeaterTestComponent = fixture.componentInstance;
     cmp.showRepeaterWithNgFor = true;
+    cmp.expandMode = 'none';
 
     fixture.detectChanges();
 
@@ -229,6 +230,36 @@ describe('Repeater item component', () => {
     expect(repeaterEls[1].getAttribute('aria-selected')).toBe('false');
     expect(repeaterEls[2].getAttribute('aria-selected')).toBe('true');
   }));
+
+  it(
+    'should blur item when item is disabled',
+    waitForAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      fixture
+        .whenStable()
+        .then(() => {
+          fixture.nativeElement
+            .querySelector('sky-repeater-item-content a')
+            .focus();
+          expect(
+            fixture.nativeElement
+              .querySelector('sky-repeater')
+              .matches(':focus-within')
+          ).toBeTruthy();
+          fixture.componentInstance.disableFirstItem = true;
+          fixture.detectChanges();
+          return fixture.whenStable();
+        })
+        .then(() => {
+          expect(
+            fixture.nativeElement
+              .querySelector('sky-repeater')
+              .matches(':focus-within')
+          ).toBeFalsy();
+        });
+    })
+  );
 
   it('should hide the chevron and disable expand/collapse for items with no content', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
@@ -758,7 +789,6 @@ describe('Repeater item component', () => {
 
     it('should be accessible', async () => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
-      fixture.detectChanges();
       fixture.componentInstance.expandMode = 'none';
       fixture.detectChanges();
       await fixture.whenStable();
@@ -806,10 +836,9 @@ describe('Repeater item component', () => {
 
     it('should be accessible', async () => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
-      fixture.detectChanges();
-      fixture.componentInstance.repeater.items.forEach(
-        (item) => (item.selectable = true)
-      );
+      fixture.componentInstance.showRepeaterWithNgFor = true;
+      fixture.componentInstance.selectable = true;
+      fixture.componentInstance.expandMode = 'none';
 
       // Detect selectable change.
       fixture.detectChanges();
@@ -913,6 +942,7 @@ describe('Repeater item component', () => {
 
     it('should NOT show active item if activeIndex is set to undefined', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
 
       const activeRepeaterItem = el.querySelectorAll(
@@ -925,6 +955,7 @@ describe('Repeater item component', () => {
 
     it('should update active item if activeIndex is programatically set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       cmp.activeIndex = 0;
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
@@ -945,6 +976,7 @@ describe('Repeater item component', () => {
 
     it('should deactivate all items if activeIndex is set to undefined', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       cmp.activeIndex = 2;
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
@@ -964,6 +996,7 @@ describe('Repeater item component', () => {
 
     it('should update active item on click if activeIndex is set to undefined', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
 
@@ -981,6 +1014,7 @@ describe('Repeater item component', () => {
 
     it('should update active item on click if activeIndex is set to a number', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       cmp.activeIndex = 2;
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
@@ -999,6 +1033,7 @@ describe('Repeater item component', () => {
 
     it('should NOT update active item on click if activeIndex has not been set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = false;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
 
@@ -1015,6 +1050,7 @@ describe('Repeater item component', () => {
 
     it('should emit activeIndex values as active index is changed', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
       const emitterSpy = spyOnProperty(
@@ -1034,6 +1070,7 @@ describe('Repeater item component', () => {
 
     it('should NOT emit activeIndex if new value is the same', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
       const emitterSpy = spyOnProperty(
@@ -1055,6 +1092,7 @@ describe('Repeater item component', () => {
 
     it('should update active item on enter key if activeIndex has been set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getItems(fixture);
 
@@ -1078,6 +1116,7 @@ describe('Repeater item component', () => {
 
     it('should update active item on space key if activeIndex has been set', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       detectChangesAndTick(fixture);
       const items = getItems(fixture);
 
@@ -1101,6 +1140,7 @@ describe('Repeater item component', () => {
 
     it('should clear active item if the item is disabled', fakeAsync(() => {
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       cmp.activeIndex = 0;
       detectChangesAndTick(fixture);
       const items = getRepeaterItems(el);
@@ -1620,6 +1660,14 @@ describe('Repeater item component', () => {
         fixture.detectChanges();
         expect(document.activeElement).toEqual(items[step.expect]);
       }
+
+      const inputField =
+        fixture.nativeElement.querySelector('input[type="text"]');
+      SkyAppTestUtility.fireDomEvent(inputField, 'keydown', {
+        keyboardEventInit: { key: 'ArrowDown' },
+      });
+      fixture.detectChanges();
+      expect(document.activeElement).toEqual(items[1]);
     }));
 
     it('should be accessible', async () => {
@@ -1647,6 +1695,7 @@ describe('Repeater item component', () => {
       }).createComponent(RepeaterTestComponent);
       cmp = fixture.componentInstance;
       cmp.showRepeaterWithActiveIndex = true;
+      cmp.expandMode = 'none';
       el = fixture.nativeElement;
     }));
 
@@ -1669,6 +1718,7 @@ describe('Repeater item component', () => {
 
     it('should calculate aria role as grid', async () => {
       cmp.showRepeaterWithActiveIndex = false;
+      cmp.expandMode = 'none';
       cmp.reorderable = true;
       cmp.selectable = true;
       fixture.detectChanges();

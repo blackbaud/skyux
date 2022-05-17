@@ -50,7 +50,9 @@ export class SkyRepeaterItemComponent
   implements OnDestroy, OnInit, AfterViewInit
 {
   /**
-   * The first, non-disabled item is tab focusable.
+   * Make the first, non-disabled item tab-focusable.
+   * - Disabled items should not be focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_disabled_controls).
+   * - One item per list/grid/listbox should be tab focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#grid).
    */
   @HostBinding()
   public get tabindex(): 0 | -1 {
@@ -75,9 +77,8 @@ export class SkyRepeaterItemComponent
       if (this.isActive) {
         this.repeaterService.activateItemByIndex(undefined);
       }
-      /* istanbul ignore next */
       if (this.elementRef.nativeElement.matches(':focus-within')) {
-        this.elementRef.nativeElement.blur();
+        this.elementRef.nativeElement.ownerDocument.activeElement.blur();
       }
       this.changeDetector.markForCheck();
     }
@@ -130,7 +131,7 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set isSelected(value: boolean) {
-    if (!this._isDisabled && value !== this._isSelected) {
+    if (!this.disabled && value !== this._isSelected) {
       this._isSelected = value;
       this.isSelectedChange.emit(this._isSelected);
     }
@@ -335,19 +336,15 @@ export class SkyRepeaterItemComponent
   @HostListener('keydown', ['$event'])
   public onKeydown($event: KeyboardEvent) {
     if (
-      $event.target &&
-      ($event.target as Element).matches(
-        [
-          'sky-repeater-item',
-          '.sky-repeater-item',
-          '.sky-repeater-item-left',
-          '.sky-repeater-item-left *',
-          '.sky-repeater-item-title',
-          '.sky-repeater-item-title *',
-        ].join(',')
-      ) &&
       [' ', 'Enter', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)
     ) {
+      if (
+        ($event.target as HTMLElement).matches(
+          'input, textarea, select, option, [contenteditable], [contenteditable] *'
+        )
+      ) {
+        return;
+      }
       $event.preventDefault();
       $event.stopPropagation();
       let activateItem: SkyRepeaterItemComponent | undefined = undefined;
