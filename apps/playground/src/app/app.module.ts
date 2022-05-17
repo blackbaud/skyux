@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -11,9 +12,11 @@ import { SkyThemeSelectorModule } from './shared/theme-selector/theme-selector.m
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     SkyFluidGridModule,
     SkyThemeSelectorModule,
   ],

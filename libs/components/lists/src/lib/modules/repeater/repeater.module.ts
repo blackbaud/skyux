@@ -1,3 +1,4 @@
+import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyCheckboxModule } from '@skyux/forms';
@@ -25,6 +26,7 @@ import { SkyRepeaterComponent } from './repeater.component';
   imports: [
     CommonModule,
     DragulaModule,
+    ObserversModule,
     SkyChevronModule,
     SkyCheckboxModule,
     SkyIconModule,

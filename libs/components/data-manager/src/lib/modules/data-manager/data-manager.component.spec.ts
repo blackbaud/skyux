@@ -97,9 +97,9 @@ describe('SkyDataManagerComponent', () => {
 
   it('should pass accessibility', async () => {
     dataManagerFixture.detectChanges();
-
     await dataManagerFixture.whenStable();
-
+    dataManagerFixture.detectChanges();
+    await dataManagerFixture.whenStable();
     await expectAsync(dataManagerNativeElement).toBeAccessible();
   });
 });

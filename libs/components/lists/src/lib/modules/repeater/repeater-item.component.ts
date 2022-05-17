@@ -7,6 +7,7 @@ import {
   ElementRef,
   EventEmitter,
   HostBinding,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -24,12 +25,13 @@ import {
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-import { Subject, forkJoin as observableForkJoin } from 'rxjs';
+import { Observable, Subject, forkJoin as observableForkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
 import { SkyRepeaterItemContentComponent } from './repeater-item-content.component';
 import { SkyRepeaterItemContextMenuComponent } from './repeater-item-context-menu.component';
+import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterService } from './repeater.service';
 
 let nextContentId = 0;
@@ -47,6 +49,44 @@ let nextContentId = 0;
 export class SkyRepeaterItemComponent
   implements OnDestroy, OnInit, AfterViewInit
 {
+  /**
+   * Make the first, non-disabled item tab-focusable.
+   * - Disabled items should not be focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#kbd_disabled_controls).
+   * - One item per list/grid/listbox should be tab focusable per [W3C](https://www.w3.org/TR/wai-aria-practices-1.1/#grid).
+   */
+  @HostBinding()
+  public get tabindex(): 0 | -1 {
+    return this.repeaterService.items.filter((item) => !item.disabled)[0] ===
+      this
+      ? 0
+      : -1;
+  }
+
+  /**
+   * Whether to exclude an item when cycling through.
+   */
+  @Input()
+  public set disabled(value: boolean) {
+    if (this._isDisabled !== value) {
+      if (value) {
+        this.isSelected = false;
+        this._isDisabled = true;
+      } else {
+        this._isDisabled = false;
+      }
+      if (this.isActive) {
+        this.repeaterService.activateItemByIndex(undefined);
+      }
+      if (this.elementRef.nativeElement.matches(':focus-within')) {
+        this.elementRef.nativeElement.ownerDocument.activeElement.blur();
+      }
+      this.changeDetector.markForCheck();
+    }
+  }
+  public get disabled(): boolean {
+    return this._isDisabled;
+  }
+
   /**
    * Specifies a human-readable name for the repeater item that is available for multiple purposes,
    * such as accessibility and instrumentation. For example, the component uses the name to
@@ -91,7 +131,7 @@ export class SkyRepeaterItemComponent
    */
   @Input()
   public set isSelected(value: boolean) {
-    if (value !== this._isSelected) {
+    if (!this.disabled && value !== this._isSelected) {
       this._isSelected = value;
       this.isSelectedChange.emit(this._isSelected);
     }
@@ -180,6 +220,8 @@ export class SkyRepeaterItemComponent
     return this._isCollapsible;
   }
 
+  public itemRole$: Observable<SkyRepeaterItemRolesType>;
+
   public keyboardReorderingEnabled = false;
 
   public reorderButtonLabel: string;
@@ -226,6 +268,8 @@ export class SkyRepeaterItemComponent
 
   private _isCollapsible = true;
 
+  private _isDisabled = false;
+
   private _isExpanded = true;
 
   private _isSelected = false;
@@ -255,6 +299,8 @@ export class SkyRepeaterItemComponent
       this.reorderMovedText = translatedStrings[4];
       this.reorderButtonLabel = this.reorderInstructions;
     });
+
+    this.itemRole$ = this.repeaterService.itemRole.asObservable();
   }
 
   public ngOnInit(): void {
@@ -285,6 +331,87 @@ export class SkyRepeaterItemComponent
     this.ngUnsubscribe.complete();
 
     this.repeaterService.unregisterItem(this);
+  }
+
+  @HostListener('keydown', ['$event'])
+  public onKeydown($event: KeyboardEvent) {
+    if (
+      [' ', 'Enter', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)
+    ) {
+      if (
+        ($event.target as HTMLElement).matches(
+          'input, textarea, select, option, [contenteditable], [contenteditable] *'
+        )
+      ) {
+        return;
+      }
+      $event.preventDefault();
+      $event.stopPropagation();
+      let activateItem: SkyRepeaterItemComponent | undefined = undefined;
+      /* istanbul ignore else */
+      if ([' ', 'Enter'].includes($event.key)) {
+        if (this.selectable) {
+          this.isSelected = !this.isSelected;
+        }
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        activateItem = this;
+      }
+      /* istanbul ignore else */
+      if (['Home', 'End'].includes($event.key)) {
+        const items = this.repeaterService.items.filter(
+          (item) => !item.disabled
+        );
+        if ($event.key === 'Home') {
+          activateItem = items.shift();
+        } else {
+          activateItem = items.pop();
+        }
+      }
+      /* istanbul ignore else */
+      if (['ArrowUp', 'ArrowDown'].includes($event.key)) {
+        const currentIndex = this.repeaterService.items.findIndex(
+          (item) => item === this
+        );
+        let sliceFrom: number;
+        let sliceTo: number;
+        if ($event.key === 'ArrowUp') {
+          sliceFrom = 0;
+          sliceTo = currentIndex;
+        } else {
+          sliceFrom = currentIndex + 1;
+          sliceTo = undefined;
+        }
+        const items = this.repeaterService.items
+          .slice(sliceFrom, sliceTo)
+          .filter((item) => !item.disabled);
+        activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
+        if (!activateItem) {
+          // Wrap around.
+          if ($event.key === 'ArrowDown') {
+            sliceFrom = 0;
+            sliceTo = currentIndex;
+          } else {
+            sliceFrom = currentIndex + 1;
+            sliceTo = undefined;
+          }
+          const items = this.repeaterService.items
+            .slice(sliceFrom, sliceTo)
+            .filter((item) => !item.disabled);
+          activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
+        }
+      }
+      /* istanbul ignore else */
+      if (activateItem && !activateItem.isActive) {
+        this.repeaterService.activateItem(activateItem);
+        if (
+          !(activateItem.elementRef.nativeElement as Element).matches(
+            ':focus-within'
+          )
+        ) {
+          activateItem.elementRef.nativeElement.focus();
+        }
+      }
+    }
   }
 
   public headerClick(): void {
@@ -410,31 +537,6 @@ export class SkyRepeaterItemComponent
     this.revertReorderSteps();
     this.reorderButtonLabel = this.reorderInstructions;
     this.reorderState = undefined;
-  }
-
-  public onItemKeyDown(event: KeyboardEvent): void {
-    /*istanbul ignore else */
-    if (event.key) {
-      switch (event.key.toLowerCase()) {
-        case ' ':
-        case 'enter':
-          /* istanbul ignore else */
-          /* Sanity check */
-          // Space/enter should never execute unless focused on the parent item element.
-          if (event.target === this.itemRef.nativeElement) {
-            if (this.selectable) {
-              this.isSelected = !this.isSelected;
-            }
-            this.repeaterService.activateItem(this);
-            event.preventDefault();
-          }
-          break;
-
-        /* istanbul ignore next */
-        default:
-          break;
-      }
-    }
   }
 
   private slideForExpanded(animate: boolean): void {
