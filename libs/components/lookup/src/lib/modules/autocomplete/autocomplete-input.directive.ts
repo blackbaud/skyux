@@ -92,15 +92,6 @@ export class SkyAutocompleteInputDirective
     this.inputTextValue = this.getValueByKey();
   }
 
-  // TODO: Dead code - remove in a future major version to be safe.
-  // istanbul ignore next
-  /**
-   * @internal
-   */
-  public get inputElement(): any {
-    return this.elementRef.nativeElement;
-  }
-
   public get focus(): Observable<void> {
     return this._focus.asObservable();
   }
