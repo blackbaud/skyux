@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'components-packages',
 
   globals: {
@@ -24,5 +24,5 @@ module.exports = {
     '<rootDir>/src/schematics/testing',
     '<rootDir>/src/schematics/utility',
   ],
-  preset: '../../../jest.preset.ts',
+  preset: '../../../jest.preset.js',
 };
