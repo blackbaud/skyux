@@ -92,6 +92,8 @@ export class SkyAutocompleteInputDirective
     this.inputTextValue = this.getValueByKey();
   }
 
+  // TODO: Dead code - remove in a future major version to be safe.
+  // istanbul ignore next
   /**
    * @internal
    */
