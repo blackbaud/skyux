@@ -43,6 +43,11 @@ const routes: Routes = [
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
   {
+    path: 'lists',
+    loadChildren: () =>
+      import('./lists/lists.module').then((m) => m.ListsFeatureModule),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),

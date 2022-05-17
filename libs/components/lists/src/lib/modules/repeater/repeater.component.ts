@@ -9,6 +9,7 @@ import {
   Input,
   OnChanges,
   OnDestroy,
+  OnInit,
   Output,
   QueryList,
   Renderer2,
@@ -20,7 +21,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
+import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
+import { SkyRepeaterRoleType } from './repeater-role.type';
 import { SkyRepeaterService } from './repeater.service';
 
 let uniqueId = 0;
@@ -36,7 +39,7 @@ let uniqueId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRepeaterComponent
-  implements AfterContentInit, OnChanges, OnDestroy
+  implements AfterContentInit, OnChanges, OnDestroy, OnInit
 {
   /**
    * Specifies the index of the repeater item to visually highlight as active.
@@ -111,6 +114,8 @@ export class SkyRepeaterComponent
   public items: QueryList<SkyRepeaterItemComponent>;
 
   public dragulaGroupName: string;
+
+  public role: SkyRepeaterRoleType | undefined;
 
   private dragulaUnsubscribe = new Subject<void>();
 
@@ -194,6 +199,8 @@ export class SkyRepeaterComponent
         if (this.activeIndex !== undefined) {
           this.repeaterService.activateItemByIndex(this.activeIndex);
         }
+
+        this.updateRole();
       });
     });
 
@@ -203,6 +210,8 @@ export class SkyRepeaterComponent
       this.items.forEach((item) => {
         item.reorderable = this.reorderable;
       });
+
+      this.updateRole();
     }, 0);
   }
 
@@ -221,6 +230,7 @@ export class SkyRepeaterComponent
       if (this.items) {
         this.items.forEach((item) => (item.reorderable = this.reorderable));
       }
+      this.updateRole();
 
       this.changeDetector.markForCheck();
     }
@@ -230,6 +240,14 @@ export class SkyRepeaterComponent
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
     this.destroyDragAndDrop();
+  }
+
+  public ngOnInit(): void {
+    this.updateRole();
+  }
+
+  public onCdkObserveContent(): void {
+    this.updateRole();
   }
 
   private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
@@ -254,6 +272,8 @@ export class SkyRepeaterComponent
           foundExpanded = true;
         }
       });
+
+      this.updateRole();
     }
   }
 
@@ -337,5 +357,68 @@ export class SkyRepeaterComponent
     return this.items.toArray().every((item) => {
       return item.tag !== undefined;
     });
+  }
+
+  private updateRole() {
+    // Determine a role using a hierarchy based on https://www.w3.org/TR/wai-aria-practices-1.1/
+    //   1. If there are one or more interactions in the repeater item projected content, use grid.
+    //   2. If there are selectable repeater items and no other interactions, use listbox.
+    //   3. If there are no interactions, use list.
+
+    // Default to list role.
+    let autoRole: SkyRepeaterRoleType = 'list';
+
+    const roleMap: Record<SkyRepeaterRoleType, SkyRepeaterItemRolesType> = {
+      list: { item: 'listitem', title: undefined, content: undefined },
+      listbox: { item: 'option', title: undefined, content: undefined },
+      grid: { item: 'row', title: 'rowheader', content: 'gridcell' },
+    };
+
+    // Based on https://html.spec.whatwg.org/multipage/dom.html#interactive-content
+    const interactionSelector = [
+      'a[href]',
+      'audio[controls]',
+      'button',
+      'details',
+      'embed',
+      'iframe',
+      'img[usemap]',
+      'input:not([type="hidden"])',
+      'label',
+      'select',
+      'textarea',
+      'video[controls]',
+      '[contenteditable]',
+      '.sky-repeater[role="grid"]',
+    ]
+      .map(
+        (selector) =>
+          `sky-repeater-item-title ${selector}:not([hidden]), sky-repeater-item-content ${selector}:not([hidden])`
+      )
+      .concat([`skyux-dropdown`])
+      .join(', ');
+
+    const hasInteraction =
+      this.reorderable ||
+      this.items?.some((item) => item.isCollapsible) ||
+      !!(this.elementRef.nativeElement as HTMLElement).querySelector(
+        interactionSelector
+      );
+
+    if (hasInteraction) {
+      // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
+      autoRole = 'grid';
+    } else if (this.items?.some((item) => item.selectable)) {
+      // If the only interaction is select https://www.w3.org/TR/wai-aria-practices-1.1/#Listbox
+      autoRole = 'listbox';
+    }
+
+    if (this.role !== autoRole) {
+      this.repeaterService.itemRole.next({
+        ...roleMap[autoRole],
+      });
+      this.role = `${autoRole}`;
+      this.changeDetector.markForCheck();
+    }
   }
 }
