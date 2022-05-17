@@ -80,7 +80,7 @@
         sky-btn-link
       "
       type="button"
-      (click)="moreButtonClicked()"
+      (mousedown)="moreButtonClicked()"
     >
       <ng-container
         *ngIf="
@@ -133,7 +133,7 @@
       tabindex="0"
       type="button"
       [class.focused]="isElementFocused(addButtonEl)"
-      (click)="addButtonClicked()"
+      (mousedown)="addButtonClicked()"
       #addButtonEl
     >
       <sky-icon *skyThemeIf="'modern'" icon="add" iconType="skyux"></sky-icon>
