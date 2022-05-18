@@ -49,5 +49,7 @@ export class MockSkyMediaQueryService extends SkyMediaQueryService {
     this.currentMockSubject.next(this._currentBreakpoints);
   }
 
+  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public destroy(): void {}
 }

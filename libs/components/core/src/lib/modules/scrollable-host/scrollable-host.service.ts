@@ -33,14 +33,14 @@ export class SkyScrollableHostService {
   /**
    * Returns an observable which emits the given element's current scrollable host
    * @param elementRef The element whose scrollable host is being requested
-   * @param completionObservable An observable which alerts the internal observers that they should complete
-   * @returns An observable which emits the current scrollable host
+   * @returns An observable which emits the current scrollable host element.
    * @internal
    */
   public watchScrollableHost(
     elementRef: ElementRef
-  ): Observable<HTMLElement | Window> {
+  ): Observable<HTMLElement | Window | undefined> {
     const subscribers: Subscriber<HTMLElement | Window>[] = [];
+
     let parentMutationObserver: MutationObserver;
     let documentHiddenElementMutationObserver: MutationObserver;
 
@@ -48,17 +48,21 @@ export class SkyScrollableHostService {
       subscribers.push(subscriber);
 
       let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
+
+      // Setup mutation observers only once, for all subscribers.
       if (subscribers.length === 1) {
         parentMutationObserver = this.mutationObserverSvc.create(() => {
           const newScrollableHost = this.findScrollableHost(
             elementRef.nativeElement
           );
 
+          // Reset observer if scrollable host changes.
           if (
             newScrollableHost !== scrollableHost &&
-            elementRef.nativeElement.offsetParent
+            this.isElementVisible(elementRef)
           ) {
             scrollableHost = newScrollableHost;
+
             this.observeForScrollableHostChanges(
               scrollableHost,
               parentMutationObserver
@@ -67,6 +71,7 @@ export class SkyScrollableHostService {
             notifySubscribers(subscribers, scrollableHost);
           }
         });
+
         this.observeForScrollableHostChanges(
           scrollableHost,
           parentMutationObserver
@@ -74,7 +79,9 @@ export class SkyScrollableHostService {
 
         documentHiddenElementMutationObserver = this.mutationObserverSvc.create(
           () => {
-            if (scrollableHost && !elementRef.nativeElement.offsetParent) {
+            if (scrollableHost && !this.isElementVisible(elementRef)) {
+              // If the scrollable host is not visible, set it to undefined and unsubscribe from its mutation changes.
+              // Then, observe the document element so that a new scrollable host can be found.
               scrollableHost = undefined;
 
               this.observeForScrollableHostChanges(
@@ -86,16 +93,19 @@ export class SkyScrollableHostService {
             }
           }
         );
+
         this.observeDocumentHiddenElementChanges(
           documentHiddenElementMutationObserver
         );
       }
+
+      // Emit the scrollable host to the subscriber.
       subscriber.next(scrollableHost);
 
+      // Teardown callback for the subscription.
       subscriber.add(() => {
         const subIndex = subscribers.indexOf(subscriber);
 
-        /* sanity check */
         /* istanbul ignore else */
         if (subIndex >= 0) {
           subscribers.splice(subIndex, 1);
@@ -112,32 +122,39 @@ export class SkyScrollableHostService {
   /**
    * Returns an observable which emits whenever the element's scrollable host emits a scroll event. The observable will always emit the scroll events from the elements current scrollable host and will update based on any scrollable host changes. The observable will also emit once whenever the scrollable host changes.
    * @param elementRef The element whose scrollable host scroll events are being requested
-   * @param completionObservable An observable which alerts the internal observers that they should complete
    * @returns An observable which emits when the elements scrollable host is scrolled or is changed
    */
   public watchScrollableHostScrollEvents(
     elementRef: ElementRef
   ): Observable<void> {
     const subscribers: Subscriber<void>[] = [];
+
     let scrollableHost: HTMLElement | Window;
 
     let newScrollableHostObservable = new Subject();
     let scrollableHostSubscription: Subscription;
     let scrollEventSubscription: Subscription;
+
     return new Observable((subscriber) => {
       subscribers.push(subscriber);
 
+      // Setup mutation observers only once, for all subscribers.
       if (subscribers.length === 1) {
         scrollableHostSubscription = this.watchScrollableHost(
           elementRef
         ).subscribe((newScrollableHost) => {
           newScrollableHostObservable.next();
           newScrollableHostObservable.complete();
+
           if (scrollableHost && scrollableHost !== newScrollableHost) {
             notifySubscribers(subscribers);
           }
+
           scrollableHost = newScrollableHost;
           newScrollableHostObservable = new Subject();
+
+          // Only subscribe to scroll events if the host element is defined.
+          /* istanbul ignore else */
           if (newScrollableHost) {
             scrollEventSubscription = fromEvent(newScrollableHost, 'scroll')
               .pipe(takeUntil(newScrollableHostObservable))
@@ -148,10 +165,10 @@ export class SkyScrollableHostService {
         });
       }
 
+      // Teardown callback for the subscription.
       subscriber.add(() => {
         const subIndex = subscribers.indexOf(subscriber);
 
-        /* sanity check */
         /* istanbul ignore else */
         if (subIndex >= 0) {
           subscribers.splice(subIndex, 1);
@@ -166,23 +183,24 @@ export class SkyScrollableHostService {
     });
   }
 
-  private findScrollableHost(element: HTMLElement): HTMLElement | Window {
+  private findScrollableHost(
+    element: HTMLElement | undefined
+  ): HTMLElement | Window {
     const regex = /(auto|scroll)/;
     const windowObj = this.windowRef.nativeWindow;
     const bodyObj = windowObj.document.body;
 
-    /* Sanity check */
     if (!element) {
       return windowObj;
     }
 
     let style = windowObj.getComputedStyle(element);
-    let parent: HTMLElement = element;
+    let parent = element;
 
     do {
       parent = parent.parentNode as HTMLElement;
 
-      /* Sanity check for if this function is called for an element which has been removed from the DOM */
+      // Return `window` if the parent element has been removed from the DOM.
       if (!(parent instanceof HTMLElement)) {
         return windowObj;
       }
@@ -213,24 +231,27 @@ export class SkyScrollableHostService {
   }
 
   private observeForScrollableHostChanges(
-    element: HTMLElement | Window,
+    element: HTMLElement | Window | undefined,
     mutationObserver: MutationObserver
   ) {
     mutationObserver.disconnect();
-    if (element instanceof HTMLElement) {
-      mutationObserver.observe(element, {
-        attributes: true,
-        attributeFilter: ['class', 'style'],
-        childList: true,
-        subtree: true,
-      });
-    } else {
-      mutationObserver.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class', 'style'],
-        childList: true,
-        subtree: true,
-      });
-    }
+
+    const target =
+      element instanceof HTMLElement ? element : document.documentElement;
+
+    mutationObserver.observe(target, {
+      attributes: true,
+      attributeFilter: ['class', 'style'],
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  /**
+   * Determines if an element is "visible" in the DOM.
+   * @see https://stackoverflow.com/a/11639664/6178885
+   */
+  private isElementVisible(elementRef: ElementRef): boolean {
+    return elementRef.nativeElement.offsetParent;
   }
 }
