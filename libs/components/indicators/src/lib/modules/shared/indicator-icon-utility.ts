@@ -2,7 +2,7 @@ import { SkyIndicatorIcon } from './indicator-icon';
 import { SkyIndicatorIconType } from './indicator-icon-type';
 
 /**
- * @internl
+ * @internal
  */
 export class SkyIndicatorIconUtility {
   public static getIconsForType(
