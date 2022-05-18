@@ -16,7 +16,7 @@ export class SkyDropdownFixture {
   /**
    * Returns information about the dropdown component.
    */
-  public get dropdown(): SkyPopoversFixtureDropdown {
+  public get dropdown(): SkyPopoversFixtureDropdown | undefined {
     const button = this.buttonDebugElement;
 
     if (!button) {
@@ -35,14 +35,14 @@ export class SkyDropdownFixture {
   /**
    * Returns the dropdown button's text.
    */
-  public get dropdownButtonText(): string {
+  public get dropdownButtonText(): string | undefined {
     return SkyAppTestUtility.getText(this.buttonDebugElement.nativeElement);
   }
 
   /**
    * Returns information about the dropdown menu component.
    */
-  public get dropdownMenu(): SkyPopoversFixtureDropdownMenu {
+  public get dropdownMenu(): SkyPopoversFixtureDropdownMenu | undefined {
     const menu = this.getDropdownMenuContent();
     if (!menu) {
       return;
@@ -67,7 +67,7 @@ export class SkyDropdownFixture {
 
   private debugEl: DebugElement;
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(private fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
@@ -78,7 +78,7 @@ export class SkyDropdownFixture {
   /**
    * Click the dropdown button to open or close the dropdown menu.
    */
-  public async clickDropdownButton(): Promise<any> {
+  public async clickDropdownButton(): Promise<unknown> {
     this.buttonDebugElement.nativeElement.click();
     this.fixture.detectChanges();
     return this.fixture.whenStable();
@@ -87,8 +87,13 @@ export class SkyDropdownFixture {
   /**
    * Click the dropdown item at the provided index.
    */
-  public async clickDropdownItem(index: number): Promise<any> {
+  public async clickDropdownItem(index: number): Promise<unknown> {
     const itemEls = this.getDropdownItemEls();
+
+    if (!itemEls) {
+      return;
+    }
+
     if (index >= itemEls.length) {
       throw new Error(`There is no dropdown item at index ${index}.`);
     }
@@ -102,8 +107,15 @@ export class SkyDropdownFixture {
   /**
    * Returns information about the dropdown item at the provided index.
    */
-  public getDropdownItem(index: number): SkyPopoversFixtureDropdownItem {
+  public getDropdownItem(
+    index: number
+  ): SkyPopoversFixtureDropdownItem | undefined {
     const itemEls = this.getDropdownItemEls();
+
+    if (!itemEls) {
+      return;
+    }
+
     if (index >= itemEls.length) {
       throw new Error(`There is no dropdown item at index ${index}.`);
     }
@@ -130,7 +142,7 @@ export class SkyDropdownFixture {
     return overlay.querySelector('.sky-dropdown-menu');
   }
 
-  private getDropdownItemEls(): NodeListOf<any> {
+  private getDropdownItemEls(): NodeListOf<any> | undefined {
     const overlay = this.getOverlay();
 
     if (!overlay) {
@@ -140,11 +152,13 @@ export class SkyDropdownFixture {
     return overlay.querySelectorAll('.sky-dropdown-item');
   }
 
-  private getOverlay(): HTMLElement {
+  private getOverlay(): HTMLElement | null {
     return document.querySelector('sky-overlay');
   }
 
-  private getButtonStyle(classNames: { [key: string]: boolean }): string {
+  private getButtonStyle(classNames: {
+    [key: string]: boolean;
+  }): string | undefined {
     if (classNames['sky-btn-primary']) {
       return 'primary';
     }
@@ -153,10 +167,12 @@ export class SkyDropdownFixture {
     }
   }
 
-  private getButtonType(classNames: { [key: string]: boolean }): string {
+  private getButtonType(classNames: {
+    [key: string]: boolean;
+  }): string | undefined {
     const prefix = 'sky-dropdown-button-type-';
 
-    for (let i in classNames) {
+    for (const i in classNames) {
       if (classNames[i]) {
         if (i.indexOf(prefix) > -1) {
           return i.replace(prefix, '');

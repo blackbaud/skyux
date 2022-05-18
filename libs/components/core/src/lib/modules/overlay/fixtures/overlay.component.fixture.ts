@@ -11,7 +11,7 @@ export class OverlayFixtureComponent {
     read: TemplateRef,
     static: true,
   })
-  public myTemplate: TemplateRef<any>;
+  public myTemplate: TemplateRef<unknown>;
 
   constructor(public overlayService: SkyOverlayService) {}
 }

@@ -41,7 +41,7 @@ export class SkyProgressIndicatorFixtureComponent {
     read: TemplateRef,
     static: true,
   })
-  public progressIndicatorTemplateRef: TemplateRef<any>;
+  public progressIndicatorTemplateRef: TemplateRef<unknown>;
 
   @ViewChild(SkyProgressIndicatorResetButtonComponent, {
     static: true,

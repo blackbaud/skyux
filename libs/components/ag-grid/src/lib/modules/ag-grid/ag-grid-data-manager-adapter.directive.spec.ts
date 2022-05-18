@@ -10,7 +10,6 @@ import {
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   Beans,
-  Column,
   ColumnMovedEvent,
   ColumnState,
   DragStartedEvent,
@@ -109,30 +108,37 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 
   it('should set columns visible based on the data state changes', async () => {
-    spyOn(agGridComponent.columnApi, 'setColumnVisible');
+    spyOn(agGridComponent.columnApi, 'setColumnsVisible');
 
-    dataManagerService.updateDataState(
-      agGridDataManagerFixtureComponent.initialDataState,
-      'unitTest'
-    );
+    const newDataState = new SkyDataManagerState({
+      views: [
+        {
+          viewId:
+            agGridDataManagerFixtureComponent.initialDataState.views[0].viewId,
+          displayedColumnIds: ['selected', 'name'],
+        },
+      ],
+    });
+    dataManagerService.updateDataState(newDataState, 'unitTest');
 
     agGridDataManagerFixture.detectChanges();
     await agGridDataManagerFixture.whenStable();
 
-    expect(agGridComponent.columnApi.setColumnVisible).toHaveBeenCalled();
+    expect(agGridComponent.columnApi.setColumnsVisible).toHaveBeenCalled();
   });
 
   it('should update the data state when a column is moved', async () => {
     await agGridDataManagerFixture.whenStable();
 
     const colId = 'testCol';
-    const colDef = { colId };
-    const column = new Column(colDef, undefined, colId, true);
+    const columnState: ColumnState = {
+      colId,
+      hide: false,
+    };
 
-    spyOn(
-      agGridComponent.columnApi,
-      'getAllDisplayedVirtualColumns'
-    ).and.returnValue([column]);
+    spyOn(agGridComponent.columnApi, 'getColumnState').and.returnValue([
+      columnState,
+    ]);
     spyOn(dataManagerService, 'updateDataState');
 
     const columnMoved = {
@@ -154,14 +160,13 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   it('should update the data state when a column is dragged', async () => {
     await agGridDataManagerFixture.whenStable();
 
-    let colIds = ['col1', 'col2'];
+    const colIds = ['col1', 'col2'];
     const columnApi = {
-      getAllDisplayedVirtualColumns: () => {
-        return colIds.map((colId) => {
+      getColumnState: () => {
+        return colIds.map((colId): ColumnState => {
           return {
-            getColDef: () => {
-              return { colId };
-            },
+            colId,
+            hide: false,
           };
         });
       },
@@ -174,7 +179,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     } as DragStartedEvent | DragStoppedEvent;
 
     agGridComponent.dragStarted.emit(columnDragged);
-    colIds = colIds.reverse();
+    colIds.reverse();
     agGridComponent.dragStopped.emit(columnDragged);
 
     expect(dataManagerService.updateDataState).toHaveBeenCalled();
@@ -185,26 +190,21 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     const colIds = ['col1', 'col2'];
     const columnApi = {
-      getAllDisplayedVirtualColumns: () => {
-        return colIds.map((colId) => {
+      getColumnState: () => {
+        return colIds.map((colId): ColumnState => {
           return {
-            getColDef: () => {
-              return { colId };
-            },
+            colId,
+            hide: false,
           };
         });
       },
     };
-
-    spyOn(dataManagerService, 'updateDataState');
-
     const columnDragged = {
       columnApi,
     } as DragStartedEvent | DragStoppedEvent;
-
-    agGridComponent.dragStarted.emit(columnDragged);
     agGridComponent.dragStopped.emit(columnDragged);
-
+    spyOn(dataManagerService, 'updateDataState');
+    agGridComponent.dragStopped.emit(columnDragged);
     expect(dataManagerService.updateDataState).not.toHaveBeenCalled();
   });
 

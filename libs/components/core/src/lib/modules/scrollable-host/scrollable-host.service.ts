@@ -74,7 +74,7 @@ export class SkyScrollableHostService {
 
         documentHiddenElementMutationObserver = this.mutationObserverSvc.create(
           () => {
-            if (!elementRef.nativeElement.offsetParent) {
+            if (scrollableHost && !elementRef.nativeElement.offsetParent) {
               scrollableHost = undefined;
 
               this.observeForScrollableHostChanges(

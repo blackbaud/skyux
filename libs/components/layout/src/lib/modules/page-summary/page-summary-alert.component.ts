@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 /**
  * Displays messages that require immediate attention as [alerts](https://developer.blackbaud.com/skyux/components/alert) within
  * the page summary.
+ * @deprecated
  */
 @Component({
   selector: 'sky-page-summary-alert',

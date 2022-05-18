@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -33,14 +34,14 @@ export class SkyDescriptionListDescriptionComponent
     read: TemplateRef,
     static: true,
   })
-  public templateRef: TemplateRef<any>;
+  public templateRef: TemplateRef<unknown>;
 
   private ngUnsubscribe = new Subject<void>();
 
   constructor(
     public service: SkyDescriptionListService,
     private changeRef: ChangeDetectorRef,
-    private themeSvc: SkyThemeService
+    @Optional() private themeSvc?: SkyThemeService
   ) {}
 
   public ngOnInit(): void {

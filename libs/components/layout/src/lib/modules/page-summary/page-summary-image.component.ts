@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 /**
  * Displays an image in the page summary to identify a record
  * or help users complete a core task.
+ * @deprecated
  */
 @Component({
   selector: 'sky-page-summary-image',

@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "fs-extra": "10.0.0",
+    "jsonc-parser": "3.0.0",
     "latest-version": "5.1.0"
   }
 }

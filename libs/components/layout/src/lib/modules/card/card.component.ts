@@ -8,6 +8,7 @@ import {
   Output,
   QueryList,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { Subscription } from 'rxjs';
 
@@ -18,6 +19,7 @@ import { SkyCardTitleComponent } from './card-title.component';
 
 /**
  * Creates a a small container to highlight important information.
+ * @deprecated `SkyCardComponent` is deprecated. For other SKY UX components that group and list content, see the content containers guidelines. For more information, see https://developer.blackbaud.com/skyux/design/guidelines/content-containers.
  */
 @Component({
   selector: 'sky-card',
@@ -63,6 +65,16 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public showTitle = true;
 
   private subscription: Subscription;
+
+  constructor(logger: SkyLogService) {
+    logger.deprecated('SkyCardComponent', {
+      deprecationMajorVersion: 6,
+      moreInfoUrl:
+        'https://developer.blackbaud.com/skyux/design/guidelines/content-containers',
+      replacementRecommendation:
+        'For other SKY UX components that group and list content, see the content containers guidelines.',
+    });
+  }
 
   public ngAfterContentInit() {
     this.showTitle = this.titleComponent.length > 0;

@@ -80,7 +80,7 @@ export class SkyLookupAutocompleteAdapter {
    * properties of the options.
    */
   @Input()
-  public searchResultTemplate: TemplateRef<any>;
+  public searchResultTemplate: TemplateRef<unknown>;
 
   /**
    * Specifies the minimum number of characters that users must enter before

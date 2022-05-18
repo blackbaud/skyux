@@ -239,13 +239,13 @@ export class SkyLookupComponent
     read: TemplateRef,
     static: true,
   })
-  private showMoreButtonTemplateRef: TemplateRef<any>;
+  private showMoreButtonTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('lookupWrapper', {
     read: ElementRef,
@@ -256,7 +256,7 @@ export class SkyLookupComponent
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef: TemplateRef<any>;
+  private searchIconTemplateRef: TemplateRef<unknown>;
 
   private ngUnsubscribe = new Subject<void>();
   private idle = new Subject<void>();

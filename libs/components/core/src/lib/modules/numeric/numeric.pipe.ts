@@ -9,7 +9,7 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { NumericOptions } from './numeric.options';
+import { NumericOptions, SkyNumericOptions } from './numeric.options';
 import { SkyNumericService } from './numeric.service';
 
 /**
@@ -17,10 +17,6 @@ import { SkyNumericService } from './numeric.service';
  * M for millions, B for billions, and T for trillions. The pipe also formats for currency.
  * Be sure you have a space after the two curly brackets opening the pipe and
  * a space before the two curly brackets closing the pipe or it will not work.
- * Usage:
- * ```
- * {{ value | skyNumeric(config) }}
- * ```
  */
 @Pipe({
   name: 'skyNumeric',
@@ -53,7 +49,10 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     this.ngUnsubscribe.complete();
   }
 
-  public transform(value: number, config?: NumericOptions): string {
+  /**
+   * Formats a number based on the provided options.
+   */
+  public transform(value: number, config?: SkyNumericOptions): string {
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
       `${value}_${config?.locale || this.providerLocale}`;

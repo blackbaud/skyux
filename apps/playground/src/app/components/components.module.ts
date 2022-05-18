@@ -3,6 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'a11y',
+    loadChildren: () => import('./a11y/a11y.module').then((m) => m.A11yModule),
+  },
+  {
     path: 'action-bars',
     loadChildren: () =>
       import('./action-bars/action-bars.module').then(
@@ -39,9 +43,19 @@ const routes: Routes = [
       import('./layout/layout.module').then((m) => m.LayoutModule),
   },
   {
+    path: 'lists',
+    loadChildren: () =>
+      import('./lists/lists.module').then((m) => m.ListsFeatureModule),
+  },
+  {
     path: 'lookup',
     loadChildren: () =>
       import('./lookup/lookup.module').then((m) => m.LookupModule),
+  },
+  {
+    path: 'pages',
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
   },
   {
     path: 'phone-field',
@@ -49,6 +63,11 @@ const routes: Routes = [
       import('./phone-field/phone-field.module').then(
         (m) => m.PhoneFieldModule
       ),
+  },
+  {
+    path: 'split-view',
+    loadChildren: () =>
+      import('./split-view/split-view.module').then((m) => m.SplitViewModule),
   },
   {
     path: 'tabs',

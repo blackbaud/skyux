@@ -65,7 +65,7 @@ export class LookupComponent implements OnInit {
 
   @ViewChild('itemTemplate2')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public set modalItemTemplate(itemTemplate: TemplateRef<any>) {
+  public set modalItemTemplate(itemTemplate: TemplateRef<unknown>) {
     this.showMoreConfig.nativePickerConfig = {
       itemTemplate: itemTemplate,
     };

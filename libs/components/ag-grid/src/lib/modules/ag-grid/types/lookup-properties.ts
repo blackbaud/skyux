@@ -24,7 +24,7 @@ export interface SkyAgGridLookupProperties {
   searchAsync?: (args: SkyAutocompleteSearchAsyncArgs) => {};
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
   searchResultsLimit?: number;
-  searchResultTemplate?: TemplateRef<any>;
+  searchResultTemplate?: TemplateRef<unknown>;
   searchTextMinimumCharacters?: number;
   selectMode?: SkyLookupSelectModeType;
   showAddButton?: boolean;

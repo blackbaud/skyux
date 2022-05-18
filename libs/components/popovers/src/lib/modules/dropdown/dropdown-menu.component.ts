@@ -42,7 +42,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies an ARIA role for the dropdown menu
@@ -54,7 +54,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    * @default "menu"
    */
   @Input()
-  public set ariaRole(value: string) {
+  public set ariaRole(value: string | undefined) {
     this._ariaRole = value;
   }
 
@@ -70,7 +70,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    * @default true
    */
   @Input()
-  public set useNativeFocus(value: boolean) {
+  public set useNativeFocus(value: boolean | undefined) {
     this._useNativeFocus = value;
   }
 
@@ -114,15 +114,15 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   }
 
   @ContentChildren(SkyDropdownItemComponent, { descendants: true })
-  public menuItems: QueryList<SkyDropdownItemComponent>;
+  public menuItems!: QueryList<SkyDropdownItemComponent>;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _ariaRole: string;
+  private _ariaRole: string | undefined;
 
   private _menuIndex = 0;
 
-  private _useNativeFocus: boolean;
+  private _useNativeFocus: boolean | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -195,7 +195,6 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ngUnsubscribe = undefined;
   }
 
   public focusFirstItem(): void {
@@ -278,10 +277,8 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     });
   }
 
-  private getItemByIndex(index: number): SkyDropdownItemComponent {
-    return this.menuItems.find((item: any, i: number) => {
-      return i === index;
-    });
+  private getItemByIndex(index: number): SkyDropdownItemComponent | undefined {
+    return this.menuItems.find((_, i) => i === index);
   }
 
   private selectItemByEventTarget(target: EventTarget): void {
@@ -315,15 +312,15 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   private addEventListeners(): void {
     const dropdownMenuElement = this.elementRef.nativeElement;
 
-    observableFromEvent(dropdownMenuElement, 'click')
+    observableFromEvent<MouseEvent>(dropdownMenuElement, 'click')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: MouseEvent) => {
-        this.selectItemByEventTarget(event.target);
+      .subscribe((event) => {
+        this.selectItemByEventTarget(event.target as EventTarget);
       });
 
-    observableFromEvent(dropdownMenuElement, 'keydown')
+    observableFromEvent<KeyboardEvent>(dropdownMenuElement, 'keydown')
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: KeyboardEvent) => {
+      .subscribe((event) => {
         const key = event.key.toLowerCase();
 
         switch (key) {

@@ -8,6 +8,23 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'colorpicker',
+    loadChildren: () =>
+      import('./features/colorpicker.module').then(
+        (m) => m.ColorpickerFeatureModule
+      ),
+  },
+  {
+    path: 'core',
+    loadChildren: () =>
+      import('./features/core.module').then((m) => m.CoreFeatureModule),
+  },
+  {
+    path: 'errors',
+    loadChildren: () =>
+      import('./features/errors.module').then((m) => m.ErrorsFeatureModule),
+  },
+  {
     path: 'forms',
     loadChildren: () =>
       import('./features/forms.module').then((m) => m.FormsModule),
@@ -38,9 +55,19 @@ const routes: Routes = [
       import('./features/modals.module').then((m) => m.ModalsFeatureModule),
   },
   {
-    path: 'core',
+    path: 'phone-field',
     loadChildren: () =>
-      import('./features/core.module').then((m) => m.CoreFeatureModule),
+      import('./features/phone-field.module').then((m) => m.PhoneModule),
+  },
+  {
+    path: 'popovers',
+    loadChildren: () =>
+      import('./features/popovers.module').then((m) => m.PopoversFeatureModule),
+  },
+  {
+    path: 'datetime',
+    loadChildren: () =>
+      import('./features/datetime.module').then((m) => m.DatetimeFeatureModule),
   },
   {
     path: 'tabs',

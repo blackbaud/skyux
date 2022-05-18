@@ -20,7 +20,7 @@ export class SkyListSecondaryActionComponent implements AfterContentInit {
     read: TemplateRef,
     static: true,
   })
-  private templateRef: TemplateRef<any>;
+  private templateRef: TemplateRef<unknown>;
 
   constructor(private actionService: SkyListSecondaryActionsService) {}
 

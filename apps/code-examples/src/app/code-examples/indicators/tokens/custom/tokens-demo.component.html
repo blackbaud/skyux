@@ -3,7 +3,7 @@
   select a token, it emits an event.
 </p>
 
-<p>
+<div class="sky-margin-stacked-xl">
   <sky-tokens
     displayWith="label"
     [messageStream]="tokensController"
@@ -14,11 +14,11 @@
   >
     (You may also include content inside the tokens component.)
   </sky-tokens>
-</p>
+</div>
 
-<p>
+<div class="sky-margin-stacked-xl">
   <button
-    class="sky-btn sky-btn-default sky-margin-inline-default sky-margin-stacked-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
     (click)="changeTokens()"
   >
@@ -26,7 +26,7 @@
   </button>
 
   <button
-    class="sky-btn sky-btn-default sky-margin-inline-default sky-margin-stacked-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
     (click)="resetTokens()"
   >
@@ -34,7 +34,7 @@
   </button>
 
   <button
-    class="sky-btn sky-btn-default sky-margin-inline-default sky-margin-stacked-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     type="button"
     (click)="destroyTokens()"
   >
@@ -42,9 +42,9 @@
   </button>
 
   <button
-    class="sky-btn sky-btn-default sky-margin-inline-default sky-margin-stacked-default"
+    class="sky-btn sky-btn-default sky-margin-inline-sm"
     (click)="focusLastToken()"
   >
     Focus last token
   </button>
-</p>
+</div>

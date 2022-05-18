@@ -32,9 +32,9 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
 class PopoverTestComponent {
   public dismissOnBlur: boolean;
   public popoverAlignment: string;
-  public popoverBody: string = 'popover body';
+  public popoverBody = 'popover body';
   public popoverPlacement: string;
-  public popoverTitle: string = 'popover title';
+  public popoverTitle = 'popover title';
 }
 //#endregion Test component
 
@@ -48,10 +48,10 @@ describe('Popover fixture', () => {
     return document.querySelector('.sky-btn');
   }
 
-  function openPopover(): Promise<any> {
+  function openPopover(): Promise<unknown> {
     expect(popoverFixture.popoverIsVisible).toEqual(false);
 
-    let triggerEl = getPopoverTriggerEl();
+    const triggerEl = getPopoverTriggerEl();
     triggerEl.click();
     fixture.detectChanges();
 

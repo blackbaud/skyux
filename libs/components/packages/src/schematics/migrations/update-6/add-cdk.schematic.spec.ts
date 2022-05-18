@@ -34,13 +34,11 @@ describe('Migrations > Add cdk', () => {
       .toPromise();
   }
 
-  it('should add the cdk if a relevant package installed', async () => {
+  it('should add @angular/cdk', async () => {
     tree.overwrite(
       'package.json',
       `{
-  "dependencies": {
-    "@skyux/flyout": "5.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {}
 }`
     );
@@ -52,21 +50,5 @@ describe('Migrations > Add cdk', () => {
     );
 
     expect(libraryPackageJson.dependencies['@angular/cdk']).toEqual('^13.0.0');
-  });
-
-  it('should not add the cdk if relevant package not installed', async () => {
-    tree.overwrite(
-      'package.json',
-      `{
-}`
-    );
-
-    const updatedTree = await runSchematic();
-
-    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
-
-    expect(
-      packageJson.dependencies && packageJson.dependencies['@angular/cdk']
-    ).toBeUndefined();
   });
 });

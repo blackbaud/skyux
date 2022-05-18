@@ -1,55 +1,69 @@
 /**
  * Provides arguments for the number to format.
  */
-export class NumericOptions {
+export interface SkyNumericOptions {
   /**
    * Specifies the maximum number of digits after the decimal separator.
-   * @default 1
    */
-  public digits?: number = 1;
+  digits?: number;
 
   /**
    * Specifies how to format the number. Options are `currency` or `number`.
-   * @default "number"
    */
-  public format?: string = 'number';
+  format?: string;
 
   /**
    * Specifies the format of the currency.
-   * @default "standard"
    */
-  public currencySign?: 'accounting' | 'standard' = 'standard';
+  currencySign?: 'accounting' | 'standard';
 
   /**
-   * Specifies the ISO4217 currency code to use for currency formatting. If you do not specify a
-   * currency code, the component uses the browser's culture to determine the currency unless your
-   * SPA provides a different culture with `SkyAppLocaleProvider`.
-   * @default "USD"
+   * Specifies the ISO4217 currency code to use for currency formatting.
    */
-  public iso?: string = 'USD';
+  iso?: string;
 
   /**
    * Specifies the locale code to use when formatting.
    */
-  public locale?: string;
+  locale?: string;
 
   /**
    * Specifies the minimum number of digits after the decimal separator. This property only applies
    * when the `truncate` property is set to `false`. If `digits` specifies a maximum number of
    * digits, then `minDigits` must be less than that value.
    */
-  public minDigits?: number;
+  minDigits?: number;
 
   /**
    * Indicates whether to shorten numbers to rounded numbers and abbreviation characters
    * such as K for thousands, M for millions, B for billions, and T for trillions.
    */
-  public truncate?: boolean = true;
+  truncate?: boolean;
 
   /**
-   * Specifies the starting point after which numbers are shortened to rounded numbers
-   * and abbreviation characters.
-   * @default 0
+   * Specifies the minimum value at which numbers are shortened to rounded numbers and abbreviation characters. Values less than `1000` are not truncated.
    */
-  public truncateAfter?: number = 0;
+  truncateAfter?: number;
+}
+
+/**
+ * Provides arguments for the number to format.
+ * @deprecated Use the `SkyNumericOptions` interface instead.
+ */
+export class NumericOptions implements SkyNumericOptions {
+  public digits?: number = 1;
+
+  public format?: string = 'number';
+
+  public currencySign?: 'accounting' | 'standard' = 'standard';
+
+  public iso?: string = 'USD';
+
+  public locale?: string;
+
+  public minDigits?: number;
+
+  public truncate?: boolean = true;
+
+  public truncateAfter?: number = 1000;
 }

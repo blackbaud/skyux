@@ -1,6 +1,3 @@
-/**
- * @internal
- */
 export interface SkyDateRange {
   /**
    * Specifies the last date in the date range.

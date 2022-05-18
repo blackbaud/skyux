@@ -15,7 +15,7 @@ export class GridEmptyTestComponent {
   public grid: SkyGridComponent;
 
   @ViewChild(TemplateRef)
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
 
   public columns: Array<SkyGridColumnModel>;
   public selectedColumnIds: string[];

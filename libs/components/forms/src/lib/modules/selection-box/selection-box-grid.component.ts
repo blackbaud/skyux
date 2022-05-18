@@ -9,6 +9,7 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  Optional,
   QueryList,
   ViewChild,
   ViewEncapsulation,
@@ -84,12 +85,12 @@ export class SkySelectionBoxGridComponent
   private _currentBreakpoint: SkyMediaBreakpoints;
 
   constructor(
-    private themeSvc: SkyThemeService,
     private coreAdapterService: SkyCoreAdapterService,
     private selectionBoxAdapter: SkySelectionBoxAdapterService,
     private hostElRef: ElementRef,
     private mutationObserverSvc: MutationObserverService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    @Optional() private themeSvc?: SkyThemeService
   ) {}
 
   public ngOnInit(): void {

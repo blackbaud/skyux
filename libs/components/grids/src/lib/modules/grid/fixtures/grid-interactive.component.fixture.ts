@@ -21,10 +21,10 @@ export class GridInteractiveTestComponent {
   public grid: SkyGridComponent;
 
   @ContentChildren(TemplateRef)
-  public templates: QueryList<TemplateRef<any>>;
+  public templates: QueryList<TemplateRef<unknown>>;
 
   @ViewChildren(TemplateRef)
-  public viewtemplates: QueryList<TemplateRef<any>>;
+  public viewtemplates: QueryList<TemplateRef<unknown>>;
 
   public hasToolbar = false;
   public searchedData: any;

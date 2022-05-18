@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'viewkeeper-tabset',
+    loadChildren: () =>
+      import('./viewkeeper-tabset/viewkeeper-tabset.module').then(
+        (m) => m.ViewkeeperTabsetModule
+      ),
+  },
+  {
     path: 'vertical-tabset-back-to-top',
     loadChildren: () =>
       import(

@@ -12,6 +12,7 @@ export * from './lib/modules/popover/types/popover-message-type';
 export * from './lib/modules/popover/types/popover-placement';
 export * from './lib/modules/popover/types/popover-position';
 export * from './lib/modules/popover/types/popover-trigger';
+export * from './lib/modules/popover/types/popover-type';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.
 // Obscure names are used to indicate types are not part of the public API.

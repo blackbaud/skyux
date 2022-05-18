@@ -40,7 +40,7 @@ export class SkyThemeIfDirective implements OnDestroy {
   private hasView = false;
 
   constructor(
-    private templateRef: TemplateRef<any>,
+    private templateRef: TemplateRef<unknown>,
     private viewContainer: ViewContainerRef,
     changeDetector: ChangeDetectorRef,
     @Optional() themeSvc?: SkyThemeService

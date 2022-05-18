@@ -4,15 +4,15 @@ import { TemplateRef } from '@angular/core';
  * @internal
  */
 export interface SkyInputBoxPopulateArgs {
-  inputTemplate: TemplateRef<any>;
+  inputTemplate: TemplateRef<unknown>;
 
-  buttonsTemplate?: TemplateRef<any>;
+  buttonsTemplate?: TemplateRef<unknown>;
 
-  buttonsLeftTemplate?: TemplateRef<any>;
+  buttonsLeftTemplate?: TemplateRef<unknown>;
 
-  buttonsInsetTemplate?: TemplateRef<any>;
+  buttonsInsetTemplate?: TemplateRef<unknown>;
 
-  iconsInsetTemplate?: TemplateRef<any>;
+  iconsInsetTemplate?: TemplateRef<unknown>;
 
-  iconsInsetLeftTemplate?: TemplateRef<any>;
+  iconsInsetLeftTemplate?: TemplateRef<unknown>;
 }

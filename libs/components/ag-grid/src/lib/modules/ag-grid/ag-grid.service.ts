@@ -188,7 +188,6 @@ export class SkyAgGridService implements OnDestroy {
       ...providedGridOptions,
       components: {
         ...providedGridOptions.components,
-        ...providedGridOptions.frameworkComponents,
         // Apply default components last to prevent consumers from overwriting our component types.
         ...defaultGridOptions.components,
       },
@@ -209,20 +208,10 @@ export class SkyAgGridService implements OnDestroy {
       },
     };
 
-    // Prefer the deprecated `stopEditingWhenGridLosesFocus` if it's set by the consumer.
-    if (mergedGridOptions.stopEditingWhenGridLosesFocus !== undefined) {
-      mergedGridOptions.stopEditingWhenCellsLoseFocus =
-        mergedGridOptions.stopEditingWhenGridLosesFocus;
-      delete mergedGridOptions.stopEditingWhenGridLosesFocus;
-    }
-
     // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
     if (mergedGridOptions.getRowNodeId) {
       delete mergedGridOptions.getRowId;
     }
-
-    // Remove the deprecated `frameworkComponents` property in favor of `components`.
-    delete mergedGridOptions.frameworkComponents;
 
     return mergedGridOptions;
   }
@@ -426,7 +415,6 @@ export class SkyAgGridService implements OnDestroy {
       rowSelection: 'multiple',
       singleClickEdit: true,
       sortingOrder: ['desc', 'asc', null],
-      stopEditingWhenCellsLoseFocus: false,
       suppressRowClickSelection: true,
       suppressDragLeaveHidesColumns: true,
     };

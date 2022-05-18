@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 /**
  * Specifies a subtitle to identify the page content.
+ * @deprecated
  */
 @Component({
   selector: 'sky-page-summary-subtitle',

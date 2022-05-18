@@ -203,19 +203,19 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<any>;
+  private inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('countryBtnTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private countryBtnTemplateRef: TemplateRef<any>;
+  private countryBtnTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('buttonsInsetTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private buttonsInsetTemplateRef: TemplateRef<any>;
+  private buttonsInsetTemplateRef: TemplateRef<unknown>;
 
   private defaultCountryData: SkyPhoneFieldCountry;
 

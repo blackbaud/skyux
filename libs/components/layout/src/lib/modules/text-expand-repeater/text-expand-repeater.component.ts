@@ -41,7 +41,7 @@ export class SkyTextExpandRepeaterComponent
    * Specifies a template for items in the list.
    */
   @Input()
-  public itemTemplate: TemplateRef<any>;
+  public itemTemplate: TemplateRef<unknown>;
 
   /**
    * Specifies the style of bullet to use

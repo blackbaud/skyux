@@ -10,7 +10,7 @@ export class SkyListFilterInlineModel {
   public defaultValue: any;
   public filterFunction: (item: ListItemModel, filter: any) => boolean;
   public onChange: EventEmitter<any> = new EventEmitter<any>();
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
 
   constructor(data?: any) {
     if (data) {

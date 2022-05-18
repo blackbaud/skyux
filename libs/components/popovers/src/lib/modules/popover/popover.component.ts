@@ -17,6 +17,7 @@ import { SkyPopoverContentComponent } from './popover-content.component';
 import { SkyPopoverContext } from './popover-context';
 import { SkyPopoverAlignment } from './types/popover-alignment';
 import { SkyPopoverPlacement } from './types/popover-placement';
+import { SkyPopoverType } from './types/popover-type';
 
 @Component({
   selector: 'sky-popover',
@@ -25,12 +26,11 @@ import { SkyPopoverPlacement } from './types/popover-placement';
 export class SkyPopoverComponent implements OnDestroy {
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
-   * The `skyPopoverAlignment` property on the popover directive overwrites this property.
-   * Options include:`"center"`, `"right"`, and `'"left"`.
+   * The `skyPopoverAlignment` property on the popover directive takes precedence over this property when specified.
    * @default "center"
    */
   @Input()
-  public set alignment(value: SkyPopoverAlignment) {
+  public set alignment(value: SkyPopoverAlignment | undefined) {
     this._alignment = value;
   }
 
@@ -44,7 +44,7 @@ export class SkyPopoverComponent implements OnDestroy {
    * @default true
    */
   @Input()
-  public set dismissOnBlur(value: boolean) {
+  public set dismissOnBlur(value: boolean | undefined) {
     this._dismissOnBlur = value;
   }
 
@@ -58,8 +58,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
   /**
    * Specifies the placement of the popover in relation to the trigger element.
-   * The `skyPopoverPlacement` property on the popover directive overwrites this property.
-   * Options include:`"above"`, `"below"`, `"right"`, and `"left"`.
+   * The `skyPopoverPlacement` property on the popover directive takes precedence over this property when specified.
    * @default "above"
    */
   @Input()
@@ -75,15 +74,20 @@ export class SkyPopoverComponent implements OnDestroy {
    * Specifies a title for the popover.
    */
   @Input()
-  public popoverTitle: string;
+  public popoverTitle: string | undefined;
 
   /**
    * Specifies the type of popover.
-   * Options include `"info"` and `"danger"`.
    * @default "info"
    */
   @Input()
-  public popoverType: 'danger' | 'info';
+  public set popoverType(value: SkyPopoverType | undefined) {
+    this._popoverType = value;
+  }
+
+  public get popoverType(): SkyPopoverType {
+    return this._popoverType || 'info';
+  }
 
   /**
    * Fires when users close the popover.
@@ -116,28 +120,29 @@ export class SkyPopoverComponent implements OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private templateRef: TemplateRef<any>;
+  private templateRef!: TemplateRef<unknown>;
 
-  private contentRef: SkyPopoverContentComponent;
+  private contentRef!: SkyPopoverContentComponent;
 
   private isMarkedForCloseOnMouseLeave = false;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  private overlay: SkyOverlayInstance | undefined;
 
-  private _alignment: SkyPopoverAlignment;
+  private _alignment: SkyPopoverAlignment | undefined;
 
-  private _dismissOnBlur: boolean;
+  private _dismissOnBlur: boolean | undefined;
 
-  private _placement: SkyPopoverPlacement;
+  private _placement: SkyPopoverPlacement | undefined;
+
+  private _popoverType: SkyPopoverType | undefined;
 
   constructor(private overlayService: SkyOverlayService) {}
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.ngUnsubscribe = undefined;
 
     if (this.overlay) {
       this.overlayService.close(this.overlay);
@@ -229,7 +234,7 @@ export class SkyPopoverComponent implements OnDestroy {
 
     contentRef.closed.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
       /*istanbul ignore else*/
-      if (this.isActive) {
+      if (this.isActive && this.overlay) {
         this.overlayService.close(this.overlay);
         this.overlay = undefined;
         this.isActive = false;

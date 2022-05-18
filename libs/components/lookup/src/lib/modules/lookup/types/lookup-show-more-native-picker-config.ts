@@ -11,7 +11,7 @@ export interface SkyLookupShowMoreNativePickerConfig {
    * properties of the options. If you do not specify a template, the picker uses
    * the same template as the dropdown list.
    */
-  itemTemplate?: TemplateRef<any>;
+  itemTemplate?: TemplateRef<unknown>;
 
   /**
    * Specifies a title for the picker.

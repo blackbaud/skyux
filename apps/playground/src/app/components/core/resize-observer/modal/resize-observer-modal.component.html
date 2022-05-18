@@ -1,5 +1,7 @@
 <sky-modal>
-  <sky-modal-header> Modal title </sky-modal-header>
+  <sky-modal-header>
+    Modal title | <strong>Breakpoint:</strong> {{ breakpoint }}
+  </sky-modal-header>
   <sky-modal-content>
     <sky-sectioned-form>
       <sky-sectioned-form-section heading="Seed of Intelligence">
@@ -70,18 +72,27 @@
       Show sections
     </button>
     <button
-      class="sky-btn sky-btn-primary sky-margin-inline-compact"
+      class="sky-btn sky-btn-primary sky-margin-inline-sm"
       type="button"
-      (click)="instance.save()"
+      (click)="modalInstance.save()"
     >
       Save
     </button>
     <button
       class="sky-btn sky-btn-link"
       type="button"
-      (click)="instance.close()"
+      (click)="modalInstance.close()"
     >
       Close
     </button>
+    <ng-container *ngFor="let sizeOption of sizes">
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="openAnotherModal(sizeOption)"
+      >
+        Open a {{ sizeOption }} modal
+      </button>
+    </ng-container>
   </sky-modal-footer>
 </sky-modal>

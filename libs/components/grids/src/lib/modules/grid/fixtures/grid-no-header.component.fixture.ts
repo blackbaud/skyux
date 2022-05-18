@@ -31,5 +31,5 @@ export class GridNoHeaderTestComponent {
   public grid: SkyGridComponent;
 
   @ViewChild(TemplateRef)
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
 }

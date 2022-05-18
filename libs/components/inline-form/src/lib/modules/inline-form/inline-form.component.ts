@@ -56,7 +56,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public template: TemplateRef<any>;
+  public template: TemplateRef<unknown>;
 
   /**
    * Indicates whether to display the inline form. Users can toggle between displaying

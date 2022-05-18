@@ -6,5 +6,5 @@ import { TemplateRef } from '@angular/core';
 export interface SkyFormatItem {
   text?: string;
 
-  templateRef?: TemplateRef<any>;
+  templateRef?: TemplateRef<unknown>;
 }

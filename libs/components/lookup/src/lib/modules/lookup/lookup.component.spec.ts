@@ -20,6 +20,10 @@ import { SkyLookupComponent } from './lookup.component';
 describe('Lookup component', function () {
   //#region helpers
 
+  function clickAddButton(): void {
+    SkyAppTestUtility.fireDomEvent(getAddButton(), 'mousedown');
+  }
+
   function clearShowMoreSearch(fixture: ComponentFixture<any>): void {
     (
       document.querySelector(
@@ -38,7 +42,7 @@ describe('Lookup component', function () {
   }
 
   function clickShowMore(fixture: ComponentFixture<any>): void {
-    getShowMoreButton().click();
+    SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
     fixture.detectChanges();
     tick(200);
     fixture.detectChanges();
@@ -890,7 +894,7 @@ describe('Lookup component', function () {
             expect(addButton).not.toBeNull();
             expect(addButtonSpy).not.toHaveBeenCalled();
 
-            addButton.click();
+            clickAddButton();
             fixture.detectChanges();
             tick();
 
@@ -957,7 +961,7 @@ describe('Lookup component', function () {
             expect(addButton).not.toBeNull();
             expect(addButtonSpy).not.toHaveBeenCalled();
 
-            addButton.click();
+            clickAddButton();
             fixture.detectChanges();
             tick();
 
@@ -1020,8 +1024,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -1135,8 +1138,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -1260,8 +1262,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -1369,8 +1370,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -2615,7 +2615,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               await fixture.whenStable();
               // Not using `clickShowMore` due to it being for `fakeAsync`
-              getShowMoreButton().click();
+              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
               fixture.detectChanges();
               await fixture.whenStable();
 
@@ -2813,7 +2813,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               await fixture.whenStable();
               // Not using `clickShowMore` due to it being for `fakeAsync`
-              getShowMoreButton().click();
+              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
               fixture.detectChanges();
               await fixture.whenStable();
 
@@ -3697,7 +3697,7 @@ describe('Lookup component', function () {
             expect(addButton).not.toBeNull();
             expect(addButtonSpy).not.toHaveBeenCalled();
 
-            addButton.click();
+            clickAddButton();
             fixture.detectChanges();
             tick();
 
@@ -3764,7 +3764,7 @@ describe('Lookup component', function () {
             expect(addButton).not.toBeNull();
             expect(addButtonSpy).not.toHaveBeenCalled();
 
-            addButton.click();
+            clickAddButton();
             fixture.detectChanges();
             tick();
 
@@ -3827,8 +3827,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -3942,8 +3941,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -4067,8 +4065,7 @@ describe('Lookup component', function () {
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -4176,8 +4173,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              const addButton = getAddButton();
-              addButton.click();
+              clickAddButton();
               fixture.detectChanges();
               tick();
 
@@ -5592,7 +5588,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               await fixture.whenStable();
               // Not using `clickShowMore` due to it being for `fakeAsync`
-              getShowMoreButton().click();
+              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
               fixture.detectChanges();
               await fixture.whenStable();
 

@@ -17,6 +17,8 @@ export class RepeaterTestComponent {
     return this._activeIndex;
   }
 
+  public disableFirstItem = false;
+
   public expandMode = 'single';
 
   public items = [

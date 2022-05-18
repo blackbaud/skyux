@@ -1,7 +1,9 @@
 export * from './lib/modules/action-hub/action-hub.module';
 export * from './lib/modules/action-hub/types/action-hub-needs-attention';
 export * from './lib/modules/action-hub/types/page-link';
+export * from './lib/modules/action-hub/types/page-links-input';
 export * from './lib/modules/action-hub/types/recent-link';
+export * from './lib/modules/action-hub/types/recent-links-input';
 export * from './lib/modules/page-header/page-header.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

@@ -475,6 +475,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
             "outputPath": "dist/apps/code-examples",
             "index": "apps/code-examples/src/index.html",
             "main": "apps/code-examples/src/main.ts",
@@ -2203,7 +2204,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/components/packages"],
           "options": {
-            "jestConfig": "libs/components/packages/jest.config.js",
+            "jestConfig": "libs/components/packages/jest.config.ts",
             "passWithNoTests": true,
             "codeCoverage": true,
             "coverageReporters": ["html", "text"]
@@ -2360,6 +2361,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
             "outputPath": "dist/apps/playground",
             "index": "apps/playground/src/index.html",
             "main": "apps/playground/src/main.ts",
@@ -2531,7 +2533,7 @@
           "builder": "@nrwl/jest:jest",
           "outputs": ["coverage/libs/sdk/prettier-schematics"],
           "options": {
-            "jestConfig": "libs/sdk/prettier-schematics/jest.config.js",
+            "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
             "passWithNoTests": true
           }
         },
