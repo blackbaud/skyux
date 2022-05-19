@@ -9,6 +9,7 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
 import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
+import { getInitialValue } from '../set-initial-input';
 
 /**
  * @internal
@@ -35,13 +36,19 @@ export class SkyAgGridCellEditorTextComponent
   @ViewChild('skyCellEditorText', { read: ElementRef })
   private input: ElementRef;
 
+  #highlightAfterAttached = false;
+
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorTextParams): void {
     this.params = params;
-    this.value = this.params.charPress || this.params.value;
+    let initialValue = getInitialValue(params, (par) => {
+      return par.value;
+    });
+    this.value = initialValue.value as string;
+    this.#highlightAfterAttached = initialValue.highlight;
     this.maxlength = params.skyComponentProperties?.maxlength;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
@@ -55,6 +62,10 @@ export class SkyAgGridCellEditorTextComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
+    this.input.nativeElement.value = this.value;
+    if (this.#highlightAfterAttached) {
+      this.input.nativeElement.select();
+    }
   }
 
   /**
