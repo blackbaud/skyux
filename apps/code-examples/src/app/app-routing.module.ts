@@ -67,6 +67,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/validation.module').then((m) => m.ValidationModule),
   },
+  {
+    path: 'autonumeric',
+    loadChildren: () =>
+      import('./features/autonumeric.module').then(
+        (m) => m.AutonumericFeatureModule
+      ),
+  },
 ];
 
 @NgModule({
