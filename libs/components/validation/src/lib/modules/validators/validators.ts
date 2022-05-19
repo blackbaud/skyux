@@ -11,73 +11,69 @@ export class SkyValidators {
    * Validates email addresses in reactive forms. Add this validator directly to the form control
    * model in the component class. If users enter values that are not valid email addresses, the
    * validator throws an error. Since this is a sync validator, it returns a set of validation
-   * errors or `undefined` immediately when users enter values.
+   * errors or `null` immediately when users enter values.
    * @param control
    */
   public static email(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
     if (!value) {
-      return undefined;
+      return null;
     }
 
     return SkyValidation.isEmail(value)
-      ? undefined
+      ? null
       : { skyEmail: { invalid: value } };
   }
 
   /**
    * Validates URLs in reactive forms. Add this validator directly to the form control model in
    * the component class. If users enter values that are not valid URLs, the validator throws an
-   * error. Since this is a sync validator, it returns a set of validation errors or `undefined`
+   * error. Since this is a sync validator, it returns a set of validation errors or `null`
    * immediately when users enter values.
    * @param control
    */
-  public static url(
-    abstractControl: AbstractControl
-  ): ValidationErrors | undefined;
+  public static url(abstractControl: AbstractControl): ValidationErrors | null;
 
   /**
    * Validates URLs in reactive forms. Add this validator with ruleset parameters directly to
    * the form control model in the component class. If users enter values that are not valid
    * URLs, the validator throws an error. Since this is a sync validator, it returns a set of
-   * validation errors or `undefined` immediately when users enter values.
+   * validation errors or `null` immediately when users enter values.
    * @param control
    */
   public static url(
     skyUrlValidationOptions: SkyUrlValidationOptions
-  ): ValidatorFn | undefined;
+  ): ValidatorFn | null;
 
   public static url(
     value: AbstractControl | SkyUrlValidationOptions
-  ): ValidatorFn | ValidationErrors | undefined {
+  ): ValidatorFn | ValidationErrors | null {
     const typeTester = value as SkyUrlValidationOptions;
     if (typeTester.rulesetVersion === undefined) {
-      // there are no SkyUrlValidationOptions passed in, so return ValidationErrors | undefined
+      // there are no SkyUrlValidationOptions passed in, so return ValidationErrors | null
       const abstractControl = value as AbstractControl;
       const abstractControlValue = abstractControl.value;
       if (!abstractControlValue) {
-        return;
+        return null;
       }
       return SkyValidation.isUrl(abstractControlValue)
-        ? undefined
+        ? null
         : { skyUrl: { invalid: abstractControlValue } };
     } else {
       // there are SkyUrlValidationOptions passed in, so return ValidatorFn
       const skyUrlValidationOptions = value as SkyUrlValidationOptions;
-      return (
-        abstractControl: AbstractControl
-      ): ValidationErrors | undefined => {
+      return (abstractControl: AbstractControl): ValidationErrors | null => {
         const abstractControlValue = abstractControl.value;
         if (!abstractControlValue) {
-          return;
+          return null;
         }
 
         return SkyValidation.isUrl(
           abstractControl.value,
           skyUrlValidationOptions
         )
-          ? undefined
+          ? null
           : { skyUrl: { invalid: abstractControl.value } };
       };
     }

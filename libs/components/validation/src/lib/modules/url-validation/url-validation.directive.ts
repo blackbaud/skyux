@@ -42,15 +42,15 @@ export class SkyUrlValidationDirective implements Validator {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private _validatorChange = () => {};
 
-  public validate(control: AbstractControl): ValidationErrors | undefined {
+  public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
     if (!value) {
-      return;
+      return null;
     }
 
     return SkyValidation.isUrl(value, this._skyUrlValidationOptions)
-      ? undefined
+      ? null
       : { skyUrl: { invalid: value } };
   }
 
