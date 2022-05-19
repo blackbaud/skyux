@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { SkyUrlValidationFixturesModule } from './fixtures/url-validation-fixtures.module';
 import { UrlValidationRulesetTestComponent } from './fixtures/url-validation-ruleset.component.fixture';
@@ -124,23 +124,18 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     text: string,
     compFixture: ComponentFixture<any>
   ) {
-    const inputEvent = document.createEvent('Event');
     const params = {
       bubbles: false,
       cancelable: false,
     };
 
-    inputEvent.initEvent('input', params.bubbles, params.cancelable);
-
-    const changeEvent = document.createEvent('Event');
-    changeEvent.initEvent('change', params.bubbles, params.cancelable);
     const inputEl = element.querySelector('input');
     inputEl.value = text;
 
-    inputEl.dispatchEvent(inputEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
 
-    inputEl.dispatchEvent(changeEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'change', params);
     compFixture.detectChanges();
   }
 
@@ -203,23 +198,18 @@ describe('URL validation via directive - ruleset v2', () => {
     text: string,
     compFixture: ComponentFixture<any>
   ) {
-    const inputEvent = document.createEvent('Event');
     const params = {
       bubbles: false,
       cancelable: false,
     };
 
-    inputEvent.initEvent('input', params.bubbles, params.cancelable);
-
-    const changeEvent = document.createEvent('Event');
-    changeEvent.initEvent('change', params.bubbles, params.cancelable);
     const inputEl = element.querySelector('input');
     inputEl.value = text;
 
-    inputEl.dispatchEvent(inputEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
 
-    inputEl.dispatchEvent(changeEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'change', params);
     compFixture.detectChanges();
   }
 
@@ -307,23 +297,18 @@ describe('URL validation via directive - non-onceability', () => {
     text: string,
     compFixture: ComponentFixture<any>
   ) {
-    const inputEvent = document.createEvent('Event');
     const params = {
       bubbles: false,
       cancelable: false,
     };
 
-    inputEvent.initEvent('input', params.bubbles, params.cancelable);
-
-    const changeEvent = document.createEvent('Event');
-    changeEvent.initEvent('change', params.bubbles, params.cancelable);
     const inputEl = element.querySelector('input');
     inputEl.value = text;
 
-    inputEl.dispatchEvent(inputEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
 
-    inputEl.dispatchEvent(changeEvent);
+    SkyAppTestUtility.fireDomEvent(inputEl, 'change', params);
     compFixture.detectChanges();
   }
 
