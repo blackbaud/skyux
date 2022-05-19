@@ -11,18 +11,6 @@ export class UrlValidationDemoComponent {
   } = {};
 
   public skyUrlValidationOptions: SkyUrlValidationOptions = {
-    rulesetVersion: 1,
+    rulesetVersion: 2,
   };
-
-  public toggleRuleset(): void {
-    if (this.skyUrlValidationOptions.rulesetVersion === 1) {
-      this.skyUrlValidationOptions = {
-        rulesetVersion: 2,
-      };
-    } else if (this.skyUrlValidationOptions.rulesetVersion === 2) {
-      this.skyUrlValidationOptions = {
-        rulesetVersion: 1,
-      };
-    }
-  }
 }
