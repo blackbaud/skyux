@@ -15,7 +15,7 @@
       [id]="summaryId"
       [@skyAnimationSlide]="slideDirection"
       (@skyAnimationSlide.start)="summaryTransitionStart()"
-      (@skyAnimationSlide.done)="summaryTransitionEnd()"
+      (@skyAnimationSlide.done)="summaryTransitionEnd($event)"
     >
       <div class="sky-summary-action-bar-summary-body">
         <div class="sky-summary-action-bar-summary-items">
@@ -47,6 +47,7 @@
       'sky-margin-inline-default': 'modern'
     }"
     (directionChange)="onDirectionChange($event)"
+    #chevronEl
   >
   </sky-chevron>
 </ng-template>
