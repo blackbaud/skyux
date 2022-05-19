@@ -7,7 +7,7 @@ export interface SkyUrlValidationOptions {
    *
    * Ruleset v1 (the default) uses a simple, custom regex.
    *
-   * Ruleset v2 uses the stricter, 3rd party [Validator.js library](https://github.com/validatorjs/validator.js/).
+   * Ruleset v2 uses the stricter, 3rd party [validator.js library](https://github.com/validatorjs/validator.js/).
    */
   rulesetVersion: 1 | 2;
 }

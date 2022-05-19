@@ -20,7 +20,7 @@ export abstract class SkyValidation {
         case 1:
           return regex.test(url);
         case 2:
-          // we are using Validator's default options
+          // we are using the `validator` package's default options
           return isURL(url);
       }
     } else {
