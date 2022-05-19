@@ -5,8 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
-import { SkyAutonumericOptions } from 'projects/sky-autonumeric/src/public-api';
+import { SkyAutonumericOptions } from '@skyux/autonumeric';
 
 @Component({
   selector: 'app-autonumeric-demo',
