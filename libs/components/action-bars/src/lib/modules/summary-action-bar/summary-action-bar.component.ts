@@ -160,6 +160,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     ) {
       if (this.slideDirection === 'up') {
         this.isSummaryCollapsed = true;
+        this.changeDetector.markForCheck();
       }
 
       if (

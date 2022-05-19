@@ -23,11 +23,7 @@ export class SkySummaryActionBarAdapterService {
   }
 
   public focusChevron(chevronElement: ElementRef) {
-    /* sanity-check */
-    /* istanbul ignore else */
-    if (chevronElement) {
-      chevronElement.nativeElement.querySelector('.sky-chevron').focus();
-    }
+    chevronElement.nativeElement.querySelector('.sky-chevron').focus();
   }
 
   public styleBodyElementForActionBar(summaryActionBarRef: ElementRef): void {
