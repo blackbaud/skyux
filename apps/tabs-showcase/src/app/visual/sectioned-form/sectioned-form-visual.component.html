@@ -1,0 +1,19 @@
+<sky-page>
+  <div id="screenshot-sectioned-form" style="padding-left: 15px">
+    <sky-sectioned-form [maintainSectionContent]="maintainSectionContent">
+      <sky-sectioned-form-section heading="Basic information">
+        <app-information-form-demo> </app-information-form-demo>
+      </sky-sectioned-form-section>
+      <sky-sectioned-form-section
+        active="true"
+        heading="Addresses"
+        itemCount="2"
+      >
+        <app-address-form-demo></app-address-form-demo>
+      </sky-sectioned-form-section>
+      <sky-sectioned-form-section heading="Phone numbers" itemCount="3">
+        <app-phone-form-demo></app-phone-form-demo>
+      </sky-sectioned-form-section>
+    </sky-sectioned-form>
+  </div>
+</sky-page>

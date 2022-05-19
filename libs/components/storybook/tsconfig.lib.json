@@ -6,6 +6,13 @@
     "declarationMap": true,
     "inlineSources": true
   },
-  "exclude": ["../**/*.spec.ts", "../**/*.stories.ts", "../**/*.stories.js"],
-  "include": ["../**/*.ts"]
+  "exclude": [
+    "../**/*.spec.ts",
+    "../**/*.stories.ts",
+    "../**/*.stories.js",
+    "../../../apps/*-showcase/**/*.spec.ts",
+    "../../../apps/*-showcase/**/*.stories.ts",
+    "../../../apps/*-showcase/**/*.stories.js"
+  ],
+  "include": ["../**/*.ts", "../../../apps/*-showcase/**/*.ts"]
 }

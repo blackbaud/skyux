@@ -1,10 +1,6 @@
 name: Storybook
 
-on:
-  push:
-    branches:
-      - main
-      - 6.x.x
+on: workflow_dispatch
 
 jobs:
   publish:

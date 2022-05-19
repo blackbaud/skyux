@@ -1,0 +1,36 @@
+<h1>{{ context.name }}: {{ context.id }}</h1>
+
+<sky-dropdown buttonType="context-menu">
+  <sky-dropdown-menu>
+    <sky-dropdown-item>
+      <button type="button">Option 1</button>
+    </sky-dropdown-item>
+    <sky-dropdown-item>
+      <button type="button">Option 2</button>
+    </sky-dropdown-item>
+  </sky-dropdown-menu>
+</sky-dropdown>
+
+<p>
+  <button class="sky-btn sky-btn-default" type="button" (click)="openModal()">
+    Open modal
+  </button>
+
+  <button class="sky-btn sky-btn-default" type="button" (click)="openMessage()">
+    Open toast
+  </button>
+
+  <button class="sky-btn sky-btn-default" type="button" (click)="goToPage()">
+    Navigate to new page
+  </button>
+</p>
+
+<h3>Infinite scroll</h3>
+
+<ul>
+  <li *ngFor="let item of infiniteScrollData">
+    {{ item.name }}
+  </li>
+</ul>
+<sky-infinite-scroll [enabled]="enableInfiniteScroll" (scrollEnd)="addData()">
+</sky-infinite-scroll>

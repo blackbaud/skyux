@@ -121,6 +121,7 @@
       "@skyux/split-view/testing": [
         "libs/components/split-view/testing/src/public-api.ts"
       ],
+      "@skyux/storybook": ["libs/storybook/src/index.ts"],
       "@skyux/tabs": ["libs/components/tabs/src/index.ts"],
       "@skyux/tabs/testing": ["libs/components/tabs/testing/src/public-api.ts"],
       "@skyux/text-editor": ["libs/components/text-editor/src/index.ts"],

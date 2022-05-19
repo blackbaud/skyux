@@ -177,6 +177,178 @@
       },
       "tags": ["component"]
     },
+    "ag-grid-showcase": {
+      "projectType": "application",
+      "root": "apps/ag-grid-showcase",
+      "sourceRoot": "apps/ag-grid-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ag-grid-showcase",
+            "index": "apps/ag-grid-showcase/src/index.html",
+            "main": "apps/ag-grid-showcase/src/main.ts",
+            "polyfills": "apps/ag-grid-showcase/src/polyfills.ts",
+            "tsConfig": "apps/ag-grid-showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/ag-grid-showcase/src/favicon.ico",
+              "apps/ag-grid-showcase/src/assets"
+            ],
+            "styles": [
+              "apps/ag-grid-showcase/src/styles.scss",
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/ag-grid-showcase/src/environments/environment.ts",
+                  "with": "apps/ag-grid-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ag-grid-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "ag-grid-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ag-grid-showcase:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/ag-grid-showcase/**/*.ts",
+              "apps/ag-grid-showcase/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ag-grid-showcase"],
+          "options": {
+            "jestConfig": "apps/ag-grid-showcase/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "apps/ag-grid-showcase/.storybook"
+            },
+            "projectBuildConfig": "ag-grid-showcase",
+            "styles": [
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/ag-grid-showcase",
+            "config": {
+              "configFolder": "apps/ag-grid-showcase/.storybook"
+            },
+            "projectBuildConfig": "ag-grid-showcase",
+            "styles": [
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "ag-grid-showcase-e2e": {
+      "root": "apps/ag-grid-showcase-e2e",
+      "sourceRoot": "apps/ag-grid-showcase-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ag-grid-showcase-e2e/cypress.json",
+            "devServerTarget": "ag-grid-showcase:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ag-grid-showcase:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/ag-grid-showcase-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["ag-grid-showcase"]
+    },
     "angular-tree-component": {
       "projectType": "library",
       "root": "libs/components/angular-tree-component",
@@ -640,6 +812,32 @@
         }
       }
     },
+    "components-e2e-client": {
+      "projectType": "library",
+      "root": "libs/components/e2e-client",
+      "sourceRoot": "libs/components/e2e-client/src",
+      "prefix": "skyux",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/components/e2e-client/src/test.ts",
+            "tsConfig": "libs/components/e2e-client/tsconfig.spec.json",
+            "karmaConfig": "libs/components/e2e-client/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/e2e-client/**/*.ts",
+              "libs/components/e2e-client/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
+    },
     "config": {
       "projectType": "library",
       "root": "libs/components/config",
@@ -999,6 +1197,169 @@
         }
       },
       "tags": ["component"]
+    },
+    "flyout-showcase": {
+      "projectType": "application",
+      "root": "apps/flyout-showcase",
+      "sourceRoot": "apps/flyout-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/flyout-showcase",
+            "index": "apps/flyout-showcase/src/index.html",
+            "main": "apps/flyout-showcase/src/main.ts",
+            "polyfills": "apps/flyout-showcase/src/polyfills.ts",
+            "tsConfig": "apps/flyout-showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/flyout-showcase/src/favicon.ico",
+              "apps/flyout-showcase/src/assets"
+            ],
+            "styles": ["apps/flyout-showcase/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/flyout-showcase/src/environments/environment.ts",
+                  "with": "apps/flyout-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "flyout-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "flyout-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "flyout-showcase:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/flyout-showcase/**/*.ts",
+              "apps/flyout-showcase/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/flyout-showcase"],
+          "options": {
+            "jestConfig": "apps/flyout-showcase/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "apps/flyout-showcase/.storybook"
+            },
+            "projectBuildConfig": "flyout-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/flyout-showcase",
+            "config": {
+              "configFolder": "apps/flyout-showcase/.storybook"
+            },
+            "projectBuildConfig": "flyout-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "flyout-showcase-e2e": {
+      "root": "apps/flyout-showcase-e2e",
+      "sourceRoot": "apps/flyout-showcase-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/flyout-showcase-e2e/cypress.json",
+            "devServerTarget": "flyout-showcase:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "flyout-showcase:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/flyout-showcase-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["flyout-showcase"]
     },
     "forms": {
       "projectType": "library",
@@ -1926,6 +2287,169 @@
       },
       "tags": ["component"]
     },
+    "lists-showcase": {
+      "projectType": "application",
+      "root": "apps/lists-showcase",
+      "sourceRoot": "apps/lists-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/lists-showcase",
+            "index": "apps/lists-showcase/src/index.html",
+            "main": "apps/lists-showcase/src/main.ts",
+            "polyfills": "apps/lists-showcase/src/polyfills.ts",
+            "tsConfig": "apps/lists-showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/lists-showcase/src/favicon.ico",
+              "apps/lists-showcase/src/assets"
+            ],
+            "styles": ["apps/lists-showcase/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/lists-showcase/src/environments/environment.ts",
+                  "with": "apps/lists-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "lists-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "lists-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "lists-showcase:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/lists-showcase/**/*.ts",
+              "apps/lists-showcase/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/lists-showcase"],
+          "options": {
+            "jestConfig": "apps/lists-showcase/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "apps/lists-showcase/.storybook"
+            },
+            "projectBuildConfig": "lists-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/lists-showcase",
+            "config": {
+              "configFolder": "apps/lists-showcase/.storybook"
+            },
+            "projectBuildConfig": "lists-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "lists-showcase-e2e": {
+      "root": "apps/lists-showcase-e2e",
+      "sourceRoot": "apps/lists-showcase-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/lists-showcase-e2e/cypress.json",
+            "devServerTarget": "lists-showcase:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "lists-showcase:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/lists-showcase-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["lists-showcase"]
+    },
     "lists-testing": {
       "projectType": "library",
       "root": "libs/components/lists/testing",
@@ -2495,6 +3019,169 @@
       },
       "tags": ["component"]
     },
+    "popovers-showcase": {
+      "projectType": "application",
+      "root": "apps/popovers-showcase",
+      "sourceRoot": "apps/popovers-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/popovers-showcase",
+            "index": "apps/popovers-showcase/src/index.html",
+            "main": "apps/popovers-showcase/src/main.ts",
+            "polyfills": "apps/popovers-showcase/src/polyfills.ts",
+            "tsConfig": "apps/popovers-showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/popovers-showcase/src/favicon.ico",
+              "apps/popovers-showcase/src/assets"
+            ],
+            "styles": ["apps/popovers-showcase/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/popovers-showcase/src/environments/environment.ts",
+                  "with": "apps/popovers-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "popovers-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "popovers-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "popovers-showcase:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/popovers-showcase/**/*.ts",
+              "apps/popovers-showcase/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/popovers-showcase"],
+          "options": {
+            "jestConfig": "apps/popovers-showcase/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "apps/popovers-showcase/.storybook"
+            },
+            "projectBuildConfig": "popovers-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/popovers-showcase",
+            "config": {
+              "configFolder": "apps/popovers-showcase/.storybook"
+            },
+            "projectBuildConfig": "popovers-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "popovers-showcase-e2e": {
+      "root": "apps/popovers-showcase-e2e",
+      "sourceRoot": "apps/popovers-showcase-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/popovers-showcase-e2e/cypress.json",
+            "devServerTarget": "popovers-showcase:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "popovers-showcase:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/popovers-showcase-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["popovers-showcase"]
+    },
     "popovers-testing": {
       "projectType": "library",
       "root": "libs/components/popovers/testing",
@@ -2777,26 +3464,34 @@
       }
     },
     "storybook": {
+      "projectType": "library",
       "root": "libs/components/storybook",
       "sourceRoot": "libs/components/storybook/src",
-      "projectType": "library",
+      "prefix": "skyux",
       "architect": {
         "build": {
-          "builder": "@nrwl/storybook:build",
-          "outputs": ["{options.outputPath}"],
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/components/storybook"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/storybook",
-            "config": {
-              "configFolder": "libs/components/storybook/.storybook"
-            },
-            "projectBuildConfig": "storybook:build",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"]
+            "project": "libs/components/storybook/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
           },
           "configurations": {
-            "ci": {
-              "quiet": true
+            "production": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.json"
             }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/components/storybook/src/test.ts",
+            "tsConfig": "libs/components/storybook/tsconfig.spec.json",
+            "karmaConfig": "libs/components/storybook/karma.conf.js"
           }
         },
         "lint": {
@@ -2805,11 +3500,12 @@
           "options": {
             "lintFilePatterns": [
               "libs/components/storybook/**/*.js",
-              "libs/components/storybook/**/*.ts"
+              "libs/components/storybook/**/*.ts",
+              "libs/components/storybook/**/*.html"
             ]
           }
         },
-        "serve": {
+        "storybook": {
           "builder": "@nrwl/storybook:storybook",
           "options": {
             "uiFramework": "@storybook/angular",
@@ -2817,7 +3513,35 @@
             "config": {
               "configFolder": "libs/components/storybook/.storybook"
             },
-            "projectBuildConfig": "storybook:build"
+            "projectBuildConfig": "storybook:build-storybook",
+            "styles": [
+              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/storybook",
+            "config": {
+              "configFolder": "libs/components/storybook/.storybook"
+            },
+            "projectBuildConfig": "storybook:build-storybook",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
           },
           "configurations": {
             "ci": {
@@ -2827,34 +3551,6 @@
         }
       },
       "tags": []
-    },
-    "storybook-e2e": {
-      "root": "apps/storybook-e2e",
-      "sourceRoot": "apps/storybook-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/storybook-e2e/cypress.json",
-            "devServerTarget": "storybook:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "storybook:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": ["apps/storybook-e2e/**/*.{js,ts}"]
-          }
-        }
-      },
-      "tags": [],
-      "implicitDependencies": ["storybook"]
     },
     "tabs": {
       "projectType": "library",
@@ -2904,6 +3600,169 @@
         }
       },
       "tags": ["component"]
+    },
+    "tabs-showcase": {
+      "projectType": "application",
+      "root": "apps/tabs-showcase",
+      "sourceRoot": "apps/tabs-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/tabs-showcase",
+            "index": "apps/tabs-showcase/src/index.html",
+            "main": "apps/tabs-showcase/src/main.ts",
+            "polyfills": "apps/tabs-showcase/src/polyfills.ts",
+            "tsConfig": "apps/tabs-showcase/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/tabs-showcase/src/favicon.ico",
+              "apps/tabs-showcase/src/assets"
+            ],
+            "styles": ["apps/tabs-showcase/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/tabs-showcase/src/environments/environment.ts",
+                  "with": "apps/tabs-showcase/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "tabs-showcase:build:production"
+            },
+            "development": {
+              "browserTarget": "tabs-showcase:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tabs-showcase:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/tabs-showcase/**/*.ts",
+              "apps/tabs-showcase/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/tabs-showcase"],
+          "options": {
+            "jestConfig": "apps/tabs-showcase/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "apps/tabs-showcase/.storybook"
+            },
+            "projectBuildConfig": "tabs-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/tabs-showcase",
+            "config": {
+              "configFolder": "apps/tabs-showcase/.storybook"
+            },
+            "projectBuildConfig": "tabs-showcase",
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "tabs-showcase-e2e": {
+      "root": "apps/tabs-showcase-e2e",
+      "sourceRoot": "apps/tabs-showcase-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/tabs-showcase-e2e/cypress.json",
+            "devServerTarget": "tabs-showcase:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "tabs-showcase:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/tabs-showcase-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["tabs-showcase"]
     },
     "tabs-testing": {
       "projectType": "library",

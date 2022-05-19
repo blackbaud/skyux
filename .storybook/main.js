@@ -4,16 +4,15 @@ module.exports = {
     '@storybook/addon-a11y',
     // '@storybook/addon-actions',
     '@storybook/addon-backgrounds',
-    // '@storybook/addon-controls',
-    // {
-    //   name: '@storybook/addon-docs',
-    //   options: {
-    //     sourceLoaderOptions: {
-    //       injectStoryParameters: false,
-    //     },
-    //   },
-    // },
-    // '@storybook/addon-storysource',
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        sourceLoaderOptions: {
+          injectStoryParameters: false,
+        },
+      },
+    },
+    '@storybook/addon-controls',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
   ],
