@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 
-import { of as observableOf } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 
 @Injectable()
 export class MockSkyUIConfigService extends SkyUIConfigService {
-  public getConfig(key: string, defaultConfig?: any): any {
+  public getConfig(key: string, defaultConfig?: any): Observable<any> {
     switch (key) {
       case 'defaultSettings':
         return observableOf(defaultConfig);

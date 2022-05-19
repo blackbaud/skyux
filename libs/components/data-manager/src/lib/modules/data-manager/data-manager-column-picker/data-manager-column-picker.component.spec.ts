@@ -253,6 +253,10 @@ describe('SkyDataManagerColumnPickerComponent', () => {
   });
 
   it('should pass accessibility', async () => {
+    dataManagerColumnPickerFixture.detectChanges();
+    await dataManagerColumnPickerFixture.whenStable();
+    dataManagerColumnPickerFixture.detectChanges();
+    await dataManagerColumnPickerFixture.whenStable();
     await expectAsync(dataManagerColumnPickerElement).toBeAccessible();
   });
 });

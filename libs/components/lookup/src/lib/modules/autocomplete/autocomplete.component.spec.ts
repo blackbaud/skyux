@@ -20,6 +20,10 @@ import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-funct
 describe('Autocomplete component', () => {
   //#region helpers
 
+  function clickAddButton(): void {
+    SkyAppTestUtility.fireDomEvent(getAddButton(), 'mousedown');
+  }
+
   function getAddButton(): HTMLElement {
     return document.querySelector(
       '.sky-autocomplete-action-add'
@@ -56,6 +60,10 @@ describe('Autocomplete component', () => {
 
   function getSearchResultItems(): NodeListOf<Element> {
     return document.querySelectorAll('.sky-autocomplete-result');
+  }
+
+  function clickShowMoreButton(): void {
+    SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
   }
 
   function getShowMoreButton(): HTMLElement {
@@ -724,7 +732,7 @@ describe('Autocomplete component', () => {
       expect(addButton).not.toBeNull();
       expect(addButtonSpy).not.toHaveBeenCalled();
 
-      addButton.click();
+      clickAddButton();
       fixture.detectChanges();
       tick();
 
@@ -830,7 +838,7 @@ describe('Autocomplete component', () => {
       expect(showMoreButton).not.toBeNull();
       expect(showMoreButtonSpy).not.toHaveBeenCalled();
 
-      showMoreButton.click();
+      clickShowMoreButton();
       fixture.detectChanges();
       tick();
 
@@ -1898,7 +1906,7 @@ describe('Autocomplete component', () => {
       expect(addButton).not.toBeNull();
       expect(addButtonSpy).not.toHaveBeenCalled();
 
-      addButton.click();
+      clickAddButton();
       fixture.detectChanges();
       tick();
 
@@ -1962,7 +1970,7 @@ describe('Autocomplete component', () => {
       expect(showMoreButton).not.toBeNull();
       expect(showMoreButtonSpy).not.toHaveBeenCalled();
 
-      showMoreButton.click();
+      clickShowMoreButton();
       fixture.detectChanges();
       tick();
 

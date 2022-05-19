@@ -510,7 +510,7 @@ export class SkyAutocompleteComponent
             }
           } else {
             if (activeElement) {
-              activeElement.click();
+              activeElement.dispatchEvent(new MouseEvent('mousedown'));
             }
           }
 

@@ -28,7 +28,7 @@
 
   .sky-sectioned-form-content {
     flex-basis: 70%;
-    margin: $sky-padding-even-large;
+    padding: $sky-padding-even-large;
     overflow-y: auto;
   }
 
@@ -48,7 +48,7 @@
 
 @include sky-theme-modern {
   .sky-sectioned-form-content {
-    margin: $sky-theme-modern-space-md;
+    padding: $sky-theme-modern-space-md;
   }
   .sky-sectioned-form-tabs {
     border-right: 1px solid $sky-theme-modern-border-color-neutral-medium;

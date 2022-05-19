@@ -39,7 +39,7 @@ export class SkyNumericService {
   constructor(private resourcesService: SkyLibResourcesService) {}
 
   /**
-   * Shortens with or without symbol (K/M/B/T) depending on value of number.
+   * Formats a number based on the provided options.
    * @param value The number to format.
    * @param options Format options.
    */
