@@ -73,6 +73,11 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
+  {
+    path: 'validation',
+    loadChildren: () =>
+      import('./validation/validation.module').then((m) => m.ValidationModule),
+  },
 ];
 
 @NgModule({
