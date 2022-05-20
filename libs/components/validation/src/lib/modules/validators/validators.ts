@@ -12,7 +12,6 @@ export class SkyValidators {
    * model in the component class. If users enter values that are not valid email addresses, the
    * validator throws an error. Since this is a sync validator, it returns a set of validation
    * errors or `null` immediately when users enter values.
-   * @param control
    */
   public static email(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
@@ -31,7 +30,6 @@ export class SkyValidators {
    * the component class. If users enter values that are not valid URLs, the validator throws an
    * error. Since this is a sync validator, it returns a set of validation errors or `null`
    * immediately when users enter values.
-   * @param control
    */
   public static url(abstractControl: AbstractControl): ValidationErrors | null;
 
@@ -40,7 +38,6 @@ export class SkyValidators {
    * the form control model in the component class. If users enter values that are not valid
    * URLs, the validator throws an error. Since this is a sync validator, it returns a set of
    * validation errors or `null` immediately when users enter values.
-   * @param control
    */
   public static url(
     skyUrlValidationOptions: SkyUrlValidationOptions
