@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { SkyUrlValidationOptions, SkyValidators } from '@skyux/validation';
+import { SkyValidators } from '@skyux/validation';
 
 @Component({
   selector: 'app-url-validation-demo',
@@ -21,13 +21,14 @@ export class UrlValidationDemoComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {}
 
-  public skyUrlValidationOptions: SkyUrlValidationOptions = {
-    rulesetVersion: 2,
-  };
-
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      url: new FormControl(undefined, [Validators.required, SkyValidators.url]),
+      url: new FormControl(undefined, [
+        Validators.required,
+        SkyValidators.url({
+          rulesetVersion: 2,
+        }),
+      ]),
     });
   }
 }
