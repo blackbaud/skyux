@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   ViewChild,
@@ -37,17 +38,14 @@ export class SkyAgGridCellEditorCurrencyComponent
 
   #highlightAfterAttached = false;
 
+  constructor(private changeDetector: ChangeDetectorRef) {}
+
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorCurrencyParams): void {
     this.params = params;
-    let initialValue = getInitialValue(params, (par) => {
-      return par.value;
-    });
-    this.value = initialValue.value as number;
-    this.#highlightAfterAttached = initialValue.highlight;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
@@ -63,11 +61,19 @@ export class SkyAgGridCellEditorCurrencyComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
+    const initialValue = getInitialValue(this.params, (par) => {
+      return par.value;
+    });
+    this.#highlightAfterAttached = initialValue.highlight;
     this.input.nativeElement.focus();
-    this.input.nativeElement.value = this.value;
-    if (this.#highlightAfterAttached) {
-      this.input.nativeElement.select();
-    }
+
+    this.value = parseFloat(initialValue.value as string);
+    this.changeDetector.markForCheck();
+    setTimeout(() => {
+      if (this.#highlightAfterAttached) {
+        this.input.nativeElement.select();
+      }
+    }, 100);
   }
 
   /**

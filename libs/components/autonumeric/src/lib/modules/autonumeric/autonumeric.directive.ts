@@ -59,6 +59,12 @@ export class SkyAutonumericDirective
     this.updateAutonumericInstance();
   }
 
+  /**
+   * @internal
+   */
+  @Input()
+  public skyAutonumericFormChangesUnformatted = false;
+
   private autonumericInstance: AutoNumeric;
   private autonumericOptions: SkyAutonumericOptions | undefined;
   private control: AbstractControl | undefined;
@@ -116,7 +122,7 @@ export class SkyAutonumericDirective
   }
 
   public writeValue(value: number | undefined): void {
-    if (this.value !== value) {
+    if (this.value !== value && !(!this.value && !value)) {
       this.value = value;
       this.onChange(value);
 
@@ -127,12 +133,16 @@ export class SkyAutonumericDirective
         this.isFirstChange = false;
         this.control!.markAsPristine();
       }
-    }
 
-    if (typeof value === 'number') {
-      this.autonumericInstance.set(value);
-    } else {
-      this.autonumericInstance.clear();
+      if (typeof value === 'number') {
+        if (this.skyAutonumericFormChangesUnformatted) {
+          this.autonumericInstance.setUnformatted(value);
+        } else {
+          this.autonumericInstance.set(value);
+        }
+      } else {
+        this.autonumericInstance.clear();
+      }
     }
   }
 

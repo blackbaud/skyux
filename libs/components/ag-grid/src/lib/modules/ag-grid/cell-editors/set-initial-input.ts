@@ -6,14 +6,14 @@ export function getInitialValue(
   params: ICellEditorParams,
   valueFn: Function
 ): SkyInitialValueInfo {
-  let valueInfo = {
+  const valueInfo = {
     value: undefined,
     highlight: false,
   };
   if (params.cellStartedEdit) {
     if (
-      params.eventKey === KeyCode.BACKSPACE ||
-      params.eventKey === KeyCode.DELETE
+      params.keyPress === KeyCode.BACKSPACE ||
+      params.keyPress === KeyCode.DELETE
     ) {
       valueInfo.value = '';
     } else if (params.charPress) {
@@ -21,7 +21,7 @@ export function getInitialValue(
     } else {
       valueInfo.value = valueFn(params);
 
-      if (params.eventKey !== KeyCode.F2) {
+      if (params.keyPress !== KeyCode.F2) {
         valueInfo.highlight = true;
       }
     }
