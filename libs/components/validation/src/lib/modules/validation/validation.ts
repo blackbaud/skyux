@@ -12,9 +12,17 @@ export abstract class SkyValidation {
     return regex.test(emailAddress);
   }
 
-  public static isUrl(url: string, options?: SkyUrlValidationOptions): boolean {
+  public static isUrl(
+    value: unknown,
+    options?: SkyUrlValidationOptions
+  ): boolean {
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    const url: string = value;
+
     const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
-    url = url.toString();
     if (options) {
       switch (options.rulesetVersion) {
         case 1:
