@@ -1,3 +1,7 @@
+import isURL from 'validator/es/lib/isURL';
+
+import { SkyUrlValidationOptions } from '../url-validation/url-validation-options';
+
 export abstract class SkyValidation {
   public static isEmail(emailAddress: string): boolean {
     // The regex was obtained from http://emailregex.com/
@@ -8,8 +12,27 @@ export abstract class SkyValidation {
     return regex.test(emailAddress);
   }
 
-  public static isUrl(url: string): boolean {
+  public static isUrl(
+    value: unknown,
+    options?: SkyUrlValidationOptions
+  ): boolean {
+    if (typeof value !== 'string') {
+      return false;
+    }
+
+    const url: string = value;
+
     const regex = /^((http|https):\/\/)?([\w-]+\.)+[\w-]+/i;
-    return regex.test(url);
+    if (options) {
+      switch (options.rulesetVersion) {
+        case 1:
+          return regex.test(url);
+        case 2:
+          // we are using the `validator` package's default options
+          return isURL(url);
+      }
+    } else {
+      return regex.test(url);
+    }
   }
 }

@@ -1,7 +1,14 @@
-import { Directive, forwardRef } from '@angular/core';
-import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
+import { Directive, Input, forwardRef } from '@angular/core';
+import {
+  AbstractControl,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 
 import { SkyValidation } from '../validation/validation';
+
+import { SkyUrlValidationOptions } from './url-validation-options';
 
 // tslint:disable:no-forward-ref no-use-before-declare
 const SKY_URL_VALIDATION_VALIDATOR = {
@@ -21,23 +28,33 @@ const SKY_URL_VALIDATION_VALIDATOR = {
   providers: [SKY_URL_VALIDATION_VALIDATOR],
 })
 export class SkyUrlValidationDirective implements Validator {
-  public validate(control: AbstractControl): { [key: string]: any } {
+  /**
+   * Specifies configuration options for the URL validation component.
+   */
+  @Input()
+  public set skyUrlValidation(value: SkyUrlValidationOptions | undefined) {
+    this._skyUrlValidationOptions = value;
+    this._validatorChange();
+  }
+
+  private _skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private _validatorChange = () => {};
+
+  public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
     if (!value) {
-      return;
+      return null;
     }
 
-    if (!this.urlIsValid(value)) {
-      return {
-        skyUrl: {
-          invalid: control.value,
-        },
-      };
-    }
+    return SkyValidation.isUrl(value, this._skyUrlValidationOptions)
+      ? null
+      : { skyUrl: { invalid: value } };
   }
 
-  public urlIsValid(url: string): boolean {
-    return SkyValidation.isUrl(url);
+  public registerOnValidatorChange(fn: () => void): void {
+    this._validatorChange = fn;
   }
 }
