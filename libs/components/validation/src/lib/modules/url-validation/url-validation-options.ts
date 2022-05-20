@@ -3,11 +3,7 @@
  */
 export interface SkyUrlValidationOptions {
   /**
-   * Indicates which ruleset version of URL validation to use.
-   *
-   * Ruleset v1 (the default) uses a simple, custom regex.
-   *
-   * Ruleset v2 uses the stricter, 3rd party [validator.js library](https://github.com/validatorjs/validator.js/).
+   * Indicates the ruleset to use for URL validation. Ruleset 1 uses a regular expression and ruleset 2 uses the third-party [validator.js library](https://github.com/validatorjs/validator.js/).
    */
   rulesetVersion: 1 | 2;
 }
