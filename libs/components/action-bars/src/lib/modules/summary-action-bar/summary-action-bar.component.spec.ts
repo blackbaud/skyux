@@ -2,13 +2,12 @@ import { ApplicationRef, DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   inject,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
@@ -23,6 +22,63 @@ import { SkySummaryActionBarAdapterService } from './summary-action-bar-adapter.
 import { SkySummaryActionBarComponent } from './summary-action-bar.component';
 
 describe('Summary Action Bar component', () => {
+  function clickCollapseButton(debugElement: DebugElement): void {
+    getCollapseButton(debugElement).click();
+  }
+
+  function clickExpandButton(debugElement: DebugElement): void {
+    getExpandButton(debugElement).click();
+  }
+
+  function closeModal(): void {
+    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+  }
+
+  function getActionBarHeight(debugElement: DebugElement): string {
+    return debugElement.query(By.css('.sky-summary-action-bar'))?.nativeElement
+      .offsetHeight;
+  }
+
+  function getCollapseButton(debugElement: DebugElement): HTMLElement {
+    return debugElement.query(
+      By.css('.sky-summary-action-bar-details-collapse button')
+    )?.nativeElement;
+  }
+
+  function getExpandButton(debugElement: DebugElement): HTMLElement {
+    return debugElement.query(
+      By.css('.sky-summary-action-bar-details-expand button')
+    )?.nativeElement;
+  }
+
+  function getModalActionBar(debugElement: DebugElement): HTMLElement {
+    return debugElement.query(By.css('.sky-summary-action-bar-modal'))
+      ?.nativeElement;
+  }
+
+  function getModalHost(): HTMLElement {
+    return document.querySelector('sky-modal-host');
+  }
+
+  function getSummary(debugElement: DebugElement): HTMLElement {
+    return debugElement.query(By.css('.sky-summary-action-bar-summary'))
+      ?.nativeElement;
+  }
+
+  function toggleSummary(debugElement: DebugElement): void {
+    debugElement.query(By.css('#summary-trigger'))?.nativeElement.click();
+  }
+
+  function openFullScreenModal(debugElement: DebugElement): void {
+    debugElement.query(By.css('#full-modal-trigger'))?.nativeElement.click();
+  }
+
+  function openStandardModal(debugElement: DebugElement): void {
+    debugElement
+      .query(By.css('#action-bar-modal-trigger'))
+      ?.nativeElement.click();
+  }
+
   let mockMediaQueryService: MockSkyMediaQueryService;
 
   beforeEach(() => {
@@ -61,7 +117,7 @@ describe('Summary Action Bar component', () => {
 
     beforeEach(inject(
       [SkyModalService, ApplicationRef],
-      (_modalService: SkyModalService, _applicationRef: ApplicationRef) => {
+      (_modalService: SkyModalService) => {
         modalService = _modalService;
       }
     ));
@@ -82,33 +138,27 @@ describe('Summary Action Bar component', () => {
     describe('body stylings', () => {
       it('should set a margin on the body if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        const actionBarHeight = debugElement.query(
-          By.css('.sky-summary-action-bar')
-        ).nativeElement.offsetHeight;
+        const actionBarHeight = getActionBarHeight(debugElement);
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
       });
 
       it('should set a new margin when the summary area changes collapsed state', fakeAsync(() => {
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        let actionBarHeight = debugElement.query(
-          By.css('.sky-summary-action-bar')
-        ).nativeElement.offsetHeight;
+        let actionBarHeight = getActionBarHeight(debugElement);
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-collapse button'))
-          .nativeElement.click();
-        actionBarHeight = debugElement.query(By.css('.sky-summary-action-bar'))
-          .nativeElement.offsetHeight;
+        clickCollapseButton(debugElement);
+        actionBarHeight = getActionBarHeight(debugElement);
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
       }));
 
       it('should set a new margin on the body if the window is resized', () => {
         const initialBottomMargin = document.body.style.marginBottom;
         fixture.detectChanges();
-        const resizeEvent: any = document.createEvent('CustomEvent');
-        resizeEvent.initEvent('resize', true, true);
-        window.dispatchEvent(resizeEvent);
+        SkyAppTestUtility.fireDomEvent(document, 'resize', {
+          bubbles: true,
+          cancelable: true,
+        });
         fixture.detectChanges();
 
         const finalBottomMargin = document.body.style.marginBottom;
@@ -126,9 +176,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
         expect(document.body.style.marginBottom).toBe('');
       });
@@ -154,48 +202,34 @@ describe('Summary Action Bar component', () => {
 
       it('should recognize when the summary tag when it is toggled externally', () => {
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).toExist();
-        (document.querySelector('#summary-trigger') as HTMLElement).click();
+        expect(getSummary(debugElement)).toExist();
+        toggleSummary(debugElement);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).not.toExist();
-        (document.querySelector('#summary-trigger') as HTMLElement).click();
+        expect(getSummary(debugElement)).not.toExist();
+        toggleSummary(debugElement);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).toExist();
+        expect(getSummary(debugElement)).toExist();
       });
     });
 
     describe('modal stylings', () => {
       it('should not add the modal class if the action bar is not in a modal footer', () => {
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-modal')
-        ).toBeNull();
+        expect(getModalActionBar(debugElement)).toBeUndefined();
       });
 
       it('should add the modal class if the action bar is in a modal footer', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-modal')
-        ).not.toBeNull();
+        expect(getModalActionBar(debugElement)).not.toBeNull();
       });
 
       it('should remove the modal footer padding if the action bar is in a modal footer', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
         expect(
           (document.querySelector('.sky-modal-footer-container') as HTMLElement)
@@ -203,7 +237,7 @@ describe('Summary Action Bar component', () => {
         ).toBe('0px');
       });
 
-      it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', async(() => {
+      it('should remove the correct modal footer padding if the action bar is in a modal footer and there are two modals', async () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
         debugElement
@@ -226,7 +260,7 @@ describe('Summary Action Bar component', () => {
             ) as HTMLElement
           ).style.padding
         ).not.toBe('0px');
-      }));
+      });
     });
 
     describe('media queries', () => {
@@ -238,9 +272,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsible to true when on a large screen but normal modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
         expect(
           cmp.openedModal.summaryActionBar.isSummaryCollapsible
@@ -250,7 +282,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsible to false when on a large screen and full screen modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
         expect(
           cmp.openedModal.summaryActionBar.isSummaryCollapsible
@@ -268,27 +300,19 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).toExist();
-        (document.querySelector('#summary-trigger') as HTMLElement).click();
+        expect(getSummary(debugElement)).toExist();
+        toggleSummary(debugElement);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).not.toExist();
-        (document.querySelector('#summary-trigger') as HTMLElement).click();
+        expect(getSummary(debugElement)).not.toExist();
+        toggleSummary(debugElement);
         fixture.detectChanges();
-        expect(
-          document.querySelector('.sky-summary-action-bar-summary')
-        ).toExist();
+        expect(getSummary(debugElement)).toExist();
       });
 
       it('should set isSummaryCollapsible to true when on a xs screen and normal modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
@@ -300,7 +324,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsible to true when on a xs screen and full screen modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
@@ -322,7 +346,7 @@ describe('Summary Action Bar component', () => {
       it('should set isSummaryCollapsed to false when moving from a xs screen to a large screen in a full screen modal', () => {
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
@@ -340,9 +364,7 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         expect(cmp.summaryActionBar.isSummaryCollapsed).toBeFalsy();
         expect(cmp.summaryActionBar.slideDirection).toBe('down');
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-collapse button'))
-          .nativeElement.click();
+        clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -354,23 +376,56 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-collapse button'))
-          .nativeElement.click();
+        clickCollapseButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar.isSummaryCollapsed).toBeTruthy();
         expect(cmp.summaryActionBar.slideDirection).toBe('up');
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-expand button'))
-          .nativeElement.click();
+        clickExpandButton(debugElement);
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
         expect(cmp.summaryActionBar.isSummaryCollapsed).toBeFalsy();
         expect(cmp.summaryActionBar.slideDirection).toBe('down');
       }));
+
+      it(`should move focus to the collapsed summary's chevron after collapsing`, async () => {
+        fixture.detectChanges();
+        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        fixture.detectChanges();
+        clickCollapseButton(debugElement);
+        // Allow animation to finish
+        fixture.detectChanges();
+        await fixture.whenStable();
+        // ALlow focusing to take place
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const expandButton = getExpandButton(debugElement);
+        expect(document.activeElement).toEqual(expandButton);
+      });
+
+      it(`should move focus to the expanded summary's chevron after expanding`, async () => {
+        fixture.detectChanges();
+        mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
+        fixture.detectChanges();
+        clickCollapseButton(debugElement);
+        // Allow animation to finish
+        fixture.detectChanges();
+        await fixture.whenStable();
+        // ALlow focusing to take place
+        fixture.detectChanges();
+        await fixture.whenStable();
+        clickExpandButton(debugElement);
+        // Allow animation to finish
+        fixture.detectChanges();
+        await fixture.whenStable();
+        // ALlow focusing to take place
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const collapseButton = getCollapseButton(debugElement);
+        expect(document.activeElement).toEqual(collapseButton);
+      });
     });
 
     describe('switching', () => {
@@ -379,9 +434,7 @@ describe('Summary Action Bar component', () => {
         cmp.hideMainActionBar = true;
         cmp.showSecondaryActionBar = true;
         fixture.detectChanges();
-        const actionBarHeight = debugElement.query(
-          By.css('.sky-summary-action-bar')
-        ).nativeElement.offsetHeight;
+        const actionBarHeight = getActionBarHeight(debugElement);
         expect(document.body.style.marginBottom).toBe(actionBarHeight + 'px');
       });
 
@@ -397,147 +450,120 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('a11y', () => {
-      it('should be accessible (standard lg setup)', async(() => {
+      it('should be accessible (standard lg setup)', async () => {
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup)', async(() => {
+      it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup collapsed summary)', async(() => {
+      it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          debugElement
-            .query(By.css('.sky-summary-action-bar-details-collapse button'))
-            .nativeElement.click();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(fixture.nativeElement).toBeAccessible();
-          });
-        });
-      }));
+        await fixture.whenStable();
+        clickCollapseButton(debugElement);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (modal setup)', async(() => {
+      it('should be accessible (modal setup)', async () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Testing modal host here due to the modal not being contained in the fixture
-          const modalHostElem = document.querySelector('sky-modal-host');
-          expect(modalHostElem).toBeAccessible();
-          (
-            document.querySelector('.sky-modal-btn-close') as HTMLElement
-          ).click();
-          fixture.detectChanges();
-        });
-      }));
+        await fixture.whenStable();
+        // Testing modal host here due to the modal not being contained in the fixture
+        const modalHostElem = getModalHost();
+        await expectAsync(modalHostElem).toBeAccessible();
+        closeModal();
+        fixture.detectChanges();
+      });
 
-      it('should be accessible (modal setup collapsed summary)', async(() => {
+      it('should be accessible (modal setup collapsed summary)', async () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement
-          .query(By.css('#action-bar-modal-trigger'))
-          .nativeElement.click();
+        openStandardModal(debugElement);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Using query selector here due to the modal not being inside the debugElement
-          (
-            document.querySelector(
-              '.sky-summary-action-bar-details-collapse button'
-            ) as HTMLElement
-          ).click();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            // Testing modal host here due to the modal not being contained in the fixture
-            const modalHostElem = document.querySelector('sky-modal-host');
-            expect(modalHostElem).toBeAccessible();
-            (
-              document.querySelector('.sky-modal-btn-close') as HTMLElement
-            ).click();
-            fixture.detectChanges();
-          });
-        });
-      }));
+        await fixture.whenStable();
+        // Using query selector here due to the modal not being inside the debugElement
+        (
+          document.querySelector(
+            '.sky-summary-action-bar-details-collapse button'
+          ) as HTMLElement
+        ).click();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        // Testing modal host here due to the modal not being contained in the fixture
+        const modalHostElem = getModalHost();
+        await expectAsync(modalHostElem).toBeAccessible();
+        closeModal();
+        fixture.detectChanges();
+      });
 
-      it('should be accessible (full screen modal lg setup)', async(() => {
+      it('should be accessible (full screen modal lg setup)', async () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Testing modal host here due to the modal not being contained in the fixture
-          const modalHostElem = document.querySelector('sky-modal-host');
-          expect(modalHostElem).toBeAccessible();
-          (
-            document.querySelector('.sky-modal-btn-close') as HTMLElement
-          ).click();
-          fixture.detectChanges();
-        });
-      }));
+        await fixture.whenStable();
+        // Testing modal host here due to the modal not being contained in the fixture
+        const modalHostElem = getModalHost();
+        await expectAsync(modalHostElem).toBeAccessible();
+        closeModal();
+        fixture.detectChanges();
+      });
 
-      it('should be accessible (full screen modal xs setup)', async(() => {
+      it('should be accessible (full screen modal xs setup)', async () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Testing modal host here due to the modal not being contained in the fixture
-          const modalHostElem = document.querySelector('sky-modal-host');
-          expect(modalHostElem).toBeAccessible();
-          (
-            document.querySelector('.sky-modal-btn-close') as HTMLElement
-          ).click();
-          fixture.detectChanges();
-        });
-      }));
+        await fixture.whenStable();
+        // Testing modal host here due to the modal not being contained in the fixture
+        const modalHostElem = getModalHost();
+        await expectAsync(modalHostElem).toBeAccessible();
+        closeModal();
+        fixture.detectChanges();
+      });
 
-      it('should be accessible (full screen modal xs setup collapsed summary)', async(() => {
+      it('should be accessible (full screen modal xs setup collapsed summary)', async () => {
         fixture.detectChanges();
         cmp.hideMainActionBar = true;
         fixture.detectChanges();
-        debugElement.query(By.css('#full-modal-trigger')).nativeElement.click();
+        openFullScreenModal(debugElement);
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Using query selector here due to the modal not being inside the debugElement
-          (
-            document.querySelector(
-              '.sky-summary-action-bar-details-collapse button'
-            ) as HTMLElement
-          ).click();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            // Testing modal host here due to the modal not being contained in the fixture
-            const modalHostElem = document.querySelector('sky-modal-host');
-            expect(modalHostElem).toBeAccessible();
-            (
-              document.querySelector('.sky-modal-btn-close') as HTMLElement
-            ).click();
-            fixture.detectChanges();
-          });
-        });
-      }));
+        await fixture.whenStable();
+        // Using query selector here due to the modal not being inside the debugElement
+        (
+          document.querySelector(
+            '.sky-summary-action-bar-details-collapse button'
+          ) as HTMLElement
+        ).click();
+        fixture.detectChanges();
+        await fixture.whenStable();
+        // Testing modal host here due to the modal not being contained in the fixture
+        const modalHostElem = getModalHost();
+        await expectAsync(modalHostElem).toBeAccessible();
+        closeModal();
+        fixture.detectChanges();
+      });
     });
   });
 
@@ -558,12 +584,10 @@ describe('Summary Action Bar component', () => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           fixture.detectChanges();
-          setTimeout(() => {
+          setTimeout(async () => {
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const actionBarHeight = debugElement.query(
-                By.css('.sky-summary-action-bar')
-              ).nativeElement.offsetHeight;
+              const actionBarHeight = getActionBarHeight(debugElement);
               expect(document.body.style.marginBottom).toBe(
                 actionBarHeight + 'px'
               );
@@ -573,14 +597,13 @@ describe('Summary Action Bar component', () => {
         });
       });
 
-      it('should not set a margin on the body if the action bar is not displayed on intial load', () => {
+      it('should not set a margin on the body if the action bar is not displayed on intial load', async () => {
         cmp.showBar1 = false;
         cmp.showBar2 = true;
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          fixture.detectChanges();
-          expect(document.body.style.marginBottom).toBe('');
-        });
+        await fixture.whenStable();
+        fixture.detectChanges();
+        expect(document.body.style.marginBottom).toBe('');
       });
 
       it('should set a margin on the body if the action bar is displayed via a selected tab', (done) => {
@@ -596,9 +619,7 @@ describe('Summary Action Bar component', () => {
             setTimeout(() => {
               fixture.detectChanges();
               fixture.whenStable().then(() => {
-                const actionBarHeight = debugElement.query(
-                  By.css('.sky-summary-action-bar')
-                ).nativeElement.offsetHeight;
+                const actionBarHeight = getActionBarHeight(debugElement);
                 expect(document.body.style.marginBottom).toBe(
                   actionBarHeight + 'px'
                 );
@@ -624,9 +645,7 @@ describe('Summary Action Bar component', () => {
               setTimeout(() => {
                 fixture.detectChanges();
                 fixture.whenStable().then(() => {
-                  const actionBarHeight = debugElement.query(
-                    By.css('.sky-summary-action-bar')
-                  ).nativeElement.offsetHeight;
+                  const actionBarHeight = getActionBarHeight(debugElement);
                   expect(document.body.style.marginBottom).toBe(
                     actionBarHeight + 'px'
                   );
@@ -640,36 +659,30 @@ describe('Summary Action Bar component', () => {
     });
 
     describe('a11y', () => {
-      it('should be accessible (standard lg setup)', async(() => {
+      it('should be accessible (standard lg setup)', async () => {
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup)', async(() => {
+      it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup collapsed summary)', async(() => {
+      it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          debugElement
-            .query(By.css('.sky-summary-action-bar-details-collapse button'))
-            .nativeElement.click();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(fixture.nativeElement).toBeAccessible();
-          });
-        });
-      }));
+        await fixture.whenStable();
+        clickCollapseButton(debugElement);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
     });
   });
 
@@ -690,6 +703,7 @@ describe('Summary Action Bar component', () => {
 
     describe('body stylings', () => {
       it('should set a margin on the split view workspace content if the action bar is displayed on intial load', (done) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         spyOn(window as any, 'setTimeout').and.callFake((fun) => {
           fun();
         });
@@ -704,50 +718,43 @@ describe('Summary Action Bar component', () => {
         });
       });
 
-      it('should not set a margin on the body if the action bar is not displayed on intial load', () => {
+      it('should not set a margin on the body if the action bar is not displayed on intial load', async () => {
         cmp.showBar = false;
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          fixture.detectChanges();
-          const workspacePaddingBottom = debugElement.query(
-            By.css('.sky-split-view-workspace-content')
-          ).nativeElement.style.paddingBottom;
-          expect(workspacePaddingBottom).toBe('');
-        });
+        await fixture.whenStable();
+        fixture.detectChanges();
+        const workspacePaddingBottom = debugElement.query(
+          By.css('.sky-split-view-workspace-content')
+        ).nativeElement.style.paddingBottom;
+        expect(workspacePaddingBottom).toBe('');
       });
     });
 
     describe('a11y', () => {
-      it('should be accessible (standard lg setup)', async(() => {
+      it('should be accessible (standard lg setup)', async () => {
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup)', async(() => {
+      it('should be accessible (standard xs setup)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      }));
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
 
-      it('should be accessible (standard xs setup collapsed summary)', async(() => {
+      it('should be accessible (standard xs setup collapsed summary)', async () => {
         fixture.detectChanges();
         mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
         fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          debugElement
-            .query(By.css('.sky-summary-action-bar-details-collapse button'))
-            .nativeElement.click();
-          fixture.detectChanges();
-          fixture.whenStable().then(() => {
-            expect(fixture.nativeElement).toBeAccessible();
-          });
-        });
-      }));
+        await fixture.whenStable();
+        clickCollapseButton(debugElement);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
     });
   });
 });

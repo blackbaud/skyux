@@ -1,3 +1,4 @@
+import { AnimationEvent } from '@angular/animations';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -6,6 +7,7 @@ import {
   ContentChild,
   ElementRef,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
 import {
@@ -72,6 +74,9 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   private get summaryElement(): ElementRef {
     return this._summaryElement;
   }
+
+  @ViewChild('chevronEl', { read: ElementRef })
+  private chevronElementRef: ElementRef;
 
   private _summaryElement: ElementRef;
 
@@ -148,16 +153,27 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
   }
 
   // NOTE: This function is needed so that the button is not removed until post-animation
-  public summaryTransitionEnd(): void {
-    if (this.slideDirection === 'up') {
-      this.isSummaryCollapsed = true;
-    }
-
+  public summaryTransitionEnd(animationEvent: AnimationEvent): void {
     if (
-      this.type === SkySummaryActionBarType.Page ||
-      this.type === SkySummaryActionBarType.Tab
+      animationEvent.toState !== 'void' &&
+      animationEvent.fromState !== 'void'
     ) {
-      this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      if (this.slideDirection === 'up') {
+        this.isSummaryCollapsed = true;
+        this.changeDetector.markForCheck();
+      }
+
+      if (
+        this.type === SkySummaryActionBarType.Page ||
+        this.type === SkySummaryActionBarType.Tab
+      ) {
+        this.adapterService.styleBodyElementForActionBar(this.elementRef);
+      }
+
+      // Ensure that the correct chevron is fully rendered prior to setting focus.
+      setTimeout(() => {
+        this.adapterService.focusChevron(this.chevronElementRef);
+      });
     }
   }
 
