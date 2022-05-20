@@ -6,5 +6,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionedFormVisualComponent {
-  public maintainSectionContent: boolean = false;
+  public maintainSectionContent = false;
 }

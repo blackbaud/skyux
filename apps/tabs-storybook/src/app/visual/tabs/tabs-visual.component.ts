@@ -12,10 +12,13 @@ export class TabsVisualComponent {
 
   public showWizard = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public newTabClick() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public openTabClick() {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public closeTab() {}
 
   public get step2Disabled(): boolean {

@@ -32,8 +32,6 @@ export class DropdownVisualComponent {
     { name: 'Hunter green' },
   ];
 
-  constructor() {}
-
   public onItemClick(): void {
     console.log('Item clicked!');
   }

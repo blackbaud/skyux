@@ -33,5 +33,6 @@ import { DataViewRepeaterComponent } from './data-view-repeater.component';
     SkyCheckboxModule,
     FormsModule,
   ],
+  exports: [DataManagerVisualComponent],
 })
 export class DataManagerModule {}

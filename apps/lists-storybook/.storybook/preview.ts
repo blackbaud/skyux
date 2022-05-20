@@ -4,15 +4,22 @@ import { PreviewWrapperModule } from '@skyux/storybook';
 import { SkyThemeService } from '@skyux/theme';
 import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
+import { VisualModule } from '../src/app/visual/visual.module';
+
 export const parameters = {};
 
 export const decorators = [
   moduleMetadata({
-    imports: [CommonModule, NoopAnimationsModule, PreviewWrapperModule],
+    imports: [
+      CommonModule,
+      NoopAnimationsModule,
+      PreviewWrapperModule,
+      VisualModule,
+    ],
     providers: [SkyThemeService],
   }),
   componentWrapperDecorator(
-    (story) => `<skyux-preview-wrapper>${story}</skyux-preview-wrapper>`,
+    (story) => `<sky-preview-wrapper>${story}</sky-preview-wrapper>`,
     ({ globals }) => ({ theme: globals.theme })
   ),
 ];

@@ -96,7 +96,7 @@ export class SkyAgGridEditModalComponent implements OnInit {
             params.data &&
             params.data.department &&
             params.data.department.name;
-          let editParams: any = { skyComponentProperties: { data: [] } };
+          const editParams: any = { skyComponentProperties: { data: [] } };
 
           if (selectedDepartment) {
             editParams.skyComponentProperties.data =

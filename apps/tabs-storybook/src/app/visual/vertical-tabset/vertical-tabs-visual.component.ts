@@ -11,23 +11,23 @@ let nextTabId = 4;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VerticalTabsVisualComponent {
-  public active: boolean = true;
+  public active = true;
 
-  public group1Disabled: boolean = false;
+  public group1Disabled = false;
 
-  public group1Open: boolean = true;
+  public group1Open = true;
 
-  public group2Disabled: boolean = false;
+  public group2Disabled = false;
 
-  public group2Open: boolean = false;
+  public group2Open = false;
 
-  public group3Disabled: boolean = true;
+  public group3Disabled = true;
 
-  public group3Open: boolean = false;
+  public group3Open = false;
 
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
-  public tabDisabled: boolean = true;
+  public tabDisabled = true;
 
   public tabs = [
     {

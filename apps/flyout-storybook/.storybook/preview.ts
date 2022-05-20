@@ -12,7 +12,7 @@ export const decorators = [
     providers: [SkyThemeService],
   }),
   componentWrapperDecorator(
-    (story) => `<skyux-preview-wrapper>${story}</skyux-preview-wrapper>`,
+    (story) => `<sky-preview-wrapper>${story}</sky-preview-wrapper>`,
     ({ globals }) => ({ theme: globals.theme })
   ),
 ];

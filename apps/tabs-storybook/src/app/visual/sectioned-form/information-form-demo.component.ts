@@ -6,10 +6,10 @@ import { SkySectionedFormService } from '@skyux/tabs';
   templateUrl: './information-form-demo.component.html',
 })
 export class SkyInformationFormDemoComponent {
-  public name: string = '';
-  public id: string = '5324901';
+  public name = '';
+  public id = '5324901';
 
-  private _nameRequired: boolean = false;
+  private _nameRequired = false;
 
   public get nameRequired(): boolean {
     return this._nameRequired;

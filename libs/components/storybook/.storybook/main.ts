@@ -1,9 +1,11 @@
-const rootMain = require('../../../../.storybook/main');
+import { StorybookConfig } from '@storybook/core-common';
+
+import * as rootMainImport from '../../../../.storybook/main';
+
+const rootMain = rootMainImport as StorybookConfig;
 
 module.exports = {
   ...rootMain,
-
-  core: { ...rootMain.core, builder: 'webpack5' },
 
   stories: [
     ...rootMain.stories,
@@ -12,15 +14,4 @@ module.exports = {
     '../../../../apps/*-showcase/src/app/**/*.stories.mdx',
     '../../../../apps/*-showcase/src/app/**/*.stories.@(js|jsx|ts|tsx)',
   ],
-  addons: [...rootMain.addons],
-  webpackFinal: async (config, { configType }) => {
-    // apply any global webpack configs that might have been specified in .storybook/main.js
-    if (rootMain.webpackFinal) {
-      config = await rootMain.webpackFinal(config, { configType });
-    }
-
-    // add your own webpack tweaks if needed
-
-    return config;
-  },
 };

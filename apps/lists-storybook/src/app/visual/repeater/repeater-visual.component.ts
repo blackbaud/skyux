@@ -6,7 +6,7 @@ import {
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
-let nextItemId: number = 0;
+let nextItemId = 0;
 
 @Component({
   selector: 'app-repeater-visual',
@@ -88,13 +88,13 @@ export class RepeaterVisualComponent {
 
   public _itemsForReorderableRepeaterWithAddButton: FormArray | undefined;
 
-  public reoderable: boolean = true;
+  public reoderable = true;
 
-  public showActiveInlineDelete: boolean = false;
+  public showActiveInlineDelete = false;
 
-  public showContent: boolean = false;
+  public showContent = false;
 
-  public showStandardInlineDelete: boolean = false;
+  public showStandardInlineDelete = false;
 
   public deleteItem(index: any): void {
     this.items.splice(index, 1);

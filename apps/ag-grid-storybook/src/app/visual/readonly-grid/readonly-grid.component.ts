@@ -25,13 +25,6 @@ let nextId = 0;
   styleUrls: ['./readonly-grid.component.scss'],
 })
 export class ReadonlyGridComponent implements OnInit {
-  @HostListener('window:resize')
-  public onWindowResize() {
-    if (this.gridApi) {
-      this.gridApi.sizeColumnsToFit();
-    }
-  }
-
   public gridApi: GridApi;
   public gridData = READONLY_GRID_DATA;
   public gridOptions: GridOptions;
@@ -97,6 +90,13 @@ export class ReadonlyGridComponent implements OnInit {
     this.getGridOptions();
   }
 
+  @HostListener('window:resize')
+  public onWindowResize() {
+    if (this.gridApi) {
+      this.gridApi.sizeColumnsToFit();
+    }
+  }
+
   public deleteConfirm(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
     setTimeout(() => {
       this.gridData = this.gridData.filter(
@@ -118,7 +118,7 @@ export class ReadonlyGridComponent implements OnInit {
       });
     }
 
-    let results = new Subject<any>();
+    const results = new Subject<any>();
 
     setTimeout(() => {
       results.next({

@@ -32,9 +32,9 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Code Examples
-        run: npx nx run code-examples:build
+        run: npx nx run code-examples:build --base-href /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
       - name: Build Playground
-        run: npx nx run playground:build
+        run: npx nx run playground:build --base-href /skyux-pr-preview/${{ github.event.number }}/apps/playground/
       - name: Build Storybook
         run: |
           npx nx affected --target=build-storybook
@@ -100,7 +100,6 @@ jobs:
           fi
       - name: Comment on PR
         run: |
-          set -x
           echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})" > ${{ runner.temp }}/pr_comment.txt
           echo >> ${{ runner.temp }}/pr_comment.txt
           echo 'Component Storybooks:' >> ${{ runner.temp }}/pr_comment.txt
@@ -109,7 +108,7 @@ jobs:
           do
             if [[ "$(basename $path)" != "storybook" ]]
             then
-              echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
+              echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
             fi
           done
           echo >> ${{ runner.temp }}/pr_comment.txt
@@ -120,15 +119,19 @@ jobs:
             echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/apps/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
           done
           COMMENT_ID="$(gh api -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/${{ github.event.number }}/comments | jq -r '.[] | select(.body | startswith("[Storybook preview]")) | .id')"
+          set -x
+          cat ${{ runner.temp }}/pr_comment.txt
+          echo && echo
           if [[ -z "${COMMENT_ID}" ]]
           then
             gh pr comment ${{ github.event.number }} -F ${{ runner.temp }}/pr_comment.txt
           else
-            jq -r --null-input --arg body "$(cat ${{ runner.temp }}/pr_comment.txt)" '{"body": $body}' | \
-              gh api --method PATCH \
-              -H "Accept: application/vnd.github.v3+json" \
-              /repos/blackbaud/skyux/issues/comments/${COMMENT_ID} \
-              --input -
+            set +x
+            jq -r --null-input --arg body "$(cat ${{ runner.temp }}/pr_comment.txt)" '{"body": $body}' > ${{ runner.temp }}/pr_comment.json
+            set -x
+            cat ${{ runner.temp }}/pr_comment.json | jq
+            echo && echo
+            gh api --method PATCH -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/comments/${COMMENT_ID} --input ${{ runner.temp }}/pr_comment.json
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}

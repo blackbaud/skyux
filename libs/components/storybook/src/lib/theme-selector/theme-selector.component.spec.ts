@@ -36,9 +36,6 @@ describe('ThemeSelectorComponent', () => {
 
     fixture.detectChanges();
 
-    const expectedTheme = SkyTheme.presets[theme];
-    const expectedMode = SkyThemeMode.presets[mode || 'light'];
-
     if (expectedThemeSettings) {
       expect(mockThemeSvc.setTheme).toHaveBeenCalledWith(expectedThemeSettings);
     } else {
@@ -54,7 +51,7 @@ describe('ThemeSelectorComponent', () => {
       mockThemeSvc.settingsChange as BehaviorSubject<SkyThemeSettingsChange>
     ).next({
       currentSettings: themeSettings,
-      previousSettings: undefined!,
+      previousSettings: undefined,
     });
 
     fixture.detectChanges();
@@ -72,7 +69,7 @@ describe('ThemeSelectorComponent', () => {
             SkyTheme.presets.default,
             SkyThemeMode.presets.light
           ),
-          previousSettings: undefined!,
+          previousSettings: undefined,
         }),
       }
     );

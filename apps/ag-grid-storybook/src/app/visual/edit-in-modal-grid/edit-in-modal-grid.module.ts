@@ -13,6 +13,7 @@ import { EditInModalGridRoutingModule } from './edit-in-modal-grid-routing.modul
 
 @NgModule({
   declarations: [SkyAgGridDemoComponent, SkyAgGridEditModalComponent],
+  exports: [SkyAgGridDemoComponent],
   imports: [
     AgGridModule,
     CommonModule,

@@ -96,45 +96,36 @@ export default async function (tree: Tree, schema: Schema) {
     return tsconfig;
   });
 
-  // Use typescript.
-  ['preview', 'main', 'manager'].forEach((file) => {
-    if (
-      tree.exists(`${projectRoot}/.storybook/${file}.js`) &&
-      !tree.exists(`${projectRoot}/.storybook/${file}.ts`)
-    ) {
-      tree.rename(
-        `${projectRoot}/.storybook/${file}.js`,
-        `${projectRoot}/.storybook/${file}.ts`
-      );
+  // Use remove default files.
+  ['preview', 'main'].forEach((file) => {
+    if (tree.exists(`${projectRoot}/.storybook/${file}.js`)) {
+      tree.delete(`${projectRoot}/.storybook/${file}.js`);
     }
   });
 
-  const fileTemplates = new Map([
-    ['.storybook/preview.ts', 'preview.ts'],
-    ['.storybook/tsconfig.json', 'tsconfig'],
-  ]);
-  fileTemplates.forEach((templatePath, fileCheck) => {
-    let needFile =
-      !tree.exists(`${projectRoot}/${fileCheck}`) ||
-      tree.read(`${projectRoot}/${fileCheck}`).toString().trim() === '';
-    if (needFile && fileCheck.match(/[.]ts$/)) {
-      const jsFileCheck = fileCheck.replace(/[.]ts$/, '.js');
-      needFile =
-        !tree.exists(`${projectRoot}/${jsFileCheck}`) ||
-        tree.read(`${projectRoot}/${jsFileCheck}`).toString().trim() === '';
-    }
-    if (needFile) {
-      const target = fileCheck.includes('/')
-        ? `${projectRoot}/${fileCheck.split('/').shift()}`
-        : projectRoot;
-      generateFiles(
-        tree,
-        joinPathFragments(__dirname, `./files/${templatePath}`),
-        target,
-        schema
+  // Use typescript.
+  if (tree.exists(`${projectRoot}/.storybook/manager.js`)) {
+    if (!tree.exists(`${projectRoot}/.storybook/manager.ts`)) {
+      tree.rename(
+        `${projectRoot}/.storybook/manager.js`,
+        `${projectRoot}/.storybook/manager.ts`
       );
+    } else {
+      tree.delete(`${projectRoot}/.storybook/manager.js`);
     }
-  });
+  }
+
+  if (!tree.exists(`${projectRoot}/.storybook/preview.ts`)) {
+    generateFiles(
+      tree,
+      joinPathFragments(__dirname, `./files`),
+      `${projectRoot}/.storybook/`,
+      {
+        ...schema,
+        relativeToRoot,
+      }
+    );
+  }
 
   await formatFiles(tree);
 }

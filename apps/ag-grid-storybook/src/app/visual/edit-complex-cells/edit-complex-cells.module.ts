@@ -11,6 +11,7 @@ import { EditComplexCellsComponent } from './edit-complex-cells.component';
 
 @NgModule({
   declarations: [EditComplexCellsComponent],
+  exports: [EditComplexCellsComponent],
   imports: [
     AgGridModule,
     CommonModule,

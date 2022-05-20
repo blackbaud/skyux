@@ -24,7 +24,7 @@ describe('Sectioned Form', () => {
   it('should match previous sectioned form screenshot after clicking first tab', async (done) => {
     await SkyHostBrowser.setWindowBreakpoint('lg');
 
-    let tabs = element.all(by.css('sky-vertical-tab'));
+    const tabs = element.all(by.css('sky-vertical-tab'));
 
     // click first tab
     await tabs.get(0).click();
@@ -36,7 +36,7 @@ describe('Sectioned Form', () => {
   it('should match previous sectioned form screenshot after clicking first tab when name is required', async (done) => {
     await SkyHostBrowser.setWindowBreakpoint('lg');
 
-    let tabs = element.all(by.css('sky-vertical-tab'));
+    const tabs = element.all(by.css('sky-vertical-tab'));
 
     // click first tab
     await tabs.get(0).click();
@@ -51,7 +51,7 @@ describe('Sectioned Form', () => {
   it('should match previous sectioned form screenshot after clicking second tab', async (done) => {
     await SkyHostBrowser.setWindowBreakpoint('lg');
 
-    let tabs = element.all(by.css('sky-vertical-tab'));
+    const tabs = element.all(by.css('sky-vertical-tab'));
 
     // click first tab
     await tabs.get(1).click();
@@ -64,7 +64,7 @@ describe('Sectioned Form', () => {
     await SkyHostBrowser.get('visual/sectioned-form');
     await SkyHostBrowser.setWindowBreakpoint('lg');
 
-    let tabs = element.all(by.css('sky-vertical-tab'));
+    const tabs = element.all(by.css('sky-vertical-tab'));
 
     // click first tab
     await tabs.get(0).click();

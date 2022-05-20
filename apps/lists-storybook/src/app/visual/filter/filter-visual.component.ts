@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './filter-visual.component.html',
 })
 export class FilterVisualComponent {
-  public filtersActive: boolean = false;
+  public filtersActive = false;
 
   public appliedFilters: Array<any> = [
     {

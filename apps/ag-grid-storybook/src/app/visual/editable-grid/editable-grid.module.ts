@@ -10,6 +10,7 @@ import { EditableGridComponent } from './editable-grid.component';
 
 @NgModule({
   declarations: [EditableGridComponent],
+  exports: [EditableGridComponent],
   imports: [
     AgGridModule,
     CommonModule,

@@ -10,6 +10,7 @@ import { EditStopWhenLosesFocusComponent } from './edit-stop-when-loses-focus.co
 
 @NgModule({
   declarations: [EditStopWhenLosesFocusComponent],
+  exports: [EditStopWhenLosesFocusComponent],
   imports: [
     AgGridModule,
     CommonModule,

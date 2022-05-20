@@ -6,7 +6,7 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './vertical-tabs-modal-visual.component.html',
 })
 export class VerticalTabsetModalVisualComponent {
-  public maintainTabContent: boolean = false;
+  public maintainTabContent = false;
 
   constructor(public instance: SkyModalInstance) {}
 }

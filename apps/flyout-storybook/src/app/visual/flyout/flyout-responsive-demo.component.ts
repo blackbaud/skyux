@@ -6,6 +6,4 @@ import { SkyFlyoutService } from '@skyux/flyout';
   templateUrl: './flyout-responsive-demo.component.html',
   providers: [SkyFlyoutService],
 })
-export class FlyoutResponsiveDemoComponent {
-  constructor() {}
-}
+export class FlyoutResponsiveDemoComponent {}

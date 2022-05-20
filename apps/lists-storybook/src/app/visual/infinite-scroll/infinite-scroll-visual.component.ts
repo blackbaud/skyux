@@ -5,13 +5,13 @@ import { Component } from '@angular/core';
   templateUrl: './infinite-scroll-visual.component.html',
 })
 export class InfiniteScrollVisualComponent {
-  public disableLoader: boolean = false;
+  public disableLoader = false;
 
-  public enabled: boolean = true;
+  public enabled = true;
 
   public items: any[] = [0, 1, 2, 3];
 
-  public showScrollableContainer: boolean = false;
+  public showScrollableContainer = false;
 
   public loadMore(): void {
     if (!this.disableLoader) {

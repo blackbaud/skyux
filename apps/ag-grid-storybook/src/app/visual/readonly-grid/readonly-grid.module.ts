@@ -12,6 +12,7 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
 
 @NgModule({
   declarations: [ReadonlyGridComponent, ReadonlyGridContextMenuComponent],
+  exports: [ReadonlyGridComponent],
   imports: [
     AgGridModule,
     CommonModule,

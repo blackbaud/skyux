@@ -1271,11 +1271,7 @@
             "config": {
               "configFolder": "apps/flyout-storybook/.storybook"
             },
-            "projectBuildConfig": "flyout-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "flyout-storybook"
           },
           "configurations": {
             "ci": {
@@ -1292,11 +1288,7 @@
             "config": {
               "configFolder": "apps/flyout-storybook/.storybook"
             },
-            "projectBuildConfig": "flyout-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "flyout-storybook"
           },
           "configurations": {
             "ci": {
@@ -1662,11 +1654,7 @@
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
             },
-            "projectBuildConfig": "indicators:build-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "indicators:build-storybook"
           },
           "configurations": {
             "ci": {
@@ -2367,11 +2355,7 @@
             "config": {
               "configFolder": "apps/lists-storybook/.storybook"
             },
-            "projectBuildConfig": "lists-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "lists-storybook"
           },
           "configurations": {
             "ci": {
@@ -2388,11 +2372,7 @@
             "config": {
               "configFolder": "apps/lists-storybook/.storybook"
             },
-            "projectBuildConfig": "lists-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "lists-storybook"
           },
           "configurations": {
             "ci": {
@@ -3099,11 +3079,7 @@
             "config": {
               "configFolder": "apps/popovers-storybook/.storybook"
             },
-            "projectBuildConfig": "popovers-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "popovers-storybook"
           },
           "configurations": {
             "ci": {
@@ -3120,11 +3096,7 @@
             "config": {
               "configFolder": "apps/popovers-storybook/.storybook"
             },
-            "projectBuildConfig": "popovers-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "popovers-storybook"
           },
           "configurations": {
             "ci": {
@@ -3448,7 +3420,7 @@
       "projectType": "library",
       "root": "libs/components/storybook",
       "sourceRoot": "libs/components/storybook/src",
-      "prefix": "skyux",
+      "prefix": "sky",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
@@ -3518,11 +3490,7 @@
             "config": {
               "configFolder": "libs/components/storybook/.storybook"
             },
-            "projectBuildConfig": "storybook:build-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "storybook:build-storybook"
           },
           "configurations": {
             "ci": {
@@ -3681,11 +3649,7 @@
             "config": {
               "configFolder": "apps/tabs-storybook/.storybook"
             },
-            "projectBuildConfig": "tabs-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "tabs-storybook"
           },
           "configurations": {
             "ci": {
@@ -3702,11 +3666,7 @@
             "config": {
               "configFolder": "apps/tabs-storybook/.storybook"
             },
-            "projectBuildConfig": "tabs-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "tabs-storybook"
           },
           "configurations": {
             "ci": {

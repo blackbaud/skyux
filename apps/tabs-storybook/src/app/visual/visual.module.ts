@@ -31,6 +31,16 @@ import { VisualComponent } from './visual.component';
     VerticalTabsVisualComponent,
     VisualComponent,
   ],
+  exports: [
+    SkyAddressFormDemoComponent,
+    SkyInformationFormDemoComponent,
+    SkyPhoneFormDemoComponent,
+    SectionedFormVisualComponent,
+    TabsVisualComponent,
+    VerticalTabsetModalVisualComponent,
+    VerticalTabsVisualComponent,
+    VisualComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,

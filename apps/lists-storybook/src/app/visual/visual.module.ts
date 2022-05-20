@@ -26,6 +26,14 @@ import { VisualComponent } from './visual.component';
     SortVisualComponent,
     VisualComponent,
   ],
+  exports: [
+    FilterVisualComponent,
+    InfiniteScrollVisualComponent,
+    PagingVisualComponent,
+    RepeaterVisualComponent,
+    SortVisualComponent,
+    VisualComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule,

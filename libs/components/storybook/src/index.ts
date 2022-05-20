@@ -1,5 +1,6 @@
 export * from './lib/storybook.module';
 export * from './lib/storybook/preview-wrapper/preview-wrapper.module';
+export * from './lib/storybook/renderer/renderer.service';
 export * from './lib/theme-selector/theme-selector.module';
 
 // Components and directives must be exported to support Angular's "partial" Ivy compiler.

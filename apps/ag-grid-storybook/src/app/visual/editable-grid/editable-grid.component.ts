@@ -23,11 +23,6 @@ import {
   styleUrls: ['./editable-grid.component.scss'],
 })
 export class EditableGridComponent implements OnInit {
-  @HostListener('window:resize')
-  public onWindowResize() {
-    this.sizeGrid();
-  }
-
   public gridData = EDITABLE_GRID_DATA;
   public editMode = false;
   public uneditedGridData: EditableGridRow[];
@@ -54,6 +49,11 @@ export class EditableGridComponent implements OnInit {
     });
 
     this.uneditedGridData = this.cloneGridData(this.gridData);
+  }
+
+  @HostListener('window:resize')
+  public onWindowResize() {
+    this.sizeGrid();
   }
 
   public setColumnDefs(): void {
@@ -151,7 +151,7 @@ export class EditableGridComponent implements OnInit {
   }
 
   public cloneGridData(data: EditableGridRow[]): EditableGridRow[] {
-    let clonedData: EditableGridRow[] = [];
+    const clonedData: EditableGridRow[] = [];
     data.forEach((row) => {
       clonedData.push({ ...row });
     });

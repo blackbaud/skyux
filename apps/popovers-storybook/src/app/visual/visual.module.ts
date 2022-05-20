@@ -15,6 +15,7 @@ import { VisualComponent } from './visual.component';
     PopoverVisualComponent,
     VisualComponent,
   ],
+  exports: [DropdownVisualComponent, PopoverVisualComponent, VisualComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

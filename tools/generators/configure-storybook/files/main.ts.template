@@ -1,6 +1,6 @@
 import { StorybookConfig } from '@storybook/core-common';
 
-import * as rootMainImport from '../../../../.storybook/main';
+import * as rootMainImport from '<%= relativeToRoot %>/.storybook/main';
 
 const rootMain = rootMainImport as StorybookConfig;
 
