@@ -16,6 +16,9 @@ export * from './lib/modules/key-info/key-info.module';
 export * from './lib/modules/label/label-type';
 export * from './lib/modules/label/label.module';
 
+export * from './lib/modules/shared/indicator-description-type';
+export * from './lib/modules/shared/indicator-icon-type';
+
 export * from './lib/modules/status-indicator/status-indicator.module';
 
 export * from './lib/modules/text-highlight/text-highlight.module';

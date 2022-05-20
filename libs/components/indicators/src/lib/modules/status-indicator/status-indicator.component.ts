@@ -22,7 +22,6 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
 export class SkyStatusIndicatorComponent {
   /**
    * Specifies a style for the status indicator to determine the icon.
-   * The valid options are `danger`, `info`, `success`, and `warning`.
    * @default "warning"
    */
   @Input()
@@ -37,8 +36,7 @@ export class SkyStatusIndicatorComponent {
 
   /**
    * Specifies the predefined text to be read by screen readers for users
-   * who cannot see the indicator icon. The valid options are `none`, `custom`,
-   * `error`, `warning`, `completed`, and `important-info`.
+   * who cannot see the indicator icon.
    * @required
    */
   @Input()

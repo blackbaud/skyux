@@ -1,6 +1,3 @@
-/**
- * @internal
- */
 export type SkyIndicatorDescriptionType =
   | 'completed'
   | 'custom'
