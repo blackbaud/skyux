@@ -28,7 +28,7 @@ jobs:
           key: cache-cypress-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm i
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Code Examples
@@ -124,7 +124,11 @@ jobs:
           then
             gh pr comment ${{ github.event.number }} -F ${{ runner.temp }}/pr_comment.txt
           else
-            gh api --method PATCH -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/comments/${COMMENT_ID} --input ${{ runner.temp }}/pr_comment.txt
+            jq -r --null-input --arg body "$(cat ${{ runner.temp }}/pr_comment.txt)" '{"body": $body}' | \
+              gh api --method PATCH \
+              -H "Accept: application/vnd.github.v3+json" \
+              /repos/blackbaud/skyux/issues/comments/${COMMENT_ID} \
+              --input -
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
