@@ -3,5 +3,6 @@
   "dest": "../../../dist/libs/components/validation",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": ["validator"]
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyUrlValidationOptions } from '@skyux/validation';
 
 @Component({
   selector: 'app-url-validation-demo',
@@ -8,4 +9,8 @@ export class UrlValidationDemoComponent {
   public demoModel: {
     url?: string;
   } = {};
+
+  public skyUrlValidationOptions: SkyUrlValidationOptions = {
+    rulesetVersion: 2,
+  };
 }
