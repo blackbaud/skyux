@@ -279,7 +279,7 @@
             "config": {
               "configFolder": "apps/ag-grid-storybook/.storybook"
             },
-            "projectBuildConfig": "ag-grid-showcase",
+            "projectBuildConfig": "ag-grid-storybook",
             "styles": [
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
               "libs/components/theme/src/lib/styles/sky.scss"
@@ -299,11 +299,11 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/ag-grid-showcase",
+            "outputPath": "dist/storybook/ag-grid-storybook",
             "config": {
               "configFolder": "apps/ag-grid-storybook/.storybook"
             },
-            "projectBuildConfig": "ag-grid-showcase",
+            "projectBuildConfig": "ag-grid-storybook",
             "styles": [
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
               "libs/components/theme/src/lib/styles/sky.scss"
@@ -1271,7 +1271,7 @@
             "config": {
               "configFolder": "apps/flyout-storybook/.storybook"
             },
-            "projectBuildConfig": "flyout-showcase",
+            "projectBuildConfig": "flyout-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -1288,11 +1288,11 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/flyout-showcase",
+            "outputPath": "dist/storybook/flyout-storybook",
             "config": {
               "configFolder": "apps/flyout-storybook/.storybook"
             },
-            "projectBuildConfig": "flyout-showcase",
+            "projectBuildConfig": "flyout-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -2367,7 +2367,7 @@
             "config": {
               "configFolder": "apps/lists-storybook/.storybook"
             },
-            "projectBuildConfig": "lists-showcase",
+            "projectBuildConfig": "lists-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -2384,11 +2384,11 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/lists-showcase",
+            "outputPath": "dist/storybook/lists-storybook",
             "config": {
               "configFolder": "apps/lists-storybook/.storybook"
             },
-            "projectBuildConfig": "lists-showcase",
+            "projectBuildConfig": "lists-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -3099,7 +3099,7 @@
             "config": {
               "configFolder": "apps/popovers-storybook/.storybook"
             },
-            "projectBuildConfig": "popovers-showcase",
+            "projectBuildConfig": "popovers-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -3116,11 +3116,11 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/popovers-showcase",
+            "outputPath": "dist/storybook/popovers-storybook",
             "config": {
               "configFolder": "apps/popovers-storybook/.storybook"
             },
-            "projectBuildConfig": "popovers-showcase",
+            "projectBuildConfig": "popovers-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -3681,7 +3681,7 @@
             "config": {
               "configFolder": "apps/tabs-storybook/.storybook"
             },
-            "projectBuildConfig": "tabs-showcase",
+            "projectBuildConfig": "tabs-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]
@@ -3698,11 +3698,11 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/tabs-showcase",
+            "outputPath": "dist/storybook/tabs-storybook",
             "config": {
               "configFolder": "apps/tabs-storybook/.storybook"
             },
-            "projectBuildConfig": "tabs-showcase",
+            "projectBuildConfig": "tabs-storybook",
             "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
             "stylePreprocessorOptions": {
               "includePaths": ["."]

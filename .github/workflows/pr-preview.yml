@@ -39,6 +39,10 @@ jobs:
         run: |
           npx nx affected --target=build-storybook
           npx nx run storybook:build-storybook
+          for sb in dist/storybook/*
+          do
+            npx sb extract $sb
+          done
       - uses: actions/checkout@v3
         with:
           repository: 'blackbaud/skyux-pr-preview'
@@ -73,7 +77,7 @@ jobs:
           mkdir -p ./skyux-pr-preview/${{ github.event.number }}/storybooks
           cp -R ./dist/apps ./skyux-pr-preview/${{ github.event.number }}/
           cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
-          for sb in $(ls -d ./dist/storybook/*)
+          for sb in ./dist/storybook/*
           do
             if [[ "${sb}" != "./dist/storybook/storybook" ]]
             then
@@ -99,13 +103,6 @@ jobs:
           set -x
           echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})" > ${{ runner.temp }}/pr_comment.txt
           echo >> ${{ runner.temp }}/pr_comment.txt
-          echo 'App previews:' >> ${{ runner.temp }}/pr_comment.txt
-          echo >> ${{ runner.temp }}/pr_comment.txt
-          for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
-          do
-            echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/apps/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
-          done
-          echo >> ${{ runner.temp }}/pr_comment.txt
           echo 'Component Storybooks:' >> ${{ runner.temp }}/pr_comment.txt
           echo >> ${{ runner.temp }}/pr_comment.txt
           for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
@@ -114,6 +111,13 @@ jobs:
             then
               echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
             fi
+          done
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          echo 'App previews:' >> ${{ runner.temp }}/pr_comment.txt
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
+          do
+            echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/apps/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
           done
           COMMENT_ID="$(gh api -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/${{ github.event.number }}/comments | jq -r '.[] | select(.body | startswith("[Storybook preview]")) | .id')"
           if [[ -z "${COMMENT_ID}" ]]
