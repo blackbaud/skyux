@@ -22,6 +22,10 @@ export class SkySummaryActionBarAdapterService {
     this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
   }
 
+  public focusChevron(chevronElement: ElementRef) {
+    chevronElement.nativeElement.querySelector('.sky-chevron').focus();
+  }
+
   public styleBodyElementForActionBar(summaryActionBarRef: ElementRef): void {
     const window = this.windowRef.nativeWindow;
     const body = window.document.body;
