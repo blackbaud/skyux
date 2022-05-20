@@ -9,6 +9,7 @@
     "../../../../apps/*-showcase/**/*.spec.ts"
   ],
   "include": [
+    "./*",
     "../src/**/*",
     "../../*/src/**/*",
     "../../../../apps/*-showcase/src/**/*",

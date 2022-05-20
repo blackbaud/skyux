@@ -29,8 +29,14 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Build Code Examples
+        run: npx nx run code-examples:build
+      - name: Build Playground
+        run: npx nx run playground:build
       - name: Build Storybook
-        run: npx nx run storybook:build
+        run: |
+          npx nx affected --target=build-storybook
+          npx nx run storybook:build-storybook
       - uses: actions/checkout@v3
         with:
           repository: 'blackbaud/skyux-pr-preview'
@@ -63,8 +69,16 @@ jobs:
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
           mkdir -p ./skyux-pr-preview/${{ github.event.number }}
+          cp -R ./dist/apps/code-examples ./skyux-pr-preview/${{ github.event.number }}/
+          cp -R ./dist/apps/playground ./skyux-pr-preview/${{ github.event.number }}/
           cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
-          # Other applications can be added here to publish, such as playground or code-examples
+          for sb in $(ls -d ./dist/storybook/*)
+          do
+            if [[ "${sb}" != "./dist/storybook/storybook" ]]
+            then
+              cp -R $sb ./skyux-pr-preview/${{ github.event.number }}/$(basename $sb)-storybook
+            fi
+          done
       - name: Commit build to GH Pages
         run: |
           set -x
@@ -82,9 +96,23 @@ jobs:
       - name: Comment on PR
         run: |
           set -x
-          if [[ -z "$(gh pr view ${{ github.event.number }} --json comments -q '.comments[] | select(.body | startswith("[Storybook preview]"))')" ]]
+          echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})" > ${{ runner.temp }}/pr_comment.txt
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          echo 'Other previews:' >> ${{ runner.temp }}/pr_comment.txt
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          for path in ./skyux-pr-preview/${{ github.event.number }}/*
+          do
+            if [[ "$(basename $path)" != "storybook" ]]
+            then
+              echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
+            fi
+          done
+          COMMENT_ID="$(gh api -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/${{ github.event.number }}/comments | jq -r '.[] | select(.body | startswith("[Storybook preview]")) | .id')"
+          if [[ -z "${COMMENT_ID}" ]]
           then
-            gh pr comment ${{ github.event.number }} -b "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})"
+            gh pr comment ${{ github.event.number }} -F ${{ runner.temp }}/pr_comment.txt
+          else
+            gh api --method PATCH -H "Accept: application/vnd.github.v3+json" /repos/blackbaud/skyux/issues/comments/${COMMENT_ID} --input ${{ runner.temp }}/pr_comment.txt
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}

@@ -214,7 +214,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -812,32 +812,6 @@
         }
       }
     },
-    "components-e2e-client": {
-      "projectType": "library",
-      "root": "libs/components/e2e-client",
-      "sourceRoot": "libs/components/e2e-client/src",
-      "prefix": "skyux",
-      "architect": {
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "libs/components/e2e-client/src/test.ts",
-            "tsConfig": "libs/components/e2e-client/tsconfig.spec.json",
-            "karmaConfig": "libs/components/e2e-client/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/components/e2e-client/**/*.ts",
-              "libs/components/e2e-client/**/*.html"
-            ]
-          }
-        }
-      },
-      "tags": []
-    },
     "config": {
       "projectType": "library",
       "root": "libs/components/config",
@@ -1232,7 +1206,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -1667,6 +1641,10 @@
             "projectBuildConfig": "indicators:build-storybook",
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
+            },
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
             }
           },
           "configurations": {
@@ -1685,7 +1663,10 @@
               "configFolder": "libs/components/indicators/.storybook"
             },
             "projectBuildConfig": "indicators:build-storybook",
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"]
+            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["."]
+            }
           },
           "configurations": {
             "ci": {
@@ -2321,7 +2302,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -3053,7 +3034,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [
@@ -3635,7 +3616,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "1mb"
                 }
               ],
               "fileReplacements": [

@@ -6,12 +6,13 @@ import { AgGridModule } from 'ag-grid-angular';
 import {
   SkyAgGridModule,
   SkyAgGridService,
-} from '../libs/components/ag-grid/src';
-import { SkyDataManagerService } from '../libs/components/data-manager/src';
-import { SkyToolbarModule } from '../libs/components/layout/src';
-import { SkySearchModule } from '../libs/components/lookup/src';
-import { SkyE2eThemeSelectorModule } from '../libs/components/storybook/src/lib/theme-selector/theme-selector.module';
-import { SkyThemeService } from '../libs/components/theme/src';
+} from '@skyux/ag-grid';
+import { SkyDataManagerService } from '@skyux/data-manager';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkySearchModule } from '@skyux/lookup';
+import {
+  PreviewWrapperModule
+} from '../libs/components/storybook/src/lib/storybook/preview-wrapper/preview-wrapper.module';
 
 export const parameters = {};
 
@@ -21,11 +22,11 @@ export const decorators = [
       AgGridModule,
       NoopAnimationsModule,
       SkyAgGridModule,
-      SkyE2eThemeSelectorModule,
+      PreviewWrapperModule,
       SkySearchModule,
       SkyToolbarModule,
     ],
-    providers: [SkyAgGridService, SkyDataManagerService, SkyThemeService],
+    providers: [SkyAgGridService, SkyDataManagerService],
   }),
   componentWrapperDecorator(
     (story) => `${story}`,
