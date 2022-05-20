@@ -29,6 +29,8 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
       - name: Build Code Examples
         run: npx nx run code-examples:build
       - name: Build Playground
@@ -68,15 +70,14 @@ jobs:
         run: |
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
-          mkdir -p ./skyux-pr-preview/${{ github.event.number }}
-          cp -R ./dist/apps/code-examples ./skyux-pr-preview/${{ github.event.number }}/
-          cp -R ./dist/apps/playground ./skyux-pr-preview/${{ github.event.number }}/
+          mkdir -p ./skyux-pr-preview/${{ github.event.number }}/storybooks
+          cp -R ./dist/apps ./skyux-pr-preview/${{ github.event.number }}/
           cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
           for sb in $(ls -d ./dist/storybook/*)
           do
             if [[ "${sb}" != "./dist/storybook/storybook" ]]
             then
-              cp -R $sb ./skyux-pr-preview/${{ github.event.number }}/$(basename $sb)-storybook
+              cp -R $sb ./skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $sb)
             fi
           done
       - name: Commit build to GH Pages
@@ -98,9 +99,16 @@ jobs:
           set -x
           echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})" > ${{ runner.temp }}/pr_comment.txt
           echo >> ${{ runner.temp }}/pr_comment.txt
-          echo 'Other previews:' >> ${{ runner.temp }}/pr_comment.txt
+          echo 'App previews:' >> ${{ runner.temp }}/pr_comment.txt
           echo >> ${{ runner.temp }}/pr_comment.txt
-          for path in ./skyux-pr-preview/${{ github.event.number }}/*
+          for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
+          do
+            echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/apps/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.txt
+          done
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          echo 'Component Storybooks:' >> ${{ runner.temp }}/pr_comment.txt
+          echo >> ${{ runner.temp }}/pr_comment.txt
+          for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
           do
             if [[ "$(basename $path)" != "storybook" ]]
             then

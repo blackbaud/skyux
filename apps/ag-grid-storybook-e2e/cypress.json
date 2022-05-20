@@ -6,7 +6,7 @@
   "supportFile": "./src/support/index.ts",
   "pluginsFile": false,
   "video": true,
-  "videosFolder": "../../dist/cypress/apps/lists-showcase-e2e/videos",
-  "screenshotsFolder": "../../dist/cypress/apps/lists-showcase-e2e/screenshots",
+  "videosFolder": "../../dist/cypress/apps/ag-grid-storybook-e2e/videos",
+  "screenshotsFolder": "../../dist/cypress/apps/ag-grid-storybook-e2e/screenshots",
   "chromeWebSecurity": false
 }

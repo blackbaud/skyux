@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'ag-grid-showcase',
+  displayName: 'lists-storybook',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/ag-grid-showcase',
+  coverageDirectory: '../../coverage/apps/lists-storybook',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

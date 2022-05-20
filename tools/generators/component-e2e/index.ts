@@ -35,7 +35,7 @@ function normalizeOptions(
   return {
     name: options.name,
     prefix: 'app',
-    showcaseName: `${options.name}-showcase`,
+    showcaseName: `${options.name}-storybook`,
     routing: true,
     strict: false,
     style: SchematicsAngularApplicationStyle.Scss,

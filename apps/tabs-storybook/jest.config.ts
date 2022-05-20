@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'popovers-showcase',
+  displayName: 'tabs-storybook',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/popovers-showcase',
+  coverageDirectory: '../../coverage/apps/tabs-storybook',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
