@@ -9,7 +9,7 @@ module.exports = {
 
   stories: [
     ...rootMain.stories,
-    '../src/app/**/*.stories.mdx',
-    '../src/app/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/lib/**/*.stories.mdx',
+    '../src/lib/**/*.stories.@(js|jsx|ts|tsx)',
   ],
 };

@@ -1,6 +1,10 @@
 name: Storybook
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - main
+      - 6.x.x
 
 jobs:
   publish:
@@ -19,11 +23,22 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache Cypress
+        id: cypress-cache
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/.cache/Cypress
+          key: cache-cypress-${{ hashFiles('package-lock.json') }}
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
+        run: npm i
       - name: Build Storybook
-        run: npx nx run storybook:build
+        run: |
+          npx nx run-many --target=build-storybook --all
+          for sb in dist/storybook/*
+          do
+            npx sb extract $sb
+          done
       - uses: actions/checkout@v3
         with:
           repository: 'blackbaud/skyux-storybook'

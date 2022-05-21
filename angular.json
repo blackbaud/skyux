@@ -214,7 +214,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -1206,7 +1206,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -2290,7 +2290,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -3014,7 +3014,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
@@ -3584,7 +3584,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 }
               ],
               "fileReplacements": [
