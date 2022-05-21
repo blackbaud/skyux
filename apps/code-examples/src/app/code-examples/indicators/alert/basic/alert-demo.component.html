@@ -1,3 +1,8 @@
-<sky-alert alertType="danger" [closeable]="false" [closed]="false">
+<sky-alert
+  alertType="danger"
+  [closeable]="false"
+  [closed]="false"
+  (closedChange)="onClosedChange($event)"
+>
   Danger alert message
 </sky-alert>
