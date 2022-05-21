@@ -9,7 +9,12 @@ export const parameters = {};
 
 export const decorators = [
   moduleMetadata({
-    imports: [CommonModule, NoopAnimationsModule, PreviewWrapperModule, SkyAlertModule],
+    imports: [
+      CommonModule,
+      NoopAnimationsModule,
+      PreviewWrapperModule,
+      SkyAlertModule,
+    ],
     providers: [SkyThemeService],
   }),
   componentWrapperDecorator(

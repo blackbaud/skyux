@@ -32,11 +32,18 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Code Examples
-        run: npx nx run code-examples:build --base-href /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
+        run: |
+          set -x
+          BASE_HREF="/skyux-pr-preview/${{ github.event.number }}/apps/code-examples/"
+          npx nx run code-examples:build --base-href $BASE_HREF --deploy-url $BASE_HREF
       - name: Build Playground
-        run: npx nx run playground:build --base-href /skyux-pr-preview/${{ github.event.number }}/apps/playground/
+        run: |
+          set -x
+          BASE_HREF="/skyux-pr-preview/${{ github.event.number }}/apps/playground/"
+          npx nx run playground:build --base-href $BASE_HREF --deploy-url $BASE_HREF
       - name: Build Storybook
         run: |
+          set -x
           npx nx affected --target=build-storybook
           npx nx run storybook:build-storybook
           for sb in dist/storybook/*
@@ -47,23 +54,23 @@ jobs:
         run: |
           echo "# Sky UX Pull Request Preview" > ${{ runner.temp }}/README.md
           echo "" >> ${{ runner.temp }}/README.md
-          echo "Preview build for PR #${{ github.event.number }}" >> ${{ runner.temp }}/README.md
+          echo "Preview build for [PR #${{ github.event.number }}](https://github.com/blackbaud/skyux/pull/${{ github.event.number }}" >> ${{ runner.temp }}/README.md
           echo "" >> ${{ runner.temp }}/README.md
-          echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/) for $(printf '%b%d' '\043' ${{ github.event.number }})" > ${{ runner.temp }}/pr_comment.md
-          echo >> ${{ runner.temp }}/pr_comment.md
+          echo "[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/)" > ${{ runner.temp }}/pr_comment.md
+          echo "" >> ${{ runner.temp }}/pr_comment.md
           echo 'Component Storybooks:' >> ${{ runner.temp }}/pr_comment.md
-          echo >> ${{ runner.temp }}/pr_comment.md
-          for path in ./skyux-pr-preview/${{ github.event.number }}/storybooks/*
+          echo "" >> ${{ runner.temp }}/pr_comment.md
+          for path in $(ls -d ./skyux-pr-preview/${{ github.event.number }}/storybooks/*)
           do
             if [[ "$(basename $path)" != "storybook" ]]
             then
               echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.md
             fi
           done
-          echo >> ${{ runner.temp }}/pr_comment.md
+          echo "" >> ${{ runner.temp }}/pr_comment.md
           echo 'App previews:' >> ${{ runner.temp }}/pr_comment.md
-          echo >> ${{ runner.temp }}/pr_comment.md
-          for path in ./skyux-pr-preview/${{ github.event.number }}/apps/*
+          echo "" >> ${{ runner.temp }}/pr_comment.md
+          for path in $(ls -d ./skyux-pr-preview/${{ github.event.number }}/apps/*)
           do
             echo "- [$(basename $path)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/apps/$(basename $path)/)" >> ${{ runner.temp }}/pr_comment.md
           done

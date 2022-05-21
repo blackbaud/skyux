@@ -209,12 +209,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "10mb"
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
@@ -1201,12 +1201,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "10mb"
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
@@ -2285,12 +2285,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "10mb"
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
@@ -3009,12 +3009,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "10mb"
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
@@ -3579,12 +3579,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "10mb"
+                  "maximumError": "50mb"
                 }
               ],
               "fileReplacements": [
