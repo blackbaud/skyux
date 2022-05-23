@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SkyAgGridResourcesModule } from '../../../shared/sky-ag-grid-resources.module';
 
 import { SkyAgGridCellEditorTextComponent } from './cell-editor-text.component';
 
 @NgModule({
-  imports: [SkyAgGridResourcesModule, FormsModule],
+  imports: [SkyAgGridResourcesModule, ReactiveFormsModule],
   declarations: [SkyAgGridCellEditorTextComponent],
   exports: [SkyAgGridCellEditorTextComponent],
 })

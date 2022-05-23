@@ -5,6 +5,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -24,14 +25,15 @@ import { getInitialValue } from '../set-initial-input';
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
 {
-  public value: number;
   public skyComponentProperties: SkyAgGridCurrencyProperties = {};
   public columnHeader: string;
   public columnWidth: number;
+  public editorForm = new FormGroup({
+    currency: new FormControl(),
+  });
+  public params: SkyCellEditorCurrencyParams;
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
-
-  private params: SkyCellEditorCurrencyParams;
 
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
@@ -61,14 +63,20 @@ export class SkyAgGridCellEditorCurrencyComponent
    * afterGuiAttached is called by agGrid after the editor is rendered in the DOM. Once it is attached the editor is ready to be focused on.
    */
   public afterGuiAttached(): void {
+    this.input.nativeElement.focus();
+
+    // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
+    // Since we don't want that, we set the initial value after autonumeric initializes.
     const initialValue = getInitialValue(this.params, (par) => {
       return par.value;
     });
+    this.editorForm
+      .get('currency')
+      .setValue(parseFloat(initialValue.value as string));
     this.#highlightAfterAttached = initialValue.highlight;
-    this.input.nativeElement.focus();
-
-    this.value = parseFloat(initialValue.value as string);
     this.changeDetector.markForCheck();
+
+    // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
     setTimeout(() => {
       if (this.#highlightAfterAttached) {
         this.input.nativeElement.select();
@@ -80,7 +88,7 @@ export class SkyAgGridCellEditorCurrencyComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): number {
-    return this.value;
+    return this.editorForm.get('currency').value;
   }
 
   /**

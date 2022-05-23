@@ -1,14 +1,16 @@
-<input
-  type="text"
-  [attr.aria-label]="
-    'sky_ag_grid_cell_editor_currency_aria_label'
-      | skyLibResources: columnHeader:rowNumber
-  "
-  [style.width.px]="columnWidth"
-  [style.height.px]="rowHeightWithoutBorders"
-  [(ngModel)]="value"
-  [skyAutonumeric]="skyComponentProperties"
-  [skyAutonumericFormChangesUnformatted]="true"
-  (keyup.escape)="onPressEscape()"
-  #skyCellEditorCurrency
-/>
+<ng-container [formGroup]="editorForm">
+  <input
+    formControlName="currency"
+    type="text"
+    [attr.aria-label]="
+      'sky_ag_grid_cell_editor_currency_aria_label'
+        | skyLibResources: columnHeader:rowNumber
+    "
+    [style.width.px]="columnWidth"
+    [style.height.px]="rowHeightWithoutBorders"
+    [skyAutonumeric]="skyComponentProperties"
+    [skyAutonumericFormChangesUnformatted]="params.charPress"
+    (keyup.escape)="onPressEscape()"
+    #skyCellEditorCurrency
+  />
+</ng-container>

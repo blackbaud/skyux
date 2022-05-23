@@ -4,11 +4,11 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
 import { getInitialValue } from '../set-initial-input';
 
@@ -24,9 +24,11 @@ import { getInitialValue } from '../set-initial-input';
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp
 {
-  public value: number;
   public columnHeader: string;
   public columnWidth: number;
+  public editorForm = new FormGroup({
+    number: new FormControl(),
+  });
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
   public max: number;
@@ -45,10 +47,10 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public agInit(params: SkyCellEditorNumberParams): void {
     this.params = params;
-    let initialValue = getInitialValue(params, (par) => {
+    const initialValue = getInitialValue(params, (par) => {
       return par.value;
     });
-    this.value = initialValue.value as number;
+    this.editorForm.get('number').setValue(initialValue.value);
     this.#highlightAfterAttached = initialValue.highlight;
     this.max = params.skyComponentProperties?.max;
     this.min = params.skyComponentProperties?.min;
@@ -64,7 +66,6 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    this.input.nativeElement.value = this.value;
     if (this.#highlightAfterAttached) {
       this.input.nativeElement.select();
     }
@@ -74,6 +75,6 @@ export class SkyAgGridCellEditorNumberComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): number {
-    return this.value;
+    return this.editorForm.get('number').value;
   }
 }

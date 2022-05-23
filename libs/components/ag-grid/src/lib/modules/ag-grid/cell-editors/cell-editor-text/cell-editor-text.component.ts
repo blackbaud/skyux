@@ -4,6 +4,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
@@ -23,10 +24,12 @@ import { getInitialValue } from '../set-initial-input';
 export class SkyAgGridCellEditorTextComponent
   implements ICellEditorAngularComp
 {
-  public value: string;
   public textInputLabel: string;
   public columnHeader: string;
   public columnWidth: number;
+  public editorForm = new FormGroup({
+    text: new FormControl(),
+  });
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
   public maxlength: number;
@@ -44,10 +47,10 @@ export class SkyAgGridCellEditorTextComponent
    */
   public agInit(params: SkyCellEditorTextParams): void {
     this.params = params;
-    let initialValue = getInitialValue(params, (par) => {
+    const initialValue = getInitialValue(params, (par) => {
       return par.value;
     });
-    this.value = initialValue.value as string;
+    this.editorForm.get('text').setValue(initialValue.value);
     this.#highlightAfterAttached = initialValue.highlight;
     this.maxlength = params.skyComponentProperties?.maxlength;
     this.columnHeader = this.params.colDef.headerName;
@@ -62,7 +65,7 @@ export class SkyAgGridCellEditorTextComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    this.input.nativeElement.value = this.value;
+    // this.input.nativeElement.value = this.value;
     if (this.#highlightAfterAttached) {
       this.input.nativeElement.select();
     }
@@ -72,6 +75,6 @@ export class SkyAgGridCellEditorTextComponent
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
   public getValue(): string {
-    return this.value;
+    return this.editorForm.get('text').value;
   }
 }

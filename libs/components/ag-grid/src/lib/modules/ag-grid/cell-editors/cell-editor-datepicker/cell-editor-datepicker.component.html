@@ -1,5 +1,6 @@
 <div
   class="sky-ag-grid-cell-editor-datepicker"
+  [formGroup]="editorForm"
   [style.width.px]="columnWidthWithoutBorders"
 >
   <sky-datepicker
@@ -7,6 +8,7 @@
     pickerClass="ag-custom-component-popup"
   >
     <input
+      formControlName="date"
       skyDatepickerInput
       [disabled]="skyComponentProperties.disabled"
       [minDate]="skyComponentProperties.minDate"
@@ -15,7 +17,6 @@
       [startingDay]="skyComponentProperties.startingDay"
       [skyDatepickerNoValidate]="skyComponentProperties.skyDatepickerNoValidate"
       [style.height.px]="rowHeightWithoutBorders"
-      [(ngModel)]="currentDate"
       #skyCellEditorDatepickerInput
     />
   </sky-datepicker>
