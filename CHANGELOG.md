@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.1.0](https://github.com/blackbaud/skyux/compare/6.0.2...6.1.0) (2022-05-23)
+
+### Features
+
+- **components/validation:** create v2 ruleset for URL validation ([#201](https://github.com/blackbaud/skyux/issues/201)) ([#269](https://github.com/blackbaud/skyux/issues/269)) ([e656eb5](https://github.com/blackbaud/skyux/commit/e656eb57ee49ca91b616d86a7092323705d49fd4))
+
+### Bug Fixes
+
+- **components/action-bars:** persist focus on summary action bar chevrons after animations ([#264](https://github.com/blackbaud/skyux/issues/264)) ([#268](https://github.com/blackbaud/skyux/issues/268)) ([9ba805f](https://github.com/blackbaud/skyux/commit/9ba805f588ff45305a44dfe0fecb26b6ecd6eec4))
+- **components/datetime:** update `moment` to version `2.29.3` ([#265](https://github.com/blackbaud/skyux/issues/265)) ([#266](https://github.com/blackbaud/skyux/issues/266)) ([b28d825](https://github.com/blackbaud/skyux/commit/b28d825edbcdc7acc0ec94f31a5290d57397a088))
+
 ## [5.10.0](https://github.com/blackbaud/skyux/compare/5.9.7...5.10.0) (2022-05-23)
 
 ### Features
