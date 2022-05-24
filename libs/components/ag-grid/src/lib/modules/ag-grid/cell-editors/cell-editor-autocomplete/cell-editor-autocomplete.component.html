@@ -1,4 +1,4 @@
-<div class="sky-ag-grid-cell-editor-autocomplete">
+<div class="sky-ag-grid-cell-editor-autocomplete" [formGroup]="editorForm">
   <sky-autocomplete
     [data]="skyComponentProperties.data"
     [debounceTime]="skyComponentProperties.debounceTime"
@@ -17,10 +17,10 @@
     "
   >
     <input
+      formControlName="selection"
       skyAutocomplete
       #skyCellEditorAutocomplete
       type="text"
-      [(ngModel)]="currentSelection"
       [attr.aria-label]="
         'sky_ag_grid_cell_editor_autocomplete_aria_label'
           | skyLibResources: columnHeader:rowNumber

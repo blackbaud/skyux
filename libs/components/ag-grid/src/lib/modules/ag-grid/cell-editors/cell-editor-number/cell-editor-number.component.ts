@@ -9,8 +9,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
+import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
-import { getInitialValue } from '../set-initial-input';
+import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
 
 /**
  * @internal
@@ -39,7 +40,7 @@ export class SkyAgGridCellEditorNumberComponent
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
   private input: ElementRef;
 
-  #highlightAfterAttached = false;
+  #triggerType: SkyAgGridEditorTrigger;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -47,11 +48,23 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public agInit(params: SkyCellEditorNumberParams): void {
     this.params = params;
-    const initialValue = getInitialValue(params, (par) => {
-      return par.value;
-    });
-    this.editorForm.get('number').setValue(initialValue.value);
-    this.#highlightAfterAttached = initialValue.highlight;
+
+    this.#triggerType = getEditorInitializationTrigger(params);
+    const control = this.editorForm.get('number');
+    switch (this.#triggerType) {
+      case SkyAgGridEditorTrigger.Delete:
+        control.setValue(undefined);
+        break;
+      case SkyAgGridEditorTrigger.Replace:
+        control.setValue(params.charPress);
+        break;
+      case SkyAgGridEditorTrigger.Highlighted:
+      case SkyAgGridEditorTrigger.Untouched:
+      default:
+        control.setValue(params.value);
+        break;
+    }
+
     this.max = params.skyComponentProperties?.max;
     this.min = params.skyComponentProperties?.min;
     this.columnHeader = this.params.colDef.headerName;
@@ -66,7 +79,7 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    if (this.#highlightAfterAttached) {
+    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
       this.input.nativeElement.select();
     }
   }

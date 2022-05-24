@@ -10,6 +10,7 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import { ICellEditorParams, KeyCode } from 'ag-grid-community';
 import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -29,6 +30,7 @@ import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyCellClass } from './types/cell-class';
 import { SkyCellType } from './types/cell-type';
+import { SkyAgGridEditorTrigger } from './types/editor-trigger';
 import { SkyHeaderClass } from './types/header-class';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
 
@@ -82,6 +84,29 @@ function dateComparator(date1: any, date2: any): number {
   }
 
   return date1value ? 1 : -1;
+}
+
+export function getEditorInitializationTrigger(
+  params: ICellEditorParams
+): SkyAgGridEditorTrigger {
+  if (params.cellStartedEdit) {
+    if (
+      params.keyPress === KeyCode.BACKSPACE ||
+      params.keyPress === KeyCode.DELETE
+    ) {
+      return SkyAgGridEditorTrigger.Delete;
+    } else if (params.charPress) {
+      return SkyAgGridEditorTrigger.Replace;
+    } else {
+      if (params.keyPress !== KeyCode.F2) {
+        return SkyAgGridEditorTrigger.Highlighted;
+      } else {
+        return SkyAgGridEditorTrigger.Untouched;
+      }
+    }
+  } else {
+    return SkyAgGridEditorTrigger.Untouched;
+  }
 }
 
 function getValidatorCellRendererSelector(component: string, fallback?: any) {

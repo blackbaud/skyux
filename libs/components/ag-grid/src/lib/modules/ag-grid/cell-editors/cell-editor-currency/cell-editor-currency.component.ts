@@ -9,9 +9,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
+import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
-import { getInitialValue } from '../set-initial-input';
+import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
 
 /**
  * @internal
@@ -38,7 +39,7 @@ export class SkyAgGridCellEditorCurrencyComponent
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
 
-  #highlightAfterAttached = false;
+  #triggerType: SkyAgGridEditorTrigger;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
@@ -67,18 +68,26 @@ export class SkyAgGridCellEditorCurrencyComponent
 
     // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
     // Since we don't want that, we set the initial value after autonumeric initializes.
-    const initialValue = getInitialValue(this.params, (par) => {
-      return par.value;
-    });
-    this.editorForm
-      .get('currency')
-      .setValue(parseFloat(initialValue.value as string));
-    this.#highlightAfterAttached = initialValue.highlight;
+    this.#triggerType = getEditorInitializationTrigger(this.params);
+    const control = this.editorForm.get('currency');
+    switch (this.#triggerType) {
+      case SkyAgGridEditorTrigger.Delete:
+        control.setValue(undefined);
+        break;
+      case SkyAgGridEditorTrigger.Replace:
+        control.setValue(parseFloat(this.params.charPress));
+        break;
+      case SkyAgGridEditorTrigger.Highlighted:
+      case SkyAgGridEditorTrigger.Untouched:
+      default:
+        control.setValue(parseFloat(this.params.value));
+        break;
+    }
     this.changeDetector.markForCheck();
 
     // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
     setTimeout(() => {
-      if (this.#highlightAfterAttached) {
+      if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
         this.input.nativeElement.select();
       }
     }, 100);

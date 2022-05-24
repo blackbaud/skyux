@@ -11,8 +11,10 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
+import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
+import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
 import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 /**
@@ -32,8 +34,8 @@ export class SkyAgGridCellEditorLookupComponent
 
   public skyComponentProperties?: SkyAgGridLookupProperties;
   public isAlive = false;
-  public lookupForm = new FormGroup({
-    currentSelection: new FormControl({
+  public editorForm = new FormGroup({
+    selection: new FormControl({
       value: [],
       disabled: false,
     }),
@@ -41,6 +43,8 @@ export class SkyAgGridCellEditorLookupComponent
   public useAsyncSearch = false;
 
   private params: SkyCellEditorLookupParams;
+
+  #triggerType: SkyAgGridEditorTrigger;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -52,8 +56,20 @@ export class SkyAgGridCellEditorLookupComponent
     if (!Array.isArray(this.params.value)) {
       throw new Error(`Lookup value must be an array`);
     }
-    const control = this.lookupForm.get('currentSelection');
-    control.setValue(this.params.value);
+
+    this.#triggerType = getEditorInitializationTrigger(params);
+    const control = this.editorForm.get('selection');
+    switch (this.#triggerType) {
+      case SkyAgGridEditorTrigger.Delete:
+        control.setValue(undefined);
+        break;
+      case SkyAgGridEditorTrigger.Replace:
+      case SkyAgGridEditorTrigger.Highlighted:
+      case SkyAgGridEditorTrigger.Untouched:
+      default:
+        control.setValue(params.value);
+        break;
+    }
     if (this.params.skyComponentProperties.disabled) {
       control.disable();
     }
@@ -84,7 +100,7 @@ export class SkyAgGridCellEditorLookupComponent
   }
 
   public getValue(): any[] {
-    return this.lookupForm.get('currentSelection').value;
+    return this.editorForm.get('selection').value;
   }
 
   public isPopup(): boolean {
@@ -93,7 +109,22 @@ export class SkyAgGridCellEditorLookupComponent
 
   /*istanbul ignore next*/
   public afterGuiAttached(): void {
-    this.elementRef.nativeElement.querySelector('.sky-lookup-input')?.focus();
+    const lookupInput: HTMLTextAreaElement =
+      this.elementRef.nativeElement.querySelector('.sky-lookup-input');
+    lookupInput?.focus();
+    if (this.#triggerType === SkyAgGridEditorTrigger.Replace) {
+      lookupInput.select();
+      lookupInput.setRangeText(this.params.charPress);
+      // Ensure the cursor is at the end of the text.
+      lookupInput.setSelectionRange(
+        lookupInput.value.length,
+        lookupInput.value.length
+      );
+      lookupInput.dispatchEvent(new Event('input'));
+    }
+    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+      lookupInput.select();
+    }
   }
 
   private updateComponentProperties(
