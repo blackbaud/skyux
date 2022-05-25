@@ -5,7 +5,7 @@ on:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
-  PERCY_POSTINSTALL_BROWSER=true
+  PERCY_POSTINSTALL_BROWSER: true
 
 jobs:
   install-deps:
