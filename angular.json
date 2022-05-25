@@ -272,14 +272,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "apps/ag-grid-storybook/.storybook"
-            },
-            "projectBuildConfig": "ag-grid-storybook"
+            "configDir": "apps/ag-grid-storybook/.storybook",
+            "browserTarget": "ag-grid-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -288,15 +286,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/ag-grid-storybook",
-            "config": {
-              "configFolder": "apps/ag-grid-storybook/.storybook"
-            },
-            "projectBuildConfig": "ag-grid-storybook"
+            "outputDir": "dist/storybook/ag-grid-storybook",
+            "configDir": "apps/ag-grid-storybook/.storybook",
+            "browserTarget": "ag-grid-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -1255,14 +1251,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "apps/flyout-storybook/.storybook"
-            },
-            "projectBuildConfig": "flyout-storybook"
+            "configDir": "apps/flyout-storybook/.storybook",
+            "browserTarget": "flyout-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -1271,15 +1265,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/flyout-storybook",
-            "config": {
-              "configFolder": "apps/flyout-storybook/.storybook"
-            },
-            "projectBuildConfig": "flyout-storybook"
+            "outputDir": "dist/storybook/flyout-storybook",
+            "configDir": "apps/flyout-storybook/.storybook",
+            "browserTarget": "flyout-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -1622,14 +1614,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "projectBuildConfig": "indicators:build-storybook",
-            "config": {
-              "configFolder": "libs/components/indicators/.storybook"
-            }
+            "configDir": "libs/components/indicators/.storybook",
+            "browserTarget": "indicators:build-storybook",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -1638,15 +1628,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/indicators",
-            "config": {
-              "configFolder": "libs/components/indicators/.storybook"
-            },
-            "projectBuildConfig": "indicators:build-storybook"
+            "outputDir": "dist/storybook/indicators",
+            "configDir": "libs/components/indicators/.storybook",
+            "browserTarget": "indicators:build-storybook",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -2345,14 +2333,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "apps/lists-storybook/.storybook"
-            },
-            "projectBuildConfig": "lists-storybook"
+            "configDir": "apps/lists-storybook/.storybook",
+            "browserTarget": "lists-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -2361,15 +2347,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/lists-storybook",
-            "config": {
-              "configFolder": "apps/lists-storybook/.storybook"
-            },
-            "projectBuildConfig": "lists-storybook"
+            "outputDir": "dist/storybook/lists-storybook",
+            "configDir": "apps/lists-storybook/.storybook",
+            "browserTarget": "lists-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3074,14 +3058,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "apps/popovers-storybook/.storybook"
-            },
-            "projectBuildConfig": "popovers-storybook"
+            "configDir": "apps/popovers-storybook/.storybook",
+            "browserTarget": "popovers-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3090,15 +3072,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/popovers-storybook",
-            "config": {
-              "configFolder": "apps/popovers-storybook/.storybook"
-            },
-            "projectBuildConfig": "popovers-storybook"
+            "outputDir": "dist/storybook/popovers-storybook",
+            "configDir": "apps/popovers-storybook/.storybook",
+            "browserTarget": "popovers-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3466,14 +3446,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "libs/components/storybook/.storybook"
-            },
-            "projectBuildConfig": "storybook:build-storybook"
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3482,15 +3460,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/storybook",
-            "config": {
-              "configFolder": "libs/components/storybook/.storybook"
-            },
-            "projectBuildConfig": "storybook:build-storybook"
+            "outputDir": "dist/storybook/storybook",
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3642,14 +3618,12 @@
           }
         },
         "storybook": {
-          "builder": "@nrwl/storybook:storybook",
+          "builder": "@storybook/angular:start-storybook",
           "options": {
-            "uiFramework": "@storybook/angular",
             "port": 4400,
-            "config": {
-              "configFolder": "apps/tabs-storybook/.storybook"
-            },
-            "projectBuildConfig": "tabs-storybook"
+            "configDir": "apps/tabs-storybook/.storybook",
+            "browserTarget": "tabs-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
@@ -3658,15 +3632,13 @@
           }
         },
         "build-storybook": {
-          "builder": "@nrwl/storybook:build",
+          "builder": "@storybook/angular:build-storybook",
           "outputs": ["{options.outputPath}"],
           "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/tabs-storybook",
-            "config": {
-              "configFolder": "apps/tabs-storybook/.storybook"
-            },
-            "projectBuildConfig": "tabs-storybook"
+            "outputDir": "dist/storybook/tabs-storybook",
+            "configDir": "apps/tabs-storybook/.storybook",
+            "browserTarget": "tabs-storybook:build",
+            "compodoc": false
           },
           "configurations": {
             "ci": {
