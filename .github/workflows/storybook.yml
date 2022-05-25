@@ -71,7 +71,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Build Storybook
-        run: npx nx run-many --target=build-storybook --parallel=5 --exclude=storybook
+        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
 
   publish:
     name: Publish
@@ -100,13 +100,13 @@ jobs:
         run: |
           set -x
           jq -r '.projects | keys | join(",")' angular.json > ${{ runner.temp }}/affected_projects.txt
-          npx nx run-many --target=build-storybook --parallel=5 --exclude=storybook
+          npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
           for sb in dist/storybook/*
           do
             npx sb extract $sb
           done
           npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl https://blackbaud.github.io/skyux-storybook/storybooks/${{ github.ref_name }}/
-          npx nx run storybook:build-storybook
+          npx nx run storybook:build-storybook:ci
       - uses: actions/checkout@v3
         with:
           repository: 'blackbaud/skyux-storybook'

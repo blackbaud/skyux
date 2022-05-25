@@ -82,7 +82,7 @@ jobs:
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Build Storybook
-        run: npx nx affected --target=build-storybook --parallel=5 --exclude=storybook
+        run: npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
 
   build-code-examples:
     name: Build Code Examples
@@ -176,13 +176,13 @@ jobs:
         run: |
           set -x
           npx nx print-affected --target=build-storybook | jq -r '.projects | join(",")' > ${{ runner.temp }}/affected_projects.txt
-          npx nx affected --target=build-storybook --parallel=5 --exclude=storybook
+          npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
           for sb in dist/storybook/*
           do
             npx sb extract $sb
           done
           npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/
-          npx nx run storybook:build-storybook
+          npx nx run storybook:build-storybook:ci
       - name: Create preview README.md
         run: |
           echo "# Sky UX Pull Request Preview" > ${{ runner.temp }}/README.md
