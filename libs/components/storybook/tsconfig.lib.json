@@ -10,10 +10,8 @@
   "exclude": [
     "../**/*.spec.ts",
     "../**/*.stories.ts",
-    "../**/*.stories.js",
     "../../../apps/*-showcase/**/*.spec.ts",
-    "../../../apps/*-showcase/**/*.stories.ts",
-    "../../../apps/*-showcase/**/*.stories.js"
+    "../../../apps/*-showcase/**/*.stories.ts"
   ],
   "include": ["../**/*.ts", "../../../apps/*-showcase/**/*.ts"]
 }

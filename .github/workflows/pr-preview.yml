@@ -175,12 +175,12 @@ jobs:
       - name: Build Storybook
         run: |
           set -x
-          npx nx affected --target=build-storybook --parallel --maxParallel=5
-          # TODO Storybook Composition
+          npx nx affected --target=build-storybook --parallel --maxParallel=5 --exclude=storybook
           for sb in dist/storybook/*
           do
             npx sb extract $sb
           done
+          npx nx workspace-generator storybook-composition ag-grid-storybook,indicators --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/
       - name: Create preview README.md
         run: |
           echo "# Sky UX Pull Request Preview" > ${{ runner.temp }}/README.md

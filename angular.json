@@ -1629,10 +1629,6 @@
             "projectBuildConfig": "indicators:build-storybook",
             "config": {
               "configFolder": "libs/components/indicators/.storybook"
-            },
-            "styles": ["libs/components/theme/src/lib/styles/sky.scss"],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
             }
           },
           "configurations": {

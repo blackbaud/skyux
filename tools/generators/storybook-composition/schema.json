@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "storybook-composition",
+  "type": "object",
+  "properties": {
+    "projects": {
+      "type": "string",
+      "description": "Comma-separated list of projects to include",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "Web address containing published Storybooks."
+    }
+  },
+  "required": ["projects", "baseUrl"]
+}

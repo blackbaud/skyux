@@ -3,7 +3,7 @@
 //
 import { StorybookConfig } from '@storybook/core-common';
 
-import * as rootMainImport from '../../../../.storybook/main';
+import * as rootMainImport from '<%= relativeToRoot %>/.storybook/main';
 
 const rootMain = rootMainImport as StorybookConfig;
 
@@ -16,4 +16,12 @@ module.exports = {
     '../src/lib/**/*.stories.mdx',
     '../src/lib/**/*.stories.@(js|jsx|ts|tsx)',
   ],
+
+  refs: {<% projects.forEach(function(project) { %>
+    '<%= project %>': {
+      title: '<%= project %>',
+      url: '<%= baseUrl %>/<%= project %>/',
+      expanded: false,
+    },<% }) %>
+  },
 };
