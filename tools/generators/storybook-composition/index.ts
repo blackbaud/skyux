@@ -23,7 +23,7 @@ export default async function (tree: Tree, schema: Options) {
   const projects = schema.projects
     .split(',')
     .map((project) => project.trim())
-    .filter((project) => project)
+    .filter((project) => project && project !== 'storybook')
     .filter((project) => {
       const target = allProjects.get(project).targets['build-storybook'];
       return target && target.executor === '@storybook/angular:build-storybook';

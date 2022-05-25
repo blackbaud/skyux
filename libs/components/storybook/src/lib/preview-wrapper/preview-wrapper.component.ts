@@ -1,7 +1,8 @@
 import { Platform } from '@angular/cdk/platform';
 import {
   AfterViewInit,
-  Component, ElementRef,
+  Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
@@ -14,7 +15,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { interval, Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -23,7 +24,9 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./preview-wrapper.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class PreviewWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PreviewWrapperComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input()
   public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
     this._theme = value;
@@ -67,7 +70,8 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy, AfterViewInit
     private elementRef: ElementRef,
     private platform: Platform
   ) {
-    this._bodyEl = this.elementRef.nativeElement.ownerDocument.body as HTMLElement;
+    this._bodyEl = this.elementRef.nativeElement.ownerDocument
+      .body as HTMLElement;
   }
 
   public ngOnDestroy(): void {
@@ -94,18 +98,29 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy, AfterViewInit
    */
   private verifyThemeClasses() {
     this._ngUnsubscribe.add(
-      interval(400).pipe(take(10)).subscribe(() => {
-        if (this.themeSettings) {
-          if (!this._bodyEl.classList.contains(this.themeSettings.theme.hostClass) || !this._bodyEl.classList.contains(this.themeSettings.mode.hostClass)) {
-            const classes: string[] = Array.from(this._bodyEl.classList).filter((className) => className.startsWith('sky'));
-            this._bodyEl.classList.remove(...classes);
-            this._bodyEl.classList.add(
-              this.themeSettings.theme.hostClass,
-              this.themeSettings.mode.hostClass
-            );
+      interval(400)
+        .pipe(take(10))
+        .subscribe(() => {
+          if (this.themeSettings) {
+            if (
+              !this._bodyEl.classList.contains(
+                this.themeSettings.theme.hostClass
+              ) ||
+              !this._bodyEl.classList.contains(
+                this.themeSettings.mode.hostClass
+              )
+            ) {
+              const classes: string[] = Array.from(
+                this._bodyEl.classList
+              ).filter((className) => className.startsWith('sky'));
+              this._bodyEl.classList.remove(...classes);
+              this._bodyEl.classList.add(
+                this.themeSettings.theme.hostClass,
+                this.themeSettings.mode.hostClass
+              );
+            }
           }
-        }
-      })
+        })
     );
   }
 }
