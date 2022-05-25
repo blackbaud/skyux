@@ -1,6 +1,6 @@
-describe('popovers-showcase', () => {
+describe('popovers-storybook', () => {
   beforeEach(() =>
-    cy.visit('/iframe.html?id=dropdownvisualcomponent--primary')
+    cy.visit('/iframe.html?id=components-popovers-dropdown--dropdown&args=')
   );
   it('should render the component', () => {
     cy.get('app-dropdown-visual').should('exist');

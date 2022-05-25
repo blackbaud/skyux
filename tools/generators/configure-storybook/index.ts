@@ -15,36 +15,31 @@ import { relative } from 'path';
 import { Schema } from './schema';
 
 export default async function (tree: Tree, schema: Schema) {
-  const globalStylesheet = 'libs/components/theme/src/lib/styles/sky.scss';
-
-  // Add stylesheet to Storybook project configuration
   updateJson(tree, getWorkspacePath(tree), (angularJson) => {
-    if (schema.name in angularJson.projects) {
-      const project = angularJson.projects[schema.name];
-      ['build-storybook', 'storybook'].forEach((storybook) => {
-        if (storybook in project.architect) {
-          const buildOptions = project.architect[storybook].options;
-          buildOptions.styles = buildOptions.styles || [];
-          if (!buildOptions.styles.includes(globalStylesheet)) {
-            buildOptions.styles.push(globalStylesheet);
-          }
-          buildOptions.stylePreprocessorOptions =
-            buildOptions.stylePreprocessorOptions || {};
-          if (!('includePaths' in buildOptions.stylePreprocessorOptions)) {
-            buildOptions.stylePreprocessorOptions.includePaths = [];
-          }
-          if (
-            !buildOptions.stylePreprocessorOptions.includePaths.includes('.')
-          ) {
-            buildOptions.stylePreprocessorOptions.includePaths.push('.');
-          }
-          project.architect[storybook].options = {
-            ...buildOptions,
-          };
-        }
-      });
+    const e2eProjectName = `${schema.name}-e2e`;
+    if (e2eProjectName in angularJson.projects) {
+      const e2eProject = angularJson.projects[e2eProjectName];
+      if (e2eProject.architect.e2e?.builder === '@nrwl/cypress:cypress') {
+        const e2eOptions = e2eProject.architect.e2e.options;
+        e2eOptions.devServerTarget = `${schema.name}:storybook`;
+        e2eOptions.baseUrl = `http://localhost:4400`;
+        e2eOptions.headed = true;
+        e2eOptions.watch = true;
+        delete e2eOptions.configurations;
+        e2eProject.architect.e2e.configurations = {
+          ci: {
+            skipServe: true,
+            headed: false,
+            watch: false,
+          },
+        };
+      } else {
+        logger.fatal(
+          `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
+        );
+      }
     } else {
-      logger.fatal(`Unable to locate a project named "${schema.name}"`);
+      logger.fatal(`Unable to locate a project named "${e2eProjectName}"`);
     }
     return angularJson;
   });
@@ -73,25 +68,8 @@ export default async function (tree: Tree, schema: Schema) {
     );
   }
   updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
-    if (
-      !tsconfig.exclude.includes(
-        `${relativeToRoot}/libs/components/*/src/**/*.spec.ts`
-      )
-    ) {
-      tsconfig.exclude.push(
-        `${relativeToRoot}/libs/components/*/src/**/*.spec.ts`
-      );
-    }
-    if (tsconfig.include.includes('*.js')) {
-      tsconfig.include.splice(tsconfig.include.indexOf('*.js'), 1);
-    }
     if (!tsconfig.include.includes('./*')) {
       tsconfig.include.push('./*');
-    }
-    if (
-      !tsconfig.include.includes(`${relativeToRoot}/libs/components/*/src/**/*`)
-    ) {
-      tsconfig.include.push(`${relativeToRoot}/libs/components/*/src/**/*`);
     }
     return tsconfig;
   });

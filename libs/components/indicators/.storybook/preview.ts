@@ -1,24 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyAlertModule } from '@skyux/indicators';
-import { PreviewWrapperModule } from '@skyux/storybook';
-import { SkyThemeService } from '@skyux/theme';
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import {
+  previewWrapperDecorators,
+  previewWrapperGlobalTypes,
+  previewWrapperParameters,
+} from '@skyux/storybook';
+import { moduleMetadata } from '@storybook/angular';
 
-export const parameters = {};
+export const parameters = {
+  ...previewWrapperParameters,
+};
+
+export const globalTypes = {
+  ...previewWrapperGlobalTypes,
+};
 
 export const decorators = [
+  ...previewWrapperDecorators,
   moduleMetadata({
-    imports: [
-      CommonModule,
-      NoopAnimationsModule,
-      PreviewWrapperModule,
-      SkyAlertModule,
-    ],
-    providers: [SkyThemeService],
+    imports: [SkyAlertModule],
   }),
-  componentWrapperDecorator(
-    (story) => `<sky-preview-wrapper>${story}</sky-preview-wrapper>`,
-    ({ globals }) => ({ theme: globals.theme })
-  ),
 ];

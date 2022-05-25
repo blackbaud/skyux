@@ -5,15 +5,8 @@ const main: StorybookConfig = {
   addons: [
     '@storybook/addon-a11y',
     // '@storybook/addon-actions',
-    '@storybook/addon-backgrounds',
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        sourceLoaderOptions: {
-          injectStoryParameters: false,
-        },
-      },
-    },
+    // '@storybook/addon-backgrounds',
+    // '@storybook/addon-docs',
     '@storybook/addon-controls',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',

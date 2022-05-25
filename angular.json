@@ -279,14 +279,7 @@
             "config": {
               "configFolder": "apps/ag-grid-storybook/.storybook"
             },
-            "projectBuildConfig": "ag-grid-storybook",
-            "styles": [
-              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-              "libs/components/theme/src/lib/styles/sky.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "ag-grid-storybook"
           },
           "configurations": {
             "ci": {
@@ -303,14 +296,7 @@
             "config": {
               "configFolder": "apps/ag-grid-storybook/.storybook"
             },
-            "projectBuildConfig": "ag-grid-storybook",
-            "styles": [
-              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-              "libs/components/theme/src/lib/styles/sky.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "ag-grid-storybook"
           },
           "configurations": {
             "ci": {
@@ -330,11 +316,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/ag-grid-storybook-e2e/cypress.json",
-            "devServerTarget": "ag-grid-storybook:serve:development"
+            "devServerTarget": "ag-grid-storybook:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "ag-grid-storybook:serve:production"
+            "ci": {
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },
@@ -1308,11 +1299,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/flyout-storybook-e2e/cypress.json",
-            "devServerTarget": "flyout-storybook:serve:development"
+            "devServerTarget": "flyout-storybook:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "flyout-storybook:serve:production"
+            "ci": {
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },
@@ -1673,11 +1669,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/indicators-e2e/cypress.json",
-            "devServerTarget": "indicators:storybook"
+            "devServerTarget": "indicators:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
             "ci": {
-              "devServerTarget": "indicators:storybook:ci"
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },
@@ -2392,11 +2393,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/lists-storybook-e2e/cypress.json",
-            "devServerTarget": "lists-storybook:serve:development"
+            "devServerTarget": "lists-storybook:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "lists-storybook:serve:production"
+            "ci": {
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },
@@ -3116,11 +3122,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/popovers-storybook-e2e/cypress.json",
-            "devServerTarget": "popovers-storybook:serve:development"
+            "devServerTarget": "popovers-storybook:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "popovers-storybook:serve:production"
+            "ci": {
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },
@@ -3466,14 +3477,7 @@
             "config": {
               "configFolder": "libs/components/storybook/.storybook"
             },
-            "projectBuildConfig": "storybook:build-storybook",
-            "styles": [
-              "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss",
-              "libs/components/theme/src/lib/styles/sky.scss"
-            ],
-            "stylePreprocessorOptions": {
-              "includePaths": ["."]
-            }
+            "projectBuildConfig": "storybook:build-storybook"
           },
           "configurations": {
             "ci": {
@@ -3686,11 +3690,16 @@
           "builder": "@nrwl/cypress:cypress",
           "options": {
             "cypressConfig": "apps/tabs-storybook-e2e/cypress.json",
-            "devServerTarget": "tabs-storybook:serve:development"
+            "devServerTarget": "tabs-storybook:storybook",
+            "baseUrl": "http://localhost:4400",
+            "headed": true,
+            "watch": true
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "tabs-storybook:serve:production"
+            "ci": {
+              "skipServe": true,
+              "headed": false,
+              "watch": false
             }
           }
         },

@@ -1,5 +1,7 @@
-describe('popovers-showcase', () => {
-  beforeEach(() => cy.visit('/iframe.html?id=popovervisualcomponent--primary'));
+describe('popovers-storybook', () => {
+  beforeEach(() =>
+    cy.visit('/iframe.html?id=components-popovers-popover--popover&args=')
+  );
   it('should render the component', () => {
     cy.get('app-popover-visual').should('exist');
   });

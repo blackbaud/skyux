@@ -22,6 +22,13 @@ import { VisualComponent } from './visual.component';
     FlyoutVisualComponent,
     VisualComponent,
   ],
+  exports: [
+    FlyoutDemoComponent,
+    FlyoutModalDemoComponent,
+    FlyoutResponsiveDemoContentComponent,
+    FlyoutResponsiveDemoComponent,
+    FlyoutVisualComponent,
+  ],
   //  Using NoopAnimationsModule for e2e tests.
   //  Replace this with BrowserAnimationsModule to see animations.
   imports: [

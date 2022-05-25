@@ -2,11 +2,154 @@ name: PR Preview
 
 on:
   pull_request:
+    branches:
+      - main
+      - 6.x.x
+
+env:
+  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  PERCY_POSTINSTALL_BROWSER=true
 
 jobs:
+  install-deps:
+    name: Install and cache dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: npm i
+      - name: Start Nx Cloud CI run
+        run: npx nx-cloud start-ci-run
+
+  agents:
+    name: Bootup Nx Cloud agent
+    runs-on: ubuntu-latest
+    needs: install-deps
+    strategy:
+      matrix:
+        agent: [1, 2, 3]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: Start Nx Agent ${{ matrix.agent }}
+        run: npx nx-cloud start-agent
+
+  build-storybook:
+    name: Build Storybook
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: Build Storybook
+        run: npx nx affected --target=build-storybook --parallel --maxParallel=5
+
+  build-code-examples:
+    name: Build Code Examples
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: Build Code Examples
+        run: npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
+
+  build-playground:
+    name: Build Playground
+    needs: install-deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: Build Code Examples
+        run: npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
+
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    needs:
+      - build-code-examples
+      - build-playground
+      - build-storybook
     steps:
       - uses: actions/checkout@v3
         with:
@@ -14,21 +157,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      - name: Cache node modules
+      - name: Retrieve dependencies cache
         id: cache
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
-      - name: Cache Cypress
-        id: cypress-cache
-        uses: actions/cache@v2
-        with:
-          path: /home/runner/.cache/Cypress
-          key: cache-cypress-${{ hashFiles('package-lock.json') }}
-      - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true' || steps.cypress-cache.outputs.cache-hit != 'true'
-        run: npm i
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Code Examples
@@ -42,8 +178,8 @@ jobs:
       - name: Build Storybook
         run: |
           set -x
-          npx nx affected --target=build-storybook
-          npx nx run storybook:build-storybook
+          npx nx affected --target=build-storybook --parallel --maxParallel=5
+          # TODO Storybook Composition
           for sb in dist/storybook/*
           do
             npx sb extract $sb
@@ -142,11 +278,79 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-#      - name: Percy Storybook
-#        run: npx percy storybook https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybook/
-#        env:
-#          PERCY_TOKEN: ${{secrets.PERCY_TOKEN}}
-#      - name: Percy e2e
-#        run: npx percy exec -- nx run indicators-e2e:e2e --skip-nx-cache
-#        env:
-#          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_E2E}}
+
+  stop-agents:
+    name: Stop Nx Cloud agents
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - build-code-examples
+      - build-playground
+      - build-storybook
+      - publish
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - name: Stop Nx Cloud agents
+        run: npx nx-cloud stop-all-agents
+
+  e2e:
+    name: End to end tests
+    runs-on: ubuntu-latest
+    needs:
+      - publish
+    env:
+      NX_CLOUD_DISTRIBUTED_EXECUTION: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+      - name: Get affected projects
+        id: affected-projects
+        run: |
+          nx print-affected --target=build-storybook > ${{ runner.temp }}/affected_projects.json
+          jq -r '.projects[]' ${{ runner.temp }}/affected_projects.json | xargs printf "::set-output name=run-%s::true\n"
+      - name: Percy e2e indicators
+        if: steps.affected-projects.outputs.run-indicators-e2e == 'true'
+        run: npx percy exec -- nx run indicators-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/indicators/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_INDICATORS_E2E}}
+      - name: Percy e2e ag-grid-storybook
+        if: steps.affected-projects.outputs.run-ag-grid-storybook-e2e == 'true'
+        run: npx percy exec -- nx run ag-grid-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/ag-grid-storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_AG_GRID_STORYBOOK_E2E}}
+      - name: Percy e2e flyout-storybook
+        if: steps.affected-projects.outputs.run-flyout-storybook-e2e == 'true'
+        run: npx percy exec -- nx run flyout-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/flyout-storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_FLYOUT_STORYBOOK_E2E}}
+      - name: Percy e2e lists-storybook
+        if: steps.affected-projects.outputs.run-lists-storybook-e2e == 'true'
+        run: npx percy exec -- nx run lists-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/lists-storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_LISTS_STORYBOOK_E2E}}
+      - name: Percy e2e popovers-storybook
+        if: steps.affected-projects.outputs.run-popovers-storybook-e2e == 'true'
+        run: npx percy exec -- nx run popovers-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/popovers-storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_POPOVERS_STORYBOOK_E2E}}
+      - name: Percy e2e tabs-storybook
+        if: steps.affected-projects.outputs.run-tabs-storybook-e2e == 'true'
+        run: npx percy exec -- nx run tabs-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/tabs-storybook/
+        env:
+          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_TABS_STORYBOOK_E2E}}

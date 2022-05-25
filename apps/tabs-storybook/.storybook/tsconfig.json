@@ -3,6 +3,6 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true
   },
-  "exclude": ["../**/*.spec.ts", "../../../libs/components/*/src/**/*.spec.ts"],
-  "include": ["./*", "../src/**/*", "../../../libs/components/*/src/**/*"]
+  "exclude": ["../**/*.spec.ts"],
+  "include": ["../src/**/*", "./*"]
 }

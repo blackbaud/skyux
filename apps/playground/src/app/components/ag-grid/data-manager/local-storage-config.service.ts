@@ -1,9 +1,11 @@
+import { Injectable } from '@angular/core';
 import { SkyUIConfigService } from '@skyux/core';
 
 import { Observable, of } from 'rxjs';
 
 const SETTINGS_KEY_PREFIX = 'data-manager-test-';
 
+@Injectable()
 export class LocalStorageConfigService extends SkyUIConfigService {
   public getConfig(key: string, defaultConfig?: any): Observable<any> {
     const settingsJSON = localStorage.getItem(`${SETTINGS_KEY_PREFIX}${key}`);

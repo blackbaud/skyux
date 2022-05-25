@@ -1,12 +1,10 @@
 @import 'libs/components/theme/src/lib/styles/sky';
+@import 'libs/components/theme/src/lib/styles/themes/modern/styles';
 
-:host {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
+sky-preview-wrapper,
 .preview-wrapper {
-  width: 100%;
-  height: 100%;
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
 }
