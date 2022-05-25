@@ -23,7 +23,12 @@ export class UrlValidationDemoComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      url: new FormControl(undefined, [Validators.required, SkyValidators.url]),
+      url: new FormControl(undefined, [
+        Validators.required,
+        SkyValidators.url({
+          rulesetVersion: 2,
+        }),
+      ]),
     });
   }
 }

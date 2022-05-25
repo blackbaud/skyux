@@ -1,4 +1,5 @@
 export * from './lib/modules/email-validation/email-validation.module';
+export * from './lib/modules/url-validation/url-validation-options';
 export * from './lib/modules/url-validation/url-validation.module';
 export * from './lib/modules/validation/validation';
 export * from './lib/modules/validators/validators';

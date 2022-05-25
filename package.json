@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "6.0.2",
+  "version": "6.1.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -122,6 +122,7 @@
     "normalize-scss": "7.0.1",
     "rxjs": "6.6.7",
     "tslib": "2.3.1",
+    "validator": "13.7.0",
     "zone.js": "0.11.5"
   },
   "devDependencies": {
@@ -146,7 +147,7 @@
     "@percy/cli": "1.2.1",
     "@percy/cypress": "3.1.1",
     "@percy/storybook": "4.2.0",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#d1ff8a022a9fc217a7e444d4b0c99ac38f93b024",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#8a02550",
     "@storybook/addon-a11y": "6.4.22",
     "@storybook/addon-essentials": "6.4.22",
     "@storybook/addons": "^6.4.22",
@@ -163,6 +164,7 @@
     "@types/node": "14.14.33",
     "@types/node-sass-tilde-importer": "1.0.0",
     "@types/sass": "1.43.1",
+    "@types/validator": "13.7.2",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
     "browserstack-local": "1.4.9",
