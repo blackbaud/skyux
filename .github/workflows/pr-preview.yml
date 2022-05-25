@@ -83,6 +83,12 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Build Storybook
         run: npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+      - name: Upload storybook artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: storybook
+          path: dist/storybook
+          retention-days: 1
 
   build-code-examples:
     name: Build Code Examples
@@ -111,6 +117,12 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Build Code Examples
         run: npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
+      - name: Upload code-examples artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-examples
+          path: dist/app/code-examples
+          retention-days: 1
 
   build-playground:
     name: Build Playground
@@ -139,6 +151,12 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Build Code Examples
         run: npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
+      - name: Upload playground artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: playground
+          path: dist/app/playground
+          retention-days: 1
 
   publish:
     name: Publish
@@ -164,20 +182,26 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - name: Build Code Examples
-        run: |
-          set -x
-          npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
-      - name: Build Playground
-        run: |
-          set -x
-          npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
-      - name: Build Storybook
+      - name: Download code-examples artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: code-examples
+          path: dist/app/code-examples
+      - name: Download playground artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: playground
+          path: dist/app/playground
+      - name: Download storybook artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: storybook
+          path: dist/storybook
+      - name: Build Storybook Composition
         run: |
           set -x
           npx nx print-affected --target=build-storybook | jq -r '.projects | join(",")' > ${{ runner.temp }}/affected_projects.txt
-          npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
-          for sb in dist/storybook/*
+          for sb in ./dist/storybook/*
           do
             npx sb extract $sb
           done

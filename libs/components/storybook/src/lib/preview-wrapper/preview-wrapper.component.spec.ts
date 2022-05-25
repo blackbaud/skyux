@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyE2eThemeSelectorModule } from '@skyux/storybook';
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { PreviewWrapperComponent } from './preview-wrapper.component';
@@ -11,7 +10,7 @@ describe('PreviewWrapperComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PreviewWrapperComponent],
-      imports: [SkyE2eThemeSelectorModule, SkyThemeModule],
+      imports: [SkyThemeModule],
       providers: [SkyThemeService],
     });
     fixture = TestBed.createComponent(PreviewWrapperComponent);
