@@ -2,9 +2,6 @@ name: PR Preview
 
 on:
   pull_request:
-    branches:
-      - main
-      - 6.x.x
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
