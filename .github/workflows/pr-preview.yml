@@ -290,6 +290,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
+      - name: Retrieve dependencies cache
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            /home/runner/.cache/Cypress
+          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents
 

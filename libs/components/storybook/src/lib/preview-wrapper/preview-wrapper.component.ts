@@ -1,11 +1,12 @@
+import { Platform } from '@angular/cdk/platform';
 import {
-  Component,
+  AfterViewInit,
+  Component, ElementRef,
   Input,
   OnDestroy,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -13,7 +14,8 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'sky-preview-wrapper',
@@ -21,7 +23,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./preview-wrapper.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class PreviewWrapperComponent implements OnInit, OnDestroy {
+export class PreviewWrapperComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input()
   public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
     this._theme = value;
@@ -62,9 +64,10 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
 
   constructor(
     private themeService: SkyThemeService,
-    private windowRef: SkyAppWindowRef
+    private elementRef: ElementRef,
+    private platform: Platform
   ) {
-    this._bodyEl = this.windowRef.nativeWindow.document.body;
+    this._bodyEl = this.elementRef.nativeElement.ownerDocument.body as HTMLElement;
   }
 
   public ngOnDestroy(): void {
@@ -73,17 +76,35 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this._ngUnsubscribe.add(
-      this.themeService.settingsChange.subscribe((settings) => {
-        if (settings.previousSettings) {
-          this._bodyEl.classList.remove(
-            settings.previousSettings.theme.hostClass
-          );
-          this._bodyEl.classList.remove(
-            settings.previousSettings.mode.hostClass
-          );
+      this.themeService.settingsChange.subscribe(() => {
+        this.verifyThemeClasses();
+      })
+    );
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.platform.isBrowser) {
+      this.verifyThemeClasses();
+    }
+  }
+
+  /**
+   * Storybook seems to prevent these classes from applying, so the interval allows for several attempts.
+   * @private
+   */
+  private verifyThemeClasses() {
+    this._ngUnsubscribe.add(
+      interval(400).pipe(take(10)).subscribe(() => {
+        if (this.themeSettings) {
+          if (!this._bodyEl.classList.contains(this.themeSettings.theme.hostClass) || !this._bodyEl.classList.contains(this.themeSettings.mode.hostClass)) {
+            const classes: string[] = Array.from(this._bodyEl.classList).filter((className) => className.startsWith('sky'));
+            this._bodyEl.classList.remove(...classes);
+            this._bodyEl.classList.add(
+              this.themeSettings.theme.hostClass,
+              this.themeSettings.mode.hostClass
+            );
+          }
         }
-        this._bodyEl.classList.add(settings.currentSettings.theme.hostClass);
-        this._bodyEl.classList.add(settings.currentSettings.mode.hostClass);
       })
     );
   }
