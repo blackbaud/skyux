@@ -26,7 +26,7 @@ export default async function (tree: Tree, schema: Options) {
     .filter((project) => project)
     .filter((project) => {
       const target = allProjects.get(project).targets['build-storybook'];
-      return target && target.executor === '@nrwl/storybook:build';
+      return target && target.executor === '@storybook/angular:build-storybook';
     });
 
   if (projects.length === 0) {
