@@ -11,7 +11,7 @@ jobs:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
     outputs:
-      projects: ${{ steps.affected.outputs.project }}
+      projects: ${{ steps.affected.outputs.projects }}
       e2eMap: ${{ steps.affected.outputs.e2eMap }}
       base: ${{ steps.setSHAs.outputs.base }}
       head: ${{ steps.setSHAs.outputs.head }}
@@ -46,9 +46,13 @@ jobs:
         run: |
           set -x
           npx nx print-affected --target=build-storybook | jq -cr '.tasks | map(.target.project) | map(select(. != "storybook"))' > ${{ runner.temp }}/affected.json
-          jq -cr '"::set-output name=project::"+tojson' ${{ runner.temp }}/affected.json
+          cat ${{ runner.temp }}/affected.json | npx ts-node scripts/pr-preview-e2e-matrix.ts > ${{ runner.temp }}/affected-e2e-matrix.json
+          cat ${{ runner.temp }}/affected.json | jq
+          cat ${{ runner.temp }}/affected-e2e-matrix.json | jq
+          echo -n "::set-output name=projects::"
+          cat ${{ runner.temp }}/affected.json
           echo -n '::set-output name=e2eMap::'
-          node -e "console.log(JSON.stringify({include: $(cat ${{ runner.temp }}/affected.json).map((project) => { return { project, token: 'PERCY_TOKEN_'+project.toUpperCase().replace(/-/g, '_')+'_E2E' }})}))"
+          cat ${{ runner.temp }}/affected-e2e-matrix.json
 
   build-storybook:
     name: Build Project Storybook
