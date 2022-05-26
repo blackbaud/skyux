@@ -27,8 +27,9 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm i
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
@@ -50,6 +51,8 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
 
@@ -70,14 +73,20 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Build Storybook
-        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
-      - name: Upload storybook
+        run: |
+          set -x
+          npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+          ls -l dist/storybook
+      - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
           name: storybook
-          path: dist/storybook
+          path: ./dist/storybook
           retention-days: 1
+          if-no-files-found: error
 
   publish:
     name: Publish
@@ -86,6 +95,8 @@ jobs:
       - build-code-examples
       - build-playground
       - build-storybook
+    env:
+      NX_CLOUD_DISTRIBUTED_EXECUTION: false
     steps:
       - uses: actions/checkout@v3
         with:
@@ -102,11 +113,12 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-      - name: Download storybook
+          restore-keys: |
+            cache-pr-preview-
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: storybook
-          path: dist/storybook
+          if-no-files-found: error
       - name: Build Storybook Composition
         run: |
           set -x
@@ -149,6 +161,8 @@ jobs:
           set -x
           rm -rf ./skyux-storybook/${{ github.ref_name }} ./skyux-storybook/storybooks/${{ github.ref_name }}
           mkdir -p ./skyux-storybook/storybooks/${{ github.ref_name }}
+
+
           cp -R ./dist/storybook/storybook ./skyux-storybook/${{ github.ref_name }}
           for sb in ./dist/storybook/*
           do
@@ -180,7 +194,6 @@ jobs:
       - build-code-examples
       - build-playground
       - build-storybook
-      - publish
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -194,6 +207,8 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents
 
@@ -217,6 +232,8 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Percy e2e indicators
         run: npx percy exec -- nx run indicators-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/indicators/
         env:

@@ -30,8 +30,9 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm i
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
@@ -53,6 +54,8 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
 
@@ -81,14 +84,20 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Build Storybook
-        run: npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+        run: |
+          set -x
+          npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+          ls -l dist/storybook
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
           name: storybook
-          path: dist/storybook
+          path: ./dist/storybook
           retention-days: 1
+          if-no-files-found: error
 
   build-code-examples:
     name: Build Code Examples
@@ -115,14 +124,20 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Build Code Examples
-        run: npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
+        run: |
+          set -x
+          npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
+          ls -ld dist/apps/code-examples
       - name: Upload code-examples artifact
         uses: actions/upload-artifact@v3
         with:
           name: code-examples
-          path: dist/app/code-examples
+          path: ./dist/apps/code-examples
           retention-days: 1
+          if-no-files-found: error
 
   build-playground:
     name: Build Playground
@@ -149,14 +164,20 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Build Code Examples
-        run: npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
+        run: |
+          set -x
+          npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
+          ls -ld dist/apps/playground
       - name: Upload playground artifact
         uses: actions/upload-artifact@v3
         with:
           name: playground
-          path: dist/app/playground
+          path: ./dist/apps/playground
           retention-days: 1
+          if-no-files-found: error
 
   publish:
     name: Publish
@@ -165,6 +186,8 @@ jobs:
       - build-code-examples
       - build-playground
       - build-storybook
+    env:
+      NX_CLOUD_DISTRIBUTED_EXECUTION: false
     steps:
       - uses: actions/checkout@v3
         with:
@@ -180,23 +203,14 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - name: Download code-examples artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: code-examples
-          path: dist/app/code-examples
-      - name: Download playground artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: playground
-          path: dist/app/playground
-      - name: Download storybook artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: storybook
-          path: dist/storybook
+          if-no-files-found: error
       - name: Build Storybook Composition
         run: |
           set -x
@@ -310,7 +324,6 @@ jobs:
       - build-code-examples
       - build-playground
       - build-storybook
-      - publish
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -324,6 +337,8 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents
 
@@ -350,38 +365,40 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cache-pr-preview-
       - name: Get affected projects
         id: affected-projects
         run: |
           npx nx print-affected --target=build-storybook > ${{ runner.temp }}/affected_projects.json
           jq -r '.projects[]' ${{ runner.temp }}/affected_projects.json | xargs printf "::set-output name=run-%s::true\n"
       - name: Percy e2e indicators
-        if: steps.affected-projects.outputs.run-indicators-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-indicators-e2e == 'true' }}
         run: npx percy exec -- nx run indicators-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/indicators/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_INDICATORS_E2E}}
       - name: Percy e2e ag-grid-storybook
-        if: steps.affected-projects.outputs.run-ag-grid-storybook-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-ag-grid-storybook-e2e == 'true' }}
         run: npx percy exec -- nx run ag-grid-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/ag-grid-storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_AG_GRID_STORYBOOK_E2E}}
       - name: Percy e2e flyout-storybook
-        if: steps.affected-projects.outputs.run-flyout-storybook-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-flyout-storybook-e2e == 'true' }}
         run: npx percy exec -- nx run flyout-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/flyout-storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_FLYOUT_STORYBOOK_E2E}}
       - name: Percy e2e lists-storybook
-        if: steps.affected-projects.outputs.run-lists-storybook-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-lists-storybook-e2e == 'true' }}
         run: npx percy exec -- nx run lists-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/lists-storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_LISTS_STORYBOOK_E2E}}
       - name: Percy e2e popovers-storybook
-        if: steps.affected-projects.outputs.run-popovers-storybook-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-popovers-storybook-e2e == 'true' }}
         run: npx percy exec -- nx run popovers-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/popovers-storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_POPOVERS_STORYBOOK_E2E}}
       - name: Percy e2e tabs-storybook
-        if: steps.affected-projects.outputs.run-tabs-storybook-e2e == 'true'
+        if: ${{ steps.affected-projects.outputs.run-tabs-storybook-e2e == 'true' }}
         run: npx percy exec -- nx run tabs-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/tabs-storybook/
         env:
           PERCY_TOKEN: ${{secrets.PERCY_TOKEN_TABS_STORYBOOK_E2E}}
