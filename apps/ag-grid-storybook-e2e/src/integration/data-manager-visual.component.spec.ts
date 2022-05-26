@@ -7,6 +7,7 @@ describe('ag-grid-storybook', () => {
   it('should render the component', () => {
     cy.get('app-data-manager-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('data-manager');
   });

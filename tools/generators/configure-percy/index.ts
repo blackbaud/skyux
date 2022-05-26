@@ -27,7 +27,7 @@ export default async function (tree: Tree, schema: any) {
       const content = tree.read(filePath).toString();
       if (!content.includes(`@percy/cypress`)) {
         logger.info(`Adding ${importSource} import`);
-        tree.write(filePath, `${content}\nimport '@percy/cypress';\n`);
+        tree.write(filePath, `import '@percy/cypress';\n\n${content}`);
       }
     }
   }

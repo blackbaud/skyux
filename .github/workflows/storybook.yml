@@ -7,7 +7,6 @@ on:
       - 6.x.x
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: false
   PERCY_POSTINSTALL_BROWSER: true
 
 jobs:
@@ -65,7 +64,7 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Storybook
-        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=2 --exclude=storybook
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
