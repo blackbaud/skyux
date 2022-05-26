@@ -50,9 +50,9 @@ jobs:
           cat ${{ runner.temp }}/affected.json | jq
           cat ${{ runner.temp }}/affected-e2e-matrix.json | jq
           echo -n "::set-output name=projects::"
-          cat ${{ runner.temp }}/affected.json
+          cat ${{ runner.temp }}/affected.json | jq -cr
           echo -n '::set-output name=e2eMap::'
-          cat ${{ runner.temp }}/affected-e2e-matrix.json
+          cat ${{ runner.temp }}/affected-e2e-matrix.json | jq -cr
 
   build-storybook:
     name: Build Project Storybook
@@ -60,7 +60,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        project: ${{ fromJSON(needs.install-deps.project.outputs.projects) }}
+        project: ${{ fromJSON(needs.install-deps.outputs.projects) }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -240,7 +240,7 @@ jobs:
       - install-deps
       - publish
     strategy:
-      matrix: ${{ fromJSON(needs.install-deps.project.outputs.e2eMap) }}
+      matrix: ${{ fromJSON(needs.install-deps.outputs.e2eMap) }}
     steps:
       - uses: actions/checkout@v3
         with:
