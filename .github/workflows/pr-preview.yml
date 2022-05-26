@@ -35,8 +35,6 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: npm install
         run: npm i
-      - name: Start Nx Cloud CI run
-        run: npx nx-cloud start-ci-run
 
   build-storybook:
     name: Build Storybook
@@ -356,6 +354,10 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cache-pr-preview-
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        uses: nrwl/nx-set-shas@v2
       - name: Get affected projects
         id: affected-projects
         run: |
