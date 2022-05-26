@@ -4,8 +4,9 @@ on:
   pull_request:
 
 env:
-  NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  NX_CLOUD_DISTRIBUTED_EXECUTION: false
   PERCY_POSTINSTALL_BROWSER: true
+  NX_VERBOSE_LOGGING: true
 
 jobs:
   install-deps:
@@ -36,28 +37,6 @@ jobs:
         run: npm i
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
-
-  agents:
-    name: Bootup Nx Cloud agent
-    runs-on: ubuntu-latest
-    needs: install-deps
-    strategy:
-      matrix:
-        agent: [1, 2, 3]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Retrieve dependencies cache
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
-      - name: Start Nx Agent ${{ matrix.agent }}
-        run: npx nx-cloud start-agent
 
   build-storybook:
     name: Build Storybook
@@ -90,6 +69,8 @@ jobs:
         run: |
           set -x
           npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+          ls -l
+          ls -l dist
           ls -l dist/storybook
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -186,8 +167,6 @@ jobs:
       - build-code-examples
       - build-playground
       - build-storybook
-    env:
-      NX_CLOUD_DISTRIBUTED_EXECUTION: false
     steps:
       - uses: actions/checkout@v3
         with:
@@ -316,39 +295,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
 
-  stop-agents:
-    name: Stop Nx Cloud agents
-    runs-on: ubuntu-latest
-    if: always()
-    needs:
-      - build-code-examples
-      - build-playground
-      - build-storybook
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - name: Retrieve dependencies cache
-        id: cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
-      - name: Stop Nx Cloud agents
-        run: npx nx-cloud stop-all-agents
-
   e2e:
     name: End to end tests
     runs-on: ubuntu-latest
     needs:
       - publish
-    env:
-      NX_CLOUD_DISTRIBUTED_EXECUTION: false
     steps:
       - uses: actions/checkout@v3
         with:
