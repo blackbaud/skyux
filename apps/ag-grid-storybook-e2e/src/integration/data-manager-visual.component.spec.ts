@@ -5,6 +5,9 @@ describe('ag-grid-storybook', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-data-manager-visual').should('exist');
+    cy.get('app-data-manager-visual')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('data-manager');
   });
 });

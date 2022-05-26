@@ -5,6 +5,9 @@ describe('ag-grid-storybook', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-edit-stop-when-loses-focus-visual').should('exist');
+    cy.get('app-edit-stop-when-loses-focus-visual')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('edit-stop-when-loses-focus');
   });
 });

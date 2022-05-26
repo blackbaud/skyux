@@ -3,6 +3,9 @@ describe('popovers-storybook', () => {
     cy.visit('/iframe.html?id=components-popovers-dropdown--dropdown&args=')
   );
   it('should render the component', () => {
-    cy.get('app-dropdown-visual').should('exist');
+    cy.get('app-dropdown-visual')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('dropdown');
   });
 });

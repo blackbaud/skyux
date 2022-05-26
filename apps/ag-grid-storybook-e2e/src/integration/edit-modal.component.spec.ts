@@ -5,6 +5,9 @@ describe('ag-grid-storybook', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-ag-grid-demo').should('exist');
+    cy.get('app-ag-grid-demo')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('edit-modal');
   });
 });

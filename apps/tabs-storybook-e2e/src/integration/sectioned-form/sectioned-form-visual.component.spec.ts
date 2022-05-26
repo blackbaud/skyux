@@ -5,6 +5,9 @@ describe('tabs-showcase', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-sectioned-form-visual').should('exist');
+    cy.get('app-sectioned-form-visual')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('sectioned-form');
   });
 });

@@ -6,7 +6,6 @@ on:
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: false
   PERCY_POSTINSTALL_BROWSER: true
-  NX_VERBOSE_LOGGING: true
 
 jobs:
   install-deps:
@@ -21,6 +20,7 @@ jobs:
         with:
           node-version: '14'
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v2
         with:
           path: |
@@ -28,13 +28,12 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
       - name: npm install
-        run: npm i
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -x
+          node ./scripts/rebase-pr.js
+          npm ci
 
   build-storybook:
     name: Build Storybook
@@ -56,8 +55,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -71,9 +68,7 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Storybook
-        run: |
-          set -x
-          npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
+        run: npx nx affected --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
@@ -102,8 +97,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -115,10 +108,7 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Build Code Examples
-        run: |
-          set -x
-          npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
-          ls -ld dist/apps/code-examples
+        run: npx nx run code-examples:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/code-examples/
       - name: Upload code-examples artifact
         uses: actions/upload-artifact@v3
         with:
@@ -147,8 +137,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -161,11 +149,8 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - name: Build Code Examples
-        run: |
-          set -x
-          npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
-          ls -ld dist/apps/playground
+      - name: Build Playground
+        run: npx nx run playground:build --baseHref /skyux-pr-preview/${{ github.event.number }}/apps/playground/
       - name: Upload playground artifact
         uses: actions/upload-artifact@v3
         with:
@@ -196,8 +181,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -213,19 +196,16 @@ jobs:
         with:
           name: code-examples
           path: ./dist/apps/code-examples
-          if-no-files-found: error
       - name: Download playground artifact
         uses: actions/download-artifact@v3
         with:
           name: playground
           path: ./dist/apps/playground
-          if-no-files-found: error
       - name: Download storybook artifact
         uses: actions/download-artifact@v3
         with:
           name: storybook
           path: ./dist/storybook
-          if-no-files-found: error
       - name: Build Storybook Composition
         run: |
           set -x
@@ -352,8 +332,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands

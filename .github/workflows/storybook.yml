@@ -9,7 +9,6 @@ on:
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: false
   PERCY_POSTINSTALL_BROWSER: true
-  NX_VERBOSE_LOGGING: true
 
 jobs:
   install-deps:
@@ -21,6 +20,7 @@ jobs:
         with:
           node-version: '14'
       - name: Cache dependencies
+        id: cache
         uses: actions/cache@v2
         with:
           path: |
@@ -28,12 +28,12 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: npm install
-        run: npm i
-      - name: Start Nx Cloud CI run
-        run: npx nx-cloud start-ci-run
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          set -x
+          node ./scripts/rebase-pr.js
+          npm ci
 
   build-storybook:
     name: Build Storybook
@@ -52,8 +52,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -67,10 +65,7 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Build Storybook
-        run: |
-          set -x
-          npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
-          ls -l dist/storybook
+        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=5 --exclude=storybook
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
@@ -102,8 +97,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
@@ -117,7 +110,6 @@ jobs:
         with:
           name: storybook
           path: ./dist/storybook
-          if-no-files-found: error
       - name: Build Storybook Composition
         run: |
           set -x
@@ -201,8 +193,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-pr-preview-
       - name: Percy e2e indicators
         run: npx percy exec -- nx run indicators-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/indicators/
         env:

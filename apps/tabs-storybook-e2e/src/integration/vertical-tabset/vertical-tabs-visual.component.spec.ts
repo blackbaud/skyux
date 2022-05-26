@@ -5,6 +5,9 @@ describe('tabs-showcase', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-vertical-tabs-visual').should('exist');
+    cy.get('app-vertical-tabs-visual')
+      .should('exist')
+      .screenshot()
+      .percySnapshot('vertical-tabset');
   });
 });
