@@ -86,16 +86,11 @@ jobs:
             cache-nx-storybook-${{ matrix.project }}-
             cache-nx-storybook-
             cache-nx-
-      - name: Check affected
-        id: affected
-        run: npx nx print-affected --target=build-storybook | jq -r '.tasks[] | select(.target.project == "${{ matrix.project }}") | "::set-output name=run::true"'
       - name: Build ${{ matrix.project }}
-        if: ${{ steps.affected.outputs.run == 'true' }}
         run: |
           npx nx run ${{ matrix.project }}:build-storybook:ci
           npx sb extract ./dist/storybook/${{ matrix.project }}
       - name: Upload storybook artifact
-        if: ${{ steps.affected.outputs.run == 'true' }}
         uses: actions/upload-artifact@v3
         with:
           name: storybook-${{ matrix.project }}
@@ -259,15 +254,7 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        run: |
-          echo "NX_BASE=${{ needs.install-deps.outputs.base }}" >> $GITHUB_ENV
-          echo "NX_HEAD=${{ needs.install-deps.outputs.head }}" >> $GITHUB_ENV
-      - name: Check affected
-        id: affected
-        run: npx nx print-affected --target=build-storybook | jq -r '.tasks[] | select(.target.project == "${{ matrix.project }}") | "::set-output name=run::true"'
       - name: Percy ${{ matrix.project }}
-        if: ${{ steps.affected.outputs.run == 'true' }}
         run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
