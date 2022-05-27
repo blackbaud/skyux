@@ -91,7 +91,7 @@ jobs:
             cache-nx-
       - name: Build ${{ matrix.project }}
         run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci --outputDir=dist/storybooks
+          npx nx run ${{ matrix.project }}:build-storybook:ci --outputDir=dist/storybooks/${{ matrix.project }}
           npx sb extract ./dist/storybooks/${{ matrix.project }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
