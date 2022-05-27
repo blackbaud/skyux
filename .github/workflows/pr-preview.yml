@@ -85,6 +85,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            .angular
             node_modules/.cache/nx
             dist
           key: cache-nx-storybook-${{ matrix.project }}-${{ hashFiles('package-lock.json') }}
@@ -129,6 +130,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            .angular
             node_modules/.cache/nx
             dist/storybook
           key: cache-nx-publish-${{ hashFiles('package-lock.json') }}
@@ -263,6 +265,6 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Percy ${{ matrix.project }}
-        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/ || true
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
