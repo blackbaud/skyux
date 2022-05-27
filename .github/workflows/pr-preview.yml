@@ -232,6 +232,8 @@ jobs:
               exit 1
             fi
           fi
+        env:
+          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
 
   e2e:
     name: End to end tests
