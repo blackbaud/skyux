@@ -5,6 +5,11 @@ on:
 
 env:
   PERCY_POSTINSTALL_BROWSER: true
+  GH_PAGES_REPO: blackbaud/skyux-pr-preview
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   install-deps:
@@ -47,8 +52,6 @@ jobs:
           set -x
           npx nx print-affected --target=build-storybook | jq -cr '.tasks | map(.target.project) | map(select(. != "storybook"))' > ${{ runner.temp }}/affected.json
           cat ${{ runner.temp }}/affected.json | npx ts-node scripts/pr-preview-e2e-matrix.ts > ${{ runner.temp }}/affected-e2e-matrix.json
-          cat ${{ runner.temp }}/affected.json | jq
-          cat ${{ runner.temp }}/affected-e2e-matrix.json | jq
           echo -n "::set-output name=projects::"
           cat ${{ runner.temp }}/affected.json | jq -cr
           echo -n '::set-output name=e2eMap::'
@@ -88,13 +91,13 @@ jobs:
             cache-nx-
       - name: Build ${{ matrix.project }}
         run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci
-          npx sb extract ./dist/storybook/${{ matrix.project }}
+          npx nx run ${{ matrix.project }}:build-storybook:ci --outputDir=dist/storybooks
+          npx sb extract ./dist/storybooks/${{ matrix.project }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
           name: storybook-${{ matrix.project }}
-          path: ./dist/storybook/${{ matrix.project }}
+          path: ./dist/storybooks/${{ matrix.project }}
           retention-days: 1
           if-no-files-found: error
 
@@ -134,13 +137,13 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./dist/storybook/
+          path: ./dist/storybooks/
       - name: Build Storybook Composition
         run: |
           set -x
-          npx nx print-affected --target=build-storybook | jq -r '.projects | join(",")' > ${{ runner.temp }}/affected_projects.txt
-          npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/
-          npx nx run storybook:build-storybook:ci
+          npx nx print-affected --target=build-storybook | jq -cr '.tasks | map(.target.project) | map(select(. != "storybook")) | join(",")' > ${{ runner.temp }}/affected_projects.txt
+          npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl ../storybooks/
+          npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Create preview README.md
         run: |
           echo "# Sky UX Pull Request Preview" > ${{ runner.temp }}/README.md
@@ -151,17 +154,14 @@ jobs:
           echo "" >> ${{ runner.temp }}/pr_comment.md
           echo 'Component Storybooks:' >> ${{ runner.temp }}/pr_comment.md
           echo "" >> ${{ runner.temp }}/pr_comment.md
-          for dist in ./dist/storybook/*
+          for dist in ./dist/storybooks/*
           do
-            if [[ "$(basename $dist)" != "storybook" ]]
-            then
-              echo "- [$(basename $dist)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $dist)/)" >> ${{ runner.temp }}/pr_comment.md
-            fi
+            echo "- [$(basename $dist)](https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $dist)/)" >> ${{ runner.temp }}/pr_comment.md
           done
           cat ${{ runner.temp }}/pr_comment.md >> ${{ runner.temp }}/README.md
       - uses: actions/checkout@v3
         with:
-          repository: 'blackbaud/skyux-pr-preview'
+          repository: ${{ env.GH_PAGES_REPO }}
           ref: 'main'
           fetch-depth: 1
           path: skyux-pr-preview
@@ -190,16 +190,9 @@ jobs:
         run: |
           set -x
           rm -rf ./skyux-pr-preview/${{ github.event.number }}
-          mkdir -p ./skyux-pr-preview/${{ github.event.number }}/storybooks
+          mkdir -p ./skyux-pr-preview/${{ github.event.number }}/storybook
           mv ${{ runner.temp }}/README.md ./skyux-pr-preview/${{ github.event.number }}/
-          cp -R ./dist/storybook/storybook ./skyux-pr-preview/${{ github.event.number }}/
-          for sb in ./dist/storybook/*
-          do
-            if [[ "${sb}" != "./dist/storybook/storybook" ]]
-            then
-              cp -R $sb ./skyux-pr-preview/${{ github.event.number }}/storybooks/$(basename $sb)
-            fi
-          done
+          cp -R ./dist/storybook ./dist/storybooks ./skyux-pr-preview/${{ github.event.number }}/
       - name: Commit build to GH Pages
         run: |
           set -x
@@ -227,6 +220,18 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Verify GH Pages
+        run: |
+          if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }})" != "OK" ]]
+          then
+            git -C ./skyux-pr-preview commit --allow-empty -m "Trigger rebuild"
+            git -C ./skyux-pr-preview push
+            if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }})" != "OK" ]]
+            then
+              echo "Unable to verify GitHub Pages."
+              exit 1
+            fi
+          fi
 
   e2e:
     name: End to end tests
