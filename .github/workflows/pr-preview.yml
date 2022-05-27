@@ -142,7 +142,7 @@ jobs:
       - name: Build Storybook Composition
         run: |
           set -x
-          echo ${{ needs.install-deps.outputs.projects }} | jq -cr 'join(",")' > ${{ runner.temp }}/affected_projects.txt
+          echo '${{ needs.install-deps.outputs.projects }}' | jq -cr 'join(",")' > ${{ runner.temp }}/affected_projects.txt
           npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl ../storybooks/
           npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Create preview README.md
