@@ -7,6 +7,7 @@ describe('ag-grid-storybook', () => {
   it('should render the component', () => {
     cy.get('app-edit-complex-cells-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('edit-complex-cells');
   });

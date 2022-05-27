@@ -3,6 +3,7 @@ describe('lists-storybook', () => {
   it('should render the component', () => {
     cy.get('app-filter-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('lists-filter');
   });

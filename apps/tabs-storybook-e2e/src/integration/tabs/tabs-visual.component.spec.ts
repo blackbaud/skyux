@@ -5,6 +5,7 @@ describe('tabs-showcase', () => {
   it('should render the component', () => {
     cy.get('app-tabs-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('tabs');
   });

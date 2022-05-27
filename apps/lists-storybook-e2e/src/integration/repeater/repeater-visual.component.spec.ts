@@ -5,6 +5,7 @@ describe('lists-storybook', () => {
   it('should render the component', () => {
     cy.get('app-repeater-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('lists-repeater');
   });

@@ -3,6 +3,7 @@ describe('flyout-storybook', () => {
   it('should render the component', () => {
     cy.get('app-flyout-visual')
       .should('exist')
+      .should('be.visible')
       .screenshot()
       .percySnapshot('flyout');
   });
