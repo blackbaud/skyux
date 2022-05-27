@@ -96,7 +96,7 @@ jobs:
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
-          name: storybook-${{ matrix.project }}
+          name: ${{ matrix.project }}
           path: ./dist/storybooks/${{ matrix.project }}
           retention-days: 1
           if-no-files-found: error
