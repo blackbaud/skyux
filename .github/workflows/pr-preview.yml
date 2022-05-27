@@ -5,7 +5,8 @@ on:
 
 env:
   PERCY_POSTINSTALL_BROWSER: true
-  GH_PAGES_REPO: blackbaud/skyux-pr-preview
+  GH_PAGES_OWNER: blackbaud
+  GH_PAGES_REPO: skyux-pr-preview
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -83,7 +84,9 @@ jobs:
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
-          path: node_modules/.cache/nx
+          path: |
+            node_modules/.cache/nx
+            dist
           key: cache-nx-storybook-${{ matrix.project }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cache-nx-storybook-${{ matrix.project }}-
@@ -125,15 +128,13 @@ jobs:
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
-          path: node_modules/.cache/nx
+          path: |
+            node_modules/.cache/nx
+            dist/storybook
           key: cache-nx-publish-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cache-nx-publish-
             cache-nx-
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        run: |
-          echo "NX_BASE=${{ needs.install-deps.outputs.base }}" >> $GITHUB_ENV
-          echo "NX_HEAD=${{ needs.install-deps.outputs.head }}" >> $GITHUB_ENV
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -141,7 +142,7 @@ jobs:
       - name: Build Storybook Composition
         run: |
           set -x
-          npx nx print-affected --target=build-storybook | jq -cr '.tasks | map(.target.project) | map(select(. != "storybook")) | join(",")' > ${{ runner.temp }}/affected_projects.txt
+          echo ${{ needs.install-deps.outputs.projects }} | jq -cr 'join(",")' > ${{ runner.temp }}/affected_projects.txt
           npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl ../storybooks/
           npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Create preview README.md
@@ -161,15 +162,15 @@ jobs:
           cat ${{ runner.temp }}/pr_comment.md >> ${{ runner.temp }}/README.md
       - uses: actions/checkout@v3
         with:
-          repository: ${{ env.GH_PAGES_REPO }}
+          repository: ${{ env.GH_PAGES_OWNER }}/${{ env.GH_PAGES_REPO }}
           ref: 'main'
           fetch-depth: 1
-          path: skyux-pr-preview
+          path: ${{ env.GH_PAGES_REPO }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Remove old PR builds
+      - name: Remove old builds
         run: |
           set -x
-          ls ./skyux-pr-preview | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
+          ls ./${{ env.GH_PAGES_REPO }} | grep -E '^[0-9]+$' | sort > ${{ runner.temp }}/current_builds.txt
           gh pr list -q '.[] | .number' --state open --json number | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
           if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
           then
@@ -177,7 +178,7 @@ jobs:
             comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
             if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
             then
-              git -C ./skyux-pr-preview rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
+              git -C ./${{ env.GH_PAGES_REPO }} rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
             else
               echo "All builds are current"
             fi
@@ -186,24 +187,24 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Update PR build
+      - name: Update build
         run: |
           set -x
-          rm -rf ./skyux-pr-preview/${{ github.event.number }}
-          mkdir -p ./skyux-pr-preview/${{ github.event.number }}/storybook
-          mv ${{ runner.temp }}/README.md ./skyux-pr-preview/${{ github.event.number }}/
-          cp -R ./dist/storybook ./dist/storybooks ./skyux-pr-preview/${{ github.event.number }}/
+          rm -rf ./${{ env.GH_PAGES_REPO }}/${{ github.event.number }}
+          mkdir -p ./${{ env.GH_PAGES_REPO }}/${{ github.event.number }}/storybook
+          mv ${{ runner.temp }}/README.md ./${{ env.GH_PAGES_REPO }}/${{ github.event.number }}/
+          cp -R ./dist/storybook ./dist/storybooks ./${{ env.GH_PAGES_REPO }}/${{ github.event.number }}/
       - name: Commit build to GH Pages
         run: |
           set -x
           git config --global user.name "Blackbaud Sky Build User"
           git config --global user.email "sky-build-user@blackbaud.com"
-          git -C ./skyux-pr-preview add --all
-          git -C ./skyux-pr-preview status
-          if [[ -n "$(git -C ./skyux-pr-preview status -s)" ]]
+          git -C ./${{ env.GH_PAGES_REPO }} add --all
+          git -C ./${{ env.GH_PAGES_REPO }} status
+          if [[ -n "$(git -C ./${{ env.GH_PAGES_REPO }} status -s)" ]]
           then
-            git -C ./skyux-pr-preview commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
-            git -C ./skyux-pr-preview push
+            git -C ./${{ env.GH_PAGES_REPO }} commit -m "$(printf 'skyux %b%d commit %s' '\043' ${{ github.event.number }} ${GITHUB_SHA:0:8})"
+            git -C ./${{ env.GH_PAGES_REPO }} push
           else
             echo "No changes"
           fi

@@ -8,11 +8,20 @@ on:
 
 env:
   PERCY_POSTINSTALL_BROWSER: true
+  GH_PAGES_OWNER: blackbaud
+  GH_PAGES_REPO: skyux-pr-preview
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   install-deps:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.affected.outputs.projects }}
+      e2eMap: ${{ steps.affected.outputs.e2eMap }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -33,11 +42,24 @@ jobs:
           set -x
           node ./scripts/rebase-pr.js
           npm ci
+      - name: Check affected
+        id: affected
+        run: |
+          set -x
+          jq -cr '.projects | to_entries | map(select(.key != "storybook")) | map(select(.value.architect | has("build-storybook"))) | from_entries | keys' angular.json > ${{ runner.temp }}/affected.json
+          cat ${{ runner.temp }}/affected.json | npx ts-node scripts/pr-preview-e2e-matrix.ts > ${{ runner.temp }}/affected-e2e-matrix.json
+          echo -n "::set-output name=projects::"
+          cat ${{ runner.temp }}/affected.json | jq -cr
+          echo -n '::set-output name=e2eMap::'
+          cat ${{ runner.temp }}/affected-e2e-matrix.json | jq -cr
 
   build-storybook:
-    name: Build Storybook
-    needs: install-deps
+    name: Build Project Storybook
     runs-on: ubuntu-latest
+    needs: install-deps
+    strategy:
+      matrix:
+        project: ${{ fromJSON(needs.install-deps.outputs.projects) }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -54,22 +76,23 @@ jobs:
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
-          path: node_modules/.cache/nx
-          key: cache-nx-storybook-${{ hashFiles('package-lock.json') }}
+          path: |
+            node_modules/.cache/nx
+            dist
+          key: cache-nx-storybook-${{ matrix.project }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
+            cache-nx-storybook-${{ matrix.project }}-
             cache-nx-storybook-
             cache-nx-
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-      - name: Build Storybook
-        run: npx nx run-many --target=build-storybook --configuration=ci --parallel=2 --exclude=storybook
+      - name: Build ${{ matrix.project }}
+        run: |
+          npx nx run ${{ matrix.project }}:build-storybook:ci --outputDir=dist/storybooks/${{ matrix.project }}
+          npx sb extract ./dist/storybooks/${{ matrix.project }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
-          name: storybook
-          path: ./dist/storybook
+          name: ${{ matrix.project }}
+          path: ./dist/storybooks/${{ matrix.project }}
           retention-days: 1
           if-no-files-found: error
 
@@ -77,8 +100,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-      - build-code-examples
-      - build-playground
+      - install-deps
       - build-storybook
     steps:
       - uses: actions/checkout@v3
@@ -99,34 +121,31 @@ jobs:
       - name: Retrieve nx cache
         uses: actions/cache@v2
         with:
-          path: node_modules/.cache/nx
+          path: |
+            node_modules/.cache/nx
+            dist/storybook
           key: cache-nx-publish-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             cache-nx-publish-
             cache-nx-
-      - name: Download storybook artifact
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: storybook
-          path: ./dist/storybook
+          path: ./dist/storybooks/
       - name: Build Storybook Composition
         run: |
           set -x
-          jq -r '.projects | keys | join(",")' angular.json > ${{ runner.temp }}/affected_projects.txt
-          for sb in ./dist/storybook/*
-          do
-            npx sb extract $sb
-          done
-          npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl https://blackbaud.github.io/skyux-storybook/storybooks/${{ github.ref_name }}/
-          npx nx run storybook:build-storybook:ci
+          echo ${{ needs.install-deps.outputs.projects }} | jq -cr 'join(",")' > ${{ runner.temp }}/affected_projects.txt
+          npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl ../storybooks/
+          npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - uses: actions/checkout@v3
         with:
-          repository: 'blackbaud/skyux-storybook'
+          repository: ${{ env.GH_PAGES_OWNER }}/${{ env.GH_PAGES_REPO }}
           ref: 'main'
           fetch-depth: 1
-          path: skyux-storybook
+          path: ${{ env.GH_PAGES_REPO }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Remove old branch builds
+      - name: Remove old builds
         run: |
           set -x
           ls -d ./skyux-storybook/*/ | cut -f3 -d/ | sort > ${{ runner.temp }}/current_builds.txt
@@ -137,7 +156,7 @@ jobs:
             comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
             if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
             then
-              git -C ./skyux-storybook rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
+              git -C ./${{ env.GH_PAGES_REPO }} rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
             else
               echo "All builds are current"
             fi
@@ -146,30 +165,24 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Update branch build
+      - name: Update build
         run: |
           set -x
-          rm -rf ./skyux-storybook/${{ github.ref_name }} ./skyux-storybook/storybooks/${{ github.ref_name }}
-          mkdir -p ./skyux-storybook/storybooks/${{ github.ref_name }}
-          cp -R ./dist/storybook/storybook ./skyux-storybook/${{ github.ref_name }}
-          for sb in ./dist/storybook/*
-          do
-            if [[ "${sb}" != "./dist/storybook/storybook" ]]
-            then
-              cp -R $sb ./skyux-storybook/storybooks/${{ github.ref_name }}/$(basename $sb)
-            fi
-          done
+          rm -rf ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}
+          mkdir -p ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/storybook
+          mv ${{ runner.temp }}/README.md ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/
+          cp -R ./dist/storybook ./dist/storybooks ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/
       - name: Commit build to GH Pages
         run: |
           set -x
           git config --global user.name "Blackbaud Sky Build User"
           git config --global user.email "sky-build-user@blackbaud.com"
-          git -C ./skyux-storybook add --all
-          git -C ./skyux-storybook status
-          if [[ -n "$(git -C ./skyux-storybook status -s)" ]]
+          git -C ./${{ env.GH_PAGES_REPO }} add --all
+          git -C ./${{ env.GH_PAGES_REPO }} status
+          if [[ -n "$(git -C ./${{ env.GH_PAGES_REPO }} status -s)" ]]
           then
-            git -C ./skyux-storybook commit -m "$(printf 'skyux %s commit %s' ${{ github.ref_name }} ${GITHUB_SHA:0:8})"
-            git -C ./skyux-storybook push
+            git -C ./${{ env.GH_PAGES_REPO }} commit -m "$(printf 'skyux %s commit %s' ${{ github.ref_name }} ${GITHUB_SHA:0:8})"
+            git -C ./${{ env.GH_PAGES_REPO }} push
           else
             echo "No changes"
           fi
@@ -178,7 +191,10 @@ jobs:
     name: End to end tests
     runs-on: ubuntu-latest
     needs:
+      - install-deps
       - publish
+    strategy:
+      matrix: ${{ fromJSON(needs.install-deps.outputs.e2eMap) }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -192,27 +208,7 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-      - name: Percy e2e indicators
-        run: npx percy exec -- nx run indicators-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/indicators/
+      - name: Percy ${{ matrix.project }}
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
         env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_INDICATORS_E2E}}
-      - name: Percy e2e ag-grid-storybook
-        run: npx percy exec -- nx run ag-grid-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/ag-grid-storybook/
-        env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_AG_GRID_STORYBOOK_E2E}}
-      - name: Percy e2e flyout-storybook
-        run: npx percy exec -- nx run flyout-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/flyout-storybook/
-        env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_FLYOUT_STORYBOOK_E2E}}
-      - name: Percy e2e lists-storybook
-        run: npx percy exec -- nx run lists-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/lists-storybook/
-        env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_LISTS_STORYBOOK_E2E}}
-      - name: Percy e2e popovers-storybook
-        run: npx percy exec -- nx run popovers-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/popovers-storybook/
-        env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_POPOVERS_STORYBOOK_E2E}}
-      - name: Percy e2e tabs-storybook
-        run: npx percy exec -- nx run tabs-storybook-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/tabs-storybook/
-        env:
-          PERCY_TOKEN: ${{secrets.PERCY_TOKEN_TABS_STORYBOOK_E2E}}
+          PERCY_TOKEN: ${{ secrets[matrix.token] }}
