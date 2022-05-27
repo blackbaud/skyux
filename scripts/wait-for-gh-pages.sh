@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set +eo pipefail
 
 REPO=$1
 if [[ -z "${REPO}" ]]

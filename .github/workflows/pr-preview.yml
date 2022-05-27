@@ -223,11 +223,11 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Verify GH Pages
         run: |
-          if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }})" != "OK" ]]
+          if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }} || true)" != "OK" ]]
           then
             git -C ./skyux-pr-preview commit --allow-empty -m "Trigger rebuild"
             git -C ./skyux-pr-preview push
-            if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }})" != "OK" ]]
+            if [[ "$(./scripts/wait-for-gh-pages.sh ${{ env.GH_PAGES_REPO }} || true)" != "OK" ]]
             then
               echo "Unable to verify GitHub Pages."
               exit 1
