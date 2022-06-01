@@ -313,15 +313,11 @@
           "options": {
             "cypressConfig": "apps/ag-grid-storybook-e2e/cypress.json",
             "devServerTarget": "ag-grid-storybook:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },
@@ -1292,15 +1288,11 @@
           "options": {
             "cypressConfig": "apps/flyout-storybook-e2e/cypress.json",
             "devServerTarget": "flyout-storybook:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },
@@ -1654,15 +1646,11 @@
           "options": {
             "cypressConfig": "apps/indicators-e2e/cypress.json",
             "devServerTarget": "indicators:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },
@@ -2374,15 +2362,11 @@
           "options": {
             "cypressConfig": "apps/lists-storybook-e2e/cypress.json",
             "devServerTarget": "lists-storybook:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },
@@ -3099,15 +3083,11 @@
           "options": {
             "cypressConfig": "apps/popovers-storybook-e2e/cypress.json",
             "devServerTarget": "popovers-storybook:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },
@@ -3659,15 +3639,11 @@
           "options": {
             "cypressConfig": "apps/tabs-storybook-e2e/cypress.json",
             "devServerTarget": "tabs-storybook:storybook",
-            "baseUrl": "http://localhost:4400",
-            "headed": true,
-            "watch": true
+            "baseUrl": "http://localhost:4400"
           },
           "configurations": {
             "ci": {
-              "skipServe": true,
-              "headed": false,
-              "watch": false
+              "skipServe": true
             }
           }
         },

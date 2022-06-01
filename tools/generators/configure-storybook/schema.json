@@ -12,11 +12,14 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      },
-      "x-prompt": "What is the name of the app?",
-      "pattern": "^[a-zA-Z].*$"
+      }
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "aliases": ["skip-format"],
+      "description": "Skip formatting files.",
+      "default": false
     }
   },
-  "additionalProperties": false,
-  "required": ["name"]
+  "additionalProperties": false
 }

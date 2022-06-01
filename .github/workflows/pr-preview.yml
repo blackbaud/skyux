@@ -245,6 +245,7 @@ jobs:
       - install-deps
       - publish
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.install-deps.outputs.e2eMap) }}
     steps:
       - uses: actions/checkout@v3
@@ -265,6 +266,6 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Percy ${{ matrix.project }}
-        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/ || true
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}

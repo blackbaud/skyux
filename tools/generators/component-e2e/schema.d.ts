@@ -8,7 +8,7 @@ export interface Schema {
 export interface NormalizedSchema
   extends Schema,
     AngularApplicationOptionsSchema {
-  showcaseName: string;
+  storybookAppName: string;
   tags: string;
   parsedTags: string[];
 }

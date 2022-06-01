@@ -18,6 +18,9 @@ import {
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
+import configurePercy from '../configure-percy';
+import configureStorybook from '../configure-storybook';
+
 import { NormalizedSchema, Schema } from './schema';
 
 function normalizeOptions(
@@ -35,7 +38,7 @@ function normalizeOptions(
   return {
     name: options.name,
     prefix: 'app',
-    showcaseName: `${options.name}-storybook`,
+    storybookAppName: `${options.name}-storybook`,
     routing: true,
     strict: false,
     style: SchematicsAngularApplicationStyle.Scss,
@@ -54,13 +57,13 @@ export async function componentE2eGenerator(
 
   let createProject = false;
   try {
-    readProjectConfiguration(tree, options.showcaseName);
-    logger.warn(`The project "${options.showcaseName}" already exists.`);
+    readProjectConfiguration(tree, options.storybookAppName);
+    logger.warn(`The project "${options.storybookAppName}" already exists.`);
   } catch (e) {
     createProject = true;
     tasks.push(
       await applicationGenerator(tree, {
-        name: options.showcaseName,
+        name: options.storybookAppName,
         e2eTestRunner: E2eTestRunner.Cypress,
         tags: options.tags,
         style: options.style,
@@ -74,11 +77,11 @@ export async function componentE2eGenerator(
 
   if (
     createProject ||
-    !tree.exists(`apps/${options.showcaseName}/.storybook/main.js`)
+    !tree.exists(`apps/${options.storybookAppName}/.storybook/main.js`)
   ) {
     tasks.push(
       await storybookConfigurationGenerator(tree, {
-        name: options.showcaseName,
+        name: options.storybookAppName,
         generateStories: true,
         configureCypress: true,
         generateCypressSpecs: true,
@@ -87,16 +90,20 @@ export async function componentE2eGenerator(
     );
   } else {
     logger.warn(
-      `The project "${options.showcaseName}" is configured for storybook.`
+      `The project "${options.storybookAppName}" is configured for storybook.`
     );
     tasks.push(() =>
       angularStoriesGenerator(tree, {
-        name: options.showcaseName,
+        name: options.storybookAppName,
         generateCypressSpecs: true,
       })
     );
   }
 
+  tasks.push(() =>
+    configureStorybook(tree, { name: options.storybookAppName })
+  );
+  tasks.push(() => configurePercy(tree, { name: options.storybookAppName }));
   tasks.push(() => installPackagesTask(tree));
   return runTasksInSerial(...tasks);
 }

@@ -4,12 +4,13 @@ const main: StorybookConfig = {
   stories: [],
   addons: [
     '@storybook/addon-a11y',
-    // '@storybook/addon-actions',
+    '@storybook/addon-actions',
+    '@storybook/addon-controls',
     // '@storybook/addon-backgrounds',
     // '@storybook/addon-docs',
-    '@storybook/addon-controls',
     '@storybook/addon-toolbars',
     '@storybook/addon-viewport',
+    'storybook-addon-angular-router',
   ],
   // uncomment the property below if you want to apply some webpack config globally
   // webpackFinal: async (config, { configType }) => {
