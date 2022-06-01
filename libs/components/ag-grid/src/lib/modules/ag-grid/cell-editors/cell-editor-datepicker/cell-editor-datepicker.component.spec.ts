@@ -4,7 +4,9 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { AbstractControl } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { SkyDatepickerFixture } from '@skyux/datetime/testing';
 import {
   SkyTheme,
@@ -14,7 +16,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { Column, RowNode } from 'ag-grid-community';
+import { Column, KeyCode, RowNode } from 'ag-grid-community';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
@@ -126,7 +128,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
         data: undefined,
         rowIndex: undefined,
         api: undefined,
-        cellStartedEdit: undefined,
+        cellStartedEdit: true,
         onKeyDown: undefined,
         context: undefined,
         $scope: undefined,
@@ -147,16 +149,107 @@ describe('SkyCellEditorDatepickerComponent', () => {
 
       cellEditorParams.value = date;
 
-      expect(datepickerEditorComponent.currentDate).toBeUndefined();
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
 
       datepickerEditorComponent.agInit(cellEditorParams);
       datepickerEditorFixture.detectChanges();
       tick();
       datepickerEditorFixture.detectChanges();
 
-      expect(datepickerEditorComponent.currentDate).toEqual(date);
+      expect(datepickerEditorComponent.editorForm.get('date').value).toEqual(
+        date
+      );
       expect(datepicker.date).toEqual(dateString);
     }));
+
+    it('initializes disabled if the disabled property is passed in', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.skyComponentProperties = { disabled: true };
+      datepickerEditorFixture.detectChanges();
+
+      const disableSpy = spyOn(
+        AbstractControl.prototype,
+        'disable'
+      ).and.callThrough();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(disableSpy).toHaveBeenCalled();
+    });
+
+    it('initializes with a cleared value when Backspace triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.BACKSPACE;
+      datepickerEditorFixture.detectChanges();
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(
+        datepickerEditorComponent.editorForm.get('date').value
+      ).toBeUndefined();
+    });
+
+    it('initializes with a cleared value when Delete triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.DELETE;
+      datepickerEditorFixture.detectChanges();
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(
+        datepickerEditorComponent.editorForm.get('date').value
+      ).toBeUndefined();
+    });
+
+    it('initializes with the current value when F2 triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.F2;
+      datepickerEditorFixture.detectChanges();
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBe(
+        value
+      );
+    });
+
+    it('initializes with the current value when Enter triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.ENTER;
+      datepickerEditorFixture.detectChanges();
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBe(
+        value
+      );
+    });
+
+    it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.charPress = 'a';
+      datepickerEditorFixture.detectChanges();
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBeNull();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+
+      expect(datepickerEditorComponent.editorForm.get('date').value).toBe('a');
+    });
 
     it('should work with theme change', fakeAsync(() => {
       datepickerEditorComponent.agInit(cellEditorParams);
@@ -186,7 +279,7 @@ describe('SkyCellEditorDatepickerComponent', () => {
     it('should return currentDate', () => {
       const date = new Date('1/1/2019');
 
-      datepickerEditorComponent.currentDate = date;
+      datepickerEditorComponent.editorForm.get('date').setValue(date);
 
       datepickerEditorFixture.detectChanges();
 
@@ -195,8 +288,50 @@ describe('SkyCellEditorDatepickerComponent', () => {
   });
 
   describe('afterGuiAttached', () => {
+    let cellEditorParams: SkyCellEditorDatepickerParams;
+    let column: Column;
+    const columnWidth = 200;
+    const rowNode = new RowNode();
+    rowNode.rowHeight = 37;
+
+    beforeEach(() => {
+      column = new Column(
+        {
+          colId: 'col',
+        },
+        undefined,
+        'col',
+        true
+      );
+
+      column.setActualWidth(columnWidth);
+
+      cellEditorParams = {
+        value: undefined,
+        column,
+        node: rowNode,
+        keyPress: undefined,
+        charPress: undefined,
+        colDef: {},
+        columnApi: undefined,
+        data: undefined,
+        rowIndex: undefined,
+        api: undefined,
+        cellStartedEdit: true,
+        onKeyDown: undefined,
+        context: undefined,
+        $scope: undefined,
+        stopEditing: undefined,
+        eGridCell: undefined,
+        parseValue: undefined,
+        formatValue: undefined,
+      };
+    });
+
     it('focuses on the datepicker input after it attaches to the DOM', () => {
-      datepickerEditorComponent.currentDate = new Date('7/12/2019');
+      datepickerEditorComponent.editorForm
+        .get('date')
+        .setValue(new Date('7/12/2019'));
 
       datepickerEditorFixture.detectChanges();
 
@@ -208,6 +343,94 @@ describe('SkyCellEditorDatepickerComponent', () => {
       expect(input).toBeVisible();
       expect(input.focus).toHaveBeenCalled();
     });
+
+    it('does not select the input value if Backspace triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.BACKSPACE;
+      datepickerEditorFixture.detectChanges();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector('input');
+      const selectSpy = spyOn(input, 'select');
+
+      datepickerEditorComponent.afterGuiAttached();
+
+      expect(input.value).toBe('');
+      expect(selectSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not select the input value if Delete triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.DELETE;
+      datepickerEditorFixture.detectChanges();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector('input');
+      const selectSpy = spyOn(input, 'select');
+
+      datepickerEditorComponent.afterGuiAttached();
+
+      expect(input.value).toBe('');
+      expect(selectSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not select the input value if F2 triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.F2;
+      datepickerEditorFixture.detectChanges();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector('input');
+      const selectSpy = spyOn(input, 'select');
+
+      datepickerEditorComponent.afterGuiAttached();
+
+      expect(input.value).toBe('02/23/1995');
+      expect(selectSpy).not.toHaveBeenCalled();
+    });
+
+    it('selects the input value if Enter triggers the edit', () => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.keyPress = KeyCode.ENTER;
+      datepickerEditorFixture.detectChanges();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector('input');
+      const selectSpy = spyOn(input, 'select');
+
+      datepickerEditorComponent.afterGuiAttached();
+
+      expect(input.value).toBe('02/23/1995');
+      expect(selectSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not select the input value when a standard keyboard event triggers the edit', fakeAsync(() => {
+      const value = new Date('02/23/1995');
+      cellEditorParams.value = value;
+      cellEditorParams.charPress = 'a';
+      datepickerEditorFixture.detectChanges();
+
+      datepickerEditorComponent.agInit(cellEditorParams);
+      datepickerEditorFixture.detectChanges();
+      tick();
+      datepickerEditorFixture.detectChanges();
+      const input = datepickerEditorNativeElement.querySelector('input');
+      const selectSpy = spyOn(input, 'select').and.callThrough();
+
+      datepickerEditorComponent.afterGuiAttached();
+      datepickerEditorFixture.detectChanges();
+
+      expect(input.value).toBe('a');
+      expect(selectSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 
   it('should pass accessibility', async () => {
@@ -222,10 +445,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
   // We've had some issue with grid rendering causing the specs to timeout in IE. Extending it slightly to help.
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 7500;
 
-  let datepickerEditorFixture: ComponentFixture<SkyAgGridCellEditorDatepickerComponent>;
-  let datepickerEditorComponent: SkyAgGridCellEditorDatepickerComponent;
-  let datepickerEditorNativeElement: HTMLElement;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
@@ -236,12 +455,6 @@ describe('SkyCellEditorDatepickerComponent without theme', () => {
         },
       ],
     });
-
-    datepickerEditorFixture = TestBed.createComponent(
-      SkyAgGridCellEditorDatepickerComponent
-    );
-    datepickerEditorNativeElement = datepickerEditorFixture.nativeElement;
-    datepickerEditorComponent = datepickerEditorFixture.componentInstance;
   });
 
   describe('in ag grid', () => {

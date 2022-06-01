@@ -61,7 +61,7 @@ export class SkyAgGridCellEditorLookupComponent
     const control = this.editorForm.get('selection');
     switch (this.#triggerType) {
       case SkyAgGridEditorTrigger.Delete:
-        control.setValue(undefined);
+        control.setValue([]);
         break;
       case SkyAgGridEditorTrigger.Replace:
       case SkyAgGridEditorTrigger.Highlighted:
@@ -107,11 +107,10 @@ export class SkyAgGridCellEditorLookupComponent
     return true;
   }
 
-  /*istanbul ignore next*/
   public afterGuiAttached(): void {
     const lookupInput: HTMLTextAreaElement =
       this.elementRef.nativeElement.querySelector('.sky-lookup-input');
-    lookupInput?.focus();
+    lookupInput.focus();
     if (this.#triggerType === SkyAgGridEditorTrigger.Replace) {
       lookupInput.select();
       lookupInput.setRangeText(this.params.charPress);

@@ -77,6 +77,9 @@ export class SkyAgGridCellEditorDatepickerComponent
         control.setValue(params.value);
         break;
     }
+    if (this.params.skyComponentProperties?.disabled) {
+      control.disable();
+    }
     this.changeDetector.markForCheck();
 
     this.skyComponentProperties = this.params.skyComponentProperties || {};
@@ -134,9 +137,5 @@ export class SkyAgGridCellEditorDatepickerComponent
   public getValue(): Date {
     this.datepickerInput.nativeElement.blur();
     return this.editorForm.get('date').value;
-  }
-
-  public focusOnDatepickerInput(): void {
-    this.datepickerInput.nativeElement.focus();
   }
 }

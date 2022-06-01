@@ -86,7 +86,7 @@ export class SkyAgGridCellEditorTextComponent
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): string {
-    return this.editorForm.get('text').value;
+  public getValue(): string | undefined {
+    return this.editorForm.get('text').value || undefined;
   }
 }

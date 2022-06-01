@@ -56,7 +56,7 @@ export class SkyAgGridCellEditorNumberComponent
         control.setValue(undefined);
         break;
       case SkyAgGridEditorTrigger.Replace:
-        control.setValue(params.charPress);
+        control.setValue(parseFloat(this.params.charPress));
         break;
       case SkyAgGridEditorTrigger.Highlighted:
       case SkyAgGridEditorTrigger.Untouched:
@@ -87,7 +87,8 @@ export class SkyAgGridCellEditorNumberComponent
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): number {
-    return this.editorForm.get('number').value;
+  public getValue(): number | undefined {
+    const val = this.editorForm.get('number').value;
+    return val !== undefined && val !== null ? val : undefined;
   }
 }

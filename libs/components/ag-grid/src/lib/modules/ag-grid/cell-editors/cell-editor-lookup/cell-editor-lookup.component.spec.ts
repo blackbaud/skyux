@@ -3,21 +3,29 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@skyux-sdk/testing';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyLookupModule } from '@skyux/lookup';
+import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
 
-import { Column } from 'ag-grid-community';
+import { Column, KeyCode } from 'ag-grid-community';
 import { EventCallback } from 'typedoc/dist/lib/utils/events';
 
 import { SkyAgGridCellEditorLookupComponent } from './cell-editor-lookup.component';
 
 describe('SkyAgGridCellEditorLookupComponent', () => {
   let component: SkyAgGridCellEditorLookupComponent;
+  const data = [
+    { id: '1', name: 'John Doe', town: 'Daniel Island' },
+    { id: '2', name: 'Jane Doe', town: 'Daniel Island' },
+    { id: '3', name: 'John Smith', town: 'West Ashley' },
+    { id: '4', name: 'Jane Smith', town: 'Mt Pleasant' },
+  ];
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
+  let nativeElement: HTMLElement;
   let callback: EventCallback | undefined;
+  const selection = [data[0]];
   const params = {
     $scope: undefined,
     api: undefined,
-    cellStartedEdit: false,
+    cellStartedEdit: true,
     charPress: undefined,
     colDef: {
       headerName: 'header',
@@ -41,9 +49,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     rowIndex: 0,
     skyComponentProperties: {
       data: [],
+      selectMode: 'single' as SkyLookupSelectModeType,
     },
     stopEditing(): void {},
-    value: [],
+    value: selection,
   };
 
   beforeEach(async () => {
@@ -62,6 +71,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     callback = undefined;
     fixture = TestBed.createComponent(SkyAgGridCellEditorLookupComponent);
     component = fixture.componentInstance;
+    nativeElement = fixture.nativeElement;
     fixture.detectChanges();
   });
 
@@ -74,55 +84,161 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
     expect(component.isCancelAfterEnd()).toBeFalse();
   });
 
-  it('should initialize with empty value', () => {
-    component.agInit({ ...params });
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
-
-  it('should initialize with value', () => {
-    component.agInit({
-      ...params,
-      value: [{ name: 'hello world' }],
+  describe('agInit', () => {
+    it('should initialize with empty value', () => {
+      component.agInit({ ...params, value: [] });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
     });
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
 
-  it('should initialize with disabled control', () => {
-    component.agInit({
-      ...params,
-      skyComponentProperties: {
-        ...params.skyComponentProperties,
-        disabled: true,
-      },
-    });
-    fixture.detectChanges();
-    expect(component).toBeTruthy();
-  });
-
-  it('should throw error with invalid value', () => {
-    try {
+    it('should initialize with value', () => {
       component.agInit({
         ...params,
-        value: false,
       });
-      fail(`should have thrown an error`);
-    } catch (e) {
-      expect(e.message).toBe('Lookup value must be an array');
-    }
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+    });
+
+    it('should initialize with disabled control', () => {
+      component.agInit({
+        ...params,
+        skyComponentProperties: {
+          ...params.skyComponentProperties,
+          disabled: true,
+        },
+      });
+      fixture.detectChanges();
+      expect(component).toBeTruthy();
+    });
+
+    it('should throw error with invalid value', () => {
+      try {
+        component.agInit({
+          ...params,
+          value: false,
+        });
+        fail(`should have thrown an error`);
+      } catch (e) {
+        expect(e.message).toBe('Lookup value must be an array');
+      }
+    });
+
+    it('should maintain column width', () => {
+      component.agInit({ ...params });
+      fixture.detectChanges();
+      expect(component.width).toBe(123);
+      expect(callback).toBeTruthy();
+      callback({
+        column: {
+          getActualWidth: () => 456,
+        } as Column,
+      });
+      expect(component.width).toBe(456);
+    });
+
+    it('initializes with a cleared value when Backspace triggers the edit', () => {
+      expect(component.editorForm.get('selection').value).toEqual([]);
+
+      component.agInit({ ...params, keyPress: KeyCode.BACKSPACE });
+
+      expect(component.editorForm.get('selection').value).toEqual([]);
+    });
+
+    it('initializes with a cleared value when Delete triggers the edit', () => {
+      expect(component.editorForm.get('selection').value).toEqual([]);
+
+      component.agInit({ ...params, keyPress: KeyCode.DELETE });
+
+      expect(component.editorForm.get('selection').value).toEqual([]);
+    });
+
+    it('initializes with the current value when F2 triggers the edit', () => {
+      expect(component.editorForm.get('selection').value).toEqual([]);
+
+      component.agInit({ ...params, keyPress: KeyCode.F2 });
+
+      expect(component.editorForm.get('selection').value).toBe(selection);
+    });
+
+    it('initializes with the current value when Enter triggers the edit', () => {
+      expect(component.editorForm.get('selection').value).toEqual([]);
+
+      component.agInit({ ...params, keyPress: KeyCode.ENTER });
+
+      expect(component.editorForm.get('selection').value).toBe(selection);
+    });
+
+    // NOTE: This is different than other editors due to the selection nature of autocomplete
+    it('initializes with the current value when a standard keyboard event triggers the edit', () => {
+      expect(component.editorForm.get('selection').value).toEqual([]);
+
+      component.agInit({ ...params, charPress: 'a' });
+
+      expect(component.editorForm.get('selection').value).toBe(selection);
+    });
   });
 
-  it('should maintain column width', () => {
-    component.agInit({ ...params });
-    fixture.detectChanges();
-    expect(component.width).toBe(123);
-    expect(callback).toBeTruthy();
-    callback({
-      column: {
-        getActualWidth: () => 456,
-      } as Column,
+  describe('afterGuiAttached', () => {
+    it('does not select the input value if Backspace triggers the edit', () => {
+      component.agInit({ ...params, keyPress: KeyCode.BACKSPACE });
+      fixture.detectChanges();
+
+      const input = nativeElement.querySelector('textarea');
+      const selectSpy = spyOn(input, 'select');
+
+      component.afterGuiAttached();
+
+      expect(input.value).toBe('');
+      expect(selectSpy).not.toHaveBeenCalled();
     });
-    expect(component.width).toBe(456);
+
+    it('does not select the input value if Delete triggers the edit', () => {
+      component.agInit({ ...params, keyPress: KeyCode.DELETE });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('textarea');
+      const selectSpy = spyOn(input, 'select');
+
+      component.afterGuiAttached();
+
+      expect(input.value).toBe('');
+      expect(selectSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not select the input value if F2 triggers the edit', () => {
+      component.agInit({ ...params, keyPress: KeyCode.F2 });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('textarea');
+      const selectSpy = spyOn(input, 'select');
+
+      component.afterGuiAttached();
+
+      expect(input.value).toBe(selection[0].name);
+      expect(selectSpy).not.toHaveBeenCalled();
+    });
+
+    it('selects the input value if Enter triggers the edit', () => {
+      component.agInit({ ...params, keyPress: KeyCode.ENTER });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('textarea');
+      const selectSpy = spyOn(input, 'select');
+
+      component.afterGuiAttached();
+
+      expect(input.value).toBe(selection[0].name);
+      expect(selectSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not select the input value when a standard keyboard event triggers the edit', () => {
+      component.agInit({ ...params, charPress: 'a' });
+      fixture.detectChanges();
+      const input = nativeElement.querySelector('textarea');
+      const selectSpy = spyOn(input, 'select').and.callThrough();
+
+      component.afterGuiAttached();
+      fixture.detectChanges();
+
+      expect(input.value).toBe('a');
+      expect(selectSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });

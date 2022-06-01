@@ -75,7 +75,8 @@ export class SkyAgGridCellEditorAutocompleteComponent
     }
   }
 
-  public getValue(): any {
-    return this.editorForm.get('selection').value;
+  public getValue(): any | undefined {
+    const val = this.editorForm.get('selection').value;
+    return val !== undefined && val !== null ? val : undefined;
   }
 }

@@ -96,8 +96,9 @@ export class SkyAgGridCellEditorCurrencyComponent
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): number {
-    return this.editorForm.get('currency').value;
+  public getValue(): number | undefined {
+    const val = this.editorForm.get('currency').value;
+    return val !== undefined && val !== null ? val : undefined;
   }
 
   /**
