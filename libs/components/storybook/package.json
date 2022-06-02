@@ -6,9 +6,8 @@
     "@angular/common": "^13.3.2",
     "@angular/core": "^13.3.2",
     "@angular/platform-browser": "^13.3.2",
-    "@angular/router": "^13.3.2",
     "@skyux/theme": "0.0.0-PLACEHOLDER",
-    "@storybook/angular": "6.5.5"
+    "@storybook/angular": "6.5.6"
   },
   "dependencies": {
     "tslib": "^2.3.1"
