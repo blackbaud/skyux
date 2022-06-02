@@ -8,6 +8,7 @@ describe('tabs-showcase', () => {
     cy.get('app-sectioned-form-visual')
       .should('exist')
       .should('be.visible')
+      .should('include.text', 'Address form')
       .screenshot()
       .percySnapshot('sectioned-form');
   });

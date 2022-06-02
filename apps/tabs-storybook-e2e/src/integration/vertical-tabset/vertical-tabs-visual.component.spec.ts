@@ -8,6 +8,7 @@ describe('tabs-showcase', () => {
     cy.get('app-vertical-tabs-visual')
       .should('exist')
       .should('be.visible')
+      .should('include.text', 'Tab 2 content')
       .screenshot()
       .percySnapshot('vertical-tabset');
   });

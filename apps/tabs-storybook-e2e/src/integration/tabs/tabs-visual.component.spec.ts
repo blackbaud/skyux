@@ -6,6 +6,7 @@ describe('tabs-showcase', () => {
     cy.get('app-tabs-visual')
       .should('exist')
       .should('be.visible')
+      .should('include.text', 'Tab 2 Content')
       .screenshot()
       .percySnapshot('tabs');
   });
