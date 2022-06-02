@@ -5,7 +5,7 @@ describe('tabs-showcase', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-sectioned-form-visual')
+    cy.get('sky-sectioned-form')
       .should('exist')
       .should('be.visible')
       .should('include.text', 'Address form')
