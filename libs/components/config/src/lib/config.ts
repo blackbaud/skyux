@@ -99,11 +99,21 @@ export interface SkyuxConfigHostFrameOptionsOthers {
   urls?: string[];
 }
 
+export interface SkyuxConfigHostCspDirectives {
+  [directiveName: string]: string[];
+}
+
+export interface SkyuxConfigHostCsp {
+  enabled: boolean;
+  directives?: SkyuxConfigHostCspDirectives;
+}
+
 /**
  * Blackbaud Only - Specifies configuration options for communication with SKY UX Host.
  */
 export interface SkyuxConfigHost {
   bbCheckout?: SkyuxConfigHostBBCheckout;
+  csp?: SkyuxConfigHostCsp;
   frameOptions?:
     | SkyuxConfigHostFrameOptionsNone
     | SkyuxConfigHostFrameOptionsOthers;
