@@ -9,6 +9,13 @@ describe('ag-grid-storybook', () => {
       .should('exist')
       .should('be.visible')
       .screenshot()
-      .percySnapshot('edit-complex-cells');
+      .percySnapshot('edit-complex-cells', {
+        // language=CSS
+        percyCSS: `
+          ag-grid-angular {
+            height: 800px !important;
+          }
+        `,
+      });
   });
 });

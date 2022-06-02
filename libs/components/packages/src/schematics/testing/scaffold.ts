@@ -54,13 +54,13 @@ export async function createTestLibrary(
     )
     .toPromise();
 
-  // Create a storybook application for library projects.
+  // Create a "showcase" application for library projects.
   await runner
     .runExternalSchematicAsync(
       '@schematics/angular',
       'application',
       {
-        name: `${libOptions.name}-storybook`,
+        name: `${libOptions.name}-showcase`,
       },
       workspaceTree
     )
