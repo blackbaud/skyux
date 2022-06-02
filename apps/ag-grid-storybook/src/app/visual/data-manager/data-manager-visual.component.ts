@@ -50,6 +50,9 @@ export class DataManagerVisualComponent implements OnInit {
         viewId: 'gridView',
         displayedColumnIds: ['selected', 'name', 'description'],
       },
+      {
+        viewId: 'repeaterView',
+      },
     ],
   });
 
@@ -151,7 +154,7 @@ export class DataManagerVisualComponent implements OnInit {
       color: 'yellow',
     },
   ];
-  public activeViewId = 'repeaterView';
+  public activeViewId = 'gridView';
   public settingsKey = 'test';
 
   constructor(private dataManagerService: SkyDataManagerService) {
@@ -169,6 +172,9 @@ export class DataManagerVisualComponent implements OnInit {
       dataManagerConfig: this.dataManagerConfig,
       defaultDataState: this.defaultDataState,
       settingsKey: this.settingsKey,
+    });
+    setTimeout(() => {
+      this.dataManagerService.updateActiveViewId(this.activeViewId);
     });
   }
 

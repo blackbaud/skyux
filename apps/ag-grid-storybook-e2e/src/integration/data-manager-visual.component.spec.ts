@@ -5,9 +5,12 @@ describe('ag-grid-storybook', () => {
     )
   );
   it('should render the component', () => {
-    cy.get('app-data-manager-visual')
+    cy.get('sky-data-manager')
       .should('exist')
       .should('be.visible')
+      .should('include.text', 'Select all')
+      .should('include.text', 'Clear all')
+      .should('include.text', 'Show only selected items')
       .screenshot()
       .percySnapshot('data-manager');
   });
