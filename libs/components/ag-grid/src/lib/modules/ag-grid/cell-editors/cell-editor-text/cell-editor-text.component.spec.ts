@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, KeyCode } from 'ag-grid-community';
+import { Column, KeyCode, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
@@ -54,10 +54,15 @@ describe('SkyCellEditorTextComponent', () => {
   });
 
   describe('agInit', () => {
-    it('initializes the SkyCellEditorTextComponent properties', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
+    let cellEditorParams: SkyCellEditorTextParams;
+    let column: Column;
+    const columnWidth = 200;
+    const rowNode = new RowNode();
+    rowNode.rowHeight = 37;
+    const value = 'testing';
+
+    beforeEach(() => {
+      column = new Column(
         {
           colId: 'col',
         },
@@ -68,16 +73,16 @@ describe('SkyCellEditorTextComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
+      cellEditorParams = {
+        value: value,
         column,
-        node: undefined,
+        node: rowNode,
         keyPress: undefined,
         charPress: undefined,
+        colDef: {},
         columnApi: undefined,
         data: undefined,
+        rowIndex: undefined,
         api: undefined,
         cellStartedEdit: true,
         onKeyDown: undefined,
@@ -88,11 +93,12 @@ describe('SkyCellEditorTextComponent', () => {
         parseValue: undefined,
         formatValue: undefined,
         skyComponentProperties: {
-          maxlength: undefined,
+          maxlength: 50,
         },
       };
-      textEditorFixture.detectChanges();
+    });
 
+    it('initializes the SkyCellEditorTextComponent properties', () => {
       expect(textEditorComponent.editorForm.get('text').value).toBeNull();
       expect(textEditorComponent.columnWidth).toBeUndefined();
 
@@ -102,234 +108,124 @@ describe('SkyCellEditorTextComponent', () => {
       expect(textEditorComponent.columnWidth).toEqual(columnWidth);
     });
 
-    it('initializes with a cleared value when Backspace triggers the edit', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
-        {
-          colId: 'col',
-        },
-        undefined,
-        'col',
-        true
-      );
+    describe('cellStartedEdit is true', () => {
+      it('initializes with a cleared value when Backspace triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      column.setActualWidth(columnWidth);
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.BACKSPACE,
+        });
 
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
-        column,
-        node: undefined,
-        keyPress: KeyCode.BACKSPACE,
-        charPress: undefined,
-        columnApi: undefined,
-        data: undefined,
-        api: undefined,
-        cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        $scope: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
-        skyComponentProperties: {
-          maxlength: undefined,
-        },
-      };
-      textEditorFixture.detectChanges();
+        expect(
+          textEditorComponent.editorForm.get('text').value
+        ).toBeUndefined();
+      });
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+      it('initializes with a cleared value when Delete triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      textEditorComponent.agInit(cellEditorParams);
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.DELETE,
+        });
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeUndefined();
+        expect(
+          textEditorComponent.editorForm.get('text').value
+        ).toBeUndefined();
+      });
+
+      it('initializes with the current value when F2 triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.F2,
+        });
+
+        expect(textEditorComponent.editorForm.get('text').value).toBe(
+          'testing'
+        );
+      });
+
+      it('initializes with the current value when Enter triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.ENTER,
+        });
+
+        expect(textEditorComponent.editorForm.get('text').value).toBe(
+          'testing'
+        );
+      });
+
+      it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+
+        textEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
+
+        expect(textEditorComponent.editorForm.get('text').value).toBe('a');
+      });
     });
 
-    it('initializes with a cleared value when Delete triggers the edit', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
-        {
-          colId: 'col',
-        },
-        undefined,
-        'col',
-        true
-      );
+    describe('cellStartedEdit is false', () => {
+      beforeEach(() => {
+        cellEditorParams.cellStartedEdit = false;
+      });
 
-      column.setActualWidth(columnWidth);
+      it('initializes with current value when Backspace triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
-        column,
-        node: undefined,
-        keyPress: KeyCode.DELETE,
-        charPress: undefined,
-        columnApi: undefined,
-        data: undefined,
-        api: undefined,
-        cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        $scope: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
-        skyComponentProperties: {
-          maxlength: undefined,
-        },
-      };
-      textEditorFixture.detectChanges();
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.BACKSPACE,
+        });
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+      });
 
-      textEditorComponent.agInit(cellEditorParams);
+      it('initializes current value when Delete triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeUndefined();
-    });
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.DELETE,
+        });
 
-    it('initializes with the current value when F2 triggers the edit', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
-        {
-          colId: 'col',
-        },
-        undefined,
-        'col',
-        true
-      );
+        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+      });
 
-      column.setActualWidth(columnWidth);
+      it('initializes with the current value when F2 triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
-        column,
-        node: undefined,
-        keyPress: KeyCode.F2,
-        charPress: undefined,
-        columnApi: undefined,
-        data: undefined,
-        api: undefined,
-        cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        $scope: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
-        skyComponentProperties: {
-          maxlength: undefined,
-        },
-      };
-      textEditorFixture.detectChanges();
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.F2,
+        });
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
+        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+      });
 
-      textEditorComponent.agInit(cellEditorParams);
+      it('initializes with the current value when Enter triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      expect(textEditorComponent.editorForm.get('text').value).toBe('testing');
-    });
+        textEditorComponent.agInit({
+          ...cellEditorParams,
+          keyPress: KeyCode.ENTER,
+        });
 
-    it('initializes with the current value when Enter triggers the edit', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
-        {
-          colId: 'col',
-        },
-        undefined,
-        'col',
-        true
-      );
+        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+      });
 
-      column.setActualWidth(columnWidth);
+      it('initializes with current value when a standard keyboard event triggers the edit', () => {
+        expect(textEditorComponent.editorForm.get('text').value).toBeNull();
 
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
-        column,
-        node: undefined,
-        keyPress: KeyCode.ENTER,
-        charPress: undefined,
-        columnApi: undefined,
-        data: undefined,
-        api: undefined,
-        cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        $scope: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
-        skyComponentProperties: {
-          maxlength: undefined,
-        },
-      };
-      textEditorFixture.detectChanges();
+        textEditorComponent.agInit({ ...cellEditorParams, charPress: 'a' });
 
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
-
-      textEditorComponent.agInit(cellEditorParams);
-
-      expect(textEditorComponent.editorForm.get('text').value).toBe('testing');
-    });
-
-    it('initializes with the character pressed when a standard keyboard event triggers the edit', () => {
-      const value = 'testing';
-      const columnWidth = 100;
-      const column = new Column(
-        {
-          colId: 'col',
-        },
-        undefined,
-        'col',
-        true
-      );
-
-      column.setActualWidth(columnWidth);
-
-      const cellEditorParams: SkyCellEditorTextParams = {
-        value,
-        colDef: { headerName: 'Test text cell' },
-        rowIndex: 1,
-        column,
-        node: undefined,
-        keyPress: undefined,
-        charPress: 'a',
-        columnApi: undefined,
-        data: undefined,
-        api: undefined,
-        cellStartedEdit: true,
-        onKeyDown: undefined,
-        context: undefined,
-        $scope: undefined,
-        stopEditing: undefined,
-        eGridCell: undefined,
-        parseValue: undefined,
-        formatValue: undefined,
-        skyComponentProperties: {
-          maxlength: undefined,
-        },
-      };
-      textEditorFixture.detectChanges();
-
-      expect(textEditorComponent.editorForm.get('text').value).toBeNull();
-
-      textEditorComponent.agInit(cellEditorParams);
-
-      expect(textEditorComponent.editorForm.get('text').value).toBe('a');
+        expect(textEditorComponent.editorForm.get('text').value).toBe(value);
+      });
     });
   });
 
@@ -344,6 +240,50 @@ describe('SkyCellEditorTextComponent', () => {
     });
 
     describe('afterGuiAttached', () => {
+      let cellEditorParams: SkyCellEditorTextParams;
+      let column: Column;
+      const columnWidth = 200;
+      const rowNode = new RowNode();
+      rowNode.rowHeight = 37;
+      const value = 'testing';
+
+      beforeEach(() => {
+        column = new Column(
+          {
+            colId: 'col',
+          },
+          undefined,
+          'col',
+          true
+        );
+
+        column.setActualWidth(columnWidth);
+
+        cellEditorParams = {
+          value: value,
+          column,
+          node: rowNode,
+          keyPress: undefined,
+          charPress: undefined,
+          colDef: {},
+          columnApi: undefined,
+          data: undefined,
+          rowIndex: undefined,
+          api: undefined,
+          cellStartedEdit: true,
+          onKeyDown: undefined,
+          context: undefined,
+          $scope: undefined,
+          stopEditing: undefined,
+          eGridCell: undefined,
+          parseValue: undefined,
+          formatValue: undefined,
+          skyComponentProperties: {
+            maxlength: 50,
+          },
+        };
+      });
+
       it('focuses on the input after it attaches to the DOM', () => {
         textEditorFixture.detectChanges();
 
@@ -356,254 +296,162 @@ describe('SkyCellEditorTextComponent', () => {
         expect(input.focus).toHaveBeenCalled();
       });
 
-      it('does not select the input value if Backspace triggers the edit', () => {
-        const value = 'testing';
-        const columnWidth = 100;
-        const column = new Column(
-          {
-            colId: 'col',
-          },
-          undefined,
-          'col',
-          true
-        );
+      describe('cellStartedEdit is true', () => {
+        it('does not select the input value if Backspace triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.BACKSPACE,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        column.setActualWidth(columnWidth);
+          textEditorComponent.afterGuiAttached();
 
-        const cellEditorParams: SkyCellEditorTextParams = {
-          value,
-          colDef: { headerName: 'Test text cell' },
-          rowIndex: 1,
-          column,
-          node: undefined,
-          keyPress: KeyCode.BACKSPACE,
-          charPress: undefined,
-          columnApi: undefined,
-          data: undefined,
-          api: undefined,
-          cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          $scope: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
-          skyComponentProperties: {
-            maxlength: undefined,
-          },
-        };
-        textEditorFixture.detectChanges();
+          expect(input.value).toBe('');
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
 
-        textEditorComponent.agInit(cellEditorParams);
-        textEditorFixture.detectChanges();
-        const input = textEditorNativeElement.querySelector('input');
-        const selectSpy = spyOn(input, 'select');
+        it('does not select the input value if Delete triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.DELETE,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        textEditorComponent.afterGuiAttached();
+          textEditorComponent.afterGuiAttached();
 
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
+          expect(input.value).toBe('');
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
+
+        it('does not select the input value if F2 triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.F2,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+
+          textEditorComponent.afterGuiAttached();
+
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
+
+        it('selects the input value if Enter triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.ENTER,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+
+          textEditorComponent.afterGuiAttached();
+
+          expect(input.value).toBe(value);
+          expect(selectSpy).toHaveBeenCalled();
+        });
+
+        it('does not select the input value when a standard keyboard event triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: 'a',
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+
+          textEditorComponent.afterGuiAttached();
+
+          expect(input.value).toBe('a');
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
       });
 
-      it('does not select the input value if Escape triggers the edit', () => {
-        const value = 'testing';
-        const columnWidth = 100;
-        const column = new Column(
-          {
-            colId: 'col',
-          },
-          undefined,
-          'col',
-          true
-        );
+      describe('cellStartedEdit is false', () => {
+        beforeEach(() => {
+          cellEditorParams.cellStartedEdit = false;
+        });
 
-        column.setActualWidth(columnWidth);
+        it('does not select the input value if Backspace triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.BACKSPACE,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        const cellEditorParams: SkyCellEditorTextParams = {
-          value,
-          colDef: { headerName: 'Test text cell' },
-          rowIndex: 1,
-          column,
-          node: undefined,
-          keyPress: KeyCode.BACKSPACE,
-          charPress: undefined,
-          columnApi: undefined,
-          data: undefined,
-          api: undefined,
-          cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          $scope: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
-          skyComponentProperties: {
-            maxlength: undefined,
-          },
-        };
-        textEditorFixture.detectChanges();
+          textEditorComponent.afterGuiAttached();
 
-        textEditorComponent.agInit(cellEditorParams);
-        textEditorFixture.detectChanges();
-        const input = textEditorNativeElement.querySelector('input');
-        const selectSpy = spyOn(input, 'select');
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
 
-        textEditorComponent.afterGuiAttached();
+        it('does not select the input value if Delete triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.DELETE,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        expect(input.value).toBe('');
-        expect(selectSpy).not.toHaveBeenCalled();
-      });
+          textEditorComponent.afterGuiAttached();
 
-      it('does not select the input value if F2 triggers the edit', () => {
-        const value = 'testing';
-        const columnWidth = 100;
-        const column = new Column(
-          {
-            colId: 'col',
-          },
-          undefined,
-          'col',
-          true
-        );
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
 
-        column.setActualWidth(columnWidth);
+        it('does not select the input value if F2 triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.F2,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        const cellEditorParams: SkyCellEditorTextParams = {
-          value,
-          colDef: { headerName: 'Test text cell' },
-          rowIndex: 1,
-          column,
-          node: undefined,
-          keyPress: KeyCode.F2,
-          charPress: undefined,
-          columnApi: undefined,
-          data: undefined,
-          api: undefined,
-          cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          $scope: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
-          skyComponentProperties: {
-            maxlength: undefined,
-          },
-        };
-        textEditorFixture.detectChanges();
+          textEditorComponent.afterGuiAttached();
 
-        textEditorComponent.agInit(cellEditorParams);
-        textEditorFixture.detectChanges();
-        const input = textEditorNativeElement.querySelector('input');
-        const selectSpy = spyOn(input, 'select');
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
 
-        textEditorComponent.afterGuiAttached();
+        it('should not select the input value if Enter triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.ENTER,
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        expect(input.value).toBe('testing');
-        expect(selectSpy).not.toHaveBeenCalled();
-      });
+          textEditorComponent.afterGuiAttached();
 
-      it('selects the input value if Enter triggers the edit', () => {
-        const value = 'testing';
-        const columnWidth = 100;
-        const column = new Column(
-          {
-            colId: 'col',
-          },
-          undefined,
-          'col',
-          true
-        );
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
 
-        column.setActualWidth(columnWidth);
+        it('does not select the input value when a standard keyboard event triggers the edit', () => {
+          textEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: 'a',
+          });
+          textEditorFixture.detectChanges();
+          const input = textEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
 
-        const cellEditorParams: SkyCellEditorTextParams = {
-          value,
-          colDef: { headerName: 'Test text cell' },
-          rowIndex: 1,
-          column,
-          node: undefined,
-          keyPress: KeyCode.ENTER,
-          charPress: undefined,
-          columnApi: undefined,
-          data: undefined,
-          api: undefined,
-          cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          $scope: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
-          skyComponentProperties: {
-            maxlength: undefined,
-          },
-        };
-        textEditorFixture.detectChanges();
+          textEditorComponent.afterGuiAttached();
 
-        textEditorComponent.agInit(cellEditorParams);
-        textEditorFixture.detectChanges();
-        const input = textEditorNativeElement.querySelector('input');
-        const selectSpy = spyOn(input, 'select');
-
-        textEditorComponent.afterGuiAttached();
-
-        expect(input.value).toBe('testing');
-        expect(selectSpy).toHaveBeenCalled();
-      });
-
-      it('does not select the input value when a standard keyboard event triggers the edit', () => {
-        const value = 'testing';
-        const columnWidth = 100;
-        const column = new Column(
-          {
-            colId: 'col',
-          },
-          undefined,
-          'col',
-          true
-        );
-
-        column.setActualWidth(columnWidth);
-
-        const cellEditorParams: SkyCellEditorTextParams = {
-          value,
-          colDef: { headerName: 'Test text cell' },
-          rowIndex: 1,
-          column,
-          node: undefined,
-          keyPress: undefined,
-          charPress: 'a',
-          columnApi: undefined,
-          data: undefined,
-          api: undefined,
-          cellStartedEdit: true,
-          onKeyDown: undefined,
-          context: undefined,
-          $scope: undefined,
-          stopEditing: undefined,
-          eGridCell: undefined,
-          parseValue: undefined,
-          formatValue: undefined,
-          skyComponentProperties: {
-            maxlength: undefined,
-          },
-        };
-        textEditorFixture.detectChanges();
-
-        textEditorComponent.agInit(cellEditorParams);
-        textEditorFixture.detectChanges();
-        const input = textEditorNativeElement.querySelector('input');
-        const selectSpy = spyOn(input, 'select');
-
-        textEditorComponent.afterGuiAttached();
-
-        expect(input.value).toBe('a');
-        expect(selectSpy).not.toHaveBeenCalled();
+          expect(input.value).toBe(value);
+          expect(selectSpy).not.toHaveBeenCalled();
+        });
       });
     });
 

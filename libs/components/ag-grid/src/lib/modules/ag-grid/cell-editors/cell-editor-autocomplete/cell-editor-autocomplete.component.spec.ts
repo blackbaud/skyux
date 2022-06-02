@@ -87,60 +87,94 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       expect(component.editorForm.get('selection').value).toEqual(selection);
     });
 
-    it('initializes with a cleared value when Backspace triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.BACKSPACE;
-      fixture.detectChanges();
+    describe('cellStartedEdit is true', () => {
+      it('initializes with a cleared value when Backspace triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-      expect(component.editorForm.get('selection').value).toBeNull();
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.BACKSPACE });
 
-      component.agInit(cellEditorParams);
+        expect(component.editorForm.get('selection').value).toBeUndefined();
+      });
 
-      expect(component.editorForm.get('selection').value).toBeUndefined();
+      it('initializes with a cleared value when Delete triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
+
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.DELETE });
+
+        expect(component.editorForm.get('selection').value).toBeUndefined();
+      });
+
+      it('initializes with the current value when F2 triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
+
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.F2 });
+
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
+
+      it('initializes with the current value when Enter triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
+
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.ENTER });
+
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
+
+      // NOTE: This is different than other editors due to the selection nature of autocomplete
+      it('initializes with the current value when a standard keyboard event triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
+
+        component.agInit({ ...cellEditorParams, charPress: 'a' });
+
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
     });
 
-    it('initializes with a cleared value when Delete triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.DELETE;
-      fixture.detectChanges();
+    describe('cellStartedEdit is false', () => {
+      beforeEach(() => {
+        cellEditorParams.cellStartedEdit = false;
+      });
 
-      expect(component.editorForm.get('selection').value).toBeNull();
+      it('initializes with the current value when Backspace triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-      component.agInit(cellEditorParams);
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.BACKSPACE });
 
-      expect(component.editorForm.get('selection').value).toBeUndefined();
-    });
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
 
-    it('initializes with the current value when F2 triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.F2;
-      fixture.detectChanges();
+      it('initializes with the current value when Delete triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-      expect(component.editorForm.get('selection').value).toBeNull();
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.DELETE });
 
-      component.agInit(cellEditorParams);
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
 
-      expect(component.editorForm.get('selection').value).toBe(selection);
-    });
+      it('initializes with the current value when F2 triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-    it('initializes with the current value when Enter triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.ENTER;
-      fixture.detectChanges();
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.F2 });
 
-      expect(component.editorForm.get('selection').value).toBeNull();
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
 
-      component.agInit(cellEditorParams);
+      it('initializes with the current value when Enter triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-      expect(component.editorForm.get('selection').value).toBe(selection);
-    });
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.ENTER });
 
-    // NOTE: This is different than other editors due to the selection nature of autocomplete
-    it('initializes with the current value when a standard keyboard event triggers the edit', () => {
-      cellEditorParams.charPress = 'a';
-      fixture.detectChanges();
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
 
-      expect(component.editorForm.get('selection').value).toBeNull();
+      // NOTE: This is different than other editors due to the selection nature of autocomplete
+      it('initializes with the current value when a standard keyboard event triggers the edit', () => {
+        expect(component.editorForm.get('selection').value).toBeNull();
 
-      component.agInit(cellEditorParams);
+        component.agInit({ ...cellEditorParams, charPress: 'a' });
 
-      expect(component.editorForm.get('selection').value).toBe(selection);
+        expect(component.editorForm.get('selection').value).toBe(selection);
+      });
     });
   });
 
@@ -213,80 +247,134 @@ describe('SkyCellEditorAutocompleteComponent', () => {
       expect(input.focus).toHaveBeenCalled();
     });
 
-    it('does not select the input value if Backspace triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.BACKSPACE;
-      fixture.detectChanges();
+    describe('cellStartedEdit is true', () => {
+      it('does not select the input value if Backspace triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.BACKSPACE });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
 
-      component.agInit(cellEditorParams);
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input');
-      const selectSpy = spyOn(input, 'select');
+        component.afterGuiAttached();
 
-      component.afterGuiAttached();
+        expect(input.value).toBe('');
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
 
-      expect(input.value).toBe('');
-      expect(selectSpy).not.toHaveBeenCalled();
+      it('does not select the input value if Delete triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.DELETE });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
+
+        component.afterGuiAttached();
+
+        expect(input.value).toBe('');
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
+
+      it('does not select the input value if F2 triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.F2 });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
+
+        component.afterGuiAttached();
+
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
+
+      it('selects the input value if Enter triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.ENTER });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
+
+        component.afterGuiAttached();
+
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it('does not select the input value when a standard keyboard event triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, charPress: 'a' });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
+
+        component.afterGuiAttached();
+        fixture.detectChanges();
+
+        expect(input.value).toBe('a');
+        expect(selectSpy).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('does not select the input value if Delete triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.DELETE;
-      fixture.detectChanges();
+    describe('cellStartedEdit is false', () => {
+      beforeEach(() => {
+        cellEditorParams.cellStartedEdit = false;
+      });
 
-      component.agInit(cellEditorParams);
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input');
-      const selectSpy = spyOn(input, 'select');
+      it('does not select the input value if Backspace triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.BACKSPACE });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
 
-      component.afterGuiAttached();
+        component.afterGuiAttached();
 
-      expect(input.value).toBe('');
-      expect(selectSpy).not.toHaveBeenCalled();
-    });
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
 
-    it('does not select the input value if F2 triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.F2;
-      fixture.detectChanges();
+      it('does not select the input value if Delete triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.DELETE });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
 
-      component.agInit(cellEditorParams);
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input');
-      const selectSpy = spyOn(input, 'select');
+        component.afterGuiAttached();
 
-      component.afterGuiAttached();
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
 
-      expect(input.value).toBe(selection.name);
-      expect(selectSpy).not.toHaveBeenCalled();
-    });
+      it('does not select the input value if F2 triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.F2 });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
 
-    it('selects the input value if Enter triggers the edit', () => {
-      cellEditorParams.keyPress = KeyCode.ENTER;
-      fixture.detectChanges();
+        component.afterGuiAttached();
 
-      component.agInit(cellEditorParams);
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input');
-      const selectSpy = spyOn(input, 'select');
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
 
-      component.afterGuiAttached();
+      it('does not select the input value if Enter triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, keyPress: KeyCode.ENTER });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select');
 
-      expect(input.value).toBe(selection.name);
-      expect(selectSpy).toHaveBeenCalledTimes(1);
-    });
+        component.afterGuiAttached();
 
-    it('does not select the input value when a standard keyboard event triggers the edit', () => {
-      cellEditorParams.charPress = 'a';
-      fixture.detectChanges();
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
 
-      component.agInit(cellEditorParams);
-      fixture.detectChanges();
-      const input = nativeElement.querySelector('input');
-      const selectSpy = spyOn(input, 'select').and.callThrough();
+      it('does not select the input value when a standard keyboard event triggers the edit', () => {
+        component.agInit({ ...cellEditorParams, charPress: 'a' });
+        fixture.detectChanges();
+        const input = nativeElement.querySelector('input');
+        const selectSpy = spyOn(input, 'select').and.callThrough();
 
-      component.afterGuiAttached();
-      fixture.detectChanges();
+        component.afterGuiAttached();
+        fixture.detectChanges();
 
-      expect(input.value).toBe('a');
-      expect(selectSpy).toHaveBeenCalledTimes(1);
+        expect(input.value).toBe(selection.name);
+        expect(selectSpy).not.toHaveBeenCalled();
+      });
     });
   });
 

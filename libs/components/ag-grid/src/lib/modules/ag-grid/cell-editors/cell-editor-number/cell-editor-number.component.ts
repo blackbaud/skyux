@@ -56,7 +56,7 @@ export class SkyAgGridCellEditorNumberComponent
         control.setValue(undefined);
         break;
       case SkyAgGridEditorTrigger.Replace:
-        control.setValue(parseFloat(this.params.charPress));
+        control.setValue(parseFloat(this.params.charPress) || undefined);
         break;
       case SkyAgGridEditorTrigger.Highlighted:
       case SkyAgGridEditorTrigger.Untouched:
