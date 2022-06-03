@@ -122,7 +122,7 @@ export class SkyAutonumericDirective
   }
 
   public writeValue(value: number | undefined): void {
-    if (this.value !== value && !(!this.value && !value)) {
+    if (this.value !== value) {
       this.value = value;
       this.onChange(value);
 
@@ -227,7 +227,9 @@ export class SkyAutonumericDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onChange = (_: number | undefined) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onTouched = () => {};
 }
