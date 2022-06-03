@@ -1,4 +1,4 @@
-export enum SkyAgGridEditorTrigger {
+export enum SkyAgGridCellEditorTrigger {
   Delete = 0,
   Highlighted = 1,
   Replace = 2,

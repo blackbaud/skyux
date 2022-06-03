@@ -14,7 +14,7 @@ import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupCom
 import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
-import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
+import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
 import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 /**
@@ -44,7 +44,7 @@ export class SkyAgGridCellEditorLookupComponent
 
   private params: SkyCellEditorLookupParams;
 
-  #triggerType: SkyAgGridEditorTrigger;
+  #triggerType: SkyAgGridCellEditorTrigger;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -60,12 +60,12 @@ export class SkyAgGridCellEditorLookupComponent
     this.#triggerType = getEditorInitializationTrigger(params);
     const control = this.editorForm.get('selection');
     switch (this.#triggerType) {
-      case SkyAgGridEditorTrigger.Delete:
+      case SkyAgGridCellEditorTrigger.Delete:
         control.setValue([]);
         break;
-      case SkyAgGridEditorTrigger.Replace:
-      case SkyAgGridEditorTrigger.Highlighted:
-      case SkyAgGridEditorTrigger.Untouched:
+      case SkyAgGridCellEditorTrigger.Replace:
+      case SkyAgGridCellEditorTrigger.Highlighted:
+      case SkyAgGridCellEditorTrigger.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -111,7 +111,7 @@ export class SkyAgGridCellEditorLookupComponent
     const lookupInput: HTMLTextAreaElement =
       this.elementRef.nativeElement.querySelector('.sky-lookup-input');
     lookupInput.focus();
-    if (this.#triggerType === SkyAgGridEditorTrigger.Replace) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Replace) {
       lookupInput.select();
       lookupInput.setRangeText(this.params.charPress);
       // Ensure the cursor is at the end of the text.
@@ -121,7 +121,7 @@ export class SkyAgGridCellEditorLookupComponent
       );
       lookupInput.dispatchEvent(new Event('input'));
     }
-    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
       lookupInput.select();
     }
   }

@@ -11,7 +11,7 @@ import { ICellEditorParams } from 'ag-grid-community';
 
 import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
-import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
+import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
 
 /**
  * @internal
@@ -40,7 +40,7 @@ export class SkyAgGridCellEditorNumberComponent
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
   private input: ElementRef;
 
-  #triggerType: SkyAgGridEditorTrigger;
+  #triggerType: SkyAgGridCellEditorTrigger;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -52,14 +52,14 @@ export class SkyAgGridCellEditorNumberComponent
     this.#triggerType = getEditorInitializationTrigger(params);
     const control = this.editorForm.get('number');
     switch (this.#triggerType) {
-      case SkyAgGridEditorTrigger.Delete:
+      case SkyAgGridCellEditorTrigger.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridEditorTrigger.Replace:
+      case SkyAgGridCellEditorTrigger.Replace:
         control.setValue(parseFloat(this.params.charPress) || undefined);
         break;
-      case SkyAgGridEditorTrigger.Highlighted:
-      case SkyAgGridEditorTrigger.Untouched:
+      case SkyAgGridCellEditorTrigger.Highlighted:
+      case SkyAgGridCellEditorTrigger.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -79,7 +79,7 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
       this.input.nativeElement.select();
     }
   }

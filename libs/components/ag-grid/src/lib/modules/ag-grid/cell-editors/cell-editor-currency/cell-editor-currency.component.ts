@@ -11,8 +11,8 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
+import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
 import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
-import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
 
 /**
  * @internal
@@ -39,7 +39,7 @@ export class SkyAgGridCellEditorCurrencyComponent
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
 
-  #triggerType: SkyAgGridEditorTrigger;
+  #triggerType: SkyAgGridCellEditorTrigger;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
@@ -71,14 +71,14 @@ export class SkyAgGridCellEditorCurrencyComponent
     this.#triggerType = getEditorInitializationTrigger(this.params);
     const control = this.editorForm.get('currency');
     switch (this.#triggerType) {
-      case SkyAgGridEditorTrigger.Delete:
+      case SkyAgGridCellEditorTrigger.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridEditorTrigger.Replace:
+      case SkyAgGridCellEditorTrigger.Replace:
         control.setValue(parseFloat(this.params.charPress) || undefined);
         break;
-      case SkyAgGridEditorTrigger.Highlighted:
-      case SkyAgGridEditorTrigger.Untouched:
+      case SkyAgGridCellEditorTrigger.Highlighted:
+      case SkyAgGridCellEditorTrigger.Untouched:
       default:
         control.setValue(parseFloat(this.params.value));
         break;
@@ -87,7 +87,7 @@ export class SkyAgGridCellEditorCurrencyComponent
 
     // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
     setTimeout(() => {
-      if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+      if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
         this.input.nativeElement.select();
       }
     }, 100);

@@ -11,7 +11,7 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
-import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
+import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
 
 /**
  * @internal
@@ -33,7 +33,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
   private params: SkyCellEditorAutocompleteParams;
 
-  #triggerType: SkyAgGridEditorTrigger;
+  #triggerType: SkyAgGridCellEditorTrigger;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef;
@@ -43,12 +43,12 @@ export class SkyAgGridCellEditorAutocompleteComponent
     this.#triggerType = getEditorInitializationTrigger(params);
     const control = this.editorForm.get('selection');
     switch (this.#triggerType) {
-      case SkyAgGridEditorTrigger.Delete:
+      case SkyAgGridCellEditorTrigger.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridEditorTrigger.Replace:
-      case SkyAgGridEditorTrigger.Highlighted:
-      case SkyAgGridEditorTrigger.Untouched:
+      case SkyAgGridCellEditorTrigger.Replace:
+      case SkyAgGridCellEditorTrigger.Highlighted:
+      case SkyAgGridCellEditorTrigger.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -60,7 +60,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
 
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridEditorTrigger.Replace) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Replace) {
       this.input.nativeElement.select();
       this.input.nativeElement.setRangeText(this.params.charPress);
       // Ensure the cursor is at the end of the text.
@@ -70,7 +70,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
       );
       this.input.nativeElement.dispatchEvent(new Event('input'));
     }
-    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
       this.input.nativeElement.select();
     }
   }

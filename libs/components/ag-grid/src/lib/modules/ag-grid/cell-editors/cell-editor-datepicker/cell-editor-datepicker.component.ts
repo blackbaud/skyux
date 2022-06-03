@@ -17,8 +17,8 @@ import { first } from 'rxjs/operators';
 
 import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
 import { SkyAgGridDatepickerProperties } from '../../types/datepicker-properties';
-import { SkyAgGridEditorTrigger } from '../../types/editor-trigger';
 
 /**
  * @internal
@@ -46,7 +46,7 @@ export class SkyAgGridCellEditorDatepickerComponent
   @ViewChild('skyCellEditorDatepickerInput', { read: ElementRef })
   private datepickerInput: ElementRef;
 
-  #triggerType: SkyAgGridEditorTrigger;
+  #triggerType: SkyAgGridCellEditorTrigger;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -65,14 +65,14 @@ export class SkyAgGridCellEditorDatepickerComponent
     this.#triggerType = getEditorInitializationTrigger(params);
     const control = this.editorForm.get('date');
     switch (this.#triggerType) {
-      case SkyAgGridEditorTrigger.Delete:
+      case SkyAgGridCellEditorTrigger.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridEditorTrigger.Replace:
+      case SkyAgGridCellEditorTrigger.Replace:
         control.setValue(params.charPress);
         break;
-      case SkyAgGridEditorTrigger.Highlighted:
-      case SkyAgGridEditorTrigger.Untouched:
+      case SkyAgGridCellEditorTrigger.Highlighted:
+      case SkyAgGridCellEditorTrigger.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -110,7 +110,7 @@ export class SkyAgGridCellEditorDatepickerComponent
 
     // Programatically set the value of in the input; however, do not do this via the form control so that the value is not formatted when editing starts.
     // Watch for the first blur and fire a 'change' event as programatic changes won't queue a change event, but we need to do this so that formatting happens if the user tabs to the calendar button.
-    if (this.#triggerType === SkyAgGridEditorTrigger.Replace) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Replace) {
       fromEvent(datepickerInputEl, 'blur')
         .pipe(first())
         .subscribe(() => {
@@ -126,7 +126,7 @@ export class SkyAgGridCellEditorDatepickerComponent
     }
 
     // this.changeDetector.markForCheck();
-    if (this.#triggerType === SkyAgGridEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
       datepickerInputEl.select();
     }
   }
