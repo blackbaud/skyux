@@ -11,10 +11,10 @@ import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent } from 'ag-grid-community';
 import { IPopupComponent } from 'ag-grid-community/dist/lib/interfaces/iPopupComponent';
 
-import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { applySkyLookupPropertiesDefaults } from '../../apply-lookup-properties-defaults';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
-import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 import { SkyAgGridLookupProperties } from '../../types/lookup-properties';
 
 /**
@@ -44,7 +44,7 @@ export class SkyAgGridCellEditorLookupComponent
 
   private params: SkyCellEditorLookupParams;
 
-  #triggerType: SkyAgGridCellEditorTrigger;
+  #triggerType: SkyAgGridCellEditorInitialAction;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -57,15 +57,15 @@ export class SkyAgGridCellEditorLookupComponent
       throw new Error(`Lookup value must be an array`);
     }
 
-    this.#triggerType = getEditorInitializationTrigger(params);
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
     switch (this.#triggerType) {
-      case SkyAgGridCellEditorTrigger.Delete:
+      case SkyAgGridCellEditorInitialAction.Delete:
         control.setValue([]);
         break;
-      case SkyAgGridCellEditorTrigger.Replace:
-      case SkyAgGridCellEditorTrigger.Highlighted:
-      case SkyAgGridCellEditorTrigger.Untouched:
+      case SkyAgGridCellEditorInitialAction.Replace:
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -111,7 +111,7 @@ export class SkyAgGridCellEditorLookupComponent
     const lookupInput: HTMLTextAreaElement =
       this.elementRef.nativeElement.querySelector('.sky-lookup-input');
     lookupInput.focus();
-    if (this.#triggerType === SkyAgGridCellEditorTrigger.Replace) {
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
       lookupInput.select();
       lookupInput.setRangeText(this.params.charPress);
       // Ensure the cursor is at the end of the text.
@@ -121,7 +121,7 @@ export class SkyAgGridCellEditorLookupComponent
       );
       lookupInput.dispatchEvent(new Event('input'));
     }
-    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
       lookupInput.select();
     }
   }

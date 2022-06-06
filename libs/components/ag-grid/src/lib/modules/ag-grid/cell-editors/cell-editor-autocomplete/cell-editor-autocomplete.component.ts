@@ -8,10 +8,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyAgGridAutocompleteProperties } from '../../types/autocomplete-properties';
 import { SkyCellEditorAutocompleteParams } from '../../types/cell-editor-autocomplete-params';
-import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 
 /**
  * @internal
@@ -33,22 +33,22 @@ export class SkyAgGridCellEditorAutocompleteComponent
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};
   private params: SkyCellEditorAutocompleteParams;
 
-  #triggerType: SkyAgGridCellEditorTrigger;
+  #triggerType: SkyAgGridCellEditorInitialAction;
 
   @ViewChild('skyCellEditorAutocomplete', { read: ElementRef })
   public input: ElementRef;
 
   public agInit(params: SkyCellEditorAutocompleteParams) {
     this.params = params;
-    this.#triggerType = getEditorInitializationTrigger(params);
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
     switch (this.#triggerType) {
-      case SkyAgGridCellEditorTrigger.Delete:
+      case SkyAgGridCellEditorInitialAction.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridCellEditorTrigger.Replace:
-      case SkyAgGridCellEditorTrigger.Highlighted:
-      case SkyAgGridCellEditorTrigger.Untouched:
+      case SkyAgGridCellEditorInitialAction.Replace:
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -60,7 +60,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
 
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridCellEditorTrigger.Replace) {
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Replace) {
       this.input.nativeElement.select();
       this.input.nativeElement.setRangeText(this.params.charPress);
       // Ensure the cursor is at the end of the text.
@@ -70,7 +70,7 @@ export class SkyAgGridCellEditorAutocompleteComponent
       );
       this.input.nativeElement.dispatchEvent(new Event('input'));
     }
-    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
       this.input.nativeElement.select();
     }
   }

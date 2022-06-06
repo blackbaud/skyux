@@ -29,7 +29,7 @@ import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-rend
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyCellClass } from './types/cell-class';
-import { SkyAgGridCellEditorTrigger } from './types/cell-editor-trigger';
+import { SkyAgGridCellEditorInitialAction } from './types/cell-editor-initial-action';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
@@ -84,29 +84,6 @@ function dateComparator(date1: any, date2: any): number {
   }
 
   return date1value ? 1 : -1;
-}
-
-export function getEditorInitializationTrigger(
-  params: ICellEditorParams
-): SkyAgGridCellEditorTrigger {
-  if (params.cellStartedEdit) {
-    if (
-      params.keyPress === KeyCode.BACKSPACE ||
-      params.keyPress === KeyCode.DELETE
-    ) {
-      return SkyAgGridCellEditorTrigger.Delete;
-    } else if (params.charPress) {
-      return SkyAgGridCellEditorTrigger.Replace;
-    } else {
-      if (params.keyPress !== KeyCode.F2) {
-        return SkyAgGridCellEditorTrigger.Highlighted;
-      } else {
-        return SkyAgGridCellEditorTrigger.Untouched;
-      }
-    }
-  } else {
-    return SkyAgGridCellEditorTrigger.Untouched;
-  }
 }
 
 function getValidatorCellRendererSelector(component: string, fallback?: any) {

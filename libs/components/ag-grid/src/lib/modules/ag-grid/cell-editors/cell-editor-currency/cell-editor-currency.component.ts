@@ -9,9 +9,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
-import { getEditorInitializationTrigger } from '../../ag-grid.service';
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
-import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 
 /**
@@ -39,7 +39,7 @@ export class SkyAgGridCellEditorCurrencyComponent
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
 
-  #triggerType: SkyAgGridCellEditorTrigger;
+  #triggerType: SkyAgGridCellEditorInitialAction;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
@@ -68,17 +68,19 @@ export class SkyAgGridCellEditorCurrencyComponent
 
     // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
     // Since we don't want that, we set the initial value after autonumeric initializes.
-    this.#triggerType = getEditorInitializationTrigger(this.params);
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
+      this.params
+    );
     const control = this.editorForm.get('currency');
     switch (this.#triggerType) {
-      case SkyAgGridCellEditorTrigger.Delete:
+      case SkyAgGridCellEditorInitialAction.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridCellEditorTrigger.Replace:
+      case SkyAgGridCellEditorInitialAction.Replace:
         control.setValue(parseFloat(this.params.charPress) || undefined);
         break;
-      case SkyAgGridCellEditorTrigger.Highlighted:
-      case SkyAgGridCellEditorTrigger.Untouched:
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
       default:
         control.setValue(parseFloat(this.params.value));
         break;
@@ -87,7 +89,7 @@ export class SkyAgGridCellEditorCurrencyComponent
 
     // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
     setTimeout(() => {
-      if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
         this.input.nativeElement.select();
       }
     }, 100);

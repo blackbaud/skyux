@@ -9,9 +9,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { getEditorInitializationTrigger } from '../../ag-grid.service';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
 import { SkyCellEditorTextParams } from '../../types/cell-editor-text-params';
-import { SkyAgGridCellEditorTrigger } from '../../types/cell-editor-trigger';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 
 /**
  * @internal
@@ -40,7 +40,7 @@ export class SkyAgGridCellEditorTextComponent
   @ViewChild('skyCellEditorText', { read: ElementRef })
   private input: ElementRef;
 
-  #triggerType: SkyAgGridCellEditorTrigger;
+  #triggerType: SkyAgGridCellEditorInitialAction;
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -49,17 +49,17 @@ export class SkyAgGridCellEditorTextComponent
   public agInit(params: SkyCellEditorTextParams): void {
     this.params = params;
 
-    this.#triggerType = getEditorInitializationTrigger(params);
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('text');
     switch (this.#triggerType) {
-      case SkyAgGridCellEditorTrigger.Delete:
+      case SkyAgGridCellEditorInitialAction.Delete:
         control.setValue(undefined);
         break;
-      case SkyAgGridCellEditorTrigger.Replace:
+      case SkyAgGridCellEditorInitialAction.Replace:
         control.setValue(params.charPress);
         break;
-      case SkyAgGridCellEditorTrigger.Highlighted:
-      case SkyAgGridCellEditorTrigger.Untouched:
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
       default:
         control.setValue(params.value);
         break;
@@ -78,7 +78,7 @@ export class SkyAgGridCellEditorTextComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
-    if (this.#triggerType === SkyAgGridCellEditorTrigger.Highlighted) {
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
       this.input.nativeElement.select();
     }
   }
