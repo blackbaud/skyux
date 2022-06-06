@@ -14,4 +14,7 @@ export class InputBoxDemoComponent {
     SkyTheme.presets.modern,
     SkyThemeMode.presets.light
   );
+  public onActionClick(): void {
+    alert('Help inline button clicked!');
+  }
 }
