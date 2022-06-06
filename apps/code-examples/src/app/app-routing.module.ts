@@ -35,6 +35,13 @@ const routes: Routes = [
       import('./features/grids.module').then((m) => m.GridsFeatureModule),
   },
   {
+    path: 'indicators',
+    loadChildren: () =>
+      import('./features/indicators.module').then(
+        (m) => m.IndicatorsFeatureModule
+      ),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./features/layout.module').then((m) => m.LayoutModule),
