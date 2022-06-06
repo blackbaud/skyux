@@ -1,5 +1,15 @@
 # Changelog
 
+## [6.2.0](https://github.com/blackbaud/skyux/compare/6.1.0...6.2.0) (2022-06-06)
+
+### Features
+
+- **components/config:** add `csp` property to `SkyuxConfigHost` ([#273](https://github.com/blackbaud/skyux/issues/273)) ([c5b5ede](https://github.com/blackbaud/skyux/commit/c5b5edeffa53bbbd042b5d9c39173c4da2fa29a7))
+
+### Bug Fixes
+
+- **components/forms:** add radio button fixture to public API ([#275](https://github.com/blackbaud/skyux/issues/275)) ([6f3299c](https://github.com/blackbaud/skyux/commit/6f3299c8746903d3f9398bec8d59af07708542bd))
+
 ## [6.1.0](https://github.com/blackbaud/skyux/compare/6.0.2...6.1.0) (2022-05-23)
 
 ### Features
