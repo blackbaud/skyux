@@ -23,8 +23,8 @@ import { SkyInputBoxPopulateArgs } from './input-box-populate-args';
  * Creates a wrapper to provide styling for `input` and `label` elements. To render the
  * component correctly, include the `sky-form-control` CSS class on the `input` element
  * and the `sky-control-label` CSS class on the `label` element. To display a help button
- * beside the label, include a `sky-help-inline` element in the `sky-input-box` element and a
- * `sky-control-help` CSS class on the `sky-help-inline` element.
+ * beside the label, include a help button element in the `sky-input-box` element and a
+ * `sky-control-help` CSS class on the help button element, such as the `sky-help-inline` element.
  */
 @Component({
   selector: 'sky-input-box',
