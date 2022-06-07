@@ -15,28 +15,9 @@ describe('ng-add.schematic', () => {
 
   let tree: UnitTestTree;
 
-  let latestVersionCalls: { [_: string]: string };
-
   beforeEach(async () => {
     tree = await createTestLibrary(runner, {
       name: defaultProjectName,
-    });
-
-    latestVersionCalls = {};
-
-    jest.mock('latest-version', () => (packageName, args) => {
-      if (args.version === '0.0.0-PLACEHOLDER') {
-        args.version = '^5.0.0';
-      }
-
-      latestVersionCalls[packageName] = args.version;
-
-      // Test when layout is already on the latest version.
-      if (packageName === '@skyux/layout') {
-        return args.version.replace(/^(\^|~)/, '');
-      }
-
-      return 'LATEST';
     });
   });
 
@@ -45,34 +26,6 @@ describe('ng-add.schematic', () => {
   ): Promise<UnitTestTree> {
     return runner.runSchematicAsync('ng-add', options, tree).toPromise();
   }
-
-  it('should get latest versions of SKY UX packages', async () => {
-    // Add custom packages for the test.
-    let packageJson = JSON.parse(tree.readContent('package.json'));
-    packageJson.dependencies['@skyux/core'] = '^5.0.1';
-    packageJson.dependencies['@skyux/layout'] = '5.0.0'; // Test if package already on latest version.
-    packageJson.dependencies['@skyux/i18n'] = '4.2.1'; // <-- Version should be switched to what's in `packageGroup`.
-    tree.overwrite('package.json', JSON.stringify(packageJson));
-
-    const updatedTree = await runSchematic();
-
-    packageJson = JSON.parse(updatedTree.readContent('package.json'));
-
-    expect(packageJson.dependencies).toEqual(
-      expect.objectContaining({
-        '@skyux/layout': '5.0.0',
-        '@skyux/core': 'LATEST',
-        '@skyux/i18n': 'LATEST',
-      })
-    );
-
-    expect(latestVersionCalls).toEqual(
-      expect.objectContaining({
-        '@skyux/core': '^5.0.0',
-        '@skyux/i18n': '^5.0.0',
-      })
-    );
-  });
 
   it('should apply a fix for crossvent "global is not defined" error', async () => {
     const updatedTree = await runSchematic();
@@ -90,6 +43,23 @@ describe('ng-add.schematic', () => {
     const packageJson = JSON.parse(updatedTree.readContent('package.json'));
 
     expect(packageJson.dependencies['@angular/cdk']).toBeDefined();
+  });
+
+  it('should install essential SKY UX packages', async () => {
+    const updatedTree = await runSchematic();
+
+    const packageJson = JSON.parse(updatedTree.readContent('package.json'));
+
+    const packageNames = [
+      '@skyux/assets',
+      '@skyux/core',
+      '@skyux/i18n',
+      '@skyux/theme',
+    ];
+
+    for (const packageName of packageNames) {
+      expect(packageJson.dependencies[packageName]).toBeDefined();
+    }
   });
 
   it('should add SKY UX theme stylesheets', async () => {
