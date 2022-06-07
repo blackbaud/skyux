@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.2.1](https://github.com/blackbaud/skyux/compare/6.2.0...6.2.1) (2022-06-07)
+
+### Bug Fixes
+
+- **components/packages:** fix the `ng add` schematic to install essential SKY UX packages ([#279](https://github.com/blackbaud/skyux/issues/279)) ([3bf13ad](https://github.com/blackbaud/skyux/commit/3bf13ad57a2f63e386428298cde7cb61c3de1e8c))
+
 ## [6.2.0](https://github.com/blackbaud/skyux/compare/6.1.0...6.2.0) (2022-06-06)
 
 ### Features
