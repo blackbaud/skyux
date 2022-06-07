@@ -63,7 +63,7 @@ export class SkyModalService {
     const defaultParams: SkyModalConfigurationInterface = {
       providers: [],
       fullPage: false,
-      size: 'medium',
+      size: 'default',
       tiledBody: false,
     };
     let params: SkyModalConfigurationInterface = undefined;

@@ -18,6 +18,8 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
+import { takeWhile } from 'rxjs/operators';
+
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalHostService } from './modal-host.service';
@@ -202,6 +204,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     /* istanbul ignore next */
     if (this.mediaQueryService) {
       this.mediaQueryService.observe(this.modalContentWrapperElement);
+      this.mediaQueryService.subscriberCount
+        .pipe(takeWhile(() => this.config.size === 'default'))
+        .subscribe((count) => {
+          if (count > 0) {
+            this.config.size = 'large';
+          }
+        });
     }
   }
 

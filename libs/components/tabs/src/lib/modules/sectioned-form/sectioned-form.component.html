@@ -1,6 +1,9 @@
 <div
   aria-orientation="vertical"
   class="sky-sectioned-form"
+  [ngClass]="{
+    'small-container': (smallContainer | async)
+  }"
   [attr.role]="ariaRole"
   (window:resize)="tabService.updateContent()"
 >

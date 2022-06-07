@@ -17,7 +17,7 @@ import {
 } from '@skyux/modals';
 import { SkySectionedFormComponent } from '@skyux/tabs';
 
-type SizeOptions = 'small' | 'medium' | 'large';
+type SizeOptions = 'small' | 'medium' | 'large' | 'default';
 
 let identifier = 1;
 
@@ -34,7 +34,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public tabsHidden = false;
 
-  public sizes: SizeOptions[] = ['small', 'medium', 'large'];
+  public sizes: SizeOptions[] = ['small', 'medium', 'large', 'default'];
 
   public identifier: number;
 
@@ -76,10 +76,14 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    this.tabsHidden = !this.sectionedFormComponent.tabsVisible();
-    if (this.tabsHidden) {
-      this.changeDetectorRef.markForCheck();
-    }
+    this.sectionedFormComponent.tabService.hidingTabs.subscribe(
+      (tabsHidden) => {
+        if (this.tabsHidden !== tabsHidden) {
+          this.tabsHidden = tabsHidden;
+          this.changeDetectorRef.markForCheck();
+        }
+      }
+    );
   }
 
   public showTabs(): void {

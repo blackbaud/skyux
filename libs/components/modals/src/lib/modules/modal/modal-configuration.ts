@@ -17,6 +17,6 @@ export class SkyModalConfiguration {
   public wrapperClass?: string;
 
   constructor() {
-    this.size = 'medium';
+    this.size = 'default';
   }
 }

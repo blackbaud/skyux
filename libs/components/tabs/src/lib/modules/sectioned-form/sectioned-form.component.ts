@@ -13,7 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import {
@@ -71,6 +71,8 @@ export class SkySectionedFormComponent
   @ViewChild('skySectionSideContent')
   public content: ElementRef;
 
+  public readonly smallContainer = new BehaviorSubject(false);
+
   private isMobile = false;
   private _ngUnsubscribe = new Subject();
 
@@ -93,11 +95,13 @@ export class SkySectionedFormComponent
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
+        this.smallContainer.next(mobile);
         this.changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
       this.isMobile = true;
+      this.smallContainer.next(true);
       this.tabService.animationContentVisibleState = VISIBLE_STATE;
       this.changeRef.markForCheck();
     }

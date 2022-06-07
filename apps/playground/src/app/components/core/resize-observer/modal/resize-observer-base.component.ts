@@ -10,7 +10,9 @@ import { ResizeObserverModalComponent } from './resize-observer-modal.component'
 export class ResizeObserverBaseComponent {
   constructor(private modalService: SkyModalService) {}
 
-  public onOpenModalClick(size: 'small' | 'medium' | 'large'): void {
+  public onOpenModalClick(
+    size: 'small' | 'medium' | 'large' | 'default'
+  ): void {
     const modalInstanceType = ResizeObserverModalComponent;
     const options: SkyModalConfigurationInterface = {
       size,

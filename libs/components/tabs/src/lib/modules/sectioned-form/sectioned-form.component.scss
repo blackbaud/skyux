@@ -2,11 +2,9 @@
 @import 'libs/components/theme/src/lib/styles/mixins';
 @import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
-@include sky-host-responsive-container-xs-min() {
-  .sky-sectioned-form {
-    display: block;
-    max-height: none;
-  }
+.sky-sectioned-form.small-container {
+  display: block;
+  max-height: none;
 
   .sky-sectioned-form-content {
     flex-basis: auto;
@@ -20,11 +18,9 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
-  .sky-sectioned-form {
-    display: flex;
-    max-height: 100%;
-  }
+.sky-sectioned-form:not(.small-container) {
+  display: flex;
+  max-height: 100%;
 
   .sky-sectioned-form-content {
     flex-basis: 70%;

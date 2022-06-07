@@ -1,7 +1,13 @@
 import { ElementRef, Injectable, OnDestroy } from '@angular/core';
 
-import { ReplaySubject, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {
+  BehaviorSubject,
+  Observable,
+  ReplaySubject,
+  Subject,
+  Subscription,
+} from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import { SkyMediaBreakpoints } from '../media-query/media-breakpoints';
 import { SkyMediaQueryListener } from '../media-query/media-query-listener';
@@ -15,6 +21,11 @@ import { SkyResizeObserverService } from './resize-observer.service';
   providedIn: 'any',
 })
 export class SkyResizeObserverMediaQueryService implements OnDestroy {
+  /**
+   * Observable for the number of consumers for this service.
+   */
+  public subscriberCount: Observable<number>;
+
   /**
    * Returns the current breakpoint.
    */
@@ -54,11 +65,14 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
 
   #target: ElementRef;
 
+  #subscriberCount = new BehaviorSubject(0);
+
   constructor(private resizeObserverService: SkyResizeObserverService) {
     this.#stopListening.subscribe(() => {
       this.#target = undefined;
       this.updateBreakpoint(undefined);
     });
+    this.subscriberCount = this.#subscriberCount.asObservable();
   }
 
   public ngOnDestroy(): void {
@@ -66,6 +80,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     this._currentBreakpoint = undefined;
     this.#stopListening.complete();
     this.#currentBreakpointObservable.complete();
+    this.#subscriberCount.complete();
   }
 
   /**
@@ -116,8 +131,14 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    * Subscribes to element size changes that cross breakpoints.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
+    this.#subscriberCount.next(this.#subscriberCount.getValue() + 1);
     return this.#currentBreakpointObservable
-      .pipe(takeUntil(this.#stopListening))
+      .pipe(
+        takeUntil(this.#stopListening),
+        finalize(() => {
+          this.#subscriberCount.next(this.#subscriberCount.getValue() - 1);
+        })
+      )
       .subscribe((value) => {
         listener(value);
       });

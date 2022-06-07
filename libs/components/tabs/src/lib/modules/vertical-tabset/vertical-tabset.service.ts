@@ -29,7 +29,7 @@ export class SkyVerticalTabsetService {
 
   public maintainTabContent = false;
 
-  public showingTabs = new BehaviorSubject(false);
+  public showingTabs = new BehaviorSubject(true);
 
   public switchingMobile: Subject<boolean> = new Subject();
 
@@ -45,9 +45,19 @@ export class SkyVerticalTabsetService {
 
   private _tabsVisible = false;
 
-  private _isMobile = false;
+  private _isMobile: boolean | undefined = undefined;
 
   public constructor(private mediaQueryService: SkyMediaQueryService) {
+    this.hidingTabs.subscribe((value) => {
+      if (this.showingTabs.getValue() === value) {
+        this.showingTabs.next(!value);
+      }
+    });
+    this.showingTabs.subscribe((value) => {
+      if (this.hidingTabs.getValue() === value) {
+        this.hidingTabs.next(!value);
+      }
+    });
     this.mediaQueryService.subscribe((breakpoint) => {
       const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
 
