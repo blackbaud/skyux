@@ -15,6 +15,14 @@
 .sky-theme-modern {
   background-color: $sky-theme-modern-background-color-page-default;
 
+  a {
+    color: $sky-theme-modern-text-color-action-primary;
+
+    &:hover {
+      color: $sky-theme-modern-mode-cark-background-color-primary-dark;
+    }
+  }
+
   h1,
   .sky-font-heading-1 {
     font-family: $sky-font-family;
@@ -63,6 +71,14 @@
 
   &.sky-theme-mode-dark {
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+
+    a {
+      color: $sky-theme-modern-mode-dark-text-color-action-primary;
+
+      &:hover {
+        color: $sky-theme-modern-mode-cark-background-color-primary-dark;
+      }
+    }
 
     h1,
     h2,

@@ -47,6 +47,15 @@
     );
   }
 
+  .sky-btn-link-inline {
+    @include sky-theme-modern-button-variant(
+      $sky-theme-modern-text-color-action-primary,
+      transparent,
+      transparent,
+      $sky-theme-modern-background-color-primary-dark
+    );
+  }
+
   .sky-btn-borderless {
     @include sky-theme-modern-button-variant(
       $sky-theme-modern-font-deemphasized-color,
