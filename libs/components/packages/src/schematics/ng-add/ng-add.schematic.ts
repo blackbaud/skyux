@@ -39,7 +39,7 @@ export default function ngAdd(): Rule {
 
     // Get the currently installed version of SKY UX.
     const { version: skyuxVersion } = fs.readJsonSync(
-      path.resolve(__dirname, '../../../../../../package.json')
+      path.resolve(__dirname, '../../../package.json')
     );
 
     context.addTask(new NodePackageInstallTask());

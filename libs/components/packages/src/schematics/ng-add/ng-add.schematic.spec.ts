@@ -58,7 +58,9 @@ describe('ng-add.schematic', () => {
     ];
 
     for (const packageName of packageNames) {
-      expect(packageJson.dependencies[packageName]).toBeDefined();
+      expect(packageJson.dependencies[packageName]).toEqual(
+        '^0.0.0-PACKAGES_PLACEHOLDER'
+      );
     }
   });
 
