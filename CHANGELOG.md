@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.2.2](https://github.com/blackbaud/skyux/compare/6.2.1...6.2.2) (2022-06-07)
+
+### Bug Fixes
+
+- **components/packages:** fix ng add schematic to set correct versions of packages ([#280](https://github.com/blackbaud/skyux/issues/280)) ([7d57125](https://github.com/blackbaud/skyux/commit/7d5712581b0ab0e11522ce6cc7eab60e4391e773))
+
 ### [6.2.1](https://github.com/blackbaud/skyux/compare/6.2.0...6.2.1) (2022-06-07)
 
 ### Bug Fixes
