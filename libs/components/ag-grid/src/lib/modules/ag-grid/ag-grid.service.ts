@@ -218,7 +218,7 @@ export class SkyAgGridService implements OnDestroy {
 
   private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
-    const cellClassRuleTrueExpression = 'true';
+    const cellClassRuleTrueExpression = true;
 
     function getEditableFn(
       isUneditable?: boolean
