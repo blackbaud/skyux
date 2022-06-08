@@ -74,6 +74,11 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
   },
   {
+    path: 'theme',
+    loadChildren: () =>
+      import('./theme/theme.module').then((m) => m.ThemeModule),
+  },
+  {
     path: 'validation',
     loadChildren: () =>
       import('./validation/validation.module').then((m) => m.ValidationModule),

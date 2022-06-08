@@ -48,12 +48,20 @@
   }
 
   .sky-btn-link-inline {
-    @include sky-theme-modern-button-variant(
-      $sky-theme-modern-text-color-action-primary,
-      transparent,
-      transparent,
-      $sky-theme-modern-background-color-primary-dark
-    );
+    color: $sky-theme-modern-text-color-action-primary;
+
+    &:focus:not(:active) {
+      border-radius: 0;
+      @include sky-theme-modern-border-focus(
+        $sky-theme-modern-background-color-primary-dark,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
+    }
+
+    &:active {
+      color: darken($sky-theme-modern-text-color-action-primary, 10%);
+    }
   }
 
   .sky-btn-borderless {

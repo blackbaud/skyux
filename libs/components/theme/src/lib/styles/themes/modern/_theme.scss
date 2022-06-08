@@ -18,8 +18,17 @@
   a {
     color: $sky-theme-modern-text-color-action-primary;
 
-    &:hover {
-      color: $sky-theme-modern-mode-cark-background-color-primary-dark;
+    &:focus:not(:active) {
+      border-radius: 0;
+      @include sky-theme-modern-border-focus(
+        $sky-theme-modern-background-color-primary-dark,
+        $sky-theme-modern-elevation-3-shadow-size,
+        $sky-theme-modern-elevation-3-shadow-color
+      );
+    }
+
+    &:active {
+      color: darken($sky-theme-modern-text-color-action-primary, 10%);
     }
   }
 
@@ -76,7 +85,7 @@
       color: $sky-theme-modern-mode-dark-text-color-action-primary;
 
       &:hover {
-        color: $sky-theme-modern-mode-cark-background-color-primary-dark;
+        color: $sky-theme-modern-mode-dark-background-color-primary-dark;
       }
     }
 
