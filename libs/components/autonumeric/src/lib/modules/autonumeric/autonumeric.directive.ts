@@ -133,16 +133,16 @@ export class SkyAutonumericDirective
         this.isFirstChange = false;
         this.control!.markAsPristine();
       }
+    }
 
-      if (typeof value === 'number') {
-        if (this.skyAutonumericFormChangesUnformatted) {
-          this.autonumericInstance.setUnformatted(value);
-        } else {
-          this.autonumericInstance.set(value);
-        }
+    if (typeof value === 'number') {
+      if (this.skyAutonumericFormChangesUnformatted) {
+        this.autonumericInstance.setUnformatted(value);
       } else {
-        this.autonumericInstance.clear();
+        this.autonumericInstance.set(value);
       }
+    } else {
+      this.autonumericInstance.clear();
     }
   }
 
