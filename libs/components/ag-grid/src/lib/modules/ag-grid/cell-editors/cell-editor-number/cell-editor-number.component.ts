@@ -4,12 +4,14 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
 
-import { SkyCellEditorDatepickerParams } from '../../types/cell-editor-datepicker-params';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
 import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 
 /**
  * @internal
@@ -23,9 +25,11 @@ import { SkyCellEditorNumberParams } from '../../types/cell-editor-number-params
 export class SkyAgGridCellEditorNumberComponent
   implements ICellEditorAngularComp
 {
-  public value: number;
   public columnHeader: string;
   public columnWidth: number;
+  public editorForm = new FormGroup({
+    number: new FormControl(),
+  });
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
   public max: number;
@@ -36,13 +40,31 @@ export class SkyAgGridCellEditorNumberComponent
   @ViewChild('skyCellEditorNumber', { read: ElementRef })
   private input: ElementRef;
 
+  #triggerType: SkyAgGridCellEditorInitialAction;
+
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
    * @param params The cell editor params that include data about the cell, column, row, and grid.
    */
   public agInit(params: SkyCellEditorNumberParams): void {
     this.params = params;
-    this.value = this.params.value;
+
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
+    const control = this.editorForm.get('number');
+    switch (this.#triggerType) {
+      case SkyAgGridCellEditorInitialAction.Delete:
+        control.setValue(undefined);
+        break;
+      case SkyAgGridCellEditorInitialAction.Replace:
+        control.setValue(parseFloat(this.params.charPress) || undefined);
+        break;
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
+      default:
+        control.setValue(params.value);
+        break;
+    }
+
     this.max = params.skyComponentProperties?.max;
     this.min = params.skyComponentProperties?.min;
     this.columnHeader = this.params.colDef.headerName;
@@ -57,12 +79,16 @@ export class SkyAgGridCellEditorNumberComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
+    if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+      this.input.nativeElement.select();
+    }
   }
 
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): number {
-    return this.value;
+  public getValue(): number | undefined {
+    const val = this.editorForm.get('number').value;
+    return val !== undefined && val !== null ? val : undefined;
   }
 }

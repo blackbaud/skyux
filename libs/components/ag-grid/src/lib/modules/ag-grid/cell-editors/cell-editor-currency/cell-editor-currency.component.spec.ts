@@ -1,11 +1,17 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { Column, GridApi, ICellEditorParams } from 'ag-grid-community';
+import { Column, GridApi, KeyCode, RowNode } from 'ag-grid-community';
 
 import { SkyAgGridFixtureComponent } from '../../fixtures/ag-grid.component.fixture';
 import { SkyAgGridFixtureModule } from '../../fixtures/ag-grid.module.fixture';
 import { SkyCellClass } from '../../types/cell-class';
+import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
 
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 
@@ -45,10 +51,22 @@ describe('SkyCellEditorCurrencyComponent', () => {
   });
 
   describe('agInit', () => {
-    it('initializes the SkyuxNumericCellEditorComponent properties', () => {
-      const value = 15;
-      const columnWidth = 100;
-      const column = new Column(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const api: GridApi = {
+      stopEditing: () => {},
+      setFocusedCell: () => {},
+    };
+
+    let cellEditorParams: SkyCellEditorCurrencyParams;
+    let column: Column;
+    const columnWidth = 200;
+    const rowNode = new RowNode();
+    rowNode.rowHeight = 37;
+    const value = 15;
+
+    beforeEach(() => {
+      column = new Column(
         {
           colId: 'col',
         },
@@ -59,24 +77,18 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       column.setActualWidth(columnWidth);
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const api: GridApi = {
-        stopEditing: () => {},
-        setFocusedCell: () => {},
-      };
-      const cellEditorParams: ICellEditorParams = {
-        value,
-        colDef: { headerName: 'Test currency cell' },
-        rowIndex: 1,
+      cellEditorParams = {
+        value: value,
         column,
-        node: undefined,
+        node: rowNode,
         keyPress: undefined,
         charPress: undefined,
+        colDef: {},
         columnApi: undefined,
         data: undefined,
-        api,
-        cellStartedEdit: undefined,
+        rowIndex: undefined,
+        api: api,
+        cellStartedEdit: true,
         onKeyDown: undefined,
         context: undefined,
         $scope: undefined,
@@ -85,14 +97,10 @@ describe('SkyCellEditorCurrencyComponent', () => {
         parseValue: undefined,
         formatValue: undefined,
       };
+    });
 
-      expect(currencyEditorComponent.value).toBeUndefined();
+    it('initializes the SkyAgGridCellEditorCurrencyComponent properties', () => {
       expect(currencyEditorComponent.columnWidth).toBeUndefined();
-
-      currencyEditorComponent.agInit(cellEditorParams);
-
-      expect(currencyEditorComponent.value).toEqual(value);
-      expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
 
       // @ts-ignore
       cellEditorParams.node = {
@@ -101,6 +109,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
       currencyEditorComponent.agInit(cellEditorParams);
 
+      expect(currencyEditorComponent.columnWidth).toEqual(columnWidth);
       expect(currencyEditorComponent.rowHeightWithoutBorders).toEqual(96);
 
       const stopEditingSpy = spyOn(api, 'stopEditing');
@@ -114,7 +123,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
   describe('getValue', () => {
     it('returns the value if it is set', () => {
       const value = 7;
-      currencyEditorComponent.value = value;
+      currencyEditorComponent.editorForm.get('currency').setValue(value);
 
       currencyEditorFixture.detectChanges();
 
@@ -123,7 +132,7 @@ describe('SkyCellEditorCurrencyComponent', () => {
 
     it('returns the value if it is 0', () => {
       const value = 0;
-      currencyEditorComponent.value = value;
+      currencyEditorComponent.editorForm.get('currency').setValue(value);
 
       currencyEditorFixture.detectChanges();
 
@@ -131,7 +140,333 @@ describe('SkyCellEditorCurrencyComponent', () => {
     });
 
     describe('afterGuiAttached', () => {
+      let cellEditorParams: SkyCellEditorCurrencyParams;
+      let column: Column;
+      const columnWidth = 200;
+      const rowNode = new RowNode();
+      rowNode.rowHeight = 37;
+      const value = 15;
+
+      beforeEach(() => {
+        column = new Column(
+          {
+            colId: 'col',
+          },
+          undefined,
+          'col',
+          true
+        );
+
+        column.setActualWidth(columnWidth);
+
+        cellEditorParams = {
+          value: value,
+          column,
+          node: rowNode,
+          keyPress: undefined,
+          charPress: undefined,
+          colDef: {},
+          columnApi: undefined,
+          data: undefined,
+          rowIndex: undefined,
+          api: undefined,
+          cellStartedEdit: true,
+          onKeyDown: undefined,
+          context: undefined,
+          $scope: undefined,
+          stopEditing: undefined,
+          eGridCell: undefined,
+          parseValue: undefined,
+          formatValue: undefined,
+        };
+      });
+
+      it('sets the form control value correctly', () => {
+        expect(
+          currencyEditorComponent.editorForm.get('currency').value
+        ).toBeNull();
+
+        currencyEditorComponent.agInit(cellEditorParams);
+        currencyEditorFixture.detectChanges();
+        currencyEditorComponent.afterGuiAttached();
+
+        expect(
+          currencyEditorComponent.editorForm.get('currency').value
+        ).toEqual(value);
+      });
+
+      describe('cellStartedEdit is true', () => {
+        it('initializes with a cleared value unselected when Backspace triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.BACKSPACE,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeUndefined();
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with a cleared value unselected when Delete triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.DELETE,
+          });
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeUndefined();
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when F2 triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.F2,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value selected when Enter triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.ENTER,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).toHaveBeenCalled();
+        }));
+
+        it('initializes with the character pressed unselected when a standard keyboard event triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: '4',
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            4
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with undefined when a non-numeric keyboard event triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: 'a',
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeUndefined();
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+      });
+
+      describe('cellStartedEdit is false', () => {
+        beforeEach(() => {
+          cellEditorParams.cellStartedEdit = false;
+        });
+
+        it('initializes with the current value unselected when Backspace triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.BACKSPACE,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when Delete triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.DELETE,
+          });
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when F2 triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.F2,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when Enter triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            keyPress: KeyCode.ENTER,
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when a standard keyboard event triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: '4',
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+
+        it('initializes with the current value unselected when a non-numeric keyboard event triggers the edit', fakeAsync(() => {
+          expect(
+            currencyEditorComponent.editorForm.get('currency').value
+          ).toBeNull();
+
+          currencyEditorComponent.agInit({
+            ...cellEditorParams,
+            charPress: 'a',
+          });
+          currencyEditorFixture.detectChanges();
+          const input = currencyEditorNativeElement.querySelector('input');
+          const selectSpy = spyOn(input, 'select');
+          currencyEditorComponent.afterGuiAttached();
+          tick(100);
+          currencyEditorFixture.detectChanges();
+
+          expect(currencyEditorComponent.editorForm.get('currency').value).toBe(
+            value
+          );
+          expect(selectSpy).not.toHaveBeenCalled();
+        }));
+      });
+
       it('focuses on the input after it attaches to the DOM', () => {
+        currencyEditorComponent.agInit(cellEditorParams);
         currencyEditorFixture.detectChanges();
 
         const input = currencyEditorNativeElement.querySelector('input');

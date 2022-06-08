@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SkyDatepickerModule } from '@skyux/datetime';
 
 import { SkyAgGridCellEditorDatepickerComponent } from '../cell-editor-datepicker/cell-editor-datepicker.component';
 
 @NgModule({
-  imports: [SkyDatepickerModule, FormsModule],
+  imports: [SkyDatepickerModule, ReactiveFormsModule],
   declarations: [SkyAgGridCellEditorDatepickerComponent],
   exports: [SkyAgGridCellEditorDatepickerComponent],
 })

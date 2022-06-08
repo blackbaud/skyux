@@ -28,6 +28,7 @@ import { SkyAgGridCellRendererLookupComponent } from './cell-renderers/cell-rend
 import { SkyAgGridCellRendererRowSelectorComponent } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.component';
 import { SkyAgGridCellRendererValidatorTooltipComponent } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.component';
 import { SkyCellClass } from './types/cell-class';
+import { SkyAgGridCellEditorInitialAction } from './types/cell-editor-initial-action';
 import { SkyCellType } from './types/cell-type';
 import { SkyHeaderClass } from './types/header-class';
 import { SkyGetGridOptionsArgs } from './types/sky-grid-options';
