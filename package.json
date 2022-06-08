@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "6.1.0",
+  "version": "6.2.3",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -107,7 +107,6 @@
     "intl-tel-input": "17.0.16",
     "jsonc-parser": "3.0.0",
     "jwt-decode": "3.1.2",
-    "latest-version": "5.1.0",
     "moment": "2.29.3",
     "ng2-dragula": "2.1.1",
     "normalize-scss": "7.0.1",
