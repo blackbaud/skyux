@@ -57,6 +57,12 @@ export class SkyAutonumericDirective
     this.updateAutonumericInstance();
   }
 
+  /**
+   * @internal
+   */
+  @Input()
+  public skyAutonumericFormChangesUnformatted = false;
+
   private autonumericInstance: AutoNumeric;
   private autonumericOptions: SkyAutonumericOptions | undefined;
   private control: AbstractControl | undefined;
@@ -128,7 +134,11 @@ export class SkyAutonumericDirective
     }
 
     if (typeof value === 'number') {
-      this.autonumericInstance.set(value);
+      if (this.skyAutonumericFormChangesUnformatted) {
+        this.autonumericInstance.setUnformatted(value);
+      } else {
+        this.autonumericInstance.set(value);
+      }
     } else {
       this.autonumericInstance.clear();
     }
@@ -215,7 +225,9 @@ export class SkyAutonumericDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onChange = (_: number | undefined) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onTouched = () => {};
 }

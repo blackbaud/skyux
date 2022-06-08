@@ -5,6 +5,8 @@ export * from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
 export * from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export * from './lib/modules/ag-grid/types/autocomplete-properties';
 export * from './lib/modules/ag-grid/types/cell-class';
+export * from './lib/modules/ag-grid/types/cell-editor-initial-action';
+export * from './lib/modules/ag-grid/types/cell-editor-utils';
 export * from './lib/modules/ag-grid/types/cell-type';
 export * from './lib/modules/ag-grid/types/currency-properties';
 export * from './lib/modules/ag-grid/types/datepicker-properties';

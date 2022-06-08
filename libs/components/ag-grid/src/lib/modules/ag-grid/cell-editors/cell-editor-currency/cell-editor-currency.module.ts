@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SkyAutonumericModule } from '@skyux/autonumeric';
 
 import { SkyAgGridResourcesModule } from '../../../shared/sky-ag-grid-resources.module';
@@ -7,7 +7,11 @@ import { SkyAgGridResourcesModule } from '../../../shared/sky-ag-grid-resources.
 import { SkyAgGridCellEditorCurrencyComponent } from './cell-editor-currency.component';
 
 @NgModule({
-  imports: [SkyAgGridResourcesModule, FormsModule, SkyAutonumericModule],
+  imports: [
+    SkyAgGridResourcesModule,
+    ReactiveFormsModule,
+    SkyAutonumericModule,
+  ],
   declarations: [SkyAgGridCellEditorCurrencyComponent],
   exports: [SkyAgGridCellEditorCurrencyComponent],
 })
