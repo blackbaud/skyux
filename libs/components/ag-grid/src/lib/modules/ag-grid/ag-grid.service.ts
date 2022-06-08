@@ -10,7 +10,6 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import { ICellEditorParams, KeyCode } from 'ag-grid-community';
 import { EditableCallbackParams } from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
