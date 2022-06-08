@@ -268,7 +268,7 @@ export class SkyAgGridService implements OnDestroy {
       columnTypes: {
         [SkyCellType.Autocomplete]: {
           cellClassRules: {
-            [SkyCellClass.Autocomplete]: cellClassRuleTrueExpression,
+            [SkyCellClass.Autocomplete]: () => cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
           cellEditor: SkyAgGridCellEditorAutocompleteComponent,
@@ -278,7 +278,7 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.Currency]: {
           cellClassRules: {
-            [SkyCellClass.Currency]: cellClassRuleTrueExpression,
+            [SkyCellClass.Currency]: () => cellClassRuleTrueExpression,
             ...validatorCellClassRules,
             ...editableCellClassRules,
           },
@@ -292,7 +292,7 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.Date]: {
           cellClassRules: {
-            [SkyCellClass.Date]: cellClassRuleTrueExpression,
+            [SkyCellClass.Date]: () => cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
@@ -303,7 +303,7 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.Lookup]: {
           cellClassRules: {
-            [SkyCellClass.Lookup]: cellClassRuleTrueExpression,
+            [SkyCellClass.Lookup]: () => cellClassRuleTrueExpression,
             ...editableCellClassRules,
           },
           cellEditor: SkyAgGridCellEditorLookupComponent,
@@ -321,7 +321,7 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.Number]: {
           cellClassRules: {
-            [SkyCellClass.Number]: cellClassRuleTrueExpression,
+            [SkyCellClass.Number]: () => cellClassRuleTrueExpression,
             ...validatorCellClassRules,
             ...editableCellClassRules,
           },
@@ -333,8 +333,8 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.RowSelector]: {
           cellClassRules: {
-            [SkyCellClass.RowSelector]: cellClassRuleTrueExpression,
-            [SkyCellClass.Uneditable]: cellClassRuleTrueExpression,
+            [SkyCellClass.RowSelector]: () => cellClassRuleTrueExpression,
+            [SkyCellClass.Uneditable]: () => cellClassRuleTrueExpression,
           },
           cellRenderer: SkyAgGridCellRendererRowSelectorComponent,
           headerName: '',
@@ -345,7 +345,7 @@ export class SkyAgGridService implements OnDestroy {
         },
         [SkyCellType.Text]: {
           cellClassRules: {
-            [SkyCellClass.Text]: cellClassRuleTrueExpression,
+            [SkyCellClass.Text]: () => cellClassRuleTrueExpression,
             ...validatorCellClassRules,
             ...editableCellClassRules,
           },
