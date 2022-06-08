@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.2.3](https://github.com/blackbaud/skyux/compare/6.2.2...6.2.3) (2022-06-08)
+
+### Bug Fixes
+
+- **components/ag-grid:** use functions instead of expressions ([#281](https://github.com/blackbaud/skyux/issues/281)) ([c39dd21](https://github.com/blackbaud/skyux/commit/c39dd21389257d2be7b127f66c6eb704e94a3ca7))
+
 ### [6.2.2](https://github.com/blackbaud/skyux/compare/6.2.1...6.2.2) (2022-06-07)
 
 ### Bug Fixes
