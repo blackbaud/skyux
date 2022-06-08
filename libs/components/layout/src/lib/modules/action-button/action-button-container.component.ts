@@ -65,6 +65,8 @@ export class SkyActionButtonContainerComponent
 
   private ngUnsubscribe = new Subject<void>();
 
+  private syncMaxHeightTimeout?: number;
+
   private set themeName(value: string) {
     this._themeName = value;
     this.updateResponsiveClass();
@@ -163,12 +165,13 @@ export class SkyActionButtonContainerComponent
     );
     if (this._themeName === 'modern') {
       // Wait for children components to complete rendering before height is determined.
-      setTimeout(() => {
+      clearTimeout(this.syncMaxHeightTimeout);
+      this.syncMaxHeightTimeout = setTimeout(() => {
         this.coreAdapterService.syncMaxHeight(
           this.containerRef,
           '.sky-action-button'
         );
-      });
+      }) as unknown as number;
     }
   }
 

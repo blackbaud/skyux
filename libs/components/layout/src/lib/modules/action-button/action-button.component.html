@@ -1,43 +1,62 @@
-<a
-  *ngIf="permalink && permalink.route"
-  class="sky-action-button sky-btn-default sky-rounded-corners"
-  tabindex="0"
-  [fragment]="permalink.route?.extras?.fragment"
-  [skyThemeClass]="{
-    'sky-btn sky-box': 'modern'
-  }"
-  [queryParams]="permalink.route?.extras?.queryParams"
-  [queryParamsHandling]="permalink.route?.extras?.queryParamsHandling"
-  [routerLink]="permalink.route?.commands"
->
-  <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
-</a>
+<ng-container [ngSwitch]="true">
+  <a
+    *ngSwitchCase="permalink?.route"
+    class="sky-action-button sky-btn-default sky-rounded-corners"
+    tabindex="0"
+    [fragment]="permalink.route?.extras?.fragment"
+    [skyThemeClass]="{
+      'sky-btn sky-box': 'modern'
+    }"
+    [queryParams]="permalink.route?.extras?.queryParams"
+    [queryParamsHandling]="permalink.route?.extras?.queryParamsHandling"
+    [routerLink]="permalink.route?.commands"
+  >
+    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+  </a>
 
-<a
-  *ngIf="permalink && !permalink.route"
-  class="sky-action-button sky-btn-default sky-rounded-corners"
-  tabindex="0"
-  [skyHref]="permalink.url"
-  [skyThemeClass]="{
-    'sky-btn sky-box': 'modern'
-  }"
->
-  <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
-</a>
+  <a
+    *ngSwitchCase="
+      !permalink?.route && permalink?.url && !permalink?.url?.includes('://')
+    "
+    class="sky-action-button sky-btn-default sky-rounded-corners"
+    tabindex="0"
+    [href]="permalink.url"
+    [skyThemeClass]="{
+      'sky-btn sky-box': 'modern'
+    }"
+  >
+    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+  </a>
 
-<div
-  *ngIf="!permalink"
-  class="sky-action-button sky-btn-default sky-rounded-corners"
-  tabindex="0"
-  role="button"
-  [skyThemeClass]="{
-    'sky-btn sky-box': 'modern'
-  }"
-  (click)="buttonClicked()"
-  (keydown.enter)="enterPress()"
->
-  <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
-</div>
+  <a
+    *ngSwitchCase="
+      !permalink?.route && permalink?.url && permalink?.url?.includes('://')
+    "
+    class="sky-action-button sky-btn-default sky-rounded-corners"
+    tabindex="0"
+    [skyHref]="permalink.url"
+    (skyHrefChange)="onSkyHrefDisplayChange($event)"
+    [skyThemeClass]="{
+      'sky-btn sky-box': 'modern'
+    }"
+  >
+    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+  </a>
+
+  <div
+    *ngSwitchDefault
+    class="sky-action-button sky-btn-default sky-rounded-corners"
+    tabindex="0"
+    role="button"
+    [skyThemeClass]="{
+      'sky-btn sky-box': 'modern'
+    }"
+    (click)="buttonClicked()"
+    (keydown.enter)="enterPress()"
+  >
+    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+  </div>
+</ng-container>
 
 <ng-template #actionButtonContent>
   <ng-container *skyThemeIf="'default'">
