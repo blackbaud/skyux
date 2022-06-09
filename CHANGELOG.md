@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.11.0](https://github.com/blackbaud/skyux/compare/5.10.0...5.11.0) (2022-06-09)
+
+### Features
+
+- **components/ag-grid:** editors follow AG Grid keyboard editing standards ([#274](https://github.com/blackbaud/skyux/issues/274)) ([c785479](https://github.com/blackbaud/skyux/commit/c7854794b3bb0a52a5dd87de28d8470e95d05d39))
+
+### Bug Fixes
+
+- **components/ag-grid:** use functions instead of expressions ([ab89456](https://github.com/blackbaud/skyux/commit/ab8945624958b57ae185280a1308faf8c923f870))
+
 ## [5.10.0](https://github.com/blackbaud/skyux/compare/5.9.7...5.10.0) (2022-05-23)
 
 ### Features
