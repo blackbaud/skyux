@@ -1,5 +1,11 @@
 # Changelog
 
+## [6.3.0](https://github.com/blackbaud/skyux/compare/6.2.3...6.3.0) (2022-06-09)
+
+### Features
+
+- **components/ag-grid:** editors follow AG Grid keyboard editing standards ([#274](https://github.com/blackbaud/skyux/issues/274)) ([#284](https://github.com/blackbaud/skyux/issues/284)) ([230aab6](https://github.com/blackbaud/skyux/commit/230aab603904f9c89b7ac85f5c5ff0f72554d05c))
+
 ### [6.2.3](https://github.com/blackbaud/skyux/compare/6.2.2...6.2.3) (2022-06-08)
 
 ### Bug Fixes
