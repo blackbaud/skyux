@@ -1,5 +1,7 @@
 # Changelog
 
+### [5.11.1](https://github.com/blackbaud/skyux/compare/5.11.0...5.11.1) (2022-06-09)
+
 ## [5.11.0](https://github.com/blackbaud/skyux/compare/5.10.0...5.11.0) (2022-06-09)
 
 ### Features
