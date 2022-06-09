@@ -1,13 +1,17 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
 import { SkyCellEditorCurrencyParams } from '../../types/cell-editor-currency-params';
+import { SkyAgGridCellEditorInitialAction } from '../../types/cell-editor-initial-action';
+import { SkyAgGridCellEditorUtils } from '../../types/cell-editor-utils';
 import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 
 /**
@@ -22,17 +26,22 @@ import { SkyAgGridCurrencyProperties } from '../../types/currency-properties';
 export class SkyAgGridCellEditorCurrencyComponent
   implements ICellEditorAngularComp
 {
-  public value: number;
   public skyComponentProperties: SkyAgGridCurrencyProperties = {};
   public columnHeader: string;
   public columnWidth: number;
+  public editorForm = new FormGroup({
+    currency: new FormControl(),
+  });
+  public params: SkyCellEditorCurrencyParams;
   public rowHeightWithoutBorders: number;
   public rowNumber: number;
 
-  private params: SkyCellEditorCurrencyParams;
-
   @ViewChild('skyCellEditorCurrency', { read: ElementRef })
   private input: ElementRef;
+
+  #triggerType: SkyAgGridCellEditorInitialAction;
+
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   /**
    * agInit is called by agGrid once after the editor is created and provides the editor with the information it needs.
@@ -40,7 +49,6 @@ export class SkyAgGridCellEditorCurrencyComponent
    */
   public agInit(params: SkyCellEditorCurrencyParams): void {
     this.params = params;
-    this.value = this.params.value;
     this.columnHeader = this.params.colDef.headerName;
     this.rowNumber = this.params.rowIndex + 1;
     this.columnWidth = this.params.column.getActualWidth();
@@ -57,13 +65,42 @@ export class SkyAgGridCellEditorCurrencyComponent
    */
   public afterGuiAttached(): void {
     this.input.nativeElement.focus();
+
+    // This setup is in `afterGuiAttached` due to the lifecycle of autonumeric which will highlight the initial value if it is in place when it renders.
+    // Since we don't want that, we set the initial value after autonumeric initializes.
+    this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(
+      this.params
+    );
+    const control = this.editorForm.get('currency');
+    switch (this.#triggerType) {
+      case SkyAgGridCellEditorInitialAction.Delete:
+        control.setValue(undefined);
+        break;
+      case SkyAgGridCellEditorInitialAction.Replace:
+        control.setValue(parseFloat(this.params.charPress) || undefined);
+        break;
+      case SkyAgGridCellEditorInitialAction.Highlighted:
+      case SkyAgGridCellEditorInitialAction.Untouched:
+      default:
+        control.setValue(parseFloat(this.params.value));
+        break;
+    }
+    this.changeDetector.markForCheck();
+
+    // Without the `setTimeout` there is inconsistent behavior with the highlighting when no initial value is present.
+    setTimeout(() => {
+      if (this.#triggerType === SkyAgGridCellEditorInitialAction.Highlighted) {
+        this.input.nativeElement.select();
+      }
+    }, 100);
   }
 
   /**
    * getValue is called by agGrid when editing is stopped to get the new value of the cell.
    */
-  public getValue(): number {
-    return this.value;
+  public getValue(): number | undefined {
+    const val = this.editorForm.get('currency').value;
+    return val !== undefined && val !== null ? val : undefined;
   }
 
   /**

@@ -7,6 +7,7 @@
     name="donationAmount"
     type="text"
     [skyAutonumeric]="autonumericOptions"
+    [skyAutonumericFormChangesUnformatted]="setUnformatted"
   />
 </form>
 
@@ -19,6 +20,7 @@
     type="text"
     [required]="required ? 'required' : null"
     [skyAutonumeric]="autonumericOptions"
+    [skyAutonumericFormChangesUnformatted]="setUnformatted"
     [(ngModel)]="templateDrivenModel.donationAmount"
     #donationAmountTemplateDriven="ngModel"
   />

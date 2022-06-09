@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   ViewChild,
@@ -41,7 +42,12 @@ export class AutonumericFixtureComponent implements OnInit {
 
   public required = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  public setUnformatted = false;
+
+  constructor(
+    public changeDetector: ChangeDetectorRef,
+    private formBuilder: FormBuilder
+  ) {}
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
