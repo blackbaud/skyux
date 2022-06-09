@@ -1,6 +1,6 @@
 <ng-container [ngSwitch]="true">
   <a
-    *ngSwitchCase="permalink?.route"
+    *ngSwitchCase="!!permalink?.route?.commands"
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
     [fragment]="permalink.route?.extras?.fragment"
@@ -11,12 +11,15 @@
     [queryParamsHandling]="permalink.route?.extras?.queryParamsHandling"
     [routerLink]="permalink.route?.commands"
   >
-    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+    <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
   </a>
 
   <a
     *ngSwitchCase="
-      !permalink?.route && permalink?.url && !permalink?.url?.includes('://')
+      !permalink?.route &&
+      permalink?.url &&
+      (!permalink?.url?.includes('://') ||
+        permalink?.url?.startsWith('https://'))
     "
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
@@ -25,12 +28,15 @@
       'sky-btn sky-box': 'modern'
     }"
   >
-    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+    <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
   </a>
 
   <a
     *ngSwitchCase="
-      !permalink?.route && permalink?.url && permalink?.url?.includes('://')
+      !permalink?.route &&
+      permalink?.url &&
+      permalink?.url?.includes('://') &&
+      !permalink?.url?.startsWith('https://')
     "
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
@@ -40,7 +46,7 @@
       'sky-btn sky-box': 'modern'
     }"
   >
-    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+    <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
   </a>
 
   <div
@@ -54,7 +60,7 @@
     (click)="buttonClicked()"
     (keydown.enter)="enterPress()"
   >
-    <ng-container *ngTemplateOutlet="actionButtonContent"> </ng-container>
+    <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
   </div>
 </ng-container>
 

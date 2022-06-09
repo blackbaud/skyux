@@ -29,6 +29,14 @@ export class ActionButtonComponent {
       header: 'Autocomplete',
       details:
         'The autocomplete component creates a text input that filters data based on user entries.',
+      permalink: {
+        route: {
+          commands: ['search'],
+          extras: {
+            fragment: 'search',
+          },
+        },
+      },
     },
     {
       iconType: 'calculator',
