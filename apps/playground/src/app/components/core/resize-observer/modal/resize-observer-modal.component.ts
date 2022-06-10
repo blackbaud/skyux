@@ -7,6 +7,7 @@ import {
   Inject,
   Injector,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
@@ -20,6 +21,8 @@ import { SkySectionedFormComponent } from '@skyux/tabs';
 type SizeOptions = 'small' | 'medium' | 'large' | 'default';
 
 let identifier = 1;
+
+type VariationType = 'responsive' | 'plain';
 
 @Component({
   selector: 'app-resize-observer-modal',
@@ -43,7 +46,8 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private mediaQueryService: SkyMediaQueryService,
     private modalService: SkyModalService,
-    @Inject('size') public size: string
+    @Inject('size') public size: string,
+    @Inject('variation') public variation: VariationType
   ) {
     this.identifier = identifier++;
   }
@@ -90,7 +94,10 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
     this.sectionedFormComponent.showTabs();
   }
 
-  public openAnotherModal(size: SizeOptions): void {
+  public openAnotherModal(
+    size: SizeOptions,
+    variation: VariationType = 'responsive'
+  ): void {
     const modalInstanceType = ResizeObserverModalComponent;
     const options: SkyModalConfigurationInterface = {
       size,
@@ -98,6 +105,10 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
         {
           provide: 'size',
           useValue: size,
+        },
+        {
+          provide: 'variation',
+          useValue: variation,
         },
       ],
     };

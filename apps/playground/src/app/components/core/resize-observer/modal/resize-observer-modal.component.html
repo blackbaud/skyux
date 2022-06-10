@@ -1,8 +1,8 @@
 <sky-modal>
   <sky-modal-header>
-    Modal title | <strong>Breakpoint:</strong> {{ breakpoint }}
+    {{ size | titlecase }} Modal | <strong>Breakpoint:</strong> {{ breakpoint }}
   </sky-modal-header>
-  <sky-modal-content>
+  <sky-modal-content *ngIf="variation === 'responsive'">
     <sky-sectioned-form>
       <sky-sectioned-form-section heading="Seed of Intelligence">
         Brain is the seed of intelligence vastness is bearable only through love
@@ -62,6 +62,16 @@
       </sky-sectioned-form-section>
     </sky-sectioned-form>
   </sky-modal-content>
+  <sky-modal-content *ngIf="variation === 'plain'">
+    Brain is the seed of intelligence vastness is bearable only through love not
+    a sunrise but a galaxyrise concept of the number one explorations globular
+    star cluster. Bits of moving fluff finite but unbounded laws of physics the
+    carbon in our apple pies corpus callosum two ghostly white figures in
+    coveralls and helmets are softly dancing. Emerged into consciousness a still
+    more glorious dawn awaits courage of our questions something incredible is
+    waiting to be known extraordinary claims require extraordinary evidence a
+    very small stage in a vast cosmic arena.
+  </sky-modal-content>
   <sky-modal-footer>
     <button
       *ngIf="tabsHidden"
@@ -89,9 +99,18 @@
       <button
         class="sky-btn sky-btn-default"
         type="button"
-        (click)="openAnotherModal(sizeOption)"
+        (click)="openAnotherModal(sizeOption, 'responsive')"
       >
-        Open {{ sizeOption }}
+        Open {{ sizeOption }} responsive
+      </button>
+    </ng-container>
+    <ng-container *ngFor="let sizeOption of sizes">
+      <button
+        class="sky-btn sky-btn-default"
+        type="button"
+        (click)="openAnotherModal(sizeOption, 'plain')"
+      >
+        Open {{ sizeOption }} plain
       </button>
     </ng-container>
   </sky-modal-footer>

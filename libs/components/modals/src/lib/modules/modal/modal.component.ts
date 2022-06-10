@@ -207,7 +207,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       this.mediaQueryService.subscriberCount
         .pipe(takeWhile(() => this.config.size === 'default'))
         .subscribe((count) => {
-          if (count > 0) {
+          if (count > 1) {
             this.config.size = 'large';
           }
         });
