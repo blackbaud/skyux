@@ -8,6 +8,7 @@ import {
   SkipSelf,
   ViewEncapsulation,
 } from '@angular/core';
+import { SkyHrefChange } from '@skyux/router';
 
 import { SkyActionButtonPermalink } from './action-button-permalink';
 
@@ -46,10 +47,10 @@ export class SkyActionButtonComponent {
     this.actionClick.emit();
   }
 
-  public onSkyHrefDisplayChange($event: boolean) {
-    if (this.hidden === $event) {
+  public onSkyHrefDisplayChange($event: SkyHrefChange) {
+    if (this.hidden === $event.userHasAccess) {
       setTimeout(() => {
-        this.hidden = !$event;
+        this.hidden = !$event.userHasAccess;
         this.changeRef.markForCheck();
       });
     }

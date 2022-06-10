@@ -6,7 +6,6 @@ import {
   ElementRef,
   HostListener,
   Input,
-  NgZone,
   OnDestroy,
   OnInit,
   Optional,
@@ -14,7 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MutationObserverService, SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
@@ -61,8 +60,6 @@ export class SkyActionButtonContainerComponent
   })
   private containerRef: ElementRef<any>;
 
-  private mutationObserver: MutationObserver;
-
   private ngUnsubscribe = new Subject<void>();
 
   private syncMaxHeightTimeout?: number;
@@ -82,8 +79,6 @@ export class SkyActionButtonContainerComponent
     private changeRef: ChangeDetectorRef,
     private coreAdapterService: SkyCoreAdapterService,
     private hostElRef: ElementRef,
-    private mutationObserverSvc: MutationObserverService,
-    private ngZone: NgZone,
     @Optional() private themeSvc?: SkyThemeService
   ) {}
 
@@ -114,48 +109,20 @@ export class SkyActionButtonContainerComponent
           this.updateHeight();
         });
     }
-
-    this.initMutationObserver();
   }
 
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
+  }
 
-    this.destroyMutationObserver();
+  public onContentChange() {
+    this.updateHeight();
   }
 
   @HostListener('window:resize')
   public onWindowResize(): void {
     this.updateResponsiveClass();
-  }
-
-  private initMutationObserver(): void {
-    /* istanbul ignore else */
-    if (!this.mutationObserver) {
-      const el = this.containerRef.nativeElement;
-
-      // MutationObserver is patched by Zone.js and therefore becomes part of the
-      // Angular change detection cycle, but this can lead to infinite loops in some
-      // scenarios. This will keep MutationObserver from triggering change detection.
-      this.ngZone.runOutsideAngular(() => {
-        this.mutationObserver = this.mutationObserverSvc.create(() => {
-          this.updateHeight();
-        });
-
-        this.mutationObserver.observe(el, {
-          characterData: true,
-          subtree: true,
-        });
-      });
-    }
-  }
-
-  private destroyMutationObserver(): void {
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = undefined;
-    }
   }
 
   private updateHeight(): void {

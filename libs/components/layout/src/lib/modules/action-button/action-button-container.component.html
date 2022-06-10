@@ -5,6 +5,7 @@
       'sky-action-button-flex-align-left': alignItems === 'left',
       'sky-action-button-flex-align-center': alignItems === 'center'
     }"
+    (cdkObserveContent)="onContentChange()"
   >
     <ng-content></ng-content>
   </div>

@@ -182,6 +182,21 @@ describe('Action button component', () => {
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
   });
 
+  it('should hide button with inaccessible skyHref link', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('[ng-reflect-sky-href="1bb-nav://yep/"]')
+        .matches('[hidden]')
+    ).toBeFalse();
+    expect(
+      fixture.nativeElement
+        .querySelector('[ng-reflect-sky-href="1bb-nav://nope/"]')
+        .matches('[hidden]')
+    ).toBeTrue();
+  });
+
   it('should be accessible', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
@@ -260,15 +275,13 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height as the tallest action button`, fakeAsync(() => {
     fixture.componentInstance.firstButtonHeight = '500px';
+    fixture.componentInstance.actionButtonContainer.onContentChange();
     fixture.detectChanges();
-    // Wait for setTimeout() to fire.
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const buttons = getActionButtons(fixture);
-      for (let i = 0; i < buttons.length; i++) {
-        expect(buttons[i].style.height).toEqual('500px');
-      }
-    });
+    tick();
+    const buttons = getActionButtons(fixture);
+    for (let i = 0; i < buttons.length; i++) {
+      expect(buttons[i].style.height).toEqual('500px');
+    }
   }));
 
   it(`should update CSS responsive classes on window resize`, () => {
@@ -316,7 +329,7 @@ describe('Action button container with dynamic action buttons', () => {
           useValue: mockMediaQueryService,
         },
       ],
-    }).createComponent(ActionButtonTestComponent);
+    });
 
     fixture = TestBed.createComponent(ActionButtonNgforTestComponent);
     cmp = fixture.componentInstance as ActionButtonNgforTestComponent;

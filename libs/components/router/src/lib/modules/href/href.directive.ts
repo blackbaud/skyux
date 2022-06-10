@@ -17,6 +17,7 @@ import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 import { SkyHrefQueryParams } from './href-query-params';
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
+import { SkyHrefChange } from './types/href-change';
 
 type HrefChanges = { href: string; hidden: boolean };
 
@@ -56,7 +57,7 @@ export class SkyHrefDirective {
    * Emits whether the link is available (true) or not (false).
    */
   @Output()
-  public skyHrefChange = new EventEmitter<boolean>();
+  public skyHrefChange = new EventEmitter<SkyHrefChange>();
 
   private _route: SkyHref | false = false;
 
@@ -133,7 +134,7 @@ export class SkyHrefDirective {
     } else {
       this.renderer.removeAttribute(this.element.nativeElement, 'href');
     }
-    this.skyHrefChange.emit(!change.hidden);
+    this.skyHrefChange.emit({ userHasAccess: !change.hidden });
   }
 
   private checkRouteAccess() {

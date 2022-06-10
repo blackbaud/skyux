@@ -4,6 +4,7 @@ export * from './lib/modules/href/href.module';
 export * from './lib/modules/href/href-resolver';
 export * from './lib/modules/href/href-resolver.service';
 export * from './lib/modules/href/types/href';
+export * from './lib/modules/href/types/href-change';
 export * from './lib/modules/href/types/href-resolver.args';
 
 export * from './lib/modules/recently-accessed/recently-accessed-add-link-args';
