@@ -1,21 +1,23 @@
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="onOpenModalClick('small')"
->
-  Open small modal demo
-</button>
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="onOpenModalClick('medium')"
->
-  Open medium modal demo
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="onOpenModalClick('large')"
->
-  Open large modal demo
-</button>
+<div>
+  <ng-container *ngFor="let sizeOption of sizes">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onOpenModalClick(sizeOption, 'responsive')"
+    >
+      Open {{ sizeOption }} with responsive content
+    </button>
+  </ng-container>
+</div>
+<br />
+<div>
+  <ng-container *ngFor="let sizeOption of sizes">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onOpenModalClick(sizeOption, 'plain')"
+    >
+      Open {{ sizeOption }} with plain content
+    </button>
+  </ng-container>
+</div>

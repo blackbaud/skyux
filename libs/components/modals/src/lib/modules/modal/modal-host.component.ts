@@ -9,11 +9,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import {
-  SkyMediaQueryService,
-  SkyResizeObserverMediaQueryService,
-  SkyResizeObserverService,
-} from '@skyux/core';
+import { SkyMediaQueryService } from '@skyux/core';
 
 import { takeWhile } from 'rxjs/operators';
 
@@ -87,7 +83,7 @@ export class SkyModalHostComponent {
     });
     params.providers.push({
       provide: SkyMediaQueryService,
-      useExisting: SkyResizeObserverMediaQueryService,
+      useClass: SkyMediaQueryService,
     });
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);

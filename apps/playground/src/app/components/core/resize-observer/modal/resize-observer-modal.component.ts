@@ -7,6 +7,7 @@ import {
   Inject,
   Injector,
   OnInit,
+  Optional,
   ViewChild,
 } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
@@ -17,9 +18,11 @@ import {
 } from '@skyux/modals';
 import { SkySectionedFormComponent } from '@skyux/tabs';
 
-type SizeOptions = 'small' | 'medium' | 'large';
+type SizeOptions = 'small' | 'medium' | 'large' | 'default';
 
 let identifier = 1;
+
+type VariationType = 'responsive' | 'plain';
 
 @Component({
   selector: 'app-resize-observer-modal',
@@ -34,7 +37,7 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
 
   public tabsHidden = false;
 
-  public sizes: SizeOptions[] = ['small', 'medium', 'large'];
+  public sizes: SizeOptions[] = ['small', 'medium', 'large', 'default'];
 
   public identifier: number;
 
@@ -43,7 +46,8 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private mediaQueryService: SkyMediaQueryService,
     private modalService: SkyModalService,
-    @Inject('size') public size: string
+    @Inject('size') public size: string,
+    @Inject('variation') public variation: VariationType
   ) {
     this.identifier = identifier++;
   }
@@ -76,17 +80,24 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
   }
 
   public ngAfterViewInit(): void {
-    this.tabsHidden = !this.sectionedFormComponent.tabsVisible();
-    if (this.tabsHidden) {
-      this.changeDetectorRef.markForCheck();
-    }
+    this.sectionedFormComponent.tabService.hidingTabs.subscribe(
+      (tabsHidden) => {
+        if (this.tabsHidden !== tabsHidden) {
+          this.tabsHidden = tabsHidden;
+          this.changeDetectorRef.markForCheck();
+        }
+      }
+    );
   }
 
   public showTabs(): void {
     this.sectionedFormComponent.showTabs();
   }
 
-  public openAnotherModal(size: SizeOptions): void {
+  public openAnotherModal(
+    size: SizeOptions,
+    variation: VariationType = 'responsive'
+  ): void {
     const modalInstanceType = ResizeObserverModalComponent;
     const options: SkyModalConfigurationInterface = {
       size,
@@ -94,6 +105,10 @@ export class ResizeObserverModalComponent implements AfterViewInit, OnInit {
         {
           provide: 'size',
           useValue: size,
+        },
+        {
+          provide: 'variation',
+          useValue: variation,
         },
       ],
     };

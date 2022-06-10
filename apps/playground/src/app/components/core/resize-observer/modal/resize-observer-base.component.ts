@@ -8,9 +8,19 @@ import { ResizeObserverModalComponent } from './resize-observer-modal.component'
   templateUrl: './resize-observer-base.component.html',
 })
 export class ResizeObserverBaseComponent {
+  public sizes: ('small' | 'medium' | 'large' | 'default')[] = [
+    'small',
+    'medium',
+    'large',
+    'default',
+  ];
+
   constructor(private modalService: SkyModalService) {}
 
-  public onOpenModalClick(size: 'small' | 'medium' | 'large'): void {
+  public onOpenModalClick(
+    size: 'small' | 'medium' | 'large' | 'default',
+    variation: 'responsive' | 'plain' = 'responsive'
+  ): void {
     const modalInstanceType = ResizeObserverModalComponent;
     const options: SkyModalConfigurationInterface = {
       size,
@@ -18,6 +28,10 @@ export class ResizeObserverBaseComponent {
         {
           provide: 'size',
           useValue: size,
+        },
+        {
+          provide: 'variation',
+          useValue: variation,
         },
       ],
     };

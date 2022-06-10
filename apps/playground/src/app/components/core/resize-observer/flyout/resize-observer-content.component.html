@@ -59,3 +59,27 @@
     billions upon billions upon billions upon billions.
   </sky-sectioned-form-section>
 </sky-sectioned-form>
+<br />
+<div>
+  <ng-container *ngFor="let sizeOption of sizes">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onOpenModalClick(sizeOption, 'responsive')"
+    >
+      Open {{ sizeOption }} with responsive content
+    </button>
+  </ng-container>
+</div>
+<br />
+<div>
+  <ng-container *ngFor="let sizeOption of sizes">
+    <button
+      class="sky-btn sky-btn-default"
+      type="button"
+      (click)="onOpenModalClick(sizeOption, 'plain')"
+    >
+      Open {{ sizeOption }} with plain content
+    </button>
+  </ng-container>
+</div>

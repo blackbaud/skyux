@@ -6,7 +6,6 @@ import {
   HostBinding,
   HostListener,
   Input,
-  OnDestroy,
   Optional,
   ViewChild,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import {
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
-  SkyResizeObserverMediaQueryService,
+  SkyMediaQueryService,
 } from '@skyux/core';
 
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
@@ -39,7 +38,7 @@ let skyModalUniqueIdentifier = 0;
   animations: [skyAnimationModalState],
   providers: [SkyModalComponentAdapterService, SkyDockService],
 })
-export class SkyModalComponent implements AfterViewInit, OnDestroy {
+export class SkyModalComponent implements AfterViewInit {
   @HostBinding('class')
   public get wrapperClass(): string {
     return this.config.wrapperClass;
@@ -122,7 +121,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     @Host() private dockService: SkyDockService,
     @Optional()
-    private mediaQueryService?: SkyResizeObserverMediaQueryService
+    private mediaQueryService?: SkyMediaQueryService
   ) {}
 
   @HostListener('document:keyup', ['$event'])
@@ -198,18 +197,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       referenceEl: this.modalContentWrapperElement.nativeElement,
       zIndex: 5,
     });
-
-    /* istanbul ignore next */
-    if (this.mediaQueryService) {
-      this.mediaQueryService.observe(this.modalContentWrapperElement);
-    }
-  }
-
-  public ngOnDestroy(): void {
-    /* istanbul ignore next */
-    if (this.mediaQueryService) {
-      this.mediaQueryService.unobserve();
-    }
   }
 
   public helpButtonClick() {
