@@ -2,7 +2,6 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
@@ -38,7 +37,7 @@ function getActionButtons(
   fixture: ComponentFixture<any>
 ): NodeListOf<HTMLElement> {
   return fixture.nativeElement.querySelectorAll(
-    '.sky-action-button-container .sky-action-button'
+    '.sky-action-button-container .sky-action-button:not([hidden])'
   );
 }
 //#endregion
@@ -100,17 +99,19 @@ describe('Action button component', () => {
     tick();
     fixture.detectChanges();
     const actionButton = el.querySelectorAll('.sky-action-button').item(1);
-    expect(actionButton.tagName === 'a');
+    expect(actionButton.tagName.toLowerCase() === 'a').toBeTrue();
     expect(actionButton.getAttribute('href')).toBe(
       'https://developer.blackbaud.com/skyux/components'
     );
   }));
 
-  it('should see if there is a permalink route included as an input to the element', () => {
+  it('should see if there is a permalink route included as an input to the element', fakeAsync(() => {
+    tick();
+    fixture.detectChanges();
     const actionButton = el.querySelectorAll('.sky-action-button').item(2);
-    expect(actionButton.tagName === 'a');
+    expect(actionButton.tagName.toLowerCase() === 'a').toBeTrue();
     expect(actionButton.getAttribute('href')).toBe('/?page=1#fragment');
-  });
+  }));
 
   it('should use a div element when permalink is not provided', () => {
     const actionButton = '.sky-action-button';
@@ -179,6 +180,21 @@ describe('Action button component', () => {
     mockMediaQueryService.fire(SkyMediaBreakpoints.sm);
     fixture.detectChanges();
     expect(debugElement.query(By.css(largeIconSelector))).not.toBeNull();
+  });
+
+  it('should hide button with inaccessible skyHref link', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.nativeElement
+        .querySelector('[ng-reflect-sky-href="1bb-nav://yep/"]')
+        .matches('[hidden]')
+    ).toBeFalse();
+    expect(
+      fixture.nativeElement
+        .querySelector('[ng-reflect-sky-href="1bb-nav://nope/"]')
+        .matches('[hidden]')
+    ).toBeTrue();
   });
 
   it('should be accessible', async () => {
@@ -257,17 +273,15 @@ describe('Action button component modern theme', () => {
     expect(flexParent).not.toHaveCssClass('sky-action-button-flex-align-left');
   });
 
-  it(`should sync all child action buttons to have the same height as the tallest action button`, async(() => {
+  it(`should sync all child action buttons to have the same height as the tallest action button`, fakeAsync(() => {
     fixture.componentInstance.firstButtonHeight = '500px';
+    fixture.componentInstance.actionButtonContainer.onContentChange();
     fixture.detectChanges();
-    // Wait for setTimeout() to fire.
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const buttons = getActionButtons(fixture);
-      for (let i = 0; i < buttons.length; i++) {
-        expect(buttons[i].style.height).toEqual('500px');
-      }
-    });
+    tick();
+    const buttons = getActionButtons(fixture);
+    for (let i = 0; i < buttons.length; i++) {
+      expect(buttons[i].style.height).toEqual('500px');
+    }
   }));
 
   it(`should update CSS responsive classes on window resize`, () => {
@@ -315,7 +329,7 @@ describe('Action button container with dynamic action buttons', () => {
           useValue: mockMediaQueryService,
         },
       ],
-    }).createComponent(ActionButtonTestComponent);
+    });
 
     fixture = TestBed.createComponent(ActionButtonNgforTestComponent);
     cmp = fixture.componentInstance as ActionButtonNgforTestComponent;

@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Directive,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
   Optional,
+  Output,
   Renderer2,
 } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
@@ -15,6 +17,7 @@ import { SkyAppConfig, SkyAppRuntimeConfigParamsProvider } from '@skyux/config';
 import { SkyHrefQueryParams } from './href-query-params';
 import { SkyHrefResolverService } from './href-resolver.service';
 import { SkyHref } from './types/href';
+import { SkyHrefChange } from './types/href-change';
 
 type HrefChanges = { href: string; hidden: boolean };
 
@@ -39,11 +42,22 @@ export class SkyHrefDirective {
     this.checkRouteAccess();
   }
 
+  /**
+   * Set the behavior for when the link is not available to either hide the link or display unlinked text.
+   *
+   * @param value
+   */
   @Input()
   public set skyHrefElse(value: 'hide' | 'unlink') {
     this._skyHrefElse = value;
     this.applyChanges(this.getChanges());
   }
+
+  /**
+   * Emits whether the link is available (true) or not (false).
+   */
+  @Output()
+  public skyHrefChange = new EventEmitter<SkyHrefChange>();
 
   private _route: SkyHref | false = false;
 
@@ -120,6 +134,7 @@ export class SkyHrefDirective {
     } else {
       this.renderer.removeAttribute(this.element.nativeElement, 'href');
     }
+    this.skyHrefChange.emit({ userHasAccess: !change.hidden });
   }
 
   private checkRouteAccess() {

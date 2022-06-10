@@ -1,3 +1,4 @@
+import { ObserversModule } from '@angular/cdk/observers';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -21,6 +22,7 @@ import { SkyActionButtonComponent } from './action-button.component';
   ],
   imports: [
     CommonModule,
+    ObserversModule,
     RouterModule,
     SkyHrefModule,
     SkyIconModule,
