@@ -15,6 +15,21 @@
 .sky-theme-modern {
   background-color: $sky-theme-modern-background-color-page-default;
 
+  a {
+    border-radius: 0;
+    color: $sky-theme-modern-text-color-action-primary;
+
+    &:focus:not(:active) {
+      box-shadow: 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
+        0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
+    }
+
+    &:active {
+      color: darken($sky-theme-modern-text-color-action-primary, 10%);
+      text-decoration: underline;
+    }
+  }
+
   h1,
   .sky-font-heading-1 {
     font-family: $sky-font-family;
