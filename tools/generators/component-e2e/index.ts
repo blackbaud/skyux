@@ -9,15 +9,15 @@ import {
   UnitTestRunner,
 } from '@nrwl/angular/src/utils/test-runners';
 import {
-  GeneratorCallback,
   Tree,
-  installPackagesTask,
+  formatFiles,
+  getWorkspacePath,
   logger,
   readProjectConfiguration,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
+import { updateJson } from '../../utils/update-json';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
 
@@ -53,59 +53,58 @@ export async function componentE2eGenerator(
 ) {
   const options = normalizeOptions(tree, schema);
 
-  const tasks: GeneratorCallback[] = [];
-
   let createProject = false;
   try {
     readProjectConfiguration(tree, options.storybookAppName);
     logger.warn(`The project "${options.storybookAppName}" already exists.`);
   } catch (e) {
     createProject = true;
-    tasks.push(
-      await applicationGenerator(tree, {
-        name: options.storybookAppName,
-        e2eTestRunner: E2eTestRunner.Cypress,
-        tags: options.tags,
-        style: options.style,
-        routing: options.routing,
-        strict: options.strict,
-        prefix: options.prefix,
-        unitTestRunner: UnitTestRunner.Jest,
-      })
-    );
+    const appGenerator = await applicationGenerator(tree, {
+      name: options.storybookAppName,
+      e2eTestRunner: E2eTestRunner.Cypress,
+      tags: options.tags,
+      style: options.style,
+      routing: options.routing,
+      strict: options.strict,
+      prefix: options.prefix,
+      unitTestRunner: UnitTestRunner.Jest,
+    });
+    appGenerator();
+    updateJson(tree, getWorkspacePath(tree), (angularJson) => {
+      angularJson.projects[
+        options.storybookAppName
+      ].architect.build.options.styles.push(
+        'libs/components/theme/src/lib/styles/sky.scss',
+        'libs/components/theme/src/lib/styles/themes/modern/styles.scss'
+      );
+      return angularJson;
+    });
   }
 
   if (
     createProject ||
-    !tree.exists(`apps/${options.storybookAppName}/.storybook/main.js`)
+    !(
+      tree.isFile(`apps/${options.storybookAppName}/.storybook/main.js`) ||
+      tree.isFile(`apps/${options.storybookAppName}/.storybook/main.ts`)
+    )
   ) {
-    tasks.push(
-      await storybookConfigurationGenerator(tree, {
-        name: options.storybookAppName,
-        generateStories: true,
-        configureCypress: true,
-        generateCypressSpecs: true,
-        linter: Linter.EsLint,
-      })
-    );
+    const storybookGenerator = await storybookConfigurationGenerator(tree, {
+      name: options.storybookAppName,
+      generateStories: true,
+      configureCypress: true,
+      generateCypressSpecs: true,
+      linter: Linter.EsLint,
+    });
+    await storybookGenerator();
   } else {
-    logger.warn(
-      `The project "${options.storybookAppName}" is configured for storybook.`
-    );
-    tasks.push(() =>
-      angularStoriesGenerator(tree, {
-        name: options.storybookAppName,
-        generateCypressSpecs: true,
-      })
-    );
+    angularStoriesGenerator(tree, {
+      name: options.storybookAppName,
+      generateCypressSpecs: true,
+    });
   }
-
-  tasks.push(() =>
-    configureStorybook(tree, { name: options.storybookAppName })
-  );
-  tasks.push(() => configurePercy(tree, { name: options.storybookAppName }));
-  tasks.push(() => installPackagesTask(tree));
-  return runTasksInSerial(...tasks);
+  await configureStorybook(tree, { name: options.storybookAppName });
+  await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
+  await formatFiles(tree);
 }
 
 export default componentE2eGenerator;

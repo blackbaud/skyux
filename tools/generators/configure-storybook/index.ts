@@ -15,7 +15,7 @@ import { someOrAllStorybookProjects } from '../../utils/some-or-all-projects';
 
 import { Schema } from './schema';
 
-export default async function (tree: Tree, schema: Schema) {
+export async function configureStorybook(tree: Tree, schema: Schema) {
   const projects = someOrAllStorybookProjects(tree, schema.name);
   projects.forEach((project, projectName) => {
     updateJson(tree, getWorkspacePath(tree), (angularJson) => {
@@ -42,19 +42,9 @@ export default async function (tree: Tree, schema: Schema) {
 
     const projectRoot = project.root;
     const relativeToRoot = relative(`/${projectRoot}/.storybook`, `/`);
-    const managerTsFile = `${projectRoot}/.storybook/manager.ts`;
-    if (!tree.exists(managerTsFile)) {
-      tree.write(
-        managerTsFile,
-        `export * from '${relativeToRoot}/.storybook/manager';`
-      );
-    }
-    if (tree.exists(`${projectRoot}/.storybook/manager.js`)) {
-      tree.delete(`${projectRoot}/.storybook/manager.js`);
-    }
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
-    if (!tree.exists(tsconfigFile)) {
+    if (!tree.isFile(tsconfigFile)) {
       generateFiles(
         tree,
         joinPathFragments(__dirname, `./files/tsconfig`),
@@ -69,26 +59,12 @@ export default async function (tree: Tree, schema: Schema) {
       return tsconfig;
     });
 
-    // Use remove default files.
+    // Remove default files.
     ['preview', 'main'].forEach((file) => {
-      if (tree.exists(`${projectRoot}/.storybook/${file}.js`)) {
-        tree.delete(`${projectRoot}/.storybook/${file}.js`);
-      }
+      tree.delete(`${projectRoot}/.storybook/${file}.js`);
     });
 
-    // Use typescript.
-    if (tree.exists(`${projectRoot}/.storybook/manager.js`)) {
-      if (!tree.exists(`${projectRoot}/.storybook/manager.ts`)) {
-        tree.rename(
-          `${projectRoot}/.storybook/manager.js`,
-          `${projectRoot}/.storybook/manager.ts`
-        );
-      } else {
-        tree.delete(`${projectRoot}/.storybook/manager.js`);
-      }
-    }
-
-    if (!tree.exists(`${projectRoot}/.storybook/preview.ts`)) {
+    if (!tree.isFile(`${projectRoot}/.storybook/preview.ts`)) {
       generateFiles(
         tree,
         joinPathFragments(__dirname, `./files`),
@@ -103,3 +79,5 @@ export default async function (tree: Tree, schema: Schema) {
 
   await formatFiles(tree);
 }
+
+export default configureStorybook;

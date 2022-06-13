@@ -9,11 +9,11 @@ import { insertStatement } from '@nrwl/workspace/src/generators/utils/insert-sta
 
 import { someOrAllE2eProjects } from '../../utils/some-or-all-projects';
 
-export default async function (tree: Tree, schema: any) {
+export async function configurePercy(tree: Tree, schema: any) {
   const projects = someOrAllE2eProjects(tree, schema.name);
   projects.forEach((project) => {
     const cypressJsonPath = joinPathFragments(project.root, 'cypress.json');
-    if (!tree.exists(cypressJsonPath)) {
+    if (!tree.isFile(cypressJsonPath)) {
       logger.info(`Did not find cypress in project.`);
       return;
     }
@@ -28,7 +28,7 @@ export default async function (tree: Tree, schema: any) {
         logger.info(`Did not find cypress support file.`);
       }
       const importPercyCypress = `import '@percy/cypress';`;
-      if (!tree.exists(filePath)) {
+      if (!tree.isFile(filePath)) {
         tree.write(filePath, importPercyCypress);
       } else {
         const content = tree.read(filePath).toString();
@@ -42,3 +42,5 @@ export default async function (tree: Tree, schema: any) {
 
   return formatFiles(tree);
 }
+
+export default configurePercy;

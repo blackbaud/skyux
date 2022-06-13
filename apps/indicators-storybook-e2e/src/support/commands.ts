@@ -7,7 +7,6 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-import '@percy/cypress';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
