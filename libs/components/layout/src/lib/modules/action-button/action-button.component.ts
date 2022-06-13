@@ -1,10 +1,14 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   Output,
+  SkipSelf,
   ViewEncapsulation,
 } from '@angular/core';
+import { SkyHrefChange } from '@skyux/router';
 
 import { SkyActionButtonPermalink } from './action-button-permalink';
 
@@ -18,6 +22,9 @@ import { SkyActionButtonPermalink } from './action-button-permalink';
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyActionButtonComponent {
+  @HostBinding('hidden')
+  public hidden = false;
+
   /**
    * Specifies a link for the action button.
    */
@@ -30,11 +37,22 @@ export class SkyActionButtonComponent {
   @Output()
   public actionClick = new EventEmitter<any>();
 
+  constructor(@SkipSelf() private changeRef: ChangeDetectorRef) {}
+
   public buttonClicked() {
     this.actionClick.emit();
   }
 
   public enterPress() {
     this.actionClick.emit();
+  }
+
+  public onSkyHrefDisplayChange($event: SkyHrefChange) {
+    if (this.hidden === $event.userHasAccess) {
+      setTimeout(() => {
+        this.hidden = !$event.userHasAccess;
+        this.changeRef.markForCheck();
+      });
+    }
   }
 }

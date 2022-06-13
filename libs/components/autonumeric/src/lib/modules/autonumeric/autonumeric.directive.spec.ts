@@ -32,11 +32,16 @@ describe('Autonumeric directive', () => {
 
   function setValue(value: number): void {
     fixture.componentInstance.formGroup?.get('donationAmount')?.setValue(value);
-    fixture.componentInstance.templateDrivenModel.donationAmount = value;
+    fixture.componentInstance.templateDrivenModel = { donationAmount: value };
+    fixture.componentInstance.changeDetector.markForCheck();
   }
 
   function setOptions(options: SkyAutonumericOptions): void {
     fixture.componentInstance.autonumericOptions = options;
+  }
+
+  function setUnformatted(): void {
+    fixture.componentInstance.setUnformatted = true;
   }
 
   function getFormattedValue(): string {
@@ -161,6 +166,26 @@ describe('Autonumeric directive', () => {
 
     expect(modelValue).toEqual(1000);
     expect(formattedValue).toEqual('$1,000.00');
+  }));
+
+  it('should support setting the value unformatted', fakeAsync(() => {
+    setOptions('dollar');
+
+    detectChanges();
+
+    setUnformatted();
+
+    detectChanges();
+
+    setValue(2000);
+
+    detectChanges();
+
+    const modelValue = getModelValue();
+    const formattedValue = getFormattedValue();
+
+    expect(modelValue).toEqual(2000);
+    expect(formattedValue).toEqual('2000');
   }));
 
   it('should support custom configuration', fakeAsync(() => {

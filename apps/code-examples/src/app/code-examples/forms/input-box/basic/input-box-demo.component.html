@@ -18,4 +18,12 @@
       <input id="myDatepicker" skyDatepickerInput />
     </sky-datepicker>
   </sky-input-box>
+  <sky-input-box>
+    <label class="sky-control-label" for="myInlineHelp"> Inline Help </label>
+    <sky-help-inline
+      class="sky-control-help"
+      (actionClick)="onActionClick()"
+    ></sky-help-inline>
+    <input class="sky-form-control" id="myInlineHelp" />
+  </sky-input-box>
 </div>
