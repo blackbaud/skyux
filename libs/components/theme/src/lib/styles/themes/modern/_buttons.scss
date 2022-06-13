@@ -48,16 +48,17 @@
   }
 
   .sky-btn-link-inline {
+    border-radius: 0;
     color: $sky-theme-modern-text-color-action-primary;
 
     &:focus:not(:active) {
-      border-radius: 0;
       box-shadow: 0 0 0 2px $sky-theme-modern-background-color-primary-dark,
         0 1px 8px 2px $sky-theme-modern-elevation-3-shadow-color;
     }
 
     &:active {
       color: darken($sky-theme-modern-text-color-action-primary, 10%);
+      text-decoration: underline;
     }
   }
 
