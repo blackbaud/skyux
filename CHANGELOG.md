@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.3.1](https://github.com/blackbaud/skyux/compare/6.3.0...6.3.1) (2022-06-14)
+
+### Bug Fixes
+
+- **components/layout:** hide action button with inaccessible skyhref ([#282](https://github.com/blackbaud/skyux/issues/282)) ([41a1a06](https://github.com/blackbaud/skyux/commit/41a1a064a7394dd45ed36392b39886271b2e5441))
+
 ## [6.3.0](https://github.com/blackbaud/skyux/compare/6.2.3...6.3.0) (2022-06-09)
 
 ### Features
