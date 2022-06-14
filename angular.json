@@ -1604,35 +1604,6 @@
               "libs/components/indicators/src/**/*.html"
             ]
           }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "port": 4400,
-            "configDir": "libs/components/indicators/.storybook",
-            "browserTarget": "indicators:build-storybook",
-            "compodoc": false
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputDir": "dist/storybook/indicators",
-            "configDir": "libs/components/indicators/.storybook",
-            "browserTarget": "indicators:build-storybook",
-            "compodoc": false
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
         }
       }
     },
