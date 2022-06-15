@@ -10,7 +10,7 @@ import {
 import { relative } from 'path';
 
 type Options = {
-  projects: string;
+  projectsJson: string;
   baseUrl: string;
 };
 
@@ -20,9 +20,8 @@ export default async function (tree: Tree, schema: Options) {
   const storybookProjectRoot = storybookProject.root;
   const relativeToRoot = relative(`/${storybookProjectRoot}/.storybook`, `/`);
 
-  const projects = schema.projects
-    .split(',')
-    .map((project) => project.trim())
+  let projectsArg: string[] = JSON.parse(schema.projectsJson);
+  const projects = projectsArg
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {
       const target = allProjects.get(project).targets['build-storybook'];

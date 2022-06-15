@@ -1,4 +1,4 @@
-name: Storybook
+name: E2E
 
 on:
   push:
@@ -44,14 +44,7 @@ jobs:
           npm ci
       - name: Check affected
         id: affected
-        run: |
-          set -x
-          jq -cr '.projects | to_entries | map(select(.key != "storybook")) | map(select(.value.architect | has("build-storybook"))) | from_entries | keys' angular.json > ${{ runner.temp }}/affected.json
-          cat ${{ runner.temp }}/affected.json | npx ts-node scripts/pr-preview-e2e-matrix.ts > ${{ runner.temp }}/affected-e2e-matrix.json
-          echo -n "::set-output name=projects::"
-          cat ${{ runner.temp }}/affected.json | jq -cr
-          echo -n '::set-output name=e2eMap::'
-          cat ${{ runner.temp }}/affected-e2e-matrix.json | jq -cr
+        run: npx ts-node scripts/github-workflow-e2e-matrix --all
 
   build-storybook:
     name: Build Project Storybook
@@ -77,6 +70,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            .angular
             node_modules/.cache/nx
             dist
           key: cache-nx-storybook-${{ matrix.project }}-${{ hashFiles('package-lock.json') }}
@@ -104,9 +98,6 @@ jobs:
       - build-storybook
     steps:
       - uses: actions/checkout@v3
-        with:
-          # We need to fetch all branches and commits to identify current branches.
-          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
@@ -122,6 +113,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            .angular
             node_modules/.cache/nx
             dist/storybook
           key: cache-nx-publish-${{ hashFiles('package-lock.json') }}
@@ -131,61 +123,23 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./dist/storybooks/
+          path: ./dist/storybooks/{{ github.ref_name }}/
+      - name: Generate Storybook Composition
+        run: npx nx workspace-generator storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/${{ github.ref_name }}/
       - name: Build Storybook Composition
-        run: |
-          set -x
-          echo ${{ needs.install-deps.outputs.projects }} | jq -cr 'join(",")' > ${{ runner.temp }}/affected_projects.txt
-          npx nx workspace-generator storybook-composition "$(<${{ runner.temp }}/affected_projects.txt)" --baseUrl ../storybooks/
-          npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
-      - uses: actions/checkout@v3
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
+      - name: Checkout ${{ env.GH_PAGES_REPO }}
+        uses: actions/checkout@v3
         with:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ env.GH_PAGES_REPO }}
           ref: 'main'
           fetch-depth: 1
           path: ${{ env.GH_PAGES_REPO }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Remove old builds
-        run: |
-          set -x
-          ls -d ./skyux-storybook/*/ | cut -f3 -d/ | sort > ${{ runner.temp }}/current_builds.txt
-          git branch -r --format '%(refname:lstrip=3)' | tr -d ' ' | sort > ${{ runner.temp }}/expected_builds.txt
-          if [[ -s "${{ runner.temp }}/current_builds.txt" && -s "${{ runner.temp }}/expected_builds.txt" ]]
-          then
-            # Get current builds that are not in expected.
-            comm -23 ${{ runner.temp }}/current_builds.txt ${{ runner.temp }}/expected_builds.txt | tr -d ' ' > ${{ runner.temp }}/old_builds.txt
-            if [[ -s "${{ runner.temp }}/old_builds.txt" ]]
-            then
-              git -C ./${{ env.GH_PAGES_REPO }} rm -r -f --pathspec-from-file=${{ runner.temp }}/old_builds.txt
-            else
-              echo "All builds are current"
-            fi
-          else
-            echo "Nothing to remove"
-          fi
+      - name: Publish preview and comment on PR
+        run: npx ts-node scripts/github-pages-publish
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Update build
-        run: |
-          set -x
-          rm -rf ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}
-          mkdir -p ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/storybook
-          mv ${{ runner.temp }}/README.md ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/
-          cp -R ./dist/storybook ./dist/storybooks ./${{ env.GH_PAGES_REPO }}/${{ github.ref_name }}/
-      - name: Commit build to GH Pages
-        run: |
-          set -x
-          git config --global user.name "Blackbaud Sky Build User"
-          git config --global user.email "sky-build-user@blackbaud.com"
-          git -C ./${{ env.GH_PAGES_REPO }} add --all
-          git -C ./${{ env.GH_PAGES_REPO }} status
-          if [[ -n "$(git -C ./${{ env.GH_PAGES_REPO }} status -s)" ]]
-          then
-            git -C ./${{ env.GH_PAGES_REPO }} commit -m "$(printf 'skyux %s commit %s' ${{ github.ref_name }} ${GITHUB_SHA:0:8})"
-            git -C ./${{ env.GH_PAGES_REPO }} push
-          else
-            echo "No changes"
-          fi
 
   e2e:
     name: End to end tests
@@ -194,6 +148,7 @@ jobs:
       - install-deps
       - publish
     strategy:
+      fail-fast: false
       matrix: ${{ fromJSON(needs.install-deps.outputs.e2eMap) }}
     steps:
       - uses: actions/checkout@v3

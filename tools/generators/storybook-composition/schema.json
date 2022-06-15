@@ -4,18 +4,14 @@
   "$id": "storybook-composition",
   "type": "object",
   "properties": {
-    "projects": {
+    "projectsJson": {
       "type": "string",
-      "description": "Comma-separated list of projects to include",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      }
+      "description": "JSON array of projects to include"
     },
     "baseUrl": {
       "type": "string",
       "description": "Web address containing published Storybooks."
     }
   },
-  "required": ["projects", "baseUrl"]
+  "required": ["projectsJson", "baseUrl"]
 }
