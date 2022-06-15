@@ -20,20 +20,21 @@ export async function configurePercy(tree: Tree, schema: any) {
     updateJson(tree, cypressJsonPath, (cypressConfig) => {
       cypressConfig.video = false;
 
-      const filePath = joinPathFragments(
-        project.root,
-        cypressConfig.supportFile
-      );
       if (!cypressConfig.supportFile) {
         logger.info(`Did not find cypress support file.`);
-      }
-      const importPercyCypress = `import '@percy/cypress';`;
-      if (!tree.isFile(filePath)) {
-        tree.write(filePath, importPercyCypress);
       } else {
-        const content = tree.read(filePath).toString();
-        if (!content.includes(importPercyCypress)) {
-          insertStatement(tree, filePath, importPercyCypress);
+        const filePath = joinPathFragments(
+          project.root,
+          cypressConfig.supportFile
+        );
+        const importPercyCypress = `import '@percy/cypress';`;
+        if (!tree.isFile(filePath)) {
+          tree.write(filePath, importPercyCypress);
+        } else {
+          const content = tree.read(filePath).toString();
+          if (!content.includes(importPercyCypress)) {
+            insertStatement(tree, filePath, importPercyCypress);
+          }
         }
       }
       return cypressConfig;

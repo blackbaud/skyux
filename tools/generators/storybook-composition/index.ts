@@ -14,13 +14,16 @@ type Options = {
   baseUrl: string;
 };
 
-export default async function (tree: Tree, schema: Options) {
+export async function generateStorybookComposition(
+  tree: Tree,
+  schema: Options
+) {
   const allProjects = getProjects(tree);
   const storybookProject = allProjects.get('storybook');
   const storybookProjectRoot = storybookProject.root;
   const relativeToRoot = relative(`/${storybookProjectRoot}/.storybook`, `/`);
 
-  let projectsArg: string[] = JSON.parse(schema.projectsJson);
+  const projectsArg: string[] = JSON.parse(schema.projectsJson);
   const projects = projectsArg
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {
@@ -36,7 +39,7 @@ export default async function (tree: Tree, schema: Options) {
   generateFiles(
     tree,
     joinPathFragments(__dirname, './files'),
-    'libs/components/storybook/.storybook',
+    `${storybookProjectRoot}/.storybook`,
     {
       projects,
       baseUrl: schema.baseUrl.replace(/\/$/, ''),
@@ -45,3 +48,5 @@ export default async function (tree: Tree, schema: Options) {
   );
   return formatFiles(tree);
 }
+
+export default generateStorybookComposition;

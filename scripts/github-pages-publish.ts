@@ -1,3 +1,4 @@
+import { ok } from 'assert';
 import { spawnSync } from 'child_process';
 import {
   copySync,
@@ -7,7 +8,6 @@ import {
   rmSync,
   writeFileSync,
 } from 'fs-extra';
-import assert from 'node:assert';
 import * as os from 'os';
 import { join } from 'path';
 
@@ -47,11 +47,11 @@ try {
 }
 
 if (isPullRequest) {
-  assert(prNumber);
+  ok(prNumber);
 }
-assert(storybooks);
-assert(pagesPath);
-assert(subdirectory);
+ok(storybooks);
+ok(pagesPath);
+ok(subdirectory);
 
 // Configure the user information for committing to GitHub Pages.
 if (!dryRun) {

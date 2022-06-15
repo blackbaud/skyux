@@ -4052,6 +4052,30 @@
         }
       }
     },
+    "tools": {
+      "root": "tools",
+      "sourceRoot": "tools/src",
+      "projectType": "library",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["tools/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/tools"],
+          "options": {
+            "jestConfig": "tools/jest.config.ts",
+            "passWithNoTests": true,
+            "codeCoverage": true
+          }
+        }
+      },
+      "tags": []
+    },
     "validation": {
       "projectType": "library",
       "root": "libs/components/validation",

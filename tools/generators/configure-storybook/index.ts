@@ -45,11 +45,16 @@ export async function configureStorybook(tree: Tree, schema: Schema) {
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
     if (!tree.isFile(tsconfigFile)) {
-      generateFiles(
-        tree,
-        joinPathFragments(__dirname, `./files/tsconfig`),
-        `${projectRoot}/.storybook`,
-        {}
+      tree.write(
+        `${projectRoot}/.storybook/tsconfig.json`,
+        JSON.stringify({
+          extends: '../tsconfig.json',
+          compilerOptions: {
+            emitDecoratorMetadata: true,
+          },
+          exclude: ['../**/*.spec.ts'],
+          include: ['../src/**/*', './*'],
+        })
       );
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {

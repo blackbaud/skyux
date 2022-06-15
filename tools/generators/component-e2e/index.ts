@@ -16,6 +16,7 @@ import {
   readProjectConfiguration,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
 import { updateJson } from '../../utils/update-json';
 import configurePercy from '../configure-percy';
@@ -54,12 +55,13 @@ export async function componentE2eGenerator(
   const options = normalizeOptions(tree, schema);
 
   let createProject = false;
+  let appGenerator: () => void;
   try {
     readProjectConfiguration(tree, options.storybookAppName);
     logger.warn(`The project "${options.storybookAppName}" already exists.`);
   } catch (e) {
     createProject = true;
-    const appGenerator = await applicationGenerator(tree, {
+    appGenerator = await applicationGenerator(tree, {
       name: options.storybookAppName,
       e2eTestRunner: E2eTestRunner.Cypress,
       tags: options.tags,
@@ -69,7 +71,6 @@ export async function componentE2eGenerator(
       prefix: options.prefix,
       unitTestRunner: UnitTestRunner.Jest,
     });
-    appGenerator();
     updateJson(tree, getWorkspacePath(tree), (angularJson) => {
       angularJson.projects[
         options.storybookAppName
@@ -81,6 +82,9 @@ export async function componentE2eGenerator(
     });
   }
 
+  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let storybookGenerator = () => {};
   if (
     createProject ||
     !(
@@ -88,14 +92,13 @@ export async function componentE2eGenerator(
       tree.isFile(`apps/${options.storybookAppName}/.storybook/main.ts`)
     )
   ) {
-    const storybookGenerator = await storybookConfigurationGenerator(tree, {
+    storybookGenerator = await storybookConfigurationGenerator(tree, {
       name: options.storybookAppName,
       generateStories: true,
       configureCypress: true,
       generateCypressSpecs: true,
       linter: Linter.EsLint,
     });
-    await storybookGenerator();
   } else {
     angularStoriesGenerator(tree, {
       name: options.storybookAppName,
@@ -104,7 +107,10 @@ export async function componentE2eGenerator(
   }
   await configureStorybook(tree, { name: options.storybookAppName });
   await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
-  await formatFiles(tree);
+  /* istanbul ignore next */
+  return runTasksInSerial(appGenerator, storybookGenerator, () =>
+    formatFiles(tree)
+  );
 }
 
 export default componentE2eGenerator;
