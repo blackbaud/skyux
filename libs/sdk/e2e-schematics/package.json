@@ -1,6 +1,16 @@
 {
   "name": "@skyux/e2e-schematics",
   "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/cli": "^13.3.2",
+    "@nrwl/angular": "^14.1.9",
+    "@nrwl/devkit": "^14.1.9",
+    "@nrwl/linter": "^14.1.9",
+    "@nrwl/storybook": "^14.1.9",
+    "@nrwl/workspace": "^14.1.9",
+    "@percy/cypress": "^3.1.1",
+    "assert": "^1.5.0"
+  },
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json"

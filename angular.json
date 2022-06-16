@@ -1089,8 +1089,7 @@
           "outputs": ["coverage/libs/sdk/e2e-schematics"],
           "options": {
             "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
-            "passWithNoTests": true,
-            "silent": true
+            "passWithNoTests": true
           }
         }
       },

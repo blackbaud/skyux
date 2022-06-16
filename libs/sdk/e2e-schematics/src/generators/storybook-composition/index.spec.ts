@@ -66,8 +66,6 @@ describe('storybook-composition', () => {
       projectsJson: JSON.stringify(['test-app']),
       baseUrl: '../storybooks',
     });
-    expect(spy).toHaveBeenCalledWith(
-      `\u001B[1m\u001B[31mUnable to load a project named "storybook"\u001B[39m\u001B[22m`
-    );
+    expect(spy).toHaveBeenCalled();
   });
 });
