@@ -9,7 +9,7 @@ on:
 env:
   PERCY_POSTINSTALL_BROWSER: true
   GH_PAGES_OWNER: blackbaud
-  GH_PAGES_REPO: skyux-pr-preview
+  GH_PAGES_REPO: skyux-storybook
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -125,7 +125,7 @@ jobs:
         with:
           path: ./dist/storybooks/{{ github.ref_name }}/
       - name: Generate Storybook Composition
-        run: npx nx workspace-generator storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/${{ github.ref_name }}/
+        run: npx nx g @skyux/e2e-schematics:storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/${{ github.ref_name }}/
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ env.GH_PAGES_REPO }}

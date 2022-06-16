@@ -9,6 +9,7 @@ import {
 } from '@nrwl/devkit';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
+import * as assert from 'assert';
 import { relative } from 'path';
 
 import { someOrAllStorybookProjects } from '../../utils/some-or-all-projects';
@@ -17,8 +18,10 @@ import { Schema } from './schema';
 
 export async function configureStorybook(tree: Tree, schema: Schema) {
   const projects = someOrAllStorybookProjects(tree, schema.name);
+  const workspacePath = getWorkspacePath(tree);
+  assert.ok(workspacePath);
   projects.forEach((project, projectName) => {
-    updateJson(tree, getWorkspacePath(tree), (angularJson) => {
+    updateJson(tree, workspacePath, (angularJson) => {
       const e2eProjectName = `${projectName}-e2e`;
       if (e2eProjectName in angularJson.projects) {
         const e2eProject = angularJson.projects[e2eProjectName];
@@ -58,6 +61,9 @@ export async function configureStorybook(tree: Tree, schema: Schema) {
       );
     }
     updateJson(tree, tsconfigFile, (tsconfig: TsConfig) => {
+      if (!tsconfig.include) {
+        tsconfig.include = [];
+      }
       if (!tsconfig.include.includes('./*')) {
         tsconfig.include.push('./*');
       }

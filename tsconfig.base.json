@@ -48,6 +48,7 @@
       "@skyux/datetime/testing": [
         "libs/components/datetime/testing/src/public-api.ts"
       ],
+      "@skyux/e2e-schematics": ["libs/sdk/e2e-schematics/src/index.ts"],
       "@skyux/errors": ["libs/components/errors/src/index.ts"],
       "@skyux/errors/testing": [
         "libs/components/errors/testing/src/public-api.ts"

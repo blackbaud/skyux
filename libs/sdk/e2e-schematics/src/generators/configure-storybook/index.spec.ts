@@ -4,9 +4,12 @@ import {
 } from '@nrwl/angular/generators';
 import { readProjectConfiguration } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
+import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 import { removeGenerator } from '@nrwl/workspace';
 
 import { createTreeWithEmptyWorkspace } from 'nx/src/generators/testing-utils/create-tree-with-empty-workspace';
+
+import { updateJson } from '../../utils/update-json';
 
 import configureStorybook from './index';
 
@@ -46,6 +49,33 @@ describe('configure-storybook', () => {
     tree.delete(`apps/test-app/.storybook/tsconfig.json`);
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
+  });
+
+  it('should configure storybook tsconfig, add include', async () => {
+    const tree = createTreeWithEmptyWorkspace(1);
+    tree.write('.gitignore', '#');
+    await applicationGenerator(tree, { name: `test-app` });
+    await storybookConfigurationGenerator(tree, {
+      configureCypress: false,
+      generateCypressSpecs: false,
+      generateStories: false,
+      linter: Linter.None,
+      name: `test-app`,
+    });
+    updateJson<TsConfig>(
+      tree,
+      `apps/test-app/.storybook/tsconfig.json`,
+      (tsconfig) => {
+        delete tsconfig.include;
+        return tsconfig;
+      }
+    );
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
+    expect(
+      JSON.parse(tree.read(`apps/test-app/.storybook/tsconfig.json`).toString())
+        .include
+    ).toBeTruthy();
   });
 
   it('should skip configuration for non-cypress e2e project', async () => {

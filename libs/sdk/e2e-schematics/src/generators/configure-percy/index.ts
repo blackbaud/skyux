@@ -9,7 +9,7 @@ import { insertStatement } from '@nrwl/workspace/src/generators/utils/insert-sta
 
 import { someOrAllE2eProjects } from '../../utils/some-or-all-projects';
 
-export async function configurePercy(tree: Tree, schema: any) {
+export async function configurePercy(tree: Tree, schema: { name?: string }) {
   const projects = someOrAllE2eProjects(tree, schema.name);
   projects.forEach((project) => {
     const cypressJsonPath = joinPathFragments(project.root, 'cypress.json');

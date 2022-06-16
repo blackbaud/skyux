@@ -35,6 +35,11 @@
       "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
       "extends": ["plugin:storybook/recommended"],
       "rules": {}
+    },
+    {
+      "files": "*.json",
+      "parser": "jsonc-eslint-parser",
+      "rules": {}
     }
   ],
   "extends": ["prettier"]

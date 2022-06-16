@@ -18,6 +18,8 @@ import {
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
+import assert from 'assert';
+
 import { updateJson } from '../../utils/update-json';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
@@ -55,7 +57,9 @@ export async function componentE2eGenerator(
   const options = normalizeOptions(tree, schema);
 
   let createProject = false;
-  let appGenerator: () => void;
+  /* istanbul ignore next */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  let appGenerator: () => void = () => {};
   try {
     readProjectConfiguration(tree, options.storybookAppName);
     logger.warn(`The project "${options.storybookAppName}" already exists.`);
@@ -71,7 +75,9 @@ export async function componentE2eGenerator(
       prefix: options.prefix,
       unitTestRunner: UnitTestRunner.Jest,
     });
-    updateJson(tree, getWorkspacePath(tree), (angularJson) => {
+    const workspacePath = getWorkspacePath(tree);
+    assert.ok(workspacePath);
+    updateJson<any>(tree, workspacePath, (angularJson) => {
       angularJson.projects[
         options.storybookAppName
       ].architect.build.options.styles.push(

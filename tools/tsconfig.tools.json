@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../dist/out-tsc/tools",
     "rootDir": ".",
@@ -8,6 +8,5 @@
     "types": ["node"],
     "importHelpers": false
   },
-  "exclude": ["jest.config.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]
 }

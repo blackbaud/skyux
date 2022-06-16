@@ -137,7 +137,7 @@ jobs:
         with:
           path: ./dist/storybooks/
       - name: Generate Storybook Composition
-        run: npx nx workspace-generator storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/
+        run: npx nx g @skyux/e2e-schematics:storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ env.GH_PAGES_REPO }}

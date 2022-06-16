@@ -41,7 +41,7 @@ describe('configure-percy', () => {
       name: `cypress`,
       baseUrl: 'https://example.com',
     });
-    updateJson(tree, `apps/cypress/cypress.json`, (config) => {
+    updateJson<any>(tree, `apps/cypress/cypress.json`, (config) => {
       delete config.supportFile;
       return config;
     });

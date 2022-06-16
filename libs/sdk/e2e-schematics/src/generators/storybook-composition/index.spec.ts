@@ -58,4 +58,16 @@ describe('storybook-composition', () => {
     });
     expect(tree.read(storybookMain).toString()).not.toContain('test-app');
   });
+
+  it('should error without storybook project', async () => {
+    const tree = createTreeWithEmptyWorkspace();
+    const spy = jest.spyOn(console, 'error');
+    await generateStorybookComposition(tree, {
+      projectsJson: JSON.stringify(['test-app']),
+      baseUrl: '../storybooks',
+    });
+    expect(spy).toHaveBeenCalledWith(
+      `\u001B[1m\u001B[31mUnable to load a project named "storybook"\u001B[39m\u001B[22m`
+    );
+  });
 });

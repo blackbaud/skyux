@@ -6,7 +6,7 @@ describe('update-json', () => {
   it('should update json', () => {
     const tree = createTree();
     tree.write('file.json', JSON.stringify({ test: 'value' }));
-    updateJson(tree, 'file.json', (value) => {
+    updateJson<any>(tree, 'file.json', (value) => {
       value.test = 'updated';
       return value;
     });

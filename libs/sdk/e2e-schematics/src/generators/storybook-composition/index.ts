@@ -20,6 +20,10 @@ export async function generateStorybookComposition(
 ) {
   const allProjects = getProjects(tree);
   const storybookProject = allProjects.get('storybook');
+  if (!allProjects || !storybookProject) {
+    logger.error(`Unable to load a project named "storybook"`);
+    return;
+  }
   const storybookProjectRoot = storybookProject.root;
   const relativeToRoot = relative(`/${storybookProjectRoot}/.storybook`, `/`);
 
@@ -27,8 +31,11 @@ export async function generateStorybookComposition(
   const projects = projectsArg
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {
-      const target = allProjects.get(project).targets['build-storybook'];
-      return target && target.executor === '@storybook/angular:build-storybook';
+      const projectConfiguration = allProjects.get(project);
+      return (
+        projectConfiguration &&
+        'build-storybook' in projectConfiguration.targets
+      );
     });
 
   if (projects.length === 0) {
