@@ -25,7 +25,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog",
+      "path": "./node_modules/@ryansonshine/cz-conventional-changelog",
       "types": {
         "feat": {
           "description": "A new feature",
@@ -133,6 +133,8 @@
     "@nrwl/node": "14.1.9",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/workspace": "14.1.9",
+    "@ryansonshine/commitizen": "^4.2.8",
+    "@ryansonshine/cz-conventional-changelog": "^3.3.4",
     "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#a1f998a05640ca086858ae477912f80753dcb733",
     "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/cross-spawn": "6.0.2",
@@ -149,7 +151,6 @@
     "browserstack-local": "1.4.9",
     "cross-spawn": "7.0.3",
     "cypress": "8.7.0",
-    "cz-conventional-changelog": "3.3.0",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-cypress": "2.12.1",
