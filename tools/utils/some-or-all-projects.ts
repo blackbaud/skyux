@@ -6,7 +6,7 @@ function someOrAllProjects(
   name?: string
 ): Map<string, ProjectConfiguration> {
   const projectConfigurations = getProjects(tree);
-  let projects = new Map<string, ProjectConfiguration>();
+  const projects = new Map<string, ProjectConfiguration>();
   if (name) {
     const projectNames = name
       .split(',')
