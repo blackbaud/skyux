@@ -53,6 +53,12 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    if (this.context.idProperty === undefined) {
+      throw new Error(
+        "The 'idProperty' input is required when 'searchAsync' is used."
+      );
+    }
+
     this.searchText = this.context.initialSearch;
 
     this.createInitialSelectedItemsMap();
