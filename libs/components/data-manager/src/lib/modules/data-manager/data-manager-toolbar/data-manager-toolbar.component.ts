@@ -157,6 +157,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       providers: [
         { provide: SkyDataManagerFilterModalContext, useValue: context },
       ],
+      size: 'large',
     };
 
     if (filterModal) {
@@ -188,6 +189,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       providers: [
         { provide: SkyDataManagerColumnPickerContext, useValue: context },
       ],
+      size: 'large',
     };
 
     const modalInstance = this.modalService.open(

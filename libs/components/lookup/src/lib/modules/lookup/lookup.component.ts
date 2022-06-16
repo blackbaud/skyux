@@ -567,6 +567,7 @@ export class SkyLookupComponent
           useValue: contextProviderValue,
         },
       ],
+      size: 'large',
       wrapperClass: this.wrapperClass,
     });
   }
