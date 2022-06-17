@@ -74,7 +74,7 @@ export class SkyActionButtonContainerComponent
 
   private _themeName: string;
 
-  private _viewInitialized = false;
+  #viewInitialized = false;
 
   constructor(
     private actionButtonAdapterService: SkyActionButtonAdapterService,
@@ -111,7 +111,7 @@ export class SkyActionButtonContainerComponent
           this.updateHeight();
         });
     }
-    this._viewInitialized = true;
+    this.#viewInitialized = true;
     this.updateHeight();
   }
 
@@ -130,7 +130,7 @@ export class SkyActionButtonContainerComponent
   }
 
   private updateHeight(): void {
-    if (this._viewInitialized) {
+    if (this.#viewInitialized) {
       this.coreAdapterService.resetHeight(
         this.containerRef,
         '.sky-action-button'
