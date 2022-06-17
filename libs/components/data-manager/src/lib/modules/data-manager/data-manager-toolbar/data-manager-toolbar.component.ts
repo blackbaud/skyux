@@ -157,6 +157,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       providers: [
         { provide: SkyDataManagerFilterModalContext, useValue: context },
       ],
+      size: 'large',
     };
 
     if (filterModal) {
