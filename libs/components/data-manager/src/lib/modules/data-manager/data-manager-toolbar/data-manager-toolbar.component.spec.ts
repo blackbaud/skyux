@@ -548,6 +548,7 @@ describe('SkyDataManagerToolbarComponent', () => {
           useValue: context,
         },
       ],
+      size: 'large',
     };
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
@@ -591,6 +592,7 @@ describe('SkyDataManagerToolbarComponent', () => {
           useValue: context,
         },
       ],
+      size: 'large',
     };
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
