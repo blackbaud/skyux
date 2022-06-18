@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "6.3.0",
+  "version": "6.3.1",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -25,7 +25,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog",
+      "path": "./node_modules/@ryansonshine/cz-conventional-changelog",
       "types": {
         "feat": {
           "description": "A new feature",
@@ -149,6 +149,8 @@
     "@percy/cli": "1.2.1",
     "@percy/cypress": "3.1.1",
     "@percy/storybook": "4.2.1",
+    "@ryansonshine/commitizen": "4.2.8",
+    "@ryansonshine/cz-conventional-changelog": "3.3.4",
     "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#a1f998a05640ca086858ae477912f80753dcb733",
     "@storybook/addon-a11y": "6.5.6",
     "@storybook/addon-essentials": "6.5.6",
@@ -175,7 +177,6 @@
     "browserstack-local": "1.4.9",
     "cross-spawn": "7.0.3",
     "cypress": "9.7.0",
-    "cz-conventional-changelog": "3.3.0",
     "eslint": "8.13.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-cypress": "2.12.1",
