@@ -18,8 +18,6 @@ import {
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
-import assert from 'assert';
-
 import { updateJson } from '../../utils/update-json';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
@@ -76,7 +74,6 @@ export async function componentE2eGenerator(
       unitTestRunner: UnitTestRunner.Jest,
     });
     const workspacePath = getWorkspacePath(tree);
-    assert.ok(workspacePath);
     updateJson<any>(tree, workspacePath, (angularJson) => {
       angularJson.projects[
         options.storybookAppName
