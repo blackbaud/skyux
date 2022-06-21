@@ -1,5 +1,14 @@
 # Changelog
 
+### [5.11.2](https://github.com/blackbaud/skyux/compare/5.11.1...5.11.2) (2022-06-21)
+
+### Bug Fixes
+
+- **components/ag-grid:** show border when in edit mode ([#294](https://github.com/blackbaud/skyux/issues/294)) ([7be4106](https://github.com/blackbaud/skyux/commit/7be4106dcf24ad9c35a42cc6f8f9e563c56bcda5))
+- **components/theme:** inline links and anchor tags display the correct visual styles in modern theme ([#283](https://github.com/blackbaud/skyux/issues/283)) ([5615c6a](https://github.com/blackbaud/skyux/commit/5615c6aa36107807534277ad1e1f166a63265d9d))
+- use large modal size ([#300](https://github.com/blackbaud/skyux/issues/300)) ([761a29f](https://github.com/blackbaud/skyux/commit/761a29fd7710bdb6e7f2bf60a13a3deb7b0cdcb7))
+- vulnerabilities remediation ([#292](https://github.com/blackbaud/skyux/issues/292)) ([ffe176b](https://github.com/blackbaud/skyux/commit/ffe176bd5f010620a18064e14392b83094d1accc))
+
 ### [5.11.1](https://github.com/blackbaud/skyux/compare/5.11.0...5.11.1) (2022-06-09)
 
 ## [5.11.0](https://github.com/blackbaud/skyux/compare/5.10.0...5.11.0) (2022-06-09)
