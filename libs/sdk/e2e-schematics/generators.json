@@ -4,27 +4,27 @@
   "version": "1.0.0",
   "generators": {
     "component-e2e": {
-      "factory": "./src/generators/component-e2e/component-e2e",
+      "factory": "./src/generators/component-e2e",
       "schema": "./src/generators/component-e2e/schema.json",
       "description": "configure a library for e2e testing"
     },
     "configure-percy": {
-      "factory": "./src/generators/configure-percy/configure-percy",
+      "factory": "./src/generators/configure-percy",
       "schema": "./src/generators/configure-percy/schema.json",
       "description": "configure a cypress e2e project to use percy"
     },
     "configure-storybook": {
-      "factory": "./src/generators/configure-storybook/configure-storybook",
+      "factory": "./src/generators/configure-storybook",
       "schema": "./src/generators/configure-storybook/schema.json",
       "description": "configure storybook"
     },
     "storybook-composition": {
-      "factory": "./src/generators/storybook-composition/storybook-composition",
+      "factory": "./src/generators/storybook-composition",
       "schema": "./src/generators/storybook-composition/schema.json",
       "description": "generate storybook composition from a set of projects"
     },
     "stories": {
-      "factory": "./src/generators/stories/stories",
+      "factory": "./src/generators/stories",
       "schema": "./src/generators/stories/schema.json",
       "description": "stories generator"
     }
