@@ -3,14 +3,21 @@ import { RouterModule } from '@angular/router';
 
 import { LookupComponent } from './lookup.component';
 
+const routes = [
+  {
+    path: '',
+    component: LookupComponent,
+    data: {
+      name: 'Lookup',
+      icon: 'search',
+      library: 'lookup',
+    },
+  },
+];
+
 @NgModule({
-  imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: LookupComponent,
-      },
-    ]),
-  ],
+  imports: [RouterModule.forChild(routes)],
 })
-export class LookupRoutingModule {}
+export class LookupRoutingModule {
+  public static routes = routes;
+}

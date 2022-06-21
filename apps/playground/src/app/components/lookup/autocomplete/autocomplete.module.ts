@@ -18,4 +18,6 @@ import { AutocompleteComponent } from './autocomplete.component';
     SkyInputBoxModule,
   ],
 })
-export class AutocompleteModule {}
+export class AutocompleteModule {
+  public static routes = AutocompleteRoutingModule.routes;
+}

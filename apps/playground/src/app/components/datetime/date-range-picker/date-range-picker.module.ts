@@ -21,4 +21,6 @@ import { DateRangePickerComponent } from './date-range-picker.component';
     RouterModule,
   ],
 })
-export class DateRangePickerModule {}
+export class DateRangePickerModule {
+  public static routes = DateRangePickerRoutingModule.routes;
+}

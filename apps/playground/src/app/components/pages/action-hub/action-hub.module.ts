@@ -15,4 +15,6 @@ import { ActionHubPlaygroundRecentLinksComponent } from './recent/action-hub-rec
     SkyFluidGridModule,
   ],
 })
-export class ActionHubModule {}
+export class ActionHubModule {
+  public static routes = ActionHubRoutingModule.routes;
+}

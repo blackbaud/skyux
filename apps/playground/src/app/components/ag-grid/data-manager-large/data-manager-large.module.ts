@@ -31,4 +31,6 @@ import { LocalStorageConfigService } from './local-storage-config.service';
     },
   ],
 })
-export class DataManagerLargeModule {}
+export class DataManagerLargeModule {
+  public static routes = DataManagerLargeRoutingModule.routes;
+}

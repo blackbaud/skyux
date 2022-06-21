@@ -5,4 +5,6 @@ import { PagesRoutingModule } from './pages-routing.module';
 @NgModule({
   imports: [PagesRoutingModule],
 })
-export class PagesModule {}
+export class PagesModule {
+  public static routes = PagesRoutingModule.routes;
+}

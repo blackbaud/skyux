@@ -9,7 +9,9 @@ const routes: Routes = [
   {
     path: 'components',
     loadChildren: () =>
-      import('./components/components.module').then((m) => m.ComponentsModule),
+      import('./components/components.module').then(
+        (m) => m.ComponentsRoutingModule
+      ),
   },
 ];
 

@@ -25,4 +25,6 @@ export class DatetimeRoutingModule {}
 @NgModule({
   imports: [DatetimeRoutingModule],
 })
-export class DatetimeModule {}
+export class DatetimeModule {
+  public static routes = routes;
+}

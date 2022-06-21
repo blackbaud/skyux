@@ -23,4 +23,6 @@ import { EditInModalGridRoutingModule } from './edit-in-modal-grid-routing.modul
     SkyModalModule,
   ],
 })
-export class EditInModalGridModule {}
+export class EditInModalGridModule {
+  public static routes = EditInModalGridRoutingModule.routes;
+}

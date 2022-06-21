@@ -3,14 +3,21 @@ import { RouterModule } from '@angular/router';
 
 import { ButtonsComponent } from './buttons.component';
 
+const routes = [
+  {
+    path: '',
+    component: ButtonsComponent,
+    data: {
+      name: 'Button',
+      icon: 'square-o',
+      library: 'theme',
+    },
+  },
+];
+
 @NgModule({
-  imports: [
-    RouterModule.forChild([
-      {
-        path: '',
-        component: ButtonsComponent,
-      },
-    ]),
-  ],
+  imports: [RouterModule.forChild(routes)],
 })
-export class ButtonsRoutingModule {}
+export class ButtonsRoutingModule {
+  public static routes = routes;
+}

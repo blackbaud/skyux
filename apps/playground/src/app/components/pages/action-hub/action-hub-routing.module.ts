@@ -7,6 +7,11 @@ const routes: Routes = [
   {
     path: 'recent',
     component: ActionHubPlaygroundRecentLinksComponent,
+    data: {
+      name: 'Action hub (recently accessed)',
+      icon: 'bell-o',
+      library: 'pages',
+    },
   },
 ];
 
@@ -14,4 +19,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ActionHubRoutingModule {}
+export class ActionHubRoutingModule {
+  public static routes = routes;
+}

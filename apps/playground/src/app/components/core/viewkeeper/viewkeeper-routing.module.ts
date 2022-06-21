@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { PhoneFieldComponent } from './phone-field.component';
+import { ViewkeeperComponent } from './viewkeeper.component';
 
 const routes = [
   {
     path: '',
-    component: PhoneFieldComponent,
+    component: ViewkeeperComponent,
     data: {
-      name: 'Phone field',
-      icon: 'phone',
-      library: 'phone-field',
+      name: 'Viewkeeper',
+      icon: 'window-maximize',
+      library: 'core',
     },
   },
 ];
@@ -18,6 +18,6 @@ const routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class PhoneFieldRoutingModule {
+export class ViewkeeperRoutingModule {
   public static routes = routes;
 }

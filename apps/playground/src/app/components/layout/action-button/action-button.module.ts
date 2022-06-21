@@ -34,4 +34,6 @@ const routes: Routes = [{ path: '', component: ActionButtonComponent }];
     },
   ],
 })
-export class ActionButtonModule {}
+export class ActionButtonModule {
+  public static routes = ActionButtonRoutingModule.routes;
+}
