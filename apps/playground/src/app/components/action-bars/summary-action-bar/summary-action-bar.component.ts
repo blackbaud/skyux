@@ -29,7 +29,9 @@ export class SummaryActionBarComponent implements OnDestroy {
   }
 
   public openModal() {
-    this.modalService.open(SummaryActionBarModalComponent);
+    this.modalService.open(SummaryActionBarModalComponent, {
+      size: 'large',
+    });
   }
 
   public openFullScreenModal() {
