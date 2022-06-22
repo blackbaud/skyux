@@ -129,21 +129,23 @@ export class SkyActionButtonContainerComponent
     this.updateResponsiveClass();
   }
 
-  private updateHeight(): void {
+  private updateHeight(delay = 0): void {
     if (this.#viewInitialized) {
-      this.coreAdapterService.resetHeight(
-        this.containerRef,
-        '.sky-action-button'
-      );
+      const ref = this.containerRef;
+      this.coreAdapterService.resetHeight(ref, '.sky-action-button');
       if (this._themeName === 'modern') {
         // Wait for children components to complete rendering before height is determined.
         clearTimeout(this.syncMaxHeightTimeout);
         this.syncMaxHeightTimeout = setTimeout(() => {
-          this.coreAdapterService.syncMaxHeight(
-            this.containerRef,
-            '.sky-action-button'
-          );
-        }) as unknown as number;
+          const selector = '.sky-action-button:not([hidden])';
+          const button = ref.nativeElement.querySelector(selector);
+          if (button && button.offsetHeight > 0) {
+            this.coreAdapterService.syncMaxHeight(ref, selector);
+          } else if (delay < 200) {
+            // Wait progressively longer between retries.
+            this.updateHeight(delay + 50);
+          }
+        }, delay) as unknown as number;
       }
     }
   }
