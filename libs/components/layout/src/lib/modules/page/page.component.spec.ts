@@ -34,7 +34,7 @@ describe('Page component', () => {
     document.head.removeChild(styleEl);
   });
 
-  it("should set the page's background color to white", () => {
+  fit("should set the page's background color to white", () => {
     const fixture = TestBed.createComponent(SkyPageComponent);
 
     fixture.detectChanges();
