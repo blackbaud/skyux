@@ -48,7 +48,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "action-bars": {
       "projectType": "library",
@@ -97,7 +97,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "action-bars-testing": {
       "projectType": "library",
@@ -175,7 +175,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "angular-tree-component": {
       "projectType": "library",
@@ -224,7 +224,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "animations": {
       "projectType": "library",
@@ -273,7 +273,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "assets": {
       "projectType": "library",
@@ -322,7 +322,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "autonumeric": {
       "projectType": "library",
@@ -371,7 +371,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "avatar": {
       "projectType": "library",
@@ -420,7 +420,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "avatar-testing": {
       "projectType": "library",
@@ -616,7 +616,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "colorpicker-testing": {
       "projectType": "library",
@@ -687,7 +687,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "core": {
       "projectType": "library",
@@ -736,7 +736,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "core-testing": {
       "projectType": "library",
@@ -807,7 +807,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "datetime": {
       "projectType": "library",
@@ -856,7 +856,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "datetime-testing": {
       "projectType": "library",
@@ -927,7 +927,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "errors-testing": {
       "projectType": "library",
@@ -998,7 +998,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "forms": {
       "projectType": "library",
@@ -1047,7 +1047,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "forms-testing": {
       "projectType": "library",
@@ -1118,7 +1118,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "http": {
       "projectType": "library",
@@ -1167,7 +1167,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "http-testing": {
       "projectType": "library",
@@ -1250,7 +1250,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "indicators": {
       "projectType": "library",
@@ -1299,7 +1299,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "indicators-testing": {
       "projectType": "library",
@@ -1370,7 +1370,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "integration": {
       "projectType": "application",
@@ -1553,7 +1553,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "layout-testing": {
       "projectType": "library",
@@ -1624,7 +1624,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-common": {
       "projectType": "library",
@@ -1673,7 +1673,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-checklist": {
       "projectType": "library",
@@ -1722,7 +1722,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-checklist-testing": {
       "projectType": "library",
@@ -1793,7 +1793,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-grids-testing": {
       "projectType": "library",
@@ -1864,7 +1864,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "lists-testing": {
       "projectType": "library",
@@ -1935,7 +1935,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "lookup-testing": {
       "projectType": "library",
@@ -2006,7 +2006,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "modals-testing": {
       "projectType": "library",
@@ -2077,7 +2077,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "omnibar-interop": {
       "projectType": "library",
@@ -2126,7 +2126,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "packages": {
       "root": "libs/components/packages",
@@ -2169,7 +2169,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "pages": {
       "projectType": "library",
@@ -2218,7 +2218,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "phone-field": {
       "projectType": "library",
@@ -2267,7 +2267,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "phone-field-testing": {
       "projectType": "library",
@@ -2433,7 +2433,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "popovers-testing": {
       "projectType": "library",
@@ -2496,7 +2496,7 @@
           }
         }
       },
-      "tags": ["sdk"]
+      "tags": ["sdk", "npm"]
     },
     "progress-indicator": {
       "projectType": "library",
@@ -2545,7 +2545,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "router": {
       "projectType": "library",
@@ -2594,7 +2594,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "select-field": {
       "projectType": "library",
@@ -2643,7 +2643,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "split-view": {
       "projectType": "library",
@@ -2692,7 +2692,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "split-view-testing": {
       "projectType": "library",
@@ -2763,7 +2763,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "tabs-testing": {
       "projectType": "library",
@@ -2834,7 +2834,7 @@
           }
         }
       },
-      "tags": ["sdk"]
+      "tags": ["sdk", "npm"]
     },
     "text-editor": {
       "projectType": "library",
@@ -2883,7 +2883,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "theme": {
       "projectType": "library",
@@ -2938,7 +2938,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "tiles": {
       "projectType": "library",
@@ -2987,7 +2987,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "toast": {
       "projectType": "library",
@@ -3036,7 +3036,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "toast-testing": {
       "projectType": "library",
@@ -3107,7 +3107,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     }
   }
 }
