@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
+
 import { BackToTopComponent } from './basic/back-to-top.component';
 import { BackToTopMessageStreamComponent } from './message-stream/back-to-top-message-stream.component';
 import { BackToTopScrollableParentComponent } from './scrollable-parent/back-to-top-scrollable-parent.component';
 
-const routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: BackToTopComponent,

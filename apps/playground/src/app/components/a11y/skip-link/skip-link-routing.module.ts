@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { SkipLinkComponent } from './skip-link.component';
 
-const routes: Route[] = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: SkipLinkComponent,

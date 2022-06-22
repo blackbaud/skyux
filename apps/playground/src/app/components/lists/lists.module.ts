@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../shared/component-info/component-route-info';
 
 import {
   FilterVisualComponent,
@@ -26,7 +28,7 @@ import {
   SortVisualComponentModule,
 } from './sort/sort-visual.component';
 
-const routes: Routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: 'filter',
     component: FilterVisualComponent,

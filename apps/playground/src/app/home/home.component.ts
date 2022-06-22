@@ -1,6 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { SkyDataManagerService, SkyDataManagerState, SkyDataViewConfig } from '@skyux/data-manager';
+import { ComponentInfo } from '../shared/component-info/component-info';
+import { ComponentRouteInfo } from '../shared/component-info/component-route-info';
 import { HomeFiltersModalDemoComponent } from './home-filter.component';
 
 @Component({
@@ -10,7 +12,7 @@ import { HomeFiltersModalDemoComponent } from './home-filter.component';
 })
 export class HomeComponent implements AfterViewInit {
 
-  public componentData: any[] = [];
+  public componentData: ComponentInfo[] = [];
 
   public dataManagerConfig = {
     filterModalComponent: HomeFiltersModalDemoComponent,
@@ -56,7 +58,7 @@ export class HomeComponent implements AfterViewInit {
     ],
   });
 
-  public displayedItems: any[] = [];
+  public displayedItems: ComponentInfo[] = [];
 
   public viewConfig: SkyDataViewConfig = {
     id: 'playgroundComponents',
@@ -68,10 +70,11 @@ export class HomeComponent implements AfterViewInit {
   };
 
   constructor(router: Router, private changeDetector: ChangeDetectorRef, private dataManagerService: SkyDataManagerService) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (router.config.find(route => route.path === 'components').loadChildren() as Promise<any>).then((componentsRoutes) => {
       this.createComponentData(componentsRoutes.routes, 'components').then(() => {
 
-      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return { name: data.library, isSelected: false }}))].sort() };
+      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return data.library }))].sort().map(libraryName => { return { name: libraryName, isSelected: false }}) };
 
       this.dataManagerService.initDataManager({
         activeViewId: 'playgroundComponents',
@@ -103,13 +106,16 @@ export class HomeComponent implements AfterViewInit {
       });
   }
 
-  private createComponentData(routes: Route[], parentPath: string): Promise<unknown> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private createComponentData(routes: ComponentRouteInfo[], parentPath: string): Promise<any> {
     console.log(routes);
 
-    const promises: Promise<unknown>[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const promises: Promise<any>[] = [];
 
     for (const route of routes) {
       if(route.loadChildren) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         promises.push((<Promise<any>> route.loadChildren()).then((newRoutes) => {
           if (newRoutes.routes instanceof Array) {
             return this.createComponentData(newRoutes.routes, parentPath + '/' + route.path);
@@ -124,12 +130,12 @@ export class HomeComponent implements AfterViewInit {
     return Promise.allSettled(promises);
   }
 
-  private sortItems(items: any[]): any[] {
+  private sortItems(items: ComponentInfo[]): ComponentInfo[] {
     let result = items;
     const sortOption = this.dataState && this.dataState.activeSortOption;
 
     if (sortOption) {
-      result = items.sort(function (a: any, b: any) {
+      result = items.sort(function (a: ComponentInfo, b: ComponentInfo) {
         const descending = sortOption.descending ? -1 : 1,
           sortProperty = sortOption.propertyName;
 
@@ -146,14 +152,14 @@ export class HomeComponent implements AfterViewInit {
     return result;
   }
 
-  private searchItems(items: any[]): any[] {
+  private searchItems(items: ComponentInfo[]): ComponentInfo[] {
     let searchedItems = items;
     const searchText =
       this.dataState && this.dataState.searchText?.toUpperCase();
 
     if (searchText) {
-      searchedItems = items.filter(function (item: any) {
-        let property: any;
+      searchedItems = items.filter(function (item: ComponentInfo) {
+        let property: unknown;
 
         for (property in item) {
           if (
@@ -174,19 +180,15 @@ export class HomeComponent implements AfterViewInit {
     return searchedItems;
   }
 
-  private filterItems(items: any[]): any[] {
+  private filterItems(items: ComponentInfo[]): ComponentInfo[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
-    if (filterData && filterData.filters) {
+    if (filterData && filterData.filters && filterData.filtersApplied) {
       const filters = filterData.filters;
-      filteredItems = items.filter((item: any) => {
+      filteredItems = items.filter((item: ComponentInfo) => {
         if (
-          ((filters.hideOrange && item.color !== 'orange') ||
-            !filters.hideOrange) &&
-          ((filters.type !== 'any' && item.type === filters.type) ||
-            !filters.type ||
-            filters.type === 'any')
+          filters.libraries.find(library => library.name === item.library).isSelected
         ) {
           return true;
         }

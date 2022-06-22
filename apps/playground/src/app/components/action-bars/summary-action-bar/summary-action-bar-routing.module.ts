@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
+
 import { SummaryActionBarComponent } from './summary-action-bar.component';
 
-const routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: SummaryActionBarComponent,

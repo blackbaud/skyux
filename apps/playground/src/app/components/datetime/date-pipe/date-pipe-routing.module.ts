@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
+
 import { DatePipeComponent } from './basic/date-pipe.component';
 import { DatePipeProviderComponent } from './provider/date-pipe-provider.component';
 
-const routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: DatePipeComponent,

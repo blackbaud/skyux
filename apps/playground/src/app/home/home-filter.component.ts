@@ -10,7 +10,7 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './home-filter.component.html',
 })
 export class HomeFiltersModalDemoComponent {
-  public libraries: string[];
+  public libraries: { name: string; isSelected: boolean }[];
 
   constructor(
     public context: SkyDataManagerFilterModalContext,
@@ -19,14 +19,16 @@ export class HomeFiltersModalDemoComponent {
     console.log(this.context);
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;
-      this.libraries = filters.libraries;
+      // Deep clone the array so that cancelling is done without issue
+      this.libraries = JSON.parse(JSON.stringify(filters.libraries));
     }
   }
 
   public applyFilters() {
     const result: SkyDataManagerFilterData = {};
 
-    // result.filtersApplied = this.fruitType !== 'any' || this.hideOrange;
+    result.filtersApplied =
+      this.libraries.findIndex((lib) => lib.isSelected) >= 0;
     result.filters = {
       libraries: this.libraries,
     };
@@ -35,8 +37,7 @@ export class HomeFiltersModalDemoComponent {
   }
 
   public clearAllFilters() {
-    // this.hideOrange = false;
-    // this.fruitType = 'any';
+    this.libraries.forEach((lib) => (lib.isSelected = false));
   }
 
   public cancel() {

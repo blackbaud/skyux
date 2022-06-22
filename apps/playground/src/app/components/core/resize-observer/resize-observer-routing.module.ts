@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { ResizeObserverBasicComponent } from './basic/resize-observer-basic.component';
 import { ResizeObserverFlyoutComponent } from './flyout/resize-observer-flyout.component';
 import { ResizeObserverBaseComponent } from './modal/resize-observer-base.component';
 
-const routes: Routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: 'resize-observer/basic',
     component: ResizeObserverBasicComponent,

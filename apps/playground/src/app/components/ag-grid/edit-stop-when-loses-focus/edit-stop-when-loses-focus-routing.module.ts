@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { EditStopWhenLosesFocusComponent } from './edit-stop-when-loses-focus.component';
 
-const routes: Routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: EditStopWhenLosesFocusComponent,

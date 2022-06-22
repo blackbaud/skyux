@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { ReadonlyGridComponent } from './readonly-grid.component';
 
-const routes: Routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: ReadonlyGridComponent,

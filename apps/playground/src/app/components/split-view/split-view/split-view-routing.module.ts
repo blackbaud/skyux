@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
+
 import { SplitViewComponent } from './basic/split-view.component';
 import { SplitViewPageBoundComponent } from './page-bound/split-view-page-bound.compoennt';
 
-const routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: '',
     component: SplitViewComponent,
