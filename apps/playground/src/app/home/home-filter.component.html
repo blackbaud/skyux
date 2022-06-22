@@ -1,0 +1,31 @@
+<sky-modal>
+  <sky-modal-header> Filter by library </sky-modal-header>
+  <sky-modal-content>
+    <sky-repeater>
+      <sky-repeater-item *ngFor="let library of libraries" [selectable]="true">
+        <sky-repeater-item-title>
+          {{ library }}
+        </sky-repeater-item-title>
+      </sky-repeater-item>
+    </sky-repeater>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary"
+      (click)="applyFilters()"
+    >
+      Apply filters
+    </button>
+    <button
+      type="button"
+      class="sky-btn sky-btn-link"
+      (click)="clearAllFilters()"
+    >
+      Clear all filters
+    </button>
+    <button type="button" class="sky-btn sky-btn-link" (click)="cancel()">
+      Cancel
+    </button>
+  </sky-modal-footer>
+</sky-modal>

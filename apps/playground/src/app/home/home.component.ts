@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { SkyDataManagerService, SkyDataManagerState, SkyDataViewConfig } from '@skyux/data-manager';
+import { HomeFiltersModalDemoComponent } from './home-filter.component';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ export class HomeComponent implements AfterViewInit {
   public componentData: any[] = [];
 
   public dataManagerConfig = {
+    filterModalComponent: HomeFiltersModalDemoComponent,
     sortOptions: [
       {
         id: 'az',
@@ -67,19 +69,24 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(router: Router, private changeDetector: ChangeDetectorRef, private dataManagerService: SkyDataManagerService) {
     (router.config.find(route => route.path === 'components').loadChildren() as Promise<any>).then((componentsRoutes) => {
-      this.createComponentData(componentsRoutes.routes, 'components');
-      this.displayedItems = this.sortItems(
-        this.filterItems(this.searchItems(this.componentData))
-      );
-    });
+      this.createComponentData(componentsRoutes.routes, 'components').then(() => {
 
-    this.dataManagerService.initDataManager({
-      activeViewId: 'playgroundComponents',
-      dataManagerConfig: this.dataManagerConfig,
-      defaultDataState: this.defaultDataState,
-    });
+      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return data.library }))].sort() };
 
-    this.dataManagerService.initDataView(this.viewConfig);
+      this.dataManagerService.initDataManager({
+        activeViewId: 'playgroundComponents',
+        dataManagerConfig: this.dataManagerConfig,
+        defaultDataState: this.defaultDataState,
+      });
+
+      this.dataManagerService.initDataView(this.viewConfig);
+
+        this.displayedItems = this.sortItems(
+          this.filterItems(this.searchItems(this.componentData))
+        );
+        this.changeDetector.markForCheck();
+      });
+    });
   }
 
   public ngAfterViewInit() {
@@ -88,29 +95,33 @@ export class HomeComponent implements AfterViewInit {
       .subscribe((state) => {
         this.dataState = state;
         if (this.componentData) {
-        this.displayedItems = this.sortItems(
-          this.filterItems(this.searchItems(this.componentData))
-        );
+          this.displayedItems = this.sortItems(
+            this.filterItems(this.searchItems(this.componentData))
+          );
+          this.changeDetector.detectChanges();
         }
-        this.changeDetector.detectChanges();
       });
   }
 
-  private createComponentData(routes: Route[], parentPath: string) {
+  private createComponentData(routes: Route[], parentPath: string): Promise<unknown> {
     console.log(routes);
+
+    const promises: Promise<unknown>[] = [];
 
     for (const route of routes) {
       if(route.loadChildren) {
-        (<Promise<any>> route.loadChildren()).then((newRoutes) => {
+        promises.push((<Promise<any>> route.loadChildren()).then((newRoutes) => {
           if (newRoutes.routes instanceof Array) {
-            this.createComponentData(newRoutes.routes, parentPath + '/' + route.path);
+            return this.createComponentData(newRoutes.routes, parentPath + '/' + route.path);
           }
-        });
+        }));
       } else if (route.data) {
         route.data.path = parentPath + '/' + route.path;
         this.componentData.push(route.data);
+        promises.push(Promise.resolve());
       }
     }
+    return Promise.allSettled(promises);
   }
 
   private sortItems(items: any[]): any[] {
