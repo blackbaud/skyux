@@ -71,7 +71,7 @@ export class HomeComponent implements AfterViewInit {
     (router.config.find(route => route.path === 'components').loadChildren() as Promise<any>).then((componentsRoutes) => {
       this.createComponentData(componentsRoutes.routes, 'components').then(() => {
 
-      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return data.library }))].sort() };
+      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return { name: data.library, isSelected: false }}))].sort() };
 
       this.dataManagerService.initDataManager({
         activeViewId: 'playgroundComponents',
