@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "configure-storybook",
+  "title": "Configure Storybook",
+  "description": "Adds configuration to Storybook.",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the project using Storybook.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "aliases": ["skip-format"],
+      "description": "Skip formatting files.",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "configure-percy",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "e2e project name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "skipFormat": {
+      "type": "boolean",
+      "aliases": ["skip-format"],
+      "description": "Skip formatting files.",
+      "default": false
+    }
+  }
+}
