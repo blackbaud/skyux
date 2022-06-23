@@ -1,0 +1,10 @@
+@import 'libs/components/theme/src/lib/styles/sky';
+@import 'libs/components/theme/src/lib/styles/themes/modern/styles';
+
+sky-preview-wrapper,
+.preview-wrapper {
+  display: block;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100vh;
+}
