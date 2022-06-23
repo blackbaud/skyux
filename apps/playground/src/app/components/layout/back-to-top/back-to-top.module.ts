@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SkyBackToTopModule, SkyPageModule } from '@skyux/layout';
+import { SkyBackToTopModule } from '@skyux/layout';
 
 import { BackToTopRoutingModule } from './back-to-top-routing.module';
 import { BackToTopComponent } from './basic/back-to-top.component';
@@ -12,6 +12,6 @@ import { BackToTopScrollableParentComponent } from './scrollable-parent/back-to-
     BackToTopMessageStreamComponent,
     BackToTopScrollableParentComponent,
   ],
-  imports: [BackToTopRoutingModule, SkyBackToTopModule, SkyPageModule],
+  imports: [BackToTopRoutingModule, SkyBackToTopModule],
 })
 export class BackToTopModule {}

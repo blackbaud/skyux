@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
  * Sets the correct background color for a page.
@@ -6,7 +8,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
   selector: 'sky-page',
   templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  providers: [SkyPageThemeAdapterService],
 })
-export class SkyPageComponent {}
+export class SkyPageComponent implements OnInit, OnDestroy {
+  constructor(private themeAdapter: SkyPageThemeAdapterService) {}
+
+  public ngOnInit(): void {
+    this.themeAdapter.addTheme();
+  }
+
+  public ngOnDestroy(): void {
+    this.themeAdapter.removeTheme();
+  }
+}
