@@ -16,14 +16,12 @@ import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-ser
 import { updateJson } from '../../utils/update-json';
 import configurePercy from '../configure-percy';
 import configureStorybook from '../configure-storybook';
+import init from '../init';
 import storiesGenerator from '../stories';
 
 import { NormalizedSchema, Schema } from './schema';
 
-function normalizeOptions(
-  host: Tree,
-  options: Partial<Schema>
-): NormalizedSchema {
+function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
   if (!options.name) {
     throw new Error(`Please provide the component library name`);
   }
@@ -41,14 +39,19 @@ function normalizeOptions(
     style: SchematicsAngularApplicationStyle.Scss,
     parsedTags,
     tags: parsedTags.join(','),
+    ansiColor: options.ansiColor !== false,
   };
 }
 
-export async function componentE2eGenerator(
-  tree: Tree,
-  schema: Partial<Schema>
-) {
-  const options = normalizeOptions(tree, schema);
+/**
+ * - Generates -storybook and -storybook-e2e projects for a component library if they don't already exist.
+ * - Applies configuration to the projects.
+ * - Generates stories and tests if there are demonstration components in the -storybook project.
+ */
+export default async function (tree: Tree, schema: Partial<Schema>) {
+  const options = normalizeOptions(schema);
+
+  const initTasks = await init(tree, { ansiColor: schema.ansiColor });
 
   let createProject = false;
   /* istanbul ignore next */
@@ -56,7 +59,9 @@ export async function componentE2eGenerator(
   let appGenerator: () => void = () => {};
   try {
     readProjectConfiguration(tree, options.storybookAppName);
-    logger.warn(`The project "${options.storybookAppName}" already exists.`);
+    (schema.ansiColor === false ? console.warn : logger.warn)(
+      `The project "${options.storybookAppName}" already exists.`
+    );
   } catch (e) {
     createProject = true;
     appGenerator = await applicationGenerator(tree, {
@@ -68,7 +73,9 @@ export async function componentE2eGenerator(
       prefix: options.prefix,
     });
     const workspacePath = getWorkspacePath(tree);
-    updateJson<any>(tree, workspacePath, (angularJson) => {
+    updateJson<unknown>(tree, workspacePath, (angularJson) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       angularJson.projects[
         options.storybookAppName
       ].architect.build.options.styles.push(
@@ -96,18 +103,17 @@ export async function componentE2eGenerator(
       generateCypressSpecs: false,
       linter: Linter.EsLint,
     });
+  } else {
+    await storiesGenerator(tree, {
+      project: options.storybookAppName,
+      cypressProject: `${options.storybookAppName}-e2e`,
+      generateCypressSpecs: true,
+    });
   }
-  await storiesGenerator(tree, {
-    project: options.storybookAppName,
-    cypressProject: `${options.storybookAppName}-e2e`,
-    generateCypressSpecs: true,
-  });
   await configureStorybook(tree, { name: options.storybookAppName });
   await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
   /* istanbul ignore next */
-  return runTasksInSerial(appGenerator, storybookGenerator, () =>
+  return runTasksInSerial(initTasks, appGenerator, storybookGenerator, () =>
     formatFiles(tree)
   );
 }
-
-export default componentE2eGenerator;

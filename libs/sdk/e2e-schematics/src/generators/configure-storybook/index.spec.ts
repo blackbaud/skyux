@@ -3,11 +3,10 @@ import {
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import { readProjectConfiguration } from '@nrwl/devkit';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 import { removeGenerator } from '@nrwl/workspace';
-
-import { createTreeWithEmptyWorkspace } from 'nx/src/generators/testing-utils/create-tree-with-empty-workspace';
 
 import { updateJson } from '../../utils/update-json';
 
@@ -95,8 +94,13 @@ describe('configure-storybook', () => {
       skipFormat: true,
     });
     await applicationGenerator(tree, { name: `test-app-e2e` });
+    const errorSpy = jest.spyOn(console, 'error');
     await configureStorybook(tree, { name: 'test-app' });
+    await configureStorybook(tree, { name: 'test-app', ansiColor: false });
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
     expect(e2eConfig.targets.e2e).toBeFalsy();
+    expect(errorSpy).toHaveBeenCalledWith(
+      `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
+    );
   });
 });

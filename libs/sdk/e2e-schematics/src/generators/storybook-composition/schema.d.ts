@@ -1,4 +1,5 @@
 export interface Schema {
-  name?: string;
+  projectsJson: string;
+  baseUrl: string;
   ansiColor?: boolean;
 }

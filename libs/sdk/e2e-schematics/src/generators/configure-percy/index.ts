@@ -7,10 +7,15 @@ import {
 } from '@nrwl/devkit';
 import { insertStatement } from '@nrwl/workspace/src/generators/utils/insert-statement';
 
-import { someOrAllE2eProjects } from '../../utils/some-or-all-projects';
+import { getE2eProjects } from '../../utils/get-projects';
 
-export async function configurePercy(tree: Tree, schema: { name?: string }) {
-  const projects = someOrAllE2eProjects(tree, schema.name);
+import { Schema } from './schema';
+
+/**
+ * Disable video recording and import @percy/cypress into the e2e project, which enables the .percySnapshot method.
+ */
+export default async function (tree: Tree, schema: Schema) {
+  const projects = getE2eProjects(tree, schema.name);
   projects.forEach((project) => {
     const cypressJsonPath = joinPathFragments(project.root, 'cypress.json');
     if (!tree.isFile(cypressJsonPath)) {
@@ -43,5 +48,3 @@ export async function configurePercy(tree: Tree, schema: { name?: string }) {
 
   return formatFiles(tree);
 }
-
-export default configurePercy;

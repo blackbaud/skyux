@@ -3,14 +3,10 @@ import {
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import { cypressProjectGenerator } from '@nrwl/cypress';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
-import { createTreeWithEmptyWorkspace } from 'nx/src/generators/testing-utils/create-tree-with-empty-workspace';
-
-import {
-  someOrAllE2eProjects,
-  someOrAllStorybookProjects,
-} from './some-or-all-projects';
+import { getE2eProjects, getStorybookProjects } from './get-projects';
 
 describe('some-or-all-projects', () => {
   it('should get someOrAllE2eProjects', async () => {
@@ -22,17 +18,17 @@ describe('some-or-all-projects', () => {
       });
     }
     // Without specifying name.
-    const projects = someOrAllE2eProjects(tree);
+    const projects = getE2eProjects(tree);
     expect(Array.from(projects.keys())).toEqual([
       'cypress1',
       'cypress2',
       'cypress3',
     ]);
     // Specifying one name.
-    const singleProject = someOrAllE2eProjects(tree, 'cypress1');
+    const singleProject = getE2eProjects(tree, 'cypress1');
     expect(Array.from(singleProject.keys())).toEqual(['cypress1']);
     // Specifying multiple names.
-    const bothProjects = someOrAllE2eProjects(tree, 'cypress1,cypress2');
+    const bothProjects = getE2eProjects(tree, 'cypress1,cypress2');
     expect(Array.from(bothProjects.keys())).toEqual(['cypress1', 'cypress2']);
   });
 
@@ -50,20 +46,17 @@ describe('some-or-all-projects', () => {
       });
     }
     // Without specifying name.
-    const projects = someOrAllStorybookProjects(tree);
+    const projects = getStorybookProjects(tree);
     expect(Array.from(projects.keys())).toEqual([
       'test-app1',
       'test-app2',
       'test-app3',
     ]);
     // Specifying one name.
-    const singleProject = someOrAllStorybookProjects(tree, 'test-app1');
+    const singleProject = getStorybookProjects(tree, 'test-app1');
     expect(Array.from(singleProject.keys())).toEqual(['test-app1']);
     // Specifying multiple names.
-    const bothProjects = someOrAllStorybookProjects(
-      tree,
-      'test-app1,test-app2'
-    );
+    const bothProjects = getStorybookProjects(tree, 'test-app1,test-app2');
     expect(Array.from(bothProjects.keys())).toEqual(['test-app1', 'test-app2']);
   });
 });

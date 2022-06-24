@@ -5,7 +5,7 @@ exports[`stories generator should run successfully 1`] = `
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
     id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/NxWelcome\\",
+    title: \\"Components/App/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({
@@ -26,7 +26,7 @@ exports[`stories generator should use -storybook project 1`] = `
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
     id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/NxWelcome\\",
+    title: \\"Components/App/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({

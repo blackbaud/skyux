@@ -1,6 +1,6 @@
 import { ProjectConfiguration, Tree, getProjects } from '@nrwl/devkit';
 
-function someOrAllProjects(
+function filterProjects(
   tree: Tree,
   filter: (projectConfiguration: ProjectConfiguration) => boolean,
   name?: string
@@ -39,11 +39,11 @@ function projectHasTargetWithExecutor(
   );
 }
 
-export function someOrAllE2eProjects(
+export function getE2eProjects(
   tree: Tree,
   name?: string
 ): Map<string, ProjectConfiguration> {
-  return someOrAllProjects(
+  return filterProjects(
     tree,
     (projectConfiguration) =>
       projectHasTargetWithExecutor(
@@ -54,11 +54,11 @@ export function someOrAllE2eProjects(
   );
 }
 
-export function someOrAllStorybookProjects(
+export function getStorybookProjects(
   tree: Tree,
   name?: string
 ): Map<string, ProjectConfiguration> {
-  return someOrAllProjects(
+  return filterProjects(
     tree,
     (projectConfiguration) =>
       projectHasTargetWithExecutor(

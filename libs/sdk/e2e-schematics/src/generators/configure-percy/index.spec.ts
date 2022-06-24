@@ -1,6 +1,5 @@
 import { cypressProjectGenerator } from '@nrwl/cypress';
-
-import { createTreeWithEmptyWorkspace } from 'nx/src/generators/testing-utils/create-tree-with-empty-workspace';
+import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
 import { updateJson } from '../../utils/update-json';
 

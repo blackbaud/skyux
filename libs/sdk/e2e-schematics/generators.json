@@ -27,6 +27,11 @@
       "factory": "./src/generators/stories",
       "schema": "./src/generators/stories/schema.json",
       "description": "stories generator"
+    },
+    "init": {
+      "factory": "./src/generators/init",
+      "schema": "./src/generators/init/schema.json",
+      "description": "initialize e2e testing"
     }
   }
 }

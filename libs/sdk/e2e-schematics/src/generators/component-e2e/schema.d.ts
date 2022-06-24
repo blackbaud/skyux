@@ -3,6 +3,7 @@ import { AngularApplicationOptionsSchema } from '@angular/cli/lib/config/workspa
 export interface Schema {
   name: string;
   tags?: string;
+  ansiColor?: boolean;
 }
 
 export interface NormalizedSchema

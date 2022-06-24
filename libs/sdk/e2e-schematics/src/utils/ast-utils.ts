@@ -3,6 +3,9 @@ import { Tree } from '@nrwl/devkit';
 
 import * as ts from 'typescript';
 
+/**
+ * Apply a set of transformations to typescript source files.
+ */
 export function applyTransformers(
   sourceFiles: ts.SourceFile[],
   transformers: ts.TransformerFactory<ts.SourceFile>[]
@@ -11,12 +14,18 @@ export function applyTransformers(
   return transformation.transformed;
 }
 
+/**
+ * Transform a parsed typescript source file into a string.
+ */
 export function getSourceAsString(sourceFile: ts.SourceFile): string {
   return ts
     .createPrinter()
     .printNode(ts.EmitHint.Unspecified, sourceFile, undefined);
 }
 
+/**
+ * Read the value of a string literal from a typescript source file.
+ */
 export function getStringLiteral(
   sourceFile: ts.SourceFile,
   name: string
@@ -41,6 +50,9 @@ export function getStringLiteral(
   throw new Error(`Unable to find ${name}`);
 }
 
+/**
+ * Create a transformer to add a string literal value to an object literal in a typescript source file.
+ */
 export function getInsertStringPropertyTransformer(
   beforeProperty: string,
   name: string,
@@ -84,6 +96,9 @@ export function getInsertStringPropertyTransformer(
   };
 }
 
+/**
+ * Create a transformer to update the value of string literals in a typescript source file.
+ */
 export function getStringLiteralsSetterTransformer(strings: {
   [_: string]: string;
 }): ts.TransformerFactory<ts.SourceFile> {
@@ -111,6 +126,9 @@ export function getStringLiteralsSetterTransformer(strings: {
   };
 }
 
+/**
+ * Create a transformer to rename variables in a typescript source file.
+ */
 export function getRenameVariablesTransformer(renameMap: {
   [_: string]: string;
 }): ts.TransformerFactory<ts.SourceFile> {
@@ -131,6 +149,9 @@ export function getRenameVariablesTransformer(renameMap: {
   };
 }
 
+/**
+ * Read a typescript source file from a @nrwl/devkit tree.
+ */
 export function readSourceFile(tree: Tree, path: string): ts.SourceFile {
   return ts.createSourceFile(
     path,
@@ -140,6 +161,9 @@ export function readSourceFile(tree: Tree, path: string): ts.SourceFile {
   );
 }
 
+/**
+ * Write a typescript source file to a @nrwl/devkit tree.
+ */
 export function writeSourceFile(
   tree: Tree,
   path: string,

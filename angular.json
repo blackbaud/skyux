@@ -2815,35 +2815,6 @@
               "libs/components/storybook/**/*.html"
             ]
           }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "port": 4400,
-            "configDir": "libs/components/storybook/.storybook",
-            "browserTarget": "storybook:build-storybook",
-            "compodoc": false
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputDir": "dist/storybook/storybook",
-            "configDir": "libs/components/storybook/.storybook",
-            "browserTarget": "storybook:build-storybook",
-            "compodoc": false
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
         }
       },
       "tags": []

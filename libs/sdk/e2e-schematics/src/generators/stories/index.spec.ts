@@ -6,7 +6,7 @@ import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
-import { storiesGenerator } from './index';
+import storiesGenerator from './index';
 import { StoriesGeneratorSchema } from './schema';
 
 describe('stories generator', () => {
@@ -70,7 +70,6 @@ describe('stories generator', () => {
       await storiesGenerator(appTree, options);
       fail();
     } catch (e) {
-      expect(e).toBeTruthy();
       expect((e as Error).message).toEqual('Unable to find project test');
     }
   });
@@ -83,7 +82,6 @@ describe('stories generator', () => {
       await storiesGenerator(appTree, options);
       fail();
     } catch (e) {
-      expect(e).toBeTruthy();
       expect((e as Error).message).toEqual(
         'Unable to find project test-storybook'
       );
@@ -101,7 +99,6 @@ describe('stories generator', () => {
       await storiesGenerator(appTree, options);
       fail();
     } catch (e) {
-      expect(e).toBeTruthy();
       expect((e as Error).message).toEqual(
         'Storybook is not configured for test-storybook'
       );

@@ -11,12 +11,15 @@ import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
 import { relative } from 'path';
 
-import { someOrAllStorybookProjects } from '../../utils/some-or-all-projects';
+import { getStorybookProjects } from '../../utils/get-projects';
 
 import { Schema } from './schema';
 
-export async function configureStorybook(tree: Tree, schema: Schema) {
-  const projects = someOrAllStorybookProjects(tree, schema.name);
+/**
+ * Configure Storybook to use typescript. Set Storybook to run during e2e in development mode.
+ */
+export default async function (tree: Tree, schema: Schema) {
+  const projects = getStorybookProjects(tree, schema.name);
   const workspacePath = getWorkspacePath(tree);
   projects.forEach((project, projectName) => {
     updateJson(tree, workspacePath, (angularJson) => {
@@ -33,7 +36,7 @@ export async function configureStorybook(tree: Tree, schema: Schema) {
             },
           };
         } else {
-          logger.fatal(
+          (schema.ansiColor === false ? console.error : logger.fatal)(
             `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
           );
         }
@@ -88,5 +91,3 @@ export async function configureStorybook(tree: Tree, schema: Schema) {
 
   await formatFiles(tree);
 }
-
-export default configureStorybook;

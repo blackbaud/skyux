@@ -9,19 +9,15 @@ import {
 
 import { relative } from 'path';
 
-type Options = {
-  projectsJson: string;
-  baseUrl: string;
-};
+import { Schema } from './schema';
 
-export async function generateStorybookComposition(
-  tree: Tree,
-  schema: Options
-) {
+export default async function (tree: Tree, schema: Schema) {
   const allProjects = getProjects(tree);
   const storybookProject = allProjects.get('storybook');
   if (!allProjects || !storybookProject) {
-    logger.error(`Unable to load a project named "storybook"`);
+    (schema.ansiColor === false ? console.error : logger.error)(
+      `Unable to load a project named "storybook"`
+    );
     return;
   }
   const storybookProjectRoot = storybookProject.root;
@@ -39,7 +35,9 @@ export async function generateStorybookComposition(
     });
 
   if (projects.length === 0) {
-    logger.fatal(`None of these projects have a Storybook target.`);
+    (schema.ansiColor === false ? console.error : logger.fatal)(
+      `None of these projects have a Storybook target.`
+    );
     return;
   }
 
@@ -55,5 +53,3 @@ export async function generateStorybookComposition(
   );
   return formatFiles(tree);
 }
-
-export default generateStorybookComposition;
