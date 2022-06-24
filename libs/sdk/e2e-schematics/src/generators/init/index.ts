@@ -2,7 +2,9 @@ import { storybookConfigurationGenerator } from '@nrwl/angular/generators';
 import {
   Tree,
   addDependenciesToPackageJson,
+  generateFiles,
   getProjects,
+  joinPathFragments,
   logger,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
@@ -67,6 +69,14 @@ export default async function (tree: Tree, options: Schema) {
         }
         return json;
       }
+    );
+
+    // Generate Storybook decorators that rely on package dependencies.
+    generateFiles(
+      tree,
+      joinPathFragments(__dirname, './files/preview-wrapper'),
+      joinPathFragments(storybookConfig.sourceRoot, './lib/preview-wrapper'),
+      {}
     );
 
     return runTasksInSerial(storybookInstall, dependenciesInstall);

@@ -85,7 +85,9 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
     ) {
       const source = readSourceFile(tree, filepath);
       const componentClass = getStringLiteral(source, 'title');
-      const newTitle = componentClass.replace(/Component$/, '').replace(/(?<=[a-z])([A-Z])/g, ' $1');
+      const newTitle = componentClass
+        .replace(/Component$/, '')
+        .replace(/(?<=[a-z])([A-Z])/g, ' $1');
 
       // Look for a directory to group this story in
       const paths = filepath

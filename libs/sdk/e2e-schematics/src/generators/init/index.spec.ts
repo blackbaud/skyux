@@ -1,6 +1,10 @@
 import { libraryGenerator } from '@nrwl/angular/generators';
 import { UnitTestRunner } from '@nrwl/angular/src/utils/test-runners';
-import { Tree, readProjectConfiguration } from '@nrwl/devkit';
+import {
+  Tree,
+  joinPathFragments,
+  readProjectConfiguration,
+} from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
@@ -23,6 +27,14 @@ describe('init generator', () => {
     await generator(appTree, { ansiColor: false });
     const config = readProjectConfiguration(appTree, 'storybook');
     expect(config.targets.storybook).toBeDefined();
+    expect(
+      appTree.isFile(
+        joinPathFragments(
+          config.sourceRoot,
+          'lib/preview-wrapper/preview-wrapper-decorators.ts'
+        )
+      )
+    ).toBeTruthy();
   });
 
   it('should error without a "storybook" project', async () => {
