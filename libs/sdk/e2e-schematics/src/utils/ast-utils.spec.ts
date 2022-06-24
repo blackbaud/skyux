@@ -2,6 +2,8 @@ import { createTree } from 'nx/src/generators/testing-utils/create-tree';
 
 import {
   applyTransformers,
+  applyTransformersToPath,
+  getInsertExportTransformer,
   getInsertStringPropertyTransformer,
   getRenameVariablesTransformer,
   getSourceAsString,
@@ -68,9 +70,7 @@ describe('ast-utils', () => {
       test: 'new value',
       property: 'updated',
     });
-    const sourceFile = readSourceFile(tree, fileName);
-    const [result] = applyTransformers([sourceFile], [transformer]);
-    writeSourceFile(tree, fileName, result);
+    applyTransformersToPath(tree, fileName, [transformer]);
     expect(tree.read(fileName, 'utf-8')).toEqual(
       `const test: string = "new value";\nconst obj = { property: "updated" };\n`
     );
@@ -80,7 +80,6 @@ describe('ast-utils', () => {
     const tree = createTree();
     const fileName = 'script.ts';
     tree.write(fileName, `const test = { test: "value", property: "prop" };\n`);
-    const sourceFile = readSourceFile(tree, fileName);
     const transformerTest = getInsertStringPropertyTransformer(
       'test',
       'id',
@@ -91,13 +90,31 @@ describe('ast-utils', () => {
       'added',
       'miss'
     );
-    const [result] = applyTransformers(
-      [sourceFile],
-      [transformerTest, transformerBogus]
-    );
-    writeSourceFile(tree, fileName, result);
+    applyTransformersToPath(tree, fileName, [
+      transformerTest,
+      transformerBogus,
+    ]);
     expect(tree.read(fileName, 'utf-8')).toEqual(
       `const test = { id: "updated", test: "value", property: "prop" };\n`
     );
+  });
+
+  it('should getInsertExportTransformer', () => {
+    const tree = createTree();
+    const fileName = 'script.ts';
+    tree.write(
+      fileName,
+      [
+        `export * from './lib/first.module'`,
+        `export * from './lib/second.module'`,
+        `export * from './lib/fourth.module'`,
+      ].join('\n')
+    );
+    const transformer = getInsertExportTransformer(
+      './lib/third.module',
+      './lib/second.module'
+    );
+    applyTransformersToPath(tree, fileName, [transformer]);
+    expect(tree.read(fileName, 'utf-8')).toMatchSnapshot();
   });
 });

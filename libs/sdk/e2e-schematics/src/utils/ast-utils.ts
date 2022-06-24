@@ -15,6 +15,19 @@ export function applyTransformers(
 }
 
 /**
+ * Apply a set of transformations to a typescript source file in a @nrwl/devkit tree.
+ */
+export function applyTransformersToPath(
+  tree: Tree,
+  sourceFile: string,
+  transformers: ts.TransformerFactory<ts.SourceFile>[]
+): void {
+  const sourceFiles = readSourceFile(tree, sourceFile);
+  const [result] = applyTransformers([sourceFiles], transformers);
+  writeSourceFile(tree, sourceFile, result);
+}
+
+/**
  * Transform a parsed typescript source file into a string.
  */
 export function getSourceAsString(sourceFile: ts.SourceFile): string {
@@ -48,6 +61,41 @@ export function getStringLiteral(
     }
   }
   throw new Error(`Unable to find ${name}`);
+}
+
+/**
+ * Create a transformer to add a string literal value to an object literal in a typescript source file.
+ */
+export function getInsertExportTransformer(
+  insertPath: string,
+  afterPath: string
+): ts.TransformerFactory<ts.SourceFile> {
+  return (context) => {
+    return (sourceFile: ts.SourceFile) => {
+      const visitor = (rootNode: ts.Node) => {
+        const node = ts.visitEachChild(rootNode, visitor, context);
+        if (ts.isExportDeclaration(node)) {
+          const exportPath = (
+            (node as ts.ExportDeclaration).moduleSpecifier as ts.StringLiteral
+          ).text;
+          if (exportPath === afterPath) {
+            return context.factory.createNodeArray([
+              node,
+              context.factory.createExportDeclaration(
+                undefined,
+                undefined,
+                false,
+                undefined,
+                context.factory.createStringLiteral(insertPath, true)
+              ),
+            ]);
+          }
+        }
+        return node;
+      };
+      return ts.visitNode(sourceFile, visitor);
+    };
+  };
 }
 
 /**

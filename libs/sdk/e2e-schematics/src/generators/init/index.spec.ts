@@ -35,6 +35,9 @@ describe('init generator', () => {
         )
       )
     ).toBeTruthy();
+    expect(
+      appTree.read(joinPathFragments(config.sourceRoot, 'index.ts'), 'utf-8')
+    ).toMatchSnapshot();
   });
 
   it('should error without a "storybook" project', async () => {

@@ -12,6 +12,10 @@ import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-ser
 
 import { PackageJson } from 'nx/src/utils/package-json';
 
+import {
+  applyTransformersToPath,
+  getInsertExportTransformer,
+} from '../../utils/ast-utils';
 import { updateJson } from '../../utils/update-json';
 import configureStorybook from '../configure-storybook';
 
@@ -77,6 +81,16 @@ export default async function (tree: Tree, options: Schema) {
       joinPathFragments(__dirname, './files/preview-wrapper'),
       joinPathFragments(storybookConfig.sourceRoot, './lib/preview-wrapper'),
       {}
+    );
+    applyTransformersToPath(
+      tree,
+      joinPathFragments(storybookConfig.sourceRoot, 'index.ts'),
+      [
+        getInsertExportTransformer(
+          './lib/preview-wrapper/preview-wrapper-decorators',
+          './lib/storybook.module'
+        ),
+      ]
     );
 
     return runTasksInSerial(storybookInstall, dependenciesInstall);
