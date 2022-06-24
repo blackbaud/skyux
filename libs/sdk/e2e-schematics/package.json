@@ -4,7 +4,7 @@
   "peerDependencies": {
     "@angular/cdk": "^13.3.2",
     "@angular/cli": "^13.3.2",
-    "@nrwl/angular": "^14.1.9",
+    "@nrwl/angular": "^14.1.9 <14.2.0",
     "@nrwl/devkit": "^14.1.9",
     "@nrwl/linter": "^14.1.9",
     "@nrwl/storybook": "^14.1.9",
