@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.3.3](https://github.com/blackbaud/skyux/compare/6.3.2...6.3.3) (2022-06-24)
+
+### Bug Fixes
+
+- **components/layout:** delay action button height update during init ([#301](https://github.com/blackbaud/skyux/issues/301)) ([d012684](https://github.com/blackbaud/skyux/commit/d0126845c37035691d39f75387935d98e69bbd22))
+
 ### [6.3.2](https://github.com/blackbaud/skyux/compare/6.3.1...6.3.2) (2022-06-21)
 
 ### Bug Fixes
