@@ -8,6 +8,12 @@ import { PreviewWrapperComponent } from './preview-wrapper.component';
   declarations: [PreviewWrapperComponent],
   exports: [PreviewWrapperComponent],
   imports: [CommonModule, SkyThemeModule],
-  providers: [SkyThemeService],
+  providers: [
+    SkyThemeService,
+    {
+      provide: 'BODY',
+      useValue: document.body,
+    },
+  ],
 })
 export class PreviewWrapperModule {}

@@ -4,9 +4,8 @@
     "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "inlineSources": true,
-    "types": []
+    "inlineSources": true
   },
-  "exclude": ["**/*.spec.ts", "**/*.stories.ts", "**/*.stories.ts"],
+  "exclude": ["src/test.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]
 }

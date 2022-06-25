@@ -1,12 +1,14 @@
 {
-  "extends": ["../../../.eslintrc.json"],
+  "extends": ["../../../.eslintrc.json", "prettier"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "extends": [
         "plugin:@nrwl/nx/angular",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "../../../.eslintrc-overrides.json",
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -29,8 +31,12 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@nrwl/nx/angular-template"],
+      "extends": ["plugin:@nrwl/nx/angular-template", "prettier"],
       "rules": {}
+    },
+    {
+      "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
+      "extends": ["../../../.eslintrc-overrides.json", "prettier"]
     }
   ]
 }

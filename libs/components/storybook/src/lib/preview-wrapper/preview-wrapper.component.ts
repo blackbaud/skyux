@@ -1,11 +1,10 @@
-import { Platform } from '@angular/cdk/platform';
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -15,8 +14,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { Subscription, interval } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sky-preview-wrapper',
@@ -24,103 +22,66 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./preview-wrapper.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class PreviewWrapperComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
     this._theme = value;
-    if (value && value.match(/^(default|modern)(-(light|dark))?$/)) {
-      if (value.indexOf('modern') === 0) {
-        if (value.includes('dark')) {
-          this.themeSettings = new SkyThemeSettings(
-            SkyTheme.presets.modern,
-            SkyThemeMode.presets.dark
-          );
-          return;
-        } else {
-          this.themeSettings = new SkyThemeSettings(
-            SkyTheme.presets.modern,
-            SkyThemeMode.presets.light
-          );
-          return;
-        }
+    if (value && value.match(/^modern(-(light|dark))?$/)) {
+      if (value.includes('dark')) {
+        this.themeSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.dark
+        );
+      } else {
+        this.themeSettings = new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light
+        );
       }
+    } else {
+      this.themeSettings = new SkyThemeSettings(
+        SkyTheme.presets.default,
+        SkyThemeMode.presets.light
+      );
     }
-    this.themeSettings = new SkyThemeSettings(
-      SkyTheme.presets.default,
-      SkyThemeMode.presets.light
-    );
   }
   public get theme() {
     return this._theme;
   }
 
-  public themeSettings = new SkyThemeSettings(
+  public get themeSettings(): SkyThemeSettings {
+    return this._themeSettings;
+  }
+  public set themeSettings(value: SkyThemeSettings) {
+    this._themeSettings = value;
+    if (this.initialized) {
+      this.themeService.setTheme(this._themeSettings);
+    }
+  }
+
+  private _themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-
   private _theme?: 'default' | 'modern-light' | 'modern-dark';
-  private _ngUnsubscribe = new Subscription();
-  private _bodyEl: HTMLElement;
+  private readonly _ngUnsubscribe = new Subscription();
+  private initialized = false;
 
   constructor(
     private themeService: SkyThemeService,
-    private elementRef: ElementRef,
-    private platform: Platform
-  ) {
-    this._bodyEl = this.elementRef.nativeElement.ownerDocument
-      .body as HTMLElement;
+    @Inject('BODY') private body: HTMLElement,
+    private renderer: Renderer2
+  ) {}
+
+  public ngOnInit(): void {
+    this.themeService.init(this.body, this.renderer, this.themeSettings);
+    this.initialized = true;
   }
 
   public ngOnDestroy(): void {
     this._ngUnsubscribe.unsubscribe();
-  }
-
-  public ngOnInit(): void {
-    this._ngUnsubscribe.add(
-      this.themeService.settingsChange.subscribe(() => {
-        this.verifyThemeClasses();
-      })
-    );
-  }
-
-  public ngAfterViewInit(): void {
-    if (this.platform.isBrowser) {
-      this.verifyThemeClasses();
-    }
-  }
-
-  /**
-   * Storybook seems to prevent these classes from applying, so the interval allows for several attempts.
-   * @private
-   */
-  private verifyThemeClasses() {
-    this._ngUnsubscribe.add(
-      interval(400)
-        .pipe(take(10))
-        .subscribe(() => {
-          if (this.themeSettings) {
-            if (
-              !this._bodyEl.classList.contains(
-                this.themeSettings.theme.hostClass
-              ) ||
-              !this._bodyEl.classList.contains(
-                this.themeSettings.mode.hostClass
-              )
-            ) {
-              const classes: string[] = Array.from(
-                this._bodyEl.classList
-              ).filter((className) => className.startsWith('sky'));
-              this._bodyEl.classList.remove(...classes);
-              this._bodyEl.classList.add(
-                this.themeSettings.theme.hostClass,
-                this.themeSettings.mode.hostClass
-              );
-            }
-          }
-        })
-    );
+    this.themeService.destroy();
+    this.renderer.removeClass(this.body, this.themeSettings.theme.hostClass);
+    this.renderer.removeClass(this.body, this.themeSettings.mode.hostClass);
   }
 }
