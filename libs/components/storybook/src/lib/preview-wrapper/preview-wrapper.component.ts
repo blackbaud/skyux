@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Inject,
   Input,
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewEncapsulation,
 } from '@angular/core';
 import {
   SkyTheme,
@@ -18,9 +18,8 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sky-preview-wrapper',
-  templateUrl: './preview-wrapper.component.html',
-  styleUrls: ['./preview-wrapper.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  template: '<ng-content></ng-content>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
@@ -81,7 +80,5 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this._ngUnsubscribe.unsubscribe();
     this.themeService.destroy();
-    this.renderer.removeClass(this.body, this.themeSettings.theme.hostClass);
-    this.renderer.removeClass(this.body, this.themeSettings.mode.hostClass);
   }
 }
