@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyThemeModule, SkyThemeService, SkyThemeSettingsChange } from '@skyux/theme';
+import {
+  SkyThemeModule,
+  SkyThemeService,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
 
 import { PreviewWrapperComponent } from './preview-wrapper.component';
 
@@ -44,10 +48,16 @@ describe('PreviewWrapperComponent', () => {
         theme: 'default',
         mode: 'light',
       };
-      const subscription = themeService.settingsChange.subscribe((settings: SkyThemeSettingsChange) => {
-        expect(settings.currentSettings.theme.name).toEqual(expectedTheme.theme);
-        expect(settings.currentSettings.mode.name).toEqual(expectedTheme.mode);
-      });
+      const subscription = themeService.settingsChange.subscribe(
+        (settings: SkyThemeSettingsChange) => {
+          expect(settings.currentSettings.theme.name).toEqual(
+            expectedTheme.theme
+          );
+          expect(settings.currentSettings.mode.name).toEqual(
+            expectedTheme.mode
+          );
+        }
+      );
       expectedTheme = {
         theme: 'modern',
         mode: 'light',
