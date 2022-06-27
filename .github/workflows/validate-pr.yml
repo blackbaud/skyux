@@ -86,6 +86,7 @@ jobs:
             components/tiles
             components/toast
             components/validation
+            sdk/e2e-schematics
             sdk/prettier-schematics
             sdk/testing
           validateSingleCommit: true

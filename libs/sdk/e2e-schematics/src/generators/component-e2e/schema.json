@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "library-e2e",
+  "title": "Create a library e2e",
+  "description": "Creates an e2e infrastructure for a library.",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the library.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name of the library?",
+      "pattern": "^[a-zA-Z].*$"
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the library (used for linting)."
+    }
+  },
+  "additionalProperties": false,
+  "required": ["name"]
+}
