@@ -564,7 +564,7 @@ describe('Autocomplete component', () => {
       try {
         component.autocomplete['inputDirective'] = undefined;
         tick();
-        autocomplete.ngAfterContentInit();
+        fixture.detectChanges();
       } catch (e) {
         expect(
           e.message.indexOf(
@@ -911,6 +911,31 @@ describe('Autocomplete component', () => {
       dropdownElement = getSearchResultsContainer();
 
       expect(dropdownElement).toBeNull();
+    }));
+
+    it('should allow overwriting the message stream', fakeAsync(() => {
+      fixture.detectChanges();
+
+      // Type 'r' to activate the autocomplete dropdown.
+      enterSearch('r', fixture);
+      let searchResultsEl = getSearchResultsContainer();
+
+      expect(searchResultsEl).not.toBeNull();
+
+      component.messageStream = new Subject();
+      fixture.detectChanges();
+      tick();
+
+      component.messageStream.next({
+        type: SkyAutocompleteMessageType.CloseDropdown,
+      });
+
+      fixture.detectChanges();
+      tick();
+
+      searchResultsEl = getSearchResultsContainer();
+
+      expect(searchResultsEl).toBeNull();
     }));
 
     it('should find matches when data contains diacritical characters', fakeAsync(() => {

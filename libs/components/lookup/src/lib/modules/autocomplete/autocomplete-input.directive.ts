@@ -121,8 +121,8 @@ export class SkyAutocompleteInputDirective
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
+      if (this.isFirstChange && this.#control) {
+        this.#control.markAsPristine();
       }
 
       if (this.isFirstChange && this._value) {
@@ -131,19 +131,19 @@ export class SkyAutocompleteInputDirective
     }
   }
 
-  private control: AbstractControl;
+  #control: AbstractControl | undefined;
 
   private isFirstChange = true;
 
   private ngUnsubscribe = new Subject<void>();
 
-  private _autocompleteAttribute: string;
+  private _autocompleteAttribute: string | undefined;
 
   private _blur = new Subject<void>();
 
   private _disabled = false;
 
-  private _displayWith: string;
+  private _displayWith = '';
 
   private _focus = new Subject<void>();
 
@@ -204,8 +204,6 @@ export class SkyAutocompleteInputDirective
 
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-
-    this._blur = this._textChanges = this.ngUnsubscribe = undefined;
   }
 
   public writeValue(value: any): void {
@@ -240,11 +238,11 @@ export class SkyAutocompleteInputDirective
     this.disabled = disabled;
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.#control) {
+      this.#control = control;
     }
-    return;
+    return null;
   }
 
   // See: https://www.w3.org/TR/wai-aria-practices/#kbd_focus_activedescendant

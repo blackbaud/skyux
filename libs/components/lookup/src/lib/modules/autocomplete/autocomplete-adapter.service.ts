@@ -17,7 +17,7 @@ export class SkyAutocompleteAdapterService {
     private coreAdapterService: SkyCoreAdapterService,
     private rendererFactory: RendererFactory2
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.renderer = this.rendererFactory.createRenderer(undefined, null);
   }
 
   /**

@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -64,9 +63,7 @@ let uniqueId = 0;
   providers: [SkyAutocompleteAdapterService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAutocompleteComponent
-  implements OnDestroy, AfterContentInit, AfterViewInit
-{
+export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#region public_api
 
   /**
@@ -75,7 +72,7 @@ export class SkyAutocompleteComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies a static data source for the autocomplete component to search
@@ -131,9 +128,9 @@ export class SkyAutocompleteComponent
    * @internal
    */
   @Input()
-  public set messageStream(value: Subject<SkyAutocompleteMessage>) {
-    this._messageStream = value;
-    this.initMessageStream();
+  public set messageStream(value: Subject<SkyAutocompleteMessage> | undefined) {
+    this._messageStream = value ?? new Subject<SkyAutocompleteMessage>();
+    this.subscribeMessageStream();
   }
 
   public get messageStream(): Subject<SkyAutocompleteMessage> {
@@ -203,12 +200,13 @@ export class SkyAutocompleteComponent
    * @default 1
    */
   @Input()
-  public set searchTextMinimumCharacters(value: number) {
+  public set searchTextMinimumCharacters(value: number | undefined) {
     this._searchTextMinimumCharacters = value;
   }
 
   public get searchTextMinimumCharacters(): number {
-    return this._searchTextMinimumCharacters > 0
+    return this._searchTextMinimumCharacters &&
+      this._searchTextMinimumCharacters > 0
       ? this._searchTextMinimumCharacters
       : 1;
   }
@@ -221,19 +219,19 @@ export class SkyAutocompleteComponent
    * or `false` for each result to indicate whether to display it in the dropdown list.
    */
   @Input()
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 
   /**
    * Specifies the maximum number of search results to display in the dropdown list.
    * By default, the component displays all matching results.
    */
   @Input()
-  public set searchResultsLimit(value: number) {
+  public set searchResultsLimit(value: number | undefined) {
     this._searchResultsLimit = value;
   }
 
-  public get searchResultsLimit(): number {
-    if (this._searchResultsLimit) {
+  public get searchResultsLimit(): number | undefined {
+    if (this._searchResultsLimit && this._searchResultsLimit > 0) {
       return this._searchResultsLimit;
     } else {
       return this.enableShowMore ? 5 : this._searchResultsLimit;
@@ -252,7 +250,7 @@ export class SkyAutocompleteComponent
    * @default "No matches found"
    */
   @Input()
-  public noResultsFoundText: string;
+  public noResultsFoundText: string | undefined;
 
   /**
    * @internal
@@ -299,6 +297,10 @@ export class SkyAutocompleteComponent
     return this._searchResults || [];
   }
 
+  public set searchResults(value: SkyAutocompleteSearchResult[]) {
+    this._searchResults = value;
+  }
+
   public get highlightText(): string[] {
     return this._highlightText || [];
   }
@@ -309,7 +311,7 @@ export class SkyAutocompleteComponent
 
   public resultsWrapperId: string;
 
-  public searchText: string;
+  public searchText = '';
 
   public get showActionsArea(): boolean {
     return this.showAddButton || this.enableShowMore;
@@ -328,20 +330,22 @@ export class SkyAutocompleteComponent
   private defaultSearchResultTemplate: TemplateRef<unknown>;
 
   @ContentChild(SkyAutocompleteInputDirective)
-  private set inputDirective(directive: SkyAutocompleteInputDirective) {
-    if (this._inputDirective !== directive) {
-      if (!directive) {
-        throw Error(
-          [
-            'The SkyAutocompleteComponent requires a ContentChild input or',
-            'textarea bound with the SkyAutocomplete directive. For example:',
-            '`<input type="text" skyAutocomplete>`.',
-          ].join(' ')
-        );
-      }
+  private set inputDirective(
+    directive: SkyAutocompleteInputDirective | undefined
+  ) {
+    if (!directive) {
+      throw Error(
+        [
+          'The SkyAutocompleteComponent requires a ContentChild input or',
+          'textarea bound with the SkyAutocomplete directive. For example:',
+          '`<input type="text" skyAutocomplete>`.',
+        ].join(' ')
+      );
+    }
 
+    if (this._inputDirective !== directive) {
       // Unsubscribe from old subscriptions on any previous input directive
-      this.inputDirectiveUnsubscribe.next();
+      this.#inputDirectiveUnsubscribe.next();
 
       this._inputDirective = directive;
 
@@ -349,7 +353,7 @@ export class SkyAutocompleteComponent
 
       this._inputDirective.textChanges
         .pipe(
-          takeUntil(this.inputDirectiveUnsubscribe),
+          takeUntil(this.#inputDirectiveUnsubscribe),
           debounceTime(this.debounceTime),
           switchMap((change) => {
             this.isSearchingAsync = true;
@@ -361,15 +365,15 @@ export class SkyAutocompleteComponent
         });
 
       this._inputDirective.blur
-        .pipe(takeUntil(this.inputDirectiveUnsubscribe))
+        .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
-          this.inputDirective.restoreInputTextValueToPreviousState();
+          directive.restoreInputTextValueToPreviousState();
           this.closeDropdown();
-          this.inputDirective.onTouched();
+          directive.onTouched();
         });
 
       this._inputDirective.focus
-        .pipe(takeUntil(this.inputDirectiveUnsubscribe))
+        .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           if (this.showActionsArea) {
             this.openDropdown();
@@ -385,12 +389,12 @@ export class SkyAutocompleteComponent
   @ViewChild('resultsTemplateRef', {
     read: TemplateRef,
   })
-  private resultsTemplateRef: TemplateRef<unknown>;
+  private resultsTemplateRef!: TemplateRef<unknown>;
 
   @ViewChild('resultsRef', {
     read: ElementRef,
   })
-  private set resultsRef(value: ElementRef) {
+  private set resultsRef(value: ElementRef | undefined) {
     if (value) {
       this._resultsRef = value;
       this.destroyAffixer();
@@ -398,47 +402,47 @@ export class SkyAutocompleteComponent
     }
   }
 
-  private get resultsRef(): ElementRef {
+  private get resultsRef(): ElementRef | undefined {
     return this._resultsRef;
   }
 
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
-  private activeElementIndex = -1;
+  #activeElementIndex = -1;
 
-  private affixer: SkyAffixer;
+  #affixer: SkyAffixer | undefined;
 
-  private inputDirectiveUnsubscribe = new Subject<void>();
+  #inputDirectiveUnsubscribe = new Subject<void>();
 
-  private messageStreamSub: Subscription;
+  #messageStreamSub: Subscription | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  #overlay: SkyOverlayInstance | undefined;
 
   /**
    * Elements within the autocomplete dropdown that are focusable.
    * These are typically the search results and action buttons, but could also be
    * elements provided in the consumer's own template.
    */
-  private overlayFocusableElements: HTMLElement[] = [];
+  #overlayFocusableElements: HTMLElement[] = [];
 
-  private currentSearchSub: Subscription;
+  #currentSearchSub: Subscription | undefined;
 
-  private _data: any[];
-  private _debounceTime: number;
-  private _descriptorProperty: string;
-  private _highlightText: string[];
-  private _inputDirective: SkyAutocompleteInputDirective;
-  private _messageStream: Subject<SkyAutocompleteMessage>;
-  private _propertiesToSearch: string[];
-  private _resultsRef: ElementRef;
-  private _search: SkyAutocompleteSearchFunction;
-  private _searchResults: SkyAutocompleteSearchResult[];
-  private _searchResultTemplate: TemplateRef<unknown>;
-  private _searchResultsLimit: number;
-  private _searchTextMinimumCharacters: number;
+  private _data: any[] | undefined;
+  private _debounceTime: number | undefined;
+  private _descriptorProperty: string | undefined;
+  private _highlightText: string[] | undefined;
+  private _inputDirective: SkyAutocompleteInputDirective | undefined;
+  private _messageStream = new Subject<SkyAutocompleteMessage>();
+  private _propertiesToSearch: string[] | undefined;
+  private _resultsRef: ElementRef | undefined;
+  private _search: SkyAutocompleteSearchFunction | undefined;
+  private _searchResults: SkyAutocompleteSearchResult[] | undefined;
+  private _searchResultTemplate: TemplateRef<unknown> | undefined;
+  private _searchResultsLimit: number | undefined;
+  private _searchTextMinimumCharacters: number | undefined;
   private _selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
 
   constructor(
@@ -454,28 +458,16 @@ export class SkyAutocompleteComponent
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
   }
 
-  public ngAfterContentInit(): void {
-    if (!this.inputDirective) {
-      throw Error(
-        [
-          'The SkyAutocompleteComponent requires a ContentChild input or',
-          'textarea bound with the SkyAutocomplete directive. For example:',
-          '`<input type="text" skyAutocomplete>`.',
-        ].join(' ')
-      );
-    }
-  }
-
   public ngAfterViewInit(): void {
     this.addInputEventListeners();
   }
 
   public ngOnDestroy(): void {
     this.cancelCurrentSearch();
-    this.inputDirectiveUnsubscribe.next();
-    this.inputDirectiveUnsubscribe.complete();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#inputDirectiveUnsubscribe.next();
+    this.#inputDirectiveUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
     this.destroyAffixer();
     this.destroyOverlay();
   }
@@ -535,13 +527,13 @@ export class SkyAutocompleteComponent
         case 'down':
           this.removeFocusedClass();
           if (
-            this.activeElementIndex ===
-              this.overlayFocusableElements.length - 1 ||
-            this.activeElementIndex === -1
+            this.#activeElementIndex ===
+              this.#overlayFocusableElements.length - 1 ||
+            this.#activeElementIndex === -1
           ) {
-            this.activeElementIndex = 0;
+            this.#activeElementIndex = 0;
           } else {
-            this.activeElementIndex = this.activeElementIndex + 1;
+            this.#activeElementIndex = this.#activeElementIndex + 1;
           }
           this.addFocusedClass();
           this.changeDetector.markForCheck();
@@ -552,10 +544,11 @@ export class SkyAutocompleteComponent
         case 'arrowup':
         case 'up':
           this.removeFocusedClass();
-          if (this.activeElementIndex <= 0) {
-            this.activeElementIndex = this.overlayFocusableElements.length - 1;
+          if (this.#activeElementIndex <= 0) {
+            this.#activeElementIndex =
+              this.#overlayFocusableElements.length - 1;
           } else {
-            this.activeElementIndex = this.activeElementIndex - 1;
+            this.#activeElementIndex = this.#activeElementIndex - 1;
           }
           this.addFocusedClass();
           this.changeDetector.markForCheck();
@@ -586,19 +579,19 @@ export class SkyAutocompleteComponent
   }
 
   public onResultMouseMove(id: number): void {
-    if (id !== this.activeElementIndex) {
+    if (id !== this.#activeElementIndex) {
       this.removeFocusedClass();
-      this.activeElementIndex = id;
+      this.#activeElementIndex = id;
       this.addFocusedClass();
       this.changeDetector.markForCheck();
     }
   }
 
   public isElementFocused(ref: HTMLElement): boolean {
-    return ref === this.overlayFocusableElements[this.activeElementIndex];
+    return ref === this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
-  private searchTextChanged(searchText: string): void {
+  private searchTextChanged(searchText: string | undefined): void {
     const isEmpty =
       !searchText || !searchText.trim() || searchText.match(/^\s+$/);
 
@@ -631,16 +624,16 @@ export class SkyAutocompleteComponent
     if (isLongEnough && isDifferent) {
       this.cancelCurrentSearch();
 
-      this.currentSearchSub = this.performSearch()
+      this.#currentSearchSub = this.performSearch()
         .pipe(take(1))
         .subscribe((result) => {
-          const items = result.items.filter((item: never) => {
+          const items = result.items.filter((item: any) => {
             return item && this.descriptorProperty in item;
           });
 
           this.isSearchingAsync = false;
 
-          this._searchResults = items.map((r, i) => {
+          this.searchResults = items.map((r, i) => {
             const result: SkyAutocompleteSearchResult = {
               elementId: `${this.resultsListId}-item-${i}`,
               data: r,
@@ -654,9 +647,9 @@ export class SkyAutocompleteComponent
           this.removeFocusedClass();
           this.removeActiveDescendant();
           if (this.searchResults.length > 0) {
-            this.activeElementIndex = 0;
+            this.#activeElementIndex = 0;
           } else {
-            this.activeElementIndex = -1;
+            this.#activeElementIndex = -1;
           }
 
           this.changeDetector.markForCheck();
@@ -664,7 +657,7 @@ export class SkyAutocompleteComponent
           if (this.isOpen) {
             // Let the results populate in the DOM before recalculating placement.
             setTimeout(() => {
-              this.affixer.reaffix();
+              this.#affixer!.reaffix();
               this.changeDetector.detectChanges();
               this.initOverlayFocusableElements();
             });
@@ -689,7 +682,7 @@ export class SkyAutocompleteComponent
 
       this.searchAsync.emit(searchAsyncArgs);
 
-      return searchAsyncArgs.result;
+      return searchAsyncArgs.result!;
     }
 
     const result = this.search(this.searchText, this.data);
@@ -712,9 +705,9 @@ export class SkyAutocompleteComponent
   }
 
   private cancelCurrentSearch(): void {
-    if (this.currentSearchSub) {
-      this.currentSearchSub.unsubscribe();
-      this.currentSearchSub = undefined;
+    if (this.#currentSearchSub) {
+      this.#currentSearchSub.unsubscribe();
+      this.#currentSearchSub = undefined;
     }
   }
 
@@ -730,8 +723,8 @@ export class SkyAutocompleteComponent
     }
 
     let matchesToHighlight: string[] = [];
-    for (let i = 0, n = this._searchResults.length; i < n; i++) {
-      const value = this._searchResults[i].data[this.descriptorProperty]
+    for (let i = 0, n = this.searchResults.length; i < n; i++) {
+      const value = this.searchResults[i].data[this.descriptorProperty]
         .toString()
         .toLocaleUpperCase() as string;
       const normalizedDataValue = normalizeDiacritics(value);
@@ -752,20 +745,20 @@ export class SkyAutocompleteComponent
   }
 
   private selectSearchResultById(id: string): void {
-    const result = this.searchResults.find((r) => r.elementId === id).data;
-    /* Sanity check */
+    const result = this.searchResults.find((r) => r.elementId === id);
     /* istanbul ignore else */
     if (result) {
-      this.searchText = result[this.descriptorProperty];
-      this.inputDirective.value = result;
+      const data = result.data;
+      this.searchText = data[this.descriptorProperty];
+      this.inputDirective.value = data;
       this.selectionChange.emit({
-        selectedItem: result,
+        selectedItem: data,
       });
     }
   }
 
   private openDropdown(): void {
-    if (!this.overlay) {
+    if (!this.#overlay) {
       const overlay = this.overlayService.create({
         enableClose: false,
         enablePointerEvents: true,
@@ -774,7 +767,7 @@ export class SkyAutocompleteComponent
 
       overlay.attachTemplate(this.resultsTemplateRef);
 
-      this.overlay = overlay;
+      this.#overlay = overlay;
       this.isOpen = true;
       this.changeDetector.markForCheck();
       this.initOverlayFocusableElements();
@@ -791,7 +784,7 @@ export class SkyAutocompleteComponent
 
   private setActiveDescendant(): void {
     const activeElement =
-      this.overlayFocusableElements[this.activeElementIndex];
+      this.#overlayFocusableElements[this.#activeElementIndex];
     /* Sanity check */
     /* istanbul ignore else */
     if (activeElement) {
@@ -804,10 +797,10 @@ export class SkyAutocompleteComponent
   }
 
   private resetSearch(): void {
-    this._searchResults = [];
+    this.searchResults = [];
     this.searchText = '';
     this._highlightText = [];
-    this.activeElementIndex = -1;
+    this.#activeElementIndex = -1;
     this.searchResultsCount = undefined;
     this.removeActiveDescendant();
     this.initOverlayFocusableElements();
@@ -817,17 +810,17 @@ export class SkyAutocompleteComponent
   private addInputEventListeners(): void {
     const element = this.elementRef.nativeElement;
 
-    observableFromEvent(element, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event: KeyboardEvent) => {
+    observableFromEvent<KeyboardEvent>(element, 'keydown')
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((event) => {
         this.handleKeydown(event);
       });
 
     observableFromEvent(window, 'resize')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         /* istanbul ignore else */
-        if (this.isOpen) {
+        if (this.isOpen && this.resultsRef) {
           this.adapterService.setDropdownWidth(
             this.elementRef,
             this.resultsRef,
@@ -838,16 +831,16 @@ export class SkyAutocompleteComponent
   }
 
   private destroyOverlay(): void {
-    if (this.overlay) {
-      this.overlayService.close(this.overlay);
-      this.overlay = undefined;
+    if (this.#overlay) {
+      this.overlayService.close(this.#overlay);
+      this.#overlay = undefined;
     }
   }
 
   private createAffixer(): void {
     /* Sanity check */
     /* istanbul ignore else */
-    if (!this.affixer) {
+    if (!this.#affixer && this.resultsRef) {
       const affixer = this.affixService.createAffixer(this.resultsRef);
 
       this.adapterService.setDropdownWidth(
@@ -864,52 +857,24 @@ export class SkyAutocompleteComponent
         horizontalAlignment: 'left',
       });
 
-      this.affixer = affixer;
+      this.#affixer = affixer;
     }
   }
 
   private destroyAffixer(): void {
-    if (this.affixer) {
-      this.affixer.destroy();
-      this.affixer = undefined;
-    }
-  }
-
-  private initMessageStream(): void {
-    /* istanbul ignore if */
-    if (this.messageStreamSub) {
-      this.messageStreamSub.unsubscribe();
-    }
-
-    if (this.messageStream) {
-      this.messageStreamSub = this.messageStream
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((message: SkyAutocompleteMessage) => {
-          switch (message.type) {
-            case SkyAutocompleteMessageType.CloseDropdown:
-              this.closeDropdown();
-              break;
-            case SkyAutocompleteMessageType.RepositionDropdown:
-              // Settimeout waits for changes in DOM (e.g., tokens being removed)
-              setTimeout(() => {
-                /* istanbul ignore else */
-                if (this.affixer) {
-                  this.affixer.reaffix();
-                }
-              });
-              break;
-          }
-        });
+    if (this.#affixer) {
+      this.#affixer.destroy();
+      this.#affixer = undefined;
     }
   }
 
   private initOverlayFocusableElements(): void {
     // Wait for dropdown elements to render.
     setTimeout(() => {
-      if (this.overlay) {
-        this.overlayFocusableElements =
-          this.adapterService.getOverlayFocusableElements(this.overlay);
-        this.overlayFocusableElements.forEach((el) => {
+      if (this.#overlay) {
+        this.#overlayFocusableElements =
+          this.adapterService.getOverlayFocusableElements(this.#overlay);
+        this.#overlayFocusableElements.forEach((el) => {
           this.adapterService.setTabIndex(el, -1);
         });
         this.addFocusedClass();
@@ -918,25 +883,57 @@ export class SkyAutocompleteComponent
   }
 
   private getActiveElement(): HTMLElement {
-    return this.overlayFocusableElements[this.activeElementIndex];
+    return this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
   private removeFocusedClass(): void {
-    if (this.activeElementIndex > -1) {
+    if (this.#activeElementIndex > -1) {
       this.adapterService.removeCSSClass(
-        this.overlayFocusableElements[this.activeElementIndex],
+        this.#overlayFocusableElements[this.#activeElementIndex],
         'sky-autocomplete-descendant-focus'
       );
     }
   }
 
   private addFocusedClass(): void {
-    if (this.activeElementIndex > -1) {
+    if (this.#activeElementIndex > -1) {
       this.adapterService.addCSSClass(
-        this.overlayFocusableElements[this.activeElementIndex],
+        this.#overlayFocusableElements[this.#activeElementIndex],
         'sky-autocomplete-descendant-focus'
       );
       this.setActiveDescendant();
+    }
+  }
+
+  private subscribeMessageStream(): void {
+    this.unsubscribeMessageStream();
+
+    this.#messageStreamSub = this.messageStream.subscribe((message) => {
+      this.handleIncomingMessages(message);
+    });
+  }
+
+  private unsubscribeMessageStream(): void {
+    if (this.#messageStreamSub) {
+      this.#messageStreamSub.unsubscribe();
+      this.#messageStreamSub = undefined;
+    }
+  }
+
+  private handleIncomingMessages(message: SkyAutocompleteMessage): void {
+    switch (message.type) {
+      case SkyAutocompleteMessageType.CloseDropdown:
+        this.closeDropdown();
+        break;
+      case SkyAutocompleteMessageType.RepositionDropdown:
+        // Settimeout waits for changes in DOM (e.g., tokens being removed)
+        setTimeout(() => {
+          /* istanbul ignore else */
+          if (this.#affixer) {
+            this.#affixer.reaffix();
+          }
+        });
+        break;
     }
   }
 }
