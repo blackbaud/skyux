@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init generator should run successfully 1`] = `
+"export * from './lib/storybook.module';
+export * from './lib/preview-wrapper/preview-wrapper-decorators';
+"
+`;

@@ -880,6 +880,66 @@
         }
       }
     },
+    "e2e-schematics": {
+      "root": "libs/sdk/e2e-schematics",
+      "sourceRoot": "libs/sdk/e2e-schematics/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/js:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/sdk/e2e-schematics",
+            "main": "libs/sdk/e2e-schematics/src/index.ts",
+            "tsConfig": "libs/sdk/e2e-schematics/tsconfig.lib.json",
+            "assets": [
+              "libs/sdk/e2e-schematics/*.md",
+              {
+                "input": "./libs/sdk/e2e-schematics/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "libs/sdk/e2e-schematics/**/*.ts",
+              "libs/sdk/e2e-schematics/generators.json",
+              "libs/sdk/e2e-schematics/executors.json",
+              "libs/sdk/e2e-schematics/package.json"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/sdk/e2e-schematics"],
+          "options": {
+            "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "errors": {
       "projectType": "library",
       "root": "libs/components/errors",
@@ -2715,6 +2775,49 @@
           }
         }
       }
+    },
+    "storybook": {
+      "projectType": "library",
+      "root": "libs/components/storybook",
+      "sourceRoot": "libs/components/storybook/src",
+      "prefix": "skyux",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/components/storybook"],
+          "options": {
+            "project": "libs/components/storybook/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/components/storybook/src/test.ts",
+            "tsConfig": "libs/components/storybook/tsconfig.spec.json",
+            "karmaConfig": "libs/components/storybook/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/storybook/**/*.ts",
+              "libs/components/storybook/**/*.html"
+            ]
+          }
+        }
+      },
+      "tags": []
     },
     "tabs": {
       "projectType": "library",

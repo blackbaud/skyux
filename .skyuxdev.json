@@ -5,11 +5,13 @@
     "animations",
     "assets",
     "config",
+    "e2e-schematics",
     "http",
     "omnibar-interop",
     "packages",
     "prettier-schematics",
     "router",
+    "storybook",
     "testing"
   ]
 }
