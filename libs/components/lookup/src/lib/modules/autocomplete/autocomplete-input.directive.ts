@@ -121,21 +121,21 @@ export class SkyAutocompleteInputDirective
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.#control) {
+      if (this.#isFirstChange && this.#control) {
         this.#control.markAsPristine();
       }
 
-      if (this.isFirstChange && this._value) {
-        this.isFirstChange = false;
+      if (this.#isFirstChange && this._value) {
+        this.#isFirstChange = false;
       }
     }
   }
 
   #control: AbstractControl | undefined;
 
-  private isFirstChange = true;
+  #isFirstChange = true;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
   private _autocompleteAttribute: string | undefined;
 
@@ -159,7 +159,7 @@ export class SkyAutocompleteInputDirective
     this.setAttributes(element);
 
     observableFromEvent(element, 'input')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
@@ -170,7 +170,7 @@ export class SkyAutocompleteInputDirective
       });
 
     observableFromEvent(element, 'blur')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
@@ -179,7 +179,7 @@ export class SkyAutocompleteInputDirective
       });
 
     observableFromEvent(element, 'focus')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
@@ -188,12 +188,12 @@ export class SkyAutocompleteInputDirective
       });
 
     observableFromEvent(element, 'change')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         /** Sanity check */
         /* istanbul ignore else */
         if (!this.disabled) {
-          this.isFirstChange = false;
+          this.#isFirstChange = false;
         }
       });
   }
@@ -202,8 +202,8 @@ export class SkyAutocompleteInputDirective
     this._blur.complete();
     this._textChanges.complete();
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public writeValue(value: any): void {

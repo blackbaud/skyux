@@ -130,7 +130,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Input()
   public set messageStream(value: Subject<SkyAutocompleteMessage> | undefined) {
     this._messageStream = value ?? new Subject<SkyAutocompleteMessage>();
-    this.subscribeMessageStream();
+    this.initMessageStream();
   }
 
   public get messageStream(): Subject<SkyAutocompleteMessage> {
@@ -868,6 +868,30 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
+  private initMessageStream(): void {
+    if (this.#messageStreamSub) {
+      this.#messageStreamSub.unsubscribe();
+      this.#messageStreamSub = undefined;
+    }
+
+    this.#messageStreamSub = this.messageStream.subscribe((message) => {
+      switch (message.type) {
+        case SkyAutocompleteMessageType.CloseDropdown:
+          this.closeDropdown();
+          break;
+        case SkyAutocompleteMessageType.RepositionDropdown:
+          // Settimeout waits for changes in DOM (e.g., tokens being removed)
+          setTimeout(() => {
+            /* istanbul ignore else */
+            if (this.#affixer) {
+              this.#affixer.reaffix();
+            }
+          });
+          break;
+      }
+    });
+  }
+
   private initOverlayFocusableElements(): void {
     // Wait for dropdown elements to render.
     setTimeout(() => {
@@ -902,38 +926,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         'sky-autocomplete-descendant-focus'
       );
       this.setActiveDescendant();
-    }
-  }
-
-  private subscribeMessageStream(): void {
-    this.unsubscribeMessageStream();
-
-    this.#messageStreamSub = this.messageStream.subscribe((message) => {
-      this.handleIncomingMessages(message);
-    });
-  }
-
-  private unsubscribeMessageStream(): void {
-    if (this.#messageStreamSub) {
-      this.#messageStreamSub.unsubscribe();
-      this.#messageStreamSub = undefined;
-    }
-  }
-
-  private handleIncomingMessages(message: SkyAutocompleteMessage): void {
-    switch (message.type) {
-      case SkyAutocompleteMessageType.CloseDropdown:
-        this.closeDropdown();
-        break;
-      case SkyAutocompleteMessageType.RepositionDropdown:
-        // Settimeout waits for changes in DOM (e.g., tokens being removed)
-        setTimeout(() => {
-          /* istanbul ignore else */
-          if (this.#affixer) {
-            this.#affixer.reaffix();
-          }
-        });
-        break;
     }
   }
 }
