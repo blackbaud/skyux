@@ -72,6 +72,7 @@ function titleCase(string: string) {
 
 export default async function (tree: Tree, options: StoriesGeneratorSchema) {
   const normalizedOptions = normalizeOptions(tree, options);
+  const matchCypressVisitId = /cy\.visit\('\/iframe.html\?id=([^']+)'\)/;
 
   // nx g @nrwl/angular:stories
   angularStoriesGenerator(tree, {
@@ -152,28 +153,34 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
         );
         if (filepath.endsWith('.spec.ts') && changeIndex > -1) {
           let spec = tree.read(filepath, 'utf8');
-          spec = spec
-            .replace(
-              /describe\('([^']+)',/,
-              (m, description) =>
-                `describe(\`${description} in \${theme} theme\`,`
-            )
-            .replace(
-              /cy\.visit\('\/iframe.html\?id=([^']+)'\)/,
-              (m, id) =>
-                `cy.visit('/iframe.html?globals=theme:\${theme}&id=${updatedIds.get(
-                  id
-                )}')`
-            )
-            .replace(
-              `.should('exist')`,
-              `.should('exist')
-            .should('be.visible')
-            .screenshot()
-            .percySnapshot()`
-            );
-          spec = `['default', 'modern-light', 'modern-dark'].forEach((theme) => {\n${spec}\n});`;
-          tree.write(filepath, spec);
+          const visitIdMatch = spec.match(matchCypressVisitId);
+          if (visitIdMatch) {
+            const id = visitIdMatch[1];
+            spec = spec
+              .replace(
+                /describe\('([^']+)',/,
+                (m, description) =>
+                  `describe(\`${description} in \${theme} theme\`,`
+              )
+              .replace(
+                matchCypressVisitId,
+                (m, id) =>
+                  `cy.visit('/iframe.html?globals=theme:\${theme}&id=${updatedIds.get(
+                    id
+                  )}')`
+              )
+              .replace(
+                `.should('exist')`,
+                `.should('exist')
+      .should('be.visible')
+      .screenshot(\`${updatedIds.get(id)}-\${theme}\`)
+      .percySnapshot(\`${updatedIds.get(id)}-\${theme}\`)`
+              );
+            spec = `['default', 'modern-light', 'modern-dark'].forEach((theme) => {\n  ${spec
+              .split(`\n`)
+              .join(`\n  `)}\n});`;
+            tree.write(filepath, spec);
+          }
         }
       }
     );
