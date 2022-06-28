@@ -31,11 +31,11 @@ export class SkyLookupAutocompleteAdapter {
    */
   @Input()
   public set descriptorProperty(value: string) {
-    this._descriptorProperty = value;
+    this.#_descriptorProperty = value;
   }
 
   public get descriptorProperty(): string {
-    return this._descriptorProperty || 'name';
+    return this.#_descriptorProperty || 'name';
   }
 
   /**
@@ -44,11 +44,11 @@ export class SkyLookupAutocompleteAdapter {
    */
   @Input()
   public set propertiesToSearch(value: string[]) {
-    this._propertiesToSearch = value;
+    this.#_propertiesToSearch = value;
   }
 
   public get propertiesToSearch(): string[] {
-    return this._propertiesToSearch || ['name'];
+    return this.#_propertiesToSearch || ['name'];
   }
 
   /**
@@ -61,12 +61,12 @@ export class SkyLookupAutocompleteAdapter {
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction) {
-    this._search = value;
+    this.#_search = value;
   }
 
   public get search(): SkyAutocompleteSearchFunction {
     return (
-      this._search ||
+      this.#_search ||
       skyAutocompleteDefaultSearchFunction({
         propertiesToSearch: this.propertiesToSearch,
         searchFilters: this.searchFilters,
@@ -115,7 +115,7 @@ export class SkyLookupAutocompleteAdapter {
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
-  private _descriptorProperty: string | undefined;
-  private _propertiesToSearch: string[] | undefined;
-  private _search: SkyAutocompleteSearchFunction | undefined;
+  #_descriptorProperty: string | undefined;
+  #_propertiesToSearch: string[] | undefined;
+  #_search: SkyAutocompleteSearchFunction | undefined;
 }

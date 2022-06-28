@@ -92,7 +92,7 @@ export class SkyLookupComponent
    */
   @Input()
   public set data(value: any[] | undefined) {
-    this._data = value;
+    this.#_data = value;
 
     if (this.#openNativePicker && this.searchAsync.observers.length === 0) {
       this.#openNativePicker.componentInstance.updateItemData(value);
@@ -100,7 +100,7 @@ export class SkyLookupComponent
   }
 
   public get data(): any[] {
-    return this._data || [];
+    return this.#_data || [];
   }
 
   /**
@@ -149,7 +149,7 @@ export class SkyLookupComponent
     const multipleToSingle: boolean =
       value === 'single' && this.selectMode === 'multiple';
 
-    this._selectMode = value;
+    this.#_selectMode = value;
     this.updateForSelectMode();
 
     if (multipleToSingle) {
@@ -164,7 +164,7 @@ export class SkyLookupComponent
   }
 
   public get selectMode(): SkyLookupSelectModeType {
-    return this._selectMode || 'multiple';
+    return this.#_selectMode || 'multiple';
   }
 
   /**
@@ -180,7 +180,7 @@ export class SkyLookupComponent
   public addClick: EventEmitter<SkyLookupAddClickEventArgs> = new EventEmitter();
 
   public get tokens(): SkyToken[] | undefined {
-    return this._tokens;
+    return this.#_tokens;
   }
 
   public set tokens(value: SkyToken[] | undefined) {
@@ -190,7 +190,7 @@ export class SkyLookupComponent
         .getString('skyux_lookup_tokens_summary', this.value.length.toString())
         .pipe(take(1))
         .subscribe((label) => {
-          this._tokens = [
+          this.#_tokens = [
             {
               value: { [this.descriptorProperty]: label },
             },
@@ -198,23 +198,23 @@ export class SkyLookupComponent
           this.changeDetector.markForCheck();
         });
     } else {
-      this._tokens = value;
+      this.#_tokens = value;
       this.changeDetector.markForCheck();
     }
   }
 
   public get value(): any[] {
-    return this._value ? this._value : [];
+    return this.#_value ? this.#_value : [];
   }
 
   public set value(newValue: any[]) {
-    this._value = newValue;
+    this.#_value = newValue;
 
     if (!this.#openNativePicker) {
       this.tokens = this.parseTokens(newValue);
     }
 
-    this.onChange(this._value);
+    this.onChange(this.#_value);
     this.onTouched();
   }
 
@@ -227,12 +227,12 @@ export class SkyLookupComponent
     static: false,
   })
   private set autocompleteInputDirective(value: SkyAutocompleteInputDirective) {
-    this._autocompleteInputDirective = value;
+    this.#_autocompleteInputDirective = value;
     this.updateForSelectMode();
   }
 
   private get autocompleteInputDirective(): SkyAutocompleteInputDirective {
-    return this._autocompleteInputDirective;
+    return this.#_autocompleteInputDirective;
   }
 
   @ViewChild('showMoreButtonTemplateRef', {
@@ -263,11 +263,11 @@ export class SkyLookupComponent
   #markForTokenFocusOnKeyUp = false;
   #openNativePicker: SkyModalInstance | undefined;
 
-  private _autocompleteInputDirective!: SkyAutocompleteInputDirective;
-  private _data: any[] | undefined;
-  private _selectMode: SkyLookupSelectModeType | undefined;
-  private _tokens: SkyToken[] | undefined;
-  private _value: any[] | undefined;
+  #_autocompleteInputDirective!: SkyAutocompleteInputDirective;
+  #_data: any[] | undefined;
+  #_selectMode: SkyLookupSelectModeType | undefined;
+  #_tokens: SkyToken[] | undefined;
+  #_value: any[] | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -356,7 +356,7 @@ export class SkyLookupComponent
 
       // NOTE: We do this here instead of just using the `value` setter because we need to use the
       // set of tokens returned here for the purposes of setting focus (see `onTokensKeyUp`).
-      this._value = change.map((token) => {
+      this.#_value = change.map((token) => {
         return token.value;
       });
       this.tokens = change;
@@ -364,7 +364,7 @@ export class SkyLookupComponent
       this.sendAutocompleteMessage(
         SkyAutocompleteMessageType.RepositionDropdown
       );
-      this.onChange(this._value);
+      this.onChange(this.#_value);
       this.onTouched();
     }
   }
