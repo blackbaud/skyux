@@ -1,5 +1,6 @@
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { MutationObserverService } from '@skyux/core';
+
+import { MutationObserverService } from '../mutation/mutation-observer-service';
 
 /**
  * Trims whitespace in each text node that is a direct descendent of the current element.
