@@ -325,9 +325,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   @ViewChild('defaultSearchResultTemplate', {
     read: TemplateRef,
-    static: false,
+    static: true,
   })
-  private defaultSearchResultTemplate: TemplateRef<unknown>;
+  private defaultSearchResultTemplate!: TemplateRef<unknown>;
 
   @ContentChild(SkyAutocompleteInputDirective)
   private set inputDirective(
@@ -383,7 +383,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   private get inputDirective(): SkyAutocompleteInputDirective {
-    return this._inputDirective;
+    return this._inputDirective!;
   }
 
   @ViewChild('resultsTemplateRef', {
