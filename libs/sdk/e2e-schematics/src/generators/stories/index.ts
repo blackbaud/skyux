@@ -154,8 +154,16 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           let spec = tree.read(filepath, 'utf8');
           spec = spec
             .replace(
+              /describe\('([^']+)',/,
+              (m, description) =>
+                `describe(\`${description} in \${theme} theme\`,`
+            )
+            .replace(
               /cy\.visit\('\/iframe.html\?id=([^']+)'\)/,
-              (m, id) => `cy.visit('/iframe.html?id=${updatedIds.get(id)}')`
+              (m, id) =>
+                `cy.visit('/iframe.html?globals=theme:\${theme}&id=${updatedIds.get(
+                  id
+                )}')`
             )
             .replace(
               `.should('exist')`,
@@ -164,6 +172,7 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
             .screenshot()
             .percySnapshot()`
             );
+          spec = `['default', 'modern-light', 'modern-dark'].forEach((theme) => {\n${spec}\n});`;
           tree.write(filepath, spec);
         }
       }

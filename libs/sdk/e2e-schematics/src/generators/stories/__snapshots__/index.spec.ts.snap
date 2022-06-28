@@ -22,14 +22,16 @@ Nested.args = {};
 `;
 
 exports[`stories generator should generate folder path 2`] = `
-"describe('test', () => {
-  beforeEach(() => cy.visit('/iframe.html?id=nestedcomponent-nested--nested'));
+"['default', 'modern-light', 'modern-dark'].forEach((theme) => {
+describe(\`test in \${theme} theme\`, () => {
+  beforeEach(() => cy.visit('/iframe.html?globals=theme:\${theme}&id=nestedcomponent-nested--nested'));
   it('should render the component', () => {
     cy.get('proj-nested').should('exist')
             .should('be.visible')
             .screenshot()
             .percySnapshot();
   });
+});
 });"
 `;
 
@@ -76,13 +78,15 @@ NxWelcome.args = {};
 `;
 
 exports[`stories generator should use -storybook project 2`] = `
-"describe('test-storybook', () => {
-  beforeEach(() => cy.visit('/iframe.html?id=nxwelcomecomponent-nxwelcome--nxwelcome'));
+"['default', 'modern-light', 'modern-dark'].forEach((theme) => {
+describe(\`test-storybook in \${theme} theme\`, () => {
+  beforeEach(() => cy.visit('/iframe.html?globals=theme:\${theme}&id=nxwelcomecomponent-nxwelcome--nxwelcome'));
   it('should render the component', () => {
     cy.get('proj-nx-welcome').should('exist')
             .should('be.visible')
             .screenshot()
             .percySnapshot();
   });
+});
 });"
 `;
