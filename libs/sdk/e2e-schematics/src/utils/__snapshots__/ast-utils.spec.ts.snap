@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ast-utils should getInsertExportTransformer 1`] = `
+"export * from './lib/first.module';
+export * from './lib/second.module';
+export * from './lib/third.module';
+export * from './lib/fourth.module';
+"
+`;
