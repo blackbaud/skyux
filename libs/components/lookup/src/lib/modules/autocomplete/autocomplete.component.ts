@@ -130,7 +130,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   @Input()
   public set messageStream(value: Subject<SkyAutocompleteMessage> | undefined) {
     this.#_messageStream = value ?? new Subject<SkyAutocompleteMessage>();
-    this.initMessageStream();
+    this.#initMessageStream();
   }
 
   public get messageStream(): Subject<SkyAutocompleteMessage> {
@@ -361,14 +361,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           })
         )
         .subscribe((change) => {
-          this.searchTextChanged(change.value);
+          this.#searchTextChanged(change.value);
         });
 
       this.#_inputDirective.blur
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           directive.restoreInputTextValueToPreviousState();
-          this.closeDropdown();
+          this.#closeDropdown();
           directive.onTouched();
         });
 
@@ -376,7 +376,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           if (this.showActionsArea) {
-            this.openDropdown();
+            this.#openDropdown();
           }
         });
     }
@@ -397,8 +397,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   private set resultsRef(value: ElementRef | undefined) {
     if (value) {
       this.#_resultsRef = value;
-      this.destroyAffixer();
-      this.createAffixer();
+      this.#destroyAffixer();
+      this.#createAffixer();
     }
   }
 
@@ -459,23 +459,23 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.addInputEventListeners();
+    this.#addInputEventListeners();
   }
 
   public ngOnDestroy(): void {
-    this.cancelCurrentSearch();
+    this.#cancelCurrentSearch();
     this.#inputDirectiveUnsubscribe.next();
     this.#inputDirectiveUnsubscribe.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-    this.destroyAffixer();
-    this.destroyOverlay();
+    this.#destroyAffixer();
+    this.#destroyOverlay();
   }
 
   public addButtonClicked(): void {
     this.addClick.emit();
     this.inputDirective.restoreInputTextValueToPreviousState();
-    this.closeDropdown();
+    this.#closeDropdown();
   }
 
   public handleKeydown(event: KeyboardEvent): void {
@@ -483,7 +483,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     /* istanbul ignore else */
     if (event.key) {
       const key = event.key.toLowerCase();
-      const activeElement = this.getActiveElement();
+      const activeElement = this.#getActiveElement();
       const activeElementId = activeElement?.id;
       const targetIsSearchResult = this.searchResults.find(
         (r) => r.elementId === activeElementId
@@ -492,12 +492,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       switch (key) {
         case 'enter':
           if (targetIsSearchResult) {
-            this.selectSearchResultById(activeElementId);
+            this.#selectSearchResultById(activeElementId);
 
             if (!this.showActionsArea) {
-              this.closeDropdown();
+              this.#closeDropdown();
             } else {
-              this.resetSearch();
+              this.#resetSearch();
             }
           } else {
             if (activeElement) {
@@ -511,21 +511,21 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
         case 'tab':
           if (targetIsSearchResult) {
-            this.selectSearchResultById(activeElementId);
+            this.#selectSearchResultById(activeElementId);
           } else {
             this.inputDirective.restoreInputTextValueToPreviousState();
           }
 
-          this.closeDropdown();
+          this.#closeDropdown();
           break;
 
         case 'escape':
-          this.closeDropdown();
+          this.#closeDropdown();
           break;
 
         case 'arrowdown':
         case 'down':
-          this.removeFocusedClass();
+          this.#removeFocusedClass();
           if (
             this.#activeElementIndex ===
               this.#overlayFocusableElements.length - 1 ||
@@ -535,7 +535,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           } else {
             this.#activeElementIndex = this.#activeElementIndex + 1;
           }
-          this.addFocusedClass();
+          this.#addFocusedClass();
           this.changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
@@ -543,14 +543,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
         case 'arrowup':
         case 'up':
-          this.removeFocusedClass();
+          this.#removeFocusedClass();
           if (this.#activeElementIndex <= 0) {
             this.#activeElementIndex =
               this.#overlayFocusableElements.length - 1;
           } else {
             this.#activeElementIndex = this.#activeElementIndex - 1;
           }
-          this.addFocusedClass();
+          this.#addFocusedClass();
           this.changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
@@ -562,16 +562,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public moreButtonClicked(): void {
     this.showMoreClick.emit({ inputValue: this.searchText });
     this.inputDirective.restoreInputTextValueToPreviousState();
-    this.closeDropdown();
+    this.#closeDropdown();
   }
 
   public onResultMouseDown(id: string, event: MouseEvent): void {
-    this.selectSearchResultById(id);
+    this.#selectSearchResultById(id);
 
     if (!this.showActionsArea) {
-      this.closeDropdown();
+      this.#closeDropdown();
     } else {
-      this.resetSearch();
+      this.#resetSearch();
     }
 
     event.preventDefault();
@@ -580,9 +580,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   public onResultMouseMove(id: number): void {
     if (id !== this.#activeElementIndex) {
-      this.removeFocusedClass();
+      this.#removeFocusedClass();
       this.#activeElementIndex = id;
-      this.addFocusedClass();
+      this.#addFocusedClass();
       this.changeDetector.markForCheck();
     }
   }
@@ -591,7 +591,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     return ref === this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
-  private searchTextChanged(searchText: string | undefined): void {
+  #searchTextChanged(searchText: string | undefined): void {
     const isEmpty =
       !searchText || !searchText.trim() || searchText.match(/^\s+$/);
 
@@ -605,9 +605,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       }
 
       if (!this.showActionsArea) {
-        this.closeDropdown();
+        this.#closeDropdown();
       } else {
-        this.resetSearch();
+        this.#resetSearch();
       }
 
       this.isSearchingAsync = false;
@@ -622,9 +622,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.searchText = searchText.trim();
 
     if (isLongEnough && isDifferent) {
-      this.cancelCurrentSearch();
+      this.#cancelCurrentSearch();
 
-      this.#currentSearchSub = this.performSearch()
+      this.#currentSearchSub = this.#performSearch()
         .pipe(take(1))
         .subscribe((result) => {
           const items = result.items.filter((item: any) => {
@@ -643,9 +643,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
           this.searchResultsCount = result.totalCount;
 
-          this.#_highlightText = this.getHighlightText(this.searchText);
-          this.removeFocusedClass();
-          this.removeActiveDescendant();
+          this.#_highlightText = this.#getHighlightText(this.searchText);
+          this.#removeFocusedClass();
+          this.#removeActiveDescendant();
           if (this.searchResults.length > 0) {
             this.#activeElementIndex = 0;
           } else {
@@ -659,10 +659,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             setTimeout(() => {
               this.#affixer!.reaffix();
               this.changeDetector.detectChanges();
-              this.initOverlayFocusableElements();
+              this.#initOverlayFocusableElements();
             });
           } else {
-            this.openDropdown();
+            this.#openDropdown();
             this.changeDetector.markForCheck();
           }
         });
@@ -672,7 +672,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private performSearch(): Observable<SkyAutocompleteSearchAsyncResult> {
+  #performSearch(): Observable<SkyAutocompleteSearchAsyncResult> {
     if (!this.searchAsyncDisabled && this.searchAsync.observers.length > 0) {
       const searchAsyncArgs: SkyAutocompleteSearchAsyncArgs = {
         displayType: 'popover',
@@ -704,7 +704,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     );
   }
 
-  private cancelCurrentSearch(): void {
+  #cancelCurrentSearch(): void {
     if (this.#currentSearchSub) {
       this.#currentSearchSub.unsubscribe();
       this.#currentSearchSub = undefined;
@@ -714,7 +714,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Returns the text to highlight based on exact matches, case-insensitive matches, and matches for corresponding diacritical characters (a will match à).
    */
-  private getHighlightText(searchText: string): string[] {
+  #getHighlightText(searchText: string): string[] {
     const normalizedSearchText = normalizeDiacritics(searchText)
       .toLocaleUpperCase()
       .trim();
@@ -744,7 +744,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     return [...new Set(matchesToHighlight)];
   }
 
-  private selectSearchResultById(id: string): void {
+  #selectSearchResultById(id: string): void {
     const result = this.searchResults.find((r) => r.elementId === id);
     /* istanbul ignore else */
     if (result) {
@@ -757,7 +757,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private openDropdown(): void {
+  #openDropdown(): void {
     if (!this.#overlay) {
       const overlay = this.overlayService.create({
         enableClose: false,
@@ -770,19 +770,19 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#overlay = overlay;
       this.isOpen = true;
       this.changeDetector.markForCheck();
-      this.initOverlayFocusableElements();
+      this.#initOverlayFocusableElements();
     }
   }
 
-  private closeDropdown(): void {
-    this.resetSearch();
+  #closeDropdown(): void {
+    this.#resetSearch();
     this.isOpen = false;
-    this.destroyOverlay();
-    this.removeActiveDescendant();
+    this.#destroyOverlay();
+    this.#removeActiveDescendant();
     this.changeDetector.markForCheck();
   }
 
-  private setActiveDescendant(): void {
+  #setActiveDescendant(): void {
     const activeElement =
       this.#overlayFocusableElements[this.#activeElementIndex];
     /* Sanity check */
@@ -792,22 +792,22 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private removeActiveDescendant(): void {
+  #removeActiveDescendant(): void {
     this.inputDirective.setActiveDescendant(null);
   }
 
-  private resetSearch(): void {
+  #resetSearch(): void {
     this.searchResults = [];
     this.searchText = '';
     this.#_highlightText = [];
     this.#activeElementIndex = -1;
     this.searchResultsCount = undefined;
-    this.removeActiveDescendant();
-    this.initOverlayFocusableElements();
+    this.#removeActiveDescendant();
+    this.#initOverlayFocusableElements();
     this.changeDetector.markForCheck();
   }
 
-  private addInputEventListeners(): void {
+  #addInputEventListeners(): void {
     const element = this.elementRef.nativeElement;
 
     observableFromEvent<KeyboardEvent>(element, 'keydown')
@@ -830,14 +830,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       });
   }
 
-  private destroyOverlay(): void {
+  #destroyOverlay(): void {
     if (this.#overlay) {
       this.overlayService.close(this.#overlay);
       this.#overlay = undefined;
     }
   }
 
-  private createAffixer(): void {
+  #createAffixer(): void {
     /* Sanity check */
     /* istanbul ignore else */
     if (!this.#affixer && this.resultsRef) {
@@ -861,14 +861,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private destroyAffixer(): void {
+  #destroyAffixer(): void {
     if (this.#affixer) {
       this.#affixer.destroy();
       this.#affixer = undefined;
     }
   }
 
-  private initMessageStream(): void {
+  #initMessageStream(): void {
     if (this.#messageStreamSub) {
       this.#messageStreamSub.unsubscribe();
       this.#messageStreamSub = undefined;
@@ -877,7 +877,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#messageStreamSub = this.messageStream.subscribe((message) => {
       switch (message.type) {
         case SkyAutocompleteMessageType.CloseDropdown:
-          this.closeDropdown();
+          this.#closeDropdown();
           break;
         case SkyAutocompleteMessageType.RepositionDropdown:
           // Settimeout waits for changes in DOM (e.g., tokens being removed)
@@ -892,7 +892,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     });
   }
 
-  private initOverlayFocusableElements(): void {
+  #initOverlayFocusableElements(): void {
     // Wait for dropdown elements to render.
     setTimeout(() => {
       if (this.#overlay) {
@@ -901,16 +901,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         this.#overlayFocusableElements.forEach((el) => {
           this.adapterService.setTabIndex(el, -1);
         });
-        this.addFocusedClass();
+        this.#addFocusedClass();
       }
     });
   }
 
-  private getActiveElement(): HTMLElement {
+  #getActiveElement(): HTMLElement {
     return this.#overlayFocusableElements[this.#activeElementIndex];
   }
 
-  private removeFocusedClass(): void {
+  #removeFocusedClass(): void {
     if (this.#activeElementIndex > -1) {
       this.adapterService.removeCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
@@ -919,13 +919,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     }
   }
 
-  private addFocusedClass(): void {
+  #addFocusedClass(): void {
     if (this.#activeElementIndex > -1) {
       this.adapterService.addCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
         'sky-autocomplete-descendant-focus'
       );
-      this.setActiveDescendant();
+      this.#setActiveDescendant();
     }
   }
 }

@@ -87,7 +87,7 @@ export class SkyAutocompleteInputDirective
 
   public set displayWith(value: string) {
     this.#_displayWith = value;
-    this.inputTextValue = this.getValueByKey();
+    this.inputTextValue = this.#getValueByKey();
   }
 
   public get focus(): Observable<void> {
@@ -116,7 +116,7 @@ export class SkyAutocompleteInputDirective
     /* istanbul ignore else */
     if (isNewValue) {
       this.#_value = value;
-      this.inputTextValue = this.getValueByKey();
+      this.inputTextValue = this.#getValueByKey();
       this.onChange(this.#_value);
 
       // Do not mark the field as "dirty"
@@ -156,7 +156,7 @@ export class SkyAutocompleteInputDirective
   public ngOnInit() {
     const element = this.elementRef.nativeElement;
 
-    this.setAttributes(element);
+    this.#setAttributes(element);
 
     observableFromEvent(element, 'input')
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -223,7 +223,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public restoreInputTextValueToPreviousState(): void {
-    const modelValue = this.getValueByKey();
+    const modelValue = this.#getValueByKey();
 
     // If the search field contains text, make sure that the value
     // matches the selected descriptor key.
@@ -270,7 +270,7 @@ export class SkyAutocompleteInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
-  private setAttributes(element: any): void {
+  #setAttributes(element: any): void {
     this.renderer.setAttribute(
       element,
       'autocomplete',
@@ -282,7 +282,7 @@ export class SkyAutocompleteInputDirective
     this.renderer.addClass(element, 'sky-form-control');
   }
 
-  private getValueByKey(): string {
+  #getValueByKey(): string {
     return this.value ? this.value[this.displayWith] : undefined;
   }
 }
