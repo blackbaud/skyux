@@ -1,17 +1,22 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SkyDataManagerService, SkyDataManagerState, SkyDataViewConfig } from '@skyux/data-manager';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+  SkyDataViewConfig,
+} from '@skyux/data-manager';
+
 import { ComponentInfo } from '../shared/component-info/component-info';
 import { ComponentRouteInfo } from '../shared/component-info/component-route-info';
+
 import { HomeFiltersModalDemoComponent } from './home-filter.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  providers: [SkyDataManagerService]
+  providers: [SkyDataManagerService],
 })
 export class HomeComponent implements AfterViewInit {
-
   public componentData: ComponentInfo[] = [];
 
   public dataManagerConfig = {
@@ -69,26 +74,47 @@ export class HomeComponent implements AfterViewInit {
     showSortButtonText: true,
   };
 
-  constructor(router: Router, private changeDetector: ChangeDetectorRef, private dataManagerService: SkyDataManagerService) {
+  constructor(
+    router: Router,
+    private changeDetector: ChangeDetectorRef,
+    private dataManagerService: SkyDataManagerService
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (router.config.find(route => route.path === 'components').loadChildren() as Promise<any>).then((componentsRoutes) => {
-      this.createComponentData(componentsRoutes.routes, 'components').then(() => {
+    (
+      router.config
+        .find((route) => route.path === 'components')
+        .loadChildren() as Promise<any>
+    ).then((componentsRoutes) => {
+      this.createComponentData(componentsRoutes.routes, 'components').then(
+        () => {
+          this.defaultDataState.filterData.filters = {
+            libraries: [
+              ...new Set(
+                this.componentData.map((data) => {
+                  return data.library;
+                })
+              ),
+            ]
+              .sort()
+              .map((libraryName) => {
+                return { name: libraryName, isSelected: false };
+              }),
+          };
 
-      this.defaultDataState.filterData.filters = { libraries: [...new Set(this.componentData.map(data => { return data.library }))].sort().map(libraryName => { return { name: libraryName, isSelected: false }}) };
+          this.dataManagerService.initDataManager({
+            activeViewId: 'playgroundComponents',
+            dataManagerConfig: this.dataManagerConfig,
+            defaultDataState: this.defaultDataState,
+          });
 
-      this.dataManagerService.initDataManager({
-        activeViewId: 'playgroundComponents',
-        dataManagerConfig: this.dataManagerConfig,
-        defaultDataState: this.defaultDataState,
-      });
+          this.dataManagerService.initDataView(this.viewConfig);
 
-      this.dataManagerService.initDataView(this.viewConfig);
-
-        this.displayedItems = this.sortItems(
-          this.filterItems(this.searchItems(this.componentData))
-        );
-        this.changeDetector.markForCheck();
-      });
+          this.displayedItems = this.sortItems(
+            this.filterItems(this.searchItems(this.componentData))
+          );
+          this.changeDetector.markForCheck();
+        }
+      );
     });
   }
 
@@ -107,20 +133,26 @@ export class HomeComponent implements AfterViewInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private createComponentData(routes: ComponentRouteInfo[], parentPath: string): Promise<any> {
-    console.log(routes);
-
+  private createComponentData(
+    routes: ComponentRouteInfo[],
+    parentPath: string
+  ): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: Promise<any>[] = [];
 
     for (const route of routes) {
-      if(route.loadChildren) {
+      if (route.loadChildren) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        promises.push((<Promise<any>> route.loadChildren()).then((newRoutes) => {
-          if (newRoutes.routes instanceof Array) {
-            return this.createComponentData(newRoutes.routes, parentPath + '/' + route.path);
-          }
-        }));
+        promises.push(
+          (route.loadChildren() as Promise<any>).then((newRoutes) => {
+            if (newRoutes.routes instanceof Array) {
+              return this.createComponentData(
+                newRoutes.routes,
+                parentPath + '/' + route.path
+              );
+            }
+          })
+        );
       } else if (route.data) {
         route.data.path = parentPath + '/' + route.path;
         this.componentData.push(route.data);
@@ -188,7 +220,8 @@ export class HomeComponent implements AfterViewInit {
       const filters = filterData.filters;
       filteredItems = items.filter((item: ComponentInfo) => {
         if (
-          filters.libraries.find(library => library.name === item.library).isSelected
+          filters.libraries.find((library) => library.name === item.library)
+            .isSelected
         ) {
           return true;
         }

@@ -1,25 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AgGridRoutingModule } from './ag-grid/ag-grid-routing.module';
-
 export const componentRoutes: Routes = [
   {
     path: 'a11y',
-    loadChildren: () =>
-      import('./a11y/a11y.module').then((m) => m.A11yRoutingModule),
+    loadChildren: () => import('./a11y/a11y.module').then((m) => m.A11yModule),
   },
   {
     path: 'action-bars',
     loadChildren: () =>
       import('./action-bars/action-bars.module').then(
-        (m) => m.ActionBarsRoutingModule
+        (m) => m.ActionBarsModule
       ),
   },
   {
     path: 'ag-grid',
     loadChildren: () =>
-      import('./ag-grid/ag-grid.module').then(() => AgGridRoutingModule),
+      import('./ag-grid/ag-grid.module').then(() => m.AgGridModule),
   },
   {
     path: 'core',

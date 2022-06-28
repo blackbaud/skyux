@@ -16,7 +16,6 @@ export class HomeFiltersModalDemoComponent {
     public context: SkyDataManagerFilterModalContext,
     public instance: SkyModalInstance
   ) {
-    console.log(this.context);
     if (this.context.filterData && this.context.filterData.filters) {
       const filters = this.context.filterData.filters;
       // Deep clone the array so that cancelling is done without issue
