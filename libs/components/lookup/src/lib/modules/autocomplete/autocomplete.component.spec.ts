@@ -50,7 +50,7 @@ describe('Autocomplete component', () => {
     }
   }
 
-  function getSearchResultsContainer(): Element {
+  function getSearchResultsContainer(): HTMLElement {
     return document.querySelector('.sky-autocomplete-results-container');
   }
 
@@ -561,27 +561,21 @@ describe('Autocomplete component', () => {
     it('should handle missing skyAutocomplete directive on change', fakeAsync(() => {
       fixture.detectChanges();
 
-      try {
-        component.autocomplete['inputDirective'] = undefined;
+      component.hideInput = true;
+
+      expect(() => {
         tick();
         fixture.detectChanges();
-      } catch (e) {
-        expect(
-          e.message.indexOf(
-            'The SkyAutocompleteComponent requires a ContentChild input'
-          ) > -1
-        ).toEqual(true);
-      }
+      }).toThrowError(
+        'The SkyAutocompleteComponent requires a ContentChild input or textarea bound with the SkyAutocomplete directive. ' +
+          'For example: `<input type="text" skyAutocomplete>`.'
+      );
     }));
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
       const adapterSpy = spyOn(
         autocomplete['adapterService'],
         'setDropdownWidth'
-      ).and.callThrough();
-      const rendererSpy = spyOn(
-        autocomplete['adapterService']['renderer'],
-        'setStyle'
       ).and.callThrough();
 
       fixture.detectChanges();
@@ -601,11 +595,7 @@ describe('Autocomplete component', () => {
         autocompleteElement.getBoundingClientRect().width
       }px`;
 
-      expect(rendererSpy).toHaveBeenCalledWith(
-        dropdownElement,
-        'width',
-        formattedWidth
-      );
+      expect(dropdownElement.style.width).toEqual(formattedWidth);
     }));
 
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
@@ -617,10 +607,6 @@ describe('Autocomplete component', () => {
       const adapterSpy = spyOn(
         autocomplete['adapterService'],
         'setDropdownWidth'
-      ).and.callThrough();
-      const rendererSpy = spyOn(
-        autocomplete['adapterService']['renderer'],
-        'setStyle'
       ).and.callThrough();
 
       SkyAppTestUtility.fireDomEvent(window, 'resize');
@@ -639,11 +625,7 @@ describe('Autocomplete component', () => {
         autocompleteElement.getBoundingClientRect().width
       }px`;
 
-      expect(rendererSpy).toHaveBeenCalledWith(
-        dropdownElement,
-        'width',
-        formattedWidth
-      );
+      expect(dropdownElement.style.width).toEqual(formattedWidth);
     }));
 
     it('should search after debounce time', fakeAsync(() => {

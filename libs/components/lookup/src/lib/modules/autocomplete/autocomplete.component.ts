@@ -81,11 +81,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set data(value: any[]) {
-    this._data = value;
+    this.#_data = value;
   }
 
   public get data(): any[] {
-    return this._data || [];
+    return this.#_data || [];
   }
 
   /**
@@ -95,11 +95,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set debounceTime(value: number) {
-    this._debounceTime = value;
+    this.#_debounceTime = value;
   }
 
   public get debounceTime(): number {
-    return this._debounceTime || 0;
+    return this.#_debounceTime || 0;
   }
 
   /**
@@ -109,11 +109,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set descriptorProperty(value: string) {
-    this._descriptorProperty = value;
+    this.#_descriptorProperty = value;
   }
 
   public get descriptorProperty(): string {
-    return this._descriptorProperty || 'name';
+    return this.#_descriptorProperty || 'name';
   }
 
   /**
@@ -129,12 +129,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set messageStream(value: Subject<SkyAutocompleteMessage> | undefined) {
-    this._messageStream = value ?? new Subject<SkyAutocompleteMessage>();
+    this.#_messageStream = value ?? new Subject<SkyAutocompleteMessage>();
     this.initMessageStream();
   }
 
   public get messageStream(): Subject<SkyAutocompleteMessage> {
-    return this._messageStream;
+    return this.#_messageStream;
   }
 
   /**
@@ -149,11 +149,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set propertiesToSearch(value: string[]) {
-    this._propertiesToSearch = value;
+    this.#_propertiesToSearch = value;
   }
 
   public get propertiesToSearch(): string[] {
-    return this._propertiesToSearch || ['name'];
+    return this.#_propertiesToSearch || ['name'];
   }
 
   /**
@@ -166,12 +166,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction) {
-    this._search = value;
+    this.#_search = value;
   }
 
   public get search(): SkyAutocompleteSearchFunction {
     return (
-      this._search ||
+      this.#_search ||
       skyAutocompleteDefaultSearchFunction({
         propertiesToSearch: this.propertiesToSearch,
         searchFilters: this.searchFilters,
@@ -186,11 +186,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchResultTemplate(value: TemplateRef<unknown>) {
-    this._searchResultTemplate = value;
+    this.#_searchResultTemplate = value;
   }
 
   public get searchResultTemplate(): TemplateRef<unknown> {
-    return this._searchResultTemplate || this.defaultSearchResultTemplate;
+    return this.#_searchResultTemplate || this.defaultSearchResultTemplate;
   }
 
   /**
@@ -201,13 +201,13 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    this._searchTextMinimumCharacters = value;
+    this.#_searchTextMinimumCharacters = value;
   }
 
   public get searchTextMinimumCharacters(): number {
-    return this._searchTextMinimumCharacters &&
-      this._searchTextMinimumCharacters > 0
-      ? this._searchTextMinimumCharacters
+    return this.#_searchTextMinimumCharacters &&
+      this.#_searchTextMinimumCharacters > 0
+      ? this.#_searchTextMinimumCharacters
       : 1;
   }
 
@@ -227,14 +227,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchResultsLimit(value: number | undefined) {
-    this._searchResultsLimit = value;
+    this.#_searchResultsLimit = value;
   }
 
   public get searchResultsLimit(): number | undefined {
-    if (this._searchResultsLimit && this._searchResultsLimit > 0) {
-      return this._searchResultsLimit;
+    if (this.#_searchResultsLimit && this.#_searchResultsLimit > 0) {
+      return this.#_searchResultsLimit;
     } else {
-      return this.enableShowMore ? 5 : this._searchResultsLimit;
+      return this.enableShowMore ? 5 : this.#_searchResultsLimit;
     }
   }
 
@@ -279,7 +279,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Output()
   public get selectionChange(): EventEmitter<SkyAutocompleteSelectionChange> {
-    return this._selectionChange;
+    return this.#_selectionChange;
   }
 
   /**
@@ -294,15 +294,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   //#region template_properties
 
   public get searchResults(): SkyAutocompleteSearchResult[] {
-    return this._searchResults || [];
+    return this.#_searchResults || [];
   }
 
   public set searchResults(value: SkyAutocompleteSearchResult[]) {
-    this._searchResults = value;
+    this.#_searchResults = value;
   }
 
   public get highlightText(): string[] {
-    return this._highlightText || [];
+    return this.#_highlightText || [];
   }
 
   public isOpen = false;
@@ -343,15 +343,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       );
     }
 
-    if (this._inputDirective !== directive) {
+    if (this.#_inputDirective !== directive) {
       // Unsubscribe from old subscriptions on any previous input directive
       this.#inputDirectiveUnsubscribe.next();
 
-      this._inputDirective = directive;
+      this.#_inputDirective = directive;
 
-      this._inputDirective.displayWith = this.descriptorProperty;
+      this.#_inputDirective.displayWith = this.descriptorProperty;
 
-      this._inputDirective.textChanges
+      this.#_inputDirective.textChanges
         .pipe(
           takeUntil(this.#inputDirectiveUnsubscribe),
           debounceTime(this.debounceTime),
@@ -364,7 +364,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           this.searchTextChanged(change.value);
         });
 
-      this._inputDirective.blur
+      this.#_inputDirective.blur
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           directive.restoreInputTextValueToPreviousState();
@@ -372,7 +372,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
           directive.onTouched();
         });
 
-      this._inputDirective.focus
+      this.#_inputDirective.focus
         .pipe(takeUntil(this.#inputDirectiveUnsubscribe))
         .subscribe(() => {
           if (this.showActionsArea) {
@@ -383,7 +383,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   }
 
   private get inputDirective(): SkyAutocompleteInputDirective {
-    return this._inputDirective!;
+    return this.#_inputDirective!;
   }
 
   @ViewChild('resultsTemplateRef', {
@@ -396,14 +396,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   })
   private set resultsRef(value: ElementRef | undefined) {
     if (value) {
-      this._resultsRef = value;
+      this.#_resultsRef = value;
       this.destroyAffixer();
       this.createAffixer();
     }
   }
 
   private get resultsRef(): ElementRef | undefined {
-    return this._resultsRef;
+    return this.#_resultsRef;
   }
 
   /**
@@ -430,20 +430,20 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #currentSearchSub: Subscription | undefined;
 
-  private _data: any[] | undefined;
-  private _debounceTime: number | undefined;
-  private _descriptorProperty: string | undefined;
-  private _highlightText: string[] | undefined;
-  private _inputDirective: SkyAutocompleteInputDirective | undefined;
-  private _messageStream = new Subject<SkyAutocompleteMessage>();
-  private _propertiesToSearch: string[] | undefined;
-  private _resultsRef: ElementRef | undefined;
-  private _search: SkyAutocompleteSearchFunction | undefined;
-  private _searchResults: SkyAutocompleteSearchResult[] | undefined;
-  private _searchResultTemplate: TemplateRef<unknown> | undefined;
-  private _searchResultsLimit: number | undefined;
-  private _searchTextMinimumCharacters: number | undefined;
-  private _selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
+  #_data: any[] | undefined;
+  #_debounceTime: number | undefined;
+  #_descriptorProperty: string | undefined;
+  #_highlightText: string[] | undefined;
+  #_inputDirective: SkyAutocompleteInputDirective | undefined;
+  #_messageStream = new Subject<SkyAutocompleteMessage>();
+  #_propertiesToSearch: string[] | undefined;
+  #_resultsRef: ElementRef | undefined;
+  #_search: SkyAutocompleteSearchFunction | undefined;
+  #_searchResults: SkyAutocompleteSearchResult[] | undefined;
+  #_searchResultTemplate: TemplateRef<unknown> | undefined;
+  #_searchResultsLimit: number | undefined;
+  #_searchTextMinimumCharacters: number | undefined;
+  #_selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -643,7 +643,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
           this.searchResultsCount = result.totalCount;
 
-          this._highlightText = this.getHighlightText(this.searchText);
+          this.#_highlightText = this.getHighlightText(this.searchText);
           this.removeFocusedClass();
           this.removeActiveDescendant();
           if (this.searchResults.length > 0) {
@@ -799,7 +799,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   private resetSearch(): void {
     this.searchResults = [];
     this.searchText = '';
-    this._highlightText = [];
+    this.#_highlightText = [];
     this.#activeElementIndex = -1;
     this.searchResultsCount = undefined;
     this.removeActiveDescendant();

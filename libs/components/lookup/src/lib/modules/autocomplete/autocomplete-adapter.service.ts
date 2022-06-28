@@ -11,13 +11,13 @@ import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
  */
 @Injectable()
 export class SkyAutocompleteAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
   constructor(
     private coreAdapterService: SkyCoreAdapterService,
     private rendererFactory: RendererFactory2
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, null);
+    this.#renderer = this.rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -27,7 +27,7 @@ export class SkyAutocompleteAdapterService {
     /* Sanity check */
     /* istanbul ignore else */
     if (element) {
-      this.renderer.addClass(element, className);
+      this.#renderer.addClass(element, className);
     }
   }
 
@@ -49,7 +49,7 @@ export class SkyAutocompleteAdapterService {
     /* Sanity check */
     /* istanbul ignore else */
     if (element) {
-      this.renderer.removeClass(element, className);
+      this.#renderer.removeClass(element, className);
     }
   }
 
@@ -63,7 +63,7 @@ export class SkyAutocompleteAdapterService {
       : elementRef.nativeElement;
     if (parentElement) {
       const width = parentElement.getBoundingClientRect().width;
-      this.renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
+      this.#renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
     }
   }
 
