@@ -11,13 +11,13 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   @ViewChild(SkyLookupComponent, {
     static: true,
   })
-  public lookupComponent: SkyLookupComponent;
+  public lookupComponent!: SkyLookupComponent;
 
-  public autocompleteAttribute: string;
-  public data: any[];
+  public autocompleteAttribute: string | undefined;
+  public data: any[] = [];
   public enableShowMore = false;
-  public friends: any[];
-  public form: FormGroup;
+  public friends: any[] = [];
+  public form!: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 

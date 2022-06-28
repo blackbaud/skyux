@@ -31,20 +31,20 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
    */
   public addClick: Subject<void> = new Subject();
 
-  public items: unknown[];
+  public items: any[] = [];
 
-  public displayedItems: unknown[] = [];
+  public displayedItems: any[] = [];
   public onlyShowSelected = false;
-  public searchText: string;
+  public searchText: string | undefined;
   public isSearching = false;
   public hasMoreItems = false;
   public isLoadingMore = false;
-  public selectedIdMap: Map<unknown, unknown>;
+  public selectedIdMap: Map<unknown, unknown> = new Map();
 
-  private continuationData: unknown;
-  private offset = 0;
-  private ngUnsubscribe = new Subject<void>();
-  private currentSearchSub: Subscription | undefined;
+  #continuationData: unknown;
+  #offset = 0;
+  #ngUnsubscribe = new Subject<void>();
+  #currentSearchSub: Subscription | undefined;
 
   constructor(
     public modalInstance: SkyModalInstance,
@@ -62,8 +62,8 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.cancelCurrentSearch();
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public addButtonClicked(): void {
@@ -114,7 +114,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   public searchApplied(searchText: string) {
-    this.offset = 0;
+    this.#offset = 0;
     this.searchText = searchText;
 
     this.loadSearchResults();
@@ -187,20 +187,20 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   private performSearch(
     processResults: (result: SkyAutocompleteSearchAsyncResult) => void
   ): void {
-    this.currentSearchSub = this.context
+    this.#currentSearchSub = this.context
       .searchAsync({
         displayType: 'modal',
-        offset: this.offset,
+        offset: this.#offset,
         searchText: this.searchText || '',
-        continuationData: this.continuationData,
+        continuationData: this.#continuationData,
       })
       .pipe(take(1))
       .subscribe((result) => {
         processResults(result);
 
-        this.continuationData = result.continuationData;
-        this.hasMoreItems = result.hasMore;
-        this.offset = this.items.length;
+        this.#continuationData = result.continuationData;
+        this.hasMoreItems = result.hasMore || false;
+        this.#offset = this.items.length;
 
         this.updateDisplayedItems();
 
@@ -219,9 +219,9 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   private cancelCurrentSearch(): void {
-    if (this.currentSearchSub) {
-      this.currentSearchSub.unsubscribe();
-      this.currentSearchSub = undefined;
+    if (this.#currentSearchSub) {
+      this.#currentSearchSub.unsubscribe();
+      this.#currentSearchSub = undefined;
       this.isLoadingMore = false;
       this.isSearching = false;
     }

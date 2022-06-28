@@ -66,7 +66,7 @@ export class SkyLookupComponent
    * If the input includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
@@ -75,14 +75,14 @@ export class SkyLookupComponent
    * If the input does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
    * @default "off"
    */
   @Input()
-  public autocompleteAttribute: string;
+  public autocompleteAttribute: string | undefined;
 
   /**
    * Specifies a data source for the lookup component to search when users
@@ -91,16 +91,16 @@ export class SkyLookupComponent
    * @default []
    */
   @Input()
-  public set data(value: any[]) {
+  public set data(value: any[] | undefined) {
     this._data = value;
 
-    if (this.openNativePicker && this.searchAsync.observers.length === 0) {
-      this.openNativePicker.componentInstance.updateItemData(value);
+    if (this.#openNativePicker && this.searchAsync.observers.length === 0) {
+      this.#openNativePicker.componentInstance.updateItemData(value);
     }
   }
 
   public get data(): any[] {
-    return this._data;
+    return this._data || [];
   }
 
   /**
@@ -119,14 +119,14 @@ export class SkyLookupComponent
    * Specifies placeholder text to display in the lookup field.
    */
   @Input()
-  public placeholderText: string;
+  public placeholderText: string | undefined;
 
   /**
    * Specifies an object property that represents the object's unique identifier.
    * Specifying this property enables token animations and more efficient rendering.
    */
   @Input()
-  public idProperty: string;
+  public idProperty: string | undefined;
 
   /**
    * Indicates whether to display a button that lets users add options to the list.
@@ -138,14 +138,14 @@ export class SkyLookupComponent
    * Specifies configuration options for the picker that displays all options.
    */
   @Input()
-  public showMoreConfig: SkyLookupShowMoreConfig;
+  public showMoreConfig: SkyLookupShowMoreConfig | undefined;
 
   /**
    * Specifies whether users can select one option or multiple options.
    * @default "multiple"
    */
   @Input()
-  public set selectMode(value: SkyLookupSelectModeType) {
+  public set selectMode(value: SkyLookupSelectModeType | undefined) {
     const multipleToSingle: boolean =
       value === 'single' && this.selectMode === 'multiple';
 
@@ -171,7 +171,7 @@ export class SkyLookupComponent
    * @internal
    */
   @Input()
-  public wrapperClass?: string;
+  public wrapperClass: string | undefined;
 
   /**
    * Fires when users select the button to add options to the list.
@@ -179,11 +179,11 @@ export class SkyLookupComponent
   @Output()
   public addClick: EventEmitter<SkyLookupAddClickEventArgs> = new EventEmitter();
 
-  public get tokens(): SkyToken[] {
+  public get tokens(): SkyToken[] | undefined {
     return this._tokens;
   }
 
-  public set tokens(value: SkyToken[]) {
+  public set tokens(value: SkyToken[] | undefined) {
     // Collapse the tokens into a single token if the user has selected many options.
     if (this.enableShowMore && this.value.length > 5) {
       this.resourcesService
@@ -210,7 +210,7 @@ export class SkyLookupComponent
   public set value(newValue: any[]) {
     this._value = newValue;
 
-    if (!this.openNativePicker) {
+    if (!this.#openNativePicker) {
       this.tokens = this.parseTokens(newValue);
     }
 
@@ -239,35 +239,35 @@ export class SkyLookupComponent
     read: TemplateRef,
     static: true,
   })
-  private showMoreButtonTemplateRef: TemplateRef<unknown>;
+  private showMoreButtonTemplateRef!: TemplateRef<unknown>;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<unknown>;
+  private inputTemplateRef!: TemplateRef<unknown>;
 
   @ViewChild('lookupWrapper', {
     read: ElementRef,
   })
-  private lookupWrapperRef: ElementRef;
+  private lookupWrapperRef!: ElementRef;
 
   @ViewChild('searchIconTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef: TemplateRef<unknown>;
+  private searchIconTemplateRef!: TemplateRef<unknown>;
 
-  private ngUnsubscribe = new Subject<void>();
-  private idle = new Subject<void>();
-  private markForTokenFocusOnKeyUp = false;
-  private openNativePicker: SkyModalInstance;
+  #ngUnsubscribe = new Subject<void>();
+  #idle = new Subject<void>();
+  #markForTokenFocusOnKeyUp = false;
+  #openNativePicker: SkyModalInstance | undefined;
 
-  private _autocompleteInputDirective: SkyAutocompleteInputDirective;
-  private _data: any[];
-  private _selectMode: SkyLookupSelectModeType;
-  private _tokens: SkyToken[];
-  private _value: any[];
+  private _autocompleteInputDirective!: SkyAutocompleteInputDirective;
+  private _data: any[] | undefined;
+  private _selectMode: SkyLookupSelectModeType | undefined;
+  private _tokens: SkyToken[] | undefined;
+  private _value: any[] | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -302,7 +302,7 @@ export class SkyLookupComponent
       // This is required for the autocomplete directive to be set after elements
       // are rearranged when switching themes.
       this.themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.changeDetector.markForCheck();
         });
@@ -317,8 +317,8 @@ export class SkyLookupComponent
 
   public ngOnDestroy(): void {
     this.removeEventListeners();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
     this.tokensController.complete();
   }
 
@@ -430,7 +430,7 @@ export class SkyLookupComponent
 
   public clearSearchText(): void {
     this.autocompleteInputDirective.value = undefined;
-    this.autocompleteInputDirective.inputTextValue = undefined;
+    this.autocompleteInputDirective.inputTextValue = '';
   }
 
   // Handles when to focus on the tokens.
@@ -449,9 +449,9 @@ export class SkyLookupComponent
         case 'Backspace':
         case 'Left':
           if (value) {
-            this.markForTokenFocusOnKeyUp = false;
+            this.#markForTokenFocusOnKeyUp = false;
           } else {
-            this.markForTokenFocusOnKeyUp = true;
+            this.#markForTokenFocusOnKeyUp = true;
           }
           break;
         default:
@@ -473,7 +473,7 @@ export class SkyLookupComponent
         case 'Backspace':
         case 'Left':
           /* istanbul ignore else */
-          if (this.markForTokenFocusOnKeyUp) {
+          if (this.#markForTokenFocusOnKeyUp) {
             this.sendTokensMessage(SkyTokensMessageType.FocusLastToken);
             event.preventDefault();
           }
@@ -538,10 +538,10 @@ export class SkyLookupComponent
       modalComponentType = SkyLookupShowMoreAsyncModalComponent;
 
       contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext();
-      contextProviderValue.idProperty = this.idProperty;
+      contextProviderValue.idProperty = this.idProperty!;
       contextProviderValue.searchAsync = (args) => {
         this.searchAsync.emit(args);
-        return args.result;
+        return args.result!;
       };
     } else {
       contextProviderType = SkyLookupShowMoreNativePickerContext;
@@ -581,19 +581,19 @@ export class SkyLookupComponent
     } else {
       const initialValue = this.value;
 
-      this.openNativePicker = this.createNativePickerInstance(initialSearch);
+      this.#openNativePicker = this.createNativePickerInstance(initialSearch);
 
-      this.openNativePicker.componentInstance.addClick.subscribe(() => {
+      this.#openNativePicker.componentInstance.addClick.subscribe(() => {
         this.addButtonClicked();
       });
 
-      this.openNativePicker.closed.subscribe((closeArgs) => {
-        this.openNativePicker = undefined;
+      this.#openNativePicker.closed.subscribe((closeArgs) => {
+        this.#openNativePicker = undefined;
         if (closeArgs.reason === 'save') {
           let selectedItems: any[] = [];
 
           if (this.searchAsync.observers.length > 0) {
-            selectedItems = closeArgs.data.map((item) => item.itemData);
+            selectedItems = closeArgs.data.map((item: any) => item.itemData);
           } else {
             this.data.forEach((item: any, dataIndex: number) => {
               if (
@@ -629,12 +629,13 @@ export class SkyLookupComponent
     } else {
       selectedItems = this.value;
 
+      const idProperty = this.idProperty || '';
+
       // If items have a unique identifier, don't allow the same item to be added twice.
       if (
         !this.idProperty ||
         !this.value.some(
-          (existingItem) =>
-            existingItem[this.idProperty] === item[this.idProperty]
+          (existingItem) => existingItem[idProperty] === item[idProperty]
         )
       ) {
         selectedItems.push(item);
@@ -647,13 +648,13 @@ export class SkyLookupComponent
   }
 
   private addEventListeners(): void {
-    this.idle = new Subject();
+    this.#idle = new Subject();
     this.focusInputOnHostClick();
   }
 
   private removeEventListeners(): void {
-    this.idle.next();
-    this.idle.complete();
+    this.#idle.next();
+    this.#idle.complete();
   }
 
   private focusInputOnHostClick(): void {
@@ -666,9 +667,9 @@ export class SkyLookupComponent
     // The input should NOT be focused if other elements (tokens, etc.)
     // are currently focused or being tabbed through.
 
-    observableFromEvent(documentObj, 'mousedown')
-      .pipe(takeUntil(this.idle))
-      .subscribe((event: MouseEvent) => {
+    observableFromEvent<MouseEvent>(documentObj, 'mousedown')
+      .pipe(takeUntil(this.#idle))
+      .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
           ? this.elementRef.nativeElement
           : this.lookupWrapperRef.nativeElement;
@@ -677,9 +678,9 @@ export class SkyLookupComponent
         this.changeDetector.markForCheck();
       });
 
-    observableFromEvent(documentObj, 'focusin')
-      .pipe(takeUntil(this.idle))
-      .subscribe((event: KeyboardEvent) => {
+    observableFromEvent<KeyboardEvent>(documentObj, 'focusin')
+      .pipe(takeUntil(this.#idle))
+      .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
           ? this.elementRef.nativeElement
           : this.lookupWrapperRef.nativeElement;
@@ -689,7 +690,7 @@ export class SkyLookupComponent
       });
 
     observableFromEvent(hostElement, 'mouseup')
-      .pipe(takeUntil(this.idle))
+      .pipe(takeUntil(this.#idle))
       .subscribe(() => {
         const classList = documentObj.activeElement.classList;
         if (!classList || !classList.contains('sky-token')) {
@@ -708,9 +709,9 @@ export class SkyLookupComponent
     }
 
     if (this.data.indexOf(args.item) >= 0) {
-      if (this.openNativePicker) {
+      if (this.#openNativePicker) {
         (
-          this.openNativePicker
+          this.#openNativePicker
             .componentInstance as SkyLookupShowMoreModalComponent
         ).onItemSelect(true, { value: args.item, selected: false });
       } else {

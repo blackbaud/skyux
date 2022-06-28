@@ -28,35 +28,35 @@ export class SkyLookupTestComponent implements OnInit {
     read: SkyLookupComponent,
     static: true,
   })
-  public asyncLookupComponent: SkyLookupComponent;
+  public asyncLookupComponent!: SkyLookupComponent;
 
   @ViewChild('standardLookup', {
     read: SkyLookupComponent,
     static: true,
   })
-  public lookupComponent: SkyLookupComponent;
+  public lookupComponent!: SkyLookupComponent;
 
   @ViewChild('customSearchResultTemplate')
-  public searchResultTemplate: TemplateRef<unknown>;
+  public searchResultTemplate!: TemplateRef<unknown>;
 
   @ViewChild('customShowMoreTemplate')
-  public showMoreTemplate: TemplateRef<unknown>;
+  public showMoreTemplate!: TemplateRef<unknown>;
 
-  public ariaLabel: string;
-  public ariaLabelledBy: string;
-  public asyncForm: FormGroup;
-  public autocompleteAttribute: string;
-  public customSearch: SkyAutocompleteSearchFunction;
-  public data: any[];
-  public descriptorProperty: string;
-  public enabledSearchResultTemplate: TemplateRef<unknown>;
+  public ariaLabel: string | undefined;
+  public ariaLabelledBy: string | undefined;
+  public asyncForm!: FormGroup;
+  public autocompleteAttribute: string | undefined;
+  public customSearch: SkyAutocompleteSearchFunction | undefined;
+  public data: any[] = [];
+  public descriptorProperty: string | undefined;
+  public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
   public enableShowMore = false;
-  public form: FormGroup;
-  public idProperty: string;
+  public form!: FormGroup;
+  public idProperty: string | undefined;
   public ignoreAddDataUpdate = false;
-  public placeholderText: string;
-  public propertiesToSearch: string[];
-  public selectMode: SkyLookupSelectModeType;
+  public placeholderText: string | undefined;
+  public propertiesToSearch: string[] | undefined;
+  public selectMode: SkyLookupSelectModeType | undefined;
   public showAddButton = false;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
@@ -75,7 +75,7 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
-  private _friends: any[];
+  private _friends: any[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 

@@ -22,7 +22,7 @@ export class SkyLookupAutocompleteAdapter {
    * @default 0
    */
   @Input()
-  public debounceTime: number;
+  public debounceTime: number | undefined;
 
   /**
    * Specifies an object property to display in the text input after users
@@ -80,7 +80,7 @@ export class SkyLookupAutocompleteAdapter {
    * properties of the options.
    */
   @Input()
-  public searchResultTemplate: TemplateRef<unknown>;
+  public searchResultTemplate: TemplateRef<unknown> | undefined;
 
   /**
    * Specifies the minimum number of characters that users must enter before
@@ -89,7 +89,7 @@ export class SkyLookupAutocompleteAdapter {
    * @default 1
    */
   @Input()
-  public searchTextMinimumCharacters: number;
+  public searchTextMinimumCharacters: number | undefined;
 
   /**
    * Specifies an array of functions to call against each search result in order
@@ -99,14 +99,14 @@ export class SkyLookupAutocompleteAdapter {
    * `false` for each result to indicate whether to display it in the dropdown list.
    */
   @Input()
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 
   /**
    * Specifies the maximum number of search results to display in the dropdown
    * list. By default, the lookup component displays all matching results.
    */
   @Input()
-  public searchResultsLimit: number;
+  public searchResultsLimit: number | undefined;
 
   /**
    * Fires when users enter new search information and allows results to be
@@ -115,7 +115,7 @@ export class SkyLookupAutocompleteAdapter {
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
-  private _descriptorProperty: string;
-  private _propertiesToSearch: string[];
-  private _search: SkyAutocompleteSearchFunction;
+  private _descriptorProperty: string | undefined;
+  private _propertiesToSearch: string[] | undefined;
+  private _search: SkyAutocompleteSearchFunction | undefined;
 }
