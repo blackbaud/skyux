@@ -200,7 +200,7 @@ if (isPullRequest) {
   const commentToUpdate = commentsData.find((comment) =>
     comment.body.startsWith('[Storybook preview]')
   );
-  if (!commentToUpdate.id) {
+  if (!commentToUpdate) {
     if (!dryRun) {
       const tempFile = join(os.tmpdir(), 'pr_comment.md');
       writeFileSync(tempFile, comment.join(`\n`));
