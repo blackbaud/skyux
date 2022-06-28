@@ -1,5 +1,28 @@
 # Changelog
 
+### [6.3.3](https://github.com/blackbaud/skyux/compare/6.3.2...6.3.3) (2022-06-24)
+
+### Bug Fixes
+
+- **components/layout:** delay action button height update during init ([#301](https://github.com/blackbaud/skyux/issues/301)) ([d012684](https://github.com/blackbaud/skyux/commit/d0126845c37035691d39f75387935d98e69bbd22))
+
+### [6.3.2](https://github.com/blackbaud/skyux/compare/6.3.1...6.3.2) (2022-06-21)
+
+### Bug Fixes
+
+- **components/ag-grid:** show border when in edit mode ([#294](https://github.com/blackbaud/skyux/issues/294)) ([#295](https://github.com/blackbaud/skyux/issues/295)) ([49fcdfb](https://github.com/blackbaud/skyux/commit/49fcdfb6affedb45dd554e876a1ea61956097d11))
+- **components/theme:** inline links and anchor tags display the correct visual styles in modern theme ([#283](https://github.com/blackbaud/skyux/issues/283)) ([#291](https://github.com/blackbaud/skyux/issues/291)) ([96211f5](https://github.com/blackbaud/skyux/commit/96211f52a867a8e89be6018e69177eef1fed7528))
+- use large modal size ([#300](https://github.com/blackbaud/skyux/issues/300)) ([#302](https://github.com/blackbaud/skyux/issues/302)) ([5ef6421](https://github.com/blackbaud/skyux/commit/5ef6421313ab08466662b741453af021735b8a03))
+
+### [5.11.2](https://github.com/blackbaud/skyux/compare/5.11.1...5.11.2) (2022-06-21)
+
+### Bug Fixes
+
+- **components/ag-grid:** show border when in edit mode ([#294](https://github.com/blackbaud/skyux/issues/294)) ([7be4106](https://github.com/blackbaud/skyux/commit/7be4106dcf24ad9c35a42cc6f8f9e563c56bcda5))
+- **components/theme:** inline links and anchor tags display the correct visual styles in modern theme ([#283](https://github.com/blackbaud/skyux/issues/283)) ([5615c6a](https://github.com/blackbaud/skyux/commit/5615c6aa36107807534277ad1e1f166a63265d9d))
+- use large modal size ([#300](https://github.com/blackbaud/skyux/issues/300)) ([761a29f](https://github.com/blackbaud/skyux/commit/761a29fd7710bdb6e7f2bf60a13a3deb7b0cdcb7))
+- vulnerabilities remediation ([#292](https://github.com/blackbaud/skyux/issues/292)) ([ffe176b](https://github.com/blackbaud/skyux/commit/ffe176bd5f010620a18064e14392b83094d1accc))
+
 ### [6.3.1](https://github.com/blackbaud/skyux/compare/6.3.0...6.3.1) (2022-06-14)
 
 ### Bug Fixes

@@ -16,8 +16,10 @@
     <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
       {{ descriptionComputed }}
     </span>
-    <span class="sky-status-indicator-message">
-      <ng-content></ng-content>
-    </span>
+    <span class="sky-status-indicator-message" skyTrim
+      ><ng-content></ng-content></span
+    ><span class="sky-status-indicator-help"
+      ><ng-content select=".sky-control-help"></ng-content
+    ></span>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterViewInit,
   ChangeDetectorRef,
   Component,
   ContentChildren,
@@ -35,7 +35,7 @@ import { SkyActionButtonContainerAlignItemsType } from './types/action-button-co
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyActionButtonContainerComponent
-  implements AfterContentInit, OnDestroy, OnInit
+  implements AfterViewInit, OnDestroy, OnInit
 {
   /**
    * Specifies how to display the action buttons inside the action button container.
@@ -74,6 +74,8 @@ export class SkyActionButtonContainerComponent
 
   private _themeName: string;
 
+  #viewInitialized = false;
+
   constructor(
     private actionButtonAdapterService: SkyActionButtonAdapterService,
     private changeRef: ChangeDetectorRef,
@@ -99,7 +101,7 @@ export class SkyActionButtonContainerComponent
     });
   }
 
-  public ngAfterContentInit(): void {
+  public ngAfterViewInit(): void {
     // Watch for dynamic action button changes and recalculate height.
     /* istanbul ignore else */
     if (this.actionButtons) {
@@ -109,6 +111,8 @@ export class SkyActionButtonContainerComponent
           this.updateHeight();
         });
     }
+    this.#viewInitialized = true;
+    this.updateHeight();
   }
 
   public ngOnDestroy(): void {
@@ -125,20 +129,24 @@ export class SkyActionButtonContainerComponent
     this.updateResponsiveClass();
   }
 
-  private updateHeight(): void {
-    this.coreAdapterService.resetHeight(
-      this.containerRef,
-      '.sky-action-button'
-    );
-    if (this._themeName === 'modern') {
-      // Wait for children components to complete rendering before height is determined.
-      clearTimeout(this.syncMaxHeightTimeout);
-      this.syncMaxHeightTimeout = setTimeout(() => {
-        this.coreAdapterService.syncMaxHeight(
-          this.containerRef,
-          '.sky-action-button'
-        );
-      }) as unknown as number;
+  private updateHeight(delay = 0): void {
+    if (this.#viewInitialized) {
+      const ref = this.containerRef;
+      this.coreAdapterService.resetHeight(ref, '.sky-action-button');
+      if (this._themeName === 'modern') {
+        // Wait for children components to complete rendering before height is determined.
+        clearTimeout(this.syncMaxHeightTimeout);
+        this.syncMaxHeightTimeout = setTimeout(() => {
+          const selector = '.sky-action-button:not([hidden])';
+          const button = ref.nativeElement.querySelector(selector);
+          if (button && button.offsetHeight > 0) {
+            this.coreAdapterService.syncMaxHeight(ref, selector);
+          } else if (delay < 200) {
+            // Wait progressively longer between retries.
+            this.updateHeight(delay + 50);
+          }
+        }, delay) as unknown as number;
+      }
     }
   }
 

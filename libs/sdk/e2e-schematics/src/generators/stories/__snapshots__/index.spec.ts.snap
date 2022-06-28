@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stories generator should run successfully 1`] = `
+"import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { NxWelcomeComponent } from './nx-welcome.component';
+export default {
+    id: \\"nxwelcomecomponent--primary\\",
+    title: \\"Components/App/Nx Welcome\\",
+    component: NxWelcomeComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [],
+        })
+    ]
+} as Meta<NxWelcomeComponent>;
+const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
+    props: args,
+});
+export const NxWelcome = Template.bind({});
+NxWelcome.args = {};
+"
+`;
+
+exports[`stories generator should use -storybook project 1`] = `
+"import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { NxWelcomeComponent } from './nx-welcome.component';
+export default {
+    id: \\"nxwelcomecomponent--primary\\",
+    title: \\"Components/App/Nx Welcome\\",
+    component: NxWelcomeComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [],
+        })
+    ]
+} as Meta<NxWelcomeComponent>;
+const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
+    props: args,
+});
+export const NxWelcome = Template.bind({});
+NxWelcome.args = {};
+"
+`;

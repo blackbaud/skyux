@@ -5,9 +5,11 @@ import { Component } from '@angular/core';
   templateUrl: './status-indicator.component.fixture.html',
 })
 export class StatusIndicatorTestComponent {
-  public customDescription: string;
+  public customDescription: string | undefined;
 
-  public descriptionType: string;
+  public descriptionType: string | undefined;
 
-  public indicatorType: string;
+  public indicatorType: string | undefined;
+
+  public showHelp = false;
 }

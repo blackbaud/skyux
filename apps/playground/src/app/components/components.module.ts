@@ -38,6 +38,11 @@ export const componentRoutes: Routes = [
       import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'indicators',
+    loadChildren: () =>
+      import('./indicators/indicators.module').then((m) => m.IndicatorsModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),
@@ -89,11 +94,11 @@ export const componentRoutes: Routes = [
   imports: [RouterModule.forChild(componentRoutes)],
   exports: [RouterModule],
 })
-export class ComponentsRoutingModule {
-  public static routes = componentRoutes;
-}
+export class ComponentsRoutingModule {}
 
 @NgModule({
   imports: [ComponentsRoutingModule],
 })
-export class ComponentsModule {}
+export class ComponentsModule {
+  public static routes = componentRoutes;
+}

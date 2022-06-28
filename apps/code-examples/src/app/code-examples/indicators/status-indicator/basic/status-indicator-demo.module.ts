@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyStatusIndicatorModule } from '@skyux/indicators';
+import {
+  SkyHelpInlineModule,
+  SkyStatusIndicatorModule,
+} from '@skyux/indicators';
 
 import { StatusIndicatorDemoComponent } from './status-indicator-demo.component';
 
 @NgModule({
-  imports: [CommonModule, SkyStatusIndicatorModule],
+  imports: [CommonModule, SkyHelpInlineModule, SkyStatusIndicatorModule],
   declarations: [StatusIndicatorDemoComponent],
   exports: [StatusIndicatorDemoComponent],
 })

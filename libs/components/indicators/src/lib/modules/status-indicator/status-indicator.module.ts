@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyTrimModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyIconModule } from '../icon/icon.module';
@@ -14,6 +15,7 @@ import { SkyStatusIndicatorComponent } from './status-indicator.component';
     SkyI18nModule,
     SkyIconModule,
     SkyIndicatorsResourcesModule,
+    SkyTrimModule,
   ],
   exports: [SkyStatusIndicatorComponent],
 })

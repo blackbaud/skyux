@@ -65,6 +65,8 @@ export * from './lib/modules/scrollable-host/scrollable-host.service';
 export * from './lib/modules/title/set-title-args';
 export * from './lib/modules/title/title.service';
 
+export * from './lib/modules/trim/trim.module';
+
 export * from './lib/modules/ui-config/ui-config.service';
 
 export * from './lib/modules/viewkeeper/viewkeeper-host-options';
@@ -79,3 +81,4 @@ export * from './lib/modules/window/window-ref';
 export { SkyAffixDirective as λ1 } from './lib/modules/affix/affix.directive';
 export { SkyIdDirective as λ2 } from './lib/modules/id/id.directive';
 export { SkyViewkeeperDirective as λ3 } from './lib/modules/viewkeeper/viewkeeper.directive';
+export { SkyTrimDirective as λ4 } from './lib/modules/trim/trim.directive';
