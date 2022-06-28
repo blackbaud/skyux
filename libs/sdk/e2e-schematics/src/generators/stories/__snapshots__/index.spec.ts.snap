@@ -1,11 +1,44 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`stories generator should generate folder path 1`] = `
+"import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { NestedComponent } from './nested.component';
+export default {
+    id: \\"nestedcomponent-nested\\",
+    title: \\"Components/To/Nested\\",
+    component: NestedComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [],
+        })
+    ]
+} as Meta<NestedComponent>;
+const Template: Story<NestedComponent> = (args: NestedComponent) => ({
+    props: args,
+});
+export const Nested = Template.bind({});
+Nested.args = {};
+"
+`;
+
+exports[`stories generator should generate folder path 2`] = `
+"describe('test', () => {
+  beforeEach(() => cy.visit('/iframe.html?id=nestedcomponent-nested--nested'));
+  it('should render the component', () => {
+    cy.get('proj-nested').should('exist')
+            .should('be.visible')
+            .screenshot()
+            .percySnapshot();
+  });
+});"
+`;
+
 exports[`stories generator should run successfully 1`] = `
 "import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
-    id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/Nx Welcome\\",
+    id: \\"nxwelcomecomponent-nxwelcome\\",
+    title: \\"Components/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({
@@ -25,8 +58,8 @@ exports[`stories generator should use -storybook project 1`] = `
 "import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
-    id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/Nx Welcome\\",
+    id: \\"nxwelcomecomponent-nxwelcome\\",
+    title: \\"Components/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({
@@ -40,4 +73,16 @@ const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
 export const NxWelcome = Template.bind({});
 NxWelcome.args = {};
 "
+`;
+
+exports[`stories generator should use -storybook project 2`] = `
+"describe('test-storybook', () => {
+  beforeEach(() => cy.visit('/iframe.html?id=nxwelcomecomponent-nxwelcome--nxwelcome'));
+  it('should render the component', () => {
+    cy.get('proj-nx-welcome').should('exist')
+            .should('be.visible')
+            .screenshot()
+            .percySnapshot();
+  });
+});"
 `;

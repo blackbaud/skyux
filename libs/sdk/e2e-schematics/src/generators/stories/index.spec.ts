@@ -2,6 +2,7 @@ import {
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
+import componentGenerator from '@nrwl/angular/src/generators/component/component';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
@@ -40,6 +41,38 @@ describe('stories generator', () => {
     ).toMatchSnapshot();
   });
 
+  it('should generate folder path', async () => {
+    await applicationGenerator(appTree, {
+      name: 'test',
+    });
+    await componentGenerator(appTree, {
+      name: 'path/to/nested',
+      project: 'test',
+    });
+    await storybookConfigurationGenerator(appTree, {
+      name: 'test',
+      generateCypressSpecs: false,
+      configureCypress: true,
+      linter: Linter.None,
+      generateStories: false,
+    });
+    await storiesGenerator(appTree, options);
+    const config = readProjectConfiguration(appTree, 'test');
+    expect(config).toBeDefined();
+    expect(
+      appTree.read(
+        'apps/test/src/app/path/to/nested/nested.component.stories.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        'apps/test-e2e/src/integration/path/to/nested/nested.component.spec.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+  });
+
   it('should use -storybook project', async () => {
     await applicationGenerator(appTree, {
       name: 'test',
@@ -60,6 +93,12 @@ describe('stories generator', () => {
     expect(
       appTree.read(
         'apps/test-storybook/src/app/nx-welcome.component.stories.ts',
+        'utf-8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      appTree.read(
+        'apps/test-storybook-e2e/src/integration/nx-welcome.component.spec.ts',
         'utf-8'
       )
     ).toMatchSnapshot();

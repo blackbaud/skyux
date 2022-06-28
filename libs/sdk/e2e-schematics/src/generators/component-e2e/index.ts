@@ -9,6 +9,7 @@ import {
   getWorkspacePath,
   logger,
   readProjectConfiguration,
+  removeDependenciesFromPackageJson,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
@@ -112,8 +113,20 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   }
   await configureStorybook(tree, { name: options.storybookAppName });
   await configurePercy(tree, { name: `${options.storybookAppName}-e2e` });
+
+  // Do not add explicit dependencies for ts-node or webpack.
+  const updateDependencies = removeDependenciesFromPackageJson(
+    tree,
+    [],
+    ['ts-node', 'webpack']
+  );
+
   /* istanbul ignore next */
-  return runTasksInSerial(initTasks, appGenerator, storybookGenerator, () =>
-    formatFiles(tree)
+  return runTasksInSerial(
+    initTasks,
+    appGenerator,
+    storybookGenerator,
+    updateDependencies,
+    () => formatFiles(tree)
   );
 }

@@ -87,6 +87,13 @@ export default async function (tree: Tree, schema: Schema) {
         }
       );
     }
+
+    if (!tree.isFile(`${projectRoot}/.storybook/manager.ts`)) {
+      tree.write(
+        `${projectRoot}/.storybook/manager.ts`,
+        `export * from '${relativeToRoot}/.storybook/manager';`
+      );
+    }
   });
 
   await formatFiles(tree);
