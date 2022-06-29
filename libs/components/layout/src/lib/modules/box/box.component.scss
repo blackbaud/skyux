@@ -15,30 +15,32 @@
       display: none;
     }
 
-    sky-box-header {
+    .sky-box-header-container {
       flex: 1 0;
       order: 0;
+      sky-box-header {
+        .sky-box-header {
+          padding: 0 $sky-space-xl 0 0;
 
-      .sky-box-header {
-        padding: 0 $sky-space-xl 0 0;
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-          margin: 0;
+          h1,
+          h2,
+          h3,
+          h4,
+          h5,
+          h6 {
+            margin: 0;
+          }
         }
       }
     }
 
-    sky-box-controls {
+    .sky-box-controls-container {
       order: 1;
-
-      .sky-box-controls {
-        position: relative;
-        top: -2px;
+      sky-box-controls {
+        .sky-box-controls {
+          position: relative;
+          top: -2px;
+        }
       }
     }
   }

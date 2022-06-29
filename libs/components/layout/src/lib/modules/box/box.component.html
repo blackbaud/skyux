@@ -9,8 +9,12 @@
   }"
 >
   <div class="sky-box-header-content">
-    <ng-content select="sky-box-header"></ng-content>
-    <ng-content select="sky-box-controls"></ng-content>
+    <div class="sky-box-header-container">
+      <ng-content select="sky-box-header"></ng-content>
+    </div>
+    <div class="sky-box-controls-container">
+      <ng-content select="sky-box-controls"></ng-content>
+    </div>
   </div>
   <ng-content></ng-content>
 </section>
