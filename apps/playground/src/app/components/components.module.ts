@@ -38,6 +38,11 @@ const routes: Routes = [
       import('./forms/forms.module').then((m) => m.FormsModule),
   },
   {
+    path: 'indicators',
+    loadChildren: () =>
+      import('./indicators/indicators.module').then((m) => m.IndicatorsModule),
+  },
+  {
     path: 'layout',
     loadChildren: () =>
       import('./layout/layout.module').then((m) => m.LayoutModule),

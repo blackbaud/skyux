@@ -7,6 +7,11 @@ import { Injectable } from '@angular/core';
 export class SkyPageThemeAdapterService {
   private styleEl: HTMLStyleElement;
 
+  /**
+   * We can't use ViewEncapsulation.None for this behavior because Angular does
+   * not remove `style` tags from the HEAD element after route changes.
+   * @see https://github.com/angular/angular/issues/16670
+   */
   public addTheme(): void {
     if (!this.styleEl) {
       this.styleEl = document.createElement('style');
