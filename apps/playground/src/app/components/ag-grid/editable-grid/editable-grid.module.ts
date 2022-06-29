@@ -5,6 +5,8 @@ import { SkyToolbarModule } from '@skyux/layout';
 
 import { AgGridModule } from 'ag-grid-angular';
 
+import { EditInModalGridRoutingModule } from '../edit-in-modal-grid/edit-in-modal-grid-routing.module';
+
 import { EditableGridRoutingModule } from './editable-grid-routing.module';
 import { EditableGridComponent } from './editable-grid.component';
 
@@ -18,4 +20,6 @@ import { EditableGridComponent } from './editable-grid.component';
     SkyToolbarModule,
   ],
 })
-export class EditableGridModule {}
+export class EditableGridModule {
+  public static routes = EditInModalGridRoutingModule.routes;
+}

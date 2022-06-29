@@ -7,4 +7,6 @@ import { ButtonsComponent } from './buttons.component';
   declarations: [ButtonsComponent],
   imports: [ButtonsRoutingModule],
 })
-export class ButtonsModule {}
+export class ButtonsModule {
+  public static routes = ButtonsRoutingModule.routes;
+}

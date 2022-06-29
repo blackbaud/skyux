@@ -18,4 +18,6 @@ import { EditStopWhenLosesFocusComponent } from './edit-stop-when-loses-focus.co
     SkyToolbarModule,
   ],
 })
-export class EditStopWhenLosesFocusModule {}
+export class EditStopWhenLosesFocusModule {
+  public static routes = EditStopWhenLosesFocusRoutingModule.routes;
+}

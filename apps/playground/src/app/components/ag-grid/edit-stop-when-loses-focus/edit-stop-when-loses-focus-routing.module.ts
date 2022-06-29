@@ -1,14 +1,26 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { EditStopWhenLosesFocusComponent } from './edit-stop-when-loses-focus.component';
 
-const routes: Routes = [
-  { path: '', component: EditStopWhenLosesFocusComponent },
+const routes: ComponentRouteInfo[] = [
+  {
+    path: '',
+    component: EditStopWhenLosesFocusComponent,
+    data: {
+      name: 'AG Grid (stop editing with focus loss)',
+      library: 'ag-grid',
+      icon: 'table',
+    },
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class EditStopWhenLosesFocusRoutingModule {}
+export class EditStopWhenLosesFocusRoutingModule {
+  public static routes = routes;
+}
