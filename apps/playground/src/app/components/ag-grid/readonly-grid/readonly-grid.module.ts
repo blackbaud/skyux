@@ -21,4 +21,6 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
     SkyDropdownModule,
   ],
 })
-export class ReadonlyGridModule {}
+export class ReadonlyGridModule {
+  public static routes = ReadonlyGridRoutingModule.routes;
+}

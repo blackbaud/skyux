@@ -1,12 +1,26 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { StatusIndicatorComponent } from './status-indicator.component';
 
-const routes: Routes = [{ path: '', component: StatusIndicatorComponent }];
+const routes: ComponentRouteInfo[] = [
+  {
+    path: '',
+    component: StatusIndicatorComponent,
+    data: {
+      name: 'Status indicator',
+      icon: 'exclamation-triangle',
+      library: 'indicators',
+    },
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class StatusIndicatorRoutingModule {}
+export class StatusIndicatorRoutingModule {
+  public static routes = routes;
+}

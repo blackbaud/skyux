@@ -1,14 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AgGridComponent } from './ag-grid.component';
-
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: AgGridComponent,
-  },
   {
     path: 'data-manager',
     loadChildren: () =>
@@ -64,4 +57,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AgGridRoutingModule {}
+export class AgGridRoutingModule {
+  public static routes = routes;
+}
