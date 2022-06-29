@@ -62,8 +62,14 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default "select"
    */
   @Input()
-  public set buttonType(value: string | undefined) {
+  public set buttonType(
+    value: 'icon' | 'select' | 'context-menu' | 'tab' | string | undefined
+  ) {
     this._buttonType = value;
+    // TODO: if 'icon', set `buttonIcon` value.
+    // If 'tab' throw warning?
+    // If 'select' throw warning?
+    // If not any of the special values, throw warning that they should use the new buttonIcon value.
   }
 
   public get buttonType(): string {
@@ -125,8 +131,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   /**
    * Provides an observable to send commands to the dropdown. The commands should respect
    * the [[SkyDropdownMessage]] type.
+   * @internal
    */
-
   @Input()
   public messageStream = new Subject<SkyDropdownMessage>();
 
@@ -143,7 +149,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * for users on touch devices such as phones and tablets.
    * @deprecated We recommend against using this property. If you choose to use the deprecated
    * `hover` value anyway, we recommend that you not use it in combination with the `title`
-   * property. (This property will be removed in the next major version release.)
+   * property.
    * @default "click"
    */
   @Input()
