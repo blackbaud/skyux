@@ -18,4 +18,6 @@ export class ThemeRoutingModule {}
 @NgModule({
   imports: [ThemeRoutingModule],
 })
-export class ThemeModule {}
+export class ThemeModule {
+  public static routes = routes;
+}

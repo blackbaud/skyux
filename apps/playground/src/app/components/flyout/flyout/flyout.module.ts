@@ -31,4 +31,6 @@ import { FlyoutComponent } from './flyout.component';
     RouterModule,
   ],
 })
-export class FlyoutModule {}
+export class FlyoutModule {
+  public static routes = FlyoutRoutingModule.routes;
+}

@@ -33,4 +33,6 @@ import { SectionedFormComponent } from './sectioned-form.component';
     SectionedFormRoutingModule,
   ],
 })
-export class SectionedFormModule {}
+export class SectionedFormModule {
+  public static routes = SectionedFormRoutingModule.routes;
+}

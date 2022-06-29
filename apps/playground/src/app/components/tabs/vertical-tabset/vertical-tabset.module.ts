@@ -16,4 +16,6 @@ import { VerticalTabsetComponent } from './vertical-tabset.component';
     VerticalTabsetRoutingModule,
   ],
 })
-export class VerticalTabsetModule {}
+export class VerticalTabsetModule {
+  public static routes = VerticalTabsetRoutingModule.routes;
+}
