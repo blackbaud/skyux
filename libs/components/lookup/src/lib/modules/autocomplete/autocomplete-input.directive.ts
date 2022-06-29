@@ -78,7 +78,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get blur(): Observable<void> {
-    return this.#_blur.asObservable();
+    return this.#_blurObs;
   }
 
   public get displayWith(): string {
@@ -91,7 +91,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get focus(): Observable<void> {
-    return this.#_focus.asObservable();
+    return this.#_focusObs;
   }
 
   public get inputTextValue(): string {
@@ -103,7 +103,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get textChanges(): Observable<SkyAutocompleteInputTextChange> {
-    return this.#_textChanges.asObservable();
+    return this.#_textChangesObs;
   }
 
   public get value(): any {
@@ -131,27 +131,41 @@ export class SkyAutocompleteInputDirective
     }
   }
 
+  #blur: Subject<void>;
+
   #control: AbstractControl | undefined;
+
+  #focus: Subject<void>;
 
   #isFirstChange = true;
 
   #ngUnsubscribe = new Subject<void>();
 
+  #textChanges: Subject<SkyAutocompleteInputTextChange>;
+
   #_autocompleteAttribute: string | undefined;
 
-  #_blur = new Subject<void>();
+  #_blurObs: Observable<void>;
 
   #_disabled = false;
 
   #_displayWith = '';
 
-  #_focus = new Subject<void>();
+  #_focusObs: Observable<void>;
 
-  #_textChanges = new Subject<SkyAutocompleteInputTextChange>();
+  #_textChangesObs: Observable<SkyAutocompleteInputTextChange>;
 
   #_value: any;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
+    this.#blur = new Subject<void>();
+    this.#focus = new Subject<void>();
+    this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
+
+    this.#_blurObs = this.#blur.asObservable();
+    this.#_focusObs = this.#focus.asObservable();
+    this.#_textChangesObs = this.#textChanges.asObservable();
+  }
 
   public ngOnInit() {
     const element = this.elementRef.nativeElement;
@@ -163,7 +177,7 @@ export class SkyAutocompleteInputDirective
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
-          this.#_textChanges.next({
+          this.#textChanges.next({
             value: this.elementRef.nativeElement.value,
           });
         }
@@ -174,7 +188,7 @@ export class SkyAutocompleteInputDirective
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
-          this.#_blur.next();
+          this.#blur.next();
         }
       });
 
@@ -183,7 +197,7 @@ export class SkyAutocompleteInputDirective
       .subscribe(() => {
         /** Sanity check */
         if (!this.disabled) {
-          this.#_focus.next();
+          this.#focus.next();
         }
       });
 
@@ -199,8 +213,8 @@ export class SkyAutocompleteInputDirective
   }
 
   public ngOnDestroy(): void {
-    this.#_blur.complete();
-    this.#_textChanges.complete();
+    this.#blur.complete();
+    this.#textChanges.complete();
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();

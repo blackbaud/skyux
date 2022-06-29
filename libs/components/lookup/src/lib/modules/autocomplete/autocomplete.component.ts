@@ -278,9 +278,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Fires when users select items in the dropdown list.
    */
   @Output()
-  public get selectionChange(): EventEmitter<SkyAutocompleteSelectionChange> {
-    return this.#_selectionChange;
-  }
+  public selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
 
   /**
    * Fires when users enter new search information and allows results to be
@@ -303,6 +301,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   public get highlightText(): string[] {
     return this.#_highlightText || [];
+  }
+
+  public set highlightText(value: string[]) {
+    this.#_highlightText = value;
   }
 
   public isOpen = false;
@@ -443,7 +445,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_searchResultTemplate: TemplateRef<unknown> | undefined;
   #_searchResultsLimit: number | undefined;
   #_searchTextMinimumCharacters: number | undefined;
-  #_selectionChange = new EventEmitter<SkyAutocompleteSelectionChange>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -643,7 +644,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
           this.searchResultsCount = result.totalCount;
 
-          this.#_highlightText = this.#getHighlightText(this.searchText);
+          this.highlightText = this.#getHighlightText(this.searchText);
           this.#removeFocusedClass();
           this.#removeActiveDescendant();
           if (this.searchResults.length > 0) {
@@ -799,7 +800,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #resetSearch(): void {
     this.searchResults = [];
     this.searchText = '';
-    this.#_highlightText = [];
+    this.highlightText = [];
     this.#activeElementIndex = -1;
     this.searchResultsCount = undefined;
     this.#removeActiveDescendant();
