@@ -42,10 +42,10 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
       { id: 17, name: 'Zack' },
     ];
 
-    this.createForm();
+    this.#createForm();
   }
 
-  private createForm(): void {
+  #createForm(): void {
     this.form = this.formBuilder.group({
       friends: new FormControl(this.friends),
     });

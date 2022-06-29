@@ -61,11 +61,11 @@ export class SkyLookupTestComponent implements OnInit {
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public get friends(): any[] {
-    return this._friends;
+    return this.#_friends;
   }
 
   public set friends(value: any[]) {
-    this._friends = value;
+    this.#_friends = value;
 
     if (this.form?.controls.friends) {
       this.form.controls.friends.setValue(value);
@@ -75,7 +75,7 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
-  private _friends: any[] = [];
+  #_friends: any[] = [];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -116,7 +116,7 @@ export class SkyLookupTestComponent implements OnInit {
       { name: 'Zack' },
     ];
 
-    this.createForm();
+    this.#createForm();
   }
 
   public addButtonClicked(
@@ -213,7 +213,7 @@ export class SkyLookupTestComponent implements OnInit {
     this.form.controls.friends.setValidators([]);
   }
 
-  private createForm(): void {
+  #createForm(): void {
     this.asyncForm = this.formBuilder.group({
       friends: new FormControl(this.friends),
     });

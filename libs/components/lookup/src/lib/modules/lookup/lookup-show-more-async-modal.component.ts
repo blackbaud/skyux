@@ -55,12 +55,12 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.searchText = this.context.initialSearch;
 
-    this.createInitialSelectedItemsMap();
-    this.loadSearchResults();
+    this.#createInitialSelectedItemsMap();
+    this.#loadSearchResults();
   }
 
   public ngOnDestroy(): void {
-    this.cancelCurrentSearch();
+    this.#cancelCurrentSearch();
 
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
@@ -117,7 +117,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     this.#offset = 0;
     this.searchText = searchText;
 
-    this.loadSearchResults();
+    this.#loadSearchResults();
   }
 
   public selectAll(): void {
@@ -131,14 +131,14 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   public infiniteScrollEnd(): void {
-    this.cancelCurrentSearch();
+    this.#cancelCurrentSearch();
 
     /* Sanity check - else case would only happen if this was called directly */
     /* istanbul ignore else */
     if (this.hasMoreItems) {
       this.isLoadingMore = true;
 
-      this.performSearch((result) => {
+      this.#performSearch((result) => {
         this.items = this.items.concat(result.items);
 
         this.updateDisplayedItems();
@@ -164,18 +164,28 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     this.modalInstance.save(selectedItems);
   }
 
-  private loadSearchResults(): void {
-    this.cancelCurrentSearch();
+  public updateDisplayedItems(): void {
+    if (this.onlyShowSelected) {
+      this.displayedItems = this.items.filter((item) =>
+        this.selectedIdMap.has(item[this.context.idProperty])
+      );
+    } else {
+      this.displayedItems = this.items;
+    }
+  }
+
+  #loadSearchResults(): void {
+    this.#cancelCurrentSearch();
 
     this.isSearching = true;
 
-    this.performSearch((result) => {
+    this.#performSearch((result) => {
       this.isSearching = false;
       this.items = result.items;
     });
   }
 
-  private createInitialSelectedItemsMap(): void {
+  #createInitialSelectedItemsMap(): void {
     this.selectedIdMap = new Map(
       this.context.initialValue.map((item) => [
         item[this.context.idProperty],
@@ -184,7 +194,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     );
   }
 
-  private performSearch(
+  #performSearch(
     processResults: (result: SkyAutocompleteSearchAsyncResult) => void
   ): void {
     this.#currentSearchSub = this.context
@@ -208,17 +218,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
       });
   }
 
-  private updateDisplayedItems(): void {
-    if (this.onlyShowSelected) {
-      this.displayedItems = this.items.filter((item) =>
-        this.selectedIdMap.has(item[this.context.idProperty])
-      );
-    } else {
-      this.displayedItems = this.items;
-    }
-  }
-
-  private cancelCurrentSearch(): void {
+  #cancelCurrentSearch(): void {
     if (this.#currentSearchSub) {
       this.#currentSearchSub.unsubscribe();
       this.#currentSearchSub = undefined;
