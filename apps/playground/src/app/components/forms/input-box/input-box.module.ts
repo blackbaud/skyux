@@ -23,4 +23,6 @@ import { InputBoxComponent } from './input-box.component';
     SkyInputBoxModule,
   ],
 })
-export class InputBoxModule {}
+export class InputBoxModule {
+  public static routes = InputBoxRoutingModule.routes;
+}

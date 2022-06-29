@@ -15,4 +15,6 @@ import { SkipLinkComponent } from './skip-link.component';
     SkipLinkRoutingModule,
   ],
 })
-export class SkipLinkModule {}
+export class SkipLinkModule {
+  public static routes = SkipLinkRoutingModule.routes;
+}

@@ -34,4 +34,6 @@ import { DataViewRepeaterComponent } from './data-view-repeater.component';
     FormsModule,
   ],
 })
-export class DataManagerModule {}
+export class DataManagerModule {
+  public static routes = DataManagerRoutingModule.routes;
+}

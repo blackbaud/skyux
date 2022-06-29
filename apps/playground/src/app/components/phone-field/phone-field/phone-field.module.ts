@@ -20,4 +20,6 @@ import { PhoneFieldComponent } from './phone-field.component';
     SkyPhoneFieldModule,
   ],
 })
-export class PhoneFieldModule {}
+export class PhoneFieldModule {
+  public static routes = PhoneFieldRoutingModule.routes;
+}

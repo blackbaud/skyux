@@ -14,4 +14,6 @@ import { BackToTopScrollableParentComponent } from './scrollable-parent/back-to-
   ],
   imports: [BackToTopRoutingModule, SkyBackToTopModule],
 })
-export class BackToTopModule {}
+export class BackToTopModule {
+  public static routes = BackToTopRoutingModule.routes;
+}
