@@ -3085,10 +3085,12 @@ describe('Lookup component', function () {
         fixture.detectChanges();
 
         component.enableLookup();
-
-        clickInputAndVerifyFocused(fixture, true);
+        fixture.detectChanges();
+        tick();
 
         component.disableLookup();
+        fixture.detectChanges();
+        tick();
 
         clickInputAndVerifyFocused(fixture, false);
       }));
