@@ -411,7 +411,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
-  #activeElementIndex = -1;
+  #activeElementIndex: number;
 
   #adapterService: SkyAutocompleteAdapterService;
 
@@ -425,11 +425,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #inputBoxHostSvc: SkyInputBoxHostService | undefined;
 
-  #inputDirectiveUnsubscribe = new Subject<void>();
+  #inputDirectiveUnsubscribe: Subject<void>;
 
   #messageStreamSub: Subscription | undefined;
 
-  #ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe: Subject<void>;
 
   #overlay: SkyOverlayInstance | undefined;
 
@@ -440,22 +440,34 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * These are typically the search results and action buttons, but could also be
    * elements provided in the consumer's own template.
    */
-  #overlayFocusableElements: HTMLElement[] = [];
+  #overlayFocusableElements: HTMLElement[];
 
   #currentSearchSub: Subscription | undefined;
 
   #_data: any[] | undefined;
+
   #_debounceTime: number | undefined;
+
   #_descriptorProperty: string | undefined;
+
   #_highlightText: string[] | undefined;
+
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
+
   #_messageStream: Subject<SkyAutocompleteMessage>;
+
   #_propertiesToSearch: string[] | undefined;
+
   #_resultsRef: ElementRef | undefined;
+
   #_search: SkyAutocompleteSearchFunction | undefined;
+
   #_searchResults: SkyAutocompleteSearchResult[] | undefined;
+
   #_searchResultTemplate: TemplateRef<unknown> | undefined;
+
   #_searchResultsLimit: number | undefined;
+
   #_searchTextMinimumCharacters: number | undefined;
 
   constructor(
@@ -470,12 +482,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
 
+    this.#activeElementIndex = -1;
+    this.#adapterService = adapterService;
+    this.#affixService = affixService;
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
-    this.#affixService = affixService;
-    this.#adapterService = adapterService;
-    this.#overlayService = overlayService;
     this.#inputBoxHostSvc = inputBoxHostSvc;
+    this.#inputDirectiveUnsubscribe = new Subject<void>();
+    this.#ngUnsubscribe = new Subject<void>();
+    this.#overlayFocusableElements = [];
+    this.#overlayService = overlayService;
 
     this.#_messageStream = new Subject<SkyAutocompleteMessage>();
   }
