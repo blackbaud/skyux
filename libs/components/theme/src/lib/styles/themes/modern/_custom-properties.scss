@@ -1,5 +1,15 @@
 @import '../../variables';
 
 .sky-theme-modern {
+  /* color */
+  --sky-background-color-page-default: #{$sky-theme-modern-background-color-page-default};
+  --sky-background-color-primary-dark: #{$sky-theme-modern-background-color-primary-dark};
+  --sky-background-color-disabled: #{$sky-theme-modern-background-color-disabled};
+
+  --sky-border-color-neutral-medium: #{$sky-theme-modern-border-color-neutral-medium};
+
+  --sky-text-color-action-primary: #{$sky-theme-modern-text-color-action-primary};
+
+  /* margin */
   --sky-margin-inline-sm: #{$sky-theme-modern-margin-inline-sm};
 }
