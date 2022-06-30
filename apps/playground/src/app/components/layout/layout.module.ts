@@ -14,6 +14,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
   },
+  {
+    path: 'description-list',
+    loadChildren: () =>
+      import('./description-list/description-list.module').then(
+        (m) => m.DescriptionListModule
+      ),
+  },
 ];
 
 @NgModule({
