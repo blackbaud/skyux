@@ -20,4 +20,6 @@ import { EditComplexCellsComponent } from './edit-complex-cells.component';
     SkyToolbarModule,
   ],
 })
-export class EditComplexCellsModule {}
+export class EditComplexCellsModule {
+  public static routes = EditComplexCellsRoutingModule.routes;
+}

@@ -47,20 +47,20 @@ export class SkyAutocompleteInputDirective
   @Input()
   public set autocompleteAttribute(value: string) {
     if (!value) {
-      this._autocompleteAttribute = 'off';
+      this.#_autocompleteAttribute = 'off';
     } else {
-      this._autocompleteAttribute = value;
+      this.#_autocompleteAttribute = value;
     }
 
-    this.renderer.setAttribute(
-      this.elementRef.nativeElement,
+    this.#renderer.setAttribute(
+      this.#elementRef.nativeElement,
       'autocomplete',
       this.autocompleteAttribute
     );
   }
 
   public get autocompleteAttribute(): string {
-    return this._autocompleteAttribute || 'off';
+    return this.#_autocompleteAttribute || 'off';
   }
 
   /**
@@ -69,143 +69,162 @@ export class SkyAutocompleteInputDirective
    */
   @Input()
   public set disabled(value: boolean) {
-    this._disabled = value;
-    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
+    this.#_disabled = value;
+    this.#renderer.setProperty(
+      this.#elementRef.nativeElement,
+      'disabled',
+      value
+    );
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   public get blur(): Observable<void> {
-    return this._blur.asObservable();
+    return this.#_blurObs;
   }
 
   public get displayWith(): string {
-    return this._displayWith;
+    return this.#_displayWith;
   }
 
   public set displayWith(value: string) {
-    this._displayWith = value;
-    this.inputTextValue = this.getValueByKey();
+    this.#_displayWith = value;
+    this.inputTextValue = this.#getValueByKey();
   }
 
   public get focus(): Observable<void> {
-    return this._focus.asObservable();
+    return this.#_focusObs;
   }
 
   public get inputTextValue(): string {
-    return this.elementRef.nativeElement.value;
+    return this.#elementRef.nativeElement.value;
   }
 
   public set inputTextValue(value: string) {
-    this.elementRef.nativeElement.value = value || '';
+    this.#elementRef.nativeElement.value = value || '';
   }
 
   public get textChanges(): Observable<SkyAutocompleteInputTextChange> {
-    return this._textChanges.asObservable();
+    return this.#_textChangesObs;
   }
 
   public get value(): any {
-    return this._value;
+    return this.#_value;
   }
 
   public set value(value: any) {
-    const isNewValue = value !== this._value;
+    const isNewValue = value !== this.#_value;
 
     /* istanbul ignore else */
     if (isNewValue) {
-      this._value = value;
-      this.inputTextValue = this.getValueByKey();
-      this.onChange(this._value);
+      this.#_value = value;
+      this.inputTextValue = this.#getValueByKey();
+      this.onChange(this.#_value);
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
+      if (this.#isFirstChange && this.#control) {
+        this.#control.markAsPristine();
       }
 
-      if (this.isFirstChange && this._value) {
-        this.isFirstChange = false;
+      if (this.#isFirstChange && this.#_value) {
+        this.#isFirstChange = false;
       }
     }
   }
 
-  private control: AbstractControl;
+  #blur: Subject<void>;
 
-  private isFirstChange = true;
+  #control: AbstractControl | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #elementRef: ElementRef;
 
-  private _autocompleteAttribute: string;
+  #focus: Subject<void>;
 
-  private _blur = new Subject<void>();
+  #isFirstChange = true;
 
-  private _disabled = false;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _displayWith: string;
+  #renderer: Renderer2;
 
-  private _focus = new Subject<void>();
+  #textChanges: Subject<SkyAutocompleteInputTextChange>;
 
-  private _textChanges = new Subject<SkyAutocompleteInputTextChange>();
+  #_autocompleteAttribute: string | undefined;
 
-  private _value: any;
+  #_blurObs: Observable<void>;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  #_disabled = false;
+
+  #_displayWith = '';
+
+  #_focusObs: Observable<void>;
+
+  #_textChangesObs: Observable<SkyAutocompleteInputTextChange>;
+
+  #_value: any;
+
+  constructor(elementRef: ElementRef, renderer: Renderer2) {
+    this.#elementRef = elementRef;
+    this.#renderer = renderer;
+
+    this.#blur = new Subject<void>();
+    this.#focus = new Subject<void>();
+    this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
+
+    this.#_blurObs = this.#blur.asObservable();
+    this.#_focusObs = this.#focus.asObservable();
+    this.#_textChangesObs = this.#textChanges.asObservable();
+  }
 
   public ngOnInit() {
-    const element = this.elementRef.nativeElement;
+    const element = this.#elementRef.nativeElement;
 
-    this.setAttributes(element);
+    this.#setAttributes(this.#elementRef);
 
     observableFromEvent(element, 'input')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
-          this._textChanges.next({
-            value: this.elementRef.nativeElement.value,
+          this.#textChanges.next({
+            value: this.#elementRef.nativeElement.value,
           });
         }
       });
 
     observableFromEvent(element, 'blur')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
-          this._blur.next();
+          this.#blur.next();
         }
       });
 
     observableFromEvent(element, 'focus')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
-          this._focus.next();
+          this.#focus.next();
         }
       });
 
     observableFromEvent(element, 'change')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         /* istanbul ignore else */
         if (!this.disabled) {
-          this.isFirstChange = false;
+          this.#isFirstChange = false;
         }
       });
   }
 
   public ngOnDestroy(): void {
-    this._blur.complete();
-    this._textChanges.complete();
+    this.#blur.complete();
+    this.#textChanges.complete();
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-
-    this._blur = this._textChanges = this.ngUnsubscribe = undefined;
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public writeValue(value: any): void {
@@ -225,7 +244,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public restoreInputTextValueToPreviousState(): void {
-    const modelValue = this.getValueByKey();
+    const modelValue = this.#getValueByKey();
 
     // If the search field contains text, make sure that the value
     // matches the selected descriptor key.
@@ -240,24 +259,24 @@ export class SkyAutocompleteInputDirective
     this.disabled = disabled;
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.#control) {
+      this.#control = control;
     }
-    return;
+    return null;
   }
 
   // See: https://www.w3.org/TR/wai-aria-practices/#kbd_focus_activedescendant
   public setActiveDescendant(descendantId: string | null): void {
     if (descendantId) {
-      this.renderer.setAttribute(
-        this.elementRef.nativeElement,
+      this.#renderer.setAttribute(
+        this.#elementRef.nativeElement,
         'aria-activedescendant',
         descendantId
       );
     } else {
-      this.renderer.removeAttribute(
-        this.elementRef.nativeElement,
+      this.#renderer.removeAttribute(
+        this.#elementRef.nativeElement,
         'aria-activedescendant'
       );
     }
@@ -272,19 +291,21 @@ export class SkyAutocompleteInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
-  private setAttributes(element: any): void {
-    this.renderer.setAttribute(
+  #setAttributes(elementRef: ElementRef): void {
+    const element = elementRef.nativeElement;
+
+    this.#renderer.setAttribute(
       element,
       'autocomplete',
       this.autocompleteAttribute
     );
-    this.renderer.setAttribute(element, 'autocapitalize', 'none');
-    this.renderer.setAttribute(element, 'autocorrect', 'off');
-    this.renderer.setAttribute(element, 'spellcheck', 'false');
-    this.renderer.addClass(element, 'sky-form-control');
+    this.#renderer.setAttribute(element, 'autocapitalize', 'none');
+    this.#renderer.setAttribute(element, 'autocorrect', 'off');
+    this.#renderer.setAttribute(element, 'spellcheck', 'false');
+    this.#renderer.addClass(element, 'sky-form-control');
   }
 
-  private getValueByKey(): string {
+  #getValueByKey(): string {
     return this.value ? this.value[this.displayWith] : undefined;
   }
 }

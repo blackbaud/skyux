@@ -18,4 +18,6 @@ export class FormsRoutingModule {}
 @NgModule({
   imports: [FormsRoutingModule],
 })
-export class FormsModule {}
+export class FormsModule {
+  public static routes = routes;
+}

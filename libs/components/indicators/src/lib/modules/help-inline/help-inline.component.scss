@@ -15,6 +15,12 @@
   }
 }
 
+:host-context(.sky-control-help) {
+  .sky-help-inline {
+    padding: 0;
+  }
+}
+
 @include sky-theme-modern {
   .sky-help-inline {
     ::ng-deep .fa-stack-2x {

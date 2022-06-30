@@ -25,4 +25,6 @@ export class LookupRoutingModule {}
 @NgModule({
   imports: [LookupRoutingModule],
 })
-export class LookupModule {}
+export class LookupModule {
+  public static routes = routes;
+}

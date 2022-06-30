@@ -29,7 +29,7 @@ export function skyAutocompleteDefaultSearchFunction(
     searchText: string,
     data: any[]
   ): SkyAutocompleteSearchFunctionResponse {
-    const results = [];
+    const results: any[] = [];
 
     /* Sanity check - autocomplete will not call search with empty search text */
     /* istanbul ignore if */
@@ -43,7 +43,7 @@ export function skyAutocompleteDefaultSearchFunction(
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
       const result = filteredData[i];
-      const isMatch = options.propertiesToSearch.find((property: string) => {
+      const isMatch = options.propertiesToSearch!.find((property: string) => {
         let value = (result[property] || '').toString();
         value = normalizeDiacritics(value).toUpperCase();
         return value.indexOf(searchTextNormalized) > -1;

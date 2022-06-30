@@ -12,7 +12,12 @@ import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
-
+/**
+ * Displays status text with an icon matching the specified indicator type.
+ * To display a help button beside the label, include a help button element, such as
+ * `sky-help-inline`, in the `sky-status-indicator` element and a `sky-control-help`
+ * CSS class on that help button element.
+ */
 @Component({
   selector: 'sky-status-indicator',
   templateUrl: './status-indicator.component.html',
