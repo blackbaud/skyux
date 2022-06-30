@@ -157,7 +157,7 @@ export class SkyLookupComponent
         // The `setTimeout` is needed to avoid a `ExpressionChangedAfterItHasBeenCheckedError` error in template forms.
         setTimeout(() => {
           this.writeValue([this.value[0]]);
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         });
       }
     }
@@ -186,7 +186,7 @@ export class SkyLookupComponent
   public set tokens(value: SkyToken[] | undefined) {
     // Collapse the tokens into a single token if the user has selected many options.
     if (this.enableShowMore && this.value.length > 5) {
-      this.resourcesService
+      this.#resourcesService
         .getString('skyux_lookup_tokens_summary', this.value.length.toString())
         .pipe(take(1))
         .subscribe((label) => {
@@ -195,11 +195,11 @@ export class SkyLookupComponent
               value: { [this.descriptorProperty]: label },
             },
           ];
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
     } else {
       this.#_tokens = value;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -258,30 +258,57 @@ export class SkyLookupComponent
   })
   private searchIconTemplateRef!: TemplateRef<unknown>;
 
+  #adapter: SkyLookupAdapterService;
+
+  #elementRef: ElementRef;
+
+  #changeDetector: ChangeDetectorRef;
+
   #idle = new Subject<void>();
+
   #markForTokenFocusOnKeyUp = false;
+
+  #modalService: SkyModalService;
+
   #ngUnsubscribe = new Subject<void>();
+
   #openNativePicker: SkyModalInstance | undefined;
 
+  #resourcesService: SkyLibResourcesService;
+
+  #windowRef: SkyAppWindowRef;
+
   #_autocompleteInputDirective!: SkyAutocompleteInputDirective;
+
   #_data: any[] | undefined;
+
   #_selectMode: SkyLookupSelectModeType | undefined;
+
   #_tokens: SkyToken[] | undefined;
+
   #_value: any[] | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private windowRef: SkyAppWindowRef,
-    @Self() @Optional() ngControl: NgControl,
-    private adapter: SkyLookupAdapterService,
-    private modalService: SkyModalService,
-    private resourcesService: SkyLibResourcesService,
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    windowRef: SkyAppWindowRef,
+    adapter: SkyLookupAdapterService,
+    modalService: SkyModalService,
+    resourcesService: SkyLibResourcesService,
+    @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService
   ) {
     super();
+
     ngControl.valueAccessor = this;
+
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#windowRef = windowRef;
+    this.#adapter = adapter;
+    this.#modalService = modalService;
+    this.#resourcesService = resourcesService;
   }
 
   public ngOnInit(): void {
@@ -304,7 +331,7 @@ export class SkyLookupComponent
       this.themeSvc.settingsChange
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
     }
   }
@@ -370,7 +397,7 @@ export class SkyLookupComponent
   }
 
   public onTokensFocusIndexOverRange(): void {
-    this.windowRef.nativeWindow.setTimeout(() => {
+    this.#windowRef.nativeWindow.setTimeout(() => {
       this.#focusInput();
     });
   }
@@ -388,7 +415,7 @@ export class SkyLookupComponent
         case 'Del':
         case 'Delete':
           this.#sendTokensMessage(SkyTokensMessageType.RemoveActiveToken);
-          this.windowRef.nativeWindow.setTimeout(() => {
+          this.#windowRef.nativeWindow.setTimeout(() => {
             this.#sendTokensMessage(SkyTokensMessageType.FocusActiveToken);
           });
           event.preventDefault();
@@ -425,7 +452,7 @@ export class SkyLookupComponent
     }
 
     this.disabled = disabled;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public clearSearchText(): void {
@@ -559,7 +586,7 @@ export class SkyLookupComponent
     contextProviderValue.showAddButton = this.showAddButton;
     contextProviderValue.userConfig = modalConfig;
 
-    return this.modalService.open(modalComponentType, {
+    return this.#modalService.open(modalComponentType, {
       providers: [
         {
           provide: contextProviderType,
@@ -612,7 +639,7 @@ export class SkyLookupComponent
         }
 
         this.#focusInput();
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
     }
   }
@@ -659,9 +686,9 @@ export class SkyLookupComponent
 
   #focusInputOnHostClick(): void {
     let hostElement = !this.inputBoxHostSvc
-      ? this.elementRef.nativeElement
+      ? this.#elementRef.nativeElement
       : this.lookupWrapperRef.nativeElement;
-    const documentObj = this.windowRef.nativeWindow.document;
+    const documentObj = this.#windowRef.nativeWindow.document;
 
     // Handles focusing the input when the host is clicked.
     // The input should NOT be focused if other elements (tokens, etc.)
@@ -671,22 +698,22 @@ export class SkyLookupComponent
       .pipe(takeUntil(this.#idle))
       .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
-          ? this.elementRef.nativeElement
+          ? this.#elementRef.nativeElement
           : this.lookupWrapperRef.nativeElement;
         this.isInputFocused = hostElement.contains(event.target);
 
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
     observableFromEvent<KeyboardEvent>(documentObj, 'focusin')
       .pipe(takeUntil(this.#idle))
       .subscribe((event) => {
         hostElement = !this.inputBoxHostSvc
-          ? this.elementRef.nativeElement
+          ? this.#elementRef.nativeElement
           : this.lookupWrapperRef.nativeElement;
         this.isInputFocused = hostElement.contains(event.target);
 
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
     observableFromEvent(hostElement, 'mouseup')
@@ -700,7 +727,7 @@ export class SkyLookupComponent
   }
 
   #focusInput(): void {
-    this.adapter.focusInput(this.lookupWrapperRef);
+    this.#adapter.focusInput(this.lookupWrapperRef);
   }
 
   #onAddButtonComplete(args: SkyLookupAddCallbackArgs) {

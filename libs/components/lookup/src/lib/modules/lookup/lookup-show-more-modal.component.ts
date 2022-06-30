@@ -59,14 +59,19 @@ export class SkyLookupShowMoreModalComponent
   public searchText = '';
   public selectedItems: { index: number; itemData: any }[] = [];
 
+  #changeDetector: ChangeDetectorRef;
+
   #itemIndex = 0;
+
   #ngUnsubscribe = new Subject<void>();
 
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#changeDetector = changeDetector;
+  }
 
   public ngAfterViewInit(): void {
     this.searchText = this.context.initialSearch;
@@ -120,7 +125,7 @@ export class SkyLookupShowMoreModalComponent
 
       this.selectedItems = selectedItems;
       this.updateDataState();
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
 
     this.#itemIndex = this.#itemIndex + 10;
@@ -132,7 +137,7 @@ export class SkyLookupShowMoreModalComponent
       } else {
         this.itemsHaveMore = true;
       }
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 
@@ -144,7 +149,7 @@ export class SkyLookupShowMoreModalComponent
     });
     this.selectedItems = [];
     this.updateDataState();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public itemClick(selectedItem: any): void {
@@ -200,7 +205,7 @@ export class SkyLookupShowMoreModalComponent
       this.selectedItems = selectedItems;
     }
     this.updateDataState();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public searchApplied(searchText: string) {
@@ -270,7 +275,7 @@ export class SkyLookupShowMoreModalComponent
 
     this.selectedItems = selectedItems;
     this.updateDataState();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public updateDataState(): void {
@@ -297,7 +302,7 @@ export class SkyLookupShowMoreModalComponent
         this.itemsHaveMore = true;
       }
 
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 
@@ -315,6 +320,6 @@ export class SkyLookupShowMoreModalComponent
 
     this.addItems();
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }

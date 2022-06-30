@@ -19,7 +19,11 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   public friends: any[] = [];
   public form!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.data = [
@@ -46,7 +50,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   }
 
   #createForm(): void {
-    this.form = this.formBuilder.group({
+    this.form = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
   }

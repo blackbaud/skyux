@@ -75,9 +75,13 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
+  #formBuilder: FormBuilder;
+
   #_friends: any[] = [];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.data = [
@@ -214,10 +218,10 @@ export class SkyLookupTestComponent implements OnInit {
   }
 
   #createForm(): void {
-    this.asyncForm = this.formBuilder.group({
+    this.asyncForm = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
-    this.form = this.formBuilder.group({
+    this.form = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
   }

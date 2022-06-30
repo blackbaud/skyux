@@ -31,26 +31,39 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
    */
   public addClick: Subject<void> = new Subject();
 
+  public displayedItems: any[] = [];
+
+  public hasMoreItems = false;
+
+  public isLoadingMore = false;
+
+  public isSearching = false;
+
   public items: any[] = [];
 
-  public displayedItems: any[] = [];
   public onlyShowSelected = false;
+
   public searchText: string | undefined;
-  public isSearching = false;
-  public hasMoreItems = false;
-  public isLoadingMore = false;
+
   public selectedIdMap: Map<unknown, unknown> = new Map();
 
+  #changeDetector: ChangeDetectorRef;
+
   #continuationData: unknown;
-  #offset = 0;
-  #ngUnsubscribe = new Subject<void>();
+
   #currentSearchSub: Subscription | undefined;
+
+  #ngUnsubscribe = new Subject<void>();
+
+  #offset = 0;
 
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerAsyncContext,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#changeDetector = changeDetector;
+  }
 
   public ngOnInit(): void {
     this.searchText = this.context.initialSearch;
@@ -81,7 +94,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
     this.updateDisplayedItems();
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public itemClick(selectedItem: any): void {
@@ -214,7 +227,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
         this.updateDisplayedItems();
 
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
