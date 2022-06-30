@@ -54,9 +54,13 @@ export class SkyLookupShowMoreModalComponent
   };
 
   public displayedItems: any[] = [];
+
   public itemsHaveMore = false;
+
   public onlyShowSelected = false;
+
   public searchText = '';
+
   public selectedItems: { index: number; itemData: any }[] = [];
 
   #changeDetector: ChangeDetectorRef;
@@ -258,7 +262,6 @@ export class SkyLookupShowMoreModalComponent
 
         const index = items.indexOf(item);
 
-        /* Sanity check */
         /* istanbul ignore else */
         if (
           selectedItems.findIndex(

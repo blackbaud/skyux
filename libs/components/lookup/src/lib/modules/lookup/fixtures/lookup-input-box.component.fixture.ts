@@ -14,9 +14,13 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   public lookupComponent!: SkyLookupComponent;
 
   public autocompleteAttribute: string | undefined;
+
   public data: any[] = [];
+
   public enableShowMore = false;
+
   public friends: any[] = [];
+
   public form!: FormGroup;
 
   #formBuilder: FormBuilder;

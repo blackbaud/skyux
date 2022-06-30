@@ -106,7 +106,9 @@ describe('Lookup component', function () {
   }
 
   function clickInputAndVerifyFocused(
-    fixture: ComponentFixture<any>,
+    fixture: ComponentFixture<
+      SkyLookupTestComponent | SkyLookupTemplateTestComponent
+    >,
     focused: boolean
   ) {
     const hostElement = document.querySelector('sky-lookup');

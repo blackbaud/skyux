@@ -116,6 +116,8 @@ export class SkyLookupAutocompleteAdapter {
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
   #_descriptorProperty: string | undefined;
+
   #_propertiesToSearch: string[] | undefined;
+
   #_search: SkyAutocompleteSearchFunction | undefined;
 }

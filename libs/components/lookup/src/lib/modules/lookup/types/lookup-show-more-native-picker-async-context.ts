@@ -9,11 +9,18 @@ import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-p
  */
 export class SkyLookupShowMoreNativePickerAsyncContext {
   public descriptorProperty!: string;
+
   public idProperty!: string;
+
   public initialSearch!: string;
+
   public initialValue!: any[];
+
   public searchAsync!: SkyAutocompleteSearchAsyncFunction;
+
   public selectMode!: SkyLookupSelectModeType;
+
   public showAddButton!: boolean;
+
   public userConfig!: SkyLookupShowMoreNativePickerConfig;
 }

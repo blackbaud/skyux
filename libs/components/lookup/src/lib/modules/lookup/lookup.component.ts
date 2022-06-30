@@ -301,14 +301,14 @@ export class SkyLookupComponent
   ) {
     super();
 
-    ngControl.valueAccessor = this;
-
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
     this.#windowRef = windowRef;
     this.#adapter = adapter;
     this.#modalService = modalService;
     this.#resourcesService = resourcesService;
+
+    ngControl.valueAccessor = this;
   }
 
   public ngOnInit(): void {

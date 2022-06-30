@@ -43,21 +43,37 @@ export class SkyLookupTestComponent implements OnInit {
   public showMoreTemplate!: TemplateRef<unknown>;
 
   public ariaLabel: string | undefined;
+
   public ariaLabelledBy: string | undefined;
+
   public asyncForm!: FormGroup;
+
   public autocompleteAttribute: string | undefined;
+
   public customSearch: SkyAutocompleteSearchFunction | undefined;
+
   public data: any[] = [];
+
   public descriptorProperty: string | undefined;
+
   public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
+
   public enableShowMore = false;
+
   public form!: FormGroup;
+
   public idProperty: string | undefined;
+
   public ignoreAddDataUpdate = false;
+
   public placeholderText: string | undefined;
+
   public propertiesToSearch: string[] | undefined;
+
   public selectMode: SkyLookupSelectModeType | undefined;
+
   public showAddButton = false;
+
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public get friends(): any[] {
