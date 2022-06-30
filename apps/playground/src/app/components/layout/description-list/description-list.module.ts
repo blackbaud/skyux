@@ -15,4 +15,6 @@ import { DescriptionListComponent } from './description-list.component';
     SkyHelpInlineModule,
   ],
 })
-export class DescriptionListModule {}
+export class DescriptionListModule {
+  public static routes = DescriptionListRoutingModule.routes;
+}
