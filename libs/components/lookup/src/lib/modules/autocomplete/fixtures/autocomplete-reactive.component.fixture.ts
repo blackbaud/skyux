@@ -33,10 +33,14 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
   })
   public autocomplete!: SkyAutocompleteComponent;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.reactiveForm = this.formBuilder.group({
+    this.reactiveForm = this.#formBuilder.group({
       favoriteColor: undefined,
     });
   }

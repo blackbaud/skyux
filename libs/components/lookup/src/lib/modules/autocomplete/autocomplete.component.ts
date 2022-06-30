@@ -413,7 +413,17 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   #activeElementIndex = -1;
 
+  #adapterService: SkyAutocompleteAdapterService;
+
   #affixer: SkyAffixer | undefined;
+
+  #affixService: SkyAffixService;
+
+  #changeDetector: ChangeDetectorRef;
+
+  #elementRef: ElementRef;
+
+  #inputBoxHostSvc: SkyInputBoxHostService | undefined;
 
   #inputDirectiveUnsubscribe = new Subject<void>();
 
@@ -422,6 +432,8 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #ngUnsubscribe = new Subject<void>();
 
   #overlay: SkyOverlayInstance | undefined;
+
+  #overlayService: SkyOverlayService;
 
   /**
    * Elements within the autocomplete dropdown that are focusable.
@@ -437,7 +449,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_descriptorProperty: string | undefined;
   #_highlightText: string[] | undefined;
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
-  #_messageStream = new Subject<SkyAutocompleteMessage>();
+  #_messageStream: Subject<SkyAutocompleteMessage>;
   #_propertiesToSearch: string[] | undefined;
   #_resultsRef: ElementRef | undefined;
   #_search: SkyAutocompleteSearchFunction | undefined;
@@ -447,16 +459,25 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_searchTextMinimumCharacters: number | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private affixService: SkyAffixService,
-    private adapterService: SkyAutocompleteAdapterService,
-    private overlayService: SkyOverlayService,
-    @Optional() private inputBoxHostSvc?: SkyInputBoxHostService
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    affixService: SkyAffixService,
+    adapterService: SkyAutocompleteAdapterService,
+    overlayService: SkyOverlayService,
+    @Optional() inputBoxHostSvc?: SkyInputBoxHostService
   ) {
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
+
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#affixService = affixService;
+    this.#adapterService = adapterService;
+    this.#overlayService = overlayService;
+    this.#inputBoxHostSvc = inputBoxHostSvc;
+
+    this.#_messageStream = new Subject<SkyAutocompleteMessage>();
   }
 
   public ngAfterViewInit(): void {
@@ -537,7 +558,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex + 1;
           }
           this.#addFocusedClass();
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
           break;
@@ -552,7 +573,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = this.#activeElementIndex - 1;
           }
           this.#addFocusedClass();
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
           event.preventDefault();
           event.stopPropagation();
           break;
@@ -584,7 +605,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#removeFocusedClass();
       this.#activeElementIndex = id;
       this.#addFocusedClass();
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -612,7 +633,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       }
 
       this.isSearchingAsync = false;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
 
       return;
     }
@@ -653,23 +674,23 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
             this.#activeElementIndex = -1;
           }
 
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
 
           if (this.isOpen) {
             // Let the results populate in the DOM before recalculating placement.
             setTimeout(() => {
               this.#affixer!.reaffix();
-              this.changeDetector.detectChanges();
+              this.#changeDetector.detectChanges();
               this.#initOverlayFocusableElements();
             });
           } else {
             this.#openDropdown();
-            this.changeDetector.markForCheck();
+            this.#changeDetector.markForCheck();
           }
         });
     } else {
       this.isSearchingAsync = false;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -760,7 +781,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #openDropdown(): void {
     if (!this.#overlay) {
-      const overlay = this.overlayService.create({
+      const overlay = this.#overlayService.create({
         enableClose: false,
         enablePointerEvents: true,
         wrapperClass: this.wrapperClass,
@@ -770,7 +791,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
       this.#overlay = overlay;
       this.isOpen = true;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
       this.#initOverlayFocusableElements();
     }
   }
@@ -780,7 +801,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.isOpen = false;
     this.#destroyOverlay();
     this.#removeActiveDescendant();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   #setActiveDescendant(): void {
@@ -805,11 +826,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.searchResultsCount = undefined;
     this.#removeActiveDescendant();
     this.#initOverlayFocusableElements();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   #addInputEventListeners(): void {
-    const element = this.elementRef.nativeElement;
+    const element = this.#elementRef.nativeElement;
 
     observableFromEvent<KeyboardEvent>(element, 'keydown')
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -822,10 +843,10 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       .subscribe(() => {
         /* istanbul ignore else */
         if (this.isOpen && this.resultsRef) {
-          this.adapterService.setDropdownWidth(
-            this.elementRef,
+          this.#adapterService.setDropdownWidth(
+            this.#elementRef,
             this.resultsRef,
-            !!this.inputBoxHostSvc
+            !!this.#inputBoxHostSvc
           );
         }
       });
@@ -833,7 +854,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #destroyOverlay(): void {
     if (this.#overlay) {
-      this.overlayService.close(this.#overlay);
+      this.#overlayService.close(this.#overlay);
       this.#overlay = undefined;
     }
   }
@@ -842,15 +863,15 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     /* Sanity check */
     /* istanbul ignore else */
     if (!this.#affixer && this.resultsRef) {
-      const affixer = this.affixService.createAffixer(this.resultsRef);
+      const affixer = this.#affixService.createAffixer(this.resultsRef);
 
-      this.adapterService.setDropdownWidth(
-        this.elementRef,
+      this.#adapterService.setDropdownWidth(
+        this.#elementRef,
         this.resultsRef,
-        !!this.inputBoxHostSvc
+        !!this.#inputBoxHostSvc
       );
 
-      affixer.affixTo(this.elementRef.nativeElement, {
+      affixer.affixTo(this.#elementRef.nativeElement, {
         autoFitContext: SkyAffixAutoFitContext.Viewport,
         enableAutoFit: true,
         isSticky: true,
@@ -898,9 +919,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     setTimeout(() => {
       if (this.#overlay) {
         this.#overlayFocusableElements =
-          this.adapterService.getOverlayFocusableElements(this.#overlay);
+          this.#adapterService.getOverlayFocusableElements(this.#overlay);
         this.#overlayFocusableElements.forEach((el) => {
-          this.adapterService.setTabIndex(el, -1);
+          this.#adapterService.setTabIndex(el, -1);
         });
         this.#addFocusedClass();
       }
@@ -913,7 +934,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #removeFocusedClass(): void {
     if (this.#activeElementIndex > -1) {
-      this.adapterService.removeCSSClass(
+      this.#adapterService.removeCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
         'sky-autocomplete-descendant-focus'
       );
@@ -922,7 +943,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #addFocusedClass(): void {
     if (this.#activeElementIndex > -1) {
-      this.adapterService.addCSSClass(
+      this.#adapterService.addCSSClass(
         this.#overlayFocusableElements[this.#activeElementIndex],
         'sky-autocomplete-descendant-focus'
       );

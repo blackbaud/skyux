@@ -11,13 +11,16 @@ import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
  */
 @Injectable()
 export class SkyAutocompleteAdapterService {
+  #coreAdapterService: SkyCoreAdapterService;
+
   #renderer: Renderer2;
 
   constructor(
-    private coreAdapterService: SkyCoreAdapterService,
-    private rendererFactory: RendererFactory2
+    coreAdapterService: SkyCoreAdapterService,
+    rendererFactory: RendererFactory2
   ) {
-    this.#renderer = this.rendererFactory.createRenderer(undefined, null);
+    this.#coreAdapterService = coreAdapterService;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -34,7 +37,7 @@ export class SkyAutocompleteAdapterService {
   public getOverlayFocusableElements(
     overlay: SkyOverlayInstance
   ): HTMLElement[] {
-    return this.coreAdapterService.getFocusableChildren(
+    return this.#coreAdapterService.getFocusableChildren(
       /* Sanity check - calling function also has null check */
       /* istanbul ignore next */
       overlay?.componentRef.location.nativeElement,

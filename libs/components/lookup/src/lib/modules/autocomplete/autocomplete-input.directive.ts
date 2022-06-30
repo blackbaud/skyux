@@ -52,8 +52,8 @@ export class SkyAutocompleteInputDirective
       this.#_autocompleteAttribute = value;
     }
 
-    this.renderer.setAttribute(
-      this.elementRef.nativeElement,
+    this.#renderer.setAttribute(
+      this.#elementRef.nativeElement,
       'autocomplete',
       this.autocompleteAttribute
     );
@@ -70,7 +70,11 @@ export class SkyAutocompleteInputDirective
   @Input()
   public set disabled(value: boolean) {
     this.#_disabled = value;
-    this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', value);
+    this.#renderer.setProperty(
+      this.#elementRef.nativeElement,
+      'disabled',
+      value
+    );
   }
 
   public get disabled(): boolean {
@@ -95,11 +99,11 @@ export class SkyAutocompleteInputDirective
   }
 
   public get inputTextValue(): string {
-    return this.elementRef.nativeElement.value;
+    return this.#elementRef.nativeElement.value;
   }
 
   public set inputTextValue(value: string) {
-    this.elementRef.nativeElement.value = value || '';
+    this.#elementRef.nativeElement.value = value || '';
   }
 
   public get textChanges(): Observable<SkyAutocompleteInputTextChange> {
@@ -135,11 +139,15 @@ export class SkyAutocompleteInputDirective
 
   #control: AbstractControl | undefined;
 
+  #elementRef: ElementRef;
+
   #focus: Subject<void>;
 
-  #isFirstChange = true;
+  #isFirstChange: boolean;
 
-  #ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe: Subject<void>;
+
+  #renderer: Renderer2;
 
   #textChanges: Subject<SkyAutocompleteInputTextChange>;
 
@@ -147,9 +155,9 @@ export class SkyAutocompleteInputDirective
 
   #_blurObs: Observable<void>;
 
-  #_disabled = false;
+  #_disabled: boolean;
 
-  #_displayWith = '';
+  #_displayWith: string;
 
   #_focusObs: Observable<void>;
 
@@ -157,28 +165,33 @@ export class SkyAutocompleteInputDirective
 
   #_value: any;
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
+  constructor(elementRef: ElementRef, renderer: Renderer2) {
     this.#blur = new Subject<void>();
+    this.#elementRef = elementRef;
     this.#focus = new Subject<void>();
+    this.#isFirstChange = true;
+    this.#ngUnsubscribe = new Subject<void>();
+    this.#renderer = renderer;
     this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
 
     this.#_blurObs = this.#blur.asObservable();
+    this.#_disabled = false;
+    this.#_displayWith = '';
     this.#_focusObs = this.#focus.asObservable();
     this.#_textChangesObs = this.#textChanges.asObservable();
   }
 
   public ngOnInit() {
-    const element = this.elementRef.nativeElement;
+    const element = this.#elementRef.nativeElement;
 
-    this.#setAttributes(element);
+    this.#setAttributes(this.#elementRef);
 
     observableFromEvent(element, 'input')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
           this.#textChanges.next({
-            value: this.elementRef.nativeElement.value,
+            value: this.#elementRef.nativeElement.value,
           });
         }
       });
@@ -186,7 +199,6 @@ export class SkyAutocompleteInputDirective
     observableFromEvent(element, 'blur')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
           this.#blur.next();
         }
@@ -195,7 +207,6 @@ export class SkyAutocompleteInputDirective
     observableFromEvent(element, 'focus')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         if (!this.disabled) {
           this.#focus.next();
         }
@@ -204,7 +215,6 @@ export class SkyAutocompleteInputDirective
     observableFromEvent(element, 'change')
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        /** Sanity check */
         /* istanbul ignore else */
         if (!this.disabled) {
           this.#isFirstChange = false;
@@ -262,14 +272,14 @@ export class SkyAutocompleteInputDirective
   // See: https://www.w3.org/TR/wai-aria-practices/#kbd_focus_activedescendant
   public setActiveDescendant(descendantId: string | null): void {
     if (descendantId) {
-      this.renderer.setAttribute(
-        this.elementRef.nativeElement,
+      this.#renderer.setAttribute(
+        this.#elementRef.nativeElement,
         'aria-activedescendant',
         descendantId
       );
     } else {
-      this.renderer.removeAttribute(
-        this.elementRef.nativeElement,
+      this.#renderer.removeAttribute(
+        this.#elementRef.nativeElement,
         'aria-activedescendant'
       );
     }
@@ -284,16 +294,18 @@ export class SkyAutocompleteInputDirective
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onValidatorChange = () => {};
 
-  #setAttributes(element: any): void {
-    this.renderer.setAttribute(
+  #setAttributes(elementRef: ElementRef): void {
+    const element = elementRef.nativeElement;
+
+    this.#renderer.setAttribute(
       element,
       'autocomplete',
       this.autocompleteAttribute
     );
-    this.renderer.setAttribute(element, 'autocapitalize', 'none');
-    this.renderer.setAttribute(element, 'autocorrect', 'off');
-    this.renderer.setAttribute(element, 'spellcheck', 'false');
-    this.renderer.addClass(element, 'sky-form-control');
+    this.#renderer.setAttribute(element, 'autocapitalize', 'none');
+    this.#renderer.setAttribute(element, 'autocorrect', 'off');
+    this.#renderer.setAttribute(element, 'spellcheck', 'false');
+    this.#renderer.addClass(element, 'sky-form-control');
   }
 
   #getValueByKey(): string {
