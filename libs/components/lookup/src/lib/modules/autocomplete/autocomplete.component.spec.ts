@@ -4,11 +4,13 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyInputBoxHostService } from '@skyux/forms';
 
 import { Observable, Subject } from 'rxjs';
 
+import { SkyAutocompleteAdapterService } from './autocomplete-adapter.service';
 import { SkyAutocompleteInputDirective } from './autocomplete-input.directive';
 import { SkyAutocompleteComponent } from './autocomplete.component';
 import { SkyAutocompleteFixturesModule } from './fixtures/autocomplete-fixtures.module';
@@ -209,6 +211,14 @@ describe('Autocomplete component', () => {
     fixture.componentInstance.model.favoriteColor = selectedValue;
     fixture.detectChanges();
     tick();
+  }
+
+  function getAdapterService(
+    fixture: ComponentFixture<SkyAutocompleteFixtureComponent>
+  ): SkyAutocompleteAdapterService {
+    return fixture.debugElement
+      .query(By.directive(SkyAutocompleteComponent))
+      .injector.get(SkyAutocompleteAdapterService);
   }
 
   //#endregion
@@ -573,8 +583,10 @@ describe('Autocomplete component', () => {
     }));
 
     it('should set the width of the dropdown when a search is performed', fakeAsync(() => {
+      const adapterService = getAdapterService(fixture);
+
       const adapterSpy = spyOn(
-        autocomplete['adapterService'],
+        adapterService,
         'setDropdownWidth'
       ).and.callThrough();
 
@@ -583,11 +595,8 @@ describe('Autocomplete component', () => {
 
       enterSearch('r', fixture);
 
-      expect(adapterSpy).toHaveBeenCalledWith(
-        autocomplete['elementRef'],
-        autocomplete['resultsRef'],
-        false
-      );
+      expect(adapterSpy.calls.mostRecent().args[2]).toBeFalse();
+      expect(adapterSpy.calls.count()).toEqual(1);
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
@@ -599,13 +608,15 @@ describe('Autocomplete component', () => {
     }));
 
     it('should set the width of the dropdown on window resize', fakeAsync(() => {
+      const adapterService = getAdapterService(fixture);
+
       fixture.detectChanges();
       tick();
 
       enterSearch('r', fixture);
 
       const adapterSpy = spyOn(
-        autocomplete['adapterService'],
+        adapterService,
         'setDropdownWidth'
       ).and.callThrough();
 
@@ -613,11 +624,8 @@ describe('Autocomplete component', () => {
       fixture.detectChanges();
       tick();
 
-      expect(adapterSpy).toHaveBeenCalledWith(
-        autocomplete['elementRef'],
-        autocomplete['resultsRef'],
-        false
-      );
+      expect(adapterSpy.calls.mostRecent().args[2]).toBeFalse();
+      expect(adapterSpy.calls.count()).toEqual(1);
 
       const dropdownElement = getSearchResultsContainer();
       const autocompleteElement = getAutocompleteElement();
@@ -2029,8 +2037,6 @@ describe('Autocomplete component', () => {
 
   describe('within an input box', () => {
     let fixture: ComponentFixture<SkyAutocompleteFixtureComponent>;
-    let component: SkyAutocompleteFixtureComponent;
-    let autocomplete: SkyAutocompleteComponent;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -2039,8 +2045,6 @@ describe('Autocomplete component', () => {
       });
 
       fixture = TestBed.createComponent(SkyAutocompleteFixtureComponent);
-      component = fixture.componentInstance;
-      autocomplete = component.autocomplete;
     });
 
     afterEach(() => {
@@ -2048,8 +2052,10 @@ describe('Autocomplete component', () => {
     });
 
     it('should call the setDropdownWidth with the proper parameters', fakeAsync(() => {
+      const adapterService = getAdapterService(fixture);
+
       const adapterSpy = spyOn(
-        autocomplete['adapterService'],
+        adapterService,
         'setDropdownWidth'
       ).and.callThrough();
 
@@ -2058,11 +2064,8 @@ describe('Autocomplete component', () => {
 
       enterSearch('r', fixture);
 
-      expect(adapterSpy).toHaveBeenCalledWith(
-        autocomplete['elementRef'],
-        autocomplete['resultsRef'],
-        true
-      );
+      expect(adapterSpy.calls.mostRecent().args[2]).toBeTrue();
+      expect(adapterSpy.calls.count()).toEqual(1);
     }));
   });
 });
