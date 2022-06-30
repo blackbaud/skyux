@@ -20,4 +20,6 @@ export class ValidationRoutingModule {}
 @NgModule({
   imports: [ValidationRoutingModule],
 })
-export class ValidationModule {}
+export class ValidationModule {
+  public static routes = routes;
+}

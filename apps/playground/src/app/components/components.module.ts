@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
+export const componentRoutes: Routes = [
   {
     path: 'a11y',
     loadChildren: () => import('./a11y/a11y.module').then((m) => m.A11yModule),
@@ -14,13 +14,13 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'core',
-    loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
-  },
-  {
     path: 'ag-grid',
     loadChildren: () =>
       import('./ag-grid/ag-grid.module').then((m) => m.AgGridModule),
+  },
+  {
+    path: 'core',
+    loadChildren: () => import('./core/core.module').then((m) => m.CoreModule),
   },
   {
     path: 'datetime',
@@ -91,7 +91,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(componentRoutes)],
   exports: [RouterModule],
 })
 export class ComponentsRoutingModule {}
@@ -99,4 +99,6 @@ export class ComponentsRoutingModule {}
 @NgModule({
   imports: [ComponentsRoutingModule],
 })
-export class ComponentsModule {}
+export class ComponentsModule {
+  public static routes = componentRoutes;
+}

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
 import { SkyActionButtonModule } from '@skyux/layout';
 import {
   SkyHref,
@@ -11,16 +10,9 @@ import {
 import { ActionButtonRoutingModule } from './action-button-routing.module';
 import { ActionButtonComponent } from './action-button.component';
 
-const routes: Routes = [{ path: '', component: ActionButtonComponent }];
-
 @NgModule({
   declarations: [ActionButtonComponent],
-  imports: [
-    CommonModule,
-    ActionButtonRoutingModule,
-    RouterModule.forChild(routes),
-    SkyActionButtonModule,
-  ],
+  imports: [CommonModule, ActionButtonRoutingModule, SkyActionButtonModule],
   providers: [
     {
       provide: SkyHrefResolverService,
@@ -34,4 +26,6 @@ const routes: Routes = [{ path: '', component: ActionButtonComponent }];
     },
   ],
 })
-export class ActionButtonModule {}
+export class ActionButtonModule {
+  public static routes = ActionButtonRoutingModule.routes;
+}

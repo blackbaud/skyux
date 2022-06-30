@@ -32,4 +32,6 @@ export class LayoutRoutingModule {}
 @NgModule({
   imports: [LayoutRoutingModule],
 })
-export class LayoutModule {}
+export class LayoutModule {
+  public static routes = routes;
+}

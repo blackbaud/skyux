@@ -1,0 +1,26 @@
+.wrapper {
+  border: solid 1px black;
+}
+
+.scrollable-host {
+  overflow-y: scroll;
+  height: 750px;
+}
+
+.el1 {
+  background-color: blue;
+  height: 30px;
+}
+
+.spacer {
+  height: 75px;
+}
+
+.el2 {
+  background-color: red;
+  height: 50px;
+}
+
+.scroll-spacer {
+  height: 5000px;
+}

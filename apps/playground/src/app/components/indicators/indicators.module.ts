@@ -20,4 +20,6 @@ export class IndicatorsRoutingModule {}
 @NgModule({
   imports: [IndicatorsRoutingModule],
 })
-export class IndicatorsModule {}
+export class IndicatorsModule {
+  public static routes = routes;
+}
