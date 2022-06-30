@@ -114,7 +114,7 @@ describe('Lookup component', function () {
     const hostElement = document.querySelector('sky-lookup');
     const input = getInputElement(fixture.componentInstance.lookupComponent);
 
-    triggerClick(hostElement, fixture);
+    triggerClick(hostElement, fixture, false);
 
     if (focused) {
       expect(document.activeElement).toEqual(input);
