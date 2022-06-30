@@ -22,8 +22,8 @@ import { SkyDescriptionListFixturesModule } from './fixtures/description-list-fi
 import { SkyDescriptionListTestComponent } from './fixtures/description-list.component.fixture';
 
 class MockAdapter {
-  public getWidth() {}
-  public setResponsiveClass() {}
+  public getWidth = jasmine.createSpy('getWidth');
+  public setResponsiveClass = jasmine.createSpy('setResponsiveClass');
 }
 
 describe('Description list component', () => {
@@ -188,11 +188,10 @@ describe('Description list component', () => {
   });
 
   it('should call the adapter service when window is resized', fakeAsync(() => {
-    const spy = spyOn(mockAdapter, 'setResponsiveClass');
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalled();
+    expect(mockAdapter.setResponsiveClass).toHaveBeenCalled();
   }));
 
   it('should use proper classes in modern theme', () => {
@@ -253,5 +252,18 @@ describe('Description list component', () => {
     expect(descriptionEls.length).toEqual(1);
     expect(termEls[0]).toHaveText('boo');
     expect(descriptionEls[0]).toHaveText('far');
+  });
+
+  it('should render inline help with the expected spacing', () => {
+    const list4El = getListEl(fixture.nativeElement, 4);
+    const termEl = getTermEls(list4El)[0];
+
+    const helpEl = termEl.querySelector('.sky-control-help');
+
+    expect(helpEl).toHaveText('Help inline');
+
+    // Ensure the markup in the template is not altered to introduce
+    // space between the text and the help inline content.
+    expect(termEl).toHaveText('Job titleHelp inline');
   });
 });
