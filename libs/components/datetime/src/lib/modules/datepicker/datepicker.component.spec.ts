@@ -1253,6 +1253,25 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
         expect(component.dateControl.value).toEqual(new Date('5/12/2017'));
       }));
+
+      it('should set the initial value correctly if the form is disabled on creation and then reenabled', fakeAsync(() => {
+        fixture = TestBed.createComponent(DatepickerReactiveTestComponent);
+        nativeElement = fixture.nativeElement as HTMLElement;
+        component = fixture.componentInstance;
+
+        // Default to US long date format to avoid any test runners that are using a different locale.
+        component.dateFormat = 'MM/DD/YYYY';
+
+        component.initialValue = '5/12/2017';
+        component.disableFormOnCreation = true;
+        detectChanges(fixture);
+
+        component.datepickerForm.enable();
+        detectChanges(fixture);
+
+        expect(getInputElementValue(fixture)).toBe('05/12/2017');
+        expect(component.dateControl.value).toEqual(new Date('5/12/2017'));
+      }));
     });
 
     describe('input change', () => {
