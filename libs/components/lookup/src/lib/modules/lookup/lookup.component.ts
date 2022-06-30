@@ -308,7 +308,9 @@ export class SkyLookupComponent
     this.#modalService = modalService;
     this.#resourcesService = resourcesService;
 
-    ngControl.valueAccessor = this;
+    if (ngControl) {
+      ngControl.valueAccessor = this;
+    }
   }
 
   public ngOnInit(): void {
@@ -464,7 +466,9 @@ export class SkyLookupComponent
   // Check for empty search text on keydown, before the escape key is fully pressed.
   // (Otherwise, a single character being escaped would register as empty on keyup.)
   // If empty on keydown, set a flag so that the appropriate action can be taken on keyup.
-  public inputKeydown(event: KeyboardEvent, value: string): void {
+  public inputKeydown(event: KeyboardEvent): void {
+    const value = (event.target as HTMLTextAreaElement).value;
+
     /* Sanity check as this should only be called when in multiple select mode */
     /* istanbul ignore else */
     if (this.selectMode !== 'single') {
@@ -602,7 +606,7 @@ export class SkyLookupComponent
     if (this.showMoreConfig?.customPicker) {
       this.showMoreConfig.customPicker.open({
         items: this.data,
-        initialSearch: initialSearch,
+        initialSearch,
         initialValue: this.value,
       });
     } else {

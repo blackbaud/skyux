@@ -102,9 +102,7 @@
         <sky-repeater-item-content>
           <ng-container
             *ngTemplateOutlet="
-              context.userConfig?.itemTemplate
-                ? context.userConfig?.itemTemplate
-                : defaultItemTemplate;
+              repeaterItemTemplate ?? defaultItemTemplate;
               context: { item: item.value }
             "
           >

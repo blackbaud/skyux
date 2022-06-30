@@ -81,7 +81,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * Specifies default search criteria for the input.
    */
   @Input()
-  public searchText: string;
+  public searchText: string | undefined;
 
   /**
    * Specifies the expand mode for the search input. The valid options
@@ -172,7 +172,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     if (this.searchBindingChanged(changes)) {
-      this.clearButtonShown = this.searchText && this.searchText !== '';
+      this.clearButtonShown = !!(this.searchText && this.searchText !== '');
       if (this.shouldOpenInput()) {
         this.inputAnimate = INPUT_SHOWN_STATE;
       }
@@ -207,7 +207,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     if (searchText !== this.searchText) {
       this.searchText = searchText;
     }
-    this.clearButtonShown = searchText && searchText !== '';
+    this.clearButtonShown = !!(searchText && searchText !== '');
     if (searchText && searchText !== '') {
       this.searchAdapter.selectInput(this.elRef);
     }

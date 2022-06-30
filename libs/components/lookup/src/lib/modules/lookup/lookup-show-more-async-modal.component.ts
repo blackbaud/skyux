@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  TemplateRef,
 } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
@@ -43,6 +44,8 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
   public onlyShowSelected = false;
 
+  public repeaterItemTemplate: TemplateRef<unknown> | null = null;
+
   public searchText: string | undefined;
 
   public selectedIdMap: Map<unknown, unknown> = new Map();
@@ -66,6 +69,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
 
     this.#createInitialSelectedItemsMap();

@@ -65,7 +65,7 @@
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
               (blur)="onAutocompleteBlur()"
-              (keydown)="inputKeydown($event, $event.target.value)"
+              (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
             ></textarea>
           </sky-tokens>

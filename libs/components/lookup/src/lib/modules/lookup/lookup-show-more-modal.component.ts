@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnDestroy,
+  TemplateRef,
 } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
@@ -59,6 +60,8 @@ export class SkyLookupShowMoreModalComponent
 
   public onlyShowSelected = false;
 
+  public repeaterItemTemplate: TemplateRef<unknown> | null = null;
+
   public searchText = '';
 
   public selectedItems: { index: number; itemData: any }[] = [];
@@ -78,6 +81,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public ngAfterViewInit(): void {
+    this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
     this.addItems();
   }
