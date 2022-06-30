@@ -143,9 +143,9 @@ export class SkyAutocompleteInputDirective
 
   #focus: Subject<void>;
 
-  #isFirstChange: boolean;
+  #isFirstChange = true;
 
-  #ngUnsubscribe: Subject<void>;
+  #ngUnsubscribe = new Subject<void>();
 
   #renderer: Renderer2;
 
@@ -155,9 +155,9 @@ export class SkyAutocompleteInputDirective
 
   #_blurObs: Observable<void>;
 
-  #_disabled: boolean;
+  #_disabled = false;
 
-  #_displayWith: string;
+  #_displayWith = '';
 
   #_focusObs: Observable<void>;
 
@@ -166,17 +166,14 @@ export class SkyAutocompleteInputDirective
   #_value: any;
 
   constructor(elementRef: ElementRef, renderer: Renderer2) {
-    this.#blur = new Subject<void>();
     this.#elementRef = elementRef;
-    this.#focus = new Subject<void>();
-    this.#isFirstChange = true;
-    this.#ngUnsubscribe = new Subject<void>();
     this.#renderer = renderer;
+
+    this.#blur = new Subject<void>();
+    this.#focus = new Subject<void>();
     this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
 
     this.#_blurObs = this.#blur.asObservable();
-    this.#_disabled = false;
-    this.#_displayWith = '';
     this.#_focusObs = this.#focus.asObservable();
     this.#_textChangesObs = this.#textChanges.asObservable();
   }

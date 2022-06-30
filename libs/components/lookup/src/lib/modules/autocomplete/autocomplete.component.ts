@@ -411,7 +411,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Index that indicates which descendant of the overlay currently has focus.
    */
-  #activeElementIndex: number;
+  #activeElementIndex = -1;
 
   #adapterService: SkyAutocompleteAdapterService;
 
@@ -425,11 +425,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #inputBoxHostSvc: SkyInputBoxHostService | undefined;
 
-  #inputDirectiveUnsubscribe: Subject<void>;
+  #inputDirectiveUnsubscribe = new Subject<void>();
 
   #messageStreamSub: Subscription | undefined;
 
-  #ngUnsubscribe: Subject<void>;
+  #ngUnsubscribe = new Subject<void>();
 
   #overlay: SkyOverlayInstance | undefined;
 
@@ -440,7 +440,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * These are typically the search results and action buttons, but could also be
    * elements provided in the consumer's own template.
    */
-  #overlayFocusableElements: HTMLElement[];
+  #overlayFocusableElements: HTMLElement[] = [];
 
   #currentSearchSub: Subscription | undefined;
 
@@ -454,7 +454,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
 
-  #_messageStream: Subject<SkyAutocompleteMessage>;
+  #_messageStream = new Subject<SkyAutocompleteMessage>();
 
   #_propertiesToSearch: string[] | undefined;
 
@@ -478,22 +478,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     overlayService: SkyOverlayService,
     @Optional() inputBoxHostSvc?: SkyInputBoxHostService
   ) {
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#affixService = affixService;
+    this.#adapterService = adapterService;
+    this.#overlayService = overlayService;
+    this.#inputBoxHostSvc = inputBoxHostSvc;
+
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
     this.resultsWrapperId = `sky-autocomplete-wrapper-${id}`;
-
-    this.#activeElementIndex = -1;
-    this.#adapterService = adapterService;
-    this.#affixService = affixService;
-    this.#changeDetector = changeDetector;
-    this.#elementRef = elementRef;
-    this.#inputBoxHostSvc = inputBoxHostSvc;
-    this.#inputDirectiveUnsubscribe = new Subject<void>();
-    this.#ngUnsubscribe = new Subject<void>();
-    this.#overlayFocusableElements = [];
-    this.#overlayService = overlayService;
-
-    this.#_messageStream = new Subject<SkyAutocompleteMessage>();
   }
 
   public ngAfterViewInit(): void {
