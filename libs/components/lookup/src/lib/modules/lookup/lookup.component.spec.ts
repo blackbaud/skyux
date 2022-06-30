@@ -5846,12 +5846,11 @@ describe('Lookup component', function () {
 
       it('should allow setting `disabled` after initialization', fakeAsync(() => {
         fixture.detectChanges();
-
-        component.enableLookup();
-
-        clickInputAndVerifyFocused(fixture, true);
+        tick();
 
         component.disableLookup();
+        fixture.detectChanges();
+        tick();
 
         clickInputAndVerifyFocused(fixture, false);
       }));
