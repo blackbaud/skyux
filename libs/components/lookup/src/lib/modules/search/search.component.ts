@@ -91,25 +91,19 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * @default "responsive"
    */
   @Input()
-  public expandMode: string = EXPAND_MODE_RESPONSIVE;
+  public expandMode = EXPAND_MODE_RESPONSIVE;
 
   /**
    * Specifies how many milliseconds to wait before searching after users enter text in the search input.
-   * @default 0
    */
   @Input()
   public debounceTime = 0;
 
   /**
    * Indicates whether to disable the filter button.
-   * @default false
    */
   @Input()
   public disabled = false;
-
-  public isFullWidth = false;
-
-  public isCollapsible = true;
 
   /**
    * Specifies placeholder text to display in the search input until users
@@ -117,35 +111,57 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * @default "Find in this list"
    */
   @Input()
-  public placeholderText: string;
+  public placeholderText: string | undefined;
 
-  public inputAnimate: string = INPUT_SHOWN_STATE;
-  public breakpointSubscription: Subscription;
-  public searchButtonShown = false;
-  public mobileSearchShown = false;
-  public dismissButtonShown = false;
+  public breakpointSubscription: Subscription | undefined;
+
   public clearButtonShown = false;
 
-  private searchUpdated: Subject<string> = new Subject<string>();
+  public dismissButtonShown = false;
+
+  public inputAnimate: string = INPUT_SHOWN_STATE;
+
+  public isCollapsible = true;
+
+  public isFullWidth = false;
+
+  public mobileSearchShown = false;
+
+  public searchButtonShown = false;
+
+  #changeRef: ChangeDetectorRef;
+
+  #elRef: ElementRef;
+
+  #mediaQueryService: SkyMediaQueryService;
+
+  #searchAdapter: SkySearchAdapterService;
+
+  #searchUpdated = new Subject<string>();
 
   constructor(
-    private mediaQueryService: SkyMediaQueryService,
-    private elRef: ElementRef,
-    private searchAdapter: SkySearchAdapterService,
-    private changeRef: ChangeDetectorRef
-  ) {}
+    mediaQueryService: SkyMediaQueryService,
+    elRef: ElementRef,
+    searchAdapter: SkySearchAdapterService,
+    changeRef: ChangeDetectorRef
+  ) {
+    this.#mediaQueryService = mediaQueryService;
+    this.#elRef = elRef;
+    this.#searchAdapter = searchAdapter;
+    this.#changeRef = changeRef;
+  }
 
   public ngOnInit() {
-    if (this.searchShouldCollapse()) {
-      this.breakpointSubscription = this.mediaQueryService.subscribe(
+    if (this.#searchShouldCollapse()) {
+      this.breakpointSubscription = this.#mediaQueryService.subscribe(
         (args: SkyMediaBreakpoints) => {
-          this.mediaQueryCallback(args);
-          this.changeRef.detectChanges();
+          this.#mediaQueryCallback(args);
+          this.#changeRef.detectChanges();
         }
       );
     }
 
-    this.searchUpdated
+    this.#searchUpdated
       .asObservable()
       .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
       .subscribe((value) => {
@@ -154,7 +170,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (this.expandModeBindingChanged(changes)) {
+    if (this.#expandModeBindingChanged(changes)) {
       switch (this.expandMode) {
         case EXPAND_MODE_NONE:
           this.isCollapsible = false;
@@ -171,20 +187,20 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       }
     }
 
-    if (this.searchBindingChanged(changes)) {
+    if (this.#searchBindingChanged(changes)) {
       this.clearButtonShown = !!(this.searchText && this.searchText !== '');
-      if (this.shouldOpenInput()) {
+      if (this.#shouldOpenInput()) {
         this.inputAnimate = INPUT_SHOWN_STATE;
       }
     }
-    this.changeRef.detectChanges();
+    this.#changeRef.detectChanges();
   }
 
   public clearSearchText() {
     this.searchText = '';
     this.clearButtonShown = false;
 
-    this.searchAdapter.focusInput(this.elRef);
+    this.#searchAdapter.focusInput(this.#elRef);
     this.searchChange.emit(this.searchText);
 
     this.searchApply.emit(this.searchText);
@@ -192,13 +208,13 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.searchClear.emit();
   }
 
-  public enterPress(event: KeyboardEvent, searchText: string) {
+  public enterPress(event: KeyboardEvent, searchText: string | undefined) {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
       this.applySearchText(searchText);
     }
   }
 
-  public applySearchText(searchText: string) {
+  public applySearchText(searchText: string | undefined) {
     // Double check that search text is defined before attempting to trim off whitespace
     if (searchText) {
       searchText = searchText.trim();
@@ -209,7 +225,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
     this.clearButtonShown = !!(searchText && searchText !== '');
     if (searchText && searchText !== '') {
-      this.searchAdapter.selectInput(this.elRef);
+      this.#searchAdapter.selectInput(this.#elRef);
     }
 
     this.searchApply.emit(searchText);
@@ -217,11 +233,11 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   public searchTextChanged(searchText: string) {
     this.searchText = searchText;
-    this.searchUpdated.next(searchText);
+    this.#searchUpdated.next(searchText);
   }
 
   public toggleSearchInput(showInput: boolean) {
-    if (this.searchShouldCollapse()) {
+    if (this.#searchShouldCollapse()) {
       if (showInput) {
         this.inputAnimate = INPUT_SHOWN_STATE;
       } else {
@@ -231,12 +247,12 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public inputAnimationStart(event: AnimationEvent) {
-    if (this.searchShouldCollapse()) {
-      this.searchAdapter.startInputAnimation(this.elRef);
+    if (this.#searchShouldCollapse()) {
+      this.#searchAdapter.startInputAnimation(this.#elRef);
 
       if (
         event.toState === INPUT_SHOWN_STATE &&
-        this.mediaQueryService.current === SkyMediaBreakpoints.xs
+        this.#mediaQueryService.current === SkyMediaBreakpoints.xs
       ) {
         this.mobileSearchShown = true;
         this.searchButtonShown = false;
@@ -245,17 +261,17 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   public inputAnimationEnd(event: AnimationEvent) {
-    if (this.searchShouldCollapse()) {
-      this.searchAdapter.endInputAnimation(this.elRef);
+    if (this.#searchShouldCollapse()) {
+      this.#searchAdapter.endInputAnimation(this.#elRef);
 
       this.searchButtonShown =
         event.toState === INPUT_HIDDEN_STATE &&
-        this.mediaQueryService.current === SkyMediaBreakpoints.xs;
+        this.#mediaQueryService.current === SkyMediaBreakpoints.xs;
 
       if (
         (event.toState === INPUT_HIDDEN_STATE &&
-          this.mediaQueryService.current === SkyMediaBreakpoints.xs) ||
-        this.mediaQueryService.current !== SkyMediaBreakpoints.xs
+          this.#mediaQueryService.current === SkyMediaBreakpoints.xs) ||
+        this.#mediaQueryService.current !== SkyMediaBreakpoints.xs
       ) {
         this.mobileSearchShown = false;
       }
@@ -267,32 +283,32 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       this.breakpointSubscription.unsubscribe();
     }
 
-    this.searchUpdated.complete();
+    this.#searchUpdated.complete();
   }
-  private searchBindingChanged(changes: SimpleChanges) {
+  #searchBindingChanged(changes: SimpleChanges) {
     return (
       changes['searchText'] &&
       changes['searchText'].previousValue !== changes['searchText'].currentValue
     );
   }
 
-  private expandModeBindingChanged(changes: SimpleChanges) {
+  #expandModeBindingChanged(changes: SimpleChanges) {
     return (
       changes['expandMode'] &&
       changes['expandMode'].previousValue !== changes['expandMode'].currentValue
     );
   }
 
-  private shouldOpenInput() {
+  #shouldOpenInput() {
     return (
       this.searchText !== '' &&
-      this.mediaQueryService.current === SkyMediaBreakpoints.xs &&
-      this.searchShouldCollapse()
+      this.#mediaQueryService.current === SkyMediaBreakpoints.xs &&
+      this.#searchShouldCollapse()
     );
   }
 
-  private mediaQueryCallback(args: SkyMediaBreakpoints) {
-    if (this.searchShouldCollapse()) {
+  #mediaQueryCallback(args: SkyMediaBreakpoints) {
+    if (this.#searchShouldCollapse()) {
       if (args === SkyMediaBreakpoints.xs) {
         this.inputAnimate = INPUT_HIDDEN_STATE;
       } else if (this.inputAnimate !== INPUT_SHOWN_STATE) {
@@ -301,10 +317,10 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
         this.mobileSearchShown = false;
       }
     }
-    this.changeRef.markForCheck();
+    this.#changeRef.markForCheck();
   }
 
-  private searchShouldCollapse() {
+  #searchShouldCollapse() {
     return (
       (this.isCollapsible || this.isCollapsible === undefined) &&
       this.isFullWidth !== true
