@@ -1,0 +1,9 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "compilerOptions": {
+    "strict": false,
+    "forceConsistentCasingInFileNames": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
