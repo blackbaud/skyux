@@ -373,7 +373,7 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text to be "${messageValue}"`
+              `Expected element's inner text "${elem.innerText}" to be "${messageValue}"`
             );
           }
         );
@@ -399,7 +399,7 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text to be "${messageValue}"`
+              `Expected element's inner text "    ${messageValue}    " to be "${messageValue}"`
             );
           }
         );
