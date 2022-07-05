@@ -1,6 +1,5 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "//": "Disable strict mode when creating documentation until all libraries support it.",
   "compilerOptions": {
     "strict": false,
     "forceConsistentCasingInFileNames": false,
