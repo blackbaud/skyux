@@ -1,5 +1,16 @@
 # Changelog
 
+## [6.4.0](https://github.com/blackbaud/skyux/compare/6.3.3...6.4.0) (2022-07-05)
+
+### Features
+
+- **components/indicators:** add support for `.sky-control-help` to status indicator ([#312](https://github.com/blackbaud/skyux/issues/312)) ([14bab9d](https://github.com/blackbaud/skyux/commit/14bab9d4665b76915db4f8f38f76682e18b13e11))
+- **components/layout:** add support for `.sky-control-help` to description list term ([#319](https://github.com/blackbaud/skyux/issues/319)) ([c68af16](https://github.com/blackbaud/skyux/commit/c68af160c95398cb423eed5b1688a09a156c89bc))
+
+### Bug Fixes
+
+- **components/theme:** use 6px border radius for sky-rounded-corners in Modern Visual Style ([#313](https://github.com/blackbaud/skyux/issues/313)) ([197c3ac](https://github.com/blackbaud/skyux/commit/197c3ac2314d7fb7df9e83737a991db54fb8867c))
+
 ### [6.3.3](https://github.com/blackbaud/skyux/compare/6.3.2...6.3.3) (2022-06-24)
 
 ### Bug Fixes
