@@ -170,7 +170,10 @@ export class SkyTimepickerInputDirective
   }
 
   public ngOnDestroy() {
-    this.pickerChangedSubscription.unsubscribe();
+    /* istanbul ignore else */
+    if (this.pickerChangedSubscription) {
+      this.pickerChangedSubscription.unsubscribe();
+    }
   }
 
   public ngOnChanges() {
