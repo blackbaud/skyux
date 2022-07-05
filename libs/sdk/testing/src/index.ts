@@ -5,4 +5,3 @@ export * from './lib/matchers/to-be-visible-options';
 export * from './lib/query-predicates/sky-by';
 export * from './lib/test-utility/test-utility';
 export * from './lib/test-utility/test-utility-dom-event-options';
-
