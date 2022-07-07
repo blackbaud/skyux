@@ -101,7 +101,7 @@ export class SkyTokensComponent implements OnDestroy {
    * is set, animations are enabled when dismissing tokens.
    */
   @Input()
-  public trackWith: string;
+  public trackWith: string | undefined;
 
   /**
    * Indicates whether users can focus on items in the list using the `Tab` key.
@@ -122,7 +122,7 @@ export class SkyTokensComponent implements OnDestroy {
    * Specifies an array of tokens to include in the list.
    */
   @Input()
-  public set tokens(value: SkyToken[]) {
+  public set tokens(value: SkyToken[] | undefined) {
     this._tokens = value;
     this.tokensChange.emit(this._tokens);
   }
@@ -207,7 +207,7 @@ export class SkyTokensComponent implements OnDestroy {
   private _disabled: boolean;
   private _dismissible: boolean;
   private _focusable: boolean;
-  private _tokens: SkyToken[];
+  private _tokens: SkyToken[] | undefined;
   private _displayWith: string;
   private _messageStream: Subject<SkyTokensMessage>;
 

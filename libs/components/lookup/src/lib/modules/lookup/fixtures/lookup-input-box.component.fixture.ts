@@ -11,15 +11,23 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
   @ViewChild(SkyLookupComponent, {
     static: true,
   })
-  public lookupComponent: SkyLookupComponent;
+  public lookupComponent!: SkyLookupComponent;
 
-  public autocompleteAttribute: string;
-  public data: any[];
+  public autocompleteAttribute: string | undefined;
+
+  public data: any[] = [];
+
   public enableShowMore = false;
-  public friends: any[];
-  public form: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  public friends: any[] = [];
+
+  public form!: FormGroup;
+
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.data = [
@@ -42,11 +50,11 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
       { id: 17, name: 'Zack' },
     ];
 
-    this.createForm();
+    this.#createForm();
   }
 
-  private createForm(): void {
-    this.form = this.formBuilder.group({
+  #createForm(): void {
+    this.form = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
   }

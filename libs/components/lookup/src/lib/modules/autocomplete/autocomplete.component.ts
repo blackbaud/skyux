@@ -80,7 +80,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * changes due to server calls, use `search` or `searchAsync` instead.
    */
   @Input()
-  public set data(value: any[]) {
+  public set data(value: any[] | undefined) {
     this.#_data = value;
   }
 
@@ -94,7 +94,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @default 0
    */
   @Input()
-  public set debounceTime(value: number) {
+  public set debounceTime(value: number | undefined) {
     this.#_debounceTime = value;
   }
 
@@ -108,7 +108,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @default "name"
    */
   @Input()
-  public set descriptorProperty(value: string) {
+  public set descriptorProperty(value: string | undefined) {
     this.#_descriptorProperty = value;
   }
 
@@ -141,14 +141,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @internal
    */
   @Input()
-  public wrapperClass?: string;
+  public wrapperClass: string | undefined;
 
   /**
    * Specifies the object properties to search.
    * @default ["name"]
    */
   @Input()
-  public set propertiesToSearch(value: string[]) {
+  public set propertiesToSearch(value: string[] | undefined) {
     this.#_propertiesToSearch = value;
   }
 
@@ -165,7 +165,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * `search`.
    */
   @Input()
-  public set search(value: SkyAutocompleteSearchFunction) {
+  public set search(value: SkyAutocompleteSearchFunction | undefined) {
     this.#_search = value;
   }
 
@@ -185,7 +185,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * as `item` variables that reference all of the object properties of the search results.
    */
   @Input()
-  public set searchResultTemplate(value: TemplateRef<unknown>) {
+  public set searchResultTemplate(value: TemplateRef<unknown> | undefined) {
     this.#_searchResultTemplate = value;
   }
 
@@ -265,14 +265,14 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Fires when users select the button to add options to the data source.
    */
   @Output()
-  public addClick: EventEmitter<void> = new EventEmitter();
+  public addClick = new EventEmitter<void>();
 
   /**
    * @internal
    * Fires when users select the button to view all options.
    */
   @Output()
-  public showMoreClick: EventEmitter<SkyAutocompleteShowMoreArgs> = new EventEmitter();
+  public showMoreClick = new EventEmitter<SkyAutocompleteShowMoreArgs>();
 
   /**
    * Fires when users select items in the dropdown list.

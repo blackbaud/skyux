@@ -45,7 +45,7 @@ export class SkyAutocompleteInputDirective
    * @default "off"
    */
   @Input()
-  public set autocompleteAttribute(value: string) {
+  public set autocompleteAttribute(value: string | undefined) {
     if (!value) {
       this.#_autocompleteAttribute = 'off';
     } else {
@@ -55,7 +55,7 @@ export class SkyAutocompleteInputDirective
     this.#renderer.setAttribute(
       this.#elementRef.nativeElement,
       'autocomplete',
-      this.autocompleteAttribute
+      this.#_autocompleteAttribute
     );
   }
 

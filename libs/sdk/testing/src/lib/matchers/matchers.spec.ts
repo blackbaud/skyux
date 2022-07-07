@@ -373,7 +373,7 @@ describe('Jasmine matchers', () => {
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text to be "${messageValue}"`
+              `Expected element's inner text "${elem.innerText}" to be "${messageValue}"`
             );
           }
         );
@@ -394,12 +394,12 @@ describe('Jasmine matchers', () => {
       it("should fail if whitespace is not trimmed and the element's text does not match text provided by resources", (done) => {
         const messageKey = 'name';
         const messageValue = 'message from resource';
-        const elem = createElement(`    ${messageValue}    `);
+        const elem = createElement(`   ${messageValue}   `);
 
         const failSpy = spyOn(window as any, 'fail').and.callFake(
           (message: string) => {
             expect(message).toEqual(
-              `Expected element's inner text to be "${messageValue}"`
+              `Expected element's inner text "   ${messageValue}   " to be "${messageValue}"`
             );
           }
         );

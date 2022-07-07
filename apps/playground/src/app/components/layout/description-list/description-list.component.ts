@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-description-list-demo',
-  templateUrl: './description-list-demo.component.html',
+  selector: 'app-description-list',
+  templateUrl: './description-list.component.html',
 })
-export class DescriptionListDemoComponent {
+export class DescriptionListComponent {
   public items: { term: string; description: string; showHelp?: boolean }[] = [
     {
       term: 'College',

@@ -1,6 +1,39 @@
 @import 'variables';
 
 :root {
+  /* color */
+  --sky-background-color-page-default: #{$sky-background-color-page-default};
+  --sky-background-color-neutral-light: #{$sky-background-color-neutral-light};
+  --sky-background-color-primary-dark: #{$sky-background-color-primary-dark};
+  --sky-background-color-disabled: #{$sky-background-color-disabled};
+  --sky-background-color-selected: #{$sky-background-color-selected};
+  --sky-background-color-info: #{$sky-background-color-info};
+  --sky-background-color-info-light: #{$sky-background-color-info-light};
+  --sky-background-color-success: #{$sky-background-color-success};
+  --sky-background-color-warning: #{$sky-background-color-warning};
+  --sky-background-color-danger: #{$sky-background-color-danger};
+  --sky-background-color-danger-dark: #{$sky-background-color-danger-dark};
+
+  --sky-border-color-neutral-medium: #{$sky-border-color-neutral-medium};
+
+  --sky-category-color-light-blue: #{$sky-category-color-light-blue};
+  --sky-category-color-teal: #{$sky-category-color-teal};
+  --sky-category-color-purple: #{$sky-category-color-purple};
+  --sky-category-color-orange: #{$sky-category-color-orange};
+  --sky-category-color-blue: #{$sky-category-color-blue};
+  --sky-category-color-yellow: #{$sky-category-color-yellow};
+  --sky-category-color-red: #{$sky-category-color-red};
+
+  --sky-highlight-color-info: #{$sky-highlight-color-info};
+  --sky-highlight-color-success: #{$sky-highlight-color-success};
+  --sky-highlight-color-warning: #{$sky-highlight-color-warning};
+  --sky-highlight-color-danger: #{$sky-highlight-color-danger};
+
+  --sky-text-color-default: #{$sky-text-color-default};
+  --sky-text-color-deemphasized: #{$sky-text-color-deemphasized};
+  --sky-text-color-on-dark: #{$sky-text-color-on-dark};
+  --sky-text-color-action-primary: #{$sky-text-color-action-primary};
+
   /* margin */
   --sky-margin-inline-sm: #{$sky-margin-inline-compact};
 }

@@ -236,7 +236,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         result.pass = actualText === expectedText;
 
         result.message = result.pass
-          ? `Expected element's inner text not to be: "${expectedText}"`
+          ? `Expected element's inner text "${actualText}" not to be: "${expectedText}"`
           : `Expected element's inner text to be: "${expectedText}"\n` +
             `Actual element's inner text was: "${actualText}"`;
 
@@ -301,7 +301,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           .then((message) => {
             if (actual !== message) {
               windowRef.fail(
-                `Expected element's inner text to be "${message}"`
+                `Expected element's inner text "${el.textContent}" to be "${message}"`
               );
             }
             /*istanbul ignore else*/
@@ -467,7 +467,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
               } else {
                 resolve({
                   pass: false,
-                  message: `Expected element's inner text to be "${message}"`,
+                  message: `Expected element's inner text "${actual}" to be "${message}"`,
                 });
               }
             });
@@ -500,7 +500,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
               } else {
                 resolve({
                   pass: false,
-                  message: `Expected element's inner text to be "${message}"`,
+                  message: `Expected element's inner text "${actual}" to be "${message}"`,
                 });
               }
             });
