@@ -11,7 +11,7 @@ import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
 import { relative } from 'path';
 
-import { getStorybookProjects } from '../../utils/get-projects';
+import { getStorybookProjects } from '../../utils';
 
 import { Schema } from './schema';
 

@@ -8,7 +8,7 @@ import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 import { removeGenerator } from '@nrwl/workspace';
 
-import { updateJson } from '../../utils/update-json';
+import { updateJson } from '../../utils';
 
 import configureStorybook from './index';
 
@@ -33,8 +33,7 @@ describe('configure-storybook', () => {
     );
     expect(e2eConfig.targets.e2e.configurations.ci.skipServe).toBeTruthy();
     updateJson(tree, getWorkspacePath(tree), (json) => {
-      // @ts-ignore
-      delete json.projects['test-app'].architect.build.options;
+      delete json['projects']['test-app'].architect.build.options;
       return json;
     });
     await configureStorybook(tree, { name: 'test-app' });
@@ -43,8 +42,7 @@ describe('configure-storybook', () => {
         .length
     ).toBeGreaterThan(0);
     updateJson(tree, getWorkspacePath(tree), (json) => {
-      // @ts-ignore
-      json.projects['test-app'].architect.build.options = {};
+      json['projects']['test-app'].architect.build.options = {};
       return json;
     });
     await configureStorybook(tree, { name: 'test-app' });

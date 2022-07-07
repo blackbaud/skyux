@@ -19,7 +19,7 @@ export function findModulePaths(
   predicate: (path: string) => boolean,
   endsWith = '.module.ts'
 ): string[] {
-  let modulePaths: string[] = [];
+  const modulePaths: string[] = [];
   visitNotIgnoredFiles(tree, path, (filePath) => {
     if (filePath.endsWith(endsWith)) {
       if (predicate(filePath)) {
@@ -79,6 +79,7 @@ export function findDeclaringModule(
               }
             }
           }
+          // eslint-disable-next-line no-empty
         } catch (e) {}
         return false;
       },

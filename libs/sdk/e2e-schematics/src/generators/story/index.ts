@@ -9,14 +9,18 @@ import {
 } from '@nrwl/devkit';
 import { classify, dasherize } from '@nrwl/workspace/src/utils/strings';
 
-import { angularModuleGenerator } from '../../utils/angular-module-generator';
-import { findNgModuleClass, readSourceFile } from '../../utils/ast-utils';
 import {
+  angularModuleGenerator,
+  capitalizeWords,
+  dirname,
   findClosestModule,
   findModulePaths,
+  findNgModuleClass,
+  getProjectTypeBase,
+  getStorybookProject,
   isRoutingModule,
-} from '../../utils/find-module';
-import { capitalizeWords, dirname } from '../../utils/utils';
+  readSourceFile,
+} from '../../utils';
 import storiesGenerator from '../stories/index';
 
 import { ComponentGeneratorSchema } from './schema';
@@ -35,23 +39,18 @@ function normalizeOptions(
   options: ComponentGeneratorSchema
 ): NormalizedSchema {
   const projects = getProjects(tree);
-  if (!projects.has(options.project)) {
-    throw new Error(`Unable to find project ${options.project}`);
-  }
-  let projectConfig = projects.get(options.project);
-  if (!('storybook' in projectConfig.targets)) {
-    options.project = `${options.project}-storybook`;
-    if (!projects.has(options.project)) {
-      throw new Error(`Unable to find project ${options.project}`);
-    }
-    projectConfig = projects.get(options.project);
-    if (!('storybook' in projectConfig.targets)) {
-      throw new Error(`Storybook is not configured for ${options.project}`);
-    }
-  }
+  const projectConfig = getStorybookProject(tree, options);
   const projectDirectory = projectConfig.sourceRoot;
   const projectName = options.project;
   const projectRoot = projectConfig.root;
+  const projectTypeBase = getProjectTypeBase(projectConfig);
+  if (
+    tree.exists(
+      joinPathFragments(projectDirectory, projectTypeBase, options.name)
+    )
+  ) {
+    throw new Error(`${options.name} already exists for ${projectName}`);
+  }
   options.cypressProject = options.cypressProject || `${projectName}-e2e`;
   const e2eProjectConfig = projects.get(options.cypressProject);
   const e2eSourceRoot = e2eProjectConfig.sourceRoot;
@@ -74,7 +73,7 @@ function normalizeOptions(
         .pop()
         .replace(/\.module\.ts$/, '');
     } else {
-      let componentDirectory = `app${
+      const componentDirectory = `${projectTypeBase}${
         options.name.includes('/') ? `/${dirname(options.name)}` : ''
       }`;
       module = findClosestModule(
@@ -149,19 +148,11 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       nameCapitalized: capitalizeWords(baseName),
       project: normalizedOptions.project,
       componentPath: dirname(componentFilePath),
-      // @ts-ignore
-      prefix: normalizedOptions.projectConfig.prefix,
+      prefix: normalizedOptions.projectConfig['prefix'],
     }
   );
 
-  // nx g @skyux/e2e-schematics:stories
-  await storiesGenerator(tree, {
-    project: normalizedOptions.project,
-    cypressProject: normalizedOptions.cypressProject,
-    generateCypressSpecs: normalizedOptions.generateCypressSpecs,
-  });
-
-  // Find new files that are not related to the new component and drop them.
+  // Determine paths that should be created by this generator.
   const expectedPaths = [
     `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/`,
     `${normalizedOptions.e2eSourceRoot}/integration/${componentFilePath
@@ -169,6 +160,16 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       .pop()
       .replace(/\.ts$/, '.spec.ts')}`,
   ];
+
+  // nx g @skyux/e2e-schematics:stories
+  await storiesGenerator(tree, {
+    project: normalizedOptions.project,
+    cypressProject: normalizedOptions.cypressProject,
+    generateCypressSpecs: normalizedOptions.generateCypressSpecs,
+    paths: expectedPaths,
+  });
+
+  // Find new files that are not related to the new component and drop them.
   const changes = tree.listChanges();
   changes
     .filter((change) => change.type === 'CREATE')

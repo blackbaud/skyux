@@ -8,9 +8,9 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
-import { angularModuleGenerator } from '../../utils/angular-module-generator';
+import { angularModuleGenerator } from '../../utils';
 
-import componentGenerator from './index';
+import storyGenerator from './index';
 import { ComponentGeneratorSchema } from './schema';
 
 describe('component generator', () => {
@@ -51,7 +51,7 @@ describe('component generator', () => {
   });
 
   it('should run successfully', async () => {
-    await componentGenerator(appTree, options);
+    await storyGenerator(appTree, options);
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
@@ -69,7 +69,7 @@ describe('component generator', () => {
       route: 'sub2',
       module: 'test-router',
     });
-    await componentGenerator(appTree, {
+    await storyGenerator(appTree, {
       ...options,
       name: 'example/sub-example',
     });
@@ -82,7 +82,7 @@ describe('component generator', () => {
   });
 
   it('should run successfully with --module', async () => {
-    await componentGenerator(appTree, {
+    await storyGenerator(appTree, {
       ...options,
       module: 'test-router',
     });
@@ -120,7 +120,7 @@ describe('component generator', () => {
       route: 'sub3',
       module: 'test-sub',
     });
-    await componentGenerator(appTree, options);
+    await storyGenerator(appTree, options);
     expect(
       appTree.read(
         'apps/test-storybook/src/app/example/example.component.stories.ts',
@@ -145,7 +145,7 @@ describe('component generator', () => {
   });
 
   it('should use -storybook project', async () => {
-    await componentGenerator(appTree, {
+    await storyGenerator(appTree, {
       ...options,
       project: 'test',
     });
@@ -170,8 +170,16 @@ describe('component generator', () => {
   });
 
   it('should throw errors', async () => {
+    appTree.write('apps/test-storybook/src/app/example/example.ts', 'test');
     try {
-      await componentGenerator(appTree, {
+      await storyGenerator(appTree, options);
+      fail();
+    } catch (e) {
+      expect(e.message).toEqual(`example already exists for test-storybook`);
+    }
+    appTree.delete('apps/test-storybook/src/app/example/example.ts');
+    try {
+      await storyGenerator(appTree, {
         ...options,
         project: 'wrong',
       });
@@ -183,7 +191,7 @@ describe('component generator', () => {
       name: 'wrong',
     });
     try {
-      await componentGenerator(appTree, {
+      await storyGenerator(appTree, {
         ...options,
         project: 'wrong',
       });
@@ -197,7 +205,7 @@ describe('component generator', () => {
       name: 'wrong-storybook',
     });
     try {
-      await componentGenerator(appTree, {
+      await storyGenerator(appTree, {
         ...options,
         project: 'wrong',
       });
@@ -209,7 +217,7 @@ describe('component generator', () => {
     }
     appTree.delete('apps/test-storybook/src/app/test-router-routing.module.ts');
     try {
-      await componentGenerator(appTree, options);
+      await storyGenerator(appTree, options);
       fail();
     } catch (e) {
       expect((e as Error).message).toEqual(

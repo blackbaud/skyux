@@ -4,6 +4,7 @@ import {
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import {
+  ProjectConfiguration,
   Tree,
   formatFiles,
   generateFiles,
@@ -58,8 +59,10 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   let appGenerator: () => void = () => {};
+  let projectConfig: ProjectConfiguration;
+  let e2eProjectConfig: ProjectConfiguration;
   try {
-    readProjectConfiguration(tree, options.storybookAppName);
+    projectConfig = readProjectConfiguration(tree, options.storybookAppName);
     (schema.ansiColor === false ? console.warn : logger.warn)(
       `The project "${options.storybookAppName}" already exists.`
     );
@@ -73,17 +76,19 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       strict: options.strict,
       prefix: options.prefix,
     });
+    projectConfig = readProjectConfiguration(tree, options.storybookAppName);
+    e2eProjectConfig = readProjectConfiguration(
+      tree,
+      `${options.storybookAppName}-e2e`
+    );
 
     // Delete boilerplate files from the storybook project.
-    let indexFile = tree.read(
-      `apps/${options.storybookAppName}/src/index.html`,
-      'utf8'
-    );
+    let indexFile = tree.read(`${projectConfig.sourceRoot}/index.html`, 'utf8');
     indexFile = indexFile.replace(
       '<link rel="icon" type="image/x-icon" href="favicon.ico" />',
       ''
     );
-    tree.write(`apps/${options.storybookAppName}/src/index.html`, indexFile);
+    tree.write(`${projectConfig.sourceRoot}/index.html`, indexFile);
     [
       'favicon.ico',
       'assets/.gitkeep',
@@ -93,27 +98,20 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
       'app/app.component.spec.ts',
       'app/app.component.ts',
       'app/nx-welcome.component.ts',
-    ].forEach((file) =>
-      tree.delete(`apps/${options.storybookAppName}/src/${file}`)
-    );
+    ].forEach((file) => tree.delete(`${projectConfig.sourceRoot}/${file}`));
     [
       'fixtures/example.json',
       'integration/app.spec.ts',
       'support/app.po.ts',
-    ].forEach((file) =>
-      tree.delete(`apps/${options.storybookAppName}-e2e/src/${file}`)
-    );
+    ].forEach((file) => tree.delete(`${e2eProjectConfig.sourceRoot}/${file}`));
     // Create an empty app.
     generateFiles(
       tree,
       joinPathFragments(__dirname, 'files/app'),
-      `apps/${options.storybookAppName}/src/app`,
+      `${projectConfig.sourceRoot}/app`,
       {}
     );
-    tree.write(
-      `apps/${options.storybookAppName}-e2e/src/integration/.gitkeep`,
-      ``
-    );
+    tree.write(`${e2eProjectConfig.sourceRoot}/integration/.gitkeep`, ``);
   }
 
   /* istanbul ignore next */
@@ -122,8 +120,8 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
   if (
     createProject ||
     !(
-      tree.isFile(`apps/${options.storybookAppName}/.storybook/main.js`) ||
-      tree.isFile(`apps/${options.storybookAppName}/.storybook/main.ts`)
+      tree.isFile(`${projectConfig.root}/.storybook/main.js`) ||
+      tree.isFile(`${projectConfig.root}/.storybook/main.ts`)
     )
   ) {
     storybookGenerator = await storybookConfigurationGenerator(tree, {

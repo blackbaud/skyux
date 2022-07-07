@@ -1,9 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "$id": "Stories",
-  "title": "Create Storybook stories/specs",
-  "description": "Creates Storybook stories/specs for all Angular components declared in a project.",
+  "$id": "Story",
+  "title": "Create a new story with a new component and corresponding tests",
   "type": "object",
   "properties": {
     "name": {
@@ -18,7 +17,7 @@
     "project": {
       "type": "string",
       "description": "The name of the project.",
-      "x-prompt": "What's the name of the project for which you want to generate stories?"
+      "x-prompt": "What's the name of the project for which you want to generate the story?"
     },
     "generateCypressSpecs": {
       "type": "boolean",

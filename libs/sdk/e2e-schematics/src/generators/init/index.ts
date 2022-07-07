@@ -15,8 +15,8 @@ import { PackageJson } from 'nx/src/utils/package-json';
 import {
   applyTransformersToPath,
   getInsertExportTransformer,
-} from '../../utils/ast-utils';
-import { updateJson } from '../../utils/update-json';
+} from '../../utils';
+import { updateJson } from '../../utils';
 import configureStorybook from '../configure-storybook';
 
 import { Schema } from './schema';
