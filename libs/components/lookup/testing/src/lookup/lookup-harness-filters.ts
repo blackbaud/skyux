@@ -1,5 +1,4 @@
-import { BaseHarnessFilters } from '@angular/cdk/testing';
+import { SkyHarnessFilters } from './harness-filters';
 
-export interface SkyLookupHarnessFilters extends BaseHarnessFilters {
-  skyId?: string | RegExp;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SkyLookupHarnessFilters extends SkyHarnessFilters {}

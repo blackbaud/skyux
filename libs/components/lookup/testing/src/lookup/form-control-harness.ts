@@ -1,23 +1,6 @@
-import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+import { SkyComponentHarness } from './component-harness';
 
-import { SkyLookupHarnessFilters } from './lookup-harness-filters';
-
-export class SkyLookupHarness extends ComponentHarness {
-  public static hostSelector = '.sky-lookup';
-
-  protected getInputEl = this.locatorFor('textarea.sky-lookup-input');
-
-  public static with(
-    options: SkyLookupHarnessFilters
-  ): HarnessPredicate<SkyLookupHarness> {
-    return new HarnessPredicate(SkyLookupHarness, options).addOption(
-      'skyTestId',
-      options.skyTestId,
-      (harness, text) =>
-        HarnessPredicate.stringMatches(harness.getSkyId(), text)
-    );
-  }
-
+export abstract class SkyFormControlHarness extends SkyComponentHarness {
   /**
    * Whether the form control has been touched. Returns "null"
    * if no form control is set up.
@@ -62,30 +45,11 @@ export class SkyLookupHarness extends ComponentHarness {
     return (await this.host()).hasClass('ng-pending');
   }
 
-  async getControl() {
-    return await this.host();
-  }
-
-  // What can a end user do?
-  // set value
-  // get value
-  // is disabled?
-
-  // open showmore
-  // select result
-
-  protected async getSkyId(): Promise<string | null> {
-    const host = await this.host();
-    console.log('eh?', host.matchesSelector('[data-sky-id]="lookup_1"'));
-    return host.getAttribute('data-sky-id');
-  }
-
   /**
    * Checks whether the form-field control has set up a form control.
    */
   async #hasFormControl(): Promise<boolean> {
     const hostEl = await this.host();
-
     // If no form "NgControl" is bound to the form-field control, the form-field
     // is not able to forward any control status classes. Therefore if either the
     // "ng-touched" or "ng-untouched" class is set, we know that it has a form control
