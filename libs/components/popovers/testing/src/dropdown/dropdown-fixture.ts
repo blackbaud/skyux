@@ -165,6 +165,7 @@ export class SkyDropdownFixture {
     if (classNames['sky-btn-default']) {
       return 'default';
     }
+    return;
   }
 
   private getButtonType(classNames: {

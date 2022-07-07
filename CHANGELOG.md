@@ -1,5 +1,31 @@
 # Changelog
 
+## [6.5.0](https://github.com/blackbaud/skyux/compare/6.4.0...6.5.0) (2022-07-07)
+
+### Features
+
+- **components/theme:** add CSS custom properties for color ([#321](https://github.com/blackbaud/skyux/issues/321)) ([c4802d6](https://github.com/blackbaud/skyux/commit/c4802d6f075a99713982b88f2c9fba8ece6833ba))
+- **sdk/testing:** provide actual inner text to resource matchers messages that didn't have it ([#323](https://github.com/blackbaud/skyux/issues/323)) ([abbc6b2](https://github.com/blackbaud/skyux/commit/abbc6b2d5a4d5e13fcff386466bbb81ae5c0282a))
+
+### Bug Fixes
+
+- **components/core:** add timestamp to generated IDs ([#327](https://github.com/blackbaud/skyux/issues/327)) ([bef0548](https://github.com/blackbaud/skyux/commit/bef054829f08a1fcd1a7fb9de9e064a731117c83))
+- **components/datetime:** timepicker does not error if all lifecycle hooks do not run prior to destruction ([#324](https://github.com/blackbaud/skyux/issues/324)) ([6deab51](https://github.com/blackbaud/skyux/commit/6deab51e3002df57f2a4431b167d3a510997c0d6))
+- **components/theme:** modify margin-bottom styles in Default Visual Style ([#325](https://github.com/blackbaud/skyux/issues/325)) ([d217c75](https://github.com/blackbaud/skyux/commit/d217c7504e67def986b109abeb664bab63c61025))
+- **components/theme:** modify margin-right style in Default Visual Style ([#329](https://github.com/blackbaud/skyux/issues/329)) ([e5eb943](https://github.com/blackbaud/skyux/commit/e5eb943feb02b98d93d472b22fc2df278165d69e))
+- **components/theme:** use deemphasized text style for sky-font-data-label in Default Visual Style ([#317](https://github.com/blackbaud/skyux/issues/317)) ([3e0d2f4](https://github.com/blackbaud/skyux/commit/3e0d2f460b4a201e11b5986f2170340913d67d51))
+
+## [6.4.0](https://github.com/blackbaud/skyux/compare/6.3.3...6.4.0) (2022-07-05)
+
+### Features
+
+- **components/indicators:** add support for `.sky-control-help` to status indicator ([#312](https://github.com/blackbaud/skyux/issues/312)) ([14bab9d](https://github.com/blackbaud/skyux/commit/14bab9d4665b76915db4f8f38f76682e18b13e11))
+- **components/layout:** add support for `.sky-control-help` to description list term ([#319](https://github.com/blackbaud/skyux/issues/319)) ([c68af16](https://github.com/blackbaud/skyux/commit/c68af160c95398cb423eed5b1688a09a156c89bc))
+
+### Bug Fixes
+
+- **components/theme:** use 6px border radius for sky-rounded-corners in Modern Visual Style ([#313](https://github.com/blackbaud/skyux/issues/313)) ([197c3ac](https://github.com/blackbaud/skyux/commit/197c3ac2314d7fb7df9e83737a991db54fb8867c))
+
 ### [6.3.3](https://github.com/blackbaud/skyux/compare/6.3.2...6.3.3) (2022-06-24)
 
 ### Bug Fixes

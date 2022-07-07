@@ -2,6 +2,10 @@
   <sky-description-list-content *ngFor="let item of items">
     <sky-description-list-term>
       {{ item.term }}
+      <sky-help-inline
+        *ngIf="item.showHelp"
+        class="sky-control-help"
+      ></sky-help-inline>
     </sky-description-list-term>
     <sky-description-list-description>
       {{ item.description }}
