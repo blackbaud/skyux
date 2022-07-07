@@ -26,7 +26,7 @@ export class SkyErrorModalService {
    * @deprecated We recommend using a standard modal with an error component instead.
    */
   public open(config: ErrorModalConfig) {
-    this.#_logService?.deprecated("SkyErrorService's open method", {
+    this.#_logService?.deprecated("SkyErrorModalService's open method", {
       deprecationMajorVersion: 6,
       replacementRecommendation:
         'We recommend using a standard modal with an error component instead.',
