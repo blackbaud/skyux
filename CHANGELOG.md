@@ -5,7 +5,6 @@
 ### Features
 
 - **components/theme:** add CSS custom properties for color ([#321](https://github.com/blackbaud/skyux/issues/321)) ([c4802d6](https://github.com/blackbaud/skyux/commit/c4802d6f075a99713982b88f2c9fba8ece6833ba))
-- **sdk/testing:** add `SkyBy.skyId()` to make it easier to match data-sky-id ([#322](https://github.com/blackbaud/skyux/issues/322)) ([13a96e6](https://github.com/blackbaud/skyux/commit/13a96e6f54dbf36f7296203893e16c1feb6923c2))
 - **sdk/testing:** provide actual inner text to resource matchers messages that didn't have it ([#323](https://github.com/blackbaud/skyux/issues/323)) ([abbc6b2](https://github.com/blackbaud/skyux/commit/abbc6b2d5a4d5e13fcff386466bbb81ae5c0282a))
 
 ### Bug Fixes
