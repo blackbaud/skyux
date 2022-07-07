@@ -31,6 +31,22 @@ describe('component-e2e', () => {
       tree.exists(`${config['test-storybook'].root}/.storybook/main.ts`)
     ).toBeTruthy();
     expect(
+      tree.read(
+        `${config['test-storybook'].sourceRoot}/app/app.module.ts`,
+        'utf8'
+      )
+    ).toMatchSnapshot();
+    expect(
+      tree.isFile(
+        `${config['test-storybook'].sourceRoot}/app/app.component.spec.ts`
+      )
+    ).toBeFalsy();
+    expect(
+      tree.isFile(
+        `${config['test-storybook'].sourceRoot}/app/nx-welcome.component.ts`
+      )
+    ).toBeFalsy();
+    expect(
       tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/index.ts`)
     ).toBeTruthy();
     expect(
