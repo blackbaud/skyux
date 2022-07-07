@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 
@@ -15,7 +15,10 @@ import { SkyErrorModalFormComponent } from './error-modal-form.component';
 export class SkyErrorModalService {
   #_logService: SkyLogService;
 
-  constructor(private modal: SkyModalService, logService: SkyLogService) {
+  constructor(
+    private modal: SkyModalService,
+    @Optional() logService: SkyLogService
+  ) {
     this.#_logService = logService;
   }
   /**
@@ -23,7 +26,7 @@ export class SkyErrorModalService {
    * @deprecated We recommend using a standard modal with an error component instead.
    */
   public open(config: ErrorModalConfig) {
-    this.#_logService.deprecated("SkyErrorService's open method", {
+    this.#_logService?.deprecated("SkyErrorService's open method", {
       deprecationMajorVersion: 6,
       replacementRecommendation:
         'We recommend using a standard modal with an error component instead.',
