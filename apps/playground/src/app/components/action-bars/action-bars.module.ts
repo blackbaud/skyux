@@ -29,4 +29,6 @@ export class ActionBarsRoutingModule {
 @NgModule({
   imports: [ActionBarsRoutingModule],
 })
-export class ActionBarsModule {}
+export class ActionBarsModule {
+  public static routes = ActionBarsRoutingModule.routes;
+}
