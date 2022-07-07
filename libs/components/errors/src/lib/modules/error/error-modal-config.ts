@@ -1,4 +1,7 @@
 /* istanbul ignore next */
+/**
+ * @deprecated We recommend using a standard modal with an error component instead.
+ */
 export class ErrorModalConfig {
   /**
    * Specifies a title to display in the modal error message.
