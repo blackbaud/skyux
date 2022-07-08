@@ -26,4 +26,6 @@ import { LookupComponent } from './lookup.component';
     RouterModule,
   ],
 })
-export class LookupModule {}
+export class LookupModule {
+  public static routes = LookupRoutingModule.routes;
+}

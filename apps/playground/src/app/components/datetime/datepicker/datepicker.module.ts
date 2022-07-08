@@ -20,4 +20,6 @@ import { DatepickerComponent } from './datepicker.component';
     RouterModule,
   ],
 })
-export class DatepickerModule {}
+export class DatepickerModule {
+  public static routes = DatepickerRoutingModule.routes;
+}

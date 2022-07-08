@@ -15,4 +15,6 @@ import { TabsSummaryActionBarComponent } from './tabs-summary-action-bar.compone
     TabsSummaryActionBarRoutingModule,
   ],
 })
-export class TabsSummaryActionBarModule {}
+export class TabsSummaryActionBarModule {
+  public static routes = TabsSummaryActionBarRoutingModule.routes;
+}

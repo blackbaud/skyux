@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { StatusIndicatorTestComponent } from './fixtures/status-indicator.component.fixture';
 import { SkyStatusIndicatorModule } from './status-indicator.module';
@@ -91,7 +91,8 @@ describe('Status indicator component', () => {
       '.sky-status-indicator-message'
     );
 
-    expect(messageEl).toHaveText('Indicator text');
+    // Check exact text content here to ensure it has been trimmed by the skyTrim directive.
+    expect(messageEl.textContent).toBe('Indicator text');
   });
 
   it('should display the expected icon', () => {
@@ -104,6 +105,26 @@ describe('Status indicator component', () => {
     validateIcon(fixture, 'info', 'exclamation-circle');
     validateIcon(fixture, 'success', 'check');
     validateIcon(fixture, 'warning', 'warning');
+  });
+
+  it('should display the expected inline help', () => {
+    const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
+    fixture.componentInstance.descriptionType = 'none';
+    fixture.componentInstance.showHelp = true;
+
+    fixture.detectChanges();
+
+    const statusIndicatorEl = getStatusIndicatorEl(fixture);
+
+    const helpEl = statusIndicatorEl.querySelector(
+      '.sky-status-indicator-help .sky-control-help'
+    );
+
+    expect(helpEl).toHaveText('Help inline');
+
+    // Ensure the markup in status-indicator.component.html is not altered to introduce
+    // space between the indicator text and the help inline content.
+    expect(statusIndicatorEl).toHaveText('Indicator textHelp inline');
   });
 
   it('should add the expected screen reader description based on `descriptionType`', () => {
@@ -122,14 +143,14 @@ describe('Status indicator component', () => {
     validateDescription(fixture, 'warning', 'Warning:');
   });
 
-  it('should be accessible', () => {
+  it('should be accessible', async () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
     fixture.componentInstance.customDescription = 'Custom description';
     fixture.componentInstance.descriptionType = 'custom';
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement).toBeAccessible();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
   describe('when modern theme', () => {

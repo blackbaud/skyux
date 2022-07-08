@@ -14,6 +14,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
   },
+  {
+    path: 'description-list',
+    loadChildren: () =>
+      import('./description-list/description-list.module').then(
+        (m) => m.DescriptionListModule
+      ),
+  },
 ];
 
 @NgModule({
@@ -25,4 +32,6 @@ export class LayoutRoutingModule {}
 @NgModule({
   imports: [LayoutRoutingModule],
 })
-export class LayoutModule {}
+export class LayoutModule {
+  public static routes = routes;
+}

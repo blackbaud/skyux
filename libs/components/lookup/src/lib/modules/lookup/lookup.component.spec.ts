@@ -105,6 +105,24 @@ describe('Lookup component', function () {
     fixture.detectChanges();
   }
 
+  function clickInputAndVerifyFocused(
+    fixture: ComponentFixture<
+      SkyLookupTestComponent | SkyLookupTemplateTestComponent
+    >,
+    focused: boolean
+  ) {
+    const hostElement = document.querySelector('sky-lookup');
+    const input = getInputElement(fixture.componentInstance.lookupComponent);
+
+    triggerClick(hostElement, fixture, false);
+
+    if (focused) {
+      expect(document.activeElement).toEqual(input);
+    } else {
+      expect(document.activeElement).not.toEqual(input);
+    }
+  }
+
   function closeModal(fixture: ComponentFixture<any>): void {
     (
       document.querySelector('.sky-lookup-show-more-modal-close') as HTMLElement
@@ -3055,50 +3073,27 @@ describe('Lookup component', function () {
     });
 
     describe('events', function () {
-      it('should not add event listeners if disabled', function () {
-        lookupComponent.disabled = true;
-        const spy = spyOn(
-          lookupComponent as any,
-          'addEventListeners'
-        ).and.callThrough();
+      it('should not add event listeners if disabled', fakeAsync(() => {
         fixture.detectChanges();
-        expect(spy).not.toHaveBeenCalled();
-      });
-
-      it('should allow setting `disabled` after initialization', function () {
-        const addSpy = spyOn(
-          lookupComponent as any,
-          'addEventListeners'
-        ).and.callThrough();
-        const removeSpy = spyOn(
-          lookupComponent as any,
-          'removeEventListeners'
-        ).and.callThrough();
-
-        lookupComponent.disabled = false;
-        fixture.detectChanges();
-
-        expect(addSpy).toHaveBeenCalled();
-        expect(removeSpy).not.toHaveBeenCalled();
-
-        addSpy.calls.reset();
-        removeSpy.calls.reset();
 
         component.disableLookup();
+
+        clickInputAndVerifyFocused(fixture, false);
+      }));
+
+      it('should allow setting `disabled` after initialization', fakeAsync(() => {
         fixture.detectChanges();
-
-        expect(addSpy).not.toHaveBeenCalled();
-        expect(removeSpy).toHaveBeenCalled();
-
-        addSpy.calls.reset();
-        removeSpy.calls.reset();
 
         component.enableLookup();
         fixture.detectChanges();
+        tick();
 
-        expect(addSpy).toHaveBeenCalled();
-        expect(removeSpy).toHaveBeenCalled();
-      });
+        component.disableLookup();
+        fixture.detectChanges();
+        tick();
+
+        clickInputAndVerifyFocused(fixture, false);
+      }));
     });
 
     describe('keyboard interactions', function () {
@@ -5841,55 +5836,23 @@ describe('Lookup component', function () {
     });
 
     describe('events', function () {
-      it('should not add event listeners if disabled', function () {
-        component.disableLookup();
-        const spy = spyOn(
-          lookupComponent as any,
-          'addEventListeners'
-        ).and.callThrough();
+      it('should not add event listeners if disabled', fakeAsync(() => {
         fixture.detectChanges();
-        expect(spy).not.toHaveBeenCalled();
-      });
+
+        component.disableLookup();
+
+        clickInputAndVerifyFocused(fixture, false);
+      }));
 
       it('should allow setting `disabled` after initialization', fakeAsync(() => {
-        const addSpy = spyOn(
-          lookupComponent as any,
-          'addEventListeners'
-        ).and.callThrough();
-        const removeSpy = spyOn(
-          lookupComponent as any,
-          'removeEventListeners'
-        ).and.callThrough();
-
-        component.enableLookup();
         fixture.detectChanges();
         tick();
-        fixture.detectChanges();
-
-        expect(addSpy).toHaveBeenCalled();
-        expect(removeSpy).not.toHaveBeenCalled();
-
-        addSpy.calls.reset();
-        removeSpy.calls.reset();
 
         component.disableLookup();
         fixture.detectChanges();
         tick();
-        fixture.detectChanges();
 
-        expect(addSpy).not.toHaveBeenCalled();
-        expect(removeSpy).toHaveBeenCalled();
-
-        addSpy.calls.reset();
-        removeSpy.calls.reset();
-
-        component.enableLookup();
-        fixture.detectChanges();
-        tick();
-        fixture.detectChanges();
-
-        expect(addSpy).toHaveBeenCalled();
-        expect(removeSpy).toHaveBeenCalled();
+        clickInputAndVerifyFocused(fixture, false);
       }));
     });
 

@@ -73,5 +73,6 @@ describe('PreviewWrapperComponent', () => {
     component.theme = 'default';
     expect(component.theme).toEqual('default');
     subscription.unsubscribe();
+    themeService.destroy();
   });
 });

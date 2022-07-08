@@ -27,4 +27,6 @@ export class TabsRoutingModule {}
 @NgModule({
   imports: [TabsRoutingModule],
 })
-export class TabsModule {}
+export class TabsModule {
+  public static routes = routes;
+}

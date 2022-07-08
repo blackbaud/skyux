@@ -18,4 +18,6 @@ export class SplitViewRoutingModule {}
 @NgModule({
   imports: [SplitViewRoutingModule],
 })
-export class SplitViewModule {}
+export class SplitViewModule {
+  public static routes = routes;
+}

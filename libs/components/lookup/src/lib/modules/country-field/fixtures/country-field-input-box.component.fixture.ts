@@ -7,5 +7,5 @@ import { SkyCountryFieldCountry } from '../types/country';
   templateUrl: './country-field-input-box.component.fixture.html',
 })
 export class CountryFieldInputBoxTestComponent {
-  public modelValue: SkyCountryFieldCountry;
+  public modelValue: SkyCountryFieldCountry | undefined;
 }

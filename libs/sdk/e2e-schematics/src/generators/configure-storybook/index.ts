@@ -11,7 +11,7 @@ import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
 import { relative } from 'path';
 
-import { getStorybookProjects } from '../../utils/get-projects';
+import { getStorybookProjects } from '../../utils';
 
 import { Schema } from './schema';
 
@@ -23,10 +23,59 @@ export default async function (tree: Tree, schema: Schema) {
   const workspacePath = getWorkspacePath(tree);
   projects.forEach((project, projectName) => {
     updateJson(tree, workspacePath, (angularJson) => {
+      const targets = Object.keys(angularJson.projects[projectName].architect);
+      targets.forEach((target) => {
+        // Does the builder support styles?
+        if (
+          [
+            '@angular-devkit/build-angular:browser',
+            '@storybook/angular:build-storybook',
+            '@storybook/angular:start-storybook',
+          ].includes(
+            angularJson.projects[projectName].architect[target].builder
+          )
+        ) {
+          // Add stylesheets to project.
+          if (!angularJson.projects[projectName].architect[target].options) {
+            angularJson.projects[projectName].architect[target].options = {
+              styles: [],
+            };
+          }
+          [
+            'libs/components/theme/src/lib/styles/sky.scss',
+            'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
+          ].forEach((stylesheet) => {
+            if (
+              !angularJson.projects[projectName].architect[
+                target
+              ].options.styles?.includes(stylesheet)
+            ) {
+              if (
+                angularJson.projects[projectName].architect[target].options
+                  .styles
+              ) {
+                angularJson.projects[projectName].architect[
+                  target
+                ].options.styles.push(stylesheet);
+              } else {
+                angularJson.projects[projectName].architect[
+                  target
+                ].options.styles = [stylesheet];
+              }
+            }
+          });
+        }
+      });
+      // Drop the asset path.
+      if (angularJson.projects[projectName].architect.build?.options?.assets) {
+        delete angularJson.projects[projectName].architect.build.options.assets;
+      }
+
       const e2eProjectName = `${projectName}-e2e`;
       if (e2eProjectName in angularJson.projects) {
         const e2eProject = angularJson.projects[e2eProjectName];
         if (e2eProject.architect.e2e?.builder === '@nrwl/cypress:cypress') {
+          // During development, run Storybook and Cypress.
           const e2eOptions = e2eProject.architect.e2e.options;
           e2eOptions.devServerTarget = `${projectName}:storybook`;
           e2eOptions.baseUrl = `http://localhost:4400`;

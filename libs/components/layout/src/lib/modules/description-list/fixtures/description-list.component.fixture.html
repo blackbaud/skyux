@@ -28,3 +28,16 @@
     </sky-description-list-content>
   </sky-description-list>
 </div>
+<div class="sky-description-list-test-4">
+  <sky-description-list>
+    <sky-description-list-content *ngFor="let item of personalInfo">
+      <sky-description-list-term>
+        {{item.term}}
+        <span class="sky-control-help">Help inline</span>
+      </sky-description-list-term>
+      <sky-description-list-description>
+        {{item.description}}
+      </sky-description-list-description>
+    </sky-description-list-content>
+  </sky-description-list>
+</div>

@@ -1,12 +1,26 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { ReadonlyGridComponent } from './readonly-grid.component';
 
-const routes: Routes = [{ path: '', component: ReadonlyGridComponent }];
+const routes: ComponentRouteInfo[] = [
+  {
+    path: '',
+    component: ReadonlyGridComponent,
+    data: {
+      name: 'AG Grid (readonly)',
+      library: 'ag-grid',
+      icon: 'table',
+    },
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ReadonlyGridRoutingModule {}
+export class ReadonlyGridRoutingModule {
+  public static routes = routes;
+}

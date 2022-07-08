@@ -20,4 +20,6 @@ export class PhoneFieldRoutingModule {}
 @NgModule({
   imports: [PhoneFieldRoutingModule],
 })
-export class PhoneFieldModule {}
+export class PhoneFieldModule {
+  public static routes = routes;
+}

@@ -18,4 +18,6 @@ export class FlyoutRoutingModule {}
 @NgModule({
   imports: [FlyoutRoutingModule],
 })
-export class FlyoutModule {}
+export class FlyoutModule {
+  public static routes = routes;
+}

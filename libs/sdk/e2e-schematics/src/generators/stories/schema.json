@@ -13,7 +13,14 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What's the name of the project for which you want to generate stories?"
+      "x-prompt": "What's the name of the project for which you want to generate stories?",
+      "aliases": [
+        "app",
+        "storybook-app",
+        "storybookapp",
+        "storybookApp",
+        "storybook"
+      ]
     },
     "generateCypressSpecs": {
       "type": "boolean",

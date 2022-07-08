@@ -11,13 +11,16 @@ import { SkyCoreAdapterService, SkyOverlayInstance } from '@skyux/core';
  */
 @Injectable()
 export class SkyAutocompleteAdapterService {
-  private renderer: Renderer2;
+  #coreAdapterService: SkyCoreAdapterService;
+
+  #renderer: Renderer2;
 
   constructor(
-    private coreAdapterService: SkyCoreAdapterService,
-    private rendererFactory: RendererFactory2
+    coreAdapterService: SkyCoreAdapterService,
+    rendererFactory: RendererFactory2
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.#coreAdapterService = coreAdapterService;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -27,14 +30,14 @@ export class SkyAutocompleteAdapterService {
     /* Sanity check */
     /* istanbul ignore else */
     if (element) {
-      this.renderer.addClass(element, className);
+      this.#renderer.addClass(element, className);
     }
   }
 
   public getOverlayFocusableElements(
     overlay: SkyOverlayInstance
   ): HTMLElement[] {
-    return this.coreAdapterService.getFocusableChildren(
+    return this.#coreAdapterService.getFocusableChildren(
       /* Sanity check - calling function also has null check */
       /* istanbul ignore next */
       overlay?.componentRef.location.nativeElement,
@@ -49,7 +52,7 @@ export class SkyAutocompleteAdapterService {
     /* Sanity check */
     /* istanbul ignore else */
     if (element) {
-      this.renderer.removeClass(element, className);
+      this.#renderer.removeClass(element, className);
     }
   }
 
@@ -63,7 +66,7 @@ export class SkyAutocompleteAdapterService {
       : elementRef.nativeElement;
     if (parentElement) {
       const width = parentElement.getBoundingClientRect().width;
-      this.renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
+      this.#renderer.setStyle(dropdownRef.nativeElement, 'width', `${width}px`);
     }
   }
 

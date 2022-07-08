@@ -3,11 +3,23 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AlertDemoComponent as AlertBasicDemoComponent } from '../code-examples/indicators/alert/basic/alert-demo.component';
 import { AlertDemoModule as AlertBasicDemoModule } from '../code-examples/indicators/alert/basic/alert-demo.module';
+import { KeyInfoDemoComponent } from '../code-examples/indicators/key-info/basic/key-info-demo.component';
+import { KeyInfoDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
+import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
+import { StatusIndicatorDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
 
 const routes: Routes = [
   {
     path: 'alert/basic',
     component: AlertBasicDemoComponent,
+  },
+  {
+    path: 'status-indicator/basic',
+    component: StatusIndicatorDemoComponent,
+  },
+  {
+    path: 'key-info/basic',
+    component: KeyInfoDemoComponent,
   },
 ];
 
@@ -18,6 +30,11 @@ const routes: Routes = [
 export class IndicatorsFeatureRoutingModule {}
 
 @NgModule({
-  imports: [IndicatorsFeatureRoutingModule, AlertBasicDemoModule],
+  imports: [
+    IndicatorsFeatureRoutingModule,
+    AlertBasicDemoModule,
+    StatusIndicatorDemoModule,
+    KeyInfoDemoModule,
+  ],
 })
 export class IndicatorsFeatureModule {}

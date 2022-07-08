@@ -22,9 +22,13 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ActionBarsRoutingModule {}
+export class ActionBarsRoutingModule {
+  public static routes = routes;
+}
 
 @NgModule({
   imports: [ActionBarsRoutingModule],
 })
-export class ActionBarsModule {}
+export class ActionBarsModule {
+  public static routes = ActionBarsRoutingModule.routes;
+}
