@@ -5,7 +5,7 @@
         `/iframe.html?globals=theme:${theme}&id=alertcomponent-alert--alert`
       )
     );
-    it(`should render the component in ${theme}`, () => {
+    it('should render the component', () => {
       cy.get('app-alert')
         .should('exist')
         .should('be.visible')

@@ -1,25 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Route, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+
+const routes: Route[] = [
+  {
+    path: 'alert',
+    loadChildren: () =>
+      import('./alert/alert.module').then((m) => m.AlertModule),
+  },
+];
+if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
+  routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
+}
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(
-      [
-        {
-          path: 'alert',
-          loadChildren: () =>
-            import('./alert/alert.module').then((m) => m.AlertModule),
-        },
-      ],
-      { initialNavigation: 'enabledBlocking' }
-    ),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAlertModule } from '@skyux/indicators';
 
 import { AlertComponent } from './alert.component';
+import { AlertModule } from './alert.module';
 
 describe('AlertComponent', () => {
   let component: AlertComponent;
@@ -9,8 +9,7 @@ describe('AlertComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AlertComponent],
-      imports: [SkyAlertModule],
+      imports: [AlertModule],
     });
     fixture = TestBed.createComponent(AlertComponent);
     component = fixture.componentInstance;

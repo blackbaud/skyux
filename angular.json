@@ -1377,10 +1377,6 @@
             "polyfills": "apps/indicators-storybook/src/polyfills.ts",
             "tsConfig": "apps/indicators-storybook/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/indicators-storybook/src/favicon.ico",
-              "apps/indicators-storybook/src/assets"
-            ],
             "styles": [
               "apps/indicators-storybook/src/styles.scss",
               "libs/components/theme/src/lib/styles/sky.scss",
@@ -1462,7 +1458,11 @@
             "port": 4400,
             "configDir": "apps/indicators-storybook/.storybook",
             "browserTarget": "indicators-storybook:build",
-            "compodoc": false
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
           },
           "configurations": {
             "ci": {
@@ -1477,7 +1477,11 @@
             "outputDir": "dist/storybook/indicators-storybook",
             "configDir": "apps/indicators-storybook/.storybook",
             "browserTarget": "indicators-storybook:build",
-            "compodoc": false
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
           },
           "configurations": {
             "ci": {

@@ -3,13 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styles: [
-    `
-      :host {
-        display: block;
-      }
-    `,
-  ],
+  styleUrls: ['./alert.component.scss'],
 })
 export class AlertComponent {
   public readonly variations = ['info', 'success', 'warning', 'danger'];

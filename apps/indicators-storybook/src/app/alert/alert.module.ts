@@ -3,19 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAlertModule } from '@skyux/indicators';
 
-import { AlertRoutingModule } from './alert-routing.module';
 import { AlertComponent } from './alert.component';
 
 const routes: Routes = [{ path: '', component: AlertComponent }];
-
 @NgModule({
   declarations: [AlertComponent],
   exports: [AlertComponent],
-  imports: [
-    CommonModule,
-    AlertRoutingModule,
-    RouterModule.forChild(routes),
-    SkyAlertModule,
-  ],
+  imports: [CommonModule, RouterModule.forChild(routes), SkyAlertModule],
 })
 export class AlertModule {}
