@@ -5,4 +5,6 @@ import { AgGridRoutingModule } from './ag-grid-routing.module';
 @NgModule({
   imports: [AgGridRoutingModule],
 })
-export class AgGridModule {}
+export class AgGridModule {
+  public static routes = AgGridRoutingModule.routes;
+}
