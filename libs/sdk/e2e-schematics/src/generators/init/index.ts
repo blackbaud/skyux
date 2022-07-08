@@ -15,8 +15,8 @@ import { PackageJson } from 'nx/src/utils/package-json';
 import {
   applyTransformersToPath,
   getInsertExportTransformer,
-} from '../../utils/ast-utils';
-import { updateJson } from '../../utils/update-json';
+} from '../../utils';
+import { updateJson } from '../../utils';
 import configureStorybook from '../configure-storybook';
 
 import { Schema } from './schema';
@@ -44,14 +44,14 @@ export default async function (tree: Tree, options: Schema) {
       tree,
       {},
       {
-        '@percy/cli': '*',
-        '@percy/cypress': '*',
-        '@percy/storybook': '*',
-        '@storybook/addon-a11y': '*',
-        cypress: '*',
-        'jest-preset-angular': '*',
-        sb: '*',
-        'storybook-addon-angular-router': '*',
+        '@percy/cli': 'latest',
+        '@percy/cypress': 'latest',
+        '@percy/storybook': 'latest',
+        '@storybook/addon-a11y': 'latest',
+        cypress: 'latest',
+        'jest-preset-angular': 'latest',
+        sb: 'latest',
+        'storybook-addon-angular-router': 'latest',
       }
     );
 

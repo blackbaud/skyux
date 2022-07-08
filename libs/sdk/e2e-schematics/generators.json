@@ -32,6 +32,11 @@
       "factory": "./src/generators/init",
       "schema": "./src/generators/init/schema.json",
       "description": "initialize e2e testing"
+    },
+    "story": {
+      "factory": "./src/generators/story",
+      "schema": "./src/generators/story/schema.json",
+      "description": "add a new story to storybook project"
     }
   }
 }
