@@ -1605,7 +1605,7 @@ describe('datepicker', () => {
       it(`should convert an 8 digit integer to a date based on the default date format when possible`, fakeAsync(() => {
         detectChanges(fixture);
 
-        const expectedDate = new Date('02-01-2022');
+        const expectedDate = new Date('02/01/2022');
 
         setInputElementValue(fixture.nativeElement, '02012022', fixture);
 
@@ -1620,7 +1620,7 @@ describe('datepicker', () => {
 
         detectChanges(fixture);
 
-        const expectedDate = new Date('01-02-2022');
+        const expectedDate = new Date('01/02/2022');
 
         setInputElementValue(fixture.nativeElement, '20220102', fixture);
 
