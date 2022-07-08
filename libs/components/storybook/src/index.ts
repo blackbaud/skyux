@@ -5,3 +5,4 @@ export * from './lib/preview-wrapper/preview-wrapper-parameters';
 export * from './lib/preview-wrapper/preview-wrapper.component';
 export * from './lib/preview-wrapper/preview-wrapper.module';
 export * from './lib/welcome/welcome.component';
+export * from './lib/welcome/welcome.module';

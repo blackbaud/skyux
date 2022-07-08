@@ -3,6 +3,7 @@
   "cli": "nx",
   "$id": "Story",
   "title": "Create a new story with a new component and corresponding tests",
+  "description": "Create a new story with a new component and corresponding tests",
   "type": "object",
   "properties": {
     "name": {
@@ -12,12 +13,19 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What's the name of the component?"
+      "x-prompt": "What name would you like to use for the new storybook component?"
     },
     "project": {
       "type": "string",
       "description": "The name of the project.",
-      "x-prompt": "What's the name of the project for which you want to generate the story?"
+      "x-prompt": "What's the name of the storybook application for which you want to generate the story?",
+      "aliases": [
+        "app",
+        "storybook-app",
+        "storybookapp",
+        "storybookApp",
+        "storybook"
+      ]
     },
     "generateCypressSpecs": {
       "type": "boolean",
