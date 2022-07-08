@@ -1,7 +1,7 @@
 import { cypressProjectGenerator } from '@nrwl/cypress';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 
-import { updateJson } from '../../utils/update-json';
+import { updateJson } from '../../utils';
 
 import configurePercy from './index';
 
@@ -40,10 +40,14 @@ describe('configure-percy', () => {
       name: `cypress`,
       baseUrl: 'https://example.com',
     });
-    updateJson<any>(tree, `apps/cypress/cypress.json`, (config) => {
-      delete config.supportFile;
-      return config;
-    });
+    updateJson<{ supportFile?: string }>(
+      tree,
+      `apps/cypress/cypress.json`,
+      (config) => {
+        delete config.supportFile;
+        return config;
+      }
+    );
     await configurePercy(tree, { name: 'cypress' });
     const config = JSON.parse(
       tree.read(`apps/cypress/cypress.json`).toString()
