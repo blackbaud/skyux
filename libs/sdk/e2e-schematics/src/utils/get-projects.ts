@@ -68,3 +68,29 @@ export function getStorybookProjects(
     name
   );
 }
+
+export function getStorybookProject(
+  tree: Tree,
+  options: Partial<{ project: string }>
+) {
+  const projects = getProjects(tree);
+  if (!projects.has(options.project)) {
+    throw new Error(`Unable to find project ${options.project}`);
+  }
+  let projectConfig = projects.get(options.project);
+  if (!('storybook' in projectConfig.targets)) {
+    options.project = `${options.project}-storybook`;
+    if (!projects.has(options.project)) {
+      throw new Error(`Unable to find project ${options.project}`);
+    }
+    projectConfig = projects.get(options.project);
+    if (!('storybook' in projectConfig.targets)) {
+      throw new Error(`Storybook is not configured for ${options.project}`);
+    }
+  }
+  return projectConfig;
+}
+
+export function getProjectTypeBase(projectConfig: ProjectConfiguration) {
+  return `${projectConfig.projectType == 'library' ? 'lib' : 'app'}`;
+}

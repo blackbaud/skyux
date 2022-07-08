@@ -1,13 +1,14 @@
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 
 import { WelcomeComponent } from './welcome.component';
+import { WelcomeModule } from './welcome.module';
 
 export default {
   title: 'Sky UX Storybook',
   component: WelcomeComponent,
   decorators: [
     moduleMetadata({
-      imports: [],
+      imports: [WelcomeModule],
     }),
   ],
 } as Meta<WelcomeComponent>;

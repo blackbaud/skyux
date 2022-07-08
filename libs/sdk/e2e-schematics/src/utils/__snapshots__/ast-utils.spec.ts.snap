@@ -7,3 +7,91 @@ export * from './lib/third.module';
 export * from './lib/fourth.module';
 "
 `;
+
+exports[`ast-utils should getInsertIdentifierToArrayTransformer 1`] = `
+"export default {
+    id: 'x-component',
+    component: XComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [XModule],
+        }),
+    ],
+};
+"
+`;
+
+exports[`ast-utils should getInsertImportTransformer 1`] = `
+"import { XModule } from './lib/x.module';
+"
+`;
+
+exports[`ast-utils should getInsertImportTransformer 2`] = `
+"import { XModule } from './lib/x.module';
+import { YModule } from './lib/y.module';
+"
+`;
+
+exports[`ast-utils should getInsertImportTransformer 3`] = `
+"import { XModule } from './lib/x.module';
+const variable = 'value';
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule 1`] = `
+"import { NgModule } from '@angular/core';
+@NgModule({ exports: [TestComponent] })
+export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, no change 1`] = `
+"import { NgModule } from '@angular/core';
+@NgModule({
+    exports: [TestComponent],
+})
+export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, no change 2`] = `
+"import { NgModule } from '@angular/core';
+@NgModule({
+    exports: false,
+})
+export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, no change 3`] = `
+"import { NgModule } from '@angular/core';
+export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, no change 4`] = `
+"export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, no change 5`] = `
+"import { Component } from '@angular/core';
+export class TestModule {
+}
+"
+`;
+
+exports[`ast-utils should getTransformerToAddExportToNgModule, update 1`] = `
+"import { NgModule } from '@angular/core';
+@NgModule({
+    exports: [ExistingComponent, TestComponent],
+})
+export class TestModule {
+}
+"
+`;
