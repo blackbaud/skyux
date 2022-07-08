@@ -1616,7 +1616,7 @@ describe('datepicker', () => {
       }));
 
       it('should convert an 8 digit integer to a date based on the current date format when possible', fakeAsync(() => {
-        component.dateFormat = 'YYYY/MM/DD';
+        component.dateFormat = 'YY/MM/DD';
 
         detectChanges(fixture);
 
@@ -1624,46 +1624,43 @@ describe('datepicker', () => {
 
         setInputElementValue(fixture.nativeElement, '20220102', fixture);
 
-        const expectedDateString = '2022/01/02';
+        const expectedDateString = '22/01/02';
         expect(getInputElementValue(fixture)).toBe(expectedDateString);
         expect(component.dateControl.value).toEqual(expectedDate);
         expect(component.dateControl.valid).toBe(true);
       }));
 
-      it('should convert an 8 digit integer to a date based on a long date format (MMM & Do) when possible', fakeAsync(() => {
+      it('should validate properly when an 8 digit integer is given with a long date format (MMM & Do)', fakeAsync(() => {
         component.dateFormat = 'MMM Do, YYYY';
         detectChanges(fixture);
         const dateString = '12132022';
-        const expectedDate = new Date('12-13-2022');
         setInputElementValue(fixture.nativeElement, dateString, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('Dec 13th, 2022');
-        expect(component.dateControl.value).toEqual(expectedDate);
-        expect(component.dateControl.valid).toBe(true);
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
       }));
 
-      it('should convert an 8 digit integer to a date based on a long date format (Mo & D) when possible', fakeAsync(() => {
+      it('should validate properly when an 8 digit integer is given with a long date format (Mo & D)', fakeAsync(() => {
         component.dateFormat = 'Mo D, YYYY';
         detectChanges(fixture);
         const dateString = '12012022';
-        const expectedDate = new Date('12-01-2022');
         setInputElementValue(fixture.nativeElement, dateString, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('12th 1, 2022');
-        expect(component.dateControl.value).toEqual(expectedDate);
-        expect(component.dateControl.valid).toBe(true);
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
       }));
 
-      it('should convert an 8 digit integer to a date based on a long date format (Mo & D) when possible', fakeAsync(() => {
+      it('should validate properly when an 8 digit integer is given with a long date format (MMM & YY)', fakeAsync(() => {
         component.dateFormat = 'MMMM DD, YY';
         detectChanges(fixture);
         const dateString = '12012022';
-        const expectedDate = new Date('12-01-2022');
         setInputElementValue(fixture.nativeElement, dateString, fixture);
 
-        expect(getInputElementValue(fixture)).toBe('December 01, 22');
-        expect(component.dateControl.value).toEqual(expectedDate);
-        expect(component.dateControl.valid).toBe(true);
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
       }));
 
       it('should validate properly when an 8 digit integer is given that does not conform to the defaul date format', fakeAsync(() => {

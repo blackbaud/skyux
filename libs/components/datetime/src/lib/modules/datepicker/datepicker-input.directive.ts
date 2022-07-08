@@ -481,17 +481,10 @@ export class SkyDatepickerInputDirective
     const num = Number(value);
     if (Number.isInteger(num)) {
       if (value.length === 8) {
-        const regex = new RegExp(
-          /\b(Mo)\b|\b(M)\b|\b(MM)\b|\b(MMM)\b|\b(MMMM)\b|\b(Do)\b|\b(D)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/,
-          'g'
-        );
+        const regex = new RegExp(/\b(MM)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/, 'g');
         const formatTokensOnly = this.dateFormat
           .match(regex)
           .join('')
-          .replace('Mo', 'MM')
-          .replace('Do', 'DD')
-          .replace(new RegExp(/M+/), 'MM')
-          .replace(new RegExp(/D+/), 'DD')
           .replace(new RegExp(/Y+/), 'YYYY');
 
         if (formatTokensOnly.length === 8) {
