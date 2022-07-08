@@ -13,7 +13,7 @@ import { SkyErrorModalFormComponent } from './error-modal-form.component';
   providedIn: 'root',
 })
 export class SkyErrorModalService {
-  #_logService: SkyLogService;
+  #_logService: SkyLogService | undefined;
 
   constructor(
     private modal: SkyModalService,
