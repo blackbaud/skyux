@@ -1663,7 +1663,7 @@ describe('datepicker', () => {
         expect(component.dateControl.valid).toBe(false);
       }));
 
-      it('should validate properly when an 8 digit integer is given that does not conform to the defaul date format', fakeAsync(() => {
+      it('should validate properly when an 8 digit integer is given that does not conform to the default date format', fakeAsync(() => {
         detectChanges(fixture);
         const dateString = '13122022';
 
