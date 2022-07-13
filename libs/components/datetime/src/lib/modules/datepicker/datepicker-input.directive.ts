@@ -5,7 +5,6 @@ import {
   Directive,
   ElementRef,
   HostListener,
-  Injector,
   Input,
   OnDestroy,
   OnInit,
@@ -18,7 +17,6 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
-  NgControl,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
@@ -232,7 +230,6 @@ export class SkyDatepickerInputDirective
     private localeProvider: SkyAppLocaleProvider,
     private renderer: Renderer2,
     private resourcesService: SkyLibResourcesService,
-    private injector: Injector,
     @Optional() private datepickerComponent: SkyDatepickerComponent
   ) {
     this.initialPlaceholder = this.adapter.getPlaceholder(this.elementRef);
@@ -326,7 +323,7 @@ export class SkyDatepickerInputDirective
     this._value = value;
     this.onChange(value);
 
-    this.control?.setErrors({
+    this.control.setErrors({
       skyDate: {
         invalid: true,
       },
@@ -340,7 +337,7 @@ export class SkyDatepickerInputDirective
 
   @HostListener('keyup')
   public onInputKeyup(): void {
-    this.control?.markAsDirty();
+    this.control.markAsDirty();
   }
 
   public writeValue(value: any): void {
@@ -350,6 +347,10 @@ export class SkyDatepickerInputDirective
   public validate(control: AbstractControl): ValidationErrors {
     if (!this.control) {
       this.control = control;
+      // Account for any date conversion that may have occurred prior to validation.
+      if (this.control.value !== this.value) {
+        this.control.patchValue(this.value, { emitEvent: false });
+      }
     }
 
     if (this.skyDatepickerNoValidate) {
@@ -368,7 +369,7 @@ export class SkyDatepickerInputDirective
       if (!isDateValid) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
         // (This is only required when the invalid value is set by the FormControl constructor.)
-        this.control?.markAsTouched();
+        this.control.markAsTouched();
 
         return {
           skyDate: {
@@ -407,7 +408,7 @@ export class SkyDatepickerInputDirective
     } else {
       // Mark the invalid control as touched so that the input's invalid CSS styles appear.
       // (This is only required when the invalid value is set by the FormControl constructor.)
-      this.control?.markAsTouched();
+      this.control.markAsTouched();
 
       return {
         skyDate: {
@@ -533,24 +534,6 @@ export class SkyDatepickerInputDirective
   // istanbul ignore next
   private onValidatorChange = () => {};
 
-  private updateFormValue(emitEvent: boolean): void {
-    if (emitEvent) {
-      this.onChange(this._value);
-    } else {
-      if (!this.control) {
-        // If we do not have the control we wait a tick before attempting to retrieve it as certain situations such as a disabled
-        // control can lead to the `NgControl` not having the `AbstractControl` when `writeValue` is called.
-        setTimeout(() => {
-          const ngControl = this.injector.get<NgControl>(NgControl);
-          this.control = ngControl?.control;
-          this.control?.setValue(this._value, { emitEvent: false });
-        });
-      } else {
-        this.control?.setValue(this._value, { emitEvent: false });
-      }
-    }
-  }
-
   private updatePlaceholder(): void {
     if (!this.initialPlaceholder) {
       this.adapter.setPlaceholder(this.elementRef, this.dateFormat);
@@ -573,7 +556,11 @@ export class SkyDatepickerInputDirective
     // (JavaScript's Date parser will convert poorly formatted dates to Date objects, such as "abc 123", which isn't ideal.)
     if (!isValidDateString) {
       this._value = value;
-      this.updateFormValue(emitEvent);
+      if (emitEvent) {
+        this.onChange(this._value);
+      } else {
+        this.control?.setValue(this._value, { emitEvent: false });
+      }
 
       this.datepickerComponent.selectedDate = this._value;
 
@@ -590,7 +577,11 @@ export class SkyDatepickerInputDirective
 
       if (dateValue !== this._value || !areDatesEqual) {
         this._value = dateValue || value;
-        this.updateFormValue(emitEvent);
+        if (emitEvent) {
+          this.onChange(this._value);
+        } else {
+          this.control?.setValue(this._value, { emitEvent: false });
+        }
 
         this.datepickerComponent.selectedDate = this._value;
       }
