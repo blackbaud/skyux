@@ -1,0 +1,13 @@
+<sky-input-box>
+  <label class="sky-control-label" [for]="inputBoxSelect.id"> Theme </label>
+  <select
+    class="sky-theme-selector sky-form-control"
+    skyId
+    #inputBoxSelect="skyId"
+    [(ngModel)]="themeName"
+  >
+    <option value="default">Default</option>
+    <option value="modern-light">Modern - Light</option>
+    <option value="modern-dark">Modern - Dark</option>
+  </select>
+</sky-input-box>

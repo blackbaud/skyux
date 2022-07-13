@@ -1,5 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SkyDataManagerModule } from '@skyux/data-manager';
+import { SkyActionButtonModule } from '@skyux/layout';
 
 import { HomeComponent } from './home.component';
 
@@ -18,6 +21,11 @@ export class HomeRoutingModule {}
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [HomeRoutingModule],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    SkyActionButtonModule,
+    SkyDataManagerModule,
+  ],
 })
 export class HomeModule {}
