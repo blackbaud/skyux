@@ -5,7 +5,10 @@ let idIndex = 0;
 function generateId(): string {
   idIndex++;
 
-  return `sky-id-gen__${idIndex}`;
+  // Include timestamp and an incrementing index to guarantee unique IDs both during the application
+  // lifecycle as well as across sessions, since browsers will try to apply autocomplete options to
+  // elements with the same ID across sessions.
+  return `sky-id-gen__${new Date().getTime()}__${idIndex}`;
 }
 
 /**
@@ -19,10 +22,10 @@ function generateId(): string {
 })
 export class SkyIdDirective {
   public get id(): string {
-    return this._id;
+    return this.#_id;
   }
 
-  private _id: string;
+  #_id: string;
 
   constructor(elRef: ElementRef, renderer: Renderer2) {
     // Generate and apply the ID before the template is rendered
@@ -31,6 +34,6 @@ export class SkyIdDirective {
 
     renderer.setAttribute(elRef.nativeElement, 'id', id);
 
-    this._id = id;
+    this.#_id = id;
   }
 }

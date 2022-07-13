@@ -12,7 +12,7 @@ export class SkyCountryFieldFixture {
   /**
    * The value of the input field's autocomplete attribute.
    */
-  public get autocompleteAttribute(): string {
+  public get autocompleteAttribute(): string | null {
     return this.getInputElement().getAttribute('autocomplete');
   }
 
@@ -61,7 +61,7 @@ export class SkyCountryFieldFixture {
     const resultArray = Array.prototype.slice.call(resultNodes);
     const results = resultArray.map((result: HTMLElement) => {
       const countryNameEl = result.querySelector('.sky-highlight-mark');
-      const countryName = SkyAppTestUtility.getText(countryNameEl);
+      const countryName = SkyAppTestUtility.getText(countryNameEl)!;
       return countryName;
     });
 

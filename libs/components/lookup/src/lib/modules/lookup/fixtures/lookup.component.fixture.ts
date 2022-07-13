@@ -28,44 +28,60 @@ export class SkyLookupTestComponent implements OnInit {
     read: SkyLookupComponent,
     static: true,
   })
-  public asyncLookupComponent: SkyLookupComponent;
+  public asyncLookupComponent!: SkyLookupComponent;
 
   @ViewChild('standardLookup', {
     read: SkyLookupComponent,
     static: true,
   })
-  public lookupComponent: SkyLookupComponent;
+  public lookupComponent!: SkyLookupComponent;
 
   @ViewChild('customSearchResultTemplate')
-  public searchResultTemplate: TemplateRef<unknown>;
+  public searchResultTemplate!: TemplateRef<unknown>;
 
   @ViewChild('customShowMoreTemplate')
-  public showMoreTemplate: TemplateRef<unknown>;
+  public showMoreTemplate!: TemplateRef<unknown>;
 
-  public ariaLabel: string;
-  public ariaLabelledBy: string;
-  public asyncForm: FormGroup;
-  public autocompleteAttribute: string;
-  public customSearch: SkyAutocompleteSearchFunction;
-  public data: any[];
-  public descriptorProperty: string;
-  public enabledSearchResultTemplate: TemplateRef<unknown>;
+  public ariaLabel: string | undefined;
+
+  public ariaLabelledBy: string | undefined;
+
+  public asyncForm!: FormGroup;
+
+  public autocompleteAttribute: string | undefined;
+
+  public customSearch: SkyAutocompleteSearchFunction | undefined;
+
+  public data: any[] = [];
+
+  public descriptorProperty: string | undefined;
+
+  public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
+
   public enableShowMore = false;
-  public form: FormGroup;
-  public idProperty: string;
+
+  public form!: FormGroup;
+
+  public idProperty: string | undefined;
+
   public ignoreAddDataUpdate = false;
-  public placeholderText: string;
-  public propertiesToSearch: string[];
-  public selectMode: SkyLookupSelectModeType;
+
+  public placeholderText: string | undefined;
+
+  public propertiesToSearch: string[] | undefined;
+
+  public selectMode: SkyLookupSelectModeType | undefined;
+
   public showAddButton = false;
+
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public get friends(): any[] {
-    return this._friends;
+    return this.#_friends;
   }
 
   public set friends(value: any[]) {
-    this._friends = value;
+    this.#_friends = value;
 
     if (this.form?.controls.friends) {
       this.form.controls.friends.setValue(value);
@@ -75,9 +91,13 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
-  private _friends: any[];
+  #formBuilder: FormBuilder;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #_friends: any[] = [];
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.data = [
@@ -116,7 +136,7 @@ export class SkyLookupTestComponent implements OnInit {
       { name: 'Zack' },
     ];
 
-    this.createForm();
+    this.#createForm();
   }
 
   public addButtonClicked(
@@ -213,11 +233,11 @@ export class SkyLookupTestComponent implements OnInit {
     this.form.controls.friends.setValidators([]);
   }
 
-  private createForm(): void {
-    this.asyncForm = this.formBuilder.group({
+  #createForm(): void {
+    this.asyncForm = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
-    this.form = this.formBuilder.group({
+    this.form = this.#formBuilder.group({
       friends: new FormControl(this.friends),
     });
   }

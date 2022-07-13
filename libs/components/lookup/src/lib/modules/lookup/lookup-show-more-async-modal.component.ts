@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  TemplateRef,
 } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
 
@@ -31,39 +32,55 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
    */
   public addClick: Subject<void> = new Subject();
 
-  public items: unknown[];
+  public displayedItems: any[] = [];
 
-  public displayedItems: unknown[] = [];
-  public onlyShowSelected = false;
-  public searchText: string;
-  public isSearching = false;
   public hasMoreItems = false;
-  public isLoadingMore = false;
-  public selectedIdMap: Map<unknown, unknown>;
 
-  private continuationData: unknown;
-  private offset = 0;
-  private ngUnsubscribe = new Subject<void>();
-  private currentSearchSub: Subscription | undefined;
+  public isLoadingMore = false;
+
+  public isSearching = false;
+
+  public items: any[] = [];
+
+  public onlyShowSelected = false;
+
+  public repeaterItemTemplate: TemplateRef<unknown> | null = null;
+
+  public searchText: string | undefined;
+
+  public selectedIdMap: Map<unknown, unknown> = new Map();
+
+  #changeDetector: ChangeDetectorRef;
+
+  #continuationData: unknown;
+
+  #currentSearchSub: Subscription | undefined;
+
+  #ngUnsubscribe = new Subject<void>();
+
+  #offset = 0;
 
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerAsyncContext,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#changeDetector = changeDetector;
+  }
 
   public ngOnInit(): void {
+    this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
 
-    this.createInitialSelectedItemsMap();
-    this.loadSearchResults();
+    this.#createInitialSelectedItemsMap();
+    this.#loadSearchResults();
   }
 
   public ngOnDestroy(): void {
-    this.cancelCurrentSearch();
+    this.#cancelCurrentSearch();
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public addButtonClicked(): void {
@@ -81,7 +98,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
     this.updateDisplayedItems();
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public itemClick(selectedItem: any): void {
@@ -114,10 +131,10 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   public searchApplied(searchText: string) {
-    this.offset = 0;
+    this.#offset = 0;
     this.searchText = searchText;
 
-    this.loadSearchResults();
+    this.#loadSearchResults();
   }
 
   public selectAll(): void {
@@ -131,14 +148,14 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   }
 
   public infiniteScrollEnd(): void {
-    this.cancelCurrentSearch();
+    this.#cancelCurrentSearch();
 
     /* Sanity check - else case would only happen if this was called directly */
     /* istanbul ignore else */
     if (this.hasMoreItems) {
       this.isLoadingMore = true;
 
-      this.performSearch((result) => {
+      this.#performSearch((result) => {
         this.items = this.items.concat(result.items);
 
         this.updateDisplayedItems();
@@ -164,51 +181,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     this.modalInstance.save(selectedItems);
   }
 
-  private loadSearchResults(): void {
-    this.cancelCurrentSearch();
-
-    this.isSearching = true;
-
-    this.performSearch((result) => {
-      this.isSearching = false;
-      this.items = result.items;
-    });
-  }
-
-  private createInitialSelectedItemsMap(): void {
-    this.selectedIdMap = new Map(
-      this.context.initialValue.map((item) => [
-        item[this.context.idProperty],
-        item,
-      ])
-    );
-  }
-
-  private performSearch(
-    processResults: (result: SkyAutocompleteSearchAsyncResult) => void
-  ): void {
-    this.currentSearchSub = this.context
-      .searchAsync({
-        displayType: 'modal',
-        offset: this.offset,
-        searchText: this.searchText || '',
-        continuationData: this.continuationData,
-      })
-      .pipe(take(1))
-      .subscribe((result) => {
-        processResults(result);
-
-        this.continuationData = result.continuationData;
-        this.hasMoreItems = result.hasMore;
-        this.offset = this.items.length;
-
-        this.updateDisplayedItems();
-
-        this.changeDetector.markForCheck();
-      });
-  }
-
-  private updateDisplayedItems(): void {
+  public updateDisplayedItems(): void {
     if (this.onlyShowSelected) {
       this.displayedItems = this.items.filter((item) =>
         this.selectedIdMap.has(item[this.context.idProperty])
@@ -218,10 +191,54 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  private cancelCurrentSearch(): void {
-    if (this.currentSearchSub) {
-      this.currentSearchSub.unsubscribe();
-      this.currentSearchSub = undefined;
+  #loadSearchResults(): void {
+    this.#cancelCurrentSearch();
+
+    this.isSearching = true;
+
+    this.#performSearch((result) => {
+      this.isSearching = false;
+      this.items = result.items;
+    });
+  }
+
+  #createInitialSelectedItemsMap(): void {
+    this.selectedIdMap = new Map(
+      this.context.initialValue.map((item) => [
+        item[this.context.idProperty],
+        item,
+      ])
+    );
+  }
+
+  #performSearch(
+    processResults: (result: SkyAutocompleteSearchAsyncResult) => void
+  ): void {
+    this.#currentSearchSub = this.context
+      .searchAsync({
+        displayType: 'modal',
+        offset: this.#offset,
+        searchText: this.searchText || '',
+        continuationData: this.#continuationData,
+      })
+      .pipe(take(1))
+      .subscribe((result) => {
+        processResults(result);
+
+        this.#continuationData = result.continuationData;
+        this.hasMoreItems = result.hasMore || false;
+        this.#offset = this.items.length;
+
+        this.updateDisplayedItems();
+
+        this.#changeDetector.markForCheck();
+      });
+  }
+
+  #cancelCurrentSearch(): void {
+    if (this.#currentSearchSub) {
+      this.#currentSearchSub.unsubscribe();
+      this.#currentSearchSub = undefined;
       this.isLoadingMore = false;
       this.isSearching = false;
     }

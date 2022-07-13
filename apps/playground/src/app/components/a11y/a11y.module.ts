@@ -19,4 +19,6 @@ export class A11yRoutingModule {
 @NgModule({
   imports: [A11yRoutingModule],
 })
-export class A11yModule {}
+export class A11yModule {
+  public static routes = A11yRoutingModule.routes;
+}

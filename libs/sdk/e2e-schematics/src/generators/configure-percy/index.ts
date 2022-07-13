@@ -7,7 +7,7 @@ import {
 } from '@nrwl/devkit';
 import { insertStatement } from '@nrwl/workspace/src/generators/utils/insert-statement';
 
-import { getE2eProjects } from '../../utils/get-projects';
+import { getE2eProjects } from '../../utils';
 
 import { Schema } from './schema';
 
