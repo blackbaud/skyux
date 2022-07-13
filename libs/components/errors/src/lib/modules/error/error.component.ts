@@ -15,7 +15,7 @@ import { SkyErrorType } from './error-type';
 })
 export class SkyErrorComponent implements OnInit {
   /**
-   * Specifies an error type to use a set of pre-defined values for the image,
+   * Specifies a set of pre-defined values for the image,
    * title, and description.
    */
   @Input()
