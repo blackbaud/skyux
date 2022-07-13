@@ -1,12 +1,15 @@
 name: E2E
 
 on:
+  push:
+    branches:
+      - main
+      - 6.x.x
   pull_request:
 
 env:
   PERCY_POSTINSTALL_BROWSER: true
   GH_PAGES_OWNER: blackbaud
-  GH_PAGES_REPO: skyux-pr-preview
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,8 +20,7 @@ jobs:
     name: Install and cache dependencies
     runs-on: ubuntu-latest
     outputs:
-      projects: ${{ steps.affected.outputs.projects }}
-      e2eMap: ${{ steps.affected.outputs.e2eMap }}
+      parameters: ${{ steps.parameters.outputs.parameters }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,9 +48,11 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: setSHAs
         uses: nrwl/nx-set-shas@v2
-      - name: Check affected
-        id: affected
-        run: npx ts-node scripts/github-workflow-e2e-matrix
+      - name: Set workflow parameters
+        id: parameters
+        run: |
+          echo -n '::set-output name=parameters::'
+          npx skyux-dev e2e-workflow
 
   build-storybook:
     name: Build Project Storybook
@@ -56,7 +60,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        project: ${{ fromJSON(needs.install-deps.outputs.projects) }}
+        project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -135,21 +139,21 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./dist/storybooks/
+          path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Generate Storybook Composition
-        run: npx nx g @skyux/e2e-schematics:storybook-composition --projectsJson '${{ needs.install-deps.outputs.projects }}' --baseUrl ../storybooks/
+        run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
-      - name: Checkout ${{ env.GH_PAGES_REPO }}
+      - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v3
         with:
-          repository: ${{ env.GH_PAGES_OWNER }}/${{ env.GH_PAGES_REPO }}
+          repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
           fetch-depth: 1
-          path: ${{ env.GH_PAGES_REPO }}
+          path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
-        run: npx ts-node scripts/github-pages-publish
+        run: npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         env:
           GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
 
@@ -161,7 +165,7 @@ jobs:
       - publish
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.install-deps.outputs.e2eMap) }}
+      matrix: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
     steps:
       - uses: actions/checkout@v3
         with:
