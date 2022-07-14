@@ -12,6 +12,7 @@ import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyLinkListComponent } from '../link-list/link-list.component';
+import { SkyModalLinkListComponent } from '../modal-link-list/modal-link-list.component';
 import { SkyNeedsAttentionComponent } from '../needs-attention/needs-attention.component';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
@@ -46,6 +47,7 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyActionHubRelatedLinksSortPipe,
     SkyNeedsAttentionComponent,
     SkyLinkListComponent,
+    SkyModalLinkListComponent,
   ],
   exports: [
     SkyActionHubButtonsComponent,
