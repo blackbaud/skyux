@@ -27,4 +27,6 @@ export class IntegrationsRoutingModule {}
 @NgModule({
   imports: [IntegrationsRoutingModule],
 })
-export class IntegrationsModule {}
+export class IntegrationsModule {
+  public static routes = routes;
+}
