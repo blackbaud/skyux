@@ -15,6 +15,8 @@ export class DatepickerReactiveTestComponent implements OnInit {
 
   public dateFormat: string;
 
+  public disableFormOnCreation = false;
+
   public initialValue: Date | string;
 
   public isDisabled: boolean;
@@ -43,5 +45,8 @@ export class DatepickerReactiveTestComponent implements OnInit {
     this.datepickerForm = this.formBuilder.group({
       date: this.dateControl,
     });
+    if (this.disableFormOnCreation) {
+      this.datepickerForm.disable();
+    }
   }
 }
