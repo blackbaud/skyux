@@ -25,6 +25,13 @@ describe('add-pages-peer-dependency.schematic', () => {
     expect(runner.tasks.length).toBeGreaterThan(0);
   });
 
+  it('should add @skyux/modals to empty project', async () => {
+    tree.create('package.json', JSON.stringify({}));
+    const rule = addPagesPeerDependency();
+    await runner.callRule(rule, tree, {}).toPromise();
+    expect(runner.tasks.length).toBeGreaterThan(0);
+  });
+
   it('should not add @skyux/modals twice', async () => {
     tree.create(
       'package.json',
@@ -33,6 +40,20 @@ describe('add-pages-peer-dependency.schematic', () => {
           '@skyux/modals': '^0.0.0-PACKAGES_PLACEHOLDER',
         },
         devDependencies: {},
+      })
+    );
+    const rule = addPagesPeerDependency();
+    await runner.callRule(rule, tree, {}).toPromise();
+    expect(runner.tasks.length).toBe(0);
+  });
+
+  it('should not add @skyux/modals twice, dev dependency', async () => {
+    tree.create(
+      'package.json',
+      JSON.stringify({
+        devDependencies: {
+          '@skyux/modals': '^0.0.0-PACKAGES_PLACEHOLDER',
+        },
       })
     );
     const rule = addPagesPeerDependency();
