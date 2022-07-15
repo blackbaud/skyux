@@ -10,7 +10,7 @@ import path from 'path';
 
 import { JsonFile } from '../../utility/json-file';
 
-export default function addPagesPeerDependency(): Rule {
+export default function addPagesModalsPeerDependency(): Rule {
   return async (tree, context) => {
     const packageJson = new JsonFile(tree, 'package.json');
     const dependencies = packageJson.get(['dependencies']) || {};

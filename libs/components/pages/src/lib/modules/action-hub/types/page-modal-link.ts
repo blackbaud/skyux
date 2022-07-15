@@ -1,3 +1,4 @@
+import { NavigationExtras } from '@angular/router';
 import { SkyModalConfigurationInterface } from '@skyux/modals';
 
 import { SkyPageLinkInterface } from './page-link-interface';
@@ -7,13 +8,19 @@ import { SkyPageLinkInterface } from './page-link-interface';
  */
 export interface SkyPageModalLink extends SkyPageLinkInterface {
   /**
-   * Specifies the link text.
+   * Specifies the link destination.
    */
-  label: string;
+  permalink?: {
+    route?: {
+      commands: any[];
+      extras?: NavigationExtras;
+    };
+    url?: string;
+  };
   /**
    * Specifies the modal parameters.
    */
-  modal: {
+  modal?: {
     component: any;
     config?: SkyModalConfigurationInterface;
   };

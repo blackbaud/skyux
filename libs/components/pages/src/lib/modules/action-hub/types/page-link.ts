@@ -7,10 +7,6 @@ import { SkyPageLinkInterface } from './page-link-interface';
  */
 export interface SkyPageLink extends SkyPageLinkInterface {
   /**
-   * Specifies the link text.
-   */
-  label: string;
-  /**
    * Specifies the link destination.
    */
   permalink: {

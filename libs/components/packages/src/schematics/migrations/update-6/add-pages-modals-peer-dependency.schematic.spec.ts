@@ -3,7 +3,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import path from 'path';
 
-import addPagesPeerDependency from './add-pages-peer-dependency.schematic';
+import addPagesModalsPeerDependency from './add-pages-modals-peer-dependency.schematic';
 
 describe('add-pages-peer-dependency.schematic', () => {
   const collectionPath = path.join(__dirname, '../migration-collection.json');
@@ -20,14 +20,14 @@ describe('add-pages-peer-dependency.schematic', () => {
       'package.json',
       JSON.stringify({ dependencies: {}, devDependencies: {} })
     );
-    const rule = addPagesPeerDependency();
+    const rule = addPagesModalsPeerDependency();
     await runner.callRule(rule, tree, {}).toPromise();
     expect(runner.tasks.length).toBeGreaterThan(0);
   });
 
   it('should add @skyux/modals to empty project', async () => {
     tree.create('package.json', JSON.stringify({}));
-    const rule = addPagesPeerDependency();
+    const rule = addPagesModalsPeerDependency();
     await runner.callRule(rule, tree, {}).toPromise();
     expect(runner.tasks.length).toBeGreaterThan(0);
   });
@@ -42,7 +42,7 @@ describe('add-pages-peer-dependency.schematic', () => {
         devDependencies: {},
       })
     );
-    const rule = addPagesPeerDependency();
+    const rule = addPagesModalsPeerDependency();
     await runner.callRule(rule, tree, {}).toPromise();
     expect(runner.tasks.length).toBe(0);
   });
@@ -56,7 +56,7 @@ describe('add-pages-peer-dependency.schematic', () => {
         },
       })
     );
-    const rule = addPagesPeerDependency();
+    const rule = addPagesModalsPeerDependency();
     await runner.callRule(rule, tree, {}).toPromise();
     expect(runner.tasks.length).toBe(0);
   });
