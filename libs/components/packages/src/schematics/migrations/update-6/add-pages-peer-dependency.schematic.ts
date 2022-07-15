@@ -7,6 +7,7 @@ import {
 
 import fs from 'fs-extra';
 import path from 'path';
+
 import { JsonFile } from '../../utility/json-file';
 
 export default function addPagesPeerDependency(): Rule {
@@ -31,5 +32,5 @@ export default function addPagesPeerDependency(): Rule {
       overwrite: true,
     });
     context.addTask(new NodePackageInstallTask());
-  }
+  };
 }
