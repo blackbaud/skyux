@@ -59,6 +59,11 @@
       "version": "6.0.1",
       "factory": "./update-6/prettier-ignore-updates.schematic",
       "description": "Add new items to .prettierignore"
+    },
+    "add-pages-peer-dependency": {
+      "version": "6.7.0",
+      "factory": "./update-6/add-pages-peer-dependency.schematic",
+      "description": "Add '@skyux/pages' peer dependency"
     }
   }
 }
