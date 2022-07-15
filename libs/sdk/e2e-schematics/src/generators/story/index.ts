@@ -161,7 +161,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       .replace(/\.ts$/, '.spec.ts')}`,
   ];
 
-  // nx g @skyux/e2e-schematics:stories
+  // nx g @skyux-sdk/e2e-schematics:stories
   await storiesGenerator(tree, {
     project: normalizedOptions.project,
     cypressProject: normalizedOptions.cypressProject,

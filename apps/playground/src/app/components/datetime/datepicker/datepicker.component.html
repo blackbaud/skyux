@@ -1,3 +1,16 @@
+<sky-input-box>
+  <label class="sky-control-label" [for]="dateFormatInput.id"
+    >Date format</label
+  >
+  <input
+    class="sky-form-control"
+    placeholder="MM/DD/YYYY"
+    skyId
+    [(ngModel)]="dateFormat"
+    #dateFormatInput="skyId"
+  />
+</sky-input-box>
+
 <div
   class="app-screenshot"
   id="screenshot-datepicker-calendar"
@@ -26,6 +39,7 @@
       [skyDatepickerNoValidate]="noValidate"
       [startingDay]="startingDay"
       [strict]="strict"
+      [dateFormat]="dateFormat"
       [(ngModel)]="selectedDate"
       #date="ngModel"
     />
@@ -75,6 +89,7 @@
         type="text"
         [maxDate]="maxDate"
         [minDate]="minDate"
+        [dateFormat]="dateFormat"
         [skyDatepickerNoValidate]="noValidate"
         [startingDay]="startingDay"
       />
@@ -209,6 +224,7 @@
         [maxDate]="maxDate"
         [minDate]="minDate"
         [skyDatepickerNoValidate]="noValidate"
+        [dateFormat]="dateFormat"
         [startingDay]="startingDay"
         [strict]="strict"
         [(ngModel)]="selectedDate"

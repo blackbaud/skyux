@@ -480,6 +480,25 @@ export class SkyDatepickerInputDirective
   private getShortcutOrDateValue(value: string): Date | undefined {
     const num = Number(value);
     if (Number.isInteger(num)) {
+      // We require 8 digits in order to know that we have all information needed to determine what part of the number is the month (2), day (2), and year (4).
+      if (value.length === 8) {
+        const regex = new RegExp(/\b(MM)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/, 'g');
+        const formatTokensOnly = this.dateFormat
+          .match(regex)
+          .join('')
+          .replace(new RegExp(/Y+/), 'YYYY');
+
+        if (formatTokensOnly.length === 8) {
+          const date = this.dateFormatter.getDateFromString(
+            value,
+            formatTokensOnly,
+            true
+          );
+          if (this.dateFormatter.dateIsValid(date)) {
+            return date;
+          }
+        }
+      }
       const now = new Date();
       const shortcutDate = new Date(now.getFullYear(), now.getMonth(), num);
       const daysInMonth = shortcutDate.getDate();
