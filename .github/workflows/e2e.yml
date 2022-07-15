@@ -53,6 +53,11 @@ jobs:
         run: |
           echo -n '::set-output name=parameters::'
           npx skyux-dev e2e-workflow
+      - name: Show workflow parameters
+        run: |
+          echo 'Using workflow parameters:'
+          echo
+          echo '${{ steps.parameters.outputs.parameters }}' | jq
 
   build-storybook:
     name: Build Project Storybook
