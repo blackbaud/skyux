@@ -18,6 +18,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     sky_action_hub_related_links: { message: 'Related Links' },
     sky_action_hub_recent_links: { message: 'Recently Accessed' },
+    sky_action_hub_settings_links: { message: 'Settings' },
     sky_action_hub_needs_attention: { message: 'Needs Attention' },
     sky_action_hub_needs_attention_empty: {
       message: 'No issues currently need attention',

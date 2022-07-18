@@ -15,4 +15,6 @@ import { VerticalTabsetBackToTopComponent } from './vertical-tabset-back-to-top.
     VerticalTabsetBackToTopRoutingModule,
   ],
 })
-export class VerticalTabsetBackToTopModule {}
+export class VerticalTabsetBackToTopModule {
+  public static routes = VerticalTabsetBackToTopRoutingModule.routes;
+}
