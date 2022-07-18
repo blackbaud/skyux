@@ -2,6 +2,8 @@ export * from './lib/modules/action-hub/action-hub.module';
 export * from './lib/modules/action-hub/types/action-hub-needs-attention';
 export * from './lib/modules/action-hub/types/page-link';
 export * from './lib/modules/action-hub/types/page-links-input';
+export * from './lib/modules/action-hub/types/page-modal-link';
+export * from './lib/modules/action-hub/types/page-modal-links-input';
 export * from './lib/modules/action-hub/types/recent-link';
 export * from './lib/modules/action-hub/types/recent-links-input';
 export * from './lib/modules/page-header/page-header.module';
@@ -12,3 +14,4 @@ export { SkyActionHubComponent as λ1 } from './lib/modules/action-hub/action-hu
 export { SkyActionHubButtonsComponent as λ2 } from './lib/modules/action-hub/action-hub-buttons.component';
 export { SkyActionHubContentComponent as λ3 } from './lib/modules/action-hub/action-hub-content.component';
 export { SkyPageHeaderComponent as λ4 } from './lib/modules/page-header/page-header.component';
+export { SkyModalLinkListComponent as λ5 } from './lib/modules/modal-link-list/modal-link-list.component';

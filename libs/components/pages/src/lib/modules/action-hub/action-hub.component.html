@@ -57,6 +57,10 @@
         [links]="recentLinks | skyActionHubRecentLinksResolve"
         [title]="'sky_action_hub_recent_links' | skyLibResources"
       ></sky-link-list>
+      <sky-modal-link-list
+        [links]="settingsLinks"
+        [title]="'sky_action_hub_settings_links' | skyLibResources"
+      ></sky-modal-link-list>
     </sky-column>
   </sky-row>
 </sky-fluid-grid>
