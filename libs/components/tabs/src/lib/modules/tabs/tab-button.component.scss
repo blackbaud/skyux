@@ -44,6 +44,14 @@
         color: $sky-text-color-deemphasized;
       }
     }
+
+    a {
+      color: var(--sky-text-color-default);
+    }
+
+    a:not(:active):visited {
+      color: var(--sky-text-color-deemphasized);
+    }
   }
 
   .sky-tab-btn-closeable {

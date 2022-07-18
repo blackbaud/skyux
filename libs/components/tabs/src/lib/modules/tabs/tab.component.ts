@@ -155,7 +155,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     private tabsetService: SkyTabsetService
   ) {
     const id = nextId++;
-    this.tabPanelId = `sky-tab-${id}`;
+    this.tabPanelId = `sky-tab-${id}-${new Date().getTime()}`;
     this.tabButtonId = `${this.tabPanelId}-nav-btn`;
   }
 
