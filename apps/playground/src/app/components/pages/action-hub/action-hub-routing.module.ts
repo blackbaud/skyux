@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { ActionHubPlaygroundRecentLinksComponent } from './recent/action-hub-recent-links.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: ComponentRouteInfo[] = [
   {
@@ -12,6 +13,15 @@ const routes: ComponentRouteInfo[] = [
     data: {
       name: 'Action hub (recently accessed)',
       icon: 'bell-o',
+      library: 'pages',
+    },
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    data: {
+      name: 'Action hub (settings)',
+      icon: 'gear',
       library: 'pages',
     },
   },
