@@ -14,8 +14,9 @@ $indicator-size: 22px;
   background-color: $sky-background-color-neutral-light;
   padding: 1px;
   border-radius: $indicator-size + 2;
-  flex: 1 0 $indicator-size * 2 + 2;
+  flex: none;
   line-height: $sky-line-height-base;
+  width: $indicator-size * 2 + 2;
 
   &:hover:not(.sky-toggle-switch-disabled) {
     border-color: $sky-highlight-color-info;
@@ -71,7 +72,7 @@ $indicator-size: 22px;
   .sky-toggle-switch-button {
     background-color: $sky-color-white;
     border-width: 1px;
-    flex-basis: 48px;
+    width: 48px;
     transition: border-color $sky-transition-time-short,
       box-shadow $sky-transition-time-short;
 
