@@ -9,19 +9,4 @@
   .sky-lookup-show-more-no-results {
     padding: $sky-theme-modern-space-xl 0;
   }
-
-  .sky-lookup-show-more-toolbar-wrapper.sky-viewkeeper-fixed
-    ::ng-deep
-    .sky-toolbar-container {
-    background-color: #fff;
-
-    & .sky-toolbar-section {
-      padding-left: $sky-theme-modern-space-xl;
-      padding-right: $sky-theme-modern-space-xl;
-    }
-  }
-
-  .sky-lookup-show-more-modal ::ng-deep .sky-modal-header {
-    box-shadow: none !important;
-  }
 }
