@@ -24,6 +24,10 @@
       color: #fff;
     }
   }
+
+  &.sky-btn-tab-wrapper-disabled {
+    cursor: not-allowed;
+  }
 }
 
 .sky-tab-btn-closeable {
