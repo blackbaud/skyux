@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SkyActionHubNeedsAttention } from './types/action-hub-needs-attention';
 import { SkyPageLink } from './types/page-link';
 import { SkyPageLinksInput } from './types/page-links-input';
+import { SkyPageModalLinksInput } from './types/page-modal-links-input';
 import { SkyRecentLinksInput } from './types/recent-links-input';
 
 /**
@@ -38,6 +39,12 @@ export class SkyActionHubComponent {
    */
   @Input()
   public relatedLinks: SkyPageLinksInput = [];
+
+  /**
+   * Provides a list of settings with modal parameters, or `"loading"` to display a wait indicator.
+   */
+  @Input()
+  public settingsLinks: SkyPageModalLinksInput = [];
 
   /**
    * Specifies the page title.

@@ -15,4 +15,6 @@ import { ViewkeeperTabsetComponent } from './viewkeeper-tabset.component';
     ViewkeeperTabsetRoutingModule,
   ],
 })
-export class ViewkeeperTabsetModule {}
+export class ViewkeeperTabsetModule {
+  public static routes = ViewkeeperTabsetRoutingModule.routes;
+}
