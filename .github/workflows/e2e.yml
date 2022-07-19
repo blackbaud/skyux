@@ -158,9 +158,10 @@ jobs:
           path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
       - name: Publish preview and comment on PR
-        run: npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
+        run: |
+          npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         env:
-          GITHUB_TOKEN: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
   e2e:
     name: End to end tests
