@@ -16,7 +16,7 @@
       (openTab)="openTabClick()"
       [active]="1"
     >
-      <sky-tab [tabHeading]="'Tab 1'" (close)="closeTab()">
+      <sky-tab [disabled]="true" [tabHeading]="'Tab 1'" (close)="closeTab()">
         Tab 1 Content
       </sky-tab>
       <sky-tab [tabHeading]="'Tab 2'" (close)="closeTab()">

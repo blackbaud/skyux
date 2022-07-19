@@ -20,6 +20,7 @@
   &.sky-btn-tab-disabled {
     background-color: $sky-background-color-disabled;
     cursor: default;
+    pointer-events: none;
     outline: none;
     text-decoration: none;
 
