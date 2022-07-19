@@ -171,7 +171,8 @@ jobs:
       - publish
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
+      matrix:
+        include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eMap }}
     steps:
       - uses: actions/checkout@v3
         with:
