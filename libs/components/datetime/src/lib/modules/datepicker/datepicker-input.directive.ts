@@ -347,6 +347,10 @@ export class SkyDatepickerInputDirective
   public validate(control: AbstractControl): ValidationErrors {
     if (!this.control) {
       this.control = control;
+      // Account for any date conversion that may have occurred prior to validation.
+      if (this.control.value !== this.value) {
+        this.control.patchValue(this.value, { emitEvent: false });
+      }
     }
 
     if (this.skyDatepickerNoValidate) {

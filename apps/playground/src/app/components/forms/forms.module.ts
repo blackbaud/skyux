@@ -7,6 +7,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
   },
+  {
+    path: 'toggle-switch',
+    loadChildren: () =>
+      import('./toggle-switch/toggle-switch.module').then(
+        (m) => m.ToggleSwitchModule
+      ),
+  },
 ];
 
 @NgModule({
