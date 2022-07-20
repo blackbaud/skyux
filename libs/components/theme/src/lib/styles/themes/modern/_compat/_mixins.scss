@@ -105,6 +105,7 @@
 
   &.sky-btn-tab-disabled {
     background-color: inherit;
+    @include sky-deemphasized;
   }
 }
 
