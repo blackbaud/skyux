@@ -228,10 +228,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public viewkeeperEnabled(): boolean {
-    const el = this.elRef.nativeElement.querySelector(
-      'sky-modal-content > .sky-viewkeeper-fixed'
+    return this.componentAdapter.modalContentHasDirectChildViewkeeper(
+      this.elRef
     );
-    return !!el;
   }
 
   private isSizeEqual(actualSize: string, size: string) {
