@@ -142,6 +142,10 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     this.updateData();
   }
 
+  public onIsSelectedChange(): void {
+    this.updateData();
+  }
+
   public cancelChanges(): void {
     this.instance.cancel();
   }
@@ -156,10 +160,6 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     this.instance.save(
       this.columnData.filter((col) => col.isSelected || col.alwaysDisplayed)
     );
-  }
-
-  public onIsSelectedChange(): void {
-    this.updateData();
   }
 
   private formatColumnOptions(): Column[] {
