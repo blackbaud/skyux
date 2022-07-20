@@ -1,0 +1,5 @@
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybook/)
+
+Component Storybooks:
+<% storybooks.forEach(function(storybook){ %>
+- [<%=storybook%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybooks/<%=storybook%>/)<% }) %>
