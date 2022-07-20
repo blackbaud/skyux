@@ -37,6 +37,11 @@
       "factory": "./src/generators/story",
       "schema": "./src/generators/story/schema.json",
       "description": "add a new story to storybook project"
+    },
+    "pr-comment": {
+      "factory": "./src/generators/pr-comment/generator",
+      "schema": "./src/generators/pr-comment/schema.json",
+      "description": "pr-comment generator"
     }
   }
 }

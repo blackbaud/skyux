@@ -56,7 +56,7 @@ export default async function (tree: Tree, options: Schema) {
     );
 
     // Configure storybook composition project
-    // nx g @skyux/e2e-schematics:storybook-configuration storybook
+    // nx g @skyux-sdk/e2e-schematics:storybook-configuration storybook
     await configureStorybook(tree, { name: 'storybook' });
 
     updateJson<PackageJson & { percy?: unknown }>(
