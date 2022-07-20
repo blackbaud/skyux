@@ -41,20 +41,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public set dataState(value: SkyDataManagerState) {
     this._dataState = value;
-    this.displayedColumnData = this.searchColumns(
-      this.columnData.filter((col) => !col.alwaysDisplayed)
-    );
-
-    if (value.onlyShowSelected) {
-      this.displayedColumnData = this.displayedColumnData.filter(
-        (col) => col.isSelected
-      );
-    }
-
-    this.isAnyDisplayedColumnSelected =
-      this.displayedColumnData.find(
-        (aDisplayedColumn) => aDisplayedColumn.isSelected === true
-      ) !== undefined;
+    this.updateData();
   }
 
   public columnData: Column[];
@@ -102,6 +89,23 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     this._ngUnsubscribe.complete();
   }
 
+  public updateData(): void {
+    this.displayedColumnData = this.searchColumns(
+      this.columnData.filter((col) => !col.alwaysDisplayed)
+    );
+
+    if (this.dataState.onlyShowSelected) {
+      this.displayedColumnData = this.displayedColumnData.filter(
+        (col) => col.isSelected
+      );
+    }
+
+    this.isAnyDisplayedColumnSelected =
+      this.displayedColumnData.find(
+        (aDisplayedColumn) => aDisplayedColumn.isSelected === true
+      ) !== undefined;
+  }
+
   public searchColumns(columns: Column[]): Column[] {
     let searchedColumns = columns;
     const searchText =
@@ -130,18 +134,12 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
 
   public selectAll(): void {
     this.displayedColumnData.forEach((column) => (column.isSelected = true));
-    this.isAnyDisplayedColumnSelected =
-      this.displayedColumnData.find(
-        (aDisplayedColumn) => aDisplayedColumn.isSelected === true
-      ) !== undefined;
+    this.updateData();
   }
 
   public clearAll(): void {
     this.displayedColumnData.forEach((column) => (column.isSelected = false));
-    this.isAnyDisplayedColumnSelected =
-      this.displayedColumnData.find(
-        (aDisplayedColumn) => aDisplayedColumn.isSelected === true
-      ) !== undefined;
+    this.updateData();
   }
 
   public cancelChanges(): void {
@@ -161,10 +159,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
   }
 
   public onIsSelectedChange(): void {
-    this.isAnyDisplayedColumnSelected =
-      this.displayedColumnData.find(
-        (aDisplayedColumn) => aDisplayedColumn.isSelected === true
-      ) !== undefined;
+    this.updateData();
   }
 
   private formatColumnOptions(): Column[] {
