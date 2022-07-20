@@ -83,21 +83,9 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-      - name: Retrieve nx cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            .angular
-            node_modules/.cache/nx
-            dist
-          key: cache-nx-storybook-${{ matrix.project }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-nx-storybook-${{ matrix.project }}-
-            cache-nx-storybook-
-            cache-nx-
       - name: Build ${{ matrix.project }}
         run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci --outputDir=dist/storybooks/${{ matrix.project }}
+          npx nx run ${{ matrix.project }}:build-storybook:ci --skip-nx-cache --outputDir=dist/storybooks/${{ matrix.project }}
           npx sb extract ./dist/storybooks/${{ matrix.project }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -130,17 +118,6 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-      - name: Retrieve nx cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            .angular
-            node_modules/.cache/nx
-            dist/storybook
-          key: cache-nx-publish-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            cache-nx-publish-
-            cache-nx-
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -148,7 +125,7 @@ jobs:
       - name: Generate Storybook Composition
         run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
+        run: npx nx run storybook:build-storybook:ci --skip-nx-cache --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v3
         with:
