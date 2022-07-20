@@ -26,13 +26,17 @@
     </sky-data-manager>
   </sky-modal-content>
   <sky-modal-footer>
-    <sky-alert
+    <div
+      class="sky-data-manager-column-picker-footer-stacked-indicator"
       *ngIf="!isAnyDisplayedColumnSelected"
-      alertType="danger"
-      [closeable]="false"
     >
-      Select at least one column.
-    </sky-alert>
+      <sky-status-indicator descriptionType="error" indicatorType="danger">
+        {{
+          'skyux_data_manager_select_column_status_indicator_title'
+            | skyLibResources
+        }}
+      </sky-status-indicator>
+    </div>
     <button
       sky-cmp-id="apply-changes"
       class="sky-btn sky-btn-primary"

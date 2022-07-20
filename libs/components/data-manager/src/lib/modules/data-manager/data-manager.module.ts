@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyRadioModule } from '@skyux/forms';
-import { SkyAlertModule, SkyIconModule } from '@skyux/indicators';
+import { SkyIconModule, SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyBackToTopModule, SkyToolbarModule } from '@skyux/layout';
 import {
   SkyFilterModule,
@@ -40,7 +40,6 @@ import { SkyDataViewComponent } from './data-view.component';
   imports: [
     CommonModule,
     FormsModule,
-    SkyAlertModule,
     SkyBackToTopModule,
     SkyCheckboxModule,
     SkyDataManagerResourcesModule,
@@ -50,6 +49,7 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyRadioModule,
     SkyRepeaterModule,
     SkySearchModule,
+    SkyStatusIndicatorModule,
     SkySortModule,
     SkyToolbarModule,
     SkyViewkeeperModule,
