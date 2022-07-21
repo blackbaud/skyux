@@ -168,6 +168,12 @@ jobs:
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Percy ${{ matrix.project }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
+        env:
+          PERCY_TOKEN: ${{ secrets[matrix.token] }}
+      - name: Percy ${{ matrix.project }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-storybook/storybooks/${{ github.ref_name }}/${{ matrix.project }}/
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
