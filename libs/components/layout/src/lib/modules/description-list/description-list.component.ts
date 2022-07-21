@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -12,7 +11,6 @@ import {
   QueryList,
   ViewChild,
 } from '@angular/core';
-import { MutationObserverService } from '@skyux/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,7 +31,7 @@ import { SkyDescriptionListModeType } from './types/description-list-mode-type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
+  implements AfterContentInit, OnDestroy
 {
   /**
    * Specifies a default description to display when no description is provided
@@ -69,8 +67,6 @@ export class SkyDescriptionListComponent
   @ContentChildren(SkyDescriptionListContentComponent)
   public contentComponents: QueryList<SkyDescriptionListContentComponent>;
 
-  private contentObserver: MutationObserver;
-
   @ViewChild('descriptionListElement', {
     read: ElementRef,
     static: true,
@@ -84,8 +80,7 @@ export class SkyDescriptionListComponent
   constructor(
     private adapterService: SkyDescriptionListAdapterService,
     private changeDetector: ChangeDetectorRef,
-    private descriptionListService: SkyDescriptionListService,
-    private mutationSvc: MutationObserverService
+    private descriptionListService: SkyDescriptionListService
   ) {}
 
   public ngAfterContentInit(): void {
@@ -101,21 +96,9 @@ export class SkyDescriptionListComponent
       });
   }
 
-  public ngAfterViewInit(): void {
-    this.contentObserver = this.mutationSvc.create(() => {
-      this.changeDetector.markForCheck();
-    });
-    this.contentObserver.observe(this.elementRef.nativeElement, {
-      childList: true,
-      characterData: true,
-      subtree: true,
-    });
-  }
-
   public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
-    this.contentObserver.disconnect();
   }
 
   @HostListener('window:resize')
