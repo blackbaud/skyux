@@ -111,7 +111,7 @@ a.sky-btn {
   @include sky-btn-tab();
 }
 
-.sky-btn-tab-close:not(.sky-btn-tab-close-disabled) {
+.sky-btn-tab-close {
   background-color: transparent;
   border: none;
   color: $sky-text-color-deemphasized;
@@ -123,14 +123,6 @@ a.sky-btn {
     color: $sky-text-color-default;
     transition: color $sky-transition-time-short;
   }
-}
-
-.sky-btn-tab-close-disabled {
-  background-color: transparent;
-  border: none;
-  color: $sky-text-color-deemphasized;
-  line-height: 1.4;
-  margin-left: $sky-margin-half;
 }
 
 .sky-tab-header-count {
