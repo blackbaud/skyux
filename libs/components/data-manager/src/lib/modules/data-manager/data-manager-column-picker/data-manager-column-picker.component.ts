@@ -101,7 +101,7 @@ export class SkyDataManagerColumnPickerComponent implements OnDestroy, OnInit {
     }
 
     this.isAnyDisplayedColumnSelected = this.displayedColumnData.some(
-      (aDisplayedColumn) => aDisplayedColumn.isSelected
+      (col) => col.isSelected
     );
   }
 
