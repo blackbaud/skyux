@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   templateUrl: './radio.component.html',
 })
 export class RadioComponent implements OnInit {
-  public disabled = true;
+  public disabled = false;
 
   public iconSelectedValue = '1';
 
