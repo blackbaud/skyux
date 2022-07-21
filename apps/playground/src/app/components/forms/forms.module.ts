@@ -8,6 +8,11 @@ const routes: Routes = [
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
   },
   {
+    path: 'radio',
+    loadChildren: () =>
+      import('./radio/radio.module').then((m) => m.RadioModule),
+  },
+  {
     path: 'toggle-switch',
     loadChildren: () =>
       import('./toggle-switch/toggle-switch.module').then(
