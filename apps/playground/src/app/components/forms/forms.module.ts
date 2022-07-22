@@ -19,6 +19,11 @@ const routes: Routes = [
         (m) => m.ToggleSwitchModule
       ),
   },
+  {
+    path: 'checkbox',
+    loadChildren: () =>
+      import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
+  },
 ];
 
 @NgModule({
