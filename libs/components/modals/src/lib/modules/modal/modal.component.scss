@@ -90,23 +90,6 @@
   @include sky-border(light, bottom);
 }
 
-.sky-modal-viewkeeper {
-  .sky-modal-header {
-    box-shadow: none !important;
-  }
-
-  .sky-modal-content
-    ::ng-deep
-    sky-modal-content
-    > .sky-viewkeeper-fixed
-    > sky-toolbar
-    .sky-toolbar-container {
-    background-color: #fff;
-    padding-left: $sky-theme-modern-space-xl;
-    padding-right: $sky-theme-modern-space-xl;
-  }
-}
-
 .sky-modal-header-buttons {
   // An extremely small value is needed to allow the
   // buttons to wrap on extra-small breakpoints (<200px).
@@ -205,6 +188,23 @@
     margin-bottom: initial;
     padding-top: initial;
     width: 100%;
+  }
+
+  .sky-modal-viewkeeper {
+    .sky-modal-header {
+      box-shadow: none !important;
+    }
+
+    .sky-modal-content
+      ::ng-deep
+      sky-modal-content
+      > .sky-viewkeeper-fixed
+      > sky-toolbar
+      .sky-toolbar-container {
+      background-color: #fff;
+      padding-left: $sky-theme-modern-space-xl;
+      padding-right: $sky-theme-modern-space-xl;
+    }
   }
 }
 
