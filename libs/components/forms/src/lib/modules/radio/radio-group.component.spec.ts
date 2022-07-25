@@ -55,7 +55,7 @@ describe('Radio group component (reactive)', function () {
     fixture.destroy();
   });
 
-  it('should update ngModel properly when nothing is selected on init', fakeAsync(function () {
+  it('should update the form properly when nothing is selected on init', fakeAsync(function () {
     fixture.detectChanges();
 
     expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
@@ -73,7 +73,31 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm.dirty).toEqual(true);
   }));
 
-  it('should update ngModel properly when form is initialized with values', fakeAsync(function () {
+  it('should update the form properly when form is initialized with values', fakeAsync(function () {
+    componentInstance.initialValue = componentInstance.options[0];
+
+    fixture.detectChanges();
+
+    expect(componentInstance.radioForm.value).toEqual({
+      radioGroup: { name: 'Lillith Corharvest', disabled: false },
+    });
+    expect(componentInstance.radioForm.touched).toEqual(false);
+    expect(componentInstance.radioForm.pristine).toEqual(true);
+    expect(componentInstance.radioForm.dirty).toEqual(false);
+
+    clickCheckbox(fixture, 1);
+
+    expect(componentInstance.radioForm.value).toEqual({
+      radioGroup: { name: 'Harima Kenji', disabled: false },
+    });
+    expect(componentInstance.radioForm.touched).toEqual(true);
+    expect(componentInstance.radioForm.pristine).toEqual(false);
+    expect(componentInstance.radioForm.dirty).toEqual(true);
+  }));
+
+  it('should not update dirty state when form value is updated programatically', fakeAsync(function () {
+    fixture.detectChanges();
+
     componentInstance.radioForm.patchValue({
       radioGroup: componentInstance.options[0],
     });
@@ -97,7 +121,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm.dirty).toEqual(true);
   }));
 
-  it('should mark as touched after losing focus', fakeAsync(function () {
+  it('should mark the form as touched after losing focus', fakeAsync(function () {
     fixture.detectChanges();
     tick();
 
@@ -113,7 +137,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm.touched).toEqual(true);
   }));
 
-  it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
+  it('should update the the form properly when radio button is changed', fakeAsync(function () {
     fixture.detectChanges();
 
     const radios = getRadios(fixture);
@@ -126,7 +150,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioGroupComponent.value).toEqual(value);
   }));
 
-  it('should update the radio buttons properly when ngModel is changed', fakeAsync(function () {
+  it('should update the radio buttons properly when the form is changed', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
     expect(componentInstance.radioGroupComponent.value.name).toEqual(
@@ -164,7 +188,7 @@ describe('Radio group component (reactive)', function () {
     expect(radioGroupDiv.getAttribute('aria-required')).toBe('true');
   }));
 
-  it('should update the ngModel properly when radio button is required and changed', fakeAsync(() => {
+  it('should update the form properly when radio button is required and changed', fakeAsync(() => {
     componentInstance.required = true;
     fixture.detectChanges();
 
@@ -355,6 +379,8 @@ describe('Radio group component (reactive)', function () {
   }));
 
   it('should support resetting form control when fields are added dynamically', fakeAsync(function () {
+    fixture.detectChanges();
+
     componentInstance.radioForm.patchValue({
       radioGroup: componentInstance.options[0],
     });
@@ -392,7 +418,46 @@ describe('Radio group component (reactive)', function () {
     });
   }));
 
+  it('should disable the radio buttons when the form is disabled on init', fakeAsync(function () {
+    componentInstance.initialDisabled = true;
+    fixture.detectChanges();
+    tick();
+
+    fixture.detectChanges();
+    tick();
+
+    expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
+    expect(componentInstance.radioForm.touched).toEqual(false);
+    expect(componentInstance.radioForm.pristine).toEqual(true);
+    expect(componentInstance.radioForm.dirty).toEqual(false);
+    expect(componentInstance.radioForm.disabled).toEqual(true);
+
+    const inputArray = Array.from(getRadios(fixture));
+    const labelArray = Array.from(getRadioLabels(fixture));
+
+    for (const input of inputArray) {
+      expect(input.getAttribute('disabled')).not.toBeNull();
+    }
+    for (const label of labelArray) {
+      expect(label).toHaveCssClass('sky-switch-disabled');
+    }
+
+    // Call form control's enable method. Expect form to be enabled.
+    componentInstance.radioForm.get('radioGroup').enable();
+    fixture.detectChanges();
+    tick();
+
+    for (const input of inputArray) {
+      expect(input.getAttribute('disabled')).toBeNull();
+    }
+    for (const label of labelArray) {
+      expect(label).not.toHaveCssClass('sky-switch-disabled');
+    }
+  }));
+
   it(`should update disabled attribute and disabled class when form control's disable method is called`, fakeAsync(() => {
+    fixture.detectChanges();
+
     const inputArray = Array.from(getRadios(fixture));
     const labelArray = Array.from(getRadioLabels(fixture));
 

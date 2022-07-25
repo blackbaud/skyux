@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';
@@ -6,10 +6,14 @@ import { SkyRadioGroupComponent } from '../radio-group.component';
 @Component({
   templateUrl: './radio-group-reactive.component.fixture.html',
 })
-export class SkyRadioGroupReactiveFixtureComponent {
+export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   public ariaLabel: string;
 
   public ariaLabelledBy = 'radio-group-label';
+
+  public initialDisabled = false;
+
+  public initialValue: unknown = null;
 
   public options = [
     { name: 'Lillith Corharvest', disabled: false },
@@ -17,8 +21,7 @@ export class SkyRadioGroupReactiveFixtureComponent {
     { name: 'Harry Mckenzie', disabled: false },
   ];
 
-  public radioControl = new FormControl();
-
+  public radioControl: FormControl;
   public radioForm: FormGroup;
 
   public required = false;
@@ -30,7 +33,14 @@ export class SkyRadioGroupReactiveFixtureComponent {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.radioControl = new FormControl({
+      value: this.initialValue,
+      disabled: this.initialDisabled,
+    });
+
     this.radioForm = this.fb.group({
       radioGroup: this.radioControl,
     });
