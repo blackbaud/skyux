@@ -5,11 +5,17 @@ import { CheckboxDemoComponent as CheckboxBasicDemoComponent } from '../code-exa
 import { CheckboxDemoModule as CheckboxBasicDemoModule } from '../code-examples/forms/checkbox/basic/checkbox-demo.module';
 import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.component';
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
+import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
+import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
 
 const routes: Routes = [
   {
     path: 'checkbox/basic',
     component: CheckboxBasicDemoComponent,
+  },
+  {
+    path: 'radio/inline-help',
+    component: InlineHelpRadioDemoComponent,
   },
   {
     path: 'checkbox/inline-help',
@@ -26,8 +32,9 @@ export class FormsRoutingModule {}
 @NgModule({
   imports: [
     CheckboxBasicDemoModule,
-    InlineHelpCheckboxDemoModule,
     FormsRoutingModule,
+    InlineHelpCheckboxDemoModule,
+    InlineHelpRadioDemoModule,
   ],
 })
 export class FormsModule {}

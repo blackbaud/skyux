@@ -16,6 +16,8 @@ export class RadioComponent implements OnInit {
 
   public required = false;
 
+  public showInlineHelp = false;
+
   public seasons = [
     { name: 'Spring', disabled: false },
     { name: 'Summer', disabled: false },
@@ -43,5 +45,9 @@ export class RadioComponent implements OnInit {
     } else {
       this.radioForm.enable();
     }
+  }
+
+  public onToggleInlineHelpClick(): void {
+    this.showInlineHelp = !this.showInlineHelp;
   }
 }
