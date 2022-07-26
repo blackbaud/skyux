@@ -153,6 +153,7 @@ describe('Description list component', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
     const descriptionEls = getDescriptionEls(list1El);
 
+    expect(descriptionEls[2].childNodes[1]).toBeVisible();
     expect(descriptionEls[2]).toHaveText('None found.');
   });
 
