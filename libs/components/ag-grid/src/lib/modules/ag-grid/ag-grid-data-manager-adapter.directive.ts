@@ -62,10 +62,7 @@ export class SkyAgGridDataManagerAdapterDirective
   ) {}
 
   public ngAfterContentInit(): void {
-    this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
-      '.ag-header',
-      '.ag-body-horizontal-scroll',
-    ]);
+    this.dataManagerSvc.setViewkeeperClasses(this.viewId, ['.ag-header']);
 
     this.viewConfig = this.dataManagerSvc.getViewById(this.viewId);
     this.checkForAgGrid();
@@ -154,6 +151,10 @@ export class SkyAgGridDataManagerAdapterDirective
     this.currentAgGrid = agGrid;
 
     agGrid.gridReady.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+      this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
+        '.ag-header',
+        '.ag-body-horizontal-scroll',
+      ]);
       this.viewConfig.onSelectAllClick = this.selectAll.bind(this);
       this.viewConfig.onClearAllClick = this.clearAll.bind(this);
 
