@@ -141,7 +141,7 @@
     "@percy/storybook": "4.3.0",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#f6c1716de90bfc5e2288306a741e8d9060abd0b7",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#ee88c61d504e20ea2c133d07695affc0c907c73b",
     "@storybook/addon-a11y": "6.5.9",
     "@storybook/addon-essentials": "6.5.9",
     "@storybook/angular": "6.5.9",

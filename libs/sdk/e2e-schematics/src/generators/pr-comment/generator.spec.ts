@@ -28,6 +28,21 @@ describe('pr-comment generator', () => {
     );
   });
 
+  it('should generate files with apps', async () => {
+    await generator(appTree, {
+      ...options,
+      apps: 'app-1,app-2',
+    });
+    expect(appTree.isFile('dist/pr_comment.md')).toBeTruthy();
+    expect(appTree.read('dist/pr_comment.md', 'utf-8')).toMatchSnapshot(
+      'dist/pr_comment.md'
+    );
+    expect(appTree.isFile('dist/README.md')).toBeTruthy();
+    expect(appTree.read('dist/README.md', 'utf-8')).toMatchSnapshot(
+      'dist/README.md'
+    );
+  });
+
   it('should throw errors', async () => {
     await expect(
       generator(appTree, {
