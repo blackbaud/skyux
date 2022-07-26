@@ -129,7 +129,7 @@ jobs:
       - name: Build ${{ matrix.app }}
         run: |
           npx nx build ${{ matrix.app }} --skip-nx-cache \
-            --outputDir=dist/apps/${{ matrix.app }} \
+            --outputPath=dist/apps/${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/" \
             --deployUrl="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
         if: ${{ github.event_name == 'pull_request' }}
