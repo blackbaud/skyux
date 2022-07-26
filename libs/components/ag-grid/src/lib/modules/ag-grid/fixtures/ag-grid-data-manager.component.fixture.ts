@@ -60,6 +60,9 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
 
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
+    context: {
+      enableTopHorizontalScroll: true,
+    },
   };
 
   public viewConfig: SkyDataViewConfig = {

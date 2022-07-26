@@ -72,6 +72,9 @@ export class DataManagerLargeComponent implements OnInit {
             cellRendererFramework: CustomLinkComponent,
           },
         },
+        context: {
+          enableTopHorizontalScroll: true,
+        },
       },
     });
 
