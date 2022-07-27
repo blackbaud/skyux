@@ -146,6 +146,14 @@ describe('Toggle switch component', () => {
       expect(buttonElement.tabIndex).toEqual(0);
     });
 
+    it('should show inline help', () => {
+      testComponent.showInlineHelp = true;
+      fixture.detectChanges();
+      expect(
+        toggleNativeElement.querySelector('.sky-help-inline')
+      ).toBeTruthy();
+    });
+
     it('should pass accessibility', async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {

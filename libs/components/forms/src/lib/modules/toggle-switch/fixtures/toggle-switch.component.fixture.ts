@@ -8,6 +8,7 @@ export class SkyToggleSwitchFixtureComponent {
   public isDisabled = false;
   public customTabIndex = 0;
   public multiple = false;
+  public showInlineHelp = false;
 
   public checkChanged(event: any): void {
     this.isChecked = event.checked;
