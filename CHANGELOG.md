@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.9.0](https://github.com/blackbaud/skyux/compare/6.8.0...6.9.0) (2022-07-27)
+
+### Features
+
+- **components/forms:** add inline help support for checkbox component ([#354](https://github.com/blackbaud/skyux/issues/354)) ([49d2d3e](https://github.com/blackbaud/skyux/commit/49d2d3e2c8482eaf5f07e65a54c823f415c5ea02))
+- **components/forms:** add inline help support for radio component ([#355](https://github.com/blackbaud/skyux/issues/355)) ([6e0146c](https://github.com/blackbaud/skyux/commit/6e0146c786bed7a23cc629bb022f6e554fc2a9a2))
+- **components/indicators:** update icons and moment dependencies ([#359](https://github.com/blackbaud/skyux/issues/359)) ([8578e81](https://github.com/blackbaud/skyux/commit/8578e810fc090a3e48908717c1f024fa915e69de)), closes [#34](https://github.com/blackbaud/skyux/issues/34) [#35](https://github.com/blackbaud/skyux/issues/35) [#33](https://github.com/blackbaud/skyux/issues/33)
+
+### Bug Fixes
+
+- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
+- **components/indicators:** update icons cdn link ([#360](https://github.com/blackbaud/skyux/issues/360)) ([4c42599](https://github.com/blackbaud/skyux/commit/4c425996daede636b7c5100378c7c82aa0e2e70a))
+- **components/modals:** viewkept toolbars now style correctly at the top of modern theme modals ([#347](https://github.com/blackbaud/skyux/issues/347)) ([1e570dd](https://github.com/blackbaud/skyux/commit/1e570dd02a11594d04f905ed817c67a97455ca91))
+
 ## [6.8.0](https://github.com/blackbaud/skyux/compare/6.7.0...6.8.0) (2022-07-22)
 
 ### Features
