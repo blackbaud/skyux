@@ -20,6 +20,11 @@
       "description": "Comma separated list of storybooks to include in the comment",
       "alias": "s",
       "x-prompt": "Which storybook projects should be listed?"
+    },
+    "apps": {
+      "type": "string",
+      "description": "Comma separated list of apps to include in the comment",
+      "alias": "a"
     }
   },
   "required": ["pr", "storybooks"]
