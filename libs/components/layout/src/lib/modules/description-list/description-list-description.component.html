@@ -1,9 +1,9 @@
 <ng-template #descriptionTemplateRef>
-  <span #valueEl>
-    <ng-content></ng-content>
-  </span>
+  <span skyTrim class="sky-description-list-description"
+    ><ng-content></ng-content
+  ></span>
   <span
-    *ngIf="!valueEl.textContent.trim()"
+    class="sky-description-list-default-value"
     data-sky-id="sky-description-list-default-value"
     [skyThemeClass]="{
       'sky-font-deemphasized': 'modern',
