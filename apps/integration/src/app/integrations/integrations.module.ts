@@ -3,6 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'modal-viewkeeper',
+    loadChildren: () =>
+      import('./modal-viewkept-toolbars/modal-viewkept-toolbars.module').then(
+        (m) => m.ModalViewkeptToolbarsModule
+      ),
+  },
+  {
     path: 'viewkeeper-tabset',
     loadChildren: () =>
       import('./viewkeeper-tabset/viewkeeper-tabset.module').then(

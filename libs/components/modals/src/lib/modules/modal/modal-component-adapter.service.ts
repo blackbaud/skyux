@@ -79,6 +79,14 @@ export class SkyModalComponentAdapterService {
     return false;
   }
 
+  public modalContentHasDirectChildViewkeeper(
+    modalContentEl: ElementRef
+  ): boolean {
+    return !!modalContentEl.nativeElement.querySelector(
+      'sky-modal-content > .sky-viewkeeper-fixed'
+    );
+  }
+
   public modalOpened(modalEl: ElementRef): void {
     /* istanbul ignore else */
     /* handle the case where somehow there is a focused element already in the modal */

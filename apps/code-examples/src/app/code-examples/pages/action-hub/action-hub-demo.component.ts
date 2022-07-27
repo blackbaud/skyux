@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { SkyPageModalLinksInput } from '@skyux/pages';
+
+import { SettingsModalComponent } from './settings-modal.component';
 
 const pastHours = Array.from(Array(5).keys()).map((i) => {
   const date = new Date();
@@ -153,6 +156,39 @@ export class ActionHubDemoComponent {
       label: 'Link 3',
       permalink: {
         url: '#',
+      },
+    },
+  ];
+
+  public settingsLinks: SkyPageModalLinksInput = [
+    {
+      label: 'Number',
+      modal: {
+        component: SettingsModalComponent,
+        config: {
+          size: 'large',
+          providers: [
+            {
+              provide: 'modalTitle',
+              useValue: 'Number',
+            },
+          ],
+        },
+      },
+    },
+    {
+      label: 'Color',
+      modal: {
+        component: SettingsModalComponent,
+        config: {
+          size: 'large',
+          providers: [
+            {
+              provide: 'modalTitle',
+              useValue: 'Color',
+            },
+          ],
+        },
       },
     },
   ];
