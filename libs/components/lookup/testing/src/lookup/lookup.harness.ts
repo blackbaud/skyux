@@ -3,7 +3,7 @@ import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
 
 export class SkyLookupHarness extends ComponentHarness {
-  public static hostSelector = '.sky-lookup';
+  public static hostSelector = 'sky-lookup';
 
   protected getInputEl = this.locatorFor('textarea.sky-lookup-input');
 
