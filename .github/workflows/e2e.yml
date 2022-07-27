@@ -41,10 +41,7 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          set -x
-          node ./scripts/rebase-pr.js
-          npm ci
+        run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: setSHAs
         uses: nrwl/nx-set-shas@v2
@@ -128,8 +125,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} --skip-nx-cache \
-            --outputPath=dist/apps/${{ matrix.app }} \
+          npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/" \
             --deployUrl="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
         if: ${{ github.event_name == 'pull_request' }}
