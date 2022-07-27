@@ -112,6 +112,7 @@
 
 .sky-modal-content {
   overflow-y: auto;
+  z-index: 1;
 }
 
 .sky-modal-footer {
@@ -187,6 +188,23 @@
     margin-bottom: initial;
     padding-top: initial;
     width: 100%;
+  }
+
+  .sky-modal-viewkeeper {
+    .sky-modal-header {
+      box-shadow: none !important;
+    }
+
+    .sky-modal-content
+      ::ng-deep
+      sky-modal-content
+      > .sky-viewkeeper-fixed
+      > sky-toolbar
+      .sky-toolbar-container {
+      background-color: #fff;
+      padding-left: $sky-theme-modern-space-xl;
+      padding-right: $sky-theme-modern-space-xl;
+    }
   }
 }
 

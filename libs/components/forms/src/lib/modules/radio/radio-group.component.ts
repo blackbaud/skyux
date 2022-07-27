@@ -102,14 +102,7 @@ export class SkyRadioGroupComponent
    */
   @Input()
   public set value(value: any) {
-    const isNewValue = value !== this._value;
-
-    /* istanbul ignore else */
-    if (isNewValue) {
-      this._value = value;
-      this.onChange(this._value);
-      this.updateCheckedRadioFromValue();
-    }
+    this.#updateValue(value, true);
   }
   public get value(): any {
     return this._value;
@@ -192,7 +185,7 @@ export class SkyRadioGroupComponent
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe((change: SkyRadioChange) => {
           this.onTouched();
-          this.writeValue(change.value);
+          this.value = change.value;
         });
       radio.blur.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
         this.onTouched();
@@ -207,7 +200,7 @@ export class SkyRadioGroupComponent
   }
 
   public writeValue(value: any): void {
-    this.value = value;
+    this.#updateValue(value, false);
   }
 
   /**
@@ -269,5 +262,19 @@ export class SkyRadioGroupComponent
     this.updateCheckedRadioFromValue();
     this.updateRadioButtonNames();
     this.updateRadioButtonTabIndexes();
+    this.updateRadioButtonDisabled();
+  }
+
+  #updateValue(value: any, markDirty: boolean): void {
+    const isNewValue = value !== this._value;
+
+    /* istanbul ignore else */
+    if (isNewValue) {
+      this._value = value;
+      if (markDirty) {
+        this.onChange(this._value);
+      }
+      this.updateCheckedRadioFromValue();
+    }
   }
 }

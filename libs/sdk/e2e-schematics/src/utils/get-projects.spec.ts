@@ -1,12 +1,18 @@
 import {
   applicationGenerator,
+  libraryGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import { cypressProjectGenerator } from '@nrwl/cypress';
+import { getProjects } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
-import { getE2eProjects, getStorybookProjects } from './get-projects';
+import {
+  getE2eProjects,
+  getProjectTypeBase,
+  getStorybookProjects,
+} from './get-projects';
 
 describe('some-or-all-projects', () => {
   it('should get someOrAllE2eProjects', async () => {
@@ -58,5 +64,15 @@ describe('some-or-all-projects', () => {
     // Specifying multiple names.
     const bothProjects = getStorybookProjects(tree, 'test-app1,test-app2');
     expect(Array.from(bothProjects.keys())).toEqual(['test-app1', 'test-app2']);
+  });
+
+  it('should getProjectTypeBase', async () => {
+    const tree = createTreeWithEmptyWorkspace(1);
+    tree.write('.gitignore', '#');
+    await applicationGenerator(tree, { name: 'test-app' });
+    await libraryGenerator(tree, { name: 'test-lib' });
+    const projects = getProjects(tree);
+    expect(getProjectTypeBase(projects.get('test-app'))).toEqual('app');
+    expect(getProjectTypeBase(projects.get('test-lib'))).toEqual('lib');
   });
 });

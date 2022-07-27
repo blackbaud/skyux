@@ -1,11 +1,63 @@
 # Changelog
 
+## [6.9.0](https://github.com/blackbaud/skyux/compare/6.8.0...6.9.0) (2022-07-27)
+
+### Features
+
+- **components/forms:** add inline help support for checkbox component ([#354](https://github.com/blackbaud/skyux/issues/354)) ([49d2d3e](https://github.com/blackbaud/skyux/commit/49d2d3e2c8482eaf5f07e65a54c823f415c5ea02))
+- **components/forms:** add inline help support for radio component ([#355](https://github.com/blackbaud/skyux/issues/355)) ([6e0146c](https://github.com/blackbaud/skyux/commit/6e0146c786bed7a23cc629bb022f6e554fc2a9a2))
+- **components/indicators:** update icons and moment dependencies ([#359](https://github.com/blackbaud/skyux/issues/359)) ([8578e81](https://github.com/blackbaud/skyux/commit/8578e810fc090a3e48908717c1f024fa915e69de)), closes [#34](https://github.com/blackbaud/skyux/issues/34) [#35](https://github.com/blackbaud/skyux/issues/35) [#33](https://github.com/blackbaud/skyux/issues/33)
+
+### Bug Fixes
+
+- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
+- **components/indicators:** update icons cdn link ([#360](https://github.com/blackbaud/skyux/issues/360)) ([4c42599](https://github.com/blackbaud/skyux/commit/4c425996daede636b7c5100378c7c82aa0e2e70a))
+- **components/modals:** viewkept toolbars now style correctly at the top of modern theme modals ([#347](https://github.com/blackbaud/skyux/issues/347)) ([1e570dd](https://github.com/blackbaud/skyux/commit/1e570dd02a11594d04f905ed817c67a97455ca91))
+
+## [6.8.0](https://github.com/blackbaud/skyux/compare/6.7.0...6.8.0) (2022-07-22)
+
+### Features
+
+- **components/indicators:** add inline help support for key info component ([#346](https://github.com/blackbaud/skyux/issues/346)) ([748add9](https://github.com/blackbaud/skyux/commit/748add9c235eb41ed3e90ee6d082eaa32b365dbf))
+
+### Bug Fixes
+
+- **components/data-manager:** fix column picker once-ability and disable & warn when no columns selected ([#349](https://github.com/blackbaud/skyux/issues/349)) ([c49e4f5](https://github.com/blackbaud/skyux/commit/c49e4f50faa637caf39336489c6c9ca3a369c661))
+- **components/forms:** prevent overlapping text after toggle switch label ([#344](https://github.com/blackbaud/skyux/issues/344)) ([5821fa5](https://github.com/blackbaud/skyux/commit/5821fa56522a6ae053f52b749db618971134e34e))
+- **components/tabs:** fix color of text on modern theme tabsets ([#345](https://github.com/blackbaud/skyux/issues/345)) ([74a5e28](https://github.com/blackbaud/skyux/commit/74a5e289ef9e7bcbc0e511bdb4443851acad40f5))
+
+## [6.7.0](https://github.com/blackbaud/skyux/compare/6.6.0...6.7.0) (2022-07-18)
+
+### Features
+
+- **components/pages:** support action hub settings ([#342](https://github.com/blackbaud/skyux/issues/342)) ([edad4e0](https://github.com/blackbaud/skyux/commit/edad4e054383ecd6c7a0967d8c463234b45da152))
+
+### Bug Fixes
+
+- **components/core:** add timestamp to generated IDs to avoid browser autocomplete collisions across sessions ([#339](https://github.com/blackbaud/skyux/issues/339)) ([4de1127](https://github.com/blackbaud/skyux/commit/4de112756deb64ec9bc53a010b6ea6e1b06d817c))
+- **components/datetime:** datepicker handles reactive forms which are disabled during initialization ([#320](https://github.com/blackbaud/skyux/issues/320)) ([679793f](https://github.com/blackbaud/skyux/commit/679793fb23e9303a1dcf06f65f812d23c6c82add))
+- **components/lookup:** show more modal toolbars now correctly stick to the top of the modal content ([#343](https://github.com/blackbaud/skyux/issues/343)) ([144a1eb](https://github.com/blackbaud/skyux/commit/144a1eb97b8a6dc381e0b1cf3b9b59308144e52d))
+
+## [6.6.0](https://github.com/blackbaud/skyux/compare/6.5.0...6.6.0) (2022-07-08)
+
+### Features
+
+- **components/datetime:** convert eight digit user-entered input to a date for the datepicker component based on the specified date format ([#334](https://github.com/blackbaud/skyux/issues/334)) ([bfde6c8](https://github.com/blackbaud/skyux/commit/bfde6c823c93a87fa42603d9a49692dadc2f3bb5))
+
+### Bug Fixes
+
+- **components/ag-grid:** center the no-rows overlay ([#336](https://github.com/blackbaud/skyux/issues/336)) ([c67332a](https://github.com/blackbaud/skyux/commit/c67332aa14297db164d05df2040d77406aba8f0e))
+- **components/layout:** keep box component's control button placement static when there is no header ([#338](https://github.com/blackbaud/skyux/issues/338)) ([89740be](https://github.com/blackbaud/skyux/commit/89740be0b19e41a0e9d5c08d64164a27aac8a839))
+
+### Deprecations
+
+- **components/layout:** `SkyErrorModalService` is deprecated; use a standard modal with an error component instead ([#328](https://github.com/blackbaud/skyux/issues/328)) ([abb1617](https://github.com/blackbaud/skyux/commit/abb1617d00534d40c6d7579c223dcbb90d3bc52e))
+
 ## [6.5.0](https://github.com/blackbaud/skyux/compare/6.4.0...6.5.0) (2022-07-07)
 
 ### Features
 
 - **components/theme:** add CSS custom properties for color ([#321](https://github.com/blackbaud/skyux/issues/321)) ([c4802d6](https://github.com/blackbaud/skyux/commit/c4802d6f075a99713982b88f2c9fba8ece6833ba))
-- **sdk/testing:** add `SkyBy.skyId()` to make it easier to match data-sky-id ([#322](https://github.com/blackbaud/skyux/issues/322)) ([13a96e6](https://github.com/blackbaud/skyux/commit/13a96e6f54dbf36f7296203893e16c1feb6923c2))
 - **sdk/testing:** provide actual inner text to resource matchers messages that didn't have it ([#323](https://github.com/blackbaud/skyux/issues/323)) ([abbc6b2](https://github.com/blackbaud/skyux/commit/abbc6b2d5a4d5e13fcff386466bbb81ae5c0282a))
 
 ### Bug Fixes

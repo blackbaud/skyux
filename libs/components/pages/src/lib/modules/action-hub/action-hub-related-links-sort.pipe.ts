@@ -1,12 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { SkyPageLinksInput } from './types/page-links-input';
+import { SkyPageLinkInterface } from './types/page-link-interface';
 
 @Pipe({
   name: 'skyActionHubRelatedLinksSort',
 })
 export class SkyActionHubRelatedLinksSortPipe implements PipeTransform {
-  public transform(relatedLinks: SkyPageLinksInput): SkyPageLinksInput {
+  public transform<T extends Array<SkyPageLinkInterface>>(
+    relatedLinks: T | 'loading' | undefined
+  ): T | 'loading' | [] {
     if (relatedLinks === 'loading') {
       return 'loading';
     }
@@ -20,6 +22,6 @@ export class SkyActionHubRelatedLinksSortPipe implements PipeTransform {
         return 0;
       }
       return aLabel < bLabel ? -1 : 1;
-    });
+    }) as T;
   }
 }

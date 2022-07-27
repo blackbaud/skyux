@@ -94,7 +94,7 @@ describe('Sectioned form component', () => {
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1 Mark required  Mark invalid'
+      'information 1Mark requiredMark invalid'
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
 
@@ -127,7 +127,7 @@ describe('Sectioned form component', () => {
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe('information 2');
     expect(allTabContentElements[1].textContent.trim()).toBe(
-      'information 1 Mark required  Mark invalid'
+      'information 1Mark requiredMark invalid'
     );
   });
 
@@ -378,7 +378,7 @@ describe('Sectioned form component', () => {
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1 Mark required  Mark invalid'
+      'information 1Mark requiredMark invalid'
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
 
@@ -410,7 +410,7 @@ describe('Sectioned form component', () => {
     );
     expect(allTabContentElements.length).toBe(2);
     expect(allTabContentElements[0].textContent.trim()).toBe(
-      'information 1 Mark required  Mark invalid'
+      'information 1Mark requiredMark invalid'
     );
     expect(allTabContentElements[1].textContent.trim()).toBe('information 2');
   });

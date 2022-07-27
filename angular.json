@@ -1361,6 +1361,166 @@
       },
       "tags": ["component", "npm"]
     },
+    "indicators-storybook": {
+      "projectType": "application",
+      "root": "apps/indicators-storybook",
+      "sourceRoot": "apps/indicators-storybook/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/indicators-storybook",
+            "index": "apps/indicators-storybook/src/index.html",
+            "main": "apps/indicators-storybook/src/main.ts",
+            "polyfills": "apps/indicators-storybook/src/polyfills.ts",
+            "tsConfig": "apps/indicators-storybook/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "apps/indicators-storybook/src/styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/indicators-storybook/src/environments/environment.ts",
+                  "with": "apps/indicators-storybook/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "indicators-storybook:build:production"
+            },
+            "development": {
+              "browserTarget": "indicators-storybook:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "indicators-storybook:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/indicators-storybook/**/*.ts",
+              "apps/indicators-storybook/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/indicators-storybook"],
+          "options": {
+            "jestConfig": "apps/indicators-storybook/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "apps/indicators-storybook/.storybook",
+            "browserTarget": "indicators-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputDir": "dist/storybook/indicators-storybook",
+            "configDir": "apps/indicators-storybook/.storybook",
+            "browserTarget": "indicators-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "indicators-storybook-e2e": {
+      "root": "apps/indicators-storybook-e2e",
+      "sourceRoot": "apps/indicators-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/indicators-storybook-e2e/cypress.json",
+            "devServerTarget": "indicators-storybook:storybook",
+            "baseUrl": "http://localhost:4400"
+          },
+          "configurations": {
+            "ci": {
+              "skipServe": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/indicators-storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["indicators-storybook"]
+    },
     "indicators-testing": {
       "projectType": "library",
       "root": "libs/components/indicators/testing",
@@ -2814,6 +2974,43 @@
               "libs/components/storybook/**/*.ts",
               "libs/components/storybook/**/*.html"
             ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputDir": "dist/storybook/storybook",
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
           }
         }
       },

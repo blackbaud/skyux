@@ -145,13 +145,15 @@ describe('Description list component', () => {
     const descriptionEls = getDescriptionEls(list1El);
 
     expect(termEls[0]).toHaveText('Job title');
-    expect(descriptionEls[0]).toHaveText('Engineer');
+    expect(descriptionEls[0].firstChild).toHaveText('Engineer');
+    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should display a default description when no description is specified', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
     const descriptionEls = getDescriptionEls(list1El);
 
+    expect(descriptionEls[2].childNodes[1]).toBeVisible();
     expect(descriptionEls[2]).toHaveText('None found.');
   });
 
@@ -165,8 +167,8 @@ describe('Description list component', () => {
 
     fixture.componentInstance.personalInfo = [
       {
-        term: 'foo',
-        description: 'bar',
+        term: 'term1',
+        description: 'description1',
       },
     ];
     fixture.detectChanges();
@@ -176,8 +178,9 @@ describe('Description list component', () => {
 
     expect(termEls.length).toEqual(1);
     expect(descriptionEls.length).toEqual(1);
-    expect(termEls[0]).toHaveText('foo');
-    expect(descriptionEls[0]).toHaveText('bar');
+    expect(termEls[0]).toHaveText('term1');
+    expect(descriptionEls[0].firstChild).toHaveText('description1');
+    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should allow the default value to be specified', () => {
@@ -235,7 +238,8 @@ describe('Description list component', () => {
 
     expect(termEls.length).toEqual(3);
     expect(descriptionEls.length).toEqual(3);
-    expect(descriptionEls[0]).toHaveText('Example 1');
+    expect(descriptionEls[0].firstChild).toHaveText('Example 1');
+    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
 
     fixture.componentInstance.asyncInfo = [
       {
@@ -251,7 +255,8 @@ describe('Description list component', () => {
     expect(termEls.length).toEqual(1);
     expect(descriptionEls.length).toEqual(1);
     expect(termEls[0]).toHaveText('boo');
-    expect(descriptionEls[0]).toHaveText('far');
+    expect(descriptionEls[0].firstChild).toHaveText('far');
+    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should render inline help with the expected spacing', () => {

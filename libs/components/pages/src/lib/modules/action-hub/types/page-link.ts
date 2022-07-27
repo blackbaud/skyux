@@ -1,13 +1,11 @@
 import { NavigationExtras } from '@angular/router';
 
+import { SkyPageLinkInterface } from './page-link-interface';
+
 /**
  * Displays links to related information or recently accessed items.
  */
-export interface SkyPageLink {
-  /**
-   * Specifies the link text.
-   */
-  label: string;
+export interface SkyPageLink extends SkyPageLinkInterface {
   /**
    * Specifies the link destination.
    */

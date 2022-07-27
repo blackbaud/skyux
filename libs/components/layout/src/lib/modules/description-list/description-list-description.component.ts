@@ -21,6 +21,7 @@ import { SkyDescriptionListService } from './description-list.service';
 @Component({
   selector: 'sky-description-list-description',
   templateUrl: './description-list-description.component.html',
+  styleUrls: ['./description-list-description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListDescriptionComponent

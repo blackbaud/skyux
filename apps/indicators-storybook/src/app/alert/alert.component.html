@@ -1,0 +1,7 @@
+<ng-container *ngFor="let variant of variations">
+  <ng-container *ngFor="let close of closeable">
+    <sky-alert [alertType]="variant" [closeable]="close">
+      {{ variant | titlecase }} alert
+    </sky-alert>
+  </ng-container>
+</ng-container>

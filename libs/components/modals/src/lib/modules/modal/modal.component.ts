@@ -227,6 +227,12 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.scrollShadow = args;
   }
 
+  public viewkeeperEnabled(): boolean {
+    return this.componentAdapter.modalContentHasDirectChildViewkeeper(
+      this.elRef
+    );
+  }
+
   private isSizeEqual(actualSize: string, size: string) {
     return actualSize && actualSize.toLowerCase() === size;
   }

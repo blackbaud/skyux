@@ -40,7 +40,10 @@ import { SkyCheckboxModule } from './checkbox.module';
       [icon]="icon"
       (change)="checkboxChange($event)"
     >
-      <sky-checkbox-label> Simple checkbox </sky-checkbox-label>
+      <sky-checkbox-label>
+        Simple checkbox
+        <span *ngIf="showInlineHelp">Help inline</span>
+      </sky-checkbox-label>
     </sky-checkbox>
   </div>`,
 })
@@ -49,6 +52,7 @@ class SingleCheckboxComponent implements AfterViewInit {
   public icon = 'bold';
   public isChecked = false;
   public isDisabled = false;
+  public showInlineHelp = false;
 
   @ViewChild(SkyCheckboxComponent)
   public checkboxComponent: SkyCheckboxComponent;
@@ -88,7 +92,10 @@ class CheckboxWithFormDirectivesComponent {
     <div>
       <form>
         <sky-checkbox name="cb" ngModel [required]="required">
-          <sky-checkbox-label> Be good </sky-checkbox-label>
+          <sky-checkbox-label>
+            Be good
+            <span *ngIf="showInlineHelp">Help inline</span>
+          </sky-checkbox-label>
         </sky-checkbox>
       </form>
     </div>
@@ -96,6 +103,7 @@ class CheckboxWithFormDirectivesComponent {
 })
 class CheckboxWithRequiredInputComponent {
   public required = true;
+  public showInlineHelp = false;
 }
 
 /** Simple component for testing a required template-driven checkbox. */
@@ -104,13 +112,18 @@ class CheckboxWithRequiredInputComponent {
     <div>
       <form>
         <sky-checkbox name="cb" ngModel required>
-          <sky-checkbox-label> Be good </sky-checkbox-label>
+          <sky-checkbox-label>
+            Be good
+            <span *ngIf="showInlineHelp">Help inline</span>
+          </sky-checkbox-label>
         </sky-checkbox>
       </form>
     </div>
   `,
 })
-class CheckboxWithRequiredAttributeComponent {}
+class CheckboxWithRequiredAttributeComponent {
+  public showInlineHelp = false;
+}
 
 /** Simple component for testing an MdCheckbox with ngModel. */
 @Component({
@@ -380,6 +393,14 @@ describe('Checkbox component', () => {
 
     it('should make the host element a tab stop', () => {
       expect(inputElement.tabIndex).toBe(0);
+    });
+
+    it('should show inline help', () => {
+      testComponent.showInlineHelp = true;
+      fixture.detectChanges();
+      const label: HTMLElement =
+        checkboxNativeElement.querySelector('sky-checkbox-label');
+      expect(label.innerText).toBe('Simple checkboxHelp inline'); // expect no additional space between label and help
     });
 
     it('should pass accessibility', async(() => {

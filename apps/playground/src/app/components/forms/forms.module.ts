@@ -7,6 +7,23 @@ const routes: Routes = [
     loadChildren: () =>
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
   },
+  {
+    path: 'radio',
+    loadChildren: () =>
+      import('./radio/radio.module').then((m) => m.RadioModule),
+  },
+  {
+    path: 'toggle-switch',
+    loadChildren: () =>
+      import('./toggle-switch/toggle-switch.module').then(
+        (m) => m.ToggleSwitchModule
+      ),
+  },
+  {
+    path: 'checkbox',
+    loadChildren: () =>
+      import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
+  },
 ];
 
 @NgModule({
