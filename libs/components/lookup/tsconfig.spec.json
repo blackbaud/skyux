@@ -4,9 +4,7 @@
     "outDir": "../../../dist/out-tsc",
     "types": ["jasmine", "node"],
     "strict": false,
-    "forceConsistentCasingInFileNames": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false
+    "noImplicitReturns": false
   },
   "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
