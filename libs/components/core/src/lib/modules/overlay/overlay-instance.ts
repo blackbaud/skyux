@@ -24,6 +24,8 @@ export class SkyOverlayInstance {
     return this._closed.asObservable();
   }
 
+  public id: string;
+
   private _backdropClick = new Subject<void>();
 
   private _closed = new Subject<void>();
@@ -35,6 +37,8 @@ export class SkyOverlayInstance {
     public readonly config: SkyOverlayConfig,
     public readonly componentRef: ComponentRef<SkyOverlayComponent>
   ) {
+    this.id = this.componentRef.instance.id;
+
     this.componentRef.instance.closed.subscribe(() => {
       this._closed.next();
       this._closed.complete();
