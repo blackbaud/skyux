@@ -18,9 +18,6 @@ function normalizeOptions(
   if (!pr || isNaN(parseInt(`${pr}`, 10))) {
     throw new Error('Invalid PR number');
   }
-  if (storybooks.length === 0) {
-    throw new Error('No storybooks specified');
-  }
   return {
     pr,
     storybooks,
