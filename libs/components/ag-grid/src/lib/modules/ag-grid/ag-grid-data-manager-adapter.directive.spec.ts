@@ -348,7 +348,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
   });
 
-  it('should add or remove horizontal scroll at top of the grid based on enableTopHorizontalScroll check', () => {
+  it('should hide or show top horizontal scroll based on enableTopHorizontalScroll check', () => {
     agGridComponent.gridReady.emit();
     let scrollElement = getHorizontalScrollElements();
 
