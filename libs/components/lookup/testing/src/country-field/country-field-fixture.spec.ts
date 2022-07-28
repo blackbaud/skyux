@@ -15,7 +15,7 @@ const DATA_SKY_ID = 'test-country-field';
 
 //#region Test component
 @Component({
-  selector: 'test-country-field-test',
+  selector: 'country-field-test',
   template: `
     <sky-country-field
       data-sky-id="${DATA_SKY_ID}"
@@ -29,9 +29,9 @@ const DATA_SKY_ID = 'test-country-field';
   `,
 })
 class CountryFieldTestComponent {
-  public autocompleteAttribute!: string;
-  public disabled!: boolean;
-  public hideSelectedCountryFlag!: boolean;
+  public autocompleteAttribute: string;
+  public disabled: boolean;
+  public hideSelectedCountryFlag: boolean;
 
   public selectedCountryChange(query: string): void {}
 }
@@ -81,7 +81,7 @@ describe('Country field fixture', () => {
     );
 
     // make a selection
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name!);
+    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -91,12 +91,12 @@ describe('Country field fixture', () => {
 
   it('should expose search text', async () => {
     // make a selection
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name!);
+    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
     fixture.detectChanges();
     await fixture.whenStable();
 
     // verify selection state
-    expect(countryFieldFixture.searchText).toBe(COUNTRY.name!);
+    expect(countryFieldFixture.searchText).toBe(COUNTRY.name);
   });
 
   it('should return undefined properties for no selection', async () => {
@@ -116,7 +116,7 @@ describe('Country field fixture', () => {
 
   it('should show country flag by default', async () => {
     // make a selection so the flag appears
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name!);
+    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
 
     // verify country flag state
     expect(countryFieldFixture.countryFlagIsVisible).toBe(true);
@@ -128,7 +128,7 @@ describe('Country field fixture', () => {
     fixture.detectChanges();
 
     // make a selection
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name!);
+    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
 
     // verify country flag state
     expect(countryFieldFixture.countryFlagIsVisible).toBe(false);
@@ -147,8 +147,8 @@ describe('Country field fixture', () => {
 
   it('should be able to clear when there is a selection', async () => {
     // make a selection
-    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name!);
-    expect(countryFieldFixture.searchText).toBe(COUNTRY.name!);
+    await countryFieldFixture.searchAndSelectFirstResult(COUNTRY.name);
+    expect(countryFieldFixture.searchText).toBe(COUNTRY.name);
 
     // clear the selection
     await countryFieldFixture.clear();
@@ -159,8 +159,8 @@ describe('Country field fixture', () => {
 
   it('should be able to clear when results are showing', async () => {
     // perform a search, displaying results
-    await countryFieldFixture.search(COUNTRY.name!);
-    expect(countryFieldFixture.searchText).toBe(COUNTRY.name!);
+    await countryFieldFixture.search(COUNTRY.name);
+    expect(countryFieldFixture.searchText).toBe(COUNTRY.name);
 
     // clear the selection
     await countryFieldFixture.clear();
@@ -171,13 +171,13 @@ describe('Country field fixture', () => {
 
   it('should expose expected search results', async () => {
     // perform a search, displaying results
-    const results = await countryFieldFixture.search(COUNTRY.name!);
+    const results = await countryFieldFixture.search(COUNTRY.name);
 
     // verify there are results
     expect(results.length).toBeGreaterThan(0);
 
     // verify the top result is as expected
     const topResult = results[0];
-    expect(topResult).toEqual(COUNTRY.name!);
+    expect(topResult).toEqual(COUNTRY.name);
   });
 });

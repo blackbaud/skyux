@@ -36,17 +36,7 @@
     },
     {
       "files": ["*.spec.ts", "**/fixtures/**/*.ts"],
-      "extends": ["../../../.eslintrc-overrides.json", "prettier"],
-      "rules": {
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "test",
-            "style": "kebab-case"
-          }
-        ]
-      }
+      "extends": ["../../../.eslintrc-overrides.json", "prettier"]
     }
   ]
 }

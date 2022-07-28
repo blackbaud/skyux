@@ -7,7 +7,7 @@ import { SkySearchTestingModule } from './search-testing.module';
 
 //#region Test component
 @Component({
-  selector: 'test-search-test',
+  selector: 'search-test',
   template: `
     <sky-search
       [placeholderText]="placeholderText"
