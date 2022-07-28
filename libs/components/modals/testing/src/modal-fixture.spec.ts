@@ -60,26 +60,30 @@ class TestModalComponent {}
   `,
 })
 class TestComponent {
-  public ariaDescribedBy: string;
+  public ariaDescribedBy: string | undefined;
 
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
-  public ariaRole: string;
+  public ariaRole: string | undefined;
 
-  public fullPage: boolean;
+  public fullPage: boolean | undefined;
 
-  public helpKey: string;
+  public helpKey: string | undefined;
 
-  public size: string;
+  public size: string | undefined;
 
-  public tiledBody: boolean;
+  public tiledBody: boolean | undefined;
 
-  private modalInstance: SkyModalInstance;
+  #modalInstance: SkyModalInstance | undefined;
 
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   public launchModal() {
-    this.modalInstance = this.modalService.open(TestModalComponent, {
+    this.#modalInstance = this.#modalService.open(TestModalComponent, {
       ariaDescribedBy: this.ariaDescribedBy,
       ariaLabelledBy: this.ariaLabelledBy,
       ariaRole: this.ariaRole,
@@ -89,13 +93,13 @@ class TestComponent {
       tiledBody: this.tiledBody,
     });
 
-    this.modalInstance.helpOpened.subscribe((key: string) => {
+    this.#modalInstance.helpOpened.subscribe((key: string) => {
       this.helpTriggered(key);
     });
   }
 
   public closeModal() {
-    this.modalInstance.close();
+    this.#modalInstance?.close();
   }
 
   public helpTriggered(key: string) {

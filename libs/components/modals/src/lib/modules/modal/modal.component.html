@@ -1,26 +1,20 @@
-<!--
-  Animations are broken in Chrome v52. Angular 2 RC5 will fix it.
-  https://github.com/angular/angular/issues/10245
--->
-<!--<div @modalState="modalState">-->
-
 <div
   class="sky-modal-dialog"
   aria-modal="true"
   [attr.aria-describedby]="ariaDescribedBy"
   [attr.aria-labelledby]="ariaLabelledBy"
-  [attr.role]="ariaRole"
+  [attr.role]="ariaRoleOrDefault"
   (window:resize)="windowResize()"
 >
   <div
     class="sky-modal sky-shadow sky-box sky-elevation-16"
     tabindex="-1"
     [ngClass]="{
-      'sky-modal-full-page': modalFullPage,
+      'sky-modal-full-page': fullPage,
       'sky-modal-small': isSmallSize,
       'sky-modal-medium': isMediumSize,
       'sky-modal-large': isLargeSize,
-      'sky-modal-tiled': isTiledBody,
+      'sky-modal-tiled': tiledBody,
       'sky-modal-viewkeeper': viewkeeperEnabled()
     }"
     [ngStyle]="{
@@ -38,7 +32,7 @@
         class="sky-modal-header-content"
         [attr.id]="modalHeaderId"
         [ngClass]="{
-          'sky-section-heading': modalFullPage
+          'sky-section-heading': fullPage
         }"
         #headerContent
       >
