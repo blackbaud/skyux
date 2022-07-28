@@ -621,7 +621,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
     if (isEmpty) {
       // Emit selectionChange if value has been cleared.
-      if (this.inputDirective && this.inputDirective.value) {
+      if (this.inputDirective?.value) {
         this.inputDirective.value = undefined;
         this.selectionChange.emit({
           selectedItem: undefined,
