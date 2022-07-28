@@ -6,4 +6,10 @@ Preview build for [PR #<%=pr%>](https://github.com/blackbaud/skyux/pull/<%=pr%>)
 
 Component Storybooks:
 <% storybooks.forEach(function(storybook){ %>
-- [<%=storybook%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybooks/<%=storybook%>/)<% }) %>
+- [<%=storybook%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybooks/<%=storybook%>/)<% })
+if (apps.length > 0) { %>
+
+Apps:
+<% apps.forEach(function(app){ %>
+- [<%=app%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/<%=app%>/)<% })
+} %>
