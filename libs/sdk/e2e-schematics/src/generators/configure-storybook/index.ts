@@ -64,6 +64,23 @@ export default async function (tree: Tree, schema: Schema) {
               }
             }
           });
+
+          // Fix an NX bug where outputs uses the wrong path. The outputs setting is used for caching.
+          if (
+            angularJson.projects[projectName].architect[target].outputs?.join(
+              'X'
+            ) === '{options.outputPath}' &&
+            !(
+              'outputPath' in
+              angularJson.projects[projectName].architect[target].options
+            ) &&
+            'outputDir' in
+              angularJson.projects[projectName].architect[target].options
+          ) {
+            angularJson.projects[projectName].architect[target].outputs = [
+              '{options.outputDir}',
+            ];
+          }
         }
       });
       // Drop the asset path.
