@@ -6,6 +6,7 @@ import {
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
+  HostBinding,
   Injector,
   OnDestroy,
   OnInit,
@@ -65,6 +66,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public enablePointerEvents = false;
 
+  @HostBinding('id')
   public id: string;
 
   public showBackdrop = false;

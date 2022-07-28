@@ -1,4 +1,5 @@
 import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+import { SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
 
@@ -43,9 +44,11 @@ export class SkyLookupHarness extends ComponentHarness {
   public async getOptions(): Promise<SkyLookupHarnessOption[]> {
     const overlayId = await (await this.getInputEl()).getAttribute('aria-owns');
 
-    const optionEls = await this.#documentRootLocator.locatorForAll(
-      `#${overlayId} .sky-autocomplete-result`
+    const overlayHarness = await this.#documentRootLocator.locatorFor(
+      SkyOverlayHarness.with({ id: overlayId })
     )();
+
+    const optionEls = await overlayHarness.queryAll('.sky-autocomplete-result');
 
     const options = [];
     for (const optionEl of optionEls) {
@@ -59,8 +62,7 @@ export class SkyLookupHarness extends ComponentHarness {
   }
 
   public async isFocused(): Promise<boolean> {
-    const el = await this.getInputEl();
-    return el.isFocused();
+    return (await this.getInputEl()).isFocused();
   }
 
   async #getSkyId(): Promise<string | null> {
