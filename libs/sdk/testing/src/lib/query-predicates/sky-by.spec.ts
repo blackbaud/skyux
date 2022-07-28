@@ -25,7 +25,7 @@ describe('SkyBy', () => {
     it('should find an element with the appropriate data-sky-id attribute if it exists', () => {
       fixture.detectChanges();
       const elementWithDataSkyId: DebugElement = fixture.debugElement.query(
-        SkyBy.skyId('my-sky-id')
+        SkyBy.dataSkyId('my-sky-id')
       );
 
       expect(elementWithDataSkyId.nativeElement).toExist();
@@ -38,7 +38,7 @@ describe('SkyBy', () => {
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#no-sky-id'))).toExist();
       expect(
-        fixture.debugElement.query(SkyBy.skyId('different-sky-id'))
+        fixture.debugElement.query(SkyBy.dataSkyId('different-sky-id'))
       ).not.toExist();
     });
   });
