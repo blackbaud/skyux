@@ -74,6 +74,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v2
         with:
