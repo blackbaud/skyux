@@ -1,68 +1,22 @@
-import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
-import { SkyOverlayHarness } from '@skyux/core/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
+
+import { SkyAutocompleteHarness } from '../autocomplete/autocomplete.harness';
 
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
 
-interface SkyLookupHarnessOption {
-  textContent: string;
-}
-
-export class SkyLookupHarness extends ComponentHarness {
+export class SkyLookupHarness extends SkyAutocompleteHarness {
   // Do not use `sky-lookup` since the component may be included in a select-box component.
   public static hostSelector = '.sky-lookup';
-
-  protected getInputEl = this.locatorFor('textarea.sky-lookup-input');
-
-  #documentRootLocator = this.documentRootLocatorFactory();
 
   public static with(
     options: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
     return new HarnessPredicate(SkyLookupHarness, options).addOption(
-      'skyTestId',
+      'dataSkyId',
       options.dataSkyId,
       (harness, text) =>
         HarnessPredicate.stringMatches(harness.#getSkyId(), text)
     );
-  }
-
-  public async blur(): Promise<void> {
-    return (await this.getInputEl()).blur();
-  }
-
-  public async enterText(value: string): Promise<void> {
-    const el = await this.getInputEl();
-    await el.focus();
-    await el.clear();
-    await el.sendKeys(value);
-  }
-
-  public async focus(): Promise<void> {
-    return (await this.getInputEl()).focus();
-  }
-
-  public async getOptions(): Promise<SkyLookupHarnessOption[]> {
-    const overlayId = await (await this.getInputEl()).getAttribute('aria-owns');
-
-    const overlayHarness = await this.#documentRootLocator.locatorFor(
-      SkyOverlayHarness.with({ id: overlayId })
-    )();
-
-    const optionEls = await overlayHarness.queryAll('.sky-autocomplete-result');
-
-    const options = [];
-    for (const optionEl of optionEls) {
-      const option: SkyLookupHarnessOption = {
-        textContent: await optionEl.text(),
-      };
-      options.push(option);
-    }
-
-    return options;
-  }
-
-  public async isFocused(): Promise<boolean> {
-    return (await this.getInputEl()).isFocused();
   }
 
   async #getSkyId(): Promise<string | null> {

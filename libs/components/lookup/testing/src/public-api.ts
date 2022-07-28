@@ -1,3 +1,6 @@
+export * from './autocomplete/autocomplete-input.harness';
+export * from './autocomplete/autocomplete.harness';
+
 export * from './country-field/country-field-fixture';
 export * from './country-field/country-field-testing.module';
 

@@ -802,7 +802,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#overlay = overlay;
       this.isOpen = true;
       this.#changeDetector.markForCheck();
-      this.#setAriaOwns();
+      this.#updateAriaOwns();
       this.#initOverlayFocusableElements();
     }
   }
@@ -812,7 +812,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.isOpen = false;
     this.#destroyOverlay();
     this.#removeActiveDescendant();
-    this.#removeAriaOwns();
+    this.#updateAriaOwns();
     this.#changeDetector.markForCheck();
   }
 
@@ -830,12 +830,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.inputDirective.setActiveDescendant(null);
   }
 
-  #setAriaOwns(): void {
-    this.inputDirective.setAriaOwns(this.#overlay.id);
-  }
-
-  #removeAriaOwns(): void {
-    this.inputDirective.setAriaOwns(null);
+  #updateAriaOwns(): void {
+    if (this.#overlay) {
+      this.inputDirective.setAriaOwns(this.#overlay.id);
+    } else {
+      this.inputDirective.setAriaOwns(null);
+    }
   }
 
   #resetSearch(): void {
