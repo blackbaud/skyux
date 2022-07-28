@@ -31,6 +31,12 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   let dataViewEl: DebugElement;
   let agGridDataManagerDirective: SkyAgGridDataManagerAdapterDirective;
 
+  function getHorizontalScrollElements(): HTMLElement[] {
+    return agGridDataManagerFixture.elementRef.nativeElement.querySelectorAll(
+      '.ag-body-horizontal-scroll'
+    );
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
@@ -340,5 +346,20 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
 
     expect(agGridDataManagerDirective.agGridList.length).toBe(1);
     expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
+  });
+
+  it('should add or remove horizontal scroll at top of the grid based on enableTopHorizontalScroll check', () => {
+    agGridComponent.gridReady.emit();
+    let scrollElement = getHorizontalScrollElements();
+
+    expect(scrollElement.length).toEqual(1);
+
+    agGridDataManagerFixtureComponent.gridOptions.context = {
+      enableTopHorizontalScroll: true,
+    };
+    agGridComponent.gridReady.emit();
+    scrollElement = getHorizontalScrollElements();
+
+    expect(scrollElement.length).toEqual(2);
   });
 });

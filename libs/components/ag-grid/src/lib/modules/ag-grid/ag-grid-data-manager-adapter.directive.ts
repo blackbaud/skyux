@@ -151,10 +151,6 @@ export class SkyAgGridDataManagerAdapterDirective
     this.currentAgGrid = agGrid;
 
     agGrid.gridReady.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
-        '.ag-header',
-        '.ag-body-horizontal-scroll',
-      ]);
       this.viewConfig.onSelectAllClick = this.selectAll.bind(this);
       this.viewConfig.onClearAllClick = this.clearAll.bind(this);
 
@@ -172,6 +168,10 @@ export class SkyAgGridDataManagerAdapterDirective
         this.topHorizontalScrollService.appendTopScrollbarToGrid(
           this.elementRef
         );
+        this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
+          '.ag-header',
+          '.ag-body-horizontal-scroll',
+        ]);
       }
 
       agGrid.api.sizeColumnsToFit();
