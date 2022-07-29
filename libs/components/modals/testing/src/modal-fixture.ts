@@ -28,10 +28,14 @@ export class SkyModalFixture {
    */
   public get ariaDescribedBy(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
-    if (modalDialogElement) {
-      return modalDialogElement.getAttribute('aria-describedby') || undefined;
+    const describedByAttribute =
+      modalDialogElement.getAttribute('aria-describedby');
+    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
+    /* istanbul ignore else */
+    if (describedByAttribute) {
+      return describedByAttribute;
     } else {
-      throw new Error(`No modal exists.`);
+      return;
     }
   }
 
@@ -40,10 +44,14 @@ export class SkyModalFixture {
    */
   public get ariaLabelledBy(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
-    if (modalDialogElement) {
-      return modalDialogElement.getAttribute('aria-labelledby') || undefined;
+    const labelledByAttribute =
+      modalDialogElement.getAttribute('aria-labelledby');
+    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
+    /* istanbul ignore else */
+    if (labelledByAttribute) {
+      return labelledByAttribute;
     } else {
-      throw new Error(`No modal exists.`);
+      return;
     }
   }
 
@@ -52,10 +60,13 @@ export class SkyModalFixture {
    */
   public get ariaRole(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
-    if (modalDialogElement) {
-      return modalDialogElement.getAttribute('role') || undefined;
+    const roleAttribute = modalDialogElement.getAttribute('role');
+    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
+    /* istanbul ignore else */
+    if (roleAttribute) {
+      return roleAttribute;
     } else {
-      throw new Error(`No modal exists.`);
+      return;
     }
   }
 
@@ -64,11 +75,7 @@ export class SkyModalFixture {
    */
   public get fullPage(): boolean {
     const modalDivElement = this.getModalDiv();
-    if (modalDivElement) {
-      return modalDivElement.classList.contains('sky-modal-full-page');
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    return modalDivElement.classList.contains('sky-modal-full-page');
   }
 
   /**
@@ -76,20 +83,15 @@ export class SkyModalFixture {
    */
   public get size(): string | undefined {
     const modalDivElement = this.getModalDiv();
+    const possibleSizes = ['small', 'medium', 'large'];
 
-    if (modalDivElement) {
-      const possibleSizes = ['small', 'medium', 'large'];
-
-      for (let size of possibleSizes) {
-        if (modalDivElement.classList.contains('sky-modal-' + size)) {
-          return size;
-        }
+    for (let size of possibleSizes) {
+      if (modalDivElement.classList.contains('sky-modal-' + size)) {
+        return size;
       }
-
-      return;
-    } else {
-      throw new Error(`No modal exists.`);
     }
+
+    return;
   }
 
   /**
@@ -97,22 +99,22 @@ export class SkyModalFixture {
    */
   public get tiledBody(): boolean {
     const modalDivElement = this.getModalDiv();
-    if (modalDivElement) {
-      return modalDivElement.classList.contains('sky-modal-tiled');
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    return modalDivElement.classList.contains('sky-modal-tiled');
   }
 
   /**
    * Clicks the modal header's "close" button.
    */
   public clickHeaderCloseButton(): void {
+    this.#checkModalElement();
     const closeButton: HTMLElement | null = this.#modalElement.querySelector(
       '.sky-modal .sky-modal-btn-close'
     );
 
-    if (closeButton) {
+    if (
+      closeButton &&
+      window.getComputedStyle(closeButton).display !== 'none'
+    ) {
       closeButton.click();
       this.#fixture.detectChanges();
     } else {
@@ -124,11 +126,12 @@ export class SkyModalFixture {
    * Clicks the modal header's "help" button.
    */
   public clickHelpButton(): void {
+    this.#checkModalElement();
     const helpButton: HTMLElement | null = this.#modalElement.querySelector(
       '.sky-modal .sky-modal-header-buttons button[name="help-button"]'
     );
 
-    if (helpButton) {
+    if (helpButton && window.getComputedStyle(helpButton).display !== 'none') {
       helpButton.click();
       this.#fixture.detectChanges();
     } else {
@@ -140,58 +143,43 @@ export class SkyModalFixture {
    * Returns the main modal element.
    */
   public getModalDiv(): any {
-    if (this.#modalElement) {
-      return this.#modalElement.querySelector('.sky-modal');
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    this.#checkModalElement();
+    return this.#modalElement.querySelector('.sky-modal');
   }
 
   /**
    * Returns the modal's content element.
    */
   public getModalContentEl(): any {
-    if (this.#modalElement) {
-      return this.#modalElement.querySelector('.sky-modal-content');
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    this.#checkModalElement();
+    return this.#modalElement.querySelector('.sky-modal-content');
   }
 
   /**
    * Returns the modal's footer element.
    */
   public getModalFooterEl(): any {
-    if (this.#modalElement) {
-      return this.#modalElement.querySelector('.sky-modal-footer');
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    this.#checkModalElement();
+    return this.#modalElement.querySelector('.sky-modal-footer');
   }
 
   /**
    * Returns the modal's header element.
    */
   public getModalHeaderEl(): any {
-    if (this.#modalElement) {
-      return this.#modalElement.querySelector('.sky-modal-header');
-    } else {
-      throw new Error(`No modal exists.`);
+    this.#checkModalElement();
+    return this.#modalElement.querySelector('.sky-modal-header');
+  }
+
+  #checkModalElement(): void {
+    if (!document.contains(this.#modalElement)) {
+      throw new Error('Modal element no longer exists. Was the modal closed?');
     }
   }
 
   #getModalDiaglogElement(): HTMLElement {
-    if (this.#modalElement) {
-      const modalDialog: HTMLElement | null =
-        this.#modalElement.querySelector('.sky-modal-dialog');
-
-      if (modalDialog) {
-        return modalDialog;
-      } else {
-        throw new Error(`No modal exists.`);
-      }
-    } else {
-      throw new Error(`No modal exists.`);
-    }
+    this.#checkModalElement();
+    // We can always know that the dialog element will exist if the modal is open and exists.
+    return this.#modalElement.querySelector('.sky-modal-dialog')!;
   }
 }

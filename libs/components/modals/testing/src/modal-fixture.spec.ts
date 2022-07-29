@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import {
   ComponentFixture,
@@ -20,7 +21,10 @@ import { SkyModalFixture } from './modal-fixture';
 @Component({
   selector: 'sky-modal-test',
   template: `
-    <sky-modal data-sky-id="test-modal">
+    <sky-modal
+      data-sky-id="test-modal"
+      [ngClass]="{ 'sky-theme-modern': fakeModern }"
+    >
       <sky-modal-header> Test Title </sky-modal-header>
       <sky-modal-content>
         <div class="test-class" id="test-modal-content-1">
@@ -44,7 +48,9 @@ import { SkyModalFixture } from './modal-fixture';
     </span>
   `,
 })
-class TestModalComponent {}
+class TestModalComponent {
+  public fakeModern = false;
+}
 
 @Component({
   selector: 'sky-modal-test',
@@ -65,6 +71,8 @@ class TestComponent {
   public ariaLabelledBy: string | undefined;
 
   public ariaRole: string | undefined;
+
+  public fakeModern = false;
 
   public fullPage: boolean | undefined;
 
@@ -93,6 +101,7 @@ class TestComponent {
       tiledBody: this.tiledBody,
     });
 
+    this.#modalInstance.componentInstance.fakeModern = this.fakeModern;
     this.#modalInstance.helpOpened.subscribe((key: string) => {
       this.helpTriggered(key);
     });
@@ -109,7 +118,7 @@ class TestComponent {
 
 @NgModule({
   declarations: [TestComponent, TestModalComponent],
-  imports: [RouterTestingModule, SkyModalModule],
+  imports: [CommonModule, RouterTestingModule, SkyModalModule],
   providers: [
     {
       provide: SkyThemeService,
@@ -144,6 +153,8 @@ describe('Modal fixture', () => {
     });
 
     modalService = TestBed.inject(SkyModalService);
+    fixture = TestBed.createComponent(TestComponent);
+    fixture.detectChanges();
   });
 
   // This is necessary as due to modals being launched outside of the test bed they will not
@@ -159,44 +170,65 @@ describe('Modal fixture', () => {
     fixture.detectChanges();
   });
 
+  it('should throw an error if the fixture is created with no correct identifier', fakeAsync(() => {
+    expect(() => new SkyModalFixture(fixture, 'test-modal')).toThrowError();
+  }));
+
   it('should retun the `ariaDescribedBy` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
-    fixture.detectChanges();
-
     fixture.componentInstance.ariaDescribedBy = 'describingID';
     const modal = launchTestModal();
 
     expect(modal.ariaDescribedBy).toBe('describingID');
   }));
 
-  it('should retun the `ariaLabelledBy` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `ariaDescribedBy` is requested', fakeAsync(() => {
+    fixture.componentInstance.ariaDescribedBy = 'describingID';
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.ariaDescribedBy).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should retun the `ariaLabelledBy` property correctly', fakeAsync(() => {
     fixture.componentInstance.ariaLabelledBy = 'labellingID';
     const modal = launchTestModal();
 
     expect(modal.ariaLabelledBy).toBe('labellingID');
   }));
 
-  it('should retun the `ariaRole` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `ariaLabelledBy` is requested', fakeAsync(() => {
+    fixture.componentInstance.ariaLabelledBy = 'labellingID';
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.ariaLabelledBy).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should retun the `ariaRole` property correctly', fakeAsync(() => {
     fixture.componentInstance.ariaRole = 'modalRole';
     const modal = launchTestModal();
 
     expect(modal.ariaRole).toBe('modalRole');
   }));
 
-  it('should retun the `fullPage` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `ariaRole` is requested', fakeAsync(() => {
+    fixture.componentInstance.ariaRole = 'modalRole';
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.ariaRole).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should retun the `fullPage` property correctly', fakeAsync(() => {
     fixture.componentInstance.fullPage = true;
     const modal = launchTestModal();
 
@@ -204,11 +236,18 @@ describe('Modal fixture', () => {
     expect(modal.size).toBeUndefined();
   }));
 
-  it('should retun the `size` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `fullPage` is requested', fakeAsync(() => {
+    fixture.componentInstance.fullPage = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.fullPage).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should retun the `size` property correctly', fakeAsync(() => {
     fixture.componentInstance.size = 'small';
     const modal = launchTestModal();
 
@@ -216,21 +255,36 @@ describe('Modal fixture', () => {
     expect(modal.size).toBe('small');
   }));
 
-  it('should retun the `tiledBody` property correctly', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `size` is requested', fakeAsync(() => {
+    fixture.componentInstance.size = 'small';
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.size).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should retun the `tiledBody` property correctly', fakeAsync(() => {
     fixture.componentInstance.tiledBody = true;
     const modal = launchTestModal();
 
     expect(modal.tiledBody).toBeTrue();
   }));
 
-  it('should close the modal when the close button click is triggered', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `tiledBody` is requested', fakeAsync(() => {
+    fixture.componentInstance.tiledBody = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
+
+    expect(() => modal.tiledBody).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should close the modal when the close button click is triggered', fakeAsync(() => {
     const modal = launchTestModal();
 
     modal.clickHeaderCloseButton();
@@ -240,11 +294,26 @@ describe('Modal fixture', () => {
     ).toBeNull();
   }));
 
+  it('should error if the modal has been closed when `clickHeaderCloseButton` is called', fakeAsync(() => {
+    const modal = launchTestModal();
+
+    fixture.componentInstance.closeModal();
+
+    expect(() => modal.clickHeaderCloseButton()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should error if the close button does not exist when `clickHeaderCloseButton` is called', fakeAsync(() => {
+    fixture.componentInstance.fakeModern = true;
+    const modal = launchTestModal();
+
+    expect(() => modal.clickHeaderCloseButton()).toThrowError(
+      'No header close button exists.'
+    );
+  }));
+
   it('should click the help button correctly when it is triggered', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
-    fixture.detectChanges();
-
     fixture.componentInstance.helpKey = 'test-key';
     const modal = launchTestModal();
 
@@ -259,11 +328,36 @@ describe('Modal fixture', () => {
     );
   }));
 
-  it('should select the correct element when calling `getModalEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
+  it('should error if the modal has been closed when `clickHelpButton` is called', fakeAsync(() => {
+    fixture.componentInstance.helpKey = 'test-key';
+    const modal = launchTestModal();
 
-    fixture.detectChanges();
+    fixture.componentInstance.closeModal();
 
+    expect(() => modal.clickHelpButton()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should error if the help button does not exist (no help key) when `clickHelpButton` is called', fakeAsync(() => {
+    const modal = launchTestModal();
+
+    expect(() => modal.clickHelpButton()).toThrowError(
+      'No help button exists.'
+    );
+  }));
+
+  it('should error if the help button does not exist (modern theme) when `clickHelpButton` is called', fakeAsync(() => {
+    fixture.componentInstance.fakeModern = true;
+    fixture.componentInstance.helpKey = 'test-key';
+    const modal = launchTestModal();
+
+    expect(() => modal.clickHelpButton()).toThrowError(
+      'No help button exists.'
+    );
+  }));
+
+  it('should select the correct element when calling `getModalDiv`', fakeAsync(() => {
     const modal = launchTestModal();
 
     const queriedElement = modal.getModalDiv();
@@ -272,11 +366,18 @@ describe('Modal fixture', () => {
     expect(queriedElement.classList).toContain('sky-modal');
   }));
 
-  it('should select the correct element when calling `getModalContentEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `getModalDiv` is requested', fakeAsync(() => {
+    fixture.componentInstance.tiledBody = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.getModalDiv()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should select the correct element when calling `getModalContentEl`', fakeAsync(() => {
     const modal = launchTestModal();
 
     const queriedElement = modal.getModalContentEl();
@@ -285,11 +386,18 @@ describe('Modal fixture', () => {
     expect(queriedElement.classList).toContain('sky-modal-content');
   }));
 
-  it('should select the correct element when calling `getModalHeaderEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `getModalContentEl` is requested', fakeAsync(() => {
+    fixture.componentInstance.tiledBody = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.getModalContentEl()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should select the correct element when calling `getModalHeaderEl`', fakeAsync(() => {
     const modal = launchTestModal();
 
     const queriedElement = modal.getModalHeaderEl();
@@ -298,16 +406,34 @@ describe('Modal fixture', () => {
     expect(queriedElement.classList).toContain('sky-modal-header');
   }));
 
-  it('should select the correct element when calling `getModalFooterEl`', fakeAsync(() => {
-    fixture = TestBed.createComponent(TestComponent);
-
+  it('should error if the modal has been closed when `getModalHeaderEl` is requested', fakeAsync(() => {
+    fixture.componentInstance.tiledBody = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
     fixture.detectChanges();
 
+    expect(() => modal.getModalHeaderEl()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
+  }));
+
+  it('should select the correct element when calling `getModalFooterEl`', fakeAsync(() => {
     const modal = launchTestModal();
 
     const queriedElement = modal.getModalFooterEl();
     expect(queriedElement).not.toBeNull();
     expect(queriedElement.tagName.toLowerCase()).toBe('div');
     expect(queriedElement.classList).toContain('sky-modal-footer');
+  }));
+
+  it('should error if the modal has been closed when `getModalFooterEl` is requested', fakeAsync(() => {
+    fixture.componentInstance.tiledBody = true;
+    const modal = launchTestModal();
+    fixture.componentInstance.closeModal();
+    fixture.detectChanges();
+
+    expect(() => modal.getModalFooterEl()).toThrowError(
+      'Modal element no longer exists. Was the modal closed?'
+    );
   }));
 });
