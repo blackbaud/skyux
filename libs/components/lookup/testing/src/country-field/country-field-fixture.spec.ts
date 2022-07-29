@@ -180,4 +180,10 @@ describe('Country field fixture', () => {
     const topResult = results[0];
     expect(topResult).toEqual(COUNTRY.name);
   });
+
+  it('should throw an index out of range error', async () => {
+    await expectAsync(
+      countryFieldFixture.searchAndSelectFirstResult('FOOBAR')
+    ).toBeRejectedWithError('Index out of range for results');
+  });
 });

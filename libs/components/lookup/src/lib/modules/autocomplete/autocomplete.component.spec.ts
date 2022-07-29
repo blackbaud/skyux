@@ -264,7 +264,7 @@ describe('Autocomplete component', () => {
       expect(autocomplete.searchFilters).toBeUndefined();
       expect(autocomplete.searchResults).toEqual([]);
       expect(autocomplete.searchResultsLimit).toBeUndefined();
-      expect(autocomplete.searchResultTemplate).toBeDefined();
+      expect(autocomplete.searchResultTemplate).toBeUndefined();
       expect(autocomplete.searchTextMinimumCharacters).toEqual(1);
     });
 
@@ -325,6 +325,31 @@ describe('Autocomplete component', () => {
       expect(asyncAutocomplete.searchResults.length).toEqual(6);
       expect(asyncAutocomplete.searchResults[0].data.name).toEqual('Red');
       expect(asyncAutocomplete.searchResults[1].data.name).toEqual('Green');
+    }));
+
+    it('should handle undefined result with async search', fakeAsync(() => {
+      // Don't set the 'result' property.
+      component.searchAsync = () => {};
+
+      fixture.detectChanges();
+
+      const spy = spyOn(
+        asyncAutocomplete.searchAsync,
+        'emit'
+      ).and.callThrough();
+
+      enterSearch('r', fixture, true);
+
+      expect(spy).toHaveBeenCalledWith({
+        displayType: 'popover',
+        offset: 0,
+        searchText: 'r',
+      });
+
+      tick(200);
+      fixture.detectChanges();
+
+      expect(asyncAutocomplete.searchResults.length).toEqual(0);
     }));
 
     it('should search against multiple properties', fakeAsync(() => {

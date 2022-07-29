@@ -169,7 +169,9 @@ export class SkyCountryFieldComponent
   public searchTextMinimumCharacters = 2;
 
   @ViewChild(SkyAutocompleteInputDirective)
-  public countrySearchAutocompleteDirective!: SkyAutocompleteInputDirective;
+  public countrySearchAutocompleteDirective:
+    | SkyAutocompleteInputDirective
+    | undefined;
 
   public set selectedCountry(newCountry: SkyCountryFieldCountry | undefined) {
     if (!this.#countriesAreEqual(this.selectedCountry, newCountry)) {
@@ -232,13 +234,13 @@ export class SkyCountryFieldComponent
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef!: TemplateRef<unknown>;
+  private inputTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('searchIconTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef!: TemplateRef<unknown>;
+  private searchIconTemplateRef: TemplateRef<unknown> | undefined;
 
   #changeDetector: ChangeDetectorRef;
 
@@ -543,14 +545,18 @@ export class SkyCountryFieldComponent
     if (selectedCountry) {
       // Note: We are looking up this data here to ensure we are using the offical data from the
       // library and not the data provided by the user on initialization of the component
-      selectedCountryData = this.countries.find(
+      const foundCountry = this.countries.find(
         (country) => country.iso2 === selectedCountry.iso2.toLocaleLowerCase()
-      )!;
-      selectedCountryIndex = this.countries.indexOf(selectedCountryData);
+      );
 
-      if (selectedCountryIndex >= 0) {
-        this.countries.splice(selectedCountryIndex, 1);
-        sortedNewCountries.splice(0, 0, selectedCountryData);
+      if (foundCountry) {
+        selectedCountryData = foundCountry;
+        selectedCountryIndex = this.countries.indexOf(selectedCountryData);
+
+        if (selectedCountryIndex >= 0) {
+          this.countries.splice(selectedCountryIndex, 1);
+          sortedNewCountries.splice(0, 0, selectedCountryData);
+        }
       }
     }
 
@@ -558,7 +564,7 @@ export class SkyCountryFieldComponent
   }
 
   #updateInputBox(): void {
-    if (this.inputBoxHostSvc) {
+    if (this.inputBoxHostSvc && this.inputTemplateRef) {
       this.inputBoxHostSvc.populate({
         inputTemplate: this.inputTemplateRef,
         iconsInsetTemplate:
