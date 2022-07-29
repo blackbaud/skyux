@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
 const BASE_Z_INDEX = 1040;
-let MODAL_HOSTS: SkyModalHostService[] = [];
+const MODAL_HOSTS: SkyModalHostService[] = [];
 
 /**
  * @internal
