@@ -1,7 +1,9 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
-import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
-
-import { SkyHarnessFilters } from '../lookup/harness-filters';
+import {
+  SkyComponentHarness,
+  SkyHarnessFilters,
+  SkyOverlayHarness,
+} from '@skyux/core/testing';
 
 import { SkyAutocompleteInputHarness } from './autocomplete-input.harness';
 
