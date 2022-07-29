@@ -13,7 +13,9 @@ describe('lookup harness', () => {
 
     const fixture = TestBed.createComponent(LookupHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const lookupHarness = await loader.getHarness(SkyLookupHarness);
+    const lookupHarness = await loader.getHarness(
+      SkyLookupHarness.with({ dataSkyId: 'my_lookup_1' })
+    );
 
     return { fixture, lookupHarness };
   }

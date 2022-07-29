@@ -15,7 +15,7 @@ interface SkyAutocompleteHarnessOption {
 }
 
 export class SkyAutocompleteHarness extends SkyComponentHarness {
-  public static hostSelector = '.sky-autocomplete';
+  public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 

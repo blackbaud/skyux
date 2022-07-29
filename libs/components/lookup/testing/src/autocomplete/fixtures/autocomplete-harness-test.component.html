@@ -3,7 +3,7 @@
     <label class="sky-control-label" [for]="favoriteColorInput.id">
       Favorite color
     </label>
-    <sky-autocomplete [data]="colors">
+    <sky-autocomplete [data]="colors" [attr.data-sky-id]="'my_autocomplete_2'">
       <input
         formControlName="favoriteColor"
         type="text"

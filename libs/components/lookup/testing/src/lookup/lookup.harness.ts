@@ -11,7 +11,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     options: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
     return new HarnessPredicate(SkyLookupHarness, options).addOption(
-      'dataSkyId',
+      'data-sky-id',
       options.dataSkyId,
       (harness, text) =>
         HarnessPredicate.stringMatches(harness.getSkyId(), text)
