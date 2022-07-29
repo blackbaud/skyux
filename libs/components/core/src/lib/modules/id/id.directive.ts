@@ -1,15 +1,6 @@
 import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
-let idIndex = 0;
-
-function generateId(): string {
-  idIndex++;
-
-  // Include timestamp and an incrementing index to guarantee unique IDs both during the application
-  // lifecycle as well as across sessions, since browsers will try to apply autocomplete options to
-  // elements with the same ID across sessions.
-  return `sky-id-gen__${new Date().getTime()}__${idIndex}`;
-}
+import { SkyIdService } from './id.service';
 
 /**
  * Sets the element's `id` attribute to a unique ID. To reference this unique ID on other elements,
@@ -27,10 +18,10 @@ export class SkyIdDirective {
 
   #_id: string;
 
-  constructor(elRef: ElementRef, renderer: Renderer2) {
+  constructor(elRef: ElementRef, renderer: Renderer2, idService: SkyIdService) {
     // Generate and apply the ID before the template is rendered
     // to avoid a changed-after-checked error.
-    const id = generateId();
+    const id = idService.generateId();
 
     renderer.setAttribute(elRef.nativeElement, 'id', id);
 

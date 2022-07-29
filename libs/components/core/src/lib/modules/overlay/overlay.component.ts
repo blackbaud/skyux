@@ -22,6 +22,7 @@ import { Observable, Subject, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
+import { SkyIdService } from '../id/id.service';
 
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
@@ -63,7 +64,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public enablePointerEvents = false;
 
-  public id = '';
+  public id: string;
 
   public showBackdrop = false;
 
@@ -101,12 +102,13 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     private injector: Injector,
     private coreAdapter: SkyCoreAdapterService,
     private context: SkyOverlayContext,
+    idSvc: SkyIdService,
     @Optional() private router?: Router
-  ) {}
+  ) {
+    this.id = idSvc.generateId();
+  }
 
   public ngOnInit(): void {
-    this.id = this.overlayRef.nativeElement.id;
-
     this.applyConfig(this.context.config);
 
     setTimeout(() => {
