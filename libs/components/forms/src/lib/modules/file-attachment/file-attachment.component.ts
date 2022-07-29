@@ -418,7 +418,9 @@ export class SkyFileAttachmentComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private _onChange = (_: any) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private _onTouched = () => {};
 }

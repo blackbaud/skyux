@@ -553,21 +553,35 @@ describe('Toggle switch component', () => {
       ).toEqual(true);
     }));
 
-    it('should only use ARIA labelledby if label component exists', fakeAsync(() => {
+    it('should tie the label and the component together using the `for` attribute', fakeAsync(() => {
       tick();
       fixture.detectChanges();
 
-      const labelledBy = buttonElement.getAttribute('aria-labelledby');
+      const label = toggleNativeElement.querySelector(
+        '.sky-toggle-switch-label'
+      );
 
-      expect(labelledBy.indexOf('sky-toggle-switch-label-')).toEqual(0);
+      expect(label.getAttribute('for')).toBe(buttonElement.id);
+    }));
 
+    it('should handle async labels', fakeAsync(() => {
       testComponent.showLabel = false;
+      tick();
+      fixture.detectChanges();
+
+      let label = toggleNativeElement.querySelector('.sky-toggle-switch-label');
+
+      expect(label).toBeNull();
+
+      testComponent.showLabel = true;
       testComponent.ref.markForCheck();
 
       tick();
       fixture.detectChanges();
 
-      expect(buttonElement.getAttribute('aria-labelledby')).toBeFalsy();
+      label = toggleNativeElement.querySelector('.sky-toggle-switch-label');
+
+      expect(label).not.toBeNull();
     }));
   });
 });
