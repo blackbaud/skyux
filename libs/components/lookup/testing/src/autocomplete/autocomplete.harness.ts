@@ -48,13 +48,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   public async getOptions(): Promise<
     SkyAutocompleteHarnessOption[] | undefined
   > {
-    const overlayId = await (await this.getInputEl()).getAttribute('aria-owns');
+    const overlayHarness = await this.getOverlay();
 
-    if (overlayId) {
-      const overlayHarness = await this.#documentRootLocator.locatorFor(
-        SkyOverlayHarness.with({ id: overlayId })
-      )();
-
+    if (overlayHarness) {
       const optionEls = await overlayHarness.queryAll(
         '.sky-autocomplete-result'
       );
@@ -79,5 +75,14 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   protected async getInputEl(): Promise<TestElement> {
     return (await this.#getInputHarness()).host();
+  }
+
+  protected async getOverlay(): Promise<SkyOverlayHarness | undefined> {
+    const overlayId = await (await this.getInputEl()).getAttribute('aria-owns');
+    return overlayId
+      ? this.#documentRootLocator.locatorFor(
+          SkyOverlayHarness.with({ id: overlayId })
+        )()
+      : undefined;
   }
 }

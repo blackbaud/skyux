@@ -22,7 +22,6 @@ describe('autocomplete harness', () => {
     const { fixture, lookupHarness } = await setupTest();
 
     fixture.detectChanges();
-    await fixture.whenStable();
 
     await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(false);
 
@@ -39,7 +38,6 @@ describe('autocomplete harness', () => {
     await lookupHarness.enterText('d');
 
     fixture.detectChanges();
-    await fixture.whenStable();
 
     const options = await lookupHarness.getOptions();
     expect(options).toEqual([{ textContent: 'Red' }]);

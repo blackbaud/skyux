@@ -6,7 +6,6 @@ import {
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
-  HostBinding,
   Injector,
   OnDestroy,
   OnInit,
@@ -26,8 +25,6 @@ import { SkyCoreAdapterService } from '../adapter-service/adapter.service';
 
 import { SkyOverlayConfig } from './overlay-config';
 import { SkyOverlayContext } from './overlay-context';
-
-let uniqueId = 0;
 
 /**
  * Omnibar is 1000.
@@ -66,8 +63,7 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   public enablePointerEvents = false;
 
-  @HostBinding('id')
-  public id: string;
+  public id = '';
 
   public showBackdrop = false;
 
@@ -106,11 +102,11 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     private coreAdapter: SkyCoreAdapterService,
     private context: SkyOverlayContext,
     @Optional() private router?: Router
-  ) {
-    this.id = `sky-overlay-${uniqueId++}`;
-  }
+  ) {}
 
   public ngOnInit(): void {
+    this.id = this.overlayRef.nativeElement.id;
+
     this.applyConfig(this.context.config);
 
     setTimeout(() => {

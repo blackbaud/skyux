@@ -9,7 +9,7 @@ interface SkyOverlayHarnessFilters extends BaseHarnessFilters {
 }
 
 export class SkyOverlayHarness extends ComponentHarness {
-  public static hostSelector = 'sky-overlay';
+  public static hostSelector = '.sky-overlay';
 
   public static with(
     options: SkyOverlayHarnessFilters

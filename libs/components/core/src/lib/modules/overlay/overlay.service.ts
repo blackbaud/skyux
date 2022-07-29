@@ -42,6 +42,10 @@ export class SkyOverlayService {
     }
 
     const componentRef = this.createOverlay(settings);
+
+    // Initialize the component before generating the instance.
+    componentRef.changeDetectorRef.detectChanges();
+
     const instance = new SkyOverlayInstance(settings, componentRef);
 
     instance.closed.subscribe(() => {
