@@ -1,0 +1,16 @@
+<form novalidate [formGroup]="myForm">
+  <div class="sky-form-group">
+    <label class="sky-control-label" [for]="favoriteColorInput.id">
+      Favorite color
+    </label>
+    <sky-autocomplete [data]="colors">
+      <input
+        formControlName="favoriteColor"
+        type="text"
+        skyAutocomplete
+        skyId
+        #favoriteColorInput
+      />
+    </sky-autocomplete>
+  </div>
+</form>

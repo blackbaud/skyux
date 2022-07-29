@@ -1,30 +1,23 @@
-import {
-  ComponentHarness,
-  HarnessPredicate,
-  TestElement,
-} from '@angular/cdk/testing';
-import { SkyOverlayHarness } from '@skyux/core/testing';
+import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyHarnessFilters } from '../lookup/harness-filters';
 
 import { SkyAutocompleteInputHarness } from './autocomplete-input.harness';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SkyAutocompleteHarnessFilters extends SkyHarnessFilters {}
 
 interface SkyAutocompleteHarnessOption {
   textContent: string;
 }
 
-export class SkyAutocompleteHarness extends ComponentHarness {
+export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = '.sky-autocomplete';
 
-  protected getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
-
-  protected async getInputEl(): Promise<TestElement> {
-    return (await this.getInputHarness()).host();
-  }
-
   #documentRootLocator = this.documentRootLocatorFactory();
+
+  #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
 
   public static with(
     options: SkyAutocompleteHarnessFilters
@@ -33,7 +26,7 @@ export class SkyAutocompleteHarness extends ComponentHarness {
       'dataSkyId',
       options.dataSkyId,
       (harness, text) =>
-        HarnessPredicate.stringMatches(harness.#getSkyId(), text)
+        HarnessPredicate.stringMatches(harness.getSkyId(), text)
     );
   }
 
@@ -84,7 +77,7 @@ export class SkyAutocompleteHarness extends ComponentHarness {
     return (await this.getInputEl()).isFocused();
   }
 
-  async #getSkyId(): Promise<string | null> {
-    return (await this.host()).getAttribute('data-sky-id');
+  protected async getInputEl(): Promise<TestElement> {
+    return (await this.#getInputHarness()).host();
   }
 }

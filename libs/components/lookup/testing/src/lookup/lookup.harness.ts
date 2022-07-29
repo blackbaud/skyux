@@ -15,11 +15,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
       'dataSkyId',
       options.dataSkyId,
       (harness, text) =>
-        HarnessPredicate.stringMatches(harness.#getSkyId(), text)
+        HarnessPredicate.stringMatches(harness.getSkyId(), text)
     );
-  }
-
-  async #getSkyId(): Promise<string | null> {
-    return (await this.host()).getAttribute('data-sky-id');
   }
 }

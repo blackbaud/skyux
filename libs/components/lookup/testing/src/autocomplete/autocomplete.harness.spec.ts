@@ -1,19 +1,19 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 
-import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.component';
-import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
-import { SkyLookupHarness } from './lookup.harness';
+import { SkyAutocompleteHarness } from './autocomplete.harness';
+import { AutocompleteHarnessTestComponent } from './fixtures/autocomplete-harness-test.component';
+import { AutocompleteHarnessTestModule } from './fixtures/autocomplete-harness-test.module';
 
-describe('lookup harness', () => {
+describe('autocomplete harness', () => {
   async function setupTest() {
     await TestBed.configureTestingModule({
-      imports: [LookupHarnessTestModule],
+      imports: [AutocompleteHarnessTestModule],
     }).compileComponents();
 
-    const fixture = TestBed.createComponent(LookupHarnessTestComponent);
+    const fixture = TestBed.createComponent(AutocompleteHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const lookupHarness = await loader.getHarness(SkyLookupHarness);
+    const lookupHarness = await loader.getHarness(SkyAutocompleteHarness);
 
     return { fixture, lookupHarness };
   }
@@ -42,10 +42,6 @@ describe('lookup harness', () => {
     await fixture.whenStable();
 
     const options = await lookupHarness.getOptions();
-    expect(options).toEqual([
-      { textContent: 'Abed' },
-      { textContent: 'Leonard' },
-      { textContent: 'Todd' },
-    ]);
+    expect(options).toEqual([{ textContent: 'Red' }]);
   });
 });
