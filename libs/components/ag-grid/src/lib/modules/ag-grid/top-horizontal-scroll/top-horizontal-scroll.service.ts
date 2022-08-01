@@ -33,7 +33,7 @@ export class TopHorizontalScrollService implements OnDestroy {
     );
 
     // create scrollbar clones
-    const cloneElement = scrollElement.cloneNode(true) as Element;
+    const cloneElement = scrollElement.cloneNode(true) as HTMLElement;
     const cloneViewportElement = cloneElement.querySelector(
       scrollViewportSelector
     );
@@ -55,7 +55,8 @@ export class TopHorizontalScrollService implements OnDestroy {
     );
 
     this.mutationObserver = this.mutationObserverSvc.create(() => {
-      cloneElement.setAttribute('style', scrollElement.getAttribute('style'));
+      // Maintain viewkeeper scroll position when the grid is resized, but update the scrollbar size
+      cloneElement.style.width = `${scrollElement.style.width}`;
       cloneViewportElement.setAttribute(
         'style',
         scrollViewportElement.getAttribute('style')
