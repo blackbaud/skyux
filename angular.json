@@ -1472,7 +1472,7 @@
         },
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
-          "outputs": ["{options.outputPath}"],
+          "outputs": ["{options.outputDir}"],
           "options": {
             "outputDir": "dist/storybook/indicators-storybook",
             "configDir": "apps/indicators-storybook/.storybook",
@@ -2996,7 +2996,7 @@
         },
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
-          "outputs": ["{options.outputPath}"],
+          "outputs": ["{options.outputDir}"],
           "options": {
             "outputDir": "dist/storybook/storybook",
             "configDir": "libs/components/storybook/.storybook",

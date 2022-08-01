@@ -1,8 +1,12 @@
 [Storybook preview](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybook/)
 
 Component Storybooks:
-<% storybooks.forEach(function(storybook){ %>
+<% if (storybooks.length > 0) {
+storybooks.forEach(function(storybook){ %>
 - [<%=storybook%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybooks/<%=storybook%>/)<% })
+} else { %>
+- _(no component storybooks affected in this pr)_ <%
+}
 if (apps.length > 0) { %>
 
 Apps:

@@ -74,30 +74,4 @@ describe('storybook-composition', () => {
       `Unable to load a project named "storybook"`
     );
   });
-
-  it('should error without storybook for affected projects', async () => {
-    const tree = createTreeWithEmptyWorkspace();
-    const spy = jest.spyOn(console, 'error');
-    await applicationGenerator(tree, { name: 'storybook' });
-    await storybookConfigurationGenerator(tree, {
-      configureCypress: false,
-      generateCypressSpecs: false,
-      generateStories: false,
-      linter: Linter.None,
-      name: 'storybook',
-    });
-    await configureStorybook(tree, { name: 'storybook' });
-    await generateStorybookComposition(tree, {
-      projectsJson: JSON.stringify(['test-app']),
-      baseUrl: '../storybooks',
-    });
-    await generateStorybookComposition(tree, {
-      projectsJson: JSON.stringify(['test-app']),
-      baseUrl: '../storybooks',
-      ansiColor: false,
-    });
-    expect(spy).toHaveBeenCalledWith(
-      `None of these projects have a Storybook target.`
-    );
-  });
 });

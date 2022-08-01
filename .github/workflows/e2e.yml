@@ -67,11 +67,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+        if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
+        if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
+        if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
         uses: actions/cache@v2
         with:
@@ -80,17 +83,24 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+        if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
         run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci --skip-nx-cache --outputDir=dist/storybooks/${{ matrix.project }}
-          npx sb extract ./dist/storybooks/${{ matrix.project }}
+          npx nx run ${{ matrix.project }}:build-storybook:ci
+          npx sb extract ./dist/storybook/${{ matrix.project }}
+        if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.project }}
-          path: ./dist/storybooks/${{ matrix.project }}
+          path: ./dist/storybook/${{ matrix.project }}
           retention-days: 1
           if-no-files-found: error
+        if: ${{ matrix.project != 'skip' }}
+      - name: Skip
+        run: |
+          echo 'No storybook to build'
+        if: ${{ matrix.project == 'skip' }}
 
   build-apps:
     name: Build Apps
@@ -177,7 +187,7 @@ jobs:
       - name: Generate Storybook Composition
         run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
-        run: npx nx run storybook:build-storybook:ci --skip-nx-cache --outputDir=dist/storybook
+        run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
         uses: actions/checkout@v3
         with:
@@ -198,6 +208,7 @@ jobs:
     needs:
       - install-deps
       - publish
+    if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
       fail-fast: false
       matrix:
