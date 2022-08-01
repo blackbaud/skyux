@@ -14,7 +14,6 @@
         selectMode="single"
         [ariaLabelledBy]="nameLabel.id"
         [data]="people"
-        [searchFilters]="getSearchFilters()"
         (searchAsync)="searchAsync($event)"
       >
       </sky-lookup>
