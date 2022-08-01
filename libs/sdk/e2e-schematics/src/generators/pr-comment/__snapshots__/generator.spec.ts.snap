@@ -1,5 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`pr-comment generator should generate files with apps: dist/README.md 1`] = `
+"# Sky UX Pull Request Preview
+
+Preview build for [PR #123](https://github.com/blackbaud/skyux/pull/123)
+
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://blackbaud.github.io/skyux-pr-preview/123/storybooks/storybook-1/)
+- [storybook-2](https://blackbaud.github.io/skyux-pr-preview/123/storybooks/storybook-2/)
+
+Apps:
+
+- [app-1](https://blackbaud.github.io/skyux-pr-preview/123/app-1/)
+- [app-2](https://blackbaud.github.io/skyux-pr-preview/123/app-2/)
+"
+`;
+
+exports[`pr-comment generator should generate files with apps: dist/pr_comment.md 1`] = `
+"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://blackbaud.github.io/skyux-pr-preview/123/storybooks/storybook-1/)
+- [storybook-2](https://blackbaud.github.io/skyux-pr-preview/123/storybooks/storybook-2/)
+
+Apps:
+
+- [app-1](https://blackbaud.github.io/skyux-pr-preview/123/app-1/)
+- [app-2](https://blackbaud.github.io/skyux-pr-preview/123/app-2/)
+"
+`;
+
+exports[`pr-comment generator should generate files with no storybooks: dist/README.md 1`] = `
+"# Sky UX Pull Request Preview
+
+Preview build for [PR #123](https://github.com/blackbaud/skyux/pull/123)
+
+[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+
+Component Storybooks:
+
+- _(no component storybooks affected in this pr)_ 
+
+Apps:
+
+- [app-1](https://blackbaud.github.io/skyux-pr-preview/123/app-1/)
+- [app-2](https://blackbaud.github.io/skyux-pr-preview/123/app-2/)
+"
+`;
+
+exports[`pr-comment generator should generate files with no storybooks: dist/pr_comment.md 1`] = `
+"[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/123/storybook/)
+
+Component Storybooks:
+
+- _(no component storybooks affected in this pr)_ 
+
+Apps:
+
+- [app-1](https://blackbaud.github.io/skyux-pr-preview/123/app-1/)
+- [app-2](https://blackbaud.github.io/skyux-pr-preview/123/app-2/)
+"
+`;
+
 exports[`pr-comment generator should generate files: dist/README.md 1`] = `
 "# Sky UX Pull Request Preview
 
@@ -25,5 +91,3 @@ Component Storybooks:
 `;
 
 exports[`pr-comment generator should throw errors 1`] = `"Invalid PR number"`;
-
-exports[`pr-comment generator should throw errors 2`] = `"No storybooks specified"`;

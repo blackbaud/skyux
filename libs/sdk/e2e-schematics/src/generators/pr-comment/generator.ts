@@ -11,15 +11,17 @@ function normalizeOptions(
     .split(',')
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
+  const apps = (options.apps || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
   if (!pr || isNaN(parseInt(`${pr}`, 10))) {
     throw new Error('Invalid PR number');
-  }
-  if (storybooks.length === 0) {
-    throw new Error('No storybooks specified');
   }
   return {
     pr,
     storybooks,
+    apps,
   };
 }
 
