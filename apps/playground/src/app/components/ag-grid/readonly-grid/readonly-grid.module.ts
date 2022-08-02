@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { SkyToolbarModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
-import { SkySearchModule } from '@skyux/lookup';
 import { SkyDropdownModule } from '@skyux/popovers';
-import { SkyTabsModule } from '@skyux/tabs';
 
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -22,9 +19,6 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
     SkyAgGridModule,
     SkyInfiniteScrollModule,
     SkyDropdownModule,
-    SkyTabsModule,
-    SkyToolbarModule,
-    SkySearchModule,
   ],
 })
 export class ReadonlyGridModule {

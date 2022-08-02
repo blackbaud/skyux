@@ -1,76 +1,28 @@
-<div>
-  <sky-tabset [active]="activeTabId" (activeChange)="tabChanged($event)">
-    <sky-tab tabHeading="Tab 1" tabIndex="1">
-      <ng-container *ngIf="'1' === activeTabId">
-        <sky-toolbar>
-          <sky-toolbar-item>
-            <sky-search
-              [searchText]="searchText"
-              [debounceTime]="250"
-              (searchApply)="searchApplied($event)"
-              (searchChange)="searchApplied($event)"
-              (searchClear)="searchApplied($event)"
-            >
-            </sky-search>
-          </sky-toolbar-item>
-        </sky-toolbar>
-        <sky-ag-grid-wrapper>
-          <ag-grid-angular
-            [gridOptions]="gridOptions"
-            [rowData]="gridData"
-            [overlayNoRowsTemplate]="noRowsTemplate"
-          >
-          </ag-grid-angular>
-        </sky-ag-grid-wrapper>
-      </ng-container>
-    </sky-tab>
-    <sky-tab tabHeading="Tab 2" tabIndex="2">
-      <ng-container *ngIf="'2' === activeTabId">
-        <sky-toolbar>
-          <sky-toolbar-item>
-            <sky-search
-              [searchText]="searchText"
-              [debounceTime]="250"
-              (searchApply)="searchApplied($event)"
-              (searchChange)="searchApplied($event)"
-              (searchClear)="searchApplied($event)"
-            >
-            </sky-search>
-          </sky-toolbar-item>
-        </sky-toolbar>
-        <sky-ag-grid-wrapper>
-          <ag-grid-angular
-            [gridOptions]="gridOptions"
-            [rowData]="gridData"
-            [overlayNoRowsTemplate]="noRowsTemplate"
-          >
-          </ag-grid-angular>
-        </sky-ag-grid-wrapper>
-      </ng-container>
-    </sky-tab>
-    <sky-tab tabHeading="Tab 3" tabIndex="3">
-      <ng-container *ngIf="'3' === activeTabId">
-        <sky-toolbar>
-          <sky-toolbar-item>
-            <sky-search
-              [searchText]="searchText"
-              [debounceTime]="250"
-              (searchApply)="searchApplied($event)"
-              (searchChange)="searchApplied($event)"
-              (searchClear)="searchApplied($event)"
-            >
-            </sky-search>
-          </sky-toolbar-item>
-        </sky-toolbar>
-        <sky-ag-grid-wrapper>
-          <ag-grid-angular
-            [gridOptions]="gridOptions"
-            [rowData]="gridData"
-            [overlayNoRowsTemplate]="noRowsTemplate"
-          >
-          </ag-grid-angular>
-        </sky-ag-grid-wrapper>
-      </ng-container>
-    </sky-tab>
-  </sky-tabset>
-</div>
+<ng-container
+  *ngIf="
+    (themeSvc?.settingsChange | async)?.currentSettings?.theme?.name ===
+      'modern';
+    then grid;
+    else grid
+  "
+>
+</ng-container>
+
+<ng-template #grid>
+  <div class="readonly-grid">
+    <sky-ag-grid-wrapper
+      skyAgGridRowDelete
+      [(rowDeleteIds)]="gridOptions.context.rowDeleteIds"
+      (rowDeleteConfirm)="deleteConfirm($event)"
+    >
+      <ag-grid-angular
+        [gridOptions]="gridOptions"
+        [rowData]="gridData"
+        skyBackToTop
+      >
+      </ag-grid-angular>
+    </sky-ag-grid-wrapper>
+    <sky-infinite-scroll [enabled]="hasMore" (scrollEnd)="onScrollEnd()">
+    </sky-infinite-scroll>
+  </div>
+</ng-template>
