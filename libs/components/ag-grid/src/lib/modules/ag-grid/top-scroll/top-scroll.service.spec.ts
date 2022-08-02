@@ -1,16 +1,15 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MutationObserverService } from '@skyux/core';
 import { SkyDataManagerService } from '@skyux/data-manager';
-
-import { MutationObserverService } from 'libs/components/core/src/lib/modules/mutation/mutation-observer-service';
 
 import { SkyAgGridDataManagerFixtureComponent } from '../fixtures/ag-grid-data-manager.component.fixture';
 import { SkyAgGridFixtureModule } from '../fixtures/ag-grid.module.fixture';
 
-import { TopHorizontalScrollService } from './top-horizontal-scroll.service';
+import { SkyAgGridTopScrollService } from './top-scroll.service';
 
-describe('topHorizontalScrollService', () => {
-  let topHorizontalScrollService: TopHorizontalScrollService;
+describe('SkyAgGridTopScrollService', () => {
+  let topHorizontalScrollService: SkyAgGridTopScrollService;
   let agGridDataManagerFixtureComponent: ComponentFixture<SkyAgGridDataManagerFixtureComponent>;
   let mutationObserverService: MutationObserverService;
 
@@ -19,7 +18,7 @@ describe('topHorizontalScrollService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
-      providers: [SkyDataManagerService, TopHorizontalScrollService],
+      providers: [SkyDataManagerService, SkyAgGridTopScrollService],
     });
 
     mutationObserverService = TestBed.inject(MutationObserverService);
@@ -34,7 +33,7 @@ describe('topHorizontalScrollService', () => {
     agGridDataManagerFixtureComponent = TestBed.createComponent(
       SkyAgGridDataManagerFixtureComponent
     );
-    topHorizontalScrollService = TestBed.inject(TopHorizontalScrollService);
+    topHorizontalScrollService = TestBed.inject(SkyAgGridTopScrollService);
     agGridDataManagerFixtureComponent.detectChanges();
     elementRef = agGridDataManagerFixtureComponent.elementRef;
     topHorizontalScrollService.appendTopScrollbarToGrid(elementRef);

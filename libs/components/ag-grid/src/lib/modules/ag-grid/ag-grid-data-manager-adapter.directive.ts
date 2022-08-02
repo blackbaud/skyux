@@ -27,7 +27,7 @@ import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
-import { TopHorizontalScrollService } from './top-horizontal-scroll/top-horizontal-scroll.service';
+import { SkyAgGridTopScrollService } from './top-scroll/top-scroll.service';
 
 /**
  * @internal
@@ -58,7 +58,7 @@ export class SkyAgGridDataManagerAdapterDirective
     private changeDetector: ChangeDetectorRef,
     private dataManagerSvc: SkyDataManagerService,
     private elementRef: ElementRef,
-    private topHorizontalScrollService: TopHorizontalScrollService
+    private topHorizontalScrollService: SkyAgGridTopScrollService
   ) {}
 
   public ngAfterContentInit(): void {
@@ -164,7 +164,7 @@ export class SkyAgGridDataManagerAdapterDirective
           this.displayColumns(dataState);
         });
 
-      if (agGrid.gridOptions.context?.enableTopHorizontalScroll) {
+      if (agGrid.gridOptions.context?.enableTopScroll) {
         this.topHorizontalScrollService.appendTopScrollbarToGrid(
           this.elementRef
         );

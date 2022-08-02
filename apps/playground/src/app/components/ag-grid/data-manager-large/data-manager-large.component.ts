@@ -73,7 +73,7 @@ export class DataManagerLargeComponent implements OnInit {
           },
         },
         context: {
-          enableTopHorizontalScroll: true,
+          enableTopScroll: true,
         },
       },
     });
