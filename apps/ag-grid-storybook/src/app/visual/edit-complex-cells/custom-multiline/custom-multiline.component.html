@@ -1,0 +1,9 @@
+<ng-container *ngIf="lines > 0">
+  <div>Line 1</div>
+  <div
+    *ngFor="let item of [].constructor(lines); let i = index"
+    class="sky-deemphasized"
+  >
+    Line {{ i + 2 }}
+  </div>
+</ng-container>

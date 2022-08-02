@@ -23,3 +23,4 @@ export { SkyDropdownMenuComponent as λ4 } from './lib/modules/dropdown/dropdown
 export { SkyPopoverContentComponent as λ5 } from './lib/modules/popover/popover-content.component';
 export { SkyPopoverComponent as λ6 } from './lib/modules/popover/popover.component';
 export { SkyPopoverDirective as λ7 } from './lib/modules/popover/popover.directive';
+export { SkyPopoverContext as λ8 } from './lib/modules/popover/popover-context';
