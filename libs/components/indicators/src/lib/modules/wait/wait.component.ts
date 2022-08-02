@@ -36,6 +36,25 @@ export class SkyWaitComponent implements OnInit {
       this.adapterService.removeWaitBounds(this.elRef);
     }
 
+    const blockFocus = this._isFullPage || !this.isNonBlocking;
+    if (blockFocus) {
+      if (value) {
+        // Before wait, capture the active element.
+        if (
+          (this.elRef.nativeElement.parentElement as HTMLElement).matches(
+            ':focus-within'
+          )
+        ) {
+          this.lastFocusElement = document.activeElement as HTMLElement;
+        } else {
+          this.lastFocusElement = undefined;
+        }
+      }
+    } else {
+      this.lastFocusElement = undefined;
+      this.tempFocusElement = undefined;
+    }
+
     this.adapterService.setBusyState(
       this.elRef,
       this.isFullPage,
@@ -43,6 +62,23 @@ export class SkyWaitComponent implements OnInit {
       this.isNonBlocking,
       this.id
     );
+
+    if (blockFocus && value && this.lastFocusElement) {
+      // After applying wait, capture the active element.
+      this.tempFocusElement = document.activeElement as HTMLElement;
+    }
+
+    if (blockFocus && !value && this.lastFocusElement) {
+      // After removing wait, if the focus has not been moved, restore the focus.
+      if (
+        this.tempFocusElement &&
+        this.tempFocusElement === document.activeElement
+      ) {
+        this.lastFocusElement.focus();
+      }
+      this.lastFocusElement = undefined;
+      this.tempFocusElement = undefined;
+    }
 
     this._isWaiting = value;
   }
@@ -87,6 +123,8 @@ export class SkyWaitComponent implements OnInit {
   private id = `sky-wait-${++nextId}`;
   private _isFullPage: boolean;
   private _isWaiting: boolean;
+  private lastFocusElement: HTMLElement | undefined;
+  private tempFocusElement: HTMLElement | undefined;
 
   constructor(
     private elRef: ElementRef,
