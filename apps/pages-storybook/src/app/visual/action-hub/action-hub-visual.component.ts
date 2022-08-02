@@ -4,6 +4,13 @@ import { SkyActionHubNeedsAttention } from '@skyux/pages';
 @Component({
   selector: 'app-action-hub-visual',
   templateUrl: './action-hub-visual.component.html',
+  styles: [
+    `
+      :host {
+        display: block;
+      }
+    `,
+  ],
 })
 export class ActionHubVisualComponent {
   public title = 'Action Hub';

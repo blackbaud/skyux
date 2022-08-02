@@ -11,6 +11,7 @@ import { LocalStorageConfigService } from './local-storage-config.service';
 @Component({
   selector: 'app-data-manager-visual',
   templateUrl: './data-manager-visual.component.html',
+  styleUrls: ['./data-manager-visual.component.scss'],
   providers: [
     SkyDataManagerService,
     {

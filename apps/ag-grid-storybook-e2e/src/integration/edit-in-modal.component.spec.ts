@@ -2,18 +2,16 @@
   describe(`ag-grid-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=skyaggriddemocomponent-skyaggriddemo--sky-ag-grid-demo`
+        `/iframe.html?globals=theme:${theme}&id=editinmodalcomponent-editinmodal--edit-in-modal`
       )
     );
     it('should render the component', () => {
-      cy.get('app-ag-grid-demo')
+      cy.get('app-edit-in-modal')
         .should('exist')
         .should('be.visible')
-        .screenshot(
-          `skyaggriddemocomponent-skyaggriddemo--sky-ag-grid-demo-${theme}`
-        )
+        .screenshot(`editinmodalcomponent-editinmodal--edit-in-modal-${theme}`)
         .percySnapshot(
-          `skyaggriddemocomponent-skyaggriddemo--sky-ag-grid-demo-${theme}`
+          `editinmodalcomponent-editinmodal--edit-in-modal-${theme}`
         );
     });
   });

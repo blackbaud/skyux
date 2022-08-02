@@ -2,7 +2,7 @@
   describe(`tabs-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs-visual`
+        `/iframe.html?globals=theme:${theme}&id=verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs-visual-${theme}`
+          `verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs-${theme}`
         )
         .percySnapshot(
-          `verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs-visual-${theme}`
+          `verticaltabsvisualcomponent-verticaltabsvisual--vertical-tabs-${theme}`
         );
     });
   });

@@ -2,7 +2,7 @@
   describe(`datetime-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider-visual`
+        `/iframe.html?globals=theme:${theme}&id=datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider-visual-${theme}`
+          `datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider-${theme}`
         )
         .percySnapshot(
-          `datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider-visual-${theme}`
+          `datepipewithprovidervisualcomponent-datepipewithprovidervisual--date-pipe-with-provider-${theme}`
         );
     });
   });

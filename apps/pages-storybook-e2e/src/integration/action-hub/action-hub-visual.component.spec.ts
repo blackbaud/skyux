@@ -2,7 +2,7 @@
   describe(`pages-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=actionhubvisualcomponent-actionhubvisual--action-hub-visual`
+        `/iframe.html?globals=theme:${theme}&id=actionhubvisualcomponent-actionhubvisual--action-hub`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `actionhubvisualcomponent-actionhubvisual--action-hub-visual-${theme}`
+          `actionhubvisualcomponent-actionhubvisual--action-hub-${theme}`
         )
         .percySnapshot(
-          `actionhubvisualcomponent-actionhubvisual--action-hub-visual-${theme}`
+          `actionhubvisualcomponent-actionhubvisual--action-hub-${theme}`
         );
     });
   });

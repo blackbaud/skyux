@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SkyAgGridDemoComponent } from './ag-grid-demo.component';
+import { EditInModalComponent } from './edit-in-modal.component';
 
-const routes: Routes = [{ path: '', component: SkyAgGridDemoComponent }];
+const routes: Routes = [{ path: '', component: EditInModalComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

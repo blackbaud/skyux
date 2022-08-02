@@ -2,7 +2,7 @@
   describe(`datetime-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe-visual`
+        `/iframe.html?globals=theme:${theme}&id=fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe-visual-${theme}`
+          `fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe-${theme}`
         )
         .percySnapshot(
-          `fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe-visual-${theme}`
+          `fuzzydatepipevisualcomponent-fuzzydatepipevisual--fuzzy-date-pipe-${theme}`
         );
     });
   });

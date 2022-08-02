@@ -2,7 +2,7 @@
   describe(`datetime-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=timepickervisualcomponent-timepickervisual--timepicker-visual`
+        `/iframe.html?globals=theme:${theme}&id=timepickervisualcomponent-timepickervisual--timepicker`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `timepickervisualcomponent-timepickervisual--timepicker-visual-${theme}`
+          `timepickervisualcomponent-timepickervisual--timepicker-${theme}`
         )
         .percySnapshot(
-          `timepickervisualcomponent-timepickervisual--timepicker-visual-${theme}`
+          `timepickervisualcomponent-timepickervisual--timepicker-${theme}`
         );
     });
   });

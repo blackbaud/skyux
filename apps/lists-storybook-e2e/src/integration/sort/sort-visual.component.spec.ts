@@ -2,15 +2,15 @@
   describe(`lists-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=sortvisualcomponent-sortvisual--sort-visual`
+        `/iframe.html?globals=theme:${theme}&id=sortvisualcomponent-sortvisual--sort`
       )
     );
     it('should render the component', () => {
       cy.get('app-sort-visual')
         .should('exist')
         .should('be.visible')
-        .screenshot(`sortvisualcomponent-sortvisual--sort-visual-${theme}`)
-        .percySnapshot(`sortvisualcomponent-sortvisual--sort-visual-${theme}`);
+        .screenshot(`sortvisualcomponent-sortvisual--sort-${theme}`)
+        .percySnapshot(`sortvisualcomponent-sortvisual--sort-${theme}`);
     });
   });
 });

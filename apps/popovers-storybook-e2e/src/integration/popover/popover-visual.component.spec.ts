@@ -2,18 +2,16 @@
   describe(`popovers-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=popovervisualcomponent-popovervisual--popover-visual`
+        `/iframe.html?globals=theme:${theme}&id=popovervisualcomponent-popovervisual--popover`
       )
     );
     it('should render the component', () => {
       cy.get('app-popover-visual')
         .should('exist')
         .should('be.visible')
-        .screenshot(
-          `popovervisualcomponent-popovervisual--popover-visual-${theme}`
-        )
+        .screenshot(`popovervisualcomponent-popovervisual--popover-${theme}`)
         .percySnapshot(
-          `popovervisualcomponent-popovervisual--popover-visual-${theme}`
+          `popovervisualcomponent-popovervisual--popover-${theme}`
         );
     });
   });

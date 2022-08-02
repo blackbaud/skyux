@@ -7,12 +7,12 @@ import { SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { SkyAgGridDemoComponent } from './ag-grid-demo.component';
 import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 import { EditInModalGridRoutingModule } from './edit-in-modal-grid-routing.module';
+import { EditInModalComponent } from './edit-in-modal.component';
 
 @NgModule({
-  declarations: [SkyAgGridDemoComponent, SkyAgGridEditModalComponent],
+  declarations: [EditInModalComponent, SkyAgGridEditModalComponent],
   imports: [
     AgGridModule,
     CommonModule,
@@ -22,6 +22,6 @@ import { EditInModalGridRoutingModule } from './edit-in-modal-grid-routing.modul
     SkyToolbarModule,
     SkyModalModule,
   ],
-  exports: [SkyAgGridDemoComponent, SkyAgGridEditModalComponent],
+  exports: [EditInModalComponent, SkyAgGridEditModalComponent],
 })
 export class EditInModalGridModule {}

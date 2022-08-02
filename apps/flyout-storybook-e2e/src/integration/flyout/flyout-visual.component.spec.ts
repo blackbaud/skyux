@@ -2,19 +2,15 @@
   describe(`flyout-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=flyoutvisualcomponent-flyoutvisual--flyout-visual`
+        `/iframe.html?globals=theme:${theme}&id=flyoutvisualcomponent-flyoutvisual--flyout`
       )
     );
     it('should render the component', () => {
       cy.get('app-flyout-visual')
         .should('exist')
         .should('be.visible')
-        .screenshot(
-          `flyoutvisualcomponent-flyoutvisual--flyout-visual-${theme}`
-        )
-        .percySnapshot(
-          `flyoutvisualcomponent-flyoutvisual--flyout-visual-${theme}`
-        );
+        .screenshot(`flyoutvisualcomponent-flyoutvisual--flyout-${theme}`)
+        .percySnapshot(`flyoutvisualcomponent-flyoutvisual--flyout-${theme}`);
     });
   });
 });

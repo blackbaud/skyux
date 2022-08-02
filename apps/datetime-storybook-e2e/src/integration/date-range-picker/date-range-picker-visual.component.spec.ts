@@ -2,7 +2,7 @@
   describe(`datetime-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=daterangepickervisualcomponent-daterangepickervisual--date-range-picker-visual`
+        `/iframe.html?globals=theme:${theme}&id=daterangepickervisualcomponent-daterangepickervisual--date-range-picker`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `daterangepickervisualcomponent-daterangepickervisual--date-range-picker-visual-${theme}`
+          `daterangepickervisualcomponent-daterangepickervisual--date-range-picker-${theme}`
         )
         .percySnapshot(
-          `daterangepickervisualcomponent-daterangepickervisual--date-range-picker-visual-${theme}`
+          `daterangepickervisualcomponent-daterangepickervisual--date-range-picker-${theme}`
         );
     });
   });

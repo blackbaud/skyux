@@ -2,7 +2,7 @@
   describe(`tabs-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=sectionedformvisualcomponent-sectionedformvisual--sectioned-form-visual`
+        `/iframe.html?globals=theme:${theme}&id=sectionedformvisualcomponent-sectionedformvisual--sectioned-form`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `sectionedformvisualcomponent-sectionedformvisual--sectioned-form-visual-${theme}`
+          `sectionedformvisualcomponent-sectionedformvisual--sectioned-form-${theme}`
         )
         .percySnapshot(
-          `sectionedformvisualcomponent-sectionedformvisual--sectioned-form-visual-${theme}`
+          `sectionedformvisualcomponent-sectionedformvisual--sectioned-form-${theme}`
         );
     });
   });

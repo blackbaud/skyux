@@ -16,10 +16,10 @@ import { SkyAgGridEditModalContext } from './ag-grid-edit-modal-context';
 import { SkyAgGridEditModalComponent } from './ag-grid-edit-modal.component';
 
 @Component({
-  selector: 'app-ag-grid-demo',
-  templateUrl: './ag-grid-demo.component.html',
+  selector: 'app-edit-in-modal',
+  templateUrl: './edit-in-modal.component.html',
 })
-export class SkyAgGridDemoComponent implements OnInit {
+export class EditInModalComponent implements OnInit {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public columnDefs: ColDef[] = [
     {

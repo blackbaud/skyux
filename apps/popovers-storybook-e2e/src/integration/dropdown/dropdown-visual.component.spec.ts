@@ -2,18 +2,16 @@
   describe(`popovers-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=dropdownvisualcomponent-dropdownvisual--dropdown-visual`
+        `/iframe.html?globals=theme:${theme}&id=dropdownvisualcomponent-dropdownvisual--dropdown`
       )
     );
     it('should render the component', () => {
       cy.get('app-dropdown-visual')
         .should('exist')
         .should('be.visible')
-        .screenshot(
-          `dropdownvisualcomponent-dropdownvisual--dropdown-visual-${theme}`
-        )
+        .screenshot(`dropdownvisualcomponent-dropdownvisual--dropdown-${theme}`)
         .percySnapshot(
-          `dropdownvisualcomponent-dropdownvisual--dropdown-visual-${theme}`
+          `dropdownvisualcomponent-dropdownvisual--dropdown-${theme}`
         );
     });
   });

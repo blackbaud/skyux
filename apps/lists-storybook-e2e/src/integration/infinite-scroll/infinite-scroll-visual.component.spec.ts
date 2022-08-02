@@ -2,7 +2,7 @@
   describe(`lists-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll-visual`
+        `/iframe.html?globals=theme:${theme}&id=infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll`
       )
     );
     it('should render the component', () => {
@@ -10,10 +10,10 @@
         .should('exist')
         .should('be.visible')
         .screenshot(
-          `infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll-visual-${theme}`
+          `infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll-${theme}`
         )
         .percySnapshot(
-          `infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll-visual-${theme}`
+          `infinitescrollvisualcomponent-infinitescrollvisual--infinite-scroll-${theme}`
         );
     });
   });
