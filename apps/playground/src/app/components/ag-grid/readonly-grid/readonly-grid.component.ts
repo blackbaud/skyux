@@ -1,179 +1,115 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import {
-  SkyAgGridRowDeleteConfirmArgs,
-  SkyAgGridService,
-  SkyCellType,
-} from '@skyux/ag-grid';
-import { SkyThemeService } from '@skyux/theme';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
+  ColDef,
   GridApi,
   GridOptions,
   GridReadyEvent,
-  ICellRendererParams,
+  ValueFormatterParams,
 } from 'ag-grid-community';
-import { Observable, Subject } from 'rxjs';
 
-import { ReadonlyGridContextMenuComponent } from './readonly-grid-context-menu.component';
-import { READONLY_GRID_DATA, RowStatusNames } from './readonly-grid-data';
-
-let nextId = 0;
+import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
 
 @Component({
   selector: 'app-readonly-grid-visual',
   templateUrl: './readonly-grid.component.html',
   styleUrls: ['./readonly-grid.component.scss'],
 })
-export class ReadonlyGridComponent implements OnInit {
-  public gridApi: GridApi;
-  public gridData = READONLY_GRID_DATA;
-  public gridOptions: GridOptions;
-  public hasMore = true;
-  public rowDeleteIds: string[];
-
-  public columnDefs = [
+export class ReadonlyGridComponent {
+  public columnDefs: ColDef[] = [
     {
       field: 'selected',
-      colId: 'selected',
       type: SkyCellType.RowSelector,
     },
     {
-      colId: 'contextMenu',
-      headerName: '',
-      sortable: false,
-      cellRenderer: ReadonlyGridContextMenuComponent,
-      maxWidth: 55,
-    },
-    {
       field: 'name',
-      headerName: 'Goal Name',
-      autoHeight: true,
+      headerName: 'Name',
     },
     {
-      field: 'value',
-      headerName: 'Current Value',
+      field: 'age',
+      headerName: 'Age',
       type: SkyCellType.Number,
-      maxWidth: 200,
+      maxWidth: 60,
     },
     {
       field: 'startDate',
-      headerName: 'Start Date',
+      headerName: 'Start date',
       type: SkyCellType.Date,
+      sort: 'asc',
     },
     {
       field: 'endDate',
-      headerName: 'End Date',
+      headerName: 'End date',
       type: SkyCellType.Date,
+      valueFormatter: this.endDateFormatter,
     },
     {
-      field: 'comment',
-      headerName: 'Comment',
-      maxWidth: 500,
-      autoHeight: true,
-      wrapText: true,
+      field: 'department',
+      headerName: 'Department',
+      type: SkyCellType.Autocomplete,
     },
     {
-      field: 'status',
-      headerName: 'Status',
-      sortable: false,
-      cellRenderer: this.statusRenderer,
-      minWidth: 300,
+      field: 'jobTitle',
+      headerName: 'Title',
+      type: SkyCellType.Autocomplete,
     },
   ];
 
-  @HostListener('window:resize')
-  public onWindowResize() {
-    if (this.gridApi) {
-      this.gridApi.sizeColumnsToFit();
-    }
-  }
+  public activeTabId: string = '1';
+  public gridApi: GridApi | undefined;
+  public gridData = SKY_AG_GRID_DEMO_DATA;
+  public gridOptions: GridOptions;
+  public searchText = '';
+  public noRowsTemplate: string;
 
   constructor(
     private agGridService: SkyAgGridService,
-    public themeSvc: SkyThemeService
-  ) {}
-
-  public ngOnInit(): void {
-    this.getGridOptions();
-  }
-
-  public deleteConfirm(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {
-    setTimeout(() => {
-      this.gridData = this.gridData.filter(
-        (data) => data.id !== confirmArgs.id
-      );
-    }, 3000);
-  }
-
-  public mockRemote(): Observable<any> {
-    const lorem =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Convallis a cras semper auctor neque vitae tempus quam. Tempor orci eu lobortis elementum nibh tellus molestie. Tempus imperdiet nulla malesuada pellentesque elit.';
-    const data: any[] = [];
-
-    for (let i = 0; i < 8; i++) {
-      data.push({
-        id: `9${++nextId}`,
-        name: `Item #` + nextId,
-        comment: i % 3 === 0 ? lorem : '',
-      });
-    }
-
-    const results = new Subject<any>();
-
-    setTimeout(() => {
-      results.next({
-        data,
-        hasMore: nextId < 50,
-      });
-    }, 1000);
-
-    return results;
+    private changeDetector: ChangeDetectorRef
+  ) {
+    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+    this.gridOptions = this.agGridService.getGridOptions({
+      gridOptions: {
+        columnDefs: this.columnDefs,
+        onGridReady: this.onGridReady.bind(this),
+      },
+    });
+    this.changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.gridApi.resetRowHeights();
+    this.changeDetector.markForCheck();
+    this.gridApi.setDomLayout('autoHeight');
   }
 
-  public onScrollEnd(): void {
-    if (this.hasMore) {
-      // MAKE API REQUEST HERE
-      // I am faking an API request because I don't have one to work with
-      this.mockRemote().subscribe((result: any) => {
-        this.gridApi.applyTransaction({ add: result.data });
-        this.hasMore = result.hasMore;
-      });
-    }
+  public tabChanged(activeTabId) {
+    console.log(activeTabId);
+    this.activeTabId = activeTabId;
   }
 
-  public statusRenderer(cellRendererParams: ICellRendererParams): string {
-    const iconClassMap = {
-      [RowStatusNames.BEHIND]: 'fa-warning',
-      [RowStatusNames.CURRENT]: 'fa-clock-o',
-      [RowStatusNames.COMPLETE]: 'fa-check',
-    };
-    if (cellRendererParams.value) {
-      return `<div class="status ${cellRendererParams.value.toLowerCase()}">
-              <i class="fa ${iconClassMap[cellRendererParams.value]}"></i> ${
-        cellRendererParams.value
-      }
-            </div>`;
+  public searchApplied(searchText: string | void): void {
+    if (searchText) {
+      this.searchText = searchText;
     } else {
-      return '';
+      this.searchText = '';
+    }
+    if (this.gridApi) {
+      this.gridApi.setQuickFilter(this.searchText);
+      const displayedRowCount = this.gridApi.getDisplayedRowCount();
+      if (displayedRowCount > 0) {
+        this.gridApi.hideOverlay();
+      } else {
+        this.gridApi.showNoRowsOverlay();
+      }
     }
   }
 
-  private getGridOptions(): void {
-    this.gridOptions = {
-      columnDefs: this.columnDefs,
-      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
-      context: {
-        rowDeleteIds: [],
-      },
-    };
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: this.gridOptions,
-    });
+  private endDateFormatter(params: ValueFormatterParams): string {
+    const dateConfig = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return params.value
+      ? params.value.toLocaleDateString('en-us', dateConfig)
+      : 'N/A';
   }
 }

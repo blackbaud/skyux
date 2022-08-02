@@ -61,7 +61,8 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.observer.disconnect();
-
+    this.scrollableHostWatchUnsubscribe.next();
+    this.scrollableHostWatchUnsubscribe.complete();
     this.destroyViewkeepers();
   }
 
@@ -117,6 +118,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     if (this.viewkeeperElsChanged(viewkeeperEls)) {
       if (this.scrollableHostWatchUnsubscribe) {
         this.scrollableHostWatchUnsubscribe.next();
+        this.scrollableHostWatchUnsubscribe.complete();
         this.scrollableHostWatchUnsubscribe = new Subject();
       } else {
         this.scrollableHostWatchUnsubscribe = new Subject();
