@@ -58,7 +58,7 @@ export class SkyAgGridDataManagerAdapterDirective
     private changeDetector: ChangeDetectorRef,
     private dataManagerSvc: SkyDataManagerService,
     private elementRef: ElementRef,
-    private topHorizontalScrollService: SkyAgGridTopScrollService
+    private topScrollSvc: SkyAgGridTopScrollService
   ) {}
 
   public ngAfterContentInit(): void {
@@ -165,9 +165,7 @@ export class SkyAgGridDataManagerAdapterDirective
         });
 
       if (agGrid.gridOptions.context?.enableTopScroll) {
-        this.topHorizontalScrollService.appendTopScrollbarToGrid(
-          this.elementRef
-        );
+        this.topScrollSvc.appendTopScrollbarToGrid(this.elementRef);
         this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
           '.ag-header',
           '.ag-body-horizontal-scroll',
