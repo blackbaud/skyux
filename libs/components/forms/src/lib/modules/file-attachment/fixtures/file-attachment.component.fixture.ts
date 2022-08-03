@@ -20,6 +20,7 @@ export class FileAttachmentTestComponent implements OnInit {
 
   @ViewChild(SkyFileAttachmentComponent)
   public fileAttachmentComponent: SkyFileAttachmentComponent;
+  public showInlineHelp = false;
 
   constructor(private formBuilder: FormBuilder) {}
 

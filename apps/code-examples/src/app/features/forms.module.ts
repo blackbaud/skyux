@@ -7,6 +7,10 @@ import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../cod
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
+import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.component';
+import { SkySingleFileAttachmentDemoModule as BasicSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.module';
+import { SingleFileAttachmentDemoComponent as InlineHelpSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.component';
+import { SkySingleFileAttachmentDemoModule as InlineHelpSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.module';
 import { ToggleSwitchDemoComponent as InlineHelpToggleSwitchComponent } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.component';
 import { SkyToggleSwitchDemoModule as InlineHelpToggleSwitchModule } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.module';
 
@@ -22,6 +26,14 @@ const routes: Routes = [
   {
     path: 'checkbox/inline-help',
     component: InlineHelpCheckboxDemoComponent,
+  },
+  {
+    path: 'single-file-attachment/basic',
+    component: BasicSingleFileAttachmentDemoComponent,
+  },
+  {
+    path: 'single-file-attachment/inline-help',
+    component: InlineHelpSingleFileAttachmentDemoComponent,
   },
   {
     path: 'toggle-switch/inline-help',
@@ -40,6 +52,8 @@ export class FormsRoutingModule {}
     CheckboxBasicDemoModule,
     FormsRoutingModule,
     InlineHelpCheckboxDemoModule,
+    BasicSkySingleFileAttachmentDemoModule,
+    InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
   ],
