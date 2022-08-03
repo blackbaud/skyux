@@ -544,4 +544,31 @@ describe('Wait component', () => {
     const ariaLabel = getAriaLabel();
     expect(ariaLabel).toBe('Waiting on the page to load.');
   }));
+
+  it('should restore focus', fakeAsync(() => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const button = document.getElementById('inside-button');
+    button.focus();
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.detectChanges();
+    expect(document.activeElement).not.toBe(button);
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(button);
+  }));
+
+  it('should not restore focus if focus is changed', fakeAsync(() => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    const button = document.getElementById('inside-button');
+    button.focus();
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.detectChanges();
+    expect(document.activeElement).not.toBe(button);
+    document.getElementById('anchor-1').focus();
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+    expect(document.activeElement).not.toBe(button);
+  }));
 });
