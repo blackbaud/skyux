@@ -1,5 +1,44 @@
 # Changelog
 
+## [6.10.0](https://github.com/blackbaud/skyux/compare/6.9.0...6.10.0) (2022-08-03)
+
+### Features
+
+- **components/ag-grid:** opt-in top horizontal scrollbar in ag-grid ([#374](https://github.com/blackbaud/skyux/issues/374)) ([ea51e4e](https://github.com/blackbaud/skyux/commit/ea51e4ebded825333b5cd0023661a7ffe05034db))
+- **components/forms:** add inline help support for toggle switch component ([#361](https://github.com/blackbaud/skyux/issues/361)) ([52dfc70](https://github.com/blackbaud/skyux/commit/52dfc70ef71de3079a5f436973a63ba54860e83c))
+- **sdk/testing:** add SkyBy.dataSkyId() to make it easier to match data-sky-id ([#332](https://github.com/blackbaud/skyux/issues/332)) ([a61ff53](https://github.com/blackbaud/skyux/commit/a61ff531fd11c85b0eb8a5f24a3bdb3cb485b0f9))
+
+### Bug Fixes
+
+- **components/core:** viewkeeper now properly unsubscribes from watching for scrollable host changes when destroyed ([#376](https://github.com/blackbaud/skyux/issues/376)) ([3badc27](https://github.com/blackbaud/skyux/commit/3badc270bcc185adf4013b7714d3203e9a59c2bf))
+- **components/forms:** toggle switch labels now include the `for` attribute ([#371](https://github.com/blackbaud/skyux/issues/371)) ([17c9933](https://github.com/blackbaud/skyux/commit/17c9933c11ab3ff35010c067de232ac1a26f0e8f))
+
+## [6.9.0](https://github.com/blackbaud/skyux/compare/6.8.0...6.9.0) (2022-07-27)
+
+### Features
+
+- **components/forms:** add inline help support for checkbox component ([#354](https://github.com/blackbaud/skyux/issues/354)) ([49d2d3e](https://github.com/blackbaud/skyux/commit/49d2d3e2c8482eaf5f07e65a54c823f415c5ea02))
+- **components/forms:** add inline help support for radio component ([#355](https://github.com/blackbaud/skyux/issues/355)) ([6e0146c](https://github.com/blackbaud/skyux/commit/6e0146c786bed7a23cc629bb022f6e554fc2a9a2))
+- **components/indicators:** update icons and moment dependencies ([#359](https://github.com/blackbaud/skyux/issues/359)) ([8578e81](https://github.com/blackbaud/skyux/commit/8578e810fc090a3e48908717c1f024fa915e69de)), closes [#34](https://github.com/blackbaud/skyux/issues/34) [#35](https://github.com/blackbaud/skyux/issues/35) [#33](https://github.com/blackbaud/skyux/issues/33)
+
+### Bug Fixes
+
+- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
+- **components/indicators:** update icons cdn link ([#360](https://github.com/blackbaud/skyux/issues/360)) ([4c42599](https://github.com/blackbaud/skyux/commit/4c425996daede636b7c5100378c7c82aa0e2e70a))
+- **components/modals:** viewkept toolbars now style correctly at the top of modern theme modals ([#347](https://github.com/blackbaud/skyux/issues/347)) ([1e570dd](https://github.com/blackbaud/skyux/commit/1e570dd02a11594d04f905ed817c67a97455ca91))
+
+## [6.8.0](https://github.com/blackbaud/skyux/compare/6.7.0...6.8.0) (2022-07-22)
+
+### Features
+
+- **components/indicators:** add inline help support for key info component ([#346](https://github.com/blackbaud/skyux/issues/346)) ([748add9](https://github.com/blackbaud/skyux/commit/748add9c235eb41ed3e90ee6d082eaa32b365dbf))
+
+### Bug Fixes
+
+- **components/data-manager:** fix column picker once-ability and disable & warn when no columns selected ([#349](https://github.com/blackbaud/skyux/issues/349)) ([c49e4f5](https://github.com/blackbaud/skyux/commit/c49e4f50faa637caf39336489c6c9ca3a369c661))
+- **components/forms:** prevent overlapping text after toggle switch label ([#344](https://github.com/blackbaud/skyux/issues/344)) ([5821fa5](https://github.com/blackbaud/skyux/commit/5821fa56522a6ae053f52b749db618971134e34e))
+- **components/tabs:** fix color of text on modern theme tabsets ([#345](https://github.com/blackbaud/skyux/issues/345)) ([74a5e28](https://github.com/blackbaud/skyux/commit/74a5e289ef9e7bcbc0e511bdb4443851acad40f5))
+
 ## [6.7.0](https://github.com/blackbaud/skyux/compare/6.6.0...6.7.0) (2022-07-18)
 
 ### Features

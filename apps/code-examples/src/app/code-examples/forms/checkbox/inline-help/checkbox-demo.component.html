@@ -1,0 +1,40 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="sky-margin-stacked-xl">
+    <ul class="sky-list-unstyled">
+      <li>
+        <sky-checkbox formControlName="email">
+          <sky-checkbox-label>
+            Email
+            <sky-help-inline
+              (actionClick)="onActionClick()"
+              class="sky-control-help"
+            ></sky-help-inline>
+          </sky-checkbox-label>
+        </sky-checkbox>
+      </li>
+      <li>
+        <sky-checkbox formControlName="phone">
+          <sky-checkbox-label>
+            Phone
+            <sky-help-inline
+              (actionClick)="onActionClick()"
+              class="sky-control-help"
+            ></sky-help-inline>
+          </sky-checkbox-label>
+        </sky-checkbox>
+      </li>
+      <li>
+        <sky-checkbox formControlName="text">
+          <sky-checkbox-label>
+            Text
+            <sky-help-inline
+              (actionClick)="onActionClick()"
+              class="sky-control-help"
+            ></sky-help-inline>
+          </sky-checkbox-label>
+        </sky-checkbox>
+      </li>
+    </ul>
+  </div>
+  <button class="sky-btn sky-btn-primary" type="submit">Submit</button>
+</form>

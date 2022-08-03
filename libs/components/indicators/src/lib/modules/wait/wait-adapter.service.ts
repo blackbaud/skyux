@@ -16,7 +16,12 @@ import {
 export class SkyWaitAdapterService implements OnDestroy {
   private static isPageWaitActive = false;
   private static busyElements: {
-    [key: string]: { busyEl: HTMLElement; listener: any };
+    [key: string]: {
+      busyEl: HTMLElement;
+      listener: any;
+      restoreFocusElement?: HTMLElement | undefined;
+      restoreFocusCheckElement?: HTMLElement | undefined;
+    };
   } = {};
 
   private focussableElements: HTMLElement[];
@@ -56,11 +61,17 @@ export class SkyWaitAdapterService implements OnDestroy {
 
     if (!isNonBlocking) {
       if (isWaiting) {
+        let restoreFocusElement: HTMLElement | undefined = undefined;
+        let restoreFocusCheckElement: HTMLElement | undefined = undefined;
         this.renderer.setAttribute(busyEl, 'aria-busy', 'true');
 
         // Remove focus from page when full page blocking wait
         if (isFullPage || busyEl.contains(document.activeElement)) {
+          if (document.activeElement !== document.body) {
+            restoreFocusElement = document.activeElement as HTMLElement;
+          }
           this.clearDocumentFocus();
+          restoreFocusCheckElement = document.activeElement as HTMLElement;
         }
 
         if (isFullPage) {
@@ -85,6 +96,8 @@ export class SkyWaitAdapterService implements OnDestroy {
           SkyWaitAdapterService.busyElements[waitComponentId] = {
             listener: endListenerFunc,
             busyEl: undefined,
+            restoreFocusElement,
+            restoreFocusCheckElement,
           };
         } else {
           const endListenerFunc = this.renderer.listen(
@@ -111,6 +124,8 @@ export class SkyWaitAdapterService implements OnDestroy {
           SkyWaitAdapterService.busyElements[waitComponentId] = {
             listener: endListenerFunc,
             busyEl: busyEl,
+            restoreFocusElement,
+            restoreFocusCheckElement,
           };
         }
       } else {
@@ -121,6 +136,17 @@ export class SkyWaitAdapterService implements OnDestroy {
         }
         if (waitComponentId in SkyWaitAdapterService.busyElements) {
           SkyWaitAdapterService.busyElements[waitComponentId].listener();
+          // If there is a restore focus element and the focus has not moved, restore focus.
+          if (
+            SkyWaitAdapterService.busyElements[waitComponentId]
+              .restoreFocusElement &&
+            SkyWaitAdapterService.busyElements[waitComponentId]
+              .restoreFocusCheckElement === document.activeElement
+          ) {
+            SkyWaitAdapterService.busyElements[
+              waitComponentId
+            ].restoreFocusElement.focus();
+          }
           delete SkyWaitAdapterService.busyElements[waitComponentId];
         }
       }

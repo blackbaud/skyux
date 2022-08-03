@@ -14,6 +14,14 @@
   Toggle disabled
 </button>
 
+<button
+  type="button"
+  class="sky-btn sky-btn-primary sky-test-label"
+  (click)="onToggleInlineHelpClick()"
+>
+  Toggle inline help
+</button>
+
 <h1>Radio buttons (reactive)</h1>
 
 <form novalidate [formGroup]="radioForm">
@@ -31,6 +39,10 @@
           <sky-radio [value]="value">
             <sky-radio-label>
               {{ value.name }}
+              <sky-help-inline
+                *ngIf="showInlineHelp"
+                class="sky-control-help"
+              ></sky-help-inline>
             </sky-radio-label>
           </sky-radio>
         </li>
@@ -77,6 +89,10 @@
         <sky-radio [value]="item.name">
           <sky-radio-label>
             {{ item.name }}
+            <sky-help-inline
+              *ngIf="showInlineHelp"
+              class="sky-control-help"
+            ></sky-help-inline>
           </sky-radio-label>
         </sky-radio>
       </li>
