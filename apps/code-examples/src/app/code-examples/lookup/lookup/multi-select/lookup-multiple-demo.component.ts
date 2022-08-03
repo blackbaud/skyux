@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
+import {
+  SkyAutocompleteSearchArgs,
+  SkyAutocompleteSearchFunctionFilter,
+} from '@skyux/lookup';
 
 @Component({
   selector: 'app-lookup-demo',
@@ -51,7 +54,14 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
     const names: any[] = this.myForm.controls.names.value;
     return [
-      (searchText: string, item: any): boolean => {
+      (
+        searchText: string,
+        item: any,
+        args?: SkyAutocompleteSearchArgs
+      ): boolean => {
+        if (args?.context === 'modal') {
+          return true;
+        }
         const found = names.find((option) => option.name === item.name);
         return !found;
       },
