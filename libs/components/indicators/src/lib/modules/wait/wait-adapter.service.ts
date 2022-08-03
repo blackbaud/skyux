@@ -67,7 +67,9 @@ export class SkyWaitAdapterService implements OnDestroy {
 
         // Remove focus from page when full page blocking wait
         if (isFullPage || busyEl.contains(document.activeElement)) {
-          restoreFocusElement = document.activeElement as HTMLElement;
+          if (document.activeElement !== document.body) {
+            restoreFocusElement = document.activeElement as HTMLElement;
+          }
           this.clearDocumentFocus();
           restoreFocusCheckElement = document.activeElement as HTMLElement;
         }
