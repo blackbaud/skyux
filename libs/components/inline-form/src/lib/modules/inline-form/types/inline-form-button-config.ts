@@ -26,7 +26,6 @@ export interface SkyInlineFormButtonConfig {
    * The valid options are `default`, `link`, and `primary`.
    * These values set the background color and style from the
    * [secondary, link, and primary button classes](https://developer.blackbaud.com/skyux/components/button) respectively.
-   * @default `default`
    */
   styleType?: string;
 }
