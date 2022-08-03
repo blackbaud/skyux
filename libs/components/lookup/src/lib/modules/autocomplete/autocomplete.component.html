@@ -53,7 +53,7 @@
       >
         <ng-container
           *ngTemplateOutlet="
-            searchResultTemplate;
+            searchResultTemplate || defaultSearchResultTemplate;
             context: { item: result.data }
           "
         >

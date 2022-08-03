@@ -14,6 +14,10 @@ const routes: Routes = [
         (m) => m.StatusIndicatorModule
       ),
   },
+  {
+    path: 'wait',
+    loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
+  },
 ];
 
 @NgModule({

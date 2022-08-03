@@ -13,6 +13,8 @@ import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoCompo
 import { SkySingleFileAttachmentDemoModule as BasicSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.module';
 import { SingleFileAttachmentDemoComponent as InlineHelpSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.component';
 import { SkySingleFileAttachmentDemoModule as InlineHelpSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.module';
+import { ToggleSwitchDemoComponent as InlineHelpToggleSwitchComponent } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.component';
+import { SkyToggleSwitchDemoModule as InlineHelpToggleSwitchModule } from '../code-examples/forms/toggle-switch/inline-help/toggle-switch-demo.module';
 
 const routes: Routes = [
   {
@@ -39,6 +41,10 @@ const routes: Routes = [
     path: 'single-file-attachment/inline-help',
     component: InlineHelpSingleFileAttachmentDemoComponent,
   },
+  {
+    path: 'toggle-switch/inline-help',
+    component: InlineHelpToggleSwitchComponent,
+  },
 ];
 
 @NgModule({
@@ -56,6 +62,7 @@ export class FormsRoutingModule {}
     BasicSkySingleFileAttachmentDemoModule,
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
+    InlineHelpToggleSwitchModule,
   ],
 })
 export class FormsModule {}
