@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   ContentChildren,
   Directive,
+  ElementRef,
   Input,
   OnDestroy,
   QueryList,
@@ -26,6 +27,7 @@ import { Subject, Subscription } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
+import { SkyAgGridTopScrollService } from './top-scroll/top-scroll.service';
 
 /**
  * @internal
@@ -54,7 +56,9 @@ export class SkyAgGridDataManagerAdapterDirective
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private dataManagerSvc: SkyDataManagerService
+    private dataManagerSvc: SkyDataManagerService,
+    private elementRef: ElementRef,
+    private topScrollSvc: SkyAgGridTopScrollService
   ) {}
 
   public ngAfterContentInit(): void {
@@ -159,6 +163,14 @@ export class SkyAgGridDataManagerAdapterDirective
           this.currentDataState = dataState;
           this.displayColumns(dataState);
         });
+
+      if (agGrid.gridOptions.context?.enableTopScroll) {
+        this.topScrollSvc.appendTopScrollbarToGrid(this.elementRef);
+        this.dataManagerSvc.setViewkeeperClasses(this.viewId, [
+          '.ag-header',
+          '.ag-body-horizontal-scroll',
+        ]);
+      }
 
       agGrid.api.sizeColumnsToFit();
     });
