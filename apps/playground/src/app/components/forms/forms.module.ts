@@ -24,6 +24,20 @@ const routes: Routes = [
     loadChildren: () =>
       import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
   },
+  {
+    path: 'file-attachment',
+    loadChildren: () =>
+      import('./file-attachment/file-attachment.module').then(
+        (m) => m.FileAttachmentModule
+      ),
+  },
+  {
+    path: 'single-file-attachment',
+    loadChildren: () =>
+      import('./single-file-attachment/single-file-attachment.module').then(
+        (m) => m.SingleFileAttachmentModule
+      ),
+  },
 ];
 
 @NgModule({

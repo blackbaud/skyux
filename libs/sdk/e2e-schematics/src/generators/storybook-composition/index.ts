@@ -34,13 +34,6 @@ export default async function (tree: Tree, schema: Schema) {
       );
     });
 
-  if (projects.length === 0) {
-    (schema.ansiColor === false ? console.error : logger.fatal)(
-      `None of these projects have a Storybook target.`
-    );
-    return;
-  }
-
   generateFiles(
     tree,
     joinPathFragments(__dirname, './files'),
