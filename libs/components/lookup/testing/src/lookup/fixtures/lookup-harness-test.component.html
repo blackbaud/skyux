@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="myForm">
   <div class="sky-form-group">
-    <sky-input-box>
+    <sky-input-box [attr.data-sky-id]="'my_lookup_1'">
       <label class="sky-control-label" skyId #nameLabel="skyId">
         Favorite name
       </label>
@@ -8,7 +8,6 @@
         formControlName="name"
         selectMode="single"
         [ariaLabelledBy]="nameLabel.id"
-        [attr.data-sky-id]="'my_lookup_1'"
         [data]="people"
         [searchFilters]="getSearchFilters()"
         (searchAsync)="searchAsync($event)"

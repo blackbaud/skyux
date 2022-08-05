@@ -10,7 +10,6 @@ import {
   OnInit,
   Optional,
   Output,
-  Renderer2,
   Self,
   TemplateRef,
   ViewChild,
@@ -296,7 +295,6 @@ export class SkyLookupComponent
     adapter: SkyLookupAdapterService,
     modalService: SkyModalService,
     resourcesService: SkyLibResourcesService,
-    private renderer: Renderer2,
     @Self() @Optional() ngControl?: NgControl,
     @Optional() public inputBoxHostSvc?: SkyInputBoxHostService,
     @Optional() public themeSvc?: SkyThemeService
@@ -325,6 +323,7 @@ export class SkyLookupComponent
         iconsInsetTemplate: this.enableShowMore
           ? undefined
           : this.searchIconTemplateRef,
+        wrapperClass: 'sky-input-box-lookup',
       });
     }
 
@@ -344,38 +343,6 @@ export class SkyLookupComponent
     if (!this.disabled) {
       this.#addEventListeners();
     }
-
-    if (this.#elementRef.nativeElement.dataset.skyId) {
-      this.renderer.setAttribute(
-        this.lookupWrapperRef.nativeElement,
-        'data-sky-id',
-        this.#elementRef.nativeElement.dataset.skyId
-      );
-    }
-
-    // this.ngZone.runOutsideAngular(() => {
-    //   const observer = new MutationObserver((mutations) => {
-    //     const found = mutations.some(
-    //       (mutation) => mutation.attributeName === 'data-sky-id'
-    //     );
-
-    //     if (found) {
-    //       this.ngZone.run(() => {
-    //         this.renderer.setAttribute(
-    //           this.lookupWrapperRef.nativeElement,
-    //           'data-sky-id',
-    //           this.#elementRef.nativeElement.dataset.skyId
-    //         );
-
-    //         this.#changeDetector.markForCheck();
-    //       });
-    //     }
-    //   });
-
-    //   observer.observe(this.#elementRef.nativeElement, {
-    //     attributes: true,
-    //   });
-    // });
   }
 
   public ngOnDestroy(): void {
