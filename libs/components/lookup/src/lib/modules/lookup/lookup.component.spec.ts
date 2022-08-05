@@ -6169,6 +6169,12 @@ describe('Lookup component', function () {
       expect(lookupComponent.isInputFocused).toEqual(false);
     }));
 
+    it('should add a class to the input box wrapper', fakeAsync(() => {
+      fixture.detectChanges();
+      const wrapperEl = document.querySelector('.sky-input-box');
+      expect(wrapperEl).toHaveClass('sky-input-box-lookup');
+    }));
+
     describe('mouse interactions', function () {
       it('should focus the input if the host is clicked', fakeAsync(function () {
         fixture.detectChanges();

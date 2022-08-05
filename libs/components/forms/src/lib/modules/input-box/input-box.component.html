@@ -4,8 +4,9 @@
   [ngClass]="{
     'sky-input-box-disabled': disabled
   }"
+  [ngClass]="wrapperClass"
 >
-  <div class="sky-form-group" [ngClass]="wrapperClass">
+  <div class="sky-form-group">
     <div class="sky-input-box-label-wrapper">
       <ng-container *ngTemplateOutlet="labelTemplate"></ng-container
       ><ng-container *ngTemplateOutlet="inlineHelpTemplate"></ng-container>
@@ -39,8 +40,9 @@
   [ngClass]="{
     'sky-input-box-disabled': disabled
   }"
+  [ngClass]="wrapperClass"
 >
-  <div class="sky-input-box-group" [ngClass]="wrapperClass">
+  <div class="sky-input-box-group">
     <ng-container *ngTemplateOutlet="buttonsLeftTemplate"></ng-container>
     <div
       class="sky-input-box-group-form-control"
