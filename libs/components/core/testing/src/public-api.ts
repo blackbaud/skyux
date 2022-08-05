@@ -1,4 +1,4 @@
-export * from './overlay/overlay-harness';
+export * from './overlay/overlay.harness';
 export * from './shared/component-harness';
 export * from './shared/harness-filters';
 export * from './core-testing.module';

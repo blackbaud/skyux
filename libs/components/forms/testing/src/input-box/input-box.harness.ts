@@ -21,9 +21,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     );
   }
 
-  public async getHarness<C extends ComponentHarness>(
-    C: HarnessQuery<C>
-  ): Promise<C> {
-    return (await this.locatorFor(C))();
+  public async getHarness<Q extends HarnessQuery<ComponentHarness>>(type: Q) {
+    return (await this.locatorForOptional(type))();
   }
 }
