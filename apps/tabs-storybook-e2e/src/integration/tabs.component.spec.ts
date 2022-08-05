@@ -10,6 +10,9 @@
         cy.get('app-tabs')
           .should('exist')
           .should('be.visible')
+          .get('sky-dropdown')
+          .should('exist')
+          .should('be.visible')
           .screenshot(`tabscomponent-tabs--tabs-${theme}`)
           .percySnapshot(`tabscomponent-tabs--tabs-${theme}`);
       });
