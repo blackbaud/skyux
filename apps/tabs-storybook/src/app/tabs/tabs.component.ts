@@ -19,9 +19,15 @@ export class TabsComponent {
   @Input()
   public tabs: Tab[];
 
-  public onNewTabClick() {}
+  public onNewTabClick() {
+    console.log('Add new tab click');
+  }
 
-  public onOpenTabClick() {}
+  public onOpenTabClick() {
+    console.log('Open tab click');
+  }
 
-  public onCloseTab() {}
+  public onCloseTab() {
+    console.log('Close tab click');
+  }
 }
