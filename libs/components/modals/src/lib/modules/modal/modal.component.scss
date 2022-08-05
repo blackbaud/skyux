@@ -175,6 +175,13 @@
 
   .sky-modal-content {
     padding: 0;
+
+    ::ng-deep .sky-tabset {
+      margin-left: -$sky-theme-modern-space-xl;
+      margin-right: -$sky-theme-modern-space-xl;
+      padding-left: $sky-theme-modern-space-xl;
+      padding-right: $sky-theme-modern-space-xl;
+    }
   }
 
   .sky-modal-full-page {
