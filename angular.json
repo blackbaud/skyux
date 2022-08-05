@@ -3176,7 +3176,7 @@
         },
         "build-storybook": {
           "builder": "@storybook/angular:build-storybook",
-          "outputs": ["{options.outputPath}"],
+          "outputs": ["{options.outputDir}"],
           "options": {
             "outputDir": "dist/storybook/tabs-storybook",
             "configDir": "apps/tabs-storybook/.storybook",
