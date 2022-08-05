@@ -5,7 +5,7 @@ import { SkyAutocompleteHarness } from './autocomplete.harness';
 import { AutocompleteHarnessTestComponent } from './fixtures/autocomplete-harness-test.component';
 import { AutocompleteHarnessTestModule } from './fixtures/autocomplete-harness-test.module';
 
-describe('autocomplete harness', () => {
+describe('Autocomplete harness', () => {
   async function setupTest() {
     await TestBed.configureTestingModule({
       imports: [AutocompleteHarnessTestModule],

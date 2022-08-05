@@ -831,11 +831,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #updateAriaOwns(): void {
     if (this.inputDirective) {
-      if (this.#overlay) {
-        this.inputDirective.setAriaOwns(this.#overlay.id);
-      } else {
-        this.inputDirective.setAriaOwns(null);
-      }
+      this.inputDirective.setAriaOwns(this.#overlay?.id || null);
     }
   }
 
