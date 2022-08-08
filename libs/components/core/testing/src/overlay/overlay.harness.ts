@@ -1,13 +1,10 @@
-import {
-  BaseHarnessFilters,
-  ComponentHarness,
-  HarnessPredicate,
-} from '@angular/cdk/testing';
+import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 
-interface SkyOverlayHarnessFilters extends BaseHarnessFilters {
-  id: string;
-}
+import { SkyOverlayHarnessFilters } from './overlay-harness-filters';
 
+/**
+ * @experimental
+ */
 export class SkyOverlayHarness extends ComponentHarness {
   public static hostSelector = 'sky-overlay';
 

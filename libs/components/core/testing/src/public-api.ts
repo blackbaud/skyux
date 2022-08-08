@@ -1,3 +1,4 @@
+export * from './overlay/overlay-harness-filters';
 export * from './overlay/overlay.harness';
 export * from './shared/component-harness';
 export * from './shared/harness-filters';
