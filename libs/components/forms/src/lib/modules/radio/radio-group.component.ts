@@ -62,7 +62,8 @@ export class SkyRadioGroupComponent
     const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
     if (this._disabled !== newDisabledState) {
       this._disabled = newDisabledState;
-      this.updateRadioButtonDisabled();
+      this.updateRadioDisabledState();
+      this.changeDetector.markForCheck();
     }
   }
 
@@ -224,12 +225,10 @@ export class SkyRadioGroupComponent
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => any = () => {};
 
-  private updateRadioButtonDisabled(): void {
-    if (this.radios) {
-      this.radios.forEach((radio) => {
-        radio.disabled = this.disabled;
-      });
-    }
+  private updateRadioDisabledState(): void {
+    this.radios?.forEach((radio) =>
+      radio.setGroupDisabledState(this._disabled)
+    );
   }
 
   private updateRadioButtonNames(): void {
@@ -262,7 +261,7 @@ export class SkyRadioGroupComponent
     this.updateCheckedRadioFromValue();
     this.updateRadioButtonNames();
     this.updateRadioButtonTabIndexes();
-    this.updateRadioButtonDisabled();
+    this.updateRadioDisabledState();
   }
 
   #updateValue(value: any, markDirty: boolean): void {
