@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'test-overlay-harness-contents',
+  selector: 'sky-test-overlay-harness-contents',
   template: `<ul>
     <li>Foo</li>
     <li>Bar</li>

@@ -22,7 +22,7 @@ describe('Overlay harness', () => {
     return { fixture, overlayHarness };
   }
 
-  it('should query test elements', async () => {
+  it('should query child test elements', async () => {
     const { overlayHarness } = await setupTest();
 
     const testElements = await overlayHarness.queryAll('li');

@@ -4,8 +4,8 @@ import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 import { OverlayHarnessTestContentsComponent } from './overlay-harness-test-contents.component';
 
 @Component({
-  selector: 'test-overlay-harness',
-  templateUrl: './overlay-harness-test.component.html',
+  selector: 'sky-test-overlay-harness',
+  template: '',
 })
 export class OverlayHarnessTestComponent {
   #overlayService: SkyOverlayService;
