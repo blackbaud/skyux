@@ -225,9 +225,11 @@ export class SkyRadioGroupComponent
   private onTouched: () => any = () => {};
 
   private updateRadioButtonDisabled(): void {
-    this.radios?.forEach((radio) =>
-      radio.setGroupDisabledState(this._disabled)
-    );
+    if (this.radios) {
+      this.radios.forEach((radio) =>
+        radio.setGroupDisabledState(this._disabled)
+      );
+    }
   }
 
   private updateRadioButtonNames(): void {
