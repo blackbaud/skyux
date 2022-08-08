@@ -12,10 +12,10 @@ export class ModalDemoComponent {
 
   public modalSize = 'medium';
 
-  #modal: SkyModalService;
+  #modalSvc: SkyModalService;
 
-  constructor(modal: SkyModalService) {
-    this.#modal = modal;
+  constructor(modalSvc: SkyModalService) {
+    this.#modalSvc = modalSvc;
   }
 
   public onOpenModalClick(): void {
@@ -25,6 +25,6 @@ export class ModalDemoComponent {
       size: this.modalSize,
     };
 
-    this.#modal.open(modalInstanceType, options);
+    this.#modalSvc.open(modalInstanceType, options);
   }
 }

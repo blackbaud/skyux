@@ -38,20 +38,20 @@ export class SkyConfirmComponent {
     this.#resourcesService = resourcesService!;
 
     if (
-      this.#config.type === SkyConfirmType.Custom &&
-      this.#config.buttons &&
-      this.#config.buttons.length > 0
+      config.type === SkyConfirmType.Custom &&
+      config.buttons &&
+      config.buttons.length > 0
     ) {
-      this.buttons = this.#getCustomButtons(this.#config.buttons);
+      this.buttons = this.#getCustomButtons(config.buttons);
     } else {
       this.#getPresetButtons().subscribe((buttons: SkyConfirmButton[]) => {
         this.buttons = buttons;
       });
     }
 
-    this.message = this.#config.message;
-    this.body = this.#config.body;
-    this.preserveWhiteSpace = this.#config.preserveWhiteSpace || false;
+    this.message = config.message;
+    this.body = config.body;
+    this.preserveWhiteSpace = !!config.preserveWhiteSpace;
   }
 
   public close(button: SkyConfirmButton) {

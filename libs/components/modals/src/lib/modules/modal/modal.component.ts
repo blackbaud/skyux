@@ -69,14 +69,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     return this.#hostService.getModalZIndex();
   }
 
-  public fullPage: boolean | undefined;
-
-  public isSmallSize = false;
-
-  public isMediumSize = false;
-
-  public isLargeSize = false;
-
   public ariaDescribedBy: string;
 
   public ariaLabelledBy: string;
@@ -92,6 +84,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
 
   public scrollShadow: SkyModalScrollShadowEventArgs | undefined;
+
+  public size: string;
 
   @ViewChild('modalContentWrapper', { read: ElementRef })
   private modalContentWrapperElement: ElementRef | undefined;
@@ -128,22 +122,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.ariaDescribedBy = config.ariaDescribedBy || this.modalContentId;
     this.ariaLabelledBy = config.ariaLabelledBy || this.modalHeaderId;
     this.ariaRole = config.ariaRole;
-    this.fullPage = config.fullPage;
     this.helpKey = config.helpKey;
     this.tiledBody = config.tiledBody;
     this.wrapperClass = config.wrapperClass;
 
-    if (this.fullPage) {
-      this.isLargeSize = this.isMediumSize = this.isSmallSize = false;
-    } else {
-      if (this.#isSizeEqual(config.size, 'small')) {
-        this.isSmallSize = true;
-      } else if (this.#isSizeEqual(config.size, 'medium')) {
-        this.isMediumSize = true;
-      } else if (this.#isSizeEqual(config.size, 'large')) {
-        this.isLargeSize = true;
-      }
-    }
+    this.size = config.fullPage
+      ? 'full-page'
+      : config.size?.toLowerCase() || 'medium';
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -253,9 +238,5 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     return this.#componentAdapter.modalContentHasDirectChildViewkeeper(
       this.#elRef
     );
-  }
-
-  #isSizeEqual(actualSize: string | undefined, size: string) {
-    return actualSize && actualSize.toLowerCase() === size;
   }
 }

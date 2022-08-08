@@ -7,13 +7,9 @@
   (window:resize)="windowResize()"
 >
   <div
-    class="sky-modal sky-shadow sky-box sky-elevation-16"
+    class="sky-modal sky-shadow sky-box sky-elevation-16 sky-modal-{{ size }}"
     tabindex="-1"
     [ngClass]="{
-      'sky-modal-full-page': fullPage,
-      'sky-modal-small': isSmallSize,
-      'sky-modal-medium': isMediumSize,
-      'sky-modal-large': isLargeSize,
       'sky-modal-tiled': tiledBody,
       'sky-modal-viewkeeper': viewkeeperEnabled()
     }"
@@ -32,7 +28,7 @@
         class="sky-modal-header-content"
         [attr.id]="modalHeaderId"
         [ngClass]="{
-          'sky-section-heading': fullPage
+          'sky-section-heading': size === 'full-page'
         }"
         #headerContent
       >

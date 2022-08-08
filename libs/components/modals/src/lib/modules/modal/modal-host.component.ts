@@ -93,21 +93,15 @@ export class SkyModalHostComponent {
 
     let isOpen = true;
 
-    /* Ignoring coverage since, while it is good to have the null-check, the only current code path always has a default empty array given. */
-    /* istanbul ignore next */
-    if (!params.providers) {
-      params.providers = [];
-    }
-
-    params.providers.push({
+    params.providers!.push({
       provide: SkyModalHostService,
       useValue: hostService,
     });
-    params.providers.push({
+    params.providers!.push({
       provide: SkyModalConfiguration,
       useValue: params,
     });
-    params.providers.push({
+    params.providers!.push({
       provide: SkyMediaQueryService,
       useExisting: SkyResizeObserverMediaQueryService,
     });
