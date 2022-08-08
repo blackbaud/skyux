@@ -17,7 +17,9 @@
         .should('exist')
         .should('be.visible')
         .screenshot(`wizardcomponent-wizard--wizard-${theme}`)
-        .percySnapshot(`wizardcomponent-wizard--wizard-${theme}`);
+        .percySnapshot(`wizardcomponent-wizard--wizard-${theme}`, {
+          widths: [375, 1280],
+        });
     });
   });
 });
