@@ -36,7 +36,7 @@
     >
       <ul class="sky-list-unstyled">
         <li *ngFor="let value of seasons">
-          <sky-radio [value]="value">
+          <sky-radio [value]="value" [disabled]="value.disabled">
             <sky-radio-label>
               {{ value.name }}
               <sky-help-inline
@@ -86,7 +86,7 @@
   >
     <ul class="sky-list-unstyled">
       <li *ngFor="let item of seasons">
-        <sky-radio [value]="item.name">
+        <sky-radio [value]="item.name" [disabled]="item.disabled">
           <sky-radio-label>
             {{ item.name }}
             <sky-help-inline
