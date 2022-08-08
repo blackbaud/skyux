@@ -1237,6 +1237,17 @@ describe('Repeater item component', () => {
       expect(component.inlineFormCloseArgs).not.toBeUndefined();
       expect(component.inlineFormCloseArgs.reason).toBe('done');
     });
+
+    it('should be accessible', async () => {
+      component.showInlineForm = true;
+      // Show inline form.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      // Role changes on next cycle.
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   it('with reorderability should show a console warning not all item tags are defined', fakeAsync(() => {
