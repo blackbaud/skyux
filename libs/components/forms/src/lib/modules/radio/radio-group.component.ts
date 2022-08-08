@@ -227,7 +227,7 @@ export class SkyRadioGroupComponent
   private updateRadioButtonDisabled(): void {
     if (this.radios) {
       this.radios.forEach((radio) =>
-        radio.setGroupDisabledState(this._disabled)
+        radio.setGroupDisabledState(this.disabled)
       );
     }
   }
