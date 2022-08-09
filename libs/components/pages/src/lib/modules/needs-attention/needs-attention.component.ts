@@ -13,4 +13,8 @@ export class SkyNeedsAttentionComponent {
   public items: SkyActionHubNeedsAttention[];
 
   public readonly gutterSize: SkyFluidGridGutterSizeType = 'large';
+
+  public hasProtocol(link: string): boolean {
+    return link.includes('://');
+  }
 }

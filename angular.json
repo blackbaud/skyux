@@ -2440,6 +2440,166 @@
       },
       "tags": ["component", "npm"]
     },
+    "pages-storybook": {
+      "projectType": "application",
+      "root": "apps/pages-storybook",
+      "sourceRoot": "apps/pages-storybook/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/pages-storybook",
+            "index": "apps/pages-storybook/src/index.html",
+            "main": "apps/pages-storybook/src/main.ts",
+            "polyfills": "apps/pages-storybook/src/polyfills.ts",
+            "tsConfig": "apps/pages-storybook/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "apps/pages-storybook/src/styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/pages-storybook/src/environments/environment.ts",
+                  "with": "apps/pages-storybook/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "pages-storybook:build:production"
+            },
+            "development": {
+              "browserTarget": "pages-storybook:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "pages-storybook:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/pages-storybook/**/*.ts",
+              "apps/pages-storybook/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/pages-storybook"],
+          "options": {
+            "jestConfig": "apps/pages-storybook/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "apps/pages-storybook/.storybook",
+            "browserTarget": "pages-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputDir}"],
+          "options": {
+            "outputDir": "dist/storybook/pages-storybook",
+            "configDir": "apps/pages-storybook/.storybook",
+            "browserTarget": "pages-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "pages-storybook-e2e": {
+      "root": "apps/pages-storybook-e2e",
+      "sourceRoot": "apps/pages-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/pages-storybook-e2e/cypress.json",
+            "devServerTarget": "pages-storybook:storybook",
+            "baseUrl": "http://localhost:4400"
+          },
+          "configurations": {
+            "ci": {
+              "skipServe": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/pages-storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["pages-storybook"]
+    },
     "phone-field": {
       "projectType": "library",
       "root": "libs/components/phone-field",

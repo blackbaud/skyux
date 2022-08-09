@@ -13,4 +13,8 @@ export class SkyLinkListComponent {
 
   @Input()
   public title: string;
+
+  public hasProtocol(link: string): boolean {
+    return link.includes('://');
+  }
 }

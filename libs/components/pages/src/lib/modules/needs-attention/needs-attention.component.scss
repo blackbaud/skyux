@@ -9,6 +9,9 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
 
   &-icon {
     color: $sky-theme-modern-font-deemphasized-color;
@@ -16,21 +19,15 @@
 
   &-key-info {
     flex-grow: 1;
+    color: $sky-text-color-action-primary;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &-icon {
     order: 1;
-  }
-
-  sky-key-info-value {
-    color: $sky-text-color-action-primary;
-  }
-
-  &:hover {
-    sky-key-info-value,
-    sky-key-info-label {
-      text-decoration: underline;
-    }
   }
 
   &:focus {

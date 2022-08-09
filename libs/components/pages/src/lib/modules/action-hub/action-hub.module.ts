@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SkyTrimModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
 import {
   SkyIconModule,
@@ -36,6 +37,7 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyKeyInfoModule,
     SkyPageHeaderModule,
     SkyThemeModule,
+    SkyTrimModule,
     SkyWaitModule,
     SkyHrefModule,
   ],

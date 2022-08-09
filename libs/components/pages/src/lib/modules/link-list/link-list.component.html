@@ -28,7 +28,16 @@
           'sky-margin-stacked-sm': 'modern'
         }"
       >
-        <a *ngIf="link.permalink.url" [skyHref]="link.permalink.url">
+        <a
+          *ngIf="link.permalink.url && hasProtocol(link.permalink.url)"
+          [skyHref]="link.permalink.url"
+        >
+          {{ link.label }}
+        </a>
+        <a
+          *ngIf="link.permalink.url && !hasProtocol(link.permalink.url)"
+          [href]="link.permalink.url"
+        >
           {{ link.label }}
         </a>
         <a

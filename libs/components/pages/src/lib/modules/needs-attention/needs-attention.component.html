@@ -1,11 +1,11 @@
 <div
-  class="sky-needs-attention-container"
+  class="sky-needs-attention-container sky-box"
   [skyThemeClass]="{
     'sky-padding-even-large sky-shadow': 'default',
     'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
   }"
 >
-  <h2 class="sky-font-heading-4">
+  <h2 class="sky-font-heading-2">
     {{ 'sky_action_hub_needs_attention' | skyLibResources }}
   </h2>
   <sky-fluid-grid [gutterSize]="gutterSize" [disableMargin]="true">
@@ -14,7 +14,7 @@
         {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
       </sky-column>
       <sky-column
-        *ngFor="let item of items; let isLast = last"
+        *ngFor="let item of items"
         [screenSmall]="items.length > 6 ? 6 : 12"
         [screenXSmall]="12"
       >
@@ -30,23 +30,12 @@
             icon="chevron-right"
             iconType="skyux"
           ></sky-icon>
-          <sky-key-info
-            layout="horizontal"
-            class="sky-needs-attention-item-key-info"
+          <span skyTrim class="sky-needs-attention-item-key-info"
+            >{{ item.title }} {{ item.message }}</span
           >
-            <sky-key-info-label>{{ item.message }}</sky-key-info-label>
-            <sky-key-info-value
-              [skyThemeClass]="{
-                'sky-emphasized': 'default',
-                'sky-font-display-4': 'modern'
-              }"
-            >
-              {{ item.title }}
-            </sky-key-info-value>
-          </sky-key-info>
         </ng-template>
         <a
-          *ngIf="item.permalink.route"
+          *ngIf="item.permalink?.route"
           [skyAppLink]="item.permalink.route.commands"
           [queryParams]="item.permalink.route.extras?.queryParams"
           [queryParamsHandling]="
@@ -62,12 +51,27 @@
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink.url"
+          *ngIf="item.permalink?.url && hasProtocol(item.permalink.url)"
           [skyHref]="item.permalink.url"
           class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
+        <a
+          *ngIf="item.permalink?.url && !hasProtocol(item.permalink.url)"
+          [href]="item.permalink.url"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+        <button
+          *ngIf="item.click"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row sky-btn sky-btn-link-inline"
+          type="button"
+          (click)="item.click()"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </button>
       </sky-column>
     </sky-row>
   </sky-fluid-grid>
