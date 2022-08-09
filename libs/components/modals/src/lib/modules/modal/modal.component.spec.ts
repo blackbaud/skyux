@@ -83,7 +83,7 @@ describe('Modal component', () => {
   }
 
   function getModalElement(): HTMLElement | undefined {
-    return document.querySelector('.sky-modal');
+    return document.querySelector('.sky-modal') as HTMLElement;
   }
 
   function getPrimaryButton(): HTMLElement {
@@ -278,13 +278,19 @@ describe('Modal component', () => {
     escapeEvent.shiftKey = false;
     escapeEvent.initEvent('keyup', true, true);
 
-    getModalElement().dispatchEvent(escapeEvent);
-    getModalElement().dispatchEvent(escapeEvent);
+    const modalElement = getModalElement();
+
+    if (!modalElement) {
+      throw new Error('No modal element found');
+    }
+
+    modalElement.dispatchEvent(escapeEvent);
+    modalElement.dispatchEvent(escapeEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(getModalElement()).not.toExist();
+    expect(modalElement).not.toExist();
 
     closeModal(modalInstance1);
     closeModal(modalInstance2);
@@ -601,6 +607,11 @@ describe('Modal component', () => {
   it('should set max height based on window and change when window resizes', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
     const modalEl = getModalElement();
+
+    if (!modalEl) {
+      throw new Error('No modal element found');
+    }
+
     let maxHeight = parseInt(getComputedStyle(modalEl).maxHeight, 10);
     const windowHeight = window.innerHeight;
     const contentEl = getModalContentElement(modalEl);
@@ -777,6 +788,10 @@ describe('Modal component', () => {
   it('should allow click events to bubble beyond host element', fakeAsync(function () {
     const modalInstance = openModal(ModalTiledBodyTestComponent);
     const modalElement = getModalElement();
+
+    if (!modalElement) {
+      throw new Error('No modal element found');
+    }
 
     let numDocumentClicks = 0;
     document.addEventListener('click', function () {
