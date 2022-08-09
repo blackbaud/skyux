@@ -131,6 +131,68 @@ fdescribe('Lookup harness', () => {
 
       await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Rachel');
     });
+
+    it('should click the add button', async () => {
+      const { fixture, lookupHarness } = await setupTest({
+        dataSkyId: 'my_single_select_lookup',
+      });
+
+      await lookupHarness.enterText('r');
+
+      const spy = spyOn(fixture.componentInstance, 'onAddClick');
+
+      await lookupHarness.clickAddButton();
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should throw an error if show more button clicked when dropdown not open', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_single_select_lookup',
+      });
+
+      await expectAsync(
+        lookupHarness.clickShowMoreButton()
+      ).toBeRejectedWithError(
+        'Unable to find the show more button. The autocomplete dropdown is closed.'
+      );
+    });
+
+    it('should throw an error if add button clicked when dropdown not open', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_single_select_lookup',
+      });
+
+      await expectAsync(lookupHarness.clickAddButton()).toBeRejectedWithError(
+        'Unable to find the add button. The autocomplete dropdown is closed.'
+      );
+    });
+
+    it('should throw an error if show more button clicked when it does not exist', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_basic_lookup',
+      });
+
+      await lookupHarness.enterText('r');
+
+      await expectAsync(
+        lookupHarness.clickShowMoreButton()
+      ).toBeRejectedWithError(
+        'The show more button cannot be clicked because it does not exist.'
+      );
+    });
+
+    it('should throw an error if add button clicked when it does not exist', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_basic_lookup',
+      });
+
+      await lookupHarness.enterText('r');
+
+      await expectAsync(lookupHarness.clickAddButton()).toBeRejectedWithError(
+        'The add button cannot be clicked because it does not exist.'
+      );
+    });
   });
 
   // describe('multiselect picker', async () => {});

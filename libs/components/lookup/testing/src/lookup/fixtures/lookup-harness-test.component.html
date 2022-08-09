@@ -1,4 +1,18 @@
 <form novalidate [formGroup]="myForm">
+  <!-- BASIC -->
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my_basic_lookup'">
+      <label class="sky-control-label" skyId #basicLabel> Favorite name </label>
+      <sky-lookup
+        formControlName="basic"
+        selectMode="single"
+        [ariaLabelledBy]="basicLabel.id"
+        [data]="people"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
   <!-- SINGLE SELECT ASYNC W/ INPUT BOX -->
   <div class="sky-form-group">
     <sky-input-box [attr.data-sky-id]="'my_single_select_lookup'">
@@ -11,7 +25,9 @@
         [ariaLabelledBy]="singleSelectLabel.id"
         [data]="people"
         [enableShowMore]="true"
+        [showAddButton]="true"
         [searchFilters]="getSearchFilters()"
+        (addClick)="onAddClick()"
         (searchAsync)="searchAsync($event)"
       >
       </sky-lookup>

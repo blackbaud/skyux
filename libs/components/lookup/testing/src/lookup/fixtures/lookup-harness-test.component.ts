@@ -44,6 +44,7 @@ export class LookupHarnessTestComponent {
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
+      basic: new FormControl(),
       singleSelect: new FormControl(this.name),
       multiselect: new FormControl(this.names),
     });
@@ -79,4 +80,6 @@ export class LookupHarnessTestComponent {
   public disableForm() {
     this.myForm.disable();
   }
+
+  public onAddClick() {}
 }
