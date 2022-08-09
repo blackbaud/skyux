@@ -1,5 +1,22 @@
 # Changelog
 
+### [6.11.1](https://github.com/blackbaud/skyux/compare/6.11.0...6.11.1) (2022-08-08)
+
+### Bug Fixes
+
+- **components/forms:** radio buttons disabled states update independently from the wrapping radio group disabled state ([#384](https://github.com/blackbaud/skyux/issues/384)) ([5e870a6](https://github.com/blackbaud/skyux/commit/5e870a63eca0154de1d1e5cced9b5d182c37d832))
+
+## [6.11.0](https://github.com/blackbaud/skyux/compare/6.10.0...6.11.0) (2022-08-08)
+
+### Features
+
+- **components/forms:** add inline help support for file attachment ([#372](https://github.com/blackbaud/skyux/issues/372)) ([a9693e8](https://github.com/blackbaud/skyux/commit/a9693e839dc7228a9dcbab8ebf42482edd90470f))
+
+### Bug Fixes
+
+- **components/indicators:** sky-wait restore focus when wait closes ([#377](https://github.com/blackbaud/skyux/issues/377)) ([b5c05b2](https://github.com/blackbaud/skyux/commit/b5c05b22f9dae3c6dc1d83fa14896e2447c35905))
+- **components/lists:** repeater inline form uses form role ([#380](https://github.com/blackbaud/skyux/issues/380)) ([6d95e79](https://github.com/blackbaud/skyux/commit/6d95e797847f4df123ed16b5189db0b0f9224b29))
+
 ## [6.10.0](https://github.com/blackbaud/skyux/compare/6.9.0...6.10.0) (2022-08-03)
 
 ### Features
