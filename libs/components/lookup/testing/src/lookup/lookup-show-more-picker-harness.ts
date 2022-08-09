@@ -34,7 +34,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   public async selectSearchResult(filters: { textContent: string }) {
     const harnesses = await this.#getSearchResultHarnesses(filters);
     if (harnesses && harnesses.length > 0) {
-      await harnesses[0].click();
+      await harnesses[0].select();
     }
   }
 

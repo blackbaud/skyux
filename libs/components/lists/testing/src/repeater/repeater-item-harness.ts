@@ -19,7 +19,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     );
   }
 
-  public async click() {
+  public async select() {
     await (await (await this.locatorFor('.sky-repeater-item'))()).click();
   }
 }
