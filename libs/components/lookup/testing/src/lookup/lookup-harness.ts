@@ -1,7 +1,10 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 
+import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
+import { SkyAutocompleteInputHarness } from '../autocomplete/autocomplete-input-harness';
 import { SkyAutocompleteSearchResultHarnessFilters } from '../autocomplete/autocomplete-search-result-filters';
-import { SkyAutocompleteHarness } from '../autocomplete/autocomplete.harness';
+
+import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
 
 interface SkyLookupHarnessOption {
   textContent: string;
@@ -10,7 +13,9 @@ interface SkyLookupHarnessOption {
 export class SkyLookupHarness extends ComponentHarness {
   public static hostSelector = '.sky-input-box__lookup';
 
-  // #documentRootLocator = this.documentRootLocatorFactory();
+  #documentRootLocator = this.documentRootLocatorFactory();
+
+  #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
 
   #getAutocompleteHarness = this.locatorFor(SkyAutocompleteHarness);
 
@@ -56,11 +61,25 @@ export class SkyLookupHarness extends ComponentHarness {
     return (await this.#getAutocompleteHarness()).isFocused();
   }
 
-  // Click show all
-  // Click new button
-  // Enter text and search in modal
-  // Select one result in modal
-  // Select multiple results in modal
-  // Click cancel in modal
-  // Get token values
+  public async clickShowMoreButton(): Promise<void> {
+    return (await this.#getAutocompleteHarness()).clickShowMoreButton();
+  }
+
+  public async clickAddButton(): Promise<void> {
+    return (await this.#getAutocompleteHarness()).clickAddButton();
+  }
+
+  public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
+    const pickerId = await (
+      await (await this.#getInputHarness()).host()
+    ).getAttribute('data-sky-lookup-show-more-picker-id');
+
+    const defaultPicker = await this.#documentRootLocator.locatorFor(
+      SkyLookupShowMorePickerHarness.with({ selector: `#${pickerId}` })
+    )();
+
+    return defaultPicker;
+  }
+
+  // TODO: Get token values
 }

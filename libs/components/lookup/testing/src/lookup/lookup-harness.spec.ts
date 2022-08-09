@@ -4,7 +4,7 @@ import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.component';
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
-import { SkyLookupHarness } from './lookup.harness';
+import { SkyLookupHarness } from './lookup-harness';
 
 describe('Lookup harness', () => {
   async function setupTest() {
@@ -13,6 +13,7 @@ describe('Lookup harness', () => {
     }).compileComponents();
 
     const fixture = TestBed.createComponent(LookupHarnessTestComponent);
+
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({ dataSkyId: 'my_lookup_1' })

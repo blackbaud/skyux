@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 
-import { SkyAutocompleteHarness } from './autocomplete.harness';
+import { SkyAutocompleteHarness } from './autocomplete-harness';
 import { AutocompleteHarnessTestComponent } from './fixtures/autocomplete-harness-test.component';
 import { AutocompleteHarnessTestModule } from './fixtures/autocomplete-harness-test.module';
 

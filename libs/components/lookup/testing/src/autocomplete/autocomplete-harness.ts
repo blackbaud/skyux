@@ -5,7 +5,7 @@ import {
   SkyOverlayHarness,
 } from '@skyux/core/testing';
 
-import { SkyAutocompleteInputHarness } from './autocomplete-input.harness';
+import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
 import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result';
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
 
@@ -23,6 +23,10 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   #documentRootLocator = this.documentRootLocatorFactory();
 
   #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
+
+  #getAddButton = this.locatorFor('.sky-autocomplete-action-add');
+
+  #getShowMoreButton = this.locatorFor('.sky-autocomplete-action-more');
 
   public static with(
     options: SkyAutocompleteHarnessFilters
@@ -58,8 +62,10 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     SkyAutocompleteHarnessOption[] | undefined
   > {
     const optionHarnesses = await this.#getOptionHarnesses();
+
     if (optionHarnesses) {
       const options: SkyAutocompleteHarnessOption[] = [];
+
       for (const harness of optionHarnesses) {
         const harnessTestElement = await harness.host();
 
@@ -73,6 +79,8 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
         options.push(option);
       }
+
+      return options;
     }
 
     return;
@@ -105,6 +113,15 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     return (await this.#getInputEl()).isFocused();
   }
 
+  public async clickAddButton(): Promise<void> {
+    (await this.#getAddButton()).click();
+  }
+
+  public async clickShowMoreButton(): Promise<void> {
+    const button = await this.#getShowMoreButton();
+    await button.click();
+  }
+
   async #getInputEl(): Promise<TestElement> {
     return (await this.#getInputHarness()).host();
   }
@@ -124,6 +141,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     const overlayId = await (
       await this.#getInputEl()
     ).getAttribute('aria-owns');
+
     return overlayId
       ? this.#documentRootLocator.locatorFor(
           SkyOverlayHarness.with({ selector: `#${overlayId}` })

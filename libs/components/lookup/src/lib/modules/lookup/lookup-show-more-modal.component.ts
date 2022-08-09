@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -29,6 +31,9 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
 export class SkyLookupShowMoreModalComponent
   implements AfterViewInit, OnDestroy
 {
+  @HostBinding('id')
+  public id: string;
+
   /**
    * @internal
    * Fires when users select the button to add new options to the list.
@@ -75,8 +80,10 @@ export class SkyLookupShowMoreModalComponent
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
+    idSvc: SkyIdService
   ) {
+    this.id = idSvc.generateId();
     this.#changeDetector = changeDetector;
   }
 
