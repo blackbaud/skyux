@@ -11,11 +11,11 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-input-box';
 
   public static with(
-    options: SkyInputBoxHarnessFilters
+    filters: SkyInputBoxHarnessFilters
   ): HarnessPredicate<SkyInputBoxHarness> {
-    return new HarnessPredicate(SkyInputBoxHarness, options).addOption(
+    return new HarnessPredicate(SkyInputBoxHarness, filters).addOption(
       'data-sky-id',
-      options.dataSkyId,
+      filters.dataSkyId,
       (harness, text) =>
         HarnessPredicate.stringMatches(harness.getSkyId(), text)
     );

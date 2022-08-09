@@ -43,8 +43,8 @@ describe('Autocomplete harness', () => {
 
     fixture.detectChanges();
 
-    const options = await autocompleteHarness.getOptions();
+    const results = await autocompleteHarness.getSearchResults();
 
-    expect(options).toEqual([{ textContent: 'Red' }]);
+    expect(results).toEqual([{ textContent: 'Red' }]);
   });
 });

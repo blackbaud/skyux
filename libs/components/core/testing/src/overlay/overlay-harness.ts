@@ -13,9 +13,9 @@ export class SkyOverlayHarness extends ComponentHarness {
   public static hostSelector = 'sky-overlay';
 
   public static with(
-    options: SkyOverlayHarnessFilters
+    filters: SkyOverlayHarnessFilters
   ): HarnessPredicate<SkyOverlayHarness> {
-    return new HarnessPredicate(SkyOverlayHarness, options);
+    return new HarnessPredicate(SkyOverlayHarness, filters);
   }
 
   public async queryHarnesses<T extends ComponentHarness>(

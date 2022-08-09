@@ -6,12 +6,12 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
   public static hostSelector = '.sky-autocomplete-result';
 
   public static with(
-    options: SkyAutocompleteSearchResultHarnessFilters
+    filters: SkyAutocompleteSearchResultHarnessFilters
   ): HarnessPredicate<SkyAutocompleteSearchResultHarness> {
     return new HarnessPredicate(
       SkyAutocompleteSearchResultHarness,
-      options
-    ).addOption('textContent', options.textContent, async (harness, text) =>
+      filters
+    ).addOption('textContent', filters.textContent, async (harness, text) =>
       HarnessPredicate.stringMatches((await harness.host()).text(), text)
     );
   }

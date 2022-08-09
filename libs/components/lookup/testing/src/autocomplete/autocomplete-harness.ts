@@ -1,39 +1,29 @@
 import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
-import {
-  SkyComponentHarness,
-  SkyHarnessFilters,
-  SkyOverlayHarness,
-} from '@skyux/core/testing';
+import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 
+import { SkyAutocompleteHarnessFilters } from './autocomplete-harness-filters';
+import { SkyAutocompleteHarnessSearchResult } from './autocomplete-harness-search-result';
 import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
 import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result';
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface SkyAutocompleteHarnessFilters extends SkyHarnessFilters {}
-
-interface SkyAutocompleteHarnessOption {
-  textContent: string;
-  testElement?: TestElement;
-}
 
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
-  #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
-
   #getAddButton = this.locatorFor('.sky-autocomplete-action-add');
 
   #getShowMoreButton = this.locatorFor('.sky-autocomplete-action-more');
 
+  protected getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
+
   public static with(
-    options: SkyAutocompleteHarnessFilters
+    filters: SkyAutocompleteHarnessFilters
   ): HarnessPredicate<SkyAutocompleteHarness> {
-    return new HarnessPredicate(SkyAutocompleteHarness, options).addOption(
+    return new HarnessPredicate(SkyAutocompleteHarness, filters).addOption(
       'dataSkyId',
-      options.dataSkyId,
+      filters.dataSkyId,
       (harness, text) =>
         HarnessPredicate.stringMatches(harness.getSkyId(), text)
     );
@@ -58,18 +48,16 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     return (await this.#getInputEl()).focus();
   }
 
-  public async getOptions(): Promise<
-    SkyAutocompleteHarnessOption[] | undefined
+  public async getSearchResults(): Promise<
+    SkyAutocompleteHarnessSearchResult[] | undefined
   > {
-    const optionHarnesses = await this.#getOptionHarnesses();
+    const harnesses = await this.#getSearchResultHarnesses();
+    if (harnesses) {
+      const results: SkyAutocompleteHarnessSearchResult[] = [];
 
-    if (optionHarnesses) {
-      const options: SkyAutocompleteHarnessOption[] = [];
-
-      for (const harness of optionHarnesses) {
+      for (const harness of harnesses) {
         const harnessTestElement = await harness.host();
-
-        const option: SkyAutocompleteHarnessOption = {
+        const option: SkyAutocompleteHarnessSearchResult = {
           textContent: await harnessTestElement.text(),
         };
 
@@ -77,21 +65,21 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
           option.testElement = harnessTestElement;
         }
 
-        options.push(option);
+        results.push(option);
       }
 
-      return options;
+      return results;
     }
 
     return;
   }
 
-  public async selectOption(
+  public async selectSearchResult(
     filters: SkyAutocompleteSearchResultHarnessFilters
   ): Promise<void> {
-    const optionHarnesses = await this.#getOptionHarnesses(filters);
-    if (optionHarnesses && optionHarnesses.length > 0) {
-      await optionHarnesses[0].click();
+    const resultHarnesses = await this.#getSearchResultHarnesses(filters);
+    if (resultHarnesses && resultHarnesses.length > 0) {
+      await resultHarnesses[0].click();
     }
   }
 
@@ -100,8 +88,8 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   public async isDisabled(): Promise<boolean> {
-    const disabled = await (await this.host()).getAttribute('disabled');
-    return !!disabled;
+    const disabled = await (await this.#getInputEl()).getAttribute('disabled');
+    return disabled !== null;
   }
 
   public async isOpen(): Promise<boolean> {
@@ -123,18 +111,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   async #getInputEl(): Promise<TestElement> {
-    return (await this.#getInputHarness()).host();
-  }
-
-  async #getOptionHarnesses(
-    filters?: SkyAutocompleteSearchResultHarnessFilters
-  ): Promise<SkyAutocompleteSearchResultHarness[] | undefined> {
-    const overlayHarness = await this.#getOverlay();
-    return overlayHarness
-      ? overlayHarness.queryHarnesses(
-          SkyAutocompleteSearchResultHarness.with(filters || {})
-        )
-      : undefined;
+    return (await this.getInputHarness()).host();
   }
 
   async #getOverlay(): Promise<SkyOverlayHarness | undefined> {
@@ -147,5 +124,32 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
           SkyOverlayHarness.with({ selector: `#${overlayId}` })
         )()
       : undefined;
+  }
+
+  async #getSearchResultHarnesses(
+    filters?: SkyAutocompleteSearchResultHarnessFilters
+  ): Promise<SkyAutocompleteSearchResultHarness[]> {
+    const overlay = await this.#getOverlay();
+
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search results. ' +
+          'The autocomplete dropdown is closed.'
+      );
+    }
+
+    const harnesses = await overlay.queryHarnesses(
+      SkyAutocompleteSearchResultHarness.with(filters || {})
+    );
+
+    if (!harnesses || harnesses.length === 0) {
+      throw new Error(
+        `Could not find search results matching filter(s): ${JSON.stringify(
+          filters
+        )}`
+      );
+    }
+
+    return harnesses;
   }
 }

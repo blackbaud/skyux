@@ -72,4 +72,8 @@ export class LookupHarnessTestComponent {
       });
     }, 800);
   }
+
+  public disableForm() {
+    this.myForm.get('name')?.disable();
+  }
 }

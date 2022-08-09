@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { OverlayHarnessTestComponent } from './fixtures/overlay-harness-test.component';
 import { OverlayHarnessTestModule } from './fixtures/overlay-harness-test.module';
-import { SkyOverlayHarness } from './overlay.harness';
+import { SkyOverlayHarness } from './overlay-harness';
 
 describe('Overlay harness', () => {
   async function setupTest() {
