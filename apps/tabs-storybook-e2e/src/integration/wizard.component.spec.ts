@@ -6,7 +6,8 @@
       )
     );
     it('should render the component', () => {
-      cy.get('app-wizard')
+      cy.viewport(1280, 720)
+        .get('app-wizard')
         .should('exist')
         .should('be.visible')
         .get('.open-wizard-btn')
@@ -18,7 +19,13 @@
         .should('be.visible')
         .screenshot(`wizardcomponent-wizard--wizard-${theme}`)
         .percySnapshot(`wizardcomponent-wizard--wizard-${theme}`, {
-          widths: [375, 1280],
+          widths: [1280],
+        })
+        .viewport(375, 812)
+        .get('sky-dropdown')
+        .should('exist')
+        .percySnapshot(`wizardcomponent-wizard--wizard-${theme}`, {
+          widths: [375],
         });
     });
   });

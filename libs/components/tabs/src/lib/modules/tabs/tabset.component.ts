@@ -133,14 +133,6 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
    */
   @Input()
   public set tabStyle(value: SkyTabsetStyle) {
-    /*istanbul ignore else*/
-    if (value && value.toLowerCase() === 'wizard') {
-      console.warn(
-        'The tabset wizard is deprecated. Please implement the new approach using ' +
-          'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
-      );
-    }
-
     this._tabStyle = value;
   }
 

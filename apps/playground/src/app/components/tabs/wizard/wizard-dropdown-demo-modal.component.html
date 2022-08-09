@@ -1,16 +1,16 @@
-<sky-modal>
-  <sky-modal-header>
-    {{ title }}
-  </sky-modal-header>
-  <sky-modal-content>
-    <form [formGroup]="myForm">
+<form [formGroup]="myForm" (ngSubmit)="onSave()">
+  <sky-modal>
+    <sky-modal-header>
+      {{ title }}
+    </sky-modal-header>
+    <sky-modal-content>
       <sky-tabset
         ariaLabel="Tab demonstration"
-        [active]="0"
+        [(active)]="activeIndex"
         tabStyle="wizard"
         #wizardDemo
       >
-        <sky-tab [tabHeading]="'1. This step has a really long title'">
+        <sky-tab tabHeading="1. This step has a really long title">
           <sky-input-box>
             <label class="sky-control-label" for="input1"
               >Enter text here to enable step 2.</label
@@ -19,13 +19,13 @@
               type="text"
               class="sky-form-control"
               formControlName="requiredValue1"
-              id="input1"
+              skyId="input1"
             />
           </sky-input-box>
         </sky-tab>
         <sky-tab
-          [tabHeading]="'2. This step has an even longer title than step 1'"
-          [disabled]="!requirementsMet(0)"
+          tabHeading="2. This step has an even longer title than step 1"
+          [disabled]="step2Disabled"
         >
           <sky-checkbox formControlName="requiredValue2">
             <sky-checkbox-label>
@@ -34,10 +34,8 @@
           </sky-checkbox>
         </sky-tab>
         <sky-tab
-          [tabHeading]="
-            '3. This last step has the longest title of all three steps'
-          "
-          [disabled]="!requirementsMet(1)"
+          tabHeading="3. This last step has the longest title of all three steps"
+          [disabled]="step3Disabled"
         >
           <sky-input-box>
             <label class="sky-control-label" for="input3"
@@ -47,36 +45,35 @@
               type="text"
               class="sky-form-control"
               formControlName="requiredValue3"
-              id="input3"
+              skyId="input3"
             />
           </sky-input-box>
         </sky-tab>
       </sky-tabset>
-    </form>
-  </sky-modal-content>
-  <sky-modal-footer>
-    <sky-tabset-nav-button
-      buttonType="previous"
-      [tabset]="wizardDemo"
-    ></sky-tabset-nav-button>
-    <sky-tabset-nav-button
-      buttonType="next"
-      [tabset]="wizardDemo"
-    ></sky-tabset-nav-button>
-    <button
-      class="sky-btn sky-btn-primary sky-inline-margin-sm"
-      type="primary"
-      [disabled]="!requirementsMet(2)"
-      (click)="onSaveClick()"
-    >
-      Save
-    </button>
-    <button
-      class="sky-btn sky-btn-link"
-      type="button"
-      (click)="onCancelClick()"
-    >
-      Cancel
-    </button>
-  </sky-modal-footer>
-</sky-modal>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <sky-tabset-nav-button
+        buttonType="previous"
+        [tabset]="wizardDemo"
+      ></sky-tabset-nav-button>
+      <sky-tabset-nav-button
+        buttonType="next"
+        [tabset]="wizardDemo"
+      ></sky-tabset-nav-button>
+      <button
+        class="sky-btn sky-btn-primary sky-inline-margin-sm"
+        type="submit"
+        [disabled]="saveDisabled"
+      >
+        Save
+      </button>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="onCancelClick()"
+      >
+        Cancel
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>

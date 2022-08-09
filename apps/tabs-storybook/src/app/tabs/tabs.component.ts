@@ -17,7 +17,7 @@ export class TabsComponent {
   public active = 0;
 
   @Input()
-  public tabs: Tab[];
+  public tabs: Tab[] = [];
 
   public onNewTabClick() {
     console.log('Add new tab click');

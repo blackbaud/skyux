@@ -5,7 +5,7 @@
     (openTab)="onOpenTabClick()"
     [active]="active"
   >
-    <ng-template ngFor let-tab [ngForOf]="tabs" let i="index">
+    <ng-container *ngFor="let tab of tabs; let i = index">
       <sky-tab
         *ngIf="!tab.isPermanent"
         [disabled]="tab.disabled"
@@ -21,6 +21,6 @@
       >
         {{ tab.tabContent }}
       </sky-tab>
-    </ng-template>
+    </ng-container>
   </sky-tabset>
 </div>

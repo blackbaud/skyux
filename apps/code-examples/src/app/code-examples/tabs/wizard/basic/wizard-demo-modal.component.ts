@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
-import { SkyTheme, SkyThemeMode, SkyThemeSettings } from '@skyux/theme';
 
 @Component({
   selector: 'app-wizard-demo-modal',
@@ -13,14 +12,12 @@ export class WizardDemoModalComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
-  public modernLightTheme = new SkyThemeSettings(
-    SkyTheme.presets.modern,
-    SkyThemeMode.presets.light
-  );
-
   public newMemberForm: FormGroup;
   public title = 'New Member Sign-up';
   public activeIndex = 0;
+  public step2Disabled = true;
+  public step3Disabled = true;
+  public saveDisabled = true;
 
   public firstName: FormControl;
   public middleName: FormControl;
@@ -48,35 +45,25 @@ export class WizardDemoModalComponent implements OnInit {
       termsAccepted: this.termsAccepted,
       mailingList: this.mailingList,
     });
+
+    this.newMemberForm.valueChanges.subscribe(() => {
+      this.checkRequirementsMet();
+    });
   }
 
-  public requirementsMet(stepIndex: number): boolean {
+  public checkRequirementsMet(): void {
     const requirement1Met =
       this.newMemberForm.get('firstName').value &&
       this.newMemberForm.get('lastName').value;
     const requirement2Met =
       this.newMemberForm.get('phoneNumber').value &&
+      this.newMemberForm.get('phoneNumber').valid &&
       this.newMemberForm.get('email').value;
     const requirement3Met = this.newMemberForm.get('termsAccepted').value;
 
-    switch (stepIndex) {
-      case 0:
-        return requirement1Met;
-      case 1:
-        return requirement1Met && requirement2Met;
-      case 2:
-        return requirement1Met && requirement2Met && requirement3Met;
-      default:
-        return false;
-    }
-  }
-
-  public get nextDisabled(): boolean {
-    return this.activeIndex === 2 || !this.requirementsMet(this.activeIndex);
-  }
-
-  public get prevDisabled(): boolean {
-    return this.activeIndex === 0;
+    this.step2Disabled = !requirement1Met;
+    this.step3Disabled = !requirement2Met;
+    this.saveDisabled = !requirement3Met;
   }
 
   public onNextClick(): void {
@@ -91,7 +78,7 @@ export class WizardDemoModalComponent implements OnInit {
     this.instance.cancel();
   }
 
-  public onSaveClick(): void {
+  public onSave(): void {
     this.instance.save();
   }
 }

@@ -1,154 +1,150 @@
-<div [skyTheme]="modernLightTheme">
+<form [formGroup]="newMemberForm" (ngSubmit)="onSave()">
   <sky-modal>
     <sky-modal-header>
       {{ title }}
     </sky-modal-header>
     <sky-modal-content>
-      <form [formGroup]="newMemberForm">
-        <sky-tabset
-          ariaLabel="Sign-up steps"
-          [active]="0"
-          tabStyle="wizard"
-          #wizardDemo
-        >
-          <sky-tab [tabHeading]="'1. Biographical Details'">
-            <sky-fluid-grid [disableMargin]="true" gutterSize="small">
-              <sky-row>
-                <sky-column [screenSmall]="12" [screenMedium]="4">
-                  <sky-input-box>
-                    <label class="sky-control-label" for="firstNameInput"
-                      >First Name</label
-                    >
-                    <input
-                      type="text"
-                      class="sky-form-control"
-                      formControlName="firstName"
-                      id="firstNameInput"
-                      required
-                    />
-                  </sky-input-box>
+      <sky-tabset
+        ariaLabel="Sign-up steps"
+        [(active)]="activeIndex"
+        tabStyle="wizard"
+        #wizardDemo
+      >
+        <sky-tab tabHeading="1. Biographical Details">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" for="firstNameInput"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="firstName"
+                    skyskyId="firstNameInput"
+                    required
+                  />
                   <sky-status-indicator
                     *ngIf="firstName.touched && !firstName.valid"
+                    class="sky-control-error"
                     descriptionType="none"
                     indicatorType="danger"
                   >
                     Enter your first name.
                   </sky-status-indicator>
-                </sky-column>
-                <sky-column [screenSmall]="12" [screenMedium]="4">
-                  <sky-input-box>
-                    <label class="sky-control-label" for="middleNameInput"
-                      >Middle Name</label
-                    >
-                    <input
-                      type="text"
-                      class="sky-form-control"
-                      formControlName="middleName"
-                      id="middleNameInput"
-                    />
-                  </sky-input-box>
-                </sky-column>
-                <sky-column [screenSmall]="12" [screenMedium]="4">
-                  <sky-input-box>
-                    <label class="sky-control-label" for="lastNameInput"
-                      >Last Name</label
-                    >
-                    <input
-                      type="text"
-                      class="sky-form-control"
-                      formControlName="lastName"
-                      id="lastNameInput"
-                      required
-                    />
-                  </sky-input-box>
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" for="middleNameInput"
+                    >Middle Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="middleName"
+                    skyId="middleNameInput"
+                  />
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" for="lastNameInput"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="lastName"
+                    skyId="lastNameInput"
+                    required
+                  />
                   <sky-status-indicator
                     *ngIf="lastName.touched && !lastName.valid"
+                    class="sky-control-error"
                     descriptionType="none"
                     indicatorType="danger"
                   >
                     Enter your last name.
                   </sky-status-indicator>
-                </sky-column>
-              </sky-row>
-            </sky-fluid-grid>
-          </sky-tab>
-          <sky-tab
-            [tabHeading]="'2. Contact Information'"
-            [disabled]="!requirementsMet(0)"
-          >
-            <sky-fluid-grid [disableMargin]="true" gutterSize="small">
-              <sky-row>
-                <sky-column [screenSmall]="12" [screenMedium]="6">
-                  <sky-input-box>
-                    <label class="sky-control-label" for="phoneNumberInput"
-                      >Phone Number</label
-                    >
-                    <sky-phone-field [defaultCountry]="'us'">
-                      <input
-                        formControlName="phoneNumber"
-                        id="phoneNumberInput"
-                        skyPhoneFieldInput
-                        required
-                      />
-                    </sky-phone-field>
-                  </sky-input-box>
+                </sky-input-box>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+        <sky-tab tabHeading="2. Contact Information" [disabled]="step2Disabled">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12" [screenMedium]="6">
+                <sky-input-box>
+                  <label class="sky-control-label" for="phoneNumberInput"
+                    >Phone Number</label
+                  >
+                  <sky-phone-field defaultCountry="us">
+                    <input
+                      formControlName="phoneNumber"
+                      skyId="phoneNumberInput"
+                      skyPhoneFieldInput
+                      required
+                    />
+                  </sky-phone-field>
                   <sky-status-indicator
                     *ngIf="phoneNumber.touched && !phoneNumber.valid"
+                    class="sky-control-error"
                     descriptionType="none"
                     indicatorType="danger"
                   >
                     Enter a valid phone number.
                   </sky-status-indicator>
-                </sky-column>
-                <sky-column [screenSmall]="12" [screenMedium]="6">
-                  <sky-input-box>
-                    <label class="sky-control-label" for="emailInput"
-                      >Email</label
-                    >
-                    <input
-                      type="email"
-                      class="sky-form-control"
-                      formControlName="email"
-                      id="emailInput"
-                      required
-                    />
-                  </sky-input-box>
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="6">
+                <sky-input-box>
+                  <label class="sky-control-label" for="emailInput"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    class="sky-form-control"
+                    formControlName="email"
+                    skyId="emailInput"
+                    required
+                  />
                   <sky-status-indicator
                     *ngIf="email.touched && !email.valid"
+                    class="sky-control-error"
                     descriptionType="none"
                     indicatorType="danger"
                   >
                     Enter a valid email address.
                   </sky-status-indicator>
-                </sky-column>
-              </sky-row>
-            </sky-fluid-grid>
-          </sky-tab>
-          <sky-tab
-            [tabHeading]="'3. More Information'"
-            [disabled]="!requirementsMet(1)"
-          >
-            <sky-fluid-grid [disableMargin]="true" gutterSize="small">
-              <sky-row>
-                <sky-column [screenSmall]="12">
-                  <sky-checkbox formControlName="termsAccepted">
-                    <sky-checkbox-label>
-                      Accept terms and conditions
-                    </sky-checkbox-label>
-                  </sky-checkbox>
-                </sky-column>
-                <sky-column [screenSmall]="12">
-                  <sky-checkbox formControlName="mailingList">
-                    <sky-checkbox-label>
-                      Sign up for our email newsletter
-                    </sky-checkbox-label>
-                  </sky-checkbox>
-                </sky-column>
-              </sky-row>
-            </sky-fluid-grid>
-          </sky-tab>
-        </sky-tabset>
-      </form>
+                </sky-input-box>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+        <sky-tab tabHeading="3. More Information" [disabled]="step3Disabled">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12">
+                <sky-checkbox formControlName="termsAccepted">
+                  <sky-checkbox-label>
+                    Accept terms and conditions
+                  </sky-checkbox-label>
+                </sky-checkbox>
+              </sky-column>
+              <sky-column [screenSmall]="12">
+                <sky-checkbox formControlName="mailingList">
+                  <sky-checkbox-label>
+                    Sign up for our email newsletter
+                  </sky-checkbox-label>
+                </sky-checkbox>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+      </sky-tabset>
     </sky-modal-content>
     <sky-modal-footer>
       <sky-tabset-nav-button
@@ -161,9 +157,8 @@
       ></sky-tabset-nav-button>
       <button
         class="sky-btn sky-btn-primary sky-margin-inline-sm"
-        type="primary"
-        [disabled]="!requirementsMet(2)"
-        (click)="onSaveClick()"
+        type="submit"
+        [disabled]="saveDisabled"
       >
         Save
       </button>
@@ -176,4 +171,4 @@
       </button>
     </sky-modal-footer>
   </sky-modal>
-</div>
+</form>

@@ -10,6 +10,9 @@ export class WizardModalComponent implements OnInit {
   public myForm: FormGroup;
   public title = 'Wizard Tabset Example';
   public activeIndex = 0;
+  public step2Disabled = true;
+  public step3Disabled = true;
+  public saveDisabled = true;
 
   constructor(
     public instance: SkyModalInstance,
@@ -22,31 +25,20 @@ export class WizardModalComponent implements OnInit {
       requiredValue2: false,
       requiredValue3: undefined,
     });
+
+    this.myForm.valueChanges.subscribe(() => {
+      this.checkRequirementsMet();
+    });
   }
 
-  public requirementsMet(stepIndex: number): boolean {
+  public checkRequirementsMet(): void {
     const requirement1Met = this.myForm.get('requiredValue1').value;
     const requirement2Met = this.myForm.get('requiredValue2').value;
     const requirement3Met = this.myForm.get('requiredValue3').value;
 
-    switch (stepIndex) {
-      case 0:
-        return requirement1Met;
-      case 1:
-        return requirement1Met && requirement2Met;
-      case 2:
-        return requirement1Met && requirement2Met && requirement3Met;
-      default:
-        return false;
-    }
-  }
-
-  public get nextDisabled(): boolean {
-    return this.activeIndex === 2 || !this.requirementsMet(this.activeIndex);
-  }
-
-  public get prevDisabled(): boolean {
-    return this.activeIndex === 0;
+    this.step2Disabled = !requirement1Met;
+    this.step3Disabled = !requirement2Met;
+    this.saveDisabled = !requirement3Met;
   }
 
   public onNextClick(): void {
@@ -61,7 +53,7 @@ export class WizardModalComponent implements OnInit {
     this.instance.cancel();
   }
 
-  public onSaveClick(): void {
+  public onSave(): void {
     this.instance.save();
   }
 }
