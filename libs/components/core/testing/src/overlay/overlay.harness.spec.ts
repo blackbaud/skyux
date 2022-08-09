@@ -16,7 +16,7 @@ describe('Overlay harness', () => {
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const overlayHarness = await rootLoader.getHarness(
-      SkyOverlayHarness.with({ id: overlay.id })
+      SkyOverlayHarness.with({ selector: `#${overlay.id}` })
     );
 
     return { fixture, overlayHarness };

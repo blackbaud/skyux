@@ -1,4 +1,8 @@
-import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  HarnessPredicate,
+  HarnessQuery,
+} from '@angular/cdk/testing';
 
 import { SkyOverlayHarnessFilters } from './overlay-harness-filters';
 
@@ -11,18 +15,16 @@ export class SkyOverlayHarness extends ComponentHarness {
   public static with(
     options: SkyOverlayHarnessFilters
   ): HarnessPredicate<SkyOverlayHarness> {
-    return new HarnessPredicate(SkyOverlayHarness, options).addOption(
-      'id',
-      options.id,
-      (harness, text) => HarnessPredicate.stringMatches(harness.#getId(), text)
-    );
+    return new HarnessPredicate(SkyOverlayHarness, options);
+  }
+
+  public async queryHarnesses<T extends ComponentHarness>(
+    harness: HarnessQuery<T>
+  ): Promise<T[]> {
+    return (await this.locatorForAll(harness))();
   }
 
   public async queryAll(selector: string) {
-    return this.locatorForAll(selector)();
-  }
-
-  async #getId(): Promise<string | null> {
-    return (await this.host()).getAttribute('id');
+    return (await this.locatorForAll(selector))();
   }
 }

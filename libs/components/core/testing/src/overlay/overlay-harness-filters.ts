@@ -3,6 +3,5 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
 /**
  * @experimental
  */
-export interface SkyOverlayHarnessFilters extends BaseHarnessFilters {
-  id: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SkyOverlayHarnessFilters extends BaseHarnessFilters {}

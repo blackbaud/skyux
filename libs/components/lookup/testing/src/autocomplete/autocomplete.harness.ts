@@ -6,12 +6,15 @@ import {
 } from '@skyux/core/testing';
 
 import { SkyAutocompleteInputHarness } from './autocomplete-input.harness';
+import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result';
+import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SkyAutocompleteHarnessFilters extends SkyHarnessFilters {}
 
 interface SkyAutocompleteHarnessOption {
   textContent: string;
+  testElement?: TestElement;
 }
 
 export class SkyAutocompleteHarness extends SkyComponentHarness {
@@ -33,57 +36,97 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   public async blur(): Promise<void> {
-    return (await this.getInputEl()).blur();
+    return (await this.#getInputEl()).blur();
+  }
+
+  public async clear(): Promise<void> {
+    return (await this.#getInputEl()).clear();
   }
 
   public async enterText(value: string): Promise<void> {
-    const el = await this.getInputEl();
+    const el = await this.#getInputEl();
     await el.focus();
     await el.clear();
     await el.sendKeys(value);
   }
 
   public async focus(): Promise<void> {
-    return (await this.getInputEl()).focus();
+    return (await this.#getInputEl()).focus();
   }
 
   public async getOptions(): Promise<
     SkyAutocompleteHarnessOption[] | undefined
   > {
-    const overlayHarness = await this.getOverlay();
+    const optionHarnesses = await this.#getOptionHarnesses();
+    if (optionHarnesses) {
+      const options: SkyAutocompleteHarnessOption[] = [];
+      for (const harness of optionHarnesses) {
+        const harnessTestElement = await harness.host();
 
-    if (overlayHarness) {
-      const optionEls = await overlayHarness.queryAll(
-        '.sky-autocomplete-result'
-      );
-
-      const options = [];
-      for (const optionEl of optionEls) {
         const option: SkyAutocompleteHarnessOption = {
-          textContent: await optionEl.text(),
+          textContent: await harnessTestElement.text(),
         };
+
+        if (await harness.hasCustomTemplate()) {
+          option.testElement = harnessTestElement;
+        }
+
         options.push(option);
       }
-
-      return options;
     }
 
     return;
   }
 
-  public async isFocused(): Promise<boolean> {
-    return (await this.getInputEl()).isFocused();
+  public async selectOption(
+    filters: SkyAutocompleteSearchResultHarnessFilters
+  ): Promise<void> {
+    const optionHarnesses = await this.#getOptionHarnesses(filters);
+    if (optionHarnesses && optionHarnesses.length > 0) {
+      await optionHarnesses[0].click();
+    }
   }
 
-  protected async getInputEl(): Promise<TestElement> {
+  public async getValue(): Promise<string> {
+    return (await this.#getInputEl()).getProperty('value');
+  }
+
+  public async isDisabled(): Promise<boolean> {
+    const disabled = await (await this.host()).getAttribute('disabled');
+    return !!disabled;
+  }
+
+  public async isOpen(): Promise<boolean> {
+    const overlay = await this.#getOverlay();
+    return !!overlay;
+  }
+
+  public async isFocused(): Promise<boolean> {
+    return (await this.#getInputEl()).isFocused();
+  }
+
+  async #getInputEl(): Promise<TestElement> {
     return (await this.#getInputHarness()).host();
   }
 
-  protected async getOverlay(): Promise<SkyOverlayHarness | undefined> {
-    const overlayId = await (await this.getInputEl()).getAttribute('aria-owns');
+  async #getOptionHarnesses(
+    filters?: SkyAutocompleteSearchResultHarnessFilters
+  ): Promise<SkyAutocompleteSearchResultHarness[] | undefined> {
+    const overlayHarness = await this.#getOverlay();
+    return overlayHarness
+      ? overlayHarness.queryHarnesses(
+          SkyAutocompleteSearchResultHarness.with(filters || {})
+        )
+      : undefined;
+  }
+
+  async #getOverlay(): Promise<SkyOverlayHarness | undefined> {
+    const overlayId = await (
+      await this.#getInputEl()
+    ).getAttribute('aria-owns');
     return overlayId
       ? this.#documentRootLocator.locatorFor(
-          SkyOverlayHarness.with({ id: overlayId })
+          SkyOverlayHarness.with({ selector: `#${overlayId}` })
         )()
       : undefined;
   }

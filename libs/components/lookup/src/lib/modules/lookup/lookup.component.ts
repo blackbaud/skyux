@@ -323,7 +323,7 @@ export class SkyLookupComponent
         iconsInsetTemplate: this.enableShowMore
           ? undefined
           : this.searchIconTemplateRef,
-        wrapperClass: 'sky-input-box-lookup',
+        wrapperClass: 'sky-input-box__lookup',
       });
     }
 

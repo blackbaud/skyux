@@ -13,37 +13,38 @@ describe('Autocomplete harness', () => {
 
     const fixture = TestBed.createComponent(AutocompleteHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const lookupHarness = await loader.getHarness(
+    const autocompleteHarness = await loader.getHarness(
       SkyAutocompleteHarness.with({
         dataSkyId: 'my_autocomplete_2',
       })
     );
 
-    return { fixture, lookupHarness };
+    return { fixture, autocompleteHarness };
   }
 
   it('should focus and blur input', async () => {
-    const { fixture, lookupHarness } = await setupTest();
+    const { fixture, autocompleteHarness } = await setupTest();
 
     fixture.detectChanges();
 
-    await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(false);
+    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(false);
 
-    await lookupHarness.focus();
-    await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(true);
+    await autocompleteHarness.focus();
+    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(true);
 
-    await lookupHarness.blur();
-    await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(false);
+    await autocompleteHarness.blur();
+    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(false);
   });
 
   it('should return information about the search results', async () => {
-    const { fixture, lookupHarness } = await setupTest();
+    const { fixture, autocompleteHarness } = await setupTest();
 
-    await lookupHarness.enterText('d');
+    await autocompleteHarness.enterText('d');
 
     fixture.detectChanges();
 
-    const options = await lookupHarness.getOptions();
+    const options = await autocompleteHarness.getOptions();
+
     expect(options).toEqual([{ textContent: 'Red' }]);
   });
 });
