@@ -99,18 +99,46 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
   public async clickAddButton(): Promise<void> {
     const overlay = await this.#getOverlay();
-    const button = await overlay?.querySelector(
+    if (!overlay) {
+      throw new Error(
+        'Unable to find the add button. ' +
+          'The autocomplete dropdown is closed.'
+      );
+    }
+
+    const button = await overlay.querySelector(
       'button.sky-autocomplete-action-add'
     );
-    await button?.click();
+
+    if (!button) {
+      throw new Error(
+        'The add button cannot be clicked because it does not exist.'
+      );
+    }
+
+    await button.click();
   }
 
   public async clickShowMoreButton(): Promise<void> {
     const overlay = await this.#getOverlay();
-    const button = await overlay?.querySelector(
+    if (!overlay) {
+      throw new Error(
+        'Unable to find the show more button. ' +
+          'The autocomplete dropdown is closed.'
+      );
+    }
+
+    const button = await overlay.querySelector(
       'button.sky-autocomplete-action-more'
     );
-    await button?.click();
+
+    if (!button) {
+      throw new Error(
+        'The show more button cannot be clicked because it does not exist.'
+      );
+    }
+
+    await button.click();
   }
 
   async #getInputEl(): Promise<TestElement> {
