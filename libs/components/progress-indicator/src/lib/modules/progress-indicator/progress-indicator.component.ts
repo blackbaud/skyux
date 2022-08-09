@@ -11,7 +11,7 @@ import {
   Output,
   QueryList,
 } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import { SkyAppWindowRef, SkyLogService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
@@ -39,11 +39,21 @@ export class SkyProgressIndicatorComponent
    * and [waterfall progress indicators](https://developer.blackbaud.com/skyux/components/progress-indicator/waterfall-progress-indicator),
    * use the vertical display mode. For [modal wizards](https://developer.blackbaud.com/skyux/components/wizard),
    * use the horizontal display mode.
+   * @deprecated The property was designed to create wizards by setting `displayMode="horizontal"` on progress indicators in modals,
+   * but this wizard implementation was replaced by the
+   * [Wizard (Tabs) component](https://developer.blackbaud.com/skyux/components/progress-indicator).
    * @default "vertical"
    */
   @Input()
   public set displayMode(value: SkyProgressIndicatorDisplayModeType) {
     this._displayMode = value;
+
+    if (this._displayMode === 'horizontal') {
+      this.logger.deprecated('SkyProgressIndicator wizard', {
+        deprecationMajorVersion: 6,
+        replacementRecommendation: 'Use Wizard (Tabs) instead.',
+      });
+    }
   }
 
   public get displayMode(): SkyProgressIndicatorDisplayModeType {
@@ -187,7 +197,8 @@ export class SkyProgressIndicatorComponent
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private windowRef: SkyAppWindowRef
+    private windowRef: SkyAppWindowRef,
+    private logger: SkyLogService
   ) {}
 
   public ngOnInit(): void {
