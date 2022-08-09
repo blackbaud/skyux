@@ -16,10 +16,11 @@ export class MockSkyModalInstance {
 }
 
 export class MockSkyModalHostService {
+  public zIndexChange = new ReplaySubject<number>();
+
   public getModalZIndex(): number {
     return 1;
   }
-  public zIndexChange = new ReplaySubject<number>();
 
   constructor() {
     this.zIndexChange.next(this.getModalZIndex());
