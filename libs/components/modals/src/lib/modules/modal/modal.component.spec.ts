@@ -174,6 +174,26 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
   }));
 
+  it('should update zIndex correctly if a lower modal is closed while the upper modal is still open', fakeAsync(() => {
+    const modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
+
+    const modalEls = document.querySelectorAll('.sky-modal');
+
+    const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    let zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex1).toBe(1051);
+    expect(zIndex2).toBe(1061);
+
+    closeModal(modalInstance1);
+
+    zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+    expect(zIndex2).toBe(1051);
+
+    closeModal(modalInstance2);
+  }));
+
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
     const modalInstance1 = openModal(ModalWithFocusContentTestComponent);
     expect(document.activeElement).toEqual(

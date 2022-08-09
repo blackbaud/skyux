@@ -18,6 +18,9 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalHostService } from './modal-host.service';
@@ -65,10 +68,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   @Input()
   public tiledBody: boolean | undefined;
 
-  public get modalZIndex() {
-    return this.#hostService.getModalZIndex();
-  }
-
   public ariaDescribedBy: string;
 
   public ariaLabelledBy: string;
@@ -82,6 +81,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
 
   public modalHeaderId: string =
     'sky-modal-header-id-' + skyModalUniqueIdentifier.toString();
+
+  public modalZIndex: number | undefined;
 
   public scrollShadow: SkyModalScrollShadowEventArgs | undefined;
 
@@ -97,6 +98,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
   #_ariaRole: string | undefined;
 
@@ -129,6 +131,12 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     this.size = config.fullPage
       ? 'full-page'
       : config.size?.toLowerCase() || 'medium';
+
+    this.#hostService.zIndexChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((zIndex) => {
+        this.modalZIndex = zIndex;
+      });
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -216,6 +224,8 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     if (this.#mediaQueryService) {
       this.#mediaQueryService.unobserve();
     }
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public helpButtonClick() {

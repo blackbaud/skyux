@@ -1,5 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
+import { ReplaySubject } from 'rxjs';
+
 const BASE_Z_INDEX = 1040;
 const modalHosts: SkyModalHostService[] = [];
 
@@ -31,9 +33,12 @@ export class SkyModalHostService {
   public close = new EventEmitter<void>();
   public fullPage = false;
   public openHelp = new EventEmitter<any>();
+  public zIndex: number | undefined;
+  public zIndexChange = new ReplaySubject<number>();
 
   constructor() {
     modalHosts.push(this);
+    this.updateZIndex();
   }
 
   public getModalZIndex(): number {
@@ -52,5 +57,14 @@ export class SkyModalHostService {
 
   public destroy(): void {
     modalHosts.splice(modalHosts.indexOf(this), 1);
+    modalHosts.forEach((modalHost) => modalHost.updateZIndex());
+  }
+
+  private updateZIndex(): void {
+    const newZIndex = this.getModalZIndex();
+    if (newZIndex !== this.zIndex) {
+      this.zIndex = newZIndex;
+      this.zIndexChange.next(this.zIndex);
+    }
   }
 }

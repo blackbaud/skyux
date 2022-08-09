@@ -28,15 +28,10 @@ export class SkyModalFixture {
    */
   public get ariaDescribedBy(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
+    /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const describedByAttribute =
-      modalDialogElement.getAttribute('aria-describedby');
-    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
-    /* istanbul ignore else */
-    if (describedByAttribute) {
-      return describedByAttribute;
-    } else {
-      return;
-    }
+      modalDialogElement.getAttribute('aria-describedby')!;
+    return describedByAttribute;
   }
 
   /**
@@ -44,15 +39,11 @@ export class SkyModalFixture {
    */
   public get ariaLabelledBy(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
+    /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const labelledByAttribute =
-      modalDialogElement.getAttribute('aria-labelledby');
-    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
-    /* istanbul ignore else */
-    if (labelledByAttribute) {
-      return labelledByAttribute;
-    } else {
-      return;
-    }
+      modalDialogElement.getAttribute('aria-labelledby')!;
+
+    return labelledByAttribute;
   }
 
   /**
@@ -60,14 +51,9 @@ export class SkyModalFixture {
    */
   public get ariaRole(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
-    const roleAttribute = modalDialogElement.getAttribute('role');
-    /* We need to have the else case here; however, it wouldn't ever be hit due to our defaults */
-    /* istanbul ignore else */
-    if (roleAttribute) {
-      return roleAttribute;
-    } else {
-      return;
-    }
+    /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
+    const roleAttribute = modalDialogElement.getAttribute('role')!;
+    return roleAttribute;
   }
 
   /**
