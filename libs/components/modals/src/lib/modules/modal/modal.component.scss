@@ -112,7 +112,6 @@
 
 .sky-modal-content {
   overflow-y: auto;
-  z-index: 1;
 }
 
 .sky-modal-footer {
@@ -195,15 +194,14 @@
       box-shadow: none !important;
     }
 
-    .sky-modal-content
-      ::ng-deep
-      sky-modal-content
-      > .sky-viewkeeper-fixed
-      > sky-toolbar
-      .sky-toolbar-container {
-      background-color: #fff;
-      padding-left: $sky-theme-modern-space-xl;
-      padding-right: $sky-theme-modern-space-xl;
+    .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
+      box-shadow: 0px 4px 8px -4px rgb(0 0 0 / 30%);
+
+      > sky-toolbar .sky-toolbar-container {
+        background-color: #fff;
+        padding-left: $sky-theme-modern-space-xl;
+        padding-right: $sky-theme-modern-space-xl;
+      }
     }
   }
 }
