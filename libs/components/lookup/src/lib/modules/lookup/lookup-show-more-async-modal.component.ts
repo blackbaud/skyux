@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -28,7 +27,6 @@ import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-m
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
-  @HostBinding('id')
   public id: string;
 
   /**

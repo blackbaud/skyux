@@ -1,16 +1,37 @@
 <form novalidate [formGroup]="myForm">
+  <!-- SINGLE SELECT ASYNC W/ INPUT BOX -->
   <div class="sky-form-group">
-    <sky-input-box [attr.data-sky-id]="'my_lookup_1'">
-      <label class="sky-control-label" skyId #nameLabel="skyId">
+    <sky-input-box [attr.data-sky-id]="'my_single_select_lookup'">
+      <label class="sky-control-label" skyId #singleSelectLabel="skyId">
         Favorite name
       </label>
       <sky-lookup
-        formControlName="name"
+        formControlName="singleSelect"
         selectMode="single"
-        [ariaLabelledBy]="nameLabel.id"
+        [ariaLabelledBy]="singleSelectLabel.id"
         [data]="people"
+        [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
         (searchAsync)="searchAsync($event)"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- MULTISELECT -->
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my_multiselect_lookup'">
+      <label class="sky-control-label" skyId #multiselectLabel>
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="multiselect"
+        (addClick)="onAddButtonClicked()"
+        [ariaLabelledBy]="multiselectLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
       >
       </sky-lookup>
     </sky-input-box>

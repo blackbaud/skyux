@@ -40,15 +40,18 @@ export class LookupHarnessTestComponent {
 
   public name: any[] = [this.people[15]];
 
+  public names: any[] = [this.people[15]];
+
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
-      name: new FormControl(this.name),
+      singleSelect: new FormControl(this.name),
+      multiselect: new FormControl(this.names),
     });
   }
 
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const name: any[] = this.myForm.controls.name.value;
+    const name: any[] = this.myForm.get('singleSelect')?.value;
     return [
       (searchText: string, item: any): boolean => {
         const found = name.find((option) => option.name === item.name);
@@ -74,6 +77,6 @@ export class LookupHarnessTestComponent {
   }
 
   public disableForm() {
-    this.myForm.get('name')?.disable();
+    this.myForm.disable();
   }
 }

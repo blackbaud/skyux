@@ -24,7 +24,11 @@ export class SkyOverlayHarness extends ComponentHarness {
     return (await this.locatorForAll(harness))();
   }
 
-  public async queryAll(selector: string) {
+  public async querySelector(selector: string) {
+    return (await this.locatorForOptional(selector))();
+  }
+
+  public async querySelectorAll(selector: string) {
     return (await this.locatorForAll(selector))();
   }
 }

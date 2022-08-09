@@ -652,6 +652,8 @@ export class SkyLookupComponent
         this.#focusInput();
         this.#changeDetector.markForCheck();
       });
+
+      this.#changeDetector.markForCheck();
     }
   }
 

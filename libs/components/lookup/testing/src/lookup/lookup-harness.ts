@@ -21,7 +21,10 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     );
   }
 
-  public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
+  public async openShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
+    await this.focus();
+    await this.clickShowMoreButton();
+
     const pickerId = await (
       await (await this.getInputHarness()).host()
     ).getAttribute('data-sky-lookup-show-more-picker-id');

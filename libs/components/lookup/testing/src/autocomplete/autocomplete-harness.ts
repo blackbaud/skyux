@@ -4,17 +4,13 @@ import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 import { SkyAutocompleteHarnessFilters } from './autocomplete-harness-filters';
 import { SkyAutocompleteHarnessSearchResult } from './autocomplete-harness-search-result';
 import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
-import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result';
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
+import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result-harness';
 
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
-
-  #getAddButton = this.locatorFor('.sky-autocomplete-action-add');
-
-  #getShowMoreButton = this.locatorFor('.sky-autocomplete-action-more');
 
   protected getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
 
@@ -102,12 +98,19 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   public async clickAddButton(): Promise<void> {
-    (await this.#getAddButton()).click();
+    const overlay = await this.#getOverlay();
+    const button = await overlay?.querySelector(
+      'button.sky-autocomplete-action-add'
+    );
+    await button?.click();
   }
 
   public async clickShowMoreButton(): Promise<void> {
-    const button = await this.#getShowMoreButton();
-    await button.click();
+    const overlay = await this.#getOverlay();
+    const button = await overlay?.querySelector(
+      'button.sky-autocomplete-action-more'
+    );
+    await button?.click();
   }
 
   async #getInputEl(): Promise<TestElement> {

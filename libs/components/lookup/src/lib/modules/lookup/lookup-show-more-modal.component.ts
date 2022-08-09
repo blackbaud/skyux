@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  HostBinding,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -31,7 +30,6 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
 export class SkyLookupShowMoreModalComponent
   implements AfterViewInit, OnDestroy
 {
-  @HostBinding('id')
   public id: string;
 
   /**

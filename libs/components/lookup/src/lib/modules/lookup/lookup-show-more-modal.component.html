@@ -1,4 +1,4 @@
-<sky-modal class="sky-lookup-show-more-modal">
+<sky-modal [attr.id]="id" class="sky-lookup-show-more-modal">
   <sky-modal-header>
     <ng-container *ngIf="context.userConfig?.title; else defaultTitle">
       {{ context.userConfig.title }}
