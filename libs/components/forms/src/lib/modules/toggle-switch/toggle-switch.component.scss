@@ -58,14 +58,15 @@ $indicator-size: 22px;
   }
 
   &.sky-toggle-switch-checked {
-    &:not(:focus-visible) .sky-toggle-switch-switch {
-      border-color: $sky-highlight-color-info;
-    }
-
     .sky-toggle-switch-switch {
       background-color: $sky-background-color-info-light;
       border-width: 2px;
       padding: 0;
+    }
+
+    &:not(:focus-visible, .sky-toggle-switch-disabled)
+      .sky-toggle-switch-switch {
+      border-color: $sky-highlight-color-info;
     }
 
     .sky-toggle-switch-indicator {
@@ -135,19 +136,19 @@ $indicator-size: 22px;
       }
 
       &:active .sky-toggle-switch-switch,
-      &:focus .sky-toggle-switch-switch {
+      &:focus-visible .sky-toggle-switch-switch {
         outline: none;
         border: solid 2px $sky-theme-modern-background-color-primary-dark;
         padding: 0;
       }
 
       &:not(:active) {
-        &:focus .sky-toggle-switch-switch {
+        &:focus-visible .sky-toggle-switch-switch {
           box-shadow: $sky-theme-modern-elevation-3-shadow-size
             $sky-theme-modern-elevation-3-shadow-color;
         }
 
-        &:hover:not(:focus) .sky-toggle-switch-switch {
+        &:hover:not(:focus-visible) .sky-toggle-switch-switch {
           padding: 1px;
           border: solid 1px $sky-theme-modern-background-color-primary-dark;
         }
