@@ -1,5 +1,11 @@
 # Changelog
 
+### [6.11.2](https://github.com/blackbaud/skyux/compare/6.11.1...6.11.2) (2022-08-09)
+
+### Bug Fixes
+
+- **components/modals:** modal content popovers correctly position above the modal footer ([#385](https://github.com/blackbaud/skyux/issues/385)) ([5ae11b7](https://github.com/blackbaud/skyux/commit/5ae11b7709834acac13003e206e4f8d9178ce974))
+
 ### [6.11.1](https://github.com/blackbaud/skyux/compare/6.11.0...6.11.1) (2022-08-08)
 
 ### Bug Fixes
