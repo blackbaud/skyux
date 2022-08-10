@@ -2,7 +2,7 @@ import { BaseHarnessFilters, HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
 interface SkyRepeaterItemHarnessFilters extends BaseHarnessFilters {
-  textContent?: string;
+  textContent?: string | RegExp;
 }
 
 export class SkyRepeaterItemHarness extends SkyComponentHarness {
@@ -15,11 +15,20 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
       'textContent',
       filters.textContent,
       async (harness, text) =>
-        HarnessPredicate.stringMatches((await harness.host()).text(), text)
+        HarnessPredicate.stringMatches(
+          await (await harness.host()).text(),
+          text
+        )
     );
   }
 
   public async select() {
-    await (await (await this.locatorFor('.sky-repeater-item'))()).click();
+    await (
+      await (
+        await this.locatorFor(
+          '.sky-repeater-item-checkbox .sky-checkbox-wrapper'
+        )
+      )()
+    ).click();
   }
 }

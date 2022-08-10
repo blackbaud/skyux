@@ -13,8 +13,8 @@ export class SkySearchHarness extends SkyComponentHarness {
 
   public async enterText(value: string): Promise<void> {
     const input = await this.#getInput();
-    await input.focus();
     await input.clear();
+    await input.focus();
     await input.sendKeys(value);
     await this.clickSubmitButton();
   }

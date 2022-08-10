@@ -1,4 +1,5 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
+import { SkyTokenHarness } from '@skyux/indicators/testing';
 
 import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
 import { SkyAutocompleteHarnessFilters } from '../autocomplete/autocomplete-harness-filters';
@@ -7,6 +8,8 @@ import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harnes
 
 export class SkyLookupHarness extends SkyAutocompleteHarness {
   public static hostSelector = 'sky-lookup,.sky-input-box';
+
+  #getAutocompleteHarness = this.locatorFor(SkyAutocompleteHarness);
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
@@ -26,7 +29,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     await this.clickShowMoreButton();
 
     const pickerId = await (
-      await (await this.getInputHarness()).host()
+      await (await this.#getAutocompleteHarness()).host()
     ).getAttribute('data-sky-lookup-show-more-picker-id');
 
     const defaultPicker = await this.#documentRootLocator.locatorFor(
@@ -36,5 +39,32 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     return defaultPicker;
   }
 
-  // TODO: Get token values
+  public async getTokens(): Promise<{ textContent: string }[]> {
+    const tokens: { textContent: string }[] = [];
+    const harnesses = await this.#getTokenHarnesses();
+
+    if (harnesses) {
+      for (const harness of harnesses) {
+        tokens.push({ textContent: await (await harness.host()).text() });
+      }
+    }
+
+    return tokens;
+  }
+
+  public async closeTokens(): Promise<void> {
+    const harnesses = await this.#getTokenHarnesses();
+    if (harnesses) {
+      for (const harness of harnesses) {
+        harness.close();
+      }
+    }
+
+    // Wait for tokens to be removed from the DOM.
+    await this.waitForTasksOutsideAngular();
+  }
+
+  async #getTokenHarnesses(): Promise<SkyTokenHarness[]> {
+    return (await this.locatorForAll(SkyTokenHarness))();
+  }
 }

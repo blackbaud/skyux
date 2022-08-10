@@ -8,7 +8,7 @@ import { SkyRepeaterItemHarness } from '@skyux/lists/testing';
 import { SkySearchHarness } from '../search/search-harness';
 
 interface SearchResultFilters extends BaseHarnessFilters {
-  textContent?: string;
+  textContent?: string | RegExp;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -31,10 +31,16 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     await searchHarness.enterText(value);
   }
 
-  public async selectSearchResult(filters: { textContent: string }) {
-    const harnesses = await this.#getSearchResultHarnesses(filters);
+  public async selectSearchResults(filters: { textContent: string | RegExp }) {
+    const harnesses = await this.getSearchResults(filters);
     if (harnesses && harnesses.length > 0) {
-      await harnesses[0].select();
+      if (await this.#isSingleSelect()) {
+        await (await harnesses[0].host()).click();
+      } else {
+        for (const harness of harnesses) {
+          await harness.select();
+        }
+      }
     }
   }
 
@@ -46,11 +52,28 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     ).click();
   }
 
-  async #getSearchResultHarnesses(
+  public async cancel() {
+    await (
+      await (
+        await this.locatorFor('button.sky-lookup-show-more-modal-close')
+      )()
+    ).click();
+  }
+
+  async #isSingleSelect(): Promise<boolean> {
+    return (await this.host()).hasClass('sky-lookup-show-more-modal-single');
+  }
+
+  public async getSearchResults(
     filters?: SearchResultFilters
   ): Promise<SkyRepeaterItemHarness[]> {
+    const modalId = (await (await this.host()).getAttribute('id')) as string;
+
     const harnesses = await this.locatorForAll(
-      SkyRepeaterItemHarness.with(filters || {})
+      SkyRepeaterItemHarness.with({
+        ...(filters || {}),
+        ancestor: `#${modalId}`,
+      })
     )();
 
     if (!harnesses || harnesses.length === 0) {
@@ -64,9 +87,17 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     return harnesses;
   }
 
-  // TODO
-  // Enter text and search in modal
-  // Select one result in modal
-  // Select multiple results in modal
-  // Click cancel in modal
+  public async clearAll(): Promise<void> {
+    const button = await (
+      await this.locatorFor('button.sky-lookup-show-more-modal-clear-all-btn')
+    )();
+    button.click();
+  }
+
+  public async selectAll(): Promise<void> {
+    const button = await (
+      await this.locatorFor('button.sky-lookup-show-more-modal-select-all-btn')
+    )();
+    button.click();
+  }
 }

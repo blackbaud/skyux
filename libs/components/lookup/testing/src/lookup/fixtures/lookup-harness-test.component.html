@@ -1,19 +1,18 @@
 <form novalidate [formGroup]="myForm">
   <!-- BASIC -->
   <div class="sky-form-group">
-    <sky-input-box [attr.data-sky-id]="'my_basic_lookup'">
-      <label class="sky-control-label" skyId #basicLabel> Favorite name </label>
-      <sky-lookup
-        formControlName="basic"
-        selectMode="single"
-        [ariaLabelledBy]="basicLabel.id"
-        [data]="people"
-      >
-      </sky-lookup>
-    </sky-input-box>
+    <label class="sky-control-label" skyId #basicLabel> Favorite name </label>
+    <sky-lookup
+      formControlName="basic"
+      selectMode="single"
+      [ariaLabelledBy]="basicLabel.id"
+      [attr.data-sky-id]="'my_basic_lookup'"
+      [data]="people"
+    >
+    </sky-lookup>
   </div>
 
-  <!-- SINGLE SELECT ASYNC W/ INPUT BOX -->
+  <!-- SINGLE SELECT -->
   <div class="sky-form-group">
     <sky-input-box [attr.data-sky-id]="'my_single_select_lookup'">
       <label class="sky-control-label" skyId #singleSelectLabel="skyId">
@@ -25,8 +24,8 @@
         [ariaLabelledBy]="singleSelectLabel.id"
         [data]="people"
         [enableShowMore]="true"
-        [showAddButton]="true"
         [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
         (addClick)="onAddClick()"
         (searchAsync)="searchAsync($event)"
       >
@@ -42,7 +41,7 @@
       </label>
       <sky-lookup
         formControlName="multiselect"
-        (addClick)="onAddButtonClicked()"
+        (addClick)="onAddClick()"
         [ariaLabelledBy]="multiselectLabel.id"
         [data]="people"
         [enableShowMore]="true"
