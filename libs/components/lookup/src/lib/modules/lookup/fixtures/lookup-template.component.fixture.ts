@@ -50,7 +50,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public enableShowMore = false;
 
-  public idProperty: string | undefined;
+  public idProperty: string = 'name';
 
   public ignoreAddDataUpdate = false;
 

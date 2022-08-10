@@ -6,6 +6,7 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject, Subscription } from 'rxjs';
@@ -58,19 +59,23 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
+  #logSvc: SkyLogService;
+
   #offset = 0;
 
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerAsyncContext,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
+    logSvc: SkyLogService
   ) {
     this.#changeDetector = changeDetector;
+    this.#logSvc = logSvc;
   }
 
   public ngOnInit(): void {
     if (this.context.idProperty === undefined) {
-      throw new Error(
+      this.#logSvc.error(
         "The 'idProperty' input is required when 'searchAsync' is used."
       );
     }
