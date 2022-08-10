@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 
 import { SkyToggleSwitchModule } from '../toggle-switch.module';
 
@@ -15,6 +16,7 @@ import { SkyToggleSwitchFixtureComponent } from './toggle-switch.component.fixtu
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyHelpInlineModule,
     SkyToggleSwitchModule,
   ],
   declarations: [

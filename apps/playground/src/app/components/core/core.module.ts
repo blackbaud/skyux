@@ -2,17 +2,22 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ResizeObserverBasicComponent } from './resize-observer/basic/resize-observer-basic.component';
-import { ResizeObserverBasicModule } from './resize-observer/basic/resize-observer-basic.module';
-import { ResizeObserverFlyoutComponent } from './resize-observer/flyout/resize-observer-flyout.component';
-import { ResizeObserverFlyoutModule } from './resize-observer/flyout/resize-observer-flyout.module';
-import { ResizeObserverBaseComponent } from './resize-observer/modal/resize-observer-base.component';
-import { ResizeObserverModalModule } from './resize-observer/modal/resize-observer-modal.module';
+import { ResizeObserverModule } from './resize-observer/resize-observer.module';
+import { ViewkeeperModule } from './viewkeeper/viewkeeper.module';
 
 const routes: Routes = [
-  { path: 'resize-observer/basic', component: ResizeObserverBasicComponent },
-  { path: 'resize-observer/flyout', component: ResizeObserverFlyoutComponent },
-  { path: 'resize-observer/modal', component: ResizeObserverBaseComponent },
+  {
+    path: 'resize-observer',
+    loadChildren: () =>
+      import('./resize-observer/resize-observer.module').then(
+        (m) => m.ResizeObserverModule
+      ),
+  },
+  {
+    path: 'viewkeeper',
+    loadChildren: () =>
+      import('./viewkeeper/viewkeeper.module').then((m) => m.ViewkeeperModule),
+  },
 ];
 
 @NgModule({
@@ -25,9 +30,10 @@ export class CoreRoutingModule {}
   imports: [
     CommonModule,
     CoreRoutingModule,
-    ResizeObserverBasicModule,
-    ResizeObserverFlyoutModule,
-    ResizeObserverModalModule,
+    ResizeObserverModule,
+    ViewkeeperModule,
   ],
 })
-export class CoreModule {}
+export class CoreModule {
+  public static routes = routes;
+}

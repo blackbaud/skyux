@@ -103,6 +103,11 @@ const routes: Routes = [
         (m) => m.AutonumericFeatureModule
       ),
   },
+  {
+    path: 'pages',
+    loadChildren: () =>
+      import('./features/pages.module').then((m) => m.PagesFeatureModule),
+  },
 ];
 
 @NgModule({

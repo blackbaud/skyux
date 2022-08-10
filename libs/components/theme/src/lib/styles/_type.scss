@@ -194,3 +194,10 @@
 .sky-screen-reader-only {
   @include sky-screen-reader-only;
 }
+
+.sky-font-data-label {
+  font-family: $sky-font-family;
+  color: $sky-text-color-deemphasized;
+  font-weight: 400;
+  font-size: $sky-font-size-base;
+}

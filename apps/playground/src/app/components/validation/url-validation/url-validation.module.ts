@@ -30,4 +30,6 @@ import { UrlValidationRoutingModule } from './url-validation-routing.module';
     SkyUrlValidationModule,
   ],
 })
-export class UrlValidationModule {}
+export class UrlValidationModule {
+  public static routes = UrlValidationRoutingModule.routes;
+}

@@ -1,0 +1,4 @@
+.sky-description-list-description:not(:empty)
+  + .sky-description-list-default-value {
+  display: none;
+}

@@ -27,6 +27,9 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
       message: 'Show only selected items',
     },
     skyux_data_manager_columns_button_title: { message: 'Columns' },
+    skyux_data_manager_select_column_status_indicator_title: {
+      message: 'Select at least one column.',
+    },
   },
 };
 

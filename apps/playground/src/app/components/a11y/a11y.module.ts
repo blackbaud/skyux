@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
+export const a11yRoutes: Routes = [
   {
     path: 'skip-link',
     loadChildren: () =>
@@ -10,11 +10,15 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(a11yRoutes)],
 })
-export class A11yRoutingModule {}
+export class A11yRoutingModule {
+  public static routes = a11yRoutes;
+}
 
 @NgModule({
   imports: [A11yRoutingModule],
 })
-export class A11yModule {}
+export class A11yModule {
+  public static routes = A11yRoutingModule.routes;
+}

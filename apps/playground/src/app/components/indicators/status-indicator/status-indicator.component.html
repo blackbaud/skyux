@@ -1,0 +1,15 @@
+<div class="sky-padding-even-large">
+  <div class="sky-margin-stacked-lg">
+    <sky-status-indicator descriptionType="error" indicatorType="danger">
+      {{ indicatorText }}
+      <sky-help-inline class="sky-control-help"></sky-help-inline>
+    </sky-status-indicator>
+  </div>
+  <button
+    class="sky-btn sky-btn-primary"
+    type="button"
+    (click)="swapIndicatorText()"
+  >
+    Swap text
+  </button>
+</div>

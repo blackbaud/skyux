@@ -61,6 +61,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
                   useValue: context,
                 },
               ],
+              size: 'large',
             }
           );
 

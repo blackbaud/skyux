@@ -1,16 +1,13 @@
-<sky-modal>
+<sky-modal class="sky-lookup-show-more-modal">
   <sky-modal-header>
     <ng-container *ngIf="context.userConfig?.title; else defaultTitle">
       {{ context.userConfig.title }}
     </ng-container>
   </sky-modal-header>
-  <sky-modal-content>
-    <div
-      [skyViewkeeper]="[
-        '.sky-lookup-show-more-modal-toolbar',
-        '.sky-lookup-show-more-modal-muiltiselect-toolbar'
-      ]"
-    >
+  <sky-modal-content
+    [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
+  >
+    <div class="sky-lookup-show-more-toolbar-wrapper">
       <sky-toolbar class="sky-lookup-show-more-modal-toolbar">
         <sky-toolbar-section>
           <sky-toolbar-item>
@@ -102,9 +99,7 @@
         <sky-repeater-item-content>
           <ng-container
             *ngTemplateOutlet="
-              context.userConfig?.itemTemplate
-                ? context.userConfig?.itemTemplate
-                : defaultItemTemplate;
+              repeaterItemTemplate ?? defaultItemTemplate;
               context: { item: item.value }
             "
           >

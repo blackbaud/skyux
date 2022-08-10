@@ -1,17 +1,14 @@
-<sky-modal>
+<sky-modal class="sky-lookup-show-more-modal">
   <sky-modal-header>
     <ng-container *ngIf="context.userConfig?.title; else defaultTitle">
       {{ context.userConfig.title }}
     </ng-container>
   </sky-modal-header>
-  <sky-modal-content>
+  <sky-modal-content
+    [skyViewkeeper]="['.sky-lookup-show-more-toolbar-wrapper']"
+  >
     <sky-wait [isWaiting]="isSearching"></sky-wait>
-    <div
-      [skyViewkeeper]="[
-        '.sky-lookup-show-more-modal-toolbar',
-        '.sky-lookup-show-more-modal-muiltiselect-toolbar'
-      ]"
-    >
+    <div class="sky-lookup-show-more-toolbar-wrapper">
       <sky-toolbar class="sky-lookup-show-more-modal-toolbar">
         <sky-toolbar-section>
           <sky-toolbar-item>
@@ -84,43 +81,41 @@
           </sky-toolbar-view-actions>
         </sky-toolbar-section>
       </sky-toolbar>
-    </div>
-    <div
-      *ngIf="!isSearching && displayedItems.length === 0"
-      class="sky-font-deemphasized sky-lookup-show-more-no-results"
-    >
-      {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
-    </div>
-    <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
-      <sky-repeater-item
-        *ngFor="let item of displayedItems"
-        [isSelected]="
-          item[context.idProperty] | skyLookupItemSelected: selectedIdMap
-        "
-        [selectable]="context.selectMode === 'multiple'"
-        (click)="itemClick(item)"
-        (keyup.enter)="itemClick(item)"
-        (isSelectedChange)="onItemSelect($event, item)"
+      <div
+        *ngIf="!isSearching && displayedItems.length === 0"
+        class="sky-font-deemphasized sky-lookup-show-more-no-results"
       >
-        <sky-repeater-item-content>
-          <ng-container
-            *ngTemplateOutlet="
-              context.userConfig?.itemTemplate
-                ? context.userConfig?.itemTemplate
-                : defaultItemTemplate;
-              context: { item: item }
-            "
-          >
-          </ng-container>
-        </sky-repeater-item-content>
-      </sky-repeater-item>
-    </sky-repeater>
-    <sky-infinite-scroll
-      [enabled]="hasMoreItems"
-      [loading]="isLoadingMore"
-      (scrollEnd)="infiniteScrollEnd()"
-    >
-    </sky-infinite-scroll>
+        {{ 'skyux_lookup_show_more_no_results' | skyLibResources }}
+      </div>
+      <sky-repeater class="sky-lookup-show-more-repeater" expandMode="none">
+        <sky-repeater-item
+          *ngFor="let item of displayedItems"
+          [isSelected]="
+            item[context.idProperty] | skyLookupItemSelected: selectedIdMap
+          "
+          [selectable]="context.selectMode === 'multiple'"
+          (click)="itemClick(item)"
+          (keyup.enter)="itemClick(item)"
+          (isSelectedChange)="onItemSelect($event, item)"
+        >
+          <sky-repeater-item-content>
+            <ng-container
+              *ngTemplateOutlet="
+                repeaterItemTemplate ?? defaultItemTemplate;
+                context: { item: item }
+              "
+            >
+            </ng-container>
+          </sky-repeater-item-content>
+        </sky-repeater-item>
+      </sky-repeater>
+      <sky-infinite-scroll
+        [enabled]="hasMoreItems"
+        [loading]="isLoadingMore"
+        (scrollEnd)="infiniteScrollEnd()"
+      >
+      </sky-infinite-scroll>
+    </div>
   </sky-modal-content>
   <sky-modal-footer>
     <button

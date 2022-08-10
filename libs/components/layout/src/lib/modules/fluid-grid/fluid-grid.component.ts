@@ -28,7 +28,7 @@ export class SkyFluidGridComponent {
 
   /**
    * Specifies a `SkyFluidGridGutterSizeType` to define the size of the padding
-   * between columns. Options include: `any`, `1`, `2`, `"small"`, `"medium"`, and `"large"`.
+   * between columns.
    * @default "large"
    */
   @Input()

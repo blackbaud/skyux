@@ -3,9 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 /**
- * Resets the SPA's background to white and adds the `sky-theme-default` CSS class to the host
- * element to let consumers override CSS styling. Consumers can override any element by writing
- * CSS selectors like this: `:host-context(.sky-theme-default) .my-class {}`.
+ * Sets the correct background color for a page.
  */
 @Component({
   selector: 'sky-page',

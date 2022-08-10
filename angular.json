@@ -48,7 +48,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "action-bars": {
       "projectType": "library",
@@ -97,7 +97,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "action-bars-testing": {
       "projectType": "library",
@@ -175,7 +175,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "angular-tree-component": {
       "projectType": "library",
@@ -224,7 +224,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "animations": {
       "projectType": "library",
@@ -273,7 +273,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "assets": {
       "projectType": "library",
@@ -322,7 +322,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "autonumeric": {
       "projectType": "library",
@@ -371,7 +371,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "avatar": {
       "projectType": "library",
@@ -420,7 +420,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "avatar-testing": {
       "projectType": "library",
@@ -616,7 +616,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "colorpicker-testing": {
       "projectType": "library",
@@ -687,7 +687,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "core": {
       "projectType": "library",
@@ -736,7 +736,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "core-testing": {
       "projectType": "library",
@@ -807,7 +807,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "datetime": {
       "projectType": "library",
@@ -856,7 +856,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "datetime-testing": {
       "projectType": "library",
@@ -879,6 +879,66 @@
           }
         }
       }
+    },
+    "e2e-schematics": {
+      "root": "libs/sdk/e2e-schematics",
+      "sourceRoot": "libs/sdk/e2e-schematics/src",
+      "projectType": "library",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/js:tsc",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/sdk/e2e-schematics",
+            "main": "libs/sdk/e2e-schematics/src/index.ts",
+            "tsConfig": "libs/sdk/e2e-schematics/tsconfig.lib.json",
+            "assets": [
+              "libs/sdk/e2e-schematics/*.md",
+              {
+                "input": "./libs/sdk/e2e-schematics/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./libs/sdk/e2e-schematics",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "libs/sdk/e2e-schematics/**/*.ts",
+              "libs/sdk/e2e-schematics/generators.json",
+              "libs/sdk/e2e-schematics/executors.json",
+              "libs/sdk/e2e-schematics/package.json"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/sdk/e2e-schematics"],
+          "options": {
+            "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
     },
     "errors": {
       "projectType": "library",
@@ -927,7 +987,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "errors-testing": {
       "projectType": "library",
@@ -998,7 +1058,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "forms": {
       "projectType": "library",
@@ -1047,7 +1107,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "forms-testing": {
       "projectType": "library",
@@ -1118,7 +1178,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "http": {
       "projectType": "library",
@@ -1167,7 +1227,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "http-testing": {
       "projectType": "library",
@@ -1250,7 +1310,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "indicators": {
       "projectType": "library",
@@ -1299,7 +1359,167 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
+    },
+    "indicators-storybook": {
+      "projectType": "application",
+      "root": "apps/indicators-storybook",
+      "sourceRoot": "apps/indicators-storybook/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/indicators-storybook",
+            "index": "apps/indicators-storybook/src/index.html",
+            "main": "apps/indicators-storybook/src/main.ts",
+            "polyfills": "apps/indicators-storybook/src/polyfills.ts",
+            "tsConfig": "apps/indicators-storybook/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "apps/indicators-storybook/src/styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/indicators-storybook/src/environments/environment.ts",
+                  "with": "apps/indicators-storybook/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "indicators-storybook:build:production"
+            },
+            "development": {
+              "browserTarget": "indicators-storybook:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "indicators-storybook:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/indicators-storybook/**/*.ts",
+              "apps/indicators-storybook/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/indicators-storybook"],
+          "options": {
+            "jestConfig": "apps/indicators-storybook/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "apps/indicators-storybook/.storybook",
+            "browserTarget": "indicators-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputDir}"],
+          "options": {
+            "outputDir": "dist/storybook/indicators-storybook",
+            "configDir": "apps/indicators-storybook/.storybook",
+            "browserTarget": "indicators-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "indicators-storybook-e2e": {
+      "root": "apps/indicators-storybook-e2e",
+      "sourceRoot": "apps/indicators-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/indicators-storybook-e2e/cypress.json",
+            "devServerTarget": "indicators-storybook:storybook",
+            "baseUrl": "http://localhost:4400"
+          },
+          "configurations": {
+            "ci": {
+              "skipServe": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/indicators-storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["indicators-storybook"]
     },
     "indicators-testing": {
       "projectType": "library",
@@ -1370,7 +1590,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "integration": {
       "projectType": "application",
@@ -1553,7 +1773,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "layout-testing": {
       "projectType": "library",
@@ -1624,7 +1844,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-common": {
       "projectType": "library",
@@ -1673,7 +1893,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-checklist": {
       "projectType": "library",
@@ -1722,7 +1942,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-checklist-testing": {
       "projectType": "library",
@@ -1793,7 +2013,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "list-builder-view-grids-testing": {
       "projectType": "library",
@@ -1864,7 +2084,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "lists-testing": {
       "projectType": "library",
@@ -1935,7 +2155,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "lookup-testing": {
       "projectType": "library",
@@ -2006,7 +2226,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "modals-testing": {
       "projectType": "library",
@@ -2077,7 +2297,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "omnibar-interop": {
       "projectType": "library",
@@ -2126,7 +2346,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "packages": {
       "root": "libs/components/packages",
@@ -2169,7 +2389,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "pages": {
       "projectType": "library",
@@ -2218,7 +2438,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "phone-field": {
       "projectType": "library",
@@ -2267,7 +2487,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "phone-field-testing": {
       "projectType": "library",
@@ -2433,7 +2653,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "popovers-testing": {
       "projectType": "library",
@@ -2496,7 +2716,7 @@
           }
         }
       },
-      "tags": ["sdk"]
+      "tags": ["sdk", "npm"]
     },
     "progress-indicator": {
       "projectType": "library",
@@ -2545,7 +2765,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "router": {
       "projectType": "library",
@@ -2594,7 +2814,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "select-field": {
       "projectType": "library",
@@ -2643,7 +2863,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "split-view": {
       "projectType": "library",
@@ -2692,7 +2912,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "split-view-testing": {
       "projectType": "library",
@@ -2715,6 +2935,86 @@
           }
         }
       }
+    },
+    "storybook": {
+      "projectType": "library",
+      "root": "libs/components/storybook",
+      "sourceRoot": "libs/components/storybook/src",
+      "prefix": "skyux",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/components/storybook"],
+          "options": {
+            "project": "libs/components/storybook/ng-package.json",
+            "updateBuildableProjectDepsInPackageJson": false
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/components/storybook/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/components/storybook/src/test.ts",
+            "tsConfig": "libs/components/storybook/tsconfig.spec.json",
+            "karmaConfig": "libs/components/storybook/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/components/storybook/**/*.ts",
+              "libs/components/storybook/**/*.html"
+            ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputDir}"],
+          "options": {
+            "outputDir": "dist/storybook/storybook",
+            "configDir": "libs/components/storybook/.storybook",
+            "browserTarget": "storybook:build-storybook",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": []
     },
     "tabs": {
       "projectType": "library",
@@ -2763,7 +3063,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "tabs-testing": {
       "projectType": "library",
@@ -2834,7 +3134,7 @@
           }
         }
       },
-      "tags": ["sdk"]
+      "tags": ["sdk", "npm"]
     },
     "text-editor": {
       "projectType": "library",
@@ -2883,7 +3183,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "theme": {
       "projectType": "library",
@@ -2938,7 +3238,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "tiles": {
       "projectType": "library",
@@ -2987,7 +3287,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "toast": {
       "projectType": "library",
@@ -3036,7 +3336,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     },
     "toast-testing": {
       "projectType": "library",
@@ -3107,7 +3407,7 @@
           }
         }
       },
-      "tags": ["component"]
+      "tags": ["component", "npm"]
     }
   }
 }

@@ -1,12 +1,29 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
+
+import { ComponentRouteInfo } from '../../../shared/component-info/component-route-info';
 
 import { ActionHubPlaygroundRecentLinksComponent } from './recent/action-hub-recent-links.component';
+import { SettingsComponent } from './settings/settings.component';
 
-const routes: Routes = [
+const routes: ComponentRouteInfo[] = [
   {
     path: 'recent',
     component: ActionHubPlaygroundRecentLinksComponent,
+    data: {
+      name: 'Action hub (recently accessed)',
+      icon: 'bell-o',
+      library: 'pages',
+    },
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    data: {
+      name: 'Action hub (settings)',
+      icon: 'gear',
+      library: 'pages',
+    },
   },
 ];
 
@@ -14,4 +31,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ActionHubRoutingModule {}
+export class ActionHubRoutingModule {
+  public static routes = routes;
+}

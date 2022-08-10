@@ -1,10 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { expect } from '@skyux-sdk/testing';
 
-import { SkyPageFixturesModule } from './fixtures/page-fixtures.module';
-import { SkyPageTestComponent } from './fixtures/page.component.fixture';
 import { SkyPageComponent } from './page.component';
+import { SkyPageModule } from './page.module';
 
 describe('Page component', () => {
   const defaultBackgroundColor = 'rgb(0, 0, 0)';
@@ -16,7 +14,7 @@ describe('Page component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyPageFixturesModule],
+      imports: [SkyPageModule],
     });
 
     styleEl = document.createElement('style');
@@ -44,21 +42,5 @@ describe('Page component', () => {
     fixture.destroy();
 
     validateBackgroundColor(defaultBackgroundColor);
-  });
-
-  it('should display child contents and provide a theme', () => {
-    const fixture = TestBed.createComponent(SkyPageTestComponent);
-
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement).toHaveText('Test content');
-
-    const themeOverrideEl = fixture.debugElement.query(
-      By.css('.theme-override')
-    );
-
-    expect(getComputedStyle(themeOverrideEl.nativeElement).color).toBe(
-      'rgb(100, 100, 100)'
-    );
   });
 });

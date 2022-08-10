@@ -18,4 +18,6 @@ import { SummaryActionBarComponent } from './summary-action-bar.component';
     SummaryActionBarRoutingModule,
   ],
 })
-export class SummaryActionBarModule {}
+export class SummaryActionBarModule {
+  public static routes = SummaryActionBarRoutingModule.routes;
+}

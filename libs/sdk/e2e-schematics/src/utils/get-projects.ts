@@ -1,0 +1,96 @@
+import { ProjectConfiguration, Tree, getProjects } from '@nrwl/devkit';
+
+function filterProjects(
+  tree: Tree,
+  filter: (projectConfiguration: ProjectConfiguration) => boolean,
+  name?: string
+): Map<string, ProjectConfiguration> {
+  const projectConfigurations = getProjects(tree);
+  const projects = new Map<string, ProjectConfiguration>();
+  if (name) {
+    const projectNames = name
+      .split(',')
+      .map((projectName) => projectName.trim())
+      .filter(
+        (projectName) => projectName && projectConfigurations.has(projectName)
+      );
+    projectNames.forEach((projectName) => {
+      const projectConfiguration = projectConfigurations.get(projectName);
+      if (filter(projectConfiguration)) {
+        projects.set(projectName, projectConfiguration);
+      }
+    });
+  } else {
+    projectConfigurations.forEach((projectConfiguration, projectName) => {
+      if (filter(projectConfiguration)) {
+        projects.set(projectName, projectConfiguration);
+      }
+    });
+  }
+  return projects;
+}
+
+function projectHasTargetWithExecutor(
+  projectConfiguration: ProjectConfiguration,
+  executor: string
+): boolean {
+  return Object.values(projectConfiguration.targets).some(
+    (target) => target.executor === executor
+  );
+}
+
+export function getE2eProjects(
+  tree: Tree,
+  name?: string
+): Map<string, ProjectConfiguration> {
+  return filterProjects(
+    tree,
+    (projectConfiguration) =>
+      projectHasTargetWithExecutor(
+        projectConfiguration,
+        '@nrwl/cypress:cypress'
+      ),
+    name
+  );
+}
+
+export function getStorybookProjects(
+  tree: Tree,
+  name?: string
+): Map<string, ProjectConfiguration> {
+  return filterProjects(
+    tree,
+    (projectConfiguration) =>
+      projectHasTargetWithExecutor(
+        projectConfiguration,
+        '@storybook/angular:build-storybook'
+      ),
+    name
+  );
+}
+
+export function getStorybookProject(
+  tree: Tree,
+  options: Partial<{ project: string }>
+) {
+  const projects = getProjects(tree);
+  if (!projects.has(options.project)) {
+    throw new Error(`Unable to find project ${options.project}`);
+  }
+  let projectConfig = projects.get(options.project);
+  if (!('storybook' in projectConfig.targets)) {
+    options.project = `${options.project}-storybook`;
+    if (!projects.has(options.project)) {
+      throw new Error(`Unable to find project ${options.project}`);
+    }
+    projectConfig = projects.get(options.project);
+    if (!('storybook' in projectConfig.targets)) {
+      throw new Error(`Storybook is not configured for ${options.project}`);
+    }
+  }
+  return projectConfig;
+}
+
+export function getProjectTypeBase(projectConfig: ProjectConfiguration) {
+  return `${projectConfig.projectType == 'library' ? 'lib' : 'app'}`;
+}

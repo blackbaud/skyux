@@ -12,17 +12,17 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   @ViewChild(SkyCountryFieldComponent, {
     static: true,
   })
-  public countryFieldComponent: SkyCountryFieldComponent;
+  public countryFieldComponent!: SkyCountryFieldComponent;
 
-  public countryForm: FormGroup;
+  public countryForm: FormGroup | undefined;
 
-  public countryControl: FormControl;
+  public countryControl!: FormControl;
 
-  public initialValue: SkyCountryFieldCountry;
+  public initialValue: SkyCountryFieldCountry | undefined;
 
   public initiallizeToUndefined = false;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] | undefined;
 
   public set isDisabled(value: boolean) {
     this._isDisabled = value;
@@ -52,7 +52,7 @@ export class CountryFieldReactiveTestComponent implements OnInit {
     return this._isRequired;
   }
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
   private _isDisabled = false;
 

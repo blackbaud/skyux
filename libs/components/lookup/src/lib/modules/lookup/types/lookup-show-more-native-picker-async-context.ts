@@ -8,12 +8,19 @@ import { SkyLookupShowMoreNativePickerConfig } from './lookup-show-more-native-p
  * Context for the show more native picker. These values are provided by the lookup component.
  */
 export class SkyLookupShowMoreNativePickerAsyncContext {
-  public descriptorProperty: string;
-  public idProperty: string;
-  public initialSearch: string;
-  public initialValue: unknown[];
-  public searchAsync: SkyAutocompleteSearchAsyncFunction;
-  public selectMode: SkyLookupSelectModeType;
-  public showAddButton: boolean;
-  public userConfig: SkyLookupShowMoreNativePickerConfig;
+  public descriptorProperty!: string;
+
+  public idProperty!: string;
+
+  public initialSearch!: string;
+
+  public initialValue!: any[];
+
+  public searchAsync!: SkyAutocompleteSearchAsyncFunction;
+
+  public selectMode!: SkyLookupSelectModeType;
+
+  public showAddButton!: boolean;
+
+  public userConfig!: SkyLookupShowMoreNativePickerConfig;
 }

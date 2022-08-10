@@ -25,4 +25,6 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     SplitViewRoutingModule,
   ],
 })
-export class SplitViewModule {}
+export class SplitViewModule {
+  public static routes = SplitViewRoutingModule.routes;
+}

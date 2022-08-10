@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'date-pipe',
+    loadChildren: () =>
+      import('./date-pipe/date-pipe.module').then((m) => m.DatePipeModule),
+  },
+  {
     path: 'date-range-picker',
     loadChildren: () =>
       import('./date-range-picker/date-range-picker.module').then(
@@ -25,4 +30,6 @@ export class DatetimeRoutingModule {}
 @NgModule({
   imports: [DatetimeRoutingModule],
 })
-export class DatetimeModule {}
+export class DatetimeModule {
+  public static routes = routes;
+}

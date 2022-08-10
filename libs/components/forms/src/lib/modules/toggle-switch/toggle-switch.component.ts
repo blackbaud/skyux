@@ -37,8 +37,6 @@ const SKY_TOGGLE_SWITCH_VALIDATOR = {
   multi: true,
 };
 
-let uniqueId = 0;
-
 @Component({
   selector: 'sky-toggle-switch',
   templateUrl: './toggle-switch.component.html',
@@ -108,17 +106,12 @@ export class SkyToggleSwitchComponent
 
   public enableIndicatorAnimation = false;
 
-  public get labelElementId(): string {
-    return `sky-toggle-switch-label-${this.toggleSwitchId}`;
-  }
-
   @ContentChildren(SkyToggleSwitchLabelComponent)
   private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
 
   private control: AbstractControl;
   private isFirstChange = true;
   private ngUnsubscribe = new Subject<void>();
-  private toggleSwitchId = uniqueId++;
 
   private _checked = false;
 
@@ -182,8 +175,10 @@ export class SkyToggleSwitchComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onTouched: () => any = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // istanbul ignore next
   private onChange: (value: any) => void = () => {};
 
   private emitChangeEvent(): void {

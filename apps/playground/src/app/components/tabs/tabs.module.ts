@@ -10,6 +10,10 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
+  },
+  {
     path: 'vertical-tabset',
     loadChildren: () =>
       import('./vertical-tabset/vertical-tabset.module').then(
@@ -27,4 +31,6 @@ export class TabsRoutingModule {}
 @NgModule({
   imports: [TabsRoutingModule],
 })
-export class TabsModule {}
+export class TabsModule {
+  public static routes = routes;
+}

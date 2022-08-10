@@ -188,6 +188,22 @@
     padding-top: initial;
     width: 100%;
   }
+
+  .sky-modal-viewkeeper {
+    .sky-modal-header {
+      box-shadow: none !important;
+    }
+
+    .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
+      box-shadow: 0px 4px 8px -4px rgb(0 0 0 / 30%);
+
+      > sky-toolbar .sky-toolbar-container {
+        background-color: #fff;
+        padding-left: $sky-theme-modern-space-xl;
+        padding-right: $sky-theme-modern-space-xl;
+      }
+    }
+  }
 }
 
 @include sky-theme-modern-dark {
