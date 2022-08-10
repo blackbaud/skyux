@@ -74,6 +74,8 @@ $indicator-size: 22px;
   }
 
   &.sky-toggle-switch-disabled {
+    color: var(--sky-text-color-default);
+
     .sky-toggle-switch-switch {
       background-color: $sky-background-color-disabled;
       border-color: transparent;
@@ -112,12 +114,12 @@ $indicator-size: 22px;
         box-shadow $sky-transition-time-short;
     }
 
-    &.sky-toggle-switch-disabled {
+    &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
       border-color: $sky-theme-modern-background-color-disabled;
       cursor: not-allowed;
     }
 
-    &.sky-toggle-switch-disabled,
+    &.sky-toggle-switch-disabled .sky-toggle-switch-switch,
     &.sky-toggle-switch-disabled .sky-toggle-switch-indicator {
       background-color: $sky-theme-modern-color-gray-07;
     }
