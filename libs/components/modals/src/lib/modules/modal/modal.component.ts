@@ -132,8 +132,10 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       ? 'full-page'
       : config.size?.toLowerCase() || 'medium';
 
+    this.modalZIndex = this.#hostService.zIndex;
+    // TODO: The null check here is for backwards compatibility with mocks that may not have had the `zIndexChange` event. Remove in a future breaking change.
     this.#hostService.zIndexChange
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((zIndex) => {
         this.modalZIndex = zIndex;
       });

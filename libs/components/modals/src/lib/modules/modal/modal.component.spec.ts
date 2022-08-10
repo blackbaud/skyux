@@ -278,7 +278,7 @@ describe('Modal component', () => {
     escapeEvent.shiftKey = false;
     escapeEvent.initEvent('keyup', true, true);
 
-    const modalElement = getModalElement();
+    let modalElement = getModalElement();
 
     if (!modalElement) {
       throw new Error('No modal element found');
@@ -289,6 +289,8 @@ describe('Modal component', () => {
 
     tick();
     getApplicationRef().tick();
+
+    modalElement = getModalElement();
 
     expect(modalElement).not.toExist();
 
