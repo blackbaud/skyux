@@ -42,6 +42,7 @@ describe('Lookup component', function () {
   }
 
   function clickShowMore(fixture: ComponentFixture<any>): void {
+    console.log('getShowMoreButton', getShowMoreButton());
     SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
     fixture.detectChanges();
     tick(200);
@@ -161,6 +162,7 @@ describe('Lookup component', function () {
   function getInputElement(
     lookupComponent: SkyLookupComponent
   ): HTMLInputElement {
+    console.log('lookupComponent', lookupComponent);
     return lookupComponent['lookupWrapperRef'].nativeElement.querySelector(
       '.sky-lookup-input'
     );
@@ -3371,6 +3373,143 @@ describe('Lookup component', function () {
         fixture.detectChanges();
         await fixture.whenStable();
         await expectAsync(document.body).toBeAccessible(axeConfig);
+      });
+    });
+
+    // for testing non-async search args being passed around correctly
+    fdescribe('search args (non-async)', () => {
+      // to test the passing of the 'context' arg
+      describe('context', () => {
+        beforeEach(() => {
+          // setting it to be multiselect is probably not required to test this, but it is the most common use case for using the optional 'context' arg
+          component.setMultiSelect();
+        });
+        describe('search function filters', () => {
+          let searchFilterFunctionSpy: jasmine.Spy;
+          beforeEach(() => {
+            // creating the spy function that is pretending to be a search filter
+            searchFilterFunctionSpy = jasmine.createSpy('searchFilter');
+            lookupComponent.searchFilters = [searchFilterFunctionSpy];
+          });
+
+          it('should return popover context through the searchFilters', fakeAsync(() => {
+            // peforming a search in the popover view should provide the search filter function with a 'popover' context
+            tick();
+            fixture.detectChanges();
+            performSearch('s', fixture);
+            expect(searchFilterFunctionSpy).toHaveBeenCalledWith(
+              jasmine.any(String),
+              jasmine.anything(),
+              jasmine.objectContaining({
+                context: 'popover',
+              })
+            );
+          }));
+
+          describe('show more modal', () => {
+            let modalService: SkyModalService;
+
+            beforeEach(fakeAsync(() => {
+              modalService = TestBed.inject(SkyModalService);
+
+              fixture.detectChanges();
+              tick();
+            }));
+
+            // This is necessary as due to modals being launched outside of the test bed they will not
+            // automatically be disposed between tests.
+            afterEach(fakeAsync(() => {
+              // NOTE: This is important as it ensures that the modal host component is fully disposed of
+              // between tests. This is important as the modal host might need a different set of component
+              // injectors than the previous test.
+              modalService.dispose();
+              fixture.detectChanges();
+            }));
+            fit('should return modal context through the searchFilters', fakeAsync(() => {
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              // opening the "show more" modal
+              component.enableShowMore = true;
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              performSearch('s', fixture);
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              clickShowMore(fixture);
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              tick();
+              fixture.detectChanges();
+              // peforming a search in the modal view should provide the search filter function with a 'modal' context
+              performSearch('s', fixture);
+              expect(searchFilterFunctionSpy).toHaveBeenCalledWith(
+                jasmine.any(String),
+                jasmine.anything(),
+                jasmine.objectContaining({
+                  context: 'modal',
+                })
+              );
+            }));
+          });
+        });
+        // describe('custom search function', () => {
+        // const friends: any[] = this.myForm.controls.friends.value;
+        // lookupComponent.searchFilters = [
+        //   (
+        //     searchText: string,
+        //     item: any,
+        //     args?: SkyAutocompleteSearchArgs
+        //   ): boolean => {
+        //     if (args?.context === 'modal') {
+        //       return true;
+        //     }
+        //     const found = friends.find((option) => option.name === item.name);
+        //     return !found;
+        //   },
+        // ];
+        // it('should return popover context through the searchFilters', fakeAsync(() => {
+        //   performSearch('s', fixture, false);
+        //   expect(searchFilterFunctionSpy).toHaveBeenCalledWith({
+        //     searchText: 's',
+        //     item: { name: 'Sally' },
+        //     args: {
+        //       context: 'popover',
+        //     },
+        //   });
+        // }));
+        // it('should return modal context through the searchFilters', fakeAsync(() => {
+        //   performSearch('s', fixture, false);
+        //   expect(searchFilterFunctionSpy).toHaveBeenCalledWith({
+        //     searchText: 's',
+        //     item: { name: 'Sally' },
+        //     args: {
+        //       context: 'modal',
+        //     },
+        //   });
+        // }));
+        // });
       });
     });
   });
