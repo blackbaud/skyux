@@ -1738,7 +1738,7 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
-          it('should log an error when an async search function is used without the idProeprty set and the show more modal is enabled', fakeAsync(function () {
+          it('should log an error when an async search function is used without the idProperty set and the show more modal is enabled', fakeAsync(function () {
             component.enableShowMore = true;
             component.idProperty = undefined;
             const logService = TestBed.inject(SkyLogService);
@@ -4552,7 +4552,7 @@ describe('Lookup component', function () {
             closeModal(fixture);
           }));
 
-          it('should log an error when an async search function is used without the idProeprty set', fakeAsync(function () {
+          it('should log an error when an async search function is used without the idProperty set', fakeAsync(function () {
             component.enableShowMore = true;
             component.idProperty = undefined;
             const logService = TestBed.inject(SkyLogService);
