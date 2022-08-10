@@ -76,7 +76,7 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     if (this.context.idProperty === undefined) {
       this.#logSvc.error(
-        "The lookup component requires the 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+        "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
       );
     }
 
