@@ -431,6 +431,7 @@ describe('Radio group component (reactive)', function () {
     expect(componentInstance.radioForm.pristine).toEqual(true);
     expect(componentInstance.radioForm.dirty).toEqual(false);
     expect(componentInstance.radioForm.disabled).toEqual(true);
+    expect(componentInstance.radioGroupComponent.disabled).toEqual(true);
 
     const inputArray = Array.from(getRadios(fixture));
     const labelArray = Array.from(getRadioLabels(fixture));
@@ -447,11 +448,64 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
+    expect(componentInstance.radioForm.disabled).toEqual(false);
+    expect(componentInstance.radioGroupComponent.disabled).toEqual(false);
+
     for (const input of inputArray) {
       expect(input.getAttribute('disabled')).toBeNull();
     }
     for (const label of labelArray) {
       expect(label).not.toHaveCssClass('sky-switch-disabled');
+    }
+  }));
+
+  it('should note enable disabled radio buttons when the outer radio group is enabled', fakeAsync(function () {
+    componentInstance.initialDisabled = true;
+    componentInstance.options[2].disabled = true;
+    fixture.detectChanges();
+    tick();
+
+    fixture.detectChanges();
+    tick();
+
+    expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
+    expect(componentInstance.radioForm.touched).toEqual(false);
+    expect(componentInstance.radioForm.pristine).toEqual(true);
+    expect(componentInstance.radioForm.dirty).toEqual(false);
+    expect(componentInstance.radioForm.disabled).toEqual(true);
+    expect(componentInstance.radioGroupComponent.disabled).toEqual(true);
+
+    const inputArray = Array.from(getRadios(fixture));
+    const labelArray = Array.from(getRadioLabels(fixture));
+
+    for (const input of inputArray) {
+      expect(input.getAttribute('disabled')).not.toBeNull();
+    }
+    for (const label of labelArray) {
+      expect(label).toHaveCssClass('sky-switch-disabled');
+    }
+
+    // Call form control's enable method. Expect form to be enabled.
+    componentInstance.radioForm.get('radioGroup').enable();
+    fixture.detectChanges();
+    tick();
+
+    expect(componentInstance.radioForm.disabled).toEqual(false);
+    expect(componentInstance.radioGroupComponent.disabled).toEqual(false);
+
+    for (const input of inputArray) {
+      if (input === inputArray[2]) {
+        expect(input.getAttribute('disabled')).not.toBeNull();
+      } else {
+        expect(input.getAttribute('disabled')).toBeNull();
+      }
+    }
+    for (const label of labelArray) {
+      if (label === labelArray[2]) {
+        expect(label).toHaveCssClass('sky-switch-disabled');
+      } else {
+        expect(label).not.toHaveCssClass('sky-switch-disabled');
+      }
     }
   }));
 
