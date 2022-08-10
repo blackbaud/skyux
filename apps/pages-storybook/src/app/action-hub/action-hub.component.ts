@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import {
   SkyActionHubNeedsAttention,
+  SkyPageLink,
   SkyPageModalLinksInput,
   SkyRecentLink,
 } from '@skyux/pages';
-
-import { SkyLink } from '../../../../../libs/components/pages/src/lib/modules/link-list/types/link';
 
 import { SettingsModalComponent } from './settings-modal.component';
 
@@ -146,7 +145,7 @@ export class ActionHubComponent {
     },
   ];
 
-  public relatedLinks: SkyLink[] = [
+  public relatedLinks: SkyPageLink[] = [
     {
       label: 'Link 1',
       permalink: {
