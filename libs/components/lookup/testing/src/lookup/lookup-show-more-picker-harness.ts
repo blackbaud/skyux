@@ -65,7 +65,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   }
 
   public async getSearchResults(
-    filters?: SearchResultFilters
+    filters?: Omit<SearchResultFilters, 'ancestor'>
   ): Promise<SkyRepeaterItemHarness[]> {
     const modalId = (await (await this.host()).getAttribute('id')) as string;
 

@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  NgZone,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -76,18 +75,14 @@ export class SkyLookupShowMoreModalComponent
 
   #ngUnsubscribe = new Subject<void>();
 
-  #ngZone: NgZone;
-
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
     changeDetector: ChangeDetectorRef,
-    idSvc: SkyIdService,
-    ngZone: NgZone
+    idSvc: SkyIdService
   ) {
     this.id = idSvc.generateId();
     this.#changeDetector = changeDetector;
-    this.#ngZone = ngZone;
   }
 
   public ngAfterViewInit(): void {
@@ -307,22 +302,19 @@ export class SkyLookupShowMoreModalComponent
         ) !== -1;
     });
 
-    // Needed so that Angular detects changes after the search filters are executed.
-    this.#ngZone.run(() => {
-      this.searchItems(items).then((searchedItems) => {
-        if (this.onlyShowSelected) {
-          searchedItems = searchedItems.filter((item) => item.selected);
-        }
-        this.displayedItems = searchedItems.slice(0, this.#itemIndex);
+    this.searchItems(items).then((searchedItems) => {
+      if (this.onlyShowSelected) {
+        searchedItems = searchedItems.filter((item) => item.selected);
+      }
+      this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-        if (this.#itemIndex > searchedItems.length) {
-          this.itemsHaveMore = false;
-        } else {
-          this.itemsHaveMore = true;
-        }
+      if (this.#itemIndex > searchedItems.length) {
+        this.itemsHaveMore = false;
+      } else {
+        this.itemsHaveMore = true;
+      }
 
-        this.#changeDetector.markForCheck();
-      });
+      this.#changeDetector.markForCheck();
     });
   }
 
