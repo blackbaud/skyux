@@ -24,16 +24,13 @@
                     formControlName="firstName"
                     skyId
                     #firstNameInput="skyId"
-                    required
                   />
-                  <sky-status-indicator
+                  <div
                     *ngIf="firstName.touched && !firstName.valid"
-                    class="sky-control-error"
-                    descriptionType="none"
-                    indicatorType="danger"
+                    class="sky-error-label"
                   >
                     Enter your first name.
-                  </sky-status-indicator>
+                  </div>
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
@@ -61,16 +58,13 @@
                     formControlName="lastName"
                     skyId
                     #lastNameInput="skyId"
-                    required
                   />
-                  <sky-status-indicator
+                  <div
                     *ngIf="lastName.touched && !lastName.valid"
-                    class="sky-control-error"
-                    descriptionType="none"
-                    indicatorType="danger"
+                    class="sky-error-label"
                   >
                     Enter your last name.
-                  </sky-status-indicator>
+                  </div>
                 </sky-input-box>
               </sky-column>
             </sky-row>
@@ -90,17 +84,14 @@
                       skyId
                       #phoneNumberInput="skyId"
                       skyPhoneFieldInput
-                      required
                     />
                   </sky-phone-field>
-                  <sky-status-indicator
+                  <div
                     *ngIf="phoneNumber.touched && !phoneNumber.valid"
-                    class="sky-control-error"
-                    descriptionType="none"
-                    indicatorType="danger"
+                    class="sky-error-label"
                   >
                     Enter a valid phone number.
-                  </sky-status-indicator>
+                  </div>
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
@@ -114,16 +105,13 @@
                     formControlName="email"
                     skyId
                     #emailInput="skyId"
-                    required
                   />
-                  <sky-status-indicator
+                  <div
                     *ngIf="email.touched && !email.valid"
-                    class="sky-control-error"
-                    descriptionType="none"
-                    indicatorType="danger"
+                    class="sky-error-label"
                   >
                     Enter a valid email address.
-                  </sky-status-indicator>
+                  </div>
                 </sky-input-box>
               </sky-column>
             </sky-row>
