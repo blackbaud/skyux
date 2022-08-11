@@ -57,18 +57,16 @@ export class WizardDemoModalComponent implements OnInit {
   }
 
   public checkRequirementsMet(): void {
-    const requirement1Met =
+    this.step2Disabled = !(
       this.newMemberForm.get('firstName').value &&
-      this.newMemberForm.get('lastName').value;
-    const requirement2Met =
+      this.newMemberForm.get('lastName').value
+    );
+    this.step3Disabled = !(
       this.newMemberForm.get('phoneNumber').value &&
       this.newMemberForm.get('phoneNumber').valid &&
-      this.newMemberForm.get('email').value;
-    const requirement3Met = this.newMemberForm.get('termsAccepted').value;
-
-    this.step2Disabled = !requirement1Met;
-    this.step3Disabled = !requirement2Met;
-    this.saveDisabled = !requirement3Met;
+      this.newMemberForm.get('email').value
+    );
+    this.saveDisabled = !this.newMemberForm.get('termsAccepted').value;
   }
 
   public onNextClick(): void {

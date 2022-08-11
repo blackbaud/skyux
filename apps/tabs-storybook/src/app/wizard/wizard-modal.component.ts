@@ -32,13 +32,9 @@ export class WizardModalComponent implements OnInit {
   }
 
   public checkRequirementsMet(): void {
-    const requirement1Met = this.myForm.get('requiredValue1').value;
-    const requirement2Met = this.myForm.get('requiredValue2').value;
-    const requirement3Met = this.myForm.get('requiredValue3').value;
-
-    this.step2Disabled = !requirement1Met;
-    this.step3Disabled = !requirement2Met;
-    this.saveDisabled = !requirement3Met;
+    this.step2Disabled = !this.myForm.get('requiredValue1')?.value;
+    this.step3Disabled = !this.myForm.get('requiredValue2')?.value;
+    this.saveDisabled = this.myForm.get('requiredValue3')?.value;
   }
 
   public onNextClick(): void {
