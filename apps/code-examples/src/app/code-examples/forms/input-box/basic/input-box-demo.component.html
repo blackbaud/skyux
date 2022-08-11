@@ -1,29 +1,31 @@
 <div [skyTheme]="modernLightTheme">
   <h3>With basic HTML elements</h3>
   <sky-input-box>
-    <label class="sky-control-label" for="myInput"> HTML &lt;input&gt; </label>
-    <input class="sky-form-control" id="myInput" type="text" />
+    <label class="sky-control-label" for="myInput.id">
+      HTML &lt;input&gt;
+    </label>
+    <input class="sky-form-control" skyId #myInput="skyId" type="text" />
   </sky-input-box>
   <sky-input-box>
-    <label class="sky-control-label" for="myTextarea">
+    <label class="sky-control-label" for="myTextarea.id">
       HTML &lt;textarea&gt;
     </label>
-    <textarea class="sky-form-control" id="myTextarea"></textarea>
+    <textarea class="sky-form-control" skyId #myTextarea="skyId"></textarea>
   </sky-input-box>
 
   <h3>With SKY UX components</h3>
   <sky-input-box>
-    <label class="sky-control-label" for="myDatepicker"> Datepicker </label>
+    <label class="sky-control-label" for="myDatepicker.id"> Datepicker </label>
     <sky-datepicker>
-      <input id="myDatepicker" skyDatepickerInput />
+      <input skyId #myDatepicker="skyId" skyDatepickerInput />
     </sky-datepicker>
   </sky-input-box>
   <sky-input-box>
-    <label class="sky-control-label" for="myInlineHelp"> Inline Help </label>
+    <label class="sky-control-label" for="myInlineHelp.id"> Inline Help </label>
     <sky-help-inline
       class="sky-control-help"
       (actionClick)="onActionClick()"
     ></sky-help-inline>
-    <input class="sky-form-control" id="myInlineHelp" />
+    <input class="sky-form-control" skyId #myInlineHelp="skyId" />
   </sky-input-box>
 </div>

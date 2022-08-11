@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/indicators';
@@ -11,6 +12,7 @@ import { InputBoxDemoComponent } from './input-box-demo.component';
   imports: [
     CommonModule,
     SkyDatepickerModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyThemeModule,
     SkyHelpInlineModule,
