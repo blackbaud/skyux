@@ -15,14 +15,15 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" for="firstNameInput"
+                  <label class="sky-control-label" [for]="firstNameInput.id"
                     >First Name</label
                   >
                   <input
                     type="text"
                     class="sky-form-control"
                     formControlName="firstName"
-                    skyskyId="firstNameInput"
+                    skyId
+                    #firstNameInput="skyId"
                     required
                   />
                   <sky-status-indicator
@@ -37,27 +38,29 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" for="middleNameInput"
+                  <label class="sky-control-label" [for]="middleNameInput.id"
                     >Middle Name</label
                   >
                   <input
                     type="text"
                     class="sky-form-control"
                     formControlName="middleName"
-                    skyId="middleNameInput"
+                    skyId
+                    #middleNameInput="skyId"
                   />
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" for="lastNameInput"
+                  <label class="sky-control-label" [for]="lastNameInput.id"
                     >Last Name</label
                   >
                   <input
                     type="text"
                     class="sky-form-control"
                     formControlName="lastName"
-                    skyId="lastNameInput"
+                    skyId
+                    #lastNameInput="skyId"
                     required
                   />
                   <sky-status-indicator
@@ -78,13 +81,14 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" for="phoneNumberInput"
+                  <label class="sky-control-label" [for]="phoneNumberInput.id"
                     >Phone Number</label
                   >
                   <sky-phone-field defaultCountry="us">
                     <input
                       formControlName="phoneNumber"
-                      skyId="phoneNumberInput"
+                      skyId
+                      #phoneNumberInput="skyId"
                       skyPhoneFieldInput
                       required
                     />
@@ -101,14 +105,15 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" for="emailInput"
+                  <label class="sky-control-label" [for]="emailInput.id"
                     >Email</label
                   >
                   <input
                     type="email"
                     class="sky-form-control"
                     formControlName="email"
-                    skyId="emailInput"
+                    skyId
+                    #emailInput="skyId"
                     required
                   />
                   <sky-status-indicator

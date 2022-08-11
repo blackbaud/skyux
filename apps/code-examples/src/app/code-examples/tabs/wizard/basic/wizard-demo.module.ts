@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyFluidGridModule } from '@skyux/layout';
@@ -19,6 +20,7 @@ import { WizardDemoComponent } from './wizard-demo.component';
     ReactiveFormsModule,
     SkyCheckboxModule,
     SkyFluidGridModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyModalModule,
     SkyPhoneFieldModule,

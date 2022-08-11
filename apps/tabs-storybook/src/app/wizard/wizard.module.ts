@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { SkyIdModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalModule } from '@skyux/modals';
@@ -18,6 +19,7 @@ const routes: Routes = [{ path: '', component: WizardComponent }];
     CommonModule,
     RouterModule.forChild(routes),
     SkyCheckboxModule,
+    SkyIdModule,
     SkyInputBoxModule,
     SkyTabsModule,
     SkyModalModule,
