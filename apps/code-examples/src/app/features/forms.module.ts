@@ -5,6 +5,8 @@ import { CheckboxDemoComponent as CheckboxBasicDemoComponent } from '../code-exa
 import { CheckboxDemoModule as CheckboxBasicDemoModule } from '../code-examples/forms/checkbox/basic/checkbox-demo.module';
 import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.component';
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
+import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
+import { SkyInputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
 import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.component';
@@ -39,6 +41,10 @@ const routes: Routes = [
     path: 'toggle-switch/inline-help',
     component: InlineHelpToggleSwitchComponent,
   },
+  {
+    path: 'input-box/basic',
+    component: InputBoxDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -56,6 +62,7 @@ export class FormsRoutingModule {}
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
+    SkyInputBoxDemoModule,
   ],
 })
 export class FormsModule {}
