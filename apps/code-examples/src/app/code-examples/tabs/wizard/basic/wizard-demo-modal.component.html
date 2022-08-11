@@ -1,0 +1,167 @@
+<form [formGroup]="newMemberForm" (ngSubmit)="onSave()">
+  <sky-modal>
+    <sky-modal-header>
+      {{ title }}
+    </sky-modal-header>
+    <sky-modal-content>
+      <sky-tabset
+        ariaLabel="Sign-up steps"
+        [(active)]="activeIndex"
+        tabStyle="wizard"
+        #wizardDemo
+      >
+        <sky-tab tabHeading="1. Biographical Details">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" [for]="firstNameInput.id"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="firstName"
+                    skyId
+                    #firstNameInput="skyId"
+                  />
+                  <div
+                    *ngIf="firstName.touched && !firstName.valid"
+                    class="sky-error-label"
+                  >
+                    Enter your first name.
+                  </div>
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" [for]="middleNameInput.id"
+                    >Middle Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="middleName"
+                    skyId
+                    #middleNameInput="skyId"
+                  />
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="4">
+                <sky-input-box>
+                  <label class="sky-control-label" [for]="lastNameInput.id"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    class="sky-form-control"
+                    formControlName="lastName"
+                    skyId
+                    #lastNameInput="skyId"
+                  />
+                  <div
+                    *ngIf="lastName.touched && !lastName.valid"
+                    class="sky-error-label"
+                  >
+                    Enter your last name.
+                  </div>
+                </sky-input-box>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+        <sky-tab tabHeading="2. Contact Information" [disabled]="step2Disabled">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12" [screenMedium]="6">
+                <sky-input-box>
+                  <label class="sky-control-label" [for]="phoneNumberInput.id"
+                    >Phone Number</label
+                  >
+                  <sky-phone-field defaultCountry="us">
+                    <input
+                      formControlName="phoneNumber"
+                      skyId
+                      #phoneNumberInput="skyId"
+                      skyPhoneFieldInput
+                    />
+                  </sky-phone-field>
+                  <div
+                    *ngIf="phoneNumber.touched && !phoneNumber.valid"
+                    class="sky-error-label"
+                  >
+                    Enter a valid phone number.
+                  </div>
+                </sky-input-box>
+              </sky-column>
+              <sky-column [screenSmall]="12" [screenMedium]="6">
+                <sky-input-box>
+                  <label class="sky-control-label" [for]="emailInput.id"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    class="sky-form-control"
+                    formControlName="email"
+                    skyId
+                    #emailInput="skyId"
+                  />
+                  <div
+                    *ngIf="email.touched && !email.valid"
+                    class="sky-error-label"
+                  >
+                    Enter a valid email address.
+                  </div>
+                </sky-input-box>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+        <sky-tab tabHeading="3. More Information" [disabled]="step3Disabled">
+          <sky-fluid-grid [disableMargin]="true" gutterSize="small">
+            <sky-row>
+              <sky-column [screenSmall]="12">
+                <sky-checkbox formControlName="termsAccepted">
+                  <sky-checkbox-label>
+                    Accept terms and conditions
+                  </sky-checkbox-label>
+                </sky-checkbox>
+              </sky-column>
+              <sky-column [screenSmall]="12">
+                <sky-checkbox formControlName="mailingList">
+                  <sky-checkbox-label>
+                    Sign up for our email newsletter
+                  </sky-checkbox-label>
+                </sky-checkbox>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        </sky-tab>
+      </sky-tabset>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <sky-tabset-nav-button
+        buttonType="previous"
+        [tabset]="wizardDemo"
+      ></sky-tabset-nav-button>
+      <sky-tabset-nav-button
+        buttonType="next"
+        [tabset]="wizardDemo"
+      ></sky-tabset-nav-button>
+      <button
+        class="sky-btn sky-btn-primary sky-margin-inline-sm"
+        type="submit"
+        [disabled]="saveDisabled"
+      >
+        Save
+      </button>
+      <button
+        class="sky-btn sky-btn-link"
+        type="button"
+        (click)="onCancelClick()"
+      >
+        Cancel
+      </button>
+    </sky-modal-footer>
+  </sky-modal>
+</form>
