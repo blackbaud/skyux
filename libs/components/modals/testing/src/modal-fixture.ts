@@ -6,9 +6,9 @@ import { ComponentFixture } from '@angular/core/testing';
 export class SkyModalFixture {
   #modalElement: HTMLElement;
 
-  #fixture: ComponentFixture<any>;
+  #fixture: ComponentFixture<unknown>;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.#fixture = fixture;
     const modalElement = document.querySelector(
       'sky-modal[data-sky-id="' + skyTestId + '"]'
@@ -30,6 +30,7 @@ export class SkyModalFixture {
     const modalDialogElement = this.#getModalDiaglogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const describedByAttribute =
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       modalDialogElement.getAttribute('aria-describedby')!;
     return describedByAttribute;
   }
@@ -41,6 +42,7 @@ export class SkyModalFixture {
     const modalDialogElement = this.#getModalDiaglogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
     const labelledByAttribute =
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       modalDialogElement.getAttribute('aria-labelledby')!;
 
     return labelledByAttribute;
@@ -52,6 +54,7 @@ export class SkyModalFixture {
   public get ariaRole(): string | undefined {
     const modalDialogElement = this.#getModalDiaglogElement();
     /* Non-null assertion as our component has a default for if the user does not provide this attribute or if they provide "undefined" */
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const roleAttribute = modalDialogElement.getAttribute('role')!;
     return roleAttribute;
   }
@@ -71,7 +74,7 @@ export class SkyModalFixture {
     const modalDivElement = this.getModalDiv();
     const possibleSizes = ['small', 'medium', 'large'];
 
-    for (let size of possibleSizes) {
+    for (const size of possibleSizes) {
       if (modalDivElement.classList.contains('sky-modal-' + size)) {
         return size;
       }

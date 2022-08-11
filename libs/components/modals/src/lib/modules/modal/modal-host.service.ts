@@ -1,7 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
 
-import { ReplaySubject } from 'rxjs';
-
 const BASE_Z_INDEX = 1040;
 const modalHosts: SkyModalHostService[] = [];
 
@@ -33,18 +31,15 @@ export class SkyModalHostService {
   public close = new EventEmitter<void>();
   public fullPage = false;
   public openHelp = new EventEmitter<any>();
-  public zIndex: number | undefined;
-  public zIndexChange = new ReplaySubject<number>();
+  public zIndex: number;
 
   constructor() {
+    this.zIndex = this.calculateZIndex();
     modalHosts.push(this);
-    this.updateZIndex();
   }
 
   public getModalZIndex(): number {
-    let zIndex = BASE_Z_INDEX + 1;
-    zIndex += (modalHosts.indexOf(this) + 1) * 10;
-    return zIndex;
+    return this.zIndex;
   }
 
   public onClose(): void {
@@ -57,14 +52,15 @@ export class SkyModalHostService {
 
   public destroy(): void {
     modalHosts.splice(modalHosts.indexOf(this), 1);
-    modalHosts.forEach((modalHost) => modalHost.updateZIndex());
   }
 
-  private updateZIndex(): void {
-    const newZIndex = this.getModalZIndex();
-    if (newZIndex !== this.zIndex) {
-      this.zIndex = newZIndex;
-      this.zIndexChange.next(this.zIndex);
+  private calculateZIndex(): number {
+    const zIndexArray = modalHosts.map((hostService) => hostService.zIndex);
+    if (zIndexArray.length === 0) {
+      return BASE_Z_INDEX + 11;
+    } else {
+      const currentMaxZIndex = Math.max(...zIndexArray);
+      return currentMaxZIndex + 10;
     }
   }
 }

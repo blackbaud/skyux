@@ -1,4 +1,4 @@
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { SkyModalCloseArgs } from '../../modal/modal-close-args';
 
@@ -16,14 +16,8 @@ export class MockSkyModalInstance {
 }
 
 export class MockSkyModalHostService {
-  public zIndexChange = new ReplaySubject<number>();
-
   public getModalZIndex(): number {
     return 1;
-  }
-
-  constructor() {
-    this.zIndexChange.next(this.getModalZIndex());
   }
 }
 

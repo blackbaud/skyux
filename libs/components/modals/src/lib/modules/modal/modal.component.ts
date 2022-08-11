@@ -18,9 +18,6 @@ import {
   SkyResizeObserverMediaQueryService,
 } from '@skyux/core';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
 import { SkyModalHostService } from './modal-host.service';
@@ -98,7 +95,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   #coreAdapter: SkyCoreAdapterService;
   #dockService: SkyDockService;
   #mediaQueryService: SkyResizeObserverMediaQueryService | undefined;
-  #ngUnsubscribe = new Subject<void>();
 
   #_ariaRole: string | undefined;
 
@@ -133,12 +129,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
       : config.size?.toLowerCase() || 'medium';
 
     this.modalZIndex = this.#hostService.zIndex;
-    // TODO: The null check here is for backwards compatibility with mocks that may not have had the `zIndexChange` event. Remove in a future breaking change.
-    this.#hostService.zIndexChange
-      ?.pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((zIndex) => {
-        this.modalZIndex = zIndex;
-      });
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -226,8 +216,6 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
     if (this.#mediaQueryService) {
       this.#mediaQueryService.unobserve();
     }
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
   }
 
   public helpButtonClick() {

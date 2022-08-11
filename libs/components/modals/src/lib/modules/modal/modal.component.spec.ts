@@ -174,11 +174,11 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
   }));
 
-  it('should update zIndex correctly if a lower modal is closed while the upper modal is still open', fakeAsync(() => {
+  it('should assign zIndex correctly if a lower modal is closed while the upper modal is still open', fakeAsync(() => {
     const modalInstance1 = openModal(ModalTestComponent);
     const modalInstance2 = openModal(ModalTestComponent);
 
-    const modalEls = document.querySelectorAll('.sky-modal');
+    let modalEls = document.querySelectorAll('.sky-modal');
 
     const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
     let zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
@@ -189,9 +189,44 @@ describe('Modal component', () => {
     closeModal(modalInstance1);
 
     zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
-    expect(zIndex2).toBe(1051);
+    expect(zIndex2).toBe(1061);
+
+    const modalInstance3 = openModal(ModalTestComponent);
+
+    modalEls = document.querySelectorAll('.sky-modal');
+    zIndex2 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    const zIndex3 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex2).toBe(1061);
+    expect(zIndex3).toBe(1071);
 
     closeModal(modalInstance2);
+    closeModal(modalInstance3);
+  }));
+
+  it('should assign zIndex correctly if all modals are closed and then a new modal is opened', fakeAsync(() => {
+    const modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
+
+    let modalEls = document.querySelectorAll('.sky-modal');
+
+    const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    const zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex1).toBe(1051);
+    expect(zIndex2).toBe(1061);
+
+    closeModal(modalInstance1);
+    closeModal(modalInstance2);
+
+    const modalInstance3 = openModal(ModalTestComponent);
+
+    modalEls = document.querySelectorAll('.sky-modal');
+    const zIndex3 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+
+    expect(zIndex3).toBe(1051);
+
+    closeModal(modalInstance3);
   }));
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
