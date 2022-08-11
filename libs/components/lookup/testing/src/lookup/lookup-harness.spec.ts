@@ -1,24 +1,17 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
-import { SkyModalService } from '@skyux/modals';
 
 import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.component';
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
 
 fdescribe('Lookup harness', () => {
-  beforeEach(async () => {
+  async function setupTest(options: { dataSkyId: string }) {
     await TestBed.configureTestingModule({
       imports: [LookupHarnessTestModule],
     }).compileComponents();
-  });
 
-  afterEach(() => {
-    TestBed.inject(SkyModalService).dispose();
-  });
-
-  async function setupTest(options: { dataSkyId: string }) {
     const fixture = TestBed.createComponent(LookupHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
