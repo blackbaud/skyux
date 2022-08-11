@@ -1,5 +1,5 @@
 <sky-modal>
-  <sky-modal-header> Food preferences </sky-modal-header>
+  <sky-modal-header> Filter ood preferences </sky-modal-header>
   <sky-modal-content>
     <label class="sky-control-label" [for]="fruitInput.id"> Fruit type </label>
     <select class="sky-form-control" skyId [(ngModel)]="fruitType" #fruitInput>
@@ -19,14 +19,14 @@
       type="button"
       (click)="applyFilters()"
     >
-      Apply filters
+      Apply
     </button>
     <button
       class="sky-btn sky-btn-link"
       type="button"
       (click)="clearAllFilters()"
     >
-      Clear filters
+      Clear
     </button>
     <button class="sky-btn sky-btn-link" type="button" (click)="cancel()">
       Cancel
