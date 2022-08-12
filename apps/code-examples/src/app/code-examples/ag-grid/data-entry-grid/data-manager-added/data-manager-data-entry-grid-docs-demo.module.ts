@@ -26,9 +26,6 @@ import { SkyDataManagerDataEntryGridDemoComponent } from './data-manager-data-en
     DataManagerDataEntryGridDocsDemoViewGridComponent,
   ],
   imports: [
-    AgGridModule.withComponents([
-      SkyDataManagerDataEntryGridContextMenuComponent,
-    ]),
     CommonModule,
     FormsModule,
     SkyToolbarModule,
