@@ -6,7 +6,7 @@ import { CheckboxDemoModule as CheckboxBasicDemoModule } from '../code-examples/
 import { CheckboxDemoComponent as InlineHelpCheckboxDemoComponent } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.component';
 import { CheckboxDemoModule as InlineHelpCheckboxDemoModule } from '../code-examples/forms/checkbox/inline-help/checkbox-demo.module';
 import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/input-box-demo.component';
-import { SkyInputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
+import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
 import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.component';
@@ -62,7 +62,7 @@ export class FormsRoutingModule {}
     InlineHelpSkySingleFileAttachmentDemoModule,
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
-    SkyInputBoxDemoModule,
+    InputBoxDemoModule,
   ],
 })
 export class FormsModule {}

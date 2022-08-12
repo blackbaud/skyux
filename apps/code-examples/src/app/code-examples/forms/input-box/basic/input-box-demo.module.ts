@@ -27,4 +27,4 @@ import { InputBoxDemoComponent } from './input-box-demo.component';
   declarations: [InputBoxDemoComponent],
   exports: [InputBoxDemoComponent],
 })
-export class SkyInputBoxDemoModule {}
+export class InputBoxDemoModule {}
