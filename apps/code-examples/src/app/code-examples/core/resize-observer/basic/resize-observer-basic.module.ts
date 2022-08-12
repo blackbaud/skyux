@@ -6,5 +6,6 @@ import { ResizeObserverBasicComponent } from './resize-observer-basic.component'
 @NgModule({
   declarations: [ResizeObserverBasicComponent],
   imports: [CommonModule],
+  exports: [ResizeObserverBasicComponent],
 })
 export class ResizeObserverBasicModule {}

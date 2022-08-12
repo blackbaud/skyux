@@ -1,7 +1,7 @@
 <sky-tabset ariaLabel="Tab demonstration">
   <sky-tab
     *ngFor="let tab of tabArray"
-    [tabHeaderCount]="tab.tabHeaderCount"
+    [tabHeaderCount]="'' + (tab.tabHeaderCount || '')"
     [tabHeading]="tab.tabHeading"
   >
     {{ tab.tabContent }}
