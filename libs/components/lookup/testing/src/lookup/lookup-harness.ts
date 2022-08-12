@@ -56,12 +56,9 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     const harnesses = await this.#getTokenHarnesses();
     if (harnesses) {
       for (const harness of harnesses) {
-        harness.close();
+        await harness.close();
       }
     }
-
-    // Wait for tokens to be removed from the DOM.
-    await this.waitForTasksOutsideAngular();
   }
 
   async #getTokenHarnesses(): Promise<SkyTokenHarness[]> {

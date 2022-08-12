@@ -75,7 +75,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   ): Promise<void> {
     const resultHarnesses = await this.#getSearchResultHarnesses(filters);
     if (resultHarnesses && resultHarnesses.length > 0) {
-      await resultHarnesses[0].click();
+      await resultHarnesses[0].select();
     }
   }
 

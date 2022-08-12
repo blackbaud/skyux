@@ -25,7 +25,7 @@ describe('Overlay harness', () => {
   it('should query child test elements', async () => {
     const { overlayHarness } = await setupTest();
 
-    const testElements = await overlayHarness.queryAll('li');
+    const testElements = await overlayHarness.querySelectorAll('li');
 
     expect(testElements.length).toEqual(3);
   });

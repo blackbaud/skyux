@@ -20,7 +20,7 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
     return (await this.host()).hasClass('sky-autocomplete-result-custom');
   }
 
-  public async click(): Promise<void> {
+  public async select(): Promise<void> {
     return (await this.host()).click();
   }
 }
