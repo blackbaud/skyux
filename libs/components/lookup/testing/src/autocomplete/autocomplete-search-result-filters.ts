@@ -1,6 +1,6 @@
 import { BaseHarnessFilters } from '@angular/cdk/testing';
 
 export interface SkyAutocompleteSearchResultHarnessFilters
-  extends BaseHarnessFilters {
+  extends Omit<BaseHarnessFilters, 'selector'> {
   textContent?: string | RegExp;
 }

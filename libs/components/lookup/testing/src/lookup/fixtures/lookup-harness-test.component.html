@@ -50,4 +50,33 @@
       </sky-lookup>
     </sky-input-box>
   </div>
+
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my_custom_template_lookup'">
+      <label class="sky-control-label" skyId #formalNamesLabel="skyId">
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="formalNames"
+        [ariaLabelledBy]="formalNamesLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [searchResultTemplate]="dropdownItemTemplate"
+        [showMoreConfig]="showMoreConfig"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
 </form>
+
+<ng-template let-item="item" #dropdownItemTemplate>
+  <strong>{{ item.name }}</strong
+  ><br />
+  {{ item.formal }}
+</ng-template>
+
+<ng-template let-item="item" #modalItemTemplate>
+  {{ item.name }}<br />
+  <i>{{ item.formal }}</i>
+</ng-template>

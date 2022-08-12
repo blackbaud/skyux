@@ -3,7 +3,10 @@ import {
   ComponentHarness,
   HarnessPredicate,
 } from '@angular/cdk/testing';
-import { SkyRepeaterItemHarness } from '@skyux/lists/testing';
+import {
+  SkyInfiniteScrollHarness,
+  SkyRepeaterItemHarness,
+} from '@skyux/lists/testing';
 
 import { SkySearchHarness } from '../search/search-harness';
 
@@ -31,15 +34,30 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     await searchHarness.enterText(value);
   }
 
+  public async selectFirstSearchResult() {
+    const harnesses = await this.getSearchResults();
+    if (harnesses && harnesses.length > 0) {
+      await harnesses[0].select();
+    }
+  }
+
+  public async selectSearchResult(filters: { textContent: string | RegExp }) {
+    const harnesses = await this.getSearchResults(filters);
+    // Click on the repeater because we've added a custom click event in the modal template.
+    if (harnesses && harnesses.length > 0) {
+      await (await harnesses[0].host()).click();
+    }
+  }
+
   public async selectSearchResults(filters: { textContent: string | RegExp }) {
+    if (await this.#isSingleSelect()) {
+      return this.selectSearchResult(filters);
+    }
+
     const harnesses = await this.getSearchResults(filters);
     if (harnesses && harnesses.length > 0) {
-      if (await this.#isSingleSelect()) {
-        await (await harnesses[0].host()).click();
-      } else {
-        for (const harness of harnesses) {
-          await harness.select();
-        }
+      for (const harness of harnesses) {
+        await harness.select();
       }
     }
   }
@@ -81,17 +99,22 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   }
 
   public async clearAll(): Promise<void> {
-    const button = await (
-      await this.locatorFor('button.sky-lookup-show-more-modal-clear-all-btn')
+    const button = await this.locatorFor(
+      'button.sky-lookup-show-more-modal-clear-all-btn'
     )();
     button.click();
   }
 
   public async selectAll(): Promise<void> {
-    const button = await (
-      await this.locatorFor('button.sky-lookup-show-more-modal-select-all-btn')
+    const button = await this.locatorFor(
+      'button.sky-lookup-show-more-modal-select-all-btn'
     )();
     button.click();
+  }
+
+  public async loadMore(): Promise<void> {
+    const infiniteScroll = await this.locatorFor(SkyInfiniteScrollHarness)();
+    await infiniteScroll.loadMore();
   }
 
   async #isSingleSelect(): Promise<boolean> {

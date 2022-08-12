@@ -1,4 +1,7 @@
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import {
+  TestbedHarnessEnvironment,
+  UnitTestElement,
+} from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
@@ -54,9 +57,9 @@ describe('Lookup harness', () => {
       await lookupHarness.enterText('d');
 
       await expectAsync(lookupHarness.getSearchResults()).toBeResolvedTo([
-        { textContent: 'Abed' },
-        { textContent: 'Leonard' },
-        { textContent: 'Todd' },
+        jasmine.objectContaining({ textContent: 'Abed' }),
+        jasmine.objectContaining({ textContent: 'Leonard' }),
+        jasmine.objectContaining({ textContent: 'Todd' }),
       ]);
     });
 
@@ -194,7 +197,6 @@ describe('Lookup harness', () => {
       });
 
       const picker = await lookupHarness.openShowMorePicker();
-
       await picker.enterSearchText('rachel');
       await picker.selectSearchResults({ textContent: 'Rachel' });
       await picker.saveAndClose();
@@ -204,6 +206,22 @@ describe('Lookup harness', () => {
   });
 
   describe('multiselect picker', async () => {
+    it('should select the first result from show more picker', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_multiselect_lookup',
+      });
+
+      await lookupHarness.closeTokens();
+
+      const picker = await lookupHarness.openShowMorePicker();
+      await picker.selectFirstSearchResult();
+      await picker.saveAndClose();
+
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
+        { textContent: 'Abed' },
+      ]);
+    });
+
     it('should select multiple results from show more picker', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my_multiselect_lookup',
@@ -213,13 +231,13 @@ describe('Lookup harness', () => {
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
 
       const picker = await lookupHarness.openShowMorePicker();
-
-      await picker.enterSearchText('ch');
-      await picker.selectSearchResults({ textContent: 'Rachel' });
+      await picker.enterSearchText('ra');
+      await picker.selectSearchResults({ textContent: /Craig|Rachel/ });
       await picker.saveAndClose();
 
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Rachel' },
+        jasmine.objectContaining({ textContent: 'Craig' }),
+        jasmine.objectContaining({ textContent: 'Rachel' }),
       ]);
     });
 
@@ -232,14 +250,13 @@ describe('Lookup harness', () => {
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
 
       const picker = await lookupHarness.openShowMorePicker();
-
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.saveAndClose();
 
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Craig' },
-        { textContent: 'Rachel' },
+        jasmine.objectContaining({ textContent: 'Craig' }),
+        jasmine.objectContaining({ textContent: 'Rachel' }),
       ]);
     });
 
@@ -253,31 +270,80 @@ describe('Lookup harness', () => {
       ]);
 
       const picker = await lookupHarness.openShowMorePicker();
-
       await picker.clearAll();
       await picker.saveAndClose();
 
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
     });
 
-    it('should click cancel button in show more picker', async () => {
+    it('should cancel the show more picker', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my_multiselect_lookup',
       });
 
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Shirley' },
+        jasmine.objectContaining({ textContent: 'Shirley' }),
       ]);
 
       const picker = await lookupHarness.openShowMorePicker();
-
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.cancel();
 
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Shirley' },
+        jasmine.objectContaining({ textContent: 'Shirley' }),
       ]);
+    });
+
+    it('should load more results in the show more picker', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_multiselect_lookup',
+      });
+
+      await lookupHarness.closeTokens();
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
+
+      const picker = await lookupHarness.openShowMorePicker();
+      await picker.loadMore();
+      await picker.selectSearchResults({ textContent: 'Vicki' });
+      await picker.saveAndClose();
+
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
+        jasmine.objectContaining({ textContent: 'Vicki' }),
+      ]);
+    });
+
+    it('should throw an error if selecting non-existant result', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_multiselect_lookup',
+      });
+
+      const picker = await lookupHarness.openShowMorePicker();
+
+      await expectAsync(
+        picker.selectSearchResults({ textContent: 'Invalid search' })
+      ).toBeRejectedWithError(
+        'Could not find search results in the picker matching filter(s): {"textContent":"Invalid search"}'
+      );
+    });
+  });
+
+  describe('custom search result templates', () => {
+    it('should return the TestElement from search results', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_custom_template_lookup',
+      });
+
+      await lookupHarness.enterText('vicki');
+
+      const searchResults = await lookupHarness.getSearchResults();
+
+      expect(searchResults[0]).toEqual(
+        jasmine.objectContaining({
+          textContent: 'Vicki Ms. Jenkins',
+          testElement: jasmine.any(UnitTestElement),
+        })
+      );
     });
   });
 

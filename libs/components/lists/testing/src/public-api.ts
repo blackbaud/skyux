@@ -16,3 +16,4 @@ export * from './sort/sort-fixture-menu-item';
 
 export * from './infinite-scroll/infinite-scroll-testing.module';
 export * from './infinite-scroll/infinite-scroll-fixture';
+export * from './infinite-scroll/infinite-scroll-harness';
