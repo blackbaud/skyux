@@ -15,7 +15,9 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="firstNameInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="firstNameInput.id"
                     >First Name</label
                   >
                   <input
@@ -51,7 +53,9 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="lastNameInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="lastNameInput.id"
                     >Last Name</label
                   >
                   <input
@@ -79,7 +83,9 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="phoneNumberInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="phoneNumberInput.id"
                     >Phone Number</label
                   >
                   <sky-phone-field defaultCountry="us">
@@ -103,7 +109,9 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="emailInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="emailInput.id"
                     >Email</label
                   >
                   <input
@@ -128,7 +136,7 @@
           <sky-fluid-grid [disableMargin]="true" gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12">
-                <sky-checkbox formControlName="termsAccepted">
+                <sky-checkbox formControlName="termsAccepted" [required]="true">
                   <sky-checkbox-label>
                     Accept terms and conditions
                   </sky-checkbox-label>
