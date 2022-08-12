@@ -26,7 +26,9 @@
                     #firstNameInput="skyId"
                   />
                   <div
-                    *ngIf="firstName.touched && !firstName.valid"
+                    *ngIf="
+                      (firstName.touched || firstName.dirty) && !firstName.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter your first name.
@@ -60,7 +62,9 @@
                     #lastNameInput="skyId"
                   />
                   <div
-                    *ngIf="lastName.touched && !lastName.valid"
+                    *ngIf="
+                      (lastName.touched || lastName.dirty) && !lastName.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter your last name.
@@ -87,7 +91,10 @@
                     />
                   </sky-phone-field>
                   <div
-                    *ngIf="phoneNumber.touched && !phoneNumber.valid"
+                    *ngIf="
+                      (phoneNumber.touched || phoneNumber.dirty) &&
+                      !phoneNumber.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter a valid phone number.
@@ -107,7 +114,7 @@
                     #emailInput="skyId"
                   />
                   <div
-                    *ngIf="email.touched && !email.valid"
+                    *ngIf="(email.touched || email.dirty) && !email.valid"
                     class="sky-error-label"
                   >
                     Enter a valid email address.
