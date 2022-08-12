@@ -6,7 +6,7 @@ import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.compo
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
 
-fdescribe('Lookup harness', () => {
+describe('Lookup harness', () => {
   async function setupTest(options: { dataSkyId: string }) {
     await TestBed.configureTestingModule({
       imports: [LookupHarnessTestModule],
@@ -241,6 +241,23 @@ fdescribe('Lookup harness', () => {
         { textContent: 'Craig' },
         { textContent: 'Rachel' },
       ]);
+    });
+
+    it('should clear all results from show more picker', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_multiselect_lookup',
+      });
+
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
+        { textContent: 'Shirley' },
+      ]);
+
+      const picker = await lookupHarness.openShowMorePicker();
+
+      await picker.clearAll();
+      await picker.saveAndClose();
+
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
     });
 
     it('should click cancel button in show more picker', async () => {

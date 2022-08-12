@@ -7,6 +7,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
@@ -576,6 +577,7 @@ describe('Lookup component', function () {
         }));
 
         it('should allow duplicate tokens if idProperty is not set', fakeAsync(function () {
+          component.idProperty = undefined;
           fixture.detectChanges();
           validateItems([]);
 
@@ -1507,15 +1509,9 @@ describe('Lookup component', function () {
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -1731,6 +1727,26 @@ describe('Lookup component', function () {
             expect(getRepeaterItemCount()).toBe(0);
             expect(getShowMoreNoResultsElement()).not.toBeNull();
 
+            closeModal(fixture);
+          }));
+
+          it('should log an error when an async search function is used without the idProperty set and the show more modal is enabled', fakeAsync(function () {
+            component.enableShowMore = true;
+            component.idProperty = undefined;
+            const logService = TestBed.inject(SkyLogService);
+            const errorLogSpy = spyOn(logService, 'error').and.stub();
+
+            fixture.detectChanges();
+            expect(asyncLookupComponent.value).toEqual([]);
+
+            performSearch('s', fixture, true);
+            clickShowMore(fixture);
+            fixture.detectChanges();
+            tick();
+
+            expect(errorLogSpy).toHaveBeenCalledWith(
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+            );
             closeModal(fixture);
           }));
         });
@@ -3655,24 +3671,14 @@ describe('Lookup component', function () {
 
     describe('actions', () => {
       describe('add button', () => {
-        let modalService: SkyModalService;
-
         beforeEach(fakeAsync(() => {
-          modalService = TestBed.inject(SkyModalService);
-
           fixture.detectChanges();
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -4287,15 +4293,9 @@ describe('Lookup component', function () {
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -4525,6 +4525,26 @@ describe('Lookup component', function () {
             expect(getRepeaterItemCount()).toBe(0);
             expect(getShowMoreNoResultsElement()).not.toBeNull();
 
+            closeModal(fixture);
+          }));
+
+          it('should log an error when an async search function is used without the idProperty set', fakeAsync(function () {
+            component.enableShowMore = true;
+            component.idProperty = undefined;
+            const logService = TestBed.inject(SkyLogService);
+            const errorLogSpy = spyOn(logService, 'error').and.stub();
+
+            fixture.detectChanges();
+            expect(asyncLookupComponent.value).toEqual([]);
+
+            performSearch('s', fixture, true);
+            clickShowMore(fixture);
+            fixture.detectChanges();
+            tick();
+
+            expect(errorLogSpy).toHaveBeenCalledWith(
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+            );
             closeModal(fixture);
           }));
         });

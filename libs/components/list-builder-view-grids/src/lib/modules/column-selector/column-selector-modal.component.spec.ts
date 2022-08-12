@@ -2,13 +2,12 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  inject,
   tick,
 } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyModalModule, SkyModalService } from '@skyux/modals';
+import { SkyModalModule } from '@skyux/modals';
 
 import { SkyColumnSelectorModule } from './column-selector-modal.module';
 import { ColumnSelectorTestComponent } from './fixtures/column-selector-modal.component.fixture';
@@ -34,11 +33,9 @@ describe('Column selector component', () => {
     component = fixture.componentInstance;
   });
 
-  afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-    _modalService.dispose();
-    fixture.detectChanges();
+  afterEach(() => {
     fixture.destroy();
-  }));
+  });
 
   it('should render a checklist with column headers and descriptions', fakeAsync(() => {
     nativeElement.querySelector('button').click();
