@@ -54,9 +54,14 @@ export class SkyDynamicComponentService {
       location: SkyDynamicComponentLocation.BodyBottom,
     };
 
+    const injector = Injector.create({
+      providers: options.providers || [],
+      parent: this.injector,
+    });
+
     const componentRef = this.componentFactoryResolver
       .resolveComponentFactory<T>(componentType)
-      .create(this.injector);
+      .create(injector);
 
     this.applicationRef.attachView(componentRef.hostView);
 

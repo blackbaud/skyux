@@ -132,27 +132,15 @@ describe('Modal fixture', () => {
   }
 
   let fixture: ComponentFixture<TestComponent>;
-  let modalService: SkyModalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
     });
-
-    modalService = TestBed.inject(SkyModalService);
   });
 
-  // This is necessary as due to modals being launched outside of the test bed they will not
-  // automatically be disposed between tests.
   afterEach(() => {
-    fixture.componentInstance.closeModal();
-    fixture.detectChanges();
-
-    // NOTE: This is important as it ensures that the modal host component is fully disposed of
-    // between tests. This is important as the modal host might need a different set of component
-    // injectors than the previous test.
-    modalService.dispose();
-    fixture.detectChanges();
+    fixture.destroy();
   });
 
   it('should retun the `ariaDescribedBy` property correctly', fakeAsync(() => {

@@ -17,7 +17,6 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService } from '@skyux/core';
-import { SkyModalService } from '@skyux/modals';
 
 import { STYLE_STATE_DEFAULTS } from './defaults/style-state-defaults';
 import { TextEditorFixtureComponent } from './fixtures/text-editor.component.fixture';
@@ -373,8 +372,6 @@ describe('Text editor', () => {
 
     afterEach(() => {
       fixture.detectChanges();
-      const modalService = TestBed.inject(SkyModalService);
-      modalService.dispose();
     });
 
     it('Shows correct toolbar content', () => {
