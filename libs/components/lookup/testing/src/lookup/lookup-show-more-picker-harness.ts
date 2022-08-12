@@ -29,6 +29,11 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     return new HarnessPredicate(SkyLookupShowMorePickerHarness, filters);
   }
 
+  public async clearSearchText(): Promise<void> {
+    const searchHarness = await this.#getSearchHarness();
+    await searchHarness.clear();
+  }
+
   public async enterSearchText(value: string) {
     const searchHarness = await this.#getSearchHarness();
     await searchHarness.enterText(value);

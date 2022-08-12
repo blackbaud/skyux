@@ -19,10 +19,6 @@ export class SkySearchHarness extends SkyComponentHarness {
     await this.clickSubmitButton();
   }
 
-  public async focus(): Promise<void> {
-    return (await this.#getInput()).focus();
-  }
-
   public async clickSubmitButton() {
     return (await this.#getSubmitButton()).click();
   }
