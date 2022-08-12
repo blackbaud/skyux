@@ -1,9 +1,8 @@
-import { ApplicationRef, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  inject,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -11,7 +10,6 @@ import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
-import { SkyModalService } from '@skyux/modals';
 
 import { SkySummaryActionBarSecondaryActionsComponent } from './actions/summary-action-bar-secondary-actions.component';
 import { SkySummaryActionBarSplitViewTestComponent } from './fixtures/summary-action-bar-split-view.component.fixture';
@@ -113,14 +111,6 @@ describe('Summary Action Bar component', () => {
     let fixture: ComponentFixture<SkySummaryActionBarTestComponent>;
     let cmp: SkySummaryActionBarTestComponent;
     let debugElement: DebugElement;
-    let modalService: SkyModalService;
-
-    beforeEach(inject(
-      [SkyModalService, ApplicationRef],
-      (_modalService: SkyModalService) => {
-        modalService = _modalService;
-      }
-    ));
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkySummaryActionBarTestComponent);
@@ -130,8 +120,6 @@ describe('Summary Action Bar component', () => {
     });
 
     afterEach(() => {
-      modalService.dispose();
-      fixture.detectChanges();
       fixture.destroy();
     });
 
