@@ -13,12 +13,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   public static with(
     filters: SkyInputBoxHarnessFilters
   ): HarnessPredicate<SkyInputBoxHarness> {
-    return new HarnessPredicate(SkyInputBoxHarness, filters).addOption(
-      'data-sky-id',
-      filters.dataSkyId,
-      (harness, text) =>
-        HarnessPredicate.stringMatches(harness.getSkyId(), text)
-    );
+    return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
   }
 
   public async getHarness<Q extends HarnessQuery<ComponentHarness>>(type: Q) {

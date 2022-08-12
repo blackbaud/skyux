@@ -21,7 +21,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   #getSearchHarness = this.locatorFor(SkySearchHarness);
 
   public static with(
-    filters: SkyLookupShowMorePickerHarnessFilters
+    filters: Omit<SkyLookupShowMorePickerHarnessFilters, 'ancestor'>
   ): HarnessPredicate<SkyLookupShowMorePickerHarness> {
     return new HarnessPredicate(SkyLookupShowMorePickerHarness, filters);
   }
@@ -45,23 +45,16 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   }
 
   public async saveAndClose() {
-    await (
-      await (
-        await this.locatorFor('button.sky-lookup-show-more-modal-save')
-      )()
-    ).click();
+    const button = await this.locatorFor(
+      'button.sky-lookup-show-more-modal-save'
+    )();
+    await button.click();
   }
 
   public async cancel() {
     await (
-      await (
-        await this.locatorFor('button.sky-lookup-show-more-modal-close')
-      )()
+      await this.locatorFor('button.sky-lookup-show-more-modal-close')()
     ).click();
-  }
-
-  async #isSingleSelect(): Promise<boolean> {
-    return (await this.host()).hasClass('sky-lookup-show-more-modal-single');
   }
 
   public async getSearchResults(
@@ -99,5 +92,9 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
       await this.locatorFor('button.sky-lookup-show-more-modal-select-all-btn')
     )();
     button.click();
+  }
+
+  async #isSingleSelect(): Promise<boolean> {
+    return (await this.host()).hasClass('sky-lookup-show-more-modal-single');
   }
 }

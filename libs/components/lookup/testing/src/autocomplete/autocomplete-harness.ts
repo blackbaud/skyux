@@ -17,12 +17,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static with(
     filters: SkyAutocompleteHarnessFilters
   ): HarnessPredicate<SkyAutocompleteHarness> {
-    return new HarnessPredicate(SkyAutocompleteHarness, filters).addOption(
-      'dataSkyId',
-      filters.dataSkyId,
-      (harness, text) =>
-        HarnessPredicate.stringMatches(harness.getSkyId(), text)
-    );
+    return SkyAutocompleteHarness.getDataSkyIdPredicate(filters);
   }
 
   public async blur(): Promise<void> {

@@ -2,8 +2,8 @@ import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyTokenHarness } from '@skyux/indicators/testing';
 
 import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
-import { SkyAutocompleteHarnessFilters } from '../autocomplete/autocomplete-harness-filters';
 
+import { SkyLookupHarnessFilters } from './lookup-harness-filters';
 import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
 
 export class SkyLookupHarness extends SkyAutocompleteHarness {
@@ -14,14 +14,9 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   #documentRootLocator = this.documentRootLocatorFactory();
 
   public static with(
-    filters: SkyAutocompleteHarnessFilters
+    filters: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
-    return new HarnessPredicate(SkyLookupHarness, filters).addOption(
-      'dataSkyId',
-      filters.dataSkyId,
-      (harness, text) =>
-        HarnessPredicate.stringMatches(harness.getSkyId(), text)
-    );
+    return SkyLookupHarness.getDataSkyIdPredicate(filters);
   }
 
   public async openShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {

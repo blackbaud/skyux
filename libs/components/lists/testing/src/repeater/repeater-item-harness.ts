@@ -5,13 +5,18 @@ interface SkyRepeaterItemHarnessFilters extends BaseHarnessFilters {
   textContent?: string | RegExp;
 }
 
+/**
+ * @experimental
+ */
 export class SkyRepeaterItemHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-repeater-item';
 
+  // TODO: Better to just query the DOM from the lookup fixture to get the search result?
+  // How useful is searching for repeater items by their text content, generally?
   public static with(
     filters: SkyRepeaterItemHarnessFilters
   ): HarnessPredicate<SkyRepeaterItemHarness> {
-    return new HarnessPredicate(SkyRepeaterItemHarness, filters).addOption(
+    return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters).addOption(
       'textContent',
       filters.textContent,
       async (harness, text) =>
