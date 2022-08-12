@@ -11,9 +11,11 @@
       </label>
       <sky-lookup
         formControlName="name"
+        idProperty="name"
         selectMode="single"
         [ariaLabelledBy]="nameLabel.id"
         [data]="people"
+        [enableShowMore]="true"
         (searchAsync)="searchAsync($event)"
       >
       </sky-lookup>
