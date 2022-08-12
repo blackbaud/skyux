@@ -20,6 +20,11 @@ const routes: Routes = [
         (m) => m.VerticalTabsetModule
       ),
   },
+  {
+    path: 'wizard',
+    loadChildren: () =>
+      import('./wizard/wizard-demo.module').then((m) => m.WizardModule),
+  },
 ];
 
 @NgModule({

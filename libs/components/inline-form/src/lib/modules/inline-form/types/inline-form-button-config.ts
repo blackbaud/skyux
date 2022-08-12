@@ -1,5 +1,5 @@
 /**
- * Specifies configuration options for the inline form's buttons.
+ * Specifies configuration options for the inline form's buttons when `buttonLayout` is set to `Custom`.
  */
 export interface SkyInlineFormButtonConfig {
   /**

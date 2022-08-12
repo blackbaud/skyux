@@ -7,6 +7,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyModalService } from '@skyux/modals';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
@@ -567,6 +568,7 @@ describe('Lookup component', function () {
         }));
 
         it('should allow duplicate tokens if idProperty is not set', fakeAsync(function () {
+          component.idProperty = undefined;
           fixture.detectChanges();
           validateItems([]);
 
@@ -1733,6 +1735,26 @@ describe('Lookup component', function () {
             expect(getRepeaterItemCount()).toBe(0);
             expect(getShowMoreNoResultsElement()).not.toBeNull();
 
+            closeModal(fixture);
+          }));
+
+          it('should log an error when an async search function is used without the idProperty set and the show more modal is enabled', fakeAsync(function () {
+            component.enableShowMore = true;
+            component.idProperty = undefined;
+            const logService = TestBed.inject(SkyLogService);
+            const errorLogSpy = spyOn(logService, 'error').and.stub();
+
+            fixture.detectChanges();
+            expect(asyncLookupComponent.value).toEqual([]);
+
+            performSearch('s', fixture, true);
+            clickShowMore(fixture);
+            fixture.detectChanges();
+            tick();
+
+            expect(errorLogSpy).toHaveBeenCalledWith(
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+            );
             closeModal(fixture);
           }));
         });
@@ -4527,6 +4549,26 @@ describe('Lookup component', function () {
             expect(getRepeaterItemCount()).toBe(0);
             expect(getShowMoreNoResultsElement()).not.toBeNull();
 
+            closeModal(fixture);
+          }));
+
+          it('should log an error when an async search function is used without the idProperty set', fakeAsync(function () {
+            component.enableShowMore = true;
+            component.idProperty = undefined;
+            const logService = TestBed.inject(SkyLogService);
+            const errorLogSpy = spyOn(logService, 'error').and.stub();
+
+            fixture.detectChanges();
+            expect(asyncLookupComponent.value).toEqual([]);
+
+            performSearch('s', fixture, true);
+            clickShowMore(fixture);
+            fixture.detectChanges();
+            tick();
+
+            expect(errorLogSpy).toHaveBeenCalledWith(
+              "The lookup component's 'idProperty' input is required when `enableShowMore` and 'searchAsync' are used together."
+            );
             closeModal(fixture);
           }));
         });
