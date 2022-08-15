@@ -8,7 +8,10 @@ export class SkySearchHarness extends SkyComponentHarness {
   #getSubmitButton = this.locatorFor('button.sky-search-btn-apply');
 
   public async clear(): Promise<void> {
-    return (await this.#getInput()).clear();
+    const input = await this.#getInput();
+    await input.focus();
+    await input.clear();
+    await this.clickSubmitButton();
   }
 
   public async enterText(value: string): Promise<void> {

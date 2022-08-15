@@ -71,11 +71,13 @@ describe('Lookup harness', () => {
       await lookupHarness.enterText('d');
       await lookupHarness.selectSearchResult({ textContent: 'Leonard' });
 
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
+      await expectAsync(lookupHarness.getInputValue()).toBeResolvedTo(
+        'Leonard'
+      );
 
       await lookupHarness.clear();
 
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('');
+      await expectAsync(lookupHarness.getInputValue()).toBeResolvedTo('');
     });
 
     it('should error if retrieving results when autocomplete closed', async () => {
@@ -109,7 +111,9 @@ describe('Lookup harness', () => {
       await lookupHarness.enterText('d');
       await lookupHarness.selectSearchResult({ textContent: 'Leonard' });
 
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
+      await expectAsync(lookupHarness.getInputValue()).toBeResolvedTo(
+        'Leonard'
+      );
     });
 
     it('should throw error if autocomplete results not found with filters', async () => {
@@ -202,7 +206,7 @@ describe('Lookup harness', () => {
       await picker.selectSearchResults({ textContent: 'Rachel' });
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Rachel');
+      await expectAsync(lookupHarness.getInputValue()).toBeResolvedTo('Rachel');
     });
   });
 
@@ -281,6 +285,24 @@ describe('Lookup harness', () => {
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
     });
 
+    it('should clear search text in show more picker', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_multiselect_lookup',
+      });
+
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
+      await picker.enterSearchText('rachel');
+
+      let searchResults = await picker.getSearchResults();
+      expect(searchResults.length).toEqual(1);
+
+      await picker.clearSearchText();
+
+      searchResults = await picker.getSearchResults();
+      expect(searchResults.length).toEqual(10);
+    });
+
     it('should cancel the show more picker', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my_multiselect_lookup',
@@ -355,6 +377,35 @@ describe('Lookup harness', () => {
     });
   });
 
-  // describe('async picker', async () => {});
-  // describe('custom picker', async () => {});
+  describe('async picker', () => {
+    it('should return information about the autocomplete results', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_async_lookup',
+      });
+
+      await lookupHarness.enterText('d');
+
+      await expectAsync(lookupHarness.getSearchResults()).toBeResolvedTo([
+        jasmine.objectContaining({ textContent: 'Abed' }),
+        jasmine.objectContaining({ textContent: 'Leonard' }),
+        jasmine.objectContaining({ textContent: 'Todd' }),
+      ]);
+    });
+
+    it('should search and select results from the show more picker', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my_async_lookup',
+      });
+
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
+      await picker.enterSearchText('rachel');
+      await picker.selectSearchResults({ textContent: 'Rachel' });
+      await picker.saveAndClose();
+
+      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
+        { textContent: 'Rachel' },
+      ]);
+    });
+  });
 });

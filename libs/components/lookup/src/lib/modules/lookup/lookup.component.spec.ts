@@ -45,15 +45,6 @@ describe('Lookup component', function () {
   function clickShowMore(fixture: ComponentFixture<any>): void {
     SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-    tick();
-  }
-
-  function clickShowMoreAndWait(fixture: ComponentFixture<any>): void {
-    SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
-    fixture.detectChanges();
-    // Wait for async tasks to complete after clicking the show more button.
     tick(200);
     fixture.detectChanges();
     tick();
@@ -1016,7 +1007,7 @@ describe('Lookup component', function () {
 
             expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
             fixture.detectChanges();
             tick();
 
@@ -1180,7 +1171,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -1411,7 +1402,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -1443,7 +1434,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -1476,7 +1467,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -1653,7 +1644,7 @@ describe('Lookup component', function () {
             spyOn(modalService, 'open').and.callThrough();
 
             performSearch('r', fixture, true);
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
 
@@ -1668,7 +1659,7 @@ describe('Lookup component', function () {
             spyOn(modalService, 'open').and.callThrough();
 
             performSearch('r', fixture, true);
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
 
@@ -2149,7 +2140,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
@@ -2172,7 +2163,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
 
@@ -2197,7 +2188,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
 
@@ -2217,7 +2208,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
               selectShowMoreItemMultiple(1, fixture);
@@ -2240,7 +2231,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clearShowMoreSearch(fixture);
 
@@ -2277,7 +2268,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clickShowMoreClearAll(fixture);
 
@@ -2305,7 +2296,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clickShowMoreSelectAll(fixture);
 
@@ -2338,7 +2329,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowOnlySelected(fixture);
 
@@ -2357,7 +2348,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Select options');
 
@@ -2373,7 +2364,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
 
@@ -2466,7 +2457,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -2727,7 +2718,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
@@ -2747,7 +2738,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemSingle(0, fixture);
 
@@ -2771,7 +2762,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemSingle(0, fixture);
 
@@ -2788,7 +2779,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Select an option');
 
@@ -2804,7 +2795,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
 
@@ -2816,7 +2807,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getRepeaterItemCount()).toBe(2);
 
@@ -2830,7 +2821,7 @@ describe('Lookup component', function () {
               triggerInputFocus(fixture, true);
               fixture.detectChanges();
               tick();
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getRepeaterItemCount()).toBe(10);
 
@@ -3800,7 +3791,7 @@ describe('Lookup component', function () {
 
             expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
             fixture.detectChanges();
             tick();
 
@@ -3964,7 +3955,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -3997,7 +3988,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -4030,7 +4021,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -4195,7 +4186,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -4227,7 +4218,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -4260,7 +4251,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -4451,7 +4442,7 @@ describe('Lookup component', function () {
             spyOn(modalService, 'open').and.callThrough();
 
             performSearch('r', fixture, true);
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
 
@@ -4466,7 +4457,7 @@ describe('Lookup component', function () {
             spyOn(modalService, 'open').and.callThrough();
 
             performSearch('r', fixture, true);
-            clickShowMoreAndWait(fixture);
+            clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
 
@@ -4913,7 +4904,6 @@ describe('Lookup component', function () {
               expect(tokenElements.item(0).textContent.trim()).toBe('Isaac');
             }));
           });
-
           describe('async', () => {
             beforeEach(() => {
               component.idProperty = 'name';
@@ -4936,7 +4926,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
@@ -4959,7 +4949,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
 
@@ -4984,7 +4974,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
 
@@ -5004,7 +4994,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemMultiple(0, fixture);
               selectShowMoreItemMultiple(1, fixture);
@@ -5027,7 +5017,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clearShowMoreSearch(fixture);
 
@@ -5064,7 +5054,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clickShowMoreClearAll(fixture);
 
@@ -5092,7 +5082,7 @@ describe('Lookup component', function () {
               ]);
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               clickShowMoreSelectAll(fixture);
 
@@ -5125,7 +5115,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowOnlySelected(fixture);
 
@@ -5144,7 +5134,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Select options');
 
@@ -5160,7 +5150,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
 
@@ -5262,7 +5252,7 @@ describe('Lookup component', function () {
 
               expect(asyncLookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
               fixture.detectChanges();
               tick();
 
@@ -5484,7 +5474,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               saveShowMoreModal(fixture);
 
@@ -5504,7 +5494,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemSingle(0, fixture);
 
@@ -5528,7 +5518,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([{ name: 'Lindsey' }]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               selectShowMoreItemSingle(0, fixture);
 
@@ -5545,7 +5535,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Select an option');
 
@@ -5561,7 +5551,7 @@ describe('Lookup component', function () {
               expect(asyncLookupComponent.value).toEqual([]);
 
               performSearch('s', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getShowMoreModalTitle()).toBe('Custom title');
 
@@ -5573,7 +5563,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
 
               performSearch('Pa', fixture, true);
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getRepeaterItemCount()).toBe(2);
 
@@ -5587,7 +5577,7 @@ describe('Lookup component', function () {
               triggerInputFocus(fixture, true);
               fixture.detectChanges();
               tick();
-              clickShowMoreAndWait(fixture);
+              clickShowMore(fixture);
 
               expect(getRepeaterItemCount()).toBe(10);
 

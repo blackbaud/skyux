@@ -74,7 +74,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     }
   }
 
-  public async getValue(): Promise<string> {
+  public async getInputValue(): Promise<string> {
     return (await this.#getInputEl()).getProperty('value');
   }
 
