@@ -1,12 +1,12 @@
 <sky-toggle-switch
-  ariaLabel="Super effective"
+  [ariaLabel]="ariaLabel"
   [checked]="isChecked"
   [disabled]="isDisabled"
   [tabIndex]="customTabIndex"
   (toggleChange)="checkChanged($event)"
 >
   <sky-toggle-switch-label>
-    Simple toggle
+    {{ buttonLabel }}
     <sky-help-inline
       *ngIf="showInlineHelp"
       class="sky-control-help"

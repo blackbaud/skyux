@@ -247,6 +247,8 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     return this._selectedValue;
   }
 
+  public radioGroupDisabled = false;
+
   private _change = new EventEmitter<SkyRadioChange>();
   private _checked = false;
   private _checkedChange = new BehaviorSubject<boolean>(this._checked);
@@ -281,6 +283,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   public setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
+  }
+
+  public setGroupDisabledState(isDisabled: boolean) {
+    this.radioGroupDisabled = isDisabled;
+    this.changeDetector.markForCheck();
   }
 
   public registerOnChange(fn: any): void {

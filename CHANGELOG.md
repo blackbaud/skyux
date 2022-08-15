@@ -1,5 +1,40 @@
 # Changelog
 
+## [6.12.0](https://github.com/blackbaud/skyux/compare/6.11.2...6.12.0) (2022-08-15)
+
+### Features
+
+- **components/tabs:** update modern theme styling for tabset wizard ([#382](https://github.com/blackbaud/skyux/issues/382)) ([e9d8ee8](https://github.com/blackbaud/skyux/commit/e9d8ee85e7b04cf767ff909dff3233ffc72169dc))
+
+### Bug Fixes
+
+- **components/forms:** move toggle switch label inside button for improved accessibility ([#387](https://github.com/blackbaud/skyux/issues/387)) ([17013ed](https://github.com/blackbaud/skyux/commit/17013ed7db9e01db297ce32e3d1b956c6d421904))
+- **components/lookup:** require `idProperty` for async search ([#299](https://github.com/blackbaud/skyux/issues/299)) ([93e33be](https://github.com/blackbaud/skyux/commit/93e33be9841eeee1ca3b4be087ba15967b9fa571))
+- **components/modals:** add teardown functionality to modal host component ([#389](https://github.com/blackbaud/skyux/issues/389)) ([14469aa](https://github.com/blackbaud/skyux/commit/14469aa94ad53a6e96726b60001685036ae44e3b))
+
+### [6.11.2](https://github.com/blackbaud/skyux/compare/6.11.1...6.11.2) (2022-08-09)
+
+### Bug Fixes
+
+- **components/modals:** modal content popovers correctly position above the modal footer ([#385](https://github.com/blackbaud/skyux/issues/385)) ([5ae11b7](https://github.com/blackbaud/skyux/commit/5ae11b7709834acac13003e206e4f8d9178ce974))
+
+### [6.11.1](https://github.com/blackbaud/skyux/compare/6.11.0...6.11.1) (2022-08-08)
+
+### Bug Fixes
+
+- **components/forms:** radio buttons disabled states update independently from the wrapping radio group disabled state ([#384](https://github.com/blackbaud/skyux/issues/384)) ([5e870a6](https://github.com/blackbaud/skyux/commit/5e870a63eca0154de1d1e5cced9b5d182c37d832))
+
+## [6.11.0](https://github.com/blackbaud/skyux/compare/6.10.0...6.11.0) (2022-08-08)
+
+### Features
+
+- **components/forms:** add inline help support for file attachment ([#372](https://github.com/blackbaud/skyux/issues/372)) ([a9693e8](https://github.com/blackbaud/skyux/commit/a9693e839dc7228a9dcbab8ebf42482edd90470f))
+
+### Bug Fixes
+
+- **components/indicators:** sky-wait restore focus when wait closes ([#377](https://github.com/blackbaud/skyux/issues/377)) ([b5c05b2](https://github.com/blackbaud/skyux/commit/b5c05b22f9dae3c6dc1d83fa14896e2447c35905))
+- **components/lists:** repeater inline form uses form role ([#380](https://github.com/blackbaud/skyux/issues/380)) ([6d95e79](https://github.com/blackbaud/skyux/commit/6d95e797847f4df123ed16b5189db0b0f9224b29))
+
 ## [6.10.0](https://github.com/blackbaud/skyux/compare/6.9.0...6.10.0) (2022-08-03)
 
 ### Features

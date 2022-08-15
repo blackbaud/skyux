@@ -6,6 +6,8 @@ import {
   SkyInlineFormConfig,
 } from '@skyux/inline-form';
 
+import { InlineFormDemoItem } from './inline-form-demo-item';
+
 @Component({
   selector: 'app-inline-form-demo',
   templateUrl: './inline-form-demo.component.html',
@@ -18,7 +20,7 @@ export class InlineFormDemoComponent implements OnInit {
     buttonLayout: SkyInlineFormButtonLayout.SaveCancel,
   };
 
-  public items: any[] = [
+  public items: InlineFormDemoItem[] = [
     {
       id: '1',
       title: '2019 Spring Gala',
@@ -53,7 +55,7 @@ export class InlineFormDemoComponent implements OnInit {
     });
   }
 
-  public showInlineForm(item: any): void {
+  public showInlineForm(item: InlineFormDemoItem): void {
     this.activeInlineFormId = item.id;
     this.myForm.patchValue({
       note: item.note,

@@ -3,6 +3,7 @@ import {
   Component,
   ComponentFactoryResolver,
   Injector,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -16,6 +17,7 @@ import { takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
@@ -29,7 +31,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   styleUrls: ['./modal-host.component.scss'],
   viewProviders: [SkyModalAdapterService],
 })
-export class SkyModalHostComponent {
+export class SkyModalHostComponent implements OnDestroy {
   public get modalOpen() {
     return SkyModalHostService.openModalCount > 0;
   }
@@ -56,18 +58,26 @@ export class SkyModalHostComponent {
   #router: Router;
   #changeDetector: ChangeDetectorRef;
 
+  #modalHostContext: SkyModalHostContext;
+
   constructor(
     resolver: ComponentFactoryResolver,
     adapter: SkyModalAdapterService,
     injector: Injector,
     router: Router,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
+    modalHostContext: SkyModalHostContext
   ) {
     this.#resolver = resolver;
     this.#adapter = adapter;
     this.#injector = injector;
     this.#router = router;
     this.#changeDetector = changeDetector;
+    this.#modalHostContext = modalHostContext;
+  }
+
+  public ngOnDestroy(): void {
+    this.#modalHostContext.teardownCallback();
   }
 
   public open(
@@ -93,6 +103,7 @@ export class SkyModalHostComponent {
 
     let isOpen = true;
 
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
     params.providers!.push({
       provide: SkyModalHostService,
       useValue: hostService,
@@ -105,6 +116,7 @@ export class SkyModalHostComponent {
       provide: SkyMediaQueryService,
       useExisting: SkyResizeObserverMediaQueryService,
     });
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(

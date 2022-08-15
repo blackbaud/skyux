@@ -109,6 +109,8 @@ export class RepeaterVisualComponent {
 
   public showStandardInlineDelete = false;
 
+  public showRoles = false;
+
   public deleteItem(index: number): void {
     this.items.splice(index, 1);
 

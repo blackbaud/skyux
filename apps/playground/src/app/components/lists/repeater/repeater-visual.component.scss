@@ -23,3 +23,45 @@
 .app-screenshot sky-repeater-item sky-column {
   padding: 0;
 }
+
+.show-roles {
+  ::ng-deep {
+    .sky-repeater {
+      position: relative;
+    }
+
+    .sky-repeater:before,
+    .sky-repeater-item:before,
+    .sky-repeater-item-title:before,
+    .sky-repeater-item-content:before {
+      display: inline-block;
+      position: absolute;
+      top: -0.3em;
+      z-index: 10;
+      padding: 3px 2px;
+      font-size: small;
+      opacity: 0.5;
+      color: #2a2a2a;
+    }
+    .sky-repeater:before {
+      left: 1em;
+      background-color: #fff4c2;
+      content: 'repeater role: ' attr(role);
+    }
+    .sky-repeater-item:before {
+      left: 10em;
+      background-color: #daffc2;
+      content: 'item role: ' attr(role);
+    }
+    .sky-repeater-item-title:before {
+      left: 20em;
+      background-color: #c2ffed;
+      content: 'title role: ' attr(role);
+    }
+    .sky-repeater-item-content:before {
+      left: 30em;
+      background-color: #c2d7ff;
+      content: 'content role: ' attr(role);
+    }
+  }
+}

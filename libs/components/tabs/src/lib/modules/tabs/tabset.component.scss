@@ -14,7 +14,7 @@
 
   &.sky-tabset-style-wizard {
     border-bottom: none;
-    padding-bottom: $sky-padding;
+    margin-bottom: $sky-margin;
     padding-left: 0;
   }
 }
@@ -81,6 +81,15 @@
 }
 
 .sky-theme-modern {
+  .sky-modal-content {
+    .sky-tabset {
+      margin: (-$sky-theme-modern-space-sm) (-$sky-theme-modern-space-xl)
+        ($sky-theme-modern-space-xl);
+      padding-left: $sky-theme-modern-space-xl;
+      padding-right: $sky-theme-modern-space-xl;
+    }
+  }
+
   .sky-tabset {
     border-bottom: 1px solid $sky-theme-modern-border-color-neutral-medium;
     overflow: visible; /* for drop shadow visibility on focused tabs */
