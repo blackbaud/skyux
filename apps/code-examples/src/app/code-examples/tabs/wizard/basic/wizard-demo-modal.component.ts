@@ -69,14 +69,6 @@ export class WizardDemoModalComponent implements OnInit {
     this.saveDisabled = !this.newMemberForm.get('termsAccepted').value;
   }
 
-  public onNextClick(): void {
-    this.activeIndex++;
-  }
-
-  public onPrevClick(): void {
-    this.activeIndex--;
-  }
-
   public onCancelClick(): void {
     this.instance.cancel();
   }
