@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './key-info.component.fixture.html',
 })
 export class KeyInfoTestComponent {
-  public layout = 'vertical';
+  public layout: string | undefined = 'vertical';
 }
