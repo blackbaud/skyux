@@ -15,7 +15,9 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="firstNameInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="firstNameInput.id"
                     >First Name</label
                   >
                   <input
@@ -26,7 +28,9 @@
                     #firstNameInput="skyId"
                   />
                   <div
-                    *ngIf="firstName.touched && !firstName.valid"
+                    *ngIf="
+                      (firstName.touched || firstName.dirty) && !firstName.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter your first name.
@@ -49,7 +53,9 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="lastNameInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="lastNameInput.id"
                     >Last Name</label
                   >
                   <input
@@ -60,7 +66,9 @@
                     #lastNameInput="skyId"
                   />
                   <div
-                    *ngIf="lastName.touched && !lastName.valid"
+                    *ngIf="
+                      (lastName.touched || lastName.dirty) && !lastName.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter your last name.
@@ -75,7 +83,9 @@
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="phoneNumberInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="phoneNumberInput.id"
                     >Phone Number</label
                   >
                   <sky-phone-field defaultCountry="us">
@@ -87,7 +97,10 @@
                     />
                   </sky-phone-field>
                   <div
-                    *ngIf="phoneNumber.touched && !phoneNumber.valid"
+                    *ngIf="
+                      (phoneNumber.touched || phoneNumber.dirty) &&
+                      !phoneNumber.valid
+                    "
                     class="sky-error-label"
                   >
                     Enter a valid phone number.
@@ -96,7 +109,9 @@
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box>
-                  <label class="sky-control-label" [for]="emailInput.id"
+                  <label
+                    class="sky-control-label sky-control-label-required"
+                    [for]="emailInput.id"
                     >Email</label
                   >
                   <input
@@ -107,7 +122,7 @@
                     #emailInput="skyId"
                   />
                   <div
-                    *ngIf="email.touched && !email.valid"
+                    *ngIf="(email.touched || email.dirty) && !email.valid"
                     class="sky-error-label"
                   >
                     Enter a valid email address.
@@ -121,7 +136,7 @@
           <sky-fluid-grid [disableMargin]="true" gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12">
-                <sky-checkbox formControlName="termsAccepted">
+                <sky-checkbox formControlName="termsAccepted" [required]="true">
                   <sky-checkbox-label>
                     Accept terms and conditions
                   </sky-checkbox-label>
