@@ -26,5 +26,6 @@ import { WizardDemoComponent } from './wizard-demo.component';
     SkyTabsModule,
     SkyThemeModule,
   ],
+  exports: [WizardDemoComponent],
 })
 export class WizardDemoModule {}
