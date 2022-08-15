@@ -3549,8 +3549,6 @@ describe('Lookup component', function () {
               fixture.detectChanges();
             }));
             it('should return modal context', fakeAsync(() => {
-              fixture.detectChanges();
-              tick();
               const friends: any[] = component.form.controls.friends.value;
               // creating the spy function that is pretending to be a search filter without any real functionality
               searchFunctionSpy = jasmine
@@ -3572,6 +3570,8 @@ describe('Lookup component', function () {
                     });
                   }
                 );
+                fixture.detectChanges();
+                tick();
 
               lookupComponent.search = searchFunctionSpy;
               fixture.detectChanges();
