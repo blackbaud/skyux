@@ -882,25 +882,14 @@ describe('Lookup component', function () {
 
     describe('actions', () => {
       describe('add button', () => {
-        let modalService: SkyModalService;
-
         beforeEach(fakeAsync(() => {
-          modalService = TestBed.inject(SkyModalService);
-
           fixture.detectChanges();
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
+        afterEach(() => {
           fixture.destroy();
-        }));
+        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -1515,15 +1504,9 @@ describe('Lookup component', function () {
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -3891,24 +3874,14 @@ describe('Lookup component', function () {
 
     describe('actions', () => {
       describe('add button', () => {
-        let modalService: SkyModalService;
-
         beforeEach(fakeAsync(() => {
-          modalService = TestBed.inject(SkyModalService);
-
           fixture.detectChanges();
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -4523,15 +4496,9 @@ describe('Lookup component', function () {
           tick();
         }));
 
-        // This is necessary as due to modals being launched outside of the test bed they will not
-        // automatically be disposed between tests.
-        afterEach(fakeAsync(() => {
-          // NOTE: This is important as it ensures that the modal host component is fully disposed of
-          // between tests. This is important as the modal host might need a different set of component
-          // injectors than the previous test.
-          modalService.dispose();
-          fixture.detectChanges();
-        }));
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
