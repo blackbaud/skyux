@@ -8,6 +8,7 @@ import {
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';
+import { LookupDemoPerson } from './lookup-demo-person';
 
 @Component({
   selector: 'app-lookup-demo',
@@ -19,7 +20,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  public people: any[] = [
+  public people: LookupDemoPerson[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
@@ -42,7 +43,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  public names: any[] = [this.people[15]];
+  public names: LookupDemoPerson[] = [this.people[15]];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -92,9 +93,9 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const names: any[] = this.myForm.controls.names.value;
+    const names: LookupDemoPerson[] = this.myForm.controls.names.value;
     return [
-      (searchText: string, item: any): boolean => {
+      (searchText: string, item: LookupDemoPerson): boolean => {
         const found = names.find((option) => option.name === item.name);
         return !found;
       },
