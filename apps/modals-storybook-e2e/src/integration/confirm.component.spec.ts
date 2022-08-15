@@ -15,9 +15,9 @@
         .click()
         .get('.sky-modal')
         .should('exist')
-        .should('be.visible');
-      // .screenshot(`confirmcomponent--primary-ok-${theme}`)
-      // .percySnapshot(`confirmcomponent--primary-ok-${theme}`);
+        .should('be.visible')
+        .screenshot(`confirmcomponent--primary-ok-${theme}`)
+        .percySnapshot(`confirmcomponent--primary-ok-${theme}`);
     });
 
     it('should render the Custom component', () => {
@@ -30,9 +30,9 @@
         .click()
         .get('.sky-modal')
         .should('exist')
-        .should('be.visible');
-      // .screenshot(`confirmcomponent--primary-custom-${theme}`)
-      // .percySnapshot(`confirmcomponent--primary-custom-${theme}`);
+        .should('be.visible')
+        .screenshot(`confirmcomponent--primary-custom-${theme}`)
+        .percySnapshot(`confirmcomponent--primary-custom-${theme}`);
     });
   });
 });
