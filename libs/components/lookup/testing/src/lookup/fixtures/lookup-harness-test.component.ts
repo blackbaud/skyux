@@ -126,6 +126,7 @@ export class LookupHarnessTestComponent implements AfterViewInit {
       formalNames: new FormControl(),
       singleSelect: new FormControl(this.name),
       multiselect: new FormControl(this.names),
+      asyncNames: new FormControl(),
     });
   }
 
@@ -145,14 +146,16 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     ];
   }
 
-  public searchAsync($event: SkyAutocompleteSearchAsyncArgs) {
+  public onSearchAsync(args: SkyAutocompleteSearchAsyncArgs) {
     const result = new Subject<SkyAutocompleteSearchAsyncResult>();
-    $event.result = result;
+    args.result = result;
+
     setTimeout(() => {
-      const searchText = $event.searchText.toLowerCase();
+      const searchText = args.searchText.toLowerCase();
       const items = this.people.filter((person) => {
         return person.name.toLowerCase().includes(searchText);
       });
+
       result.next({
         hasMore: false,
         items,

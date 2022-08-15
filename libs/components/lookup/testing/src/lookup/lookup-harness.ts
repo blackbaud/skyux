@@ -1,5 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyTokenHarness } from '@skyux/indicators/testing';
+import {
+  SkyTokenHarness,
+  SkyTokenHarnessFilters,
+} from '@skyux/indicators/testing';
 
 import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
 
@@ -19,17 +22,25 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async openShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
+  public async openShowMorePicker(): Promise<void> {
     await this.focus();
     await this.clickShowMoreButton();
+  }
 
+  public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
     const pickerId = await (
       await (await this.#getAutocompleteHarness()).host()
     ).getAttribute('data-sky-lookup-show-more-picker-id');
 
-    const defaultPicker = await this.#documentRootLocator.locatorFor(
+    const defaultPicker = await this.#documentRootLocator.locatorForOptional(
       SkyLookupShowMorePickerHarness.with({ selector: `#${pickerId}` })
     )();
+
+    if (!defaultPicker) {
+      throw new Error(
+        'The show more picker could not be found. Are you using a custom picker?'
+      );
+    }
 
     return defaultPicker;
   }
@@ -47,8 +58,8 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     return tokens;
   }
 
-  public async closeTokens(): Promise<void> {
-    const harnesses = await this.#getTokenHarnesses();
+  public async closeTokens(filters?: SkyTokenHarnessFilters): Promise<void> {
+    const harnesses = await this.#getTokenHarnesses(filters);
     if (harnesses) {
       for (const harness of harnesses) {
         await harness.close();
@@ -56,7 +67,12 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     }
   }
 
-  async #getTokenHarnesses(): Promise<SkyTokenHarness[]> {
+  async #getTokenHarnesses(
+    filters?: SkyTokenHarnessFilters
+  ): Promise<SkyTokenHarness[]> {
+    if (filters) {
+      return await this.locatorForAll(SkyTokenHarness.with(filters))();
+    }
     return (await this.locatorForAll(SkyTokenHarness))();
   }
 }

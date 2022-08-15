@@ -51,6 +51,7 @@
     </sky-input-box>
   </div>
 
+  <!-- CUSTOM TEMPLATES -->
   <div class="sky-form-group">
     <sky-input-box [attr.data-sky-id]="'my_custom_template_lookup'">
       <label class="sky-control-label" skyId #formalNamesLabel="skyId">
@@ -66,6 +67,21 @@
         [showMoreConfig]="showMoreConfig"
       >
       </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- ASYNC -->
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my_async_lookup'">
+      <label class="sky-control-label" skyId #asyncNamesLabel>
+        Async names
+      </label>
+      <sky-lookup
+        formControlName="asyncNames"
+        [ariaLabelledBy]="asyncNamesLabel.id"
+        [enableShowMore]="true"
+        (searchAsync)="onSearchAsync($event)"
+      ></sky-lookup>
     </sky-input-box>
   </div>
 </form>

@@ -196,7 +196,8 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_single_select_lookup',
       });
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('rachel');
       await picker.selectSearchResults({ textContent: 'Rachel' });
       await picker.saveAndClose();
@@ -213,7 +214,8 @@ describe('Lookup harness', () => {
 
       await lookupHarness.closeTokens();
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.selectFirstSearchResult();
       await picker.saveAndClose();
 
@@ -230,7 +232,8 @@ describe('Lookup harness', () => {
       await lookupHarness.closeTokens();
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectSearchResults({ textContent: /Craig|Rachel/ });
       await picker.saveAndClose();
@@ -249,7 +252,8 @@ describe('Lookup harness', () => {
       await lookupHarness.closeTokens();
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.saveAndClose();
@@ -269,7 +273,8 @@ describe('Lookup harness', () => {
         { textContent: 'Shirley' },
       ]);
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.clearAll();
       await picker.saveAndClose();
 
@@ -285,7 +290,8 @@ describe('Lookup harness', () => {
         jasmine.objectContaining({ textContent: 'Shirley' }),
       ]);
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.cancel();
@@ -303,7 +309,8 @@ describe('Lookup harness', () => {
       await lookupHarness.closeTokens();
       await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker.loadMore();
       await picker.selectSearchResults({ textContent: 'Vicki' });
       await picker.saveAndClose();
@@ -318,7 +325,8 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      const picker = await lookupHarness.openShowMorePicker();
+      await lookupHarness.openShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
 
       await expectAsync(
         picker.selectSearchResults({ textContent: 'Invalid search' })
@@ -348,5 +356,5 @@ describe('Lookup harness', () => {
   });
 
   // describe('async picker', async () => {});
-  // describe('custom picker and result template', async () => {});
+  // describe('custom picker', async () => {});
 });
