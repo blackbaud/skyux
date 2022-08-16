@@ -224,9 +224,7 @@ describe('Lookup harness', () => {
       await picker.selectFirstSearchResult();
       await picker.saveAndClose();
 
-      await expectAsync(await tokens.getTokenTextValues()).toBeResolvedTo([
-        'Abed',
-      ]);
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Abed']);
     });
 
     it('should select multiple results from show more picker', async () => {
@@ -244,7 +242,7 @@ describe('Lookup harness', () => {
       await picker.selectSearchResults({ textContent: /Craig|Rachel/ });
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues).toBeResolvedTo([
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
         'Craig',
         'Rachel',
       ]);
@@ -326,7 +324,7 @@ describe('Lookup harness', () => {
       await picker.cancel();
 
       await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Shirley' }),
+        'Shirley',
       ]);
     });
 
@@ -385,7 +383,7 @@ describe('Lookup harness', () => {
     });
   });
 
-  fdescribe('async picker', () => {
+  describe('async picker', () => {
     it('should return information about the autocomplete results', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my_async_lookup',
