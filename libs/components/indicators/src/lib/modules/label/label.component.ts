@@ -25,13 +25,17 @@ export class SkyLabelComponent {
     return this._labelType || 'info';
   }
 
-  public baseIcon: SkyIconStackItem;
+  public baseIcon!: SkyIconStackItem;
 
-  public icon: string;
+  public icon!: string;
 
-  public topIcon: SkyIconStackItem;
+  public topIcon!: SkyIconStackItem;
 
-  private _labelType: SkyLabelType;
+  private _labelType: SkyLabelType = 'info';
+
+  constructor() {
+    this.updateIcon();
+  }
 
   private updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
