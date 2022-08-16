@@ -154,7 +154,6 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs:
-      - install-deps
       - build-storybook
       - build-apps
     steps:
@@ -205,9 +204,7 @@ jobs:
   e2e:
     name: End to end tests
     runs-on: ubuntu-latest
-    needs:
-      - install-deps
-      - publish
+    needs: build-storybook
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
       fail-fast: false
@@ -232,11 +229,11 @@ jobs:
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
       - name: Percy ${{ matrix.project }}
         if: ${{ github.event_name == 'pull_request' }}
-        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/storybooks/${{ matrix.project }}/
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e --skip-nx-cache
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
       - name: Percy ${{ matrix.project }}
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e:ci --skip-nx-cache --baseUrl https://blackbaud.github.io/skyux-storybook/storybooks/${{ github.ref_name }}/${{ matrix.project }}/
+        run: npx percy exec -- nx run ${{ matrix.project }}-e2e:e2e --skip-nx-cache
         env:
           PERCY_TOKEN: ${{ secrets[matrix.token] }}
