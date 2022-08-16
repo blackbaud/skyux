@@ -216,15 +216,16 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await lookupHarness.closeTokens();
+      const tokens = await lookupHarness.getTokensList();
+      await tokens.dismissTokens();
 
       await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
       await picker.selectFirstSearchResult();
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Abed' },
+      await expectAsync(await tokens.getTokenTextValues()).toBeResolvedTo([
+        'Abed',
       ]);
     });
 
@@ -233,8 +234,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await lookupHarness.closeTokens();
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
+      const tokens = await lookupHarness.getTokensList();
+      await tokens.dismissTokens();
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
 
       await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
@@ -242,9 +244,9 @@ describe('Lookup harness', () => {
       await picker.selectSearchResults({ textContent: /Craig|Rachel/ });
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Craig' }),
-        jasmine.objectContaining({ textContent: 'Rachel' }),
+      await expectAsync(tokens.getTokenTextValues).toBeResolvedTo([
+        'Craig',
+        'Rachel',
       ]);
     });
 
@@ -253,8 +255,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await lookupHarness.closeTokens();
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
+      const tokens = await lookupHarness.getTokensList();
+      await tokens.dismissTokens();
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
 
       await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
@@ -262,9 +265,9 @@ describe('Lookup harness', () => {
       await picker.selectAll();
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Craig' }),
-        jasmine.objectContaining({ textContent: 'Rachel' }),
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+        'Craig',
+        'Rachel',
       ]);
     });
 
@@ -273,8 +276,10 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Shirley' },
+      const tokens = await lookupHarness.getTokensList();
+
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+        'Shirley',
       ]);
 
       await lookupHarness.openShowMorePicker();
@@ -282,7 +287,7 @@ describe('Lookup harness', () => {
       await picker.clearAll();
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
     });
 
     it('should clear search text in show more picker', async () => {
@@ -308,8 +313,10 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Shirley' }),
+      const tokens = await lookupHarness.getTokensList();
+
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+        'Shirley',
       ]);
 
       await lookupHarness.openShowMorePicker();
@@ -318,7 +325,7 @@ describe('Lookup harness', () => {
       await picker.selectAll();
       await picker.cancel();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
         jasmine.objectContaining({ textContent: 'Shirley' }),
       ]);
     });
@@ -328,18 +335,19 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_multiselect_lookup',
       });
 
-      await lookupHarness.closeTokens();
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([]);
+      const tokens = await lookupHarness.getTokensList();
+      await tokens.dismissTokens();
+
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
 
       await lookupHarness.openShowMorePicker();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.loadMore();
       await picker.selectSearchResults({ textContent: 'Vicki' });
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Vicki' }),
-      ]);
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Vicki']);
     });
 
     it('should throw an error if selecting non-existant result', async () => {
@@ -377,7 +385,7 @@ describe('Lookup harness', () => {
     });
   });
 
-  describe('async picker', () => {
+  fdescribe('async picker', () => {
     it('should return information about the autocomplete results', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my_async_lookup',
@@ -397,15 +405,16 @@ describe('Lookup harness', () => {
         dataSkyId: 'my_async_lookup',
       });
 
+      const tokens = await lookupHarness.getTokensList();
+
       await lookupHarness.openShowMorePicker();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('rachel');
       await picker.selectSearchResults({ textContent: 'Rachel' });
       await picker.saveAndClose();
 
-      await expectAsync(lookupHarness.getTokens()).toBeResolvedTo([
-        { textContent: 'Rachel' },
-      ]);
+      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Rachel']);
     });
   });
 });

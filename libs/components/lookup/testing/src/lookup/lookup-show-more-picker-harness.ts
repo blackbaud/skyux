@@ -10,9 +10,7 @@ import {
 
 import { SkySearchHarness } from '../search/search-harness';
 
-interface SearchResultFilters extends BaseHarnessFilters {
-  textContent?: string | RegExp;
-}
+import { SkyLookupShowMorePickerSearchResultHarnessFilters } from './lookup-show-more-picker-search-result-harness-filters';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SkyLookupShowMorePickerHarnessFilters extends BaseHarnessFilters {}
@@ -24,7 +22,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   #getSearchHarness = this.locatorFor(SkySearchHarness);
 
   public static with(
-    filters: Omit<SkyLookupShowMorePickerHarnessFilters, 'ancestor'>
+    filters: SkyLookupShowMorePickerHarnessFilters
   ): HarnessPredicate<SkyLookupShowMorePickerHarness> {
     return new HarnessPredicate(SkyLookupShowMorePickerHarness, filters);
   }
@@ -46,7 +44,9 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     }
   }
 
-  public async selectSearchResult(filters: { textContent: string | RegExp }) {
+  public async selectSearchResult(
+    filters: SkyLookupShowMorePickerSearchResultHarnessFilters
+  ) {
     const harnesses = await this.getSearchResults(filters);
     // Click on the repeater because we've added a custom click event in the modal template.
     if (harnesses && harnesses.length > 0) {
@@ -54,7 +54,9 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     }
   }
 
-  public async selectSearchResults(filters: { textContent: string | RegExp }) {
+  public async selectSearchResults(
+    filters: SkyLookupShowMorePickerSearchResultHarnessFilters
+  ) {
     if (await this.#isSingleSelect()) {
       return this.selectSearchResult(filters);
     }
@@ -80,8 +82,9 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     ).click();
   }
 
+  // TODO: Make a separate search result harness that uses hides the repeater item internal workings?
   public async getSearchResults(
-    filters?: Omit<SearchResultFilters, 'ancestor'>
+    filters?: SkyLookupShowMorePickerSearchResultHarnessFilters
   ): Promise<SkyRepeaterItemHarness[]> {
     const modalId = (await (await this.host()).getAttribute('id')) as string;
 
