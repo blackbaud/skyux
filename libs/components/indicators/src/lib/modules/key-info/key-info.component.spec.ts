@@ -1,5 +1,5 @@
-import { TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyKeyInfoFixturesModule } from './fixtures/key-info-fixtures.module';
 import { KeyInfoTestComponent } from './fixtures/key-info.component.fixture';
@@ -11,7 +11,7 @@ describe('Key info component', () => {
     });
   });
 
-  it('should support vertical and horizontal layouts', async(() => {
+  it('should support vertical and horizontal layouts', async () => {
     const fixture = TestBed.createComponent(KeyInfoTestComponent);
     const cmp = fixture.componentInstance as KeyInfoTestComponent;
     const el = fixture.nativeElement as Element;
@@ -21,18 +21,23 @@ describe('Key info component', () => {
     fixture.detectChanges();
 
     const keyInfoEl = el.querySelector('.sky-key-info');
-    expect(keyInfoEl.classList.contains(horizontalCls)).toBe(true);
+
+    expect(keyInfoEl).not.toBeNull();
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    expect(keyInfoEl!.classList.contains(horizontalCls)).toBe(true);
 
     // Should treat any other value as vertical
     // (enforced by the default .sky-key-info class).
     cmp.layout = undefined;
     fixture.detectChanges();
 
-    expect(keyInfoEl.classList.contains(horizontalCls)).toBe(false);
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    expect(keyInfoEl!.classList.contains(horizontalCls)).toBe(false);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
-  it('should have the appropriate content in expected areas', async(() => {
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  it('should have the appropriate content in expected areas', async () => {
     const fixture = TestBed.createComponent(KeyInfoTestComponent);
     const el = fixture.nativeElement as Element;
 
@@ -44,6 +49,6 @@ describe('Key info component', () => {
     expect(
       el.querySelectorAll('.sky-key-info-label sky-key-info-label').length
     ).toBe(1);
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
