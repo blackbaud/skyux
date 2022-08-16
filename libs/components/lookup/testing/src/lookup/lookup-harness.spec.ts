@@ -28,7 +28,7 @@ describe('Lookup harness', () => {
       const inputBoxHarness = await loader.getHarness(
         SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
       );
-      lookupHarness = await inputBoxHarness.getHarness(SkyLookupHarness);
+      lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
     }
 
     return { fixture, lookupHarness };

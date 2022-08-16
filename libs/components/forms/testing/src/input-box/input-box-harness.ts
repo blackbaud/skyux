@@ -2,6 +2,7 @@ import {
   ComponentHarness,
   HarnessPredicate,
   HarnessQuery,
+  TestElement,
 } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
@@ -16,7 +17,19 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
     return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async getHarness<Q extends HarnessQuery<ComponentHarness>>(type: Q) {
-    return (await this.locatorForOptional(type))();
+  /**
+   * Returns a child harness.
+   */
+  public async queryHarness<T extends ComponentHarness>(
+    query: HarnessQuery<T>
+  ): Promise<T | null> {
+    return this.locatorForOptional(query)();
+  }
+
+  /**
+   * Returns a child test element.
+   */
+  public async querySelector(selector: string): Promise<TestElement | null> {
+    return this.locatorForOptional(selector)();
   }
 }

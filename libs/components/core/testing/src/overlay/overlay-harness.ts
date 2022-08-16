@@ -27,31 +27,31 @@ export class SkyOverlayHarness extends ComponentHarness {
    * Returns a child harness.
    */
   public async queryHarness<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
+    query: HarnessQuery<T>
   ): Promise<T | null> {
-    return (await this.locatorForOptional(harness))();
+    return this.locatorForOptional(query)();
   }
 
   /**
    * Returns child harnesses.
    */
   public async queryHarnesses<T extends ComponentHarness>(
-    harness: HarnessQuery<T>
-  ): Promise<T[]> {
-    return (await this.locatorForAll(harness))();
+    query: HarnessQuery<T>
+  ): Promise<T[] | null> {
+    return this.locatorForAll(query)();
   }
 
   /**
    * Returns a child test element.
    */
   public async querySelector(selector: string): Promise<TestElement | null> {
-    return (await this.locatorForOptional(selector))();
+    return this.locatorForOptional(selector)();
   }
 
   /**
    * Returns child test elements.
    */
   public async querySelectorAll(selector: string): Promise<TestElement[]> {
-    return (await this.locatorForAll(selector))();
+    return this.locatorForAll(selector)();
   }
 }
