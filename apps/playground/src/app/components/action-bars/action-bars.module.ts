@@ -10,6 +10,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'modal-summary-action-bar',
+    loadChildren: () =>
+      import('./modal-summary-action-bar/modal-summary-action-bar.module').then(
+        (m) => m.ModalSummaryActionBarModule
+      ),
+  },
+  {
     path: 'tabs-summary-action-bar',
     loadChildren: () =>
       import('./tabs-summary-action-bar/tabs-summary-action-bar.module').then(
