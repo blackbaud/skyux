@@ -14,7 +14,9 @@
       // elements shift when taking a screenshot.
       cy.screenshot(`popovercomponent-popover--popover-${theme}`, {
         capture: 'viewport',
-      }).percySnapshot(`popovercomponent-popover--popover-${theme}`);
+      }).percySnapshot(`popovercomponent-popover--popover-${theme}`, {
+        widths: [1280],
+      });
     });
   });
 });
