@@ -25,6 +25,8 @@ export class SkyLabelComponent {
     return this._labelType || 'info';
   }
 
+  // The next three properties are set in the constructor. However, due to the function - the build doesn't see them as being set.
+  // We set a definite assignment assersion here on the properties here because of this.
   public baseIcon!: SkyIconStackItem;
 
   public icon!: string;
