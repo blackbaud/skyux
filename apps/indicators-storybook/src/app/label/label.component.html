@@ -1,6 +1,5 @@
 <ng-container *ngFor="let type of types">
-  <sky-label class="sky-margin-inline-lg" [labelType]="type">
-    {{ type }} label
-  </sky-label>
-  <br />
+  <div class="sky-margin-stacked-lg">
+    <sky-label [labelType]="type"> {{ type }} label </sky-label>
+  </div>
 </ng-container>
