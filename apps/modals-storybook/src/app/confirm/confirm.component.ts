@@ -24,8 +24,9 @@ export class ConfirmComponent {
       type: SkyConfirmType.Custom,
       buttons: [
         { text: 'Primary', action: 'save', styleType: 'primary' },
-        { text: 'Secondary', action: 'save' },
-        { text: 'Link', action: 'save', styleType: 'link' },
+        { text: 'Danger', action: 'delete', styleType: 'danger' },
+        { text: 'Default', action: 'close' },
+        { text: 'Link', action: 'cancel', styleType: 'link' },
       ],
     });
   }

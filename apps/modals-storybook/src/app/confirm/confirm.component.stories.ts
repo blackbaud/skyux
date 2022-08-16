@@ -1,13 +1,14 @@
 import { Meta, Story, moduleMetadata } from '@storybook/angular';
 
 import { ConfirmComponent } from './confirm.component';
+import { ConfirmModule } from './confirm.module';
 
 export default {
   title: 'ConfirmComponent',
   component: ConfirmComponent,
   decorators: [
     moduleMetadata({
-      imports: [],
+      imports: [ConfirmModule],
     }),
   ],
 } as Meta<ConfirmComponent>;
