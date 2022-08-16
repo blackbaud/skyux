@@ -1,38 +1,28 @@
-<div *ngFor="let config of configs" class="static-popover-wrapper">
-  <button
-    type="button"
-    [skyPopover]="staticPopover"
-    [skyPopoverMessageStream]="staticPopoverMessageStream"
-    class="static-popover-button"
-    [ngClass]="'static-popover-button-' + config.placement"
-  ></button>
-  <sky-popover
-    #staticPopover
-    [placement]="config.placement"
-    [popoverTitle]="config.popoverTitle"
-  >
-    <ng-container *ngTemplateOutlet="staticPopoverContentRef"></ng-container>
-  </sky-popover>
-</div>
+<ng-container
+  *ngTemplateOutlet="staticPopoversRef; context: { popoverType: undefined }"
+></ng-container>
+<ng-container
+  *ngTemplateOutlet="staticPopoversRef; context: { popoverType: 'danger' }"
+></ng-container>
 
-<div *ngFor="let config of configs" class="static-popover-wrapper">
-  <button
-    type="button"
-    [skyPopover]="staticPopover"
-    [skyPopoverMessageStream]="staticPopoverMessageStream"
-    class="static-popover-button"
-    [ngClass]="'static-popover-button-' + config.placement"
-  ></button>
-  <sky-popover
-    #staticPopover
-    [placement]="config.placement"
-    [popoverTitle]="config.popoverTitle"
-    popoverType="danger"
-  >
-    <ng-container *ngTemplateOutlet="staticPopoverContentRef"></ng-container>
-  </sky-popover>
-</div>
-
-<ng-template #staticPopoverContentRef>
-  <div>The content of a popover can be text, HTML, or Angular components.</div>
+<ng-template #staticPopoversRef let-popoverType="popoverType">
+  <div *ngFor="let config of configs" class="static-popover-wrapper">
+    <button
+      type="button"
+      [skyPopover]="staticPopover"
+      [skyPopoverMessageStream]="staticPopoverMessageStream"
+      class="static-popover-button"
+      [ngClass]="'static-popover-button-' + config.placement"
+    ></button>
+    <sky-popover
+      #staticPopover
+      [placement]="config.placement"
+      [popoverTitle]="config.popoverTitle"
+      [popoverType]="popoverType"
+    >
+      <div>
+        The content of a popover can be text, HTML, or Angular components.
+      </div>
+    </sky-popover>
+  </div>
 </ng-template>

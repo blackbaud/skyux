@@ -38,11 +38,6 @@ export class PopoverComponent implements AfterViewInit {
     {
       horizontalAlignment: 'center',
       placement: 'above',
-      popoverTitle: undefined,
-    },
-    {
-      horizontalAlignment: 'center',
-      placement: 'above',
       popoverTitle: 'Did you know?',
     },
     {
