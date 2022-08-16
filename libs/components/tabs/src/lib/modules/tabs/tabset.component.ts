@@ -111,6 +111,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
    * that is written as `?<queryParam>-active-tab=<sanitized-tab-heading>`.
    * The query parameter's value is parsed automatically from the selected tab's heading text,
    * but you can supply a custom query parameter value for each tab with its `permalinkValue`.
+   * This input only applies when `tabStyle` is `"tabs"`
    */
   @Input()
   public set permalinkId(value: string) {
@@ -128,21 +129,10 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   /**
    * Specifies the behavior for a series of tabs.
-   * @deprecated The property was designed to create wizards by setting tabStyle="wizard" on tabsets in modals,
-   * but this wizard implementation was replaced by the
-   * [progress indicator component](https://developer.blackbaud.com/skyux/components/progress-indicator).
    * @default "tabs"
    */
   @Input()
   public set tabStyle(value: SkyTabsetStyle) {
-    /*istanbul ignore else*/
-    if (value && value.toLowerCase() === 'wizard') {
-      console.warn(
-        'The tabset wizard is deprecated. Please implement the new approach using ' +
-          'progress indicator as documented here: https://developer.blackbaud.com/skyux/components/wizard.'
-      );
-    }
-
     this._tabStyle = value;
   }
 
@@ -159,6 +149,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   /**
    * Fires when users click the button to add a new tab.
    * The new tab button is added to the tab area when you specify a listener for this event.
+   * This event only applies when `tabStyle` is `"tabs"`.
    */
   @Output()
   public newTab = new EventEmitter<void>();
@@ -166,12 +157,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   /**
    * Fires when users click the button to open a tab.
    * The open tab button is added to the tab area when you specify a listener for this event.
+   * This event only applies when `tabStyle` is `"tabs"`.
    */
   @Output()
   public openTab = new EventEmitter<void>();
 
   /**
    * Fires when any tab's `tabIndex` value changes.
+   * This event only applies when `tabStyle` is `"tabs"`.
    */
   @Output()
   public tabIndexesChange = new EventEmitter<SkyTabsetTabIndexesChange>();

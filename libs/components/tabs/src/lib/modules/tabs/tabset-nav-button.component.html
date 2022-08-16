@@ -1,7 +1,11 @@
 <button
-  class="sky-btn sky-btn-default"
+  class="sky-btn"
   type="button"
   [disabled]="disabled"
+  [skyThemeClass]="{
+    'sky-btn-default': 'default',
+    'sky-btn-primary': 'modern'
+  }"
   (click)="buttonClick()"
 >
   {{ buttonText }}

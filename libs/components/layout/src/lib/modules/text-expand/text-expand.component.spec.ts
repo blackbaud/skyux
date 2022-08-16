@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
-import { SkyModalService } from '@skyux/modals';
 
 import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
 import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
@@ -49,9 +48,7 @@ describe('Text expand component', () => {
   });
 
   afterEach(() => {
-    const modalService = TestBed.inject(SkyModalService);
     fixture.destroy();
-    modalService.dispose();
   });
 
   describe('basic behaviors', () => {
