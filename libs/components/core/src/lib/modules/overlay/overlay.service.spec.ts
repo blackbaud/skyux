@@ -399,29 +399,13 @@ describe('Overlay service', () => {
     ).toBeTrue();
   }));
 
-  it('should add additional classes from the configuration', fakeAsync(() => {
+  it('should add an ID to the overlay wrapper element', () => {
+    service.create();
+
     fixture.detectChanges();
-    tick();
 
-    createOverlay({
-      wrapperClass: 'added-class',
-    });
+    const el = document.querySelector('sky-overlay');
 
-    expect(
-      Array.from(getAllOverlays()).shift().classList.contains('added-class')
-    ).toBeTrue();
-  }));
-
-  it('should add additional classes from the configuration', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
-
-    createOverlay({
-      wrapperClass: 'added-class',
-    });
-
-    expect(
-      Array.from(getAllOverlays()).shift().classList.contains('added-class')
-    ).toBeTrue();
-  }));
+    expect(el.id.startsWith('sky-id-gen__')).toBeTrue();
+  });
 });

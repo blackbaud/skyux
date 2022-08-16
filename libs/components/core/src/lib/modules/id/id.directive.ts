@@ -18,10 +18,10 @@ export class SkyIdDirective {
 
   #_id: string;
 
-  constructor(elRef: ElementRef, renderer: Renderer2, idService: SkyIdService) {
+  constructor(elRef: ElementRef, renderer: Renderer2, idSvc: SkyIdService) {
     // Generate and apply the ID before the template is rendered
     // to avoid a changed-after-checked error.
-    const id = idService.generateId();
+    const id = idSvc.generateId();
 
     renderer.setAttribute(elRef.nativeElement, 'id', id);
 
