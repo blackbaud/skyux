@@ -140,11 +140,9 @@ describe('Select field component', () => {
     selectField = component.selectField;
   });
 
-  afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-    _modalService.dispose();
-    fixture.detectChanges();
+  afterEach(() => {
     fixture.destroy();
-  }));
+  });
 
   describe('basic setup', () => {
     it('should set defaults', () => {

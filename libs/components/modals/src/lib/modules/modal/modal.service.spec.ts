@@ -29,6 +29,10 @@ describe('Modal service', () => {
   }
 
   beforeEach(() => {
+    // Confirm that each test starts without a modal host component.
+    const modalHosts = document.querySelectorAll('sky-modal-host');
+    expect(modalHosts.length).toEqual(0);
+
     TestBed.configureTestingModule({
       imports: [SkyModalModule, SkyModalFixturesModule],
     });
@@ -41,13 +45,6 @@ describe('Modal service', () => {
       applicationRef = _applicationRef;
     }
   ));
-
-  afterEach(() => {
-    // NOTE: This is important as it ensures that the modal host component is fully disposed of
-    // between tests. This is important as the modal host might need a different set of component
-    // injectors than the previous test.
-    modalService.dispose();
-  });
 
   it('should show a modal and return an instance that can then be closed', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);

@@ -1,29 +1,137 @@
-<div [skyTheme]="modernLightTheme">
-  <h3>With basic HTML elements</h3>
-  <sky-input-box>
-    <label class="sky-control-label" for="myInput"> HTML &lt;input&gt; </label>
-    <input class="sky-form-control" id="myInput" type="text" />
-  </sky-input-box>
-  <sky-input-box>
-    <label class="sky-control-label" for="myTextarea">
-      HTML &lt;textarea&gt;
-    </label>
-    <textarea class="sky-form-control" id="myTextarea"></textarea>
-  </sky-input-box>
-
-  <h3>With SKY UX components</h3>
-  <sky-input-box>
-    <label class="sky-control-label" for="myDatepicker"> Datepicker </label>
-    <sky-datepicker>
-      <input id="myDatepicker" skyDatepickerInput />
-    </sky-datepicker>
-  </sky-input-box>
-  <sky-input-box>
-    <label class="sky-control-label" for="myInlineHelp"> Inline Help </label>
-    <sky-help-inline
-      class="sky-control-help"
-      (actionClick)="onActionClick()"
-    ></sky-help-inline>
-    <input class="sky-form-control" id="myInlineHelp" />
-  </sky-input-box>
+<div
+  [ngStyle]="{
+    maxWidth: '800px'
+  }"
+>
+  <form [formGroup]="newMemberForm">
+    <sky-fluid-grid [disableMargin]="false" gutterSize="small">
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <h2>New member form</h2>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="firstNameInput.id"
+              >First name</label
+            >
+            <input
+              formControlName="firstName"
+              type="text"
+              spellcheck="false"
+              class="sky-form-control"
+              skyId
+              #firstNameInput="skyId"
+            />
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="lastNameInput.id"
+              >Last name</label
+            >
+            <input
+              formControlName="lastName"
+              type="text"
+              spellcheck="false"
+              class="sky-form-control"
+              skyId
+              #lastNameInput="skyId"
+            />
+            <div
+              *ngIf="
+                (lastName.dirty || lastName.touched) &&
+                lastName.errors &&
+                lastName.errors.required
+              "
+              class="sky-error-label"
+            >
+              Last name is required.
+            </div>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="bioInput.id"> Bio </label>
+            <sky-help-inline
+              class="sky-control-help"
+              [skyPopover]="bioHelpPopover"
+              skyPopoverTrigger="click"
+            ></sky-help-inline>
+            <textarea
+              formControlName="bio"
+              class="sky-form-control"
+              skyId
+              #bioInput="skyId"
+            ></textarea>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="emailInput.id">
+              Email address
+            </label>
+            <input
+              class="sky-form-control"
+              formControlName="email"
+              skyId
+              #emailInput="skyId"
+            />
+            <div
+              *ngIf="
+                (email.dirty || email.touched) &&
+                email.errors &&
+                email.errors.required
+              "
+              class="sky-error-label"
+            >
+              Email address is required.
+            </div>
+            <div
+              *ngIf="
+                (email.dirty || email.touched) &&
+                email.errors &&
+                email.errors.skyEmail
+              "
+              class="sky-error-label"
+            >
+              Enter a valid email in the "joe@abc.com" format.
+            </div>
+          </sky-input-box>
+        </sky-column>
+        <sky-column [screenSmall]="12" [screenMedium]="6">
+          <sky-input-box class="sky-margin-stacked-lg">
+            <label class="sky-control-label" [for]="dobInput.id">
+              Date of birth
+            </label>
+            <sky-datepicker>
+              <input
+                formControlName="dob"
+                skyId
+                #dobInput="skyId"
+                skyDatepickerInput
+              />
+            </sky-datepicker>
+            <div
+              *ngIf="
+                (dob.dirty || dob.touched) && dob.errors && dob.errors.required
+              "
+              class="sky-error-label"
+            >
+              Date of birth is required.
+            </div>
+          </sky-input-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </form>
 </div>
+
+<sky-popover popoverTitle="Tell us about yourself!" #bioHelpPopover>
+  What are some fun facts about you? What do you like to do in your free time?
+</sky-popover>

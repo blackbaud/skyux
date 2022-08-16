@@ -46,6 +46,7 @@ module.exports = () => {
         { type: 'html' },
         { type: 'json-summary' },
         { type: 'text-summary' },
+        { type: 'lcov', subdir: 'lcov-report' },
       ],
       check: {
         global: {

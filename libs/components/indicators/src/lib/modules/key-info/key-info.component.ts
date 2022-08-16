@@ -11,6 +11,7 @@ export class SkyKeyInfoComponent {
    * value or in a horizontal layout with the label beside the value.
    * @default "vertical"
    */
+  // TODO: More strongly type this in a future breaking change.
   @Input()
-  public layout = 'vertical';
+  public layout: string | undefined = 'vertical';
 }
