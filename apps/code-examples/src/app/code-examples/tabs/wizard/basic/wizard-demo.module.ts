@@ -1,0 +1,31 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SkyIdModule } from '@skyux/core';
+import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyFluidGridModule } from '@skyux/layout';
+import { SkyModalModule } from '@skyux/modals';
+import { SkyPhoneFieldModule } from '@skyux/phone-field';
+import { SkyTabsModule } from '@skyux/tabs';
+import { SkyThemeModule } from '@skyux/theme';
+
+import { WizardDemoModalComponent } from './wizard-demo-modal.component';
+import { WizardDemoComponent } from './wizard-demo.component';
+
+@NgModule({
+  declarations: [WizardDemoComponent, WizardDemoModalComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SkyCheckboxModule,
+    SkyFluidGridModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyModalModule,
+    SkyPhoneFieldModule,
+    SkyTabsModule,
+    SkyThemeModule,
+  ],
+  exports: [WizardDemoComponent],
+})
+export class WizardDemoModule {}

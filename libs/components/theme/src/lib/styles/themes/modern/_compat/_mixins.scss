@@ -112,6 +112,7 @@
 @mixin sky-theme-modern-btn-tab-selected {
   background-color: transparent;
   color: $sky-text-color-default;
+  box-shadow: none;
 
   &:not(:active) {
     border-bottom: solid 3px $sky-theme-modern-background-color-primary-dark;

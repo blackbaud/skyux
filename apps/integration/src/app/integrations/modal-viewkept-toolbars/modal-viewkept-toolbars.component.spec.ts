@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
-import { SkyModalService } from '@skyux/modals';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -76,11 +75,6 @@ describe('Modals with viewkept toolbars', () => {
 
   afterEach(() => {
     closeModal();
-
-    // NOTE: This is important as it ensures that the modal host component is fully disposed of
-    // between tests. This is important as the modal host might need a different set of component
-    // injectors than the previous test.
-    TestBed.inject(SkyModalService).dispose();
   });
 
   describe('modern theme', () => {

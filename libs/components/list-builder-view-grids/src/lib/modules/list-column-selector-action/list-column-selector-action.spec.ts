@@ -5,7 +5,6 @@ import {
   async,
   fakeAsync,
   flush,
-  inject,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -21,7 +20,6 @@ import {
   SkyListSecondaryActionsModule,
   SkyListToolbarModule,
 } from '@skyux/list-builder';
-import { SkyModalService } from '@skyux/modals';
 
 import { skip, take } from 'rxjs/operators';
 
@@ -127,10 +125,9 @@ describe('List column selector action', () => {
       fixture.detectChanges();
     });
 
-    afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-      _modalService.dispose();
-      fixture.detectChanges();
-    }));
+    afterEach(() => {
+      fixture.destroy();
+    });
 
     it('should not appear if not in grid view', async(() => {
       fixture.detectChanges();
@@ -280,10 +277,9 @@ describe('List column selector action', () => {
       dispatcher = skyListDebugEl.injector.get(ListStateDispatcher);
     });
 
-    afterEach(inject([SkyModalService], (_modalService: SkyModalService) => {
-      _modalService.dispose();
-      fixture.detectChanges();
-    }));
+    afterEach(() => {
+      fixture.destroy();
+    });
 
     it('should show an action in the secondary actions dropdown', fakeAsync(() => {
       toggleSecondaryActionsDropdown();

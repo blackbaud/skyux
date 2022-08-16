@@ -1,4 +1,9 @@
-import { ApplicationRef, ComponentRef, EmbeddedViewRef } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentRef,
+  EmbeddedViewRef,
+  StaticProvider,
+} from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
@@ -12,7 +17,8 @@ describe('Dynamic component service', () => {
 
   function createTestComponent(
     location?: SkyDynamicComponentLocation,
-    reference?: HTMLElement
+    reference?: HTMLElement,
+    providers?: StaticProvider[]
   ): ComponentRef<DynamicComponentTestComponent> {
     const svc: SkyDynamicComponentService = TestBed.inject(
       SkyDynamicComponentService
@@ -22,6 +28,7 @@ describe('Dynamic component service', () => {
       svc.createComponent(DynamicComponentTestComponent, {
         location: location,
         referenceEl: reference,
+        providers,
       });
 
     cmpRef.changeDetectorRef.detectChanges();
@@ -138,5 +145,18 @@ describe('Dynamic component service', () => {
     removeTestComponent(undefined);
 
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should setup providers for a component', () => {
+    createTestComponent(undefined, undefined, [
+      { provide: 'greeting', useValue: 'My name is Pat.' },
+    ]);
+
+    const el = getComponentEl(0);
+
+    expect(document.body.lastChild).toBe(el);
+    expect(el.querySelector('.component-test')).toHaveText(
+      'Hello world My name is Pat.'
+    );
   });
 });

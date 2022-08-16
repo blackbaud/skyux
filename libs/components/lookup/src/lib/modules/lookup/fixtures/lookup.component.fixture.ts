@@ -62,7 +62,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public form!: FormGroup;
 
-  public idProperty: string | undefined;
+  public idProperty = 'name';
 
   public ignoreAddDataUpdate = false;
 

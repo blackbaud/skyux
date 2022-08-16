@@ -1,6 +1,7 @@
 import { ComponentRef, Injectable } from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
 
+import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
@@ -12,7 +13,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
 @Injectable({
   // Must be 'any' so that the modal component is created in the context of its module's injector.
   // If set to 'root', the component's dependency injections would only be derived from the root
-  // injector and may loose context if the modal was opened from within a lazy-loaded module.
+  // injector and may lose context if the modal was opened from within a lazy-loaded module.
   providedIn: 'any',
 })
 export class SkyModalService {
@@ -22,7 +23,7 @@ export class SkyModalService {
   constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
 
   /**
-   * @private
+   * @internal
    * Removes the modal host from the DOM.
    */
   public dispose(): void {
@@ -87,7 +88,17 @@ export class SkyModalService {
   private createHostComponent(): void {
     if (!SkyModalService.host) {
       SkyModalService.host = this.dynamicComponentService.createComponent(
-        SkyModalHostComponent
+        SkyModalHostComponent,
+        {
+          providers: [
+            {
+              provide: SkyModalHostContext,
+              useValue: new SkyModalHostContext(() => {
+                this.dispose();
+              }),
+            },
+          ],
+        }
       );
     }
   }

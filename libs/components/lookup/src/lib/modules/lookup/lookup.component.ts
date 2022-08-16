@@ -124,6 +124,7 @@ export class SkyLookupComponent
   /**
    * Specifies an object property that represents the object's unique identifier.
    * Specifying this property enables token animations and more efficient rendering.
+   * This property is required when using `enableShowMore` and `searchAsync` together.
    */
   @Input()
   public idProperty: string | undefined;

@@ -3,6 +3,7 @@ import {
   Component,
   ComponentFactoryResolver,
   Injector,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -16,6 +17,7 @@ import { takeWhile } from 'rxjs/operators';
 
 import { SkyModalAdapterService } from './modal-adapter.service';
 import { SkyModalConfiguration } from './modal-configuration';
+import { SkyModalHostContext } from './modal-host-context';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalConfigurationInterface } from './modal.interface';
@@ -29,7 +31,7 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   styleUrls: ['./modal-host.component.scss'],
   viewProviders: [SkyModalAdapterService],
 })
-export class SkyModalHostComponent {
+export class SkyModalHostComponent implements OnDestroy {
   public get modalOpen() {
     return SkyModalHostService.openModalCount > 0;
   }
@@ -50,13 +52,22 @@ export class SkyModalHostComponent {
   } as any)
   public target: ViewContainerRef;
 
+  #modalHostContext: SkyModalHostContext;
+
   constructor(
     private resolver: ComponentFactoryResolver,
     private adapter: SkyModalAdapterService,
     private injector: Injector,
     private router: Router,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    private changeDetector: ChangeDetectorRef,
+    modalHostContext: SkyModalHostContext
+  ) {
+    this.#modalHostContext = modalHostContext;
+  }
+
+  public ngOnDestroy(): void {
+    this.#modalHostContext.teardownCallback();
+  }
 
   public open(
     modalInstance: SkyModalInstance,
