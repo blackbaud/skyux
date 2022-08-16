@@ -2,6 +2,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'test-overlay-child',
-  template: `<ng-content></ng-content>`,
+  templateUrl: './overlay-child.component.html',
 })
 export class OverlayChildTestComponent {}

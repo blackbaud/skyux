@@ -23,22 +23,34 @@ export class SkyOverlayHarness extends ComponentHarness {
     return new HarnessPredicate(SkyOverlayHarness, filters);
   }
 
+  /**
+   * Returns a child harness.
+   */
   public async queryHarness<T extends ComponentHarness>(
     harness: HarnessQuery<T>
   ): Promise<T | null> {
     return (await this.locatorForOptional(harness))();
   }
 
+  /**
+   * Returns child harnesses.
+   */
   public async queryHarnesses<T extends ComponentHarness>(
     harness: HarnessQuery<T>
   ): Promise<T[]> {
     return (await this.locatorForAll(harness))();
   }
 
+  /**
+   * Returns a child test element.
+   */
   public async querySelector(selector: string): Promise<TestElement | null> {
     return (await this.locatorForOptional(selector))();
   }
 
+  /**
+   * Returns child test elements.
+   */
   public async querySelectorAll(selector: string): Promise<TestElement[]> {
     return (await this.locatorForAll(selector))();
   }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { SkyOverlayInstance, SkyOverlayService } from '@skyux/core';
 
-import { OverlayHarnessTestContentsComponent } from './overlay-harness-test-contents.component';
+import { OverlayContentsTestComponent } from './overlay-contents.component';
 
 @Component({
-  selector: 'sky-test-overlay-harness',
-  template: '',
+  selector: 'test-overlay-harness',
+  templateUrl: './overlay-harness-test.component.html',
 })
 export class OverlayHarnessTestComponent {
   #overlayService: SkyOverlayService;
@@ -17,7 +17,7 @@ export class OverlayHarnessTestComponent {
   public openOverlay(): SkyOverlayInstance {
     const overlay = this.#overlayService.create();
 
-    overlay.attachComponent(OverlayHarnessTestContentsComponent);
+    overlay.attachComponent(OverlayContentsTestComponent);
 
     return overlay;
   }
