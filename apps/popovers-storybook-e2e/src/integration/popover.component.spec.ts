@@ -2,7 +2,7 @@
   describe(`popovers-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy
-        .viewport(1280, 700)
+        .viewport(1280, 800)
         .visit(
           `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`
         )
