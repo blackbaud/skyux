@@ -2,7 +2,7 @@
   describe(`modals-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy.visit(
-        `/iframe.html?globals=theme:${theme}&id=confirmcomponent--primary`
+        `/iframe.html?globals=theme:${theme}&id=confirmcomponent-confirm--confirm`
       )
     );
     it('should render the OK component', () => {
@@ -16,8 +16,8 @@
         .get('.sky-modal')
         .should('exist')
         .should('be.visible')
-        .screenshot(`confirmcomponent--primary-ok-${theme}`)
-        .percySnapshot(`confirmcomponent--primary-ok-${theme}`);
+        .screenshot(`confirmcomponent-confirm--confirm-ok-${theme}`)
+        .percySnapshot(`confirmcomponent-confirm--confirm-ok-${theme}`);
     });
 
     it('should render the Custom component', () => {
@@ -31,8 +31,8 @@
         .get('.sky-modal')
         .should('exist')
         .should('be.visible')
-        .screenshot(`confirmcomponent--primary-custom-${theme}`)
-        .percySnapshot(`confirmcomponent--primary-custom-${theme}`);
+        .screenshot(`confirmcomponent-confirm--confirm-custom-${theme}`)
+        .percySnapshot(`confirmcomponent-confirm--confirm-custom-${theme}`);
     });
   });
 });

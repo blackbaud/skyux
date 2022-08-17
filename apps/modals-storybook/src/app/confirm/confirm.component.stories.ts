@@ -4,7 +4,8 @@ import { ConfirmComponent } from './confirm.component';
 import { ConfirmModule } from './confirm.module';
 
 export default {
-  title: 'ConfirmComponent',
+  id: 'confimcomponent-confirm',
+  title: 'Components/Confirm',
   component: ConfirmComponent,
   decorators: [
     moduleMetadata({
@@ -17,5 +18,5 @@ const Template: Story<ConfirmComponent> = (args: ConfirmComponent) => ({
   props: args,
 });
 
-export const Primary = Template.bind({});
-Primary.args = {};
+export const Confirm = Template.bind({});
+Confirm.args = {};
