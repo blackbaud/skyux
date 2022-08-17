@@ -55,12 +55,12 @@ export class SkyLabelComponent {
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()
-  public set customDescription(value: string) {
+  public set customDescription(value: string | undefined) {
     this.#_customDescription = value;
     this.updateDescriptionComputed();
   }
 
-  public get customDescription(): string {
+  public get customDescription(): string | undefined {
     return this.#_customDescription;
   }
 

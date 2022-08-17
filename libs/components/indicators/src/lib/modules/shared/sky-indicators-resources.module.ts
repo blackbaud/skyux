@@ -20,9 +20,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_help_inline_button_title: { message: 'Show help content' },
     skyux_label_sr_completed: { message: 'Completed:' },
     skyux_label_sr_error: { message: 'Error:' },
-    skyux_label_sr_important_info: {
-      message: 'Important information:',
-    },
+    skyux_label_sr_important_info: { message: 'Important information:' },
     skyux_label_sr_warning: { message: 'Warning:' },
     skyux_status_indicator_sr_completed: { message: 'Completed:' },
     skyux_status_indicator_sr_error: { message: 'Error:' },
