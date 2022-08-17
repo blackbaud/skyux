@@ -4,15 +4,15 @@ import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 import { SkyAutocompleteHarnessFilters } from './autocomplete-harness-filters';
 import { SkyAutocompleteHarnessSearchResult } from './autocomplete-harness-search-result';
 import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
-import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
 import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result-harness';
+import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-harness-filters';
 
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
-  protected getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
+  #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
 
   public static with(
     filters: SkyAutocompleteHarnessFilters
@@ -20,14 +20,23 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     return SkyAutocompleteHarness.getDataSkyIdPredicate(filters);
   }
 
+  /**
+   * Blurs the autocomplete input.
+   */
   public async blur(): Promise<void> {
     return (await this.#getInputEl()).blur();
   }
 
+  /**
+   * Clears the input value.
+   */
   public async clear(): Promise<void> {
     return (await this.#getInputEl()).clear();
   }
 
+  /**
+   * Enters text into the autocomplete input.
+   */
   public async enterText(value: string): Promise<void> {
     const el = await this.#getInputEl();
     await el.focus();
@@ -35,10 +44,16 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     await el.sendKeys(value);
   }
 
+  /**
+   * Focuses the autocomplete input.
+   */
   public async focus(): Promise<void> {
     return (await this.#getInputEl()).focus();
   }
 
+  /**
+   * Gets the search results from the autocomplete dropdown.
+   */
   public async getSearchResults(): Promise<
     SkyAutocompleteHarnessSearchResult[] | undefined
   > {
@@ -65,6 +80,39 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     return;
   }
 
+  /**
+   * Gets the value of the autocomplete input.
+   */
+  public async getValue(): Promise<string> {
+    return (await this.#getInputEl()).getProperty('value');
+  }
+
+  /**
+   * Whether the autocomplete input is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    const disabled = await (await this.#getInputEl()).getAttribute('disabled');
+    return disabled !== null;
+  }
+
+  /**
+   * Whether the autocomplete input is focused.
+   */
+  public async isFocused(): Promise<boolean> {
+    return (await this.#getInputEl()).isFocused();
+  }
+
+  /**
+   * Whether the autocomplete is open.
+   */
+  public async isOpen(): Promise<boolean> {
+    const overlay = await this.#getOverlay();
+    return !!overlay;
+  }
+
+  /**
+   * Selects a search result from the autocomplete dropdown.
+   */
   public async selectSearchResult(
     filters: SkyAutocompleteSearchResultHarnessFilters
   ): Promise<void> {
@@ -74,30 +122,15 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     }
   }
 
-  public async getInputValue(): Promise<string> {
-    return (await this.#getInputEl()).getProperty('value');
-  }
-
-  public async isDisabled(): Promise<boolean> {
-    const disabled = await (await this.#getInputEl()).getAttribute('disabled');
-    return disabled !== null;
-  }
-
-  public async isOpen(): Promise<boolean> {
-    const overlay = await this.#getOverlay();
-    return !!overlay;
-  }
-
-  public async isFocused(): Promise<boolean> {
-    return (await this.#getInputEl()).isFocused();
-  }
-
-  public async clickAddButton(): Promise<void> {
+  /**
+   * Clicks the "Add" button in the autocomplete dropdown.
+   */
+  // (This method is protected to prevent consumers of the autocomplete harness from calling it.)
+  protected async clickAddButton(): Promise<void> {
     const overlay = await this.#getOverlay();
     if (!overlay) {
       throw new Error(
-        'Unable to find the add button. ' +
-          'The autocomplete dropdown is closed.'
+        'Unable to find the add button. The autocomplete is closed.'
       );
     }
 
@@ -114,12 +147,16 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     await button.click();
   }
 
-  public async clickShowMoreButton(): Promise<void> {
+  /**
+   * Clicks the "Show all" button in the autocomplete dropdown.
+   */
+  // (This method is protected to prevent consumers of the autocomplete harness from calling it.)
+  protected async clickShowMoreButton(): Promise<void> {
     const overlay = await this.#getOverlay();
     if (!overlay) {
       throw new Error(
-        'Unable to find the show more button. ' +
-          'The autocomplete dropdown is closed.'
+        'Unable to find the "Show more" button. ' +
+          'The autocomplete is closed.'
       );
     }
 
@@ -129,7 +166,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     if (!button) {
       throw new Error(
-        'The show more button cannot be clicked because it does not exist.'
+        'The "Show more" button cannot be clicked because it does not exist.'
       );
     }
 
@@ -137,19 +174,19 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   async #getInputEl(): Promise<TestElement> {
-    return (await this.getInputHarness()).host();
+    return (await this.#getInputHarness()).host();
   }
 
-  async #getOverlay(): Promise<SkyOverlayHarness | undefined> {
+  async #getOverlay(): Promise<SkyOverlayHarness | null> {
     const overlayId = await (
       await this.#getInputEl()
     ).getAttribute('aria-owns');
 
     return overlayId
-      ? this.#documentRootLocator.locatorFor(
+      ? this.#documentRootLocator.locatorForOptional(
           SkyOverlayHarness.with({ selector: `#${overlayId}` })
         )()
-      : undefined;
+      : null;
   }
 
   async #getSearchResultHarnesses(
@@ -159,8 +196,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     if (!overlay) {
       throw new Error(
-        'Unable to retrieve search results. ' +
-          'The autocomplete dropdown is closed.'
+        'Unable to retrieve search results. The autocomplete is closed.'
       );
     }
 

@@ -15,7 +15,7 @@ describe('Autocomplete harness', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const autocompleteHarness = await loader.getHarness(
       SkyAutocompleteHarness.with({
-        dataSkyId: 'my_autocomplete_2',
+        dataSkyId: 'my-autocomplete-2',
       })
     );
 

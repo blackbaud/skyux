@@ -1,8 +1,7 @@
 import { ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
 
-import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-filters';
+import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-harness-filters';
 
-// TODO: Better to just put this as a selector in the autocomplete harness?
 export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
   public static hostSelector = '.sky-autocomplete-result';
 
