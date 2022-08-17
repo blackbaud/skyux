@@ -17,7 +17,7 @@ export class SkyIconComponent {
    * @required
    */
   @Input()
-  public icon: string;
+  public icon: string | undefined;
 
   /**
    * Specifies the type of icon to display. Specifying `"fa"` will display a Font Awesome icon,
