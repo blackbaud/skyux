@@ -5,6 +5,5 @@
  */
 export abstract class SkyAppAssetsService {
   public abstract getUrl(path: string): string | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public abstract getAllUrls(): { [key: string]: any };
 }
