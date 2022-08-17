@@ -1,5 +1,7 @@
 import { SkyComponentHarness } from '@skyux/core/testing';
 
+import { SkyInfiniteScrollHarnessFilters } from './infinite-scroll-harness-filters';
+
 export class SkyInfiniteScrollHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-infinite-scroll';
 
@@ -7,7 +9,11 @@ export class SkyInfiniteScrollHarness extends SkyComponentHarness {
     'button.sky-infinite-scroll-load-more-button'
   );
 
+  public static with(filters: SkyInfiniteScrollHarnessFilters) {
+    return this.getDataSkyIdPredicate(filters);
+  }
+
   public async loadMore(): Promise<void> {
-    await (await this.#showMoreButton()).click();
+    return (await this.#showMoreButton()).click();
   }
 }
