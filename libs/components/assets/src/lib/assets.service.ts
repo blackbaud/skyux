@@ -4,6 +4,6 @@
  * The implementing class will be generated during build time.
  */
 export abstract class SkyAppAssetsService {
-  public abstract getUrl(path: string): string | undefined;
+  public abstract getUrl(path: string): string;
   public abstract getAllUrls(): { [key: string]: any };
 }
