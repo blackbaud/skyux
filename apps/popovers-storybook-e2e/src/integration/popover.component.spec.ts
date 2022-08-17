@@ -13,6 +13,9 @@
         .should('be.visible')
         .should('have.length', 16);
 
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(1000);
+
       // Capture the window viewport instead of the element; otherwise the popover
       // elements shift when taking a screenshot.
       cy.screenshot(`popovercomponent-popover--popover-${theme}`, {
