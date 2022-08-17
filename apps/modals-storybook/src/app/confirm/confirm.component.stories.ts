@@ -4,7 +4,7 @@ import { ConfirmComponent } from './confirm.component';
 import { ConfirmModule } from './confirm.module';
 
 export default {
-  id: 'confimcomponent-confirm',
+  id: 'confirmcomponent-confirm',
   title: 'Components/Confirm',
   component: ConfirmComponent,
   decorators: [
