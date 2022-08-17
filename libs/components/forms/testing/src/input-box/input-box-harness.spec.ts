@@ -23,16 +23,6 @@ describe('Input box harness', () => {
     return { inputBoxHarness };
   }
 
-  it('should query child elements', async () => {
-    const { inputBoxHarness } = await setupTest({
-      dataSkyId: 'my_input_box_first_name',
-    });
-
-    const input = await inputBoxHarness.querySelector('.sky-form-control');
-
-    await expectAsync(input.getProperty('value')).toBeResolvedTo('John');
-  });
-
   it('should query child harnesses', async () => {
     const { inputBoxHarness } = await setupTest({
       dataSkyId: 'my_input_box_last_name',
