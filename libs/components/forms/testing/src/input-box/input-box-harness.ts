@@ -20,7 +20,7 @@ export class SkyInputBoxHarness extends SkyComponentHarness {
   public static with(
     filters: SkyInputBoxHarnessFilters
   ): HarnessPredicate<SkyInputBoxHarness> {
-    return this.getDataSkyIdPredicate(filters);
+    return SkyInputBoxHarness.getDataSkyIdPredicate(filters);
   }
 
   /**
