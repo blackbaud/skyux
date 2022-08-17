@@ -50,7 +50,10 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     });
   }
 
-  // Only show people in the search results that have not been chosen already.
+  /**
+   * When in the modal view, show all people in the search results, regardless if they have been chosen already.
+   * When in the popover view (or in any other view), show people in the search results that have not been chosen already.
+   */
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
     const names: any[] = this.myForm.controls.names.value;
     return [
