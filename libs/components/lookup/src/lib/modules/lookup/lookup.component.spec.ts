@@ -157,6 +157,32 @@ describe('Lookup component', function () {
     ) as HTMLElement;
   }
 
+  /**
+   * creates a Spy that mimics/delegates the behavior of an common example of a SkyAutocompleteSearchFunction
+   */
+  function getCustomSearchFunctionSpy(
+    name: string,
+    friends: any[]
+  ): jasmine.Spy {
+    return jasmine
+      .createSpy(name)
+      .and.callFake(
+        (
+          searchText: string,
+          data: any[],
+          args?: SkyAutocompleteSearchArgs
+        ): SkyAutocompleteSearchFunctionResponse => {
+          return data.filter((anItem) => {
+            if (args?.context === 'modal') {
+              return true;
+            }
+            const found = friends.find((option) => option.name === anItem.name);
+            return !found;
+          });
+        }
+      );
+  }
+
   function getDropdown(): HTMLElement {
     return document.querySelector('.sky-autocomplete-results-container');
   }
@@ -204,6 +230,30 @@ describe('Lookup component', function () {
         '#my-lookup .sky-input-group-btn .sky-btn'
       ) as HTMLElement;
     }
+  }
+
+  /**
+   * creates a Spy that mimics/delegates the behavior of an common example of a SkyAutocompleteSearchFunctionFilter
+   */
+  function getSearchFunctionFilterSpy(
+    name: string,
+    friends: any[]
+  ): jasmine.Spy {
+    return jasmine
+      .createSpy(name)
+      .and.callFake(
+        (
+          searchText: string,
+          item: any,
+          args?: SkyAutocompleteSearchArgs
+        ): boolean => {
+          if (args?.context === 'modal') {
+            return true;
+          }
+          const found = friends.find((option) => option.name === item.name);
+          return !found;
+        }
+      );
   }
 
   function getShowMoreButton(): HTMLElement {
@@ -3411,16 +3461,22 @@ describe('Lookup component', function () {
     describe('search args (non-async)', () => {
       // to test the passing of the 'context' arg
       describe('context', () => {
-        beforeEach(() => {
+        let friends: any[];
+        beforeEach(fakeAsync(() => {
           // setting it to be multiselect is probably not required to test this, but it is the most common use case for using the optional 'context' arg
           component.setMultiSelect();
-        });
+          fixture.detectChanges();
+          tick();
+          friends = component.form.controls.friends.value;
+        }));
         describe('search function filters', () => {
           let searchFilterFunctionSpy: jasmine.Spy;
 
           it('should return popover context', fakeAsync(() => {
-            // creating the spy function that is pretending to be a search filter without any real functionality, because none is needed to simulate the initial search using a searchFilter
-            searchFilterFunctionSpy = jasmine.createSpy('searchFilterPopover');
+            searchFilterFunctionSpy = getSearchFunctionFilterSpy(
+              'searchFunctionFilterPopover',
+              friends
+            );
 
             component.customSearchFilters = [searchFilterFunctionSpy];
             // peforming a search in the popover view should provide the search filter function with a 'popover' context
@@ -3439,46 +3495,11 @@ describe('Lookup component', function () {
           }));
 
           describe('show more modal', () => {
-            let modalService: SkyModalService;
-
-            beforeEach(fakeAsync(() => {
-              modalService = TestBed.inject(SkyModalService);
-
-              fixture.detectChanges();
-              tick();
-            }));
-
-            // This is necessary as due to modals being launched outside of the test bed they will not
-            // automatically be disposed between tests.
-            afterEach(fakeAsync(() => {
-              // NOTE: This is important as it ensures that the modal host component is fully disposed of
-              // between tests. This is important as the modal host might need a different set of component
-              // injectors than the previous test.
-              modalService.dispose();
-              fixture.detectChanges();
-            }));
             it('should return modal context', fakeAsync(() => {
-              fixture.detectChanges();
-              tick();
-              const friends: any[] = component.form.controls.friends.value;
-              // creating the spy function that is pretending to be a search filter with real functionality, because a real function filter is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
-              searchFilterFunctionSpy = jasmine
-                .createSpy('searchFilterModal')
-                .and.callFake(
-                  (
-                    searchText: string,
-                    item: any,
-                    args?: SkyAutocompleteSearchArgs
-                  ): boolean => {
-                    if (args?.context === 'modal') {
-                      return true;
-                    }
-                    const found = friends.find(
-                      (option) => option.name === item.name
-                    );
-                    return !found;
-                  }
-                );
+              searchFilterFunctionSpy = getSearchFunctionFilterSpy(
+                'searchFunctionFilterModal',
+                friends
+              );
 
               component.customSearchFilters = [searchFilterFunctionSpy];
               fixture.detectChanges();
@@ -3491,14 +3512,7 @@ describe('Lookup component', function () {
               tick();
 
               performSearch('s', fixture);
-
-              fixture.detectChanges();
-              tick();
-
               clickShowMore(fixture);
-
-              fixture.detectChanges();
-              tick();
 
               // peforming a search in the modal view should provide the search filter function with a 'modal' context
               performSearch('s', fixture);
@@ -3515,40 +3529,22 @@ describe('Lookup component', function () {
           });
         });
         describe('custom search function', () => {
-          let searchFunctionSpy: jasmine.Spy;
+          let customSearchFunctionSpy: jasmine.Spy;
 
           it('should return popover context', fakeAsync(() => {
-            fixture.detectChanges();
-            tick();
-            const friends: any[] = component.form.controls.friends.value;
             // creating the spy function that is pretending to be a custom search function with real functionality, because a real function must be provided in order to bypass an error with undefined results returned (the Spy, though not a function, is not undefined so the Lookup/Autocomplete component actually tries to search using it)
-            searchFunctionSpy = jasmine
-              .createSpy('searchFunctionPopover')
-              .and.callFake(
-                (
-                  searchText: string,
-                  data: any[],
-                  args?: SkyAutocompleteSearchArgs
-                ): SkyAutocompleteSearchFunctionResponse => {
-                  return data.filter((anItem) => {
-                    if (args?.context === 'modal') {
-                      return true;
-                    }
-                    const found = friends.find(
-                      (option) => option.name === anItem.name
-                    );
-                    return !found;
-                  });
-                }
-              );
+            customSearchFunctionSpy = getCustomSearchFunctionSpy(
+              'customSearchFunctionPopover',
+              friends
+            );
 
-            component.customSearch = searchFunctionSpy;
+            component.customSearch = customSearchFunctionSpy;
             // peforming a search in the popover view should provide the custom search function with a 'popover' context
             fixture.detectChanges();
             tick();
 
             performSearch('s', fixture);
-            expect(searchFunctionSpy).toHaveBeenCalledWith(
+            expect(customSearchFunctionSpy).toHaveBeenCalledWith(
               's',
               jasmine.arrayWithExactContents(component.data),
               jasmine.objectContaining({
@@ -3558,72 +3554,34 @@ describe('Lookup component', function () {
           }));
 
           describe('show more modal', () => {
-            let modalService: SkyModalService;
-
-            beforeEach(fakeAsync(() => {
-              modalService = TestBed.inject(SkyModalService);
-
-              fixture.detectChanges();
-              tick();
-            }));
-
             // This is necessary as due to modals being launched outside of the test bed they will not
             // automatically be disposed between tests.
-            afterEach(fakeAsync(() => {
-              // NOTE: This is important as it ensures that the modal host component is fully disposed of
-              // between tests. This is important as the modal host might need a different set of component
-              // injectors than the previous test.
-              modalService.dispose();
-              fixture.detectChanges();
-            }));
             it('should return modal context', fakeAsync(() => {
-              const friends: any[] = component.form.controls.friends.value;
-              // creating the spy function that is pretending to be a custom search function with real functionality, because a real function is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
-              searchFunctionSpy = jasmine
-                .createSpy('searchFunctionrModal')
-                .and.callFake(
-                  (
-                    searchText: string,
-                    data: any[],
-                    args?: SkyAutocompleteSearchArgs
-                  ): SkyAutocompleteSearchFunctionResponse => {
-                    return data.filter((anItem) => {
-                      if (args?.context === 'modal') {
-                        return true;
-                      }
-                      const found = friends.find(
-                        (option) => option.name === anItem.name
-                      );
-                      return !found;
-                    });
-                  }
-                );
               fixture.detectChanges();
               tick();
+              const friends: any[] = component.form.controls.friends.value;
+              // creating the spy function that is pretending to be a custom search function with real functionality, because a real function is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
+              customSearchFunctionSpy = getCustomSearchFunctionSpy(
+                'customSearchFunctionModal',
+                friends
+              );
 
-              component.customSearch = searchFunctionSpy;
+              component.customSearch = customSearchFunctionSpy;
               fixture.detectChanges();
               tick();
 
               // opening the "show more" modal
               component.enableShowMore = true;
-
               fixture.detectChanges();
               tick();
 
               performSearch('s', fixture);
-
-              fixture.detectChanges();
-              tick();
 
               clickShowMore(fixture);
 
-              fixture.detectChanges();
-              tick();
-
               // peforming a search in the modal view should provide the search filter function with a 'modal' context
               performSearch('s', fixture);
-              expect(searchFunctionSpy).toHaveBeenCalledWith(
+              expect(customSearchFunctionSpy).toHaveBeenCalledWith(
                 's',
                 jasmine.arrayWithExactContents(component.data),
                 jasmine.objectContaining({
