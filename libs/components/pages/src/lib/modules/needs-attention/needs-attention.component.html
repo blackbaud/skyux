@@ -14,7 +14,7 @@
         {{ 'sky_action_hub_needs_attention_empty' | skyLibResources }}
       </sky-column>
       <sky-column
-        *ngFor="let item of items"
+        *ngFor="let item of items; let isLast = last"
         [screenSmall]="items.length > 6 ? 6 : 12"
         [screenXSmall]="12"
       >
@@ -35,7 +35,7 @@
           >
         </ng-template>
         <a
-          *ngIf="item.permalink?.route"
+          *ngIf="item.permalink | useSkyAppLink"
           [skyAppLink]="item.permalink.route.commands"
           [queryParams]="item.permalink.route.extras?.queryParams"
           [queryParamsHandling]="
@@ -46,27 +46,39 @@
           [skipLocationChange]="item.permalink.route.extras?.skipLocationChange"
           [replaceUrl]="item.permalink.route.extras?.replaceUrl"
           [state]="item.permalink.route.extras?.state"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink?.url && hasProtocol(item.permalink.url)"
+          *ngIf="item.permalink | useSkyHref"
           [skyHref]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink?.url && !hasProtocol(item.permalink.url)"
+          *ngIf="item.permalink | useHref"
           [href]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <button
-          *ngIf="item.click"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row sky-btn sky-btn-link-inline"
+          *ngIf="item | useButton"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-btn sky-btn-link-inline"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
           type="button"
           (click)="item.click()"
         >

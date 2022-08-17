@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyRecentLink } from '@skyux/pages';
+import { SkyActionHubNeedsAttention, SkyRecentLink } from '@skyux/pages';
 import {
   SkyRecentlyAccessedGetLinksArgs,
   SkyRecentlyAccessedService,
@@ -23,6 +23,16 @@ export class ActionHubPlaygroundRecentLinksComponent {
     | SkyRecentLink[]
     | SkyRecentlyAccessedGetLinksArgs
     | undefined;
+  public needsAttention: SkyActionHubNeedsAttention[] = [
+    {
+      title: 'Settings',
+      permalink: {
+        route: {
+          commands: ['../settings'],
+        },
+      },
+    },
+  ];
 
   public switchRecentLinks(appName?: string, links?: SkyRecentLink[]) {
     if (appName) {

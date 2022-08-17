@@ -1,5 +1,4 @@
 import { NavigationExtras } from '@angular/router';
-import { SkyModalConfigurationInterface } from '@skyux/modals';
 
 /**
  * Specifies action items that require attention and directs users to pages
@@ -23,13 +22,6 @@ export interface SkyActionHubNeedsAttention {
       extras?: NavigationExtras;
     };
     url?: string;
-  };
-  /**
-   * Specifies the modal parameters.
-   */
-  modal?: {
-    component: any;
-    config?: SkyModalConfigurationInterface;
   };
   /**
    * Specifies a click handler for the action item.
