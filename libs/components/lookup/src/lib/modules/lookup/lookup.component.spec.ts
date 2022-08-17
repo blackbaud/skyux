@@ -45,7 +45,6 @@ describe('Lookup component', function () {
   }
 
   function clickShowMore(fixture: ComponentFixture<any>): void {
-    console.log('getShowMoreButton', getShowMoreButton());
     SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
     fixture.detectChanges();
     tick(200);
@@ -165,7 +164,6 @@ describe('Lookup component', function () {
   function getInputElement(
     lookupComponent: SkyLookupComponent
   ): HTMLInputElement {
-    console.log('lookupComponent', lookupComponent);
     return lookupComponent['lookupWrapperRef'].nativeElement.querySelector(
       '.sky-lookup-input'
     );
@@ -485,7 +483,9 @@ describe('Lookup component', function () {
           fixture.detectChanges();
 
           expect(lookupComponent.tokens.length).toBe(5);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Fred',
+          });
           expect(lookupComponent.value).toEqual([
             { name: 'Fred' },
             { name: 'Isaac' },
@@ -498,7 +498,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(lookupComponent.tokens.length).toBe(6);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Fred',
+          });
           expect(lookupComponent.value).toEqual([
             { name: 'Fred' },
             { name: 'Isaac' },
@@ -715,7 +717,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(lookupComponent.tokens.length).toBe(1);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Isaac' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Isaac',
+          });
           expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
           component.setValue(0);
@@ -740,7 +744,9 @@ describe('Lookup component', function () {
           performSearch('s', fixture);
           selectSearchResult(0, fixture);
           expect(lookupComponent.tokens.length).toBe(1);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Isaac' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Isaac',
+          });
           expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
 
           component.disableLookup();
@@ -1045,7 +1051,9 @@ describe('Lookup component', function () {
                 { name: 'Isaac' },
                 { name: 'New item' },
               ]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
@@ -1076,7 +1084,9 @@ describe('Lookup component', function () {
                 { name: 'New item' },
                 { name: 'Isaac' },
               ]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
@@ -1104,7 +1114,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
@@ -1135,7 +1147,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).not.toEqual({
+                name: 'New item',
+              });
               expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
@@ -1280,7 +1294,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'New item' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
@@ -1308,7 +1324,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'New item' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
@@ -1336,7 +1354,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
@@ -1367,7 +1387,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).not.toEqual({
+                name: 'New item',
+              });
               expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
@@ -2008,7 +2030,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
 
               expect(lookupComponent.tokens.length).toBe(5);
-              expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+              expect(lookupComponent.tokens[0].value).toEqual({
+                name: 'Fred',
+              });
               expect(lookupComponent.value).toEqual([
                 { name: 'Fred' },
                 { name: 'Isaac' },
@@ -3386,7 +3410,7 @@ describe('Lookup component', function () {
     // for testing non-async search args being passed around correctly
     describe('search args (non-async)', () => {
       // to test the passing of the 'context' arg
-      fdescribe('context', () => {
+      describe('context', () => {
         beforeEach(() => {
           // setting it to be multiselect is probably not required to test this, but it is the most common use case for using the optional 'context' arg
           component.setMultiSelect();
@@ -3395,10 +3419,10 @@ describe('Lookup component', function () {
           let searchFilterFunctionSpy: jasmine.Spy;
 
           it('should return popover context', fakeAsync(() => {
-            // creating the spy function that is pretending to be a search filter without any real functionality
+            // creating the spy function that is pretending to be a search filter without any real functionality, because none is needed to simulate the initial search using a searchFilter
             searchFilterFunctionSpy = jasmine.createSpy('searchFilterPopover');
 
-            lookupComponent.searchFilters = [searchFilterFunctionSpy];
+            component.customSearchFilters = [searchFilterFunctionSpy];
             // peforming a search in the popover view should provide the search filter function with a 'popover' context
             fixture.detectChanges();
             tick();
@@ -3437,7 +3461,7 @@ describe('Lookup component', function () {
               fixture.detectChanges();
               tick();
               const friends: any[] = component.form.controls.friends.value;
-              // creating the spy function that is pretending to be a search filter without any real functionality
+              // creating the spy function that is pretending to be a search filter with real functionality, because a real function filter is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
               searchFilterFunctionSpy = jasmine
                 .createSpy('searchFilterModal')
                 .and.callFake(
@@ -3456,7 +3480,7 @@ describe('Lookup component', function () {
                   }
                 );
 
-              lookupComponent.searchFilters = [searchFilterFunctionSpy];
+              component.customSearchFilters = [searchFilterFunctionSpy];
               fixture.detectChanges();
               tick();
 
@@ -3494,11 +3518,32 @@ describe('Lookup component', function () {
           let searchFunctionSpy: jasmine.Spy;
 
           it('should return popover context', fakeAsync(() => {
-            // creating the spy function that is pretending to be a search filter without any real functionality
-            searchFunctionSpy = jasmine.createSpy('searchFunctionPopover');
+            fixture.detectChanges();
+            tick();
+            const friends: any[] = component.form.controls.friends.value;
+            // creating the spy function that is pretending to be a custom search function with real functionality, because a real function must be provided in order to bypass an error with undefined results returned (the Spy, though not a function, is not undefined so the Lookup/Autocomplete component actually tries to search using it)
+            searchFunctionSpy = jasmine
+              .createSpy('searchFunctionPopover')
+              .and.callFake(
+                (
+                  searchText: string,
+                  data: any[],
+                  args?: SkyAutocompleteSearchArgs
+                ): SkyAutocompleteSearchFunctionResponse => {
+                  return data.filter((anItem) => {
+                    if (args?.context === 'modal') {
+                      return true;
+                    }
+                    const found = friends.find(
+                      (option) => option.name === anItem.name
+                    );
+                    return !found;
+                  });
+                }
+              );
 
-            lookupComponent.search = searchFunctionSpy;
-            // peforming a search in the popover view should provide the search filter function with a 'popover' context
+            component.customSearch = searchFunctionSpy;
+            // peforming a search in the popover view should provide the custom search function with a 'popover' context
             fixture.detectChanges();
             tick();
 
@@ -3533,7 +3578,7 @@ describe('Lookup component', function () {
             }));
             it('should return modal context', fakeAsync(() => {
               const friends: any[] = component.form.controls.friends.value;
-              // creating the spy function that is pretending to be a search filter without any real functionality
+              // creating the spy function that is pretending to be a custom search function with real functionality, because a real function is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
               searchFunctionSpy = jasmine
                 .createSpy('searchFunctionrModal')
                 .and.callFake(
@@ -3553,10 +3598,10 @@ describe('Lookup component', function () {
                     });
                   }
                 );
-                fixture.detectChanges();
-                tick();
+              fixture.detectChanges();
+              tick();
 
-              lookupComponent.search = searchFunctionSpy;
+              component.customSearch = searchFunctionSpy;
               fixture.detectChanges();
               tick();
 
@@ -3672,7 +3717,9 @@ describe('Lookup component', function () {
           fixture.detectChanges();
 
           expect(lookupComponent.tokens.length).toBe(5);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Fred',
+          });
           expect(lookupComponent.value).toEqual([
             { name: 'Fred' },
             { name: 'Isaac' },
@@ -3685,7 +3732,9 @@ describe('Lookup component', function () {
           selectSearchResult(0, fixture);
 
           expect(lookupComponent.tokens.length).toBe(6);
-          expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+          expect(lookupComponent.tokens[0].value).toEqual({
+            name: 'Fred',
+          });
           expect(lookupComponent.value).toEqual([
             { name: 'Fred' },
             { name: 'Isaac' },
@@ -4037,7 +4086,9 @@ describe('Lookup component', function () {
                 { name: 'Isaac' },
                 { name: 'New item' },
               ]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
@@ -4068,7 +4119,9 @@ describe('Lookup component', function () {
                 { name: 'New item' },
                 { name: 'Isaac' },
               ]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
@@ -4096,7 +4149,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
@@ -4127,7 +4182,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).not.toEqual({
+                name: 'New item',
+              });
               expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
@@ -4272,7 +4329,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'New item' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open`, fakeAsync(() => {
@@ -4300,7 +4359,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'New item' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should add the item to the modal's selected items when a show more picker is open but should cancel back to the original selection`, fakeAsync(() => {
@@ -4328,7 +4389,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).toEqual({
+                name: 'New item',
+              });
             }));
 
             it(`should not add the item to the modal's selected items when a show more picker is open but the underlying data is not updated`, fakeAsync(() => {
@@ -4359,7 +4422,9 @@ describe('Lookup component', function () {
               tick();
 
               expect(lookupComponent.value).toEqual([{ name: 'Isaac' }]);
-              expect(lookupComponent.data[0]).not.toEqual({ name: 'New item' });
+              expect(lookupComponent.data[0]).not.toEqual({
+                name: 'New item',
+              });
               expect(lookupComponent.data.length).toBe(originalDataLength);
             }));
           });
@@ -5016,7 +5081,9 @@ describe('Lookup component', function () {
               fixture.detectChanges();
 
               expect(lookupComponent.tokens.length).toBe(5);
-              expect(lookupComponent.tokens[0].value).toEqual({ name: 'Fred' });
+              expect(lookupComponent.tokens[0].value).toEqual({
+                name: 'Fred',
+              });
               expect(lookupComponent.value).toEqual([
                 { name: 'Fred' },
                 { name: 'Isaac' },
