@@ -7,6 +7,22 @@
     "_description": "The title for the help button.",
     "message": "Show help content"
   },
+  "skyux_label_sr_completed": {
+    "_description": "Screen reader text when the label has a completed indicator",
+    "message": "Completed:"
+  },
+  "skyux_label_sr_error": {
+    "_description": "Screen reader text when the label has an error indicator",
+    "message": "Error:"
+  },
+  "skyux_label_sr_important_info": {
+    "_description": "Screen reader text when the label has an important info indicator",
+    "message": "Important information:"
+  },
+  "skyux_label_sr_warning": {
+    "_description": "Screen reader text when the label has a warning indicator",
+    "message": "Warning:"
+  },
   "skyux_status_indicator_sr_completed": {
     "_description": "Screen reader text when the status indicator is a completed indicator",
     "message": "Completed:"

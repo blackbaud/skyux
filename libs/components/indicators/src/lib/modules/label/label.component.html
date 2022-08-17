@@ -7,6 +7,9 @@
     </sky-icon-stack>
   </span>
   <span class="sky-label-text">
+    <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
+      {{ descriptionComputed }}
+    </span>
     <ng-content></ng-content>
   </span>
 </span>
