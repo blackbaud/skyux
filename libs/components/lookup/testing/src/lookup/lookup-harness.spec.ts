@@ -69,7 +69,9 @@ describe('Lookup harness', () => {
       });
 
       await lookupHarness.enterText('d');
-      await lookupHarness.selectSearchResult({ textContent: 'Leonard' });
+      await lookupHarness.selectSearchResult({
+        descriptorPropertyValue: 'Leonard',
+      });
 
       await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
 
@@ -107,7 +109,9 @@ describe('Lookup harness', () => {
       });
 
       await lookupHarness.enterText('d');
-      await lookupHarness.selectSearchResult({ textContent: 'Leonard' });
+      await lookupHarness.selectSearchResult({
+        descriptorPropertyValue: 'Leonard',
+      });
 
       await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
     });
@@ -123,7 +127,7 @@ describe('Lookup harness', () => {
       await expectAsync(lookupHarness.isOpen()).toBeResolvedTo(true);
 
       await expectAsync(
-        lookupHarness.selectSearchResult({ textContent: 'foobar' })
+        lookupHarness.selectSearchResult({ descriptorPropertyValue: 'foobar' })
       ).toBeRejectedWithError(
         'Could not find search results matching filter(s): {"textContent":"foobar"}'
       );

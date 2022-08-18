@@ -82,7 +82,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
     ).click();
   }
 
-  // TODO: Make a separate search result harness that uses hides the repeater item internal workings?
+  // TODO: Make a separate search result harness that hides the repeater item internal workings?
   public async getSearchResults(
     filters?: SkyLookupShowMorePickerSearchResultHarnessFilters
   ): Promise<SkyRepeaterItemHarness[]> {

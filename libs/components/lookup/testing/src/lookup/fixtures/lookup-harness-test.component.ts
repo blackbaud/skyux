@@ -117,8 +117,8 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     nativePickerConfig: {},
   };
 
-  @ViewChild('modalItemTemplate')
-  public modalItemTempalte: TemplateRef<unknown> | undefined;
+  @ViewChild('showMoreSearchResultTemplate')
+  public showMoreSearchResultTemplate: TemplateRef<unknown> | undefined;
 
   constructor(formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
@@ -132,7 +132,7 @@ export class LookupHarnessTestComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.showMoreConfig.nativePickerConfig!.itemTemplate =
-      this.modalItemTempalte;
+      this.showMoreSearchResultTemplate;
   }
 
   // Only show people in the search results that have not been chosen already.

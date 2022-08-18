@@ -63,7 +63,7 @@
         [data]="people"
         [enableShowMore]="true"
         [searchFilters]="getSearchFilters()"
-        [searchResultTemplate]="dropdownItemTemplate"
+        [searchResultTemplate]="searchResultTemplate"
         [showMoreConfig]="showMoreConfig"
       >
       </sky-lookup>
@@ -87,13 +87,13 @@
   </div>
 </form>
 
-<ng-template let-item="item" #dropdownItemTemplate>
+<ng-template let-item="item" #searchResultTemplate>
   <strong>{{ item.name }}</strong
   ><br />
   {{ item.formal }}
 </ng-template>
 
-<ng-template let-item="item" #modalItemTemplate>
+<ng-template let-item="item" #showMoreSearchResultTemplate>
   {{ item.name }}<br />
   <i>{{ item.formal }}</i>
 </ng-template>

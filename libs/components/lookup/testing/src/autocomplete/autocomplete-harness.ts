@@ -1,19 +1,25 @@
-import { HarnessPredicate, TestElement } from '@angular/cdk/testing';
+import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness, SkyOverlayHarness } from '@skyux/core/testing';
 
 import { SkyAutocompleteHarnessFilters } from './autocomplete-harness-filters';
-import { SkyAutocompleteHarnessSearchResult } from './autocomplete-harness-search-result';
 import { SkyAutocompleteInputHarness } from './autocomplete-input-harness';
 import { SkyAutocompleteSearchResultHarness } from './autocomplete-search-result-harness';
 import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search-result-harness-filters';
 
+/**
+ * Harness for interacting with an autocomplete component in tests.
+ */
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
-  #getInputHarness = this.locatorFor(SkyAutocompleteInputHarness);
+  #getInput = this.locatorFor(SkyAutocompleteInputHarness);
 
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyAutocompleteHarness` that meets certain criteria.
+   */
   public static with(
     filters: SkyAutocompleteHarnessFilters
   ): HarnessPredicate<SkyAutocompleteHarness> {
@@ -24,82 +30,100 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
    * Blurs the autocomplete input.
    */
   public async blur(): Promise<void> {
-    return (await this.#getInputEl()).blur();
+    return (await this.#getInput()).blur();
   }
 
   /**
    * Clears the input value.
    */
   public async clear(): Promise<void> {
-    return (await this.#getInputEl()).clear();
+    return (await this.#getInput()).clear();
   }
 
   /**
    * Enters text into the autocomplete input.
    */
   public async enterText(value: string): Promise<void> {
-    const el = await this.#getInputEl();
-    await el.focus();
-    await el.clear();
-    await el.sendKeys(value);
+    return (await this.#getInput()).enterText(value);
   }
 
   /**
    * Focuses the autocomplete input.
    */
   public async focus(): Promise<void> {
-    return (await this.#getInputEl()).focus();
+    return (await this.#getInput()).focus();
   }
 
   /**
-   * Gets the search results from the autocomplete dropdown.
+   * Returns search result harnesses.
    */
-  public async getSearchResults(): Promise<
-    SkyAutocompleteHarnessSearchResult[] | undefined
-  > {
-    const harnesses = await this.#getSearchResultHarnesses();
-    if (harnesses) {
-      const results: SkyAutocompleteHarnessSearchResult[] = [];
+  public async getSearchResults(
+    filters?: SkyAutocompleteSearchResultHarnessFilters
+  ): Promise<SkyAutocompleteSearchResultHarness[]> {
+    const overlay = await this.#getOverlay();
 
-      for (const harness of harnesses) {
-        const harnessTestElement = await harness.host();
-        const option: SkyAutocompleteHarnessSearchResult = {
-          textContent: await harnessTestElement.text(),
-        };
-
-        if (await harness.hasCustomTemplate()) {
-          option.testElement = harnessTestElement;
-        }
-
-        results.push(option);
-      }
-
-      return results;
+    if (!overlay) {
+      throw new Error(
+        'Unable to retrieve search results. The autocomplete is closed.'
+      );
     }
 
-    return;
+    const harnesses = await overlay.queryHarnesses(
+      SkyAutocompleteSearchResultHarness.with(filters || {})
+    );
+
+    if (filters && harnesses.length === 0) {
+      // Stringify the regular expression if needed.
+      if (filters.descriptorPropertyValue instanceof RegExp) {
+        filters.descriptorPropertyValue =
+          filters.descriptorPropertyValue.toString();
+      }
+
+      throw new Error(
+        `Could not find search results matching filter(s): ${JSON.stringify(
+          filters
+        )}`
+      );
+    }
+
+    return harnesses;
+  }
+
+  /**
+   * Returns the value of the descriptor property for each search result.
+   */
+  public async getSearchResultDescriptorValues(
+    filters?: SkyAutocompleteSearchResultHarnessFilters
+  ): Promise<string[]> {
+    const harnesses = await this.getSearchResults(filters);
+
+    const text: string[] = [];
+    for (const harness of harnesses) {
+      text.push(await harness.getDescriptorValue());
+    }
+
+    return text;
   }
 
   /**
    * Gets the value of the autocomplete input.
    */
   public async getValue(): Promise<string> {
-    return (await this.#getInputEl()).getProperty('value');
+    return (await this.#getInput()).getValue();
   }
 
   /**
    * Whether the autocomplete input is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    const disabled = await (await this.#getInputEl()).getAttribute('disabled');
-    return disabled !== null;
+    return (await this.#getInput()).isDisabled();
   }
 
   /**
    * Whether the autocomplete input is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.#getInputEl()).isFocused();
+    return (await this.#getInput()).isFocused();
   }
 
   /**
@@ -111,26 +135,30 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Selects a search result from the autocomplete dropdown.
+   * Selects a search result.
    */
   public async selectSearchResult(
     filters: SkyAutocompleteSearchResultHarnessFilters
   ): Promise<void> {
-    const resultHarnesses = await this.#getSearchResultHarnesses(filters);
-    if (resultHarnesses && resultHarnesses.length > 0) {
-      await resultHarnesses[0].select();
+    const results = await this.getSearchResults(filters);
+    if (results && results.length > 0) {
+      await results[0].select();
     }
   }
 
   /**
-   * Clicks the "Add" button in the autocomplete dropdown.
+   * Clicks the "Add" button in the autocomplete search results panel.
+   * (The "Add" functionality is not included in the public API
+   * of a "vanilla" autocomplete component, so this method is protected
+   * to prevent consumers of the autocomplete harness from calling it.
+   * The lookup harness, which extends the autocomplete harness, may
+   * still access this feature, however.)
    */
-  // (This method is protected to prevent consumers of the autocomplete harness from calling it.)
   protected async clickAddButton(): Promise<void> {
     const overlay = await this.#getOverlay();
     if (!overlay) {
       throw new Error(
-        'Unable to find the add button. The autocomplete is closed.'
+        'Unable to find the "Add" button. The autocomplete is closed.'
       );
     }
 
@@ -140,7 +168,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     if (!button) {
       throw new Error(
-        'The add button cannot be clicked because it does not exist.'
+        'The "Add" button cannot be clicked because it does not exist.'
       );
     }
 
@@ -148,11 +176,16 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks the "Show all" button in the autocomplete dropdown.
+   * Clicks the "Show more" button.
+   * (The "Show more" functionality is not included in the public API
+   * of a "vanilla" autocomplete component, so this method is protected
+   * to prevent consumers of the autocomplete harness from calling it.
+   * The lookup harness, which extends the autocomplete harness, may
+   * still access this feature, however.)
    */
-  // (This method is protected to prevent consumers of the autocomplete harness from calling it.)
   protected async clickShowMoreButton(): Promise<void> {
     const overlay = await this.#getOverlay();
+
     if (!overlay) {
       throw new Error(
         'Unable to find the "Show more" button. ' +
@@ -173,45 +206,13 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     await button.click();
   }
 
-  async #getInputEl(): Promise<TestElement> {
-    return (await this.#getInputHarness()).host();
-  }
-
   async #getOverlay(): Promise<SkyOverlayHarness | null> {
-    const overlayId = await (
-      await this.#getInputEl()
-    ).getAttribute('aria-owns');
+    const overlayId = await (await this.#getInput()).getAriaOwns();
 
     return overlayId
       ? this.#documentRootLocator.locatorForOptional(
           SkyOverlayHarness.with({ selector: `#${overlayId}` })
         )()
       : null;
-  }
-
-  async #getSearchResultHarnesses(
-    filters?: SkyAutocompleteSearchResultHarnessFilters
-  ): Promise<SkyAutocompleteSearchResultHarness[]> {
-    const overlay = await this.#getOverlay();
-
-    if (!overlay) {
-      throw new Error(
-        'Unable to retrieve search results. The autocomplete is closed.'
-      );
-    }
-
-    const harnesses = await overlay.queryHarnesses(
-      SkyAutocompleteSearchResultHarness.with(filters || {})
-    );
-
-    if (!harnesses || harnesses.length === 0) {
-      throw new Error(
-        `Could not find search results matching filter(s): ${JSON.stringify(
-          filters
-        )}`
-      );
-    }
-
-    return harnesses;
   }
 }
