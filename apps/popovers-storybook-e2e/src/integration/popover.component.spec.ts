@@ -19,6 +19,7 @@
         capture: 'viewport',
       }).percySnapshot(`popovercomponent-popover--popover-${theme}`, {
         widths: [1280],
+        minHeight: 2000,
       });
     });
   });
