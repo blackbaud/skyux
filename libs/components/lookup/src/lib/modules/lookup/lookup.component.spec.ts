@@ -158,7 +158,7 @@ describe('Lookup component', function () {
   }
 
   /**
-   * creates a Spy that mimics/delegates the behavior of an common example of a SkyAutocompleteSearchFunction
+   * creates a Spy that mimics/delegates the behavior of an common example of a SkyAutocompleteSearchFunction, for tests that need real functionality to work
    */
   function getCustomSearchFunctionSpy(
     name: string,
@@ -3463,8 +3463,9 @@ describe('Lookup component', function () {
       describe('context', () => {
         let friends: any[];
         beforeEach(fakeAsync(() => {
-          // setting it to be multiselect is probably not required to test this, but it is the most common use case for using the optional 'context' arg
+          // making the component multi-select is not required to test this, but it is the most straightforward case to demonstrate the 'context' arg
           component.setMultiSelect();
+          // getting the list of selected friends from the SkyLookupComponent
           fixture.detectChanges();
           tick();
           friends = component.form.controls.friends.value;
@@ -3478,11 +3479,15 @@ describe('Lookup component', function () {
               friends
             );
 
+            // setting the SkyLookupComponent's "searchFilters" @Input() via the fixture's 'customSearchFilters' property
             component.customSearchFilters = [searchFilterFunctionSpy];
-            // peforming a search in the popover view should provide the search filter function with a 'popover' context
             fixture.detectChanges();
             tick();
+
+            // searching in the popover context, to call the searchFilterFunctionSpy
             performSearch('s', fixture);
+
+            // performing a search in the popover view should provide the search filter function with a 'popover' context
             expect(searchFilterFunctionSpy).toHaveBeenCalledWith(
               's',
               jasmine.objectContaining({
@@ -3501,21 +3506,26 @@ describe('Lookup component', function () {
                 friends
               );
 
+              // setting the SkyLookupComponent's "searchFilters" @Input() via the fixture's 'customSearchFilters' property
               component.customSearchFilters = [searchFilterFunctionSpy];
               fixture.detectChanges();
               tick();
 
-              // opening the "show more" modal
+              // enabling the "Show more" button in the SkyLookupComponent via the fixture's 'enableShowMore' property
               component.enableShowMore = true;
-
               fixture.detectChanges();
               tick();
 
+              // searching in the popover context, so that the "Show more" button appears
               performSearch('s', fixture);
+
+              // opening the "Show more" modal
               clickShowMore(fixture);
 
-              // peforming a search in the modal view should provide the search filter function with a 'modal' context
+              // searching in the modal context, to call the searchFilterFunctionSpy
               performSearch('s', fixture);
+
+              // performing a search in the modal view should provide the search filter function with a 'modal' context
               expect(searchFilterFunctionSpy).toHaveBeenCalledWith(
                 's',
                 jasmine.objectContaining({
@@ -3532,18 +3542,20 @@ describe('Lookup component', function () {
           let customSearchFunctionSpy: jasmine.Spy;
 
           it('should return popover context', fakeAsync(() => {
-            // creating the spy function that is pretending to be a custom search function with real functionality, because a real function must be provided in order to bypass an error with undefined results returned (the Spy, though not a function, is not undefined so the Lookup/Autocomplete component actually tries to search using it)
             customSearchFunctionSpy = getCustomSearchFunctionSpy(
               'customSearchFunctionPopover',
               friends
             );
 
+            // setting the SkyLookupComponent's "search" @Input() via the fixture's 'customSearch' property
             component.customSearch = customSearchFunctionSpy;
-            // peforming a search in the popover view should provide the custom search function with a 'popover' context
             fixture.detectChanges();
             tick();
 
+            // searching in the popover context, to call the customSearchFunctionSpy
             performSearch('s', fixture);
+
+            // performing a search in the popover view should provide the custom search function with a 'popover' context
             expect(customSearchFunctionSpy).toHaveBeenCalledWith(
               's',
               jasmine.arrayWithExactContents(component.data),
@@ -3554,33 +3566,32 @@ describe('Lookup component', function () {
           }));
 
           describe('show more modal', () => {
-            // This is necessary as due to modals being launched outside of the test bed they will not
-            // automatically be disposed between tests.
             it('should return modal context', fakeAsync(() => {
-              fixture.detectChanges();
-              tick();
-              const friends: any[] = component.form.controls.friends.value;
-              // creating the spy function that is pretending to be a custom search function with real functionality, because a real function is needed to be called so that some results may appear in the popover/dropdown so that the "Show more" button may be present so it can be clicked
               customSearchFunctionSpy = getCustomSearchFunctionSpy(
                 'customSearchFunctionModal',
                 friends
               );
 
+              // setting the SkyLookupComponent's "search" @Input() via the fixture's 'customSearch' property
               component.customSearch = customSearchFunctionSpy;
               fixture.detectChanges();
               tick();
 
-              // opening the "show more" modal
+              // enabling the "Show more" button in the SkyLookupComponent via the fixture's 'enableShowMore' property
               component.enableShowMore = true;
               fixture.detectChanges();
               tick();
 
+              // searching in the modal context, so that the "Show more" button appears
               performSearch('s', fixture);
 
+              // opening the "Show more" modal
               clickShowMore(fixture);
 
-              // peforming a search in the modal view should provide the search filter function with a 'modal' context
+              // searching in the modal context, to call the customSearchFunctionSpy
               performSearch('s', fixture);
+
+              // performing a search in the modal view should call the custom search function with a 'modal' context
               expect(customSearchFunctionSpy).toHaveBeenCalledWith(
                 's',
                 jasmine.arrayWithExactContents(component.data),
