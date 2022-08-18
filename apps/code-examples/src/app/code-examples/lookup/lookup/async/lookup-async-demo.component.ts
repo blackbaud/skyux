@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchAsyncResult,
-  SkyAutocompleteSearchFunctionFilter,
 } from '@skyux/lookup';
 
 import { Subject } from 'rxjs';
@@ -53,17 +52,6 @@ export class LookupAsyncDemoComponent implements OnInit {
     this.myForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
-  }
-
-  // Only show people in the search results that have not been chosen already.
-  public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const name: LookupDemoPerson[] = this.myForm.controls.name.value;
-    return [
-      (searchText: string, item: LookupDemoPerson): boolean => {
-        const found = name.find((option) => option.name === item.name);
-        return !found;
-      },
-    ];
   }
 
   public onSubmit(): void {

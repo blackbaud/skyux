@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
+import {
+  SkyAutocompleteSearchArgs,
+  SkyAutocompleteSearchFunctionFilter,
+} from '@skyux/lookup';
 
 import { LookupDemoPerson } from './lookup-demo-person';
 
@@ -49,11 +52,22 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     });
   }
 
-  // Only show people in the search results that have not been chosen already.
+  /**
+   * When in the modal view, show all people in the search results, regardless if they have been chosen already.
+   * When in the popover view (or in any other view), show people in the search results that have not been chosen already.
+   */
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
     const names: LookupDemoPerson[] = this.myForm.controls.names.value;
     return [
-      (searchText: string, item: LookupDemoPerson): boolean => {
+      (
+        searchText: string,
+        item: any,
+        args?: SkyAutocompleteSearchArgs
+      ): boolean => {
+        if (args?.context === 'modal') {
+          return true;
+        }
+
         const found = names.find((option) => option.name === item.name);
         return !found;
       },

@@ -238,7 +238,8 @@ export class SkyLookupShowMoreModalComponent
         searchText,
         items.map((item) => {
           return item.value;
-        })
+        }),
+        { context: 'modal' }
       );
 
       if (resultValues instanceof Array) {
