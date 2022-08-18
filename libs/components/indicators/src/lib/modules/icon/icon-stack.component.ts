@@ -19,11 +19,11 @@ export class SkyIconStackComponent {
    * The icon to display at the bottom of the stack.
    */
   @Input()
-  public baseIcon: SkyIconStackItem;
+  public baseIcon: SkyIconStackItem | undefined;
 
   /**
    * The icon to display at the top of the stack.
    */
   @Input()
-  public topIcon: SkyIconStackItem;
+  public topIcon: SkyIconStackItem | undefined;
 }

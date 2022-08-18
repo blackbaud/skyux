@@ -25,7 +25,7 @@ describe('Input box harness', () => {
 
   it('should query child harnesses', async () => {
     const { inputBoxHarness } = await setupTest({
-      dataSkyId: 'my_input_box_last_name',
+      dataSkyId: 'my-input-box-last-name',
     });
 
     const harness = await inputBoxHarness.queryHarness(LastNameHarness);
