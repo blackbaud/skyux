@@ -713,7 +713,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       return searchAsyncArgs.result || of(undefined);
     }
 
-    const result = this.search(this.searchText, this.data);
+    const result = this.search(this.searchText, this.data, {
+      context: 'popover',
+    });
 
     if (result instanceof Array) {
       return of({
