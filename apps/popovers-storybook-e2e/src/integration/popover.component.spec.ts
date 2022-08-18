@@ -2,7 +2,7 @@
   describe(`popovers-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy
-        .viewport(1600, 800)
+        .viewport(1280, 800)
         .visit(
           `/iframe.html?globals=theme:${theme}&id=popovercomponent-popover--popover`
         )
@@ -18,7 +18,7 @@
       cy.screenshot(`popovercomponent-popover--popover-${theme}`, {
         capture: 'viewport',
       }).percySnapshot(`popovercomponent-popover--popover-${theme}`, {
-        widths: [1600],
+        widths: [1280],
       });
     });
   });
