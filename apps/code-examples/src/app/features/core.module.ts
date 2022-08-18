@@ -7,8 +7,6 @@ import { MediaQueryDemoComponent as MediaQueryBasicMediaQueryDemoComponent } fro
 import { MediaQueryDemoModule as MediaQueryBasicMediaQueryDemoModule } from '../code-examples/core/media-query/basic/media-query-demo.module';
 import { NumericDemoComponent as NumericBasicNumericDemoComponent } from '../code-examples/core/numeric/basic/numeric-demo.component';
 import { NumericDemoModule as NumericBasicNumericDemoModule } from '../code-examples/core/numeric/basic/numeric-demo.module';
-import { ResizeObserverBasicComponent as ResizeObserverBasicResizeObserverBasicComponent } from '../code-examples/core/resize-observer/basic/resize-observer-basic.component';
-import { ResizeObserverBasicModule as ResizeObserverBasicResizeObserverBasicModule } from '../code-examples/core/resize-observer/basic/resize-observer-basic.module';
 
 const routes: Routes = [
   { path: 'id', component: IdIdDemoComponent },
@@ -17,10 +15,6 @@ const routes: Routes = [
     component: MediaQueryBasicMediaQueryDemoComponent,
   },
   { path: 'numeric/basic', component: NumericBasicNumericDemoComponent },
-  {
-    path: 'resize-observer/basic',
-    component: ResizeObserverBasicResizeObserverBasicComponent,
-  },
 ];
 
 @NgModule({
@@ -34,7 +28,6 @@ export class CoreFeatureRoutingModule {}
     IdIdDemoModule,
     MediaQueryBasicMediaQueryDemoModule,
     NumericBasicNumericDemoModule,
-    ResizeObserverBasicResizeObserverBasicModule,
     CoreFeatureRoutingModule,
   ],
 })

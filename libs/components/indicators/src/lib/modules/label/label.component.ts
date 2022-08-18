@@ -5,6 +5,8 @@ import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 import { SkyLabelType } from './label-type';
 
+const LABEL_TYPE_DEFAULT = 'info';
+
 @Component({
   selector: 'sky-label',
   templateUrl: './label.component.html',
@@ -16,26 +18,35 @@ export class SkyLabelComponent {
    * @required
    */
   @Input()
-  public set labelType(value: SkyLabelType) {
-    this._labelType = value;
+  public set labelType(value: SkyLabelType | undefined) {
+    this.#_labelType = value;
+
+    if (this.#_labelType === undefined) {
+      this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
+    } else {
+      this.labelTypeOrDefault = this.#_labelType;
+    }
+
     this.updateIcon();
   }
 
-  public get labelType(): SkyLabelType {
-    return this._labelType || 'info';
+  public get labelType(): SkyLabelType | undefined {
+    return this.#_labelType;
   }
 
-  public baseIcon: SkyIconStackItem;
+  public baseIcon: SkyIconStackItem | undefined;
 
-  public icon: string;
+  public icon: string | undefined;
 
-  public topIcon: SkyIconStackItem;
+  public labelTypeOrDefault: SkyLabelType = LABEL_TYPE_DEFAULT;
 
-  private _labelType: SkyLabelType;
+  public topIcon: SkyIconStackItem | undefined;
+
+  #_labelType: SkyLabelType | undefined;
 
   private updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.labelType
+      this.labelTypeOrDefault
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
