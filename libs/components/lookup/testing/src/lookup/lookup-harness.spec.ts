@@ -115,8 +115,8 @@ describe('Lookup harness', () => {
 
       await lookupHarness.dismissAllSelections();
       await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
-      await lookupHarness.clickShowMoreButton();
 
+      await lookupHarness.clickShowMoreButton();
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectSearchResults({ textContent: /Craig|Rachel/ });

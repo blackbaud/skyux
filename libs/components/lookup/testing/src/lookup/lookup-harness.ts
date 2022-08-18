@@ -4,16 +4,17 @@ import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
 
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
 import { SkyLookupSelectionHarness } from './lookup-selection-harness';
+import { SkyLookupSelectionsListHarness } from './lookup-selections-list-harness';
 import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
 
 export class SkyLookupHarness extends SkyAutocompleteHarness {
   public static hostSelector = 'sky-lookup,.sky-input-box';
 
+  #documentRootLocator = this.documentRootLocatorFactory();
+
   #getAutocompleteHarness = this.locatorFor(SkyAutocompleteHarness);
 
-  #getSelectionHarnesses = this.locatorForAll(SkyLookupSelectionHarness);
-
-  #documentRootLocator = this.documentRootLocatorFactory();
+  #getSelectionsListHarness = this.locatorFor(SkyLookupSelectionsListHarness);
 
   public static with(
     filters: SkyLookupHarnessFilters
@@ -29,6 +30,10 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   public async clickShowMoreButton(): Promise<void> {
     await this.focus();
     await super.clickShowMoreButton();
+  }
+
+  public async dismissAllSelections(): Promise<void> {
+    return (await this.#getSelectionsListHarness()).dismissAllSelections();
   }
 
   public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
@@ -50,27 +55,11 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   public async getSelections(): Promise<SkyLookupSelectionHarness[]> {
-    const selections = await this.#getSelectionHarnesses();
-
-    return selections;
+    return (await this.#getSelectionsListHarness()).getSelections();
   }
 
   public async getSelectionsText(): Promise<string[]> {
-    const selections = await this.getSelections();
-
-    const text = [];
-    for (const selection of selections) {
-      text.push(await selection.textContent());
-    }
-
-    return text;
-  }
-
-  public async dismissAllSelections(): Promise<void> {
-    const selections = await this.getSelections();
-    for (const selection of selections) {
-      await selection.dismiss();
-    }
+    return (await this.#getSelectionsListHarness()).getSelectionsText();
   }
 
   public async isMulti(): Promise<boolean> {
