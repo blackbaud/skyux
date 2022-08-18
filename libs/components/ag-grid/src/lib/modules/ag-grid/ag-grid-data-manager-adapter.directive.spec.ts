@@ -31,12 +31,6 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   let dataViewEl: DebugElement;
   let agGridDataManagerDirective: SkyAgGridDataManagerAdapterDirective;
 
-  function getHorizontalScrollElements(): HTMLElement[] {
-    return agGridDataManagerFixture.elementRef.nativeElement.querySelectorAll(
-      '.ag-body-horizontal-scroll'
-    );
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyAgGridFixtureModule],
@@ -347,19 +341,27 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridDataManagerDirective.agGridList.length).toBe(1);
     expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
   });
+});
 
-  it('should hide or show top horizontal scroll based on enableTopScroll check', () => {
-    agGridComponent.gridReady.emit();
-    let scrollElement = getHorizontalScrollElements();
-
-    expect(scrollElement.length).toEqual(1);
-
-    agGridDataManagerFixtureComponent.gridOptions.context = {
-      enableTopScroll: true,
-    };
-    agGridComponent.gridReady.emit();
-    scrollElement = getHorizontalScrollElements();
-
-    expect(scrollElement.length).toEqual(2);
+it('should move the horizontal scroll based on enableTopScroll check', () => {
+  TestBed.configureTestingModule({
+    imports: [SkyAgGridFixtureModule],
+    providers: [SkyDataManagerService],
   });
+
+  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+  fixture.componentInstance.gridOptions.context = {
+    enableTopScroll: true,
+  };
+  fixture.detectChanges();
+  fixture.componentInstance.agGrid.gridReady.emit();
+  const scrollElement = fixture.nativeElement.querySelectorAll(
+    '.ag-body-horizontal-scroll'
+  );
+  expect(scrollElement.length).toEqual(1);
+  const scrollbarPosition = scrollElement[0].offsetTop;
+  const bodyViewPosition =
+    fixture.nativeElement.querySelector('.ag-body-viewport').offsetTop;
+  expect(scrollbarPosition).toBeGreaterThan(0);
+  expect(scrollbarPosition).toBeLessThanOrEqual(bodyViewPosition);
 });
