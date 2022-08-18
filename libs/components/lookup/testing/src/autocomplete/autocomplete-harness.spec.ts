@@ -40,7 +40,7 @@ describe('Autocomplete harness', () => {
     await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(false);
   });
 
-  it('should check if lookup is disabled', async () => {
+  it('should check if autocomplete is disabled', async () => {
     const { fixture, autocompleteHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',
     });
@@ -52,7 +52,7 @@ describe('Autocomplete harness', () => {
     await expectAsync(autocompleteHarness.isDisabled()).toBeResolvedTo(true);
   });
 
-  it('should check if lookup is open', async () => {
+  it('should check if autocomplete is open', async () => {
     const { autocompleteHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',
     });
@@ -72,10 +72,10 @@ describe('Autocomplete harness', () => {
     const results = await autocompleteHarness.getSearchResults();
 
     await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
-    await expectAsync(results[0].text()).toBeResolvedTo('Red');
+    await expectAsync(results[0].textContent()).toBeResolvedTo('Red');
   });
 
-  it('should return search results descriptor values', async () => {
+  it('should return search results text content', async () => {
     const { autocompleteHarness } = await setupTest({
       dataSkyId: 'my-autocomplete-1',
     });
@@ -83,7 +83,7 @@ describe('Autocomplete harness', () => {
     await autocompleteHarness.enterText('r');
 
     await expectAsync(
-      autocompleteHarness.getSearchResultDescriptorValues()
+      autocompleteHarness.getSearchResultsText()
     ).toBeResolvedTo([
       'Red',
       'Green',
@@ -113,7 +113,7 @@ describe('Autocomplete harness', () => {
 
     await autocompleteHarness.enterText('r');
     await autocompleteHarness.selectSearchResult({
-      descriptorPropertyValue: 'Green',
+      textContent: 'Green',
     });
 
     await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
@@ -127,7 +127,7 @@ describe('Autocomplete harness', () => {
     // First, set a value on the autocomplete.
     await autocompleteHarness.enterText('r');
     await autocompleteHarness.selectSearchResult({
-      descriptorPropertyValue: 'Green',
+      textContent: 'Green',
     });
     await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
 
@@ -157,10 +157,10 @@ describe('Autocomplete harness', () => {
 
     await expectAsync(
       autocompleteHarness.getSearchResults({
-        descriptorPropertyValue: /invalidsearchtext/,
+        textContent: /invalidsearchtext/,
       })
     ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"descriptorPropertyValue":"/invalidsearchtext/"}'
+      'Could not find search results matching filter(s): {"textContent":"/invalidsearchtext/"}'
     );
   });
 
@@ -187,7 +187,7 @@ describe('Autocomplete harness', () => {
       const results = await autocompleteHarness.getSearchResults();
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
-      await expectAsync(results[0].text()).toBeResolvedTo('Red ID: 1');
+      await expectAsync(results[0].textContent()).toBeResolvedTo('Red ID: 1');
     });
 
     it('should query child harnesses', async () => {

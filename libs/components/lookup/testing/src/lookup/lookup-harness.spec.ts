@@ -1,7 +1,4 @@
-import {
-  TestbedHarnessEnvironment,
-  UnitTestElement,
-} from '@angular/cdk/testing/testbed';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
@@ -20,7 +17,7 @@ describe('Lookup harness', () => {
 
     let lookupHarness: SkyLookupHarness;
 
-    if (options.dataSkyId === 'my_basic_lookup') {
+    if (options.dataSkyId === 'my-basic-lookup') {
       lookupHarness = await loader.getHarness(
         SkyLookupHarness.with({ dataSkyId: options.dataSkyId })
       );
@@ -35,107 +32,37 @@ describe('Lookup harness', () => {
   }
 
   describe('single select picker', async () => {
-    it('should focus and blur input', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(false);
-
-      await lookupHarness.focus();
-      await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(true);
-
-      await lookupHarness.blur();
-      await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(false);
-    });
-
-    it('should return information about the autocomplete results', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      await lookupHarness.enterText('d');
-
-      await expectAsync(lookupHarness.getSearchResults()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Abed' }),
-        jasmine.objectContaining({ textContent: 'Leonard' }),
-        jasmine.objectContaining({ textContent: 'Todd' }),
-      ]);
-    });
-
-    it('should clear the input value', async () => {
+    it('should return search result harnesses', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my-single-select-lookup',
       });
 
       await lookupHarness.enterText('d');
-      await lookupHarness.selectSearchResult({
-        descriptorPropertyValue: 'Leonard',
-      });
 
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
+      const results = await lookupHarness.getSearchResults();
 
-      await lookupHarness.clear();
-
-      await expectAsync(lookupHarness.getValue()).toBeResolvedTo('');
-    });
-
-    it('should error if retrieving results when autocomplete closed', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      await expectAsync(lookupHarness.isOpen()).toBeResolvedTo(false);
-      await expectAsync(lookupHarness.getSearchResults()).toBeRejectedWithError(
-        'Unable to retrieve search results. The autocomplete dropdown is closed.'
-      );
-    });
-
-    it('should check if lookup is disabled', async () => {
-      const { fixture, lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      await expectAsync(lookupHarness.isDisabled()).toBeResolvedTo(false);
-
-      fixture.componentInstance.disableForm();
-
-      await expectAsync(lookupHarness.isDisabled()).toBeResolvedTo(true);
+      await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
+      await expectAsync(results[0].textContent()).toBeResolvedTo('Abed');
     });
 
     it('should select one option from the autocomplete results', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
+        dataSkyId: 'my-single-select-lookup',
       });
+
+      await expectAsync(lookupHarness.isMulti()).toBeResolvedTo(false);
 
       await lookupHarness.enterText('d');
       await lookupHarness.selectSearchResult({
-        descriptorPropertyValue: 'Leonard',
+        textContent: 'Leonard',
       });
 
       await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
     });
 
-    it('should throw error if autocomplete results not found with filters', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      // Enter search text that will result in no matching results.
-      await lookupHarness.enterText('1234567890');
-
-      await expectAsync(lookupHarness.isOpen()).toBeResolvedTo(true);
-
-      await expectAsync(
-        lookupHarness.selectSearchResult({ descriptorPropertyValue: 'foobar' })
-      ).toBeRejectedWithError(
-        'Could not find search results matching filter(s): {"textContent":"foobar"}'
-      );
-    });
-
     it('should click the add button', async () => {
       const { fixture, lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
+        dataSkyId: 'my-single-select-lookup',
       });
 
       await lookupHarness.enterText('r');
@@ -147,60 +74,13 @@ describe('Lookup harness', () => {
       expect(spy).toHaveBeenCalled();
     });
 
-    // it('should throw an error if show more button clicked when dropdown not open', async () => {
-    //   const { lookupHarness } = await setupTest({
-    //     dataSkyId: 'my_single_select_lookup',
-    //   });
-
-    //   await expectAsync(
-    //     lookupHarness.clickShowMoreButton()
-    //   ).toBeRejectedWithError(
-    //     'Unable to find the show more button. The autocomplete dropdown is closed.'
-    //   );
-    // });
-
-    it('should throw an error if add button clicked when dropdown not open', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
-      });
-
-      await expectAsync(lookupHarness.clickAddButton()).toBeRejectedWithError(
-        'Unable to find the add button. The autocomplete dropdown is closed.'
-      );
-    });
-
-    // it('should throw an error if show more button clicked when it does not exist', async () => {
-    //   const { lookupHarness } = await setupTest({
-    //     dataSkyId: 'my_basic_lookup',
-    //   });
-
-    //   await lookupHarness.enterText('r');
-
-    //   await expectAsync(
-    //     lookupHarness.clickShowMoreButton()
-    //   ).toBeRejectedWithError(
-    //     'The show more button cannot be clicked because it does not exist.'
-    //   );
-    // });
-
-    it('should throw an error if add button clicked when it does not exist', async () => {
-      const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_basic_lookup',
-      });
-
-      await lookupHarness.enterText('r');
-
-      await expectAsync(lookupHarness.clickAddButton()).toBeRejectedWithError(
-        'The add button cannot be clicked because it does not exist.'
-      );
-    });
-
     it('should search and select results from the show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_single_select_lookup',
+        dataSkyId: 'my-single-select-lookup',
       });
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('rachel');
       await picker.selectSearchResults({ textContent: 'Rachel' });
@@ -213,36 +93,36 @@ describe('Lookup harness', () => {
   describe('multiselect picker', async () => {
     it('should select the first result from show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-      await tokens.dismissTokens();
+      await lookupHarness.dismissAllSelections();
+      await lookupHarness.clickShowMoreButton();
 
-      await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
       await picker.selectFirstSearchResult();
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Abed']);
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+        'Abed',
+      ]);
     });
 
     it('should select multiple results from show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-      await tokens.dismissTokens();
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
+      await lookupHarness.dismissAllSelections();
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
+      await lookupHarness.clickShowMoreButton();
 
-      await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectSearchResults({ textContent: /Craig|Rachel/ });
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
         'Craig',
         'Rachel',
       ]);
@@ -250,20 +130,19 @@ describe('Lookup harness', () => {
 
     it('should select all results from show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-      await tokens.dismissTokens();
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
+      await lookupHarness.dismissAllSelections();
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
+      await lookupHarness.clickShowMoreButton();
 
-      await lookupHarness.openShowMorePicker();
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
         'Craig',
         'Rachel',
       ]);
@@ -271,89 +150,89 @@ describe('Lookup harness', () => {
 
     it('should clear all results from show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
         'Shirley',
       ]);
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.clearAll();
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
     });
 
     it('should clear search text in show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('rachel');
-
       let searchResults = await picker.getSearchResults();
+
       expect(searchResults.length).toEqual(1);
 
       await picker.clearSearchText();
-
       searchResults = await picker.getSearchResults();
+
       expect(searchResults.length).toEqual(10);
     });
 
     it('should cancel the show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
         'Shirley',
       ]);
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
+
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('ra');
       await picker.selectAll();
       await picker.cancel();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
         'Shirley',
       ]);
     });
 
     it('should load more results in the show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-      await tokens.dismissTokens();
+      await lookupHarness.dismissAllSelections();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo([]);
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
 
       const picker = await lookupHarness.getShowMorePicker();
       await picker.loadMore();
       await picker.selectSearchResults({ textContent: 'Vicki' });
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Vicki']);
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+        'Vicki',
+      ]);
     });
 
     it('should throw an error if selecting non-existant result', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_multiselect_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
       const picker = await lookupHarness.getShowMorePicker();
 
       await expectAsync(
@@ -362,23 +241,16 @@ describe('Lookup harness', () => {
         'Could not find search results in the picker matching filter(s): {"textContent":"Invalid search"}'
       );
     });
-  });
 
-  describe('custom search result templates', () => {
-    it('should return the TestElement from search results', async () => {
+    it('should throw an error when attempting to get an unopened picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_custom_template_lookup',
+        dataSkyId: 'my-multiselect-lookup',
       });
 
-      await lookupHarness.enterText('vicki');
-
-      const searchResults = await lookupHarness.getSearchResults();
-
-      expect(searchResults[0]).toEqual(
-        jasmine.objectContaining({
-          textContent: 'Vicki Ms. Jenkins',
-          testElement: jasmine.any(UnitTestElement),
-        })
+      await expectAsync(
+        lookupHarness.getShowMorePicker()
+      ).toBeRejectedWithError(
+        'Cannot get the "Show more" picker because it is not open.'
       );
     });
   });
@@ -386,33 +258,45 @@ describe('Lookup harness', () => {
   describe('async picker', () => {
     it('should return information about the autocomplete results', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_async_lookup',
+        dataSkyId: 'my-async-lookup',
       });
 
       await lookupHarness.enterText('d');
 
-      await expectAsync(lookupHarness.getSearchResults()).toBeResolvedTo([
-        jasmine.objectContaining({ textContent: 'Abed' }),
-        jasmine.objectContaining({ textContent: 'Leonard' }),
-        jasmine.objectContaining({ textContent: 'Todd' }),
+      await expectAsync(lookupHarness.getSearchResultsText()).toBeResolvedTo([
+        'Abed',
+        'Leonard',
+        'Todd',
       ]);
     });
 
     it('should search and select results from the show more picker', async () => {
       const { lookupHarness } = await setupTest({
-        dataSkyId: 'my_async_lookup',
+        dataSkyId: 'my-async-lookup',
       });
 
-      const tokens = await lookupHarness.getTokensList();
-
-      await lookupHarness.openShowMorePicker();
+      await lookupHarness.clickShowMoreButton();
 
       const picker = await lookupHarness.getShowMorePicker();
       await picker.enterSearchText('rachel');
       await picker.selectSearchResults({ textContent: 'Rachel' });
       await picker.saveAndClose();
 
-      await expectAsync(tokens.getTokenTextValues()).toBeResolvedTo(['Rachel']);
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+        'Rachel',
+      ]);
+    });
+  });
+
+  describe('without input box', () => {
+    it('should create a harness', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my-basic-lookup',
+      });
+
+      await lookupHarness.focus();
+
+      await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(true);
     });
   });
 });

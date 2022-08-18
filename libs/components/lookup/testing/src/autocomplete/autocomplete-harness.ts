@@ -73,10 +73,9 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
     );
 
     if (filters && harnesses.length === 0) {
-      // Stringify the regular expression if needed.
-      if (filters.descriptorPropertyValue instanceof RegExp) {
-        filters.descriptorPropertyValue =
-          filters.descriptorPropertyValue.toString();
+      // Stringify the regular expression so that it's readable in the console log.
+      if (filters.textContent instanceof RegExp) {
+        filters.textContent = filters.textContent.toString();
       }
 
       throw new Error(
@@ -90,16 +89,16 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Returns the value of the descriptor property for each search result.
+   * Returns the text content for each search result.
    */
-  public async getSearchResultDescriptorValues(
+  public async getSearchResultsText(
     filters?: SkyAutocompleteSearchResultHarnessFilters
   ): Promise<string[]> {
     const harnesses = await this.getSearchResults(filters);
 
     const text: string[] = [];
     for (const harness of harnesses) {
-      text.push(await harness.getDescriptorValue());
+      text.push(await harness.textContent());
     }
 
     return text;

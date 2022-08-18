@@ -47,7 +47,6 @@
         [attr.aria-selected]="isElementFocused(searchResultEl)"
         [attr.data-descriptor-value]="result.data[descriptorProperty]"
         [attr.id]="result.elementId"
-        [ngClass]="{ 'sky-autocomplete-result-custom': searchResultTemplate }"
         [skyHighlight]="highlightText"
         (mousedown)="onResultMouseDown(result.elementId, $event)"
         (mousemove)="onResultMouseMove(i)"

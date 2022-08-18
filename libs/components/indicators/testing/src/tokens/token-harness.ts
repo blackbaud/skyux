@@ -28,6 +28,10 @@ export class SkyTokenHarness extends ComponentHarness {
     );
   }
 
+  public async textContent(): Promise<string> {
+    return (await this.host()).text();
+  }
+
   /**
    * Dismisses the token.
    */

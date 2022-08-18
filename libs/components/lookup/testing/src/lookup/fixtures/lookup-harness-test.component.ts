@@ -168,5 +168,6 @@ export class LookupHarnessTestComponent implements AfterViewInit {
     this.myForm.disable();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onAddClick() {}
 }

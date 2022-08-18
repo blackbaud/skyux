@@ -1,9 +1,9 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
-import { SkyTokensHarness } from '@skyux/indicators/testing';
 
 import { SkyAutocompleteHarness } from '../autocomplete/autocomplete-harness';
 
 import { SkyLookupHarnessFilters } from './lookup-harness-filters';
+import { SkyLookupSelectionHarness } from './lookup-selection-harness';
 import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
 
 export class SkyLookupHarness extends SkyAutocompleteHarness {
@@ -11,7 +11,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   #getAutocompleteHarness = this.locatorFor(SkyAutocompleteHarness);
 
-  #getTokensHarness = this.locatorFor(SkyTokensHarness);
+  #getSelectionHarnesses = this.locatorForAll(SkyLookupSelectionHarness);
 
   #documentRootLocator = this.documentRootLocatorFactory();
 
@@ -21,17 +21,14 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
   }
 
-  public async isMulti(): Promise<boolean> {
-    return !(await this.locatorForOptional('.sky-lookup.sky-lookup-single')());
-  }
-
-  public async openShowMorePicker(): Promise<void> {
-    await this.focus();
-    await this.clickShowMoreButton();
-  }
-
   public async clickAddButton(): Promise<void> {
+    await this.focus();
     await super.clickAddButton();
+  }
+
+  public async clickShowMoreButton(): Promise<void> {
+    await this.focus();
+    await super.clickShowMoreButton();
   }
 
   public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
@@ -44,16 +41,39 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     )();
 
     if (!defaultPicker) {
-      throw new Error('The show more picker could not be found.');
+      throw new Error(
+        'Cannot get the "Show more" picker because it is not open.'
+      );
     }
 
     return defaultPicker;
   }
 
-  // ?
-  // public async getSelections(): Promise<SkyLookupSelectionHarness> {}
+  public async getSelections(): Promise<SkyLookupSelectionHarness[]> {
+    const selections = await this.#getSelectionHarnesses();
 
-  public async getTokensList(): Promise<SkyTokensHarness> {
-    return this.#getTokensHarness();
+    return selections;
+  }
+
+  public async getSelectionsText(): Promise<string[]> {
+    const selections = await this.getSelections();
+
+    const text = [];
+    for (const selection of selections) {
+      text.push(await selection.textContent());
+    }
+
+    return text;
+  }
+
+  public async dismissAllSelections(): Promise<void> {
+    const selections = await this.getSelections();
+    for (const selection of selections) {
+      await selection.dismiss();
+    }
+  }
+
+  public async isMulti(): Promise<boolean> {
+    return !(await this.locatorForOptional('.sky-lookup.sky-lookup-single')());
   }
 }
