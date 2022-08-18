@@ -1,8 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-popover',
@@ -10,7 +9,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./popover.component.scss'],
 })
 export class PopoverComponent implements AfterViewInit {
-  public popoverType = new FormControl('info');
+  public ready = new BehaviorSubject(false);
 
   public staticPopoverMessageStream = new Subject<SkyPopoverMessage>();
 
@@ -62,8 +61,8 @@ export class PopoverComponent implements AfterViewInit {
       type: SkyPopoverMessageType.Open,
     });
 
-    this.staticPopoverMessageStream.next({
-      type: SkyPopoverMessageType.Reposition,
+    setTimeout(() => {
+      this.ready.next(true);
     });
   }
 }
