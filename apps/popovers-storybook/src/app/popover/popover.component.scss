@@ -1,5 +1,12 @@
-:host {
-  display: block;
+body {
+  min-width: 1280px;
+  overflow: auto;
+}
+
+app-popover {
+  display: grid;
+  grid-template-columns: 300px 300px 300px 300px;
+  grid-template-rows: repeat(auto-fill, 180px);
 }
 
 .static-popover-wrapper {
@@ -20,21 +27,21 @@
 
   &-above {
     bottom: 0;
-    left: calc(50% - 5px);
+    left: 145px;
   }
 
   &-below {
     top: 0;
-    left: calc(50% - 5px);
+    left: 145px;
   }
 
   &-right {
-    top: calc(50% - 5px);
+    top: 85px;
     left: 0;
   }
 
   &-left {
-    top: calc(50% - 5px);
+    top: 85px;
     right: 0;
   }
 }

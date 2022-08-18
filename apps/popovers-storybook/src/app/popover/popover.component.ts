@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -7,6 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PopoverComponent implements AfterViewInit {
   public ready = new BehaviorSubject(false);

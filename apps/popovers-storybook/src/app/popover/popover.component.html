@@ -1,4 +1,3 @@
-<div id="popovers-ready" *ngIf="ready | async"></div>
 <ng-container
   *ngTemplateOutlet="staticPopoversRef; context: { popoverType: undefined }"
 ></ng-container>
@@ -27,3 +26,4 @@
     </sky-popover>
   </div>
 </ng-template>
+<div id="popovers-ready" *ngIf="ready | async"></div>
