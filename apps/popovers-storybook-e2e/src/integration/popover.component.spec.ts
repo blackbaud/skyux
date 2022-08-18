@@ -8,7 +8,7 @@
         )
     );
     it('should render the component', () => {
-      cy.get('#popover-ready').should('exist');
+      cy.get('#popovers-ready').should('exist');
 
       cy.get('.popover-message')
         .should('exist')
