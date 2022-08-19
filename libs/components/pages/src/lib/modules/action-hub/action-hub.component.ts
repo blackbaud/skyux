@@ -6,6 +6,8 @@ import { SkyPageLinksInput } from './types/page-links-input';
 import { SkyPageModalLinksInput } from './types/page-modal-links-input';
 import { SkyRecentLinksInput } from './types/recent-links-input';
 
+type SkyActionHubNeedsAttentionInput = SkyActionHubNeedsAttention[] | 'loading';
+
 /**
  * Creates an action hub to direct user attention to important
  * actions and provide quick access to common tasks.
@@ -20,7 +22,16 @@ export class SkyActionHubComponent {
    * Provides a list of actions that users must perform based on business requirements or best practices, or `"loading"` to display a wait indicator.
    */
   @Input()
-  public needsAttention: SkyActionHubNeedsAttention[] | 'loading' = [];
+  public set needsAttention(
+    value: SkyActionHubNeedsAttentionInput | undefined
+  ) {
+    this.#_needsAttention = value;
+    this.needsAttentionArray = Array.isArray(value) ? value : [];
+  }
+
+  public get needsAttention(): SkyActionHubNeedsAttentionInput | undefined {
+    return this.#_needsAttention;
+  }
 
   /**
    * Links back to a parent page.
@@ -52,4 +63,8 @@ export class SkyActionHubComponent {
    */
   @Input()
   public title = '';
+
+  public needsAttentionArray: SkyActionHubNeedsAttention[] = [];
+
+  #_needsAttention: SkyActionHubNeedsAttentionInput | undefined;
 }

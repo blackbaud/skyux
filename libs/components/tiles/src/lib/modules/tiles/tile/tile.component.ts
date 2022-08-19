@@ -114,7 +114,7 @@ export class SkyTileComponent implements OnDestroy {
   constructor(
     public elementRef: ElementRef,
     private changeDetector: ChangeDetectorRef,
-    @Optional() private dashboardService: SkyTileDashboardService
+    @Optional() public dashboardService: SkyTileDashboardService
   ) {
     this.isInDashboardColumn = !!dashboardService;
 
