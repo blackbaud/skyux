@@ -66,7 +66,7 @@ export class SkyModalHostComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#modalHostContext.teardownCallback();
+    this.#modalHostContext.args.teardownCallback();
   }
 
   public open(

@@ -1,4 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
+
+interface SkyModalHostContextArgs {
+  teardownCallback: () => void;
+}
+
+const MODAL_HOST_CONTEXT_ARGS = new InjectionToken<SkyModalHostContextArgs>(
+  'SkyModalHostContextArgs'
+);
 
 /**
  * Provided by the modal service to give the modal host
@@ -7,5 +15,7 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class SkyModalHostContext {
-  constructor(public teardownCallback: () => void) {}
+  constructor(
+    @Inject(MODAL_HOST_CONTEXT_ARGS) public args: SkyModalHostContextArgs
+  ) {}
 }
