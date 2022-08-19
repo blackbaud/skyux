@@ -31,12 +31,10 @@ export class SkyStatusIndicatorComponent {
    */
   @Input()
   public set indicatorType(value: SkyIndicatorIconType) {
-    this._indicatorType = value;
-    this.updateIcon();
-  }
+    this.indicatorTypeOrDefault =
+      value === undefined ? INDICATOR_TYPE_DEFAULT : value;
 
-  public get indicatorType(): SkyIndicatorIconType {
-    return this._indicatorType || INDICATOR_TYPE_DEFAULT;
+    this.#updateIcon();
   }
 
   /**
@@ -46,12 +44,12 @@ export class SkyStatusIndicatorComponent {
    */
   @Input()
   public set descriptionType(value: SkyIndicatorDescriptionType) {
-    this._descriptionType = value;
-    this.updateDescriptionComputed();
+    this.#_descriptionType = value;
+    this.#updateDescriptionComputed();
   }
 
   public get descriptionType(): SkyIndicatorDescriptionType {
-    return this._descriptionType;
+    return this.#_descriptionType;
   }
 
   /**
@@ -60,12 +58,12 @@ export class SkyStatusIndicatorComponent {
    */
   @Input()
   public set customDescription(value: string) {
-    this._customDescription = value;
-    this.updateDescriptionComputed();
+    this.#_customDescription = value;
+    this.#updateDescriptionComputed();
   }
 
   public get customDescription(): string {
-    return this._customDescription;
+    return this.#_customDescription;
   }
 
   public descriptionComputed: string;
@@ -74,22 +72,30 @@ export class SkyStatusIndicatorComponent {
 
   public icon: string;
 
+  public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
+
   public topIcon: SkyIconStackItem;
 
-  private _indicatorType: SkyIndicatorIconType;
+  #changeDetector: ChangeDetectorRef;
 
-  private _descriptionType: SkyIndicatorDescriptionType;
+  #resources: SkyLibResourcesService;
 
-  private _customDescription: string;
+  #_descriptionType: SkyIndicatorDescriptionType;
+
+  #_customDescription: string;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resources: SkyLibResourcesService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resources: SkyLibResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resources = resources;
+    this.#updateIcon();
+  }
 
-  private updateIcon(): void {
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.indicatorType
+      this.indicatorTypeOrDefault
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
@@ -97,7 +103,7 @@ export class SkyStatusIndicatorComponent {
     this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
-  private updateDescriptionComputed(): void {
+  #updateDescriptionComputed(): void {
     if (this.descriptionType) {
       switch (this.descriptionType) {
         case 'none':
@@ -107,14 +113,14 @@ export class SkyStatusIndicatorComponent {
           this.descriptionComputed = this.customDescription;
           break;
         default:
-          this.resources
+          this.#resources
             .getString(
               'skyux_status_indicator_sr_' +
                 this.descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
-              this.changeDetector.markForCheck();
+              this.#changeDetector.markForCheck();
             });
 
           break;

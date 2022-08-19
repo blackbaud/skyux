@@ -15,23 +15,13 @@ const LABEL_TYPE_DEFAULT = 'info';
 export class SkyLabelComponent {
   /**
    * The type of label to display.
-   * @required
+   * @default 'info'
    */
   @Input()
   public set labelType(value: SkyLabelType | undefined) {
-    this.#_labelType = value;
+    this.labelTypeOrDefault = value === undefined ? LABEL_TYPE_DEFAULT : value;
 
-    if (this.#_labelType === undefined) {
-      this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
-    } else {
-      this.labelTypeOrDefault = this.#_labelType;
-    }
-
-    this.updateIcon();
-  }
-
-  public get labelType(): SkyLabelType | undefined {
-    return this.#_labelType;
+    this.#updateIcon();
   }
 
   public baseIcon: SkyIconStackItem | undefined;
@@ -42,9 +32,11 @@ export class SkyLabelComponent {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #_labelType: SkyLabelType | undefined;
+  constructor() {
+    this.#updateIcon();
+  }
 
-  private updateIcon(): void {
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
       this.labelTypeOrDefault
     );
