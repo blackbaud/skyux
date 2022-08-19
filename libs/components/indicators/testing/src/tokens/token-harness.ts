@@ -28,6 +28,9 @@ export class SkyTokenHarness extends ComponentHarness {
     );
   }
 
+  /**
+   * Returns the text content of the token.
+   */
   public async textContent(): Promise<string> {
     return (await this.host()).text();
   }
