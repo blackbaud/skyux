@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
+import { SkyTabIndex } from '@skyux/tabs';
 
 @Component({
   selector: 'app-wizard-demo-modal',
@@ -19,7 +20,7 @@ export class WizardDemoModalComponent implements OnInit {
 
   public newMemberForm: FormGroup;
   public title = 'New Member Sign-up';
-  public activeIndex = 0;
+  public activeIndex: SkyTabIndex = 0;
   public step2Disabled = true;
   public step3Disabled = true;
   public saveDisabled = true;
