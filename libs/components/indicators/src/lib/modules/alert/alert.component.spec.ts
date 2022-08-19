@@ -50,13 +50,14 @@ describe('Alert component', () => {
     cmp.closeable = true;
     fixture.detectChanges();
 
-    const attributes: any = el.querySelector('.sky-alert-close').attributes;
-    expect(attributes['hidden']).toBe(undefined);
+    const attributes: NamedNodeMap | undefined =
+      el.querySelector('.sky-alert-close')?.attributes;
+    expect(attributes?.getNamedItem('hidden')).toBe(undefined);
 
     cmp.closeable = false;
     fixture.detectChanges();
 
-    expect(attributes['hidden']).not.toBeNull();
+    expect(attributes?.getNamedItem('hidden')).not.toBeNull();
     expect(fixture.nativeElement).toBeAccessible();
   }));
 
@@ -83,7 +84,7 @@ describe('Alert component', () => {
     fixture.detectChanges();
 
     const closeEl = el.querySelector('.sky-alert-close');
-    expect(closeEl.getAttribute('aria-label')).toBe('Close the alert');
+    expect(closeEl?.getAttribute('aria-label')).toBe('Close the alert');
     expect(fixture.nativeElement).toBeAccessible();
   }));
 
@@ -96,7 +97,7 @@ describe('Alert component', () => {
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
-    expect(alertEl.classList.contains('sky-alert-success')).toBe(true);
+    expect(alertEl?.classList.contains('sky-alert-success')).toBe(true);
     expect(fixture.nativeElement).toBeAccessible();
   }));
 
@@ -109,7 +110,7 @@ describe('Alert component', () => {
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
-    expect(alertEl.classList.contains('sky-alert-warning')).toBe(true);
+    expect(alertEl?.classList.contains('sky-alert-warning')).toBe(true);
     expect(fixture.nativeElement).toBeAccessible();
   }));
 
@@ -122,7 +123,7 @@ describe('Alert component', () => {
     fixture.detectChanges();
 
     const alertEl = el.querySelector('.sky-alert');
-    expect(alertEl.getAttribute('role')).toBe('alert');
+    expect(alertEl?.getAttribute('role')).toBe('alert');
     expect(fixture.nativeElement).toBeAccessible();
   }));
 
@@ -133,13 +134,13 @@ describe('Alert component', () => {
       expectedTopIcon: string
     ): void {
       const iconEl = el.querySelector('.sky-alert-icon-theme-modern');
-      const baseIconEl = iconEl.querySelector('.fa-stack-2x');
-      const topIconEl = iconEl.querySelector('.fa-stack-1x');
+      const baseIconEl = iconEl?.querySelector('.fa-stack-2x');
+      const topIconEl = iconEl?.querySelector('.fa-stack-1x');
 
-      expect(baseIconEl.classList.contains('sky-i-' + expectedBaseIcon)).toBe(
+      expect(baseIconEl?.classList.contains('sky-i-' + expectedBaseIcon)).toBe(
         true
       );
-      expect(topIconEl.classList.contains('sky-i-' + expectedTopIcon)).toBe(
+      expect(topIconEl?.classList.contains('sky-i-' + expectedTopIcon)).toBe(
         true
       );
     }
