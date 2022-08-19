@@ -343,7 +343,7 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
   });
 });
 
-it('should move the horizontal scroll based on enableTopScroll check', () => {
+it('should move the horizontal scroll based on enableTopScroll check', async () => {
   TestBed.configureTestingModule({
     imports: [SkyAgGridFixtureModule],
     providers: [SkyDataManagerService],
@@ -354,7 +354,10 @@ it('should move the horizontal scroll based on enableTopScroll check', () => {
     enableTopScroll: true,
   };
   fixture.detectChanges();
+  await fixture.whenStable();
   fixture.componentInstance.agGrid.gridReady.emit();
+  fixture.detectChanges();
+  await fixture.whenStable();
   const scrollElement = fixture.nativeElement.querySelectorAll(
     '.ag-body-horizontal-scroll'
   );
