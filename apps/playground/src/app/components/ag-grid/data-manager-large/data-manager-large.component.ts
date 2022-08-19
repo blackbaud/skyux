@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
@@ -26,6 +27,11 @@ import { columnDefinitions, data } from './data-set-large';
   encapsulation: ViewEncapsulation.None,
 })
 export class DataManagerLargeComponent implements OnInit {
+  @HostBinding('class.use-normal-dom-layout')
+  public get useNormalDomLayout(): boolean {
+    return this.domLayout === 'normal';
+  }
+
   public dataManagerConfig: SkyDataManagerConfig = {};
 
   public defaultDataState = new SkyDataManagerState({
@@ -61,9 +67,8 @@ export class DataManagerLargeComponent implements OnInit {
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
   public gridSettings: FormGroup;
-
-  private domLayout: 'normal' | 'autoHeight' | 'print' = 'normal';
-  private enableTopScroll = true;
+  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
+  public enableTopScroll = true;
 
   constructor(
     private formBuilder: FormBuilder,
