@@ -362,9 +362,4 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
     '.ag-body-horizontal-scroll'
   );
   expect(scrollElement.length).toEqual(1);
-  const scrollbarPosition = scrollElement[0].offsetTop;
-  const bodyViewPosition =
-    fixture.nativeElement.querySelector('.ag-body-viewport').offsetTop;
-  expect(scrollbarPosition).toBeGreaterThan(0);
-  expect(scrollbarPosition).toBeLessThanOrEqual(bodyViewPosition);
 });
