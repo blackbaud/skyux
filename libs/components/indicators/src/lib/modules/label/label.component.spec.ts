@@ -52,9 +52,7 @@ describe('Label component', () => {
 
       const labelEl = getLabelEl(fixture);
 
-      const descriptionEl = labelEl.querySelector(
-        '.sky-label-text .sky-screen-reader-only'
-      );
+      const descriptionEl = labelEl.querySelector('.sky-screen-reader-only');
 
       if (expectedDescription) {
         expect(descriptionEl).toHaveText(expectedDescription);
