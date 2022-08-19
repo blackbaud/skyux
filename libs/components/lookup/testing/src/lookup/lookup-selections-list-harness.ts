@@ -12,6 +12,6 @@ export class SkyLookupSelectionsListHarness extends SkyTokensHarness {
   }
 
   public async getSelectionsText(): Promise<string[]> {
-    return super.getTokenTextValues();
+    return super.getTokensText();
   }
 }
