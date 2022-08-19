@@ -15,8 +15,6 @@
         .should('be.visible')
         .should('have.length', 16);
 
-      // Capture the window viewport instead of the element; otherwise the popover
-      // elements shift when taking a screenshot.
       cy.get('body')
         .screenshot(`popovercomponent-popover--popover-${theme}`)
         .percySnapshot(`popovercomponent-popover--popover-${theme}`, {
