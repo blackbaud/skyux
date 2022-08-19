@@ -38,7 +38,7 @@ export class SkyLabelComponent {
 
   /**
    * Specifies the predefined text to be read by screen readers for users who cannot see the indicator icon.
-   * This property is optional, but will be required in future versions of SKY UX.
+   * This property is optional but will be required in future versions of SKY UX.
    */
   @Input()
   public get descriptionType(): SkyIndicatorDescriptionType | undefined {
@@ -66,7 +66,7 @@ export class SkyLabelComponent {
 
   public baseIcon: SkyIconStackItem | undefined;
 
-  public descriptionComputed: string;
+  public descriptionComputed: string | undefined;
 
   public icon: string | undefined;
 
@@ -99,7 +99,7 @@ export class SkyLabelComponent {
     if (this.descriptionType) {
       switch (this.descriptionType) {
         case 'none':
-          this.descriptionComputed = '';
+          this.descriptionComputed = undefined;
           break;
         case 'custom':
           this.descriptionComputed = this.customDescription;
