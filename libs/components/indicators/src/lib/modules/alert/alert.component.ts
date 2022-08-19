@@ -1,6 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
-import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIndicatorIcon } from '../shared/indicator-icon';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
@@ -10,21 +16,27 @@ const ALERT_TYPE_DEFAULT = 'warning';
   selector: 'sky-alert',
   styleUrls: ['./alert.component.scss'],
   templateUrl: './alert.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAlertComponent implements OnInit {
+export class SkyAlertComponent {
   /**
    * Specifies a style for the alert to determine the icon and background color.
    * The valid options are `danger`, `info`, `success`, and `warning`.
    * @default "warning"
    */
   @Input()
-  public set alertType(value: string) {
-    this._alertType = value;
-    this.updateAlertIcon();
+  public set alertType(value: SkyIndicatorIconType | undefined) {
+    this.#_alertType = value;
+    if (this.#_alertType !== this.alertTypeOrDefault) {
+      this.alertTypeOrDefault = this.#_alertType || ALERT_TYPE_DEFAULT;
+      this.indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+        this.alertTypeOrDefault
+      );
+    }
   }
 
-  public get alertType(): string {
-    return this._alertType || ALERT_TYPE_DEFAULT;
+  public get alertType(): SkyIndicatorIconType | undefined {
+    return this.#_alertType;
   }
 
   /**
@@ -32,14 +44,14 @@ export class SkyAlertComponent implements OnInit {
    * @default false
    */
   @Input()
-  public closeable: boolean;
+  public closeable: boolean | undefined;
 
   /**
    * Indicates whether the alert is closed.
    * @default false
    */
   @Input()
-  public closed: boolean;
+  public closed: boolean | undefined;
 
   /**
    * Fires when users close the alert.
@@ -47,27 +59,17 @@ export class SkyAlertComponent implements OnInit {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertBaseIcon: SkyIconStackItem;
+  public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
-  public alertTopIcon: SkyIconStackItem;
+  public indicatorIcon: SkyIndicatorIcon =
+    SkyIndicatorIconUtility.getIconsForType(
+      this.alertTypeOrDefault
+    );
 
-  private _alertType: string;
-
-  public ngOnInit(): void {
-    this.updateAlertIcon();
-  }
+  #_alertType: SkyIndicatorIconType | undefined;
 
   public close(): void {
     this.closed = true;
     this.closedChange.emit(true);
-  }
-
-  private updateAlertIcon(): void {
-    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.alertType as SkyIndicatorIconType
-    );
-
-    this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
-    this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
   }
 }

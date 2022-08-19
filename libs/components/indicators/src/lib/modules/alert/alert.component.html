@@ -7,15 +7,18 @@
   role="alert"
   [hidden]="closed"
   [ngClass]="{
-    'sky-alert-info': alertType === 'info',
-    'sky-alert-success': alertType === 'success',
-    'sky-alert-warning': alertType === 'warning',
-    'sky-alert-danger': alertType === 'danger',
+    'sky-alert-info': alertTypeOrDefault === 'info',
+    'sky-alert-success': alertTypeOrDefault === 'success',
+    'sky-alert-warning': alertTypeOrDefault === 'warning',
+    'sky-alert-danger': alertTypeOrDefault === 'danger',
     'sky-alert-closeable': closeable
   }"
 >
   <div aria-hidden="true" class="sky-alert-icon-theme-modern">
-    <sky-icon-stack [baseIcon]="alertBaseIcon" [topIcon]="alertTopIcon">
+    <sky-icon-stack
+      [baseIcon]="this.indicatorIcon.modernThemeBaseIcon"
+      [topIcon]="this.indicatorIcon.modernThemeTopIcon"
+    >
     </sky-icon-stack>
   </div>
   <div class="sky-alert-content">

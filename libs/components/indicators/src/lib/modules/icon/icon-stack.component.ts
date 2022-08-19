@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyIconStackItem } from './icon-stack-item';
 
@@ -6,6 +6,7 @@ import { SkyIconStackItem } from './icon-stack-item';
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
   styleUrls: ['./icon-stack.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyIconStackComponent {
   /**
