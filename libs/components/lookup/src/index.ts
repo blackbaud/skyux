@@ -21,6 +21,8 @@ export * from './lib/modules/lookup/types/lookup-show-more-config';
 export * from './lib/modules/lookup/types/lookup-show-more-custom-picker';
 export * from './lib/modules/lookup/types/lookup-show-more-custom-picker-context';
 export * from './lib/modules/lookup/types/lookup-show-more-native-picker-config';
+export * from './lib/modules/autocomplete/types/autocomplete-search-args';
+export * from './lib/modules/autocomplete/types/autocomplete-search-context';
 
 export * from './lib/modules/search/search.module';
 
