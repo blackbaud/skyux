@@ -28,12 +28,11 @@ import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixtu
 import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
-  let testModals: SkyModalInstance[];
-
   function getApplicationRef(): ApplicationRef {
     return TestBed.inject(ApplicationRef);
   }
@@ -53,18 +52,8 @@ describe('Modal component', () => {
   function openModal<T>(modalType: T, config?: Record<string, any>) {
     const modalInstance = getModalService().open(modalType, config);
 
-    modalInstance.closed.subscribe(() => {
-      const modalIndex = testModals.indexOf(modalInstance);
-
-      if (modalIndex >= 0) {
-        testModals.splice(modalIndex, 1);
-      }
-    });
-
     getApplicationRef().tick();
     tick();
-
-    testModals.push(modalInstance);
 
     return modalInstance;
   }
@@ -80,7 +69,8 @@ describe('Modal component', () => {
       imports: [SkyModalFixturesModule],
     });
 
-    testModals = [];
+    // Confirm all modals are closed before another test is executed.
+    expect(SkyModalHostService.openModalCount).toBe(0);
   });
 
   it('should render on top of previously-opened modals', fakeAsync(() => {
