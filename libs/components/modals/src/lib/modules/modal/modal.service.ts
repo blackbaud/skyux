@@ -19,8 +19,6 @@ import { SkyModalConfigurationInterface } from './modal.interface';
 export class SkyModalService {
   private static host: ComponentRef<SkyModalHostComponent>;
 
-  // #instances: SkyModalInstance[] = [];
-
   // TODO: In future breaking change - remove extra parameters as they are no longer used.
   constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
 
@@ -54,12 +52,6 @@ export class SkyModalService {
     });
 
     SkyModalService.host.instance.open(modalInstance, component, params);
-
-    // modalInstance.closed.subscribe(() => {
-    //   this.#instances.slice(this.#instances.indexOf(modalInstance), 1);
-    // });
-
-    // this.#instances.push(modalInstance);
 
     return modalInstance;
   }
@@ -102,10 +94,6 @@ export class SkyModalService {
             {
               provide: SkyModalHostContext,
               useValue: new SkyModalHostContext(() => {
-                // Close all modals before disposing of the host container.
-                // for (const instance of this.#instances) {
-                //   instance.close();
-                // }
                 this.dispose();
               }),
             },

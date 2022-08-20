@@ -83,21 +83,6 @@ describe('Modal component', () => {
     testModals = [];
   });
 
-  afterEach(fakeAsync(() => {
-    // NOTE: This is important as it ensures that the modal host component is fully disposed of
-    // between tests. This is important as the modal host might need a different set of component
-    // injectors than the previous test.
-    getModalService().dispose();
-
-    // Clean up any modals that did not close due to a test failure so subsequent tests
-    // do not fail.
-    const testModalsToClose = testModals.slice();
-
-    for (let i = testModalsToClose.length - 1; i >= 0; i--) {
-      closeModal(testModalsToClose[i]);
-    }
-  }));
-
   it('should render on top of previously-opened modals', fakeAsync(() => {
     const modalInstance1 = openModal(ModalTestComponent);
     const modalInstance2 = openModal(ModalTestComponent);
