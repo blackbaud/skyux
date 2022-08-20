@@ -429,6 +429,10 @@ describe('Lookup component', function () {
     });
   });
 
+  afterEach(() => {
+    TestBed.inject(SkyModalService).dispose();
+  });
+
   describe('reactive form', () => {
     let fixture: ComponentFixture<SkyLookupTestComponent>;
     let component: SkyLookupTestComponent;
@@ -440,10 +444,6 @@ describe('Lookup component', function () {
       component = fixture.componentInstance;
       lookupComponent = component.lookupComponent;
       asyncLookupComponent = component.asyncLookupComponent;
-    });
-
-    afterEach(() => {
-      fixture.destroy();
     });
 
     describe('basic setup', function () {
@@ -942,10 +942,6 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
-
-        afterEach(() => {
-          fixture.destroy();
-        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -1575,10 +1571,6 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
-
-        afterEach(() => {
-          fixture.destroy();
-        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -3470,6 +3462,11 @@ describe('Lookup component', function () {
           tick();
           friends = component.form.controls.friends.value;
         }));
+
+        // afterEach(() => {
+        //   TestBed.inject(SkyModalService).dispose();
+        // });
+
         describe('search function filters', () => {
           let searchFilterFunctionSpy: jasmine.Spy;
 
@@ -3896,10 +3893,6 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
-
-        afterEach(() => {
-          fixture.destroy();
-        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -4529,10 +4522,6 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
-
-        afterEach(() => {
-          fixture.destroy();
-        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -6374,10 +6363,6 @@ describe('Lookup component', function () {
       component = fixture.componentInstance;
       lookupComponent = component.lookupComponent;
       nativeElement = fixture.nativeElement as HTMLElement;
-    });
-
-    afterEach(() => {
-      fixture.destroy();
     });
 
     it('should render in the expected input box containers', fakeAsync(() => {
