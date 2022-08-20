@@ -109,10 +109,6 @@ export class SkyDynamicComponentService {
 
     this.applicationRef.detachView(componentRef.hostView);
     componentRef.destroy();
-
-    // Trigger change detection in the host view after the child has been removed.
-    // This is needed since some tests fail to remove the HTML element after it's been detached.
-    componentRef.hostView.detectChanges();
   }
 
   private getRootNode<T>(componentRef: ComponentRef<T>): any {

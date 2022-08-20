@@ -8,7 +8,7 @@ import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalHostService, SkyModalService } from '@skyux/modals';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
 import { SkyAutocompleteSearchArgs } from '../autocomplete/types/autocomplete-search-args';
@@ -427,6 +427,9 @@ describe('Lookup component', function () {
     TestBed.configureTestingModule({
       imports: [SkyLookupFixturesModule],
     });
+
+    // Confirm all modals are closed before another test is executed.
+    expect(SkyModalHostService.openModalCount).toBe(0);
   });
 
   describe('reactive form', () => {
@@ -440,6 +443,10 @@ describe('Lookup component', function () {
       component = fixture.componentInstance;
       lookupComponent = component.lookupComponent;
       asyncLookupComponent = component.asyncLookupComponent;
+    });
+
+    afterEach(() => {
+      fixture.destroy();
     });
 
     describe('basic setup', function () {
@@ -938,6 +945,10 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
+
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -1567,6 +1578,10 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
+
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -3458,7 +3473,6 @@ describe('Lookup component', function () {
           tick();
           friends = component.form.controls.friends.value;
         }));
-
         describe('search function filters', () => {
           let searchFilterFunctionSpy: jasmine.Spy;
 
@@ -3885,6 +3899,10 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
+
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should emit an event correctly when the add button is enabled and clicked', fakeAsync(() => {
@@ -4514,6 +4532,10 @@ describe('Lookup component', function () {
           fixture.detectChanges();
           tick();
         }));
+
+        afterEach(() => {
+          fixture.destroy();
+        });
 
         describe('non-async', () => {
           it('should open the modal when the show more button is clicked', fakeAsync(() => {
@@ -6355,6 +6377,10 @@ describe('Lookup component', function () {
       component = fixture.componentInstance;
       lookupComponent = component.lookupComponent;
       nativeElement = fixture.nativeElement as HTMLElement;
+    });
+
+    afterEach(() => {
+      fixture.destroy();
     });
 
     it('should render in the expected input box containers', fakeAsync(() => {
