@@ -37,7 +37,7 @@ export class SkyOverlayHarness extends ComponentHarness {
    */
   public async queryHarnesses<T extends ComponentHarness>(
     harness: HarnessQuery<T>
-  ): Promise<T[] | null> {
+  ): Promise<T[]> {
     return this.locatorForAll(harness)();
   }
 
