@@ -429,10 +429,6 @@ describe('Lookup component', function () {
     });
   });
 
-  afterEach(() => {
-    TestBed.inject(SkyModalService).dispose();
-  });
-
   describe('reactive form', () => {
     let fixture: ComponentFixture<SkyLookupTestComponent>;
     let component: SkyLookupTestComponent;
@@ -3462,10 +3458,6 @@ describe('Lookup component', function () {
           tick();
           friends = component.form.controls.friends.value;
         }));
-
-        // afterEach(() => {
-        //   TestBed.inject(SkyModalService).dispose();
-        // });
 
         describe('search function filters', () => {
           let searchFilterFunctionSpy: jasmine.Spy;
