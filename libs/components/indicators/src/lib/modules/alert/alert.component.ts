@@ -19,6 +19,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAlertComponent {
+  // TODO: Change alertType to SkyIndicatorIconType in a breaking change.
   /**
    * Specifies a style for the alert to determine the icon and background color.
    * The valid options are `danger`, `info`, `success`, and `warning`.

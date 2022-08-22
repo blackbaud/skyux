@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX alert component.
+ * @deprecated Use `SkyAlertHarness` instead.
  */
 export class SkyAlertFixture {
   /**
