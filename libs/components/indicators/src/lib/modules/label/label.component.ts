@@ -1,5 +1,7 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Subscription } from 'rxjs/internal/Subscription';
 
 import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
@@ -14,26 +16,26 @@ const LABEL_TYPE_DEFAULT = 'info';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent {
+export class SkyLabelComponent implements OnDestroy {
   /**
    * The type of label to display.
    * @required
    */
   @Input()
   public set labelType(value: SkyLabelType | undefined) {
-    this.#_labelType = value;
+    this.#labelType = value;
 
-    if (this.#_labelType === undefined) {
+    if (this.#labelType === undefined) {
       this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
     } else {
-      this.labelTypeOrDefault = this.#_labelType;
+      this.labelTypeOrDefault = this.#labelType;
     }
 
     this.updateIcon();
   }
 
   public get labelType(): SkyLabelType | undefined {
-    return this.#_labelType;
+    return this.#labelType;
   }
 
   /**
@@ -42,12 +44,12 @@ export class SkyLabelComponent {
    */
   @Input()
   public get descriptionType(): SkyIndicatorDescriptionType | undefined {
-    return this.#_descriptionType;
+    return this.#descriptionType;
   }
 
   public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
-    this.#_descriptionType = value;
-    this.updateDescriptionComputed();
+    this.#descriptionType = value;
+    this.#updateDescriptionComputed();
   }
 
   /**
@@ -56,12 +58,12 @@ export class SkyLabelComponent {
    */
   @Input()
   public set customDescription(value: string | undefined) {
-    this.#_customDescription = value;
-    this.updateDescriptionComputed();
+    this.#customDescription = value;
+    this.#updateDescriptionComputed();
   }
 
   public get customDescription(): string | undefined {
-    return this.#_customDescription;
+    return this.#customDescription;
   }
 
   public baseIcon: SkyIconStackItem | undefined;
@@ -74,11 +76,12 @@ export class SkyLabelComponent {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #_labelType: SkyLabelType | undefined;
+  #labelType: SkyLabelType | undefined;
 
-  #_descriptionType: SkyIndicatorDescriptionType | undefined;
+  #descriptionType: SkyIndicatorDescriptionType | undefined;
 
-  #_customDescription: string | undefined;
+  #customDescription: string | undefined;
+  #currentSub: Subscription | undefined;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -95,7 +98,7 @@ export class SkyLabelComponent {
     this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
-  private updateDescriptionComputed(): void {
+  #updateDescriptionComputed(): void {
     if (this.descriptionType) {
       switch (this.descriptionType) {
         case 'none':
@@ -105,7 +108,9 @@ export class SkyLabelComponent {
           this.descriptionComputed = this.customDescription;
           break;
         default:
-          this.resources
+          this.#unsubscribe();
+
+          this.#currentSub = this.resources
             .getString(
               'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_')
             )
@@ -119,5 +124,16 @@ export class SkyLabelComponent {
     } else {
       this.descriptionComputed = undefined;
     }
+  }
+
+  #unsubscribe(): void {
+    if (this.#currentSub) {
+      this.#currentSub.unsubscribe();
+      this.#currentSub = undefined;
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.#unsubscribe();
   }
 }
