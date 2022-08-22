@@ -70,7 +70,7 @@ export class SkyModalHostComponent implements OnDestroy {
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.
     this.#closeAllModalInstances();
-    this.#modalHostContext.teardownCallback();
+    this.#modalHostContext.args.teardownCallback();
   }
 
   public open(
