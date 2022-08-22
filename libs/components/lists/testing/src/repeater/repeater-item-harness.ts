@@ -14,7 +14,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
 
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);
 
-  #getTitle = this.locatorForOptional('.sky-repeater-item-title');
+  #getTitle = this.locatorFor('.sky-repeater-item-title');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -24,34 +24,59 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     filters: SkyRepeaterItemHarnessFilters
   ): HarnessPredicate<SkyRepeaterItemHarness> {
     return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters)
-      .addOption(
-        'bodyTextContent',
-        filters.bodyTextContent,
-        async (harness, text) =>
-          HarnessPredicate.stringMatches(
-            await (await harness.#getBody()).text(),
-            text
-          )
+      .addOption('bodyText', filters.bodyText, async (harness, text) =>
+        HarnessPredicate.stringMatches(await harness.getBodyText(), text)
       )
-      .addOption('title', filters.title, async (harness, text) =>
-        HarnessPredicate.stringMatches(
-          await (await harness.#getTitle()).text(),
-          text
-        )
+      .addOption('titleText', filters.titleText, async (harness, text) =>
+        HarnessPredicate.stringMatches(await harness.getTitleText(), text)
       );
   }
 
+  /**
+   * Whether the repeater item is selectable.
+   */
   public async isSelectable(): Promise<boolean> {
     return !!(await this.#getCheckbox());
   }
 
+  public async isSelected(): Promise<boolean> {
+    if (!(await this.isSelectable())) {
+      throw new Error(
+        'Could not determine if repeater item is selected because it is not selectable.'
+      );
+    }
+
+    return (await this.#getCheckbox()).isChecked();
+  }
+
+  /**
+   * Selects a repeater item.
+   */
   public async select() {
     if (!(await this.isSelectable())) {
       throw new Error(
-        'Cannot select the repeater item because it is not selectable.'
+        'Could not select the repeater item because it is not selectable.'
       );
     }
 
     await (await this.#getCheckbox()).check();
+  }
+
+  public async deselect(): Promise<void> {
+    if (!(await this.isSelectable())) {
+      throw new Error(
+        'Could not deselect the repeater item because it is not selectable.'
+      );
+    }
+
+    await (await this.#getCheckbox()).uncheck();
+  }
+
+  public async getBodyText(): Promise<string> {
+    return (await this.#getBody()).text();
+  }
+
+  public async getTitleText(): Promise<string> {
+    return (await this.#getTitle()).text();
   }
 }
