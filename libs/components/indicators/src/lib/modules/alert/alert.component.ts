@@ -26,17 +26,17 @@ export class SkyAlertComponent {
    * @default "warning"
    */
   @Input()
-  public set alertType(value: SkyIndicatorIconType | undefined) {
+  public set alertType(value: string | undefined) {
     this.#_alertType = value;
     if (this.alertType !== this.alertTypeOrDefault) {
       this.alertTypeOrDefault = this.alertType || ALERT_TYPE_DEFAULT;
       this.indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-        this.alertTypeOrDefault
+        this.alertTypeOrDefault as SkyIndicatorIconType
       );
     }
   }
 
-  public get alertType(): SkyIndicatorIconType | undefined {
+  public get alertType(): string | undefined {
     return this.#_alertType;
   }
 
@@ -60,12 +60,14 @@ export class SkyAlertComponent {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
+  public alertTypeOrDefault: string = ALERT_TYPE_DEFAULT;
 
   public indicatorIcon: SkyIndicatorIcon =
-    SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
+    SkyIndicatorIconUtility.getIconsForType(
+      this.alertTypeOrDefault as SkyIndicatorIconType
+    );
 
-  #_alertType: SkyIndicatorIconType | undefined;
+  #_alertType: string | undefined;
 
   public close(): void {
     this.closed = true;
