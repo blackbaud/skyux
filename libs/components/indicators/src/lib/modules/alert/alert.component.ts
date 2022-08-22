@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { SkyIndicatorIcon } from '../shared/indicator-icon';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
@@ -16,7 +10,6 @@ const ALERT_TYPE_DEFAULT = 'warning';
   selector: 'sky-alert',
   styleUrls: ['./alert.component.scss'],
   templateUrl: './alert.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAlertComponent {
   // TODO: Change alertType to SkyIndicatorIconType in a breaking change.
@@ -27,18 +20,13 @@ export class SkyAlertComponent {
    */
   @Input()
   public set alertType(value: string | undefined) {
-    this.#_alertType = value;
-    if (this.alertType !== this.alertTypeOrDefault) {
+    if (value !== this.alertTypeOrDefault) {
       this.alertTypeOrDefault =
-        (this.alertType as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
-      this.indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+        (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
+      this.alertIcon = SkyIndicatorIconUtility.getIconsForType(
         this.alertTypeOrDefault
       );
     }
-  }
-
-  public get alertType(): string | undefined {
-    return this.#_alertType;
   }
 
   /**
@@ -63,10 +51,9 @@ export class SkyAlertComponent {
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
-  public indicatorIcon: SkyIndicatorIcon =
-    SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
-
-  #_alertType: string | undefined;
+  public alertIcon: SkyIndicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+    this.alertTypeOrDefault
+  );
 
   public close(): void {
     this.closed = true;
