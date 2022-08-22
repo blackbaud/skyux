@@ -6,7 +6,7 @@ export interface SkyAgGridAutocompleteProperties {
   descriptorProperty?: string;
   propertiesToSearch?: string[];
   search?: (searchText: string, data?: any[]) => any[] | Promise<any[]>;
-  searchFilters?: (searchText: string, item: any) => boolean;
+  searchFilters?: ((searchText: string, item: any) => boolean)[];
   searchResultsLimit?: number;
   searchResultTemplate?: TemplateRef<unknown>;
   searchTextMinimumCharacters?: number;
