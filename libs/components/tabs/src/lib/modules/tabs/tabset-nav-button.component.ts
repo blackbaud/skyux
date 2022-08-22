@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { SkyTabComponent } from './tab.component';
+import { SkyTabsetNavButtonType } from './tabset-nav-button-type';
 import { SkyTabsetComponent } from './tabset.component';
 
 const buttonTypeNext = 'next';
@@ -27,7 +28,7 @@ export class SkyTabsetNavButtonComponent {
    * @required
    */
   @Input()
-  public buttonType: string;
+  public buttonType: SkyTabsetNavButtonType;
 
   /**
    * Specifies the label to display on the nav button. The following are the defaults for each `buttonType`.
