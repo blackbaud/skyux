@@ -10,4 +10,4 @@ import { AlertTestComponent } from './alert.component.fixture';
   imports: [CommonModule, SkyAlertModule],
   exports: [AlertTestComponent],
 })
-export class AlertFixturesModule {}
+export class SkyAlertFixtureModule {}

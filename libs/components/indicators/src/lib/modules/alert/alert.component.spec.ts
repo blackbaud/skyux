@@ -10,9 +10,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
-import { SkyAlertModule } from '../alert/alert.module';
-
 import { AlertTestComponent } from './fixtures/alert.component.fixture';
+import { SkyAlertFixtureModule } from './fixtures/alert.module.fixture';
 
 describe('Alert component', () => {
   let mockThemeSvc: {
@@ -31,8 +30,7 @@ describe('Alert component', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [AlertTestComponent],
-      imports: [SkyAlertModule],
+      imports: [SkyAlertFixtureModule],
       providers: [
         {
           provide: SkyThemeService,
