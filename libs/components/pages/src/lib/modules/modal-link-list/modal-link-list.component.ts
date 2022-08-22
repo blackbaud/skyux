@@ -11,10 +11,21 @@ import { SkyPageModalLinksInput } from '../action-hub/types/page-modal-links-inp
 })
 export class SkyModalLinkListComponent {
   @Input()
-  public links: SkyPageModalLinksInput;
+  public set links(value: SkyPageModalLinksInput | undefined) {
+    this.#_links = value;
+    this.linksArray = Array.isArray(value) ? value : [];
+  }
+
+  public get links(): SkyPageModalLinksInput | undefined {
+    return this.#_links;
+  }
 
   @Input()
   public title: string;
+
+  public linksArray: SkyPageModalLink[] = [];
+
+  #_links: SkyPageModalLinksInput | undefined;
 
   constructor(private modalService: SkyModalService) {}
 
