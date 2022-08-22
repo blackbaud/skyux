@@ -10,7 +10,7 @@ import { SkyIndicatorIcon } from '../shared/indicator-icon';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
-const ALERT_TYPE_DEFAULT = 'warning';
+const ALERT_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
 
 @Component({
   selector: 'sky-alert',
@@ -29,9 +29,10 @@ export class SkyAlertComponent {
   public set alertType(value: string | undefined) {
     this.#_alertType = value;
     if (this.alertType !== this.alertTypeOrDefault) {
-      this.alertTypeOrDefault = this.alertType || ALERT_TYPE_DEFAULT;
+      this.alertTypeOrDefault =
+        (this.alertType as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
       this.indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-        this.alertTypeOrDefault as SkyIndicatorIconType
+        this.alertTypeOrDefault
       );
     }
   }
@@ -60,12 +61,10 @@ export class SkyAlertComponent {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertTypeOrDefault: string = ALERT_TYPE_DEFAULT;
+  public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
   public indicatorIcon: SkyIndicatorIcon =
-    SkyIndicatorIconUtility.getIconsForType(
-      this.alertTypeOrDefault as SkyIndicatorIconType
-    );
+    SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
 
   #_alertType: string | undefined;
 
