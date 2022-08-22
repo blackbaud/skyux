@@ -31,7 +31,7 @@ describe('Tokens harness', () => {
 
     const tokens = await tokensHarness.getTokens();
     expect(tokens.length).toEqual(3);
-    await expectAsync(tokens[0].textContent()).toBeResolvedTo('Red');
+    await expectAsync(tokens[0].getText()).toBeResolvedTo('Red');
   });
 
   it('should return tokens text content', async () => {
@@ -73,11 +73,26 @@ describe('Tokens harness', () => {
       'Blue',
     ]);
 
-    await tokensHarness.dismissTokens({ textContent: 'Red' });
+    await tokensHarness.dismissTokens({ text: 'Red' });
 
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo([
       'Green',
       'Blue',
     ]);
+  });
+
+  it('should throw error if dismissing and undismissible token', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    fixture.componentInstance.dismissible = false;
+
+    const tokens = await tokensHarness.getTokens();
+
+    await expectAsync(tokens[0].isDismissible()).toBeResolvedTo(false);
+    await expectAsync(tokens[0].dismiss()).toBeRejectedWithError(
+      'Could not dismiss the token because it is not dismissable.'
+    );
   });
 });

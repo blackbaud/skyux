@@ -45,7 +45,7 @@ export class SkyTokensHarness extends SkyComponentHarness {
     const values: string[] = [];
 
     for (const token of tokens) {
-      values.push(await (await token.host()).text());
+      values.push(await token.getText());
     }
 
     return values;
