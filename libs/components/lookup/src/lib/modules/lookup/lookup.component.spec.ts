@@ -8,7 +8,7 @@ import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
-import { SkyModalService } from '@skyux/modals';
+import { SkyModalHostService, SkyModalService } from '@skyux/modals';
 
 import { SkyAutocompleteMessageType } from '../autocomplete/types/autocomplete-message-type';
 import { SkyAutocompleteSearchArgs } from '../autocomplete/types/autocomplete-search-args';
@@ -427,6 +427,9 @@ describe('Lookup component', function () {
     TestBed.configureTestingModule({
       imports: [SkyLookupFixturesModule],
     });
+
+    // Confirm all modals are closed before another test is executed.
+    expect(SkyModalHostService.openModalCount).toBe(0);
   });
 
   describe('reactive form', () => {
