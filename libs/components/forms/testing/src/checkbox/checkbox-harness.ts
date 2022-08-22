@@ -125,7 +125,9 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
   }
 
   async #toggle(): Promise<void> {
-    if (!(await this.isDisabled())) {
+    if (await this.isDisabled()) {
+      throw new Error('Could not toggle the checkbox because it is disabled.');
+    } else {
       await (await this.#getInput()).click();
     }
   }
