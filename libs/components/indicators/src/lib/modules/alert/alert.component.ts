@@ -62,9 +62,7 @@ export class SkyAlertComponent {
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
   public indicatorIcon: SkyIndicatorIcon =
-    SkyIndicatorIconUtility.getIconsForType(
-      this.alertTypeOrDefault
-    );
+    SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
 
   #_alertType: SkyIndicatorIconType | undefined;
 
