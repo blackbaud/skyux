@@ -15,7 +15,6 @@ export class SkyToastTestComponent {
 
   @ViewChild(SkyToastComponent, {
     read: SkyToastComponent,
-    static: true,
   })
   public toastComponent: SkyToastComponent;
 
