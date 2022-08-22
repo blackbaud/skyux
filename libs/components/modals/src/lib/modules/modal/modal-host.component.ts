@@ -54,6 +54,8 @@ export class SkyModalHostComponent implements OnDestroy {
 
   #modalHostContext: SkyModalHostContext;
 
+  #modalInstances: SkyModalInstance[] = [];
+
   constructor(
     private resolver: ComponentFactoryResolver,
     private adapter: SkyModalAdapterService,
@@ -66,6 +68,8 @@ export class SkyModalHostComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    // Close all modal instances before disposing of the host container.
+    this.#closeAllModalInstances();
     this.#modalHostContext.teardownCallback();
   }
 
@@ -117,6 +121,8 @@ export class SkyModalHostComponent implements OnDestroy {
 
     modalInstance.componentInstance = modalComponentRef.instance;
 
+    this.#registerModalInstance(modalInstance);
+
     function closeModal() {
       hostService.destroy();
       adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
@@ -148,10 +154,25 @@ export class SkyModalHostComponent implements OnDestroy {
 
     modalInstance.closed.subscribe(() => {
       isOpen = false;
+      this.#unregisterModalInstance(modalInstance);
       closeModal();
     });
 
     // Necessary if the host was created via a consumer's lifecycle hook such as ngOnInit
     this.changeDetector.detectChanges();
+  }
+
+  #registerModalInstance(instance: SkyModalInstance): void {
+    this.#modalInstances.push(instance);
+  }
+
+  #unregisterModalInstance(instance: SkyModalInstance): void {
+    this.#modalInstances.slice(this.#modalInstances.indexOf(instance), 1);
+  }
+
+  #closeAllModalInstances(): void {
+    for (const instance of this.#modalInstances) {
+      instance.close();
+    }
   }
 }
