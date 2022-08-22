@@ -23,19 +23,19 @@ export class SkyLabelComponent implements OnDestroy {
    */
   @Input()
   public set labelType(value: SkyLabelType | undefined) {
-    this.#labelType = value;
+    this.#_labelType = value;
 
-    if (this.#labelType === undefined) {
+    if (this.#_labelType === undefined) {
       this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
     } else {
-      this.labelTypeOrDefault = this.#labelType;
+      this.labelTypeOrDefault = this.#_labelType;
     }
 
     this.updateIcon();
   }
 
   public get labelType(): SkyLabelType | undefined {
-    return this.#labelType;
+    return this.#_labelType;
   }
 
   /**
@@ -44,11 +44,11 @@ export class SkyLabelComponent implements OnDestroy {
    */
   @Input()
   public get descriptionType(): SkyIndicatorDescriptionType | undefined {
-    return this.#descriptionType;
+    return this.#_descriptionType;
   }
 
   public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
-    this.#descriptionType = value;
+    this.#_descriptionType = value;
     this.#updateDescriptionComputed();
   }
 
@@ -58,12 +58,12 @@ export class SkyLabelComponent implements OnDestroy {
    */
   @Input()
   public set customDescription(value: string | undefined) {
-    this.#customDescription = value;
+    this.#_customDescription = value;
     this.#updateDescriptionComputed();
   }
 
   public get customDescription(): string | undefined {
-    return this.#customDescription;
+    return this.#_customDescription;
   }
 
   public baseIcon: SkyIconStackItem | undefined;
@@ -76,17 +76,29 @@ export class SkyLabelComponent implements OnDestroy {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #labelType: SkyLabelType | undefined;
+  #_labelType: SkyLabelType | undefined;
 
-  #descriptionType: SkyIndicatorDescriptionType | undefined;
+  #_descriptionType: SkyIndicatorDescriptionType | undefined;
 
-  #customDescription: string | undefined;
+  #_customDescription: string | undefined;
+
+  #changeDetector: ChangeDetectorRef;
+
   #currentSub: Subscription | undefined;
 
+  #resources: SkyLibResourcesService;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resources: SkyLibResourcesService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resources: SkyLibResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resources = resources;
+  }
+
+  public ngOnDestroy(): void {
+    this.#unsubscribe();
+  }
 
   private updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
@@ -110,13 +122,13 @@ export class SkyLabelComponent implements OnDestroy {
         default:
           this.#unsubscribe();
 
-          this.#currentSub = this.resources
+          this.#currentSub = this.#resources
             .getString(
               'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
-              this.changeDetector.markForCheck();
+              this.#changeDetector.markForCheck();
             });
 
           break;
@@ -131,9 +143,5 @@ export class SkyLabelComponent implements OnDestroy {
       this.#currentSub.unsubscribe();
       this.#currentSub = undefined;
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.#unsubscribe();
   }
 }
