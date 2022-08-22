@@ -103,4 +103,18 @@ describe('Checkbox harness', () => {
     );
     await expectAsync(checkboxHarness.getValue()).toBeResolvedTo('on');
   });
+
+  it('should throw error if toggling a disabled checkbox', async () => {
+    const { checkboxHarness, fixture } = await setupTest({
+      dataSkyId: 'my-email-checkbox',
+    });
+
+    fixture.componentInstance.disableForm();
+
+    await expectAsync(checkboxHarness.isChecked()).toBeResolvedTo(false);
+
+    await expectAsync(checkboxHarness.check()).toBeRejectedWithError(
+      'Could not toggle the checkbox because it is disabled.'
+    );
+  });
 });
