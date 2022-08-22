@@ -21,8 +21,10 @@ export class SkyLabelComponent {
   public set labelType(value: SkyLabelType | undefined) {
     this.#_labelType = value;
 
-    if (this.labelType !== this.labelTypeOrDefault) {
-      this.labelTypeOrDefault = this.labelType || LABEL_TYPE_DEFAULT;
+    if (this.#_labelType === undefined) {
+      this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
+    } else {
+      this.labelTypeOrDefault = this.#_labelType;
     }
 
     this.updateIcon();
