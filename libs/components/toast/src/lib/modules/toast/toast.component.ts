@@ -47,17 +47,9 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set toastType(value: SkyToastType | undefined) {
-    if (value === undefined) {
-      this.toastTypeOrDefault = SKY_TOAST_TYPE_DEFAULT;
-    } else {
-      this.toastTypeOrDefault = value;
-    }
-    this.updateIcon();
-
-    this.ariaLive =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
-    this.ariaRole =
-      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
+    this.toastTypeOrDefault =
+      value === undefined ? SKY_TOAST_TYPE_DEFAULT : value;
+    this.updateForToastType();
   }
 
   /**
@@ -119,9 +111,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   constructor(
     private changeDetector: ChangeDetectorRef,
     @Optional() private toasterService?: SkyToasterService
-  ) {
-    this.updateIcon();
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.isOpen = true;
@@ -142,6 +132,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
           }
         });
     }
+
+    this.updateForToastType();
   }
 
   public ngOnDestroy(): void {
@@ -186,7 +178,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateIcon(): void {
+  private updateForToastType(): void {
     let icon: string;
     let baseIcon: string;
     let topIcon: string;
@@ -221,5 +213,10 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     };
 
     this.icon = icon;
+
+    this.ariaLive =
+      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
+    this.ariaRole =
+      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
   }
 }
