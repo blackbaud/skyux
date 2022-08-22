@@ -1,8 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-interface SkyModalHostContextArgs {
-  teardownCallback: () => void;
-}
+import { SkyModalHostContextArgs } from './modal-host-context-args';
 
 /**
  * Provided by the modal service to give the modal host
