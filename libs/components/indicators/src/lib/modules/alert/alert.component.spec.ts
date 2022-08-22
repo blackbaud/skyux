@@ -52,7 +52,7 @@ describe('Alert component', () => {
 
     const attributes: NamedNodeMap | undefined =
       el.querySelector('.sky-alert-close')?.attributes;
-    expect(attributes?.getNamedItem('hidden')).toBe(undefined);
+    expect(attributes?.getNamedItem('hidden')).toBeNull();
 
     cmp.closeable = false;
     fixture.detectChanges();
