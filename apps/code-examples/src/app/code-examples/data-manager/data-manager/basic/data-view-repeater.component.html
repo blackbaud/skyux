@@ -2,7 +2,7 @@
   <sky-repeater *ngIf="isActive" expandMode="none">
     <sky-repeater-item
       *ngFor="let item of displayedItems"
-      selectable="true"
+      [selectable]="true"
       [(isSelected)]="item.selected"
       (isSelectedChange)="onItemSelect($event, item)"
     >
