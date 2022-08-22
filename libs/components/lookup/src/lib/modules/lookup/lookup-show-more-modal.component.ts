@@ -136,8 +136,13 @@ export class SkyLookupShowMoreModalComponent
       this.#changeDetector.markForCheck();
     }
 
+    // if onlyShowSelected is checked, then only iterate through the initial selection
+    const items = this.items.filter(
+      (item) => item.selected || !this.onlyShowSelected
+    );
+
     this.#itemIndex = this.#itemIndex + 10;
-    this.searchItems(this.items).then((searchedItems) => {
+    this.searchItems(items).then((searchedItems) => {
       this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
       if (this.#itemIndex > searchedItems.length) {
