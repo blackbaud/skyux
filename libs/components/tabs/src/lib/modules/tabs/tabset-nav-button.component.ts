@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
-
-import { forkJoin } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Component, Input } from '@angular/core';
 
 import { SkyTabComponent } from './tab.component';
 import { SkyTabsetComponent } from './tabset.component';
@@ -23,33 +14,27 @@ const buttonTypePrevious = 'previous';
   selector: 'sky-tabset-nav-button',
   templateUrl: './tabset-nav-button.component.html',
 })
-export class SkyTabsetNavButtonComponent implements AfterViewInit {
+export class SkyTabsetNavButtonComponent {
+  /**
+   * Specifies the tabset wizard component to associate with the nav button.
+   * @required
+   */
   @Input()
   public tabset: SkyTabsetComponent;
 
+  /**
+   * Specifies the type of nav button to include.
+   * @required
+   */
   @Input()
   public buttonType: string;
 
+  /**
+   * Specifies the label to display on the nav button. The following are the defaults for each `buttonType`.
+   * `next` = "Next", `previous` = "Previous"
+   */
   @Input()
-  public set buttonText(value: string) {
-    this._buttonText = value;
-  }
-
-  public get buttonText(): string {
-    if (this._buttonText) {
-      return this._buttonText;
-    }
-
-    switch (this.buttonType) {
-      case buttonTypePrevious:
-        return this.previousButtonText;
-      case buttonTypeNext:
-        return this.nextButtonText;
-      /* istanbul ignore next */
-      default:
-        return '';
-    }
-  }
+  public buttonText?: string | undefined;
 
   public get disabled(): boolean {
     let tabToSelect: SkyTabComponent;
@@ -101,28 +86,6 @@ export class SkyTabsetNavButtonComponent implements AfterViewInit {
     }
 
     return undefined;
-  }
-
-  private _buttonText: string;
-  private previousButtonText: string;
-  private nextButtonText: string;
-
-  constructor(
-    private resourceService: SkyLibResourcesService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
-
-  public ngAfterViewInit() {
-    forkJoin([
-      this.resourceService.getString('skyux_tabs_navigator_previous'),
-      this.resourceService.getString('skyux_tabs_navigator_next'),
-    ])
-      .pipe(take(1))
-      .subscribe((resources) => {
-        this.previousButtonText = resources[0];
-        this.nextButtonText = resources[1];
-        this.changeDetector.detectChanges();
-      });
   }
 
   public buttonClick() {

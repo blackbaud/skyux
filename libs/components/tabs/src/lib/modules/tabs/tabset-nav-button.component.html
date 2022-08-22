@@ -8,5 +8,5 @@
   }"
   (click)="buttonClick()"
 >
-  {{ buttonText }}
+  {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
 </button>
