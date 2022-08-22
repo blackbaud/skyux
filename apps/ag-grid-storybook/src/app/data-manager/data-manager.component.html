@@ -1,0 +1,36 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-toolbar-primary-item>
+      <form [formGroup]="gridSettings">
+        <sky-checkbox
+          formControlName="enableTopScroll"
+          icon="arrows-h"
+          label="Top scroll"
+        ></sky-checkbox>
+        <sky-radio-group ariaLabel="DOM layout" formControlName="domLayout">
+          <div class="sky-switch-icon-group">
+            <sky-radio
+              icon="square-o"
+              label="Normal"
+              value="normal"
+            ></sky-radio>
+            <sky-radio
+              icon="arrows-v"
+              label="Auto-height"
+              value="autoHeight"
+            ></sky-radio>
+          </div>
+        </sky-radio-group>
+      </form>
+    </sky-data-manager-toolbar-primary-item>
+  </sky-data-manager-toolbar>
+  <sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
+    <sky-ag-grid-wrapper *ngIf="isActive$ | async">
+      <ag-grid-angular
+        [gridOptions]="gridOptions"
+        [rowData]="items"
+      ></ag-grid-angular>
+    </sky-ag-grid-wrapper>
+  </sky-data-view>
+</sky-data-manager>
+<span id="ready" *ngIf="ready | async"></span>
