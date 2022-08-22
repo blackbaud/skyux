@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -24,7 +25,7 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
   styleUrls: ['./status-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyStatusIndicatorComponent {
+export class SkyStatusIndicatorComponent implements OnInit {
   /**
    * Specifies a style for the status indicator to determine the icon.
    * @default "warning"
@@ -90,6 +91,9 @@ export class SkyStatusIndicatorComponent {
   ) {
     this.#changeDetector = changeDetector;
     this.#resources = resources;
+  }
+
+  public ngOnInit(): void {
     this.#updateIcon();
   }
 

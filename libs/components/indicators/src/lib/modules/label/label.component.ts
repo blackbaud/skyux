@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
@@ -12,7 +12,7 @@ const LABEL_TYPE_DEFAULT = 'info';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent {
+export class SkyLabelComponent implements OnInit {
   /**
    * The type of label to display.
    * @default 'info'
@@ -32,7 +32,7 @@ export class SkyLabelComponent {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  constructor() {
+  public ngOnInit(): void {
     this.#updateIcon();
   }
 
