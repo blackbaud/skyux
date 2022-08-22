@@ -162,7 +162,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel --maxParallel=5 --exclude=ci
+          npx nx affected --target=test --parallel --maxParallel=5 --exclude=ci --browsers=ChromeHeadless
 
   # browserstack:
   #   name: Cross-browser testing
