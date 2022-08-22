@@ -27,8 +27,8 @@ export class SkyAlertComponent {
   @Input()
   public set alertType(value: SkyIndicatorIconType | undefined) {
     this.#_alertType = value;
-    if (this.#_alertType !== this.alertTypeOrDefault) {
-      this.alertTypeOrDefault = this.#_alertType || ALERT_TYPE_DEFAULT;
+    if (this.alertType !== this.alertTypeOrDefault) {
+      this.alertTypeOrDefault = this.alertType || ALERT_TYPE_DEFAULT;
       this.indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
         this.alertTypeOrDefault
       );
