@@ -32,17 +32,4 @@ describe('Label component', () => {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
-
-  it('should default to "info" when no alert type is specified', async () => {
-    const fixture = TestBed.createComponent(LabelTestComponent);
-    const cmp = fixture.componentInstance as LabelTestComponent;
-    const el = fixture.nativeElement as HTMLElement;
-
-    cmp.labelType = undefined;
-    fixture.detectChanges();
-
-    const alertEl = el.querySelector('.sky-label');
-    expect(alertEl?.classList.contains('sky-label-info')).toBe(true);
-    expect(fixture.nativeElement).toBeAccessible();
-  });
 });
