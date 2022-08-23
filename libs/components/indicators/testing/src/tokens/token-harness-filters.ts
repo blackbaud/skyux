@@ -5,7 +5,7 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
  */
 export interface SkyTokenHarnessFilters extends BaseHarnessFilters {
   /**
-   * Find a token component based on its text content.
+   * Only find instances whose text content matches the given value.
    */
   text?: string | RegExp;
 }

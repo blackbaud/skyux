@@ -5,7 +5,7 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
  */
 export interface SkyHarnessFilters extends BaseHarnessFilters {
   /**
-   * Find a component based on the value of its `data-sky-id` attribute.
+   * Only find instances whose `data-sky-id` attribute matches the given value.
    */
   dataSkyId?: string | RegExp;
 }

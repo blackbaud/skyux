@@ -6,7 +6,7 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
 export interface SkyAutocompleteSearchResultHarnessFilters
   extends Omit<BaseHarnessFilters, 'selector'> {
   /**
-   * Find an autocomplete search result based on its text content.
+   * Only find instances whose content matches the given value.
    */
   textContent?: string | RegExp;
 }

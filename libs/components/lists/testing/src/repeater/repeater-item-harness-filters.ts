@@ -5,12 +5,12 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
  */
 export interface SkyRepeaterItemHarnessFilters extends SkyHarnessFilters {
   /**
-   * Find a repeater item based on the text of its content area.
+   * Only find instances whose content matches the given value.
    */
   contentText?: string | RegExp;
 
   /**
-   * Find a repeater item based on the text of its title.
+   * Only find instances whose title matches the given value.
    */
   titleText?: string | RegExp;
 }
