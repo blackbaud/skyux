@@ -2,7 +2,7 @@
   describe(`ag-grid-storybook in ${theme} theme`, () => {
     beforeEach(() =>
       cy
-        .viewport(1280, 800)
+        .viewport(1300, 900)
         .visit(
           `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
         )
@@ -12,14 +12,17 @@
       cy.get('#ready')
         .should('exist')
         .end()
-        .get('app-ag-grid-stories')
+        .get('#root')
         .should('exist')
         .should('be.visible')
         .screenshot(
           `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`
         )
         .percySnapshot(
-          `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`
+          `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
+          {
+            widths: [1280],
+          }
         );
     });
   });

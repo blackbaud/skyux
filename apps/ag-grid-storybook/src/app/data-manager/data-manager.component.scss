@@ -7,6 +7,7 @@ app-data-manager.use-auto-height-dom-layout {
   display: block;
   height: var(--viewport-height);
   width: var(--viewport-width);
+  overflow: hidden;
   overflow-y: auto;
 }
 

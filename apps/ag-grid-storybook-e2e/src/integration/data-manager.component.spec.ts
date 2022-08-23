@@ -9,7 +9,7 @@
       describe(`${label} layout`, () => {
         beforeEach(() =>
           cy
-            .viewport(1280, 800)
+            .viewport(1300, 900)
             .visit(
               `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
             )
@@ -19,7 +19,7 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            .get('app-data-manager')
+            .get('#root')
             .should('exist')
             .should('be.visible')
             .screenshot(
