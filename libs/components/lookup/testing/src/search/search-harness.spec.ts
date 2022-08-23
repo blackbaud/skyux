@@ -5,7 +5,7 @@ import { SearchHarnessTestComponent } from './fixtures/search-harness-test.compo
 import { SearchHarnessTestModule } from './fixtures/search-harness-test.module';
 import { SkySearchHarness } from './search-harness';
 
-fdescribe('Search harness', () => {
+describe('Search harness', () => {
   async function setupTest(options: { dataSkyId?: string } = {}) {
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
