@@ -17,6 +17,14 @@ export const columnDefinitions: ColDef[] = [
     type: SkyCellType.Text,
     minWidth: 200,
   },
+  {
+    field: 'birthday',
+    colId: 'birthday',
+    headerName: 'Birthday',
+    sortable: true,
+    type: SkyCellType.Date,
+    minWidth: 300,
+  },
   ...[
     ['seasons_played', 'Seasons Played'],
     ['all-star', 'All-Star'],
@@ -64,6 +72,7 @@ export const data = [
   {
     id: 'aaronha01',
     name: 'Hank Aaron',
+    birthday: '1934-02-05',
     seasons_played: 23,
     'all-star': 25,
     triplecrown: 0,
@@ -80,6 +89,7 @@ export const data = [
   {
     id: 'alexape01',
     name: 'Pete Alexander',
+    birthday: '1887-02-26',
     seasons_played: 21,
     'all-star': 0,
     triplecrown: 3,
@@ -96,6 +106,7 @@ export const data = [
   {
     id: 'alomaro01',
     name: 'Roberto Alomar',
+    birthday: '1968-02-05',
     seasons_played: 19,
     'all-star': 12,
     triplecrown: 0,
@@ -112,6 +123,7 @@ export const data = [
   {
     id: 'aparilu01',
     name: 'Luis Aparicio',
+    birthday: '1934-04-29',
     seasons_played: 18,
     'all-star': 13,
     triplecrown: 0,
@@ -128,6 +140,7 @@ export const data = [
   {
     id: 'bankser01',
     name: 'Ernie Banks',
+    birthday: '1931-01-31',
     seasons_played: 19,
     'all-star': 14,
     triplecrown: 0,
@@ -144,6 +157,7 @@ export const data = [
   {
     id: 'benchjo01',
     name: 'Johnny Bench',
+    birthday: '1947-12-07',
     seasons_played: 17,
     'all-star': 14,
     triplecrown: 0,
@@ -160,6 +174,7 @@ export const data = [
   {
     id: 'berrayo01',
     name: 'Yogi Berra',
+    birthday: '1925-05-12',
     seasons_played: 19,
     'all-star': 18,
     triplecrown: 0,
@@ -176,6 +191,7 @@ export const data = [
   {
     id: 'biggicr01',
     name: 'Craig Biggio',
+    birthday: '1965-12-14',
     seasons_played: 20,
     'all-star': 7,
     triplecrown: 0,
@@ -192,6 +208,7 @@ export const data = [
   {
     id: 'blylebe01',
     name: 'Bert Blyleven',
+    birthday: '1951-04-06',
     seasons_played: 24,
     'all-star': 2,
     triplecrown: 0,
@@ -208,6 +225,7 @@ export const data = [
   {
     id: 'boggswa01',
     name: 'Wade Boggs',
+    birthday: '1958-06-15',
     seasons_played: 18,
     'all-star': 12,
     triplecrown: 0,
@@ -224,6 +242,7 @@ export const data = [
   {
     id: 'boudrlo01',
     name: 'Lou Boudreau',
+    birthday: '1917-07-17',
     seasons_played: 15,
     'all-star': 8,
     triplecrown: 0,
@@ -240,6 +259,7 @@ export const data = [
   {
     id: 'brettge01',
     name: 'George Brett',
+    birthday: '1953-05-15',
     seasons_played: 21,
     'all-star': 13,
     triplecrown: 0,
@@ -256,6 +276,7 @@ export const data = [
   {
     id: 'brocklo01',
     name: 'Lou Brock',
+    birthday: '1939-06-18',
     seasons_played: 20,
     'all-star': 6,
     triplecrown: 0,
@@ -272,6 +293,7 @@ export const data = [
   {
     id: 'camparo01',
     name: 'Roy Campanella',
+    birthday: '1921-11-19',
     seasons_played: 10,
     'all-star': 8,
     triplecrown: 0,
@@ -288,6 +310,7 @@ export const data = [
   {
     id: 'carewro01',
     name: 'Rod Carew',
+    birthday: '1945-10-01',
     seasons_played: 19,
     'all-star': 18,
     triplecrown: 0,
@@ -304,6 +327,7 @@ export const data = [
   {
     id: 'carltst01',
     name: 'Steve Carlton',
+    birthday: '1944-12-22',
     seasons_played: 27,
     'all-star': 10,
     triplecrown: 1,
@@ -320,6 +344,7 @@ export const data = [
   {
     id: 'cartega01',
     name: 'Gary Carter',
+    birthday: '1954-04-08',
     seasons_played: 19,
     'all-star': 11,
     triplecrown: 0,
@@ -336,6 +361,7 @@ export const data = [
   {
     id: 'cobbty01',
     name: 'Ty Cobb',
+    birthday: '1886-12-18',
     seasons_played: 24,
     'all-star': 0,
     triplecrown: 1,
@@ -352,6 +378,7 @@ export const data = [
   {
     id: 'cochrmi01',
     name: 'Mickey Cochrane',
+    birthday: '1903-04-06',
     seasons_played: 13,
     'all-star': 2,
     triplecrown: 0,
@@ -368,6 +395,7 @@ export const data = [
   {
     id: 'collied01',
     name: 'Eddie Collins',
+    birthday: '1887-05-02',
     seasons_played: 25,
     'all-star': 0,
     triplecrown: 0,
@@ -384,6 +412,7 @@ export const data = [
   {
     id: 'cronijo01',
     name: 'Joe Cronin',
+    birthday: '1906-10-12',
     seasons_played: 20,
     'all-star': 7,
     triplecrown: 0,
@@ -400,6 +429,7 @@ export const data = [
   {
     id: 'dawsoan01',
     name: 'Andre Dawson',
+    birthday: '1954-07-10',
     seasons_played: 21,
     'all-star': 8,
     triplecrown: 0,
@@ -416,6 +446,7 @@ export const data = [
   {
     id: 'deandi01',
     name: 'Dizzy Dean',
+    birthday: '1910-01-16',
     seasons_played: 12,
     'all-star': 4,
     triplecrown: 0,
@@ -432,6 +463,7 @@ export const data = [
   {
     id: 'dickebi01',
     name: 'Bill Dickey',
+    birthday: '1907-06-06',
     seasons_played: 17,
     'all-star': 11,
     triplecrown: 0,
@@ -448,6 +480,7 @@ export const data = [
   {
     id: 'dimagjo01',
     name: 'Joe DiMaggio',
+    birthday: '1914-11-25',
     seasons_played: 13,
     'all-star': 13,
     triplecrown: 0,
@@ -464,6 +497,7 @@ export const data = [
   {
     id: 'drysddo01',
     name: 'Don Drysdale',
+    birthday: '1936-07-23',
     seasons_played: 14,
     'all-star': 9,
     triplecrown: 0,
@@ -480,6 +514,7 @@ export const data = [
   {
     id: 'eckerde01',
     name: 'Dennis Eckersley',
+    birthday: '1954-10-03',
     seasons_played: 25,
     'all-star': 6,
     triplecrown: 0,
@@ -496,6 +531,7 @@ export const data = [
   {
     id: 'fellebo01',
     name: 'Bob Feller',
+    birthday: '1918-11-03',
     seasons_played: 18,
     'all-star': 8,
     triplecrown: 1,
@@ -512,6 +548,7 @@ export const data = [
   {
     id: 'fingero01',
     name: 'Rollie Fingers',
+    birthday: '1946-08-25',
     seasons_played: 17,
     'all-star': 7,
     triplecrown: 0,
@@ -528,6 +565,7 @@ export const data = [
   {
     id: 'fiskca01',
     name: 'Carlton Fisk',
+    birthday: '1947-12-26',
     seasons_played: 24,
     'all-star': 11,
     triplecrown: 0,
@@ -544,6 +582,7 @@ export const data = [
   {
     id: 'fordwh01',
     name: 'Whitey Ford',
+    birthday: '1928-10-21',
     seasons_played: 16,
     'all-star': 10,
     triplecrown: 0,
@@ -560,6 +599,7 @@ export const data = [
   {
     id: 'foxxji01',
     name: 'Jimmie Foxx',
+    birthday: '1907-10-22',
     seasons_played: 21,
     'all-star': 9,
     triplecrown: 1,
@@ -576,6 +616,7 @@ export const data = [
   {
     id: 'friscfr01',
     name: 'Frankie Frisch',
+    birthday: '1897-09-09',
     seasons_played: 19,
     'all-star': 3,
     triplecrown: 0,
@@ -592,6 +633,7 @@ export const data = [
   {
     id: 'gibsobo01',
     name: 'Bob Gibson',
+    birthday: '1935-11-09',
     seasons_played: 17,
     'all-star': 9,
     triplecrown: 0,
@@ -608,6 +650,7 @@ export const data = [
   {
     id: 'glavito02',
     name: 'Tom Glavine',
+    birthday: '1966-03-25',
     seasons_played: 22,
     'all-star': 10,
     triplecrown: 0,
@@ -624,6 +667,7 @@ export const data = [
   {
     id: 'gossari01',
     name: 'Rich Gossage',
+    birthday: '1951-07-05',
     seasons_played: 23,
     'all-star': 9,
     triplecrown: 0,
@@ -640,6 +684,7 @@ export const data = [
   {
     id: 'greenha01',
     name: 'Hank Greenberg',
+    birthday: '1911-01-01',
     seasons_played: 13,
     'all-star': 5,
     triplecrown: 0,
@@ -656,6 +701,7 @@ export const data = [
   {
     id: 'grovele01',
     name: 'Lefty Grove',
+    birthday: '1900-03-06',
     seasons_played: 17,
     'all-star': 6,
     triplecrown: 2,
@@ -672,6 +718,7 @@ export const data = [
   {
     id: 'gwynnto01',
     name: 'Tony Gwynn',
+    birthday: '1960-05-09',
     seasons_played: 20,
     'all-star': 15,
     triplecrown: 0,
@@ -688,6 +735,7 @@ export const data = [
   {
     id: 'hartnga01',
     name: 'Gabby Hartnett',
+    birthday: '1900-12-20',
     seasons_played: 20,
     'all-star': 6,
     triplecrown: 0,
@@ -704,6 +752,7 @@ export const data = [
   {
     id: 'heilmha01',
     name: 'Harry Heilmann',
+    birthday: '1894-08-03',
     seasons_played: 17,
     'all-star': 0,
     triplecrown: 0,
@@ -720,6 +769,7 @@ export const data = [
   {
     id: 'henderi01',
     name: 'Rickey Henderson',
+    birthday: '1958-12-25',
     seasons_played: 29,
     'all-star': 10,
     triplecrown: 0,
@@ -736,6 +786,7 @@ export const data = [
   {
     id: 'hornsro01',
     name: 'Rogers Hornsby',
+    birthday: '1896-04-27',
     seasons_played: 24,
     'all-star': 0,
     triplecrown: 2,
@@ -752,6 +803,7 @@ export const data = [
   {
     id: 'hubbeca01',
     name: 'Carl Hubbell',
+    birthday: '1903-06-22',
     seasons_played: 16,
     'all-star': 9,
     triplecrown: 0,
@@ -768,6 +820,7 @@ export const data = [
   {
     id: 'hunteca01',
     name: 'Catfish Hunter',
+    birthday: '1946-04-08',
     seasons_played: 15,
     'all-star': 8,
     triplecrown: 0,
@@ -784,6 +837,7 @@ export const data = [
   {
     id: 'jacksre01',
     name: 'Reggie Jackson',
+    birthday: '1946-05-18',
     seasons_played: 21,
     'all-star': 14,
     triplecrown: 0,
@@ -800,6 +854,7 @@ export const data = [
   {
     id: 'jenkife01',
     name: 'Fergie Jenkins',
+    birthday: '1942-12-13',
     seasons_played: 20,
     'all-star': 3,
     triplecrown: 0,
@@ -816,6 +871,7 @@ export const data = [
   {
     id: 'johnsra05',
     name: 'Randy Johnson',
+    birthday: '1963-09-10',
     seasons_played: 24,
     'all-star': 10,
     triplecrown: 1,
@@ -832,6 +888,7 @@ export const data = [
   {
     id: 'johnswa01',
     name: 'Walter Johnson',
+    birthday: '1887-11-06',
     seasons_played: 21,
     'all-star': 0,
     triplecrown: 3,
@@ -848,6 +905,7 @@ export const data = [
   {
     id: 'kalinal01',
     name: 'Al Kaline',
+    birthday: '1934-12-19',
     seasons_played: 22,
     'all-star': 18,
     triplecrown: 0,
@@ -864,6 +922,7 @@ export const data = [
   {
     id: 'keelewi01',
     name: 'Willie Keeler',
+    birthday: '1872-03-03',
     seasons_played: 20,
     'all-star': 0,
     triplecrown: 0,
@@ -880,6 +939,7 @@ export const data = [
   {
     id: 'killeha01',
     name: 'Harmon Killebrew',
+    birthday: '1936-06-29',
     seasons_played: 22,
     'all-star': 13,
     triplecrown: 0,
@@ -896,6 +956,7 @@ export const data = [
   {
     id: 'kinerra01',
     name: 'Ralph Kiner',
+    birthday: '1922-10-27',
     seasons_played: 11,
     'all-star': 6,
     triplecrown: 0,
@@ -912,6 +973,7 @@ export const data = [
   {
     id: 'koufasa01',
     name: 'Sandy Koufax',
+    birthday: '1935-12-30',
     seasons_played: 12,
     'all-star': 7,
     triplecrown: 3,
@@ -928,6 +990,7 @@ export const data = [
   {
     id: 'lajoina01',
     name: 'Nap Lajoie',
+    birthday: '1874-09-05',
     seasons_played: 22,
     'all-star': 0,
     triplecrown: 1,
@@ -944,6 +1007,7 @@ export const data = [
   {
     id: 'larkiba01',
     name: 'Barry Larkin',
+    birthday: '1964-04-28',
     seasons_played: 19,
     'all-star': 12,
     triplecrown: 0,
@@ -960,6 +1024,7 @@ export const data = [
   {
     id: 'lemonbo01',
     name: 'Bob Lemon',
+    birthday: '1920-09-22',
     seasons_played: 15,
     'all-star': 7,
     triplecrown: 0,
@@ -976,6 +1041,7 @@ export const data = [
   {
     id: 'lyonste01',
     name: 'Ted Lyons',
+    birthday: '1900-12-28',
     seasons_played: 21,
     'all-star': 1,
     triplecrown: 0,
@@ -992,6 +1058,7 @@ export const data = [
   {
     id: 'maddugr01',
     name: 'Greg Maddux',
+    birthday: '1966-04-14',
     seasons_played: 25,
     'all-star': 8,
     triplecrown: 0,
@@ -1008,6 +1075,7 @@ export const data = [
   {
     id: 'mantlmi01',
     name: 'Mickey Mantle',
+    birthday: '1931-10-20',
     seasons_played: 18,
     'all-star': 20,
     triplecrown: 1,
@@ -1024,6 +1092,7 @@ export const data = [
   {
     id: 'maranra01',
     name: 'Rabbit Maranville',
+    birthday: '1891-11-11',
     seasons_played: 23,
     'all-star': 0,
     triplecrown: 0,
@@ -1040,6 +1109,7 @@ export const data = [
   {
     id: 'maricju01',
     name: 'Juan Marichal',
+    birthday: '1937-10-20',
     seasons_played: 16,
     'all-star': 10,
     triplecrown: 0,
@@ -1056,6 +1126,7 @@ export const data = [
   {
     id: 'martipe02',
     name: 'Pedro Martinez',
+    birthday: '1971-10-25',
     seasons_played: 18,
     'all-star': 8,
     triplecrown: 1,
@@ -1072,6 +1143,7 @@ export const data = [
   {
     id: 'mathech01',
     name: 'Christy Mathewson',
+    birthday: '1880-08-12',
     seasons_played: 18,
     'all-star': 0,
     triplecrown: 2,
@@ -1088,6 +1160,7 @@ export const data = [
   {
     id: 'matheed01',
     name: 'Eddie Mathews',
+    birthday: '1931-10-13',
     seasons_played: 18,
     'all-star': 12,
     triplecrown: 0,
@@ -1104,6 +1177,7 @@ export const data = [
   {
     id: 'mayswi01',
     name: 'Willie Mays',
+    birthday: '1931-05-06',
     seasons_played: 23,
     'all-star': 24,
     triplecrown: 0,
@@ -1120,6 +1194,7 @@ export const data = [
   {
     id: 'mccovwi01',
     name: 'Willie McCovey',
+    birthday: '1938-01-10',
     seasons_played: 23,
     'all-star': 6,
     triplecrown: 0,
@@ -1136,6 +1211,7 @@ export const data = [
   {
     id: 'medwijo01',
     name: 'Joe Medwick',
+    birthday: '1911-11-24',
     seasons_played: 20,
     'all-star': 10,
     triplecrown: 1,
@@ -1152,6 +1228,7 @@ export const data = [
   {
     id: 'molitpa01',
     name: 'Paul Molitor',
+    birthday: '1956-08-22',
     seasons_played: 21,
     'all-star': 7,
     triplecrown: 0,
@@ -1168,6 +1245,7 @@ export const data = [
   {
     id: 'morgajo02',
     name: 'Joe Morgan',
+    birthday: '1943-09-19',
     seasons_played: 22,
     'all-star': 10,
     triplecrown: 0,
@@ -1184,6 +1262,7 @@ export const data = [
   {
     id: 'murraed02',
     name: 'Eddie Murray',
+    birthday: '1956-02-24',
     seasons_played: 23,
     'all-star': 8,
     triplecrown: 0,
@@ -1200,6 +1279,7 @@ export const data = [
   {
     id: 'musiast01',
     name: 'Stan Musial',
+    birthday: '1920-11-21',
     seasons_played: 22,
     'all-star': 24,
     triplecrown: 0,
@@ -1216,6 +1296,7 @@ export const data = [
   {
     id: 'niekrph01',
     name: 'Phil Niekro',
+    birthday: '1939-04-01',
     seasons_played: 26,
     'all-star': 5,
     triplecrown: 0,
@@ -1232,6 +1313,7 @@ export const data = [
   {
     id: 'ottme01',
     name: 'Mel Ott',
+    birthday: '1909-03-02',
     seasons_played: 22,
     'all-star': 12,
     triplecrown: 0,
@@ -1248,6 +1330,7 @@ export const data = [
   {
     id: 'palmeji01',
     name: 'Jim Palmer',
+    birthday: '1945-10-15',
     seasons_played: 19,
     'all-star': 6,
     triplecrown: 0,
@@ -1264,6 +1347,7 @@ export const data = [
   {
     id: 'pennohe01',
     name: 'Herb Pennock',
+    birthday: '1894-02-10',
     seasons_played: 23,
     'all-star': 0,
     triplecrown: 0,
@@ -1280,6 +1364,7 @@ export const data = [
   {
     id: 'perezto01',
     name: 'Tony Perez',
+    birthday: '1942-05-14',
     seasons_played: 23,
     'all-star': 7,
     triplecrown: 0,
@@ -1296,6 +1381,7 @@ export const data = [
   {
     id: 'perryga01',
     name: 'Gaylord Perry',
+    birthday: '1938-09-15',
     seasons_played: 25,
     'all-star': 5,
     triplecrown: 0,
@@ -1312,6 +1398,7 @@ export const data = [
   {
     id: 'piazzmi01',
     name: 'Mike Piazza',
+    birthday: '1968-09-04',
     seasons_played: 18,
     'all-star': 12,
     triplecrown: 0,
@@ -1328,6 +1415,7 @@ export const data = [
   {
     id: 'puckeki01',
     name: 'Kirby Puckett',
+    birthday: '1960-03-14',
     seasons_played: 12,
     'all-star': 10,
     triplecrown: 0,
@@ -1344,6 +1432,7 @@ export const data = [
   {
     id: 'riceji01',
     name: 'Jim Rice',
+    birthday: '1953-03-08',
     seasons_played: 16,
     'all-star': 8,
     triplecrown: 0,
@@ -1360,6 +1449,7 @@ export const data = [
   {
     id: 'ripkeca01',
     name: 'Cal Ripken',
+    birthday: '1960-08-24',
     seasons_played: 21,
     'all-star': 19,
     triplecrown: 0,
@@ -1376,6 +1466,7 @@ export const data = [
   {
     id: 'roberro01',
     name: 'Robin Roberts',
+    birthday: '1926-09-30',
     seasons_played: 21,
     'all-star': 7,
     triplecrown: 0,
@@ -1392,6 +1483,7 @@ export const data = [
   {
     id: 'robinbr01',
     name: 'Brooks Robinson',
+    birthday: '1937-05-18',
     seasons_played: 23,
     'all-star': 18,
     triplecrown: 0,
@@ -1408,6 +1500,7 @@ export const data = [
   {
     id: 'robinfr02',
     name: 'Frank Robinson',
+    birthday: '1935-08-31',
     seasons_played: 22,
     'all-star': 14,
     triplecrown: 1,
@@ -1424,6 +1517,7 @@ export const data = [
   {
     id: 'robinja02',
     name: 'Jackie Robinson',
+    birthday: '1919-01-31',
     seasons_played: 10,
     'all-star': 6,
     triplecrown: 0,
@@ -1440,6 +1534,7 @@ export const data = [
   {
     id: 'ruthba01',
     name: 'Babe Ruth',
+    birthday: '1895-02-06',
     seasons_played: 22,
     'all-star': 2,
     triplecrown: 0,
@@ -1456,6 +1551,7 @@ export const data = [
   {
     id: 'ryanno01',
     name: 'Nolan Ryan',
+    birthday: '1947-01-31',
     seasons_played: 27,
     'all-star': 8,
     triplecrown: 0,
@@ -1472,6 +1568,7 @@ export const data = [
   {
     id: 'sandbry01',
     name: 'Ryne Sandberg',
+    birthday: '1959-09-18',
     seasons_played: 16,
     'all-star': 10,
     triplecrown: 0,
@@ -1488,6 +1585,7 @@ export const data = [
   {
     id: 'schmimi01',
     name: 'Mike Schmidt',
+    birthday: '1949-09-27',
     seasons_played: 18,
     'all-star': 12,
     triplecrown: 0,
@@ -1504,6 +1602,7 @@ export const data = [
   {
     id: 'seaveto01',
     name: 'Tom Seaver',
+    birthday: '1944-11-17',
     seasons_played: 22,
     'all-star': 12,
     triplecrown: 0,
@@ -1520,6 +1619,7 @@ export const data = [
   {
     id: 'simmoal01',
     name: 'Al Simmons',
+    birthday: '1902-05-22',
     seasons_played: 21,
     'all-star': 3,
     triplecrown: 0,
@@ -1536,6 +1636,7 @@ export const data = [
   {
     id: 'sislege01',
     name: 'George Sisler',
+    birthday: '1893-03-24',
     seasons_played: 16,
     'all-star': 0,
     triplecrown: 0,
@@ -1552,6 +1653,7 @@ export const data = [
   {
     id: 'smithoz01',
     name: 'Ozzie Smith',
+    birthday: '1954-12-26',
     seasons_played: 19,
     'all-star': 15,
     triplecrown: 0,
@@ -1568,6 +1670,7 @@ export const data = [
   {
     id: 'smoltjo01',
     name: 'John Smoltz',
+    birthday: '1967-05-15',
     seasons_played: 22,
     'all-star': 8,
     triplecrown: 0,
@@ -1584,6 +1687,7 @@ export const data = [
   {
     id: 'snidedu01',
     name: 'Duke Snider',
+    birthday: '1926-09-19',
     seasons_played: 18,
     'all-star': 8,
     triplecrown: 0,
@@ -1600,6 +1704,7 @@ export const data = [
   {
     id: 'spahnwa01',
     name: 'Warren Spahn',
+    birthday: '1921-04-23',
     seasons_played: 22,
     'all-star': 17,
     triplecrown: 0,
@@ -1616,6 +1721,7 @@ export const data = [
   {
     id: 'speaktr01',
     name: 'Tris Speaker',
+    birthday: '1888-04-04',
     seasons_played: 22,
     'all-star': 0,
     triplecrown: 0,
@@ -1632,6 +1738,7 @@ export const data = [
   {
     id: 'stargwi01',
     name: 'Willie Stargell',
+    birthday: '1940-03-06',
     seasons_played: 21,
     'all-star': 7,
     triplecrown: 0,
@@ -1648,6 +1755,7 @@ export const data = [
   {
     id: 'suttebr01',
     name: 'Bruce Sutter',
+    birthday: '1953-01-08',
     seasons_played: 12,
     'all-star': 6,
     triplecrown: 0,
@@ -1664,6 +1772,7 @@ export const data = [
   {
     id: 'suttodo01',
     name: 'Don Sutton',
+    birthday: '1945-04-02',
     seasons_played: 25,
     'all-star': 4,
     triplecrown: 0,
@@ -1680,6 +1789,7 @@ export const data = [
   {
     id: 'terrybi01',
     name: 'Bill Terry',
+    birthday: '1898-10-30',
     seasons_played: 14,
     'all-star': 3,
     triplecrown: 0,
@@ -1696,6 +1806,7 @@ export const data = [
   {
     id: 'thomafr04',
     name: 'Frank Thomas',
+    birthday: '1968-05-27',
     seasons_played: 20,
     'all-star': 5,
     triplecrown: 0,
@@ -1712,6 +1823,7 @@ export const data = [
   {
     id: 'traynpi01',
     name: 'Pie Traynor',
+    birthday: '1898-11-11',
     seasons_played: 17,
     'all-star': 2,
     triplecrown: 0,
@@ -1728,6 +1840,7 @@ export const data = [
   {
     id: 'vanceda01',
     name: 'Dazzy Vance',
+    birthday: '1891-03-04',
     seasons_played: 18,
     'all-star': 0,
     triplecrown: 1,
@@ -1744,6 +1857,7 @@ export const data = [
   {
     id: 'wagneho01',
     name: 'Honus Wagner',
+    birthday: '1874-02-24',
     seasons_played: 21,
     'all-star': 0,
     triplecrown: 0,
@@ -1760,6 +1874,7 @@ export const data = [
   {
     id: 'wanerpa01',
     name: 'Paul Waner',
+    birthday: '1903-04-16',
     seasons_played: 22,
     'all-star': 4,
     triplecrown: 0,
@@ -1776,6 +1891,7 @@ export const data = [
   {
     id: 'wilheho01',
     name: 'Hoyt Wilhelm',
+    birthday: '1922-07-26',
     seasons_played: 26,
     'all-star': 8,
     triplecrown: 0,
@@ -1792,6 +1908,7 @@ export const data = [
   {
     id: 'willibi01',
     name: 'Billy Williams',
+    birthday: '1938-06-15',
     seasons_played: 18,
     'all-star': 6,
     triplecrown: 0,
@@ -1808,6 +1925,7 @@ export const data = [
   {
     id: 'willite01',
     name: 'Ted Williams',
+    birthday: '1918-08-30',
     seasons_played: 19,
     'all-star': 19,
     triplecrown: 2,
@@ -1824,6 +1942,7 @@ export const data = [
   {
     id: 'winfida01',
     name: 'Dave Winfield',
+    birthday: '1951-10-03',
     seasons_played: 23,
     'all-star': 12,
     triplecrown: 0,
@@ -1840,6 +1959,7 @@ export const data = [
   {
     id: 'wynnea01',
     name: 'Early Wynn',
+    birthday: '1920-01-06',
     seasons_played: 23,
     'all-star': 8,
     triplecrown: 0,
@@ -1856,6 +1976,7 @@ export const data = [
   {
     id: 'yastrca01',
     name: 'Carl Yastrzemski',
+    birthday: '1939-08-22',
     seasons_played: 23,
     'all-star': 18,
     triplecrown: 1,
@@ -1872,6 +1993,7 @@ export const data = [
   {
     id: 'youngcy01',
     name: 'Cy Young',
+    birthday: '1867-03-29',
     seasons_played: 23,
     'all-star': 0,
     triplecrown: 1,
@@ -1888,6 +2010,7 @@ export const data = [
   {
     id: 'yountro01',
     name: 'Robin Yount',
+    birthday: '1955-09-16',
     seasons_played: 20,
     'all-star': 3,
     triplecrown: 0,

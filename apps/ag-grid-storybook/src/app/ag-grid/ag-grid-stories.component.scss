@@ -1,6 +1,7 @@
 app-ag-grid-stories.use-auto-height-dom-layout {
   display: block;
   height: 100vh;
+  width: 100vw;
   overflow-y: auto;
 }
 
@@ -9,6 +10,7 @@ app-ag-grid-stories.use-normal-dom-layout {
   top: 0;
   left: 0;
   height: 100vh;
+  width: 100vw;
   display: block;
 
   sky-data-manager,

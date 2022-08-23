@@ -54,6 +54,7 @@ export class DataManagerComponent implements OnInit {
         displayedColumnIds: [
           'select',
           'name',
+          'birthday',
           'seasons_played',
           'all-star',
           'triplecrown',
