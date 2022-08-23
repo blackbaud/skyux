@@ -1,4 +1,4 @@
-import { Tree, visitNotIgnoredFiles } from '@nrwl/devkit';
+import { Tree, normalizePath, visitNotIgnoredFiles } from '@nrwl/devkit';
 
 import { relative } from 'path';
 import * as ts from 'typescript';
@@ -23,7 +23,7 @@ export function findModulePaths(
   visitNotIgnoredFiles(tree, path, (filePath) => {
     if (filePath.endsWith(endsWith)) {
       if (predicate(filePath)) {
-        modulePaths.push(filePath);
+        modulePaths.push(normalizePath(filePath));
       }
     }
   });
@@ -43,11 +43,14 @@ export function findDeclaringModule(
       tree,
       path,
       (filepath) => {
+        filepath = normalizePath(filepath);
         const filepathDirectory = filepath.substring(
           0,
           filepath.lastIndexOf('/')
         );
-        let relativePath = relative(filepathDirectory, componentPath);
+        let relativePath = normalizePath(
+          relative(filepathDirectory, componentPath)
+        );
         if (!relativePath.startsWith('.')) {
           relativePath = `./${relativePath}`;
         }
@@ -92,7 +95,7 @@ export function findDeclaringModule(
 export function isRoutingModule(
   module: DecoratedClass,
   sourceFile: ts.SourceFile
-) {
+): boolean {
   // Is one of the imports a static call to a method on RouterModule?
   if (
     module.properties.imports &&
@@ -135,7 +138,12 @@ export function findClosestModule(
   projectDirectory: string,
   closestToDirectory: string
 ): string | undefined {
-  modulePaths.sort((a, b) => {
+  projectDirectory = normalizePath(projectDirectory);
+  closestToDirectory = normalizePath(closestToDirectory);
+  const modulePathsNormalized = modulePaths.map((modulePath) =>
+    normalizePath(modulePath)
+  );
+  modulePathsNormalized.sort((a, b) => {
     const aDir = dirname(a);
     const bDir = dirname(b);
     if (aDir.length === bDir.length) {
@@ -147,7 +155,7 @@ export function findClosestModule(
   while (
     directory &&
     directory !== projectDirectory &&
-    !modulePaths.some((m) => dirname(m) === directory)
+    !modulePathsNormalized.some((m) => dirname(m) === directory)
   ) {
     directory = dirname(directory);
   }
@@ -155,7 +163,7 @@ export function findClosestModule(
     return undefined;
   }
   // Return the basename of the module.
-  return modulePaths
+  return modulePathsNormalized
     .find((m) => dirname(m) === directory)
     .split('/')
     .pop()
