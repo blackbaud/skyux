@@ -23,8 +23,8 @@ export class LinkAsPipe implements PipeTransform {
           }
           break;
         case 'skyHref':
-          if ('route' in value) {
-            return (value['route'] && !value['url']) as boolean;
+          if ('url' in value) {
+            return (value['url'] && value['url'].includes('://')) as boolean;
           }
           break;
         case 'skyAppLink':

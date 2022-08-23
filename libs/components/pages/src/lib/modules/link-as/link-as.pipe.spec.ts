@@ -21,6 +21,7 @@ describe('LinkAsPipe', () => {
     ).toBeFalsy();
     expect(pipe.transform({ url: '' }, 'button')).toBeFalsy();
     expect(pipe.transform(undefined, 'button')).toBeFalsy();
+    expect(pipe.transform({ test: 'invalid' }, 'button')).toBeFalsy();
 
     // Href
     expect(
@@ -29,6 +30,7 @@ describe('LinkAsPipe', () => {
     expect(pipe.transform({ url: '/path' }, 'href')).toBeTruthy();
     expect(pipe.transform({ url: '' }, 'href')).toBeFalsy();
     expect(pipe.transform(undefined, 'href')).toBeFalsy();
+    expect(pipe.transform({ test: 'invalid' }, 'href')).toBeFalsy();
 
     // SkyAppLink
     expect(
@@ -48,6 +50,7 @@ describe('LinkAsPipe', () => {
     ).toBeFalsy();
     expect(pipe.transform({ route: undefined }, 'skyAppLink')).toBeFalsy();
     expect(pipe.transform(undefined, 'skyAppLink')).toBeFalsy();
+    expect(pipe.transform({ test: 'invalid' }, 'skyAppLink')).toBeFalsy();
 
     // SkyHref
     expect(
@@ -59,5 +62,6 @@ describe('LinkAsPipe', () => {
     expect(pipe.transform({ url: '/path' }, 'skyHref')).toBeFalsy();
     expect(pipe.transform({ url: '' }, 'skyHref')).toBeFalsy();
     expect(pipe.transform(undefined, 'skyHref')).toBeFalsy();
+    expect(pipe.transform({ test: 'invalid' }, 'skyHref')).toBeFalsy();
   });
 });
