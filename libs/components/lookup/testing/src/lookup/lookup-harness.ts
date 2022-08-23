@@ -7,7 +7,11 @@ import { SkyLookupSelectionHarness } from './lookup-selection-harness';
 import { SkyLookupSelectionsListHarness } from './lookup-selections-list-harness';
 import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harness';
 
+/**
+ * Harness for interacting with a lookup component in tests.
+ */
 export class SkyLookupHarness extends SkyAutocompleteHarness {
+  // Looks for a lookup component in isolation, or as a child of 'sky-input-box'.
   public static hostSelector = 'sky-lookup,.sky-input-box';
 
   #documentRootLocator = this.documentRootLocatorFactory();
@@ -18,6 +22,10 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   #getWrapper = this.locatorFor('.sky-lookup');
 
+  /**
+   * Gets a `HarnessPredicate` that can be used to search for a
+   * `SkyLookupHarness` that meets certain criteria.
+   */
   public static with(
     filters: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
@@ -41,10 +49,10 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Dismisses all selections made with a multiselect lookup.
+   * Dismisses the selections made with a multiselect lookup.
    */
-  public async dismissAllSelections(): Promise<void> {
-    return (await this.#getSelectionsListHarness()).dismissAllSelections();
+  public async dismissSelections(): Promise<void> {
+    return (await this.#getSelectionsListHarness()).dismissSelections();
   }
 
   /**
@@ -69,7 +77,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
   }
 
   /**
-   * Returns the selections made with a multiselect lookup.
+   * Gets a list of selections made with a multiselect lookup.
    */
   public async getSelections(): Promise<SkyLookupSelectionHarness[]> {
     return (await this.#getSelectionsListHarness()).getSelections();
@@ -86,6 +94,6 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Whether the lookup allows for multiple selections.
    */
   public async isMultiselect(): Promise<boolean> {
-    return !(await this.#getWrapper()).hasClass('sky-lookup-single');
+    return !(await (await this.#getWrapper()).hasClass('sky-lookup-single'));
   }
 }

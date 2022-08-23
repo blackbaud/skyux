@@ -137,9 +137,9 @@ export class LookupHarnessTestComponent implements AfterViewInit {
 
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const name: any[] = this.myForm.get('singleSelect')?.value;
+    const name: { name: string }[] = this.myForm.get('singleSelect')?.value;
     return [
-      (searchText: string, item: any): boolean => {
+      (searchText: string, item: { name: string }): boolean => {
         const found = name.find((option) => option.name === item.name);
         return !found;
       },
