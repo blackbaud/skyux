@@ -11,4 +11,6 @@ export class TokensHarnessTestComponent {
     { value: { name: 'Green' } },
     { value: { name: 'Blue' } },
   ];
+
+  public dismissible = true;
 }

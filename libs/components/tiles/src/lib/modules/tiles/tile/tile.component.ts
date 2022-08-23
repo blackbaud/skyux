@@ -93,6 +93,8 @@ export class SkyTileComponent implements OnDestroy {
     this.isCollapsedChange.emit(value);
   }
 
+  public ariaDescribedBy: string | undefined;
+
   public isInDashboardColumn = false;
 
   @ViewChild('grabHandle', {
@@ -114,11 +116,13 @@ export class SkyTileComponent implements OnDestroy {
   constructor(
     public elementRef: ElementRef,
     private changeDetector: ChangeDetectorRef,
-    @Optional() private dashboardService: SkyTileDashboardService
+    @Optional() private dashboardService?: SkyTileDashboardService
   ) {
     this.isInDashboardColumn = !!dashboardService;
 
     if (this.dashboardService) {
+      this.ariaDescribedBy = `${this.dashboardService.bagId}-move-instructions`;
+
       /**
        * This subscription ensures that if any values which come in from the dashboard service are
        * updated that the component will update if the tile's parent component utilizes OnPush

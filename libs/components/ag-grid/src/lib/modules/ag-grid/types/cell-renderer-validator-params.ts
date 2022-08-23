@@ -6,5 +6,5 @@ import { SkyAgGridValidatorProperties } from './validator-properties';
  * @internal
  */
 export interface SkyCellRendererValidatorParams extends ICellRendererParams {
-  skyComponentProperties: SkyAgGridValidatorProperties;
+  skyComponentProperties?: SkyAgGridValidatorProperties;
 }

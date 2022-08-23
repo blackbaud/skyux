@@ -7,7 +7,9 @@ export * from './paging/paging-fixture';
 export * from './paging/paging-fixture-button';
 
 export * from './repeater/repeater-harness';
+export * from './repeater/repeater-harness-filters';
 export * from './repeater/repeater-item-harness';
+export * from './repeater/repeater-item-harness-filters';
 
 export * from './sort/sort-testing.module';
 export * from './sort/sort-fixture';

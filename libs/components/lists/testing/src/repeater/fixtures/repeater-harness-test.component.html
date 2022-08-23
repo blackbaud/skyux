@@ -1,0 +1,14 @@
+<sky-repeater data-sky-id="my-basic-repeater">
+  <sky-repeater-item
+    *ngFor="let item of items; let i = index"
+    [attr.data-sky-id]="'my-basic-repeater-item-' + i"
+    [selectable]="selectable"
+  >
+    <sky-repeater-item-title>
+      {{ item.title }}
+    </sky-repeater-item-title>
+    <sky-repeater-item-content>
+      {{ item.note }}
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>
