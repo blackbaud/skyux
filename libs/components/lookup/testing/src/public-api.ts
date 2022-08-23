@@ -12,3 +12,6 @@ export * from './lookup/lookup-harness-filters';
 export * from './search/search-fixture';
 export * from './search/search-harness';
 export * from './search/search-testing.module';
+
+export * from './search/search-harness';
+export * from './search/search-harness-filters';
