@@ -2042,6 +2042,52 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
+            it('should add items when scrolling ends with "Only show selected" active', async () => {
+              component.enableShowMore = true;
+              component.friends = [
+                ...component.data.filter((item) => !item.description),
+              ];
+
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              triggerInputFocus(fixture);
+              fixture.detectChanges();
+              await fixture.whenStable();
+              // Not using `clickShowMore` due to it being for `fakeAsync`
+              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              // Not using `selectOnlyShowSelected` due to it being for `fakeAsync`
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-muiltiselect-toolbar .sky-toolbar-view-actions input'
+                ) as HTMLElement
+              ).click();
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              expect(getRepeaterItemCount()).toBe(10);
+
+              const modalContent = document.querySelector('.sky-modal-content');
+              modalContent.scrollTop = modalContent.scrollHeight;
+              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              expect(getRepeaterItemCount()).toBe(18);
+
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-close'
+                ) as HTMLElement
+              )?.click();
+            });
+
             it('the default modal title should be correct', fakeAsync(() => {
               component.enableShowMore = true;
               fixture.detectChanges();
@@ -5009,6 +5055,52 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
             }));
+
+            it('should add items when scrolling ends with "Only show selected" active', async () => {
+              component.enableShowMore = true;
+              component.selectedFriends = [
+                ...component.data.filter((item) => !item.description),
+              ];
+
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              triggerInputFocus(fixture);
+              fixture.detectChanges();
+              await fixture.whenStable();
+              // Not using `clickShowMore` due to it being for `fakeAsync`
+              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              // Not using `selectOnlyShowSelected` due to it being for `fakeAsync`
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-muiltiselect-toolbar .sky-toolbar-view-actions input'
+                ) as HTMLElement
+              ).click();
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              expect(getRepeaterItemCount()).toBe(10);
+
+              const modalContent = document.querySelector('.sky-modal-content');
+              modalContent.scrollTop = modalContent.scrollHeight;
+              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
+              fixture.detectChanges();
+              await fixture.whenStable();
+              fixture.detectChanges();
+
+              expect(getRepeaterItemCount()).toBe(18);
+
+              (
+                document.querySelector(
+                  '.sky-lookup-show-more-modal-close'
+                ) as HTMLElement
+              )?.click();
+            });
 
             it('the default modal title should be correct', fakeAsync(() => {
               component.enableShowMore = true;
