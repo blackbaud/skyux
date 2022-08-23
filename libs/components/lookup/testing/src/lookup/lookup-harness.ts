@@ -16,26 +16,40 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
 
   #getSelectionsListHarness = this.locatorFor(SkyLookupSelectionsListHarness);
 
+  #getWrapper = this.locatorFor('.sky-lookup');
+
   public static with(
     filters: SkyLookupHarnessFilters
   ): HarnessPredicate<SkyLookupHarness> {
     return SkyLookupHarness.getDataSkyIdPredicate(filters);
   }
 
+  /**
+   * Clicks the "Add" button on the search results panel.
+   */
   public async clickAddButton(): Promise<void> {
     await this.focus();
     await super.clickAddButton();
   }
 
+  /**
+   * Clicks the "Show more" button on the search results panel.
+   */
   public async clickShowMoreButton(): Promise<void> {
     await this.focus();
     await super.clickShowMoreButton();
   }
 
+  /**
+   * Dismisses all selections made with a multiselect lookup.
+   */
   public async dismissAllSelections(): Promise<void> {
     return (await this.#getSelectionsListHarness()).dismissAllSelections();
   }
 
+  /**
+   * Gets the "Show more" picker harness.
+   */
   public async getShowMorePicker(): Promise<SkyLookupShowMorePickerHarness> {
     const pickerId = await (
       await (await this.#getAutocompleteHarness()).host()
@@ -54,15 +68,24 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
     return defaultPicker;
   }
 
+  /**
+   * Returns the selections made with a multiselect lookup.
+   */
   public async getSelections(): Promise<SkyLookupSelectionHarness[]> {
     return (await this.#getSelectionsListHarness()).getSelections();
   }
 
+  /**
+   * Gets the text content of all selections made with a multiselect lookup.
+   */
   public async getSelectionsText(): Promise<string[]> {
     return (await this.#getSelectionsListHarness()).getSelectionsText();
   }
 
-  public async isMulti(): Promise<boolean> {
-    return !(await this.locatorForOptional('.sky-lookup.sky-lookup-single')());
+  /**
+   * Whether the lookup allows for multiple selections.
+   */
+  public async isMultiselect(): Promise<boolean> {
+    return !(await this.#getWrapper()).hasClass('sky-lookup-single');
   }
 }
