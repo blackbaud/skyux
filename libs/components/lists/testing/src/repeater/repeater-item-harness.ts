@@ -10,9 +10,9 @@ import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 export class SkyRepeaterItemHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-repeater-item';
 
-  #getBody = this.locatorFor('.sky-repeater-item-content');
-
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);
+
+  #getContent = this.locatorFor('.sky-repeater-item-content');
 
   #getTitle = this.locatorFor('.sky-repeater-item-title');
 
@@ -24,8 +24,8 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     filters: SkyRepeaterItemHarnessFilters
   ): HarnessPredicate<SkyRepeaterItemHarness> {
     return SkyRepeaterItemHarness.getDataSkyIdPredicate(filters)
-      .addOption('bodyText', filters.bodyText, async (harness, text) =>
-        HarnessPredicate.stringMatches(await harness.getBodyText(), text)
+      .addOption('contentText', filters.contentText, async (harness, text) =>
+        HarnessPredicate.stringMatches(await harness.getContentText(), text)
       )
       .addOption('titleText', filters.titleText, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getTitleText(), text)
@@ -39,6 +39,9 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     return !!(await this.#getCheckbox());
   }
 
+  /**
+   * Whether the repeater item is selected.
+   */
   public async isSelected(): Promise<boolean> {
     if (!(await this.isSelectable())) {
       throw new Error(
@@ -50,7 +53,7 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
   }
 
   /**
-   * Selects a repeater item.
+   * Selects the repeater item.
    */
   public async select() {
     if (!(await this.isSelectable())) {
@@ -62,6 +65,9 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     await (await this.#getCheckbox()).check();
   }
 
+  /**
+   * Deselects the repeater item.
+   */
   public async deselect(): Promise<void> {
     if (!(await this.isSelectable())) {
       throw new Error(
@@ -72,10 +78,16 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     await (await this.#getCheckbox()).uncheck();
   }
 
-  public async getBodyText(): Promise<string> {
-    return (await this.#getBody()).text();
+  /**
+   * Gets the text of the repeater item content.
+   */
+  public async getContentText(): Promise<string> {
+    return (await this.#getContent()).text();
   }
 
+  /**
+   * Gets the text of the repeater item title.
+   */
   public async getTitleText(): Promise<string> {
     return (await this.#getTitle()).text();
   }

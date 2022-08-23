@@ -113,10 +113,10 @@ describe('Repeater harness', () => {
     });
 
     const items = await repeaterHarness.getRepeaterItems({
-      bodyText: /We should call him to thank him/,
+      contentText: /We should call him to thank him/,
     });
 
-    await expectAsync(items[0].getBodyText()).toBeResolvedTo(
+    await expectAsync(items[0].getContentText()).toBeResolvedTo(
       'Robert recently gave a very generous gift. We should call him to thank him.'
     );
   });
