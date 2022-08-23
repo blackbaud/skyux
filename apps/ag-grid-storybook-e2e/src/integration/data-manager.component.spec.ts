@@ -19,14 +19,11 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            .get('body')
+            .get('app-data-manager')
             .should('exist')
             .should('be.visible')
             .screenshot(
-              `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
-              {
-                capture: 'viewport',
-              }
+              `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`
             )
             .percySnapshot(
               `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,

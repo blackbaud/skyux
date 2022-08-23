@@ -12,7 +12,7 @@
       cy.get('#ready')
         .should('exist')
         .end()
-        .get('body')
+        .get('app-ag-grid-stories')
         .should('exist')
         .should('be.visible')
         .screenshot(

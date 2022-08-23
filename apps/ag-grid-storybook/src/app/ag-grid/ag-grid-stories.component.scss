@@ -1,7 +1,12 @@
+:root {
+  --viewport-width: 1280px;
+  --viewport-height: 800px;
+}
+
 app-ag-grid-stories.use-auto-height-dom-layout {
   display: block;
-  height: 100vh;
-  width: 100vw;
+  height: var(--viewport-height);
+  width: var(--viewport-width);
   overflow-y: auto;
 }
 
@@ -9,8 +14,8 @@ app-ag-grid-stories.use-normal-dom-layout {
   position: relative;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: 100vw;
+  height: var(--viewport-height);
+  width: var(--viewport-width);
   display: block;
 
   sky-data-manager,
