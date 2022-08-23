@@ -12,10 +12,10 @@
   <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
 </ng-template>
 <ng-template #linksTemplateRef>
-  <ng-container *ngIf="links?.length > 0">
+  <ng-container *ngIf="linksArray.length > 0">
     <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
     <ul class="sky-link-list sky-margin-stacked-xl">
-      <li *ngFor="let link of links" class="sky-margin-stacked-sm">
+      <li *ngFor="let link of linksArray" class="sky-margin-stacked-sm">
         <a
           *ngIf="link.permalink && link.permalink.url"
           [skyHref]="link.permalink.url"

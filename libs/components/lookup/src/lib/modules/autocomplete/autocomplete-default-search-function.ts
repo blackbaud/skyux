@@ -1,6 +1,7 @@
 import { normalizeDiacritics } from '../shared/sky-lookup-string-utils';
 
 import { SkyAutocompleteDefaultSearchFunctionOptions } from './types/autocomplete-default-search-function-options';
+import { SkyAutocompleteSearchArgs } from './types/autocomplete-search-args';
 import { SkyAutocompleteSearchFunction } from './types/autocomplete-search-function';
 import { SkyAutocompleteSearchFunctionFilter } from './types/autocomplete-search-function-filter';
 import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-search-function-response';
@@ -8,7 +9,11 @@ import { SkyAutocompleteSearchFunctionResponse } from './types/autocomplete-sear
 export function skyAutocompleteDefaultSearchFunction(
   options: SkyAutocompleteDefaultSearchFunctionOptions
 ): SkyAutocompleteSearchFunction {
-  const filterData = function (searchText: string, data: any[]): any[] {
+  const filterData = function (
+    searchText: string,
+    data: any[],
+    args?: SkyAutocompleteSearchArgs
+  ): any[] {
     return data.filter((item: any) => {
       if (!options.searchFilters || !options.searchFilters.length) {
         return true;
@@ -17,7 +22,7 @@ export function skyAutocompleteDefaultSearchFunction(
       // Find the first failing filter (we can skip the others if one fails).
       const failedFilter = options.searchFilters.find(
         (filter: SkyAutocompleteSearchFunctionFilter) => {
-          return !filter.call({}, searchText, item);
+          return !filter.call({}, searchText, item, args);
         }
       );
 
@@ -27,7 +32,8 @@ export function skyAutocompleteDefaultSearchFunction(
 
   const search = function (
     searchText: string,
-    data: any[]
+    data: any[],
+    args?: SkyAutocompleteSearchArgs
   ): SkyAutocompleteSearchFunctionResponse {
     const results: any[] = [];
 
@@ -39,7 +45,7 @@ export function skyAutocompleteDefaultSearchFunction(
 
     const searchTextNormalized = normalizeDiacritics(searchText).toUpperCase();
 
-    const filteredData = filterData(searchText, data);
+    const filteredData = filterData(searchText, data, args);
 
     for (let i = 0, n = filteredData.length; i < n; i++) {
       const result = filteredData[i];
