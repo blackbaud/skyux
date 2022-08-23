@@ -113,7 +113,7 @@
               [max]="maxColWidth"
               [step]="columnResizeStep"
               [(ngModel)]="column.width"
-              (blur)="onResizeHandleBlur($event)"
+              (blur)="onResizeHandleBlur()"
               (focus)="onResizeHandleFocus($event)"
               (keydown)="onKeydownResizeCol($event)"
               (change)="onInputChangeResizeCol($event)"
