@@ -1,39 +1,48 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { SkyActionHubNeedsAttention, SkyPageLink } from '@skyux/pages';
 
 @Pipe({
   name: 'linkAs',
 })
 export class LinkAsPipe implements PipeTransform {
   public transform(
-    value: unknown,
+    value: SkyActionHubNeedsAttention | SkyPageLink | undefined,
     linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink'
   ): boolean {
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      switch (linkAs) {
-        case 'button':
-          if ('click' in value) {
-            return (typeof value['click'] === 'function' &&
-              !value['url'] &&
-              !value['route']) as boolean;
-          }
-          break;
-        case 'href':
-          if ('url' in value) {
-            return (value['url'] && !value['url'].includes('://')) as boolean;
-          }
-          break;
-        case 'skyHref':
-          if ('url' in value) {
-            return (value['url'] && value['url'].includes('://')) as boolean;
-          }
-          break;
-        case 'skyAppLink':
-          if ('route' in value) {
-            return (value['route'] && !value['url']) as boolean;
-          }
-          break;
-      }
+    switch (linkAs) {
+      case 'button':
+        return (
+          value !== undefined &&
+          this.isSkyActionHubNeedsAttention(value) &&
+          value.click !== undefined &&
+          value.permalink === undefined
+        );
+      case 'href':
+        return (
+          value !== undefined &&
+          value.permalink?.url !== undefined &&
+          !value.permalink.url.includes('://')
+        );
+      case 'skyHref':
+        return (
+          value !== undefined &&
+          value.permalink?.url !== undefined &&
+          value.permalink.url.includes('://')
+        );
+      case 'skyAppLink':
+        return (
+          value !== undefined &&
+          value.permalink?.url === undefined &&
+          value.permalink?.route !== undefined
+        );
+      default:
+        return false;
     }
-    return false;
+  }
+
+  private isSkyActionHubNeedsAttention(
+    item: any
+  ): item is SkyActionHubNeedsAttention {
+    return item.title !== undefined;
   }
 }

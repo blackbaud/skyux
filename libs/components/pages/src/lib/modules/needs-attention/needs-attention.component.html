@@ -35,7 +35,7 @@
           >
         </ng-template>
         <a
-          *ngIf="item.permalink | linkAs: 'skyAppLink'"
+          *ngIf="item | linkAs: 'skyAppLink'"
           [skyAppLink]="item.permalink.route.commands"
           [queryParams]="item.permalink.route.extras?.queryParams"
           [queryParamsHandling]="
@@ -54,7 +54,7 @@
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink | linkAs: 'skyHref'"
+          *ngIf="item | linkAs: 'skyHref'"
           [skyHref]="item.permalink.url"
           class="sky-needs-attention-item sky-padding-vertical-lg"
           [ngClass]="{
@@ -64,7 +64,7 @@
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink | linkAs: 'href'"
+          *ngIf="item | linkAs: 'href'"
           [href]="item.permalink.url"
           class="sky-needs-attention-item sky-padding-vertical-lg"
           [ngClass]="{
