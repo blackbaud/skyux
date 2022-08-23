@@ -88,6 +88,34 @@ describe('Lookup harness', () => {
 
       await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Rachel');
     });
+
+    it('should throw an error when clicking on non-existent "Select all" button', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my-single-select-lookup',
+      });
+
+      await lookupHarness.clickShowMoreButton();
+
+      const picker = await lookupHarness.getShowMorePicker();
+
+      await expectAsync(picker.selectAll()).toBeRejectedWithError(
+        'Could not select all selections because the "Select all" button could not be found.'
+      );
+    });
+
+    it('should throw an error when clicking on non-existent "Clear all" button', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my-single-select-lookup',
+      });
+
+      await lookupHarness.clickShowMoreButton();
+
+      const picker = await lookupHarness.getShowMorePicker();
+
+      await expectAsync(picker.clearAll()).toBeRejectedWithError(
+        'Could not clear all selections because the "Clear all" button could not be found.'
+      );
+    });
   });
 
   describe('multiselect picker', async () => {
@@ -107,6 +135,25 @@ describe('Lookup harness', () => {
     //     'Abed',
     //   ]);
     // });
+
+    it('should get selections', async () => {
+      const { lookupHarness } = await setupTest({
+        dataSkyId: 'my-multiselect-lookup',
+      });
+
+      await lookupHarness.dismissSelections();
+      await lookupHarness.clickShowMoreButton();
+
+      const picker = await lookupHarness.getShowMorePicker();
+      await picker.enterSearchText('abed');
+      await picker.selectSearchResult({ contentText: 'Abed' });
+      await picker.saveAndClose();
+
+      const selections = await lookupHarness.getSelections();
+
+      expect(selections.length).toBe(1);
+      await expectAsync(selections[0].getText()).toBeResolvedTo('Abed');
+    });
 
     it('should select multiple results from show more picker', async () => {
       const { lookupHarness } = await setupTest({
