@@ -1005,6 +1005,23 @@ describe('Autocomplete component', () => {
       await fixture.whenStable();
     });
 
+    it('should set `aria-owns` attribute', fakeAsync(() => {
+      fixture.detectChanges();
+
+      const wrapper = document.querySelector('.sky-autocomplete');
+      expect(wrapper.getAttribute('aria-owns')).toBeNull();
+
+      enterSearch('r', fixture);
+
+      const searchResultsContainer = getSearchResultsSection();
+      expect(wrapper.getAttribute('aria-owns')).toEqual(
+        searchResultsContainer.id
+      );
+
+      blurInput(getInputElement(), fixture);
+      expect(wrapper.getAttribute('aria-owns')).toBeNull();
+    }));
+
     describe('highlighting', () => {
       it('should highlight when one letter is pressed', fakeAsync(() => {
         fixture.detectChanges();

@@ -1395,7 +1395,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "14kb"
                 }
               ],
               "fileReplacements": [
@@ -2228,6 +2228,166 @@
       },
       "tags": ["component", "npm"]
     },
+    "modals-storybook": {
+      "projectType": "application",
+      "root": "apps/modals-storybook",
+      "sourceRoot": "apps/modals-storybook/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/modals-storybook",
+            "index": "apps/modals-storybook/src/index.html",
+            "main": "apps/modals-storybook/src/main.ts",
+            "polyfills": "apps/modals-storybook/src/polyfills.ts",
+            "tsConfig": "apps/modals-storybook/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "apps/modals-storybook/src/styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/modals-storybook/src/environments/environment.ts",
+                  "with": "apps/modals-storybook/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "modals-storybook:build:production"
+            },
+            "development": {
+              "browserTarget": "modals-storybook:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "modals-storybook:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/modals-storybook/**/*.ts",
+              "apps/modals-storybook/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/modals-storybook"],
+          "options": {
+            "jestConfig": "apps/modals-storybook/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "apps/modals-storybook/.storybook",
+            "browserTarget": "modals-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputDir}"],
+          "options": {
+            "outputDir": "dist/storybook/modals-storybook",
+            "configDir": "apps/modals-storybook/.storybook",
+            "browserTarget": "modals-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "modals-storybook-e2e": {
+      "root": "apps/modals-storybook-e2e",
+      "sourceRoot": "apps/modals-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/modals-storybook-e2e/cypress.json",
+            "devServerTarget": "modals-storybook:storybook",
+            "baseUrl": "http://localhost:4400"
+          },
+          "configurations": {
+            "ci": {
+              "skipServe": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/modals-storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["modals-storybook"]
+    },
     "modals-testing": {
       "projectType": "library",
       "root": "libs/components/modals/testing",
@@ -2654,6 +2814,166 @@
         }
       },
       "tags": ["component", "npm"]
+    },
+    "popovers-storybook": {
+      "projectType": "application",
+      "root": "apps/popovers-storybook",
+      "sourceRoot": "apps/popovers-storybook/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/popovers-storybook",
+            "index": "apps/popovers-storybook/src/index.html",
+            "main": "apps/popovers-storybook/src/main.ts",
+            "polyfills": "apps/popovers-storybook/src/polyfills.ts",
+            "tsConfig": "apps/popovers-storybook/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "styles": [
+              "apps/popovers-storybook/src/styles.scss",
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "14kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/popovers-storybook/src/environments/environment.ts",
+                  "with": "apps/popovers-storybook/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "popovers-storybook:build:production"
+            },
+            "development": {
+              "browserTarget": "popovers-storybook:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "popovers-storybook:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/popovers-storybook/**/*.ts",
+              "apps/popovers-storybook/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/popovers-storybook"],
+          "options": {
+            "jestConfig": "apps/popovers-storybook/jest.config.ts",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "port": 4400,
+            "configDir": "apps/popovers-storybook/.storybook",
+            "browserTarget": "popovers-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "outputs": ["{options.outputDir}"],
+          "options": {
+            "outputDir": "dist/storybook/popovers-storybook",
+            "configDir": "apps/popovers-storybook/.storybook",
+            "browserTarget": "popovers-storybook:build",
+            "compodoc": false,
+            "styles": [
+              "libs/components/theme/src/lib/styles/sky.scss",
+              "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "tags": ["component-e2e"]
+    },
+    "popovers-storybook-e2e": {
+      "root": "apps/popovers-storybook-e2e",
+      "sourceRoot": "apps/popovers-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/popovers-storybook-e2e/cypress.json",
+            "devServerTarget": "popovers-storybook:storybook",
+            "baseUrl": "http://localhost:4400"
+          },
+          "configurations": {
+            "ci": {
+              "skipServe": true
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/popovers-storybook-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["popovers-storybook"]
     },
     "popovers-testing": {
       "projectType": "library",

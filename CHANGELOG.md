@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.13.0](https://github.com/blackbaud/skyux/compare/6.12.0...6.13.0) (2022-08-18)
+
+### Features
+
+- **components/core:** add `SkyIdService` to generate unique IDs for HTML elements ([#395](https://github.com/blackbaud/skyux/issues/395)) ([e7e48dc](https://github.com/blackbaud/skyux/commit/e7e48dcea700395c88ecc9a3b70ac4b399bd7a9d))
+- **components/core:** add overlay harness for interacting with overlay components in tests ([#398](https://github.com/blackbaud/skyux/issues/398)) ([c96f6d7](https://github.com/blackbaud/skyux/commit/c96f6d7ca8aad57696d416bd5305a1204c827eb2))
+- **components/forms:** add input box harness for interacting with input box components in tests ([#399](https://github.com/blackbaud/skyux/issues/399)) ([ed377a1](https://github.com/blackbaud/skyux/commit/ed377a166a991f080da0be9ded6fc65098c44ae8))
+
+### Bug Fixes
+
+- **components/lookup:** add context to searches ([#381](https://github.com/blackbaud/skyux/issues/381)) ([0d02f73](https://github.com/blackbaud/skyux/commit/0d02f73cb977912d8beb1ea623db09c814edea9e))
+- **components/lookup:** async show more modal toolbars now correctly stick to the top of the modal content ([#408](https://github.com/blackbaud/skyux/issues/408)) ([2ccc8ec](https://github.com/blackbaud/skyux/commit/2ccc8ecf56a146b545a3b633c64ddcc16ae485e5))
+
 ## [6.12.0](https://github.com/blackbaud/skyux/compare/6.11.2...6.12.0) (2022-08-15)
 
 ### Features
