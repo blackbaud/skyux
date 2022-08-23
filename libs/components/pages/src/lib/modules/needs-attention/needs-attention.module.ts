@@ -7,7 +7,7 @@ import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { PipesModule } from '../pipes/pipes.module';
+import { LinkAsModule } from '../link-as/link-as.module';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
 import { SkyNeedsAttentionComponent } from './needs-attention.component';
@@ -26,7 +26,7 @@ import { SkyNeedsAttentionComponent } from './needs-attention.component';
     SkyThemeModule,
     SkyTrimModule,
     SkyWaitModule,
-    PipesModule,
+    LinkAsModule,
   ],
 })
 export class SkyNeedsAttentionModule {}

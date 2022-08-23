@@ -5,7 +5,7 @@ import { SkyWaitModule } from '@skyux/indicators';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { PipesModule } from '../pipes/pipes.module';
+import { LinkAsModule } from '../link-as/link-as.module';
 
 import { SkyLinkListComponent } from './link-list.component';
 
@@ -19,7 +19,7 @@ import { SkyLinkListComponent } from './link-list.component';
     SkyI18nModule,
     SkyThemeModule,
     SkyWaitModule,
-    PipesModule,
+    LinkAsModule,
   ],
 })
 export class SkyLinkListModule {}
