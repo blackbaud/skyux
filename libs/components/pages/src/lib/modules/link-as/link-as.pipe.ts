@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SkyPageLink } from '../action-hub/types/page-link';
+
 import { SkyActionHubNeedsAttention } from '../action-hub/types/action-hub-needs-attention';
+import { SkyPageLink } from '../action-hub/types/page-link';
 
 @Pipe({
   name: 'linkAs',
