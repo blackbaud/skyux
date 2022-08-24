@@ -11,7 +11,11 @@ import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harnes
  * Harness for interacting with a lookup component in tests.
  */
 export class SkyLookupHarness extends SkyAutocompleteHarness {
-  // Looks for a lookup component in isolation, or as a child of 'sky-input-box'.
+  /**
+   * Finds a standard lookup component, or a lookup component that is wrapped by an input box component.
+   * For input box implementations, we need to use the `.sky-input-box` selector since the `sky-lookup`
+   * element is removed from the DOM.
+   */
   public static hostSelector = 'sky-lookup,.sky-input-box';
 
   #documentRootLocator = this.documentRootLocatorFactory();

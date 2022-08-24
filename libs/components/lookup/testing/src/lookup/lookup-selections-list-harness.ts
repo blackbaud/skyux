@@ -3,7 +3,7 @@ import { SkyTokensHarness } from '@skyux/indicators/testing';
 import { SkyLookupSelectionHarness } from './lookup-selection-harness';
 
 /**
- * Harness for interacting with a multiselect lookup's selections list in tests.
+ * Harness for interacting with multiselect lookup selections in tests.
  */
 export class SkyLookupSelectionsListHarness extends SkyTokensHarness {
   /**

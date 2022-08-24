@@ -195,6 +195,10 @@ describe('Lookup component', function () {
     );
   }
 
+  function getModalEl(): HTMLElement {
+    return document.querySelector('.sky-lookup-show-more-modal');
+  }
+
   function getModalAddButton(): HTMLElement {
     return document.querySelector(
       '.sky-lookup-show-more-modal-add'
@@ -419,6 +423,11 @@ describe('Lookup component', function () {
     tick();
     fixture.detectChanges();
     tick();
+  }
+
+  function verifyPickerId() {
+    const modalEl = getModalEl();
+    expect(modalEl.id).toMatch(/sky-id-gen__[0-9]+__[0-9]/);
   }
 
   //#endregion
@@ -1595,6 +1604,8 @@ describe('Lookup component', function () {
 
             expect(modalService.open).toHaveBeenCalled();
 
+            verifyPickerId();
+
             closeModal(fixture);
           }));
 
@@ -1726,6 +1737,8 @@ describe('Lookup component', function () {
             clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
+
+            verifyPickerId();
 
             closeModal(fixture);
           }));

@@ -14,8 +14,8 @@
 
   <!-- SINGLE SELECT -->
   <div class="sky-form-group">
-    <sky-input-box [attr.data-sky-id]="'my-single-select-lookup'">
-      <label class="sky-control-label" skyId #singleSelectLabel="skyId">
+    <sky-input-box data-sky-id="my-single-select-lookup">
+      <label class="sky-control-label" skyId #singleSelectLabel>
         Favorite name
       </label>
       <sky-lookup
@@ -53,8 +53,8 @@
 
   <!-- CUSTOM TEMPLATES -->
   <div class="sky-form-group">
-    <sky-input-box [attr.data-sky-id]="'my-custom-template-lookup'">
-      <label class="sky-control-label" skyId #formalNamesLabel="skyId">
+    <sky-input-box data-sky-id="my-custom-template-lookup">
+      <label class="sky-control-label" skyId #formalNamesLabel>
         Favorite names
       </label>
       <sky-lookup
@@ -72,7 +72,7 @@
 
   <!-- ASYNC -->
   <div class="sky-form-group">
-    <sky-input-box [attr.data-sky-id]="'my-async-lookup'">
+    <sky-input-box data-sky-id="my-async-lookup">
       <label class="sky-control-label" skyId #asyncNamesLabel>
         Async names
       </label>

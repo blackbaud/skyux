@@ -14,7 +14,10 @@ import { SkyLookupShowMorePickerSearchResultHarnessFilters } from './lookup-show
  * Harness for interacting with a lookup's "Show more" picker in tests.
  */
 export class SkyLookupShowMorePickerHarness extends ComponentHarness {
-  // Use the class name since the async and non-async pickers use different host components.
+  /**
+   * Use the class name since the async and non-async pickers use different
+   * host components but share the same wrapper CSS class.
+   */
   public static hostSelector = '.sky-lookup-show-more-modal';
 
   #getCancelButton = this.locatorFor('button.sky-lookup-show-more-modal-close');
@@ -65,7 +68,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   ): Promise<void> {
     const harnesses = await this.getSearchResults(filters);
 
-    if (await this.#isMultiselect()) {
+    if (await this.isMultiselect()) {
       for (const harness of harnesses) {
         await harness.select();
       }
@@ -130,6 +133,15 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   }
 
   /**
+   * Whether the picker is configured to allow multiple selections.
+   */
+  public async isMultiselect(): Promise<boolean> {
+    return !(await (
+      await this.host()
+    ).hasClass('sky-lookup-show-more-modal-single'));
+  }
+
+  /**
    * Selects all search results.
    */
   public async selectAll(): Promise<void> {
@@ -148,14 +160,5 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
    */
   public async loadMore(): Promise<void> {
     return (await this.#getInfiniteScroll()).loadMore();
-  }
-
-  /**
-   * Whether the picker is using single-select mode.
-   */
-  async #isMultiselect(): Promise<boolean> {
-    return !(await (
-      await this.host()
-    ).hasClass('sky-lookup-show-more-modal-single'));
   }
 }

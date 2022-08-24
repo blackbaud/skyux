@@ -30,13 +30,16 @@ import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-n
 export class SkyLookupShowMoreModalComponent
   implements AfterViewInit, OnDestroy
 {
-  public id: string;
-
   /**
    * @internal
    * Fires when users select the button to add new options to the list.
    */
   public addClick: Subject<void> = new Subject();
+
+  /**
+   * Used to associate this modal with its owning lookup component.
+   */
+  public id: string;
 
   public items: any[] = [];
 
@@ -81,14 +84,15 @@ export class SkyLookupShowMoreModalComponent
     changeDetector: ChangeDetectorRef,
     idSvc: SkyIdService
   ) {
-    this.id = idSvc.generateId();
     this.#changeDetector = changeDetector;
+
+    this.id = idSvc.generateId();
   }
 
-  public async ngAfterViewInit(): Promise<void> {
+  public ngAfterViewInit(): void {
     this.repeaterItemTemplate = this.context.userConfig.itemTemplate || null;
     this.searchText = this.context.initialSearch;
-    await this.addItems();
+    this.addItems();
   }
 
   public ngOnDestroy(): void {
@@ -100,7 +104,7 @@ export class SkyLookupShowMoreModalComponent
     this.addClick.next();
   }
 
-  public async addItems(): Promise<void> {
+  public addItems(): void {
     if (!this.items || this.items.length === 0) {
       const selectedItems: any[] = this.selectedItems.slice();
 
@@ -137,45 +141,41 @@ export class SkyLookupShowMoreModalComponent
       });
 
       this.selectedItems = selectedItems;
-      await this.updateDataState();
+      this.updateDataState();
       this.#changeDetector.markForCheck();
     }
 
     this.#itemIndex = this.#itemIndex + 10;
+    this.searchItems(this.items).then((searchedItems) => {
+      this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-    const searchedItems = await this.searchItems(this.items);
-
-    this.displayedItems = searchedItems.slice(0, this.#itemIndex);
-    if (this.#itemIndex > searchedItems.length) {
-      this.itemsHaveMore = false;
-    } else {
-      this.itemsHaveMore = true;
-    }
-
-    this.#changeDetector.markForCheck();
+      if (this.#itemIndex > searchedItems.length) {
+        this.itemsHaveMore = false;
+      } else {
+        this.itemsHaveMore = true;
+      }
+      this.#changeDetector.markForCheck();
+    });
   }
 
-  public async clearAll(): Promise<void> {
+  public clearAll(): void {
     this.displayedItems.forEach((item) => {
       if (item.selected) {
         item.selected = false;
       }
     });
     this.selectedItems = [];
-    await this.updateDataState();
+    this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
-  public async itemClick(selectedItem: any): Promise<void> {
+  public itemClick(selectedItem: any): void {
     if (this.context.selectMode === 'single') {
-      await this.onItemSelect(!selectedItem.selected, selectedItem);
+      this.onItemSelect(!selectedItem.selected, selectedItem);
     }
   }
 
-  public async onItemSelect(
-    newSelectState: boolean,
-    itemToSelect: any
-  ): Promise<void> {
+  public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
     const items = this.items!;
 
     if (this.context.selectMode === 'single') {
@@ -221,21 +221,20 @@ export class SkyLookupShowMoreModalComponent
 
       this.selectedItems = selectedItems;
     }
-
-    await this.updateDataState();
+    this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
-  public async searchApplied(searchText: string): Promise<void> {
+  public searchApplied(searchText: string) {
     /* istanbul ignore else */
     if (this.searchText !== searchText) {
       this.#itemIndex = 10;
     }
     this.searchText = searchText;
-    await this.updateDataState();
+    this.updateDataState();
   }
 
-  public async searchItems(items: any[]): Promise<any[]> {
+  public searchItems(items: any[]): Promise<any[]> {
     const searchText = this.searchText;
 
     if (searchText) {
@@ -265,7 +264,7 @@ export class SkyLookupShowMoreModalComponent
     }
   }
 
-  public async selectAll(): Promise<void> {
+  public selectAll(): void {
     const items = this.items!;
 
     const selectedItems: { index: number; itemData: any }[] =
@@ -292,16 +291,15 @@ export class SkyLookupShowMoreModalComponent
     });
 
     this.selectedItems = selectedItems;
-    await this.updateDataState();
+    this.updateDataState();
     this.#changeDetector.markForCheck();
   }
 
-  public async updateDataState(): Promise<void> {
+  public updateDataState(): void {
     const items = this.items!;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
-
     items.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
@@ -309,24 +307,23 @@ export class SkyLookupShowMoreModalComponent
         ) !== -1;
     });
 
-    let searchedItems = await this.searchItems(items);
+    this.searchItems(items).then((searchedItems) => {
+      if (this.onlyShowSelected) {
+        searchedItems = searchedItems.filter((item) => item.selected);
+      }
+      this.displayedItems = searchedItems.slice(0, this.#itemIndex);
 
-    if (this.onlyShowSelected) {
-      searchedItems = searchedItems.filter((item) => item.selected);
-    }
+      if (this.#itemIndex > searchedItems.length) {
+        this.itemsHaveMore = false;
+      } else {
+        this.itemsHaveMore = true;
+      }
 
-    this.displayedItems = searchedItems.slice(0, this.#itemIndex);
-
-    if (this.#itemIndex > searchedItems.length) {
-      this.itemsHaveMore = false;
-    } else {
-      this.itemsHaveMore = true;
-    }
-
-    this.#changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
+    });
   }
 
-  public async updateItemData(data: any[]): Promise<void> {
+  public updateItemData(data: any[]): void {
     this.context.items = data;
     this.items = [];
     this.#itemIndex = 10;
@@ -338,7 +335,7 @@ export class SkyLookupShowMoreModalComponent
       });
     });
 
-    await this.addItems();
+    this.addItems();
 
     this.#changeDetector.markForCheck();
   }

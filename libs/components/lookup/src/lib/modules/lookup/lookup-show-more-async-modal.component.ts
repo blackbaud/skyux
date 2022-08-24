@@ -27,8 +27,6 @@ import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-m
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
-  public id: string;
-
   /**
    * @internal
    * Fires when users select the button to add new options to the list.
@@ -38,6 +36,11 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public displayedItems: any[] = [];
 
   public hasMoreItems = false;
+
+  /**
+   * Used to associate this modal with its owning lookup component.
+   */
+  public id: string;
 
   public isLoadingMore = false;
 
@@ -72,9 +75,10 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     idSvc: SkyIdService,
     logSvc: SkyLogService
   ) {
-    this.id = idSvc.generateId();
     this.#changeDetector = changeDetector;
     this.#logSvc = logSvc;
+
+    this.id = idSvc.generateId();
   }
 
   public ngOnInit(): void {

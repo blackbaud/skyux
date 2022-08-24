@@ -6,31 +6,31 @@ import { LookupHarnessTestComponent } from './fixtures/lookup-harness-test.compo
 import { LookupHarnessTestModule } from './fixtures/lookup-harness-test.module';
 import { SkyLookupHarness } from './lookup-harness';
 
-describe('Lookup harness', () => {
-  async function setupTest(options: { dataSkyId: string }) {
-    await TestBed.configureTestingModule({
-      imports: [LookupHarnessTestModule],
-    }).compileComponents();
+async function setupTest(options: { dataSkyId: string }) {
+  await TestBed.configureTestingModule({
+    imports: [LookupHarnessTestModule],
+  }).compileComponents();
 
-    const fixture = TestBed.createComponent(LookupHarnessTestComponent);
-    const loader = TestbedHarnessEnvironment.loader(fixture);
+  const fixture = TestBed.createComponent(LookupHarnessTestComponent);
+  const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    let lookupHarness: SkyLookupHarness;
+  let lookupHarness: SkyLookupHarness;
 
-    if (options.dataSkyId === 'my-basic-lookup') {
-      lookupHarness = await loader.getHarness(
-        SkyLookupHarness.with({ dataSkyId: options.dataSkyId })
-      );
-    } else {
-      const inputBoxHarness = await loader.getHarness(
-        SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
-      );
-      lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
-    }
-
-    return { fixture, lookupHarness };
+  if (options.dataSkyId === 'my-basic-lookup') {
+    lookupHarness = await loader.getHarness(
+      SkyLookupHarness.with({ dataSkyId: options.dataSkyId })
+    );
+  } else {
+    const inputBoxHarness = await loader.getHarness(
+      SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
+    );
+    lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
   }
 
+  return { fixture, lookupHarness };
+}
+
+describe('Lookup harness', () => {
   describe('single select picker', async () => {
     it('should return search result harnesses', async () => {
       const { lookupHarness } = await setupTest({
@@ -119,23 +119,6 @@ describe('Lookup harness', () => {
   });
 
   describe('multiselect picker', async () => {
-    // it('should select the first result from show more picker', async () => {
-    //   const { lookupHarness } = await setupTest({
-    //     dataSkyId: 'my-multiselect-lookup',
-    //   });
-
-    //   await lookupHarness.dismissSelections();
-    //   await lookupHarness.clickShowMoreButton();
-
-    //   const picker = await lookupHarness.getShowMorePicker();
-    //   await picker.selectFirstSearchResult();
-    //   await picker.saveAndClose();
-
-    //   await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
-    //     'Abed',
-    //   ]);
-    // });
-
     it('should get selections', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my-multiselect-lookup',
@@ -274,7 +257,7 @@ describe('Lookup harness', () => {
       ]);
     });
 
-    it('should throw an error if selecting non-existant result', async () => {
+    it('should throw an error if selecting non-existent result', async () => {
       const { lookupHarness } = await setupTest({
         dataSkyId: 'my-multiselect-lookup',
       });
