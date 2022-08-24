@@ -5,8 +5,6 @@ import {
   SkyLookupShowMoreConfig,
 } from '@skyux/lookup';
 
-import { LookupDemoPerson } from './lookup-demo-person';
-
 @Component({
   selector: 'app-lookup-demo',
   templateUrl: './lookup-result-templates-demo.component.html',
@@ -15,7 +13,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 export class LookupResultTemplatesDemoComponent implements OnInit {
   public myForm: FormGroup;
 
-  public people: LookupDemoPerson[] = [
+  public people: any[] = [
     {
       name: 'Abed',
       formal: 'Mr. Nadir',
@@ -98,7 +96,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     },
   ];
 
-  public names: LookupDemoPerson[] = [this.people[15]];
+  public names: any[] = [this.people[15]];
 
   public showMoreConfig: SkyLookupShowMoreConfig = {
     nativePickerConfig: {},

@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
-import { LookupDemoPerson } from './lookup-demo-person';
-
 @Component({
   selector: 'app-single-select-lookup-demo',
   templateUrl: './lookup-single-demo.component.html',
@@ -12,7 +10,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 export class LookupSingleSelectDemoComponent implements OnInit {
   public myForm: FormGroup;
 
-  public people: LookupDemoPerson[] = [
+  public people: any[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
@@ -35,7 +33,7 @@ export class LookupSingleSelectDemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  public name: LookupDemoPerson[] = [this.people[15]];
+  public name: any[] = [this.people[15]];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -51,9 +49,9 @@ export class LookupSingleSelectDemoComponent implements OnInit {
 
   // Only show people in the search results that have not been chosen already.
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const name: LookupDemoPerson[] = this.myForm.controls.name.value;
+    const name: any[] = this.myForm.controls.name.value;
     return [
-      (searchText: string, item: LookupDemoPerson): boolean => {
+      (searchText: string, item: any): boolean => {
         const found = name.find((option) => option.name === item.name);
         return !found;
       },

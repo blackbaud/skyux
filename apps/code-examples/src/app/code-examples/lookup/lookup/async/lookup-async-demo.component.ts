@@ -7,8 +7,6 @@ import {
 
 import { Subject } from 'rxjs';
 
-import { LookupDemoPerson } from './lookup-demo-person';
-
 @Component({
   selector: 'app-async-lookup-demo',
   templateUrl: './lookup-async-demo.component.html',
@@ -17,7 +15,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 export class LookupAsyncDemoComponent implements OnInit {
   public myForm: FormGroup;
 
-  public people: LookupDemoPerson[] = [
+  public people: any[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
@@ -40,7 +38,7 @@ export class LookupAsyncDemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  public name: LookupDemoPerson[] = [this.people[15]];
+  public name: any[] = [this.people[15]];
 
   constructor(private formBuilder: FormBuilder) {}
 
