@@ -18,7 +18,6 @@ import { SkyToastType } from './types/toast-type';
 describe('Toast component', () => {
   let fixture: ComponentFixture<SkyToastTestComponent>;
   let component: SkyToastTestComponent;
-  let toastComponent: SkyToastComponent;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,7 +34,7 @@ describe('Toast component', () => {
   });
 
   afterEach(() => {
-    TestBed.get(SkyToastService).ngOnDestroy();
+    TestBed.inject(SkyToastService).ngOnDestroy();
     fixture.detectChanges();
     fixture.destroy();
   });
@@ -51,19 +50,30 @@ describe('Toast component', () => {
       className = `sky-toast-info`;
     }
 
-    expect(className).toEqual(toastComponent.classNames);
+    expect(className).toEqual(component.toastComponent.classNames);
+  }
+
+  function validateIcon(
+    type: SkyToastType | undefined,
+    expectedIcon: string
+  ): void {
+    if (type) {
+      component.toastType = type;
+    }
+
+    fixture.detectChanges();
+
+    const toastEl = document.querySelector('sky-toast');
+
+    const iconEl = toastEl.querySelector('.sky-icon');
+
+    expect(iconEl).toHaveCssClass(`fa-${expectedIcon}`);
   }
 
   function setupTest(): void {
     fixture.detectChanges();
     component = fixture.componentInstance;
-    toastComponent = component.toastComponent;
   }
-
-  it('should set defaults', () => {
-    setupTest();
-    expect(toastComponent.toastType).toEqual(SkyToastType.Info);
-  });
 
   it('should allow setting the toast type', () => {
     setupTest();
@@ -74,25 +84,34 @@ describe('Toast component', () => {
     verifyType(SkyToastType.Danger);
   });
 
+  it('should show the correct icon based on the icon type', () => {
+    setupTest();
+    validateIcon(undefined, 'exclamation-circle'); // default
+    validateIcon(SkyToastType.Info, 'exclamation-circle');
+    validateIcon(SkyToastType.Success, 'check');
+    validateIcon(SkyToastType.Warning, 'warning');
+    validateIcon(SkyToastType.Danger, 'warning');
+  });
+
   it('should close the toast when clicking close button', () => {
     setupTest();
     fixture.detectChanges();
-    expect(toastComponent['isOpen']).toEqual(true);
-    expect(toastComponent.animationState).toEqual('open');
+    expect(component.toastComponent['isOpen']).toEqual(true);
+    expect(component.toastComponent.animationState).toEqual('open');
     fixture.nativeElement.querySelector('.sky-toast-btn-close').click();
     fixture.detectChanges();
-    expect(toastComponent['isOpen']).toEqual(false);
-    expect(toastComponent.animationState).toEqual('closed');
+    expect(component.toastComponent['isOpen']).toEqual(false);
+    expect(component.toastComponent.animationState).toEqual('closed');
   });
 
   it('should set aria attributes', () => {
     setupTest();
-    expect(toastComponent.ariaLive).toEqual('polite');
-    expect(toastComponent.ariaRole).toEqual(undefined);
+    expect(component.toastComponent.ariaLive).toEqual('polite');
+    expect(component.toastComponent.ariaRole).toEqual(undefined);
     fixture.componentInstance.toastType = SkyToastType.Danger;
     fixture.detectChanges();
-    expect(toastComponent.ariaLive).toEqual('assertive');
-    expect(toastComponent.ariaRole).toEqual('alert');
+    expect(component.toastComponent.ariaLive).toEqual('assertive');
+    expect(component.toastComponent.ariaRole).toEqual('alert');
   });
 
   it('should pass accessibility', async(() => {
@@ -113,11 +132,11 @@ describe('Toast component', () => {
 
       setupTest();
 
-      expect(toastComponent['isOpen']).toBe(true);
+      expect(component.toastComponent['isOpen']).toBe(true);
 
       waitForAutoClose();
 
-      expect(toastComponent['isOpen']).toBe(false);
+      expect(component.toastComponent['isOpen']).toBe(false);
     }));
 
     describe('with toaster service', () => {
