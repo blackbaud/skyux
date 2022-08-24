@@ -18,9 +18,9 @@ export class SkyModalFixture {
       throw new Error(
         `No element was found with a \`data-sky-id\` value of "${skyTestId}".`
       );
-    } else {
-      this.#modalElement = modalElement;
     }
+
+    this.#modalElement = modalElement;
   }
 
   /**
