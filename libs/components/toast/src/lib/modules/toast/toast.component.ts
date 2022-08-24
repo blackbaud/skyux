@@ -21,6 +21,7 @@ import { SkyToasterService } from './toaster.service';
 import { SkyToastType } from './types/toast-type';
 
 const AUTO_CLOSE_MILLISECONDS = 6000;
+const SKY_TOAST_TYPE_DEFAULT = SkyToastType.Info;
 
 /**
  * @internal
@@ -45,13 +46,10 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
    */
   @Input()
-  public set toastType(value: SkyToastType) {
-    this._toastType = value;
-    this.updateIcon();
-  }
-
-  public get toastType(): SkyToastType {
-    return this._toastType === undefined ? SkyToastType.Info : this._toastType;
+  public set toastType(value: SkyToastType | undefined) {
+    this.toastTypeOrDefault =
+      value === undefined ? SKY_TOAST_TYPE_DEFAULT : value;
+    this.updateForToastType();
   }
 
   /**
@@ -64,19 +62,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     return this.isOpen ? 'open' : 'closed';
   }
 
-  public get ariaLive(): string {
-    return this.toastType === SkyToastType.Danger ? 'assertive' : 'polite';
-  }
+  public ariaLive = 'polite';
 
-  public get ariaRole(): string {
-    return this.toastType === SkyToastType.Danger ? 'alert' : undefined;
-  }
+  public ariaRole: string | undefined;
 
   public get classNames(): string {
     const classNames: string[] = [];
 
     let typeLabel: string;
-    switch (this.toastType) {
+    switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
         typeLabel = 'danger';
         break;
@@ -104,6 +98,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
 
   public icon: string;
 
+  public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
+
   public topIcon: SkyIconStackItem;
 
   private autoCloseTimeoutId: any;
@@ -111,8 +107,6 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   private isOpen = false;
 
   private ngUnsubscribe = new Subject<void>();
-
-  private _toastType: SkyToastType;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -138,6 +132,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
           }
         });
     }
+
+    this.updateForToastType();
   }
 
   public ngOnDestroy(): void {
@@ -182,12 +178,12 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateIcon(): void {
+  private updateForToastType(): void {
     let icon: string;
     let baseIcon: string;
     let topIcon: string;
 
-    switch (this.toastType) {
+    switch (this.toastTypeOrDefault) {
       case SkyToastType.Danger:
       case SkyToastType.Warning:
         icon = 'warning';
@@ -217,5 +213,10 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     };
 
     this.icon = icon;
+
+    this.ariaLive =
+      this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
+    this.ariaRole =
+      this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
   }
 }
