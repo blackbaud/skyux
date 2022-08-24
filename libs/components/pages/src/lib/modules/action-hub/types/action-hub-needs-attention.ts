@@ -16,11 +16,15 @@ export interface SkyActionHubNeedsAttention {
   /**
    * Specifies a link to resolve the action item.
    */
-  permalink: {
+  permalink?: {
     route?: {
       commands: any[];
       extras?: NavigationExtras;
     };
     url?: string;
   };
+  /**
+   * Specifies a click handler for the action item.
+   */
+  click?: () => void;
 }
