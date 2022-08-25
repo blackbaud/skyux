@@ -4,7 +4,7 @@
       cy.viewport(1300, 900).visit(
         `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
       );
-      cy.document().its('fonts.status').should('equal', 'loaded');
+      cy.waitForBlackbaudSans();
     });
 
     it('should render the component', () => {

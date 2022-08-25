@@ -11,7 +11,7 @@
           cy.viewport(1300, 900).visit(
             `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
           );
-          cy.document().its('fonts.status').should('equal', 'loaded');
+          cy.waitForFaAndBbFonts();
         });
 
         it(`should render ag-grid with data manager, ${label} layout`, () => {

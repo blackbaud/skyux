@@ -1,33 +1,48 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-
 // eslint-disable-next-line @typescript-eslint/no-namespace
 declare namespace Cypress {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface Chainable<Subject> {
-    login(email: string, password: string): void;
+    waitForFonts(...fonts: string[]): Chainable<void>;
+
+    /**
+     * Wait for Font Awesome to be loaded.
+     */
+    waitForFontAwesome(): Chainable<void>;
+
+    /**
+     * Wait for BLKB Sans to be loaded.
+     */
+    waitForBlackbaudSans(): Chainable<void>;
+
+    /**
+     * Wait for Font Awesome and BLKB Sans to be loaded.
+     */
+    waitForFaAndBbFonts(): Chainable<void>;
   }
 }
-//
-// -- This is a parent command --
-Cypress.Commands.add('login', (email, password) => {
-  console.log('Custom command example: Login', email, password);
+
+Cypress.Commands.add('waitForFonts', (...fonts: string[]) => {
+  return cy
+    .document()
+    .its('fonts.status', { timeout: 20000 })
+    .should('equal', 'loaded')
+    .end()
+    .document()
+    .then((doc) => {
+      cy.wrap(doc.fonts).should('not.be.undefined');
+      fonts.forEach((font) => {
+        cy.wrap(doc.fonts).invoke('check', `16px "${font}"`).should('be.true');
+      });
+    })
+    .end();
 });
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('waitForFontAwesome', () =>
+  cy.waitForFonts('FontAwesome')
+);
+Cypress.Commands.add('waitForBlackbaudSans', () =>
+  cy.waitForFonts('BLKB Sans')
+);
+Cypress.Commands.add('waitForFaAndBbFonts', () =>
+  cy.waitForFonts('BLKB Sans', 'FontAwesome')
+);
