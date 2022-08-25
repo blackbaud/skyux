@@ -9,6 +9,9 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
+  text-align: left;
+  width: 100%;
+  white-space: normal;
 
   &-icon {
     color: $sky-theme-modern-font-deemphasized-color;
@@ -22,18 +25,7 @@
     order: 1;
   }
 
-  sky-key-info-value {
-    color: $sky-text-color-action-primary;
-  }
-
-  &:hover {
-    sky-key-info-value,
-    sky-key-info-label {
-      text-decoration: underline;
-    }
-  }
-
-  &:focus {
+  &:focus-visible {
     outline: none;
 
     &:not(:active) {
@@ -46,8 +38,6 @@
   }
 }
 
-sky-column:last-child {
-  > a {
-    border-bottom: none;
-  }
+button.sky-needs-attention-item.sky-border-bottom-row {
+  @include sky-border(row, bottom);
 }

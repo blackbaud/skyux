@@ -12,7 +12,7 @@
   <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
 </ng-template>
 <ng-template #linksTemplateRef>
-  <ng-container *ngIf="links?.length > 0">
+  <ng-container *ngIf="linksArray.length > 0">
     <ng-container [ngTemplateOutlet]="headingTemplateRef"></ng-container>
     <ul
       class="sky-link-list"
@@ -22,13 +22,16 @@
       }"
     >
       <li
-        *ngFor="let link of links"
+        *ngFor="let link of linksArray"
         [skyThemeClass]="{
           'sky-margin-stacked-default': 'default',
           'sky-margin-stacked-sm': 'modern'
         }"
       >
-        <a *ngIf="link.permalink.url" [skyHref]="link.permalink.url">
+        <a *ngIf="link | linkAs: 'skyHref'" [skyHref]="link.permalink.url">
+          {{ link.label }}
+        </a>
+        <a *ngIf="link | linkAs: 'href'" [href]="link.permalink.url">
           {{ link.label }}
         </a>
         <a

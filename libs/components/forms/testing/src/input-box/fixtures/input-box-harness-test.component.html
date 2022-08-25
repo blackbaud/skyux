@@ -1,0 +1,30 @@
+<form novalidate [formGroup]="myForm">
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my-input-box-first-name'">
+      <label class="sky-control-label" [for]="firstNameField.id"
+        >First name</label
+      >
+      <input
+        class="sky-form-control"
+        type="text"
+        formControlName="firstName"
+        skyId
+        #firstNameField
+      />
+    </sky-input-box>
+  </div>
+  <div class="sky-form-group">
+    <sky-input-box [attr.data-sky-id]="'my-input-box-last-name'">
+      <label class="sky-control-label" [for]="lastNameField.id"
+        >Last name</label
+      >
+      <input
+        class="sky-form-control my-last-name-field"
+        type="text"
+        formControlName="lastName"
+        skyId
+        #lastNameField
+      />
+    </sky-input-box>
+  </div>
+</form>

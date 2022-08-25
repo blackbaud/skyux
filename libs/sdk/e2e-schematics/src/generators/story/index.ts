@@ -1,4 +1,5 @@
 import { componentGenerator } from '@nrwl/angular/generators';
+import { normalizePath } from '@nrwl/devkit';
 import {
   ProjectConfiguration,
   Tree,
@@ -38,6 +39,7 @@ function normalizeOptions(
   tree: Tree,
   options: ComponentGeneratorSchema
 ): NormalizedSchema {
+  options.name = normalizePath(options.name);
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
   const projectDirectory = projectConfig.sourceRoot;
@@ -102,7 +104,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const previouslyCreated = tree
     .listChanges()
     .filter((change) => change.type === 'CREATE')
-    .map((change) => change.path);
+    .map((change) => normalizePath(change.path));
 
   // nx g @schematics/angular:module
   await angularModuleGenerator(tree, {
@@ -114,6 +116,12 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const componentFilePaths = tree
     .listChanges()
     .filter((change) => change.type === 'CREATE')
+    .map((change) => {
+      return {
+        ...change,
+        path: normalizePath(change.path),
+      };
+    })
     .filter((change) => !previouslyCreated.includes(change.path))
     .filter((change) =>
       change.path.match(/\.component\.(ts|spec\.ts|html|s?css)$/)

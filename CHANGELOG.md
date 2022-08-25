@@ -1,5 +1,33 @@
 # Changelog
 
+## [6.14.0](https://github.com/blackbaud/skyux/compare/6.13.0...6.14.0) (2022-08-23)
+
+### Features
+
+- **components/forms:** add harness to interact with checkbox components in tests ([#428](https://github.com/blackbaud/skyux/issues/428)) ([cf67022](https://github.com/blackbaud/skyux/commit/cf67022ab1e54b452bf51ca6c1c5c4c432d20b02))
+- **components/indicators:** add harness for interacting with alert components in tests ([#422](https://github.com/blackbaud/skyux/issues/422)) ([37acc5e](https://github.com/blackbaud/skyux/commit/37acc5e21d769e8cbda41a9ce89af346ab8cd16a))
+- **components/indicators:** add harness for interacting with token components in tests ([#417](https://github.com/blackbaud/skyux/issues/417)) ([33fd786](https://github.com/blackbaud/skyux/commit/33fd786fcb77518e4c5d099032eae7c04f4b1249))
+- **components/lists:** add harness for interacting with infinite scroll components in tests ([#421](https://github.com/blackbaud/skyux/issues/421)) ([4970a20](https://github.com/blackbaud/skyux/commit/4970a2069bf404be05f766bb536319cfed29bd53))
+- **components/lists:** add harness for interacting with repeater components in tests ([#429](https://github.com/blackbaud/skyux/issues/429)) ([c7b6b3e](https://github.com/blackbaud/skyux/commit/c7b6b3ec7065317408b917b83123754936e5875a))
+- **components/lookup:** add harness for interacting with autocomplete components in tests ([#413](https://github.com/blackbaud/skyux/issues/413)) ([be233a5](https://github.com/blackbaud/skyux/commit/be233a58818a630100b0ba9c538bb8a7a8060dfa))
+
+### Bug Fixes
+
+- **components/modals:** close all modals before removing host element ([#424](https://github.com/blackbaud/skyux/issues/424)) ([43f360c](https://github.com/blackbaud/skyux/commit/43f360c16da2f63f3f13c6229c3f6cc6d3ea9010))
+
+## [6.13.0](https://github.com/blackbaud/skyux/compare/6.12.0...6.13.0) (2022-08-18)
+
+### Features
+
+- **components/core:** add `SkyIdService` to generate unique IDs for HTML elements ([#395](https://github.com/blackbaud/skyux/issues/395)) ([e7e48dc](https://github.com/blackbaud/skyux/commit/e7e48dcea700395c88ecc9a3b70ac4b399bd7a9d))
+- **components/core:** add overlay harness for interacting with overlay components in tests ([#398](https://github.com/blackbaud/skyux/issues/398)) ([c96f6d7](https://github.com/blackbaud/skyux/commit/c96f6d7ca8aad57696d416bd5305a1204c827eb2))
+- **components/forms:** add input box harness for interacting with input box components in tests ([#399](https://github.com/blackbaud/skyux/issues/399)) ([ed377a1](https://github.com/blackbaud/skyux/commit/ed377a166a991f080da0be9ded6fc65098c44ae8))
+
+### Bug Fixes
+
+- **components/lookup:** add context to searches ([#381](https://github.com/blackbaud/skyux/issues/381)) ([0d02f73](https://github.com/blackbaud/skyux/commit/0d02f73cb977912d8beb1ea623db09c814edea9e))
+- **components/lookup:** async show more modal toolbars now correctly stick to the top of the modal content ([#408](https://github.com/blackbaud/skyux/issues/408)) ([2ccc8ec](https://github.com/blackbaud/skyux/commit/2ccc8ecf56a146b545a3b633c64ddcc16ae485e5))
+
 ## [6.12.0](https://github.com/blackbaud/skyux/compare/6.11.2...6.12.0) (2022-08-15)
 
 ### Features

@@ -17,10 +17,15 @@ import { SkyModalConfigurationInterface } from './modal.interface';
   providedIn: 'any',
 })
 export class SkyModalService {
-  private static host: ComponentRef<SkyModalHostComponent>;
+  private static host: ComponentRef<SkyModalHostComponent> | undefined;
 
-  // TODO: In future breaking change - remove extra parameters as they are no longer used.
-  constructor(private dynamicComponentService?: SkyDynamicComponentService) {}
+  #dynamicComponentService: SkyDynamicComponentService;
+
+  // TODO: Make `dynamicComponentService` required. It is optional today to maintain binary compatibility for consumers when they construct
+  // the service for unit testing.
+  constructor(dynamicComponentService?: SkyDynamicComponentService) {
+    this.#dynamicComponentService = dynamicComponentService!;
+  }
 
   /**
    * @internal
@@ -28,7 +33,7 @@ export class SkyModalService {
    */
   public dispose(): void {
     if (SkyModalService.host) {
-      this.dynamicComponentService.removeComponent(SkyModalService.host);
+      this.#dynamicComponentService.removeComponent(SkyModalService.host);
       SkyModalService.host = undefined;
     }
   }
@@ -43,20 +48,22 @@ export class SkyModalService {
     config?: SkyModalConfigurationInterface | any[]
   ): SkyModalInstance {
     const modalInstance = new SkyModalInstance();
-    this.createHostComponent();
-    const params = this.getConfigFromParameter(config);
+    this.#createHostComponent();
+    const params = this.#getConfigFromParameter(config);
 
-    params.providers.push({
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    params.providers!.push({
       provide: SkyModalInstance,
       useValue: modalInstance,
     });
 
-    SkyModalService.host.instance.open(modalInstance, component, params);
+    SkyModalService.host!.instance.open(modalInstance, component, params);
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     return modalInstance;
   }
 
-  private getConfigFromParameter(
+  #getConfigFromParameter(
     providersOrConfig: any
   ): SkyModalConfigurationInterface {
     const defaultParams: SkyModalConfigurationInterface = {
@@ -65,7 +72,7 @@ export class SkyModalService {
       size: 'medium',
       tiledBody: false,
     };
-    let params: SkyModalConfigurationInterface = undefined;
+    let params: SkyModalConfigurationInterface = {};
     let method: any = undefined;
 
     // Object Literal Lookup for backwards compatability.
@@ -85,16 +92,18 @@ export class SkyModalService {
     return params;
   }
 
-  private createHostComponent(): void {
+  #createHostComponent(): void {
     if (!SkyModalService.host) {
-      SkyModalService.host = this.dynamicComponentService.createComponent(
+      SkyModalService.host = this.#dynamicComponentService.createComponent(
         SkyModalHostComponent,
         {
           providers: [
             {
               provide: SkyModalHostContext,
-              useValue: new SkyModalHostContext(() => {
-                this.dispose();
+              useValue: new SkyModalHostContext({
+                teardownCallback: () => {
+                  this.dispose();
+                },
               }),
             },
           ],

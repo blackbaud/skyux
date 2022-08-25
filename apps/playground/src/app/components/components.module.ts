@@ -84,6 +84,11 @@ export const componentRoutes: Routes = [
       import('./theme/theme.module').then((m) => m.ThemeModule),
   },
   {
+    path: 'toast',
+    loadChildren: () =>
+      import('./toast/toast.module').then((m) => m.ToastModule),
+  },
+  {
     path: 'validation',
     loadChildren: () =>
       import('./validation/validation.module').then((m) => m.ValidationModule),

@@ -282,6 +282,21 @@ export class SkyAutocompleteInputDirective
     }
   }
 
+  public setAriaOwns(overlayId: string | null): void {
+    if (overlayId) {
+      this.#renderer.setAttribute(
+        this.#elementRef.nativeElement,
+        'aria-owns',
+        overlayId
+      );
+    } else {
+      this.#renderer.removeAttribute(
+        this.#elementRef.nativeElement,
+        'aria-owns'
+      );
+    }
+  }
+
   // Angular automatically constructs these methods.
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   public onChange(value: any): void {}
