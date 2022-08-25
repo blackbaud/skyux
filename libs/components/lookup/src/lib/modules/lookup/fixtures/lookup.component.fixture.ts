@@ -11,6 +11,7 @@ import { delay } from 'rxjs/operators';
 
 import { SkyAutocompleteSearchAsyncArgs } from '../../autocomplete/types/autocomplete-search-async-args';
 import { SkyAutocompleteSearchFunction } from '../../autocomplete/types/autocomplete-search-function';
+import { SkyAutocompleteSearchFunctionFilter } from '../../autocomplete/types/autocomplete-search-function-filter';
 import { SkyLookupComponent } from '../lookup.component';
 import { SkyLookupAddCallbackArgs } from '../types/lookup-add-click-callback-args';
 import { SkyLookupAddClickEventArgs } from '../types/lookup-add-click-event-args';
@@ -51,6 +52,8 @@ export class SkyLookupTestComponent implements OnInit {
   public autocompleteAttribute: string | undefined;
 
   public customSearch: SkyAutocompleteSearchFunction | undefined;
+
+  public customSearchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 
   public data: any[] = [];
 

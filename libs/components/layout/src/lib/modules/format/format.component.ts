@@ -36,18 +36,18 @@ export class SkyFormatComponent {
    * item is placed at the `{n}` location in the template.
    */
   @Input()
-  public set args(value: TemplateRef<unknown>[]) {
+  public set args(value: TemplateRef<never>[]) {
     this._args = value;
     this.updateItemsForDisplay();
   }
 
-  public get args(): TemplateRef<unknown>[] {
+  public get args(): TemplateRef<never>[] {
     return this._args;
   }
 
   private _text: string;
 
-  private _args: TemplateRef<unknown>[];
+  private _args: TemplateRef<never>[];
 
   private updateItemsForDisplay(): void {
     this.itemsForDisplay = [];

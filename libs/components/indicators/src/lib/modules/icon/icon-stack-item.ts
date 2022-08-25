@@ -1,5 +1,8 @@
 import { SkyIconType } from './types/icon-type';
 
+/**
+ * @internal
+ */
 export interface SkyIconStackItem {
   /**
    * Specifies the name of

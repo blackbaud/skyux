@@ -713,7 +713,9 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       return searchAsyncArgs.result || of(undefined);
     }
 
-    const result = this.search(this.searchText, this.data);
+    const result = this.search(this.searchText, this.data, {
+      context: 'popover',
+    });
 
     if (result instanceof Array) {
       return of({
@@ -800,6 +802,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
       this.#overlay = overlay;
       this.isOpen = true;
       this.#changeDetector.markForCheck();
+      this.#updateAriaOwns();
       this.#initOverlayFocusableElements();
     }
   }
@@ -809,6 +812,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.isOpen = false;
     this.#destroyOverlay();
     this.#removeActiveDescendant();
+    this.#updateAriaOwns();
     this.#changeDetector.markForCheck();
   }
 
@@ -825,6 +829,12 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #removeActiveDescendant(): void {
     if (this.inputDirective) {
       this.inputDirective.setActiveDescendant(null);
+    }
+  }
+
+  #updateAriaOwns(): void {
+    if (this.inputDirective) {
+      this.inputDirective.setAriaOwns(this.#overlay?.id || null);
     }
   }
 

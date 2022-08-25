@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
@@ -12,26 +12,16 @@ const LABEL_TYPE_DEFAULT = 'info';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent {
+export class SkyLabelComponent implements OnInit {
   /**
    * The type of label to display.
-   * @required
+   * @default 'info'
    */
   @Input()
   public set labelType(value: SkyLabelType | undefined) {
-    this.#_labelType = value;
+    this.labelTypeOrDefault = value === undefined ? LABEL_TYPE_DEFAULT : value;
 
-    if (this.#_labelType === undefined) {
-      this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
-    } else {
-      this.labelTypeOrDefault = this.#_labelType;
-    }
-
-    this.updateIcon();
-  }
-
-  public get labelType(): SkyLabelType | undefined {
-    return this.#_labelType;
+    this.#updateIcon();
   }
 
   public baseIcon: SkyIconStackItem | undefined;
@@ -42,9 +32,11 @@ export class SkyLabelComponent {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #_labelType: SkyLabelType | undefined;
+  public ngOnInit(): void {
+    this.#updateIcon();
+  }
 
-  private updateIcon(): void {
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
       this.labelTypeOrDefault
     );
