@@ -253,12 +253,7 @@ describe('Resources service', () => {
       () => {
         currentLocale = 'es-MX';
 
-        resources
-          .getString('hi')
-          .pipe(take(1))
-          .subscribe(() => {
-            return;
-          });
+        resources.getString('hi').pipe(take(1)).subscribe();
 
         addTestResourceResponse(esUrl);
       }
