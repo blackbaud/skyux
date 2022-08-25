@@ -16,6 +16,7 @@ export class ToastComponent implements OnDestroy {
   }
 
   public openToasts(): void {
+    this.toastService.openMessage('Toast message');
     this.toastService.openMessage('Toast message', { type: SkyToastType.Info });
     this.toastService.openMessage('Toast message', {
       type: SkyToastType.Success,

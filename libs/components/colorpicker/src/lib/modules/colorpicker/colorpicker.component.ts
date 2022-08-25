@@ -20,6 +20,7 @@ import {
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
+import { SkyIconType } from '@skyux/indicators';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject, fromEvent } from 'rxjs';
@@ -64,7 +65,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
    * @internal
    */
   @Input()
-  public pickerButtonIconType?: string = 'fa';
+  public pickerButtonIconType: SkyIconType = 'fa';
 
   /**
    * Specifies an ARIA label for the colorpicker. This sets the colorpicker's `aria-label` attribute

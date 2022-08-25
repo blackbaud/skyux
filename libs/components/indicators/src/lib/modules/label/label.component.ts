@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -16,26 +22,16 @@ const LABEL_TYPE_DEFAULT = 'info';
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent implements OnDestroy {
+export class SkyLabelComponent implements OnDestroy, OnInit {
   /**
    * The type of label to display.
-   * @required
+   * @default 'info'
    */
   @Input()
   public set labelType(value: SkyLabelType | undefined) {
-    this.#_labelType = value;
+    this.labelTypeOrDefault = value === undefined ? LABEL_TYPE_DEFAULT : value;
 
-    if (this.#_labelType === undefined) {
-      this.labelTypeOrDefault = LABEL_TYPE_DEFAULT;
-    } else {
-      this.labelTypeOrDefault = this.#_labelType;
-    }
-
-    this.updateIcon();
-  }
-
-  public get labelType(): SkyLabelType | undefined {
-    return this.#_labelType;
+    this.#updateIcon();
   }
 
   /**
@@ -76,8 +72,6 @@ export class SkyLabelComponent implements OnDestroy {
 
   public topIcon: SkyIconStackItem | undefined;
 
-  #_labelType: SkyLabelType | undefined;
-
   #_descriptionType: SkyIndicatorDescriptionType | undefined;
 
   #_customDescription: string | undefined;
@@ -96,11 +90,15 @@ export class SkyLabelComponent implements OnDestroy {
     this.#resources = resources;
   }
 
+  public ngOnInit(): void {
+    this.#updateIcon();
+  }
+
   public ngOnDestroy(): void {
     this.#unsubscribe();
   }
 
-  private updateIcon(): void {
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
       this.labelTypeOrDefault
     );

@@ -11,6 +11,7 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
+  testEnvironment: 'node',
   collectCoverage: true,
   coverageDirectory: '../../../coverage/libs/sdk/e2e-schematics',
   coverageThreshold: {
@@ -22,4 +23,7 @@ export default {
     },
   },
   silent: true,
+  maxConcurrency: 2,
+  maxWorkers: 2,
+  testTimeout: 120000,
 };

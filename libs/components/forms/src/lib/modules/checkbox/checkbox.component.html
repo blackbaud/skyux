@@ -33,14 +33,14 @@
     <sky-icon
       *ngIf="icon || checked"
       class="sky-checkbox-icon-default"
-      fixedWidth="true"
+      [fixedWidth]="true"
       [icon]="icon || 'check'"
     >
     </sky-icon>
     <div class="sky-checkbox-icon-modern">
       <sky-icon
         *ngIf="icon; else checkedTemplate"
-        fixedWidth="true"
+        [fixedWidth]="true"
         [icon]="icon"
       >
       </sky-icon>
@@ -48,7 +48,7 @@
         <sky-icon
           *ngIf="checked"
           class="sky-checkbox-icon-modern-checked"
-          fixedWidth="true"
+          [fixedWidth]="true"
           icon="check"
           iconType="skyux"
         >
