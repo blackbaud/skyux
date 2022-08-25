@@ -109,6 +109,8 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   }
 
   #updateDescriptionComputed(): void {
+    this.#unsubscribe();
+
     if (this.descriptionType) {
       switch (this.descriptionType) {
         case 'none':
@@ -118,8 +120,6 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
           this.descriptionComputed = this.customDescription;
           break;
         default:
-          this.#unsubscribe();
-
           this.#currentSub = this.#resources
             .getString(
               'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_')
