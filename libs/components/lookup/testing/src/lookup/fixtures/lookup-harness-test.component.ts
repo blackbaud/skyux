@@ -126,7 +126,7 @@ export class LookupHarnessTestComponent implements AfterViewInit {
       formalNames: new FormControl(),
       singleSelect: new FormControl(this.name),
       multiselect: new FormControl(this.names),
-      asyncNames: new FormControl(),
+      asyncNames: new FormControl(this.names),
     });
   }
 
@@ -152,16 +152,25 @@ export class LookupHarnessTestComponent implements AfterViewInit {
 
     setTimeout(() => {
       const searchText = args.searchText.toLowerCase();
-      const items = this.people.filter((person) => {
+
+      // Simulate multiple results being sent after the "Load more" button is pressed.
+      const clone = JSON.parse(JSON.stringify(this.people));
+      const data: Person[] = clone.splice(args.offset);
+
+      const items = data.filter((person) => {
         return person.name.toLowerCase().includes(searchText);
       });
 
+      // We run the same tests for both the non-async and async pickers, so
+      // make sure the number of results is limited to 10 so they match.
+      items.splice(10);
+
       result.next({
-        hasMore: false,
+        hasMore: true, // Show the "Load more" button.
         items,
         totalCount: items.length,
       });
-    }, 800);
+    });
   }
 
   public disableForm() {

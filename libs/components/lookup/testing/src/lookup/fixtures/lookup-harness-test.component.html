@@ -12,7 +12,7 @@
     </sky-lookup>
   </div>
 
-  <!-- SINGLE SELECT -->
+  <!-- SINGLE SELECT (STANDARD) -->
   <div class="sky-form-group">
     <sky-input-box data-sky-id="my-single-select-lookup">
       <label class="sky-control-label" skyId #singleSelectLabel>
@@ -32,7 +32,28 @@
     </sky-input-box>
   </div>
 
-  <!-- MULTISELECT -->
+  <!-- SINGLE SELECT (ASYNC) -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-single-select-async-lookup">
+      <label class="sky-control-label" skyId #singleSelectLabel>
+        Favorite name
+      </label>
+      <sky-lookup
+        formControlName="singleSelect"
+        idProperty="name"
+        selectMode="single"
+        [ariaLabelledBy]="singleSelectLabel.id"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+        (addClick)="onAddClick()"
+        (searchAsync)="onSearchAsync($event)"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- MULTISELECT (STANDARD) -->
   <div class="sky-form-group">
     <sky-input-box data-sky-id="my-multiselect-lookup">
       <label class="sky-control-label" skyId #multiselectLabel>
@@ -51,26 +72,7 @@
     </sky-input-box>
   </div>
 
-  <!-- CUSTOM TEMPLATES -->
-  <div class="sky-form-group">
-    <sky-input-box data-sky-id="my-custom-template-lookup">
-      <label class="sky-control-label" skyId #formalNamesLabel>
-        Favorite names
-      </label>
-      <sky-lookup
-        formControlName="formalNames"
-        [ariaLabelledBy]="formalNamesLabel.id"
-        [data]="people"
-        [enableShowMore]="true"
-        [searchFilters]="getSearchFilters()"
-        [searchResultTemplate]="searchResultTemplate"
-        [showMoreConfig]="showMoreConfig"
-      >
-      </sky-lookup>
-    </sky-input-box>
-  </div>
-
-  <!-- ASYNC -->
+  <!-- MULTISELECT (ASYNC) -->
   <div class="sky-form-group">
     <sky-input-box data-sky-id="my-async-lookup">
       <label class="sky-control-label" skyId #asyncNamesLabel>
@@ -81,8 +83,32 @@
         idProperty="name"
         [ariaLabelledBy]="asyncNamesLabel.id"
         [enableShowMore]="true"
+        [showAddButton]="true"
+        (addClick)="onAddClick()"
         (searchAsync)="onSearchAsync($event)"
       ></sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- CUSTOM TEMPLATES -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-custom-template-lookup">
+      <label class="sky-control-label" skyId #formalNamesLabel>
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="formalNames"
+        idProperty="name"
+        [ariaLabelledBy]="formalNamesLabel.id"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [searchResultTemplate]="searchResultTemplate"
+        [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
+        (addClick)="onAddClick()"
+        (searchAsync)="onSearchAsync($event)"
+      >
+      </sky-lookup>
     </sky-input-box>
   </div>
 </form>
@@ -90,10 +116,10 @@
 <ng-template let-item="item" #searchResultTemplate>
   <strong>{{ item.name }}</strong
   ><br />
-  {{ item.formal }}
+  ({{ item.formal }})
 </ng-template>
 
 <ng-template let-item="item" #showMoreSearchResultTemplate>
   {{ item.name }}<br />
-  <i>{{ item.formal }}</i>
+  ({{ item.formal }})
 </ng-template>

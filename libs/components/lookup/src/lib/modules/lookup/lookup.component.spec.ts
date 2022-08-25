@@ -426,8 +426,7 @@ describe('Lookup component', function () {
   }
 
   function verifyPickerId() {
-    const modalEl = getModalEl();
-    expect(modalEl.id).toMatch(/sky-id-gen__[0-9]+__[0-9]/);
+    expect(getModalEl().id).toBeTruthy();
   }
 
   //#endregion
