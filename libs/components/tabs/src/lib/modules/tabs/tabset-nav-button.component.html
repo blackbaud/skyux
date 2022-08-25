@@ -1,19 +1,10 @@
 <button
-  *skyThemeIf="'default'"
-  class="sky-btn sky-btn-default"
-  type="button"
+  *ngIf="isVisible"
+  class="sky-btn sky-margin-inline-sm"
+  [attr.aria-controls]="ariaControls"
   [disabled]="disabled"
-  (click)="buttonClick()"
->
-  {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
-</button>
-
-<button
-  *skyThemeIf="'modern'"
-  class="sky-btn"
-  type="button"
-  [disabled]="disabled"
-  [ngClass]="buttonType === 'previous' ? 'sky-btn-default' : 'sky-btn-primary'"
+  [ngClass]="buttonClassName"
+  [type]="type"
   (click)="buttonClick()"
 >
   {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}

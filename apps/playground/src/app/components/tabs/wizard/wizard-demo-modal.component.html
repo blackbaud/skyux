@@ -48,21 +48,16 @@
       </sky-tabset>
     </sky-modal-content>
     <sky-modal-footer>
-      <sky-tabset-nav-button
-        buttonType="previous"
-        [tabset]="wizardDemo"
-      ></sky-tabset-nav-button>
+      <sky-tabset-nav-button buttonType="previous"></sky-tabset-nav-button>
       <sky-tabset-nav-button
         buttonType="next"
         [tabset]="wizardDemo"
       ></sky-tabset-nav-button>
-      <button
-        class="sky-btn sky-btn-default sky-margin-inline-sm"
-        type="submit"
+      <sky-tabset-nav-button
+        buttonType="finish"
+        [tabset]="wizardDemo"
         [disabled]="saveDisabled"
-      >
-        Save
-      </button>
+      ></sky-tabset-nav-button>
       <button
         class="sky-btn sky-btn-link"
         type="button"

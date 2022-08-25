@@ -13,18 +13,21 @@
       </sky-description-list-description>
     </sky-description-list-content>
   </sky-description-list>
-  <sky-description-list mode="horizontal">
-    <sky-description-list-content *ngFor="let item of items">
-      <sky-description-list-term>
-        {{ item.term }}
-        <sky-help-inline
-          *ngIf="item.showHelp"
-          class="sky-control-help"
-        ></sky-help-inline>
-      </sky-description-list-term>
-      <sky-description-list-description>
-        {{ item.description }}
-      </sky-description-list-description>
-    </sky-description-list-content>
-  </sky-description-list>
+  <div class="sky-margin-stacked-lg">
+    <sky-description-list mode="horizontal">
+      <sky-description-list-content *ngFor="let item of items">
+        <sky-description-list-term>
+          {{ item.term }}
+          <sky-help-inline
+            *ngIf="item.showHelp"
+            class="sky-control-help"
+          ></sky-help-inline>
+        </sky-description-list-term>
+        <sky-description-list-description>
+          {{ item.description }}
+        </sky-description-list-description>
+      </sky-description-list-content>
+    </sky-description-list>
+  </div>
+  <div class="sky-field-label">RANDOM ADDITIONAL CONTENT</div>
 </div>
