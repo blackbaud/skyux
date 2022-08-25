@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import { SkyModalService } from '@skyux/modals';
-import {
-  SkyActionHubNeedsAttention,
-  SkyPageLink,
-  SkyPageModalLink,
-} from '@skyux/pages';
+import { SkyPageLink, SkyPageModalLink } from '@skyux/pages';
 
 import { SettingsModalComponent } from './modal/settings-modal.component';
 
@@ -15,9 +10,8 @@ import { SettingsModalComponent } from './modal/settings-modal.component';
 export class SettingsComponent {
   public relatedLinks: SkyPageLink[] = [];
   public settingsLinks: SkyPageModalLink[] = [];
-  public needsAttention: SkyActionHubNeedsAttention[];
 
-  constructor(private modalService: SkyModalService) {
+  constructor() {
     ['Back', 'Home'].forEach((label) => {
       this.relatedLinks.push({
         label,
@@ -47,57 +41,5 @@ export class SettingsComponent {
         },
       });
     });
-    this.needsAttention = [
-      {
-        title: 'Route to the home page',
-        permalink: {
-          route: {
-            commands: ['/'],
-          },
-        },
-      },
-      {
-        title: 'Recently accessed',
-        permalink: {
-          route: {
-            commands: ['../recent'],
-          },
-        },
-      },
-      {
-        title: 'External link',
-        permalink: {
-          url: 'https://www.google.com',
-        },
-      },
-      {
-        title: 'Sky UX',
-        permalink: {
-          url: 'https://developer.blackbaud.com/skyux/',
-        },
-      },
-      {
-        title: 'Hash link',
-        permalink: {
-          url: '#',
-        },
-      },
-      {
-        title: 'Click to open a modal',
-        click: () => {
-          this.modalService.open(SettingsModalComponent, {
-            providers: [
-              { provide: 'modalTitle', useValue: 'Click event modal' },
-            ],
-          });
-        },
-      },
-      {
-        title: 'Click to show alert',
-        click: () => {
-          alert('Click event alert');
-        },
-      },
-    ];
   }
 }

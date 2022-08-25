@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { SkyI18nModule } from '@skyux/i18n';
-import { SkyWaitModule } from '@skyux/indicators';
-import { SkyFluidGridModule } from '@skyux/layout';
+import {
+  SkyIconModule,
+  SkyKeyInfoModule,
+  SkyWaitModule,
+} from '@skyux/indicators';
+import { SkyActionButtonModule, SkyFluidGridModule } from '@skyux/layout';
+import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyThemeModule } from '@skyux/theme';
 
-import { SkyLinkListModule } from '../link-list/link-list.module';
-import { SkyModalLinkListModule } from '../modal-link-list/modal-link-list.module';
-import { SkyNeedsAttentionModule } from '../needs-attention/needs-attention.module';
+import { SkyLinkListComponent } from '../link-list/link-list.component';
+import { SkyModalLinkListComponent } from '../modal-link-list/modal-link-list.component';
+import { SkyNeedsAttentionComponent } from '../needs-attention/needs-attention.component';
 import { SkyPageHeaderModule } from '../page-header/page-header.module';
 import { SkyPagesResourcesModule } from '../shared/sky-pages-resources.module';
 
@@ -20,15 +26,18 @@ import { SkyActionHubComponent } from './action-hub.component';
 @NgModule({
   imports: [
     CommonModule,
+    SkyPagesResourcesModule,
+    RouterModule,
+    SkyActionButtonModule,
+    SkyAppLinkModule,
     SkyFluidGridModule,
     SkyI18nModule,
-    SkyLinkListModule,
-    SkyModalLinkListModule,
-    SkyNeedsAttentionModule,
+    SkyIconModule,
+    SkyKeyInfoModule,
     SkyPageHeaderModule,
-    SkyPagesResourcesModule,
     SkyThemeModule,
     SkyWaitModule,
+    SkyHrefModule,
   ],
   declarations: [
     SkyActionHubButtonsComponent,
@@ -36,6 +45,9 @@ import { SkyActionHubComponent } from './action-hub.component';
     SkyActionHubContentComponent,
     SkyActionHubRecentLinksResolvePipe,
     SkyActionHubRelatedLinksSortPipe,
+    SkyNeedsAttentionComponent,
+    SkyLinkListComponent,
+    SkyModalLinkListComponent,
   ],
   exports: [
     SkyActionHubButtonsComponent,
