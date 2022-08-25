@@ -1,7 +1,14 @@
 <sky-toast
+  *ngIf="toastType !== undefined; else typelessToast"
   [autoClose]="autoClose"
   [toastType]="toastType"
   (closed)="onClosed()"
 >
   Inner content here...
 </sky-toast>
+
+<ng-template #typelessToast>
+  <sky-toast [autoClose]="autoClose" (closed)="onClosed()">
+    Inner content here...
+  </sky-toast>
+</ng-template>

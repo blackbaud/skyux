@@ -34,4 +34,10 @@ describe('SkyModalLinkListComponent', () => {
     });
     expect(openModalSpy).toHaveBeenCalled();
   });
+
+  it('should handle empty input', () => {
+    expect(component).toBeTruthy();
+    component.links = undefined;
+    expect(component.links).toBeUndefined();
+  });
 });

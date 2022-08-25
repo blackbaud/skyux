@@ -8,7 +8,17 @@ describe('Status indicator component', () => {
   function getStatusIndicatorEl(
     fixture: ComponentFixture<StatusIndicatorTestComponent>
   ): HTMLDivElement {
-    return fixture.nativeElement.querySelector('.sky-status-indicator');
+    return fixture.nativeElement.querySelector(
+      '#status-indicator-with-indicator-type .sky-status-indicator'
+    );
+  }
+
+  function getStatusIndicatorElWithoutIndicatorType(
+    fixture: ComponentFixture<StatusIndicatorTestComponent>
+  ): HTMLDivElement {
+    return fixture.nativeElement.querySelector(
+      '#status-indicator-without-indicator-type .sky-status-indicator'
+    );
   }
 
   function validateIconWrapperClass(
@@ -29,11 +39,18 @@ describe('Status indicator component', () => {
     indicatorType: string,
     expectedIcon: string
   ): void {
-    fixture.componentInstance.indicatorType = indicatorType;
+    let statusIndicatorEl;
+    if (indicatorType) {
+      fixture.componentInstance.indicatorType = indicatorType;
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const statusIndicatorEl = getStatusIndicatorEl(fixture);
+      statusIndicatorEl = getStatusIndicatorEl(fixture);
+    } else {
+      fixture.detectChanges();
+
+      statusIndicatorEl = getStatusIndicatorElWithoutIndicatorType(fixture);
+    }
 
     validateIconWrapperClass(statusIndicatorEl, indicatorType);
 
