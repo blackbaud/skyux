@@ -221,6 +221,7 @@ export class SkyLookupComponent
 
   public autocompleteController = new Subject<SkyAutocompleteMessage>();
   public isInputFocused = false;
+  public showMorePickerId: string | undefined;
   public tokensController = new Subject<SkyTokensMessage>();
 
   @ViewChild(SkyAutocompleteInputDirective, {
@@ -605,6 +606,8 @@ export class SkyLookupComponent
 
   public openPicker(initialSearch: string): void {
     if (this.showMoreConfig?.customPicker) {
+      this.showMorePickerId = undefined;
+
       this.showMoreConfig.customPicker.open({
         items: this.data,
         initialSearch,
@@ -615,12 +618,16 @@ export class SkyLookupComponent
 
       this.#openNativePicker = this.#createNativePickerInstance(initialSearch);
 
+      this.showMorePickerId = this.#openNativePicker.componentInstance.id;
+
       this.#openNativePicker.componentInstance.addClick.subscribe(() => {
         this.addButtonClicked();
       });
 
       this.#openNativePicker.closed.subscribe((closeArgs) => {
         this.#openNativePicker = undefined;
+        this.showMorePickerId = undefined;
+
         if (closeArgs.reason === 'save') {
           let selectedItems: any[] = [];
 
@@ -646,6 +653,8 @@ export class SkyLookupComponent
         this.#focusInput();
         this.#changeDetector.markForCheck();
       });
+
+      this.#changeDetector.markForCheck();
     }
   }
 
