@@ -197,28 +197,13 @@ describe('Resources service', () => {
     });
 
     it('only request the resource file once per instance', () => {
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectOne(enUsUrl);
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectNone(enUsUrl);
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectNone(enUsUrl);
     });
   });
@@ -352,38 +337,18 @@ describe('Resources service', () => {
     it('should use the per-locale cache for subsequent requests in the same locale', () => {
       currentLocale = 'en-US';
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectOne(enUsUrl);
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectNone(enUsUrl);
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectNone(enUsUrl);
 
       currentLocale = 'fr-CA';
 
-      resources
-        .getString('hi')
-        .pipe(take(1))
-        .subscribe(() => {
-          return;
-        });
+      resources.getString('hi').pipe(take(1)).subscribe();
       httpMock.expectOne(frCaUrl);
     });
   });

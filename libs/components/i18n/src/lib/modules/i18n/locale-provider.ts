@@ -10,7 +10,9 @@ const SKY_APP_LOCALE_PROVIDER_DEFAULT_LOCALE = 'en-US';
   providedIn: 'root',
 })
 export class SkyAppLocaleProvider {
-  public defaultLocale: string = SKY_APP_LOCALE_PROVIDER_DEFAULT_LOCALE;
+  public get defaultLocale(): string {
+    return SKY_APP_LOCALE_PROVIDER_DEFAULT_LOCALE;
+  }
 
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
     return observableOf({
