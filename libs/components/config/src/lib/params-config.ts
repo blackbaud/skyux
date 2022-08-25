@@ -25,13 +25,13 @@ const DEFAULTS = {
 })
 export class SkyAppParamsConfig {
   public get params(): SkyuxConfigParams {
-    return this._params;
+    return this.#_params;
   }
 
-  private _params: SkyuxConfigParams;
+  #_params: SkyuxConfigParams;
 
   constructor(@Optional() args?: SkyAppParamsConfigArgs) {
-    this._params = {
+    this.#_params = {
       ...DEFAULTS.params,
       ...(args?.params || {}),
     };

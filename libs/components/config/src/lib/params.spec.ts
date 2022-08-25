@@ -124,7 +124,8 @@ describe('SkyAppRuntimeConfigParams', () => {
         // Allowed with simple boolean flag
         a1: true,
         // Disallowed but present in the query string
-        a2: undefined,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        a2: <any> undefined,
         // Allowed with explicit default value
         a3: {
           value: 'd',

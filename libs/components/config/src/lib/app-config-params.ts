@@ -21,14 +21,14 @@ const DEFAULTS = {
  */
 @Injectable()
 export class SkyAppConfigParams {
-  public get params(): SkyuxConfigParams {
-    return this._params;
+  public get params(): SkyuxConfigParams | undefined {
+    return this.#_params;
   }
 
-  private _params: SkyuxConfigParams;
+  #_params: SkyuxConfigParams | undefined;
 
   public init(params?: SkyuxConfigParams): void {
-    this._params = {
+    this.#_params = {
       ...DEFAULTS.params,
       ...(params || {}),
     };

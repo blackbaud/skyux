@@ -180,8 +180,8 @@ export interface SkyuxConfig {
 @Injectable()
 export class SkyAppConfig {
   // Any properties dynamically added via code
-  public runtime: RuntimeConfig;
+  public runtime: RuntimeConfig | undefined;
 
   // Any properties defined in or inherited from skyuxconfig.json / skyuxconfig.command.json
-  public skyux: SkyuxConfig;
+  public skyux: SkyuxConfig | undefined;
 }

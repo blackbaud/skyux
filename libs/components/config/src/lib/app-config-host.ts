@@ -15,14 +15,14 @@ const DEFAULTS: SkyuxConfigHost = {
  */
 @Injectable()
 export class SkyAppConfigHost {
-  public get host(): SkyuxConfigHost {
-    return this._host;
+  public get host(): SkyuxConfigHost | undefined {
+    return this.#_host;
   }
 
-  private _host: SkyuxConfigHost;
+  #_host: SkyuxConfigHost | undefined;
 
   public init(config?: SkyuxConfigHost): void {
-    this._host = {
+    this.#_host = {
       ...DEFAULTS,
       ...(config || {}),
     };
