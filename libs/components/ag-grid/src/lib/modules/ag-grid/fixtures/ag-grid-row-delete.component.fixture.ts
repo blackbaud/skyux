@@ -116,10 +116,12 @@ export class SkyAgGridRowDeleteFixtureComponent implements OnInit {
         filter: 'Mar',
       },
     });
+    this.gridApi.onFilterChanged();
   }
 
   public clearFilter(): void {
     this.gridApi.setFilterModel(undefined);
+    this.gridApi.onFilterChanged();
   }
 
   public finishRowDelete(confirmArgs: SkyAgGridRowDeleteConfirmArgs): void {

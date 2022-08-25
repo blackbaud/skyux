@@ -7,6 +7,11 @@
 </span>
 <div
   class="sky-ag-grid"
+  [ngClass]="{
+    'sky-ag-grid-top-scrollbar':
+      agGrid?.gridOptions?.context &&
+      agGrid?.gridOptions?.context['enableTopScroll']
+  }"
   tabindex="0"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"

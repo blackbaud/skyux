@@ -56,7 +56,11 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
       this.agGrid.gridOptions &&
       this.agGrid.gridOptions.domLayout === 'autoHeight'
     ) {
-      this.viewkeeperClasses.push('.ag-header');
+      if (this.agGrid.gridOptions.context?.enableTopScroll) {
+        this.viewkeeperClasses.push('.ag-header', '.ag-body-horizontal-scroll');
+      } else {
+        this.viewkeeperClasses.push('.ag-header');
+      }
     }
   }
 
