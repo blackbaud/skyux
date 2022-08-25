@@ -1,5 +1,5 @@
 import { SkyConfirmConfig } from './confirm-config';
-import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmComponent } from './confirm.component';
 import { SkyConfirmService } from './confirm.service';
 import { MockSkyModalService } from './fixtures/mocks';
@@ -21,7 +21,7 @@ describe('Confirm service', () => {
     const expectedConfig = {
       providers: [
         {
-          provide: SkyConfirmModalContext,
+          provide: SKY_CONFIRM_CONFIG,
           useValue: config,
         },
       ],
@@ -45,7 +45,7 @@ describe('Confirm service', () => {
       expect(result.action).toEqual('ok');
     });
 
-    modalService.instance.close({
+    modalService.instance?.close({
       action: 'ok',
     });
   });
@@ -61,6 +61,6 @@ describe('Confirm service', () => {
       expect(result.action).toEqual('cancel');
     });
 
-    modalService.instance.close();
+    modalService.instance?.close();
   });
 });

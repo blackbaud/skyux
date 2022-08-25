@@ -50,20 +50,31 @@ export class SkyModalHostComponent implements OnDestroy {
     read: ViewContainerRef,
     static: true,
   } as any)
-  public target: ViewContainerRef;
+  public target: ViewContainerRef | undefined;
+
+  #resolver: ComponentFactoryResolver;
+  #adapter: SkyModalAdapterService;
+  #injector: Injector;
+  #router: Router;
+  #changeDetector: ChangeDetectorRef;
 
   #modalHostContext: SkyModalHostContext;
 
   #modalInstances: SkyModalInstance[] = [];
 
   constructor(
-    private resolver: ComponentFactoryResolver,
-    private adapter: SkyModalAdapterService,
-    private injector: Injector,
-    private router: Router,
-    private changeDetector: ChangeDetectorRef,
+    resolver: ComponentFactoryResolver,
+    adapter: SkyModalAdapterService,
+    injector: Injector,
+    router: Router,
+    changeDetector: ChangeDetectorRef,
     modalHostContext: SkyModalHostContext
   ) {
+    this.#resolver = resolver;
+    this.#adapter = adapter;
+    this.#injector = injector;
+    this.#router = router;
+    this.#changeDetector = changeDetector;
     this.#modalHostContext = modalHostContext;
   }
 
@@ -77,30 +88,39 @@ export class SkyModalHostComponent implements OnDestroy {
     modalInstance: SkyModalInstance,
     component: any,
     config?: SkyModalConfigurationInterface
-  ) {
+  ): void {
+    /* Ignore coverage as we specify the target element and so the view child should never be undefined unless
+     * we were to call the `open` method in an early lifecycle hook. */
+    /* istanbul ignore next */
+    if (!this.target) {
+      return;
+    }
+
     const params: SkyModalConfigurationInterface = Object.assign({}, config);
-    const factory = this.resolver.resolveComponentFactory(component);
+    const factory = this.#resolver.resolveComponentFactory(component);
 
     const hostService = new SkyModalHostService();
     hostService.fullPage = !!params.fullPage;
 
-    const adapter = this.adapter;
+    const adapter = this.#adapter;
     const modalOpener: HTMLElement = adapter.getModalOpener();
 
     let isOpen = true;
 
-    params.providers.push({
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    params.providers!.push({
       provide: SkyModalHostService,
       useValue: hostService,
     });
-    params.providers.push({
+    params.providers!.push({
       provide: SkyModalConfiguration,
       useValue: params,
     });
-    params.providers.push({
+    params.providers!.push({
       provide: SkyMediaQueryService,
       useExisting: SkyResizeObserverMediaQueryService,
     });
+    /* eslint-enable @typescript-eslint/no-non-null-assertion */
 
     adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
     adapter.toggleFullPageModalClass(
@@ -110,7 +130,7 @@ export class SkyModalHostComponent implements OnDestroy {
     const providers = params.providers || /* istanbul ignore next */ [];
     const injector = Injector.create({
       providers,
-      parent: this.injector,
+      parent: this.#injector,
     });
 
     const modalComponentRef = this.target.createComponent(
@@ -145,7 +165,7 @@ export class SkyModalHostComponent implements OnDestroy {
       modalInstance.close();
     });
 
-    this.router.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
+    this.#router.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
       /* istanbul ignore else */
       if (event instanceof NavigationStart) {
         modalInstance.close();
@@ -159,7 +179,7 @@ export class SkyModalHostComponent implements OnDestroy {
     });
 
     // Necessary if the host was created via a consumer's lifecycle hook such as ngOnInit
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   #registerModalInstance(instance: SkyModalInstance): void {

@@ -18,14 +18,20 @@ import { SkyAppResourcesService } from './resources.service';
   pure: false,
 })
 export class SkyAppResourcesPipe implements PipeTransform, OnDestroy {
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private resourceCache: { [key: string]: any } = {};
+  #resourceCache: { [key: string]: any } = {};
+
+  #changeDetector: ChangeDetectorRef;
+  #resourcesSvc: SkyAppResourcesService;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resourcesSvc: SkyAppResourcesService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resourcesSvc: SkyAppResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resourcesSvc = resourcesSvc;
+  }
 
   /**
    * Transforms a named resource string into its value.
@@ -34,21 +40,21 @@ export class SkyAppResourcesPipe implements PipeTransform, OnDestroy {
   public transform(name: string, ...args: any[]): string {
     const cacheKey = name + JSON.stringify(args);
 
-    if (!(cacheKey in this.resourceCache)) {
-      this.resourcesSvc
+    if (!(cacheKey in this.#resourceCache)) {
+      this.#resourcesSvc
         .getString(name, ...args)
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((result) => {
-          this.resourceCache[cacheKey] = result;
-          this.changeDetector.markForCheck();
+          this.#resourceCache[cacheKey] = result;
+          this.#changeDetector.markForCheck();
         });
     }
 
-    return this.resourceCache[cacheKey];
+    return this.#resourceCache[cacheKey];
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

@@ -250,6 +250,7 @@ export function dateFormatter(
       /*istanbul ignore else */
       if (match) {
         parts = parts.concat(match.slice(1));
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         _format = parts.pop()!;
       } else {
         parts.push(_format);

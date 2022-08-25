@@ -7,7 +7,7 @@ export class SkyModalCloseArgs {
    * Indicates the reason the modal was closed.
    * Options include `"close"`, `"save"`, and `"cancel"`.
    */
-  public reason: string;
+  public reason: string | undefined;
   /**
    * The data passed from users when the modal is closed.
    */
