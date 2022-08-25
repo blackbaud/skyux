@@ -18,33 +18,39 @@ import { SkyLibResourcesService } from './lib-resources.service';
   pure: false,
 })
 export class SkyLibResourcesPipe implements PipeTransform, OnDestroy {
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private resourceCache: { [key: string]: any } = {};
+  #resourceCache: { [key: string]: any } = {};
+
+  #changeDetector: ChangeDetectorRef;
+  #resourcesService: SkyLibResourcesService;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resourcesService: SkyLibResourcesService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resourcesService: SkyLibResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resourcesService = resourcesService;
+  }
 
   public transform(name: string, ...args: any[]): string {
     const cacheKey = name + JSON.stringify(args);
 
-    if (!(cacheKey in this.resourceCache)) {
-      this.resourcesService
+    if (!(cacheKey in this.#resourceCache)) {
+      this.#resourcesService
         .getString(name, ...args)
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((value: string) => {
-          this.resourceCache[cacheKey] = value;
-          this.changeDetector.markForCheck();
+          this.#resourceCache[cacheKey] = value;
+          this.#changeDetector.markForCheck();
         });
     }
 
-    return this.resourceCache[cacheKey];
+    return this.#resourceCache[cacheKey];
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

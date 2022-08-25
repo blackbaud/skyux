@@ -200,19 +200,25 @@ describe('Resources service', () => {
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectOne(enUsUrl);
 
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectNone(enUsUrl);
 
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectNone(enUsUrl);
     });
   });
@@ -265,7 +271,9 @@ describe('Resources service', () => {
         resources
           .getString('hi')
           .pipe(take(1))
-          .subscribe(() => {});
+          .subscribe(() => {
+            return;
+          });
 
         addTestResourceResponse(esUrl);
       }
@@ -347,19 +355,25 @@ describe('Resources service', () => {
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectOne(enUsUrl);
 
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectNone(enUsUrl);
 
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectNone(enUsUrl);
 
       currentLocale = 'fr-CA';
@@ -367,7 +381,9 @@ describe('Resources service', () => {
       resources
         .getString('hi')
         .pipe(take(1))
-        .subscribe(() => {});
+        .subscribe(() => {
+          return;
+        });
       httpMock.expectOne(frCaUrl);
     });
   });

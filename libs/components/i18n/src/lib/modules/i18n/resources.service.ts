@@ -35,18 +35,29 @@ function getDefaultObs(): Observable<SkyResourceType> {
   providedIn: 'root',
 })
 export class SkyAppResourcesService {
-  private resourcesObsCache: { [key: string]: Observable<SkyResourceType> } =
-    {};
-  private httpObsCache: { [key: string]: Observable<SkyResourceType> } = {};
+  #resourcesObsCache: { [key: string]: Observable<SkyResourceType> } = {};
+  #httpObsCache: { [key: string]: Observable<SkyResourceType> } = {};
+
+  #http: HttpClient;
+  #assets: SkyAppAssetsService | undefined;
+  #localeProvider: SkyAppLocaleProvider;
+  #resourceNameProvider: SkyAppResourceNameProvider | undefined;
 
   constructor(
-    private http: HttpClient,
+    http: HttpClient,
     @Optional()
     @Inject(forwardRef(() => SkyAppAssetsService))
-    private assets: SkyAppAssetsService,
-    @Optional() private localeProvider: SkyAppLocaleProvider,
-    @Optional() private resourceNameProvider: SkyAppResourceNameProvider
-  ) {}
+    assets: SkyAppAssetsService,
+    @Optional() localeProvider: SkyAppLocaleProvider,
+    @Optional() resourceNameProvider: SkyAppResourceNameProvider
+  ) {
+    this.#http = http;
+    this.#assets = assets;
+    // Locale provider is provided at `root`. The `Optional` here is for unit test compatibility.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    this.#localeProvider = localeProvider!;
+    this.#resourceNameProvider = resourceNameProvider;
+  }
 
   /**
    * Gets a resource string based on its name.
@@ -55,8 +66,8 @@ export class SkyAppResourcesService {
    */
   public getString(name: string, ...args: any[]): Observable<string> {
     const localeObs: Observable<SkyAppLocaleInfo> =
-      this.localeProvider.getLocaleInfo();
-    return this.getStringForLocaleInfoObservable(localeObs, name, ...args);
+      this.#localeProvider.getLocaleInfo();
+    return this.#getStringForLocaleInfoObservable(localeObs, name, ...args);
   }
 
   /**
@@ -108,14 +119,14 @@ export class SkyAppResourcesService {
     name: string,
     ...args: any[]
   ): Observable<string> {
-    return this.getStringForLocaleInfoObservable(
+    return this.#getStringForLocaleInfoObservable(
       observableOf(localeInfo),
       name,
       ...args
     );
   }
 
-  private getStringForLocaleInfoObservable(
+  #getStringForLocaleInfoObservable(
     localeInfoObs: Observable<SkyAppLocaleInfo>,
     name: string,
     ...args: any[]
@@ -123,29 +134,29 @@ export class SkyAppResourcesService {
     const resourcesObs: Observable<any> = localeInfoObs.pipe(
       switchMap((localeInfo) => {
         let obs: Observable<any>;
-        let resourcesUrl: string;
+        let resourcesUrl: string | undefined;
 
         // Use default locale if one not provided
-        const locale = localeInfo.locale || this.localeProvider.defaultLocale;
+        const locale = localeInfo.locale || this.#localeProvider.defaultLocale;
 
-        if (this.resourcesObsCache[locale]) {
-          return this.resourcesObsCache[locale];
+        if (this.#resourcesObsCache[locale]) {
+          return this.#resourcesObsCache[locale];
         }
 
         resourcesUrl =
-          this.getUrlForLocale(locale) ||
+          this.#getUrlForLocale(locale) ||
           // Try falling back to the non-region-specific language.
-          this.getUrlForLocale(locale.substr(0, 2));
+          this.#getUrlForLocale(locale.substr(0, 2));
 
         // Finally fall back to the default locale.
         resourcesUrl =
           resourcesUrl ||
-          this.getUrlForLocale(this.localeProvider.defaultLocale);
+          this.#getUrlForLocale(this.#localeProvider.defaultLocale);
 
         if (resourcesUrl) {
           obs =
-            this.httpObsCache[resourcesUrl] ||
-            this.http.get<SkyResourceType>(resourcesUrl).pipe(
+            this.#httpObsCache[resourcesUrl] ||
+            this.#http.get<SkyResourceType>(resourcesUrl).pipe(
               // publishReplay(1).refCount() will ensure future subscribers to
               // this observable will use a cached result.
               // https://stackoverflow.com/documentation/rxjs/8247/common-recipes/26490/caching-http-responses#t=201612161544428695958
@@ -155,15 +166,15 @@ export class SkyAppResourcesService {
                 // The resource file for the specified locale failed to load;
                 // fall back to the default locale if it differs from the specified
                 // locale.
-                const defaultResourcesUrl = this.getUrlForLocale(
-                  this.localeProvider.defaultLocale
+                const defaultResourcesUrl = this.#getUrlForLocale(
+                  this.#localeProvider.defaultLocale
                 );
 
                 if (
                   defaultResourcesUrl &&
                   defaultResourcesUrl !== resourcesUrl
                 ) {
-                  return this.http.get<SkyResourceType>(defaultResourcesUrl);
+                  return this.#http.get<SkyResourceType>(defaultResourcesUrl);
                 }
 
                 return getDefaultObs();
@@ -173,8 +184,10 @@ export class SkyAppResourcesService {
           obs = getDefaultObs();
         }
 
-        this.httpObsCache[resourcesUrl] = obs;
-        this.resourcesObsCache[locale] = obs;
+        if (resourcesUrl) {
+          this.#httpObsCache[resourcesUrl] = obs;
+        }
+        this.#resourcesObsCache[locale] = obs;
 
         return obs;
       }),
@@ -184,8 +197,8 @@ export class SkyAppResourcesService {
       catchError(() => getDefaultObs())
     );
 
-    const mappedNameObs = this.resourceNameProvider
-      ? this.resourceNameProvider.getResourceName(name)
+    const mappedNameObs = this.#resourceNameProvider
+      ? this.#resourceNameProvider.getResourceName(name)
       : observableOf(name);
 
     return forkJoin([mappedNameObs, resourcesObs]).pipe(
@@ -207,8 +220,8 @@ export class SkyAppResourcesService {
     );
   }
 
-  private getUrlForLocale(locale: string): string {
-    return this.assets?.getUrl(
+  #getUrlForLocale(locale: string): string | undefined {
+    return this.#assets?.getUrl(
       `locales/resources_${locale.replace('-', '_')}.json`
     );
   }
