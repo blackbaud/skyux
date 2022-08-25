@@ -69,10 +69,10 @@ describe('SkyAppConfigModule.forRoot(config)', () => {
   it('should setup providers with config from forRoot args', () => {
     const hostConfig = TestBed.inject(SkyAppConfigHost);
     const configParams = TestBed.inject(SkyAppConfigParams);
-    expect(hostConfig.host?.frameOptions).toEqual({
+    expect(hostConfig.host.frameOptions).toEqual({
       blackbaud: true,
     });
-    expect(configParams.params?.foo).toEqual({
+    expect(configParams.params.foo).toEqual({
       value: 'bar',
     });
   });
