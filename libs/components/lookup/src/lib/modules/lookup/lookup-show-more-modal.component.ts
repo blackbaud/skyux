@@ -6,6 +6,7 @@ import {
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -34,6 +35,11 @@ export class SkyLookupShowMoreModalComponent
    * Fires when users select the button to add new options to the list.
    */
   public addClick: Subject<void> = new Subject();
+
+  /**
+   * Used to associate this modal with its owning lookup component.
+   */
+  public id: string;
 
   public items: any[] = [];
 
@@ -75,9 +81,12 @@ export class SkyLookupShowMoreModalComponent
   constructor(
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerContext,
-    changeDetector: ChangeDetectorRef
+    changeDetector: ChangeDetectorRef,
+    idSvc: SkyIdService
   ) {
     this.#changeDetector = changeDetector;
+
+    this.id = idSvc.generateId();
   }
 
   public ngAfterViewInit(): void {
