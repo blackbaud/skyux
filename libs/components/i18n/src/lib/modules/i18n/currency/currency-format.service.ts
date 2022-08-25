@@ -38,8 +38,10 @@ export class SkyI18nCurrencyFormatService {
 
     const resolvedOptions: Intl.ResolvedNumberFormatOptions =
       formatter.resolvedOptions();
+    // We know this will be there as we give the currency options to the number format call above
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const currencyCode = resolvedOptions.currency!;
-    const parts = this.formatToParts(formatter);
+    const parts = this.#formatToParts(formatter);
 
     const format: SkyI18nCurrencyFormat = {
       decimalCharacter: parts.decimalCharacter,
@@ -54,7 +56,7 @@ export class SkyI18nCurrencyFormatService {
     return format;
   }
 
-  private formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
+  #formatToParts(formatter: Intl.NumberFormat): CurrencyFormatParts {
     const BIG_VALUE_TO_GET_PART_INFO = 100_000_000;
 
     const parts = formatter.formatToParts(BIG_VALUE_TO_GET_PART_INFO);
