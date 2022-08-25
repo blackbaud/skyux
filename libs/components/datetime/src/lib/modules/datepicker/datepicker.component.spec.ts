@@ -253,14 +253,14 @@ describe('datepicker', () => {
       }
     });
 
-    it('should mark the control as dirty on keyup', function () {
+    it('should mark the control as dirty on input', function () {
       fixture.detectChanges();
       const inputElement = fixture.debugElement.query(By.css('input'));
       const ngModel = inputElement.injector.get(NgModel);
 
       expect(ngModel.dirty).toEqual(false);
 
-      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'keyup');
+      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'input');
       fixture.detectChanges();
 
       expect(ngModel.dirty).toEqual(true);

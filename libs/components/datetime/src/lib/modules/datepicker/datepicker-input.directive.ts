@@ -268,6 +268,10 @@ export class SkyDatepickerInputDirective
           this.renderer.setAttribute(element, 'aria-label', value);
         });
     }
+
+    // element.addEventListener('input', () => {
+    //   this.control.markAsDirty();
+    // });
   }
 
   public ngAfterContentInit(): void {
@@ -335,8 +339,8 @@ export class SkyDatepickerInputDirective
     this.onTouched();
   }
 
-  @HostListener('keyup')
-  public onInputKeyup(): void {
+  @HostListener('input')
+  public onInput(): void {
     this.control.markAsDirty();
   }
 
