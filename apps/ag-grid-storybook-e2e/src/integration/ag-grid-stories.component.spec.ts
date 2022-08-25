@@ -1,12 +1,11 @@
 ['default', 'modern-light', 'modern-dark'].forEach((theme) => {
   describe(`ag-grid-storybook in ${theme} theme`, () => {
-    beforeEach(() =>
-      cy
-        .viewport(1300, 900)
-        .visit(
-          `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
-        )
-    );
+    beforeEach(() => {
+      cy.viewport(1300, 900).visit(
+        `/iframe.html?globals=theme:${theme}&id=aggridstoriescomponent-aggridstories--ag-grid`
+      );
+      cy.document().its('fonts.status').should('equal', 'loaded');
+    });
 
     it('should render the component', () => {
       cy.get('#ready')

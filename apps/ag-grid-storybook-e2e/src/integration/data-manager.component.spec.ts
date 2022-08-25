@@ -7,13 +7,12 @@
       ['auto-height-with-top-scroll', 'auto height with top scroll'],
     ].forEach(([domLayout, label]) => {
       describe(`${label} layout`, () => {
-        beforeEach(() =>
-          cy
-            .viewport(1300, 900)
-            .visit(
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
-            )
-        );
+        beforeEach(() => {
+          cy.viewport(1300, 900).visit(
+            `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
+          );
+          cy.document().its('fonts.status').should('equal', 'loaded');
+        });
 
         it(`should render ag-grid with data manager, ${label} layout`, () => {
           cy.get('#ready')
