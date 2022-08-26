@@ -5,6 +5,8 @@ import {
   SkyAutocompleteSearchFunctionFilter,
 } from '@skyux/lookup';
 
+import { LookupDemoPerson } from './lookup-demo-person';
+
 @Component({
   selector: 'app-lookup-demo',
   templateUrl: './lookup-multiple-demo.component.html',
@@ -13,7 +15,7 @@ import {
 export class LookupMultipleSelectDemoComponent implements OnInit {
   public myForm: FormGroup;
 
-  public people: any[] = [
+  public people: LookupDemoPerson[] = [
     { name: 'Abed' },
     { name: 'Alex' },
     { name: 'Ben' },
@@ -36,7 +38,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  public names: any[] = [this.people[15]];
+  public names: LookupDemoPerson[] = [this.people[15]];
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -55,7 +57,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
    * When in the popover view (or in any other view), show people in the search results that have not been chosen already.
    */
   public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const names: any[] = this.myForm.controls.names.value;
+    const names: LookupDemoPerson[] = this.myForm.controls.names.value;
     return [
       (
         searchText: string,
@@ -65,6 +67,7 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
         if (args?.context === 'modal') {
           return true;
         }
+
         const found = names.find((option) => option.name === item.name);
         return !found;
       },
