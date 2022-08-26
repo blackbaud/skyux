@@ -58,6 +58,10 @@
       <th>Valid</th>
       <td>{{ date.valid }}</td>
     </tr>
+    <tr>
+      <th>Dirty</th>
+      <td>{{ date.dirty }}</td>
+    </tr>
   </table>
 
   <p *ngIf="date.errors && date.errors.skyDate" class="sky-error-label">
@@ -107,6 +111,10 @@
       <tr>
         <th>Valid</th>
         <td>{{ reactiveDate.valid }}</td>
+      </tr>
+      <tr>
+        <th>Dirty</th>
+        <td>{{ reactiveDate.dirty }}</td>
       </tr>
     </table>
 

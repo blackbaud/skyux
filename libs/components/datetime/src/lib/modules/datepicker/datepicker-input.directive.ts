@@ -335,8 +335,8 @@ export class SkyDatepickerInputDirective
     this.onTouched();
   }
 
-  @HostListener('keyup')
-  public onInputKeyup(): void {
+  @HostListener('input')
+  public onInput(): void {
     this.control.markAsDirty();
   }
 
