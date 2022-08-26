@@ -21,6 +21,7 @@
           `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
           {
             widths: [1280],
+            scope: '#root',
           }
         );
     });
