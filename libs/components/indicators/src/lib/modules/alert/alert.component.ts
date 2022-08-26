@@ -48,11 +48,11 @@ export class SkyAlertComponent implements OnInit {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
-
   public alertBaseIcon: SkyIconStackItem | undefined;
 
   public alertTopIcon: SkyIconStackItem | undefined;
+
+  public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
   public ngOnInit(): void {
     this.#updateAlertIcon();
