@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
+import { SkyIconStackItem } from '../icon/icon-stack-item';
 import { SkyIndicatorIcon } from '../shared/indicator-icon';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
@@ -11,7 +12,7 @@ const ALERT_TYPE_DEFAULT = 'warning';
   styleUrls: ['./alert.component.scss'],
   templateUrl: './alert.component.html',
 })
-export class SkyAlertComponent {
+export class SkyAlertComponent implements OnInit {
   // TODO: Change alertType to SkyIndicatorIconType in a breaking change.
   /**
    * Specifies a style for the alert to determine the icon and background color.
@@ -51,12 +52,24 @@ export class SkyAlertComponent {
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
-  public alertIcon: SkyIndicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-    this.alertTypeOrDefault
-  );
+  public alertBaseIcon: SkyIconStackItem;
+
+  public alertTopIcon: SkyIconStackItem;
+
+  public ngOnInit(): void {
+    this.#updateAlertIcon();
+  }
 
   public close(): void {
     this.closed = true;
     this.closedChange.emit(true);
+  }
+
+  #updateAlertIcon(): void {
+    const indicatorIcon: SkyIndicatorIcon =
+      SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
+
+    this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
+    this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
   }
 }
