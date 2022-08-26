@@ -1,14 +1,7 @@
-:root {
-  --viewport-width: 1280px;
-  --viewport-height: 800px;
-}
-
 app-ag-grid-stories.use-auto-height-dom-layout {
   display: block;
   height: var(--viewport-height);
   width: var(--viewport-width);
-  overflow: hidden;
-  overflow-y: auto;
 }
 
 app-ag-grid-stories.use-normal-dom-layout {

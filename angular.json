@@ -277,6 +277,7 @@
             "browserTarget": "ag-grid-storybook:build",
             "compodoc": false,
             "styles": [
+              "apps/ag-grid-storybook/src/styles.scss",
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
@@ -297,6 +298,7 @@
             "browserTarget": "ag-grid-storybook:build",
             "compodoc": false,
             "styles": [
+              "apps/ag-grid-storybook/src/styles.scss",
               "libs/components/theme/src/lib/styles/sky.scss",
               "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
               "libs/components/ag-grid/src/lib/styles/ag-grid-styles.scss"
