@@ -15,5 +15,5 @@ export class SkyNavbarItemComponent {
    * @default false
    */
   @Input()
-  public active: boolean;
+  public active: boolean | undefined;
 }
