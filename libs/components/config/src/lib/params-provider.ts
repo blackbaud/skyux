@@ -12,13 +12,13 @@ import { SkyAppRuntimeConfigParams } from './params';
 })
 export class SkyAppRuntimeConfigParamsProvider {
   public get params(): SkyAppRuntimeConfigParams {
-    return this._params;
+    return this.#_params;
   }
 
-  private _params: SkyAppRuntimeConfigParams;
+  #_params: SkyAppRuntimeConfigParams;
 
   constructor(@Optional() configParams?: SkyAppConfigParams) {
-    this._params = new SkyAppRuntimeConfigParams(
+    this.#_params = new SkyAppRuntimeConfigParams(
       window.location.href,
       configParams?.params || {}
     );
