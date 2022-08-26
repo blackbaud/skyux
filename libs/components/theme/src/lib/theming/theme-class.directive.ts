@@ -30,11 +30,11 @@ export class SkyThemeClassDirective implements OnDestroy {
    * @param value
    */
   @Input()
-  public set class(value: string) {
-    this.removeInitialClasses(this.initialClasses);
-    this.initialClasses = typeof value === 'string' ? value.split(/\s+/) : [];
-    this.applyInitialClasses(this.initialClasses);
-    this.applySkyThemeClassMap(this.skyThemeClassMap);
+  public set class(value: string | undefined) {
+    this.#removeInitialClasses(this.#initialClasses);
+    this.#initialClasses = typeof value === 'string' ? value.split(/\s+/) : [];
+    this.#applyInitialClasses(this.#initialClasses);
+    this.#applySkyThemeClassMap(this.#skyThemeClassMap);
   }
 
   /**
@@ -43,94 +43,97 @@ export class SkyThemeClassDirective implements OnDestroy {
    * @param value
    */
   @Input()
-  public set skyThemeClass(value: SkyThemeClassMap) {
-    this.removeSkyThemeClassMap(this.skyThemeClassMap);
-    this.applyInitialClasses(this.initialClasses);
+  public set skyThemeClass(value: SkyThemeClassMap | undefined) {
+    this.#removeSkyThemeClassMap(this.#skyThemeClassMap);
+    this.#applyInitialClasses(this.#initialClasses);
 
-    this.skyThemeClassMap = value as SkyThemeClassMap;
+    this.#skyThemeClassMap = value as SkyThemeClassMap;
 
     /* istanbul ignore else */
-    if (this.skyThemeClassMap) {
-      this.applySkyThemeClassMap(this.skyThemeClassMap);
+    if (this.#skyThemeClassMap) {
+      this.#applySkyThemeClassMap(this.#skyThemeClassMap);
     }
   }
 
-  private set themeSettings(settings: SkyThemeSettings) {
-    this.currentTheme = settings;
-    this.removeSkyThemeClassMap(this.skyThemeClassMap);
-    this.applyInitialClasses(this.initialClasses);
-    this.applySkyThemeClassMap(this.skyThemeClassMap);
+  set #themeSettings(settings: SkyThemeSettings) {
+    this.#currentTheme = settings;
+    this.#removeSkyThemeClassMap(this.#skyThemeClassMap);
+    this.#applyInitialClasses(this.#initialClasses);
+    this.#applySkyThemeClassMap(this.#skyThemeClassMap);
   }
 
-  private currentTheme: SkyThemeSettings | undefined;
-  private ngUnsubscribe = new Subject<void>();
-  private initialClasses: string[] = [];
-  private skyThemeClassMap: SkyThemeClassMap | undefined;
+  #currentTheme: SkyThemeSettings | undefined;
+  #ngUnsubscribe = new Subject<void>();
+  #initialClasses: string[] = [];
+  #skyThemeClassMap: SkyThemeClassMap | undefined;
+
+  #ngEl: ElementRef;
+  #renderer: Renderer2;
 
   constructor(
-    private ngEl: ElementRef,
-    private renderer: Renderer2,
+    ngEl: ElementRef,
+    renderer: Renderer2,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#ngEl = ngEl;
+    this.#renderer = renderer;
     if (themeSvc) {
       themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((settingsChange) => {
-          this.themeSettings = settingsChange.currentSettings;
+          this.#themeSettings = settingsChange.currentSettings;
         });
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  private applyInitialClasses(classes: string[]): void {
+  #applyInitialClasses(classes: string[]): void {
     /* istanbul ignore else */
     if (classes) {
-      classes.forEach((className) => this.toggleClass(className, true));
+      classes.forEach((className) => this.#toggleClass(className, true));
     }
   }
 
-  private applySkyThemeClassMap(
-    skyThemeClassMap: SkyThemeClassMap | undefined
-  ): void {
+  #applySkyThemeClassMap(skyThemeClassMap: SkyThemeClassMap | undefined): void {
     if (skyThemeClassMap) {
-      const themeName = this.currentTheme?.theme.name || 'default';
+      const themeName = this.#currentTheme?.theme.name || 'default';
       Object.keys(skyThemeClassMap).forEach((className) => {
         const enabled = themeName === skyThemeClassMap[className];
-        this.toggleClass(className, enabled);
+        this.#toggleClass(className, enabled);
       });
     }
   }
 
-  private removeInitialClasses(classes: string[]): void {
+  #removeInitialClasses(classes: string[]): void {
     /* istanbul ignore else */
     if (classes) {
-      classes.forEach((className) => this.toggleClass(className, false));
+      classes.forEach((className) => this.#toggleClass(className, false));
     }
   }
 
-  private removeSkyThemeClassMap(
+  #removeSkyThemeClassMap(
     skyThemeClassMap: SkyThemeClassMap | undefined
   ): void {
     if (skyThemeClassMap) {
       Object.keys(skyThemeClassMap).forEach((className) =>
-        this.toggleClass(className, false)
+        this.#toggleClass(className, false)
       );
     }
   }
 
-  private toggleClass(className: string, enabled: boolean): void {
+  #toggleClass(className: string, enabled: boolean): void {
     className = className.trim();
     /* istanbul ignore else */
     if (className) {
       className.split(/\s+/g).forEach((classNameItem) => {
         if (enabled) {
-          this.renderer.addClass(this.ngEl.nativeElement, classNameItem);
+          this.#renderer.addClass(this.#ngEl.nativeElement, classNameItem);
         } else {
-          this.renderer.removeClass(this.ngEl.nativeElement, classNameItem);
+          this.#renderer.removeClass(this.#ngEl.nativeElement, classNameItem);
         }
       });
     }
