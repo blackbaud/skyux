@@ -12,7 +12,7 @@ export class SkyAuthHttpTestingController {
    * @param request The Angular `TestRequest` object with the expected header.
    */
   public expectAuth(request: any) {
-    const headers = this.getHeaders(request);
+    const headers = this.#getHeaders(request);
 
     if (
       !headers ||
@@ -26,7 +26,7 @@ export class SkyAuthHttpTestingController {
     }
   }
 
-  private getHeaders(request: any): any {
+  #getHeaders(request: any): any {
     return request && request.request && request.request.headers;
   }
 }

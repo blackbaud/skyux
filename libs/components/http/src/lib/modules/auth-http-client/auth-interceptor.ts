@@ -40,21 +40,31 @@ function removeSkyParams(request: HttpRequest<any>): HttpRequest<any> {
 
 @Injectable()
 export class SkyAuthInterceptor implements HttpInterceptor {
+  #tokenProvider: SkyAuthTokenProvider;
+  #config: SkyAppConfig | undefined;
+  #defaultPermissionScope: string | undefined;
+  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+
   constructor(
-    private tokenProvider: SkyAuthTokenProvider,
-    @Optional() private config: SkyAppConfig,
+    tokenProvider: SkyAuthTokenProvider,
+    @Optional() config?: SkyAppConfig,
     @Inject(SKY_AUTH_DEFAULT_PERMISSION_SCOPE)
     @Optional()
-    private defaultPermissionScope?: string,
-    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
-  ) {}
+    defaultPermissionScope?: string,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
+  ) {
+    this.#tokenProvider = tokenProvider;
+    this.#config = config;
+    this.#defaultPermissionScope = defaultPermissionScope;
+    this.#paramsProvider = paramsProvider;
+  }
 
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let auth: boolean;
-    let permissionScope: string;
+    let auth: boolean | undefined;
+    let permissionScope: string | null | undefined;
 
     const params = request.params;
 
@@ -70,7 +80,7 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     }
 
     if (auth) {
-      permissionScope = permissionScope || this.defaultPermissionScope;
+      permissionScope = permissionScope || this.#defaultPermissionScope;
 
       const tokenContextArgs: SkyAuthTokenContextArgs = {};
 
@@ -79,10 +89,10 @@ export class SkyAuthInterceptor implements HttpInterceptor {
       }
 
       return observableFrom(
-        this.tokenProvider.getContextToken(tokenContextArgs)
+        this.#tokenProvider.getContextToken(tokenContextArgs)
       ).pipe(
         switchMap((token) => {
-          const decodedToken = this.tokenProvider.decodeToken(token);
+          const decodedToken = this.#tokenProvider.decodeToken(token);
           return observableFrom(
             BBAuthClientFactory.BBAuth.getUrl(request.url, {
               zone: decodedToken['1bb.zone'],
@@ -90,13 +100,13 @@ export class SkyAuthInterceptor implements HttpInterceptor {
           ).pipe(
             switchMap((url) => {
               const runtimeParams =
-                this.config?.runtime.params || this.paramsProvider.params;
+                this.#config?.runtime.params || this.#paramsProvider?.params;
 
               const authRequest = request.clone({
                 setHeaders: {
                   Authorization: `Bearer ${token}`,
                 },
-                url: runtimeParams.getUrl(url),
+                url: runtimeParams?.getUrl(url),
               });
               return next.handle(authRequest);
             })

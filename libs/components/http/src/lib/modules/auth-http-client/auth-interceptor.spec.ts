@@ -27,17 +27,24 @@ describe('Auth interceptor', () => {
     envId?: string,
     leId?: string,
     getUrlResult?: string,
-    useParamsProvider?: boolean
+    useParamsProvider?: boolean,
+    excludeAppConfig?: boolean
   ) {
     let paramsProvider: any;
 
-    let appConfig = createAppConfig(envId, leId, getUrlResult);
+    let appConfig: { runtime: any; skyux: {} } | undefined = createAppConfig(
+      envId,
+      leId,
+      getUrlResult
+    );
 
     if (useParamsProvider) {
       paramsProvider = {
         params: appConfig.runtime.params,
       };
+    }
 
+    if (useParamsProvider || excludeAppConfig) {
       appConfig = undefined;
     }
 
@@ -50,9 +57,9 @@ describe('Auth interceptor', () => {
   }
 
   function validateContext(
-    envId: string,
-    leId: string,
-    permissionScope: string,
+    envId: string | undefined,
+    leId: string | undefined,
+    permissionScope: string | undefined,
     expectedUrl: string,
     done: DoneFn
   ): void {
@@ -207,6 +214,24 @@ describe('Auth interceptor', () => {
     validateHardcodedZoneUrl(interceptor, done);
   });
 
+  it('should return original url if no config or params provider is given', (done) => {
+    const interceptor = createInteceptor(
+      undefined,
+      undefined,
+      undefined,
+      false,
+      true
+    );
+
+    const request = createRequest(true, '1bb://eng-hub00/version');
+
+    validateRequest(next, done, (authRequest) => {
+      expect(authRequest.url).toBe('1bb://eng-hub00/version');
+    });
+
+    interceptor.intercept(request, next).subscribe();
+  });
+
   it('should convert tokenized urls and get zone from the token.', (done) => {
     const interceptor = createInteceptor();
 
@@ -297,4 +322,30 @@ describe('Auth interceptor', () => {
       jasmine.objectContaining(expectedTokenArgs)
     );
   });
+
+  // describe('with missing SkyAppConfig', () => {
+  //   it('should fall back to params provider if SkyAppConfig is undefined', (done) => {
+  //     const config = createAppConfig();
+
+  //     const interceptor = new SkyAuthInterceptor(undefined, {
+  //       params: config.runtime.params,
+  //     } as any);
+
+  //     validateTokenizedUrl(interceptor, done);
+  //   });
+  // });
+
+  // describe('with missing config and params', () => {
+  //   it('should return an undefined url if no params are available', (done) => {
+  //     const interceptor = new SkyNoAuthInterceptor(undefined, undefined);
+
+  //     const request = createRequest(false, '1bb://eng-hub00-pusa01/version');
+
+  //     validateRequest(next, done, (authRequest) => {
+  //       expect(authRequest.url).toBe('1bb://eng-hub00-pusa01/version');
+  //     });
+
+  //     interceptor.intercept(request, next).subscribe();
+  //   });
+  // });
 });
