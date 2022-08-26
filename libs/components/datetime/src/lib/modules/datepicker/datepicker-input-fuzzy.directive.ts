@@ -292,10 +292,6 @@ export class SkyFuzzyDatepickerInputDirective
           this.renderer.setAttribute(element, 'aria-label', value);
         });
     }
-
-    // element.addEventListener('input', () => {
-    //   this.control.markAsDirty();
-    // });
   }
 
   public ngAfterContentInit(): void {
