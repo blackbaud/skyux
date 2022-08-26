@@ -1,11 +1,11 @@
 <div
-  class="sky-needs-attention-container"
+  class="sky-needs-attention-container sky-box"
   [skyThemeClass]="{
     'sky-padding-even-large sky-shadow': 'default',
     'sky-box sky-elevation-1-bordered sky-padding-even-xl': 'modern'
   }"
 >
-  <h2 class="sky-font-heading-4">
+  <h2 class="sky-font-heading-2">
     {{ 'sky_action_hub_needs_attention' | skyLibResources }}
   </h2>
   <sky-fluid-grid [gutterSize]="gutterSize" [disableMargin]="true">
@@ -30,23 +30,12 @@
             icon="chevron-right"
             iconType="skyux"
           ></sky-icon>
-          <sky-key-info
-            layout="horizontal"
-            class="sky-needs-attention-item-key-info"
+          <span skyTrim class="sky-needs-attention-item-key-info"
+            >{{ item.title }} {{ item.message }}</span
           >
-            <sky-key-info-label>{{ item.message }}</sky-key-info-label>
-            <sky-key-info-value
-              [skyThemeClass]="{
-                'sky-emphasized': 'default',
-                'sky-font-display-4': 'modern'
-              }"
-            >
-              {{ item.title }}
-            </sky-key-info-value>
-          </sky-key-info>
         </ng-template>
         <a
-          *ngIf="item.permalink.route"
+          *ngIf="item | linkAs: 'skyAppLink'"
           [skyAppLink]="item.permalink.route.commands"
           [queryParams]="item.permalink.route.extras?.queryParams"
           [queryParamsHandling]="
@@ -57,17 +46,44 @@
           [skipLocationChange]="item.permalink.route.extras?.skipLocationChange"
           [replaceUrl]="item.permalink.route.extras?.replaceUrl"
           [state]="item.permalink.route.extras?.state"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
         <a
-          *ngIf="item.permalink.url"
+          *ngIf="item | linkAs: 'skyHref'"
           [skyHref]="item.permalink.url"
-          class="sky-needs-attention-item sky-padding-vertical-lg sky-border-bottom-row"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
+        <a
+          *ngIf="item | linkAs: 'href'"
+          [href]="item.permalink.url"
+          class="sky-needs-attention-item sky-padding-vertical-lg"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </a>
+        <button
+          *ngIf="item | linkAs: 'button'"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-btn sky-btn-link-inline"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
+          type="button"
+          (click)="item.click()"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </button>
       </sky-column>
     </sky-row>
   </sky-fluid-grid>

@@ -11,7 +11,7 @@ export class SkyModalInstance {
    * the modal does not close until the subscriber calls the `closeModal` method.
    */
   public get beforeClose(): Observable<SkyModalBeforeCloseHandler> {
-    return this._beforeClose;
+    return this.#_beforeClose;
   }
 
   /**
@@ -23,7 +23,7 @@ export class SkyModalInstance {
    * Common examples include `"cancel"`, `"close"`, and `"save"`.
    */
   public get closed(): Observable<SkyModalCloseArgs> {
-    return this._closed;
+    return this.#_closed;
   }
 
   /**
@@ -32,7 +32,7 @@ export class SkyModalInstance {
    * If a `helpKey` parameter was specified, the `helpOpened` event broadcasts the `helpKey`.
    */
   public get helpOpened(): Observable<string> {
-    return this._helpOpened;
+    return this.#_helpOpened;
   }
 
   /**
@@ -40,11 +40,11 @@ export class SkyModalInstance {
    */
   public componentInstance: any;
 
-  private _beforeClose = new Subject<SkyModalBeforeCloseHandler>();
+  #_beforeClose = new Subject<SkyModalBeforeCloseHandler>();
 
-  private _closed = new Subject<SkyModalCloseArgs>();
+  #_closed = new Subject<SkyModalCloseArgs>();
 
-  private _helpOpened = new Subject<string>();
+  #_helpOpened = new Subject<string>();
 
   /**
    * Closes the modal instance.
@@ -63,7 +63,7 @@ export class SkyModalInstance {
       reason = 'close';
     }
 
-    this.closeModal(reason, result, ignoreBeforeClose);
+    this.#closeModal(reason, result, ignoreBeforeClose);
   }
 
   /**
@@ -73,7 +73,7 @@ export class SkyModalInstance {
    * that this cancel function can be called from a button in the `sky-modal-footer`.
    */
   public cancel(result?: any): void {
-    this.closeModal('cancel', result);
+    this.#closeModal('cancel', result);
   }
 
   /**
@@ -83,7 +83,7 @@ export class SkyModalInstance {
    * that this `save` function can be called from a button in `the sky-modal-footer`.
    */
   public save(result?: any): void {
-    this.closeModal('save', result);
+    this.#closeModal('save', result);
   }
 
   /**
@@ -94,34 +94,30 @@ export class SkyModalInstance {
    * into a component's constructor to call the `openHelp` function in the modal template.
    */
   public openHelp(helpKey?: string): void {
-    this._helpOpened.next(helpKey);
+    this.#_helpOpened.next(helpKey);
   }
 
-  private closeModal(
-    type: string,
-    result?: any,
-    ignoreBeforeClose = false
-  ): void {
+  #closeModal(type: string, result?: any, ignoreBeforeClose = false): void {
     const args = new SkyModalCloseArgs();
 
     args.reason = type;
     args.data = result;
 
-    if (this._beforeClose.observers.length === 0 || ignoreBeforeClose) {
-      this.notifyClosed(args);
+    if (this.#_beforeClose.observers.length === 0 || ignoreBeforeClose) {
+      this.#notifyClosed(args);
     } else {
-      this._beforeClose.next(
+      this.#_beforeClose.next(
         new SkyModalBeforeCloseHandler(() => {
-          this.notifyClosed(args);
+          this.#notifyClosed(args);
         }, args)
       );
     }
   }
 
-  private notifyClosed(args: SkyModalCloseArgs): void {
-    this._closed.next(args);
-    this._closed.complete();
-    this._beforeClose.complete();
-    this._helpOpened.complete();
+  #notifyClosed(args: SkyModalCloseArgs): void {
+    this.#_closed.next(args);
+    this.#_closed.complete();
+    this.#_beforeClose.complete();
+    this.#_helpOpened.complete();
   }
 }

@@ -1,0 +1,125 @@
+<form novalidate [formGroup]="myForm">
+  <!-- BASIC -->
+  <div class="sky-form-group">
+    <label class="sky-control-label" skyId #basicLabel> Favorite name </label>
+    <sky-lookup
+      formControlName="basic"
+      selectMode="single"
+      [ariaLabelledBy]="basicLabel.id"
+      [attr.data-sky-id]="'my-basic-lookup'"
+      [data]="people"
+    >
+    </sky-lookup>
+  </div>
+
+  <!-- SINGLE SELECT (STANDARD) -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-single-select-lookup">
+      <label class="sky-control-label" skyId #singleSelectLabel>
+        Favorite name
+      </label>
+      <sky-lookup
+        formControlName="singleSelect"
+        selectMode="single"
+        [ariaLabelledBy]="singleSelectLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+        (addClick)="onAddClick()"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- SINGLE SELECT (ASYNC) -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-single-select-async-lookup">
+      <label class="sky-control-label" skyId #singleSelectLabel>
+        Favorite name
+      </label>
+      <sky-lookup
+        formControlName="singleSelect"
+        idProperty="name"
+        selectMode="single"
+        [ariaLabelledBy]="singleSelectLabel.id"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+        (addClick)="onAddClick()"
+        (searchAsync)="onSearchAsync($event)"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- MULTISELECT (STANDARD) -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-multiselect-lookup">
+      <label class="sky-control-label" skyId #multiselectLabel>
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="multiselect"
+        (addClick)="onAddClick()"
+        [ariaLabelledBy]="multiselectLabel.id"
+        [data]="people"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [showAddButton]="true"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- MULTISELECT (ASYNC) -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-async-lookup">
+      <label class="sky-control-label" skyId #asyncNamesLabel>
+        Async names
+      </label>
+      <sky-lookup
+        formControlName="asyncNames"
+        idProperty="name"
+        [ariaLabelledBy]="asyncNamesLabel.id"
+        [enableShowMore]="true"
+        [showAddButton]="true"
+        (addClick)="onAddClick()"
+        (searchAsync)="onSearchAsync($event)"
+      ></sky-lookup>
+    </sky-input-box>
+  </div>
+
+  <!-- CUSTOM TEMPLATES -->
+  <div class="sky-form-group">
+    <sky-input-box data-sky-id="my-custom-template-lookup">
+      <label class="sky-control-label" skyId #formalNamesLabel>
+        Favorite names
+      </label>
+      <sky-lookup
+        formControlName="formalNames"
+        idProperty="name"
+        [ariaLabelledBy]="formalNamesLabel.id"
+        [enableShowMore]="true"
+        [searchFilters]="getSearchFilters()"
+        [searchResultTemplate]="searchResultTemplate"
+        [showAddButton]="true"
+        [showMoreConfig]="showMoreConfig"
+        (addClick)="onAddClick()"
+        (searchAsync)="onSearchAsync($event)"
+      >
+      </sky-lookup>
+    </sky-input-box>
+  </div>
+</form>
+
+<ng-template let-item="item" #searchResultTemplate>
+  <strong>{{ item.name }}</strong
+  ><br />
+  ({{ item.formal }})
+</ng-template>
+
+<ng-template let-item="item" #showMoreSearchResultTemplate>
+  {{ item.name }}<br />
+  ({{ item.formal }})
+</ng-template>

@@ -58,6 +58,7 @@ export class DataViewRepeaterDemoComponent implements OnInit {
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
       this.isActive = id === this.viewId;
+      this.changeDetector.detectChanges();
     });
   }
 

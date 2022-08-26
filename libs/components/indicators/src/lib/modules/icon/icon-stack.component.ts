@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 
 import { SkyIconStackItem } from './icon-stack-item';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
