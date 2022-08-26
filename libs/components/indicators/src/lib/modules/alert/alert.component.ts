@@ -19,15 +19,12 @@ export class SkyAlertComponent implements OnInit {
    * @default "warning"
    */
   @Input()
-  public set alertType(value: string) {
-    this._alertType = value;
-    this.alertTypeOrDefault =
-      (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
-    this.updateAlertIcon();
-  }
-
-  public get alertType(): string {
-    return this._alertType;
+  public set alertType(value: string | undefined) {
+    if (value !== this.alertTypeOrDefault) {
+      this.alertTypeOrDefault =
+        (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
+      this.#updateAlertIcon();
+    }
   }
 
   /**
@@ -35,14 +32,14 @@ export class SkyAlertComponent implements OnInit {
    * @default false
    */
   @Input()
-  public closeable: boolean;
+  public closeable: boolean | undefined;
 
   /**
    * Indicates whether the alert is closed.
    * @default false
    */
   @Input()
-  public closed: boolean;
+  public closed: boolean | undefined;
 
   /**
    * Fires when users close the alert.
@@ -50,16 +47,14 @@ export class SkyAlertComponent implements OnInit {
   @Output()
   public closedChange = new EventEmitter<boolean>();
 
-  public alertBaseIcon: SkyIconStackItem;
+  public alertBaseIcon: SkyIconStackItem | undefined;
 
-  public alertTopIcon: SkyIconStackItem;
+  public alertTopIcon: SkyIconStackItem | undefined;
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
-  private _alertType: string;
-
   public ngOnInit(): void {
-    this.updateAlertIcon();
+    this.#updateAlertIcon();
   }
 
   public close(): void {
@@ -67,7 +62,7 @@ export class SkyAlertComponent implements OnInit {
     this.closedChange.emit(true);
   }
 
-  private updateAlertIcon(): void {
+  #updateAlertIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
       this.alertTypeOrDefault
     );

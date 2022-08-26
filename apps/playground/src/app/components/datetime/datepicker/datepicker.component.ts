@@ -26,7 +26,7 @@ export class DatepickerComponent implements OnInit {
   public noValidate = false;
   public reactiveForm: FormGroup | undefined;
   public showCustomDates = false;
-  public selectedDate: Date = new Date(1955, 10, 5);
+  public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
 
