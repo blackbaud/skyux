@@ -27,7 +27,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
   /**
    * Gets the current alert type.
    */
-  public async getAlertType(): Promise<SkyIndicatorIconType> {
+  public async getAlertType(): Promise<SkyIndicatorIconType | undefined> {
     const alert = await this.#getAlert();
 
     if (await alert.hasClass('sky-alert-danger')) {
@@ -45,6 +45,8 @@ export class SkyAlertHarness extends SkyComponentHarness {
     if (await alert.hasClass('sky-alert-warning')) {
       return 'warning';
     }
+
+    return undefined;
   }
 
   /**
