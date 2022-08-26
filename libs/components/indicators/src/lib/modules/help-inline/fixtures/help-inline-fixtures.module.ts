@@ -10,4 +10,4 @@ import { HelpInlineTestComponent } from './help-inline.component.fixture';
   imports: [CommonModule, SkyHelpInlineModule],
   exports: [HelpInlineTestComponent],
 })
-export class SkyInlineHlpeFixturesModule {}
+export class SkyInlineHelpFixturesModule {}
