@@ -64,8 +64,9 @@ export class SkyAlertComponent implements OnInit {
   }
 
   #updateAlertIcon(): void {
-    const indicatorIcon: SkyIndicatorIcon =
-      SkyIndicatorIconUtility.getIconsForType(this.alertTypeOrDefault);
+    const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
+      this.alertTypeOrDefault
+    );
 
     this.alertBaseIcon = indicatorIcon.modernThemeBaseIcon;
     this.alertTopIcon = indicatorIcon.modernThemeTopIcon;
