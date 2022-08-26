@@ -11,14 +11,14 @@ export class SkyAlertFixture {
   /**
    * The alert's current text.
    */
-  public get text(): string {
+  public get text(): string | undefined {
     return SkyAppTestUtility.getText(this.debugEl);
   }
 
   /**
    * A flag indicating whether the alert can be closed.
    */
-  public get closeable(): boolean {
+  public get closeable(): boolean | undefined {
     const closeBtnEl = this.getCloseBtnEl();
 
     return SkyAppTestUtility.isVisible(closeBtnEl);
@@ -34,7 +34,7 @@ export class SkyAlertFixture {
   /**
    * The alert's current type.
    */
-  public get alertType(): string {
+  public get alertType(): string | undefined {
     const clsList = this.getAlertEl().nativeElement.classList;
 
     if (clsList.contains('sky-alert-danger')) {
@@ -58,7 +58,7 @@ export class SkyAlertFixture {
 
   private debugEl: DebugElement;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,

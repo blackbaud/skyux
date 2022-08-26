@@ -9,5 +9,5 @@ export class AlertTestComponent {
 
   public closed = false;
 
-  public alertType = 'info';
+  public alertType: string | undefined = 'info';
 }
