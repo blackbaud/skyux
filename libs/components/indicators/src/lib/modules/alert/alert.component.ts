@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { SkyIconStackItem } from '../icon/icon-stack-item';
-import { SkyIndicatorIcon } from '../shared/indicator-icon';
 import { SkyIndicatorIconType } from '../shared/indicator-icon-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
