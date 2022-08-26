@@ -7,47 +7,17 @@ describe('LinkAsPipe', () => {
     expect(pipe.transform(undefined, undefined)).toBeFalsy();
   });
 
-  it('should validate when linkAs is button', () => {
-    const pipe = new LinkAsPipe();
-    expect(
-      pipe.transform({ title: 'Action', click: () => {} }, 'button')
-    ).toBeTruthy();
-    expect(
-      pipe.transform(
-        {
-          title: 'Action',
-          permalink: { url: 'https://www.example.com' },
-          click: () => {},
-        },
-        'button'
-      )
-    ).toBeFalsy();
-    expect(
-      pipe.transform(
-        { title: 'Action', permalink: { url: 'https://www.example.com' } },
-        'button'
-      )
-    ).toBeFalsy();
-    expect(
-      pipe.transform(
-        { title: 'Action', permalink: { route: { commands: ['test'] } } },
-        'button'
-      )
-    ).toBeFalsy();
-    expect(
-      pipe.transform({ title: 'Action', permalink: { url: '' } }, 'button')
-    ).toBeFalsy();
-    expect(pipe.transform(undefined, 'button')).toBeFalsy();
-    expect(
-      pipe.transform({ label: 'Link', permalink: { url: 'invalid' } }, 'button')
-    ).toBeFalsy();
-  });
-
   it('should validate when linkAs is href', () => {
     const pipe = new LinkAsPipe();
     expect(
       pipe.transform(
         { label: 'Link', permalink: { url: 'https://www.example.com' } },
+        'href'
+      )
+    ).toBeFalsy();
+    expect(
+      pipe.transform(
+        { label: 'Link', permalink: { url: '1bb-nav://spa/path' } },
         'href'
       )
     ).toBeFalsy();
