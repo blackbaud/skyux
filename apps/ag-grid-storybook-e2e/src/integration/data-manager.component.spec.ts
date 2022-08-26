@@ -32,14 +32,7 @@
               `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
               {
                 widths: [1280],
-                percyCSS: `
-                  #root {
-                    overflow: hidden;
-                    position: relative;
-                    width: 1280px;
-                    height: 400px;
-                  }
-                `,
+                scope: '#root',
               }
             );
         });
