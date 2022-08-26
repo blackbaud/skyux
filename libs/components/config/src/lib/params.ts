@@ -20,15 +20,15 @@ function getUrlSearchParams(url: string): HttpParams {
 }
 
 export class SkyAppRuntimeConfigParams {
-  private params: { [key: string]: string } = {};
+  #params: { [key: string]: string } = {};
 
-  private defaultParamValues: { [key: string]: string } = {};
+  #defaultParamValues: { [key: string]: string } = {};
 
-  private requiredParams: string[] = [];
+  #requiredParams: string[] = [];
 
-  private encodedParams: string[] = [];
+  #encodedParams: string[] = [];
 
-  private excludeFromRequestsParams: string[] = [];
+  #excludeFromRequestsParams: string[] = [];
 
   constructor(url: string, configParams: SkyuxConfigParams) {
     const allowed: string[] = [];
@@ -47,16 +47,16 @@ export class SkyAppRuntimeConfigParams {
           const paramValue = configParam.value;
 
           if (configParam.required) {
-            this.requiredParams.push(paramName);
+            this.#requiredParams.push(paramName);
           }
 
           if (paramValue) {
-            this.params[paramName] = paramValue;
-            this.defaultParamValues[paramName] = paramValue;
+            this.#params[paramName] = paramValue;
+            this.#defaultParamValues[paramName] = paramValue;
           }
 
           if (configParam.excludeFromRequests) {
-            this.excludeFromRequestsParams.push(paramName);
+            this.#excludeFromRequestsParams.push(paramName);
           }
         }
       }
@@ -73,13 +73,16 @@ export class SkyAppRuntimeConfigParams {
       const givenKeyUC = givenKey.toUpperCase();
       allowedKeysUC.forEach((allowedKeyUC, index) => {
         if (givenKeyUC === allowedKeyUC) {
-          // To avoid breaking changes, we must encode the parameter value since
-          // this was the default behavior of the previously used UrlSearchParams utility.
-          // TODO: Remove encoding in favor of HttpParams' default behavior.
-          const value = encodeURIComponent(httpParams.get(givenKey));
+          const param = httpParams.get(givenKey);
+          if (param) {
+            // To avoid breaking changes, we must encode the parameter value since
+            // this was the default behavior of the previously used UrlSearchParams utility.
+            // TODO: Remove encoding in favor of HttpParams' default behavior.
+            const value = encodeURIComponent(param);
 
-          this.params[allowed[index]] = value;
-          this.encodedParams.push(givenKey);
+            this.#params[allowed[index]] = value;
+            this.#encodedParams.push(givenKey);
+          }
         }
       });
     });
@@ -90,7 +93,7 @@ export class SkyAppRuntimeConfigParams {
    */
   public has(key: string): boolean {
     return (
-      this.params && Object.prototype.hasOwnProperty.call(this.params, key)
+      this.#params && Object.prototype.hasOwnProperty.call(this.#params, key)
     );
   }
 
@@ -98,12 +101,12 @@ export class SkyAppRuntimeConfigParams {
    * Are all the required params defined?
    */
   public hasAllRequiredParams(): boolean {
-    if (this.requiredParams.length === 0) {
+    if (this.#requiredParams.length === 0) {
       return true;
     }
 
-    return this.requiredParams.every((param: string) => {
-      return this.params[param] !== undefined;
+    return this.#requiredParams.every((param: string) => {
+      return this.#params[param] !== undefined;
     });
   }
 
@@ -111,17 +114,18 @@ export class SkyAppRuntimeConfigParams {
    * Returns a flag indicating whether a parameter is required.
    */
   public isRequired(key: string): boolean {
-    return this.requiredParams.indexOf(key) >= 0;
+    return this.#requiredParams.indexOf(key) >= 0;
   }
 
   /**
    * Returns the decoded value of the requested param.
    * @param key The parameter's key.
    */
-  public get(key: string): string {
+  public get(key: string): string | undefined {
     if (this.has(key)) {
-      return decodeURIComponent(this.params[key]);
+      return decodeURIComponent(this.#params[key]);
     }
+    return;
   }
 
   /**
@@ -134,9 +138,9 @@ export class SkyAppRuntimeConfigParams {
     this.getAllKeys().forEach((key) => {
       if (
         !excludeDefaults ||
-        this.params[key] !== this.defaultParamValues[key]
+        this.#params[key] !== this.#defaultParamValues[key]
       ) {
-        filteredParams[key] = this.params[key];
+        filteredParams[key] = this.#params[key];
       }
     });
 
@@ -147,7 +151,7 @@ export class SkyAppRuntimeConfigParams {
    * Returns all keys for current params.
    */
   public getAllKeys(): string[] {
-    return Object.keys(this.params);
+    return Object.keys(this.#params);
   }
 
   /**
@@ -160,10 +164,13 @@ export class SkyAppRuntimeConfigParams {
 
     this.getAllKeys().forEach((key) => {
       if (
-        this.excludeFromRequestsParams.indexOf(key) === -1 &&
+        this.#excludeFromRequestsParams.indexOf(key) === -1 &&
         !httpParams.has(key)
       ) {
-        joined.push(`${key}=${encodeURIComponent(this.get(key))}`);
+        const decodedValue = this.get(key);
+        if (decodedValue) {
+          joined.push(`${key}=${encodeURIComponent(decodedValue)}`);
+        }
       }
     });
 
