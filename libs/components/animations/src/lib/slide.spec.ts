@@ -2,6 +2,8 @@ import { skyAnimationSlide } from './slide';
 
 describe('Animation slide', () => {
   it('should define an animation trigger', () => {
+    // We type as `any` here to get to internal properties
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const definitions: any = skyAnimationSlide.definitions;
 
     expect(skyAnimationSlide.name).toEqual('skyAnimationSlide');
