@@ -24,9 +24,7 @@ export class SkyAlertComponent implements OnInit {
     if (value !== this.alertTypeOrDefault) {
       this.alertTypeOrDefault =
         (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
-      this.alertIcon = SkyIndicatorIconUtility.getIconsForType(
-        this.alertTypeOrDefault
-      );
+      this.#updateAlertIcon();
     }
   }
 
@@ -52,9 +50,9 @@ export class SkyAlertComponent implements OnInit {
 
   public alertTypeOrDefault: SkyIndicatorIconType = ALERT_TYPE_DEFAULT;
 
-  public alertBaseIcon: SkyIconStackItem;
+  public alertBaseIcon: SkyIconStackItem | undefined;
 
-  public alertTopIcon: SkyIconStackItem;
+  public alertTopIcon: SkyIconStackItem | undefined;
 
   public ngOnInit(): void {
     this.#updateAlertIcon();
