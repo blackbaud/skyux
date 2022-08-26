@@ -18,6 +18,10 @@
           cy.get('#ready')
             .should('exist')
             .end()
+            .get('input[placeholder="Find in this list"]')
+            .should('exist')
+            .should('be.visible')
+            .end()
             .get('#root')
             .should('exist')
             .should('be.visible')
@@ -28,6 +32,7 @@
               `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
               {
                 widths: [1280],
+                scope: '#root',
               }
             );
         });
