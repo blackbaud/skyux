@@ -13,7 +13,9 @@ jobs:
           release-type: 'node'
           target-branch: '${{ github.ref_name }}'
           package-name: 'skyux'
-          pull-request-title-pattern: 'chore: release ${version}'
+          pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
+          labels: 'autorelease ${{ github.ref_name }}: pending'
+          release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           prerelease: false
           draft: true
           draft-pull-request: true
@@ -30,17 +32,17 @@ jobs:
       - name: Build
         run: npx skyux-dev create-packages-dist
       - name: Publish
+        # if: ${{ steps.release.outputs.release_created }}
+        if: false
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Notify Slack
         # if: ${{ steps.release.outputs.release_created }}
         if: false
-      - name: Notify Slack
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE: Successfully published SKY UX ${{ steps.vars.outputs.tag }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
-        # if: ${{ steps.release.outputs.release_created }}
-        if: false
