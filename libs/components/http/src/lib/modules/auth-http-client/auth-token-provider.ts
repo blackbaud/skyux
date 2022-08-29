@@ -16,10 +16,16 @@ import { SkyAuthTokenContextArgs } from './auth-token-context-args';
  */
 @Injectable()
 export class SkyAuthTokenProvider {
+  #config: SkyAppConfig | undefined;
+  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+
   constructor(
-    @Optional() private config?: SkyAppConfig,
-    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
-  ) {}
+    @Optional() config?: SkyAppConfig,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
+  ) {
+    this.#config = config;
+    this.#paramsProvider = paramsProvider;
+  }
 
   /**
    * Gets a token string from the Blackbaud authentication service.
@@ -47,7 +53,7 @@ export class SkyAuthTokenProvider {
    * @param args Provides additional context for retrieving the token.
    */
   public getContextToken(args?: SkyAuthTokenContextArgs): Promise<string> {
-    const tokenArgs = this.getContextArgs(args);
+    const tokenArgs = this.#getContextArgs(args);
 
     return this.getToken(tokenArgs);
   }
@@ -60,7 +66,7 @@ export class SkyAuthTokenProvider {
   public getDecodedContextToken(
     args?: SkyAuthTokenContextArgs
   ): Promise<SkyAuthToken> {
-    const tokenArgs = this.getContextArgs(args);
+    const tokenArgs = this.#getContextArgs(args);
 
     return this.getDecodedToken(tokenArgs);
   }
@@ -73,11 +79,11 @@ export class SkyAuthTokenProvider {
     return jwtDecode<SkyAuthToken>(token);
   }
 
-  private getContextArgs(args: SkyAuthTokenContextArgs): SkyAuthGetTokenArgs {
+  #getContextArgs(args?: SkyAuthTokenContextArgs): SkyAuthGetTokenArgs {
     const tokenArgs: SkyAuthGetTokenArgs = {};
 
     const runtimeParams =
-      this.config?.runtime.params || this.paramsProvider?.params;
+      this.#config?.runtime.params || this.#paramsProvider?.params;
 
     if (runtimeParams) {
       const envId = runtimeParams.get('envid');

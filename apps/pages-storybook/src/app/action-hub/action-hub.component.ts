@@ -101,8 +101,8 @@ export class ActionHubComponent {
     {
       title: '1',
       message: 'possible duplicate from constituent lists',
-      click: () => {
-        alert('You clicked the action item!');
+      permalink: {
+        url: '#',
       },
     },
   ];

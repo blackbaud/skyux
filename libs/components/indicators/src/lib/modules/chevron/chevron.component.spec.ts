@@ -28,7 +28,6 @@ describe('Chevron component', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.direction).toBe(expectedDirection);
     expect(
       chevronEl.classList.contains('sky-chevron-' + expectedDirection)
     ).toBe(true);
@@ -56,6 +55,14 @@ describe('Chevron component', () => {
     });
 
     clickChevron(el);
+  });
+
+  it('should handle an undefined direction being passed in', () => {
+    const cmp = fixture.componentInstance as SkyChevronComponent;
+    cmp.direction = undefined;
+
+    fixture.detectChanges();
+    validateDirection('up');
   });
 
   it('should not be able to click disabled chevron', () => {
