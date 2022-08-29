@@ -66,8 +66,8 @@
   &.sky-alert-danger {
     &:before {
       font-family: FontAwesome;
-      margin-left: -31px;
-      margin-right: 20px;
+      margin-left: -32px;
+      margin-right: 19px;
       color: $sky-color-white;
       display: var(--sky-alert-before-display);
     }
@@ -79,6 +79,8 @@
 
     &:before {
       content: '\f06a';
+      margin-left: -31px;
+      margin-right: 20px;
     }
   }
 
@@ -88,8 +90,6 @@
 
     &:before {
       content: '\f00c';
-      margin-left: -32px;
-      margin-right: 19px;
     }
   }
 
