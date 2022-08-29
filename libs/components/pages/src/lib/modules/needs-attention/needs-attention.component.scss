@@ -9,9 +9,6 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  text-align: left;
-  width: 100%;
-  white-space: normal;
 
   &-icon {
     color: $sky-theme-modern-font-deemphasized-color;
@@ -36,8 +33,4 @@
       );
     }
   }
-}
-
-button.sky-needs-attention-item.sky-border-bottom-row {
-  @include sky-border(row, bottom);
 }

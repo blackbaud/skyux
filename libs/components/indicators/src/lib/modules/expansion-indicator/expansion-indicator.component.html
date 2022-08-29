@@ -1,7 +1,7 @@
 <div
   aria-hidden="true"
   class="sky-expansion-indicator"
-  [ngClass]="['sky-expansion-indicator-' + direction]"
+  [ngClass]="['sky-expansion-indicator-' + directionOrDefault]"
 >
   <ng-container *skyThemeIf="'default'">
     <ng-container *ngTemplateOutlet="icon"></ng-container>
