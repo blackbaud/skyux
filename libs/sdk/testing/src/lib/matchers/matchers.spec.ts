@@ -134,6 +134,7 @@ describe('Jasmine matchers', () => {
     expect(elem).not.toHaveCssClass('other');
     try {
       expect(elem).toHaveCssClass('.with-dot');
+      fail('Expected test to fail due to dot in class name provided.');
     } catch (err) {
       if (err instanceof Error) {
         expect(err.message).toEqual(
@@ -281,7 +282,7 @@ describe('Jasmine matchers', () => {
           }
         );
 
-        expect(text).toEqualResourceText(messageKey, messageArgs, undefined);
+        expect(text).toEqualResourceText(messageKey, messageArgs);
       }));
 
       it('should fail if the actual text does not match text provided by resources', (done) => {
@@ -631,10 +632,7 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualResourceText(
-            messageKey,
-            undefined
-          );
+          await expectAsync(text).not.toEqualResourceText(messageKey);
         });
       });
 
@@ -895,10 +893,7 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualLibResourceText(
-            messageKey,
-            undefined
-          );
+          await expectAsync(text).not.toEqualLibResourceText(messageKey);
         });
       });
 
