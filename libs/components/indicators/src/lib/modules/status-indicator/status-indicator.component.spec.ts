@@ -134,7 +134,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const helpEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-help .sky-control-help'
+      '.sky-control-help-container .sky-control-help'
     );
 
     expect(helpEl).toHaveText('Help inline');
