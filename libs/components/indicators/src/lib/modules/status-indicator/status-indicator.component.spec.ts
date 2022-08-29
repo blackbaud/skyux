@@ -158,6 +158,11 @@ describe('Status indicator component', () => {
     validateDescription(fixture, 'important-info', 'Important information:');
     validateDescription(fixture, 'none');
     validateDescription(fixture, 'warning', 'Warning:');
+    validateDescription(fixture, 'important-warning', 'Important warning:');
+    validateDescription(fixture, 'danger', 'Danger:');
+    validateDescription(fixture, 'caution', 'Caution:');
+    validateDescription(fixture, 'success', 'Success:');
+    validateDescription(fixture, 'attention', 'Attention:');
   });
 
   it('should be accessible', async () => {
