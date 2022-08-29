@@ -44,12 +44,23 @@ describe('Lookup component', function () {
     fixture.detectChanges();
   }
 
-  function clickShowMore(fixture: ComponentFixture<any>): void {
+  function clickShowMoreBase(fixture: ComponentFixture<any>): void {
     SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
     fixture.detectChanges();
+  }
+
+  function clickShowMore(fixture: ComponentFixture<any>): void {
+    clickShowMoreBase(fixture);
     tick(200);
     fixture.detectChanges();
     tick();
+  }
+
+  async function clickShowMoreAsync(
+    fixture: ComponentFixture<any>
+  ): Promise<void> {
+    clickShowMoreBase(fixture);
+    return fixture.whenStable();
   }
 
   function clickSearchButton(
@@ -126,10 +137,14 @@ describe('Lookup component', function () {
     }
   }
 
-  function closeModal(fixture: ComponentFixture<any>): void {
+  function closeModalBase(): void {
     (
       document.querySelector('.sky-lookup-show-more-modal-close') as HTMLElement
     )?.click();
+  }
+
+  function closeModal(fixture: ComponentFixture<any>): void {
+    closeModalBase();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -193,6 +208,10 @@ describe('Lookup component', function () {
     return lookupComponent['lookupWrapperRef'].nativeElement.querySelector(
       '.sky-lookup-input'
     );
+  }
+
+  function getModalEl(): HTMLElement {
+    return document.querySelector('.sky-lookup-show-more-modal');
   }
 
   function getModalAddButton(): HTMLElement {
@@ -328,15 +347,26 @@ describe('Lookup component', function () {
     tick();
   }
 
-  function selectShowOnlySelected(fixture: ComponentFixture<any>): void {
+  function selectShowOnlySelectedBase(fixture: ComponentFixture<any>): void {
     (
       document.querySelector(
         '.sky-lookup-show-more-modal-muiltiselect-toolbar .sky-toolbar-view-actions input'
       ) as HTMLElement
     ).click();
     fixture.detectChanges();
+  }
+
+  function selectShowOnlySelected(fixture: ComponentFixture<any>): void {
+    selectShowOnlySelectedBase(fixture);
     tick(250);
     fixture.detectChanges();
+  }
+
+  async function selectShowOnlySelectedAsync(
+    fixture: ComponentFixture<any>
+  ): Promise<void> {
+    selectShowOnlySelectedBase(fixture);
+    return fixture.whenStable();
   }
 
   function selectShowMoreItemMultiple(
@@ -419,6 +449,20 @@ describe('Lookup component', function () {
     tick();
     fixture.detectChanges();
     tick();
+  }
+
+  function verifyPickerId() {
+    expect(getModalEl().id).toBeTruthy();
+  }
+
+  async function triggerModalScrollAsync(
+    fixture: ComponentFixture<any>
+  ): Promise<void> {
+    const modalContent = document.querySelector('.sky-modal-content');
+    modalContent.scrollTop = modalContent.scrollHeight;
+    SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
+    fixture.detectChanges();
+    return fixture.whenStable();
   }
 
   //#endregion
@@ -1595,6 +1639,8 @@ describe('Lookup component', function () {
 
             expect(modalService.open).toHaveBeenCalled();
 
+            verifyPickerId();
+
             closeModal(fixture);
           }));
 
@@ -1726,6 +1772,8 @@ describe('Lookup component', function () {
             clickShowMore(fixture);
 
             expect(modalService.open).toHaveBeenCalled();
+
+            verifyPickerId();
 
             closeModal(fixture);
           }));
@@ -2041,6 +2089,32 @@ describe('Lookup component', function () {
 
               closeModal(fixture);
             }));
+
+            it('should add items when scrolling ends with "Only show selected" active', async () => {
+              component.enableShowMore = true;
+              component.friends = [
+                ...component.data.filter((item) => !item.description),
+              ];
+
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              triggerInputFocus(fixture);
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              await clickShowMoreAsync(fixture);
+
+              await selectShowOnlySelectedAsync(fixture);
+
+              expect(getRepeaterItemCount()).toBe(10);
+
+              await triggerModalScrollAsync(fixture);
+
+              expect(getRepeaterItemCount()).toBe(18);
+
+              closeModalBase();
+            });
 
             it('the default modal title should be correct', fakeAsync(() => {
               component.enableShowMore = true;
@@ -2718,36 +2792,20 @@ describe('Lookup component', function () {
               triggerInputFocus(fixture);
               fixture.detectChanges();
               await fixture.whenStable();
-              // Not using `clickShowMore` due to it being for `fakeAsync`
-              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
-              fixture.detectChanges();
-              await fixture.whenStable();
+
+              await clickShowMoreAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(10);
 
-              let modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(20);
 
-              modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (
-                document.querySelector(
-                  '.sky-lookup-show-more-modal-close'
-                ) as HTMLElement
-              )?.click();
+              closeModalBase();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
@@ -2916,36 +2974,20 @@ describe('Lookup component', function () {
               triggerInputFocus(fixture, true);
               fixture.detectChanges();
               await fixture.whenStable();
-              // Not using `clickShowMore` due to it being for `fakeAsync`
-              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
-              fixture.detectChanges();
-              await fixture.whenStable();
+
+              await clickShowMoreAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(10);
 
-              let modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(20);
 
-              modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (
-                document.querySelector(
-                  '.sky-lookup-show-more-modal-close'
-                ) as HTMLElement
-              )?.click();
+              closeModalBase();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {
@@ -5010,6 +5052,32 @@ describe('Lookup component', function () {
               closeModal(fixture);
             }));
 
+            it('should add items when scrolling ends with "Only show selected" active', async () => {
+              component.enableShowMore = true;
+              component.selectedFriends = [
+                ...component.data.filter((item) => !item.description),
+              ];
+
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              triggerInputFocus(fixture);
+              fixture.detectChanges();
+              await fixture.whenStable();
+
+              await clickShowMoreAsync(fixture);
+
+              await selectShowOnlySelectedAsync(fixture);
+
+              expect(getRepeaterItemCount()).toBe(10);
+
+              await triggerModalScrollAsync(fixture);
+
+              expect(getRepeaterItemCount()).toBe(18);
+
+              closeModalBase();
+            });
+
             it('the default modal title should be correct', fakeAsync(() => {
               component.enableShowMore = true;
               fixture.detectChanges();
@@ -5842,36 +5910,20 @@ describe('Lookup component', function () {
               triggerInputFocus(fixture, true);
               fixture.detectChanges();
               await fixture.whenStable();
-              // Not using `clickShowMore` due to it being for `fakeAsync`
-              SkyAppTestUtility.fireDomEvent(getShowMoreButton(), 'mousedown');
-              fixture.detectChanges();
-              await fixture.whenStable();
+
+              await clickShowMoreAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(10);
 
-              let modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(20);
 
-              modalContent = document.querySelector('.sky-modal-content');
-              modalContent.scrollTop = modalContent.scrollHeight;
-              SkyAppTestUtility.fireDomEvent(modalContent, 'scroll');
-              fixture.detectChanges();
-              await fixture.whenStable();
-              fixture.detectChanges();
+              await triggerModalScrollAsync(fixture);
 
               expect(getRepeaterItemCount()).toBe(21);
 
-              (
-                document.querySelector(
-                  '.sky-lookup-show-more-modal-close'
-                ) as HTMLElement
-              )?.click();
+              closeModalBase();
             });
 
             it('should not populate search bar with current input value when the search button is clicked but the input value is the current selected value', fakeAsync(() => {

@@ -6,9 +6,7 @@ describe('Modal host service', () => {
   it('should return a modal z-index that is 1 greater than the backdrop z-index', () => {
     const service = new SkyModalHostService();
 
-    expect(service.getModalZIndex()).toBe(
-      SkyModalHostService.backdropZIndex + 1
-    );
+    expect(service.zIndex).toBe(SkyModalHostService.backdropZIndex + 1);
     service.destroy();
   });
 
@@ -16,7 +14,7 @@ describe('Modal host service', () => {
     const service1 = new SkyModalHostService();
     const service2 = new SkyModalHostService();
 
-    expect(service2.getModalZIndex()).toBe(service1.getModalZIndex() + 10);
+    expect(service2.getModalZIndex()).toBe(service1.zIndex + 10);
 
     service1.destroy();
     service2.destroy();

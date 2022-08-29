@@ -12,8 +12,8 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 export class SkyIconComponent {
   /**
    * Specifies the name of
-   * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) to
-   * display. Do not specify the `fa fa-` classes.
+   * [the Font Awesome 4.7 icon](https://fontawesome.com/v4.7/icons/) or the SKY UX icon to
+   * display. When specifying a Font Awesome icon, do not prefix the name with `fa-`.
    * @required
    */
   @Input()
@@ -30,20 +30,21 @@ export class SkyIconComponent {
 
   /**
    * Specifies the size of the icon using
-   * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons).
+   * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons). Do not prefix the size with `fa-`.
    */
   @Input()
   public size: string;
 
   /**
    * Indicates whether the icon has a fixed width.
+   * @default false
    */
   @Input()
   public fixedWidth: boolean;
 
   /**
    * Specifies the icon variant (`"line"` or `"solid"`). If the variant doesn't exist for the
-   * specified icon, the normal icon is displayed.
+   * specified icon, the normal icon is displayed. This property only applies when using SKY UX icons.
    */
   @Input()
   public variant: SkyIconVariantType;

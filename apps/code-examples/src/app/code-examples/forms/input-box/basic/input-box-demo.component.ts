@@ -5,6 +5,7 @@ import { SkyValidators } from '@skyux/validation';
 @Component({
   selector: 'app-input-box-demo',
   templateUrl: './input-box-demo.component.html',
+  styleUrls: ['./input-box-demo.component.scss'],
 })
 export class InputBoxDemoComponent implements OnInit {
   public firstName: FormControl;
@@ -14,7 +15,7 @@ export class InputBoxDemoComponent implements OnInit {
   public dob: FormControl;
   public newMemberForm: FormGroup;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.firstName = new FormControl('');
     this.lastName = new FormControl('', Validators.required);
     this.bio = new FormControl('');

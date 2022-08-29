@@ -14,16 +14,12 @@ export class SkyExpansionIndicatorComponent {
    * Specifies whether the chevron points up or down.
    */
   @Input()
-  public set direction(value: string) {
+  public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this._direction) {
-      this._direction = value;
+    if (value != this.directionOrDefault) {
+      this.directionOrDefault = value ? value : 'up';
     }
   }
 
-  public get direction(): string {
-    return this._direction || 'up';
-  }
-
-  private _direction: string;
+  public directionOrDefault = 'up';
 }

@@ -9,6 +9,8 @@ import { SkyBasicDataGridDemoComponent as DataGridBasicBasicDataGridDocsDemoComp
 import { SkyBasicDataGridDocsDemoModule as DataGridBasicBasicDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.module';
 import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.component';
 import { SkyDataManagerDataGridDocsDemoModule as DataGridDataManagerAddedDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.module';
+import { SkyTopScrollDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.component';
+import { SkyTopScrollDataGridDemoModule } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.module';
 
 const routes: Routes = [
   {
@@ -28,6 +30,10 @@ const routes: Routes = [
     path: 'data-grid/data-manager-added',
     component: DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent,
   },
+  {
+    path: 'data-grid/top-scroll',
+    component: SkyTopScrollDataGridDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -42,6 +48,7 @@ export class AgGridFeatureRoutingModule {}
     DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoModule,
     DataGridBasicBasicDataGridDocsDemoModule,
     DataGridDataManagerAddedDataManagerDataGridDocsDemoModule,
+    SkyTopScrollDataGridDemoModule,
     AgGridFeatureRoutingModule,
   ],
 })

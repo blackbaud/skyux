@@ -9,39 +9,42 @@ export class SkyModalAdapterService {
   private static readonly MODAL_BODY_FULL_CLASS = 'sky-modal-body-full-page';
   private static readonly MODAL_BODY_CLASS = 'sky-modal-body-open';
 
-  private docRef: any;
-  private bodyEl: HTMLElement;
+  #docRef: any;
+  #bodyEl: HTMLElement;
 
-  constructor(private windowRef: SkyAppWindowRef) {
-    this.docRef = this.windowRef.nativeWindow.document;
-    this.bodyEl = this.windowRef.nativeWindow.document.body;
+  #windowRef: SkyAppWindowRef;
+
+  constructor(windowRef: SkyAppWindowRef) {
+    this.#windowRef = windowRef;
+    this.#docRef = this.#windowRef.nativeWindow.document;
+    this.#bodyEl = this.#windowRef.nativeWindow.document.body;
   }
 
   public toggleFullPageModalClass(isAddFull: boolean): void {
     if (isAddFull) {
-      this.addClassToBody(SkyModalAdapterService.MODAL_BODY_FULL_CLASS);
+      this.#addClassToBody(SkyModalAdapterService.MODAL_BODY_FULL_CLASS);
     } else {
-      this.removeClassFromBody(SkyModalAdapterService.MODAL_BODY_FULL_CLASS);
+      this.#removeClassFromBody(SkyModalAdapterService.MODAL_BODY_FULL_CLASS);
     }
   }
 
   public setPageScroll(isAdd: boolean): void {
     if (isAdd) {
-      this.addClassToBody(SkyModalAdapterService.MODAL_BODY_CLASS);
+      this.#addClassToBody(SkyModalAdapterService.MODAL_BODY_CLASS);
     } else {
-      this.removeClassFromBody(SkyModalAdapterService.MODAL_BODY_CLASS);
+      this.#removeClassFromBody(SkyModalAdapterService.MODAL_BODY_CLASS);
     }
   }
 
   public getModalOpener(): HTMLElement {
-    return this.docRef.activeElement;
+    return this.#docRef.activeElement;
   }
 
-  private addClassToBody(className: string): void {
-    this.bodyEl.classList.add(className);
+  #addClassToBody(className: string): void {
+    this.#bodyEl.classList.add(className);
   }
 
-  private removeClassFromBody(className: string): void {
-    this.bodyEl.classList.remove(className);
+  #removeClassFromBody(className: string): void {
+    this.#bodyEl.classList.remove(className);
   }
 }

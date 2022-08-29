@@ -22,18 +22,7 @@
     order: 1;
   }
 
-  sky-key-info-value {
-    color: $sky-text-color-action-primary;
-  }
-
-  &:hover {
-    sky-key-info-value,
-    sky-key-info-label {
-      text-decoration: underline;
-    }
-  }
-
-  &:focus {
+  &:focus-visible {
     outline: none;
 
     &:not(:active) {
@@ -43,11 +32,5 @@
         $sky-theme-modern-elevation-3-shadow-color
       );
     }
-  }
-}
-
-sky-column:last-child {
-  > a {
-    border-bottom: none;
   }
 }

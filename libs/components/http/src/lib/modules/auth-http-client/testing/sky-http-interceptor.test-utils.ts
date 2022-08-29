@@ -17,10 +17,10 @@ export function createRequest(
   url?: string,
   permissionScope?: string
 ) {
-  let params: HttpParams;
+  let params: HttpParams | undefined;
 
   if (isSkyAuth) {
-    params = params || new HttpParams();
+    params = new HttpParams();
     params = params.set(SKY_AUTH_PARAM_AUTH, 'true');
   }
 
