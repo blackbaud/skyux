@@ -25,7 +25,6 @@ describe('Label component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LabelTestComponent],
       imports: [SkyLabelFixturesModule],
     });
   });

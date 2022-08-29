@@ -39,10 +39,6 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
    * This property is optional but will be required in future versions of SKY UX.
    */
   @Input()
-  public get descriptionType(): SkyIndicatorDescriptionType | undefined {
-    return this.#_descriptionType;
-  }
-
   public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
     this.#_descriptionType = value;
     this.#updateDescriptionComputed();
@@ -56,10 +52,6 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   public set customDescription(value: string | undefined) {
     this.#_customDescription = value;
     this.#updateDescriptionComputed();
-  }
-
-  public get customDescription(): string | undefined {
-    return this.#_customDescription;
   }
 
   public baseIcon: SkyIconStackItem | undefined;
@@ -78,7 +70,7 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
 
   #changeDetector: ChangeDetectorRef;
 
-  #currentSub: Subscription | undefined;
+  #descriptionTypeResourceSubscription: Subscription | undefined;
 
   #resources: SkyLibResourcesService;
 
@@ -111,18 +103,18 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   #updateDescriptionComputed(): void {
     this.#unsubscribe();
 
-    if (this.descriptionType) {
-      switch (this.descriptionType) {
+    if (this.#_descriptionType) {
+      switch (this.#_descriptionType) {
         case 'none':
           this.descriptionComputed = undefined;
           break;
         case 'custom':
-          this.descriptionComputed = this.customDescription;
+          this.descriptionComputed = this.#_customDescription;
           break;
         default:
-          this.#currentSub = this.#resources
+          this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_label_sr_' + this.descriptionType.replace(/-/g, '_')
+              'skyux_label_sr_' + this.#_descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
@@ -137,9 +129,9 @@ export class SkyLabelComponent implements OnDestroy, OnInit {
   }
 
   #unsubscribe(): void {
-    if (this.#currentSub) {
-      this.#currentSub.unsubscribe();
-      this.#currentSub = undefined;
+    if (this.#descriptionTypeResourceSubscription) {
+      this.#descriptionTypeResourceSubscription.unsubscribe();
+      this.#descriptionTypeResourceSubscription = undefined;
     }
   }
 }
