@@ -9,7 +9,7 @@ import { OverlayFixtureContext } from './overlay-context.fixture';
 export class OverlayEntryFixtureComponent {
   public contentId: string;
 
-  constructor(@Optional() context: OverlayFixtureContext) {
-    this.contentId = context ? context.id : 'none';
+  constructor(@Optional() context?: OverlayFixtureContext) {
+    this.contentId = context?.id ?? 'none';
   }
 }

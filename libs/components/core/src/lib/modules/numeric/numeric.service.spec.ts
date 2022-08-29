@@ -1,8 +1,8 @@
 /*eslint no-loss-of-precision: "warn"*/
 
 /*eslint @typescript-eslint/no-loss-of-precision: "warn"*/
-import { TestBed, inject } from '@angular/core/testing';
-import { SkyIntlNumberFormatStyle, SkyLibResourcesService } from '@skyux/i18n';
+import { TestBed } from '@angular/core/testing';
+import { SkyIntlNumberFormatStyle } from '@skyux/i18n';
 
 import { SkyNumberFormatUtility } from '../shared/number-format/number-format-utility';
 
@@ -17,14 +17,9 @@ describe('Numeric service', () => {
     TestBed.configureTestingModule({
       imports: [SkyNumericModule],
     });
-  });
 
-  beforeEach(inject(
-    [SkyLibResourcesService],
-    (resourcesService: SkyLibResourcesService) => {
-      skyNumeric = new SkyNumericService(resourcesService);
-    }
-  ));
+    skyNumeric = TestBed.inject(SkyNumericService);
+  });
 
   it('formats 0 with 0 digits as 0', () => {
     const value = 0;
@@ -333,18 +328,6 @@ describe('Numeric service', () => {
     expect(skyNumeric.formatNumber(value, options)).toBe('1.235');
   });
 
-  it('should handle localized shorten symbols', () => {
-    const originalValue = skyNumeric['symbolIndex'][3];
-    const value = 1450;
-    const options = new NumericOptions();
-
-    skyNumeric['symbolIndex'][3].label = 'c';
-
-    expect(skyNumeric.formatNumber(value, options)).toBe('1.5c');
-
-    skyNumeric['symbolIndex'][3] = originalValue;
-  });
-
   it('should allow truncate options to be optional', () => {
     const value = 1450;
     const options: NumericOptions = {
@@ -398,7 +381,7 @@ describe('Numeric service', () => {
           value: number | string,
           style: SkyIntlNumberFormatStyle,
           digits?: string | null,
-          currency: string | null = undefined,
+          currency: string | null = null,
           currencyAsSymbol: boolean = false
         ) => {
           return value as string | null;
@@ -416,7 +399,7 @@ describe('Numeric service', () => {
         });
         fail('It should fail!');
       } catch (err) {
-        expect(err.message).toEqual(
+        expect((err as Error).message).toEqual(
           'SkyInvalidArgument: precision must be >= 0'
         );
       }

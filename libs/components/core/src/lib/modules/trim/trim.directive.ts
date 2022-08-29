@@ -9,18 +9,19 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
   selector: '[skyTrim]',
 })
 export class SkyTrimDirective implements OnInit, OnDestroy {
-  #obs: MutationObserver;
+  #elRef: ElementRef;
 
-  constructor(
-    private elRef: ElementRef,
-    private mutationObs: MutationObserverService
-  ) {
-    this.#obs = this.mutationObs.create((mutations: MutationRecord[]) => {
+  #obs: MutationObserver | undefined;
+
+  constructor(elRef: ElementRef, mutationObs: MutationObserverService) {
+    this.#elRef = elRef;
+
+    this.#obs = mutationObs.create((mutations: MutationRecord[]) => {
       const nodes: Node[] = [];
 
       // Only trim white space inside direct descendents of the current element.
       for (const mutation of mutations) {
-        if (mutation.target.parentNode === this.elRef.nativeElement) {
+        if (mutation.target.parentNode === elRef.nativeElement) {
           nodes.push(mutation.target);
         }
       }
@@ -32,7 +33,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const el = this.elRef.nativeElement as Element;
+    const el = this.#elRef.nativeElement as Element;
     this.#trim(Array.from(el.childNodes));
   }
 
@@ -42,14 +43,18 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
   }
 
   #observe(): void {
-    this.#obs.observe(this.elRef.nativeElement, {
-      characterData: true,
-      subtree: true,
-    });
+    if (this.#obs) {
+      this.#obs.observe(this.#elRef.nativeElement, {
+        characterData: true,
+        subtree: true,
+      });
+    }
   }
 
   #disconnect(): void {
-    this.#obs.disconnect();
+    if (this.#obs) {
+      this.#obs.disconnect();
+    }
   }
 
   #trim(nodes: Node[]): void {
@@ -58,7 +63,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
     this.#disconnect();
 
     for (const node of nodes) {
-      if (node.nodeType === Node.TEXT_NODE) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent) {
         const textContent = node.textContent;
         const textContentTrimmed = textContent.trim();
 

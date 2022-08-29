@@ -276,7 +276,7 @@ describe('Core adapter service', () => {
         // IE11 will result in 'height:;'. Remove that before running expectation.
         const heightAttribute = element
           .getAttribute('style')
-          .replace('height:;', '');
+          ?.replace('height:;', '');
         expect(heightAttribute).toBe('');
       }
     });

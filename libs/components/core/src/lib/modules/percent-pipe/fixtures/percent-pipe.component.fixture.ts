@@ -7,9 +7,11 @@ import { SkyPercentPipe } from '../percent.pipe';
   templateUrl: './percent-pipe.component.fixture.html',
 })
 export class PercentPipeTestComponent {
-  public numberValue: any = 0.8675309;
-  public format: string;
-  public locale: string;
+  public format: string | undefined;
+
+  public locale: string | undefined;
+
+  public numberValue: unknown = 0.8675309;
 
   constructor(private percentPipe: SkyPercentPipe) {}
 

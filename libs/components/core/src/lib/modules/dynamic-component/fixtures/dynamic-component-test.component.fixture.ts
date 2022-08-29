@@ -9,7 +9,7 @@ import { Component, Inject, Input, OnInit, Optional } from '@angular/core';
 })
 export class DynamicComponentTestComponent implements OnInit {
   @Input()
-  public message: string;
+  public message: string | undefined;
 
   constructor(@Inject('greeting') @Optional() public greeting?: string) {}
 

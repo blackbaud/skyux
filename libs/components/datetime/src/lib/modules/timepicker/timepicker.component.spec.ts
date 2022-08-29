@@ -511,14 +511,21 @@ describe('Timepicker', () => {
     }));
 
     it('should hide when timepicker is scrolled off screen', fakeAsync(() => {
+      // Make the body element scrollable.
+      window.document.body.style.height = '5000px';
+
       detectChangesAndTick(fixture);
       openTimepicker(fixture);
 
-      const affixer = component.timepickerComponent['affixer'];
-      affixer['_placementChange'].next({ placement: null });
+      // Scroll timepicker offscreen.
+      window.scrollTo(0, 1000);
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
       detectChangesAndTick(fixture);
 
       expect(component.timepickerComponent.isVisible).toBe(false);
+
+      // Reset body height.
+      window.document.body.style.height = 'initial';
     }));
 
     it('should be accessible', async () => {

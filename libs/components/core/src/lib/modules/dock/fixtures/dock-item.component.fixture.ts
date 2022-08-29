@@ -7,9 +7,9 @@ import { DockItemFixtureContext } from './dock-item-context.fixture';
   templateUrl: './dock-item.component.fixture.html',
 })
 export class DockItemFixtureComponent {
-  public height: number;
+  public height: number | undefined;
 
-  constructor(@Optional() context: DockItemFixtureContext) {
-    this.height = context && context.args && context.args.height;
+  constructor(@Optional() context?: DockItemFixtureContext) {
+    this.height = context?.args.height;
   }
 }

@@ -25,20 +25,34 @@ import { SkyDynamicComponentOptions } from './dynamic-component-options';
   providedIn: 'any',
 })
 export class SkyDynamicComponentService {
-  private renderer: Renderer2;
+  #applicationRef: ApplicationRef;
 
+  #componentFactoryResolver: ComponentFactoryResolver;
+
+  #injector: Injector;
+
+  #renderer: Renderer2;
+
+  #windowRef: SkyAppWindowRef;
+
+  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private applicationRef: ApplicationRef,
-    private injector: Injector,
-    private windowRef: SkyAppWindowRef,
+    componentFactoryResolver: ComponentFactoryResolver,
+    applicationRef: ApplicationRef,
+    injector: Injector,
+    windowRef: SkyAppWindowRef,
     rendererFactory: RendererFactory2
   ) {
+    this.#componentFactoryResolver = componentFactoryResolver;
+    this.#applicationRef = applicationRef;
+    this.#injector = injector;
+    this.#windowRef = windowRef;
+
     // Based on suggestions from https://github.com/angular/angular/issues/17824
     // for accessing an instance of Renderer2 in a service since Renderer2 can't
     // be injected into a service.  Passing undefined for both parameters results
     // in the default renderer which is what we want here.
-    this.renderer = rendererFactory.createRenderer(undefined, undefined);
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -56,42 +70,54 @@ export class SkyDynamicComponentService {
 
     const injector = Injector.create({
       providers: options.providers || [],
-      parent: this.injector,
+      parent: this.#injector,
     });
 
-    const componentRef = this.componentFactoryResolver
+    const componentRef = this.#componentFactoryResolver
       .resolveComponentFactory<T>(componentType)
       .create(injector);
 
-    this.applicationRef.attachView(componentRef.hostView);
+    this.#applicationRef.attachView(componentRef.hostView);
 
-    const el = this.getRootNode(componentRef);
+    const el = this.#getRootNode(componentRef);
 
-    const bodyEl = this.windowRef.nativeWindow.document.body;
+    const bodyEl = this.#windowRef.nativeWindow.document.body;
 
     switch (options.location) {
       case SkyDynamicComponentLocation.BeforeElement:
-        this.renderer.insertBefore(
+        if (!options.referenceEl) {
+          throw new Error(
+            '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.'
+          );
+        }
+
+        this.#renderer.insertBefore(
           options.referenceEl.parentElement,
           el,
           options.referenceEl
         );
         break;
       case SkyDynamicComponentLocation.ElementTop:
-        this.renderer.insertBefore(
+        if (!options.referenceEl) {
+          throw new Error(
+            '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.'
+          );
+        }
+
+        this.#renderer.insertBefore(
           options.referenceEl,
           el,
           options.referenceEl.firstChild
         );
         break;
       case SkyDynamicComponentLocation.ElementBottom:
-        this.renderer.appendChild(options.referenceEl, el);
+        this.#renderer.appendChild(options.referenceEl, el);
         break;
       case SkyDynamicComponentLocation.BodyTop:
-        this.renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
+        this.#renderer.insertBefore(bodyEl, el, bodyEl.firstChild);
         break;
       default:
-        this.renderer.appendChild(bodyEl, el);
+        this.#renderer.appendChild(bodyEl, el);
         break;
     }
 
@@ -102,16 +128,16 @@ export class SkyDynamicComponentService {
    * Removes a component ref from the page
    * @param componentRef Component ref for the component being removed
    */
-  public removeComponent<T>(componentRef: ComponentRef<T>): void {
+  public removeComponent<T>(componentRef: ComponentRef<T> | undefined): void {
     if (!componentRef) {
       return;
     }
 
-    this.applicationRef.detachView(componentRef.hostView);
+    this.#applicationRef.detachView(componentRef.hostView);
     componentRef.destroy();
   }
 
-  private getRootNode<T>(componentRef: ComponentRef<T>): any {
+  #getRootNode<T>(componentRef: ComponentRef<T>): any {
     // Technique for retrieving the component's root node taken from here:
     // https://malcoded.com/posts/angular-dynamic-components
     return (componentRef.hostView as EmbeddedViewRef<T>).rootNodes[0];

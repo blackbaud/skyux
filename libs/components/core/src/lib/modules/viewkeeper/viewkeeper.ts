@@ -99,186 +99,202 @@ function createCustomEvent(name: any): CustomEvent<any> {
 }
 
 export class SkyViewkeeper {
-  private setWidth: boolean;
+  #boundaryEl: HTMLElement | undefined;
 
-  private id: string;
+  #el: HTMLElement | undefined;
 
-  private el: HTMLElement;
+  #id: string;
 
-  private boundaryEl: HTMLElement;
+  #setWidth: boolean;
 
-  private verticalOffset: number;
+  #verticalOffset: number;
 
-  private verticalOffsetEl: HTMLElement;
+  #verticalOffsetEl: HTMLElement | undefined;
 
-  private set viewportMarginTop(margin: number) {
-    this._viewportMarginTop = margin;
+  set #viewportMarginTop(margin: number) {
+    this.#_viewportMarginTop = margin;
   }
 
-  private get viewportMarginTop(): number {
-    if (this.scrollableHost) {
+  get #viewportMarginTop(): number {
+    if (this.#scrollableHost) {
       return 0;
     } else {
-      return this._viewportMarginTop;
+      return this.#_viewportMarginTop;
     }
   }
 
-  private isDestroyed: boolean;
+  #_viewportMarginTop = 0;
 
-  private currentElFixedTop: number;
+  #currentElFixedLeft: number | undefined;
 
-  private currentElFixedLeft: number;
+  #currentElFixedTop: number | undefined;
 
-  private currentElFixedWidth: number;
+  #currentElFixedWidth: number | undefined;
 
-  private scrollableHost: HTMLElement;
+  #isDestroyed = false;
 
-  private syncElPositionHandler: () => void;
+  #scrollableHost: HTMLElement | undefined;
 
-  private _viewportMarginTop: number;
+  #syncElPositionHandler: () => void;
 
   constructor(options: SkyViewkeeperOptions) {
     options = options || /* istanbul ignore next */ {};
 
-    this.setWidth = options.setWidth;
-    this.id = nextId();
-    this.el = options.el;
-    this.boundaryEl = options.boundaryEl;
-    this.scrollableHost = options.scrollableHost;
-    this.verticalOffset = options.verticalOffset || 0;
-    this.verticalOffsetEl = options.verticalOffsetEl;
-    this.viewportMarginTop = options.viewportMarginTop || 0;
+    this.#el = options.el;
+    this.#boundaryEl = options.boundaryEl;
 
-    this.syncElPositionHandler = () => this.syncElPosition();
+    if (!this.#el) {
+      throw new Error('[SkyViewkeeper] The option `el` is required.');
+    }
 
-    if (this.verticalOffsetEl) {
-      this.verticalOffsetEl.addEventListener(
+    if (!this.#boundaryEl) {
+      throw new Error('[SkyViewkeeper] The option `boundaryEl` is required.');
+    }
+
+    const el = this.#el;
+    const boundaryEl = this.#boundaryEl;
+
+    this.#setWidth = !!options.setWidth;
+    this.#id = nextId();
+    this.#scrollableHost = options.scrollableHost;
+    this.#verticalOffset = options.verticalOffset || 0;
+    this.#verticalOffsetEl = options.verticalOffsetEl;
+    this.#viewportMarginTop = options.viewportMarginTop || 0;
+
+    this.#syncElPositionHandler = () => this.syncElPosition(el, boundaryEl);
+
+    if (this.#verticalOffsetEl) {
+      this.#verticalOffsetEl.addEventListener(
         EVT_AFTER_VIEWKEEPER_SYNC,
-        this.syncElPositionHandler
+        this.#syncElPositionHandler
       );
     }
 
-    window.addEventListener('scroll', this.syncElPositionHandler, true);
-    window.addEventListener('resize', this.syncElPositionHandler);
-    window.addEventListener('orientationchange', this.syncElPositionHandler);
+    window.addEventListener('scroll', this.#syncElPositionHandler, true);
+    window.addEventListener('resize', this.#syncElPositionHandler);
+    window.addEventListener('orientationchange', this.#syncElPositionHandler);
 
     ensureStyleEl();
 
-    this.syncElPosition();
+    this.syncElPosition(el, boundaryEl);
   }
 
-  public syncElPosition(): void {
-    const verticalOffset = this.calculateVerticalOffset();
+  public syncElPosition(el: HTMLElement, boundaryEl: HTMLElement): void {
+    const verticalOffset = this.#calculateVerticalOffset();
 
     // When the element isn't visible, its size can't be calculated, so don't attempt syncing position in this case.
-    if (this.el.offsetWidth === 0 && this.el.offsetHeight === 0) {
+    if (el.offsetWidth === 0 && el.offsetHeight === 0) {
       return;
     }
 
-    const boundaryInfo = this.getBoundaryInfo();
-    const fixedStyles = this.getFixedStyles(boundaryInfo, verticalOffset);
+    const boundaryInfo = this.#getBoundaryInfo(el, boundaryEl);
+    const fixedStyles = this.#getFixedStyles(boundaryInfo, verticalOffset);
 
-    const doFixEl = this.shouldFixEl(boundaryInfo, verticalOffset);
+    const doFixEl = this.#shouldFixEl(el, boundaryInfo, verticalOffset);
 
-    if (this.needsUpdating(doFixEl, fixedStyles)) {
+    if (this.#needsUpdating(doFixEl, fixedStyles)) {
       if (doFixEl) {
-        this.fixEl(boundaryInfo, fixedStyles);
+        this.#fixEl(el, boundaryInfo, fixedStyles);
       } else {
-        this.unfixEl();
+        this.#unfixEl(el);
       }
     }
 
     const evt = createCustomEvent(EVT_AFTER_VIEWKEEPER_SYNC);
 
-    this.el.dispatchEvent(evt);
+    el.dispatchEvent(evt);
   }
 
   public destroy(): void {
-    if (!this.isDestroyed) {
-      window.removeEventListener('scroll', this.syncElPositionHandler, true);
-      window.removeEventListener('resize', this.syncElPositionHandler);
+    if (!this.#isDestroyed) {
+      window.removeEventListener('scroll', this.#syncElPositionHandler, true);
+      window.removeEventListener('resize', this.#syncElPositionHandler);
       window.removeEventListener(
         'orientationchange',
-        this.syncElPositionHandler
+        this.#syncElPositionHandler
       );
 
-      this.unfixEl();
+      if (this.#el) {
+        this.#unfixEl(this.#el);
+      }
 
-      if (this.verticalOffsetEl) {
-        this.verticalOffsetEl.removeEventListener(
+      if (this.#verticalOffsetEl) {
+        this.#verticalOffsetEl.removeEventListener(
           EVT_AFTER_VIEWKEEPER_SYNC,
-          this.syncElPositionHandler
+          this.#syncElPositionHandler
         );
       }
 
-      this.el = this.boundaryEl = this.verticalOffsetEl = undefined;
+      this.#el = this.#boundaryEl = this.#verticalOffsetEl = undefined;
 
-      this.isDestroyed = true;
+      this.#isDestroyed = true;
     }
   }
 
-  private getSpacerId(): string {
-    return this.id + '-spacer';
+  #getSpacerId(): string {
+    return this.#id + '-spacer';
   }
 
-  private unfixEl(): void {
-    const spacerEl = document.getElementById(this.getSpacerId());
+  #unfixEl(el: HTMLElement): void {
+    const spacerEl = document.getElementById(this.#getSpacerId());
 
-    if (spacerEl) {
+    /*istanbul ignore else*/
+    if (spacerEl?.parentElement) {
       spacerEl.parentElement.removeChild(spacerEl);
     }
 
-    this.el.classList.remove(CLS_VIEWKEEPER_FIXED);
+    el.classList.remove(CLS_VIEWKEEPER_FIXED);
 
-    this.currentElFixedLeft =
-      this.currentElFixedTop =
-      this.currentElFixedWidth =
+    this.#currentElFixedLeft =
+      this.#currentElFixedTop =
+      this.#currentElFixedWidth =
         undefined;
 
-    let width: string;
+    let width = '';
 
-    if (this.setWidth) {
+    if (this.#setWidth) {
       width = 'auto';
     }
 
-    setElPosition(this.el, '', '', width, '');
+    setElPosition(el, '', '', width, '');
   }
 
-  private calculateVerticalOffset(): number {
-    let offset = this.verticalOffset;
+  #calculateVerticalOffset(): number {
+    let offset = this.#verticalOffset;
 
-    if (this.verticalOffsetEl) {
-      const verticalOffsetElTopStyle = this.verticalOffsetEl.style.top;
+    if (this.#verticalOffsetEl) {
+      const verticalOffsetElTopStyle = this.#verticalOffsetEl.style.top;
       const verticalOffsetElTop = parseInt(verticalOffsetElTopStyle, 10) || 0;
 
-      offset += this.verticalOffsetEl.offsetHeight + verticalOffsetElTop;
-    } else if (this.scrollableHost) {
-      offset += this.scrollableHost.getBoundingClientRect().top;
+      offset += this.#verticalOffsetEl.offsetHeight + verticalOffsetElTop;
+    } else if (this.#scrollableHost) {
+      offset += this.#scrollableHost.getBoundingClientRect().top;
     }
 
     return offset;
   }
 
-  private shouldFixEl(
+  #shouldFixEl(
+    el: HTMLElement,
     boundaryInfo: SkyViewkeeperBoundaryInfo,
     verticalOffset: number
   ): boolean {
     let anchorTop: number;
 
     if (boundaryInfo.spacerEl) {
-      anchorTop = getOffset(boundaryInfo.spacerEl, this.scrollableHost).top;
+      anchorTop = getOffset(boundaryInfo.spacerEl, this.#scrollableHost).top;
     } else {
-      anchorTop = getOffset(this.el, this.scrollableHost).top;
+      anchorTop = getOffset(el, this.#scrollableHost).top;
     }
 
     const doFixEl =
-      boundaryInfo.scrollTop + verticalOffset + this.viewportMarginTop >
+      boundaryInfo.scrollTop + verticalOffset + this.#viewportMarginTop >
       anchorTop;
 
     return doFixEl;
   }
 
-  private getFixedStyles(
+  #getFixedStyles(
     boundaryInfo: SkyViewkeeperBoundaryInfo,
     verticalOffset: number
   ): SkyViewkeeperFixedStyles {
@@ -304,19 +320,19 @@ export class SkyViewkeeper {
     };
   }
 
-  private needsUpdating(
+  #needsUpdating(
     doFixEl: boolean,
     fixedStyles: SkyViewkeeperFixedStyles
   ): boolean {
     if (
       (doFixEl &&
-        this.currentElFixedLeft === fixedStyles.elFixedLeft &&
-        this.currentElFixedTop === fixedStyles.elFixedTop &&
-        this.currentElFixedWidth === fixedStyles.elFixedWidth) ||
+        this.#currentElFixedLeft === fixedStyles.elFixedLeft &&
+        this.#currentElFixedTop === fixedStyles.elFixedTop &&
+        this.#currentElFixedWidth === fixedStyles.elFixedWidth) ||
       (!doFixEl &&
         !(
-          this.currentElFixedLeft !== undefined &&
-          this.currentElFixedLeft !== null
+          this.#currentElFixedLeft !== undefined &&
+          this.#currentElFixedLeft !== null
         ))
     ) {
       // The element is either currently fixed and its position and width do not need
@@ -328,12 +344,11 @@ export class SkyViewkeeper {
     return true;
   }
 
-  private fixEl(
+  #fixEl(
+    el: HTMLElement,
     boundaryInfo: SkyViewkeeperBoundaryInfo,
     fixedStyles: SkyViewkeeperFixedStyles
   ): void {
-    const el = this.el;
-
     /* istanbul ignore else */
     /* sanity check */
     if (!boundaryInfo.spacerEl) {
@@ -343,18 +358,21 @@ export class SkyViewkeeper {
       spacerEl.id = boundaryInfo.spacerId;
       spacerEl.style.height = px(spacerHeight);
 
-      el.parentNode.insertBefore(spacerEl, el.nextSibling);
+      /*istanbul ignore else*/
+      if (el.parentNode) {
+        el.parentNode.insertBefore(spacerEl, el.nextSibling);
+      }
     }
 
     el.classList.add(CLS_VIEWKEEPER_FIXED);
 
-    this.currentElFixedTop = fixedStyles.elFixedTop;
-    this.currentElFixedLeft = fixedStyles.elFixedLeft;
-    this.currentElFixedWidth = fixedStyles.elFixedWidth;
+    this.#currentElFixedTop = fixedStyles.elFixedTop;
+    this.#currentElFixedLeft = fixedStyles.elFixedLeft;
+    this.#currentElFixedWidth = fixedStyles.elFixedWidth;
 
-    let width: number;
+    let width = 0;
 
-    if (this.setWidth) {
+    if (this.#setWidth) {
       width = fixedStyles.elFixedWidth;
     }
 
@@ -363,30 +381,31 @@ export class SkyViewkeeper {
       fixedStyles.elFixedLeft,
       fixedStyles.elFixedTop,
       width,
-      this.viewportMarginTop
+      this.#viewportMarginTop
     );
   }
 
-  private getBoundaryInfo(): SkyViewkeeperBoundaryInfo {
-    const spacerId = this.getSpacerId();
+  #getBoundaryInfo(
+    el: HTMLElement,
+    boundaryEl: HTMLElement
+  ): SkyViewkeeperBoundaryInfo {
+    const spacerId = this.#getSpacerId();
 
     const spacerEl = document.getElementById(spacerId);
 
-    const boundaryEl = this.boundaryEl;
-
-    const boundaryOffset = getOffset(boundaryEl, this.scrollableHost);
+    const boundaryOffset = getOffset(boundaryEl, this.#scrollableHost);
     const boundaryTop = boundaryOffset.top;
     const boundaryBottom =
       boundaryTop + boundaryEl.getBoundingClientRect().height;
 
-    const scrollLeft = this.scrollableHost
-      ? this.scrollableHost.scrollLeft
+    const scrollLeft = this.#scrollableHost
+      ? this.#scrollableHost.scrollLeft
       : document.documentElement.scrollLeft;
-    const scrollTop = this.scrollableHost
-      ? this.scrollableHost.scrollTop
+    const scrollTop = this.#scrollableHost
+      ? this.#scrollableHost.scrollTop
       : document.documentElement.scrollTop;
 
-    const elHeight = getHeightWithMargin(this.el);
+    const elHeight = getHeightWithMargin(el);
 
     return {
       boundaryBottom,

@@ -23,7 +23,7 @@ describe('ResizeObserver service', async () => {
     const target: ElementRef = {
       nativeElement: { id: 'element' },
     } as ElementRef;
-    let result: ResizeObserverEntry | undefined = undefined;
+    let result: ResizeObserverEntry | undefined;
     const service = new SkyResizeObserverService(TestBed.inject(NgZone));
     const subscription = service
       .observe(target)
@@ -48,7 +48,7 @@ describe('ResizeObserver service', async () => {
     const target: ElementRef = {
       nativeElement: { id: 'element' },
     } as ElementRef;
-    let result: ResizeObserverEntry | undefined = undefined;
+    let result: ResizeObserverEntry | undefined;
     const service = new SkyResizeObserverService(TestBed.inject(NgZone));
     const subscription1 = service
       .observe(target)

@@ -6,7 +6,7 @@ function formatCurrency(
   value: any,
   digits: string,
   currencySign?: 'accounting' | 'standard'
-): string {
+): string | null {
   return SkyNumberFormatUtility.formatNumber(
     'en-US',
     value,
@@ -36,7 +36,9 @@ describe('Number format utility', function () {
       formatCurrency({}, '');
       fail('It should fail!');
     } catch (err) {
-      expect(err.message).toEqual("SkyInvalidPipeArgument: '[object Object]'");
+      expect((err as Error).message).toEqual(
+        "SkyInvalidPipeArgument: '[object Object]'"
+      );
     }
   });
 
@@ -53,7 +55,7 @@ describe('Number format utility', function () {
       formatCurrency(50, digits);
       fail('It should fail!');
     } catch (err) {
-      expect(err.message).toEqual(
+      expect((err as Error).message).toEqual(
         `${digits} is not a valid digit info for number pipes`
       );
     }

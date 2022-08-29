@@ -24,7 +24,9 @@ describe('Dock component', () => {
   let fixture: ComponentFixture<DockFixtureComponent>;
   let mutationCallbacks: (() => void)[];
 
-  function resetDockItems(itemConfigs: SkyDockInsertComponentConfig[]): void {
+  function resetDockItems(
+    itemConfigs: (SkyDockInsertComponentConfig | undefined)[]
+  ): void {
     fixture.componentInstance.removeAllItems();
     fixture.detectChanges();
     fixture.componentInstance.itemConfigs = itemConfigs;
@@ -67,7 +69,7 @@ describe('Dock component', () => {
   function getStyleElement(): HTMLStyleElement {
     return document
       .getElementsByTagName('head')[0]
-      .querySelector(STYLE_ELEMENT_SELECTOR);
+      .querySelector(STYLE_ELEMENT_SELECTOR) as HTMLStyleElement;
   }
 
   function getProviders(args: any): StaticProvider[] {
@@ -93,7 +95,7 @@ describe('Dock component', () => {
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback): any {
+            create: function (callback: () => void) {
               mutationCallbacks.push(callback);
               return {
                 observe() {},
@@ -140,7 +142,7 @@ describe('Dock component', () => {
       },
       {
         stackOrder: null, // Should default to top of stack.
-      },
+      } as any,
       {
         stackOrder: undefined, // Should default to top of stack.
       },
@@ -286,7 +288,7 @@ describe('Dock component', () => {
     // Disabling these tests in IE 11 due to IE not supporting sticky positioning.
     if (!isIE) {
       it('should apply the correct positioning styles to a dock which is bound to an element bottom', fakeAsync(() => {
-        const innerDiv: HTMLElement = document.querySelector('#innerDiv');
+        const innerDiv = document.querySelector('#innerDiv') as HTMLElement;
         fixture.componentInstance.setOptions({
           location: SkyDockLocation.ElementBottom,
           referenceEl: innerDiv,
@@ -314,7 +316,7 @@ describe('Dock component', () => {
 
   describe('positioning: ElementBottom', () => {
     it('should apply the correct positioning styles to a dock which is bound before an element', fakeAsync(() => {
-      const innerDiv: HTMLElement = document.querySelector('#innerDiv');
+      const innerDiv = document.querySelector('#innerDiv') as HTMLElement;
       fixture.componentInstance.setOptions({
         location: SkyDockLocation.BeforeElement,
         referenceEl: innerDiv,

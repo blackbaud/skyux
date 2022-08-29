@@ -16,7 +16,23 @@ import {
   isOffsetPartiallyVisibleWithinParent,
 } from './dom-utils';
 
-const DEFAULT_AFFIX_CONFIG: SkyAffixConfig = {
+/**
+ * Make specific properties required, so that we don't have to
+ * do null checks throughout this file.
+ */
+type AffixConfigOrDefaults = SkyAffixConfig &
+  Required<
+    Pick<
+      SkyAffixConfig,
+      | 'autoFitContext'
+      | 'enableAutoFit'
+      | 'horizontalAlignment'
+      | 'isSticky'
+      | 'placement'
+    >
+  >;
+
+const DEFAULT_AFFIX_CONFIG: AffixConfigOrDefaults = {
   autoFitContext: SkyAffixAutoFitContext.OverflowParent,
   enableAutoFit: false,
   horizontalAlignment: 'center',
@@ -29,7 +45,7 @@ export class SkyAffixer {
    * Fires when the affixed element's offset changes.
    */
   public get offsetChange(): Observable<SkyAffixOffsetChange> {
-    return this._offsetChange.asObservable();
+    return this.#_offsetChangeObs;
   }
 
   /**
@@ -38,7 +54,7 @@ export class SkyAffixer {
    * event listener.
    */
   public get overflowScroll(): Observable<void> {
-    return this._overflowScroll.asObservable();
+    return this.#_overflowScrollObs;
   }
 
   /**
@@ -46,54 +62,72 @@ export class SkyAffixer {
    * placement could not be found.
    */
   public get placementChange(): Observable<SkyAffixPlacementChange> {
-    return this._placementChange.asObservable();
+    return this.#_placementChangeObs;
   }
 
-  private get config(): SkyAffixConfig {
-    return this._config;
+  get #config(): AffixConfigOrDefaults {
+    return this.#_config;
   }
 
-  private set config(value: SkyAffixConfig) {
-    const merged = { ...DEFAULT_AFFIX_CONFIG, ...value };
+  set #config(value: SkyAffixConfig | undefined) {
+    const merged: AffixConfigOrDefaults = {
+      ...DEFAULT_AFFIX_CONFIG,
+      ...value,
+    };
 
     // Make sure none of the values are undefined.
-    Object.keys(merged).forEach((k: keyof SkyAffixConfig) => {
-      if (merged[k] === undefined) {
-        (merged as any)[k] = DEFAULT_AFFIX_CONFIG[k];
+    let key: keyof typeof merged;
+    for (key in merged) {
+      if (merged[key] === undefined) {
+        (merged as any)[key] = DEFAULT_AFFIX_CONFIG[key];
       }
-    });
+    }
 
-    this._config = merged;
+    this.#_config = merged;
   }
 
-  private affixedRect: ClientRect;
+  #affixedElement: HTMLElement;
 
-  private baseElement: HTMLElement;
+  #baseElement: HTMLElement | undefined;
 
-  private baseRect: ClientRect;
+  #currentOffset: SkyAffixOffset | undefined;
 
-  private currentOffset: SkyAffixOffset;
+  #currentPlacement: SkyAffixPlacement | undefined;
 
-  private currentPlacement: SkyAffixPlacement;
+  #offsetChange: Subject<SkyAffixOffsetChange>;
 
-  private overflowParents: HTMLElement[];
+  #overflowParents: HTMLElement[] = [];
 
-  private resizeListener: Subscription;
+  #overflowScroll: Subject<void>;
 
-  private scrollListeners: (() => void)[];
+  #placementChange: Subject<SkyAffixPlacementChange>;
 
-  private _config: SkyAffixConfig;
+  #renderer: Renderer2;
 
-  private _offsetChange = new Subject<SkyAffixOffsetChange>();
+  #resizeListener: Subscription | undefined;
 
-  private _overflowScroll = new Subject<void>();
+  #scrollListeners: (() => void)[] | undefined;
 
-  private _placementChange = new Subject<SkyAffixPlacementChange>();
+  #_config: AffixConfigOrDefaults = DEFAULT_AFFIX_CONFIG;
 
-  constructor(
-    private affixedElement: HTMLElement,
-    private renderer: Renderer2
-  ) {}
+  #_offsetChangeObs: Observable<SkyAffixOffsetChange>;
+
+  #_overflowScrollObs: Observable<void>;
+
+  #_placementChangeObs: Observable<SkyAffixPlacementChange>;
+
+  constructor(affixedElement: HTMLElement, renderer: Renderer2) {
+    this.#affixedElement = affixedElement;
+    this.#renderer = renderer;
+
+    this.#offsetChange = new Subject<SkyAffixOffsetChange>();
+    this.#overflowScroll = new Subject<void>();
+    this.#placementChange = new Subject<SkyAffixPlacementChange>();
+
+    this.#_offsetChangeObs = this.#offsetChange.asObservable();
+    this.#_overflowScrollObs = this.#overflowScroll.asObservable();
+    this.#_placementChangeObs = this.#placementChange.asObservable();
+  }
 
   /**
    * Affixes an element to a base element.
@@ -101,18 +135,22 @@ export class SkyAffixer {
    * @param config Configuration for the affix action.
    */
   public affixTo(baseElement: HTMLElement, config?: SkyAffixConfig): void {
-    this.reset();
+    this.#reset();
 
-    this.config = config;
-    this.baseElement = baseElement;
-    this.overflowParents = getOverflowParents(baseElement);
+    this.#config = config;
+    this.#baseElement = baseElement;
+    this.#overflowParents = getOverflowParents(baseElement);
 
-    this.affix();
+    this.#affix();
 
-    if (this.config.isSticky) {
-      this.addScrollListeners();
-      this.addResizeListener();
+    if (this.#config.isSticky) {
+      this.#addScrollListeners();
+      this.#addResizeListener();
     }
+  }
+
+  public getConfig(): SkyAffixConfig {
+    return this.#config;
   }
 
   /**
@@ -120,57 +158,50 @@ export class SkyAffixer {
    */
   public reaffix(): void {
     // Reset current placement to preferred placement.
-    this.currentPlacement = this.config.placement;
-    this.affix();
+    this.#currentPlacement = this.#config.placement;
+    this.#affix();
   }
 
   /**
    * Destroys the affixer.
    */
   public destroy(): void {
-    this.reset();
-    this._placementChange.complete();
-    this._offsetChange.complete();
-    this._overflowScroll.complete();
-
-    this._offsetChange =
-      this._placementChange =
-      this._overflowScroll =
-        undefined;
+    this.#reset();
+    this.#placementChange.complete();
+    this.#offsetChange.complete();
+    this.#overflowScroll.complete();
   }
 
-  private affix(): void {
-    this.baseRect = this.baseElement.getBoundingClientRect();
-    this.affixedRect = this.affixedElement.getBoundingClientRect();
+  #affix(): void {
+    const offset = this.#getOffset();
 
-    const offset = this.getOffset();
+    if (this.#isNewOffset(offset)) {
+      this.#renderer.setStyle(this.#affixedElement, 'top', `${offset.top}px`);
+      this.#renderer.setStyle(this.#affixedElement, 'left', `${offset.left}px`);
 
-    if (this.isNewOffset(offset)) {
-      this.renderer.setStyle(this.affixedElement, 'top', `${offset.top}px`);
-      this.renderer.setStyle(this.affixedElement, 'left', `${offset.left}px`);
-      this._offsetChange.next({ offset });
+      this.#offsetChange.next({ offset });
     }
   }
 
-  private getOffset(): SkyAffixOffset {
-    const parent = this.getAutoFitContextParent();
+  #getOffset(): SkyAffixOffset {
+    const parent = this.#getAutoFitContextParent();
 
     const maxAttempts = 4;
     let attempts = 0;
 
     let isAffixedElementFullyVisible = false;
-    let offset: SkyAffixOffset;
-    let placement = this.config.placement;
+    let offset: Required<SkyAffixOffset>;
+    let placement = this.#config.placement;
 
     do {
-      offset = this.getPreferredOffset(placement);
+      offset = this.#getPreferredOffset(placement);
       isAffixedElementFullyVisible = isOffsetFullyVisibleWithinParent(
         parent,
         offset,
-        this.config.autoFitOverflowOffset
+        this.#config.autoFitOverflowOffset
       );
 
-      if (!this.config.enableAutoFit) {
+      if (!this.#config.enableAutoFit) {
         break;
       }
 
@@ -185,30 +216,34 @@ export class SkyAffixer {
     } while (!isAffixedElementFullyVisible && attempts < maxAttempts);
 
     if (isAffixedElementFullyVisible) {
-      if (this.isBaseElementVisible()) {
-        this.notifyPlacementChange(placement);
+      if (this.#isBaseElementVisible()) {
+        this.#notifyPlacementChange(placement);
       } else {
-        this.notifyPlacementChange(null);
+        this.#notifyPlacementChange(null);
       }
 
       return offset;
     }
 
-    if (this.config.enableAutoFit) {
-      this.notifyPlacementChange(null);
+    if (this.#config.enableAutoFit) {
+      this.#notifyPlacementChange(null);
     }
 
     // No suitable placement was found, so revert to preferred placement.
-    return this.getPreferredOffset(this.config.placement);
+    return this.#getPreferredOffset(this.#config.placement);
   }
 
-  private getPreferredOffset(placement: SkyAffixPlacement): SkyAffixOffset {
-    const affixedRect = this.affixedRect;
-    const baseRect = this.baseRect;
+  #getPreferredOffset(placement: SkyAffixPlacement): Required<SkyAffixOffset> {
+    if (!this.#baseElement) {
+      return { top: 0, left: 0, bottom: 0, right: 0 };
+    }
 
-    const horizontalAlignment = this.config.horizontalAlignment;
-    const verticalAlignment = this.config.verticalAlignment;
-    const enableAutoFit = this.config.enableAutoFit;
+    const affixedRect = this.#affixedElement.getBoundingClientRect();
+    const baseRect = this.#baseElement.getBoundingClientRect();
+
+    const horizontalAlignment = this.#config.horizontalAlignment;
+    const verticalAlignment = this.#config.verticalAlignment;
+    const enableAutoFit = this.#config.enableAutoFit;
 
     let top: number;
     let left: number;
@@ -281,9 +316,16 @@ export class SkyAffixer {
       }
     }
 
-    let offset: SkyAffixOffset = { left, top };
+    const offset: Required<SkyAffixOffset> = { top, left, bottom: 0, right: 0 };
+
     if (enableAutoFit) {
-      offset = this.adjustOffsetToOverflowParent({ ...offset }, placement);
+      const adjustments = this.#adjustOffsetToOverflowParent(
+        { top, left },
+        placement,
+        this.#baseElement
+      );
+      offset.top = adjustments.top;
+      offset.left = adjustments.left;
     }
 
     offset.bottom = offset.top + affixedRect.height;
@@ -296,18 +338,19 @@ export class SkyAffixer {
    * Slightly adjust the offset to fit within the scroll parent's boundaries if
    * the affixed element would otherwise be clipped.
    */
-  private adjustOffsetToOverflowParent(
-    offset: SkyAffixOffset,
-    placement: SkyAffixPlacement
-  ): SkyAffixOffset {
-    const parent = this.getAutoFitContextParent();
+  #adjustOffsetToOverflowParent(
+    offset: { top: number; left: number },
+    placement: SkyAffixPlacement,
+    baseElement: HTMLElement
+  ): { top: number; left: number } {
+    const parent = this.#getAutoFitContextParent();
     const parentOffset = getElementOffset(
       parent,
-      this.config.autoFitOverflowOffset
+      this.#config.autoFitOverflowOffset
     );
 
-    const affixedRect = this.affixedRect;
-    const baseRect = this.baseRect;
+    const affixedRect = this.#affixedElement.getBoundingClientRect();
+    const baseRect = baseElement.getBoundingClientRect();
 
     // A pixel value representing the leeway between the edge of the overflow parent and the edge
     // of the base element before it dissapears from view.
@@ -368,102 +411,107 @@ export class SkyAffixer {
     return offset;
   }
 
-  private getImmediateOverflowParent(): HTMLElement {
-    return this.overflowParents[this.overflowParents.length - 1];
+  #getImmediateOverflowParent(): HTMLElement {
+    return this.#overflowParents[this.#overflowParents.length - 1];
   }
 
-  private getAutoFitContextParent(): HTMLElement {
-    const bodyElement = this.overflowParents[0];
+  #getAutoFitContextParent(): HTMLElement {
+    const bodyElement = this.#overflowParents[0];
 
-    return this.config.autoFitContext === SkyAffixAutoFitContext.OverflowParent
-      ? this.getImmediateOverflowParent()
+    return this.#config.autoFitContext === SkyAffixAutoFitContext.OverflowParent
+      ? this.#getImmediateOverflowParent()
       : bodyElement;
   }
 
-  private notifyPlacementChange(placement: SkyAffixPlacement | null): void {
-    if (this.currentPlacement !== placement) {
-      this.currentPlacement = placement;
-      this._placementChange.next({
+  #notifyPlacementChange(placement: SkyAffixPlacement | null): void {
+    if (this.#currentPlacement !== placement) {
+      this.#currentPlacement = placement ?? undefined;
+      this.#placementChange.next({
         placement,
       });
     }
   }
 
-  private reset(): void {
-    this.removeScrollListeners();
-    this.removeResizeListener();
+  #reset(): void {
+    this.#removeScrollListeners();
+    this.#removeResizeListener();
 
-    this._config =
-      this.affixedRect =
-      this.baseElement =
-      this.baseRect =
-      this.currentPlacement =
-      this.currentOffset =
-      this.overflowParents =
+    this.#overflowParents = [];
+
+    this.#config =
+      this.#baseElement =
+      this.#currentPlacement =
+      this.#currentOffset =
         undefined;
   }
 
-  private isNewOffset(offset: SkyAffixOffset): boolean {
-    if (this.currentOffset === undefined) {
-      this.currentOffset = offset;
+  #isNewOffset(offset: SkyAffixOffset): boolean {
+    if (this.#currentOffset === undefined) {
+      this.#currentOffset = offset;
       return true;
     }
 
     if (
-      this.currentOffset.top === offset.top &&
-      this.currentOffset.left === offset.left
+      this.#currentOffset.top === offset.top &&
+      this.#currentOffset.left === offset.left
     ) {
       return false;
     }
 
-    this.currentOffset = offset;
+    this.#currentOffset = offset;
 
     return true;
   }
 
-  private isBaseElementVisible(): boolean {
+  #isBaseElementVisible(): boolean {
+    if (!this.#baseElement) {
+      return false;
+    }
+
+    const baseRect = this.#baseElement.getBoundingClientRect();
+
     return isOffsetPartiallyVisibleWithinParent(
-      this.getImmediateOverflowParent(),
+      this.#getImmediateOverflowParent(),
       {
-        top: this.baseRect.top,
-        left: this.baseRect.left,
-        right: this.baseRect.right,
-        bottom: this.baseRect.bottom,
+        top: baseRect.top,
+        left: baseRect.left,
+        right: baseRect.right,
+        bottom: baseRect.bottom,
       },
-      this.config.autoFitOverflowOffset
+      this.#config.autoFitOverflowOffset
     );
   }
 
-  private addScrollListeners(): void {
-    this.scrollListeners = this.overflowParents.map((parentElement) => {
+  #addScrollListeners(): void {
+    this.#scrollListeners = this.#overflowParents.map((parentElement) => {
       const overflow =
         parentElement === document.body ? 'window' : parentElement;
-      return this.renderer.listen(overflow, 'scroll', () => {
-        this.affix();
-        this._overflowScroll.next();
+      return this.#renderer.listen(overflow, 'scroll', () => {
+        this.#affix();
+        this.#overflowScroll.next();
       });
     });
   }
 
-  private addResizeListener(): void {
-    this.resizeListener = fromEvent(window, 'resize').subscribe(() =>
-      this.affix()
+  #addResizeListener(): void {
+    this.#resizeListener = fromEvent(window, 'resize').subscribe(() =>
+      this.#affix()
     );
   }
 
-  private removeResizeListener(): void {
-    if (this.resizeListener) {
-      this.resizeListener.unsubscribe();
-      this.resizeListener = undefined;
+  #removeResizeListener(): void {
+    if (this.#resizeListener) {
+      this.#resizeListener.unsubscribe();
+      this.#resizeListener = undefined;
     }
   }
 
-  private removeScrollListeners(): void {
-    if (this.scrollListeners) {
+  #removeScrollListeners(): void {
+    if (this.#scrollListeners) {
       // Remove renderer-generated listeners by calling the listener itself.
       // https://github.com/angular/angular/issues/9368#issuecomment-227199778
-      this.scrollListeners.forEach((listener) => listener());
-      this.scrollListeners = undefined;
+      this.#scrollListeners.forEach((listener) => listener());
+      this.#scrollListeners = undefined;
     }
   }
 }

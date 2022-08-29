@@ -8,6 +8,8 @@ import { SkyMediaQueryListener } from '../media-query/media-query-listener';
 
 import { SkyResizeObserverService } from './resize-observer.service';
 
+const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
+
 /**
  * Acts like `SkyMediaQueryService` for a container element, emitting the same responsive breakpoints.
  */
@@ -18,8 +20,8 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   /**
    * Returns the current breakpoint.
    */
-  public get current(): SkyMediaBreakpoints | undefined {
-    return this._currentBreakpoint;
+  public get current(): SkyMediaBreakpoints {
+    return this.#currentBreakpoint;
   }
 
   #breakpoints: {
@@ -44,28 +46,26 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
     },
   ];
 
-  #currentBreakpointObservable = new ReplaySubject<
-    SkyMediaBreakpoints | undefined
-  >(1);
+  #currentBreakpoint: SkyMediaBreakpoints = DEFAULT_BREAKPOINT;
 
-  private _currentBreakpoint: SkyMediaBreakpoints;
+  #currentBreakpointObs = new ReplaySubject<SkyMediaBreakpoints>(1);
 
-  #stopListening = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  #target: ElementRef;
+  #resizeObserverSvc: SkyResizeObserverService;
 
-  constructor(private resizeObserverService: SkyResizeObserverService) {
-    this.#stopListening.subscribe(() => {
-      this.#target = undefined;
-      this.updateBreakpoint(undefined);
-    });
+  #target: ElementRef | undefined;
+
+  constructor(resizeObserverSvc: SkyResizeObserverService) {
+    this.#resizeObserverSvc = resizeObserverSvc;
   }
 
   public ngOnDestroy(): void {
-    this.#stopListening.next();
-    this._currentBreakpoint = undefined;
-    this.#stopListening.complete();
-    this.#currentBreakpointObservable.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+
+    this.#target = undefined;
+    this.#currentBreakpointObs.complete();
   }
 
   /**
@@ -85,21 +85,20 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
         return this;
       }
 
-      this.#stopListening.next();
+      this.#ngUnsubscribe.next();
     }
 
     this.#target = element;
 
-    this.checkWidth(element);
+    this.#checkWidth(element);
 
-    this.resizeObserverService
+    this.#resizeObserverSvc
       .observe(element)
-      .pipe(takeUntil(this.#stopListening))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
-        const breakpoint = this.checkBreakpoint(value.contentRect.width);
-        /* istanbul ignore else */
-        if (breakpoint !== this.current) {
-          this.updateBreakpoint(breakpoint);
+        const breakpoint = this.#checkBreakpoint(value.contentRect.width);
+        if (breakpoint && breakpoint !== this.current) {
+          this.#updateBreakpoint(breakpoint);
         }
       });
     return this;
@@ -109,42 +108,39 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    * Stop watching the container element.
    */
   public unobserve(): void {
-    this.#stopListening.next();
+    this.#ngUnsubscribe.next();
   }
 
   /**
    * Subscribes to element size changes that cross breakpoints.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.#currentBreakpointObservable
-      .pipe(takeUntil(this.#stopListening))
+    return this.#currentBreakpointObs
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((value) => {
         listener(value);
       });
   }
 
-  private updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
-    this._currentBreakpoint = breakpoint;
-    this.#currentBreakpointObservable.next(breakpoint);
+  #updateBreakpoint(breakpoint: SkyMediaBreakpoints) {
+    this.#currentBreakpoint = breakpoint;
+    this.#currentBreakpointObs.next(breakpoint);
   }
 
-  private checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
+  #checkBreakpoint(width: number): SkyMediaBreakpoints | undefined {
     const breakpoint = this.#breakpoints.find((breakpoint) =>
       breakpoint.check(width)
     );
 
-    /* istanbul ignore else */
-    if (breakpoint) {
-      return breakpoint.name;
-    }
+    return breakpoint ? breakpoint.name : undefined;
   }
 
-  private checkWidth(element: ElementRef) {
-    const width = (element.nativeElement as HTMLElement).offsetWidth || 0;
-    const breakpoint = this.checkBreakpoint(width);
-    /* istanbul ignore else */
-    if (breakpoint !== this._currentBreakpoint) {
-      this.updateBreakpoint(breakpoint);
+  #checkWidth(el: ElementRef): void {
+    const width = (el.nativeElement as HTMLElement).offsetWidth || 0;
+    const breakpoint = this.#checkBreakpoint(width);
+
+    if (breakpoint && breakpoint !== this.#currentBreakpoint) {
+      this.#updateBreakpoint(breakpoint);
     }
   }
 }

@@ -89,7 +89,7 @@ describe('Numeric pipe', () => {
       fixture.detectChanges();
 
       // Get formatted date and remove unwanted special characters.
-      const el = document.querySelector('p');
+      const el = document.querySelector('p') as HTMLParagraphElement;
       const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
 
       const expected = [
@@ -107,7 +107,7 @@ describe('Numeric pipe', () => {
       fixture.detectChanges();
 
       // Get formatted date and remove unwanted special characters.
-      const el = document.querySelector('p');
+      const el = document.querySelector('p') as HTMLParagraphElement;
       const actual = el.innerHTML.trim().replace(/&nbsp;/g, ' ');
 
       // Expect russian default format of ### ### ###,## [SYMBOL].

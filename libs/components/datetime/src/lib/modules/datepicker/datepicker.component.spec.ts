@@ -366,16 +366,23 @@ describe('datepicker', () => {
     }));
 
     it('should hide when datepicker is scrolled off screen', fakeAsync(() => {
+      // Make the body element scrollable.
+      window.document.body.style.height = '5000px';
+
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
 
-      const affixer = component.datepicker['affixer'];
-      affixer['_placementChange'].next({ placement: null });
+      // Scroll datepicker offscreen.
+      window.scrollTo(0, 1000);
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
       fixture.detectChanges();
       tick();
 
       expect(component.datepicker.isVisible).toBe(false);
+
+      // Reset body height.
+      window.document.body.style.height = 'initial';
     }));
 
     it('should handle non-keyboard events', fakeAsync(() => {
