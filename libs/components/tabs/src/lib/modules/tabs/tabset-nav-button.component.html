@@ -5,7 +5,7 @@
   [disabled]="disabled"
   [ngClass]="buttonClassName"
   [type]="type"
-  (click)="buttonClick()"
+  (click)="buttonType === 'finish' ? null : buttonClick()"
 >
   {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
 </button>

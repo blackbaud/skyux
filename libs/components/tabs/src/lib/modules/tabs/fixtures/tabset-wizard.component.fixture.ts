@@ -15,6 +15,14 @@ export class SkyWizardTestFormComponent {
 
   public selectedTab = 0;
 
+  public finishDisabled = undefined;
+
+  public renderFinishButton = false;
+
+  public passTabset = true;
+
+  public onSave: () => void;
+
   public validateStep1() {
     return true;
   }

@@ -29,23 +29,23 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   public set tabset(value: SkyTabsetComponent) {
     this.#_tabset = value;
 
+    if (this.#currentTabsetSub) {
+      this.#currentTabsetSub.unsubscribe();
+    }
+
     if (value) {
-      if (this.buttonType === buttonTypeFinish) {
+      if (this.#_buttonType === buttonTypeFinish) {
         this.#_tabset.hasFinishButton = true;
       }
 
-      if (this.#currentSub) {
-        this.#currentSub.unsubscribe();
-      }
-
-      this.#currentSub = this.#_tabset.activeChange
+      this.#currentTabsetSub = this.#_tabset.activeChange
         .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
         .subscribe((index: SkyTabIndex) => {
-          this.#activeIndex = index;
+          this.#activeSkyTabIndex = index;
           this.#tabCount = this.#_tabset.tabs.length;
+          this.#updateTabToSelect();
           this.#updateButtonVisibility();
-          this.#updateButtonClassName();
-          this.#updateAriaControls();
+          this.#updateButtonProperties();
         });
     } else {
       this.#logger.error(
@@ -65,7 +65,9 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
   public set buttonType(value: SkyTabsetNavButtonType) {
     this.#_buttonType = value;
-    this.#updateButtonClassName();
+    this.#updateTabToSelect();
+    this.#updateButtonProperties();
+    this.#updateButtonVisibility();
 
     if (value === buttonTypeFinish) {
       this.type = 'submit';
@@ -76,7 +78,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
   /**
    * Specifies the label to display on the nav button. The following are the defaults for each `buttonType`.
-   * `next` = "Next", `previous` = "Previous"
+   * `next` = "Next", `previous` = "Previous", `finish` = "Finish"
    */
   @Input()
   public buttonText?: string | undefined;
@@ -98,21 +100,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
       return false;
     }
 
-    let tabToSelect: SkyTabComponent;
-
-    switch (this.buttonType) {
-      case buttonTypePrevious:
-        tabToSelect = this.previousTab;
-        break;
-      case buttonTypeNext:
-        tabToSelect = this.nextTab;
-        break;
-      /* istanbul ignore next */
-      default:
-        break;
-    }
-
-    return !tabToSelect || tabToSelect.disabled;
+    return !this.#tabToSelect || this.#tabToSelect.disabled;
   }
 
   public buttonClassName: string;
@@ -123,48 +111,16 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   #_buttonType: SkyTabsetNavButtonType;
   #_disabled: boolean | undefined;
   #_tabset: SkyTabsetComponent;
-  #activeIndex: SkyTabIndex;
-  #currentSub: Subscription;
+  #activeIndexNumber: number;
+  #activeSkyTabIndex: SkyTabIndex;
+  #currentTabsetSub: Subscription;
   #logger: SkyLogService;
   #tabCount: number;
+  #tabToSelect: SkyTabComponent | undefined;
   #ngUnsubscribe = new Subject<void>();
-
-  private get selectedTab(): SkyTabComponent {
-    let selectedTab: SkyTabComponent;
-
-    if (this.#_tabset && this.#_tabset.tabs) {
-      selectedTab = this.#_tabset.tabs.find(
-        (tab) => tab.tabIndex === this.#_tabset.lastActiveTabIndex
-      );
-    }
-
-    return selectedTab;
-  }
 
   constructor(logger: SkyLogService) {
     this.#logger = logger;
-  }
-
-  private get nextTab(): SkyTabComponent {
-    const selectedTab = this.selectedTab;
-
-    if (selectedTab) {
-      const tabs = this.#_tabset.tabs.toArray();
-      return tabs[tabs.indexOf(selectedTab) + 1];
-    }
-
-    return undefined;
-  }
-
-  private get previousTab(): SkyTabComponent {
-    const selectedTab = this.selectedTab;
-
-    if (selectedTab) {
-      const tabs = this.#_tabset.tabs.toArray();
-      return tabs[tabs.indexOf(selectedTab) - 1];
-    }
-
-    return undefined;
   }
 
   public ngOnDestroy(): void {
@@ -173,37 +129,23 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   }
 
   public buttonClick() {
-    let tabToSelect: SkyTabComponent;
-
-    switch (this.buttonType) {
-      case buttonTypePrevious:
-        tabToSelect = this.previousTab;
-        break;
-      case buttonTypeNext:
-        tabToSelect = this.nextTab;
-        break;
-      /* istanbul ignore next */
-      default:
-        break;
-    }
-
     /* istanbul ignore else */
-    if (tabToSelect && !tabToSelect.disabled) {
-      this.#_tabset.active = tabToSelect.tabIndex;
+    if (this.#tabToSelect && !this.#tabToSelect.disabled) {
+      this.#_tabset.active = this.#tabToSelect.tabIndex;
     }
   }
 
   #updateButtonVisibility(): void {
-    const isLastStep = this.#activeIndex === this.#tabCount - 1;
+    const isLastStep = this.#activeIndexNumber === this.#tabCount - 1;
 
-    if (this.buttonType === buttonTypeFinish) {
+    if (this.#_buttonType === buttonTypeFinish) {
       this.isVisible = isLastStep;
       return;
     }
 
     // Hide the next button on the last step only if a finish button exists.
     if (
-      this.buttonType === buttonTypeNext &&
+      this.#_buttonType === buttonTypeNext &&
       isLastStep &&
       this.#_tabset.hasFinishButton
     ) {
@@ -214,7 +156,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     this.isVisible = true;
   }
 
-  #updateButtonClassName(): void {
+  #updateButtonProperties(): void {
     if (
       (this.#_buttonType === buttonTypeNext ||
         this.#_buttonType === buttonTypeFinish) &&
@@ -224,13 +166,28 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     } else {
       this.buttonClassName = 'sky-btn-default';
     }
+
+    this.ariaControls = this.#tabToSelect?.tabPanelId;
   }
 
-  #updateAriaControls(): void {
-    if (this.#_buttonType === buttonTypePrevious) {
-      this.ariaControls = this.previousTab?.tabPanelId;
-    } else if (this.#_buttonType === buttonTypeNext) {
-      this.ariaControls = this.nextTab?.tabPanelId;
+  #updateTabToSelect(): void {
+    if (this.#_tabset?.tabs) {
+      const tabs = this.#_tabset.tabs.toArray();
+      this.#tabToSelect = undefined;
+
+      // tab index can be a number or a string, but we need the actual number index
+      this.#activeIndexNumber = tabs.findIndex(
+        (tab) => tab.tabIndex === this.#activeSkyTabIndex
+      );
+
+      /* istanbul ignore else */
+      if (this.#activeIndexNumber !== undefined) {
+        if (this.#_buttonType === buttonTypeNext) {
+          this.#tabToSelect = tabs[this.#activeIndexNumber + 1];
+        } else if (this.#_buttonType === buttonTypePrevious) {
+          this.#tabToSelect = tabs[this.#activeIndexNumber - 1];
+        }
+      }
     }
   }
 }
