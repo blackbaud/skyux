@@ -63,8 +63,8 @@ export class SkyAuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let auth: boolean | undefined;
-    let permissionScope: string | null | undefined;
+    let auth = false;
+    let permissionScope: string | undefined;
 
     const params = request.params;
 
@@ -74,7 +74,8 @@ export class SkyAuthInterceptor implements HttpInterceptor {
         params.has(SKY_AUTH_PARAM_PERMISSION_SCOPE))
     ) {
       auth = params.get(SKY_AUTH_PARAM_AUTH) === 'true';
-      permissionScope = params.get(SKY_AUTH_PARAM_PERMISSION_SCOPE);
+      permissionScope =
+        params.get(SKY_AUTH_PARAM_PERMISSION_SCOPE) ?? undefined;
 
       request = removeSkyParams(request);
     }
