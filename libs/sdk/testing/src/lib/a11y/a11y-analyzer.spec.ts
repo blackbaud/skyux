@@ -14,8 +14,14 @@ describe('A11y analyzer', () => {
 
     spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
-    SkyA11yAnalyzer.run().catch((err) => {
+    SkyA11yAnalyzer.run('element').catch((err) => {
       expect(err.message).toEqual('some error');
     });
+  });
+
+  it('should handle undefined elements', () => {
+    expect(() => SkyA11yAnalyzer.run()).toThrowError(
+      'No element was specified for accessibility checking.'
+    );
   });
 });
