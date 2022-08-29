@@ -6,7 +6,7 @@ import {
   OnInit,
   TemplateRef,
 } from '@angular/core';
-import { SkyLogService } from '@skyux/core';
+import { SkyIdService, SkyLogService } from '@skyux/core';
 import { SkyModalInstance } from '@skyux/modals';
 
 import { Subject, Subscription } from 'rxjs';
@@ -36,6 +36,11 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
   public displayedItems: any[] = [];
 
   public hasMoreItems = false;
+
+  /**
+   * Used to associate this modal with its owning lookup component.
+   */
+  public id: string;
 
   public isLoadingMore = false;
 
@@ -67,10 +72,13 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
     public modalInstance: SkyModalInstance,
     public context: SkyLookupShowMoreNativePickerAsyncContext,
     changeDetector: ChangeDetectorRef,
+    idSvc: SkyIdService,
     logSvc: SkyLogService
   ) {
     this.#changeDetector = changeDetector;
     this.#logSvc = logSvc;
+
+    this.id = idSvc.generateId();
   }
 
   public ngOnInit(): void {

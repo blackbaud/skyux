@@ -10,8 +10,11 @@ import { SkyModalInstance } from '../modal-instance';
 export class ModalWithCloseConfirmTestComponent {
   public unsavedWork = true;
 
-  constructor(private modalInstance: SkyModalInstance) {
-    this.modalInstance.beforeClose.subscribe(
+  #modalInstance: SkyModalInstance;
+
+  constructor(modalInstance: SkyModalInstance) {
+    this.#modalInstance = modalInstance;
+    this.#modalInstance.beforeClose.subscribe(
       (closeHandler: SkyModalBeforeCloseHandler) => {
         this.beforeCloseHandler(closeHandler);
       }

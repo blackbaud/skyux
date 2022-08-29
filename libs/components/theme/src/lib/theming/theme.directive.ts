@@ -22,34 +22,42 @@ const defaultTheme = new SkyThemeSettings(
 export class SkyThemeDirective implements OnInit, OnDestroy {
   @Input()
   public set skyTheme(value: SkyThemeSettings | undefined) {
-    this._skyTheme = value || defaultTheme;
+    this.skyThemeOrDefault = value || defaultTheme;
 
-    if (this.initialized) {
-      this.themeSvc.setTheme(this._skyTheme);
+    if (this.#initialized) {
+      this.#themeSvc.setTheme(this.skyThemeOrDefault);
     }
   }
 
-  public get skyTheme(): SkyThemeSettings | undefined {
-    return this._skyTheme;
-  }
+  public skyThemeOrDefault = defaultTheme;
 
-  private initialized = false;
+  #initialized = false;
 
-  private _skyTheme = defaultTheme;
+  #elRef: ElementRef;
+  #renderer: Renderer2;
+  #themeSvc: SkyThemeService;
 
   constructor(
-    private elRef: ElementRef,
-    private renderer: Renderer2,
-    private themeSvc: SkyThemeService
-  ) {}
+    elRef: ElementRef,
+    renderer: Renderer2,
+    themeSvc: SkyThemeService
+  ) {
+    this.#elRef = elRef;
+    this.#renderer = renderer;
+    this.#themeSvc = themeSvc;
+  }
 
   public ngOnInit(): void {
-    this.themeSvc.init(this.elRef.nativeElement, this.renderer, this.skyTheme!);
+    this.#themeSvc.init(
+      this.#elRef.nativeElement,
+      this.#renderer,
+      this.skyThemeOrDefault
+    );
 
-    this.initialized = true;
+    this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
-    this.themeSvc.destroy();
+    this.#themeSvc.destroy();
   }
 }

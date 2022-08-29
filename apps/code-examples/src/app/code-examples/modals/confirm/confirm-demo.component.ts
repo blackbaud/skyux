@@ -15,10 +15,14 @@ export class ConfirmDemoComponent {
 
   public selectedText: string | undefined;
 
-  constructor(private confirmService: SkyConfirmService) {}
+  #confirmSvc: SkyConfirmService;
+
+  constructor(confirmSvc: SkyConfirmService) {
+    this.#confirmSvc = confirmSvc;
+  }
 
   public openOKConfirm(): void {
-    const dialog: SkyConfirmInstance = this.confirmService.open({
+    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
       message:
         'Use the OK button type for information that does not require user action.',
       type: SkyConfirmType.OK,
@@ -37,7 +41,7 @@ export class ConfirmDemoComponent {
       { text: 'Cancel', action: 'cancel', styleType: 'link' },
     ];
 
-    const dialog: SkyConfirmInstance = this.confirmService.open({
+    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
       message: 'Use the Custom button type to define your own buttons.',
       body: 'Labels should clearly indicate the action occurs when users select the button.',
       type: SkyConfirmType.Custom,

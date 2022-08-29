@@ -14,22 +14,22 @@ export class SkyThemeService {
    * Notifies consumers when the current theme settings have changed.
    */
   public get settingsChange(): Observable<SkyThemeSettingsChange> {
-    return this.settingsObs;
+    return this.#_settingsObs;
   }
 
-  private current: SkyThemeSettings | undefined;
+  #current: SkyThemeSettings | undefined;
 
-  private hostEl: any | undefined;
+  #hostEl: any | undefined;
 
-  private renderer: Renderer2 | undefined;
+  #renderer: Renderer2 | undefined;
 
-  private settings: ReplaySubject<SkyThemeSettingsChange>;
+  #settings: ReplaySubject<SkyThemeSettingsChange>;
 
-  private settingsObs: Observable<SkyThemeSettingsChange>;
+  #_settingsObs: Observable<SkyThemeSettingsChange>;
 
   constructor() {
-    this.settings = new ReplaySubject<SkyThemeSettingsChange>(1);
-    this.settingsObs = this.settings.asObservable();
+    this.#settings = new ReplaySubject<SkyThemeSettingsChange>(1);
+    this.#_settingsObs = this.#settings.asObservable();
   }
 
   /**
@@ -40,8 +40,8 @@ export class SkyThemeService {
    * @param theme The initial theme.
    */
   public init(hostEl: any, renderer: Renderer2, theme: SkyThemeSettings): void {
-    this.hostEl = hostEl;
-    this.renderer = renderer;
+    this.#hostEl = hostEl;
+    this.#renderer = renderer;
 
     this.setTheme(theme);
   }
@@ -51,9 +51,9 @@ export class SkyThemeService {
    * provides its own theme to child components.
    */
   public destroy(): void {
-    this.settings.complete();
+    this.#settings.complete();
 
-    this.hostEl = this.renderer = undefined;
+    this.#hostEl = this.#renderer = undefined;
   }
 
   /**
@@ -61,20 +61,20 @@ export class SkyThemeService {
    * @param settings The new theme settings to apply.
    */
   public setTheme(settings: SkyThemeSettings): void {
-    const previousSettings = this.current;
+    const previousSettings = this.#current;
 
-    this.applySettings(previousSettings, settings);
-    this.applyThemeMode(previousSettings, settings);
+    this.#applySettings(previousSettings, settings);
+    this.#applyThemeMode(previousSettings, settings);
 
-    this.settings.next({
+    this.#settings.next({
       currentSettings: settings,
       previousSettings,
     });
 
-    this.current = settings;
+    this.#current = settings;
   }
 
-  private applySettings(
+  #applySettings(
     previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings
   ): void {
@@ -85,14 +85,14 @@ export class SkyThemeService {
 
     if (hostClassChanged) {
       if (previousClass) {
-        this.removeHostClass(previousClass);
+        this.#removeHostClass(previousClass);
       }
 
-      this.addHostClass(currentClass);
+      this.#addHostClass(currentClass);
     }
   }
 
-  private applyThemeMode(
+  #applyThemeMode(
     previous: SkyThemeSettings | undefined,
     current: SkyThemeSettings
   ): void {
@@ -103,20 +103,20 @@ export class SkyThemeService {
 
     if (hostModeClassChanged) {
       if (previousClass) {
-        this.removeHostClass(previousClass);
+        this.#removeHostClass(previousClass);
       }
 
       if (current.theme.supportedModes.indexOf(current.mode) >= 0) {
-        this.addHostClass(currentClass);
+        this.#addHostClass(currentClass);
       }
     }
   }
 
-  private addHostClass(className: string): void {
-    this.renderer!.addClass(this.hostEl, className);
+  #addHostClass(className: string): void {
+    this.#renderer!.addClass(this.#hostEl, className);
   }
 
-  private removeHostClass(className: string): void {
-    this.renderer!.removeClass(this.hostEl, className);
+  #removeHostClass(className: string): void {
+    this.#renderer!.removeClass(this.#hostEl, className);
   }
 }
