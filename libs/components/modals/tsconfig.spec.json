@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "../../../dist/out-tsc",
     "types": ["jasmine", "node"],
-    "_comment": "// TODO: Re-enable strict mode for tests after we enable strict mode for core and indicators.",
     "strict": false,
     "forceConsistentCasingInFileNames": false,
     "noImplicitReturns": false,
