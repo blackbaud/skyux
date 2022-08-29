@@ -18,18 +18,7 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            .then(() => {
-              if (theme !== 'modern-dark') {
-                return cy
-                  .get('input[placeholder="Find in this list"]')
-                  .should('exist')
-                  .should('be.visible')
-                  .end()
-                  .get('#root');
-              } else {
-                return cy.get('#root');
-              }
-            })
+            .get('#root')
             .should('exist')
             .should('be.visible')
             .screenshot(

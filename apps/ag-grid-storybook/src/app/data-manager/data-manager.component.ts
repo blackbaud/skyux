@@ -41,9 +41,6 @@ export class DataManagerComponent implements OnInit {
   @Input()
   public enableTopScroll = true;
 
-  @Input()
-  public theme: 'default' | 'modern-light' | 'modern-dark' = 'default';
-
   public dataManagerConfig: SkyDataManagerConfig = {};
 
   public defaultDataState = new SkyDataManagerState({
@@ -114,7 +111,7 @@ export class DataManagerComponent implements OnInit {
       id: this.viewId,
       name: 'Grid View',
       icon: 'table',
-      searchEnabled: this.theme !== 'modern-dark',
+      searchEnabled: false,
       sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,

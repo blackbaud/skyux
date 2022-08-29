@@ -13,14 +13,8 @@ export default {
     }),
   ],
 } as Meta<DataManagerComponent>;
-const Template: Story<DataManagerComponent> = (
-  args: DataManagerComponent,
-  { globals: { theme } }
-) => ({
-  props: {
-    theme,
-    ...args,
-  },
+const Template: Story<DataManagerComponent> = (args: DataManagerComponent) => ({
+  props: args,
 });
 
 export const DataManagerNormal = Template.bind({});
