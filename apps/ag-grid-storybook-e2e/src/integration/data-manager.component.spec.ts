@@ -33,6 +33,13 @@
               {
                 widths: [1280],
                 scope: '#root',
+                // Avoid "virtual rows" in the screenshot.
+                percyCSS: `
+                  :root {
+                    --viewport-height: 600px;
+                  }
+                `,
+                enableJavaScript: true,
               }
             );
         });
