@@ -18,16 +18,6 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            // Enter text in the search input.
-            .get('input[placeholder="Find in this list"]')
-            .should('exist')
-            .should('be.visible')
-            .type('search text')
-            .end()
-            // Click out of the search input by clicking the center of the next toolbar.
-            .get('.sky-data-manager-multiselect-toolbar')
-            .click('center')
-            .end()
             .get('#root')
             .should('exist')
             .should('be.visible')
@@ -39,13 +29,12 @@
               {
                 widths: [1280],
                 scope: '#root',
-                // Avoid "virtual rows" in the screenshot.
                 percyCSS: `
+                  /* Avoid "virtual rows" in the screenshot. */
                   :root {
                     --viewport-height: 600px;
                   }
                 `,
-                enableJavaScript: true,
               }
             );
         });
