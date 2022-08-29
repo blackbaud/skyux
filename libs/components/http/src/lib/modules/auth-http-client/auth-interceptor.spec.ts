@@ -322,30 +322,4 @@ describe('Auth interceptor', () => {
       jasmine.objectContaining(expectedTokenArgs)
     );
   });
-
-  // describe('with missing SkyAppConfig', () => {
-  //   it('should fall back to params provider if SkyAppConfig is undefined', (done) => {
-  //     const config = createAppConfig();
-
-  //     const interceptor = new SkyAuthInterceptor(undefined, {
-  //       params: config.runtime.params,
-  //     } as any);
-
-  //     validateTokenizedUrl(interceptor, done);
-  //   });
-  // });
-
-  // describe('with missing config and params', () => {
-  //   it('should return an undefined url if no params are available', (done) => {
-  //     const interceptor = new SkyNoAuthInterceptor(undefined, undefined);
-
-  //     const request = createRequest(false, '1bb://eng-hub00-pusa01/version');
-
-  //     validateRequest(next, done, (authRequest) => {
-  //       expect(authRequest.url).toBe('1bb://eng-hub00-pusa01/version');
-  //     });
-
-  //     interceptor.intercept(request, next).subscribe();
-  //   });
-  // });
 });
