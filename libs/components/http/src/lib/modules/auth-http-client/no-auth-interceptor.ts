@@ -15,10 +15,16 @@ import { SKY_AUTH_PARAM_AUTH } from './auth-interceptor-params';
 
 @Injectable()
 export class SkyNoAuthInterceptor implements HttpInterceptor {
+  #config: SkyAppConfig | undefined;
+  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+
   constructor(
-    @Optional() private config?: SkyAppConfig,
-    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
-  ) {}
+    @Optional() config?: SkyAppConfig,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
+  ) {
+    this.#config = config;
+    this.#paramsProvider = paramsProvider;
+  }
 
   public intercept(
     request: HttpRequest<any>,
@@ -33,10 +39,10 @@ export class SkyNoAuthInterceptor implements HttpInterceptor {
       return from(BBAuthClientFactory.BBAuth.getUrl(request.url)).pipe(
         switchMap((url) => {
           const runtimeParams =
-            this.config?.runtime.params || this.paramsProvider.params;
+            this.#config?.runtime.params || this.#paramsProvider?.params;
 
           const newRequest = request.clone({
-            url: runtimeParams.getUrl(url),
+            url: runtimeParams?.getUrl(url),
           });
 
           return next.handle(newRequest);

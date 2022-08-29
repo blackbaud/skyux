@@ -27,17 +27,24 @@ describe('Auth interceptor', () => {
     envId?: string,
     leId?: string,
     getUrlResult?: string,
-    useParamsProvider?: boolean
+    useParamsProvider?: boolean,
+    excludeAppConfig?: boolean
   ) {
     let paramsProvider: any;
 
-    let appConfig = createAppConfig(envId, leId, getUrlResult);
+    let appConfig: { runtime: any; skyux: {} } | undefined = createAppConfig(
+      envId,
+      leId,
+      getUrlResult
+    );
 
     if (useParamsProvider) {
       paramsProvider = {
         params: appConfig.runtime.params,
       };
+    }
 
+    if (useParamsProvider || excludeAppConfig) {
       appConfig = undefined;
     }
 
@@ -50,9 +57,9 @@ describe('Auth interceptor', () => {
   }
 
   function validateContext(
-    envId: string,
-    leId: string,
-    permissionScope: string,
+    envId: string | undefined,
+    leId: string | undefined,
+    permissionScope: string | undefined,
     expectedUrl: string,
     done: DoneFn
   ): void {
@@ -205,6 +212,24 @@ describe('Auth interceptor', () => {
     const interceptor = createInteceptor(undefined, undefined, undefined, true);
 
     validateHardcodedZoneUrl(interceptor, done);
+  });
+
+  it('should return original url if no config or params provider is given', (done) => {
+    const interceptor = createInteceptor(
+      undefined,
+      undefined,
+      undefined,
+      false,
+      true
+    );
+
+    const request = createRequest(true, '1bb://eng-hub00/version');
+
+    validateRequest(next, done, (authRequest) => {
+      expect(authRequest.url).toBe('1bb://eng-hub00/version');
+    });
+
+    interceptor.intercept(request, next).subscribe();
   });
 
   it('should convert tokenized urls and get zone from the token.', (done) => {

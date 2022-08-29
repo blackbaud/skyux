@@ -12,7 +12,11 @@ export class SkyAppStyleLoader {
   public static readonly LOAD_TIMEOUT = 3000;
   public isLoaded = false;
 
-  public constructor(@Optional() private themeSvc?: SkyThemeService) {}
+  #themeSvc: SkyThemeService | undefined;
+
+  public constructor(@Optional() themeSvc?: SkyThemeService) {
+    this.#themeSvc = themeSvc;
+  }
 
   public loadStyles(): Promise<any> {
     if (this.isLoaded) {
@@ -21,8 +25,8 @@ export class SkyAppStyleLoader {
 
     let themePromise: Promise<any>;
 
-    if (this.themeSvc) {
-      themePromise = this.themeSvc.settingsChange.pipe(take(1)).toPromise();
+    if (this.#themeSvc) {
+      themePromise = this.#themeSvc.settingsChange.pipe(take(1)).toPromise();
     } else {
       themePromise = Promise.resolve();
     }
