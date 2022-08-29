@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  ElementRef,
   Injector,
   OnDestroy,
   ViewChild,
@@ -57,8 +58,10 @@ export class SkyModalHostComponent implements OnDestroy {
   #injector: Injector;
   #router: Router;
   #changeDetector: ChangeDetectorRef;
-
   #modalHostContext: SkyModalHostContext;
+  #elRef: ElementRef;
+
+  #ariaPreviousValueSiblings = new Map<Element, string | null>();
 
   #modalInstances: SkyModalInstance[] = [];
 
@@ -68,7 +71,8 @@ export class SkyModalHostComponent implements OnDestroy {
     injector: Injector,
     router: Router,
     changeDetector: ChangeDetectorRef,
-    modalHostContext: SkyModalHostContext
+    modalHostContext: SkyModalHostContext,
+    elRef: ElementRef
   ) {
     this.#resolver = resolver;
     this.#adapter = adapter;
@@ -76,12 +80,23 @@ export class SkyModalHostComponent implements OnDestroy {
     this.#router = router;
     this.#changeDetector = changeDetector;
     this.#modalHostContext = modalHostContext;
+    this.#elRef = elRef;
   }
 
   public ngOnDestroy(): void {
     // Close all modal instances before disposing of the host container.
     this.#closeAllModalInstances();
     this.#modalHostContext.args.teardownCallback();
+  }
+
+  public hideModalHostSiblings(): void {
+    // hidding all elements at the modal-host level from screenreaders
+    const hostElement = this.#elRef.nativeElement;
+    const hostSiblings = hostElement.parentElement.children;
+    this.#ariaPreviousValueSiblings = this.#adapter.addAriaHidden(
+      hostSiblings,
+      hostElement
+    );
   }
 
   public open(
@@ -104,6 +119,7 @@ export class SkyModalHostComponent implements OnDestroy {
 
     const adapter = this.#adapter;
     const modalOpener: HTMLElement = adapter.getModalOpener();
+    let ariaPreviousValueSiblings = this.#ariaPreviousValueSiblings;
 
     let isOpen = true;
 
@@ -139,11 +155,38 @@ export class SkyModalHostComponent implements OnDestroy {
       injector
     );
 
+    // modal element that was just opened
+    const modalElement = modalComponentRef.location.nativeElement;
+
     modalInstance.componentInstance = modalComponentRef.instance;
 
     this.#registerModalInstance(modalInstance);
+    // hidding all elements at the modal-host level from screenreaders
+    const hostElement = this.#elRef.nativeElement;
+    let allModals = hostElement.children;
+
+    if (SkyModalHostService.openModalCount == 1) {
+      this.hideModalHostSiblings();
+      ariaPreviousValueSiblings = this.#ariaPreviousValueSiblings;
+    }
+    if (
+      SkyModalHostService.openModalCount > 1 &&
+      allModals[allModals.length - 1] == modalElement
+    ) {
+      allModals[allModals.length - 2].setAttribute('aria-hidden', true);
+    }
 
     function closeModal() {
+      // unhide siblings if last modal is closing
+      if (SkyModalHostService.openModalCount == 1) {
+        adapter.removeAriaHidden(ariaPreviousValueSiblings);
+        ariaPreviousValueSiblings.clear();
+      } else if (SkyModalHostService.topModal == hostService) {
+        // if there are more than 1 modal then unhide the one behind this one before closing it
+        allModals = hostElement.children;
+        allModals[allModals.length - 2].removeAttribute('aria-hidden');
+      }
+
       hostService.destroy();
       adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
       adapter.toggleFullPageModalClass(

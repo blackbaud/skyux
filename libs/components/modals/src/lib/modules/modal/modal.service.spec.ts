@@ -176,9 +176,137 @@ describe('Modal service', () => {
 
   it('should show a modal with a wrapper class', fakeAsync(() => {
     const wrapperClass = 'custom-wrapper-class';
-    openModal(ModalTestComponent, { wrapperClass });
+    const modal = openModal(ModalTestComponent, { wrapperClass });
     applicationRef.tick();
 
     expect(document.body.querySelector(`sky-modal.${wrapperClass}`)).toExist();
+    closeModal(modal);
+  }));
+
+  it('should not hide modal host from screen readers when opening a modal', fakeAsync(() => {
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(
+      document.querySelector('sky-modal-host').getAttribute('aria-hidden')
+    ).toBe(null);
+    closeModal(modal);
+  }));
+
+  it('should hide and unhide elements at the host level from screen readers', fakeAsync(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(div.getAttribute('aria-hidden')).toBe('true');
+
+    closeModal(modal);
+
+    expect(div.getAttribute('aria-hidden')).toBe(null);
+    div.remove();
+  }));
+
+  it('should keep hidden status elements at the host level consistent', fakeAsync(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    div.setAttribute('aria-hidden', 'true');
+
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(div.getAttribute('aria-hidden')).toBe('true');
+
+    closeModal(modal);
+
+    expect(div.getAttribute('aria-hidden')).toBe('true');
+    div.remove();
+  }));
+
+  it('should not hide host siblings that are live', fakeAsync(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    div.setAttribute('aria-live', 'true');
+
+    openModal(ModalTestComponent, { fullPage: false });
+
+    expect(div.getAttribute('aria-hidden')).toBe(null);
+    div.remove();
+  }));
+
+  it('what does it do with layered modals', fakeAsync(() => {
+    openModal(ModalTestComponent, { fullPage: false });
+    document.querySelector('sky-test-cmp').id = 'sibling';
+    const host = document.querySelector('sky-modal-host');
+
+    const lowerModal = openModal(ModalTestComponent, { fullPage: false });
+    const list = host.children;
+    list[3].id = 'lowerModal';
+
+    openModal(ModalTestComponent, { fullPage: false });
+
+    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
+      'true'
+    );
+
+    closeModal(lowerModal);
+
+    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
+      'true'
+    );
+  }));
+
+  it('what does it do with layered modals', fakeAsync(() => {
+    openModal(ModalTestComponent, { fullPage: false });
+    openModal(ModalTestComponent, { fullPage: false });
+    const middleModal = openModal(ModalTestComponent, { fullPage: false });
+    const topModal = openModal(ModalTestComponent, { fullPage: false });
+    const host = document.querySelector('sky-modal-host');
+    const list = host.children;
+    list[3].id = 'lowerModal';
+
+    closeModal(middleModal);
+    closeModal(topModal);
+
+    expect(
+      document.getElementById('lowerModal').getAttribute('aria-hidden')
+    ).toBe(null);
+  }));
+
+  // modal siblings
+
+  it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
+    openModal(ModalTestComponent, { fullPage: false });
+    document.querySelector('sky-test-cmp').id = 'sibling';
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
+      'true'
+    );
+
+    closeModal(modal);
+    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
+      null
+    );
+  }));
+
+  it('should not hide live elements from screen readers', fakeAsync(() => {
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    div.setAttribute('aria-live', 'true');
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(div.getAttribute('aria-hidden')).toBe(null);
+
+    closeModal(modal);
+    expect(div.getAttribute('aria-hidden')).toBe(null);
+    div.remove();
+  }));
+
+  it('should not hide current modal from screen readers', fakeAsync(() => {
+    const modal = openModal(ModalTestComponent, { fullPage: false });
+
+    expect(
+      document.querySelector('sky-test-cmp').getAttribute('aria-hidden')
+    ).toBe(null);
+
+    closeModal(modal);
   }));
 });

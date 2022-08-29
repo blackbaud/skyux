@@ -47,4 +47,36 @@ export class SkyModalAdapterService {
   #removeClassFromBody(className: string): void {
     this.#bodyEl.classList.remove(className);
   }
+
+  public addAriaHidden(
+    elementsToHide: HTMLCollection,
+    self: Element | unknown
+  ): Map<Element, string | null> {
+    const hiddenElements = new Map<Element, string | null>();
+
+    for (let i = 0; i < elementsToHide.length; i++) {
+      const element = elementsToHide[i];
+      if (
+        element !== self &&
+        !element.hasAttribute('aria-live') &&
+        element.nodeName.toLowerCase() !== 'script' &&
+        element.nodeName.toLowerCase() !== 'style'
+      ) {
+        hiddenElements.set(element, element.getAttribute('aria-hidden'));
+        element.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    return hiddenElements;
+  }
+
+  public removeAriaHidden(hiddenElements: Map<Element, string | null>): void {
+    hiddenElements.forEach((previousValue, element) => {
+      if (previousValue) {
+        element.setAttribute('aria-hidden', previousValue);
+      } else {
+        element.removeAttribute('aria-hidden');
+      }
+    });
+  }
 }
