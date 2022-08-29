@@ -21,6 +21,7 @@ const routes: Route[] = [
       ),
   },
 ];
+
 if (routes.length > 0 && routes.findIndex((r) => r.path === '') === -1) {
   routes.push({ path: '', redirectTo: `${routes[0].path}`, pathMatch: 'full' });
 }
