@@ -2,18 +2,46 @@
 @import 'libs/components/theme/src/lib/styles/mixins';
 @import 'libs/components/theme/src/lib/styles/_compat/mixins';
 
+/* Default theme */
+.sky-alert {
+  --sky-alert-before-display: initial;
+  --sky-alert-border-left-width: 30px;
+  --sky-alert-close-icon-default-display: initial;
+  --sky-alert-close-icon-modern-display: none;
+  --sky-alert-content-padding-top-bottom: #{$sky-padding};
+  --sky-alert-content-padding-left-right: 0;
+  --sky-alert-icon-default-display: initial;
+  --sky-alert-icon-modern-display: none;
+  --sky-alert-info-background-color: var(--sky-background-color-info);
+}
+
+/* Modern theme */
+@include sky-theme-modern {
+  .sky-alert {
+    --sky-alert-before-display: none;
+    --sky-alert-border-left-width: 7px;
+    --sky-alert-close-icon-default-display: none;
+    --sky-alert-close-icon-modern-display: initial;
+    --sky-alert-content-padding-left-right: var(--sky-padding-even-md);
+    --sky-alert-content-padding-top-bottom: var(--sky-padding-even-md);
+    --sky-alert-icon-default-display: none;
+    --sky-alert-icon-modern-display: initial;
+    --sky-alert-info-background-color: var(--sky-background-color-info-light);
+  }
+}
+
 .sky-alert {
   padding: 0 $sky-padding;
   margin-bottom: $sky-margin-double;
-  border-left: solid 30px;
-  color: $sky-text-color-default;
+  border-left: solid var(--sky-alert-border-left-width);
+  color: var(--sky-text-color-default);
   display: flex;
   flex-direction: row;
   align-items: center;
 
   .sky-alert-content {
-    padding-top: $sky-padding;
-    padding-bottom: $sky-padding;
+    padding: var(--sky-alert-content-padding-top-bottom)
+      var(--sky-alert-content-padding-left-right);
     width: 100%;
 
     ::ng-deep a {
@@ -21,7 +49,7 @@
       text-decoration: underline;
 
       &:hover {
-        color: $sky-text-color-default;
+        color: var(--sky-text-color-default);
       }
     }
   }
@@ -32,55 +60,54 @@
     height: 32px;
   }
 
-  &.sky-alert-info {
-    background-color: $sky-background-color-info;
-    border-color: $sky-highlight-color-info;
-
+  &.sky-alert-info,
+  &.sky-alert-success,
+  &.sky-alert-warning,
+  &.sky-alert-danger {
     &:before {
-      content: '\f06a';
       font-family: FontAwesome;
       margin-left: -31px;
       margin-right: 20px;
       color: $sky-color-white;
+      display: var(--sky-alert-before-display);
+    }
+  }
+
+  &.sky-alert-info {
+    background-color: var(--sky-alert-info-background-color);
+    border-color: var(--sky-highlight-color-info);
+
+    &:before {
+      content: '\f06a';
     }
   }
 
   &.sky-alert-success {
-    background-color: $sky-background-color-success;
-    border-color: $sky-highlight-color-success;
+    background-color: var(--sky-background-color-success);
+    border-color: var(--sky-highlight-color-success);
 
     &:before {
       content: '\f00c';
-      font-family: FontAwesome;
       margin-left: -32px;
       margin-right: 19px;
-      color: $sky-color-white;
     }
   }
 
   &.sky-alert-warning {
-    background-color: $sky-background-color-warning;
-    border-color: $sky-highlight-color-warning;
+    background-color: var(--sky-background-color-warning);
+    border-color: var(--sky-highlight-color-warning);
 
     &:before {
       content: '\f071';
-      font-family: FontAwesome;
-      margin-left: -32px;
-      margin-right: 19px;
-      color: $sky-color-white;
     }
   }
 
   &.sky-alert-danger {
-    background-color: $sky-background-color-danger;
-    border-color: $sky-highlight-color-danger;
+    background-color: var(--sky-background-color-danger);
+    border-color: var(--sky-highlight-color-danger);
 
     &:before {
       content: '\f071';
-      font-family: FontAwesome;
-      margin-left: -32px;
-      margin-right: 19px;
-      color: $sky-color-white;
     }
   }
 }
@@ -91,7 +118,7 @@
   line-height: 1;
   margin: 0;
   padding: 0;
-  color: $sky-text-color-default;
+  color: var(--sky-text-color-default);
   opacity: 0.8;
   border: none;
   background-color: transparent;
@@ -108,60 +135,34 @@
   }
 }
 
-/* Theming */
-
-.sky-alert-close-icon-theme-modern,
-.sky-alert-icon-theme-modern {
-  display: none;
+.sky-alert-icon-theme-default {
+  display: var(--sky-alert-icon-default-display);
 }
 
-@include sky-theme-modern {
-  .sky-alert {
-    border-left-width: 7px;
+.sky-alert-icon-theme-modern {
+  display: var(--sky-alert-icon-modern-display);
+}
 
-    .sky-alert-content {
-      padding: $sky-theme-modern-padding-even-md;
-    }
+.sky-alert-close-icon-theme-default {
+  display: var(--sky-alert-icon-default-display);
+}
 
-    &.sky-alert-info {
-      background-color: $sky-background-color-info-light;
-    }
-  }
+.sky-alert-close-icon-theme-modern {
+  display: var(--sky-alert-close-icon-modern-display);
+}
 
-  .sky-alert-info,
-  .sky-alert-success,
-  .sky-alert-warning,
-  .sky-alert-danger {
-    &:before {
-      display: none;
-    }
-  }
+.sky-alert-info .sky-alert-icon-theme-modern {
+  color: var(--sky-highlight-color-info);
+}
 
-  .sky-alert-info .sky-alert-icon-theme-modern {
-    color: $sky-highlight-color-info;
-  }
+.sky-alert-success .sky-alert-icon-theme-modern {
+  color: var(--sky-highlight-color-success);
+}
 
-  .sky-alert-success .sky-alert-icon-theme-modern {
-    color: $sky-highlight-color-success;
-  }
+.sky-alert-warning .sky-alert-icon-theme-modern {
+  color: var(--sky-highlight-color-warning);
+}
 
-  .sky-alert-warning .sky-alert-icon-theme-modern {
-    color: $sky-highlight-color-warning;
-  }
-
-  .sky-alert-danger .sky-alert-icon-theme-modern {
-    color: $sky-highlight-color-danger;
-  }
-
-  .sky-alert-icon-theme-modern {
-    display: block;
-  }
-
-  .sky-alert-close-icon-theme-default {
-    display: none;
-  }
-
-  .sky-alert-close-icon-theme-modern {
-    display: inline;
-  }
+.sky-alert-danger .sky-alert-icon-theme-modern {
+  color: var(--sky-highlight-color-danger);
 }
