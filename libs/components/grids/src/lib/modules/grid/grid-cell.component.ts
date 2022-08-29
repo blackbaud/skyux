@@ -27,10 +27,10 @@ export class SkyGridCellComponent implements OnInit {
   public columnId: string;
 
   @Input()
-  private template: TemplateRef<unknown>;
+  public template: TemplateRef<unknown>;
 
   @Input()
-  private fieldSelector: string;
+  public fieldSelector: string;
 
   @ViewChild('cell', {
     read: ViewContainerRef,

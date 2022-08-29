@@ -16,34 +16,30 @@ export class SkyChevronComponent {
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public ariaControls: string;
+  public ariaControls: string | undefined;
 
   /**
    * Specifies an ARIA label for the chevron. This sets the chevron's aria-label attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Specifies whether the chevron points up or down.
    */
   @Input()
-  public set direction(value: string) {
+  public set direction(value: string | undefined) {
     /* istanbul ignore else */
-    if (value != this._direction) {
-      this._direction = value;
+    if (value != this.directionOrDefault) {
+      this.directionOrDefault = value ? value : 'up';
       /* istanbul ignore else */
-      if (value === 'up') {
+      if (this.directionOrDefault === 'up') {
         this.ariaExpanded = true;
-      } else if (this.direction === 'down') {
+      } else if (this.directionOrDefault === 'down') {
         this.ariaExpanded = false;
       }
     }
-  }
-
-  public get direction(): string {
-    return this._direction || 'up';
   }
 
   /**
@@ -58,13 +54,13 @@ export class SkyChevronComponent {
   @Output()
   public directionChange = new EventEmitter<string>();
 
-  public ariaExpanded: boolean;
+  public ariaExpanded = true;
 
-  private _direction: string;
+  public directionOrDefault = 'up';
 
   public chevronClick(event: Event): void {
     event.stopPropagation();
-    this.direction = this.direction === 'up' ? 'down' : 'up';
-    this.directionChange.emit(this.direction);
+    this.direction = this.directionOrDefault === 'up' ? 'down' : 'up';
+    this.directionChange.emit(this.directionOrDefault);
   }
 }

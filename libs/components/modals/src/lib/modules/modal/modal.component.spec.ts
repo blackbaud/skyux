@@ -33,6 +33,67 @@ import { SkyModalInstance } from './modal-instance';
 import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
+  function getFullPageModalElement(): HTMLElement {
+    const fullPageModal = document.querySelector('.sky-modal-full-page');
+    if (fullPageModal) {
+      return fullPageModal as HTMLElement;
+    } else {
+      throw new Error('No full page modal found');
+    }
+  }
+
+  function getInputElement(): HTMLElement {
+    const inputElement = document.querySelector('input');
+    if (inputElement) {
+      return inputElement as HTMLElement;
+    } else {
+      throw new Error('No input element found');
+    }
+  }
+
+  function getModalCloseButtonElement(): HTMLElement {
+    const modalCloseButtonElement = document.querySelector(
+      '.sky-modal-btn-close'
+    );
+    if (modalCloseButtonElement) {
+      return modalCloseButtonElement as HTMLElement;
+    } else {
+      throw new Error('No modal close button found');
+    }
+  }
+
+  function getModalContentElement(modalElement: HTMLElement): HTMLElement {
+    const modalContentElement =
+      modalElement.querySelector('.sky-modal-content');
+    if (modalContentElement) {
+      return modalContentElement as HTMLElement;
+    } else {
+      throw new Error('No modal content element found');
+    }
+  }
+
+  function getModalDialogElement(): HTMLElement {
+    const modalDialog = document.querySelector('.sky-modal-dialog');
+    if (modalDialog) {
+      return modalDialog as HTMLElement;
+    } else {
+      throw new Error('No modal dialog element found');
+    }
+  }
+
+  function getModalElement(): HTMLElement | undefined {
+    return document.querySelector('.sky-modal') as HTMLElement;
+  }
+
+  function getPrimaryButton(): HTMLElement {
+    const primaryButton = document.querySelector('.sky-btn-primary');
+    if (primaryButton) {
+      return primaryButton as HTMLElement;
+    } else {
+      throw new Error('No primary button found');
+    }
+  }
+
   function getApplicationRef(): ApplicationRef {
     return TestBed.inject(ApplicationRef);
   }
@@ -86,6 +147,61 @@ describe('Modal component', () => {
 
     closeModal(modalInstance2);
     closeModal(modalInstance1);
+  }));
+
+  it('should assign zIndex correctly if a lower modal is closed while the upper modal is still open', fakeAsync(() => {
+    const modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
+
+    let modalEls = document.querySelectorAll('.sky-modal');
+
+    const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    let zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex1).toBe(1051);
+    expect(zIndex2).toBe(1061);
+
+    closeModal(modalInstance1);
+
+    zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+    expect(zIndex2).toBe(1061);
+
+    const modalInstance3 = openModal(ModalTestComponent);
+
+    modalEls = document.querySelectorAll('.sky-modal');
+    zIndex2 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    const zIndex3 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex2).toBe(1061);
+    expect(zIndex3).toBe(1071);
+
+    closeModal(modalInstance2);
+    closeModal(modalInstance3);
+  }));
+
+  it('should assign zIndex correctly if all modals are closed and then a new modal is opened', fakeAsync(() => {
+    const modalInstance1 = openModal(ModalTestComponent);
+    const modalInstance2 = openModal(ModalTestComponent);
+
+    let modalEls = document.querySelectorAll('.sky-modal');
+
+    const zIndex1 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+    const zIndex2 = parseInt(getComputedStyle(modalEls[1]).zIndex, 10);
+
+    expect(zIndex1).toBe(1051);
+    expect(zIndex2).toBe(1061);
+
+    closeModal(modalInstance1);
+    closeModal(modalInstance2);
+
+    const modalInstance3 = openModal(ModalTestComponent);
+
+    modalEls = document.querySelectorAll('.sky-modal');
+    const zIndex3 = parseInt(getComputedStyle(modalEls[0]).zIndex, 10);
+
+    expect(zIndex3).toBe(1051);
+
+    closeModal(modalInstance3);
   }));
 
   it('should focus the first focusable element when no autofocus is inside of content', fakeAsync(() => {
@@ -159,7 +275,7 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
   }));
 
   it('should handle escape when modals are stacked', fakeAsync(() => {
@@ -172,13 +288,21 @@ describe('Modal component', () => {
     escapeEvent.shiftKey = false;
     escapeEvent.initEvent('keyup', true, true);
 
-    document.querySelector('.sky-modal').dispatchEvent(escapeEvent);
-    document.querySelector('.sky-modal').dispatchEvent(escapeEvent);
+    let modalElement = getModalElement();
+
+    if (!modalElement) {
+      throw new Error('No modal element found');
+    }
+
+    modalElement.dispatchEvent(escapeEvent);
+    modalElement.dispatchEvent(escapeEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    modalElement = getModalElement();
+
+    expect(modalElement).not.toExist();
 
     closeModal(modalInstance1);
     closeModal(modalInstance2);
@@ -193,15 +317,13 @@ describe('Modal component', () => {
     unknownEvent.shiftKey = false;
     unknownEvent.initEvent('keyup', true, true);
 
-    document.querySelector('.sky-btn-primary').dispatchEvent(unknownEvent);
+    getPrimaryButton().dispatchEvent(unknownEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(document.activeElement).not.toEqual(getModalCloseButtonElement());
+    expect(getModalElement()).toExist();
 
     closeModal(modalInstance1);
   }));
@@ -214,14 +336,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = true;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-modal-dialog').dispatchEvent(tabEvent);
+    getModalDialogElement().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(
-      document.querySelector('.sky-btn-primary')
-    );
+    expect(document.activeElement).toEqual(getPrimaryButton());
 
     closeModal(modalInstance1);
   }));
@@ -235,14 +355,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = true;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-modal-btn-close').dispatchEvent(tabEvent);
+    getModalCloseButtonElement().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(
-      document.querySelector('.sky-btn-primary')
-    );
+    expect(document.activeElement).toEqual(getPrimaryButton());
 
     closeModal(modalInstance1);
   }));
@@ -256,12 +374,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = true;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
+    getPrimaryButton().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(document.querySelector('input'));
+    expect(document.activeElement).toEqual(getInputElement());
 
     closeModal(modalInstance1);
   }));
@@ -275,14 +393,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = false;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
+    getPrimaryButton().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
+    expect(document.activeElement).toEqual(getModalCloseButtonElement());
 
     closeModal(modalInstance1);
   }));
@@ -296,14 +412,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = false;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('input').dispatchEvent(tabEvent);
+    getInputElement().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
+    expect(document.activeElement).not.toEqual(getModalCloseButtonElement());
 
     closeModal(modalInstance1);
   }));
@@ -318,14 +432,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = false;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
+    getPrimaryButton().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
+    expect(document.activeElement).toEqual(getModalCloseButtonElement());
 
     closeModal(modalInstance1);
     closeModal(modalInstance2);
@@ -340,14 +452,12 @@ describe('Modal component', () => {
     tabEvent.shiftKey = false;
     tabEvent.initEvent('keydown', true, true);
 
-    document.querySelector('.sky-btn-primary').dispatchEvent(tabEvent);
+    getPrimaryButton().dispatchEvent(tabEvent);
 
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
+    expect(document.activeElement).not.toEqual(getModalCloseButtonElement());
 
     closeModal(modalInstance1);
   }));
@@ -366,9 +476,7 @@ describe('Modal component', () => {
     tick();
     getApplicationRef().tick();
 
-    expect(document.activeElement).not.toEqual(
-      document.querySelector('.sky-modal-btn-close')
-    );
+    expect(document.activeElement).not.toEqual(getModalCloseButtonElement());
 
     closeModal(modalInstance1);
   }));
@@ -387,23 +495,23 @@ describe('Modal component', () => {
   it('should close when the close button is clicked', fakeAsync(() => {
     openModal(ModalTestComponent);
 
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
-    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+    (getModalCloseButtonElement() as HTMLElement).click();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
 
     getApplicationRef().tick();
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
     const instance = openModal(ModalWithCloseConfirmTestComponent);
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
-    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+    (getModalCloseButtonElement() as HTMLElement).click();
     tick();
     getApplicationRef().tick();
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     const closeHandlerSpy = spyOn(
       instance.componentInstance,
@@ -413,7 +521,7 @@ describe('Modal component', () => {
     instance.close();
     tick();
     getApplicationRef().tick();
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     // Verify the close handler has the correct data.
     const closeHandler =
@@ -432,40 +540,40 @@ describe('Modal component', () => {
 
     tick();
     getApplicationRef().tick();
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     // Confirm the close
     (document.querySelector('#toggle-btn') as HTMLElement).click();
     tick();
     getApplicationRef().tick();
-    (document.querySelector('.sky-modal-btn-close') as HTMLElement).click();
+    (getModalCloseButtonElement() as HTMLElement).click();
     tick();
     getApplicationRef().tick();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
     getApplicationRef().tick();
   }));
 
   it('should close the modal anyway if ignoreBeforeClose is passed in', fakeAsync(() => {
     const instance = openModal(ModalWithCloseConfirmTestComponent);
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     instance.close('', '', true);
     tick();
     getApplicationRef().tick();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
     getApplicationRef().tick();
   }));
 
   it('should close when the user navigates through history', fakeAsync(() => {
     openModal(ModalTestComponent);
 
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     getRouter().navigate(['/']);
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
 
     getApplicationRef().tick();
   }));
@@ -474,7 +582,7 @@ describe('Modal component', () => {
     const instance = openModal(ModalTestComponent);
     const closeSpy = spyOn(instance, 'close').and.callThrough();
 
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     instance.close();
     expect(closeSpy).toHaveBeenCalled();
@@ -483,7 +591,7 @@ describe('Modal component', () => {
     getRouter().navigate(['/']);
     tick();
 
-    expect(document.querySelector('.sky-modal')).not.toExist();
+    expect(getModalElement()).not.toExist();
     expect(closeSpy).not.toHaveBeenCalled();
 
     getApplicationRef().tick();
@@ -495,7 +603,7 @@ describe('Modal component', () => {
     });
     spyOn(modalInstance, 'openHelp').and.callThrough();
 
-    expect(document.querySelector('.sky-modal')).toExist();
+    expect(getModalElement()).toExist();
 
     (
       document.querySelector('button[name="help-button"]') as HTMLElement
@@ -510,10 +618,15 @@ describe('Modal component', () => {
 
   it('should set max height based on window and change when window resizes', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
-    const modalEl = document.querySelector('.sky-modal');
+    const modalEl = getModalElement();
+
+    if (!modalEl) {
+      throw new Error('No modal element found');
+    }
+
     let maxHeight = parseInt(getComputedStyle(modalEl).maxHeight, 10);
     const windowHeight = window.innerHeight;
-    const contentEl = modalEl.querySelector('.sky-modal-content');
+    const contentEl = getModalContentElement(modalEl);
 
     const contentHeight = parseInt(getComputedStyle(contentEl).maxHeight, 10);
 
@@ -530,13 +643,13 @@ describe('Modal component', () => {
 
   it('should be a full screen modal and scale when window resizes', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, { fullPage: true });
-    let modalEl = document.querySelector('.sky-modal-full-page');
+    let modalEl = getFullPageModalElement();
     let height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
     expect([window.innerHeight - 2, window.innerHeight]).toContain(height);
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     getApplicationRef().tick();
-    modalEl = document.querySelector('.sky-modal-full-page');
+    modalEl = getFullPageModalElement();
     height = parseInt(getComputedStyle(modalEl).height, 10);
     // innerHeight -2 is for IE Box Model Fix
     expect([window.innerHeight - 2, window.innerHeight]).toContain(height);
@@ -626,20 +739,16 @@ describe('Modal component', () => {
   it('should default the role, aria-labelledby, and aria-describedby', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
 
+    expect(getModalDialogElement().getAttribute('role')).toBe('dialog');
     expect(
-      document.querySelector('.sky-modal-dialog').getAttribute('role')
-    ).toBe('dialog');
-    expect(
-      document
-        .querySelector('.sky-modal-dialog')
+      getModalDialogElement()
         .getAttribute('aria-labelledby')
-        .indexOf('sky-modal-header-id-')
+        ?.indexOf('sky-modal-header-id-')
     ).not.toBe(-1);
     expect(
-      document
-        .querySelector('.sky-modal-dialog')
+      getModalDialogElement()
         .getAttribute('aria-describedby')
-        .indexOf('sky-modal-content-id-')
+        ?.indexOf('sky-modal-content-id-')
     ).not.toBe(-1);
     closeModal(modalInstance);
   }));
@@ -651,19 +760,13 @@ describe('Modal component', () => {
       ariaRole: 'alertdialog',
     });
 
-    expect(
-      document.querySelector('.sky-modal-dialog').getAttribute('role')
-    ).toBe('alertdialog');
-    expect(
-      document
-        .querySelector('.sky-modal-dialog')
-        .getAttribute('aria-labelledby')
-    ).toBe('customlabelledby');
-    expect(
-      document
-        .querySelector('.sky-modal-dialog')
-        .getAttribute('aria-describedby')
-    ).toBe('customdescribedby');
+    expect(getModalDialogElement().getAttribute('role')).toBe('alertdialog');
+    expect(getModalDialogElement().getAttribute('aria-labelledby')).toBe(
+      'customlabelledby'
+    );
+    expect(getModalDialogElement().getAttribute('aria-describedby')).toBe(
+      'customdescribedby'
+    );
 
     closeModal(modalInstance);
   }));
@@ -696,7 +799,11 @@ describe('Modal component', () => {
 
   it('should allow click events to bubble beyond host element', fakeAsync(function () {
     const modalInstance = openModal(ModalTiledBodyTestComponent);
-    const modalElement = document.querySelector('.sky-modal');
+    const modalElement = getModalElement();
+
+    if (!modalElement) {
+      throw new Error('No modal element found');
+    }
 
     let numDocumentClicks = 0;
     document.addEventListener('click', function () {
@@ -767,9 +874,14 @@ describe('Modal component', () => {
         const rgbaMatch = boxShadowStyle.match(
           /rgba\(0,\s*0,\s*0,\s*([0-9.]*)\)/
         );
-        const alpha = parseFloat(rgbaMatch[1]);
 
-        expect(expectedAlpha).toBeCloseTo(alpha, 2);
+        if (!(rgbaMatch && rgbaMatch[1])) {
+          fail('No shadow found');
+        } else {
+          const alpha = parseFloat(rgbaMatch[1]);
+
+          expect(expectedAlpha).toBeCloseTo(alpha, 2);
+        }
       } else {
         expect(boxShadowStyle).toBe('none');
       }

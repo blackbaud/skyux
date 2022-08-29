@@ -153,7 +153,9 @@ export function findComponentClass(
  */
 export function getSourceAsString(sourceFile: ts.Node): string {
   return ts
-    .createPrinter()
+    .createPrinter({
+      newLine: ts.NewLineKind.LineFeed,
+    })
     .printNode(ts.EmitHint.Unspecified, sourceFile, undefined);
 }
 

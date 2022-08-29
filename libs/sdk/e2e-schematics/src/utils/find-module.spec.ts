@@ -134,12 +134,13 @@ describe('find-module', () => {
 
   it('should findClosestModule', async () => {
     const moduleList = [
+      'apps/test/src/app/best/best-routing.module.ts',
+      'apps/test/src/app/test/test-routing.module.ts',
+      'apps/test/src/app/rest/rest-routing.module.ts',
       'apps/test/src/app/test/sub/sub-routing.module.ts',
       'apps/test/src/app/app-routing.module.ts',
       'apps/test/src/app/something/else/complex/complex-routing.module.ts',
       'apps/test/src/app/complex/something/else/else-routing.module.ts',
-      'apps/test/src/app/test/test-routing.module.ts',
-      'apps/test/src/app/best/best-routing.module.ts',
       'apps/test/src/app/something/something-routing.module.ts',
     ];
     expect(findClosestModule(moduleList, 'apps/test/src', 'app/other')).toBe(

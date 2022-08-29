@@ -26,7 +26,7 @@ export class MockSkyModalService {
     component: any;
     config: any;
   }[] = [];
-  public instance: MockSkyModalInstance;
+  public instance: MockSkyModalInstance | undefined;
 
   public open(component: any, config?: any): any {
     this.openCalls.push({

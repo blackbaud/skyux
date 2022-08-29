@@ -22,13 +22,21 @@ type ResourceDictionary = Record<string, ResourceKey | TemplatedResource>;
   providedIn: 'any',
 })
 export class SkyLibResourcesService {
+  #localeProvider: SkyAppLocaleProvider;
+  #providers: SkyLibResourcesProvider[] | undefined;
+  #resourceNameProvider: SkyAppResourceNameProvider | undefined;
+
   constructor(
-    private localeProvider: SkyAppLocaleProvider,
+    localeProvider: SkyAppLocaleProvider,
     @Optional()
     @Inject(SKY_LIB_RESOURCES_PROVIDERS)
-    private providers?: SkyLibResourcesProvider[],
-    @Optional() private resourceNameProvider?: SkyAppResourceNameProvider
-  ) {}
+    providers?: SkyLibResourcesProvider[],
+    @Optional() resourceNameProvider?: SkyAppResourceNameProvider
+  ) {
+    this.#localeProvider = localeProvider;
+    this.#providers = providers;
+    this.#resourceNameProvider = resourceNameProvider;
+  }
 
   /**
    * Gets a resource string based on its name.
@@ -36,11 +44,11 @@ export class SkyLibResourcesService {
    * @param args Any templated args.
    */
   public getString(name: string, ...args: any[]): Observable<string> {
-    const mappedNameObs = this.resourceNameProvider
-      ? this.resourceNameProvider.getResourceName(name)
+    const mappedNameObs = this.#resourceNameProvider
+      ? this.#resourceNameProvider.getResourceName(name)
       : observableOf(name);
 
-    const localeInfoObs = this.localeProvider.getLocaleInfo();
+    const localeInfoObs = this.#localeProvider.getLocaleInfo();
 
     return forkJoin([mappedNameObs, localeInfoObs]).pipe(
       map(([mappedName, localeInfo]) =>
@@ -92,8 +100,8 @@ export class SkyLibResourcesService {
     name: string,
     ...args: any[]
   ): string {
-    if (this.providers) {
-      for (const provider of this.providers) {
+    if (this.#providers) {
+      for (const provider of this.#providers) {
         const s = provider.getString(info, name);
         if (s !== undefined) {
           return Format.formatText(s, ...args);

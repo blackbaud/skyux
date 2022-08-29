@@ -6,8 +6,8 @@ import { SkyModalService } from '../modal/modal.service';
 
 import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 import { SkyConfirmConfig } from './confirm-config';
+import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
-import { SkyConfirmModalContext } from './confirm-modal-context';
 import { SkyConfirmComponent } from './confirm.component';
 
 /**
@@ -20,19 +20,23 @@ import { SkyConfirmComponent } from './confirm.component';
   providedIn: 'any',
 })
 export class SkyConfirmService {
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   /**
    * Opens a dialog using the specified options.
    * @param config Specifies configuration options for the dialog.
    */
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
-    const modalInstance: SkyModalInstance = this.modalService.open(
+    const modalInstance: SkyModalInstance = this.#modalService.open(
       SkyConfirmComponent,
       {
         providers: [
           {
-            provide: SkyConfirmModalContext,
+            provide: SKY_CONFIRM_CONFIG,
             useValue: config,
           },
         ],

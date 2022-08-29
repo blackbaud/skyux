@@ -1,3 +1,3 @@
 export class ModalTestValues {
-  public valueA: string;
+  public valueA: string | undefined;
 }

@@ -221,14 +221,14 @@ describe('fuzzy datepicker input', () => {
       expect(errorThrown).toBeTrue();
     });
 
-    it('should mark the control as dirty on keyup', () => {
+    it('should mark the control as dirty on input', () => {
       fixture.detectChanges();
       const inputElement = fixture.debugElement.query(By.css('input'));
       const ngModel = inputElement.injector.get(NgModel);
 
       expect(ngModel.dirty).toEqual(false);
 
-      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'keyup');
+      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'input');
       fixture.detectChanges();
 
       expect(ngModel.dirty).toEqual(true);

@@ -8,7 +8,7 @@ import { SkyToasterService } from '../toaster.service';
 
 @Component({
   selector: 'sky-test-cmp',
-  templateUrl: './toast.component.fixture.html',
+  templateUrl: './toast-with-toaster-service.component.fixture.html',
   providers: [SkyToasterService],
 })
 export class SkyToastWithToasterServiceTestComponent {

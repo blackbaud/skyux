@@ -12,7 +12,7 @@
             *ngFor="let column of displayedColumnData"
             [selectable]="true"
             [(isSelected)]="column.isSelected"
-            (isSelectedChange)="onIsSelectedChange($event)"
+            (isSelectedChange)="onIsSelectedChange()"
           >
             <sky-repeater-item-title>
               {{ column.label }}

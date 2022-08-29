@@ -1,5 +1,38 @@
 # Changelog
 
+## [6.15.0](https://github.com/blackbaud/skyux/compare/6.14.0...6.15.0) (2022-08-26)
+
+### Features
+
+- **components/lookup:** add harness for interacting with search components in tests ([#431](https://github.com/blackbaud/skyux/issues/431)) ([385f97b](https://github.com/blackbaud/skyux/commit/385f97b478f1aecc0f0c86b1120144a68e1c3d22))
+- **components/lookup:** add lookup testing harness ([#364](https://github.com/blackbaud/skyux/issues/364)) ([ec23a51](https://github.com/blackbaud/skyux/commit/ec23a518470a9e2e53bbf05d5d5ec3b268840ed6))
+
+### Bug Fixes
+
+- **components/ag-grid:** top scroll not visible ([#415](https://github.com/blackbaud/skyux/issues/415)) ([6fd28d5](https://github.com/blackbaud/skyux/commit/6fd28d57fcbf6106656f00d3089d7c75c5415676))
+- **components/datetime:** use input event to mark picker as dirty ([#438](https://github.com/blackbaud/skyux/issues/438)) ([8d69ff1](https://github.com/blackbaud/skyux/commit/8d69ff1da74353e80fafc41d83f68f647fe7a08b))
+- **components/indicators:** label and status indicator show icons when default states are being used ([#410](https://github.com/blackbaud/skyux/issues/410)) ([b3233b7](https://github.com/blackbaud/skyux/commit/b3233b7d1a2d65807d0e2ac3687f64e9dbc182fa))
+- **components/layout:** fix 'TemplateRef<any>' is not assignable to type 'TemplateRef<never>' ([#450](https://github.com/blackbaud/skyux/issues/450)) ([fb7d8fd](https://github.com/blackbaud/skyux/commit/fb7d8fd1bd282baa7c5576550b53751714348b12))
+- **components/lookup:** show more modal infinite scroll respects only show selected checkbox ([#427](https://github.com/blackbaud/skyux/issues/427)) ([4d47aaf](https://github.com/blackbaud/skyux/commit/4d47aafd1846aa2e7813ed8b8def5a4335868b8b))
+- **components/pages:** action hub allow callback on needs attention items ([#386](https://github.com/blackbaud/skyux/issues/386)) ([c6cbe16](https://github.com/blackbaud/skyux/commit/c6cbe16983ad69d7f36c3aa596959a15f00fcfd5))
+- **components/toast:** toast shows icon when default state is being used ([#426](https://github.com/blackbaud/skyux/issues/426)) ([b46dbfc](https://github.com/blackbaud/skyux/commit/b46dbfccbcf2e55d5921be9e8ac262c8d8bb2c77))
+- **sdk/e2e-schematics:** support Windows ([#430](https://github.com/blackbaud/skyux/issues/430)) ([473b643](https://github.com/blackbaud/skyux/commit/473b6431ffb7beb34aaf571502d11e40499ff6a6))
+
+## [6.14.0](https://github.com/blackbaud/skyux/compare/6.13.0...6.14.0) (2022-08-23)
+
+### Features
+
+- **components/forms:** add harness to interact with checkbox components in tests ([#428](https://github.com/blackbaud/skyux/issues/428)) ([cf67022](https://github.com/blackbaud/skyux/commit/cf67022ab1e54b452bf51ca6c1c5c4c432d20b02))
+- **components/indicators:** add harness for interacting with alert components in tests ([#422](https://github.com/blackbaud/skyux/issues/422)) ([37acc5e](https://github.com/blackbaud/skyux/commit/37acc5e21d769e8cbda41a9ce89af346ab8cd16a))
+- **components/indicators:** add harness for interacting with token components in tests ([#417](https://github.com/blackbaud/skyux/issues/417)) ([33fd786](https://github.com/blackbaud/skyux/commit/33fd786fcb77518e4c5d099032eae7c04f4b1249))
+- **components/lists:** add harness for interacting with infinite scroll components in tests ([#421](https://github.com/blackbaud/skyux/issues/421)) ([4970a20](https://github.com/blackbaud/skyux/commit/4970a2069bf404be05f766bb536319cfed29bd53))
+- **components/lists:** add harness for interacting with repeater components in tests ([#429](https://github.com/blackbaud/skyux/issues/429)) ([c7b6b3e](https://github.com/blackbaud/skyux/commit/c7b6b3ec7065317408b917b83123754936e5875a))
+- **components/lookup:** add harness for interacting with autocomplete components in tests ([#413](https://github.com/blackbaud/skyux/issues/413)) ([be233a5](https://github.com/blackbaud/skyux/commit/be233a58818a630100b0ba9c538bb8a7a8060dfa))
+
+### Bug Fixes
+
+- **components/modals:** close all modals before removing host element ([#424](https://github.com/blackbaud/skyux/issues/424)) ([43f360c](https://github.com/blackbaud/skyux/commit/43f360c16da2f63f3f13c6229c3f6cc6d3ea9010))
+
 ## [6.13.0](https://github.com/blackbaud/skyux/compare/6.12.0...6.13.0) (2022-08-18)
 
 ### Features

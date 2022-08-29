@@ -6,6 +6,11 @@ export * from './paging/paging-testing.module';
 export * from './paging/paging-fixture';
 export * from './paging/paging-fixture-button';
 
+export * from './repeater/repeater-harness';
+export * from './repeater/repeater-harness-filters';
+export * from './repeater/repeater-item-harness';
+export * from './repeater/repeater-item-harness-filters';
+
 export * from './sort/sort-testing.module';
 export * from './sort/sort-fixture';
 export * from './sort/sort-fixture-menu';
@@ -13,3 +18,6 @@ export * from './sort/sort-fixture-menu-item';
 
 export * from './infinite-scroll/infinite-scroll-testing.module';
 export * from './infinite-scroll/infinite-scroll-fixture';
+
+export * from './infinite-scroll/infinite-scroll-harness';
+export * from './infinite-scroll/infinite-scroll-harness-filters';
