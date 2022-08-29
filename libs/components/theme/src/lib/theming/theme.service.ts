@@ -14,7 +14,7 @@ export class SkyThemeService {
    * Notifies consumers when the current theme settings have changed.
    */
   public get settingsChange(): Observable<SkyThemeSettingsChange> {
-    return this.#settingsObs;
+    return this.#_settingsObs;
   }
 
   #current: SkyThemeSettings | undefined;
@@ -25,11 +25,11 @@ export class SkyThemeService {
 
   #settings: ReplaySubject<SkyThemeSettingsChange>;
 
-  #settingsObs: Observable<SkyThemeSettingsChange>;
+  #_settingsObs: Observable<SkyThemeSettingsChange>;
 
   constructor() {
     this.#settings = new ReplaySubject<SkyThemeSettingsChange>(1);
-    this.#settingsObs = this.#settings.asObservable();
+    this.#_settingsObs = this.#settings.asObservable();
   }
 
   /**
