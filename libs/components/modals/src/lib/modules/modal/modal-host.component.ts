@@ -119,7 +119,6 @@ export class SkyModalHostComponent implements OnDestroy {
 
     const adapter = this.#adapter;
     const modalOpener: HTMLElement = adapter.getModalOpener();
-    let ariaPreviousValueSiblings = this.#ariaPreviousValueSiblings;
 
     let isOpen = true;
 
@@ -167,7 +166,6 @@ export class SkyModalHostComponent implements OnDestroy {
 
     if (SkyModalHostService.openModalCount == 1) {
       this.hideModalHostSiblings();
-      ariaPreviousValueSiblings = this.#ariaPreviousValueSiblings;
     }
     if (
       SkyModalHostService.openModalCount > 1 &&
@@ -176,11 +174,11 @@ export class SkyModalHostComponent implements OnDestroy {
       allModals[allModals.length - 2].setAttribute('aria-hidden', true);
     }
 
-    function closeModal() {
+    const closeModal = () => {
       // unhide siblings if last modal is closing
       if (SkyModalHostService.openModalCount == 1) {
-        adapter.removeAriaHidden(ariaPreviousValueSiblings);
-        ariaPreviousValueSiblings.clear();
+        adapter.removeAriaHidden(this.#ariaPreviousValueSiblings);
+        this.#ariaPreviousValueSiblings.clear();
       } else if (SkyModalHostService.topModal == hostService) {
         // if there are more than 1 modal then unhide the one behind this one before closing it
         allModals = hostElement.children;
@@ -198,7 +196,7 @@ export class SkyModalHostComponent implements OnDestroy {
         modalOpener.focus();
       }
       modalComponentRef.destroy();
-    }
+    };
 
     hostService.openHelp.subscribe((helpKey?: string) => {
       modalInstance.openHelp(helpKey);

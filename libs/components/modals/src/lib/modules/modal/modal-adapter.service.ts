@@ -62,6 +62,7 @@ export class SkyModalAdapterService {
         element.nodeName.toLowerCase() !== 'script' &&
         element.nodeName.toLowerCase() !== 'style'
       ) {
+        // preserve previous aria-hidden status of elements outside of modal host
         hiddenElements.set(element, element.getAttribute('aria-hidden'));
         element.setAttribute('aria-hidden', 'true');
       }
@@ -72,6 +73,7 @@ export class SkyModalAdapterService {
 
   public removeAriaHidden(hiddenElements: Map<Element, string | null>): void {
     hiddenElements.forEach((previousValue, element) => {
+      // if element had aria-hidden status prior, restore status
       if (previousValue) {
         element.setAttribute('aria-hidden', previousValue);
       } else {
