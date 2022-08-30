@@ -111,7 +111,7 @@ export class DataManagerComponent implements OnInit {
       id: this.viewId,
       name: 'Grid View',
       icon: 'table',
-      searchEnabled: true,
+      searchEnabled: false,
       sortEnabled: true,
       multiselectToolbarEnabled: true,
       columnPickerEnabled: true,

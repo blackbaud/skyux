@@ -20,7 +20,7 @@ export function applySkyuxStylesheetsToWorkspace(): Rule {
           const target = project.targets.get(targetName);
 
           /*istanbul ignore else*/
-          if (target) {
+          if (target && target.options) {
             target.options.styles = ensureSkyuxStylesheets(
               target.options.styles as string[]
             );
