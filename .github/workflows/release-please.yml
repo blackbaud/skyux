@@ -10,17 +10,15 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
-          release-type: 'node'
-          target-branch: '${{ github.ref_name }}'
-          package-name: 'skyux'
-          pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
-          labels: 'autorelease ${{ github.ref_name }}: pending'
-          release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          prerelease: false
-          draft: true
+          default-branch: '${{ github.ref_name }}'
           draft-pull-request: true
-          clean: false
           include-v-in-tag: false
+          labels: 'autorelease ${{ github.ref_name }}: pending'
+          package-name: 'skyux'
+          prerelease: false
+          pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
+          release-labels: 'autorelease ${{ github.ref_name }}: tagged'
+          release-type: 'node'
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
@@ -32,14 +30,12 @@ jobs:
       - name: Build
         run: npx skyux-dev create-packages-dist
       - name: Publish
-        # if: ${{ steps.release.outputs.release_created }}
-        if: false
+        if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Notify Slack
-        # if: ${{ steps.release.outputs.release_created }}
-        if: false
+        if: ${{ steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

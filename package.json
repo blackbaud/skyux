@@ -17,7 +17,6 @@
     "dev:commit": "npx cz",
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
-    "dev:create-release": "skyux-dev create-release",
     "dev:format": "npx prettier --write .",
     "dev:migrate": "skyux-dev migrate",
     "dev:pristine": "skyux-dev pristine-commit"
