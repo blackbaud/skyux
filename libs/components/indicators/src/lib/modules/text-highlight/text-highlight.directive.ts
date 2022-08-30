@@ -9,7 +9,94 @@ import {
 } from '@angular/core';
 import { MutationObserverService } from '@skyux/core';
 
-const className = 'sky-highlight-mark';
+const CLASS_NAME = 'sky-highlight-mark';
+
+function markNode(node: Text, searchRegex: RegExp): number {
+  // The search regular expression is reused across calls to markNode(), so reset
+  // it so it searches from the start of the string each time.
+  searchRegex.lastIndex = 0;
+
+  const text = node.nodeValue;
+
+  if (text) {
+    const match = searchRegex.exec(text);
+
+    if (match) {
+      // Split apart text node with mark tags in the middle on the search term.
+      const matchIndex = match.index;
+
+      const middle = node.splitText(matchIndex);
+      middle.splitText(searchRegex.lastIndex - matchIndex);
+      const middleClone = middle.cloneNode(true);
+
+      const markNode = document.createElement('mark');
+      markNode.className = CLASS_NAME;
+      markNode.appendChild(middleClone);
+
+      /* istanbul ignore else */
+      if (middle.parentNode) {
+        middle.parentNode.replaceChild(markNode, middle);
+      }
+
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+function markTextNodes(node: Node, searchRegex: RegExp): number {
+  if (node.nodeType === 3) {
+    return markNode(node as Text, searchRegex);
+  } else if (node.nodeType === 1 && node.childNodes) {
+    for (let i = 0; i < node.childNodes.length; i++) {
+      const childNode = node.childNodes[i];
+      i += markTextNodes(childNode, searchRegex);
+    }
+  }
+
+  return 0;
+}
+
+function removeHighlight(el: ElementRef): void {
+  const matchedElements = (el.nativeElement as Element).querySelectorAll(
+    `mark.${CLASS_NAME}`
+  );
+
+  if (matchedElements) {
+    for (let i = 0; i < matchedElements.length; i++) {
+      const node = matchedElements[i];
+      const parentNode = node.parentNode;
+
+      if (parentNode && node.firstChild) {
+        parentNode.replaceChild(node.firstChild, node);
+        parentNode.normalize();
+      }
+    }
+  }
+}
+
+function createSearchRegex(searchTerms: string[]): RegExp | undefined {
+  let searchRegex: RegExp | undefined;
+
+  if (searchTerms) {
+    searchTerms = searchTerms.map((searchTerm) =>
+      searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+    );
+
+    const searchRegexString = searchTerms.join('|');
+
+    if (searchRegexString) {
+      searchRegex = new RegExp(searchRegexString, 'gi');
+    }
+  }
+
+  return searchRegex;
+}
+
+function readyForHighlight(el: Node, searchText: string[]): boolean {
+  return el && searchText.length > 0;
+}
 
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
@@ -27,160 +114,98 @@ export class SkyTextHighlightDirective
    * Specifies the text to highlight.
    */
   @Input()
-  public set skyHighlight(value: string | string[]) {
+  public set skyHighlight(value: string | string[] | undefined) {
     value = value || [];
-    this._skyHighlight = [];
 
     if (Array.isArray(value)) {
-      this._skyHighlight = value.filter((item) => !!item);
+      this.#skyHighlightValues = value.filter((item) => !!item);
       // Reorder strings by their length in descending order to avoid missing matches
       // that contain substrings of other matches.
-      this._skyHighlight.sort(function (a, b) {
+      this.#skyHighlightValues.sort(function (a, b) {
         return b.length - a.length;
       });
     } else {
-      this._skyHighlight = [value as string];
+      this.#skyHighlightValues = [value as string];
     }
   }
 
-  private existingHighlight = false;
+  #existingHighlight = false;
 
-  private observer: MutationObserver;
+  #observer: MutationObserver | undefined;
 
-  private _skyHighlight: string[];
+  #skyHighlightValues: string[] = [];
 
-  constructor(
-    private el: ElementRef,
-    private observerService: MutationObserverService
-  ) {}
+  #el: ElementRef;
 
-  private static cleanRegex(regex: string): string {
-    return regex.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-  }
+  #observerSvc: MutationObserverService;
 
-  private static markNode(node: any, searchTerms: string[]): number {
-    /* istanbul ignore else */
-    if (searchTerms) {
-      const text = node.nodeValue;
-      for (let i = 0; i < searchTerms.length; i++) {
-        searchTerms[i] = this.cleanRegex(searchTerms[i]);
-      }
-      const searchRegex = new RegExp(searchTerms.join('|'), 'gi');
-      const match = searchRegex.exec(text);
-      if (match) {
-        // Split apart text node with mark tags in the middle on the search term.
-        const matchIndex = match.index;
-
-        const middle = node.splitText(matchIndex);
-        middle.splitText(searchRegex.lastIndex - matchIndex);
-        const middleClone = middle.cloneNode(true);
-
-        const markNode = document.createElement('mark');
-        markNode.className = className;
-        markNode.appendChild(middleClone);
-        middle.parentNode.replaceChild(markNode, middle);
-
-        return 1;
-      }
-    }
-    return 0;
-  }
-
-  private static markTextNodes(
-    node: HTMLElement,
-    searchTerms: string[]
-  ): number {
-    if (node.nodeType === 3) {
-      return SkyTextHighlightDirective.markNode(node, searchTerms);
-    } else if (node.nodeType === 1 && node.childNodes) {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        const childNode = node.childNodes[i] as HTMLElement;
-        i += SkyTextHighlightDirective.markTextNodes(childNode, searchTerms);
-      }
-    }
-
-    return 0;
-  }
-
-  private static removeHighlight(el: ElementRef): void {
-    const matchedElements = el.nativeElement.querySelectorAll(
-      `mark.${className}`
-    ) as NodeList;
-
-    /* istanbul ignore else */
-    /* sanity check */
-    if (matchedElements) {
-      for (let i = 0; i < matchedElements.length; i++) {
-        const node = matchedElements[i];
-        const parentNode = node.parentNode;
-
-        parentNode.replaceChild(node.firstChild, node);
-        parentNode.normalize();
-      }
-    }
+  constructor(el: ElementRef, observerSvc: MutationObserverService) {
+    this.#el = el;
+    this.#observerSvc = observerSvc;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.skyHighlight && !changes.skyHighlight.firstChange) {
-      this.highlight();
+      this.#highlight();
     }
   }
 
   public ngAfterViewInit(): void {
-    this.observer = this.observerService.create(() => {
-      this.highlight();
+    this.#observer = this.#observerSvc.create(() => {
+      this.#highlight();
     });
 
-    this.observeDom();
-    if (this._skyHighlight && this._skyHighlight.length > 0) {
-      this.highlight();
+    this.#observeDom();
+    if (this.#skyHighlightValues.length > 0) {
+      this.#highlight();
     }
   }
 
   public ngOnDestroy(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
-      this.observer.disconnect();
+    this.#disconnectObserver();
+  }
+
+  #disconnectObserver(): void {
+    if (this.#observer) {
+      this.#observer.disconnect();
     }
   }
 
-  private readyForHighlight(searchText: string[]): boolean {
-    return searchText && searchText.length > 0 && this.el.nativeElement;
-  }
+  #highlight(): void {
+    this.#disconnectObserver();
 
-  private highlight(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
-      this.observer.disconnect();
+    const searchText = this.#skyHighlightValues;
+
+    if (this.#existingHighlight) {
+      removeHighlight(this.#el);
     }
 
-    const searchText = this._skyHighlight;
+    const node = this.#el.nativeElement;
 
-    if (this.existingHighlight) {
-      SkyTextHighlightDirective.removeHighlight(this.el);
-    }
+    if (readyForHighlight(node, searchText)) {
+      const node = this.#el.nativeElement;
 
-    /* istanbul ignore else */
-    if (this.readyForHighlight(searchText)) {
-      const node: HTMLElement = this.el.nativeElement;
+      const searchRegex = createSearchRegex(searchText);
 
       // mark all matched text in the DOM
-      SkyTextHighlightDirective.markTextNodes(node, searchText);
-      this.existingHighlight = true;
+      if (searchRegex) {
+        markTextNodes(node, searchRegex);
+        this.#existingHighlight = true;
+      }
     }
 
-    this.observeDom();
+    this.#observeDom();
   }
 
-  private observeDom(): void {
-    /* istanbul ignore else */
-    if (this.observer) {
+  #observeDom(): void {
+    if (this.#observer) {
       const config = {
         attributes: false,
         childList: true,
         characterData: true,
       };
-      this.observer.observe(this.el.nativeElement, config);
+
+      this.#observer.observe(this.#el.nativeElement, config);
     }
   }
 }

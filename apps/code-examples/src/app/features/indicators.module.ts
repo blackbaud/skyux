@@ -7,6 +7,8 @@ import { KeyInfoDemoComponent } from '../code-examples/indicators/key-info/basic
 import { KeyInfoDemoModule } from '../code-examples/indicators/key-info/basic/key-info-demo.module';
 import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
 import { StatusIndicatorDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
+import { TextHighlightDemoComponent } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.component';
+import { TextHighlightDemoModule } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.module';
 
 const routes: Routes = [
   {
@@ -20,6 +22,10 @@ const routes: Routes = [
   {
     path: 'key-info/basic',
     component: KeyInfoDemoComponent,
+  },
+  {
+    path: 'text-highlight/basic',
+    component: TextHighlightDemoComponent,
   },
 ];
 
@@ -35,6 +41,7 @@ export class IndicatorsFeatureRoutingModule {}
     AlertBasicDemoModule,
     StatusIndicatorDemoModule,
     KeyInfoDemoModule,
+    TextHighlightDemoModule,
   ],
 })
 export class IndicatorsFeatureModule {}
