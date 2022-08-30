@@ -28,13 +28,13 @@ export type JsonPath = (string | number)[];
 export class JsonFile {
   public content: string;
 
-  private get JsonAst(): Node | undefined {
-    if (this._jsonAst) {
-      return this._jsonAst;
+  get #JsonAst(): Node | undefined {
+    if (this.#_jsonAst) {
+      return this.#_jsonAst;
     }
 
     const errors: ParseError[] = [];
-    this._jsonAst = parseTree(this.content, errors, {
+    this.#_jsonAst = parseTree(this.content, errors, {
       allowTrailingComma: true,
     });
     if (errors.length) {
@@ -48,13 +48,13 @@ export class JsonFile {
       );
     }
 
-    return this._jsonAst;
+    return this.#_jsonAst;
   }
 
-  private _jsonAst: Node | undefined;
+  #_jsonAst: Node | undefined;
 
-  constructor(private readonly host: Tree, private readonly path: string) {
-    const buffer = this.host.read(this.path);
+  constructor(readonly host: Tree, readonly path: string) {
+    const buffer = host.read(path);
     if (buffer) {
       this.content = buffer.toString();
     } else {
@@ -63,7 +63,7 @@ export class JsonFile {
   }
 
   public get(jsonPath: JsonPath): any {
-    const jsonAstNode = this.JsonAst;
+    const jsonAstNode = this.#JsonAst;
     if (!jsonAstNode) {
       return undefined;
     }
@@ -101,7 +101,7 @@ export class JsonFile {
 
     this.content = applyEdits(this.content, edits);
     this.host.overwrite(this.path, this.content);
-    this._jsonAst = undefined;
+    this.#_jsonAst = undefined;
   }
 
   public remove(jsonPath: JsonPath): void {
