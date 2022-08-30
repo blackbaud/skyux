@@ -28,32 +28,14 @@ export type JsonPath = (string | number)[];
 export class JsonFile {
   public content: string;
 
-  get #JsonAst(): Node | undefined {
-    if (this.#_jsonAst) {
-      return this.#_jsonAst;
-    }
+  #jsonAst: Node | undefined;
 
-    const errors: ParseError[] = [];
-    this.#_jsonAst = parseTree(this.content, errors, {
-      allowTrailingComma: true,
-    });
-    if (errors.length) {
-      const { error, offset } = errors[0];
-      throw new Error(
-        `Failed to parse "${
-          this.path
-        }" as JSON AST Object. ${printParseErrorCode(
-          error
-        )} at location: ${offset}.`
-      );
-    }
-
-    return this.#_jsonAst;
-  }
-
-  #_jsonAst: Node | undefined;
+  #host: Tree;
+  #path: string;
 
   constructor(host: Tree, path: string) {
+    this.#host = host;
+    this.#path = path;
     const buffer = host.read(path);
     if (buffer) {
       this.content = buffer.toString();
@@ -63,7 +45,7 @@ export class JsonFile {
   }
 
   public get(jsonPath: JsonPath): any {
-    const jsonAstNode = this.#JsonAst;
+    const jsonAstNode = this.#getJsonAst();
     if (!jsonAstNode) {
       return undefined;
     }
@@ -100,13 +82,36 @@ export class JsonFile {
     });
 
     this.content = applyEdits(this.content, edits);
-    this.host.overwrite(this.path, this.content);
-    this.#_jsonAst = undefined;
+    this.#host.overwrite(this.#path, this.content);
+    this.#jsonAst = undefined;
   }
 
   public remove(jsonPath: JsonPath): void {
     if (this.get(jsonPath) !== undefined) {
       this.modify(jsonPath, undefined);
     }
+  }
+
+  #getJsonAst(): Node | undefined {
+    if (this.#jsonAst) {
+      return this.#jsonAst;
+    }
+
+    const errors: ParseError[] = [];
+    this.#jsonAst = parseTree(this.content, errors, {
+      allowTrailingComma: true,
+    });
+    if (errors.length) {
+      const { error, offset } = errors[0];
+      throw new Error(
+        `Failed to parse "${
+          this.#path
+        }" as JSON AST Object. ${printParseErrorCode(
+          error
+        )} at location: ${offset}.`
+      );
+    }
+
+    return this.#jsonAst;
   }
 }
