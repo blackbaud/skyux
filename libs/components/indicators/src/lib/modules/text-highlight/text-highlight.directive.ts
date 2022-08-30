@@ -80,6 +80,8 @@ function createSearchRegex(searchTerms: string[]): RegExp | undefined {
   let searchRegex: RegExp | undefined;
 
   if (searchTerms) {
+    // Escape all the special regular expression characters by adding a
+    // preceding '\' to each match.
     searchTerms = searchTerms.map((searchTerm) =>
       searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
     );
