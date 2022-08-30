@@ -10,6 +10,7 @@ import {
 import { MutationObserverService } from '@skyux/core';
 
 const CLASS_NAME = 'sky-highlight-mark';
+const SPECIAL_CHAR_REGEX = /[-/\\^$*+?.()|[\]{}]/g;
 
 function markNode(node: Text, searchRegex: RegExp): number {
   // The search regular expression is reused across calls to markNode(), so reset
@@ -79,25 +80,17 @@ function removeHighlight(el: ElementRef): void {
 function createSearchRegex(searchTerms: string[]): RegExp | undefined {
   let searchRegex: RegExp | undefined;
 
-  if (searchTerms) {
+  if (searchTerms.length > 0) {
     // Escape all the special regular expression characters by adding a
     // preceding '\' to each match.
     searchTerms = searchTerms.map((searchTerm) =>
-      searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
+      searchTerm.replace(SPECIAL_CHAR_REGEX, '\\$&')
     );
 
-    const searchRegexString = searchTerms.join('|');
-
-    if (searchRegexString) {
-      searchRegex = new RegExp(searchRegexString, 'gi');
-    }
+    searchRegex = new RegExp(searchTerms.join('|'), 'gi');
   }
 
   return searchRegex;
-}
-
-function readyForHighlight(el: Node, searchText: string[]): boolean {
-  return el && searchText.length > 0;
 }
 
 // Need to add the following to classes which contain static methods.
@@ -120,14 +113,14 @@ export class SkyTextHighlightDirective
     value = value || [];
 
     if (Array.isArray(value)) {
-      this.#skyHighlightValues = value.filter((item) => !!item);
+      this.#searchTerms = value.filter((item) => !!item);
       // Reorder strings by their length in descending order to avoid missing matches
       // that contain substrings of other matches.
-      this.#skyHighlightValues.sort(function (a, b) {
+      this.#searchTerms.sort(function (a, b) {
         return b.length - a.length;
       });
     } else {
-      this.#skyHighlightValues = [value as string];
+      this.#searchTerms = [value as string];
     }
   }
 
@@ -135,7 +128,7 @@ export class SkyTextHighlightDirective
 
   #observer: MutationObserver | undefined;
 
-  #skyHighlightValues: string[] = [];
+  #searchTerms: string[] = [];
 
   #el: ElementRef;
 
@@ -157,10 +150,7 @@ export class SkyTextHighlightDirective
       this.#highlight();
     });
 
-    this.#observeDom();
-    if (this.#skyHighlightValues.length > 0) {
-      this.#highlight();
-    }
+    this.#highlight();
   }
 
   public ngOnDestroy(): void {
@@ -176,18 +166,14 @@ export class SkyTextHighlightDirective
   #highlight(): void {
     this.#disconnectObserver();
 
-    const searchText = this.#skyHighlightValues;
-
     if (this.#existingHighlight) {
       removeHighlight(this.#el);
     }
 
     const node = this.#el.nativeElement;
 
-    if (readyForHighlight(node, searchText)) {
-      const node = this.#el.nativeElement;
-
-      const searchRegex = createSearchRegex(searchText);
+    if (node) {
+      const searchRegex = createSearchRegex(this.#searchTerms);
 
       // mark all matched text in the DOM
       if (searchRegex) {
