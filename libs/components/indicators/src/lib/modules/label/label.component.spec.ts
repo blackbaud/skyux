@@ -38,6 +38,15 @@ describe('Label component', () => {
     expect(getLabel(fixture)).toHaveCssClass('sky-label-danger');
   });
 
+  it('should have a default label type', () => {
+    const fixture = TestBed.createComponent(LabelTestComponent);
+
+    fixture.componentInstance.labelType = undefined;
+
+    fixture.detectChanges();
+    expect(getLabel(fixture)).toHaveCssClass('sky-label-info');
+  });
+
   it("should render the label's contents in the expected location", async () => {
     const fixture = TestBed.createComponent(LabelTestComponent);
     fixture.componentInstance.labelType = 'info';
