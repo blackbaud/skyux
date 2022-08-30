@@ -231,7 +231,7 @@ describe('Modal service', () => {
     div.remove();
   }));
 
-  it('what does it do with layered modals', fakeAsync(() => {
+  it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
     openModal(ModalTestComponent, { fullPage: false });
     document.querySelector('sky-test-cmp').id = 'sibling';
     const host = document.querySelector('sky-modal-host');
@@ -253,7 +253,7 @@ describe('Modal service', () => {
     );
   }));
 
-  it('what does it do with layered modals', fakeAsync(() => {
+  it('should unhide modal behind top modal when top modal is closed even when the layering of modals has changed', fakeAsync(() => {
     openModal(ModalTestComponent, { fullPage: false });
     openModal(ModalTestComponent, { fullPage: false });
     const middleModal = openModal(ModalTestComponent, { fullPage: false });
