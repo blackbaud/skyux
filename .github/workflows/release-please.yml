@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -25,6 +26,12 @@ jobs:
         with:
           cache: npm
           node-version: '14'
+      # Workaround to avoid "Post Run actions/setup-node" failures.
+      # See: https://github.com/actions/setup-node/issues/317
+      - name: Ensure cache directory exists
+        if: ${{ !steps.release.outputs.release_created }}
+        run: mkdir -p /home/runner/.npm
+        continue-on-error: true
       - name: Cache node modules
         if: ${{ steps.release.outputs.release_created }}
         id: cache
@@ -48,6 +55,6 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.vars.outputs.tag }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tagName }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX
