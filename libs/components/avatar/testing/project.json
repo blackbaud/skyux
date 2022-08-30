@@ -1,0 +1,21 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/components/avatar/testing/src",
+  "prefix": "sky",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/avatar/testing/src/test.ts",
+        "tsConfig": "libs/components/avatar/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/components/avatar/testing/karma.conf.js",
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      }
+    }
+  }
+}

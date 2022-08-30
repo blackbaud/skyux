@@ -1,0 +1,48 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/components/tiles/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/components/tiles"],
+      "options": {
+        "project": "libs/components/tiles/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/tiles/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/tiles/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/tiles/src/test.ts",
+        "tsConfig": "libs/components/tiles/tsconfig.spec.json",
+        "karmaConfig": "libs/components/tiles/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/components/tiles/src/**/*.ts",
+          "libs/components/tiles/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["component", "npm"]
+}

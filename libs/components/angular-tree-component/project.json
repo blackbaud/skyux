@@ -1,0 +1,48 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/components/angular-tree-component/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/components/angular-tree-component"],
+      "options": {
+        "project": "libs/components/angular-tree-component/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/angular-tree-component/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/angular-tree-component/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/angular-tree-component/src/test.ts",
+        "tsConfig": "libs/components/angular-tree-component/tsconfig.spec.json",
+        "karmaConfig": "libs/components/angular-tree-component/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/components/angular-tree-component/src/**/*.ts",
+          "libs/components/angular-tree-component/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["component", "npm"]
+}

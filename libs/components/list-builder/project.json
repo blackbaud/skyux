@@ -1,0 +1,48 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/components/list-builder/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/components/list-builder"],
+      "options": {
+        "project": "libs/components/list-builder/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/list-builder/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/list-builder/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/list-builder/src/test.ts",
+        "tsConfig": "libs/components/list-builder/tsconfig.spec.json",
+        "karmaConfig": "libs/components/list-builder/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/components/list-builder/src/**/*.ts",
+          "libs/components/list-builder/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["component", "npm"]
+}

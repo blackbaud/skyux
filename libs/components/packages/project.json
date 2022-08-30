@@ -1,0 +1,42 @@
+{
+  "sourceRoot": "libs/components/packages/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/components/packages/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/components/packages"],
+      "options": {
+        "jestConfig": "libs/components/packages/jest.config.ts",
+        "passWithNoTests": true,
+        "codeCoverage": true,
+        "coverageReporters": ["html", "text"]
+      }
+    },
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/components/packages",
+        "tsConfig": "libs/components/packages/tsconfig.lib.json",
+        "packageJson": "libs/components/packages/package.json",
+        "main": "libs/components/packages/src/index.ts",
+        "assets": ["libs/components/packages/*.md"],
+        "updateBuildableProjectDepsInPackageJson": false
+      }
+    },
+    "postbuild": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-packages.ts"
+      }
+    }
+  },
+  "tags": ["component", "npm"]
+}

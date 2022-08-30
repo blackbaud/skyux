@@ -1,0 +1,48 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/components/http/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/components/http"],
+      "options": {
+        "project": "libs/components/http/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/http/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/http/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/http/src/test.ts",
+        "tsConfig": "libs/components/http/tsconfig.spec.json",
+        "karmaConfig": "libs/components/http/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/components/http/src/**/*.ts",
+          "libs/components/http/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["component", "npm"]
+}

@@ -1,0 +1,28 @@
+{
+  "sourceRoot": "apps/indicators-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/indicators-storybook-e2e/cypress.json",
+        "devServerTarget": "indicators-storybook:storybook",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "skipServe": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/indicators-storybook-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["indicators-storybook"]
+}

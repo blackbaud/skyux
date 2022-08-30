@@ -1,0 +1,48 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/sdk/testing/src",
+  "prefix": "sky",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/sdk/testing"],
+      "options": {
+        "project": "libs/sdk/testing/ng-package.json",
+        "updateBuildableProjectDepsInPackageJson": false
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/sdk/testing/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/sdk/testing/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/sdk/testing/src/test.ts",
+        "tsConfig": "libs/sdk/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/sdk/testing/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/sdk/testing/src/**/*.ts",
+          "libs/sdk/testing/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["sdk", "npm"]
+}

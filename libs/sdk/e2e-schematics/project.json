@@ -1,0 +1,59 @@
+{
+  "sourceRoot": "libs/sdk/e2e-schematics/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/sdk/e2e-schematics",
+        "main": "libs/sdk/e2e-schematics/src/index.ts",
+        "tsConfig": "libs/sdk/e2e-schematics/tsconfig.lib.json",
+        "assets": [
+          "libs/sdk/e2e-schematics/*.md",
+          {
+            "input": "./libs/sdk/e2e-schematics/src",
+            "glob": "**/!(*.ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/sdk/e2e-schematics/src",
+            "glob": "**/*.d.ts",
+            "output": "./src"
+          },
+          {
+            "input": "./libs/sdk/e2e-schematics",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libs/sdk/e2e-schematics",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/sdk/e2e-schematics/**/*.ts",
+          "libs/sdk/e2e-schematics/generators.json",
+          "libs/sdk/e2e-schematics/executors.json",
+          "libs/sdk/e2e-schematics/package.json"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/sdk/e2e-schematics"],
+      "options": {
+        "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
