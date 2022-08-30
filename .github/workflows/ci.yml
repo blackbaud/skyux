@@ -44,7 +44,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3]
+        agent: [1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v2
       - name: Retrieve node_modules cache
@@ -86,7 +86,7 @@ jobs:
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5 --exclude=ci
+        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5
 
   build:
     name: Build
@@ -112,7 +112,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5 --exclude=ci
+        run: npx nx affected --target=build --parallel --maxParallel=5
 
   build-dist:
     name: Build packages distribution
@@ -162,39 +162,13 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx skyux-dev test-affected
-
-  browserstack:
-    name: Cross-browser testing
-    needs: install-deps
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        uses: nrwl/nx-set-shas@v2
-      - name: Retrieve node_modules cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
-      - name: Cross-browser tests
-        run: |
-          npx skyux-dev test-affected --codeCoverage=false --karmaConfig=config/karma/karma.ci.conf.js --onlyComponents
+          npx nx affected --target=test --parallel --maxParallel=5 --browsers=ChromeHeadless
 
   stop-agents:
     name: Stop Nx Cloud agents
     runs-on: ubuntu-latest
     if: always()
-    needs: [lint, build, build-dist, coverage, browserstack]
+    needs: [lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3

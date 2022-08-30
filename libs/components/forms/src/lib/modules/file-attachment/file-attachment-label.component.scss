@@ -8,9 +8,3 @@
     font-size: 13px;
   }
 }
-
-::ng-deep {
-  .sky-control-help:not(:empty) {
-    margin-left: var(--sky-margin-inline-sm);
-  }
-}

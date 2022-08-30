@@ -18,10 +18,6 @@
           cy.get('#ready')
             .should('exist')
             .end()
-            .get('input[placeholder="Find in this list"]')
-            .should('exist')
-            .should('be.visible')
-            .end()
             .get('#root')
             .should('exist')
             .should('be.visible')
@@ -33,6 +29,12 @@
               {
                 widths: [1280],
                 scope: '#root',
+                percyCSS: `
+                  /* Avoid "virtual rows" in the screenshot. */
+                  :root {
+                    --viewport-height: 600px;
+                  }
+                `,
               }
             );
         });
