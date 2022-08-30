@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { MutationObserverService } from '@skyux/core';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
-import { SkyTextHighlightModule } from './text-highlight.module';
+import { SkyTextHighlightFixtureModule } from './fixtures/text-highlight.module.fixture';
 
 function getContainerEl(
   fixture: ComponentFixture<SkyTextHighlightTestComponent>
@@ -42,23 +41,25 @@ describe('Text Highlight', () => {
   let fixture: ComponentFixture<SkyTextHighlightTestComponent>;
   let component: SkyTextHighlightTestComponent;
   let nativeElement: HTMLElement;
-  let callbacks: any[];
+  let callbacks: (() => void)[];
   let containerEl: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyTextHighlightTestComponent],
-      imports: [SkyTextHighlightModule, FormsModule],
+      imports: [SkyTextHighlightFixtureModule],
       providers: [
         {
           provide: MutationObserverService,
           useValue: {
-            create: function (callback): any {
+            create(callback: () => void): {
+              observe: jasmine.Spy;
+              disconnect: jasmine.Spy;
+            } {
               callbacks.push(callback);
 
               return {
-                observe: () => {},
-                disconnect: () => {},
+                observe: jasmine.createSpy('observe'),
+                disconnect: jasmine.createSpy('disconnect'),
               };
             },
           },
@@ -89,7 +90,10 @@ describe('Text Highlight', () => {
 
     const mark = containerEl.querySelector('mark');
     expect(mark).toBeTruthy();
-    validateInnerHTML(mark, 'test');
+
+    if (mark) {
+      validateInnerHTML(mark, 'test');
+    }
   }));
 
   it('should highlight search term', () => {
@@ -156,20 +160,21 @@ describe('Text Highlight', () => {
     validateInnerHTML(newMarks[1], 'pan');
   });
 
-  it('highlight should NOT be called when DOM attributes are changed', (done) => {
-    const spy = spyOn<any>(
-      component.textHighlightDirective,
-      'highlight'
-    ).and.callThrough();
+  it('should NOT highlight text when DOM attributes are changed', (done) => {
+    const execSpy = spyOn(RegExp.prototype, 'exec').and.callThrough();
 
     updateInputText(fixture, 'text');
 
+    expect(execSpy).toHaveBeenCalled();
+
+    execSpy.calls.reset();
+
     const div = nativeElement.querySelector('.sky-test-div-container');
-    div.setAttribute('foo', 'bar');
+    div?.setAttribute('foo', 'bar');
     fixture.detectChanges();
 
     window.setTimeout(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
+      expect(execSpy).not.toHaveBeenCalled();
       done();
     });
   });
@@ -203,7 +208,7 @@ describe('Text Highlight', () => {
     validateInnerHTML(mark, '-/^$*+?.()|{}[]');
   });
 
-  it('changed search term should highlight new term and old term should not highlight', () => {
+  it('should highlight new term and old term should not highlight', () => {
     updateInputText(fixture, 'some');
     let mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
@@ -215,7 +220,7 @@ describe('Text Highlight', () => {
     validateInnerHTML(mark, 'Here');
   });
 
-  it('highlight search term of html that was previously hidden', () => {
+  it('should highlight search term of html that was previously hidden', () => {
     component.showAdditionalContent = false;
     fixture.detectChanges();
 
@@ -234,7 +239,7 @@ describe('Text Highlight', () => {
     fixture.detectChanges();
 
     // mock the mutation observer callback on DOM change
-    callbacks[0](undefined);
+    callbacks[0]();
     fixture.detectChanges();
 
     const marks = fixture.nativeElement.querySelectorAll('mark');
@@ -243,7 +248,7 @@ describe('Text Highlight', () => {
     validateInnerHTML(marks[1], 'is');
   });
 
-  it('highlight hidden search term where only highlighted term was hidden', () => {
+  it('should highlight hidden search term where only highlighted term was hidden', () => {
     component.showAdditionalContent = false;
     fixture.detectChanges();
 
@@ -260,12 +265,22 @@ describe('Text Highlight', () => {
     fixture.detectChanges();
 
     // mock the mutation observer callback on DOM change
-    callbacks[0](undefined);
+    callbacks[0]();
     fixture.detectChanges();
 
     mark = fixture.nativeElement.querySelector('mark');
     expect(mark).toBeTruthy();
     validateInnerHTML(mark, 'additional');
+  });
+
+  it('should handle search terms with escapable characters when there are many child DOM elements', () => {
+    updateInputText(fixture, '.');
+    fixture.componentInstance.childElementsTest = true;
+    fixture.detectChanges();
+
+    const mark = fixture.nativeElement.querySelector('mark');
+    expect(mark).toBeTruthy();
+    validateInnerHTML(mark, '.');
   });
 
   it('should be accessible when search term is highlighted', async () => {

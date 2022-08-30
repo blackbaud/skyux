@@ -6,6 +6,9 @@
     <sky-icon-stack size="xs" [baseIcon]="baseIcon" [topIcon]="topIcon">
     </sky-icon-stack>
   </span>
+  <span *ngIf="descriptionComputed" class="sky-screen-reader-only">
+    {{ descriptionComputed }}
+  </span>
   <span class="sky-label-text">
     <ng-content></ng-content>
   </span>

@@ -59,6 +59,10 @@ textarea.ng-invalid.ng-touched {
   @include sky-required-field;
 }
 
+.sky-control-help-container:not(:empty) {
+  margin-left: var(--sky-margin-inline-xs);
+}
+
 fieldset {
   border: 0;
   margin: 0;

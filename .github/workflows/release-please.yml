@@ -11,15 +11,13 @@ jobs:
         id: release
         with:
           release-type: 'node'
-          target-branch: '${{ github.ref_name }}'
+          default-branch: '${{ github.ref_name }}'
           package-name: 'skyux'
           pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           prerelease: false
-          draft: true
           draft-pull-request: true
-          clean: false
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
       - uses: actions/checkout@v2
@@ -27,19 +25,26 @@ jobs:
         with:
           cache: npm
           node-version: '14'
-      - name: Install dependencies
+      - name: Cache node modules
+        if: ${{ steps.release.outputs.release_created }}
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: ${{ steps.release.outputs.release_created && steps.cache.outputs.cache-hit != 'true' }}
         run: npm ci
       - name: Build
+        if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev create-packages-dist
       - name: Publish
-        # if: ${{ steps.release.outputs.release_created }}
-        if: false
+        if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev publish-packages-dist
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Notify Slack
-        # if: ${{ steps.release.outputs.release_created }}
-        if: false
+        if: ${{ steps.release.outputs.release_created }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

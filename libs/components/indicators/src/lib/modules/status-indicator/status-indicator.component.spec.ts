@@ -134,7 +134,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const helpEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-help .sky-control-help'
+      '.sky-control-help-container .sky-control-help'
     );
 
     expect(helpEl).toHaveText('Help inline');
@@ -158,6 +158,11 @@ describe('Status indicator component', () => {
     validateDescription(fixture, 'important-info', 'Important information:');
     validateDescription(fixture, 'none');
     validateDescription(fixture, 'warning', 'Warning:');
+    validateDescription(fixture, 'important-warning', 'Important warning:');
+    validateDescription(fixture, 'danger', 'Danger:');
+    validateDescription(fixture, 'caution', 'Caution:');
+    validateDescription(fixture, 'success', 'Success:');
+    validateDescription(fixture, 'attention', 'Attention:');
   });
 
   it('should be accessible', async () => {
