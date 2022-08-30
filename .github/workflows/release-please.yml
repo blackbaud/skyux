@@ -25,9 +25,17 @@ jobs:
         with:
           cache: npm
           node-version: '14'
-      - name: Install dependencies
+      - name: Cache node modules
+        id: cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: npm install
+        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build
+        if: ${{ steps.release.outputs.release_created }}
         run: npx skyux-dev create-packages-dist
       - name: Publish
         if: ${{ steps.release.outputs.release_created }}
