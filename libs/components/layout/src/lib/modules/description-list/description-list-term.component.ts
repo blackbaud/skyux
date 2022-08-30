@@ -13,7 +13,6 @@ import {
 @Component({
   selector: 'sky-description-list-term',
   templateUrl: './description-list-term.component.html',
-  styleUrls: ['./description-list-term.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDescriptionListTermComponent {
