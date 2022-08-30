@@ -134,10 +134,13 @@ describe('Jasmine matchers', () => {
     expect(elem).not.toHaveCssClass('other');
     try {
       expect(elem).toHaveCssClass('.with-dot');
+      fail('Expected test to fail due to dot in class name provided.');
     } catch (err) {
-      expect(err.message).toEqual(
-        'Please remove the leading dot from your class name.'
-      );
+      if (err instanceof Error) {
+        expect(err.message).toEqual(
+          'Please remove the leading dot from your class name.'
+        );
+      }
     }
   });
 
@@ -220,7 +223,7 @@ describe('Jasmine matchers', () => {
 
       it('should allow configuration override', waitForAsync(() => {
         const element = createFailingElement();
-        expect(element).toBeAccessible(() => {}, {
+        expect(element).toBeAccessible(undefined, {
           rules: {
             'duplicate-id': { enabled: false },
           },
@@ -230,8 +233,10 @@ describe('Jasmine matchers', () => {
       it('should allow SkyAppConfig override', waitForAsync(
         inject([SkyAppConfig], (config: SkyAppConfig) => {
           const element = createPassingElement();
-          expect(element).toBeAccessible(() => {},
-          config.skyux.a11y as SkyA11yAnalyzerConfig);
+          expect(element).toBeAccessible(
+            undefined,
+            config.skyux.a11y as SkyA11yAnalyzerConfig
+          );
         })
       ));
     });
@@ -277,7 +282,7 @@ describe('Jasmine matchers', () => {
           }
         );
 
-        expect(text).toEqualResourceText(messageKey, messageArgs, () => {});
+        expect(text).toEqualResourceText(messageKey, messageArgs);
       }));
 
       it('should fail if the actual text does not match text provided by resources', (done) => {
@@ -627,10 +632,7 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualResourceText(
-            messageKey,
-            undefined
-          );
+          await expectAsync(text).not.toEqualResourceText(messageKey);
         });
       });
 
@@ -891,10 +893,7 @@ describe('Jasmine matchers', () => {
             observableOf(messageValue)
           );
 
-          await expectAsync(text).not.toEqualLibResourceText(
-            messageKey,
-            undefined
-          );
+          await expectAsync(text).not.toEqualLibResourceText(messageKey);
         });
       });
 

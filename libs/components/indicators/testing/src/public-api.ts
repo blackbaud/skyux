@@ -8,3 +8,4 @@ export * from './label-fixture';
 export * from './wait-fixture';
 
 export * from './alert/alert-harness';
+export * from './alert/alert-harness-filters';

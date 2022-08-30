@@ -11,6 +11,15 @@ module.exports = function (config) {
     coverageReporter: {
       ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../../coverage/libs/components/phone-field'),
+      // TODO: remove these threshold overrides to meet 100% coverage!
+      check: {
+        global: {
+          statements: 100,
+          branches: 100,
+          functions: 96,
+          lines: 100,
+        },
+      },
     },
   });
 };
