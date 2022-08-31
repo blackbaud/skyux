@@ -1,5 +1,6 @@
 /**
  * Properties of a SKY UX tab.
+ * @internal
  */
 export interface SkyTabsetFixtureTab {
   /**
