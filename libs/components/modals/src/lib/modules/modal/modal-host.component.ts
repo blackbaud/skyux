@@ -61,8 +61,6 @@ export class SkyModalHostComponent implements OnDestroy {
   #modalHostContext: SkyModalHostContext;
   #elRef: ElementRef;
 
-  #ariaPreviousValueSiblings = new Map<Element, string | null>();
-
   #modalInstances: SkyModalInstance[] = [];
 
   constructor(
@@ -87,16 +85,6 @@ export class SkyModalHostComponent implements OnDestroy {
     // Close all modal instances before disposing of the host container.
     this.#closeAllModalInstances();
     this.#modalHostContext.args.teardownCallback();
-  }
-
-  public hideModalHostSiblings(): void {
-    // hidding all elements at the modal-host level from screenreaders
-    const hostElement = this.#elRef.nativeElement;
-    const hostSiblings = hostElement.parentElement.children;
-    this.#ariaPreviousValueSiblings = this.#adapter.addAriaHidden(
-      hostSiblings,
-      hostElement
-    );
   }
 
   public open(
@@ -163,25 +151,23 @@ export class SkyModalHostComponent implements OnDestroy {
 
     if (SkyModalHostService.openModalCount == 1) {
       // hidding all elements at the modal-host level from screenreaders when the first modal is opened
-      this.hideModalHostSiblings();
+      this.#adapter.hideHostSiblings(this.#elRef);
     }
     if (
       SkyModalHostService.openModalCount > 1 &&
       SkyModalHostService.topModal == hostService
     ) {
       // hiding the lower modals when more than one modal is opened
-      modalElement.previousElementSibling.setAttribute('aria-hidden', true);
+      this.#adapter.hidePreviousModal(modalElement);
     }
 
     const closeModal = () => {
       // unhide siblings if last modal is closing
       if (SkyModalHostService.openModalCount == 1) {
-        adapter.removeAriaHidden(this.#ariaPreviousValueSiblings);
-        this.#ariaPreviousValueSiblings.clear();
+        this.#adapter.unhideHostSiblings();
       } else if (SkyModalHostService.topModal == hostService) {
         // if there are more than 1 modal then unhide the one behind this one before closing it
-        // allModals = hostElement.children;
-        modalElement.previousElementSibling.removeAttribute('aria-hidden');
+        this.#adapter.unhidePreviousModal(modalElement);
       }
 
       hostService.destroy();

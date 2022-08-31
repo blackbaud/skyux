@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { SkyAppWindowRef } from '@skyux/core';
 
 /**
@@ -13,6 +13,7 @@ export class SkyModalAdapterService {
   #bodyEl: HTMLElement;
 
   #windowRef: SkyAppWindowRef;
+  #hiddenElements = new Map<Element, string | null>();
 
   constructor(windowRef: SkyAppWindowRef) {
     this.#windowRef = windowRef;
@@ -48,31 +49,27 @@ export class SkyModalAdapterService {
     this.#bodyEl.classList.remove(className);
   }
 
-  public addAriaHidden(
-    elementsToHide: HTMLCollection,
-    self: Element | unknown
-  ): Map<Element, string | null> {
-    const hiddenElements = new Map<Element, string | null>();
+  public hideHostSiblings(elRef: ElementRef): void {
+    const hostElement = elRef.nativeElement;
+    const hostSiblings = hostElement.parentElement.children;
 
-    for (let i = 0; i < elementsToHide.length; i++) {
-      const element = elementsToHide[i];
+    for (let i = 0; i < hostSiblings.length; i++) {
+      const element = hostSiblings[i];
       if (
-        element !== self &&
+        element !== hostElement &&
         !element.hasAttribute('aria-live') &&
         element.nodeName.toLowerCase() !== 'script' &&
         element.nodeName.toLowerCase() !== 'style'
       ) {
         // preserve previous aria-hidden status of elements outside of modal host
-        hiddenElements.set(element, element.getAttribute('aria-hidden'));
+        this.#hiddenElements.set(element, element.getAttribute('aria-hidden'));
         element.setAttribute('aria-hidden', 'true');
       }
     }
-
-    return hiddenElements;
   }
 
-  public removeAriaHidden(hiddenElements: Map<Element, string | null>): void {
-    hiddenElements.forEach((previousValue, element) => {
+  public unhideHostSiblings(): void {
+    this.#hiddenElements.forEach((previousValue, element) => {
       // if element had aria-hidden status prior, restore status
       if (previousValue) {
         element.setAttribute('aria-hidden', previousValue);
@@ -80,5 +77,18 @@ export class SkyModalAdapterService {
         element.removeAttribute('aria-hidden');
       }
     });
+    this.#hiddenElements.clear();
+  }
+
+  public hidePreviousModal(modal: Element): void {
+    if (modal && modal.previousElementSibling) {
+      modal.previousElementSibling.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  public unhidePreviousModal(modal: Element): void {
+    if (modal && modal.previousElementSibling) {
+      modal.previousElementSibling.removeAttribute('aria-hidden');
+    }
   }
 }
