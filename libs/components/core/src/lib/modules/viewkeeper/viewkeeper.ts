@@ -111,19 +111,7 @@ export class SkyViewkeeper {
 
   #verticalOffsetEl: HTMLElement | undefined;
 
-  set #viewportMarginTop(margin: number) {
-    this.#_viewportMarginTop = margin;
-  }
-
-  get #viewportMarginTop(): number {
-    if (this.#scrollableHost) {
-      return 0;
-    } else {
-      return this.#_viewportMarginTop;
-    }
-  }
-
-  #_viewportMarginTop = 0;
+  #viewportMarginTop = 0;
 
   #currentElFixedLeft: number | undefined;
 
@@ -159,7 +147,11 @@ export class SkyViewkeeper {
     this.#scrollableHost = options.scrollableHost;
     this.#verticalOffset = options.verticalOffset || 0;
     this.#verticalOffsetEl = options.verticalOffsetEl;
-    this.#viewportMarginTop = options.viewportMarginTop || 0;
+
+    // Only set viewport margin if the scrollable host is undefined.
+    if (!this.#scrollableHost) {
+      this.#viewportMarginTop = options.viewportMarginTop ?? 0;
+    }
 
     this.#syncElPositionHandler = () => this.syncElPosition(el, boundaryEl);
 
