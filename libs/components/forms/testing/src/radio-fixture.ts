@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX radio buttons within a radio group.
+ * @internal
  */
 export class SkyRadioFixture {
   private debugEl: DebugElement;

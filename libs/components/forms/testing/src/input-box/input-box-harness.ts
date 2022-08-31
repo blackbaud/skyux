@@ -9,6 +9,7 @@ import { SkyInputBoxHarnessFilters } from './input-box-harness-filters';
 
 /**
  * Harness for interacting with an input box component in tests.
+ * @internal
  */
 export class SkyInputBoxHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-input-box';

@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 
+/**
+ * @internal
+ */
 @NgModule({
   exports: [
     SkySummaryActionBarModule,

@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX country field component.
+ * @internal
  */
 export class SkyCountryFieldFixture {
   private debugEl: DebugElement;
