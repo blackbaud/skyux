@@ -12,7 +12,7 @@ export function addCrossventFix(workspace: WorkspaceDefinition): Rule {
 
       /*istanbul ignore else*/
       if (testTarget) {
-        if (testTarget.options.main) {
+        if (testTarget.options && testTarget.options.main) {
           // Get the 'test.ts' entry point file path from the 'test' target.
           const filePath = testTarget.options.main.toString();
           const contents = readRequiredFile(tree, filePath);

@@ -7,14 +7,6 @@ $indicator-size: 22px;
 .sky-toggle-switch {
   display: inline-flex;
   align-items: baseline;
-
-  .sky-control-help:not(:empty) {
-    margin-left: var(--sky-margin-inline-sm);
-  }
-}
-
-.sky-toggle-switch-help:not(:empty) {
-  margin-left: var(--sky-margin-inline-sm);
 }
 
 .sky-toggle-switch-switch {

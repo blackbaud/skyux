@@ -9,6 +9,8 @@ import { LabelDemoComponent } from '../code-examples/indicators/label/basic/labe
 import { LabelDemoModule } from '../code-examples/indicators/label/basic/label-demo.module';
 import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.component';
 import { StatusIndicatorDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
+import { TextHighlightDemoComponent } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.component';
+import { TextHighlightDemoModule } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.module';
 
 const routes: Routes = [
   {
@@ -27,6 +29,10 @@ const routes: Routes = [
     path: 'label/basic',
     component: LabelDemoComponent,
   },
+  {
+    path: 'text-highlight/basic',
+    component: TextHighlightDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -42,6 +48,7 @@ export class IndicatorsFeatureRoutingModule {}
     StatusIndicatorDemoModule,
     KeyInfoDemoModule,
     LabelDemoModule,
+    TextHighlightDemoModule,
   ],
 })
 export class IndicatorsFeatureModule {}

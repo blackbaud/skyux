@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.16.0](https://github.com/blackbaud/skyux/compare/6.15.0...6.16.0) (2022-08-30)
+
+
+### Features
+
+* **components/indicators:** label accessibility updates ([#409](https://github.com/blackbaud/skyux/issues/409)) ([4c2c878](https://github.com/blackbaud/skyux/commit/4c2c8789f1e77f822bc1fac07f5787aa3fc194bf))
+* **components/theme:** add CSS custom properties for spacing ([#453](https://github.com/blackbaud/skyux/issues/453)) ([60389bd](https://github.com/blackbaud/skyux/commit/60389bd0ffef143a7f29391a4be580c92c7cc4fb))
+
+
+### Bug Fixes
+
+* **components/indicators:** alert harness filters interface is now exported ([#456](https://github.com/blackbaud/skyux/issues/456)) ([1b653aa](https://github.com/blackbaud/skyux/commit/1b653aa74672f09cb0d6427d7cad4f76ffc1a282))
+
 ## [6.15.0](https://github.com/blackbaud/skyux/compare/6.14.0...6.15.0) (2022-08-26)
 
 ### Features
