@@ -1,4 +1,5 @@
 {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/sdk/e2e-schematics/src",
   "projectType": "library",
   "targets": {
