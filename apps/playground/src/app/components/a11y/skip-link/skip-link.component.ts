@@ -11,15 +11,19 @@ import { SkySkipLinkService } from '@skyux/a11y';
 })
 export class SkipLinkComponent implements AfterViewInit {
   @ViewChild('skipLink1', { read: ElementRef })
-  private skipLink1: ElementRef;
+  public skipLink1: ElementRef;
 
   @ViewChild('skipLink2', { read: ElementRef })
-  private skipLink2: ElementRef;
+  public skipLink2: ElementRef;
 
-  constructor(private skipLinkService: SkySkipLinkService) {}
+  #skipLinkService: SkySkipLinkService;
+
+  constructor(skipLinkService: SkySkipLinkService) {
+    this.#skipLinkService = skipLinkService;
+  }
 
   public ngAfterViewInit(): void {
-    this.skipLinkService.setSkipLinks({
+    this.#skipLinkService.setSkipLinks({
       links: [
         {
           title: 'Area 1',
