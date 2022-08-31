@@ -16,22 +16,28 @@ import { SkySkipLinkAdapterService } from './skip-link-adapter.service';
 })
 export class SkySkipLinkHostComponent {
   public get links(): SkySkipLink[] {
-    return this._links;
+    return this.#_links;
   }
 
   public set links(value: SkySkipLink[]) {
-    this._links = value;
-    this.changeDetector.markForCheck();
+    this.#_links = value;
+    this.#changeDetector.markForCheck();
   }
 
-  private _links: SkySkipLink[];
+  #_links: SkySkipLink[] = [];
+
+  #changeDetector: ChangeDetectorRef;
+  #adapter: SkySkipLinkAdapterService;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private adapter: SkySkipLinkAdapterService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    adapter: SkySkipLinkAdapterService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#adapter = adapter;
+  }
 
   public skipTo(link: SkySkipLink): void {
-    this.adapter.skipTo(link);
+    this.#adapter.skipTo(link);
   }
 }
