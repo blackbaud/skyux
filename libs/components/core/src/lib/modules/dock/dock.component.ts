@@ -42,7 +42,7 @@ export class SkyDockComponent {
 
   #injector: Injector;
 
-  #itemRefs: SkyDockItemReference<any>[] = [];
+  #itemRefs: SkyDockItemReference<unknown>[] = [];
 
   #options: SkyDockOptions | undefined;
 

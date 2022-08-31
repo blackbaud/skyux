@@ -45,7 +45,7 @@ export class SkyAffixer {
    * Fires when the affixed element's offset changes.
    */
   public get offsetChange(): Observable<SkyAffixOffsetChange> {
-    return this.#_offsetChangeObs;
+    return this.#offsetChangeObs;
   }
 
   /**
@@ -54,7 +54,7 @@ export class SkyAffixer {
    * event listener.
    */
   public get overflowScroll(): Observable<void> {
-    return this.#_overflowScrollObs;
+    return this.#overflowScrollObs;
   }
 
   /**
@@ -62,7 +62,7 @@ export class SkyAffixer {
    * placement could not be found.
    */
   public get placementChange(): Observable<SkyAffixPlacementChange> {
-    return this.#_placementChangeObs;
+    return this.#placementChangeObs;
   }
 
   get #config(): AffixConfigOrDefaults {
@@ -96,11 +96,17 @@ export class SkyAffixer {
 
   #offsetChange: Subject<SkyAffixOffsetChange>;
 
+  #offsetChangeObs: Observable<SkyAffixOffsetChange>;
+
   #overflowParents: HTMLElement[] = [];
 
   #overflowScroll: Subject<void>;
 
+  #overflowScrollObs: Observable<void>;
+
   #placementChange: Subject<SkyAffixPlacementChange>;
+
+  #placementChangeObs: Observable<SkyAffixPlacementChange>;
 
   #renderer: Renderer2;
 
@@ -110,12 +116,6 @@ export class SkyAffixer {
 
   #_config: AffixConfigOrDefaults = DEFAULT_AFFIX_CONFIG;
 
-  #_offsetChangeObs: Observable<SkyAffixOffsetChange>;
-
-  #_overflowScrollObs: Observable<void>;
-
-  #_placementChangeObs: Observable<SkyAffixPlacementChange>;
-
   constructor(affixedElement: HTMLElement, renderer: Renderer2) {
     this.#affixedElement = affixedElement;
     this.#renderer = renderer;
@@ -124,9 +124,9 @@ export class SkyAffixer {
     this.#overflowScroll = new Subject<void>();
     this.#placementChange = new Subject<SkyAffixPlacementChange>();
 
-    this.#_offsetChangeObs = this.#offsetChange.asObservable();
-    this.#_overflowScrollObs = this.#overflowScroll.asObservable();
-    this.#_placementChangeObs = this.#placementChange.asObservable();
+    this.#offsetChangeObs = this.#offsetChange.asObservable();
+    this.#overflowScrollObs = this.#overflowScroll.asObservable();
+    this.#placementChangeObs = this.#placementChange.asObservable();
   }
 
   /**

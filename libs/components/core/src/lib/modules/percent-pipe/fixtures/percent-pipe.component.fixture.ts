@@ -11,6 +11,7 @@ export class PercentPipeTestComponent {
 
   public locale: string | undefined;
 
+  // Set to 'unknown' since our tests check multiple value types.
   public numberValue: unknown = 0.8675309;
 
   constructor(private percentPipe: SkyPercentPipe) {}

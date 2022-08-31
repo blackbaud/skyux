@@ -273,11 +273,8 @@ describe('Core adapter service', () => {
       expect(heightsSynced(childrenArray)).toEqual(false);
       for (let index = 0; index < childrenArray.length; index++) {
         const element = childrenArray[index];
-        // IE11 will result in 'height:;'. Remove that before running expectation.
-        const heightAttribute = element
-          .getAttribute('style')
-          ?.replace('height:;', '');
-        expect(heightAttribute).toBe('');
+        const styleAttribute = element.getAttribute('style');
+        expect(styleAttribute).toBe('');
       }
     });
   });

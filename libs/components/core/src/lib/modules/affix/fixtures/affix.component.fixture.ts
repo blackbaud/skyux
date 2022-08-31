@@ -134,7 +134,6 @@ export class AffixFixtureComponent {
         top -
           document.documentElement.clientHeight / 2 +
           baseElement.clientHeight / 2
-        // this.toolbarRef.nativeElement.clientHeight / 2
       );
     }
   }

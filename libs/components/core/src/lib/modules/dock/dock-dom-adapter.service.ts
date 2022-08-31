@@ -41,6 +41,7 @@ export class SkyDockDomAdapterService implements OnDestroy {
       this.#observer.disconnect();
     }
     this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
     if (this.#styleElement) {
       this.#destroyStyleElement();

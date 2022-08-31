@@ -56,11 +56,11 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   public wrapperClass = '';
 
   public get backdropClick(): Observable<void> {
-    return this.#_backdropClickObs;
+    return this.#backdropClickObs;
   }
 
   public get closed(): Observable<void> {
-    return this.#_closedObs;
+    return this.#closedObs;
   }
 
   public enablePointerEvents = false;
@@ -90,15 +90,15 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
   })
   private targetRef: ViewContainerRef | undefined;
 
-  #_backdropClickObs: Observable<void>;
-
-  #_closedObs: Observable<void>;
-
   #backdropClick: Subject<void>;
+
+  #backdropClickObs: Observable<void>;
 
   #changeDetector: ChangeDetectorRef;
 
   #closed: Subject<void>;
+
+  #closedObs: Observable<void>;
 
   #context: SkyOverlayContext;
 
@@ -136,8 +136,8 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     this.#backdropClick = new Subject<void>();
     this.#closed = new Subject<void>();
 
-    this.#_backdropClickObs = this.#backdropClick.asObservable();
-    this.#_closedObs = this.#closed.asObservable();
+    this.#backdropClickObs = this.#backdropClick.asObservable();
+    this.#closedObs = this.#closed.asObservable();
   }
 
   public ngOnInit(): void {

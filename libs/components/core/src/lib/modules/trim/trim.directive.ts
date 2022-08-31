@@ -11,7 +11,7 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
 export class SkyTrimDirective implements OnInit, OnDestroy {
   #elRef: ElementRef;
 
-  #obs: MutationObserver | undefined;
+  #obs: MutationObserver;
 
   constructor(elRef: ElementRef, mutationObs: MutationObserverService) {
     this.#elRef = elRef;
@@ -39,22 +39,17 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.#disconnect();
-    this.#obs = undefined;
   }
 
   #observe(): void {
-    if (this.#obs) {
-      this.#obs.observe(this.#elRef.nativeElement, {
-        characterData: true,
-        subtree: true,
-      });
-    }
+    this.#obs.observe(this.#elRef.nativeElement, {
+      characterData: true,
+      subtree: true,
+    });
   }
 
   #disconnect(): void {
-    if (this.#obs) {
-      this.#obs.disconnect();
-    }
+    this.#obs.disconnect();
   }
 
   #trim(nodes: Node[]): void {

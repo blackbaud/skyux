@@ -61,8 +61,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
+    this.unobserve();
 
     this.#target = undefined;
     this.#currentBreakpointObs.complete();
@@ -85,7 +84,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
         return this;
       }
 
-      this.#ngUnsubscribe.next();
+      this.unobserve();
     }
 
     this.#target = element;
@@ -109,6 +108,7 @@ export class SkyResizeObserverMediaQueryService implements OnDestroy {
    */
   public unobserve(): void {
     this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**

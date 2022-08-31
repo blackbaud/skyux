@@ -32,14 +32,9 @@ describe('Number format utility', function () {
   });
 
   it('should throw error for invalid types', function () {
-    try {
-      formatCurrency({}, '');
-      fail('It should fail!');
-    } catch (err) {
-      expect((err as Error).message).toEqual(
-        "SkyInvalidPipeArgument: '[object Object]'"
-      );
-    }
+    expect(() => formatCurrency({}, '')).toThrowError(
+      "SkyInvalidPipeArgument: '[object Object]'"
+    );
   });
 
   it('should return null for null values', function () {
@@ -51,24 +46,16 @@ describe('Number format utility', function () {
   it('should throw error if digits invalid', function () {
     const digits = 'abcd-foobar';
 
-    try {
-      formatCurrency(50, digits);
-      fail('It should fail!');
-    } catch (err) {
-      expect((err as Error).message).toEqual(
-        `${digits} is not a valid digit info for number pipes`
-      );
-    }
+    expect(() => formatCurrency(50, digits)).toThrowError(
+      `${digits} is not a valid digit info for number pipes`
+    );
   });
 
-  it('should throw error if digits out of range', function (done) {
+  it('should throw error if digits out of range', function () {
     const digits = '0.9-0';
 
-    try {
-      formatCurrency(50, digits);
-      fail('It should fail!');
-    } catch (err) {
-      done();
-    }
+    expect(() => formatCurrency(50, digits)).toThrowError(
+      'minimumIntegerDigits value is out of range.'
+    );
   });
 });

@@ -390,19 +390,14 @@ describe('Numeric service', () => {
     });
 
     it('throws an error if precision is less than 0', function () {
-      try {
+      expect(() =>
         skyNumeric.formatNumber(1.003, {
           digits: -5,
           truncate: false,
           format: 'number',
           iso: undefined,
-        });
-        fail('It should fail!');
-      } catch (err) {
-        expect((err as Error).message).toEqual(
-          'SkyInvalidArgument: precision must be >= 0'
-        );
-      }
+        })
+      ).toThrowError('SkyInvalidArgument: precision must be >= 0');
     });
 
     it('rounds with a default precision of 0', () => {

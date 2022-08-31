@@ -149,6 +149,7 @@ describe('Media query service', () => {
           'removeListener'
         );
 
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         const subscription = mediaQueryService.subscribe(() => {});
 
         mediaQueryService.destroy();
