@@ -28,6 +28,10 @@ describe('Modal service', () => {
     applicationRef.tick();
   }
 
+  function getModalEls() {
+    return document.querySelectorAll('sky-test-cmp');
+  }
+
   beforeEach(() => {
     // Confirm that each test starts without a modal host component.
     const modalHosts = document.querySelectorAll('sky-modal-host');
@@ -225,42 +229,43 @@ describe('Modal service', () => {
     document.body.appendChild(div);
     div.setAttribute('aria-live', 'true');
 
-    openModal(ModalTestComponent, { fullPage: false });
+    const modal = openModal(ModalTestComponent, { fullPage: false });
 
     expect(div.getAttribute('aria-hidden')).toBe(null);
     div.remove();
+    closeModal(modal);
   }));
 
   it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
-    openModal(ModalTestComponent, { fullPage: false });
-    document.querySelector('sky-test-cmp').id = 'sibling';
-    const host = document.querySelector('sky-modal-host');
+    const firstModal = openModal(ModalTestComponent, { fullPage: false });
+    document.querySelector('sky-test-cmp').id = 'firstModal';
 
-    const lowerModal = openModal(ModalTestComponent, { fullPage: false });
-    const list = host.children;
-    list[3].id = 'lowerModal';
+    const secondModal = openModal(ModalTestComponent, { fullPage: false });
+    const modalsList = getModalEls();
+    modalsList.item(1).id = 'secondModal';
 
-    openModal(ModalTestComponent, { fullPage: false });
+    const topModal = openModal(ModalTestComponent, { fullPage: false });
 
-    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
-      'true'
-    );
+    expect(
+      document.getElementById('firstModal').getAttribute('aria-hidden')
+    ).toBe('true');
 
-    closeModal(lowerModal);
+    closeModal(secondModal);
 
-    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
-      'true'
-    );
+    expect(
+      document.getElementById('firstModal').getAttribute('aria-hidden')
+    ).toBe('true');
+
+    closeModal(firstModal);
+    closeModal(topModal);
   }));
 
-  it('should unhide modal behind top modal when top modal is closed even when the layering of modals has changed', fakeAsync(() => {
-    openModal(ModalTestComponent, { fullPage: false });
-    openModal(ModalTestComponent, { fullPage: false });
+  it('should unhide the correct modal when the top modal closes', fakeAsync(() => {
+    const lowerModal = openModal(ModalTestComponent, { fullPage: false });
     const middleModal = openModal(ModalTestComponent, { fullPage: false });
     const topModal = openModal(ModalTestComponent, { fullPage: false });
-    const host = document.querySelector('sky-modal-host');
-    const list = host.children;
-    list[3].id = 'lowerModal';
+    const modalsList = getModalEls();
+    modalsList.item(0).id = 'lowerModal';
 
     closeModal(middleModal);
     closeModal(topModal);
@@ -268,12 +273,14 @@ describe('Modal service', () => {
     expect(
       document.getElementById('lowerModal').getAttribute('aria-hidden')
     ).toBe(null);
+
+    closeModal(lowerModal);
   }));
 
   // modal siblings
 
   it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
-    openModal(ModalTestComponent, { fullPage: false });
+    const siblingModal = openModal(ModalTestComponent, { fullPage: false });
     document.querySelector('sky-test-cmp').id = 'sibling';
     const modal = openModal(ModalTestComponent, { fullPage: false });
 
@@ -285,6 +292,7 @@ describe('Modal service', () => {
     expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
       null
     );
+    closeModal(siblingModal);
   }));
 
   it('should not hide live elements from screen readers', fakeAsync(() => {
