@@ -5,6 +5,7 @@ import { SkySearchHarnessFilters } from './search-harness-filters';
 
 /**
  * Harness for interacting with an search component in tests.
+ * @internal
  */
 export class SkySearchHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-search';

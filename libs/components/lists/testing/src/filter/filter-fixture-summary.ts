@@ -6,6 +6,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * Provides information for and interaction with a SKY UX filter summary component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
+ * @internal
  */
 export class SkyFilterFixtureSummary {
   private debugElement: DebugElement;

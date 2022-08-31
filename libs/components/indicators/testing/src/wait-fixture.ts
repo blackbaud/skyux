@@ -2,6 +2,9 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
+/**
+ * @internal
+ */
 export class SkyWaitFixture {
   public get isWaiting(): boolean {
     return this.innerWaitComponentContainsClass('.sky-wait-mask');

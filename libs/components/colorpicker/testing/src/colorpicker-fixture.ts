@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX colorpicker component.
+ * @internal
  */
 export class SkyColorpickerFixture {
   private debugEl: DebugElement;

@@ -7,6 +7,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
  * @deprecated Use `SkyInfiniteScrollHarness` instead.
+ * @internal
  */
 export class SkyInfiniteScrollFixture {
   private debugElement: DebugElement;

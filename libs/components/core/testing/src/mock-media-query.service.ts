@@ -7,6 +7,9 @@ import {
 
 import { BehaviorSubject, Subscription } from 'rxjs';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class MockSkyMediaQueryService extends SkyMediaQueryService {
   public static xs = '(max-width: 767px)';
