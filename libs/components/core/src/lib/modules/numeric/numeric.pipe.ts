@@ -23,30 +23,39 @@ import { SkyNumericService } from './numeric.service';
   pure: false,
 })
 export class SkyNumericPipe implements PipeTransform, OnDestroy {
-  private cacheKey: string;
-  private formattedValue: string;
-  private providerLocale: string;
+  #cacheKey: string | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
+
+  #formattedValue: string | undefined;
+
+  #ngUnsubscribe = new Subject<void>();
+
+  #numericSvc: SkyNumericService;
+
+  #providerLocale: string | undefined;
 
   constructor(
-    private localeProvider: SkyAppLocaleProvider,
-    private readonly numericService: SkyNumericService,
-    private changeDetector: ChangeDetectorRef
+    localeProvider: SkyAppLocaleProvider,
+    numericSvc: SkyNumericService,
+    changeDetector: ChangeDetectorRef
   ) {
-    this.localeProvider
+    this.#numericSvc = numericSvc;
+    this.#changeDetector = changeDetector;
+
+    localeProvider
       .getLocaleInfo()
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {
-        this.providerLocale = localeInfo.locale;
-        numericService.currentLocale = this.providerLocale;
-        this.changeDetector.markForCheck();
+        this.#providerLocale = localeInfo.locale;
+        numericSvc.currentLocale = this.#providerLocale;
+        this.#changeDetector.markForCheck();
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -55,12 +64,12 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
   public transform(value: number, config?: SkyNumericOptions): string {
     const newCacheKey =
       (config ? JSON.stringify(config, Object.keys(config).sort()) : '') +
-      `${value}_${config?.locale || this.providerLocale}`;
+      `${value}_${config?.locale || this.#providerLocale}`;
 
     /* If the value and locale are the same as the last transform then return the previous value
     instead of reformatting. */
-    if (this.formattedValue && this.cacheKey === newCacheKey) {
-      return this.formattedValue;
+    if (this.#formattedValue && this.#cacheKey === newCacheKey) {
+      return this.#formattedValue;
     }
 
     const options = new NumericOptions();
@@ -90,9 +99,9 @@ export class SkyNumericPipe implements PipeTransform, OnDestroy {
     Object.assign(options, config);
 
     // Assign properties for proper result caching.
-    this.cacheKey = newCacheKey;
+    this.#cacheKey = newCacheKey;
 
-    this.formattedValue = this.numericService.formatNumber(value, options);
-    return this.formattedValue;
+    this.#formattedValue = this.#numericSvc.formatNumber(value, options);
+    return this.#formattedValue;
   }
 }

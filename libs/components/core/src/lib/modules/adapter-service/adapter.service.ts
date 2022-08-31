@@ -95,7 +95,7 @@ export class SkyCoreAdapterService {
    * @param elementRef - The element to search within.
    * @return Returns `true` if a child element with autofocus is found.
    */
-  public applyAutoFocus(elementRef: ElementRef): boolean {
+  public applyAutoFocus(elementRef?: ElementRef): boolean {
     if (!elementRef) {
       return false;
     }
@@ -126,8 +126,8 @@ export class SkyCoreAdapterService {
    */
   public getFocusableChildrenAndApplyFocus(
     elementRef: ElementRef,
-    containerSelector: string,
-    focusOnContainerIfNoChildrenFound: boolean = false
+    containerSelector?: string,
+    focusOnContainerIfNoChildrenFound = false
   ): void {
     const containerElement =
       elementRef.nativeElement.querySelector(containerSelector);
@@ -137,7 +137,7 @@ export class SkyCoreAdapterService {
 
       // Focus first focusable child if available. Otherwise, set focus on container.
       if (
-        !this.focusFirstElement(focusableChildren) &&
+        !this.#focusFirstElement(focusableChildren) &&
         focusOnContainerIfNoChildrenFound
       ) {
         containerElement.focus();
@@ -152,7 +152,7 @@ export class SkyCoreAdapterService {
    * @param options - Options for getting focusable children.
    */
   public getFocusableChildren(
-    element: HTMLElement,
+    element?: HTMLElement,
     options?: SkyFocusableChildrenOptions
   ): HTMLElement[] {
     if (!element) {
@@ -173,7 +173,7 @@ export class SkyCoreAdapterService {
     // Unless ignoreVisibility = true, filter out elements that are not visible.
     if (!options || !options.ignoreVisibility) {
       elements = elements.filter((el: HTMLElement) => {
-        return this.isVisible(el);
+        return this.#isVisible(el);
       });
     }
 
@@ -256,7 +256,7 @@ export class SkyCoreAdapterService {
     }
   }
 
-  private focusFirstElement(list: Array<HTMLElement>): boolean {
+  #focusFirstElement(list: Array<HTMLElement>): boolean {
     if (list.length > 0) {
       list[0].focus();
       return true;
@@ -264,7 +264,7 @@ export class SkyCoreAdapterService {
     return false;
   }
 
-  private isVisible(element: HTMLElement): boolean {
+  #isVisible(element: HTMLElement): boolean {
     const style = window.getComputedStyle(element);
     const isHidden = style.display === 'none' || style.visibility === 'hidden';
     if (isHidden) {

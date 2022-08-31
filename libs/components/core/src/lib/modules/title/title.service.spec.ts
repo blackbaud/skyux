@@ -2,7 +2,7 @@ import { SkyAppTitleService } from './title.service';
 
 describe('Title service', () => {
   let titleSvc: SkyAppTitleService;
-  let testTitle: string;
+  let testTitle: string | undefined;
 
   beforeEach(() => {
     titleSvc = new SkyAppTitleService({
@@ -36,7 +36,7 @@ describe('Title service', () => {
 
     titleSvc.setTitle({
       titleParts: undefined,
-    });
+    } as any);
 
     expect(testTitle).toBe('Part 3 - Part 4');
   });

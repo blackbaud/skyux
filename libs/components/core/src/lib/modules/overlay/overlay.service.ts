@@ -23,25 +23,39 @@ import { SkyOverlayComponent } from './overlay.component';
 export class SkyOverlayService {
   private static overlays: SkyOverlayInstance[] = [];
 
+  #adapter: SkyOverlayAdapterService;
+
+  #applicationRef: ApplicationRef;
+
+  #componentFactoryResolver: ComponentFactoryResolver;
+
+  #injector: Injector;
+
+  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
-    private applicationRef: ApplicationRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private injector: Injector,
-    private adapter: SkyOverlayAdapterService
-  ) {}
+    applicationRef: ApplicationRef,
+    componentFactoryResolver: ComponentFactoryResolver,
+    injector: Injector,
+    adapter: SkyOverlayAdapterService
+  ) {
+    this.#applicationRef = applicationRef;
+    this.#componentFactoryResolver = componentFactoryResolver;
+    this.#injector = injector;
+    this.#adapter = adapter;
+  }
 
   /**
    * Creates an empty overlay. Use the returned `SkyOverlayInstance` to append content.
    * @param config Configuration for the overlay.
    */
   public create(config?: SkyOverlayConfig): SkyOverlayInstance {
-    const settings = this.prepareConfig(config);
+    const settings = this.#prepareConfig(config);
 
     if (settings.enableScroll === false) {
-      this.adapter.restrictBodyScroll();
+      this.#adapter.restrictBodyScroll();
     }
 
-    const componentRef = this.createOverlay(settings);
+    const componentRef = this.#createOverlay(settings);
     const instance = new SkyOverlayInstance(settings, componentRef);
 
     instance.closed.subscribe(() => {
@@ -62,8 +76,8 @@ export class SkyOverlayService {
    * @param instance The instance to close.
    */
   public close(instance: SkyOverlayInstance): void {
-    this.destroyOverlay(instance);
-    this.applicationRef.detachView(instance.componentRef.hostView);
+    this.#destroyOverlay(instance);
+    this.#applicationRef.detachView(instance.componentRef.hostView);
     instance.componentRef.destroy();
 
     // In some cases, Angular keeps dynamically-generated component's nodes in the DOM during
@@ -90,11 +104,9 @@ export class SkyOverlayService {
     }
   }
 
-  private createOverlay(
-    config?: SkyOverlayConfig
-  ): ComponentRef<SkyOverlayComponent> {
+  #createOverlay(config: SkyOverlayConfig): ComponentRef<SkyOverlayComponent> {
     const injector = Injector.create({
-      parent: this.injector,
+      parent: this.#injector,
       providers: [
         {
           provide: SkyOverlayContext,
@@ -103,11 +115,11 @@ export class SkyOverlayService {
       ],
     });
 
-    const componentRef = this.componentFactoryResolver
+    const componentRef = this.#componentFactoryResolver
       .resolveComponentFactory(SkyOverlayComponent)
       .create(injector);
 
-    this.applicationRef.attachView(componentRef.hostView);
+    this.#applicationRef.attachView(componentRef.hostView);
 
     const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
       .rootNodes[0] as HTMLElement;
@@ -117,7 +129,7 @@ export class SkyOverlayService {
     return componentRef;
   }
 
-  private prepareConfig(config: SkyOverlayConfig): SkyOverlayConfig {
+  #prepareConfig(config: SkyOverlayConfig = {}): SkyOverlayConfig {
     const defaults: SkyOverlayConfig = {
       closeOnNavigation: true,
       enableClose: false,
@@ -130,7 +142,7 @@ export class SkyOverlayService {
     return { ...defaults, ...config };
   }
 
-  private destroyOverlay(instance: SkyOverlayInstance): void {
+  #destroyOverlay(instance: SkyOverlayInstance): void {
     SkyOverlayService.overlays.splice(
       SkyOverlayService.overlays.indexOf(instance),
       1
@@ -142,7 +154,7 @@ export class SkyOverlayService {
         (o) => !o.config.enableScroll
       );
       if (!anotherOverlayDisablesScroll) {
-        this.adapter.releaseBodyScroll();
+        this.#adapter.releaseBodyScroll();
       }
     }
   }

@@ -9,18 +9,19 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
   selector: '[skyTrim]',
 })
 export class SkyTrimDirective implements OnInit, OnDestroy {
+  #elRef: ElementRef;
+
   #obs: MutationObserver;
 
-  constructor(
-    private elRef: ElementRef,
-    private mutationObs: MutationObserverService
-  ) {
-    this.#obs = this.mutationObs.create((mutations: MutationRecord[]) => {
+  constructor(elRef: ElementRef, mutationObs: MutationObserverService) {
+    this.#elRef = elRef;
+
+    this.#obs = mutationObs.create((mutations: MutationRecord[]) => {
       const nodes: Node[] = [];
 
       // Only trim white space inside direct descendents of the current element.
       for (const mutation of mutations) {
-        if (mutation.target.parentNode === this.elRef.nativeElement) {
+        if (mutation.target.parentNode === elRef.nativeElement) {
           nodes.push(mutation.target);
         }
       }
@@ -32,17 +33,16 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    const el = this.elRef.nativeElement as Element;
+    const el = this.#elRef.nativeElement as Element;
     this.#trim(Array.from(el.childNodes));
   }
 
   public ngOnDestroy(): void {
     this.#disconnect();
-    this.#obs = undefined;
   }
 
   #observe(): void {
-    this.#obs.observe(this.elRef.nativeElement, {
+    this.#obs.observe(this.#elRef.nativeElement, {
       characterData: true,
       subtree: true,
     });
@@ -58,7 +58,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
     this.#disconnect();
 
     for (const node of nodes) {
-      if (node.nodeType === Node.TEXT_NODE) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent) {
         const textContent = node.textContent;
         const textContentTrimmed = textContent.trim();
 

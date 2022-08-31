@@ -21,7 +21,7 @@ class MockLocaleProvider extends SkyAppLocaleProvider {
   providers: [{ provide: SkyAppLocaleProvider, useClass: MockLocaleProvider }],
 })
 export class NumericPipeFixtureComponent {
-  public locale: string;
+  public locale: string | undefined;
 
   public updateLocaleProviderLocale(newLocale: string): void {
     providedLocale = newLocale;

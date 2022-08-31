@@ -16,30 +16,28 @@ export const mockResizeObserverEntry: ResizeObserverEntry = {
   devicePixelContentBoxSize: [],
 };
 
-const defaultCallback = (entry: ResizeObserverEntry[]) => {
-  console.log(entry);
-};
+const defaultCallback: ResizeObserverCallback = (
+  entries: ResizeObserverEntry[],
+  observer: ResizeObserver
+) => {};
 
 export const mockResizeObserverHandle = {
   callback: defaultCallback,
-  emit: (entry: ResizeObserverEntry[]) => {
-    mockResizeObserverHandle.callback(entry);
+  emit: (entries: ResizeObserverEntry[], observer?: ResizeObserver) => {
+    mockResizeObserverHandle.callback(entries, observer!);
   },
 };
 
 export function mockResizeObserver() {
   window.ResizeObserver = class {
-    constructor(callback) {
+    constructor(callback: ResizeObserverCallback) {
       mockResizeObserverHandle.callback = callback;
     }
-    disconnect() {
-      [].push(undefined);
-    }
-    observe(element, initObject) {
-      [element, initObject].pop();
-    }
-    unobserve(element) {
-      [element].pop();
-    }
+
+    disconnect() {}
+
+    observe(target: Element, options?: ResizeObserverOptions) {}
+
+    unobserve(element: HTMLElement) {}
   };
 }

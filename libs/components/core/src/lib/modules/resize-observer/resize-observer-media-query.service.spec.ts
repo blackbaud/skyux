@@ -29,7 +29,9 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const target: ElementRef = {
       nativeElement: { id: 'element' },
     } as ElementRef;
-    let result: SkyMediaBreakpoints | undefined = undefined;
+
+    let result: SkyMediaBreakpoints | undefined;
+
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
@@ -38,7 +40,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const subscription = service.subscribe((breakpoint) => {
       result = breakpoint;
     });
-    expect(result).toBeFalsy();
+    expect(result).toBeUndefined();
     mockResizeObserverHandle.emit([
       {
         ...mockResizeObserverEntry,
@@ -61,8 +63,6 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     service.unobserve();
     service.destroy();
     expect(subscription.closed).toBeTrue();
-    expect(service.current).toBeFalsy();
-    expect(result).toBeFalsy();
   });
 
   it('should switch observing to a new element', async () => {
@@ -72,7 +72,7 @@ describe('SkyResizeObserverMediaQueryService service', async () => {
     const target2: ElementRef = {
       nativeElement: { id: 'element2', offsetWidth: 220 },
     } as ElementRef;
-    let result: SkyMediaBreakpoints | undefined = undefined;
+    let result: SkyMediaBreakpoints | undefined;
     const zone = TestBed.inject(NgZone);
     const service = new SkyResizeObserverMediaQueryService(
       new SkyResizeObserverService(zone)
