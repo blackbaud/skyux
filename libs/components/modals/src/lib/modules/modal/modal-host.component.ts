@@ -160,18 +160,17 @@ export class SkyModalHostComponent implements OnDestroy {
     modalInstance.componentInstance = modalComponentRef.instance;
 
     this.#registerModalInstance(modalInstance);
-    // hidding all elements at the modal-host level from screenreaders
-    const hostElement = this.#elRef.nativeElement;
-    let allModals = hostElement.children;
 
     if (SkyModalHostService.openModalCount == 1) {
+      // hidding all elements at the modal-host level from screenreaders when the first modal is opened
       this.hideModalHostSiblings();
     }
     if (
       SkyModalHostService.openModalCount > 1 &&
-      allModals[allModals.length - 1] == modalElement
+      SkyModalHostService.topModal == hostService
     ) {
-      allModals[allModals.length - 2].setAttribute('aria-hidden', true);
+      // hiding the lower modals when more than one modal is opened
+      modalElement.previousElementSibling.setAttribute('aria-hidden', true);
     }
 
     const closeModal = () => {
@@ -181,8 +180,8 @@ export class SkyModalHostComponent implements OnDestroy {
         this.#ariaPreviousValueSiblings.clear();
       } else if (SkyModalHostService.topModal == hostService) {
         // if there are more than 1 modal then unhide the one behind this one before closing it
-        allModals = hostElement.children;
-        allModals[allModals.length - 2].removeAttribute('aria-hidden');
+        // allModals = hostElement.children;
+        modalElement.previousElementSibling.removeAttribute('aria-hidden');
       }
 
       hostService.destroy();
