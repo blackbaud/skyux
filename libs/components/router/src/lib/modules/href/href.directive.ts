@@ -42,6 +42,10 @@ export class SkyHrefDirective {
     this.#checkRouteAccess();
   }
 
+  public get skyHref(): string {
+    return this.#_skyHref;
+  }
+
   /**
    * Set the behavior for when the link is not available to either hide the link or display unlinked text.
    *
@@ -53,15 +57,19 @@ export class SkyHrefDirective {
     this.#applyChanges(this.#getChanges());
   }
 
+  public get skyHrefElse(): 'hide' | 'unlink' {
+    return this.#_skyHrefElse;
+  }
+
   /**
    * Emits whether the link is available (true) or not (false).
    */
   @Output()
   public skyHrefChange = new EventEmitter<SkyHrefChange>();
 
-  #_route: SkyHref | false = false;
+  #route: SkyHref | false = false;
 
-  #_href = '';
+  #href = '';
 
   #_skyHref = '';
 
@@ -111,7 +119,7 @@ export class SkyHrefDirective {
     altKey: boolean,
     metaKey: boolean
   ): boolean {
-    if (!this.#_route || !this.#_route.userHasAccess) {
+    if (!this.#route || !this.#route.userHasAccess) {
       return false;
     }
 
@@ -156,31 +164,29 @@ export class SkyHrefDirective {
   }
 
   #checkRouteAccess() {
-    this.#_route = {
-      url: this.#_skyHref,
+    this.#route = {
+      url: this.skyHref,
       userHasAccess: false,
     };
     /* istanbul ignore else */
-    if (this.#hrefResolver && this.#_skyHref) {
+    if (this.#hrefResolver && this.skyHref) {
       this.#applyChanges(this.#getChanges());
       try {
-        this.#hrefResolver
-          .resolveHref({ url: this.#_skyHref })
-          .then((route) => {
-            this.#_route = { ...route };
-            this.#applyChanges(this.#getChanges());
-            /* istanbul ignore else */
-            if (this.#changeDetectorRef && this.#applicationRef) {
-              this.#changeDetectorRef.markForCheck();
-              this.#applicationRef.tick();
-            }
-          });
+        this.#hrefResolver.resolveHref({ url: this.skyHref }).then((route) => {
+          this.#route = { ...route };
+          this.#applyChanges(this.#getChanges());
+          /* istanbul ignore else */
+          if (this.#changeDetectorRef && this.#applicationRef) {
+            this.#changeDetectorRef.markForCheck();
+            this.#applicationRef.tick();
+          }
+        });
       } catch (error) {
         this.#applyChanges(this.#getChanges());
       }
     } else {
       // no resolver or skyHref is falsy
-      this.#_route.userHasAccess = !!this.#_skyHref;
+      this.#route.userHasAccess = !!this.skyHref;
       this.#applyChanges(this.#getChanges());
     }
   }
@@ -188,13 +194,13 @@ export class SkyHrefDirective {
   #getChanges(): HrefChanges {
     const queryParams: SkyHrefQueryParams = {};
 
-    if (!this.#_route || !this.#_route.userHasAccess) {
+    if (!this.#route || !this.#route.userHasAccess) {
       return {
         href: '',
-        hidden: this.#_skyHrefElse === 'hide',
+        hidden: this.skyHrefElse === 'hide',
       };
     } else {
-      const [beforeFragment, fragment] = this.#_route.url.split('#', 2);
+      const [beforeFragment, fragment] = this.#route.url.split('#', 2);
       const [baseUrl, search] = beforeFragment.split('?', 2);
 
       if (search) {
@@ -208,14 +214,14 @@ export class SkyHrefDirective {
         fromObject: Object.assign({}, this.#getSkyuxParams(), queryParams),
       });
 
-      this.#_href =
+      this.#href =
         baseUrl +
         (queryParamsMerged.keys().length > 0
           ? '?' + queryParamsMerged.toString()
           : '') +
         (fragment ? `#${fragment}` : '');
       return {
-        href: this.#_href,
+        href: this.#href,
         hidden: false,
       };
     }
@@ -229,7 +235,7 @@ export class SkyHrefDirective {
 
   /* istanbul ignore next */
   #getUrlTree: () => UrlTree | false = () => {
-    const href = this.#_href.toLowerCase();
+    const href = this.#href.toLowerCase();
 
     if (
       !href ||
@@ -254,7 +260,7 @@ export class SkyHrefDirective {
       href.indexOf(baseUrl + '/') === 0 ||
       href.indexOf(baseUrl + '?') === 0
     ) {
-      const routePath = this.#_href.substring(baseUrl.length);
+      const routePath = this.#href.substring(baseUrl.length);
       return this.#router.parseUrl(routePath);
     }
 
