@@ -161,14 +161,20 @@ Example.args = {};
 `;
 
 exports[`component generator should use -storybook project 2`] = `
-"['default', 'modern-light', 'modern-dark'].forEach((theme) => {
-  describe(\`test-storybook in \${theme} theme\`, () => {
-    beforeEach(() => cy.visit(\`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`));
-    it('should render the component', () => {
-      cy.get('proj-example').should('exist')
-        .should('be.visible')
-        .screenshot(\`examplecomponent-example--example-\${theme}\`)
-        .percySnapshot(\`examplecomponent-example--example-\${theme}\`);
+"import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('test-storybook', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(\`in \${theme} theme\`, () => {
+      beforeEach(() => cy.visit(\`/iframe.html?globals=theme:\${theme}&id=examplecomponent-example--example\`));
+      it('should render the component', () => {
+        cy.get('proj-example').should('exist')
+          .should('be.visible')
+          .screenshot(\`examplecomponent-example--example-\${theme}\`)
+          .percySnapshot(\`examplecomponent-example--example-\${theme}\`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
     });
   });
 });"
