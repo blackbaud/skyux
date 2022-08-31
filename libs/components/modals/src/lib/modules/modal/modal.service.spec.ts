@@ -238,10 +238,9 @@ describe('Modal service', () => {
 
   it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
     const firstModal = openModal(ModalTestComponent, { fullPage: false });
-    document.querySelector('sky-test-cmp').id = 'firstModal';
-
     const secondModal = openModal(ModalTestComponent, { fullPage: false });
     const modalsList = getModalEls();
+    modalsList.item(0).id = 'firstModal';
     modalsList.item(1).id = 'secondModal';
 
     const topModal = openModal(ModalTestComponent, { fullPage: false });
@@ -281,8 +280,9 @@ describe('Modal service', () => {
 
   it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
     const siblingModal = openModal(ModalTestComponent, { fullPage: false });
-    document.querySelector('sky-test-cmp').id = 'sibling';
     const modal = openModal(ModalTestComponent, { fullPage: false });
+    const modalsList = getModalEls();
+    modalsList.item(0).id = 'sibling';
 
     expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
       'true'
