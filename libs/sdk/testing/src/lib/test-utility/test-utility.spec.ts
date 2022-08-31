@@ -16,7 +16,7 @@ import { SkyAppTestUtility } from './test-utility';
 @Component({
   selector: 'sky-test-parent-cmp',
   template: `
-    <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
+    <sky-test-cmp [attr.data-sky-id]="'my-id'"> My component. </sky-test-cmp>
   `,
 })
 class TestParentComponent {}
@@ -169,7 +169,7 @@ describe('Test utility', () => {
       const debugElement = SkyAppTestUtility.getDebugElementByTestId(
         fixture,
         'my-id',
-        'test-cmp'
+        'sky-test-cmp'
       );
 
       expect(debugElement).toBeDefined();
@@ -181,7 +181,11 @@ describe('Test utility', () => {
       fixture.detectChanges();
 
       expect(() => {
-        SkyAppTestUtility.getDebugElementByTestId(fixture, testId, 'test-cmp');
+        SkyAppTestUtility.getDebugElementByTestId(
+          fixture,
+          testId,
+          'sky-test-cmp'
+        );
       }).toThrowError(
         `No element was found with a \`data-sky-id\` value of "${testId}".`
       );

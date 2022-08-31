@@ -131,9 +131,9 @@ export class SkyAppResourcesService {
     name: string,
     ...args: any[]
   ): Observable<string> {
-    const resourcesObs: Observable<any> = localeInfoObs.pipe(
+    const resourcesObs = localeInfoObs.pipe(
       switchMap((localeInfo) => {
-        let obs: Observable<any>;
+        let obs: Observable<SkyResourceType>;
         let resourcesUrl: string | undefined;
 
         // Use default locale if one not provided
