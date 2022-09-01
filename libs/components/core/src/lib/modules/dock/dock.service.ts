@@ -21,7 +21,7 @@ import { sortByStackOrder } from './sort-by-stack-order';
   providedIn: 'any',
 })
 export class SkyDockService {
-  private static dockRef: ComponentRef<SkyDockComponent>;
+  private static dockRef: ComponentRef<SkyDockComponent> | undefined;
   private static _items: SkyDockItem<any>[] = [];
 
   /**
@@ -31,9 +31,13 @@ export class SkyDockService {
     return SkyDockService._items;
   }
 
-  private options: SkyDockOptions;
+  #dynamicComponentSvc: SkyDynamicComponentService;
 
-  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
+  #options: SkyDockOptions | undefined;
+
+  constructor(dynamicComponentSvc: SkyDynamicComponentService) {
+    this.#dynamicComponentSvc = dynamicComponentSvc;
+  }
 
   /**
    * Docks a component to the bottom of the page.
@@ -44,24 +48,20 @@ export class SkyDockService {
     component: Type<T>,
     config?: SkyDockInsertComponentConfig
   ): SkyDockItem<T> {
-    if (!SkyDockService.dockRef) {
-      this.createDock();
-    }
+    const dockRef = (SkyDockService.dockRef =
+      SkyDockService.dockRef || this.#createDock());
 
-    const itemRef = SkyDockService.dockRef.instance.insertComponent(
-      component,
-      config
-    );
+    const itemRef = dockRef.instance.insertComponent(component, config);
     const item = new SkyDockItem(
       itemRef.componentRef.instance,
       itemRef.stackOrder
     );
 
     item.destroyed.subscribe(() => {
-      SkyDockService.dockRef.instance.removeItem(itemRef);
+      dockRef.instance.removeItem(itemRef);
       SkyDockService._items.splice(SkyDockService._items.indexOf(item), 1);
       if (SkyDockService._items.length === 0) {
-        this.destroyDock();
+        this.#destroyDock();
       }
     });
 
@@ -79,15 +79,15 @@ export class SkyDockService {
    * @param options The options for positioning and styling
    */
   public setDockOptions(options: SkyDockOptions): void {
-    this.options = options;
+    this.#options = options;
   }
 
-  private createDock(): void {
-    let dockOptions: SkyDynamicComponentOptions;
+  #createDock(): ComponentRef<SkyDockComponent> {
+    let dockOptions: SkyDynamicComponentOptions | undefined;
 
-    if (this.options) {
+    if (this.#options) {
       let dynamicLocation: SkyDynamicComponentLocation;
-      switch (this.options.location) {
+      switch (this.#options.location) {
         case SkyDockLocation.BeforeElement:
           dynamicLocation = SkyDynamicComponentLocation.BeforeElement;
           break;
@@ -101,19 +101,22 @@ export class SkyDockService {
 
       dockOptions = {
         location: dynamicLocation,
-        referenceEl: this.options.referenceEl,
+        referenceEl: this.#options.referenceEl,
       };
     }
 
-    SkyDockService.dockRef = this.dynamicComponentService.createComponent(
+    const dockRef = this.#dynamicComponentSvc.createComponent(
       SkyDockComponent,
       dockOptions
     );
-    SkyDockService.dockRef.instance.setOptions(this.options);
+
+    dockRef.instance.setOptions(this.#options);
+
+    return dockRef;
   }
 
-  private destroyDock(): void {
-    this.dynamicComponentService.removeComponent(SkyDockService.dockRef);
+  #destroyDock(): void {
+    this.#dynamicComponentSvc.removeComponent(SkyDockService.dockRef);
     SkyDockService.dockRef = undefined;
   }
 }

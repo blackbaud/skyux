@@ -72,7 +72,9 @@ describe('Skip link service', () => {
       {
         elementRef: undefined,
         title: 'Test 1',
-      },
+        // `any` is done here as this is testing a case that would not be allowed by our typings just to be safe
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any,
     ]);
 
     const linkEl = document.querySelectorAll('.sky-skip-link');

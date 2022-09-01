@@ -11,54 +11,60 @@ import { SkyNumberFormatUtility } from '../shared/number-format/number-format-ut
   pure: false,
 })
 export class SkyPercentPipe implements OnDestroy, PipeTransform {
-  private defaultFormat = '1.0-2';
+  public get defaultLocale(): string {
+    return this.#defaultLocale;
+  }
 
-  private format: string;
+  #defaultFormat = '1.0-2';
 
-  private defaultLocale = 'en-US';
+  #defaultLocale = 'en-US';
 
-  private locale: string;
+  #format: string | undefined;
 
-  private value: string;
+  #formattedValue = '';
 
-  private formattedValue: string;
+  #locale: string | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(private localeProvider: SkyAppLocaleProvider) {
-    this.localeProvider
+  #value: string | undefined;
+
+  constructor(localeProvider: SkyAppLocaleProvider) {
+    localeProvider
       .getLocaleInfo()
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo) => {
-        this.defaultLocale = localeInfo.locale;
-        this.updateFormattedValue();
+        this.#defaultLocale = localeInfo.locale;
+        this.#updateFormattedValue();
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public transform(value: string, format?: string, locale?: string): string {
-    this.value = value;
-    this.format = format;
-    this.locale = locale;
+    this.#value = value;
+    this.#format = format;
+    this.#locale = locale;
 
-    this.updateFormattedValue();
+    this.#updateFormattedValue();
 
-    return this.formattedValue;
+    return this.#formattedValue;
   }
 
-  private updateFormattedValue(): void {
-    const locale = this.locale || this.defaultLocale;
-    const format = this.format || this.defaultFormat;
+  #updateFormattedValue(): void {
+    const locale = this.#locale || this.#defaultLocale;
+    const format = this.#format || this.#defaultFormat;
 
-    this.formattedValue = SkyNumberFormatUtility.formatNumber(
-      locale,
-      this.value,
-      SkyIntlNumberFormatStyle.Percent,
-      format
-    );
+    this.#formattedValue = this.#value
+      ? (SkyNumberFormatUtility.formatNumber(
+          locale,
+          this.#value,
+          SkyIntlNumberFormatStyle.Percent,
+          format
+        ) as string)
+      : '';
   }
 }

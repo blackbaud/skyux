@@ -53,8 +53,6 @@ describe('Skip link adapter service', () => {
 
   afterEach(() => {
     document.body.removeChild(testEl);
-
-    testEl = undefined;
   });
 
   it("should account for the browser's margin top property", () => {

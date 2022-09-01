@@ -9,6 +9,7 @@ import { SkyOverlayHarnessFilters } from './overlay-harness-filters';
 
 /**
  * Harness for interacting with an overlay component in tests.
+ * @internal
  */
 export class SkyOverlayHarness extends ComponentHarness {
   public static hostSelector = 'sky-overlay';

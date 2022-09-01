@@ -28,32 +28,56 @@ import { sortByStackOrder } from './sort-by-stack-order';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDockComponent {
-  private options: SkyDockOptions;
-
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
   })
-  private target: ViewContainerRef;
+  private target: ViewContainerRef | undefined;
 
-  private itemRefs: SkyDockItemReference<any>[] = [];
+  #changeDetector: ChangeDetectorRef;
 
+  #domAdapter: SkyDockDomAdapterService;
+
+  #elementRef: ElementRef;
+
+  #injector: Injector;
+
+  #itemRefs: SkyDockItemReference<unknown>[] = [];
+
+  #options: SkyDockOptions | undefined;
+
+  #resolver: ComponentFactoryResolver;
+
+  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resolver: ComponentFactoryResolver,
-    private elementRef: ElementRef,
-    private injector: Injector,
-    private domAdapter: SkyDockDomAdapterService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resolver: ComponentFactoryResolver,
+    elementRef: ElementRef,
+    injector: Injector,
+    domAdapter: SkyDockDomAdapterService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resolver = resolver;
+    this.#elementRef = elementRef;
+    this.#injector = injector;
+    this.#domAdapter = domAdapter;
+  }
 
   public insertComponent<T>(
     component: Type<T>,
     config: SkyDockInsertComponentConfig = {}
   ): SkyDockItemReference<T> {
-    const factory = this.resolver.resolveComponentFactory(component);
+    /*istanbul ignore if: untestable*/
+    if (!this.target) {
+      throw Error(
+        '[SkyDockComponent] Could not insert the component because the target element could not be found.'
+      );
+    }
+
+    const factory = this.#resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers: config.providers || [],
-      parent: this.injector,
+      parent: this.#injector,
     });
 
     const componentRef = this.target.createComponent<T>(
@@ -64,16 +88,16 @@ export class SkyDockComponent {
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
         ? config.stackOrder
-        : this.getHighestStackOrder();
+        : this.#getHighestStackOrder();
 
-    this.itemRefs.push({
+    this.#itemRefs.push({
       componentRef,
       stackOrder,
     });
 
-    this.sortItemsByStackOrder();
+    this.#sortItemsByStackOrder();
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
     return {
       componentRef,
@@ -82,50 +106,63 @@ export class SkyDockComponent {
   }
 
   public removeItem(item: SkyDockItemReference<any>): void {
+    /*istanbul ignore if: untestable*/
+    if (!this.target) {
+      throw Error(
+        '[SkyDockComponent] Could not remove the item because the target element could not be found.'
+      );
+    }
+
     const viewRef = item.componentRef.hostView;
     this.target.remove(this.target.indexOf(viewRef));
 
-    const found = this.itemRefs.find(
+    const found = this.#itemRefs.find(
       (i) => i.componentRef.hostView === viewRef
     );
-    this.itemRefs.splice(this.itemRefs.indexOf(found), 1);
+
+    if (found) {
+      this.#itemRefs.splice(this.#itemRefs.indexOf(found), 1);
+    }
   }
 
-  public setOptions(options: SkyDockOptions): void {
-    this.options = options;
+  public setOptions(options: SkyDockOptions | undefined): void {
+    this.#options = options;
 
-    switch (this.options?.location) {
+    switch (this.#options?.location) {
       case SkyDockLocation.BeforeElement:
-        this.domAdapter.unbindDock(this.elementRef);
+        this.#domAdapter.unbindDock(this.#elementRef);
         break;
       case SkyDockLocation.ElementBottom:
-        this.domAdapter.setSticky(this.elementRef);
+        this.#domAdapter.setSticky(this.#elementRef);
         break;
       case SkyDockLocation.BodyBottom:
       default:
-        this.domAdapter.watchDomChanges(this.elementRef);
+        this.#domAdapter.watchDomChanges(this.#elementRef);
         break;
     }
 
-    if (this.options?.zIndex) {
-      this.domAdapter.setZIndex(this.options.zIndex, this.elementRef);
+    if (this.#options?.zIndex) {
+      this.#domAdapter.setZIndex(this.#options.zIndex, this.#elementRef);
     }
   }
 
-  private sortItemsByStackOrder(): void {
-    this.itemRefs.sort(sortByStackOrder);
+  #sortItemsByStackOrder(): void {
+    if (this.target) {
+      this.#itemRefs.sort(sortByStackOrder);
 
-    // Reassign the correct index for each view.
-    this.itemRefs.forEach((item, i) =>
-      this.target.move(item.componentRef.hostView, i)
-    );
+      // Reassign the correct index for each view.
+      for (let i = 0, len = this.#itemRefs.length; i < len; i++) {
+        const item = this.#itemRefs[i];
+        this.target.move(item.componentRef.hostView, i);
+      }
+    }
   }
 
-  private getHighestStackOrder(): number {
-    if (this.itemRefs.length === 0) {
+  #getHighestStackOrder(): number {
+    if (this.#itemRefs.length === 0) {
       return 0;
     }
 
-    return this.itemRefs[0].stackOrder + 1;
+    return this.#itemRefs[0].stackOrder + 1;
   }
 }

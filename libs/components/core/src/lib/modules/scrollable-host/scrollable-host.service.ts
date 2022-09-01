@@ -16,10 +16,17 @@ function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
   providedIn: 'root',
 })
 export class SkyScrollableHostService {
+  #mutationObserverSvc: MutationObserverService;
+
+  #windowRef: SkyAppWindowRef;
+
   constructor(
-    private mutationObserverSvc: MutationObserverService,
-    private windowRef: SkyAppWindowRef
-  ) {}
+    mutationObserverSvc: MutationObserverService,
+    windowRef: SkyAppWindowRef
+  ) {
+    this.#mutationObserverSvc = mutationObserverSvc;
+    this.#windowRef = windowRef;
+  }
 
   /**
    * Returns the given element's current scrollable host
@@ -27,7 +34,7 @@ export class SkyScrollableHostService {
    * @returns The current scrollable host
    */
   public getScrollableHost(elementRef: ElementRef): HTMLElement | Window {
-    return this.findScrollableHost(elementRef.nativeElement);
+    return this.#findScrollableHost(elementRef.nativeElement);
   }
 
   /**
@@ -38,7 +45,7 @@ export class SkyScrollableHostService {
    */
   public watchScrollableHost(
     elementRef: ElementRef
-  ): Observable<HTMLElement | Window | undefined> {
+  ): Observable<HTMLElement | Window> {
     const subscribers: Subscriber<HTMLElement | Window>[] = [];
 
     let parentMutationObserver: MutationObserver;
@@ -47,23 +54,24 @@ export class SkyScrollableHostService {
     return new Observable((subscriber) => {
       subscribers.push(subscriber);
 
-      let scrollableHost = this.findScrollableHost(elementRef.nativeElement);
+      let scrollableHost: HTMLElement | Window | undefined =
+        this.#findScrollableHost(elementRef.nativeElement);
 
       // Setup mutation observers only once, for all subscribers.
       if (subscribers.length === 1) {
-        parentMutationObserver = this.mutationObserverSvc.create(() => {
-          const newScrollableHost = this.findScrollableHost(
+        parentMutationObserver = this.#mutationObserverSvc.create(() => {
+          const newScrollableHost = this.#findScrollableHost(
             elementRef.nativeElement
           );
 
           // Reset observer if scrollable host changes.
           if (
             newScrollableHost !== scrollableHost &&
-            this.isElementVisible(elementRef)
+            this.#isElementVisible(elementRef)
           ) {
             scrollableHost = newScrollableHost;
 
-            this.observeForScrollableHostChanges(
+            this.#observeForScrollableHostChanges(
               scrollableHost,
               parentMutationObserver
             );
@@ -72,29 +80,28 @@ export class SkyScrollableHostService {
           }
         });
 
-        this.observeForScrollableHostChanges(
+        this.#observeForScrollableHostChanges(
           scrollableHost,
           parentMutationObserver
         );
 
-        documentHiddenElementMutationObserver = this.mutationObserverSvc.create(
-          () => {
-            if (scrollableHost && !this.isElementVisible(elementRef)) {
+        documentHiddenElementMutationObserver =
+          this.#mutationObserverSvc.create(() => {
+            if (scrollableHost && !this.#isElementVisible(elementRef)) {
               // If the scrollable host is not visible, set it to undefined and unsubscribe from its mutation changes.
               // Then, observe the document element so that a new scrollable host can be found.
               scrollableHost = undefined;
 
-              this.observeForScrollableHostChanges(
+              this.#observeForScrollableHostChanges(
                 scrollableHost,
                 parentMutationObserver
               );
 
               notifySubscribers(subscribers, scrollableHost);
             }
-          }
-        );
+          });
 
-        this.observeDocumentHiddenElementChanges(
+        this.#observeDocumentHiddenElementChanges(
           documentHiddenElementMutationObserver
         );
       }
@@ -183,11 +190,9 @@ export class SkyScrollableHostService {
     });
   }
 
-  private findScrollableHost(
-    element: HTMLElement | undefined
-  ): HTMLElement | Window {
+  #findScrollableHost(element: HTMLElement | undefined): HTMLElement | Window {
     const regex = /(auto|scroll)/;
-    const windowObj = this.windowRef.nativeWindow;
+    const windowObj = this.#windowRef.nativeWindow;
     const bodyObj = windowObj.document.body;
 
     if (!element) {
@@ -219,9 +224,7 @@ export class SkyScrollableHostService {
     return parent;
   }
 
-  private observeDocumentHiddenElementChanges(
-    mutationObserver: MutationObserver
-  ) {
+  #observeDocumentHiddenElementChanges(mutationObserver: MutationObserver) {
     mutationObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'style', 'hidden'],
@@ -230,7 +233,7 @@ export class SkyScrollableHostService {
     });
   }
 
-  private observeForScrollableHostChanges(
+  #observeForScrollableHostChanges(
     element: HTMLElement | Window | undefined,
     mutationObserver: MutationObserver
   ) {
@@ -251,7 +254,7 @@ export class SkyScrollableHostService {
    * Determines if an element is "visible" in the DOM.
    * @see https://stackoverflow.com/a/11639664/6178885
    */
-  private isElementVisible(elementRef: ElementRef): boolean {
+  #isElementVisible(elementRef: ElementRef): boolean {
     return elementRef.nativeElement.offsetParent;
   }
 }

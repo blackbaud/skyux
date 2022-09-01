@@ -16,19 +16,19 @@ import { SkyAffixDirective } from '../affix.directive';
 export class AffixFixtureComponent {
   // #region directive properties
 
-  public autoFitContext: SkyAffixAutoFitContext;
+  public autoFitContext: SkyAffixAutoFitContext | undefined;
 
-  public autoFitOverflowOffset: SkyAffixOffset;
+  public autoFitOverflowOffset: SkyAffixOffset | undefined;
 
-  public enableAutoFit: boolean;
+  public enableAutoFit: boolean | undefined;
 
-  public horizontalAlignment: SkyAffixHorizontalAlignment;
+  public horizontalAlignment: SkyAffixHorizontalAlignment | undefined;
 
-  public isSticky: boolean;
+  public isSticky: boolean | undefined;
 
-  public placement: SkyAffixPlacement;
+  public placement: SkyAffixPlacement | undefined;
 
-  public verticalAlignment: SkyAffixVerticalAlignment;
+  public verticalAlignment: SkyAffixVerticalAlignment | undefined;
 
   // #endregion
 
@@ -36,25 +36,25 @@ export class AffixFixtureComponent {
     read: SkyAffixDirective,
     static: true,
   })
-  public affixDirective: SkyAffixDirective;
+  public affixDirective!: SkyAffixDirective;
 
   @ViewChild('affixedRef', {
     read: ElementRef,
     static: true,
   })
-  public affixedRef: ElementRef;
+  public affixedRef!: ElementRef;
 
   @ViewChild('overflowParentRef', {
     read: ElementRef,
     static: true,
   })
-  public overflowParentRef: ElementRef;
+  public overflowParentRef!: ElementRef;
 
   @ViewChild('baseRef', {
     read: ElementRef,
     static: true,
   })
-  public baseRef: ElementRef;
+  public baseRef!: ElementRef;
 
   public enableLargerBaseElement = false;
 
@@ -106,6 +106,36 @@ export class AffixFixtureComponent {
       overflowParent.getBoundingClientRect().height -
       offset;
     overflowParent.scrollLeft = this.getParentCenterX();
+  }
+
+  public scrollTargetIntoView(): void {
+    const baseElement: HTMLDivElement = this.baseRef.nativeElement;
+    const top = baseElement.offsetTop;
+    const left = baseElement.offsetLeft;
+
+    if (this.enableOverflowParent) {
+      const overflowParent: HTMLDivElement =
+        this.overflowParentRef.nativeElement;
+      overflowParent.scrollTop =
+        top -
+        overflowParent.offsetTop -
+        overflowParent.clientHeight / 2 +
+        baseElement.clientHeight / 2;
+      overflowParent.scrollLeft =
+        left -
+        overflowParent.offsetLeft -
+        overflowParent.clientWidth / 2 +
+        baseElement.clientWidth / 2;
+    } else {
+      window.scroll(
+        left -
+          document.documentElement.clientWidth / 2 +
+          baseElement.clientWidth / 2,
+        top -
+          document.documentElement.clientHeight / 2 +
+          baseElement.clientHeight / 2
+      );
+    }
   }
 
   public scrollTargetOutOfView(): void {

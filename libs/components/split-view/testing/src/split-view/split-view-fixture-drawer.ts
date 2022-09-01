@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkySplitViewFixtureDrawer {
   ariaLabel: string;
   isVisible: boolean;

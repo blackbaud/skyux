@@ -5,11 +5,15 @@ import { SkySkipLink } from './skip-link';
 
 @Injectable()
 export class SkySkipLinkAdapterService {
-  constructor(private windowRef: SkyAppWindowRef) {}
+  #windowRef: SkyAppWindowRef;
+
+  constructor(windowRef: SkyAppWindowRef) {
+    this.#windowRef = windowRef;
+  }
 
   public skipTo(link: SkySkipLink): void {
     const targetElement = link.elementRef.nativeElement;
-    const win = this.windowRef.nativeWindow;
+    const win = this.#windowRef.nativeWindow;
     const bodyElement = win.document.body;
 
     const bodyMarginTop = parseInt(

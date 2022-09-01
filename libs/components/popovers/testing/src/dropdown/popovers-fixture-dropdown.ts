@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkyPopoversFixtureDropdown {
   buttonStyle?: string;
   buttonType?: string;

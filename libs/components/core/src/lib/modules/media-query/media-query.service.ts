@@ -5,6 +5,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { SkyMediaBreakpoints } from './media-breakpoints';
 import { SkyMediaQueryListener } from './media-query-listener';
 
+const DEFAULT_BREAKPOINT = SkyMediaBreakpoints.md;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,16 +39,16 @@ export class SkyMediaQueryService implements OnDestroy {
    * Returns the current breakpoint.
    */
   public get current(): SkyMediaBreakpoints {
-    return this._current;
+    return this.#currentBreakpoint;
   }
 
-  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.current
+  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+    DEFAULT_BREAKPOINT
   );
 
-  private _current = SkyMediaBreakpoints.md;
+  #currentBreakpoint = DEFAULT_BREAKPOINT;
 
-  private breakpoints: {
+  #breakpoints: {
     mediaQueryString: string;
     name: SkyMediaBreakpoints;
   }[] = [
@@ -68,18 +70,21 @@ export class SkyMediaQueryService implements OnDestroy {
     },
   ];
 
-  private mediaQueries: {
+  #mediaQueries: {
     mediaQueryList: MediaQueryList;
     listener: (event: any) => void;
   }[] = [];
 
-  constructor(private zone: NgZone) {
-    this.addListeners();
+  #zone: NgZone;
+
+  constructor(zone: NgZone) {
+    this.#zone = zone;
+    this.#addListeners();
   }
 
   public ngOnDestroy(): void {
-    this.removeListeners();
-    this.currentSubject.complete();
+    this.#removeListeners();
+    this.#currentSubject.complete();
   }
 
   /**
@@ -87,7 +92,7 @@ export class SkyMediaQueryService implements OnDestroy {
    * @param listener Specifies a function that is called when breakpoints change.
    */
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentSubject.subscribe({
+    return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
@@ -98,21 +103,21 @@ export class SkyMediaQueryService implements OnDestroy {
    * @internal
    */
   public destroy(): void {
-    this.removeListeners();
-    this.currentSubject.complete();
+    this.#removeListeners();
+    this.#currentSubject.complete();
   }
 
-  private addListeners(): void {
-    this.mediaQueries = this.breakpoints.map((breakpoint: any) => {
+  #addListeners(): void {
+    this.#mediaQueries = this.#breakpoints.map((breakpoint) => {
       const mq = matchMedia(breakpoint.mediaQueryString);
 
-      const listener = (event: any) => {
+      const listener = (event: MediaQueryListEvent) => {
         // Run the check outside of Angular's change detection since Angular
         // does not wrap matchMedia listeners in NgZone.
         // See: https://blog.assaf.co/angular-2-change-detection-zones-and-an-example/
-        this.zone.run(() => {
+        this.#zone.run(() => {
           if (event.matches) {
-            this.notifyBreakpointChange(breakpoint.name);
+            this.#notifyBreakpointChange(breakpoint.name);
           }
         });
       };
@@ -120,7 +125,7 @@ export class SkyMediaQueryService implements OnDestroy {
       mq.addListener(listener);
 
       if (mq.matches) {
-        this.notifyBreakpointChange(breakpoint.name);
+        this.#notifyBreakpointChange(breakpoint.name);
       }
 
       return {
@@ -130,15 +135,15 @@ export class SkyMediaQueryService implements OnDestroy {
     });
   }
 
-  private removeListeners(): void {
-    this.mediaQueries.forEach((mediaQuery) => {
+  #removeListeners(): void {
+    this.#mediaQueries.forEach((mediaQuery) => {
       mediaQuery.mediaQueryList.removeListener(mediaQuery.listener);
     });
-    this.mediaQueries = [];
+    this.#mediaQueries = [];
   }
 
-  private notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
-    this._current = breakpoint;
-    this.currentSubject.next(breakpoint);
+  #notifyBreakpointChange(breakpoint: SkyMediaBreakpoints): void {
+    this.#currentBreakpoint = breakpoint;
+    this.#currentSubject.next(breakpoint);
   }
 }

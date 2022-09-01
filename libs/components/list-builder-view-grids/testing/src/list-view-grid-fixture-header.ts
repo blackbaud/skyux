@@ -1,5 +1,6 @@
 /**
  * Properties of a list view grid header.
+ * @internal
  */
 export interface SkyListViewGridFixtureHeader {
   /**

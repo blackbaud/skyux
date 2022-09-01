@@ -10,6 +10,7 @@ import { SkySplitViewFixtureWorkspace } from './split-view-fixture-workspace';
  * Provides information for and interaction with a SKY UX split view component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
+ * @internal
  */
 export class SkySplitViewFixture {
   private _debugEl: DebugElement;

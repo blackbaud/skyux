@@ -8,6 +8,7 @@ import { SkyCountryFieldFixture } from '@skyux/lookup/testing';
  * Provides information for and interaction with a SKY UX phone field component.
  * By using the fixture API, a test insulates itself against updates to the internals
  * of a component, such as changing its DOM structure.
+ * @internal
  */
 export class SkyPhoneFieldFixture {
   /**

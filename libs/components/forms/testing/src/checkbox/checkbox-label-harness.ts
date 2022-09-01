@@ -2,6 +2,7 @@ import { ComponentHarness } from '@angular/cdk/testing';
 
 /**
  * Harness for interacting with a checkbox label component in tests.
+ * @internal
  */
 export class SkyCheckboxLabelHarness extends ComponentHarness {
   public static hostSelector = 'sky-checkbox-label';
