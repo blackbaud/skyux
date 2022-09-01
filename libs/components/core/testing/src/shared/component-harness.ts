@@ -6,6 +6,9 @@ import {
 
 import { SkyHarnessFilters } from './harness-filters';
 
+/**
+ * @internal
+ */
 export abstract class SkyComponentHarness extends ComponentHarness {
   protected static getDataSkyIdPredicate<T extends SkyComponentHarness>(
     this: ComponentHarnessConstructor<T>,

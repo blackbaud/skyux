@@ -20,12 +20,13 @@ class SkyAppLinkWithParamsTestComponent {}
 describe('SkyAppLink Directive', () => {
   let fixture: ComponentFixture<SkyAppLinkTestComponent>;
   let debugElement: DebugElement;
-  let getAllParam: boolean;
+  let getAllParam: boolean | undefined;
 
   function setup(
     params: any,
     useQueryParams: boolean,
-    provideSkyAppConfig = true
+    provideSkyAppConfig = true,
+    provideParamProvider = true
   ): void {
     const componentToUse = useQueryParams
       ? SkyAppLinkWithParamsTestComponent
@@ -51,13 +52,15 @@ describe('SkyAppLink Directive', () => {
       : [
           {
             provide: SkyAppRuntimeConfigParamsProvider,
-            useValue: {
-              params: {
-                getAll() {
-                  return params;
-                },
-              },
-            },
+            useValue: provideParamProvider
+              ? {
+                  params: {
+                    getAll() {
+                      return params;
+                    },
+                  },
+                }
+              : undefined,
           },
         ];
 
@@ -145,6 +148,23 @@ describe('SkyAppLink Directive', () => {
       directive.properties['href'].endsWith(
         '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
       )
+    ).toBeTrue();
+  });
+
+  it('shoudl handle neither SkyAppConfig or SkyAppRuntimeConfigParamsProvider being provided', () => {
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      true,
+      false,
+      false
+    );
+    const directive = debugElement.query(By.directive(SkyAppLinkDirective));
+    expect(directive.attributes['skyAppLink']).toEqual('test');
+    expect(
+      directive.properties['href'].endsWith('/test?qp1=1&qp2=false')
     ).toBeTrue();
   });
 });
