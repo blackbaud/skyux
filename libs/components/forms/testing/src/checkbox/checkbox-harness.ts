@@ -6,6 +6,7 @@ import { SkyCheckboxLabelHarness } from './checkbox-label-harness';
 
 /**
  * Harness for interacting with a checkbox component in tests.
+ * @internal
  */
 export class SkyCheckboxHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-checkbox';

@@ -7,12 +7,12 @@ import { SkyAffixOffset } from './affix-offset';
  */
 export function getElementOffset(
   element: HTMLElement,
-  bufferOffset: SkyAffixOffset = {}
-): SkyAffixOffset {
-  const bufferOffsetBottom = bufferOffset.bottom || 0;
-  const bufferOffsetLeft = bufferOffset.left || 0;
-  const bufferOffsetRight = bufferOffset.right || 0;
-  const bufferOffsetTop = bufferOffset.top || 0;
+  bufferOffset?: SkyAffixOffset
+): Required<SkyAffixOffset> {
+  const bufferOffsetBottom = bufferOffset?.bottom || 0;
+  const bufferOffsetLeft = bufferOffset?.left || 0;
+  const bufferOffsetRight = bufferOffset?.right || 0;
+  const bufferOffsetTop = bufferOffset?.top || 0;
 
   let top: number;
   let left: number;
@@ -49,7 +49,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
   const bodyElement = window.document.body;
   const results = [bodyElement];
 
-  let parentElement = child.parentNode;
+  let parentElement = child?.parentNode;
 
   while (
     parentElement !== undefined &&
@@ -81,7 +81,7 @@ export function getOverflowParents(child: HTMLElement): HTMLElement[] {
  */
 export function isOffsetFullyVisibleWithinParent(
   parent: HTMLElement,
-  offset: SkyAffixOffset,
+  offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset
 ): boolean {
   const parentOffset = getElementOffset(parent, bufferOffset);
@@ -96,7 +96,7 @@ export function isOffsetFullyVisibleWithinParent(
 
 export function isOffsetPartiallyVisibleWithinParent(
   parent: HTMLElement,
-  offset: SkyAffixOffset,
+  offset: Required<SkyAffixOffset>,
   bufferOffset?: SkyAffixOffset
 ): boolean {
   const parentOffset = getElementOffset(parent, bufferOffset);

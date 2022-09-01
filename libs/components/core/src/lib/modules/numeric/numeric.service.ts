@@ -14,29 +14,27 @@ export class SkyNumericService {
    * The browser's current locale.
    * @internal
    */
-  public set currentLocale(value: string) {
-    this._locale = value;
-  }
-
-  public get currentLocale(): string {
-    return this._locale || 'en-US';
-  }
+  public currentLocale = 'en-US';
 
   /**
    * @internal
    */
-  public shortSymbol: string;
+  public shortSymbol = '';
 
-  private symbolIndex: SkyNumericSymbol[] = [
-    { value: 1e12, label: this.getSymbol('skyux_numeric_trillions_symbol') },
-    { value: 1e9, label: this.getSymbol('skyux_numeric_billions_symbol') },
-    { value: 1e6, label: this.getSymbol('skyux_numeric_millions_symbol') },
-    { value: 1e3, label: this.getSymbol('skyux_numeric_thousands_symbol') },
-  ];
+  #resourcesSvc: SkyLibResourcesService;
 
-  private _locale: string;
+  #symbolIndex: SkyNumericSymbol[];
 
-  constructor(private resourcesService: SkyLibResourcesService) {}
+  constructor(resourcesSvc: SkyLibResourcesService) {
+    this.#resourcesSvc = resourcesSvc;
+
+    this.#symbolIndex = [
+      { value: 1e12, label: this.#getSymbol('skyux_numeric_trillions_symbol') },
+      { value: 1e9, label: this.#getSymbol('skyux_numeric_billions_symbol') },
+      { value: 1e6, label: this.#getSymbol('skyux_numeric_millions_symbol') },
+      { value: 1e3, label: this.#getSymbol('skyux_numeric_thousands_symbol') },
+    ];
+  }
 
   /**
    * Formats a number based on the provided options.
@@ -49,27 +47,30 @@ export class SkyNumericService {
     }
 
     const decimalPlaceRegExp = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    const locale = options.locale || this.currentLocale;
+    const digits = options.digits || 0;
 
     // Get the symbol for the number after rounding, since rounding could push the number
     // into a different symbol range.
-    let roundedNumber = this.roundNumber(value, options.digits);
+    let roundedNumber = this.#roundNumber(value, digits);
     const roundedNumberAbs = Math.abs(roundedNumber);
 
     let suffix = '';
 
-    for (let i = 0; i < this.symbolIndex.length; i++) {
-      let symbol = this.symbolIndex[i];
+    for (let i = 0; i < this.#symbolIndex.length; i++) {
+      let symbol = this.#symbolIndex[i];
 
       if (
         options.truncate &&
+        options.truncateAfter &&
         roundedNumberAbs >= options.truncateAfter &&
         roundedNumberAbs >= symbol.value
       ) {
-        roundedNumber = this.roundNumber(value / symbol.value, options.digits);
+        roundedNumber = this.#roundNumber(value / symbol.value, digits);
 
         if (Math.abs(roundedNumber) === 1000 && i > 0) {
           // Rounding caused the number to cross into the range of the next symbol.
-          symbol = this.symbolIndex[i - 1];
+          symbol = this.#symbolIndex[i - 1];
           roundedNumber /= 1000;
         }
 
@@ -79,15 +80,13 @@ export class SkyNumericService {
       }
     }
 
-    let output =
+    let output: string =
       roundedNumber.toString().replace(decimalPlaceRegExp, '$1') + suffix;
 
-    this.storeShortenSymbol(output);
+    this.#storeShortenSymbol(output);
 
-    const locale = options.locale || this.currentLocale;
-
-    let digits: string;
-    let isDecimal: boolean;
+    let digitsFormatted: string | undefined;
+    let isDecimal = false;
 
     // Checks the string entered for format. Using toLowerCase to ignore case.
     switch (options.format?.toLowerCase()) {
@@ -100,18 +99,18 @@ export class SkyNumericService {
         isDecimal = value % 1 !== 0;
 
         if (options.minDigits) {
-          digits = `1.${options.minDigits}-${options.digits}`;
-        } else if (isDecimal && options.digits >= 2) {
-          digits = `1.2-${options.digits}`;
+          digitsFormatted = `1.${options.minDigits}-${digits}`;
+        } else if (isDecimal && digits >= 2) {
+          digitsFormatted = `1.2-${digits}`;
         } else {
-          digits = `1.0-${options.digits}`;
+          digitsFormatted = `1.0-${digits}`;
         }
 
         output = SkyNumberFormatUtility.formatNumber(
           locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Currency,
-          digits,
+          digitsFormatted,
           options.iso,
           // Angular 5+ needs a string for this parameter, but Angular 4 needs a boolean.
           // To support both versions we can supply 'symbol' which will evaluate truthy for Angular 4
@@ -119,7 +118,8 @@ export class SkyNumericService {
           // See: https://angular.io/api/common/CurrencyPipe#parameters
           'symbol' as any,
           options.currencySign
-        );
+        ) as string;
+        //   ^^^^^^ Result can't be null since the sanitized input is always a number.
         break;
 
       // The following is a catch-all to ensure that if
@@ -129,24 +129,25 @@ export class SkyNumericService {
         // Ensures localization of the number to ensure comma and
         // decimal separator
         if (options.minDigits) {
-          digits = `1.${options.minDigits}-${options.digits}`;
+          digitsFormatted = `1.${options.minDigits}-${digits}`;
         } else if (options.truncate) {
-          digits = `1.0-${options.digits}`;
+          digitsFormatted = `1.0-${digits}`;
         } else {
-          digits = `1.${options.digits}-${options.digits}`;
+          digitsFormatted = `1.${digits}-${digits}`;
         }
 
         output = SkyNumberFormatUtility.formatNumber(
           locale,
           parseFloat(output),
           SkyIntlNumberFormatStyle.Decimal,
-          digits
-        );
+          digitsFormatted
+        ) as string;
+        //   ^^^^^^ Result can't be null since the sanitized input is always a number.
         break;
     }
 
     if (options.truncate) {
-      output = this.replaceShortenSymbol(output);
+      output = this.#replaceShortenSymbol(output);
     }
 
     return output;
@@ -160,7 +161,7 @@ export class SkyNumericService {
    * @param value - value to round
    * @param precision - what precision to round with, defaults to 0 decimal places
    */
-  private roundNumber(value: number, precision: number = 0): number {
+  #roundNumber(value: number, precision: number): number {
     if (precision < 0) {
       throw new Error('SkyInvalidArgument: precision must be >= 0');
     }
@@ -171,13 +172,13 @@ export class SkyNumericService {
       return 0;
     }
 
-    const scaledValue: number = this.scaleNumberByPowerOfTen(
+    const scaledValue: number = this.#scaleNumberByPowerOfTen(
       value,
       precision,
       true
     );
     const scaledRoundedValue: number = Math.round(scaledValue);
-    const unscaledRoundedValue: number = this.scaleNumberByPowerOfTen(
+    const unscaledRoundedValue: number = this.#scaleNumberByPowerOfTen(
       scaledRoundedValue,
       precision,
       false
@@ -192,7 +193,7 @@ export class SkyNumericService {
    * @param scalar - 10^scalar
    * @param scaleUp - whether to increase or decrease the value
    */
-  private scaleNumberByPowerOfTen(
+  #scaleNumberByPowerOfTen(
     value: number,
     scalar: number,
     scaleUp: boolean
@@ -214,8 +215,8 @@ export class SkyNumericService {
    * Stores the symbol added from shortening to reapply later.
    * @param value The string to derive the shorten symbol from.
    */
-  private storeShortenSymbol(value: string): void {
-    const symbols: string[] = this.symbolIndex.map((s) => s.label);
+  #storeShortenSymbol(value: string): void {
+    const symbols: string[] = this.#symbolIndex.map((s) => s.label);
     const regexp = new RegExp(symbols.join('|'), 'ig');
     const match = value.match(regexp);
     this.shortSymbol = match ? match.toString() : '';
@@ -228,17 +229,22 @@ export class SkyNumericService {
    * Works regardless of currency symbol position.
    * @param value The string to modify.
    */
-  private replaceShortenSymbol(value: string): string {
+  #replaceShortenSymbol(value: string): string {
     const result = /(\d)(?!.*\d)/g.exec(value);
-    const pos = result.index + result.length;
-    const output =
-      value.substring(0, pos) + this.shortSymbol + value.substring(pos);
+    /*istanbul ignore else*/
+    if (result) {
+      const pos = result.index + result.length;
+      const output =
+        value.substring(0, pos) + this.shortSymbol + value.substring(pos);
 
-    return output;
+      return output;
+    } else {
+      return value;
+    }
   }
 
-  private getSymbol(key: string): string {
+  #getSymbol(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale({ locale: 'en_US' }, key);
+    return this.#resourcesSvc.getStringForLocale({ locale: 'en_US' }, key);
   }
 }

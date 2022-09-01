@@ -2,6 +2,7 @@ import { ComponentFixture } from '@angular/core/testing';
 
 /**
  * Allows interaction with a SKY UX modal component.
+ * @internal
  */
 export class SkyModalFixture {
   #modalElement: HTMLElement;

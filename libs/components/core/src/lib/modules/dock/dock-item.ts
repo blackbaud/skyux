@@ -8,10 +8,12 @@ export class SkyDockItem<T> {
    * An event that emits when the item is removed from the dock.
    */
   public get destroyed(): Observable<void> {
-    return this._destroyed.asObservable();
+    return this.#destroyedObs;
   }
 
-  private _destroyed = new Subject<void>();
+  #destroyed = new Subject<void>();
+
+  #destroyedObs: Observable<void>;
 
   /**
    * @param componentInstance The item's component instance.
@@ -20,13 +22,15 @@ export class SkyDockItem<T> {
   constructor(
     public readonly componentInstance: T,
     public readonly stackOrder: number
-  ) {}
+  ) {
+    this.#destroyedObs = this.#destroyed.asObservable();
+  }
 
   /**
    * Removes the item from the dock.
    */
   public destroy(): void {
-    this._destroyed.next();
-    this._destroyed.complete();
+    this.#destroyed.next();
+    this.#destroyed.complete();
   }
 }

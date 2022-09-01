@@ -8,6 +8,7 @@ import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search
 
 /**
  * Harness for interacting with an autocomplete component in tests.
+ * @internal
  */
 export class SkyAutocompleteHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-autocomplete';

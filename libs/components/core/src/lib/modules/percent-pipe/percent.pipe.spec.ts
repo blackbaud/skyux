@@ -181,7 +181,8 @@ describe('Percent pipe', () => {
       const expectedValue = '123.5487 %';
       expect(value).toEqual(expectedValue);
     }
-    expect(pipe['defaultLocale']).toEqual('en-US');
+
+    expect(pipe.defaultLocale).toEqual('en-US');
   });
 
   it('should work as an injectable', () => {

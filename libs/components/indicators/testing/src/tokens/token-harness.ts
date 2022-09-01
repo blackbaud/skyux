@@ -4,6 +4,7 @@ import { SkyTokenHarnessFilters } from './token-harness-filters';
 
 /**
  * Harness for interacting with a token component in tests.
+ * @internal
  */
 export class SkyTokenHarness extends ComponentHarness {
   public static hostSelector = 'sky-token';

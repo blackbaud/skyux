@@ -13,38 +13,42 @@ export class AdapterServiceFixtureComponent {
     read: ElementRef,
     static: false,
   })
-  public getWidthContainer: ElementRef;
+  public getWidthContainer!: ElementRef;
 
   @ViewChild('paragraphContainer', {
     read: ElementRef,
     static: false,
   })
-  public paragraphContainer: ElementRef;
+  public paragraphContainer!: ElementRef;
 
   @ViewChild('syncHeightContainer', {
     read: ElementRef,
     static: false,
   })
-  public syncHeightContainer: ElementRef;
+  public syncHeightContainer!: ElementRef;
 
   public disableInput = false;
 
-  constructor(private adapterService: SkyCoreAdapterService) {}
+  #adapterSvc: SkyCoreAdapterService;
 
-  public applyAutoFocus(elementRef: ElementRef): boolean {
-    return this.adapterService.applyAutoFocus(elementRef);
+  constructor(adapterSvc: SkyCoreAdapterService) {
+    this.#adapterSvc = adapterSvc;
+  }
+
+  public applyAutoFocus(elementRef?: ElementRef): boolean {
+    return this.#adapterSvc.applyAutoFocus(elementRef);
   }
 
   public toggleIframePointerEvents(enable: boolean): void {
-    this.adapterService.toggleIframePointerEvents(enable);
+    this.#adapterSvc.toggleIframePointerEvents(enable);
   }
 
   public getFocusableChildrenAndApplyFocus(
     element: ElementRef,
-    containerSelector: string,
+    containerSelector?: string,
     focusOnContainerIfNotFound?: boolean
   ): void {
-    return this.adapterService.getFocusableChildrenAndApplyFocus(
+    return this.#adapterSvc.getFocusableChildrenAndApplyFocus(
       element,
       containerSelector,
       focusOnContainerIfNotFound
@@ -52,26 +56,26 @@ export class AdapterServiceFixtureComponent {
   }
 
   public getFocusableChildren(
-    element: HTMLElement,
+    element?: HTMLElement,
     options?: SkyFocusableChildrenOptions
   ): any[] {
-    return this.adapterService.getFocusableChildren(element, options);
+    return this.#adapterSvc.getFocusableChildren(element, options);
   }
 
   public getWidth(): number {
-    return this.adapterService.getWidth(this.getWidthContainer);
+    return this.#adapterSvc.getWidth(this.getWidthContainer);
   }
 
   public resetHeight(): void {
-    this.adapterService.resetHeight(this.syncHeightContainer, 'div');
+    this.#adapterSvc.resetHeight(this.syncHeightContainer, 'div');
   }
 
   public syncHeight(): void {
-    this.adapterService.syncMaxHeight(this.syncHeightContainer, 'div');
+    this.#adapterSvc.syncMaxHeight(this.syncHeightContainer, 'div');
   }
 
   public setParagraphContainerClass(breakpoint: SkyMediaBreakpoints): void {
-    this.adapterService.setResponsiveContainerClass(
+    this.#adapterSvc.setResponsiveContainerClass(
       this.paragraphContainer,
       breakpoint
     );

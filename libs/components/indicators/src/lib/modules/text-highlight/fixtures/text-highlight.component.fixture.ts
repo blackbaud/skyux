@@ -1,18 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
-
-import { SkyTextHighlightDirective } from '../text-highlight.directive';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'sky-text-highlight-component',
-  templateUrl: 'text-highlight.component.fixture.html',
+  templateUrl: './text-highlight.component.fixture.html',
 })
 export class SkyTextHighlightTestComponent {
-  public searchTerm: string | string[];
+  public searchTerm: string | string[] | undefined;
   public showAdditionalContent = false;
   public innerText1 = 'Here is some test text.';
   public innerText2 =
     'Here is additional text that was previously hidden in src\\app.';
-
-  @ViewChild(SkyTextHighlightDirective)
-  public textHighlightDirective: SkyTextHighlightDirective;
+  public childElementsTest = false;
 }

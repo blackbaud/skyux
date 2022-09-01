@@ -65,7 +65,7 @@ describe('Viewkeeper', () => {
         vk.destroy();
       }
 
-      boundaryEl.parentElement.removeChild(boundaryEl);
+      boundaryEl.parentElement?.removeChild(boundaryEl);
 
       window.scrollTo(0, 0);
     });
@@ -162,39 +162,41 @@ describe('Viewkeeper', () => {
         viewportMarginTop: 5,
       });
 
+      // Scroll the window so that the class list is updated.
+      scrollWindowTo(0, 20);
+      expect(Array.from(el.classList)).toEqual(['sky-viewkeeper-fixed']);
+
       const removeEventListenerSpy = spyOn(
         window,
         'removeEventListener'
       ).and.callThrough();
 
-      const syncElPositionHandler = (vk as any).syncElPositionHandler;
-
       vk.destroy();
 
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'scroll',
-        syncElPositionHandler,
-        true
-      );
+      // Verify that the viewkeeper class has been removed.
+      expect(Array.from(el.classList)).toEqual([]);
 
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'resize',
-        syncElPositionHandler
-      );
-
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'orientationchange',
-        syncElPositionHandler
-      );
-
-      expect((vk as any).el).toBeUndefined();
-      expect((vk as any).boundaryEl).toBeUndefined();
-
+      const calls = removeEventListenerSpy.calls.all();
+      expect(calls[0].args[0]).toEqual('scroll');
+      expect(calls[1].args[0]).toEqual('resize');
+      expect(calls[2].args[0]).toEqual('orientationchange');
       removeEventListenerSpy.calls.reset();
 
       vk.destroy();
 
       expect(removeEventListenerSpy).not.toHaveBeenCalled();
+    });
+
+    it('should throw an error if `el` not provided', () => {
+      expect(() => new SkyViewkeeper({})).toThrowError(
+        '[SkyViewkeeper] The option `el` is required.'
+      );
+    });
+
+    it('should throw an error if `boundaryEl` not provided', () => {
+      expect(() => new SkyViewkeeper({ el })).toThrowError(
+        '[SkyViewkeeper] The option `boundaryEl` is required.'
+      );
     });
   });
 
@@ -228,8 +230,8 @@ describe('Viewkeeper', () => {
         vk.destroy();
       }
 
-      boundaryEl.parentElement.removeChild(boundaryEl);
-      scrollableHostEl.parentElement.removeChild(scrollableHostEl);
+      boundaryEl.parentElement?.removeChild(boundaryEl);
+      scrollableHostEl.parentElement?.removeChild(scrollableHostEl);
 
       window.scrollTo(0, 0);
     });
@@ -343,34 +345,24 @@ describe('Viewkeeper', () => {
         viewportMarginTop: 5,
       });
 
+      // Scroll the parent so that the class list is updated.
+      scrollScrollableHost(0, 100);
+      expect(Array.from(el.classList)).toEqual(['sky-viewkeeper-fixed']);
+
       const removeEventListenerSpy = spyOn(
         window,
         'removeEventListener'
       ).and.callThrough();
 
-      const syncElPositionHandler = (vk as any).syncElPositionHandler;
-
       vk.destroy();
 
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'scroll',
-        syncElPositionHandler,
-        true
-      );
+      // Verify that the viewkeeper class has been removed.
+      expect(Array.from(el.classList)).toEqual([]);
 
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'resize',
-        syncElPositionHandler
-      );
-
-      expect(removeEventListenerSpy).toHaveBeenCalledWith(
-        'orientationchange',
-        syncElPositionHandler
-      );
-
-      expect((vk as any).el).toBeUndefined();
-      expect((vk as any).boundaryEl).toBeUndefined();
-
+      const calls = removeEventListenerSpy.calls.all();
+      expect(calls[0].args[0]).toEqual('scroll');
+      expect(calls[1].args[0]).toEqual('resize');
+      expect(calls[2].args[0]).toEqual('orientationchange');
       removeEventListenerSpy.calls.reset();
 
       vk.destroy();

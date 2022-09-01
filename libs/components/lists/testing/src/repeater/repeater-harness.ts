@@ -7,6 +7,7 @@ import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
 
 /**
  * Harness for interacting with a repeater component in tests.
+ * @internal
  */
 export class SkyRepeaterHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-repeater';

@@ -82,7 +82,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get blur(): Observable<void> {
-    return this.#_blurObs;
+    return this.#blurObs;
   }
 
   public get displayWith(): string {
@@ -95,7 +95,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get focus(): Observable<void> {
-    return this.#_focusObs;
+    return this.#focusObs;
   }
 
   public get inputTextValue(): string {
@@ -107,7 +107,7 @@ export class SkyAutocompleteInputDirective
   }
 
   public get textChanges(): Observable<SkyAutocompleteInputTextChange> {
-    return this.#_textChangesObs;
+    return this.#textChangesObs;
   }
 
   public get value(): any {
@@ -137,11 +137,15 @@ export class SkyAutocompleteInputDirective
 
   #blur: Subject<void>;
 
+  #blurObs: Observable<void>;
+
   #control: AbstractControl | undefined;
 
   #elementRef: ElementRef;
 
   #focus: Subject<void>;
+
+  #focusObs: Observable<void>;
 
   #isFirstChange = true;
 
@@ -151,17 +155,13 @@ export class SkyAutocompleteInputDirective
 
   #textChanges: Subject<SkyAutocompleteInputTextChange>;
 
-  #_autocompleteAttribute: string | undefined;
+  #textChangesObs: Observable<SkyAutocompleteInputTextChange>;
 
-  #_blurObs: Observable<void>;
+  #_autocompleteAttribute: string | undefined;
 
   #_disabled = false;
 
   #_displayWith = '';
-
-  #_focusObs: Observable<void>;
-
-  #_textChangesObs: Observable<SkyAutocompleteInputTextChange>;
 
   #_value: any;
 
@@ -173,9 +173,9 @@ export class SkyAutocompleteInputDirective
     this.#focus = new Subject<void>();
     this.#textChanges = new Subject<SkyAutocompleteInputTextChange>();
 
-    this.#_blurObs = this.#blur.asObservable();
-    this.#_focusObs = this.#focus.asObservable();
-    this.#_textChangesObs = this.#textChanges.asObservable();
+    this.#blurObs = this.#blur.asObservable();
+    this.#focusObs = this.#focus.asObservable();
+    this.#textChangesObs = this.#textChanges.asObservable();
   }
 
   public ngOnInit() {

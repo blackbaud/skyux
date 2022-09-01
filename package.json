@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "6.15.0",
+  "version": "6.16.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -17,7 +17,6 @@
     "dev:commit": "npx cz",
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
-    "dev:create-release": "skyux-dev create-release",
     "dev:format": "npx prettier --write .",
     "dev:migrate": "skyux-dev migrate",
     "dev:pristine": "skyux-dev pristine-commit"

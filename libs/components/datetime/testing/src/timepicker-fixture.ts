@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX timepicker component.
+ * @internal
  */
 export class SkyTimepickerFixture {
   private debugEl: DebugElement;

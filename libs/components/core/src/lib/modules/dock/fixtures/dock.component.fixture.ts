@@ -12,7 +12,7 @@ import { DockItemFixtureComponent } from './dock-item.component.fixture';
   template: '<div id="innerDiv"></div>',
 })
 export class DockFixtureComponent {
-  public set itemConfigs(value: SkyDockInsertComponentConfig[]) {
+  public set itemConfigs(value: (SkyDockInsertComponentConfig | undefined)[]) {
     value.forEach((c) => this.addItem(c));
   }
 
@@ -20,7 +20,7 @@ export class DockFixtureComponent {
 
   constructor(public dockService: SkyDockService) {}
 
-  public addItem(config: SkyDockInsertComponentConfig): void {
+  public addItem(config: SkyDockInsertComponentConfig | undefined): void {
     this.dockItems.push(
       this.dockService.insertComponent(DockItemFixtureComponent, config)
     );

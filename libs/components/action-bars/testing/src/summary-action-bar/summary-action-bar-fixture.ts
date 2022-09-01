@@ -7,6 +7,7 @@ import { SkySummaryActionBarFixtureAction } from './summary-action-bar-fixture-a
 
 /**
  * Allows interaction with a SKY UX summary action bar component.
+ * @internal
  */
 export class SkySummaryActionBarFixture {
   /**
