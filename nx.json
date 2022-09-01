@@ -25,6 +25,7 @@
           "build",
           "lint",
           "test",
+          "posttest",
           "e2e",
           "build-storybook"
         ],
