@@ -13,7 +13,7 @@ export class SkyModalAdapterService {
   #bodyEl: HTMLElement;
 
   #windowRef: SkyAppWindowRef;
-  #hiddenElements = new Map<Element, string | null>();
+  #hostSiblingPreviousValue = new Map<Element, string | null>();
 
   constructor(windowRef: SkyAppWindowRef) {
     this.#windowRef = windowRef;
@@ -49,8 +49,8 @@ export class SkyModalAdapterService {
     this.#bodyEl.classList.remove(className);
   }
 
-  public hideHostSiblings(elRef: ElementRef): void {
-    const hostElement = elRef.nativeElement;
+  public hideHostSiblings(hostElRef: ElementRef): void {
+    const hostElement = hostElRef.nativeElement;
     const hostSiblings = hostElement.parentElement.children;
 
     for (let i = 0; i < hostSiblings.length; i++) {
@@ -62,14 +62,17 @@ export class SkyModalAdapterService {
         element.nodeName.toLowerCase() !== 'style'
       ) {
         // preserve previous aria-hidden status of elements outside of modal host
-        this.#hiddenElements.set(element, element.getAttribute('aria-hidden'));
+        this.#hostSiblingPreviousValue.set(
+          element,
+          element.getAttribute('aria-hidden')
+        );
         element.setAttribute('aria-hidden', 'true');
       }
     }
   }
 
-  public unhideHostSiblings(): void {
-    this.#hiddenElements.forEach((previousValue, element) => {
+  public unhideOrRestoreHostSiblings(): void {
+    this.#hostSiblingPreviousValue.forEach((previousValue, element) => {
       // if element had aria-hidden status prior, restore status
       if (previousValue) {
         element.setAttribute('aria-hidden', previousValue);
@@ -77,18 +80,18 @@ export class SkyModalAdapterService {
         element.removeAttribute('aria-hidden');
       }
     });
-    this.#hiddenElements.clear();
+    this.#hostSiblingPreviousValue.clear();
   }
 
-  public hidePreviousModal(modal: Element): void {
-    if (modal && modal.previousElementSibling) {
-      modal.previousElementSibling.setAttribute('aria-hidden', 'true');
+  public hidePreviousModal(topModal: Element): void {
+    if (topModal && topModal.previousElementSibling) {
+      topModal.previousElementSibling.setAttribute('aria-hidden', 'true');
     }
   }
 
-  public unhidePreviousModal(modal: Element): void {
-    if (modal && modal.previousElementSibling) {
-      modal.previousElementSibling.removeAttribute('aria-hidden');
+  public unhidePreviousModal(topModal: Element): void {
+    if (topModal && topModal.previousElementSibling) {
+      topModal.previousElementSibling.removeAttribute('aria-hidden');
     }
   }
 }

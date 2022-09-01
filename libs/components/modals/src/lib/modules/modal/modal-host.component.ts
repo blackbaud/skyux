@@ -164,7 +164,7 @@ export class SkyModalHostComponent implements OnDestroy {
     const closeModal = () => {
       // unhide siblings if last modal is closing
       if (SkyModalHostService.openModalCount == 1) {
-        this.#adapter.unhideHostSiblings();
+        this.#adapter.unhideOrRestoreHostSiblings();
       } else if (SkyModalHostService.topModal == hostService) {
         // if there are more than 1 modal then unhide the one behind this one before closing it
         this.#adapter.unhidePreviousModal(modalElement);
