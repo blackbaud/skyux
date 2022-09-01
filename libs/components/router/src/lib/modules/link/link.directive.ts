@@ -23,27 +23,32 @@ export class SkyAppLinkDirective
     this.routerLink = commands;
   }
 
+  #skyAppConfig: SkyAppConfig | undefined;
+  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+
   constructor(
     router: Router,
     route: ActivatedRoute,
     locationStrategy: LocationStrategy,
-    @Optional() private skyAppConfig?: SkyAppConfig,
-    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider
+    @Optional() skyAppConfig?: SkyAppConfig,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider
   ) {
     super(router, route, locationStrategy);
+    this.#skyAppConfig = skyAppConfig;
+    this.#paramsProvider = paramsProvider;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.queryParams = this.mergeQueryParams(changes.queryParams?.currentValue);
+    this.queryParams = this.#mergeQueryParams(
+      changes.queryParams?.currentValue
+    );
     super.ngOnChanges(changes);
   }
 
-  private mergeQueryParams(
-    queryParams: SkyAppLinkQueryParams
-  ): SkyAppLinkQueryParams {
-    const skyuxParams = this.skyAppConfig
-      ? this.skyAppConfig.runtime.params.getAll(true)
-      : this.paramsProvider.params.getAll(true);
+  #mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
+    const skyuxParams = this.#skyAppConfig
+      ? this.#skyAppConfig.runtime.params.getAll(true)
+      : this.#paramsProvider?.params.getAll(true);
 
     return Object.assign({}, this.queryParams, queryParams, skyuxParams);
   }
