@@ -32,11 +32,11 @@ export class SkyHrefDirective {
    * @param skyHref
    */
   @Input()
-  public set skyHref(skyHref: string | string[]) {
+  public set skyHref(skyHref: string | string[] | undefined) {
     if (typeof skyHref === 'string') {
       this.#_skyHref = skyHref;
     } else {
-      this.#_skyHref = skyHref.join('/');
+      this.#_skyHref = skyHref ? skyHref.join('/') : '';
     }
 
     this.#checkRouteAccess();
@@ -52,12 +52,12 @@ export class SkyHrefDirective {
    * @param value
    */
   @Input()
-  public set skyHrefElse(value: 'hide' | 'unlink') {
+  public set skyHrefElse(value: 'hide' | 'unlink' | undefined) {
     this.#_skyHrefElse = value;
     this.#applyChanges(this.#getChanges());
   }
 
-  public get skyHrefElse(): 'hide' | 'unlink' {
+  public get skyHrefElse(): 'hide' | 'unlink' | undefined {
     return this.#_skyHrefElse;
   }
 
@@ -73,7 +73,7 @@ export class SkyHrefDirective {
 
   #_skyHref = '';
 
-  #_skyHrefElse: 'hide' | 'unlink' = 'hide';
+  #_skyHrefElse: 'hide' | 'unlink' | undefined = 'hide';
 
   #router: Router;
   #renderer: Renderer2;

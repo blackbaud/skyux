@@ -153,6 +153,16 @@ describe('SkyHref Directive', () => {
     );
   }));
 
+  it('should handle an undefined value', fakeAsync(() => {
+    setup({}, false);
+    fixture.detectChanges();
+    tick(100);
+    fixture.componentInstance.dynamicLink = undefined;
+    fixture.detectChanges();
+    const element: HTMLElement | null = el.querySelector('.dynamicLink a');
+    expect(element?.getAttribute('href')).toBeNull();
+  }));
+
   it('should set href with merged query parameters supplied by the app config', fakeAsync(() => {
     setup({
       asdf: 123,

@@ -12,7 +12,7 @@ import {
 })
 export class HrefDirectiveFixtureComponent {
   @Input()
-  public set dynamicLink(value: string | any[]) {
+  public set dynamicLink(value: string | any[] | undefined) {
     this.#_dynamicLink = value;
     this.#changeDetectorRef.markForCheck();
   }
@@ -32,7 +32,7 @@ export class HrefDirectiveFixtureComponent {
   public testSlowLink = false;
 
   #_dynamicElse: 'hide' | 'unlink' = 'hide';
-  #_dynamicLink: string | any[] = '1bb-nav://simple-app/';
+  #_dynamicLink: string | any[] | undefined = '1bb-nav://simple-app/';
 
   #changeDetectorRef: ChangeDetectorRef;
 
