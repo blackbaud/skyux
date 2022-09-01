@@ -93,7 +93,7 @@ export class SkyModalInstance {
    * the modal instance's `helpOpened` event. Consumers can inject the `SkyModalInstance` provider
    * into a component's constructor to call the `openHelp` function in the modal template.
    */
-  public openHelp(helpKey?: string): void {
+  public openHelp(helpKey: string): void {
     this.#_helpOpened.next(helpKey);
   }
 

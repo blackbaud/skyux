@@ -71,7 +71,7 @@ describe('Modal instance', () => {
       helpOpened = true;
     });
 
-    modalInstance.openHelp();
+    modalInstance.openHelp('foobar');
 
     expect(helpOpened).toEqual(true);
   });

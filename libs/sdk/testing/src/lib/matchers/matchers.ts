@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
@@ -335,8 +336,8 @@ const matchers: jasmine.CustomMatcherFactories = {
         const actual = el.textContent;
 
         getResourcesObservable(name)
-          .toPromise()
-          .then((message) => {
+          .pipe(take(1))
+          .subscribe((message) => {
             if (!isTemplateMatch(actual, message)) {
               windowRef.fail(
                 `Expected element's text "${actual}" to match "${message}"`
@@ -519,8 +520,8 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
           const actual = element.textContent;
 
           getResourcesObservable(name)
-            .toPromise()
-            .then((message) => {
+            .pipe(take(1))
+            .subscribe((message) => {
               if (isTemplateMatch(actual, message)) {
                 resolve({
                   pass: true,
@@ -546,9 +547,9 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         return new Promise((resolve) => {
           const actual = element.textContent;
 
-          getLibResourcesObservable(name)
-            .toPromise()
-            .then((message) => {
+          getResourcesObservable(name)
+            .pipe(take(1))
+            .subscribe((message) => {
               if (isTemplateMatch(actual, message)) {
                 resolve({
                   pass: true,

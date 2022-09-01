@@ -1,4 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+
+import { Subject } from 'rxjs';
 
 const BASE_Z_INDEX = 1040;
 const modalHosts: SkyModalHostService[] = [];
@@ -28,9 +30,9 @@ export class SkyModalHostService {
     return modalHosts[modalHosts.length - 1];
   }
 
-  public close = new EventEmitter<void>();
+  public close = new Subject<void>();
   public fullPage = false;
-  public openHelp = new EventEmitter<any>();
+  public openHelp = new Subject<string>();
   public zIndex: number;
 
   constructor() {
@@ -43,11 +45,11 @@ export class SkyModalHostService {
   }
 
   public onClose(): void {
-    this.close.emit();
+    this.close.next();
   }
 
-  public onOpenHelp(helpKey?: string) {
-    this.openHelp.emit(helpKey);
+  public onOpenHelp(helpKey: string) {
+    this.openHelp.next(helpKey);
   }
 
   public destroy(): void {
