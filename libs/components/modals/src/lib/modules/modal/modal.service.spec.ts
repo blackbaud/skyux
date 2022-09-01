@@ -196,125 +196,125 @@ describe('Modal service', () => {
     closeModal(modal);
   }));
 
-  it('should hide and unhide elements at the host level from screen readers', fakeAsync(() => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    const modal = openModal(ModalTestComponent, { fullPage: false });
+  describe('accessibility', () => {
+    it('should hide and unhide elements at the host level from screen readers', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      const modal = openModal(ModalTestComponent, { fullPage: false });
 
-    expect(div.getAttribute('aria-hidden')).toBe('true');
+      expect(div.getAttribute('aria-hidden')).toBe('true');
 
-    closeModal(modal);
+      closeModal(modal);
 
-    expect(div.getAttribute('aria-hidden')).toBe(null);
-    div.remove();
-  }));
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+    }));
 
-  it('should keep hidden status elements at the host level consistent', fakeAsync(() => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    div.setAttribute('aria-hidden', 'true');
+    it('should keep hidden status elements at the host level consistent', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-hidden', 'true');
 
-    const modal = openModal(ModalTestComponent, { fullPage: false });
+      const modal = openModal(ModalTestComponent, { fullPage: false });
 
-    expect(div.getAttribute('aria-hidden')).toBe('true');
+      expect(div.getAttribute('aria-hidden')).toBe('true');
 
-    closeModal(modal);
+      closeModal(modal);
 
-    expect(div.getAttribute('aria-hidden')).toBe('true');
-    div.remove();
-  }));
+      expect(div.getAttribute('aria-hidden')).toBe('true');
+      div.remove();
+    }));
 
-  it('should not hide host siblings that are live', fakeAsync(() => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    div.setAttribute('aria-live', 'true');
+    it('should not hide host siblings that are live', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-live', 'true');
 
-    const modal = openModal(ModalTestComponent, { fullPage: false });
+      const modal = openModal(ModalTestComponent, { fullPage: false });
 
-    expect(div.getAttribute('aria-hidden')).toBe(null);
-    div.remove();
-    closeModal(modal);
-  }));
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+      closeModal(modal);
+    }));
 
-  it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
-    const firstModal = openModal(ModalTestComponent, { fullPage: false });
-    const secondModal = openModal(ModalTestComponent, { fullPage: false });
-    const modalsList = getModalEls();
-    modalsList.item(0).id = 'firstModal';
-    modalsList.item(1).id = 'secondModal';
+    it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
+      const firstModal = openModal(ModalTestComponent, { fullPage: false });
+      const secondModal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'firstModal';
+      modalsList.item(1).id = 'secondModal';
 
-    const topModal = openModal(ModalTestComponent, { fullPage: false });
+      const topModal = openModal(ModalTestComponent, { fullPage: false });
 
-    expect(
-      document.getElementById('firstModal').getAttribute('aria-hidden')
-    ).toBe('true');
+      expect(
+        document.getElementById('firstModal').getAttribute('aria-hidden')
+      ).toBe('true');
 
-    closeModal(secondModal);
+      closeModal(secondModal);
 
-    expect(
-      document.getElementById('firstModal').getAttribute('aria-hidden')
-    ).toBe('true');
+      expect(
+        document.getElementById('firstModal').getAttribute('aria-hidden')
+      ).toBe('true');
 
-    closeModal(firstModal);
-    closeModal(topModal);
-  }));
+      closeModal(firstModal);
+      closeModal(topModal);
+    }));
 
-  it('should unhide the correct modal when the top modal closes', fakeAsync(() => {
-    const lowerModal = openModal(ModalTestComponent, { fullPage: false });
-    const middleModal = openModal(ModalTestComponent, { fullPage: false });
-    const topModal = openModal(ModalTestComponent, { fullPage: false });
-    const modalsList = getModalEls();
-    modalsList.item(0).id = 'lowerModal';
+    it('should unhide the correct modal when the top modal closes', fakeAsync(() => {
+      const lowerModal = openModal(ModalTestComponent, { fullPage: false });
+      const middleModal = openModal(ModalTestComponent, { fullPage: false });
+      const topModal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'lowerModal';
 
-    closeModal(middleModal);
-    closeModal(topModal);
+      closeModal(middleModal);
+      closeModal(topModal);
 
-    expect(
-      document.getElementById('lowerModal').getAttribute('aria-hidden')
-    ).toBe(null);
+      expect(
+        document.getElementById('lowerModal').getAttribute('aria-hidden')
+      ).toBe(null);
 
-    closeModal(lowerModal);
-  }));
+      closeModal(lowerModal);
+    }));
 
-  // modal siblings
+    it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
+      const siblingModal = openModal(ModalTestComponent, { fullPage: false });
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'sibling';
 
-  it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
-    const siblingModal = openModal(ModalTestComponent, { fullPage: false });
-    const modal = openModal(ModalTestComponent, { fullPage: false });
-    const modalsList = getModalEls();
-    modalsList.item(0).id = 'sibling';
+      expect(
+        document.getElementById('sibling').getAttribute('aria-hidden')
+      ).toBe('true');
 
-    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
-      'true'
-    );
+      closeModal(modal);
+      expect(
+        document.getElementById('sibling').getAttribute('aria-hidden')
+      ).toBe(null);
+      closeModal(siblingModal);
+    }));
 
-    closeModal(modal);
-    expect(document.getElementById('sibling').getAttribute('aria-hidden')).toBe(
-      null
-    );
-    closeModal(siblingModal);
-  }));
+    it('should not hide live elements from screen readers', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-live', 'true');
+      const modal = openModal(ModalTestComponent, { fullPage: false });
 
-  it('should not hide live elements from screen readers', fakeAsync(() => {
-    const div = document.createElement('div');
-    document.body.appendChild(div);
-    div.setAttribute('aria-live', 'true');
-    const modal = openModal(ModalTestComponent, { fullPage: false });
+      expect(div.getAttribute('aria-hidden')).toBe(null);
 
-    expect(div.getAttribute('aria-hidden')).toBe(null);
+      closeModal(modal);
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+    }));
 
-    closeModal(modal);
-    expect(div.getAttribute('aria-hidden')).toBe(null);
-    div.remove();
-  }));
+    it('should not hide current modal from screen readers', fakeAsync(() => {
+      const modal = openModal(ModalTestComponent, { fullPage: false });
 
-  it('should not hide current modal from screen readers', fakeAsync(() => {
-    const modal = openModal(ModalTestComponent, { fullPage: false });
+      expect(
+        document.querySelector('sky-test-cmp').getAttribute('aria-hidden')
+      ).toBe(null);
 
-    expect(
-      document.querySelector('sky-test-cmp').getAttribute('aria-hidden')
-    ).toBe(null);
-
-    closeModal(modal);
-  }));
+      closeModal(modal);
+    }));
+  });
 });
