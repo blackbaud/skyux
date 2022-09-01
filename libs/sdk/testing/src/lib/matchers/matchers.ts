@@ -547,7 +547,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         return new Promise((resolve) => {
           const actual = element.textContent;
 
-          getResourcesObservable(name)
+          getLibResourcesObservable(name)
             .pipe(take(1))
             .subscribe((message) => {
               if (isTemplateMatch(actual, message)) {

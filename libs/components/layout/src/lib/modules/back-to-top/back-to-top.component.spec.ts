@@ -1,9 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  async,
-  fakeAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { Subject } from 'rxjs';
@@ -208,7 +203,7 @@ describe('back to top component', () => {
       expect(backToTopElement).toBeNull();
     }));
 
-    it('should scroll to target element when back to top button is clicked', async(() => {
+    it('should scroll to target element when back to top button is clicked', () => {
       scrollElement(parentElement, 999, fixture);
       const backToTopTarget = getBackToTopTarget();
 
@@ -217,7 +212,7 @@ describe('back to top component', () => {
       clickBackToTopButton(fixture);
 
       expect(isElementInView(backToTopTarget)).toBe(true);
-    }));
+    });
   });
 
   describe('when the message stream is used', () => {
