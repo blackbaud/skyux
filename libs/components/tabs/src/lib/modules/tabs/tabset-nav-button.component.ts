@@ -59,11 +59,11 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public get buttonType(): SkyTabsetNavButtonType {
+  public get buttonType(): SkyTabsetNavButtonType | string {
     return this.#_buttonType;
   }
 
-  public set buttonType(value: SkyTabsetNavButtonType) {
+  public set buttonType(value: SkyTabsetNavButtonType | string) {
     this.#_buttonType = value;
     this.#updateTabToSelect();
     this.#updateButtonProperties();
@@ -103,12 +103,12 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     return !this.#tabToSelect || this.#tabToSelect.disabled;
   }
 
-  public buttonClassName: string;
+  public buttonClassName: string | undefined;
   public isVisible = false;
   public type: 'submit' | 'button';
-  public ariaControls: string;
+  public ariaControls: string | undefined;
 
-  #_buttonType: SkyTabsetNavButtonType;
+  #_buttonType: SkyTabsetNavButtonType | string;
   #_disabled: boolean | undefined;
   #_tabset: SkyTabsetComponent;
   #activeIndexNumber: number;
