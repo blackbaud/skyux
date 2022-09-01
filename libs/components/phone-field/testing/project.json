@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/phone-field/testing/src",
+  "prefix": "sky",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/phone-field/testing/src/test.ts",
+        "tsConfig": "libs/components/phone-field/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/components/phone-field/testing/karma.conf.js",
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      }
+    }
+  }
+}
