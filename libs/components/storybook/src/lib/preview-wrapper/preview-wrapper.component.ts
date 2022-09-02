@@ -14,7 +14,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { Subscription } from 'rxjs';
+import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
@@ -23,10 +23,10 @@ import { Subscription } from 'rxjs';
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
-  public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
+  public set theme(value: PreviewWrapperThemeValue | undefined) {
     this.#_theme = value ?? 'default';
     if (this.#_theme && this.#_theme.match(/^modern(-(light|dark))?$/)) {
-      if (value.includes('dark')) {
+      if (this.#_theme.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark
@@ -44,7 +44,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       );
     }
   }
-  public get theme() {
+  public get theme(): PreviewWrapperThemeValue {
     return this.#_theme;
   }
 
@@ -62,29 +62,29 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-  #_theme: 'default' | 'modern-light' | 'modern-dark' = 'default';
-  #ngUnsubscribe = new Subscription();
+  #_theme: PreviewWrapperThemeValue = 'default';
   #initialized = false;
 
+  #body: HTMLElement;
   #themeService: SkyThemeService;
   #renderer: Renderer2;
 
   constructor(
     themeService: SkyThemeService,
-    @Inject('BODY') private body: HTMLElement,
+    @Inject('BODY') body: HTMLElement,
     renderer: Renderer2
   ) {
     this.#themeService = themeService;
+    this.#body = body;
     this.#renderer = renderer;
   }
 
   public ngOnInit(): void {
-    this.#themeService.init(this.body, this.#renderer, this.themeSettings);
+    this.#themeService.init(this.#body, this.#renderer, this.themeSettings);
     this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
-    this.#ngUnsubscribe.unsubscribe();
     this.#themeService.destroy();
   }
 }
