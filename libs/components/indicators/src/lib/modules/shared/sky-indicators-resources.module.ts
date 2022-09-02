@@ -17,6 +17,15 @@ import {
 const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_alert_close: { message: 'Close the alert' },
+    skyux_alert_sr_attention: { message: 'Attention:' },
+    skyux_alert_sr_caution: { message: 'Caution:' },
+    skyux_alert_sr_completed: { message: 'Completed:' },
+    skyux_alert_sr_danger: { message: 'Danger:' },
+    skyux_alert_sr_error: { message: 'Error:' },
+    skyux_alert_sr_important_info: { message: 'Important information:' },
+    skyux_alert_sr_important_warning: { message: 'Important warning:' },
+    skyux_alert_sr_success: { message: 'Success:' },
+    skyux_alert_sr_warning: { message: 'Warning:' },
     skyux_help_inline_button_title: { message: 'Show help content' },
     skyux_label_sr_attention: { message: 'Attention:' },
     skyux_label_sr_caution: { message: 'Caution:' },
