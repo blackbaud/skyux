@@ -24,7 +24,7 @@ import { Subscription } from 'rxjs';
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
-    this._theme = value;
+    this._theme = value ?? 'default';
     if (value && value.match(/^modern(-(light|dark))?$/)) {
       if (value.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
@@ -62,7 +62,7 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-  private _theme?: 'default' | 'modern-light' | 'modern-dark';
+  private _theme: 'default' | 'modern-light' | 'modern-dark' = 'default';
   private readonly _ngUnsubscribe = new Subscription();
   private initialized = false;
 
