@@ -1,5 +1,4 @@
 {
-  "allowedSemverRange": "^6.0.0",
   "baseBranch": "main",
   "documentationExcludeProjects": [
     "animations",

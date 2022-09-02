@@ -118,13 +118,6 @@
   flex-shrink: 0;
   z-index: 2;
 
-  ::ng-deep sky-tabset-nav-button + sky-tabset-nav-button {
-    margin-left: $sky-margin;
-  }
-  ::ng-deep sky-tabset-nav-button + .sky-btn {
-    margin-left: $sky-margin;
-  }
-
   ::ng-deep .sky-btn + .sky-btn {
     margin-left: $sky-margin;
   }

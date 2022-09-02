@@ -18,6 +18,7 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
   'EN-US': {
     skyux_tab_add: { message: 'Add tab' },
     skyux_tab_close: { message: 'Close {0} tab' },
+    skyux_tabs_navigator_finish: { message: 'Finish' },
     skyux_tabs_navigator_next: { message: 'Next' },
     skyux_tabs_navigator_previous: { message: 'Previous' },
     skyux_tab_open: { message: 'Open tab' },

@@ -3,7 +3,6 @@ import {
   TestBed,
   fakeAsync,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
@@ -196,88 +195,83 @@ describe('Progress indicator component', function () {
     expect(componentInstance.emptyProgressIndicator.itemStatuses).toEqual([]);
   }));
 
-  it('should handle dynamic steps being added and removed', waitForAsync(function () {
+  it('should handle dynamic steps being added and removed', async () => {
     componentInstance.startingIndex = 2;
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      // Verify that the desired index is set to Active,
-      // and all previous steps are set to Complete.
-      verifyActiveIndex(2);
-      verifyItemStatuses([
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active,
-      ]);
+    await fixture.whenStable();
+    // Verify that the desired index is set to Active,
+    // and all previous steps are set to Complete.
+    verifyActiveIndex(2);
+    verifyItemStatuses([
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Active,
+    ]);
 
-      componentInstance.displayFourthItem();
+    componentInstance.displayFourthItem();
 
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-        // Verify that the desired index is set to Active,
-        // and all previous steps are set to Complete.
-        verifyActiveIndex(2);
-        verifyItemStatuses([
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Active,
-          SkyProgressIndicatorItemStatus.Incomplete,
-        ]);
+    // Verify that the desired index is set to Active,
+    // and all previous steps are set to Complete.
+    verifyActiveIndex(2);
+    verifyItemStatuses([
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Active,
+      SkyProgressIndicatorItemStatus.Incomplete,
+    ]);
 
-        componentInstance.sendMessage({
-          type: SkyProgressIndicatorMessageType.Progress,
-        });
-
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          // Verify that the desired index is set to Active,
-          // and all previous steps are set to Complete.
-          verifyActiveIndex(3);
-          verifyItemStatuses([
-            SkyProgressIndicatorItemStatus.Complete,
-            SkyProgressIndicatorItemStatus.Complete,
-            SkyProgressIndicatorItemStatus.Complete,
-            SkyProgressIndicatorItemStatus.Active,
-          ]);
-        });
-      });
+    componentInstance.sendMessage({
+      type: SkyProgressIndicatorMessageType.Progress,
     });
-  }));
 
-  it('should handle an index which is past the number of items', waitForAsync(function () {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Verify that the desired index is set to Active,
+    // and all previous steps are set to Complete.
+    verifyActiveIndex(3);
+    verifyItemStatuses([
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Active,
+    ]);
+  });
+
+  it('should handle an index which is past the number of items', async () => {
     componentInstance.startingIndex = 3;
     componentInstance.displayFourthItem();
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
 
-      // Verify that the desired index is set to Active,
-      // and all previous steps are set to Complete.
-      verifyActiveIndex(3);
-      verifyItemStatuses([
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Complete,
-        SkyProgressIndicatorItemStatus.Active,
-      ]);
+    // Verify that the desired index is set to Active,
+    // and all previous steps are set to Complete.
+    verifyActiveIndex(3);
+    verifyItemStatuses([
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Active,
+    ]);
 
-      componentInstance.hideFourthItem();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        // Verify that the desired index is set to Active,
-        // and all previous steps are set to Complete.
-        verifyActiveIndex(2);
-        verifyItemStatuses([
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Complete,
-          SkyProgressIndicatorItemStatus.Active,
-        ]);
-      });
-    });
-  }));
+    componentInstance.hideFourthItem();
+    fixture.detectChanges();
+    await fixture.whenStable();
+    // Verify that the desired index is set to Active,
+    // and all previous steps are set to Complete.
+    verifyActiveIndex(2);
+    verifyItemStatuses([
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Complete,
+      SkyProgressIndicatorItemStatus.Active,
+    ]);
+  });
 
   describe('Passive mode', function () {
     beforeEach(function () {

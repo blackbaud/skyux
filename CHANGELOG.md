@@ -1,5 +1,19 @@
 # Changelog
 
+## [6.17.0](https://github.com/blackbaud/skyux/compare/6.16.0...6.17.0) (2022-09-02)
+
+
+### Features
+
+* **components/indicators:** add accessibility description inputs to alert ([#474](https://github.com/blackbaud/skyux/issues/474)) ([81d5166](https://github.com/blackbaud/skyux/commit/81d5166dcc89807b1e651bd0f47316750d90ebb2))
+* **components/tabs:** tabset wizard finish nav button ([#454](https://github.com/blackbaud/skyux/issues/454)) ([735312f](https://github.com/blackbaud/skyux/commit/735312ff0e86226db757d9e1938f43f7a90af0b4))
+
+
+### Bug Fixes
+
+* **components/indicators:** only escape highlight directive search text once ([#464](https://github.com/blackbaud/skyux/issues/464)) ([1e5741b](https://github.com/blackbaud/skyux/commit/1e5741bd45fa19631e39f50550d77b7b170db354))
+* **components/progress-indicator:** fix spacing on wizard buttons in modern theme ([#465](https://github.com/blackbaud/skyux/issues/465)) ([f36b243](https://github.com/blackbaud/skyux/commit/f36b2433630dc12a63fe0f66cabafe33b85c5500))
+
 ## [6.16.0](https://github.com/blackbaud/skyux/compare/6.15.0...6.16.0) (2022-08-30)
 
 

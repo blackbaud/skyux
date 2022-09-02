@@ -181,7 +181,7 @@ export class SkyModalHostComponent implements OnDestroy {
       modalComponentRef.destroy();
     };
 
-    hostService.openHelp.subscribe((helpKey?: string) => {
+    hostService.openHelp.subscribe((helpKey) => {
       modalInstance.openHelp(helpKey);
     });
 
