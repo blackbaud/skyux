@@ -58,6 +58,11 @@ export const componentRoutes: Routes = [
       import('./lookup/lookup.module').then((m) => m.LookupModule),
   },
   {
+    path: 'modal',
+    loadChildren: () =>
+      import('./modal/modal-visual.module').then((m) => m.ModalVisualModule),
+  },
+  {
     path: 'pages',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
