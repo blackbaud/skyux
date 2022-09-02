@@ -3,10 +3,10 @@ import {
   componentGenerator,
 } from '@nrwl/angular/generators';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
 import { createTree } from 'nx/src/generators/testing-utils/create-tree';
-import * as ts from 'typescript';
 
 import { angularModuleGenerator } from './angular-module-generator';
 import {
