@@ -24,7 +24,7 @@ import { Subscription } from 'rxjs';
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
-    this._theme = value;
+    this.#_theme = value;
     if (value && value.match(/^modern(-(light|dark))?$/)) {
       if (value.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
@@ -45,40 +45,46 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     }
   }
   public get theme() {
-    return this._theme;
+    return this.#_theme;
   }
 
   public get themeSettings(): SkyThemeSettings {
-    return this._themeSettings;
+    return this.#_themeSettings;
   }
   public set themeSettings(value: SkyThemeSettings) {
-    this._themeSettings = value;
-    if (this.initialized) {
-      this.themeService.setTheme(this._themeSettings);
+    this.#_themeSettings = value;
+    if (this.#initialized) {
+      this.#themeService.setTheme(this.#_themeSettings);
     }
   }
 
-  private _themeSettings = new SkyThemeSettings(
+  #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-  private _theme?: 'default' | 'modern-light' | 'modern-dark';
-  private readonly _ngUnsubscribe = new Subscription();
-  private initialized = false;
+  #_theme?: 'default' | 'modern-light' | 'modern-dark';
+  #_ngUnsubscribe = new Subscription();
+  #initialized = false;
+
+  #themeService: SkyThemeService;
+  #renderer: Renderer2;
 
   constructor(
-    private themeService: SkyThemeService,
+    themeService: SkyThemeService,
     @Inject('BODY') private body: HTMLElement,
-    private renderer: Renderer2
-  ) {}
+    renderer: Renderer2
+  ) {
+    this.#themeService = themeService;
+    this.#renderer = renderer;
+  }
 
   public ngOnInit(): void {
-    this.themeService.init(this.body, this.renderer, this.themeSettings);
-    this.initialized = true;
+    this.#themeService.init(this.body, this.#renderer, this.themeSettings);
+    this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.unsubscribe();
-    this.themeService.destroy();
+    this.#_ngUnsubscribe.unsubscribe();
+    this.#themeService.destroy();
   }
 }
