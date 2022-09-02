@@ -150,22 +150,22 @@ export class SkyModalHostComponent implements OnDestroy {
     this.#registerModalInstance(modalInstance);
 
     // hidding all elements at the modal-host level from screenreaders when the a modal is opened
-    this.#adapter.hideHostSiblings(this.#elRef);
+    this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
     if (
       SkyModalHostService.openModalCount > 1 &&
-      SkyModalHostService.topModal == hostService
+      SkyModalHostService.topModal === hostService
     ) {
       // hiding the lower modals when more than one modal is opened
-      this.#adapter.hidePreviousModal(modalElement);
+      this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
     }
 
     const closeModal = () => {
       // unhide siblings if last modal is closing
-      if (SkyModalHostService.openModalCount == 1) {
-        this.#adapter.unhideOrRestoreHostSiblings();
-      } else if (SkyModalHostService.topModal == hostService) {
+      if (SkyModalHostService.openModalCount === 1) {
+        this.#adapter.unhideOrRestoreHostSiblingsFromScreenReaders();
+      } else if (SkyModalHostService.topModal === hostService) {
         // if there are more than 1 modal then unhide the one behind this one before closing it
-        this.#adapter.unhidePreviousModal(modalElement);
+        this.#adapter.unhidePreviousModalFromScreenReaders(modalElement);
       }
 
       hostService.destroy();
