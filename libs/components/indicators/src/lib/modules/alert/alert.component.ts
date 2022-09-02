@@ -134,7 +134,7 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
         default:
           this.#descriptionTypeResourceSubscription = this.#resources
             .getString(
-              'skyux_label_sr_' + this.#_descriptionType.replace(/-/g, '_')
+              'skyux_alert_sr_' + this.#_descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
