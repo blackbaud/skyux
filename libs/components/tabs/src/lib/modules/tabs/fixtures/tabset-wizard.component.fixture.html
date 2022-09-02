@@ -1,37 +1,47 @@
-<sky-tabset tabStyle="wizard" #wizardDemo>
-  <sky-tab tabHeading="Step 1" [active]="selectedTab === 0">
-    <label>
+<form (ngSubmit)="onSave()">
+  <sky-tabset tabStyle="wizard" #wizardDemo>
+    <sky-tab tabHeading="Step 1" [active]="selectedTab === 0">
+      <label>
+        <input
+          type="text"
+          [(ngModel)]="requiredValue1"
+          name="requiredValue1"
+          aria-label="Required Value 1"
+        />
+      </label>
+    </sky-tab>
+    <sky-tab
+      tabHeading="Step 2"
+      [disabled]="step2Disabled"
+      [active]="selectedTab === 1"
+    >
       <input
         type="text"
-        [(ngModel)]="requiredValue1"
-        aria-label="Required Value 1"
+        [(ngModel)]="requiredValue2"
+        name="requiredValue2"
+        aria-label="Required Value 2"
       />
-    </label>
-  </sky-tab>
-  <sky-tab
-    tabHeading="Step 2"
-    [disabled]="step2Disabled"
-    [active]="selectedTab === 1"
-  >
-    <input
-      type="text"
-      [(ngModel)]="requiredValue2"
-      aria-label="Required Value 2"
-    />
-  </sky-tab>
-  <sky-tab
-    tabHeading="Step 3"
-    [disabled]="step3Disabled"
-    [active]="selectedTab === 2"
-  >
-    Some other content
-  </sky-tab>
-</sky-tabset>
-<sky-tabset-nav-button
-  buttonType="previous"
-  [tabset]="wizardDemo"
-></sky-tabset-nav-button>
-<sky-tabset-nav-button
-  buttonType="next"
-  [tabset]="wizardDemo"
-></sky-tabset-nav-button>
+    </sky-tab>
+    <sky-tab
+      tabHeading="Step 3"
+      [disabled]="step3Disabled"
+      [active]="selectedTab === 2"
+    >
+      Some other content
+    </sky-tab>
+  </sky-tabset>
+  <sky-tabset-nav-button
+    buttonType="previous"
+    [tabset]="passTabset ? wizardDemo : undefined"
+  ></sky-tabset-nav-button>
+  <sky-tabset-nav-button
+    buttonType="next"
+    [tabset]="passTabset ? wizardDemo : undefined"
+  ></sky-tabset-nav-button>
+  <sky-tabset-nav-button
+    buttonType="finish"
+    [tabset]="wizardDemo"
+    [tabset]="passTabset ? wizardDemo : undefined"
+    [disabled]="finishDisabled"
+  ></sky-tabset-nav-button>
+</form>

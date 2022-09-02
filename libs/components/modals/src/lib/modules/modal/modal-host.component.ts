@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  ElementRef,
   Injector,
   OnDestroy,
   ViewChild,
@@ -57,8 +58,8 @@ export class SkyModalHostComponent implements OnDestroy {
   #injector: Injector;
   #router: Router;
   #changeDetector: ChangeDetectorRef;
-
   #modalHostContext: SkyModalHostContext;
+  #elRef: ElementRef;
 
   #modalInstances: SkyModalInstance[] = [];
 
@@ -68,7 +69,8 @@ export class SkyModalHostComponent implements OnDestroy {
     injector: Injector,
     router: Router,
     changeDetector: ChangeDetectorRef,
-    modalHostContext: SkyModalHostContext
+    modalHostContext: SkyModalHostContext,
+    elRef: ElementRef
   ) {
     this.#resolver = resolver;
     this.#adapter = adapter;
@@ -76,6 +78,7 @@ export class SkyModalHostComponent implements OnDestroy {
     this.#router = router;
     this.#changeDetector = changeDetector;
     this.#modalHostContext = modalHostContext;
+    this.#elRef = elRef;
   }
 
   public ngOnDestroy(): void {
@@ -139,11 +142,32 @@ export class SkyModalHostComponent implements OnDestroy {
       injector
     );
 
+    // modal element that was just opened
+    const modalElement = modalComponentRef.location;
+
     modalInstance.componentInstance = modalComponentRef.instance;
 
     this.#registerModalInstance(modalInstance);
 
-    function closeModal() {
+    // hidding all elements at the modal-host level from screenreaders when the a modal is opened
+    this.#adapter.hideHostSiblingsFromScreenReaders(this.#elRef);
+    if (
+      SkyModalHostService.openModalCount > 1 &&
+      SkyModalHostService.topModal === hostService
+    ) {
+      // hiding the lower modals when more than one modal is opened
+      this.#adapter.hidePreviousModalFromScreenReaders(modalElement);
+    }
+
+    const closeModal = () => {
+      // unhide siblings if last modal is closing
+      if (SkyModalHostService.openModalCount === 1) {
+        this.#adapter.unhideOrRestoreHostSiblingsFromScreenReaders();
+      } else if (SkyModalHostService.topModal === hostService) {
+        // if there are more than 1 modal then unhide the one behind this one before closing it
+        this.#adapter.unhidePreviousModalFromScreenReaders(modalElement);
+      }
+
       hostService.destroy();
       adapter.setPageScroll(SkyModalHostService.openModalCount > 0);
       adapter.toggleFullPageModalClass(
@@ -155,7 +179,7 @@ export class SkyModalHostComponent implements OnDestroy {
         modalOpener.focus();
       }
       modalComponentRef.destroy();
-    }
+    };
 
     hostService.openHelp.subscribe((helpKey) => {
       modalInstance.openHelp(helpKey);

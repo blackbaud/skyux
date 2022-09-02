@@ -178,6 +178,14 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     return this._tabDisplayMode || 'tabs';
   }
 
+  public get hasFinishButton(): boolean {
+    return this.#_hasFinishButton;
+  }
+
+  public set hasFinishButton(value: boolean) {
+    this.#_hasFinishButton = value;
+  }
+
   @ContentChildren(SkyTabComponent)
   public tabs: QueryList<SkyTabComponent>;
 
@@ -202,6 +210,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   private _tabDisplayMode: SkyTabsetButtonsDisplayMode;
 
   private _tabStyle: SkyTabsetStyle;
+
+  #_hasFinishButton = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,

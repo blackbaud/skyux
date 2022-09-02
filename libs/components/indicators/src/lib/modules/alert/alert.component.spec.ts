@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import {
   SkyTheme,
@@ -9,6 +9,8 @@ import {
 } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
+
+import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 
 import { AlertTestComponent } from './fixtures/alert.component.fixture';
 import { SkyAlertFixtureModule } from './fixtures/alert.module.fixture';
@@ -124,6 +126,49 @@ describe('Alert component', () => {
     expect(alertEl?.getAttribute('role')).toBe('alert');
     expect(fixture.nativeElement).toBeAccessible();
   }));
+
+  describe('with description', () => {
+    function validateDescription(
+      fixture: ComponentFixture<AlertTestComponent>,
+      descriptionType: SkyIndicatorDescriptionType,
+      expectedDescription?: string
+    ): void {
+      fixture.componentInstance.descriptionType = descriptionType;
+
+      fixture.detectChanges();
+
+      const alertEl = fixture.nativeElement.querySelector('.sky-alert');
+
+      const descriptionEl = alertEl.querySelector('.sky-screen-reader-only');
+
+      if (expectedDescription) {
+        expect(descriptionEl).toHaveText(expectedDescription);
+      } else {
+        expect(descriptionEl).not.toExist();
+      }
+    }
+
+    it('should add the expected screen reader description based on `descriptionType`', () => {
+      const fixture = TestBed.createComponent(AlertTestComponent);
+      fixture.componentInstance.customDescription = 'Custom description';
+
+      validateDescription(fixture, 'completed', 'Completed:');
+      validateDescription(fixture, 'error', 'Error:');
+      validateDescription(fixture, 'important-info', 'Important information:');
+      validateDescription(fixture, 'none');
+      validateDescription(fixture, 'warning', 'Warning:');
+      validateDescription(fixture, 'important-warning', 'Important warning:');
+      validateDescription(fixture, 'danger', 'Danger:');
+      validateDescription(fixture, 'caution', 'Caution:');
+      validateDescription(fixture, 'success', 'Success:');
+      validateDescription(fixture, 'attention', 'Attention:');
+      validateDescription(
+        fixture,
+        'custom',
+        fixture.componentInstance.customDescription
+      );
+    });
+  });
 
   describe('in modern theme', () => {
     function validateStackedIcon(
