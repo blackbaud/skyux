@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 7.x.x-alpha
   pull_request:
 
 env:
