@@ -237,6 +237,23 @@ describe('Modal service', () => {
       closeModal(modal);
     }));
 
+    it('should not modify siblings if they have been removed from the DOM before the modal closes', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      const previousAriaHidden = 'bingbong';
+
+      div.setAttribute('aria-hidden', previousAriaHidden);
+
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBeTruthy();
+
+      div.remove();
+
+      closeModal(modal);
+      expect(div.getAttribute('aria-hidden')).not.toBe(previousAriaHidden);
+    }));
+
     it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
       const firstModal = openModal(ModalTestComponent, { fullPage: false });
       const secondModal = openModal(ModalTestComponent, { fullPage: false });

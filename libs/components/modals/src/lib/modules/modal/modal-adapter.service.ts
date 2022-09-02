@@ -74,10 +74,12 @@ export class SkyModalAdapterService {
   public unhideOrRestoreHostSiblings(): void {
     this.#hostSiblingPreviousValue.forEach((previousValue, element) => {
       // if element had aria-hidden status prior, restore status
-      if (previousValue) {
-        element.setAttribute('aria-hidden', previousValue);
-      } else {
-        element.removeAttribute('aria-hidden');
+      if (element.parentElement) {
+        if (previousValue) {
+          element.setAttribute('aria-hidden', previousValue);
+        } else {
+          element.removeAttribute('aria-hidden');
+        }
       }
     });
     this.#hostSiblingPreviousValue.clear();
