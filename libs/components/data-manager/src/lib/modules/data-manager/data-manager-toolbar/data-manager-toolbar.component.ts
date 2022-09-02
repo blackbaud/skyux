@@ -108,6 +108,12 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       .pipe(takeUntil(this._ngUnsubscribe))
       .subscribe((views) => {
         this.views = views;
+        if (this.activeView) {
+          this.activeView = this.dataManagerService.getViewById(
+            this.activeView.id
+          );
+        }
+        this.changeDetector.markForCheck();
       });
 
     this.dataManagerService
