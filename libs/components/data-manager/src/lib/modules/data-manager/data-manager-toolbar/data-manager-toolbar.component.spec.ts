@@ -480,14 +480,42 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should update the active view config when any view is updated', () => {
-    spyOn(dataManagerService, 'getViewById').and.returnValue({
-      ...dataManagerToolbarComponent.activeView,
+    const myViewState = new SkyDataViewState({
+      viewId: 'cardsView',
+    });
+    const myDefaultDataState = new SkyDataManagerState({
+      views: [myViewState],
+    });
+
+    dataManagerService.initDataManager({
+      activeViewId: 'cardsView',
+      dataManagerConfig: {},
+      defaultDataState: myDefaultDataState,
+    });
+
+    const myViewConfig = {
+      id: 'cardsView',
+      name: 'test view',
+      filterButtonEnabled: false,
+    };
+    dataManagerService.initDataView(myViewConfig);
+
+    dataManagerToolbarFixture.detectChanges();
+
+    let filterBtn = dataManagerToolbarNativeElement.querySelector(
+      'sky-filter-button button'
+    ) as HTMLButtonElement;
+
+    expect(filterBtn).toBeFalsy();
+
+    dataManagerService.updateViewConfig({
+      ...dataManagerService.getViewById('cardsView'),
       filterButtonEnabled: true,
     });
 
     dataManagerToolbarFixture.detectChanges();
 
-    const filterBtn = dataManagerToolbarNativeElement.querySelector(
+    filterBtn = dataManagerToolbarNativeElement.querySelector(
       'sky-filter-button button'
     ) as HTMLButtonElement;
 
