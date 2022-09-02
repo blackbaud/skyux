@@ -187,16 +187,16 @@ describe('Modal service', () => {
     closeModal(modal);
   }));
 
-  it('should not hide modal host from screen readers when opening a modal', fakeAsync(() => {
-    const modal = openModal(ModalTestComponent, { fullPage: false });
-
-    expect(
-      document.querySelector('sky-modal-host').getAttribute('aria-hidden')
-    ).toBe(null);
-    closeModal(modal);
-  }));
-
   describe('accessibility', () => {
+    it('should not hide modal host from screen readers when opening a modal', fakeAsync(() => {
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(
+        document.querySelector('sky-modal-host').getAttribute('aria-hidden')
+      ).toBe(null);
+      closeModal(modal);
+    }));
+
     it('should hide and unhide elements at the host level from screen readers', fakeAsync(() => {
       const div = document.createElement('div');
       document.body.appendChild(div);
