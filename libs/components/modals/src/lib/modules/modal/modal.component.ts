@@ -219,7 +219,9 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   }
 
   public helpButtonClick() {
-    this.#hostService.onOpenHelp(this.helpKey);
+    if (this.helpKey) {
+      this.#hostService.onOpenHelp(this.helpKey);
+    }
   }
 
   public closeButtonClick() {

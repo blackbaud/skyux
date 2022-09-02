@@ -14,7 +14,7 @@ import { SkyAppTestUtility } from './test-utility';
 //#region test components
 
 @Component({
-  selector: 'sky-test-parent-cmp',
+  selector: 'test-parent-cmp',
   template: `
     <test-cmp [attr.data-sky-id]="'my-id'"> My component. </test-cmp>
   `,
@@ -22,7 +22,7 @@ import { SkyAppTestUtility } from './test-utility';
 class TestParentComponent {}
 
 @Component({
-  selector: 'sky-test-cmp',
+  selector: 'test-cmp',
   template: `<ng-content></ng-content>`,
 })
 class TestComponent {}
