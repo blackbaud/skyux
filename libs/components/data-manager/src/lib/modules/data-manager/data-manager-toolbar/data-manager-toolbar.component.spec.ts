@@ -7,16 +7,16 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyCheckboxChange } from '@skyux/forms';
-import { SkyModalService } from '@skyux/modals';
-
 import {
   SkyDataManagerColumnPickerSortStrategy,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
   SkyDataViewState,
-} from 'libs/components/data-manager/src/index';
+} from '@skyux/data-manager';
+import { SkyCheckboxChange } from '@skyux/forms';
+import { SkyModalService } from '@skyux/modals';
+
 import { Subject } from 'rxjs';
 
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
@@ -142,7 +142,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should show a sort button if the data view config has sort enabled', () => {
-    dataManagerToolbarComponent.activeView.sortEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      sortEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const sortDropdownBtn =
@@ -152,7 +155,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not show a sort button if the data view config does not have sort enabled', () => {
-    dataManagerToolbarComponent.activeView.sortEnabled = false;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      sortEnabled: false,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const sortDropdown =
@@ -178,7 +184,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should show a column picker button if the data view config has column picker enabled', () => {
-    dataManagerToolbarComponent.activeView.columnPickerEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnPickerEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const colPickerBtn = dataManagerToolbarNativeElement.querySelector(
@@ -189,7 +198,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not show a column picker button if the data view config does not have column picker enabled', () => {
-    dataManagerToolbarComponent.activeView.columnPickerEnabled = false;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnPickerEnabled: false,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const colPickerBtn = dataManagerToolbarNativeElement.querySelector(
@@ -200,7 +212,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should show a filter button if the data view config has filters enabled', () => {
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const filterBtn =
@@ -210,7 +225,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not show a filter button if the data view config does not have filters enabled', () => {
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = false;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: false,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const filterBtn =
@@ -220,7 +238,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should show a search box if the data view config has search enabled', () => {
-    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      searchEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const search = dataManagerToolbarNativeElement.querySelector('sky-search');
@@ -229,7 +250,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not show a search box if the data view config does not have search enabled', () => {
-    dataManagerToolbarComponent.activeView.searchEnabled = false;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      searchEnabled: false,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const search = dataManagerToolbarNativeElement.querySelector('sky-search');
@@ -238,7 +262,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should show a multiselect toolbar if the data view config has multiselect enabled', () => {
-    dataManagerToolbarComponent.activeView.multiselectToolbarEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      multiselectToolbarEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const multiselectToolbar = dataManagerToolbarNativeElement.querySelector(
@@ -249,7 +276,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not show a multiselect toolbar if the data view config does not have multiselect enabled', () => {
-    dataManagerToolbarComponent.activeView.multiselectToolbarEnabled = false;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      multiselectToolbarEnabled: false,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const multiselectToolbar = dataManagerToolbarNativeElement.querySelector(
@@ -261,9 +291,12 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it("should call the active view's onSelectAllClick function when select all is clicked", () => {
     const selectAllSpy = jasmine.createSpy();
-    const activeView = dataManagerToolbarComponent.activeView;
-    activeView.multiselectToolbarEnabled = true;
-    activeView.onSelectAllClick = selectAllSpy;
+
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      multiselectToolbarEnabled: true,
+      onSelectAllClick: selectAllSpy,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const selectAllBtn = dataManagerToolbarNativeElement.querySelector(
@@ -276,9 +309,12 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it("should call the active view's onClearAllClick function when clear all is clicked", () => {
     const clearAllSpy = jasmine.createSpy();
-    const activeView = dataManagerToolbarComponent.activeView;
-    activeView.multiselectToolbarEnabled = true;
-    activeView.onClearAllClick = clearAllSpy;
+
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      multiselectToolbarEnabled: true,
+      onClearAllClick: clearAllSpy,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     const clearAllBtn = dataManagerToolbarNativeElement.querySelector(
@@ -359,7 +395,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   });
 
   it('should not update the data state when search text is typed but not applied', fakeAsync(() => {
-    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      searchEnabled: true,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataManagerToolbarFixture.detectChanges();
@@ -378,7 +417,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   }));
 
   it('should update the data state when search text is typed and applied via enter', fakeAsync(() => {
-    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      searchEnabled: true,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataManagerToolbarFixture.detectChanges();
@@ -401,7 +443,10 @@ describe('SkyDataManagerToolbarComponent', () => {
   }));
 
   it('should update the data state when search text is typed and applied via the search button', fakeAsync(() => {
-    dataManagerToolbarComponent.activeView.searchEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      searchEnabled: true,
+    });
     spyOn(dataManagerService, 'updateDataState');
 
     dataManagerToolbarFixture.detectChanges();
@@ -434,16 +479,35 @@ describe('SkyDataManagerToolbarComponent', () => {
     );
   });
 
+  it('should update the active view config when any view is updated', () => {
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
+
+    dataManagerToolbarFixture.detectChanges();
+
+    const filterBtn = dataManagerToolbarNativeElement.querySelector(
+      'sky-filter-button button'
+    ) as HTMLButtonElement;
+
+    expect(filterBtn).toExist();
+  });
+
   it('should open the provided filter modal when the filter button is clicked', () => {
     const mockModal = new MockModalComponent();
     spyOn(modalServiceInstance, 'open').and.callThrough();
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = true;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
 
     dataManagerToolbarFixture.detectChanges();
 
     dataManagerToolbarComponent.dataManagerConfig = {
       filterModalComponent: mockModal,
     };
+
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
       'sky-filter-button button'
     ) as HTMLButtonElement;
@@ -457,7 +521,11 @@ describe('SkyDataManagerToolbarComponent', () => {
     const mockModal = new MockModalComponent();
     const filterData = { filtersApplied: false, filters: { test: 'test' } };
     spyOn(dataManagerService, 'updateDataState');
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = true;
+
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
 
     dataManagerToolbarFixture.detectChanges();
 
@@ -488,13 +556,17 @@ describe('SkyDataManagerToolbarComponent', () => {
   it('should not save the returned filter data when the provided filter modal is canceled', () => {
     const mockModal = new MockModalComponent();
     spyOn(dataManagerService, 'updateDataState');
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = true;
 
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
     dataManagerToolbarFixture.detectChanges();
 
     dataManagerToolbarComponent.dataManagerConfig = {
       filterModalComponent: mockModal,
     };
+
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
       'sky-filter-button button'
     ) as HTMLButtonElement;
@@ -510,7 +582,11 @@ describe('SkyDataManagerToolbarComponent', () => {
 
   it('should not open a modal when the filter button is clicked if none is provided', () => {
     spyOn(modalServiceInstance, 'open');
-    dataManagerToolbarComponent.activeView.filterButtonEnabled = true;
+
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      filterButtonEnabled: true,
+    });
 
     dataManagerToolbarFixture.detectChanges();
 
@@ -525,16 +601,19 @@ describe('SkyDataManagerToolbarComponent', () => {
   it('should open the column picker modal when the column picker button is clicked', () => {
     spyOn(modalServiceInstance, 'open').and.callThrough();
 
+    const columnOptions: SkyDataManagerColumnPickerOption[] = [];
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnOptions: columnOptions,
+      columnPickerEnabled: true,
+    });
+
     const viewState = new SkyDataViewState({
       viewId: viewConfig.id,
     });
-    const columnOptions: SkyDataManagerColumnPickerOption[] = [];
-
-    dataManagerToolbarComponent.activeView.columnPickerEnabled = true;
 
     dataManagerToolbarFixture.detectChanges();
 
-    dataManagerToolbarComponent.activeView.columnOptions = columnOptions;
     dataManagerToolbarComponent.dataState.views = [viewState];
 
     const context = new SkyDataManagerColumnPickerContext(
@@ -570,10 +649,12 @@ describe('SkyDataManagerToolbarComponent', () => {
     });
     const columnOptions: SkyDataManagerColumnPickerOption[] = [];
 
-    dataManagerToolbarComponent.activeView.columnPickerEnabled = true;
-    dataManagerToolbarComponent.activeView.columnOptions = columnOptions;
-    dataManagerToolbarComponent.activeView.columnPickerSortStrategy =
-      SkyDataManagerColumnPickerSortStrategy.None;
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnPickerEnabled: true,
+      columnOptions: columnOptions,
+      columnPickerSortStrategy: SkyDataManagerColumnPickerSortStrategy.None,
+    });
 
     dataManagerToolbarFixture.detectChanges();
 
@@ -610,11 +691,15 @@ describe('SkyDataManagerToolbarComponent', () => {
       viewId: viewConfig.id,
     });
     spyOn(dataManagerService, 'updateDataState');
-    dataManagerToolbarComponent.activeView.columnPickerEnabled = true;
+
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnPickerEnabled: true,
+      columnOptions: [],
+    });
 
     dataManagerToolbarFixture.detectChanges();
 
-    dataManagerToolbarComponent.activeView.columnOptions = [];
     dataManagerToolbarComponent.dataState.views = [viewState];
 
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
@@ -647,9 +732,13 @@ describe('SkyDataManagerToolbarComponent', () => {
     spyOn(dataManagerService, 'updateDataState');
     dataManagerToolbarComponent.activeView.columnPickerEnabled = true;
 
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...dataManagerToolbarComponent.activeView,
+      columnOptions: [],
+    });
+
     dataManagerToolbarFixture.detectChanges();
 
-    dataManagerToolbarComponent.activeView.columnOptions = [];
     dataManagerToolbarComponent.dataState.views = [viewState];
     const columnPickerBtn = dataManagerToolbarNativeElement.querySelector(
       '.sky-col-picker-btn'
