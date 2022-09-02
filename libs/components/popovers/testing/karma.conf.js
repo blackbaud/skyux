@@ -6,14 +6,4 @@ module.exports = function (config) {
     __dirname,
     '../../../../coverage/libs/components/popovers/testing'
   );
-
-  // TODO: remove these threshold overrides to meet 100% coverage!
-  config.coverageReporter.check = {
-    global: {
-      statements: 84,
-      branches: 74,
-      functions: 100,
-      lines: 83,
-    },
-  };
 };
