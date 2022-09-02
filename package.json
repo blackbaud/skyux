@@ -18,7 +18,6 @@
     "dev:create-packages-dist": "skyux-dev create-packages-dist",
     "dev:create-library-resources": "skyux-dev create-lib-resources",
     "dev:format": "npx prettier --write .",
-    "dev:migrate": "skyux-dev migrate",
     "dev:pristine": "skyux-dev pristine-commit"
   },
   "config": {
@@ -139,7 +138,7 @@
     "@percy/storybook": "4.3.3",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
-    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#a95b14a53df987e23c4127810922b12e3fbd35f0",
+    "@skyux/dev-infra-private": "github:blackbaud/skyux-dev-infra-private-builds#7454757c7fe126f3ce5ef99a6a0fea0585e7e3d8",
     "@storybook/addon-a11y": "6.5.10",
     "@storybook/addon-essentials": "6.5.10",
     "@storybook/angular": "6.5.10",
@@ -158,7 +157,6 @@
     "@types/validator": "13.7.2",
     "@typescript-eslint/eslint-plugin": "5.18.0",
     "@typescript-eslint/parser": "5.18.0",
-    "browserstack-local": "1.4.9",
     "cross-spawn": "7.0.3",
     "cypress": "9.7.0",
     "eslint": "8.13.0",
@@ -171,7 +169,6 @@
     "jest": "27.5.1",
     "jest-preset-angular": "11.1.2",
     "karma": "6.3.18",
-    "karma-browserstack-launcher": "1.6.0",
     "karma-chrome-launcher": "3.1.1",
     "karma-coverage": "2.2.0",
     "karma-jasmine": "4.0.1",

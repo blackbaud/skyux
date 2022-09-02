@@ -39,8 +39,8 @@ describe('Dynamic component service', () => {
   }
 
   function removeTestComponent(
-    refToRemove: ComponentRef<any>
-  ): ComponentRef<DynamicComponentTestComponent> {
+    refToRemove?: ComponentRef<DynamicComponentTestComponent>
+  ): ComponentRef<DynamicComponentTestComponent> | undefined {
     const svc: SkyDynamicComponentService = TestBed.inject(
       SkyDynamicComponentService
     );
@@ -114,7 +114,7 @@ describe('Dynamic component service', () => {
     expect(referenceEl.firstChild).toBe(getComponentEl(1));
   });
 
-  it('should allow components to be created in the top of another element', () => {
+  it('should allow components to be created before another element', () => {
     const referenceRef = createTestComponent(
       SkyDynamicComponentLocation.BodyTop
     );
@@ -123,7 +123,7 @@ describe('Dynamic component service', () => {
     createTestComponent(SkyDynamicComponentLocation.BeforeElement, referenceEl);
 
     expect(document.body.firstChild).toBe(getComponentEl(1));
-    expect(document.body.firstChild.nextSibling).toBe(getComponentEl(0));
+    expect(document.body.firstChild?.nextSibling).toBe(getComponentEl(0));
   });
 
   it('should remove a component from the page', () => {
@@ -157,6 +157,28 @@ describe('Dynamic component service', () => {
     expect(document.body.lastChild).toBe(el);
     expect(el.querySelector('.component-test')).toHaveText(
       'Hello world My name is Pat.'
+    );
+  });
+
+  it('should throw error if placing a component before an undefined element', () => {
+    expect(() =>
+      createTestComponent(
+        SkyDynamicComponentLocation.BeforeElement,
+        undefined // <-- Intentionally do not provide a reference element.
+      )
+    ).toThrowError(
+      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.BeforeElement` because a reference element was not provided.'
+    );
+  });
+
+  it('should throw error if placing a component at the top of an undefined element', () => {
+    expect(() =>
+      createTestComponent(
+        SkyDynamicComponentLocation.ElementTop,
+        undefined // <-- Intentionally do not provide a reference element.
+      )
+    ).toThrowError(
+      '[SkyDynamicComponentService] Could not create a component at location `SkyDynamicComponentLocation.ElementTop` because a reference element was not provided.'
     );
   });
 });

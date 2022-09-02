@@ -4,6 +4,7 @@ import { SkyLookupSelectionHarness } from './lookup-selection-harness';
 
 /**
  * Harness for interacting with multiselect lookup selections in tests.
+ * @internal
  */
 export class SkyLookupSelectionsListHarness extends SkyTokensHarness {
   /**

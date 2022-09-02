@@ -295,14 +295,6 @@ describe('Toggle switch component', () => {
     });
   });
 
-  describe('with multiple toggles', () => {
-    beforeEach(() => {
-      fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
-      fixture.debugElement.componentInstance.multiple = true;
-      fixture.detectChanges();
-    });
-  });
-
   describe('with ngModel and an initial value', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchFormDirectivesFixtureComponent;

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileItem } from './file-item';
@@ -131,7 +131,7 @@ describe('File item component', () => {
     expect(sizeEl.nativeElement.textContent).toContain('(1 KB)');
   });
 
-  it('shows the url if the item is a link', async(() => {
+  it('shows the url if the item is a link', async () => {
     componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
@@ -146,10 +146,9 @@ describe('File item component', () => {
     expect(sizeEl).toBeFalsy();
 
     // Test Accessibility
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   it('emits the delete event when the delete button is clicked', () => {
     componentInstance.fileItem = {
@@ -187,14 +186,14 @@ describe('File item component', () => {
     expect(deletedFile.file.size).toBe(1000);
   });
 
-  it('shows an image if the item is an image', async(() => {
+  it('shows an image if the item is an image', () => {
     testImage('png');
     testImage('bmp');
     testImage('jpeg');
     testImage('gif');
-  }));
+  });
 
-  it('shows a file icon with the proper extension if it is not an image', async(() => {
+  it('shows a file icon with the proper extension if it is not an image', () => {
     testOtherPreview('pdf', 'pdf');
     testOtherPreview('gz', 'gz');
     testOtherPreview('rar', 'rar');
@@ -213,9 +212,9 @@ describe('File item component', () => {
     testOtherPreview('tiff', 'image');
     testOtherPreview('other', 'text');
     testOtherPreview('mp4', 'video');
-  }));
+  });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     componentInstance.fileItem = {
       file: {
         name: 'myFile.txt',
@@ -223,8 +222,7 @@ describe('File item component', () => {
       },
     } as SkyFileItem;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

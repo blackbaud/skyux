@@ -14,15 +14,18 @@ import { SKY_LOG_LEVEL } from './types/log-level-token';
   providedIn: 'root',
 })
 export class SkyLogService {
+  #applicationLogLevel: SkyLogLevel;
+
+  #formatter: SkyAppFormat;
+
   constructor(
-    private formatter: SkyAppFormat,
+    formatter: SkyAppFormat,
     @Optional()
     @Inject(SKY_LOG_LEVEL)
-    private applicationLogLevel: SkyLogLevel
+    applicationLogLevel?: SkyLogLevel
   ) {
-    if (!this.applicationLogLevel) {
-      this.applicationLogLevel = SkyLogLevel.Error;
-    }
+    this.#formatter = formatter;
+    this.#applicationLogLevel = applicationLogLevel ?? SkyLogLevel.Error;
   }
 
   /**
@@ -36,14 +39,14 @@ export class SkyLogService {
     args?: SkyLogDeprecatedArgs
   ): Promise<void> {
     const logLevel = args?.logLevel ?? SkyLogLevel.Warn;
-    name = this.convertStringToCode(name);
+    name = this.#convertStringToCode(name);
 
-    if (this.canLog(logLevel)) {
+    if (this.#canLog(logLevel)) {
       const localizedStrings = [];
 
       if (args?.deprecationMajorVersion) {
         localizedStrings.push(
-          this.formatter.formatText(
+          this.#formatter.formatText(
             '{0} is deprecated starting in SKY UX {1}.',
             name,
             args.deprecationMajorVersion.toLocaleString()
@@ -51,13 +54,13 @@ export class SkyLogService {
         );
       } else {
         localizedStrings.push(
-          this.formatter.formatText('{0} is deprecated.', name)
+          this.#formatter.formatText('{0} is deprecated.', name)
         );
       }
 
       if (args?.removalMajorVersion) {
         localizedStrings.push(
-          this.formatter.formatText(
+          this.#formatter.formatText(
             'We will remove it in version {0}.',
             args.removalMajorVersion.toLocaleString()
           )
@@ -72,14 +75,14 @@ export class SkyLogService {
 
       if (args?.moreInfoUrl) {
         localizedStrings.push(
-          this.formatter.formatText(
+          this.#formatter.formatText(
             'For more information, see {0}.',
             args.moreInfoUrl
           )
         );
       }
 
-      this.logBasedOnLevel(logLevel, localizedStrings.join(' '));
+      this.#logBasedOnLevel(logLevel, localizedStrings.join(' '));
     }
     return Promise.resolve();
   }
@@ -90,7 +93,7 @@ export class SkyLogService {
    * @param params Optional parameters for the error message.
    */
   public error(message: string, params?: unknown[]): void {
-    if (this.canLog(SkyLogLevel.Error)) {
+    if (this.#canLog(SkyLogLevel.Error)) {
       if (params) {
         console.error(message, ...params);
       } else {
@@ -105,7 +108,7 @@ export class SkyLogService {
    * @param params Optional parameters for the informational message.
    */
   public info(message: string, params?: unknown[]): void {
-    if (this.canLog(SkyLogLevel.Info)) {
+    if (this.#canLog(SkyLogLevel.Info)) {
       if (params) {
         console.log(message, ...params);
       } else {
@@ -120,7 +123,7 @@ export class SkyLogService {
    * @param params Optional parameters for the warning message.
    */
   public warn(message: string, params?: unknown[]): void {
-    if (this.canLog(SkyLogLevel.Warn)) {
+    if (this.#canLog(SkyLogLevel.Warn)) {
       if (params) {
         console.warn(message, ...params);
       } else {
@@ -129,18 +132,18 @@ export class SkyLogService {
     }
   }
 
-  private convertStringToCode(typeString: string): string {
+  #convertStringToCode(typeString: string): string {
     if (typeString.charAt(0) !== '`' && typeString.charAt(-1) !== '`') {
       typeString = '`' + typeString + '`';
     }
     return typeString;
   }
 
-  private canLog(intendedLogLevel: SkyLogLevel): boolean {
-    return intendedLogLevel >= this.applicationLogLevel;
+  #canLog(intendedLogLevel: SkyLogLevel): boolean {
+    return intendedLogLevel >= this.#applicationLogLevel;
   }
 
-  private logBasedOnLevel(
+  #logBasedOnLevel(
     logLevel: SkyLogLevel,
     message: string,
     params?: unknown[]

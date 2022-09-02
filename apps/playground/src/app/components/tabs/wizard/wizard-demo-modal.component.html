@@ -56,13 +56,11 @@
         buttonType="next"
         [tabset]="wizardDemo"
       ></sky-tabset-nav-button>
-      <button
-        class="sky-btn sky-btn-primary sky-margin-inline-sm"
-        type="submit"
+      <sky-tabset-nav-button
+        buttonType="finish"
+        [tabset]="wizardDemo"
         [disabled]="saveDisabled"
-      >
-        Save
-      </button>
+      ></sky-tabset-nav-button>
       <button
         class="sky-btn sky-btn-link"
         type="button"

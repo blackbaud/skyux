@@ -3,7 +3,7 @@ import { SkyViewkeeperOffset } from './viewkeeper-offset';
 export interface SkyViewkeeperBoundaryInfo {
   elHeight: number;
 
-  spacerEl: HTMLElement;
+  spacerEl: HTMLElement | null;
 
   spacerId: string;
 

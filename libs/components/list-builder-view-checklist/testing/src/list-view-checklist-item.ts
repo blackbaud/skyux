@@ -1,5 +1,6 @@
 /**
  * Properties of a list view checklist item.
+ * @internal
  */
 export interface SkyListViewChecklistItem {
   /**

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownMenuChange } from '@skyux/popovers';
 import {
@@ -125,7 +125,7 @@ describe('Dropdown fixture', () => {
     dropdownFixture = new SkyDropdownFixture(fixture, DATA_SKY_ID);
   });
 
-  it('should expose the properties for the dropdown button', async(() => {
+  it('should expose the properties for the dropdown button', () => {
     // Give properties non-default values.
     testComponent.buttonStyle = 'primary';
     testComponent.buttonType = 'context-menu';
@@ -147,13 +147,13 @@ describe('Dropdown fixture', () => {
     expect(dropdownFixture.dropdown.buttonType).toEqual(
       testComponent.buttonType
     );
-  }));
+  });
 
-  it('should expose the inner text of the dropdown button', async(() => {
+  it('should expose the inner text of the dropdown button', () => {
     expect(dropdownFixture.dropdownButtonText).toEqual(
       testComponent.dropdownButtonText
     );
-  }));
+  });
 
   it('should open and close the dropdown menu when the dropdown button is clicked', async () => {
     await dropdownFixture.clickDropdownButton();

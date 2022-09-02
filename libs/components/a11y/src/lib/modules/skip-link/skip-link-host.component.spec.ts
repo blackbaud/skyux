@@ -88,7 +88,7 @@ describe('Skip link host component', () => {
     await fixture.whenStable();
 
     const linkContainer =
-      document.querySelector('.sky-skip-link').parentElement;
+      document.querySelector('.sky-skip-link')?.parentElement;
     await expectAsync(linkContainer).toBeAccessible();
 
     // Remove links from the DOM.

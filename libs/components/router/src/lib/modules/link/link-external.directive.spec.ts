@@ -29,7 +29,7 @@ describe('SkyAppLinkExternal Directive', () => {
   let debugElement: DebugElement;
 
   class MockWindowService {
-    constructor(private name: string) {}
+    constructor(private name?: string) {}
 
     public get nativeWindow(): any {
       return {
@@ -42,9 +42,11 @@ describe('SkyAppLinkExternal Directive', () => {
 
   function setup(
     params: any,
-    windowName: string,
     useQueryParams: boolean,
-    provideSkyAppConfig = true
+    windowName?: string,
+    provideSkyAppConfig = true,
+    provideSkyAppConfigHost = true,
+    providesParamsProvider = true
   ): void {
     const mockWindowService = new MockWindowService(windowName);
     const componentToUse = useQueryParams
@@ -77,19 +79,23 @@ describe('SkyAppLinkExternal Directive', () => {
     } else {
       providers.push({
         provide: SkyAppRuntimeConfigParamsProvider,
-        useValue: {
-          params: {
-            getAll: (omit: boolean) => (omit ? {} : params),
-          },
-        },
+        useValue: providesParamsProvider
+          ? {
+              params: {
+                getAll: (omit: boolean) => (omit ? {} : params),
+              },
+            }
+          : undefined,
       });
       providers.push({
         provide: SkyAppConfigHost,
-        useValue: {
-          host: {
-            url: 'https://foo.bar.baz/',
-          },
-        },
+        useValue: provideSkyAppConfigHost
+          ? {
+              host: {
+                url: 'https://foo.bar.baz/',
+              },
+            }
+          : undefined,
       });
     }
 
@@ -110,7 +116,7 @@ describe('SkyAppLinkExternal Directive', () => {
   }
 
   it('should set the target to _top when the window name is null', () => {
-    setup({}, undefined, false);
+    setup({}, false);
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
     );
@@ -119,7 +125,7 @@ describe('SkyAppLinkExternal Directive', () => {
   });
 
   it('should set the target to _top when the window name is an empty string', () => {
-    setup({}, '', false);
+    setup({}, false, '');
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
     );
@@ -129,7 +135,7 @@ describe('SkyAppLinkExternal Directive', () => {
 
   it('should set the target to the name of the frame if it has one', () => {
     const windowName = 'windowName';
-    setup({}, windowName, false);
+    setup({}, false, windowName);
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
     );
@@ -143,8 +149,8 @@ describe('SkyAppLinkExternal Directive', () => {
         asdf: 123,
         jkl: 'mno',
       },
-      '',
-      false
+      false,
+      ''
     );
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
@@ -156,7 +162,7 @@ describe('SkyAppLinkExternal Directive', () => {
   });
 
   it('should set href with queryParams supplied by the queryParams attribute', () => {
-    setup({}, '', true);
+    setup({}, true, '');
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
     );
@@ -172,8 +178,8 @@ describe('SkyAppLinkExternal Directive', () => {
         asdf: 123,
         jkl: 'mno',
       },
-      '',
-      true
+      true,
+      ''
     );
     const directive = debugElement.query(
       By.directive(SkyAppLinkExternalDirective)
@@ -192,8 +198,8 @@ describe('SkyAppLinkExternal Directive', () => {
         asdf: 123,
         jkl: 'mno',
       },
-      '',
       true,
+      '',
       false
     );
     const directive = debugElement.query(
@@ -201,6 +207,47 @@ describe('SkyAppLinkExternal Directive', () => {
     );
     expect(directive.properties['href']).toEqual(
       'https://foo.bar.baz/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+    );
+  });
+
+  it('should handle neither SkyAppConfig or SkyAppConfigHost being provided', () => {
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      true,
+      '',
+      false,
+      false
+    );
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
+    expect(
+      directive.properties['href'].endsWith(
+        '/test?qp1=1&qp2=false&asdf=123&jkl=mno'
+      )
+    ).toBeTrue();
+  });
+
+  it('should handle neither SkyAppConfig or SkyAppRuntimeConfigParamsProvider being provided', () => {
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      true,
+      '',
+      false,
+      true,
+      false
+    );
+    const directive = debugElement.query(
+      By.directive(SkyAppLinkExternalDirective)
+    );
+    expect(directive.properties['href']).toEqual(
+      'https://foo.bar.baz/test?qp1=1&qp2=false'
     );
   });
 });

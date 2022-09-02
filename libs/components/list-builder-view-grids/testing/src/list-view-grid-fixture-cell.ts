@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 
 /**
  * Properties of a list view grid cell.
+ * @internal
  */
 export interface SkyListViewGridFixtureCell {
   /**

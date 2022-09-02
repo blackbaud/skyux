@@ -10,16 +10,20 @@ import { SkyAppSetTitleArgs } from './set-title-args';
   providedIn: 'root',
 })
 export class SkyAppTitleService {
-  constructor(private title: Title) {}
+  #title: Title;
+
+  constructor(title: Title) {
+    this.#title = title;
+  }
 
   /**
    * Sets the title on the current window.
    * @param args An array of title parts. The parts will be concatenated with a hyphen between
    * each part.
    */
-  public setTitle(args: SkyAppSetTitleArgs): void {
-    if (args && args.titleParts) {
-      this.title.setTitle(args.titleParts.join(' - '));
+  public setTitle(args: SkyAppSetTitleArgs | undefined): void {
+    if (args?.titleParts) {
+      this.#title.setTitle(args.titleParts.join(' - '));
     }
   }
 }
