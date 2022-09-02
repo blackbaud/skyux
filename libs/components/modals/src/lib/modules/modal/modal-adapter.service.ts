@@ -92,15 +92,20 @@ export class SkyModalAdapterService {
     this.#hostSiblingAriaHiddenCache.clear();
   }
 
-  public hidePreviousModalFromScreenReaders(topModal: Element): void {
-    if (topModal && topModal.previousElementSibling) {
-      topModal.previousElementSibling.setAttribute('aria-hidden', 'true');
+  public hidePreviousModalFromScreenReaders(topModal: ElementRef): void {
+    if (topModal && topModal.nativeElement.previousElementSibling) {
+      topModal.nativeElement.previousElementSibling.setAttribute(
+        'aria-hidden',
+        'true'
+      );
     }
   }
 
-  public unhidePreviousModalFromScreenReaders(topModal: Element): void {
-    if (topModal && topModal.previousElementSibling) {
-      topModal.previousElementSibling.removeAttribute('aria-hidden');
+  public unhidePreviousModalFromScreenReaders(topModal: ElementRef): void {
+    if (topModal && topModal.nativeElement.previousElementSibling) {
+      topModal.nativeElement.previousElementSibling.removeAttribute(
+        'aria-hidden'
+      );
     }
   }
 }
