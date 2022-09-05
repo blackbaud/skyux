@@ -28,6 +28,7 @@ describe('Migrations > Apply crossvent fix', () => {
 
   it('should apply fix for applications', async () => {
     const updatedTree = await runSchematic();
+    console.log(updatedTree.readContent('src/test.ts'));
     expect(updatedTree.readContent('src/test.ts'))
       .toEqual(`// This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
@@ -59,7 +60,7 @@ getTestBed().initTestEnvironment(
 // Then we find all the tests.
 const context = require.context('./', true, /\\.spec\\.ts$/);
 // And load the modules.
-context.keys().map(context);
+context.keys().forEach(context);
 `);
   });
 
