@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import {
-  UntypedFormArray,
-  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormControl,
   Validators,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -99,7 +99,9 @@ export class RepeaterVisualComponent {
     return this._itemsForReorderableRepeaterWithAddButton as UntypedFormArray;
   }
 
-  public _itemsForReorderableRepeaterWithAddButton: UntypedFormArray | undefined;
+  public _itemsForReorderableRepeaterWithAddButton:
+    | UntypedFormArray
+    | undefined;
 
   public reorderable = true;
 
@@ -209,7 +211,9 @@ export class RepeaterVisualComponent {
     this.showStandardInlineDelete = true;
   }
 
-  private newItemForReorderableRepeaterWithAddButton(n: number): UntypedFormControl {
+  private newItemForReorderableRepeaterWithAddButton(
+    n: number
+  ): UntypedFormControl {
     return new UntypedFormControl(`item ${n}`, [
       Validators.required,
       Validators.maxLength(20),

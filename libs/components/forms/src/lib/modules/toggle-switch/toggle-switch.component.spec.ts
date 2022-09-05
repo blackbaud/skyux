@@ -5,7 +5,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { UntypedFormControl, NgModel } from '@angular/forms';
+import { NgModel, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 

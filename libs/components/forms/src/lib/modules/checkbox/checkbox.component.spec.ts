@@ -13,12 +13,12 @@ import {
   fakeAsync,
 } from '@angular/core/testing';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
   FormsModule,
   NgForm,
   NgModel,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';

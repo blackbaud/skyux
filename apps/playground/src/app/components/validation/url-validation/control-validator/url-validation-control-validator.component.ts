@@ -27,7 +27,10 @@ export class UrlValidationControlValidatorComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      url: new UntypedFormControl(undefined, [Validators.required, SkyValidators.url]),
+      url: new UntypedFormControl(undefined, [
+        Validators.required,
+        SkyValidators.url,
+      ]),
     });
   }
 

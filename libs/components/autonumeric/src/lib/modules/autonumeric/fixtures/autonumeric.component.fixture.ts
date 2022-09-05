@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  NgModel,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
-  NgModel,
 } from '@angular/forms';
 
 import { SkyAutonumericOptions } from '../autonumeric-options';

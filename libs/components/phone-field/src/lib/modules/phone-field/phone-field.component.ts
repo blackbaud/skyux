@@ -20,7 +20,11 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyCountryFieldCountry } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';

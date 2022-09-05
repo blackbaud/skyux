@@ -39,7 +39,10 @@ export class DatepickerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.reactiveForm = this.formBuilder.group({
-      selectedDate: new UntypedFormControl(new Date(1955, 10, 5), Validators.required),
+      selectedDate: new UntypedFormControl(
+        new Date(1955, 10, 5),
+        Validators.required
+      ),
     });
 
     this.reactiveDate.statusChanges
