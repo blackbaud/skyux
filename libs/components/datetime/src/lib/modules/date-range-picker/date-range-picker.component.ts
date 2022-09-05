@@ -14,9 +14,9 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ValidationErrors,
@@ -195,7 +195,7 @@ export class SkyDateRangePickerComponent
   public readonly dateRangePickerId = `sky-date-range-picker-${uniqueId++}`;
 
   public calculators: SkyDateRangeCalculator[];
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public isReady = false;
   public showEndDatePicker = false;
   public showStartDatePicker = false;
@@ -240,7 +240,7 @@ export class SkyDateRangePickerComponent
   constructor(
     private changeDetector: ChangeDetectorRef,
     private dateRangeService: SkyDateRangeService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private localeProvider: SkyAppLocaleProvider,
     private ngZone: NgZone,
     @Optional() themeSvc?: SkyThemeService
@@ -431,9 +431,9 @@ export class SkyDateRangePickerComponent
 
   private createForm(): void {
     this.formGroup = this.formBuilder.group({
-      calculatorId: new FormControl(),
-      startDate: new FormControl(),
-      endDate: new FormControl(),
+      calculatorId: new UntypedFormControl(),
+      startDate: new UntypedFormControl(),
+      endDate: new UntypedFormControl(),
     });
 
     if (this.disabled) {

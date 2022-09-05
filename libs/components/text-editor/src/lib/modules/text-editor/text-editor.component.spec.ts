@@ -8,7 +8,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import {
-  FormControl,
+  UntypedFormControl,
   FormsModule,
   NgModel,
   ReactiveFormsModule,
@@ -54,7 +54,7 @@ describe('Text editor', () => {
     template: `<sky-text-editor [formControl]="formControl"></sky-text-editor>`,
   })
   class TextEditorWithFormControl {
-    public formControl = new FormControl();
+    public formControl = new UntypedFormControl();
   }
   //#endregion
 

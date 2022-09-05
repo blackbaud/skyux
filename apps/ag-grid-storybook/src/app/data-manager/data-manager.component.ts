@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
@@ -79,11 +79,11 @@ export class DataManagerComponent implements OnInit {
   public settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: FormGroup;
+  public gridSettings: UntypedFormGroup;
   public ready = new BehaviorSubject(false);
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dataManagerService: SkyDataManagerService,
     private agGridService: SkyAgGridService
   ) {}

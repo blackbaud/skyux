@@ -2,7 +2,7 @@ import {
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
 import configureStorybook from '../configure-storybook';
@@ -11,7 +11,7 @@ import generateStorybookComposition from './index';
 
 describe('storybook-composition', () => {
   it('should create composition', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
       await applicationGenerator(tree, { name });
@@ -34,7 +34,7 @@ describe('storybook-composition', () => {
   });
 
   it('should skip non-storybook project', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     for (const name of ['storybook', 'test-app']) {
       await applicationGenerator(tree, { name });
@@ -59,7 +59,7 @@ describe('storybook-composition', () => {
   });
 
   it('should error without storybook project', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     const spy = jest.spyOn(console, 'error');
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),

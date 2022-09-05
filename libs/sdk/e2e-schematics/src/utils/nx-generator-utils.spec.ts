@@ -1,5 +1,5 @@
 import { readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { libraryGenerator } from '@nrwl/workspace';
 
 import { createTree } from 'nx/src/generators/testing-utils/create-tree';
@@ -18,7 +18,7 @@ describe('nx-generator-utils', () => {
       'my-project'
     );
     expect(empty).toEqual({});
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     updateJson(tree, 'nx.json', (json) => {
       json['generators'] = {
         nx: {

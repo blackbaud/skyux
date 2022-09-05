@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
 })
 export class SelectionBoxTestComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
-  public get selectionBoxFormArray(): FormArray {
-    return this.myForm.get('checkboxes') as FormArray;
+  public get selectionBoxFormArray(): UntypedFormArray {
+    return this.myForm.get('checkboxes') as UntypedFormArray;
   }
 
   public checkboxSelectionBoxes: any[] = [
@@ -55,7 +55,7 @@ export class SelectionBoxTestComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
@@ -63,7 +63,7 @@ export class SelectionBoxTestComponent implements OnInit {
     });
   }
 
-  private buildCheckboxes(): FormArray {
+  private buildCheckboxes(): UntypedFormArray {
     const checkboxItemControls = this.checkboxSelectionBoxes.map(
       (aCheckboxSelectionBox) => {
         return this.formBuilder.control(aCheckboxSelectionBox.undefinedValue);

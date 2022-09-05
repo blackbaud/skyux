@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
@@ -11,18 +11,18 @@ import {
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent implements OnInit {
-  public myForm: FormGroup | undefined;
+  public myForm: UntypedFormGroup | undefined;
 
-  #formBuilder: FormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
   }
 
   public ngOnInit(): void {
     this.myForm = this.#formBuilder.group({
-      email: new FormControl(false),
-      phone: new FormControl(false, [Validators.required]),
+      email: new UntypedFormControl(false),
+      phone: new UntypedFormControl(false, [Validators.required]),
     });
   }
 

@@ -20,7 +20,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyInputBoxHostService } from '@skyux/forms';
 import { SkyCountryFieldCountry } from '@skyux/lookup';
 import { SkyThemeService } from '@skyux/theme';
@@ -165,7 +165,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
   public phoneInputShown = true;
 
-  public countrySearchForm: FormGroup;
+  public countrySearchForm: UntypedFormGroup;
 
   /**
    * Specifies the currently selected country to validate against.
@@ -230,7 +230,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
   private _selectedCountry: SkyPhoneFieldCountry;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private adapterService: SkyPhoneFieldAdapterService,
     private changeDetector: ChangeDetectorRef,
     @Optional() public themeSvc?: SkyThemeService,
@@ -256,7 +256,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     }
 
     this.countrySearchForm = this.formBuilder.group({
-      countrySearch: new FormControl(),
+      countrySearch: new UntypedFormControl(),
     });
   }
 
