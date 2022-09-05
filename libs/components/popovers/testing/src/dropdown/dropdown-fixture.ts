@@ -19,11 +19,6 @@ export class SkyDropdownFixture {
    */
   public get dropdown(): SkyPopoversFixtureDropdown | undefined {
     const button = this.buttonDebugElement;
-
-    if (!button) {
-      return;
-    }
-
     return {
       buttonStyle: this.getButtonStyle(button.classes),
       buttonType: this.getButtonType(button.classes),
@@ -117,14 +112,11 @@ export class SkyDropdownFixture {
       return;
     }
 
-    if (index >= itemEls.length) {
+    if (!itemEls[index]) {
       throw new Error(`There is no dropdown item at index ${index}.`);
     }
 
     const item = itemEls[index];
-    if (!item) {
-      return;
-    }
 
     return {
       ariaRole: item.getAttribute('role'),
@@ -169,19 +161,18 @@ export class SkyDropdownFixture {
     return;
   }
 
-  private getButtonType(classNames: {
-    [key: string]: boolean;
-  }): string | undefined {
+  private getButtonType(classNames: { [key: string]: boolean }): string {
     const prefix = 'sky-dropdown-button-type-';
 
+    let found = '';
     for (const i in classNames) {
       if (classNames[i]) {
         if (i.indexOf(prefix) > -1) {
-          return i.replace(prefix, '');
+          found = i.replace(prefix, '');
         }
       }
     }
 
-    return undefined;
+    return found;
   }
 }
