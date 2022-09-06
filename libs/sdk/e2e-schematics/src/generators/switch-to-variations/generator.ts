@@ -50,9 +50,10 @@ export default async function (
               '    describe(`in ${theme} theme`, () => {',
             ];
             newSpecLines.push(
-              ...specLines.map((line) => `  ${line}`),
+              ...specLines.map((line) => (line === '' ? '' : `  ${line}`)),
               '  });',
-              '});'
+              '});',
+              ''
             );
             tree.write(filepath, newSpecLines.join(`\n`));
             return;

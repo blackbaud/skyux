@@ -17,7 +17,7 @@ describe(`tabs-storybook`, () => {
             .percySnapshot(`tabscomponent-tabs--tabs-${theme}`);
         });
       });
-  
+
       describe('dropdown tabs', () => {
         beforeEach(() =>
           cy.visit(

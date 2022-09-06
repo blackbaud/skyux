@@ -16,7 +16,7 @@ describe(`ag-grid-storybook data manager`, () => {
             );
             cy.waitForFaAndBbFonts();
           });
-  
+
           it(`should render ag-grid with data manager, ${label} layout`, () => {
             cy.get('#ready')
               .should('exist')

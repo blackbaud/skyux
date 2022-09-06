@@ -23,14 +23,14 @@ describe(`ag-grid-storybook`, () => {
           .percySnapshot(
             `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
             {
-              widths: E2eVariations.DISPLAY_WIDTHS,
+              widths: [1280],
               scope: '#root',
               percyCSS: `
-              /* Avoid "virtual rows" in the screenshot. */
-              :root {
-                --viewport-height: 600px;
-              }
-            `,
+                /* Avoid "virtual rows" in the screenshot. */
+                :root {
+                  --viewport-height: 600px;
+                }
+              `,
             }
           );
       });

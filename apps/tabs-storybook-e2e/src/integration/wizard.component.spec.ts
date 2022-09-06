@@ -24,7 +24,7 @@ describe(`tabs-storybook`, () => {
             widths: [1280],
           });
       });
-  
+
       it('should render the component on a small screen', () => {
         cy.viewport(375, 812)
           .get('app-wizard')

@@ -22,7 +22,7 @@ describe(`modals-storybook`, () => {
           .screenshot(`confirmcomponent-confirm--confirm-ok-${theme}`)
           .percySnapshot(`confirmcomponent-confirm--confirm-ok-${theme}`);
       });
-  
+
       it('should render the Custom component', () => {
         cy.get('app-confirm')
           .should('exist')
