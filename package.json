@@ -102,7 +102,7 @@
     "fontfaceobserver": "2.1.0",
     "google-libphonenumber": "3.2.27",
     "intl-tel-input": "17.0.16",
-    "jsonc-parser": "3.0.0",
+    "jsonc-parser": "3.2.0",
     "jwt-decode": "3.1.2",
     "moment": "2.29.4",
     "ng2-dragula": "2.1.1",
