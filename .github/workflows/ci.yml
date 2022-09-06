@@ -35,9 +35,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+      # # Rebase must happen before installing dependencies.
+      # - name: Rebase current branch
+      #   run: node ./scripts/rebase-pr.js
       - name: Cache node modules
         id: cache
         uses: actions/cache@v2
@@ -79,9 +79,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+      # # Rebase must happen before installing dependencies.
+      # - name: Rebase current branch
+      #   run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Retrieve node_modules cache
@@ -113,9 +113,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+      # # Rebase must happen before installing dependencies.
+      # - name: Rebase current branch
+      #   run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Retrieve node_modules cache
@@ -139,9 +139,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+      # # Rebase must happen before installing dependencies.
+      # - name: Rebase current branch
+      #   run: node ./scripts/rebase-pr.js
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
         with:
@@ -163,8 +163,8 @@ jobs:
         with:
           node-version: '14'
       # Rebase must happen before installing dependencies.
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
+      # - name: Rebase current branch
+      #   run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Retrieve node_modules cache
