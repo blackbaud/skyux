@@ -35,8 +35,6 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
-      - name: NGCC
-        run: ./node_modules/.bin/ngcc --properties es2020 browser module main --first-only --create-ivy-entry-points
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
 
@@ -113,6 +111,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: NGCC
+        run: ./node_modules/.bin/ngcc --properties es2020 browser module main --first-only --create-ivy-entry-points
       - name: Build
         run: npx nx affected --target=build --parallel
 
