@@ -44,7 +44,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3, 4, 5, 6, 7]
+        agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v2
       - name: Retrieve node_modules cache
@@ -112,9 +112,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
-        env:
-          BAZEL_TARGET: true
+        run: npx nx affected --target=build
 
   build-dist:
     name: Build packages distribution
