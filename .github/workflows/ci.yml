@@ -10,8 +10,6 @@ env:
   BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
   BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
-  NX_CLOUD_DISTRIBUTED_EXECUTION_AGENT_COUNT: 3
-  NX_CLOUD_DISTRIBUTED_EXECUTION_STOP_AGENTS_ON_FAILURE: false
 
 jobs:
   main:
@@ -32,7 +30,9 @@ jobs:
         with:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
-
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
         with:
@@ -42,11 +42,9 @@ jobs:
         run: npm ci
 
       - name: Setup agents
-        run: |
-          npx nx-cloud start-agent
-          npx nx-cloud start-agent
-          npx nx-cloud start-agent
-          npx nx-cloud start-ci-run
+        run: npx nx-cloud start-agent
+
+      - run: npx nx-cloud start-ci-run
 
       - name: Run commands
         run: |
