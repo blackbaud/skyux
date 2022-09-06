@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.17.1](https://github.com/blackbaud/skyux/compare/6.17.0...6.17.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* **components/data-manager:** update activeView on data view config updates ([#480](https://github.com/blackbaud/skyux/issues/480)) ([90177b5](https://github.com/blackbaud/skyux/commit/90177b5171d69291ab0c8987062c11e6f984fb6b))
+* **components/modals:** hide non modal elements from screen readers ([#397](https://github.com/blackbaud/skyux/issues/397)) ([6e2a171](https://github.com/blackbaud/skyux/commit/6e2a17156766a4d08585b0fb6b62ead5efee11c6))
+
 ## [6.17.0](https://github.com/blackbaud/skyux/compare/6.16.0...6.17.0) (2022-09-02)
 
 
