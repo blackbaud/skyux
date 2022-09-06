@@ -43,10 +43,10 @@ jobs:
 
       - name: Setup agents
         run: |
+          npx nx-cloud start-agent
+          npx nx-cloud start-agent
+          npx nx-cloud start-agent
           npx nx-cloud start-ci-run
-          npx nx-cloud start-agent
-          npx nx-cloud start-agent
-          npx nx-cloud start-agent
 
       - name: Run commands
         run: |
