@@ -36,7 +36,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
       - name: NGCC
-        run: ngcc --properties es2020 browser module main --first-only --create-ivy-entry-points
+        run: ./node_modules/.bin/ngcc --properties es2020 browser module main --first-only --create-ivy-entry-points
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
 
