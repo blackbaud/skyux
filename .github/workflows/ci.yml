@@ -40,14 +40,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - run: |
-        npx nx-cloud start-ci-run
-        nx-cloud start-agent
-        nx-cloud start-agent
-        nx-cloud start-agent
+      - name: Setup agents
+        run: |
+          npx nx-cloud start-ci-run
+          nx-cloud start-agent
+          nx-cloud start-agent
+          nx-cloud start-agent
 
-      - run: |
-        npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics
+      - name: Run commands
+        run: |
+          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics
 
       - name: Stop all running agents for this CI run
         # It's important that we always run this step, otherwise in the case of any failures in preceding non-Nx steps, the agents will keep running and waste billable minutes
