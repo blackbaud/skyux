@@ -30,6 +30,27 @@ describe('switch-to-variations generator', () => {
     expect(appTree.listChanges()).toEqual(changes);
   });
 
+  it('should throw errors', async () => {
+    try {
+      await generator(appTree, {
+        ...options,
+        project: 'bogus',
+      });
+      fail('should have thrown');
+    } catch (e) {
+      expect(e.message).toContain('Project bogus not found');
+    }
+    try {
+      await generator(appTree, {
+        ...options,
+        project: 'test',
+      });
+      fail('should have thrown');
+    } catch (e) {
+      expect(e.message).toContain('Project test is not an e2e project');
+    }
+  });
+
   it('should update test', async () => {
     generateFiles(
       appTree,
