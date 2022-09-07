@@ -20,6 +20,11 @@ import { SkyTokenSelectedEventArgs } from './types/token-selected-event-args';
 import { SkyTokensMessage } from './types/tokens-message';
 import { SkyTokensMessageType } from './types/tokens-message-type';
 
+/**
+ * Creates a container that enables navigation between tokens using keyboard arrow keys.
+ * This is useful when combined with other components where the <kbd>Tab<kbd> key is
+ * reserved for other functions, such as the SKY UX Lookup component.
+ */
 @Component({
   selector: 'sky-tokens',
   templateUrl: './tokens.component.html',
@@ -70,8 +75,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether users can remove tokens from the list by selecting their close buttons
-   * or pressing the `Backspace` key.
+   * Indicates whether users can remove a token from the list by selecting a token's close button.
    * @default true
    */
   @Input()
@@ -153,7 +157,7 @@ export class SkyTokensComponent implements OnDestroy {
   public focusIndexOverRange = new EventEmitter<void>();
 
   /**
-   * Fires when usersnavigate through the tokens list with the `Tab` key
+   * Fires when users navigate through the tokens list with the `Tab` key
    * and attempt to move before the first token in the list.
    */
   @Output()
@@ -212,6 +216,8 @@ export class SkyTokensComponent implements OnDestroy {
   private _messageStream: Subject<SkyTokensMessage>;
 
   constructor(private changeDetector: ChangeDetectorRef) {
+    this._messageStream = new Subject<SkyTokensMessage>();
+
     // Angular calls the trackBy function without applying the component instance's scope.
     // Use a fat-arrow function so the current component instance's trackWith property can
     // be referenced.

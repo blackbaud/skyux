@@ -47,8 +47,7 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Indicates whether users can remove the token from the list by selecting the close button
-   * or pressing the `Backspace` key.
+   * Indicates whether users can remove the token from the list by selecting the close button.
    * @default true
    */
   @Input()
@@ -75,7 +74,7 @@ export class SkyTokenComponent {
   }
 
   /**
-   * Fires when users click the close button or press the `Backspace` key to dismiss the token.
+   * Fires when users click the close button.
    */
   @Output()
   public dismiss = new EventEmitter<void>();
