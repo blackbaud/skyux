@@ -3,7 +3,7 @@ import {
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import { getWorkspacePath, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 import { removeGenerator } from '@nrwl/workspace';
@@ -14,7 +14,7 @@ import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   it('should configure storybook', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -53,7 +53,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -69,7 +69,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig, add include', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -96,7 +96,7 @@ describe('configure-storybook', () => {
   });
 
   it('should skip configuration for non-cypress e2e project', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {

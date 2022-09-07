@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunction,
   SkyAutocompleteSearchFunctionResponse,
@@ -10,7 +10,7 @@ import {
   templateUrl: './autocomplete-demo.component.html',
 })
 export class AutocompleteDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public largestOcean: any;
 
@@ -21,7 +21,7 @@ export class AutocompleteDemoComponent implements OnInit {
     { title: 'Pacific', id: 4 },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();

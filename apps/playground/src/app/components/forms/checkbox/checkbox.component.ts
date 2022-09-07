@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
@@ -12,13 +12,13 @@ export class CheckboxComponent implements OnInit {
 
   public bar: boolean;
 
-  public reactiveFormGroup: FormGroup;
+  public reactiveFormGroup: UntypedFormGroup;
 
   public required = true;
 
   public showInlineHelp = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.reactiveFormGroup = this.formBuilder.group({

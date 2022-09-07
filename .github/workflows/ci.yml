@@ -44,7 +44,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3, 4, 5, 6, 7]
+        agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v2
       - name: Retrieve node_modules cache
@@ -52,6 +52,9 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      # Since we're running multiple builds in parallel, we need to pre-process our node_modules before starting the builds.
+      - name: Run NGCC
+        run: npx ngcc
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
 
@@ -112,7 +115,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
+        run: npx nx affected --target=build --parallel=5
 
   build-dist:
     name: Build packages distribution
@@ -162,8 +165,8 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel --maxParallel=5 --browsers=ChromeHeadless
-          npx nx affected --target=posttest --parallel --maxParallel=5 --browsers=ChromeHeadless
+          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics
+          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless --exclude=i18n
 
   stop-agents:
     name: Stop Nx Cloud agents

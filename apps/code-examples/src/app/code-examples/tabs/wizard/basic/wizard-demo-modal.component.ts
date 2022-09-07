@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
@@ -15,32 +15,32 @@ import { SkyTabIndex } from '@skyux/tabs';
 export class WizardDemoModalComponent implements OnInit {
   constructor(
     public instance: SkyModalInstance,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
-  public newMemberForm: FormGroup;
+  public newMemberForm: UntypedFormGroup;
   public title = 'New Member Sign-up';
   public activeIndex: SkyTabIndex = 0;
   public step2Disabled = true;
   public step3Disabled = true;
   public saveDisabled = true;
 
-  public firstName: FormControl;
-  public middleName: FormControl;
-  public lastName: FormControl;
-  public phoneNumber: FormControl;
-  public email: FormControl;
-  public termsAccepted: FormControl;
-  public mailingList: FormControl;
+  public firstName: UntypedFormControl;
+  public middleName: UntypedFormControl;
+  public lastName: UntypedFormControl;
+  public phoneNumber: UntypedFormControl;
+  public email: UntypedFormControl;
+  public termsAccepted: UntypedFormControl;
+  public mailingList: UntypedFormControl;
 
   public ngOnInit(): void {
-    this.firstName = new FormControl('', Validators.required);
-    this.middleName = new FormControl();
-    this.lastName = new FormControl('', Validators.required);
-    this.phoneNumber = new FormControl('', Validators.required);
-    this.email = new FormControl('', Validators.required);
-    this.termsAccepted = new FormControl(false);
-    this.mailingList = new FormControl(false);
+    this.firstName = new UntypedFormControl('', Validators.required);
+    this.middleName = new UntypedFormControl();
+    this.lastName = new UntypedFormControl('', Validators.required);
+    this.phoneNumber = new UntypedFormControl('', Validators.required);
+    this.email = new UntypedFormControl('', Validators.required);
+    this.termsAccepted = new UntypedFormControl(false);
+    this.mailingList = new UntypedFormControl(false);
 
     this.newMemberForm = this.formBuilder.group({
       firstName: this.firstName,

@@ -13,12 +13,12 @@ import {
   fakeAsync,
 } from '@angular/core/testing';
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   NgForm,
   NgModel,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -138,8 +138,8 @@ class CheckboxWithRequiredAttributeComponent {
   `,
 })
 class CheckboxWithReactiveFormComponent {
-  public checkbox1: FormControl = new FormControl(false);
-  public checkboxForm = new FormGroup({ checkbox1: this.checkbox1 });
+  public checkbox1: UntypedFormControl = new UntypedFormControl(false);
+  public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
 }
 
 /** Simple component for testing a reactive form checkbox with required validator. */
@@ -160,8 +160,8 @@ class CheckboxWithReactiveFormComponent {
   `,
 })
 class CheckboxWithReactiveFormRequiredInputComponent {
-  public checkbox1: FormControl = new FormControl(false);
-  public checkboxForm = new FormGroup({ checkbox1: this.checkbox1 });
+  public checkbox1: UntypedFormControl = new UntypedFormControl(false);
+  public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
   public required = true;
 }
 
@@ -178,11 +178,11 @@ class CheckboxWithReactiveFormRequiredInputComponent {
   `,
 })
 class CheckboxWithReactiveFormRequiredValidatorComponent {
-  public checkbox1: FormControl = new FormControl(
+  public checkbox1: UntypedFormControl = new UntypedFormControl(
     false,
     Validators.requiredTrue
   );
-  public checkboxForm = new FormGroup({ checkbox1: this.checkbox1 });
+  public checkboxForm = new UntypedFormGroup({ checkbox1: this.checkbox1 });
 }
 
 /** Simple test component with multiple checkboxes. */
@@ -842,7 +842,7 @@ describe('Checkbox component', () => {
     let testComponent: CheckboxWithReactiveFormComponent;
     let inputElement: HTMLInputElement;
     let checkboxNativeElement: HTMLElement;
-    let formControl: FormControl;
+    let formControl: UntypedFormControl;
     let labelElement: HTMLLabelElement;
 
     beforeEach(async(() => {
@@ -944,7 +944,7 @@ describe('Checkbox component', () => {
     let testComponent: CheckboxWithReactiveFormRequiredValidatorComponent;
     let inputElement: HTMLInputElement;
     let checkboxNativeElement: HTMLElement;
-    let formControl: FormControl;
+    let formControl: UntypedFormControl;
     let labelElement: HTMLLabelElement;
 
     beforeEach(async(() => {
@@ -991,7 +991,7 @@ describe('Checkbox component', () => {
     let testComponent: CheckboxWithReactiveFormRequiredInputComponent;
     let inputElement: HTMLInputElement;
     let checkboxNativeElement: HTMLElement;
-    let formControl: FormControl;
+    let formControl: UntypedFormControl;
     let labelElement: HTMLLabelElement;
 
     beforeEach(async(() => {

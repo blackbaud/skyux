@@ -2,7 +2,7 @@ import {
   applicationGenerator,
   componentGenerator,
 } from '@nrwl/angular/generators';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeScript/lib/typescript';
 
 import { wrapAngularDevkitSchematic } from 'nx/src/adapter/ngcli-adapter';
@@ -262,7 +262,7 @@ describe('ast-utils', () => {
   });
 
   it('should findComponentClass', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await applicationGenerator(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     const componentClass = findComponentClass(
@@ -275,7 +275,7 @@ describe('ast-utils', () => {
   });
 
   it('should findComponentClass, not component', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await applicationGenerator(tree, { name: 'test' });
     await angularModuleGenerator(tree, { name: 'test', project: 'test' });
     await wrapAngularDevkitSchematic('@schematics/angular', 'pipe')(tree, {
@@ -294,7 +294,7 @@ describe('ast-utils', () => {
   });
 
   it('should findComponentClass, component options not object', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await applicationGenerator(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     tree.write(
@@ -318,7 +318,7 @@ describe('ast-utils', () => {
   });
 
   it('should findComponentClass, no decorated class', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await applicationGenerator(tree, { name: 'test' });
     await componentGenerator(tree, { name: 'test', project: 'test' });
     tree.write(

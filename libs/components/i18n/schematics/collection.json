@@ -1,5 +1,5 @@
 {
-  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "$schema": "../../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
       "description": "Add @skyux/i18n to your project",

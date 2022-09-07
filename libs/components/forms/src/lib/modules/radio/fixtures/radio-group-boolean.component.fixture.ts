@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';
 
@@ -11,9 +11,9 @@ export class SkyRadioGroupBooleanTestComponent implements OnInit {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent;
 
-  public radioForm: FormGroup;
+  public radioForm: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.radioForm = this.formBuilder.group({

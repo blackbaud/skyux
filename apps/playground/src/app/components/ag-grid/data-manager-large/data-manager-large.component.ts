@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
@@ -66,12 +66,12 @@ export class DataManagerLargeComponent implements OnInit {
   public settingsKey = 'large-test';
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
-  public gridSettings: FormGroup;
+  public gridSettings: UntypedFormGroup;
   public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
   public enableTopScroll = true;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dataManagerService: SkyDataManagerService,
     private agGridService: SkyAgGridService
   ) {

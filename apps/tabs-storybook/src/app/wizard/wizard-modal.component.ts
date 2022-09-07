@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
@@ -7,7 +7,7 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './wizard-modal.component.html',
 })
 export class WizardModalComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public title = 'Wizard Tabset Example';
   public activeIndex = 0;
   public step2Disabled = true;
@@ -16,7 +16,7 @@ export class WizardModalComponent implements OnInit {
 
   constructor(
     public instance: SkyModalInstance,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   public ngOnInit(): void {

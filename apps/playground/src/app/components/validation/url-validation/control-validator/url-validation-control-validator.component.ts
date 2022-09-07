@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { SkyUrlValidationOptions, SkyValidators } from '@skyux/validation';
@@ -17,9 +17,9 @@ export class UrlValidationControlValidatorComponent implements OnInit {
     return this.formGroup.get('url');
   }
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public skyUrlValidationOptions: SkyUrlValidationOptions = {
     rulesetVersion: 1,
@@ -27,7 +27,10 @@ export class UrlValidationControlValidatorComponent implements OnInit {
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      url: new FormControl(undefined, [Validators.required, SkyValidators.url]),
+      url: new UntypedFormControl(undefined, [
+        Validators.required,
+        SkyValidators.url,
+      ]),
     });
   }
 

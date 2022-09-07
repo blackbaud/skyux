@@ -1,5 +1,5 @@
 import { cypressProjectGenerator } from '@nrwl/cypress';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 
 import { updateJson } from '../../utils';
 
@@ -7,7 +7,7 @@ import configurePercy from './index';
 
 describe('configure-percy', () => {
   it('should import percy', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
@@ -23,7 +23,7 @@ describe('configure-percy', () => {
   });
 
   it('should not make changes without cypress.json', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
@@ -35,7 +35,7 @@ describe('configure-percy', () => {
   });
 
   it('should handle missing supportFile config', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',
@@ -56,7 +56,7 @@ describe('configure-percy', () => {
   });
 
   it('should handle missing supportFile', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     await cypressProjectGenerator(tree, {
       name: `cypress`,
       baseUrl: 'https://example.com',

@@ -1,14 +1,14 @@
 import { libraryGenerator } from '@nrwl/angular/generators';
 import { UnitTestRunner } from '@nrwl/angular/src/utils/test-runners';
 import { ProjectConfiguration, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
 import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   it('should create e2e infrastructure for a component', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -57,7 +57,7 @@ describe('component-e2e', () => {
   });
 
   it('should error without a name', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     try {
       await componentE2eGenerator(tree, { name: '' });
       fail();
@@ -69,7 +69,7 @@ describe('component-e2e', () => {
   });
 
   it('should handle tagging', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -89,7 +89,7 @@ describe('component-e2e', () => {
 
   it('should allow being called twice', async () => {
     const spy = jest.spyOn(console, 'warn');
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyV1Workspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,

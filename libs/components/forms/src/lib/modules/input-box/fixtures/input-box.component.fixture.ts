@@ -1,5 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
+import {
+  NgModel,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-input-box-fixture',
@@ -15,9 +20,9 @@ export class InputBoxFixtureComponent implements OnInit {
   @Input()
   public insetIconDisabled: boolean;
 
-  public errorField: FormControl;
+  public errorField: UntypedFormControl;
 
-  public errorForm: FormGroup;
+  public errorForm: UntypedFormGroup;
 
   public errorNgModelValue: string;
 
@@ -25,10 +30,10 @@ export class InputBoxFixtureComponent implements OnInit {
   public errorNgModel: NgModel;
 
   public ngOnInit(): void {
-    this.errorField = new FormControl('', [Validators.required]);
+    this.errorField = new UntypedFormControl('', [Validators.required]);
 
-    this.errorForm = new FormGroup({
-      errorFormField: new FormControl('', [Validators.required]),
+    this.errorForm = new UntypedFormGroup({
+      errorFormField: new UntypedFormControl('', [Validators.required]),
     });
   }
 }

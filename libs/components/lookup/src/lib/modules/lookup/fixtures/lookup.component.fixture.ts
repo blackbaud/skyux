@@ -1,8 +1,8 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
@@ -47,7 +47,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public ariaLabelledBy: string | undefined;
 
-  public asyncForm!: FormGroup;
+  public asyncForm!: UntypedFormGroup;
 
   public autocompleteAttribute: string | undefined;
 
@@ -63,7 +63,7 @@ export class SkyLookupTestComponent implements OnInit {
 
   public enableShowMore = false;
 
-  public form!: FormGroup;
+  public form!: UntypedFormGroup;
 
   public idProperty = 'name';
 
@@ -94,11 +94,11 @@ export class SkyLookupTestComponent implements OnInit {
     }
   }
 
-  #formBuilder: FormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
   #_friends: any[] = [];
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
   }
 
@@ -238,10 +238,10 @@ export class SkyLookupTestComponent implements OnInit {
 
   #createForm(): void {
     this.asyncForm = this.#formBuilder.group({
-      friends: new FormControl(this.friends),
+      friends: new UntypedFormControl(this.friends),
     });
     this.form = this.#formBuilder.group({
-      friends: new FormControl(this.friends),
+      friends: new UntypedFormControl(this.friends),
     });
   }
 }
