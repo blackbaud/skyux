@@ -161,13 +161,21 @@ jobs:
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      # Rebase must happen before installing dependencies.
+      - name: Rebase current branch
+        run: node ./scripts/rebase-pr.js
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
-      - run: npm ci
+      - name: Retrieve node_modules cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
           npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics --verbose
-          # npx nx affected --target=posttest --parallel --maxParallel=5 --browsers=ChromeHeadless
 
   stop-agents:
     name: Stop Nx Cloud agents
