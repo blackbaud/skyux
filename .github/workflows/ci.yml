@@ -169,8 +169,8 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics
-          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless --exclude=i18n
+          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics --verbose
+          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless --exclude=i18n --verbose
 
   stop-agents:
     name: Stop Nx Cloud agents
