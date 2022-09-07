@@ -52,6 +52,7 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      # Since we're running multiple builds in parallel, we need to pre-process our node_modules before starting the builds.
       - name: Run NGCC
         run: npx ngcc
       - name: Start Nx Agent ${{ matrix.agent }}
