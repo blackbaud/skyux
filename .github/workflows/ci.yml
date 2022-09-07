@@ -45,7 +45,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1]
+        agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -116,6 +116,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc --properties es2020 browser module main --async
       - name: Build
         run: npx nx affected --target=build --parallel --maxParallel=5
 
