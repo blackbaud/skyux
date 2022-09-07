@@ -228,12 +228,10 @@ jobs:
             !node_modules/.cache/nx
             /home/runner/.cache/Cypress
           key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
-      - name: Percy ${{ matrix.project }}
-        if: false
-        # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-        run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
-        env:
-          PERCY_TOKEN: ${{ secrets[matrix.token] }}
-      - name: E2E tests for ${{ matrix.project }}
-        if: true
-        run: npx nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+      - name: E2E ${{ matrix.project }}
+        run: npx nx e2e ${{ matrix.project }}-e2e
+#      - name: Percy ${{ matrix.project }}
+#        # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
+#        run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
+#        env:
+#          PERCY_TOKEN: ${{ secrets[matrix.token] }}
