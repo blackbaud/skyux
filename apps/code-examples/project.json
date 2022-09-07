@@ -94,7 +94,10 @@
         "tsConfig": "apps/code-examples/tsconfig.spec.json",
         "karmaConfig": "apps/code-examples/karma.conf.js",
         "polyfills": "apps/code-examples/src/polyfills.ts",
-        "styles": [],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
         "scripts": [],
         "assets": []
       }
