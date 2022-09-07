@@ -111,7 +111,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
+        run: npx nx affected --target=build --parallel=5
 
   build-dist:
     name: Build packages distribution
