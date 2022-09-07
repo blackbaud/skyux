@@ -24,9 +24,9 @@ import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
   public set theme(value: PreviewWrapperThemeValue | undefined) {
-    this.#_theme = value ?? 'default';
-    if (this.#_theme && this.#_theme.match(/^modern(-(light|dark))?$/)) {
-      if (this.#_theme.includes('dark')) {
+    const themeOrDefault = value ?? 'default';
+    if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
+      if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark
@@ -44,9 +44,6 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       );
     }
   }
-  public get theme(): PreviewWrapperThemeValue {
-    return this.#_theme;
-  }
 
   public get themeSettings(): SkyThemeSettings {
     return this.#_themeSettings;
@@ -62,7 +59,6 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-  #_theme: PreviewWrapperThemeValue = 'default';
   #initialized = false;
 
   #body: HTMLElement;
