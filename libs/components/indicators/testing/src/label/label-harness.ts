@@ -68,34 +68,28 @@ export class SkyLabelHarness extends SkyComponentHarness {
 
     const srText = await srEl.text();
 
-    if (srText === 'Attention:') {
-      return 'attention';
+    switch (srText) {
+      case 'Attention:':
+        return 'attention';
+      case 'Caution:':
+        return 'caution';
+      case 'Completed:':
+        return 'completed';
+      case 'Danger:':
+        return 'danger';
+      case 'Error:':
+        return 'error';
+      case 'Important information:':
+        return 'important-info';
+      case 'Important warning:':
+        return 'important-warning';
+      case 'Success:':
+        return 'success';
+      case 'Warning:':
+        return 'warning';
+      default:
+        return 'custom';
     }
-    if (srText === 'Caution:') {
-      return 'caution';
-    }
-    if (srText === 'Completed:') {
-      return 'completed';
-    }
-    if (srText === 'Danger:') {
-      return 'danger';
-    }
-    if (srText === 'Error:') {
-      return 'error';
-    }
-    if (srText === 'Important information:') {
-      return 'important-info';
-    }
-    if (srText === 'Important warning:') {
-      return 'important-warning';
-    }
-    if (srText === 'Success:') {
-      return 'success';
-    }
-    if (srText === 'Warning:') {
-      return 'warning';
-    }
-    return 'custom';
   }
 
   /**
