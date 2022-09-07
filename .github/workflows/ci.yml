@@ -35,7 +35,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
+        run: npm ci && npx ngcc
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
 
@@ -55,6 +55,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Start Nx Agent ${{ matrix.agent }}
         run: npx nx-cloud start-agent
 
@@ -81,6 +83,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Check library dependencies
         run: npx skyux-dev check-lib-dependencies
       - name: Check library missing peers
@@ -117,7 +121,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Run NGCC
-        run: npx ngcc --properties es2020 browser module main --async
+        run: npx ngcc
       - name: Build
         run: npx nx affected --target=build --parallel --maxParallel=5
 
@@ -143,6 +147,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Build packages dist
         run: npx skyux-dev create-packages-dist
 
@@ -169,6 +175,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Code coverage
         run: |
           npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics --verbose
@@ -191,5 +199,7 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Stop Nx Cloud agents
         run: npx nx-cloud stop-all-agents
