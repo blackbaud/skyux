@@ -1,7 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 
 /**
- * Specifies a label for the radio button.
+ * Specifies a label for the radio button. To display a help button beside the label, include a help button element,
+ * such as `sky-help-inline`, in the `sky-radio-label` element and a `sky-control-help` CSS class on that help button
+ * element.
  */
 @Component({
   selector: 'sky-radio-label',
