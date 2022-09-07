@@ -17,10 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          # We need to fetch all branches and commits so that Nx affected has a base to compare against.
-          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
@@ -35,7 +31,7 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci && npx ngcc
+        run: npm ci
       - name: Start Nx Cloud CI run
         run: npx nx-cloud start-ci-run
 
@@ -48,8 +44,6 @@ jobs:
         agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - name: Retrieve node_modules cache
         uses: actions/cache@v2
         with:
@@ -67,7 +61,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -102,7 +95,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -129,7 +121,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -153,7 +144,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           # We need to fetch all branches and commits so that Nx affected has a base to compare against.
           fetch-depth: 0
       - uses: actions/setup-node@v3
@@ -171,8 +161,8 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics --verbose
-          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless --exclude=i18n --verbose
+          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --exclude=e2e-schematics
+          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless --exclude=i18n
 
   stop-agents:
     name: Stop Nx Cloud agents
@@ -181,8 +171,6 @@ jobs:
     needs: [lint, build, build-dist, coverage]
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
