@@ -1,6 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
-import { SkyLabelType } from '@skyux/indicators';
+import type {
+  SkyIndicatorDescriptionType,
+  SkyLabelType,
+} from '@skyux/indicators';
 
 import { LabelHarnessTestComponent } from './fixtures/label-harness-test.component';
 import { LabelHarnessTestModule } from './fixtures/label-harness-test.module';
@@ -14,14 +17,14 @@ async function setupTest(options: { dataSkyId: string }) {
   const fixture = TestBed.createComponent(LabelHarnessTestComponent);
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
-  const labelHarness: SkyLabelHarness = await loader.getHarness(
+  const labelHarness = await loader.getHarness(
     SkyLabelHarness.with({ dataSkyId: options.dataSkyId })
   );
 
   return { fixture, labelHarness };
 }
 
-function testLabelType(dataSkyId: string, labelType?: SkyLabelType) {
+function testGetLabelType(dataSkyId: string, labelType?: SkyLabelType) {
   it('should return the label type', async () => {
     const { fixture, labelHarness } = await setupTest({ dataSkyId });
 
@@ -40,22 +43,65 @@ function testLabelType(dataSkyId: string, labelType?: SkyLabelType) {
   });
 }
 
+function testGetDescriptionType(
+  dataSkyId: string,
+  descriptionType: SkyIndicatorDescriptionType,
+  customDescription?: string
+) {
+  it('should return the description type', async () => {
+    const { fixture, labelHarness } = await setupTest({ dataSkyId });
+
+    fixture.componentInstance.descriptionType = descriptionType;
+    fixture.componentInstance.customDescription = customDescription;
+    fixture.detectChanges();
+
+    const componentDesciptionType = await labelHarness.getDescriptionType();
+
+    expect(componentDesciptionType).toEqual(descriptionType);
+  });
+}
+
 describe('Label harness', () => {
   describe('getLabelType', () => {
     describe('success label', () =>
-      testLabelType('label-with-label-type', 'success'));
+      testGetLabelType('label-with-label-type', 'success'));
     describe('danger label', () =>
-      testLabelType('label-with-label-type', 'danger'));
+      testGetLabelType('label-with-label-type', 'danger'));
     describe('warning label', () =>
-      testLabelType('label-with-label-type', 'warning'));
+      testGetLabelType('label-with-label-type', 'warning'));
     describe('info label', () =>
-      testLabelType('label-with-label-type', 'info'));
+      testGetLabelType('label-with-label-type', 'info'));
     describe('default label type', () =>
-      testLabelType('label-without-label-type'));
+      testGetLabelType('label-without-label-type'));
+  });
+
+  describe('getDescriptionType', () => {
+    describe('attention', () =>
+      testGetDescriptionType('label-with-label-type', 'attention'));
+    describe('caution', () =>
+      testGetDescriptionType('label-with-label-type', 'caution'));
+    describe('completed', () =>
+      testGetDescriptionType('label-with-label-type', 'completed'));
+    describe('danger', () =>
+      testGetDescriptionType('label-with-label-type', 'danger'));
+    describe('error', () =>
+      testGetDescriptionType('label-with-label-type', 'error'));
+    describe('important info', () =>
+      testGetDescriptionType('label-with-label-type', 'important-info'));
+    describe('important warning', () =>
+      testGetDescriptionType('label-with-label-type', 'important-warning'));
+    describe('success', () =>
+      testGetDescriptionType('label-with-label-type', 'success'));
+    describe('warning', () =>
+      testGetDescriptionType('label-with-label-type', 'warning'));
+    describe('none', () =>
+      testGetDescriptionType('label-with-label-type', 'none'));
+    describe('custom', () =>
+      testGetDescriptionType('label-with-label-type', 'custom', 'custom text'));
   });
 
   describe('getLabelText', () => {
-    it('returns the label text', async () => {
+    it('should return the label text', async () => {
       const { labelHarness } = await setupTest({
         dataSkyId: 'label-with-label-type',
       });
@@ -66,18 +112,35 @@ describe('Label harness', () => {
     });
   });
 
-  describe('getScreenReaderText', async () => {
-    it('returns the text read by screen readers in place of an icon', async () => {
+  describe('getCustomDescription', () => {
+    it('should return the custom description when `descriptionType` is custom', async () => {
+      const { fixture, labelHarness } = await setupTest({
+        dataSkyId: 'label-with-label-type',
+      });
+      const description = 'Custom description:';
+
+      fixture.componentInstance.descriptionType = 'custom';
+      fixture.componentInstance.customDescription = description;
+
+      fixture.detectChanges();
+
+      const componentDesciptionType = await labelHarness.getCustomDescription();
+
+      expect(componentDesciptionType).toEqual(description);
+    });
+
+    it('should return an empty string when `descriptionType` is not custom', async () => {
       const { fixture, labelHarness } = await setupTest({
         dataSkyId: 'label-with-label-type',
       });
 
       fixture.componentInstance.descriptionType = 'attention';
+
       fixture.detectChanges();
 
-      await expectAsync(labelHarness.getScreenReaderText()).toBeResolvedTo(
-        'Attention:'
-      );
+      const componentDesciptionType = await labelHarness.getCustomDescription();
+
+      expect(componentDesciptionType).toEqual('');
     });
   });
 });
