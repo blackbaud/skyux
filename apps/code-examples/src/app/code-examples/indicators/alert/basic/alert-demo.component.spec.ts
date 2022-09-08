@@ -7,10 +7,12 @@ import { AlertDemoModule } from './alert-demo.module';
 
 describe('Basic alert', () => {
   async function setupTest(days: number) {
-    fixture = TestBed.createComponent(AlertDemoComponent);
-    cmp = fixture.componentInstance;
+    let alertHarness: SkyAlertHarness;
+    let fixture: ComponentFixture<AlertDemoComponent>;
 
-    cmp.days = days;
+    fixture = TestBed.createComponent(AlertDemoComponent);
+
+    fixture.componentInstance.days = days;
     fixture.detectChanges();
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -18,11 +20,9 @@ describe('Basic alert', () => {
     alertHarness = await loader.getHarness(
       SkyAlertHarness.with({ dataSkyId: 'alert-demo' })
     );
-  }
 
-  let alertHarness: SkyAlertHarness;
-  let cmp: AlertDemoComponent;
-  let fixture: ComponentFixture<AlertDemoComponent>;
+    return { alertHarness, fixture };
+  }
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('Basic alert', () => {
   });
 
   it('should show the proper alert when the number of days is 8 or more', async () => {
-    await setupTest(8);
+    const { alertHarness } = await setupTest(8);
 
     const alertType = await alertHarness.getAlertType();
     expect(alertType).toBe('warning');
@@ -43,7 +43,7 @@ describe('Basic alert', () => {
   });
 
   it('should show the proper alert when the number of days is 7 or fewer', async () => {
-    await setupTest(7);
+    const { alertHarness } = await setupTest(7);
 
     const alertType = await alertHarness.getAlertType();
     expect(alertType).toBe('danger');
