@@ -6,14 +6,11 @@ import { AlertDemoComponent } from './alert-demo.component';
 import { AlertDemoModule } from './alert-demo.module';
 
 describe('Basic alert', () => {
-  let alertHarness: SkyAlertHarness;
-  let fixture: ComponentFixture<AlertDemoComponent>;
-
-  beforeEach(async () => {
-    TestBed.configureTestingModule({
-      imports: [AlertDemoModule],
-    });
+  async function setupTest(days: number) {
     fixture = TestBed.createComponent(AlertDemoComponent);
+    cmp = fixture.componentInstance;
+
+    cmp.days = days;
     fixture.detectChanges();
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -21,30 +18,39 @@ describe('Basic alert', () => {
     alertHarness = await loader.getHarness(
       SkyAlertHarness.with({ dataSkyId: 'alert-demo' })
     );
+  }
+
+  let alertHarness: SkyAlertHarness;
+  let cmp: AlertDemoComponent;
+  let fixture: ComponentFixture<AlertDemoComponent>;
+
+  beforeEach(async () => {
+    TestBed.configureTestingModule({
+      imports: [AlertDemoModule],
+    });
   });
 
-  it('should show an alert', async () => {
-    expect(alertHarness).toBeDefined();
-    const host = await alertHarness.host();
-    expect(host).toBeDefined();
-  });
+  it('should show the proper alert when the number of days is 8 or more', async () => {
+    await setupTest(8);
 
-  it('should show an alert of type `info`', async () => {
     const alertType = await alertHarness.getAlertType();
-    expect(alertType).toBe('info');
-  });
+    expect(alertType).toBe('warning');
 
-  it('should show the correct text', async () => {
     const alertText = await alertHarness.getText();
-    expect(alertText).toBe('Info alert message');
-  });
-
-  it('should close the alert correctly', async () => {
-    spyOn(window, 'alert').and.stub();
+    expect(alertText).toBe('Your password expires in 8 day(s)!');
 
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(true);
-    await expectAsync(alertHarness.isClosed()).toBeResolvedTo(false);
-    await alertHarness.close();
-    await expectAsync(alertHarness.isClosed()).toBeResolvedTo(true);
+  });
+
+  it('should show the proper alert when the number of days is 7 or fewer', async () => {
+    await setupTest(7);
+
+    const alertType = await alertHarness.getAlertType();
+    expect(alertType).toBe('danger');
+
+    const alertText = await alertHarness.getText();
+    expect(alertText).toBe('Your password expires in 7 day(s)!');
+
+    await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(false);
   });
 });

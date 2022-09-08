@@ -1,9 +1,9 @@
 <sky-alert
-  alertType="info"
-  data-sky-id="alert-demo"
-  [closeable]="true"
+  [alertType]="days < 8 ? 'danger' : 'warning'"
+  [closeable]="days >= 8"
+  [descriptionType]="days < 8 ? 'danger' : 'important-warning'"
   (closedChange)="onClosedChange($event)"
-  descriptionType="important-info"
+  data-sky-id="alert-demo"
 >
-  Info alert message
+  Your password expires in {{ days }} day(s)!
 </sky-alert>
