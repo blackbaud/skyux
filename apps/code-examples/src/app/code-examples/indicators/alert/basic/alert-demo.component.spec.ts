@@ -9,7 +9,7 @@ describe('Basic alert', () => {
   async function setupTest(options?: { days?: number }) {
     const fixture = TestBed.createComponent(AlertDemoComponent);
 
-    if (options?.days) {
+    if (options?.days !== undefined) {
       fixture.componentInstance.days = options.days;
     }
 
