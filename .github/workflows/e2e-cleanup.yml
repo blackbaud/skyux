@@ -1,0 +1,17 @@
+name: E2E Cleanup
+on:
+  schedule:
+    - cron: '0 0 * * 1-5'
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cleanup
+        # Delete artifacts older than 90 days
+        run: |
+          set -x
+          az storage blob delete-batch \
+            --source='$web' \
+            --if-unmodified-since="$(date -d '-90 days' '+%Y-%m-%dT07:00Z')"
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING_PR_PREVIEW }}

@@ -34,6 +34,30 @@ Apps:
 "
 `;
 
+exports[`pr-comment generator should generate files with baseUrl: dist/README.md 1`] = `
+"# Sky UX Pull Request Preview
+
+Preview build for [PR #123](https://github.com/blackbaud/skyux/pull/123)
+
+[Storybook preview](https://example.com/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://example.com/storybooks/storybook-1/)
+- [storybook-2](https://example.com/storybooks/storybook-2/)
+"
+`;
+
+exports[`pr-comment generator should generate files with baseUrl: dist/pr_comment.md 1`] = `
+"[Storybook preview](https://example.com/storybook/)
+
+Component Storybooks:
+
+- [storybook-1](https://example.com/storybooks/storybook-1/)
+- [storybook-2](https://example.com/storybooks/storybook-2/)
+"
+`;
+
 exports[`pr-comment generator should generate files with no storybooks: dist/README.md 1`] = `
 "# Sky UX Pull Request Preview
 

@@ -18,10 +18,13 @@ function normalizeOptions(
   if (!pr || isNaN(parseInt(`${pr}`, 10))) {
     throw new Error('Invalid PR number');
   }
+  const baseUrl =
+    options.baseUrl || `https://blackbaud.github.io/skyux-pr-preview/${pr}`;
   return {
     pr,
     storybooks,
     apps,
+    baseUrl,
   };
 }
 

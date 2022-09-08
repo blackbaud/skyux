@@ -25,6 +25,11 @@
       "type": "string",
       "description": "Comma separated list of apps to include in the comment",
       "alias": "a"
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "Base URL for this PR preview",
+      "alias": "u"
     }
   },
   "required": ["pr", "storybooks"]

@@ -2,12 +2,12 @@
 
 Preview build for [PR #<%=pr%>](https://github.com/blackbaud/skyux/pull/<%=pr%>)
 
-[Storybook preview](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybook/)
+[Storybook preview](<%=baseUrl%>/storybook/)
 
 Component Storybooks:
 <% if (storybooks.length > 0) {
 storybooks.forEach(function(storybook){ %>
-- [<%=storybook%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/storybooks/<%=storybook%>/)<% })
+- [<%=storybook%>](<%=baseUrl%>/storybooks/<%=storybook%>/)<% })
 } else { %>
 - _(no component storybooks affected in this pr)_ <%
 }
@@ -15,5 +15,5 @@ if (apps.length > 0) { %>
 
 Apps:
 <% apps.forEach(function(app){ %>
-- [<%=app%>](https://blackbaud.github.io/skyux-pr-preview/<%=pr%>/<%=app%>/)<% })
+- [<%=app%>](<%=baseUrl%>/<%=app%>/)<% })
 } %>
