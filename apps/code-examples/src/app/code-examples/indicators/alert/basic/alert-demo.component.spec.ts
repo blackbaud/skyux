@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { SkyAlertHarness } from '@skyux/indicators/testing';
 
 import { AlertDemoComponent } from './alert-demo.component';
