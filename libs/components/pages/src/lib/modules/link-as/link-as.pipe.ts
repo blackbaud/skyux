@@ -9,9 +9,15 @@ import { SkyPageLink } from '../action-hub/types/page-link';
 export class LinkAsPipe implements PipeTransform {
   public transform(
     value: SkyActionHubNeedsAttention | SkyPageLink | undefined,
-    linkAs: 'href' | 'skyHref' | 'skyAppLink'
+    linkAs: 'button' | 'href' | 'skyHref' | 'skyAppLink'
   ): boolean {
     switch (linkAs) {
+      case 'button':
+        return (
+          this.isSkyActionHubNeedsAttention(value) &&
+          value.click !== undefined &&
+          value.permalink === undefined
+        );
       case 'href':
         return (
           value?.permalink !== undefined &&
@@ -33,5 +39,11 @@ export class LinkAsPipe implements PipeTransform {
       default:
         return false;
     }
+  }
+
+  private isSkyActionHubNeedsAttention(
+    item: any
+  ): item is SkyActionHubNeedsAttention {
+    return item?.title !== undefined;
   }
 }
