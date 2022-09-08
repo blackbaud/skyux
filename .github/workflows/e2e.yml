@@ -191,6 +191,8 @@ jobs:
       - name: Publish to Azure Storage
         if: ${{ github.event_name == 'pull_request' }}
         run: |
+          set -x
+
           npx nx g @skyux-sdk/e2e-schematics:pr-comment \
             --pr=${{ github.event.number }} \
             --storybooks=$(echo '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' | jq -r 'join(",")') \
@@ -206,8 +208,8 @@ jobs:
           # project storybooks
           az storage blob upload-batch \
             --destination='$web' \
-            --source=./${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }} \
-            --destination-path="pr-${{ github.event.number }}-${GITHUB_SHA::7}/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/"
+            --source=./dist/storybooks \
+            --destination-path="pr-${{ github.event.number }}-${GITHUB_SHA::7}/storybooks/"
 
           # storybook composition
           az storage blob upload-batch \
