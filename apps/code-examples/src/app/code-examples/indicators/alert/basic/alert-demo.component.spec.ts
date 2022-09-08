@@ -7,17 +7,14 @@ import { AlertDemoModule } from './alert-demo.module';
 
 describe('Basic alert', () => {
   async function setupTest(days: number) {
-    let alertHarness: SkyAlertHarness;
-    let fixture: ComponentFixture<AlertDemoComponent>;
-
-    fixture = TestBed.createComponent(AlertDemoComponent);
+    const fixture = TestBed.createComponent(AlertDemoComponent);
 
     fixture.componentInstance.days = days;
     fixture.detectChanges();
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    alertHarness = await loader.getHarness(
+    const alertHarness = await loader.getHarness(
       SkyAlertHarness.with({ dataSkyId: 'alert-demo' })
     );
 
