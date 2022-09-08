@@ -28,6 +28,13 @@ export default async function (tree: Tree, schema: Schema) {
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {
       const projectConfiguration = allProjects.get(project);
+
+      if (!projectConfiguration?.targets) {
+        throw new Error(
+          'Unable to load project targets for a project named "storybook"'
+        );
+      }
+
       return (
         projectConfiguration &&
         'build-storybook' in projectConfiguration.targets

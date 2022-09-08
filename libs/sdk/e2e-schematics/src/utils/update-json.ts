@@ -2,7 +2,12 @@ import { Tree, parseJson, serializeJson } from '@nrwl/devkit';
 
 export function readJsonFile(tree: Tree, path: string) {
   const asString = tree.read(path, 'utf-8');
-  return parseJson(asString);
+
+  if (asString) {
+    return parseJson(asString);
+  } else {
+    return {};
+  }
 }
 
 function writeJsonFile(tree: Tree, path: string, data: unknown) {

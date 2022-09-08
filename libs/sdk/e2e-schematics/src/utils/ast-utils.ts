@@ -4,8 +4,8 @@ import * as ts from '@schematics/angular/third_party/github.com/Microsoft/TypeSc
 
 export type DecoratedClass = {
   classDeclaration: ts.ClassDeclaration;
-  propertiesObjectLiteral: ts.ObjectLiteralExpression;
   properties: { [key: string]: ts.Expression };
+  propertiesObjectLiteral?: ts.ObjectLiteralExpression;
 };
 
 /**
@@ -50,9 +50,14 @@ export function findImport(
 // From https://github.com/nrwl/nx/blob/master/packages/angular/src/generators/utils/insert-ngmodule-import.ts
 export function getNamedImport(
   coreImport: ts.ImportDeclaration,
-  importName: string
+  importName = ''
 ): ts.ImportSpecifier | undefined {
-  if (!ts.isNamedImports(coreImport.importClause.namedBindings)) {
+  if (
+    !(
+      !!coreImport.importClause?.namedBindings &&
+      ts.isNamedImports(coreImport.importClause.namedBindings)
+    )
+  ) {
     throw new Error(
       `The import from ${
         (coreImport.moduleSpecifier as ts.StringLiteral).text
@@ -86,20 +91,20 @@ function findDecoratedClass(
       )
   );
   if (classDeclaration) {
-    const decorator = classDeclaration.decorators.find(
+    const decorator = classDeclaration.decorators?.find(
       (decorator) =>
         ts.isCallExpression(decorator.expression) &&
         ts.isIdentifier(decorator.expression.expression) &&
         decorator.expression.expression.escapedText === ngModuleName
     );
     const properties: { [key: string]: ts.Expression } = {};
-    const callExpression = decorator.expression as ts.CallExpression;
-    let propertiesObjectLiteral: ts.ObjectLiteralExpression;
+    const callExpression = decorator?.expression as ts.CallExpression;
+    let propertiesObjectLiteral: ts.ObjectLiteralExpression | undefined;
 
     if (callExpression.arguments.length > 0) {
       if (!ts.isObjectLiteralExpression(callExpression.arguments[0])) {
         throw new Error(
-          `The ${ngModuleName} options for ${classDeclaration.name.escapedText} are not an object literal`
+          `The ${ngModuleName} options for ${classDeclaration.name?.escapedText} are not an object literal`
         );
       }
 
@@ -151,11 +156,14 @@ export function findComponentClass(
  * Transform a parsed typescript source file into a string.
  */
 export function getSourceAsString(sourceFile: ts.Node): string {
-  return ts
-    .createPrinter({
-      newLine: ts.NewLineKind.LineFeed,
-    })
-    .printNode(ts.EmitHint.Unspecified, sourceFile, undefined);
+  return (
+    ts
+      .createPrinter({
+        newLine: ts.NewLineKind.LineFeed,
+      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .printNode(ts.EmitHint.Unspecified, sourceFile, undefined as any)
+  );
 }
 
 /**
@@ -178,7 +186,7 @@ export function getStringLiteral(
     ].includes(identifierNode.parent.kind)
   ) {
     const value = identifierNode.parent.getLastToken();
-    if (ts.isStringLiteral(value)) {
+    if (value && ts.isStringLiteral(value)) {
       return (value as ts.StringLiteral).text;
     }
   }
@@ -194,8 +202,13 @@ export function getInsertExportTransformer(
 ): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
-      const visitor = (rootNode: ts.Node) => {
-        const node = ts.visitEachChild(rootNode, visitor, context);
+      const visitor: (
+        node: ts.Node
+      ) => ts.Node | ts.NodeArray<ts.ExportDeclaration> = (
+        rootNode: ts.Node
+      ) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const node = ts.visitEachChild(rootNode, visitor as any, context);
         if (ts.isExportDeclaration(node)) {
           const exportPath = (
             (node as ts.ExportDeclaration).moduleSpecifier as ts.StringLiteral
@@ -215,7 +228,8 @@ export function getInsertExportTransformer(
         }
         return node;
       };
-      return ts.visitNode(sourceFile, visitor);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return ts.visitNode(sourceFile, visitor as any);
     };
   };
 }
@@ -264,7 +278,9 @@ export function getInsertIdentifierToArrayTransformer(
 ): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceNode: ts.SourceFile) => {
-      const visitor = (rootNode: ts.Node) => {
+      const visitor: (node: ts.Node) => ts.Node | ts.PropertyAssignment = (
+        rootNode: ts.Node
+      ) => {
         const node = ts.visitEachChild(rootNode, visitor, context);
         if (
           ts.isPropertyAssignment(node) &&
@@ -334,7 +350,9 @@ function getTransformerToAddSymbolToDecoratedClassMetadata(
           return sourceFile;
         }
         const newExpression = context.factory.createIdentifier(expression);
-        const appendValueVisitor = (rootNode: ts.Node) => {
+        const appendValueVisitor: (
+          node: ts.Node
+        ) => ts.Node | ts.ArrayLiteralExpression = (rootNode: ts.Node) => {
           if (
             ts.isArrayLiteralExpression(rootNode) &&
             rootNode === decoratedClass.properties[metadataField]
@@ -354,7 +372,9 @@ function getTransformerToAddSymbolToDecoratedClassMetadata(
             context.factory.createIdentifier(expression),
           ])
         );
-        const newPropertyVisitor = (rootNode: ts.Node) => {
+        const newPropertyVisitor: (
+          node: ts.Node
+        ) => ts.Node | ts.ObjectLiteralExpression = (rootNode: ts.Node) => {
           if (
             ts.isObjectLiteralExpression(rootNode) &&
             rootNode === decoratedClass.propertiesObjectLiteral
@@ -396,7 +416,9 @@ export function getInsertStringPropertyTransformer(
 ): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
-      const visitor = (rootNode: ts.Node) => {
+      const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (
+        rootNode: ts.Node
+      ) => {
         const node = ts.visitEachChild(rootNode, visitor, context);
         if (ts.isObjectLiteralExpression(node)) {
           const beforeChild = (
@@ -440,7 +462,9 @@ export function getStringLiteralsSetterTransformer(strings: {
 }): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
-      const visitor = (rootNode: ts.Node) => {
+      const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (
+        rootNode: ts.Node
+      ) => {
         const node = ts.visitEachChild(rootNode, visitor, context);
         if (
           node.parent &&
@@ -470,7 +494,9 @@ export function getRenameVariablesTransformer(renameMap: {
 }): ts.TransformerFactory<ts.SourceFile> {
   return (context) => {
     return (sourceFile: ts.SourceFile) => {
-      const visitor = (rootNode: ts.Node) => {
+      const visitor: (node: ts.Node) => ts.Node | ts.Identifier = (
+        rootNode: ts.Node
+      ) => {
         const node = ts.visitEachChild(rootNode, visitor, context);
         if (ts.isIdentifier(node) && (node as ts.Identifier).text) {
           const identifierName = (node as ts.Identifier).getText(sourceFile);
@@ -491,7 +517,7 @@ export function getRenameVariablesTransformer(renameMap: {
 export function readSourceFile(tree: Tree, path: string): ts.SourceFile {
   return ts.createSourceFile(
     path,
-    tree.read(path, 'utf-8'),
+    tree.read(path, 'utf-8') ?? '',
     ts.ScriptTarget.Latest,
     true
   );

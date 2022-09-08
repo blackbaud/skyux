@@ -72,7 +72,9 @@ describe('some-or-all-projects', () => {
     await applicationGenerator(tree, { name: 'test-app' });
     await libraryGenerator(tree, { name: 'test-lib' });
     const projects = getProjects(tree);
-    expect(getProjectTypeBase(projects.get('test-app'))).toEqual('app');
-    expect(getProjectTypeBase(projects.get('test-lib'))).toEqual('lib');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(getProjectTypeBase(projects.get('test-app')!)).toEqual('app');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(getProjectTypeBase(projects.get('test-lib')!)).toEqual('lib');
   });
 });

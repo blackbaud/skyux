@@ -36,7 +36,7 @@ export default async function (tree: Tree, schema: Schema) {
         if (!tree.isFile(filePath)) {
           tree.write(filePath, importPercyCypress);
         } else {
-          const content = tree.read(filePath).toString();
+          const content = tree.read(filePath)?.toString() ?? '';
           if (!content.includes(importPercyCypress)) {
             insertStatement(tree, filePath, importPercyCypress);
           }

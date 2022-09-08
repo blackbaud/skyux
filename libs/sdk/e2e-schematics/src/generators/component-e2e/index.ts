@@ -83,8 +83,9 @@ export default async function (tree: Tree, schema: Partial<Schema>) {
     );
 
     // Delete boilerplate files from the storybook project.
-    let indexFile = tree.read(`${projectConfig.sourceRoot}/index.html`, 'utf8');
-    indexFile = indexFile.replace(
+    let indexFile =
+      tree.read(`${projectConfig.sourceRoot}/index.html`, 'utf8') ?? '';
+    indexFile = indexFile?.replace(
       '<link rel="icon" type="image/x-icon" href="favicon.ico" />',
       ''
     );

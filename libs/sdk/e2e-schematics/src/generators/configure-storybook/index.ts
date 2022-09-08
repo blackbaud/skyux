@@ -21,6 +21,11 @@ import { Schema } from './schema';
 export default async function (tree: Tree, schema: Schema) {
   const projects = getStorybookProjects(tree, schema.name);
   const workspacePath = getWorkspacePath(tree);
+
+  if (!workspacePath) {
+    throw new Error(`Unable to determine workspace file path`);
+  }
+
   projects.forEach((project, projectName) => {
     updateJson(tree, workspacePath, (angularJson) => {
       const targets = Object.keys(angularJson.projects[projectName].architect);

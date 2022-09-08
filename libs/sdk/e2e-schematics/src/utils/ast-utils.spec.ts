@@ -171,21 +171,18 @@ describe('ast-utils', () => {
       ts.ScriptTarget.Latest
     ).statements[0] as ts.ImportDeclaration;
     expect(
-      getNamedImport(aliasImportStatement, 'XComponent').name.text
+      getNamedImport(aliasImportStatement, 'XComponent')?.name.text
     ).toEqual('XCom');
     const noNameImportStatement = ts.createSourceFile(
       `script.ts`,
       `import * from './lib/x-component';`,
       ts.ScriptTarget.Latest
     ).statements[0] as ts.ImportDeclaration;
-    try {
-      getNamedImport(noNameImportStatement, 'XComponent');
-      fail();
-    } catch (e) {
-      expect(e.message).toEqual(
-        `The import from ./lib/x-component does not have named imports.`
-      );
-    }
+    expect(() =>
+      getNamedImport(noNameImportStatement, 'XComponent')
+    ).toThrowError(
+      `The import from ./lib/x-component does not have named imports.`
+    );
   });
 
   it('should findNgModuleClass, no @angular/core', () => {
@@ -199,12 +196,9 @@ describe('ast-utils', () => {
     `,
       ts.ScriptTarget.Latest
     );
-    try {
-      findNgModuleClass(source);
-      fail();
-    } catch (e) {
-      expect(e.message).toEqual(`Could not find @angular/core import.`);
-    }
+    expect(() => findNgModuleClass(source)).toThrowError(
+      `Could not find @angular/core import.`
+    );
   });
 
   it('should findNgModuleClass, no NgModule import', () => {
@@ -219,12 +213,9 @@ describe('ast-utils', () => {
     `,
       ts.ScriptTarget.Latest
     );
-    try {
-      findNgModuleClass(source);
-      fail();
-    } catch (e) {
-      expect(e.message).toEqual(`Could not find NgModule import.`);
-    }
+    expect(() => findNgModuleClass(source)).toThrowError(
+      `Could not find NgModule import.`
+    );
   });
 
   it('should findNgModuleClass, no properties', () => {
@@ -239,8 +230,10 @@ describe('ast-utils', () => {
     );
     const ngModuleClass = findNgModuleClass(source);
     expect(ngModuleClass).toBeTruthy();
-    expect(Object.keys(ngModuleClass.properties).length).toEqual(0);
-    expect(ngModuleClass.classDeclaration.name.text).toEqual('XModule');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(Object.keys(ngModuleClass!.properties).length).toEqual(0);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(ngModuleClass!.classDeclaration.name?.text).toEqual('XModule');
   });
 
   it('should findNgModuleClass', () => {
@@ -257,8 +250,10 @@ describe('ast-utils', () => {
     );
     const ngModuleClass = findNgModuleClass(source);
     expect(ngModuleClass).toBeTruthy();
-    expect(ngModuleClass.properties).toHaveProperty('declarations');
-    expect(ngModuleClass.classDeclaration.name.text).toEqual('XModule');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(ngModuleClass!.properties).toHaveProperty('declarations');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(ngModuleClass!.classDeclaration.name?.text).toEqual('XModule');
   });
 
   it('should findComponentClass', async () => {
@@ -269,9 +264,14 @@ describe('ast-utils', () => {
       readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
     );
     expect(componentClass).toBeTruthy();
-    expect(componentClass.classDeclaration.name.text).toEqual('TestComponent');
-    expect(componentClass.properties).toHaveProperty('templateUrl');
-    expect(componentClass.properties).toHaveProperty('styleUrls');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(componentClass!.classDeclaration.name?.text).toEqual(
+      'TestComponent'
+    );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(componentClass!.properties).toHaveProperty('templateUrl');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(componentClass!.properties).toHaveProperty('styleUrls');
   });
 
   it('should findComponentClass, not component', async () => {
@@ -305,16 +305,13 @@ describe('ast-utils', () => {
       export class TestComponent {}
     `
     );
-    try {
+    expect(() =>
       findComponentClass(
         readSourceFile(tree, 'apps/test/src/app/test/test.component.ts')
-      );
-      fail();
-    } catch (e) {
-      expect(e.message).toEqual(
-        `The Component options for TestComponent are not an object literal`
-      );
-    }
+      )
+    ).toThrowError(
+      `The Component options for TestComponent are not an object literal`
+    );
   });
 
   it('should findComponentClass, no decorated class', async () => {

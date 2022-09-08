@@ -10,7 +10,8 @@ describe('update-json', () => {
       value.test = 'updated';
       return value;
     });
-    const data = JSON.parse(tree.read('file.json').toString());
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const data = JSON.parse(tree.read('file.json')!.toString());
     expect(data.test).toEqual('updated');
   });
 });
