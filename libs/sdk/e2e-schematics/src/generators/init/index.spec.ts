@@ -43,9 +43,17 @@ describe('init generator', () => {
   });
 
   it('should error without a "storybook" project', async () => {
-    expect(
-      async () => await generator(appTree, { ansiColor: false })
-    ).toThrowError('Storybook project not found');
+    try {
+      await generator(appTree, { ansiColor: false });
+      fail('should have thrown');
+    } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown an error');
+      }
+      expect(e.message).toBe(
+        'Storybook project or storybook project information not found'
+      );
+    }
   });
 
   it('should skip on subsequent runs', async () => {

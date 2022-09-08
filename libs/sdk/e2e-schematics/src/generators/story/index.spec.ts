@@ -171,9 +171,17 @@ describe('component generator', () => {
 
   it('should throw errors', async () => {
     appTree.write('apps/test-storybook/src/app/example/example.ts', 'test');
-    expect(async () => await storyGenerator(appTree, options)).toThrowError(
-      `example already exists for test-storybook`
-    );
+
+    try {
+      await storyGenerator(appTree, options);
+      fail('should have thrown');
+    } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown an error');
+      }
+      expect(e.message).toBe(`example already exists for test-storybook`);
+    }
+
     appTree.delete('apps/test-storybook/src/app/example/example.ts');
     try {
       await storyGenerator(appTree, {
