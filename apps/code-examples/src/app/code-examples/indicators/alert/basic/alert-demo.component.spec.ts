@@ -24,33 +24,29 @@ describe('Basic alert', () => {
     return { alertHarness, fixture };
   }
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AlertDemoModule],
     });
   });
 
-  it('should show the proper alert when the number of days is 8 or more', async () => {
+  it('should show the expected alert when the number of days is 8 or more', async () => {
     const { alertHarness } = await setupTest(8);
 
-    const alertType = await alertHarness.getAlertType();
-    expect(alertType).toBe('warning');
-
-    const alertText = await alertHarness.getText();
-    expect(alertText).toBe('Your password expires in 8 day(s)!');
-
+    await expectAsync(alertHarness.getAlertType()).toBeResolvedTo('warning');
+    await expectAsync(alertHarness.getText()).toBeResolvedTo(
+      'Your password expires in 8 day(s)!'
+    );
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(true);
   });
 
-  it('should show the proper alert when the number of days is 7 or fewer', async () => {
+  it('should show the expected alert when the number of days is 7 or fewer', async () => {
     const { alertHarness } = await setupTest(7);
 
-    const alertType = await alertHarness.getAlertType();
-    expect(alertType).toBe('danger');
-
-    const alertText = await alertHarness.getText();
-    expect(alertText).toBe('Your password expires in 7 day(s)!');
-
+    await expectAsync(alertHarness.getAlertType()).toBeResolvedTo('danger');
+    await expectAsync(alertHarness.getText()).toBeResolvedTo(
+      'Your password expires in 7 day(s)!'
+    );
     await expectAsync(alertHarness.isCloseable()).toBeResolvedTo(false);
   });
 });
