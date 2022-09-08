@@ -96,6 +96,7 @@ describe('configure-storybook', () => {
     expect(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       JSON.parse(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString()
       ).include
     ).toBeTruthy();

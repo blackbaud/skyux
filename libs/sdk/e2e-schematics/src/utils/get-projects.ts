@@ -84,24 +84,20 @@ export function getStorybookProject(
   if (!projects.has(options.project)) {
     throw new Error(`Unable to find project ${options.project}`);
   }
-  let projectConfig = projects.get(options.project);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  let projectConfig = projects.get(options.project)!;
 
-  if (!projectConfig?.targets) {
-    throw new Error(`Unable to find project targets for ${options.project}`);
-  }
-
-  if (!('storybook' in projectConfig.targets)) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  if (!('storybook' in projectConfig.targets!)) {
     options.project = `${options.project}-storybook`;
     if (!projects.has(options.project)) {
       throw new Error(`Unable to find project ${options.project}`);
     }
-    projectConfig = projects.get(options.project);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    projectConfig = projects.get(options.project)!;
 
-    if (!projectConfig?.targets) {
-      throw new Error(`Unable to find project targets for ${options.project}`);
-    }
-
-    if (!('storybook' in projectConfig.targets)) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!('storybook' in projectConfig.targets!)) {
       throw new Error(`Storybook is not configured for ${options.project}`);
     }
   }

@@ -49,15 +49,29 @@ function normalizeOptions(
   tree: Tree,
   options: StoriesGeneratorSchema
 ): NormalizedSchema {
+  if (!options.project) {
+    throw new Error('Project name not specified');
+  }
+
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
-  const projectDirectory = projectConfig.sourceRoot ?? '';
-  const projectName = options.project ?? '';
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const projectDirectory = projectConfig.sourceRoot!;
+  const projectName = options.project;
   const projectRoot = projectConfig.root;
+  console.log(projects);
   const e2eProjectConfig = projects.get(
     options.cypressProject || `${projectName}-e2e`
   );
-  const e2eSourceRoot = e2eProjectConfig?.sourceRoot;
+
+  let e2eSourceRoot: string | undefined;
+
+  // istanbul ignore else
+  if (e2eProjectConfig) {
+    e2eSourceRoot = e2eProjectConfig.sourceRoot;
+  } else {
+    e2eSourceRoot = undefined;
+  }
 
   return {
     ...options,
@@ -133,13 +147,10 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           .replace(/(?<=[a-z])(\d)/g, ' $1')
       );
 
-      if (!normalizedOptions.projectConfig.sourceRoot) {
-        throw new Error('Project config source root not found');
-      }
-
       // Look for a directory to group this story in
       const paths = filepath
-        .substring(normalizedOptions.projectConfig.sourceRoot.length + 1)
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        .substring(normalizedOptions.projectConfig.sourceRoot!.length + 1)
         .split('/');
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const filename = paths.pop()!;
@@ -185,7 +196,8 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
         normalizedOptions.projectDirectory,
         componentFilePath
       );
-      if (module && module.module.classDeclaration.name?.text) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      if (module && module.module.classDeclaration.name!.text) {
         let importPath = normalizePath(
           relative(
             filepath.substring(0, filepath.lastIndexOf('/')),
@@ -196,13 +208,15 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           importPath = `./${importPath}`;
         }
         const moduleImportTransformer = getInsertImportTransformer(
-          module.module.classDeclaration.name.text,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          module.module.classDeclaration.name!.text,
           importPath
         );
         const moduleMetadataImportsTransformer =
           getInsertIdentifierToArrayTransformer(
             'imports',
-            module.module.classDeclaration.name.text
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            module.module.classDeclaration.name!.text
           );
         applyTransformersToPath(tree, filepath, [
           moduleImportTransformer,
@@ -240,8 +254,9 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
           tree.delete(filepath);
           return;
         }
-        let spec = tree.read(filepath, 'utf8');
-        const visitIdMatch = spec?.match(matchCypressVisitId);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        let spec = tree.read(filepath, 'utf8')!;
+        const visitIdMatch = spec.match(matchCypressVisitId);
         if (visitIdMatch) {
           const id = visitIdMatch[1];
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -36,7 +36,8 @@ export default async function (tree: Tree, schema: Schema) {
         if (!tree.isFile(filePath)) {
           tree.write(filePath, importPercyCypress);
         } else {
-          const content = tree.read(filePath)?.toString() ?? '';
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const content = tree.read(filePath)!.toString();
           if (!content.includes(importPercyCypress)) {
             insertStatement(tree, filePath, importPercyCypress);
           }

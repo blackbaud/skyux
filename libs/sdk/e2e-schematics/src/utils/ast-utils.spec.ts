@@ -29,6 +29,13 @@ import {
 } from './ast-utils';
 
 describe('ast-utils', () => {
+  it('should handle trying to read from an unknown file', () => {
+    const tree = createTree();
+    const returnedFile = readSourceFile(tree, 'fake/path');
+    expect(returnedFile.fileName).toBe('fake/path');
+    expect(returnedFile.getFullText()).toBe('');
+  });
+
   it('should rename a variable', () => {
     const tree = createTree();
     const fileName = 'script.ts';
@@ -182,6 +189,14 @@ describe('ast-utils', () => {
       getNamedImport(noNameImportStatement, 'XComponent')
     ).toThrowError(
       `The import from ./lib/x-component does not have named imports.`
+    );
+    const nonImportStatement = ts.createSourceFile(
+      `script.ts`,
+      `var foo = 'bar';`,
+      ts.ScriptTarget.Latest
+    ).statements[0] as ts.ImportDeclaration;
+    expect(() => getNamedImport(nonImportStatement, 'XComponent')).toThrowError(
+      `Could not find an import.`
     );
   });
 

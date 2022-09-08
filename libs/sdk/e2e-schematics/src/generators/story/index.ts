@@ -39,17 +39,18 @@ function normalizeOptions(
   tree: Tree,
   options: ComponentGeneratorSchema
 ): NormalizedSchema {
+  if (!options.project) {
+    throw new Error('Project name not specified');
+  }
+
   options.name = normalizePath(options.name);
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
-  const projectDirectory = projectConfig.sourceRoot;
-  const projectName = options.project ?? '';
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const projectDirectory = projectConfig.sourceRoot!;
+  const projectName = options.project;
   const projectRoot = projectConfig.root;
   const projectTypeBase = getProjectTypeBase(projectConfig);
-
-  if (!projectDirectory) {
-    throw new Error('Project directory not found');
-  }
 
   if (
     tree.exists(
@@ -61,6 +62,7 @@ function normalizeOptions(
   options.cypressProject = options.cypressProject || `${projectName}-e2e`;
   const e2eProjectConfig = projects.get(options.cypressProject);
 
+  // istanbul ignore if
   if (!e2eProjectConfig) {
     throw new Error('e2e project configuration not found');
   }
@@ -142,6 +144,7 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
     filepath.endsWith('.component.ts')
   );
 
+  // istanbul ignore if
   if (!componentFilePath) {
     throw new Error('Unable to find component file path');
   }

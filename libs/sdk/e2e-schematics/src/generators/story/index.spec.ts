@@ -60,6 +60,18 @@ describe('component generator', () => {
     ).toMatchSnapshot();
   });
 
+  it('should error if a project name is not given', async () => {
+    options.project = undefined;
+    try {
+      await storyGenerator(appTree, options);
+    } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown error');
+      }
+      expect(e.message).toBe('Project name not specified');
+    }
+  });
+
   it('should run successfully with sub directory', async () => {
     await angularModuleGenerator(appTree, {
       name: 'test-sub',

@@ -29,15 +29,10 @@ export default async function (tree: Tree, schema: Schema) {
     .filter((project) => {
       const projectConfiguration = allProjects.get(project);
 
-      if (!projectConfiguration?.targets) {
-        throw new Error(
-          'Unable to load project targets for a project named "storybook"'
-        );
-      }
-
       return (
         projectConfiguration &&
-        'build-storybook' in projectConfiguration.targets
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        'build-storybook' in projectConfiguration.targets!
       );
     });
 

@@ -62,7 +62,8 @@ export function findDeclaringModule(
           }
           const componentNamedImport = getNamedImport(
             componentFileImport,
-            componentClass.classDeclaration?.name?.text
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            componentClass.classDeclaration!.name!.text
           );
           const module = findNgModuleClass(sourceFile);
           if (module) {
@@ -74,7 +75,8 @@ export function findDeclaringModule(
               for (const declaration of declarations) {
                 if (
                   ts.isIdentifier(declaration) &&
-                  declaration.text === componentNamedImport?.name.text
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                  declaration.text === componentNamedImport!.name.text
                 ) {
                   result = { filepath, module };
                   return true;

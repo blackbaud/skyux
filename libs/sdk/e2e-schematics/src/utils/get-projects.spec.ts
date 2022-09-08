@@ -11,6 +11,7 @@ import { Linter } from '@nrwl/linter';
 import {
   getE2eProjects,
   getProjectTypeBase,
+  getStorybookProject,
   getStorybookProjects,
 } from './get-projects';
 
@@ -76,5 +77,12 @@ describe('some-or-all-projects', () => {
     expect(getProjectTypeBase(projects.get('test-app')!)).toEqual('app');
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     expect(getProjectTypeBase(projects.get('test-lib')!)).toEqual('lib');
+  });
+
+  it('should error when getStorybookProject is called without a project name', () => {
+    const tree = createTreeWithEmptyWorkspace(1);
+    expect(() => getStorybookProject(tree, {})).toThrowError(
+      'Project name not specified'
+    );
   });
 });

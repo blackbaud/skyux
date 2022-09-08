@@ -50,11 +50,15 @@ export function findImport(
 // From https://github.com/nrwl/nx/blob/master/packages/angular/src/generators/utils/insert-ngmodule-import.ts
 export function getNamedImport(
   coreImport: ts.ImportDeclaration,
-  importName = ''
+  importName: string
 ): ts.ImportSpecifier | undefined {
+  if (!coreImport.importClause) {
+    throw new Error(`Could not find an import.`);
+  }
+
   if (
     !(
-      !!coreImport.importClause?.namedBindings &&
+      !!coreImport.importClause.namedBindings &&
       ts.isNamedImports(coreImport.importClause.namedBindings)
     )
   ) {
@@ -91,20 +95,25 @@ function findDecoratedClass(
       )
   );
   if (classDeclaration) {
-    const decorator = classDeclaration.decorators?.find(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const decorator = classDeclaration.decorators!.find(
       (decorator) =>
         ts.isCallExpression(decorator.expression) &&
         ts.isIdentifier(decorator.expression.expression) &&
         decorator.expression.expression.escapedText === ngModuleName
     );
     const properties: { [key: string]: ts.Expression } = {};
-    const callExpression = decorator?.expression as ts.CallExpression;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const callExpression = decorator!.expression as ts.CallExpression;
     let propertiesObjectLiteral: ts.ObjectLiteralExpression | undefined;
 
     if (callExpression.arguments.length > 0) {
       if (!ts.isObjectLiteralExpression(callExpression.arguments[0])) {
         throw new Error(
-          `The ${ngModuleName} options for ${classDeclaration.name?.escapedText} are not an object literal`
+          `The ${ngModuleName} options for ${
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            classDeclaration.name!.escapedText
+          } are not an object literal`
         );
       }
 

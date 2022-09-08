@@ -22,6 +22,7 @@ export default async function (tree: Tree, schema: Schema) {
   const projects = getStorybookProjects(tree, schema.name);
   const workspacePath = getWorkspacePath(tree);
 
+  // istanbul ignore if
   if (!workspacePath) {
     throw new Error(`Unable to determine workspace file path`);
   }

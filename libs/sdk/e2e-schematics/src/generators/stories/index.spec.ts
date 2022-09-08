@@ -41,6 +41,28 @@ describe('stories generator', () => {
     ).toMatchSnapshot();
   });
 
+  it('should error if a project name is not given', async () => {
+    await applicationGenerator(appTree, {
+      name: 'test',
+    });
+    await storybookConfigurationGenerator(appTree, {
+      name: 'test',
+      generateCypressSpecs: false,
+      configureCypress: true,
+      linter: Linter.None,
+      generateStories: false,
+    });
+    options.project = undefined;
+    try {
+      await storiesGenerator(appTree, options);
+    } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown error');
+      }
+      expect(e.message).toBe('Project name not specified');
+    }
+  });
+
   it('should generate folder path', async () => {
     await applicationGenerator(appTree, {
       name: 'test',
