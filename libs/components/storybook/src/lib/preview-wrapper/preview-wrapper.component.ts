@@ -14,7 +14,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { Subscription } from 'rxjs';
+import { PreviewWrapperThemeValue } from './preview-wrapper-theme-value';
 
 @Component({
   selector: 'sky-preview-wrapper',
@@ -23,10 +23,10 @@ import { Subscription } from 'rxjs';
 })
 export class PreviewWrapperComponent implements OnInit, OnDestroy {
   @Input()
-  public set theme(value: 'default' | 'modern-light' | 'modern-dark') {
-    this._theme = value;
-    if (value && value.match(/^modern(-(light|dark))?$/)) {
-      if (value.includes('dark')) {
+  public set theme(value: PreviewWrapperThemeValue | undefined) {
+    const themeOrDefault = value ?? 'default';
+    if (themeOrDefault.match(/^modern(-(light|dark))?$/)) {
+      if (themeOrDefault.includes('dark')) {
         this.themeSettings = new SkyThemeSettings(
           SkyTheme.presets.modern,
           SkyThemeMode.presets.dark
@@ -44,41 +44,43 @@ export class PreviewWrapperComponent implements OnInit, OnDestroy {
       );
     }
   }
-  public get theme() {
-    return this._theme;
-  }
 
   public get themeSettings(): SkyThemeSettings {
-    return this._themeSettings;
+    return this.#_themeSettings;
   }
   public set themeSettings(value: SkyThemeSettings) {
-    this._themeSettings = value;
-    if (this.initialized) {
-      this.themeService.setTheme(this._themeSettings);
+    this.#_themeSettings = value;
+    if (this.#initialized) {
+      this.#themeService.setTheme(this.#_themeSettings);
     }
   }
 
-  private _themeSettings = new SkyThemeSettings(
+  #_themeSettings = new SkyThemeSettings(
     SkyTheme.presets.default,
     SkyThemeMode.presets.light
   );
-  private _theme?: 'default' | 'modern-light' | 'modern-dark';
-  private readonly _ngUnsubscribe = new Subscription();
-  private initialized = false;
+  #initialized = false;
+
+  #body: HTMLElement;
+  #themeService: SkyThemeService;
+  #renderer: Renderer2;
 
   constructor(
-    private themeService: SkyThemeService,
-    @Inject('BODY') private body: HTMLElement,
-    private renderer: Renderer2
-  ) {}
+    themeService: SkyThemeService,
+    @Inject('BODY') body: HTMLElement,
+    renderer: Renderer2
+  ) {
+    this.#themeService = themeService;
+    this.#body = body;
+    this.#renderer = renderer;
+  }
 
   public ngOnInit(): void {
-    this.themeService.init(this.body, this.renderer, this.themeSettings);
-    this.initialized = true;
+    this.#themeService.init(this.#body, this.#renderer, this.themeSettings);
+    this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
-    this._ngUnsubscribe.unsubscribe();
-    this.themeService.destroy();
+    this.#themeService.destroy();
   }
 }

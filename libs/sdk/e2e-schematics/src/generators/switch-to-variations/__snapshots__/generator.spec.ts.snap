@@ -1,23 +1,26 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-describe(`ag-grid-storybook data manager`, () => {
+exports[`switch-to-variations generator should update test 1`] = `
+"import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe(\`ag-grid-storybook data manager\`, () => {
   E2eVariations.forEachTheme((theme) => {
-    describe(`in ${theme} theme`, () => {
+    describe(\`in \${theme} theme\`, () => {
       [
         ['normal', 'normal'],
         ['normal-with-top-scroll', 'normal with top scroll'],
         ['auto-height', 'auto height'],
         ['auto-height-with-top-scroll', 'auto height with top scroll'],
       ].forEach(([domLayout, label]) => {
-        describe(`${label} layout`, () => {
+        describe(\`\${label} layout\`, () => {
           beforeEach(() => {
             cy.viewport(1300, 900).visit(
-              `/iframe.html?globals=theme:${theme}&id=datamanagercomponent-datamanager--data-manager-${domLayout}`
+              \`/iframe.html?globals=theme:\${theme}&id=datamanagercomponent-datamanager--data-manager-\${domLayout}\`
             );
             cy.waitForFaAndBbFonts();
           });
 
-          it(`should render ag-grid with data manager, ${label} layout`, () => {
+          it(\`should render ag-grid with data manager, \${label} layout\`, () => {
             cy.get('#ready')
               .should('exist')
               .end()
@@ -25,19 +28,19 @@ describe(`ag-grid-storybook data manager`, () => {
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`
+                \`datamanagercomponent-datamanager--data-manager-\${domLayout}-\${theme}\`
               )
               .percySnapshot(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
+                \`datamanagercomponent-datamanager--data-manager-\${domLayout}-\${theme}\`,
                 {
                   widths: [1280],
                   scope: '#root',
-                  percyCSS: `
-                    /* Avoid "virtual rows" in the screenshot. */
+                  percyCSS: \`
+                    /* Avoid \\"virtual rows\\" in the screenshot. */
                     :root {
                       --viewport-height: 600px;
                     }
-                  `,
+                  \`,
                 }
               );
           });
@@ -46,3 +49,5 @@ describe(`ag-grid-storybook data manager`, () => {
     });
   });
 });
+"
+`;
