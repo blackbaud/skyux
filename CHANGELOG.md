@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.0.0-alpha.0](https://github.com/blackbaud/skyux/compare/6.17.1...7.0.0-alpha.0) (2022-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support for Angular 14 (#486)
+
+### Features
+
+* add support for Angular 14 ([#486](https://github.com/blackbaud/skyux/issues/486)) ([77850c0](https://github.com/blackbaud/skyux/commit/77850c05016cd507df8ec533eb454ceedcb268ac))
+
 ## [6.17.1](https://github.com/blackbaud/skyux/compare/6.17.0...6.17.1) (2022-09-06)
 
 
