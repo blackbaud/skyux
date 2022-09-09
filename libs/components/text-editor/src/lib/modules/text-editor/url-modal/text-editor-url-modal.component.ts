@@ -89,8 +89,8 @@ export class SkyTextEditorUrlModalComponent {
     }
   }
 
-  public activeTabChanged(value: number): void {
-    this.activeTab = value;
+  public activeTabChanged(value: string | number): void {
+    this.activeTab = Number(value);
   }
 
   public save(): void {
