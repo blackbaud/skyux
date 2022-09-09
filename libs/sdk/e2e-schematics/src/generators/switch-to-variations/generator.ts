@@ -35,9 +35,7 @@ export default async function (
           /^ {2}describe\(`([-\w ]+) in \$\{theme} theme`, \(\) => \{$/;
         const specLines = source.split(/\r?\n/);
         specLines.shift(); // Remove first line
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const describeLine = specLines.shift()!;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const describeLine = `${specLines.shift()}`;
         if (describeLine.match(describePattern)) {
           // Strip empty lines from the bottom of the file
           while (specLines[specLines.length - 1].trim() === '') {

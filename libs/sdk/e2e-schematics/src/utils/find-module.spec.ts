@@ -127,7 +127,7 @@ describe('find-module', () => {
       const source = readSourceFile(tree, path);
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const module = findNgModuleClass(source)!;
-      return isRoutingModule(module, source);
+      return !!module && isRoutingModule(module, source);
     });
     expect(modules).toEqual([
       'apps/test/src/app/test/test-routing.module.ts',
