@@ -7,19 +7,19 @@ import { SkyKeyInfoLabelHarness } from './key-info-label-harness';
 import { SkyKeyInfoValueHarness } from './key-info-value-harness';
 
 /**
- * Harness for interacting with an alert component in tests.
+ * Harness for interacting with a key info component in tests.
  * @internal
  */
 export class SkyKeyInfoHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-key-info';
 
-  #getWrapper = this.locatorFor('.sky-key-info');
-  #getValue = this.locatorFor(SkyKeyInfoValueHarness);
   #getLabel = this.locatorFor(SkyKeyInfoLabelHarness);
+  #getValue = this.locatorFor(SkyKeyInfoValueHarness);
+  #getWrapper = this.locatorFor('.sky-key-info');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
-   * `SkyAlertHarness` that meets certain criteria.
+   * `SkyKeyInfoHarness` that meets certain criteria.
    */
   public static with(
     filters: SkyKeyInfoHarnessFilters
@@ -41,6 +41,9 @@ export class SkyKeyInfoHarness extends SkyComponentHarness {
     return await (await this.#getLabel()).getText();
   }
 
+  /**
+   * Gets the current layout type.
+   */
   public async getLayout(): Promise<SkyKeyInfoLayoutType> {
     return (await (
       await this.#getWrapper()
