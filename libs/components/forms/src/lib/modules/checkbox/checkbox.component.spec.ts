@@ -33,11 +33,11 @@ import { SkyCheckboxModule } from './checkbox.module';
 @Component({
   template: ` <div>
     <sky-checkbox
-      id="simple-check"
       [checkboxType]="checkboxType"
       [checked]="isChecked"
       [disabled]="isDisabled"
       [icon]="icon"
+      [id]="id"
       (change)="checkboxChange($event)"
     >
       <sky-checkbox-label>
@@ -48,17 +48,18 @@ import { SkyCheckboxModule } from './checkbox.module';
   </div>`,
 })
 class SingleCheckboxComponent implements AfterViewInit {
-  public checkboxType: string;
+  public checkboxType: string | undefined;
   public icon = 'bold';
+  public id = 'simple-check';
   public isChecked = false;
   public isDisabled = false;
   public showInlineHelp = false;
 
   @ViewChild(SkyCheckboxComponent)
-  public checkboxComponent: SkyCheckboxComponent;
+  public checkboxComponent: SkyCheckboxComponent | undefined;
 
   public ngAfterViewInit() {
-    this.checkboxComponent.disabledChange.subscribe((value) => {
+    this.checkboxComponent?.disabledChange.subscribe((value) => {
       this.onDisabledChange(value);
     });
   }
@@ -229,7 +230,7 @@ class CheckboxWithNameAttributeComponent {}
   template: `<sky-checkbox (change)="lastEvent = $event"></sky-checkbox>`,
 })
 class CheckboxWithChangeEventComponent {
-  public lastEvent: SkyCheckboxChange;
+  public lastEvent: SkyCheckboxChange | undefined;
 }
 
 /** Simple test component with OnPush change detection */
@@ -295,10 +296,10 @@ describe('Checkbox component', () => {
         checkboxNativeElement = checkboxDebugElement.nativeElement;
         checkboxInstance = checkboxDebugElement.componentInstance;
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         labelElement = checkboxNativeElement.querySelector(
           'label.sky-checkbox-wrapper'
-        );
+        )!;
       });
     }));
 
@@ -380,15 +381,24 @@ describe('Checkbox component', () => {
       expect(checkboxInstance.checked).toBe(false);
     });
 
-    it('should preserve the user-provided id', () => {
-      expect(checkboxNativeElement.id).toBe('simple-check');
+    it('should handle a user-provided id', () => {
+      fixture.detectChanges();
+      expect(inputElement.id).toBe('input-sky-checkbox-simple-check');
+    });
+
+    it('should handle undefined being passed in as the id', () => {
+      testComponent.id = undefined;
+      fixture.detectChanges();
+      expect(inputElement.id).toEqual(
+        jasmine.stringMatching(/input-sky-checkbox-[0-9]/)
+      );
     });
 
     it('should project the checkbox content into the label element', () => {
       const label = checkboxNativeElement.querySelector(
         '.sky-checkbox-wrapper sky-checkbox-label'
       );
-      expect(label.textContent.trim()).toBe('Simple checkbox');
+      expect(label?.textContent?.trim()).toBe('Simple checkbox');
     });
 
     it('should make the host element a tab stop', () => {
@@ -398,9 +408,9 @@ describe('Checkbox component', () => {
     it('should show inline help', () => {
       testComponent.showInlineHelp = true;
       fixture.detectChanges();
-      const label: HTMLElement =
+      const label: HTMLElement | null =
         checkboxNativeElement.querySelector('sky-checkbox-label');
-      expect(label.innerText).toBe('Simple checkboxHelp inline'); // expect no additional space between label and help
+      expect(label?.innerText).toBe('Simple checkboxHelp inline'); // expect no additional space between label and help
     });
 
     it('should pass accessibility', async(() => {
@@ -430,7 +440,7 @@ describe('Checkbox component', () => {
         checkboxNativeElement = checkboxDebugElement.nativeElement;
         checkboxInstance = checkboxDebugElement.componentInstance;
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
       });
     }));
 
@@ -459,7 +469,7 @@ describe('Checkbox component', () => {
         // We're checking the arguments type / emitted value to be a boolean, because sometimes the
         // emitted value can be a DOM Event, which is not valid.
         // See angular/angular#4059
-        expect(testComponent.lastEvent.checked).toBe(true);
+        expect(testComponent.lastEvent?.checked).toBe(true);
       });
     }));
   });
@@ -476,7 +486,7 @@ describe('Checkbox component', () => {
         By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      inputElement = checkboxNativeElement.querySelector('input');
+      inputElement = checkboxNativeElement.querySelector('input')!;
 
       fixture.detectChanges();
 
@@ -498,7 +508,7 @@ describe('Checkbox component', () => {
         By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      inputElement = checkboxNativeElement.querySelector('input');
+      inputElement = checkboxNativeElement.querySelector('input')!;
 
       fixture.detectChanges();
 
@@ -514,7 +524,7 @@ describe('Checkbox component', () => {
         By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      inputElement = checkboxNativeElement.querySelector('input');
+      inputElement = checkboxNativeElement.querySelector('input')!;
 
       fixture.detectChanges();
 
@@ -541,7 +551,7 @@ describe('Checkbox component', () => {
           By.directive(SkyCheckboxComponent)
         );
         checkboxNativeElement = checkboxDebugElement.nativeElement;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
       });
     }));
 
@@ -603,7 +613,7 @@ describe('Checkbox component', () => {
         );
         checkboxNativeElement = checkboxElement.nativeElement;
 
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         ngModel = checkboxElement.injector.get(NgModel);
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -657,7 +667,7 @@ describe('Checkbox component', () => {
         checkboxNativeElement = checkboxElement.nativeElement;
 
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         ngModel = checkboxElement.injector.get(NgModel);
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -740,7 +750,7 @@ describe('Checkbox component', () => {
         );
         testComponent = fixture.componentInstance;
         checkboxNativeElement = checkboxElement.nativeElement;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         ngModel = checkboxElement.injector.get(NgModel);
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -810,7 +820,7 @@ describe('Checkbox component', () => {
           By.directive(SkyCheckboxComponent)
         );
         checkboxNativeElement = checkboxElement.nativeElement;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         ngModel = checkboxElement.injector.get(NgModel);
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -856,7 +866,7 @@ describe('Checkbox component', () => {
         checkboxNativeElement = checkboxElement.nativeElement;
 
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         formControl = testComponent.checkbox1;
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -959,7 +969,7 @@ describe('Checkbox component', () => {
         );
         checkboxNativeElement = checkboxElement.nativeElement;
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         formControl = testComponent.checkbox1;
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -1006,7 +1016,7 @@ describe('Checkbox component', () => {
         );
         checkboxNativeElement = checkboxElement.nativeElement;
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
         formControl = testComponent.checkbox1;
         labelElement = checkboxElement.nativeElement.querySelector(
           'label.sky-checkbox-wrapper'
@@ -1139,7 +1149,7 @@ describe('Checkbox component', () => {
         checkboxNativeElement = checkboxElement.nativeElement;
 
         testComponent = fixture.debugElement.componentInstance;
-        inputElement = checkboxNativeElement.querySelector('input');
+        inputElement = checkboxNativeElement.querySelector('input')!;
       });
     }));
 

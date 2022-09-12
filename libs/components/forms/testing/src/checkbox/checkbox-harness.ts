@@ -70,6 +70,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     if (label) {
       return label.getText();
     }
+    return;
   }
 
   /**

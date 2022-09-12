@@ -29,7 +29,7 @@ export class SkyCheckboxFixture {
   /**
    * The checkbox's label
    */
-  public get labelText(): string {
+  public get labelText(): string | undefined {
     return SkyAppTestUtility.getText(
       this.debugEl.query(By.css('label.sky-checkbox-wrapper'))
     );
@@ -38,7 +38,7 @@ export class SkyCheckboxFixture {
   /**
    * The checkbox's icon type
    */
-  public get iconType(): string {
+  public get iconType(): string | undefined {
     const classList = this.debugEl.query(By.css('.fa.sky-icon')).nativeElement
       .classList;
 
@@ -49,12 +49,13 @@ export class SkyCheckboxFixture {
         return cls.substr(3);
       }
     }
+    return;
   }
 
   /**
    * The checkbox's type.
    */
-  public get checkboxType(): string {
+  public get checkboxType(): string | undefined {
     const classList = this.getCheckboxBoxEl().nativeElement.classList;
 
     if (classList.contains('sky-switch-control-danger')) {

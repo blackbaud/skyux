@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -10,16 +10,14 @@ import {
   selector: 'test-checkbox-harness',
   templateUrl: './checkbox-harness-test.component.html',
 })
-export class CheckboxHarnessTestComponent implements OnInit {
-  public myForm: FormGroup | undefined;
+export class CheckboxHarnessTestComponent {
+  public myForm: FormGroup;
 
   #formBuilder: FormBuilder;
 
   constructor(formBuilder: FormBuilder) {
     this.#formBuilder = formBuilder;
-  }
 
-  public ngOnInit(): void {
     this.myForm = this.#formBuilder.group({
       email: new FormControl(false),
       phone: new FormControl(false, [Validators.required]),
