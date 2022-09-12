@@ -31,7 +31,9 @@ export class SkyCharacterCounterInputDirective implements Validator {
    * `textarea` element.
    */
   @Input()
-  public skyCharacterCounterIndicator: SkyCharacterCounterIndicatorComponent;
+  public skyCharacterCounterIndicator:
+    | SkyCharacterCounterIndicatorComponent
+    | undefined;
 
   /**
    * Specifies the maximum number of characters allowed in the input field. Place this directive
@@ -39,28 +41,28 @@ export class SkyCharacterCounterInputDirective implements Validator {
    * @required
    */
   @Input()
-  public set skyCharacterCounterLimit(value: number) {
-    this._skyCharacterCounterLimit = value;
-    this.updateIndicatorLimit(this.skyCharacterCounterLimit);
-    this._validatorChange();
+  public set skyCharacterCounterLimit(value: number | undefined) {
+    if (value === undefined) {
+      this.#skyCharacterCounterLimitOrDefault = 0;
+    } else {
+      this.#skyCharacterCounterLimitOrDefault = value;
+    }
+    this.#updateIndicatorLimit(this.#skyCharacterCounterLimitOrDefault);
+    this.#_validatorChange();
   }
 
-  public get skyCharacterCounterLimit(): number {
-    return this._skyCharacterCounterLimit || 0;
-  }
-
-  private _skyCharacterCounterLimit: number;
+  #skyCharacterCounterLimitOrDefault = 0;
 
   public validate(control: AbstractControl): ValidationErrors {
     const value = control.value;
 
-    this.updateIndicatorCount((value && value.length) || 0);
+    this.#updateIndicatorCount((value && value.length) || 0);
 
     if (!value) {
-      return;
+      return {};
     }
 
-    if (value.length > this.skyCharacterCounterLimit) {
+    if (value.length > this.#skyCharacterCounterLimitOrDefault) {
       // This is needed to apply the appropriate error styles to the input.
       control.markAsTouched();
 
@@ -70,24 +72,26 @@ export class SkyCharacterCounterInputDirective implements Validator {
         },
       };
     }
+
+    return {};
   }
 
   public registerOnValidatorChange(fn: () => void): void {
-    this._validatorChange = fn;
+    this.#_validatorChange = fn;
   }
 
-  private updateIndicatorCount(count: number): void {
+  #updateIndicatorCount(count: number): void {
     if (this.skyCharacterCounterIndicator) {
       this.skyCharacterCounterIndicator.characterCount = count;
     }
   }
 
-  private updateIndicatorLimit(limit: number): void {
+  #updateIndicatorLimit(limit: number): void {
     if (this.skyCharacterCounterIndicator) {
       this.skyCharacterCounterIndicator.characterCountLimit = limit;
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _validatorChange = () => {};
+  #_validatorChange = () => {};
 }
