@@ -10,8 +10,8 @@ import { Component, Input } from '@angular/core';
 })
 export class SkyWaitPageComponent {
   @Input()
-  public hasBlockingWait: boolean;
+  public hasBlockingWait: boolean | undefined;
 
   @Input()
-  public hasNonBlockingWait: boolean;
+  public hasNonBlockingWait: boolean | undefined;
 }

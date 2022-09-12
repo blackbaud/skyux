@@ -11,6 +11,7 @@ export * from './lib/modules/icon/icon.module';
 export * from './lib/modules/icon/types/icon-type';
 export * from './lib/modules/icon/types/icon-variant-type';
 
+export * from './lib/modules/key-info/key-info-layout-type';
 export * from './lib/modules/key-info/key-info.module';
 
 export * from './lib/modules/label/label-type';
