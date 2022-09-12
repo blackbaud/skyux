@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.18.0](https://github.com/blackbaud/skyux/compare/6.17.1...6.18.0) (2022-09-08)
+
+
+### Features
+
+* **components/indicators:** add harness for interacting with label components in tests ([#489](https://github.com/blackbaud/skyux/issues/489)) ([9edd8b7](https://github.com/blackbaud/skyux/commit/9edd8b7954d3d6dc23a50b6de7181a772576c887))
+
+
+### Bug Fixes
+
+* **components/lookup:** set z-index on lookup tokens inside input box ([#493](https://github.com/blackbaud/skyux/issues/493)) ([bd09496](https://github.com/blackbaud/skyux/commit/bd09496af82a1800f5a694839fa0d30593f1b42b))
+* **components/theme:** replaced link glyph and added attach icon ([#494](https://github.com/blackbaud/skyux/issues/494)) ([885f011](https://github.com/blackbaud/skyux/commit/885f011cdd30997262746f5696f006f12806dc32))
+
 ## [6.17.1](https://github.com/blackbaud/skyux/compare/6.17.0...6.17.1) (2022-09-06)
 
 

@@ -124,9 +124,9 @@ describe('Label harness', () => {
 
       fixture.detectChanges();
 
-      const componentDesciptionType = await labelHarness.getCustomDescription();
+      const componentDesciption = await labelHarness.getCustomDescription();
 
-      expect(componentDesciptionType).toEqual(description);
+      expect(componentDesciption).toEqual(description);
     });
 
     it('should return an empty string when `descriptionType` is not custom', async () => {
