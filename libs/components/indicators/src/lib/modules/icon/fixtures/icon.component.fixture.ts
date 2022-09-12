@@ -8,8 +8,8 @@ import { SkyIconVariantType } from '../types/icon-variant-type';
 })
 export class IconTestComponent {
   public icon = 'circle';
-  public iconType: 'fa' | 'skyux';
-  public size = '3x';
-  public fixedWidth = false;
-  public variant: SkyIconVariantType;
+  public iconType: 'fa' | 'skyux' | undefined;
+  public size: string | undefined = '3x';
+  public fixedWidth: boolean | undefined = false;
+  public variant: SkyIconVariantType | undefined;
 }

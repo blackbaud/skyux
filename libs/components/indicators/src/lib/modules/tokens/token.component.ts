@@ -19,15 +19,15 @@ export class SkyTokenComponent {
    * Indicates whether to disable the token to prevent users from selecting it, dismissing it,
    * or navigating to it with the arrow keys. When the token is disabled,
    * users can still place focus on it using the `Tab` key.
-   * @default true
+   * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
-    this._disabled = value;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = !!value;
   }
 
   public get disabled(): boolean {
-    return !!this._disabled;
+    return this.#_disabled;
   }
 
   /**
@@ -36,14 +36,12 @@ export class SkyTokenComponent {
    * @default "Remove item"
    */
   @Input()
-  public set ariaLabel(value: string) {
-    this._ariaLabel = value;
+  public set ariaLabel(value: string | undefined) {
+    this.#ariaLabelOrDefault = value || this.#getDefaultAriaLabel();
   }
 
   public get ariaLabel(): string {
-    return (
-      this._ariaLabel || this.getString('skyux_tokens_dismiss_button_title')
-    );
+    return this.#ariaLabelOrDefault;
   }
 
   /**
@@ -52,12 +50,12 @@ export class SkyTokenComponent {
    * @default true
    */
   @Input()
-  public set dismissible(value: boolean) {
-    this._dismissible = value;
+  public set dismissible(value: boolean | undefined) {
+    this.#_dismissible = value !== false;
   }
 
   public get dismissible(): boolean {
-    return this._dismissible !== false;
+    return this.#_dismissible;
   }
 
   /**
@@ -66,12 +64,8 @@ export class SkyTokenComponent {
    * @default true
    */
   @Input()
-  public set focusable(value: boolean) {
-    this._focusable = value;
-  }
-
-  public get focusable(): boolean {
-    return this._focusable !== false;
+  public set focusable(value: boolean | undefined) {
+    this.tabIndex = value !== false ? 0 : -1;
   }
 
   /**
@@ -86,32 +80,23 @@ export class SkyTokenComponent {
   @Output()
   public tokenFocus = new EventEmitter<void>();
 
-  /**
-   * @internal
-   */
-  public get tabIndex(): number | boolean {
-    return this.focusable ? 0 : -1;
+  public tokenActive: boolean | undefined;
+  public closeActive: boolean | undefined;
+  public tabIndex = 0;
+
+  #ariaLabelOrDefault: string;
+  #elementRef: ElementRef;
+  #resourcesSvc: SkyLibResourcesService;
+
+  #_disabled = false;
+  #_dismissible = true;
+
+  constructor(elementRef: ElementRef, resourcesSvc: SkyLibResourcesService) {
+    this.#elementRef = elementRef;
+    this.#resourcesSvc = resourcesSvc;
+
+    this.#ariaLabelOrDefault = this.#getDefaultAriaLabel();
   }
-
-  /**
-   * @internal
-   */
-  public tokenActive: boolean;
-
-  /**
-   * @internal
-   */
-  public closeActive: boolean;
-
-  private _ariaLabel: string;
-  private _disabled: boolean;
-  private _dismissible: boolean;
-  private _focusable: boolean;
-
-  constructor(
-    private elementRef: ElementRef,
-    private resourcesService: SkyLibResourcesService
-  ) {}
 
   public dismissToken(event: Event): void {
     event.stopPropagation();
@@ -119,7 +104,7 @@ export class SkyTokenComponent {
   }
 
   public focusElement(): void {
-    this.elementRef.nativeElement.querySelector('.sky-token').focus();
+    this.#elementRef.nativeElement.querySelector('.sky-token').focus();
   }
 
   public setTokenActive(tokenActive: boolean): void {
@@ -130,8 +115,11 @@ export class SkyTokenComponent {
     this.closeActive = closeActive;
   }
 
-  private getString(key: string): string {
+  #getDefaultAriaLabel(): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
+    return this.#resourcesSvc.getStringForLocale(
+      { locale: 'en-US' },
+      'skyux_tokens_dismiss_button_title'
+    );
   }
 }

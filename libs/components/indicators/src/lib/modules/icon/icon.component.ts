@@ -26,26 +26,26 @@ export class SkyIconComponent {
    * @default "fa"
    */
   @Input()
-  public iconType: SkyIconType = 'fa';
+  public iconType: SkyIconType | undefined;
 
   /**
    * Specifies the size of the icon using
    * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons). Do not prefix the size with `fa-`.
    */
   @Input()
-  public size: string;
+  public size: string | undefined;
 
   /**
    * Indicates whether the icon has a fixed width.
    * @default false
    */
   @Input()
-  public fixedWidth: boolean;
+  public fixedWidth: boolean | undefined;
 
   /**
    * Specifies the icon variant (`"line"` or `"solid"`). If the variant doesn't exist for the
    * specified icon, the normal icon is displayed. This property only applies when using SKY UX icons.
    */
   @Input()
-  public variant: SkyIconVariantType;
+  public variant: SkyIconVariantType | undefined;
 }
