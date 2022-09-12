@@ -12,6 +12,6 @@ export * from './tokens/token-harness-filters';
 export * from './tokens/tokens-harness';
 export * from './tokens/tokens-harness-filters';
 
-export * from './old-fixtures/alert-fixture';
-export * from './old-fixtures/label-fixture';
-export * from './old-fixtures/wait-fixture';
+export * from './alert-fixture';
+export * from './label-fixture';
+export * from './wait-fixture';
