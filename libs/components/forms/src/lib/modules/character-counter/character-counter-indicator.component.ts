@@ -11,8 +11,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyCharacterCounterIndicatorComponent {
-  #_currentCharacterCountLimit = 0;
-  #_currentCharacterCount = 0;
+  #_characterCountLimit = 0;
+  #_characterCount = 0;
 
   #changeDetector: ChangeDetectorRef;
 
@@ -21,20 +21,20 @@ export class SkyCharacterCounterIndicatorComponent {
   }
 
   public get characterCount(): number {
-    return this.#_currentCharacterCount;
+    return this.#_characterCount;
   }
 
   public set characterCount(count: number) {
-    this.#_currentCharacterCount = count;
+    this.#_characterCount = count;
     this.#changeDetector.markForCheck();
   }
 
   public get characterCountLimit(): number {
-    return this.#_currentCharacterCountLimit;
+    return this.#_characterCountLimit;
   }
 
   public set characterCountLimit(limit: number) {
-    this.#_currentCharacterCountLimit = limit;
+    this.#_characterCountLimit = limit;
     this.#changeDetector.markForCheck();
   }
 }

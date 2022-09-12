@@ -44,7 +44,6 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       characterCountComponent =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         component.inputDirective!.skyCharacterCounterIndicator!;
       characterCountLabel = nativeElement.querySelector(
         '.sky-character-count-label'

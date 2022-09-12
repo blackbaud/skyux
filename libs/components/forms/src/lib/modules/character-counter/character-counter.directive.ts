@@ -42,24 +42,20 @@ export class SkyCharacterCounterInputDirective implements Validator {
    */
   @Input()
   public set skyCharacterCounterLimit(value: number | undefined) {
-    if (value === undefined) {
-      this.#skyCharacterCounterLimitOrDefault = 0;
-    } else {
-      this.#skyCharacterCounterLimitOrDefault = value;
-    }
+    this.#skyCharacterCounterLimitOrDefault = value ?? 0;
     this.#updateIndicatorLimit(this.#skyCharacterCounterLimitOrDefault);
-    this.#_validatorChange();
+    this.#validatorChange();
   }
 
   #skyCharacterCounterLimitOrDefault = 0;
 
-  public validate(control: AbstractControl): ValidationErrors {
+  public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
 
     this.#updateIndicatorCount((value && value.length) || 0);
 
     if (!value) {
-      return {};
+      return null;
     }
 
     if (value.length > this.#skyCharacterCounterLimitOrDefault) {
@@ -73,11 +69,11 @@ export class SkyCharacterCounterInputDirective implements Validator {
       };
     }
 
-    return {};
+    return null;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
-    this.#_validatorChange = fn;
+    this.#validatorChange = fn;
   }
 
   #updateIndicatorCount(count: number): void {
@@ -93,5 +89,5 @@ export class SkyCharacterCounterInputDirective implements Validator {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #_validatorChange = () => {};
+  #validatorChange = () => {};
 }
