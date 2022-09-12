@@ -24,7 +24,7 @@ export class ConfirmDemoComponent {
   public openOKConfirm(): void {
     const dialog: SkyConfirmInstance = this.#confirmSvc.open({
       message:
-        'Use the OK button type for information that does not require user action.',
+        'Cannot delete invoice because it has vendor, credit memo, or purchase order activity.',
       type: SkyConfirmType.OK,
     });
 
@@ -34,16 +34,65 @@ export class ConfirmDemoComponent {
     });
   }
 
-  public openCustomConfirm(): void {
+  public openTwoActionConfirm() {
     const buttons: SkyConfirmButtonConfig[] = [
-      { text: 'Save', action: 'save', styleType: 'primary' },
-      { text: 'Delete', action: 'delete' },
+      { text: 'Finalize', action: 'save', styleType: 'primary' },
       { text: 'Cancel', action: 'cancel', styleType: 'link' },
     ];
 
     const dialog: SkyConfirmInstance = this.#confirmSvc.open({
-      message: 'Use the Custom button type to define your own buttons.',
-      body: 'Labels should clearly indicate the action occurs when users select the button.',
+      message: 'Finalize report cards?',
+      body: 'Grades cannot be changed once the report cards are finalized.',
+      type: SkyConfirmType.Custom,
+      buttons,
+    });
+
+    dialog.closed.subscribe((result) => {
+      this.selectedAction = result.action;
+
+      for (const button of buttons) {
+        if (button.action === result.action) {
+          this.selectedText = button.text;
+          break;
+        }
+      }
+    });
+  }
+
+  public openThreeActionConfirm() {
+    const buttons: SkyConfirmButtonConfig[] = [
+      { text: 'Save', action: 'save', styleType: 'primary' },
+      { text: 'Delete', action: 'delete' },
+      { text: 'Keep working', action: 'cancel', styleType: 'link' },
+    ];
+
+    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
+      message: 'Save your changes before leaving?',
+      type: SkyConfirmType.Custom,
+      buttons,
+    });
+
+    dialog.closed.subscribe((result) => {
+      this.selectedAction = result.action;
+
+      for (const button of buttons) {
+        if (button.action === result.action) {
+          this.selectedText = button.text;
+          break;
+        }
+      }
+    });
+  }
+
+  public openDeleteConfirm() {
+    const buttons: SkyConfirmButtonConfig[] = [
+      { text: 'Delete', action: 'delete', styleType: 'danger' },
+      { text: 'Cancel', action: 'cancel', styleType: 'link' },
+    ];
+
+    const dialog: SkyConfirmInstance = this.#confirmSvc.open({
+      message: 'Delete this account?',
+      body: 'Deleting this account may affect processes that are currently running.',
       type: SkyConfirmType.Custom,
       buttons,
     });
