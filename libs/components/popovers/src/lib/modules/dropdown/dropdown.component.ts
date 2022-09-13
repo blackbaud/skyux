@@ -23,10 +23,13 @@ import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { parseAffixHorizontalAlignment } from './dropdown-extensions';
+import { SkyDropdownButtonType } from './types/dropdown-button-type';
 import { SkyDropdownHorizontalAlignment } from './types/dropdown-horizontal-alignment';
 import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 import { SkyDropdownTriggerType } from './types/dropdown-trigger-type';
+
+const DEFAULT_BUTTON_TYPE = 'select';
 
 /**
  * Creates a dropdown menu that displays menu items that users may select.
@@ -55,25 +58,20 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   /**
    * Specifies the type of button to render as the dropdown's trigger element. To display a button
-   * with text and a caret, specify `select` and then enter the button text in a
+   * with text and a caret, specify `'select'` and then enter the button text in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
-   * `context-menu`. And to display a button with a [Font Awesome icon](http://fontawesome.io/icons/), specify the icon's class name.
-   * For example, to display the `fa-filter` icon, specify `filter`.
+   * `'context-menu'`. And to display a button with a [Font Awesome icon](http://fontawesome.io/icons/), specify the icon's class name.
+   * For example, to display the `'fa-filter'` icon, specify `'filter'`.
    * @default "select"
    */
+  // TODO: Remove 'string' as a valid type in a breaking change.
   @Input()
-  public set buttonType(
-    value: 'icon' | 'select' | 'context-menu' | 'tab' | string | undefined
-  ) {
-    this._buttonType = value;
-    // TODO: if 'icon', set `buttonIcon` value.
-    // If 'tab' throw warning?
-    // If 'select' throw warning?
-    // If not any of the special values, throw warning that they should use the new buttonIcon value.
+  public set buttonType(value: SkyDropdownButtonType | string | undefined) {
+    this.#_buttonType = value || DEFAULT_BUTTON_TYPE;
   }
 
   public get buttonType(): string {
-    return this._buttonType || 'select';
+    return this.#_buttonType;
   }
 
   /**
@@ -214,7 +212,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   private _buttonStyle: string | undefined;
 
-  private _buttonType: string | undefined;
+  #_buttonType: string = DEFAULT_BUTTON_TYPE;
 
   private _disabled: boolean | undefined;
 
