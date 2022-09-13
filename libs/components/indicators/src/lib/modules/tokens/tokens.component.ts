@@ -23,6 +23,11 @@ import { SkyTokensMessageType } from './types/tokens-message-type';
 
 const DISPLAY_WITH_DEFAULT = 'name';
 
+/**
+ * Creates a container that enables navigation between tokens using keyboard arrow keys.
+ * This is useful when combined with other components where the <kbd>Tab<kbd> key is
+ * reserved for other functions, such as the SKY UX Lookup component.
+ */
 @Component({
   selector: 'sky-tokens',
   templateUrl: './tokens.component.html',
@@ -73,8 +78,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   /**
-   * Indicates whether users can remove tokens from the list by selecting their close buttons
-   * or pressing the `Backspace` key.
+   * Indicates whether users can remove a token from the list by selecting a token's close button.
    * @default true
    */
   @Input()
@@ -160,7 +164,7 @@ export class SkyTokensComponent implements OnDestroy {
   public focusIndexOverRange = new EventEmitter<void>();
 
   /**
-   * Fires when usersnavigate through the tokens list with the `Tab` key
+   * Fires when users navigate through the tokens list with the `Tab` key
    * and attempt to move before the first token in the list.
    */
   @Output()
