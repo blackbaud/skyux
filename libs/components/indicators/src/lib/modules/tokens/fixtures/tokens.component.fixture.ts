@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 
 import { SkyTokensComponent } from '../tokens.component';
 import { SkyToken } from '../types/token';
-import { SkyTokenSelectedEventArgs } from '../types/token-selected-event-args';
 import { SkyTokensMessage } from '../types/tokens-message';
 
 @Component({
@@ -13,23 +12,27 @@ import { SkyTokensMessage } from '../types/tokens-message';
 })
 export class SkyTokensTestComponent implements OnDestroy {
   @ViewChild(SkyTokensComponent, { read: ElementRef })
-  public tokensElementRef: ElementRef;
+  public tokensElementRef: ElementRef | undefined;
 
   @ViewChild(SkyTokensComponent)
-  public tokensComponent: SkyTokensComponent;
+  public tokensComponent: SkyTokensComponent | undefined;
 
-  public ariaLabel: string;
-  public disabled: boolean;
-  public dismissible: boolean;
-  public displayWith: string;
-  public focusable: boolean;
-  public messageStream: Subject<SkyTokensMessage>;
-  public tokens: SkyToken[];
-  public trackWith: string;
+  public ariaLabel: string | undefined;
+  public disabled: boolean | undefined;
+  public dismissible: boolean | undefined;
+  public displayWith: string | undefined;
+  public focusable: boolean | undefined;
+  public messageStream: Subject<SkyTokensMessage> | undefined;
+  public tokens: SkyToken[] | undefined;
+  public trackWith: string | undefined;
 
   public includeSingleToken = false;
 
-  public data: any[] = [{ name: 'Red' }, { name: 'White' }, { name: 'Blue' }];
+  public data: { name: string; id?: number }[] = [
+    { name: 'Red' },
+    { name: 'White' },
+    { name: 'Blue' },
+  ];
 
   public ngOnDestroy(): void {
     if (this.messageStream) {
@@ -41,7 +44,7 @@ export class SkyTokensTestComponent implements OnDestroy {
 
   public onFocusIndexUnderRange(): void {}
 
-  public onTokenSelected(args: SkyTokenSelectedEventArgs): void {}
+  public onTokenSelected(): void {}
 
   public publishTokens(): void {
     this.tokens = this.data.map((value) => ({ value }));
