@@ -382,7 +382,7 @@ describe('Checkbox component', () => {
 
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
-      expect(checkboxNativeElement.id).toBe('sky-checkbox-simple-check');
+      expect(checkboxNativeElement.id).toBe('simple-check');
       expect(inputElement.id).toBe('input-sky-checkbox-simple-check');
     });
 

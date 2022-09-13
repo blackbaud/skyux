@@ -57,9 +57,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input()
   public set id(value: string | undefined) {
     if (value) {
-      const newId = `sky-checkbox-${value}`;
-      this.#_id = newId;
-      this.inputId = `input-${newId}`;
+      this.#_id = value;
+      this.inputId = `input-sky-checkbox-${value}`;
     } else {
       const defaultId = `sky-checkbox-${++nextId}`;
       this.#_id = defaultId;
