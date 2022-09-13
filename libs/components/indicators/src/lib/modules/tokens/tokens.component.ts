@@ -124,7 +124,7 @@ export class SkyTokensComponent implements OnDestroy {
    */
   @Input()
   public set tokens(value: SkyToken[] | undefined) {
-    this.#_tokensOrDefault = value || [];
+    this.#_tokens = value || [];
     // The previous behavior was to set `this._tokens = value`, then emit `this._tokens`,
     // which would emit `undefined` instead of a default value of `[]` returned by the
     // get accessor when set to `undefined`. Emitting `value` instead of `this.#_tokensOrDefault`
@@ -133,7 +133,7 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   public get tokens(): SkyToken[] {
-    return this.#_tokensOrDefault;
+    return this.#_tokens;
   }
 
   /**
@@ -142,8 +142,12 @@ export class SkyTokensComponent implements OnDestroy {
    */
   @Input()
   public set messageStream(value: Subject<SkyTokensMessage> | undefined) {
-    this.#messageStreamOrDefault = value || new Subject<SkyTokensMessage>();
+    this.#_messageStream = value || new Subject<SkyTokensMessage>();
     this.#initMessageStream();
+  }
+
+  public get messageStream(): Subject<SkyTokensMessage> {
+    return this.#_messageStream;
   }
 
   /**
@@ -178,8 +182,8 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   public set activeIndex(value: number) {
-    if (value >= this.#_tokensOrDefault.length) {
-      value = this.#_tokensOrDefault.length - 1;
+    if (value >= this.#_tokens.length) {
+      value = this.#_tokens.length - 1;
       this.focusIndexOverRange.emit();
     }
 
@@ -196,15 +200,15 @@ export class SkyTokensComponent implements OnDestroy {
   #_disabled = false;
   #_dismissible = true;
   #_focusable = true;
-  #_tokensOrDefault: SkyToken[] = [];
+  #_tokens: SkyToken[] = [];
   #_displayWith = 'name';
 
   @ViewChildren(SkyTokenComponent)
-  public tokenComponents!: QueryList<SkyTokenComponent>;
+  public tokenComponents: QueryList<SkyTokenComponent> | undefined;
 
   #messageStreamSub: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
-  #messageStreamOrDefault = new Subject<SkyTokensMessage>();
+  #_messageStream = new Subject<SkyTokensMessage>();
   #changeDetector: ChangeDetectorRef;
 
   #_activeIndex = 0;
@@ -242,7 +246,7 @@ export class SkyTokensComponent implements OnDestroy {
       switch (event.key) {
         case 'Left':
         case 'ArrowLeft':
-          this.#messageStreamOrDefault.next({
+          this.#_messageStream.next({
             type: SkyTokensMessageType.FocusPreviousToken,
           });
           event.preventDefault();
@@ -250,7 +254,7 @@ export class SkyTokensComponent implements OnDestroy {
 
         case 'Right':
         case 'ArrowRight':
-          this.#messageStreamOrDefault.next({
+          this.#_messageStream.next({
             type: SkyTokensMessageType.FocusNextToken,
           });
           event.preventDefault();
@@ -288,14 +292,16 @@ export class SkyTokensComponent implements OnDestroy {
   }
 
   #focusActiveToken(): void {
-    const tokenComponent = this.tokenComponents.find(
-      (_comp: SkyTokenComponent, i: number) => {
-        return this.activeIndex === i;
-      }
-    );
+    if (this.tokenComponents) {
+      const tokenComponent = this.tokenComponents.find(
+        (_comp: SkyTokenComponent, i: number) => {
+          return this.activeIndex === i;
+        }
+      );
 
-    if (tokenComponent) {
-      tokenComponent.focusElement();
+      if (tokenComponent) {
+        tokenComponent.focusElement();
+      }
     }
   }
 
@@ -311,33 +317,31 @@ export class SkyTokensComponent implements OnDestroy {
       this.#messageStreamSub.unsubscribe();
     }
 
-    if (this.#messageStreamOrDefault) {
-      this.#messageStreamSub = this.#messageStreamOrDefault
-        .pipe(takeUntil(this.#ngUnsubscribe))
-        .subscribe((message: SkyTokensMessage) => {
-          switch (message.type) {
-            case SkyTokensMessageType.FocusLastToken:
-              this.#focusLastToken();
-              break;
+    this.#messageStreamSub = this.messageStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((message: SkyTokensMessage) => {
+        switch (message.type) {
+          case SkyTokensMessageType.FocusLastToken:
+            this.#focusLastToken();
+            break;
 
-            case SkyTokensMessageType.FocusActiveToken:
-              this.#focusActiveToken();
-              break;
+          case SkyTokensMessageType.FocusActiveToken:
+            this.#focusActiveToken();
+            break;
 
-            case SkyTokensMessageType.FocusPreviousToken:
-              this.#focusPreviousToken();
-              break;
+          case SkyTokensMessageType.FocusPreviousToken:
+            this.#focusPreviousToken();
+            break;
 
-            case SkyTokensMessageType.FocusNextToken:
-              this.#focusNextToken();
-              break;
+          case SkyTokensMessageType.FocusNextToken:
+            this.#focusNextToken();
+            break;
 
-            case SkyTokensMessageType.RemoveActiveToken:
-              this.#removeActiveToken();
-              break;
-          }
-        });
-    }
+          case SkyTokensMessageType.RemoveActiveToken:
+            this.#removeActiveToken();
+            break;
+        }
+      });
   }
 
   #notifyTokenSelected(token: SkyToken): void {

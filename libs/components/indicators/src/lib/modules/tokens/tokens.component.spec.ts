@@ -6,6 +6,8 @@ import {
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
+import { Subject } from 'rxjs';
+
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
 import { SkyTokensMessageType } from './types/tokens-message-type';
@@ -96,6 +98,9 @@ describe('Tokens component', () => {
       expect(component.tokensComponent?.dismissible).toEqual(true);
       expect(component.tokensComponent?.displayWith).toEqual('name');
       expect(component.tokensComponent?.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.messageStream).toEqual(
+        jasmine.any(Subject)
+      );
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });

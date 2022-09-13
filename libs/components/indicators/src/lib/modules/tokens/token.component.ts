@@ -80,8 +80,8 @@ export class SkyTokenComponent {
   @Output()
   public tokenFocus = new EventEmitter<void>();
 
-  public tokenActive: boolean | undefined;
-  public closeActive: boolean | undefined;
+  public tokenActive = false;
+  public closeActive = false;
   public tabIndex = 0;
 
   #ariaLabelOrDefault: string;
