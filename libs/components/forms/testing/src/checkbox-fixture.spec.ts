@@ -30,7 +30,7 @@ class TestComponent {
 
   public disabled = false;
 
-  public icon = 'star';
+  public icon: string | undefined = 'star';
 
   public label = 'checkbox label';
 
