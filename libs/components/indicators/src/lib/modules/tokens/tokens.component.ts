@@ -21,6 +21,8 @@ import { SkyTokenSelectedEventArgs } from './types/token-selected-event-args';
 import { SkyTokensMessage } from './types/tokens-message';
 import { SkyTokensMessageType } from './types/tokens-message-type';
 
+const DISPLAY_WITH_DEFAULT = 'name';
+
 @Component({
   selector: 'sky-tokens',
   templateUrl: './tokens.component.html',
@@ -90,7 +92,7 @@ export class SkyTokensComponent implements OnDestroy {
    */
   @Input()
   public set displayWith(value: string | undefined) {
-    this.#_displayWith = value || 'name';
+    this.#_displayWith = value || DISPLAY_WITH_DEFAULT;
   }
 
   public get displayWith(): string {
@@ -201,7 +203,7 @@ export class SkyTokensComponent implements OnDestroy {
   #_dismissible = true;
   #_focusable = true;
   #_tokens: SkyToken[] = [];
-  #_displayWith = 'name';
+  #_displayWith = DISPLAY_WITH_DEFAULT;
 
   @ViewChildren(SkyTokenComponent)
   public tokenComponents: QueryList<SkyTokenComponent> | undefined;
