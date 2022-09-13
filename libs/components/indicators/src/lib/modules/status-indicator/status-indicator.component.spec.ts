@@ -23,7 +23,7 @@ describe('Status indicator component', () => {
 
   function validateIconWrapperClass(
     statusIndicatorEl: HTMLElement,
-    indicatorType: string
+    indicatorType: string | undefined
   ): void {
     const iconWrapperEl = statusIndicatorEl.querySelector(
       '.sky-status-indicator-icon'
@@ -36,7 +36,7 @@ describe('Status indicator component', () => {
 
   function validateIcon(
     fixture: ComponentFixture<StatusIndicatorTestComponent>,
-    indicatorType: string,
+    indicatorType: string | undefined,
     expectedIcon: string
   ): void {
     let statusIndicatorEl;
@@ -109,7 +109,7 @@ describe('Status indicator component', () => {
     );
 
     // Check exact text content here to ensure it has been trimmed by the skyTrim directive.
-    expect(messageEl.textContent).toBe('Indicator text');
+    expect(messageEl?.textContent).toBe('Indicator text');
   });
 
   it('should display the expected icon', () => {
@@ -178,7 +178,7 @@ describe('Status indicator component', () => {
   describe('when modern theme', () => {
     function validateIconStack(
       fixture: ComponentFixture<StatusIndicatorTestComponent>,
-      indicatorType: string,
+      indicatorType: string | undefined,
       expectedBaseIcon: string,
       expectedTopIcon: string
     ): void {
@@ -192,8 +192,8 @@ describe('Status indicator component', () => {
 
       const iconStackEl = statusIndicatorEl.querySelector('.sky-icon-stack');
 
-      const baseIconEl = iconStackEl.querySelector('.fa-stack-2x');
-      const topIconEl = iconStackEl.querySelector('.fa-stack-1x');
+      const baseIconEl = iconStackEl?.querySelector('.fa-stack-2x');
+      const topIconEl = iconStackEl?.querySelector('.fa-stack-1x');
 
       expect(baseIconEl).toHaveCssClass(`sky-i-${expectedBaseIcon}`);
       expect(topIconEl).toHaveCssClass(`sky-i-${expectedTopIcon}`);

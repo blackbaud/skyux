@@ -34,9 +34,9 @@ class TestComponent {
 
   public closed = false;
 
-  public customDescription: string;
+  public customDescription: string | undefined;
 
-  public descriptionType: SkyIndicatorDescriptionType;
+  public descriptionType: SkyIndicatorDescriptionType | undefined;
 
   public closedChange() {
     // Only exists for the spy.
