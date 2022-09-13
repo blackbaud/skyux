@@ -95,7 +95,6 @@ export class SkyConfirmHarness extends SkyComponentHarness {
     }
 
     const button = buttons[buttonIndex];
-
     await button.click();
   }
 }

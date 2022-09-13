@@ -6,7 +6,6 @@ import { expect } from '@skyux-sdk/testing';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmConfig,
-  SkyConfirmInstance,
   SkyConfirmModule,
   SkyConfirmService,
   SkyConfirmType,
@@ -47,7 +46,7 @@ class TestComponent {
   }
 
   public openConfirm(): void {
-    const dialog: SkyConfirmInstance = this.#confirmSvc.open(this.config);
+    const dialog = this.#confirmSvc.open(this.config);
 
     dialog.closed.subscribe((result) => {
       this.closedChange(result);
