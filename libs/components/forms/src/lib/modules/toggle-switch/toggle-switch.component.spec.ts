@@ -45,7 +45,15 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
     }));
 
     it('should add and remove the checked state', () => {
@@ -135,7 +143,7 @@ describe('Toggle switch component', () => {
         'button .sky-toggle-switch-label'
       );
 
-      expect(label.textContent.trim()).toEqual('Simple toggle');
+      expect(label?.textContent?.trim()).toEqual('Simple toggle');
     });
 
     it('should make the host element a tab stop', () => {
@@ -202,7 +210,15 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
     });
 
     it('should call not call the change event when the toggle is not interacted with', () => {
@@ -227,7 +243,7 @@ describe('Toggle switch component', () => {
       // We're checking the arguments type / emitted value to be a boolean, because sometimes the
       // emitted value can be a DOM Event, which is not valid.
       // See angular/angular#4059
-      expect(testComponent.lastEvent.checked).toEqual(true);
+      expect(testComponent.lastEvent?.checked).toEqual(true);
     });
   });
 
@@ -247,7 +263,15 @@ describe('Toggle switch component', () => {
         By.directive(SkyToggleSwitchComponent)
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
 
       expect(buttonElement.getAttribute('aria-label')).toEqual(
         'Super effective'
@@ -271,7 +295,15 @@ describe('Toggle switch component', () => {
         By.directive(SkyToggleSwitchComponent)
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
 
       testComponent.customTabIndex = 7;
       fixture.detectChanges();
@@ -317,7 +349,15 @@ describe('Toggle switch component', () => {
       );
       toggleNativeElement = toggleElement.nativeElement;
 
-      buttonElement = toggleNativeElement.querySelector('button');
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
+
       ngModel = toggleElement.injector.get(NgModel);
     }));
 
@@ -369,7 +409,16 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
+
       ngModel = toggleElement.injector.get(NgModel);
     }));
 
@@ -442,7 +491,16 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
+
       formControl = testComponent.toggle1;
     }));
 
@@ -544,7 +602,15 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleElement.nativeElement;
 
       testComponent = fixture.debugElement.componentInstance;
-      buttonElement = toggleNativeElement.querySelector('button');
+
+      const button: HTMLButtonElement | null =
+        toggleNativeElement.querySelector('button');
+
+      if (!button) {
+        fail('Expected button to be defined');
+        return;
+      }
+      buttonElement = button;
     }));
 
     it('should change toggle state through ngModel programmatically', fakeAsync(() => {
