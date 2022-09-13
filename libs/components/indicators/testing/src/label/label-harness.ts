@@ -12,6 +12,9 @@ import { SkyLabelHarnessFilters } from './label-harness-filters';
  * @internal
  */
 export class SkyLabelHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-label';
 
   #getWrapper = this.locatorFor('.sky-label');

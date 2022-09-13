@@ -9,6 +9,9 @@ import { SkyTokensHarnessFilters } from './tokens-harness-filters';
  * @internal
  */
 export class SkyTokensHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-tokens';
 
   /**

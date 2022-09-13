@@ -11,6 +11,9 @@ import { SkyKeyInfoValueHarness } from './key-info-value-harness';
  * @internal
  */
 export class SkyKeyInfoHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-key-info';
 
   #getLabel = this.locatorFor(SkyKeyInfoLabelHarness);
