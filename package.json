@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "6.17.1",
+  "version": "6.18.0",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -91,7 +91,7 @@
     "@circlon/angular-tree-component": "11.0.3",
     "@nrwl/angular": "14.1.10",
     "@skyux/auth-client-factory": "1.2.0",
-    "@skyux/icons": "5.1.0",
+    "@skyux/icons": "5.1.1",
     "ag-grid-angular": "27.2.0",
     "ag-grid-community": "27.2.0",
     "autonumeric": "4.6.0",

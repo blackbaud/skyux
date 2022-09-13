@@ -1,6 +1,6 @@
 <button
   aria-haspopup="dialog"
-  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  class="sky-btn sky-btn-default sky-margin-inline-default"
   type="button"
   (click)="openOKConfirm()"
 >
@@ -9,11 +9,29 @@
 
 <button
   aria-haspopup="dialog"
-  class="sky-btn sky-btn-default sky-margin-inline-sm"
+  class="sky-btn sky-btn-default sky-margin-inline-default"
   type="button"
-  (click)="openCustomConfirm()"
+  (click)="openTwoActionConfirm()"
 >
-  Custom confirm
+  Confirm with two actions
+</button>
+
+<button
+  aria-haspopup="dialog"
+  class="sky-btn sky-btn-default sky-margin-inline-default"
+  type="button"
+  (click)="openThreeActionConfirm()"
+>
+  Confirm with three actions
+</button>
+
+<button
+  aria-haspopup="dialog"
+  class="sky-btn sky-btn-default sky-margin-inline-default"
+  type="button"
+  (click)="openDeleteConfirm()"
+>
+  Confirm with delete button
 </button>
 
 <p *ngIf="selectedAction && selectedText">

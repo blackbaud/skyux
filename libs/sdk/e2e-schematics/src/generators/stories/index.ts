@@ -240,12 +240,6 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
         if (visitIdMatch) {
           const id = visitIdMatch[1];
           spec = spec
-            // Describe with the theme name
-            .replace(
-              /describe\('([^']+)',/,
-              (m, description) =>
-                `describe(\`${description} in \${theme} theme\`,`
-            )
             // Inject the theme in the url and use the updated id
             .replace(
               matchCypressVisitId,
@@ -265,13 +259,25 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
               `.should('exist')
       .should('be.visible')
       .screenshot(\`${updatedIds.get(id)}-\${theme}\`)
-      .percySnapshot(\`${updatedIds.get(id)}-\${theme}\`)`
+      .percySnapshot(\`${updatedIds.get(id)}-\${theme}\`, {
+        widths: E2eVariations.DISPLAY_WIDTHS,
+      })`
             );
           // Loop over the themes
-          spec = `['default', 'modern-light', 'modern-dark'].forEach((theme) => {\n  ${spec
-            .split(`\n`)
-            .join(`\n  `)}\n});`;
-          tree.write(filepath, spec);
+          const specLines = spec.split('\n');
+          const newSpecLines = [
+            `import { E2eVariations } from '@skyux-sdk/e2e-schematics';`,
+            '',
+            specLines.shift(), // describe(...
+            '  E2eVariations.forEachTheme((theme) => {',
+            '    describe(`in ${theme} theme`, () => {',
+          ];
+          newSpecLines.push(
+            ...specLines.map((line) => `    ${line}`),
+            '  });',
+            '});'
+          );
+          tree.write(filepath, newSpecLines.join(`\n`));
         }
       }
     });
