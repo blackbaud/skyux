@@ -1,0 +1,11 @@
+:root {
+  --viewport-width: 1280px;
+  --viewport-height: 800px;
+}
+
+#root {
+  overflow: hidden;
+  position: relative;
+  width: var(--viewport-width);
+  height: var(--viewport-height);
+}

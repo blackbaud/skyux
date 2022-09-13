@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { SkyIndicatorDescriptionType } from '../../shared/indicator-description-type';
 import { SkyLabelType } from '../label-type';
 
 @Component({
@@ -7,5 +8,7 @@ import { SkyLabelType } from '../label-type';
   templateUrl: './label.component.fixture.html',
 })
 export class LabelTestComponent {
-  public labelType: SkyLabelType;
+  public labelType: SkyLabelType | undefined = 'info';
+  public descriptionType: SkyIndicatorDescriptionType | undefined;
+  public customDescription: string | undefined;
 }

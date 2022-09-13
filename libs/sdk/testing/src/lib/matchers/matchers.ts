@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
@@ -236,7 +237,7 @@ const matchers: jasmine.CustomMatcherFactories = {
         result.pass = actualText === expectedText;
 
         result.message = result.pass
-          ? `Expected element's inner text not to be: "${expectedText}"`
+          ? `Expected element's inner text "${actualText}" not to be: "${expectedText}"`
           : `Expected element's inner text to be: "${expectedText}"\n` +
             `Actual element's inner text was: "${actualText}"`;
 
@@ -301,7 +302,7 @@ const matchers: jasmine.CustomMatcherFactories = {
           .then((message) => {
             if (actual !== message) {
               windowRef.fail(
-                `Expected element's inner text to be "${message}"`
+                `Expected element's inner text "${el.textContent}" to be "${message}"`
               );
             }
             /*istanbul ignore else*/
@@ -335,8 +336,8 @@ const matchers: jasmine.CustomMatcherFactories = {
         const actual = el.textContent;
 
         getResourcesObservable(name)
-          .toPromise()
-          .then((message) => {
+          .pipe(take(1))
+          .subscribe((message) => {
             if (!isTemplateMatch(actual, message)) {
               windowRef.fail(
                 `Expected element's text "${actual}" to match "${message}"`
@@ -467,7 +468,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
               } else {
                 resolve({
                   pass: false,
-                  message: `Expected element's inner text to be "${message}"`,
+                  message: `Expected element's inner text "${actual}" to be "${message}"`,
                 });
               }
             });
@@ -500,7 +501,7 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
               } else {
                 resolve({
                   pass: false,
-                  message: `Expected element's inner text to be "${message}"`,
+                  message: `Expected element's inner text "${actual}" to be "${message}"`,
                 });
               }
             });
@@ -519,8 +520,8 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
           const actual = element.textContent;
 
           getResourcesObservable(name)
-            .toPromise()
-            .then((message) => {
+            .pipe(take(1))
+            .subscribe((message) => {
               if (isTemplateMatch(actual, message)) {
                 resolve({
                   pass: true,
@@ -547,8 +548,8 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
           const actual = element.textContent;
 
           getLibResourcesObservable(name)
-            .toPromise()
-            .then((message) => {
+            .pipe(take(1))
+            .subscribe((message) => {
               if (isTemplateMatch(actual, message)) {
                 resolve({
                   pass: true,

@@ -3,6 +3,9 @@ import { SkyUIConfigService } from '@skyux/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 
+/**
+ * @internal
+ */
 @Injectable()
 export class MockSkyUIConfigService extends SkyUIConfigService {
   public getConfig(key: string, defaultConfig?: any): Observable<any> {

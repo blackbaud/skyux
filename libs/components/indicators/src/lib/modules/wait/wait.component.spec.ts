@@ -1,5 +1,10 @@
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  SkyAppTestUtility,
+  SkyAppTestUtilityDomEventOptions,
+  expect,
+  expectAsync,
+} from '@skyux-sdk/testing';
 
 import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
@@ -7,13 +12,31 @@ import { SkyWaitAdapterService } from './wait-adapter.service';
 import { SkyWaitComponent } from './wait.component';
 
 describe('Wait component', () => {
+  function fireDomEvent(
+    element: Element | null,
+    eventName: string,
+    options?: SkyAppTestUtilityDomEventOptions
+  ): void {
+    if (element) {
+      SkyAppTestUtility.fireDomEvent(element, eventName, options);
+    }
+  }
+
+  function getAriaLabel(): string | undefined {
+    return (
+      document.body
+        .querySelector('.sky-wait-mask')
+        ?.getAttribute('aria-label') || undefined
+    );
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SkyWaitFixturesModule],
     });
   });
 
-  it('should show the wait element when isWaiting is set to true', async(() => {
+  it('should show the wait element when isWaiting is set to true', async () => {
     const fixture = TestBed.createComponent(SkyWaitComponent);
     fixture.detectChanges();
 
@@ -22,19 +45,18 @@ describe('Wait component', () => {
 
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait')).not.toBeNull();
-    fixture.whenStable().then(async () => {
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   it('should set relative position on the wait component parent element', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
 
     const el = fixture.nativeElement;
-    fixture.componentInstance.isWaiting = true;
-    fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
       'relative'
     );
@@ -42,6 +64,7 @@ describe('Wait component', () => {
 
     fixture.componentInstance.isWaiting = false;
     fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
       ''
     );
@@ -49,12 +72,12 @@ describe('Wait component', () => {
 
   it('should set the appropriate class when wait component fullPage is set to true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    fixture.detectChanges();
-
-    const el = fixture.nativeElement;
     fixture.componentInstance.isFullPage = true;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
+
+    const el = fixture.nativeElement;
+
     expect(el.querySelector('.sky-wait-mask-loading-fixed')).not.toBeNull();
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
       ''
@@ -62,6 +85,7 @@ describe('Wait component', () => {
 
     fixture.componentInstance.isWaiting = false;
     fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
       ''
     );
@@ -70,6 +94,7 @@ describe('Wait component', () => {
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isFullPage = false;
     fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait-mask-loading-fixed')).toBeNull();
     expect(el.querySelector('.sky-wait-test-component').style.position).toBe(
       'relative'
@@ -78,66 +103,53 @@ describe('Wait component', () => {
 
   it('should set the appropriate class when nonBlocking is set to true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    fixture.detectChanges();
-
-    const el = fixture.nativeElement;
     fixture.componentInstance.isNonBlocking = true;
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
+
+    const el = fixture.nativeElement;
+
     expect(
       el.querySelector('.sky-wait-mask-loading-non-blocking')
     ).not.toBeNull();
 
     fixture.componentInstance.isNonBlocking = true;
     fixture.detectChanges();
+
     expect(el.querySelector('.sky-wait-mask-loading-blocking')).toBeNull();
   });
 
-  it('should prevent tab navigation and focus when fullPage is true', fakeAsync(() => {
+  it('should prevent tab navigation and focus when fullPage is true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    fixture.detectChanges();
-
     fixture.componentInstance.isNonBlocking = false;
     fixture.componentInstance.isFullPage = true;
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
 
-    SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
+    fireDomEvent(document.body, 'keydown', {
       keyboardEventInit: {
         key: 'tab',
       },
     });
 
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
     expect(document.activeElement).toBe(document.body);
     expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
 
-    const anchor2: any = document.body.querySelector('#anchor-2');
+    const anchor2 = document.body.querySelector('#anchor-2');
+
     fixture.componentInstance.secondWaitIsWaiting = true;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(anchor2, 'focusin', {
+    fireDomEvent(anchor2, 'focusin', {
       customEventInit: {
         relatedTarget: document.body,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
     expect(document.activeElement).toBe(document.body);
-  }));
+  });
 
   it(`should allow tab navigation and focus after a fullPage wait is removed when another non-blocking wait still exists and both waits were added at the same time`, fakeAsync(() => {
     // NOTE: This test was added due to a race condition with two quickly added waits on load
@@ -147,135 +159,101 @@ describe('Wait component', () => {
     fixture.componentInstance.startBlockingWait();
     fixture.componentInstance.startNonBlockingWait();
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     const bodyFocusSpy = spyOn(document.body, 'focus').and.callThrough();
 
-    SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
+    fireDomEvent(document.body, 'keydown', {
       keyboardEventInit: {
         key: 'tab',
       },
     });
 
-    fixture.detectChanges();
     tick();
     fixture.detectChanges();
+
     expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
 
-    const anchor2: any = document.body.querySelector('#anchor-2');
+    const anchor2 = document.body.querySelector('#anchor-2');
 
-    SkyAppTestUtility.fireDomEvent(anchor2, 'focusin', {
+    fireDomEvent(anchor2, 'focusin', {
       customEventInit: {
         relatedTarget: document.body,
       },
     });
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
     expect(document.activeElement).toBe(document.body);
 
     fixture.componentInstance.endBlockingWait();
-    fixture.detectChanges();
     tick();
     fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(document.body, 'keydown', {
+    fireDomEvent(document.body, 'keydown', {
       keyboardEventInit: {
         key: 'tab',
       },
     });
 
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
     expect(bodyFocusSpy).toHaveBeenCalledTimes(1);
 
-    SkyAppTestUtility.fireDomEvent(anchor2, 'focusin', {
+    fireDomEvent(anchor2, 'focusin', {
       customEventInit: {
         relatedTarget: document.body,
       },
     });
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
     expect(document.activeElement).toBe(document.body);
 
     // Clean up the existing wait so that there are not test side effects for other tests.
     fixture.componentInstance.endNonBlockingWait();
-    fixture.detectChanges();
     tick();
-    fixture.detectChanges();
   }));
 
-  it('should propagate tab navigation forward and backward avoiding waited element', fakeAsync(() => {
+  it('should propagate tab navigation forward and backward avoiding waited element', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    fixture.detectChanges();
-
     fixture.componentInstance.isNonBlocking = false;
     fixture.componentInstance.isFullPage = false;
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
     fixture.componentInstance.isWaiting = true;
-    fixture.detectChanges();
-    tick();
+
     fixture.detectChanges();
 
     const waitButton = document.body.querySelector('#inside-button');
-    const anchor0: any = document.body.querySelector('#anchor-0');
-    const anchor1: any = document.body.querySelector('#anchor-1');
-    const anchor2: any = document.body.querySelector('#anchor-2');
+    const anchor0 = document.body.querySelector('#anchor-0') as HTMLElement;
+    const anchor1 = document.body.querySelector('#anchor-1') as HTMLElement;
+    const anchor2 = document.body.querySelector('#anchor-2') as HTMLElement;
 
     anchor1.focus();
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor2);
 
     anchor2.focus();
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor2,
       },
     });
 
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
     expect(document.activeElement).toBe(anchor1);
 
     // Wrapping navigation
     fixture.componentInstance.showAnchor0 = true;
     fixture.componentInstance.showAnchor2 = false;
-    anchor1.focus();
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    anchor1.focus();
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor0);
 
     // Invisible elements
@@ -283,20 +261,15 @@ describe('Wait component', () => {
     fixture.componentInstance.showAnchor0 = true;
     fixture.componentInstance.showAnchor2 = true;
     fixture.componentInstance.anchor2Display = 'none';
+    fixture.detectChanges();
 
     anchor1.focus();
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor0);
 
     // test display:none
@@ -304,244 +277,263 @@ describe('Wait component', () => {
     fixture.componentInstance.showAnchor2 = true;
     fixture.componentInstance.anchor2Display = '';
     fixture.componentInstance.anchor2Visibility = 'hidden';
-    anchor1.focus();
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    anchor1.focus();
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor0);
 
     fixture.componentInstance.showAnchor0 = true;
     fixture.componentInstance.showAnchor2 = true;
     fixture.componentInstance.anchor0Visibility = 'hidden';
     fixture.componentInstance.anchor2Display = 'none';
-    anchor1.focus();
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    anchor1.focus();
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor1);
 
     fixture.componentInstance.showAnchor0 = false;
     fixture.componentInstance.showAnchor2 = false;
-    anchor1.focus();
-    fixture.detectChanges();
-    tick();
     fixture.detectChanges();
 
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    anchor1.focus();
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor1);
 
     fixture.componentInstance.isWaiting = false;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
     anchor1.focus();
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-    expect(document.activeElement).toBe(anchor1);
-  }));
 
-  it('should ignore other blocking wait when propagating tab navigation', fakeAsync(() => {
+    expect(document.activeElement).toBe(anchor1);
+  });
+
+  it('should ignore other blocking wait when propagating tab navigation', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.detectChanges();
 
     fixture.componentInstance.isNonBlocking = false;
     fixture.componentInstance.isFullPage = false;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.secondWaitIsWaiting = true;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
     const waitButton = document.body.querySelector('#inside-button');
-    const anchor0: any = document.body.querySelector('#anchor-0');
-    const anchor1: any = document.body.querySelector('#anchor-1');
-    anchor1.focus();
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+    const anchor0 = document.body.querySelector('#anchor-0') as HTMLElement;
+    const anchor1 = document.body.querySelector('#anchor-1') as HTMLElement;
 
-    SkyAppTestUtility.fireDomEvent(waitButton, 'focusin', {
+    anchor1.focus();
+    fireDomEvent(waitButton, 'focusin', {
       customEventInit: {
         relatedTarget: anchor1,
       },
     });
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
+
     expect(document.activeElement).toBe(anchor0);
-  }));
+  });
 
-  it('should set aria-busy on document body when fullPage is true', async(() => {
+  it('should set aria-busy on document body when fullPage is true', async () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-    fixture.detectChanges();
-
     fixture.componentInstance.isFullPage = true;
-    fixture.detectChanges();
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
+
     expect(document.body.getAttribute('aria-busy')).toBe('true');
 
-    fixture.whenStable().then(async () => {
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-      fixture.componentInstance.isWaiting = false;
-      fixture.detectChanges();
-      expect(document.body.getAttribute('aria-busy')).toBeNull();
-    });
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+
+    expect(document.body.getAttribute('aria-busy')).toBeNull();
+  });
 
   it('should set aria-busy on containing div when fullPage is set to false', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
 
     const el = fixture.nativeElement;
-    fixture.componentInstance.isWaiting = true;
-    fixture.detectChanges();
+
     expect(
       el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')
     ).toBe('true');
 
     fixture.componentInstance.isWaiting = false;
     fixture.detectChanges();
+
     expect(
       el.querySelector('.sky-wait-test-component').getAttribute('aria-busy')
     ).toBeNull();
   });
 
-  it('should set isPageWaitActive when fullPage is true', fakeAsync(() => {
+  it('should set isPageWaitActive when fullPage is true', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.componentInstance.isNonBlocking = false;
     fixture.componentInstance.isFullPage = true;
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
     fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
-    expect((SkyWaitAdapterService as any).isPageWaitActive).toBeTruthy();
+    expect(SkyWaitAdapterService.isPageWaitActive).toBeTruthy();
 
     fixture.componentInstance.isWaiting = false;
     fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
 
-    expect((SkyWaitAdapterService as any).isPageWaitActive).toBeFalsy();
-  }));
+    expect(SkyWaitAdapterService.isPageWaitActive).toBeFalsy();
+  });
 
-  function getAriaLabel(): string {
-    return document.body
-      .querySelector('.sky-wait-mask')
-      .getAttribute('aria-label');
-  }
-
-  it('should use inputted aria-label', async(() => {
+  it('should use aria-label', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
-
     fixture.componentInstance.ariaLabel = 'test label';
     fixture.componentInstance.isNonBlocking = false;
+    fixture.componentInstance.isWaiting = true;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      fixture.componentInstance.isWaiting = true;
-      fixture.detectChanges();
 
-      const ariaLabel = getAriaLabel();
-      expect(ariaLabel).toBe('test label');
-    });
-  }));
+    expect(getAriaLabel()).toBe('test label');
+  });
 
-  it('should set aria-label on document body when fullPage is true and is blocking', async(() => {
+  it('should respect changes to aria-label after the component is rendered', () => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    fixture.componentInstance.ariaLabel = 'test label';
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.componentInstance.isWaiting = true;
+    fixture.detectChanges();
+
+    expect(getAriaLabel()).toBe('test label');
+
+    fixture.componentInstance.ariaLabel = 'another test label';
+    fixture.detectChanges();
+
+    expect(getAriaLabel()).toBe('another test label');
+  });
+
+  it('should set aria-label on document body when fullPage is true and is blocking', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.componentInstance.isFullPage = true;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = false;
     fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('Page loading. Please wait.');
-  }));
+    expect(getAriaLabel()).toBe('Page loading. Please wait.');
+  });
 
-  it('should set aria-label on document body when fullPage is true and is not blocking', async(() => {
+  it('should set aria-label on document body when fullPage is true and is not blocking', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.componentInstance.isFullPage = true;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = true;
     fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('Page loading.');
-  }));
+    expect(getAriaLabel()).toBe('Page loading.');
+  });
 
-  it('should set aria-label on containing div when fullPage is set to false and is blocking', async(() => {
+  it('should set aria-label on containing div when fullPage is set to false and is blocking', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.componentInstance.isFullPage = false;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = false;
     fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('Loading. Please wait.');
-  }));
+    expect(getAriaLabel()).toBe('Loading. Please wait.');
+  });
 
-  it('should set aria-label on containing div when fullPage is set to false and is not blocking', async(() => {
+  it('should set aria-label on containing div when fullPage is set to false and is not blocking', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.componentInstance.isFullPage = false;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = true;
     fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('Loading.');
-  }));
+    expect(getAriaLabel()).toBe('Loading.');
+  });
 
-  it('should not use default aria-label when one is provided', async(() => {
+  it('should not use default aria-label when one is provided', () => {
     const fixture = TestBed.createComponent(SkyWaitTestComponent);
     fixture.componentInstance.isFullPage = false;
     fixture.componentInstance.isWaiting = true;
     fixture.componentInstance.isNonBlocking = false;
-    fixture.componentInstance.ariaLabel = 'Waiting on the page to load.';
+    fixture.componentInstance.ariaLabel = 'Waiting for the page to load.';
     fixture.detectChanges();
 
-    const ariaLabel = getAriaLabel();
-    expect(ariaLabel).toBe('Waiting on the page to load.');
-  }));
+    expect(getAriaLabel()).toBe('Waiting for the page to load.');
+  });
+
+  it('should update aria-label with default when fullPage or isNonBlocking is updated', () => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+    fixture.componentInstance.isWaiting = true;
+    fixture.detectChanges();
+
+    expect(getAriaLabel()).toBe('Loading. Please wait.');
+
+    fixture.componentInstance.isFullPage = true;
+    fixture.detectChanges();
+
+    expect(getAriaLabel()).toBe('Page loading. Please wait.');
+
+    fixture.componentInstance.isNonBlocking = true;
+    fixture.detectChanges();
+
+    expect(getAriaLabel()).toBe('Page loading.');
+  });
+
+  it('should restore focus', () => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+    const button = document.getElementById('inside-button');
+    button?.focus();
+
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.detectChanges();
+
+    expect(document.activeElement).not.toBe(button);
+
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(button);
+  });
+
+  it('should not restore focus if focus is changed', () => {
+    const fixture = TestBed.createComponent(SkyWaitTestComponent);
+
+    const button = document.getElementById('inside-button');
+    button?.focus();
+
+    fixture.componentInstance.isWaiting = true;
+    fixture.componentInstance.isNonBlocking = false;
+    fixture.detectChanges();
+
+    expect(document.activeElement).not.toBe(button);
+
+    document.getElementById('anchor-1')?.focus();
+
+    fixture.componentInstance.isWaiting = false;
+    fixture.detectChanges();
+
+    expect(document.activeElement).not.toBe(button);
+  });
 });

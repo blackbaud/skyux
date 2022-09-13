@@ -1,0 +1,22 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/lists/testing/src",
+  "prefix": "sky",
+  "targets": {
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/components/lists/testing/src/test.ts",
+        "tsConfig": "libs/components/lists/testing/tsconfig.spec.json",
+        "karmaConfig": "libs/components/lists/testing/karma.conf.js",
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ]
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ import { SkyViewkeeperService } from './viewkeeper.service';
 describe('Viewkeeper directive', () => {
   let mockViewkeeperSvc: any;
   let mockMutationObserverSvc: any;
-  let mutationCallbacks: any[];
+  let mutationCallbacks: any[] = [];
   let mockMutationObserver: any;
 
   function getBoundaryEl(
@@ -104,7 +104,7 @@ describe('Viewkeeper directive', () => {
     };
 
     mockMutationObserverSvc = {
-      create: jasmine.createSpy('create').and.callFake((callback: any) => {
+      create: jasmine.createSpy('create').and.callFake((callback) => {
         mutationCallbacks.push(callback);
         return mockMutationObserver;
       }),
@@ -127,7 +127,7 @@ describe('Viewkeeper directive', () => {
   });
 
   afterEach(() => {
-    mutationCallbacks = undefined;
+    mutationCallbacks = [];
   });
 
   it('should create viewkeeper objects for each matching element', () => {
@@ -149,9 +149,12 @@ describe('Viewkeeper directive', () => {
     // Disconnect is called four times from the scrollable host service when we watch for scrollable parents.
     expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
 
+    mockMutationObserver.disconnect.calls.reset();
+
     fixture.destroy();
 
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(5);
+    // Called twice from the scrollable host service when we unsubscribe from the observable and once for the viewkeepers own mutation observer.
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(3);
   });
 
   it('should create viewkeeper objects for elements that appear after initial render', () => {
@@ -240,8 +243,11 @@ describe('Viewkeeper directive', () => {
     // Disconnect is called four times from the scrollable host service when we watch for scrollable parents.
     expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(4);
 
+    mockMutationObserver.disconnect.calls.reset();
+
     fixture.destroy();
 
-    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(5);
+    // Called twice from the scrollable host service when we unsubscribe from the observable and once for the viewkeepers own mutation observer.
+    expect(mockMutationObserver.disconnect).toHaveBeenCalledTimes(3);
   });
 });

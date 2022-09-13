@@ -11,14 +11,18 @@ import { SkyViewkeeperOptions } from './viewkeeper-options';
   providedIn: 'root',
 })
 export class SkyViewkeeperService {
-  constructor(@Optional() private hostOptions?: SkyViewkeeperHostOptions) {}
+  #hostOptions: SkyViewkeeperHostOptions | undefined;
+
+  constructor(@Optional() hostOptions?: SkyViewkeeperHostOptions) {
+    this.#hostOptions = hostOptions;
+  }
 
   /**
    *
    * @param options Creates a viewkeeper instance, applying host options where applicable.
    */
   public create(options: SkyViewkeeperOptions): SkyViewkeeper {
-    options = Object.assign({}, this.hostOptions || {}, options);
+    options = Object.assign({}, this.#hostOptions || {}, options);
 
     return new SkyViewkeeper(options);
   }

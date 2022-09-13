@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
+  HostBinding,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { SkyAgGridService } from '@skyux/ag-grid';
 import {
   SkyDataManagerConfig,
@@ -12,6 +14,7 @@ import {
 } from '@skyux/data-manager';
 
 import { GridOptions } from 'ag-grid-community';
+import { BehaviorSubject } from 'rxjs';
 
 import { CustomLinkComponent } from './custom-link/custom-link.component';
 import { columnDefinitions, data } from './data-set-large';
@@ -19,9 +22,16 @@ import { columnDefinitions, data } from './data-set-large';
 @Component({
   selector: 'app-data-manager-large',
   templateUrl: './data-manager-large.component.html',
+  styleUrls: ['./data-manager-large.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DataManagerLargeComponent implements OnInit {
+  @HostBinding('class.use-normal-dom-layout')
+  public get useNormalDomLayout(): boolean {
+    return this.domLayout === 'normal';
+  }
+
   public dataManagerConfig: SkyDataManagerConfig = {};
 
   public defaultDataState = new SkyDataManagerState({
@@ -55,29 +65,27 @@ export class DataManagerLargeComponent implements OnInit {
   public items = data;
   public settingsKey = 'large-test';
   public gridOptions: GridOptions;
-  public isActive = true;
+  public isActive$ = new BehaviorSubject(true);
+  public gridSettings: FormGroup;
+  public domLayout: 'normal' | 'autoHeight' | 'print' = 'autoHeight';
+  public enableTopScroll = true;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    private formBuilder: FormBuilder,
     private dataManagerService: SkyDataManagerService,
     private agGridService: SkyAgGridService
-  ) {}
+  ) {
+    this.gridSettings = this.formBuilder.group({
+      enableTopScroll: this.enableTopScroll,
+      domLayout: this.domLayout,
+    });
+  }
 
   public ngOnInit(): void {
-    this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: {
-        columnDefs: columnDefinitions,
-        columnTypes: {
-          custom_link: {
-            cellRendererFramework: CustomLinkComponent,
-          },
-        },
-      },
-    });
+    this.applyGridOptions();
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isActive = id === this.viewId;
-      this.changeDetector.markForCheck();
+      this.isActive$.next(id === this.viewId);
     });
 
     this.dataManagerService.initDataManager({
@@ -104,6 +112,31 @@ export class DataManagerLargeComponent implements OnInit {
           alwaysDisplayed: ['select'].includes(col.field),
         };
       }),
+    });
+
+    this.gridSettings.valueChanges.subscribe((value) => {
+      this.isActive$.next(false);
+      this.enableTopScroll = value.enableTopScroll;
+      this.domLayout = value.domLayout;
+      this.applyGridOptions();
+      setTimeout(() => this.isActive$.next(true));
+    });
+  }
+
+  private applyGridOptions() {
+    this.gridOptions = this.agGridService.getGridOptions({
+      gridOptions: {
+        columnDefs: columnDefinitions,
+        columnTypes: {
+          custom_link: {
+            cellRendererFramework: CustomLinkComponent,
+          },
+        },
+        context: {
+          enableTopScroll: this.enableTopScroll,
+        },
+        domLayout: this.domLayout,
+      },
     });
   }
 }

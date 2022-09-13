@@ -58,6 +58,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * the tab's unique state in the URL by generating a query parameter that is
    * written as `?<queryParam>-active-tab=<sanitized-tab-heading`.
    * By default, the query parameter's value is parsed automatically from the tab's heading text.
+   * This input only applies when the tabset's `tabStyle` is `"tabs"`.
    */
   @Input()
   public set permalinkValue(value: string) {
@@ -72,6 +73,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   /**
    * Displays a counter beside the tab header.
+   * This input only applies when the tabset's `tabStyle` is `"tabs"`.
    */
   @Input()
   public tabHeaderCount: string | undefined;
@@ -112,6 +114,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
    * Fires when users click the button to close the tab.
    * The close button is added to the tab when you specify a listener for this event.
+   * This event only applies when the tabset's `tabStyle` is `"tabs"`.
    */
   @Output()
   public close = new EventEmitter<void>(); // eslint-disable-line @angular-eslint/no-output-native

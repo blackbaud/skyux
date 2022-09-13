@@ -5,6 +5,8 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX checkbox component.
+ * @internal
+ * @deprecated Use `SkyCheckboxHarness` instead.
  */
 export class SkyCheckboxFixture {
   private debugEl: DebugElement;

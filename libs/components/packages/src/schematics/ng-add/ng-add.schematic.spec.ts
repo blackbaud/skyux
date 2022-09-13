@@ -37,6 +37,21 @@ describe('ng-add.schematic', () => {
     ).toEqual(1);
   });
 
+  it('should not apply the crossvent fix if it already exists', async () => {
+    tree.overwrite(
+      'projects/my-lib/src/test.ts',
+      '(window as any).global = window;'
+    );
+
+    const updatedTree = await runSchematic();
+
+    expect(
+      updatedTree
+        .readContent('projects/my-lib/src/test.ts')
+        .match(/\(window as any\)\.global = window/)?.length
+    ).toEqual(1);
+  });
+
   it('should install @angular/cdk', async () => {
     const updatedTree = await runSchematic();
 

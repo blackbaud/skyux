@@ -1140,6 +1140,14 @@ describe('File attachment', () => {
     expect(imageEl).toBeFalsy();
   });
 
+  it('should show inline help', () => {
+    fixture.componentInstance.showInlineHelp = true;
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.sky-help-inline')
+    ).toBeTruthy();
+  });
+
   it('should pass accessibility', async(() => {
     fixture.detectChanges();
     fixture.whenStable().then(async () => {

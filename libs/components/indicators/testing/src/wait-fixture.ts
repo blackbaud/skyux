@@ -2,6 +2,9 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
+/**
+ * @internal
+ */
 export class SkyWaitFixture {
   public get isWaiting(): boolean {
     return this.innerWaitComponentContainsClass('.sky-wait-mask');
@@ -12,8 +15,7 @@ export class SkyWaitFixture {
   }
 
   public get ariaLabel(): string {
-    const div: HTMLDivElement =
-      this.debugEl.nativeElement.querySelector('.sky-wait-mask');
+    const div = this.debugEl.nativeElement.querySelector('.sky-wait-mask');
     return div.getAttribute('aria-label');
   }
 
@@ -25,7 +27,7 @@ export class SkyWaitFixture {
 
   private debugEl: DebugElement;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,

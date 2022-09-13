@@ -1,5 +1,4 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -17,18 +16,24 @@ import { SkyHrefModule } from './href.module';
 
 describe('SkyHref Directive', () => {
   let fixture: ComponentFixture<HrefDirectiveFixtureComponent>;
-  let debugElement: DebugElement;
-  let getAllParam: boolean;
+  let el: HTMLElement;
+  let getAllParam: boolean | undefined;
 
-  function setup(params: any, provideSkyAppConfig = true): void {
+  function setup(
+    params: any,
+    provideSkyAppConfig = true,
+    providesParamsProvider = true
+  ): void {
     const providers: any[] = [
       {
         provide: SkyAppRuntimeConfigParamsProvider,
-        useValue: {
-          params: {
-            getAll: () => params,
-          },
-        },
+        useValue: providesParamsProvider
+          ? {
+              params: {
+                getAll: () => params,
+              },
+            }
+          : undefined,
       },
       {
         provide: SkyHrefResolverService,
@@ -64,15 +69,15 @@ describe('SkyHref Directive', () => {
     });
 
     fixture = TestBed.createComponent(HrefDirectiveFixtureComponent);
+    el = fixture.nativeElement;
     fixture.detectChanges(); // initial binding
-    debugElement = fixture.debugElement;
   }
 
   it('should create links', fakeAsync(() => {
     setup({});
 
     tick(100);
-    const links = Array.from(fixture.nativeElement.querySelectorAll('a'));
+    const links = Array.from(el.querySelectorAll('a'));
     expect(links.filter((e: HTMLElement) => !!e.offsetParent).length).toEqual(
       6
     );
@@ -82,8 +87,8 @@ describe('SkyHref Directive', () => {
     setup({});
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.noAccessLink a');
-    expect(element.offsetParent).toBeFalsy();
+    const element: HTMLElement | null = el.querySelector('.noAccessLink a');
+    expect(element?.offsetParent).toBeFalsy();
   }));
 
   it('should check availability when the link changes', fakeAsync(() => {
@@ -108,16 +113,16 @@ describe('SkyHref Directive', () => {
     setup({});
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.localLink');
-    expect(element.textContent).toBe('Example');
+    const element: HTMLElement | null = el.querySelector('.localLink');
+    expect(element?.textContent).toBe('Example');
   }));
 
   it('should set href without any query parameters', fakeAsync(() => {
     setup({});
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.simpleLink a');
-    expect(element.getAttribute('href')).toEqual(
+    const element: HTMLElement | null = el.querySelector('.simpleLink a');
+    expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=param'
     );
   }));
@@ -129,8 +134,8 @@ describe('SkyHref Directive', () => {
     });
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.simpleLink a');
-    expect(element.getAttribute('href')).toEqual(
+    const element: HTMLElement | null = el.querySelector('.simpleLink a');
+    expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
     );
   }));
@@ -142,10 +147,20 @@ describe('SkyHref Directive', () => {
     fixture.detectChanges();
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.dynamicLink a');
-    expect(element.getAttribute('href')).toEqual(
+    const element: HTMLElement | null = el.querySelector('.dynamicLink a');
+    expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?query=override'
     );
+  }));
+
+  it('should handle an undefined value', fakeAsync(() => {
+    setup({}, false);
+    fixture.detectChanges();
+    tick(100);
+    fixture.componentInstance.dynamicLink = undefined;
+    fixture.detectChanges();
+    const element: HTMLElement | null = el.querySelector('.dynamicLink a');
+    expect(element?.getAttribute('href')).toBeNull();
   }));
 
   it('should set href with merged query parameters supplied by the app config', fakeAsync(() => {
@@ -155,8 +170,8 @@ describe('SkyHref Directive', () => {
     });
 
     tick(100);
-    const element = debugElement.nativeElement.querySelector('.simpleLink a');
-    expect(element.getAttribute('href')).toEqual(
+    const element: HTMLElement | null = el.querySelector('.simpleLink a');
+    expect(element?.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
     );
   }));
@@ -179,6 +194,23 @@ describe('SkyHref Directive', () => {
     const element = fixture.nativeElement.querySelector('.simpleLink a');
     expect(element.getAttribute('href')).toEqual(
       'https://example.com/example/page?asdf=123&jkl=mno&query=param'
+    );
+  }));
+
+  it('should handle neither SkyAppRuntimeConfigParamsProvider or SkyAppConfig being provided', fakeAsync(() => {
+    setup(
+      {
+        asdf: 123,
+        jkl: 'mno',
+      },
+      false,
+      false
+    );
+
+    tick(100);
+    const element = fixture.nativeElement.querySelector('.simpleLink a');
+    expect(element.getAttribute('href')).toEqual(
+      'https://example.com/example/page?query=param'
     );
   }));
 

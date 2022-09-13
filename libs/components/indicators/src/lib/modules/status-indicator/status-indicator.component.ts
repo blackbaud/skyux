@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  OnInit,
 } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -24,19 +25,17 @@ const INDICATOR_TYPE_DEFAULT: SkyIndicatorIconType = 'warning';
   styleUrls: ['./status-indicator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyStatusIndicatorComponent {
+export class SkyStatusIndicatorComponent implements OnInit {
   /**
    * Specifies a style for the status indicator to determine the icon.
    * @default "warning"
    */
   @Input()
   public set indicatorType(value: SkyIndicatorIconType) {
-    this._indicatorType = value;
-    this.updateIcon();
-  }
+    this.indicatorTypeOrDefault =
+      value === undefined ? INDICATOR_TYPE_DEFAULT : value;
 
-  public get indicatorType(): SkyIndicatorIconType {
-    return this._indicatorType || INDICATOR_TYPE_DEFAULT;
+    this.#updateIcon();
   }
 
   /**
@@ -45,13 +44,13 @@ export class SkyStatusIndicatorComponent {
    * @required
    */
   @Input()
-  public set descriptionType(value: SkyIndicatorDescriptionType) {
-    this._descriptionType = value;
-    this.updateDescriptionComputed();
+  public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
+    this.#_descriptionType = value;
+    this.#updateDescriptionComputed();
   }
 
-  public get descriptionType(): SkyIndicatorDescriptionType {
-    return this._descriptionType;
+  public get descriptionType(): SkyIndicatorDescriptionType | undefined {
+    return this.#_descriptionType;
   }
 
   /**
@@ -59,37 +58,46 @@ export class SkyStatusIndicatorComponent {
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()
-  public set customDescription(value: string) {
-    this._customDescription = value;
-    this.updateDescriptionComputed();
+  public set customDescription(value: string | undefined) {
+    this.#_customDescription = value;
+    this.#updateDescriptionComputed();
   }
 
-  public get customDescription(): string {
-    return this._customDescription;
+  public get customDescription(): string | undefined {
+    return this.#_customDescription;
   }
 
-  public descriptionComputed: string;
+  public descriptionComputed: string | undefined;
 
-  public baseIcon: SkyIconStackItem;
+  public baseIcon: SkyIconStackItem | undefined;
 
-  public icon: string;
+  public icon: string | undefined;
 
-  public topIcon: SkyIconStackItem;
+  public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
 
-  private _indicatorType: SkyIndicatorIconType;
+  public topIcon: SkyIconStackItem | undefined;
 
-  private _descriptionType: SkyIndicatorDescriptionType;
+  #changeDetector: ChangeDetectorRef;
+  #resourcesSvc: SkyLibResourcesService;
 
-  private _customDescription: string;
+  #_descriptionType: SkyIndicatorDescriptionType | undefined;
+  #_customDescription: string | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private resources: SkyLibResourcesService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    resources: SkyLibResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resourcesSvc = resources;
+  }
 
-  private updateIcon(): void {
+  public ngOnInit(): void {
+    this.#updateIcon();
+  }
+
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.indicatorType
+      this.indicatorTypeOrDefault
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
@@ -97,7 +105,7 @@ export class SkyStatusIndicatorComponent {
     this.topIcon = indicatorIcon.modernThemeTopIcon;
   }
 
-  private updateDescriptionComputed(): void {
+  #updateDescriptionComputed(): void {
     if (this.descriptionType) {
       switch (this.descriptionType) {
         case 'none':
@@ -107,14 +115,14 @@ export class SkyStatusIndicatorComponent {
           this.descriptionComputed = this.customDescription;
           break;
         default:
-          this.resources
+          this.#resourcesSvc
             .getString(
               'skyux_status_indicator_sr_' +
                 this.descriptionType.replace(/-/g, '_')
             )
             .subscribe((value) => {
               this.descriptionComputed = value;
-              this.changeDetector.markForCheck();
+              this.#changeDetector.markForCheck();
             });
 
           break;

@@ -14,6 +14,7 @@
   >
     <sky-autocomplete
       [ariaLabelledBy]="ariaLabelledBy"
+      [attr.data-sky-lookup-show-more-picker-id]="showMorePickerId"
       [data]="data"
       [debounceTime]="debounceTime"
       [descriptorProperty]="descriptorProperty"
@@ -51,7 +52,7 @@
             [tokens]="tokens"
             (keyup)="onTokensKeyUp($event)"
             (tokensChange)="onTokensChange($event)"
-            (tokenSelected)="enableShowMore ? openPicker(undefined) : undefined"
+            (tokenSelected)="enableShowMore ? openPicker('') : undefined"
             (focusIndexOverRange)="onTokensFocusIndexOverRange()"
           >
             <textarea
@@ -65,7 +66,7 @@
               [autocompleteAttribute]="autocompleteAttribute"
               [disabled]="disabled"
               (blur)="onAutocompleteBlur()"
-              (keydown)="inputKeydown($event, $event.target.value)"
+              (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
             ></textarea>
           </sky-tokens>

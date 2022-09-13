@@ -118,13 +118,6 @@
   flex-shrink: 0;
   z-index: 2;
 
-  ::ng-deep sky-tabset-nav-button + sky-tabset-nav-button {
-    margin-left: $sky-margin;
-  }
-  ::ng-deep sky-tabset-nav-button + .sky-btn {
-    margin-left: $sky-margin;
-  }
-
   ::ng-deep .sky-btn + .sky-btn {
     margin-left: $sky-margin;
   }
@@ -187,6 +180,22 @@
     margin-bottom: initial;
     padding-top: initial;
     width: 100%;
+  }
+
+  .sky-modal-viewkeeper {
+    .sky-modal-header {
+      box-shadow: none !important;
+    }
+
+    .sky-modal-content ::ng-deep sky-modal-content > .sky-viewkeeper-fixed {
+      box-shadow: 0px 4px 8px -4px rgb(0 0 0 / 30%);
+
+      > sky-toolbar .sky-toolbar-container {
+        background-color: #fff;
+        padding-left: $sky-theme-modern-space-xl;
+        padding-right: $sky-theme-modern-space-xl;
+      }
+    }
   }
 }
 

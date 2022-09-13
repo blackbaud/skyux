@@ -2,6 +2,9 @@ import { SkyTheme, SkyThemeMode, SkyThemeSettingsChange } from '@skyux/theme';
 
 import { BehaviorSubject } from 'rxjs';
 
+/**
+ * @internal
+ */
 export class ModalMockThemeService {
   public settingsChange = new BehaviorSubject<SkyThemeSettingsChange>({
     currentSettings: {

@@ -32,6 +32,21 @@
       "factory": "./src/generators/init",
       "schema": "./src/generators/init/schema.json",
       "description": "initialize e2e testing"
+    },
+    "story": {
+      "factory": "./src/generators/story",
+      "schema": "./src/generators/story/schema.json",
+      "description": "add a new story to storybook project"
+    },
+    "pr-comment": {
+      "factory": "./src/generators/pr-comment/generator",
+      "schema": "./src/generators/pr-comment/schema.json",
+      "description": "pr-comment generator"
+    },
+    "switch-to-variations": {
+      "factory": "./src/generators/switch-to-variations/generator",
+      "schema": "./src/generators/switch-to-variations/schema.json",
+      "description": "switch-to-variations generator"
     }
   }
 }

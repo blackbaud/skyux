@@ -642,7 +642,11 @@ export class SkyGridComponent
     }
   }
 
-  public onResizeColumnStart(event: MouseEvent): void {
+  public onResizeColumnStart(event: {
+    stopPropagation: () => void;
+    preventDefault: () => void;
+    pageX?: number;
+  }): void {
     // If this table hasn't been resized, initialize all the resize widths.
     if (!this.isResized) {
       this.initColumnWidths();
@@ -726,11 +730,11 @@ export class SkyGridComponent
     this.setResizeBarPosition(event.pageX);
   }
 
-  public onResizeHandleBlur(event: Event) {
+  public onResizeHandleBlur() {
     this.showResizeBar = false;
   }
 
-  public onResizeHandleFocus(event: KeyboardEvent) {
+  public onResizeHandleFocus(event: FocusEvent) {
     this.showResizeBar = true;
     this.changeDetector.detectChanges();
 

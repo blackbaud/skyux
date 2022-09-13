@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkyPagingFixtureButton {
   id: string;
   isActive: boolean;

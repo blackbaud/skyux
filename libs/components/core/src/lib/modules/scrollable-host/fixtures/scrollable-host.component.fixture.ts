@@ -20,18 +20,18 @@ export class ScrollableHostFixtureComponent implements OnDestroy {
   public isGrandparentScrollable = false;
 
   @ViewChild('alternate')
-  public alternateParent: ElementRef;
+  public alternateParent!: ElementRef;
 
   @ViewChild('grandparent')
-  public grandparent: ElementRef;
+  public grandparent!: ElementRef;
 
   @ViewChild('parent')
-  public parent: ElementRef;
+  public parent!: ElementRef;
 
   @ViewChild('target')
-  public target: ElementRef;
+  public target!: ElementRef;
 
-  public ngUnsubscribe = new Subject();
+  public ngUnsubscribe = new Subject<void>();
 
   constructor(private scrollableHostService: SkyScrollableHostService) {}
 

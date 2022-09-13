@@ -7,7 +7,7 @@ import { SkyModalInstance } from '../modal/modal-instance';
 import { SkyModalModule } from '../modal/modal.module';
 
 import { SkyConfirmConfig } from './confirm-config';
-import { SkyConfirmModalContext } from './confirm-modal-context';
+import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmType } from './confirm-type';
 import { SkyConfirmComponent } from './confirm.component';
 import { SkyConfirmModule } from './confirm.module';
@@ -26,7 +26,7 @@ describe('Confirm component', () => {
     TestBed.overrideComponent(SkyConfirmComponent, {
       set: {
         providers: [
-          { provide: SkyConfirmModalContext, useValue: config },
+          { provide: SKY_CONFIRM_CONFIG, useValue: config },
           { provide: SkyModalInstance, useValue: modalInstance },
         ],
       },
@@ -49,7 +49,8 @@ describe('Confirm component', () => {
     // Cleanup after unit tests.
     // TODO: Figure out a better way to do this!
     const element = document.querySelector('.sky-confirm');
-    element.parentNode.removeChild(element);
+
+    element?.parentNode?.removeChild(element);
   });
 
   it('should display an OK confirm by default', async(() => {

@@ -1,0 +1,47 @@
+body {
+  min-width: 1280px;
+  overflow: auto;
+}
+
+app-popover {
+  display: grid;
+  grid-template-columns: 300px 300px 300px 300px;
+  grid-template-rows: repeat(auto-fill, 180px);
+}
+
+.static-popover-wrapper {
+  width: 300px;
+  height: 180px;
+  display: inline-block;
+  position: relative;
+}
+
+.static-popover-button {
+  height: 10px;
+  width: 10px;
+  border: solid 1px #000;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 0;
+  position: absolute;
+
+  &-above {
+    bottom: 0;
+    left: 145px;
+  }
+
+  &-below {
+    top: 0;
+    left: 145px;
+  }
+
+  &-right {
+    top: 85px;
+    left: 0;
+  }
+
+  &-left {
+    top: 85px;
+    right: 0;
+  }
+}

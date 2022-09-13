@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 
 /**
  * Provides a mock token to downstream consumers for unit testing purposes.
+ * @internal
  */
 @Injectable()
 export class SkyAuthTokenMockProvider {

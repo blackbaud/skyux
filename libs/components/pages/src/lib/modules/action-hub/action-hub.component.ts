@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { SkyActionHubNeedsAttention } from './types/action-hub-needs-attention';
+import { SkyActionHubNeedsAttentionInput } from './types/action-hub-needs-attention-input';
 import { SkyPageLink } from './types/page-link';
 import { SkyPageLinksInput } from './types/page-links-input';
+import { SkyPageModalLinksInput } from './types/page-modal-links-input';
 import { SkyRecentLinksInput } from './types/recent-links-input';
 
 /**
@@ -19,7 +21,16 @@ export class SkyActionHubComponent {
    * Provides a list of actions that users must perform based on business requirements or best practices, or `"loading"` to display a wait indicator.
    */
   @Input()
-  public needsAttention: SkyActionHubNeedsAttention[] | 'loading' = [];
+  public set needsAttention(
+    value: SkyActionHubNeedsAttentionInput | undefined
+  ) {
+    this.#_needsAttention = value;
+    this.needsAttentionArray = Array.isArray(value) ? value : [];
+  }
+
+  public get needsAttention(): SkyActionHubNeedsAttentionInput | undefined {
+    return this.#_needsAttention;
+  }
 
   /**
    * Links back to a parent page.
@@ -40,9 +51,19 @@ export class SkyActionHubComponent {
   public relatedLinks: SkyPageLinksInput = [];
 
   /**
+   * Provides a list of settings with modal parameters, or `"loading"` to display a wait indicator.
+   */
+  @Input()
+  public settingsLinks: SkyPageModalLinksInput = [];
+
+  /**
    * Specifies the page title.
    * @default ""
    */
   @Input()
   public title = '';
+
+  public needsAttentionArray: SkyActionHubNeedsAttention[] = [];
+
+  #_needsAttention: SkyActionHubNeedsAttentionInput | undefined;
 }

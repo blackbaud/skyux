@@ -1,0 +1,30 @@
+<div>
+  <button
+    type="button"
+    class="sky-btn sky-btn-primary sky-test-label"
+    (click)="onToggleInlineHelpClick()"
+  >
+    Toggle inline help
+  </button>
+</div>
+
+<div class="sky-padding-even-large">
+  <sky-toggle-switch class="sky-margin-inline-lg">
+    <sky-toggle-switch-label>Toggle switch label</sky-toggle-switch-label>
+    <sky-help-inline
+      *ngIf="showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-toggle-switch>
+  <span>Text after switch</span>
+</div>
+<div class="sky-padding-even-large">
+  <sky-toggle-switch [disabled]="true">
+    <sky-toggle-switch-label>Disabled switch</sky-toggle-switch-label>
+  </sky-toggle-switch>
+</div>
+<div class="sky-padding-even-large">
+  <sky-toggle-switch [checked]="true" [disabled]="true">
+    <sky-toggle-switch-label>Disabled switch checked</sky-toggle-switch-label>
+  </sky-toggle-switch>
+</div>

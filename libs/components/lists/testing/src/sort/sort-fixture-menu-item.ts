@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export interface SkySortFixtureMenuItem {
   index: number;
   isActive: boolean;

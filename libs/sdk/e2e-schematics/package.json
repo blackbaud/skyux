@@ -1,5 +1,5 @@
 {
-  "name": "@skyux/e2e-schematics",
+  "name": "@skyux-sdk/e2e-schematics",
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/cdk": "^13.3.2",
@@ -9,9 +9,9 @@
     "@nrwl/linter": "^14.1.9",
     "@nrwl/storybook": "^14.1.9",
     "@nrwl/workspace": "^14.1.9",
+    "@percy/cypress": "^3.1.1",
     "typescript": "^4.6.3"
   },
   "main": "src/index.js",
-  "generators": "./generators.json",
-  "executors": "./executors.json"
+  "generators": "./generators.json"
 }

@@ -14,7 +14,7 @@ describe('Media query service', () => {
 
   function setUpListeners(): void {
     spyOn(mediaQueryListPrototype, 'addListener').and.callFake(
-      (serviceListener) => {
+      (serviceListener: (args: { matches: boolean }) => void) => {
         if (listenerCount === 0) {
           xsListener = serviceListener;
         } else if (listenerCount === 1) {
@@ -94,13 +94,11 @@ describe('Media query service', () => {
     it('should handle initialization properly', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
-        const subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {
-            result = args;
-          }
-        );
+        const subscription = mediaQueryService.subscribe((args) => {
+          result = args;
+        });
 
         expect(result).toEqual(SkyMediaBreakpoints.xs);
 
@@ -125,15 +123,13 @@ describe('Media query service', () => {
     it('should listen for media query breakpoints on init', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         callBreakpoint(SkyMediaBreakpoints.sm);
 
-        const subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {
-            result = args;
-          }
-        );
+        const subscription = mediaQueryService.subscribe((args) => {
+          result = args;
+        });
 
         expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.xs);
         expect(matchMediaSpy).toHaveBeenCalledWith(SkyMediaQueryService.sm);
@@ -153,9 +149,8 @@ describe('Media query service', () => {
           'removeListener'
         );
 
-        const subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {}
-        );
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        const subscription = mediaQueryService.subscribe(() => {});
 
         mediaQueryService.destroy();
 
@@ -167,15 +162,13 @@ describe('Media query service', () => {
     it('should fire the listener when the specified breakpoint is hit', inject(
       [SkyMediaQueryService],
       (mediaQueryService: SkyMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         callBreakpoint(SkyMediaBreakpoints.sm);
 
-        const subscription = mediaQueryService.subscribe(
-          (args: SkyMediaBreakpoints) => {
-            result = args;
-          }
-        );
+        const subscription = mediaQueryService.subscribe((args) => {
+          result = args;
+        });
 
         callBreakpoint(SkyMediaBreakpoints.xs);
 

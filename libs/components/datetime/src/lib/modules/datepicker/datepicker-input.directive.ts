@@ -335,8 +335,8 @@ export class SkyDatepickerInputDirective
     this.onTouched();
   }
 
-  @HostListener('keyup')
-  public onInputKeyup(): void {
+  @HostListener('input')
+  public onInput(): void {
     this.control.markAsDirty();
   }
 
@@ -347,6 +347,10 @@ export class SkyDatepickerInputDirective
   public validate(control: AbstractControl): ValidationErrors {
     if (!this.control) {
       this.control = control;
+      // Account for any date conversion that may have occurred prior to validation.
+      if (this.control.value !== this.value) {
+        this.control.patchValue(this.value, { emitEvent: false });
+      }
     }
 
     if (this.skyDatepickerNoValidate) {
@@ -480,6 +484,25 @@ export class SkyDatepickerInputDirective
   private getShortcutOrDateValue(value: string): Date | undefined {
     const num = Number(value);
     if (Number.isInteger(num)) {
+      // We require 8 digits in order to know that we have all information needed to determine what part of the number is the month (2), day (2), and year (4).
+      if (value.length === 8) {
+        const regex = new RegExp(/\b(MM)\b|\b(DD)\b|\b(YY)\b|\b(YYYY)\b/, 'g');
+        const formatTokensOnly = this.dateFormat
+          .match(regex)
+          .join('')
+          .replace(new RegExp(/Y+/), 'YYYY');
+
+        if (formatTokensOnly.length === 8) {
+          const date = this.dateFormatter.getDateFromString(
+            value,
+            formatTokensOnly,
+            true
+          );
+          if (this.dateFormatter.dateIsValid(date)) {
+            return date;
+          }
+        }
+      }
       const now = new Date();
       const shortcutDate = new Date(now.getFullYear(), now.getMonth(), num);
       const daysInMonth = shortcutDate.getDate();

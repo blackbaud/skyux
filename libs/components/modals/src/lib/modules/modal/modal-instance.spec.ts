@@ -12,34 +12,35 @@ describe('Modal instance', () => {
 
   it('should allow users to subscribe to the instanceClose event', function () {
     let instance: SkyModalInstance;
-    let expectedResult: SkyModalCloseArgs;
+    // This result will be overwritten in the subscription below
+    let result: SkyModalCloseArgs = { reason: undefined, data: undefined };
 
     instance = subscribeToClosed();
     instance.cancel('My result');
 
-    expect(expectedResult.data).toBe('My result');
-    expect(expectedResult.reason).toBe('cancel');
+    expect(result.data).toBe('My result');
+    expect(result.reason).toBe('cancel');
 
     instance = subscribeToClosed();
     instance.save('My data');
-    expect(expectedResult.data).toBe('My data');
-    expect(expectedResult.reason).toBe('save');
+    expect(result.data).toBe('My data');
+    expect(result.reason).toBe('save');
 
     instance = subscribeToClosed();
     instance.close('My close', 'reason');
-    expect(expectedResult.data).toBe('My close');
-    expect(expectedResult.reason).toBe('reason');
+    expect(result.data).toBe('My close');
+    expect(result.reason).toBe('reason');
 
     instance = subscribeToClosed();
     instance.close('close data');
-    expect(expectedResult.data).toBe('close data');
-    expect(expectedResult.reason).toBe('close');
+    expect(result.data).toBe('close data');
+    expect(result.reason).toBe('close');
 
     function subscribeToClosed() {
       const modalInstance = new SkyModalInstance();
 
-      modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
-        expectedResult = result;
+      modalInstance.closed.subscribe((instanceResult: SkyModalCloseArgs) => {
+        result = instanceResult;
       });
 
       return modalInstance;
@@ -70,7 +71,7 @@ describe('Modal instance', () => {
       helpOpened = true;
     });
 
-    modalInstance.openHelp();
+    modalInstance.openHelp('foobar');
 
     expect(helpOpened).toEqual(true);
   });

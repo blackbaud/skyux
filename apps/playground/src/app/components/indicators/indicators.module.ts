@@ -3,11 +3,20 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'key-info',
+    loadChildren: () =>
+      import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
+  },
+  {
     path: 'status-indicator',
     loadChildren: () =>
       import('./status-indicator/status-indicator.module').then(
         (m) => m.StatusIndicatorModule
       ),
+  },
+  {
+    path: 'wait',
+    loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
   },
 ];
 

@@ -30,8 +30,8 @@ describe('Migrations > Fix ngUnsubscribe generics', () => {
     tree.create(
       'src/app/foo.component.ts',
       `
-private _ngUnsubscribe: Subject<any> = new Subject();
-private ngUnsubscribe = new Subject<any>();
+#_ngUnsubscribe: Subject<any> = new Subject();
+#ngUnsubscribe = new Subject<any>();
 public ngUnsubscribe: Subject<any>;
 `
     );
@@ -39,8 +39,8 @@ public ngUnsubscribe: Subject<any>;
     const updatedTree = await runSchematic();
 
     expect(updatedTree.readContent('src/app/foo.component.ts')).toEqual(`
-private _ngUnsubscribe: Subject<void> = new Subject();
-private ngUnsubscribe = new Subject<void>();
+#_ngUnsubscribe: Subject<void> = new Subject();
+#ngUnsubscribe = new Subject<void>();
 public ngUnsubscribe: Subject<void>;
 `);
   });

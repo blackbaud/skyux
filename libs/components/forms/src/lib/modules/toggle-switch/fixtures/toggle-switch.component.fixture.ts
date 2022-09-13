@@ -8,8 +8,11 @@ export class SkyToggleSwitchFixtureComponent {
   public isDisabled = false;
   public customTabIndex = 0;
   public multiple = false;
+  public showInlineHelp = false;
+  public ariaLabel: string | undefined;
+  public buttonLabel: string | undefined = 'Simple toggle';
 
-  public checkChanged(event: any): void {
+  public checkChanged(event: { checked: boolean }): void {
     this.isChecked = event.checked;
   }
 }

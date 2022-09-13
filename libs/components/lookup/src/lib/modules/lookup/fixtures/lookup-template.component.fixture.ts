@@ -21,36 +21,53 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   @ViewChild('asyncLookup', {
     static: true,
   })
-  public asyncLookupComponent: SkyLookupComponent;
+  public asyncLookupComponent!: SkyLookupComponent;
 
   @ViewChild('standardLookup', {
     static: true,
   })
-  public lookupComponent: SkyLookupComponent;
+  public lookupComponent!: SkyLookupComponent;
 
   @ViewChild('customSearchResultTemplate', { read: TemplateRef, static: true })
-  public searchResultTemplate: TemplateRef<unknown>;
+  public searchResultTemplate!: TemplateRef<unknown>;
 
   @ViewChild('customShowMoreTemplate', { read: TemplateRef, static: true })
-  public showMoreTemplate: TemplateRef<unknown>;
+  public showMoreTemplate!: TemplateRef<unknown>;
 
-  public ariaLabel: string;
-  public ariaLabelledBy: string;
-  public customSearch: SkyAutocompleteSearchFunction;
-  public data: any[];
-  public descriptorProperty: string;
+  public ariaLabel: string | undefined;
+
+  public ariaLabelledBy: string | undefined;
+
+  public customSearch: SkyAutocompleteSearchFunction | undefined;
+
+  public data: any[] | undefined;
+
+  public descriptorProperty: string | undefined;
+
   public disabled = false;
-  public enabledSearchResultTemplate: TemplateRef<unknown>;
+
+  public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
+
   public enableShowMore = false;
-  public idProperty: string;
+
+  public idProperty = 'name';
+
   public ignoreAddDataUpdate = false;
-  public placeholderText: string;
-  public propertiesToSearch: string[];
+
+  public placeholderText: string | undefined;
+
+  public propertiesToSearch: string[] | undefined;
+
   public required = false;
+
   public selectedFriends: any;
+
   public selectedFriendsAsync: any;
-  public selectMode: SkyLookupSelectModeType;
+
+  public selectMode: SkyLookupSelectModeType | undefined;
+
   public showAddButton = false;
+
   public showMoreConfig: SkyLookupShowMoreConfig = {};
 
   public ngOnInit(): void {
@@ -95,7 +112,7 @@ export class SkyLookupTemplateTestComponent implements OnInit {
     addButtonClickArgs: SkyLookupAddClickEventArgs
   ): void {
     const newItem = { name: 'New item' };
-    const newItems = [newItem].concat(this.data);
+    const newItems = [newItem].concat(this.data || []);
     const callbackArgs: SkyLookupAddCallbackArgs = {
       item: newItem,
       data: this.ignoreAddDataUpdate ? undefined : newItems,

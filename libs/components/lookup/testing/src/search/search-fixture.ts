@@ -5,6 +5,8 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX search component.
+ * @deprecated Use `SkySearchHarness` instead.
+ * @internal
  */
 export class SkySearchFixture {
   /**

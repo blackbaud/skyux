@@ -31,13 +31,17 @@ export class SkyAppLinkExternalDirective
     this.routerLink = commands;
   }
 
+  #window: SkyAppWindowRef;
+  #skyAppConfig: SkyAppConfig | undefined;
+  #paramsProvider: SkyAppRuntimeConfigParamsProvider | undefined;
+
   constructor(
     router: Router,
     route: ActivatedRoute,
     platformLocation: PlatformLocation,
-    private window: SkyAppWindowRef,
-    @Optional() private skyAppConfig?: SkyAppConfig,
-    @Optional() private paramsProvider?: SkyAppRuntimeConfigParamsProvider,
+    window: SkyAppWindowRef,
+    @Optional() skyAppConfig?: SkyAppConfig,
+    @Optional() paramsProvider?: SkyAppRuntimeConfigParamsProvider,
     @Optional() hostConfig?: SkyAppConfigHost
   ) {
     super(
@@ -45,31 +49,34 @@ export class SkyAppLinkExternalDirective
       route,
       new PathLocationStrategy(
         platformLocation,
-        hostConfig ? hostConfig.host.url : skyAppConfig.skyux.host.url
+        hostConfig ? hostConfig.host.url : skyAppConfig?.skyux.host?.url
       )
     );
+    this.#window = window;
+    this.#skyAppConfig = skyAppConfig;
+    this.#paramsProvider = paramsProvider;
 
     if (
-      this.window.nativeWindow.window.name &&
-      this.window.nativeWindow.window.name !== ''
+      this.#window.nativeWindow.window.name &&
+      this.#window.nativeWindow.window.name !== ''
     ) {
-      this.target = this.window.nativeWindow.window.name;
+      this.target = this.#window.nativeWindow.window.name;
     } else {
       this.target = '_top';
     }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.queryParams = this.mergeQueryParams(changes.queryParams?.currentValue);
+    this.queryParams = this.#mergeQueryParams(
+      changes.queryParams?.currentValue
+    );
     super.ngOnChanges(changes);
   }
 
-  private mergeQueryParams(
-    queryParams: SkyAppLinkQueryParams
-  ): SkyAppLinkQueryParams {
-    const skyuxParams = this.skyAppConfig
-      ? this.skyAppConfig.runtime.params.getAll()
-      : this.paramsProvider.params.getAll();
+  #mergeQueryParams(queryParams: SkyAppLinkQueryParams): SkyAppLinkQueryParams {
+    const skyuxParams = this.#skyAppConfig
+      ? this.#skyAppConfig.runtime.params.getAll()
+      : this.#paramsProvider?.params.getAll();
 
     return Object.assign({}, this.queryParams, queryParams, skyuxParams);
   }

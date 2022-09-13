@@ -26,5 +26,9 @@
   "skyux_data_manager_columns_button_title": {
     "_description": "Text for the column picker button in the data manager toolbar",
     "message": "Columns"
+  },
+  "skyux_data_manager_select_column_status_indicator_title": {
+    "_description": "Text for the status indicator in the data manager column picker",
+    "message": "Select at least one column."
   }
 }

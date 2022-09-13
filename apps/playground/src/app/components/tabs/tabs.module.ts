@@ -10,11 +10,20 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then((m) => m.TabsModule),
+  },
+  {
     path: 'vertical-tabset',
     loadChildren: () =>
       import('./vertical-tabset/vertical-tabset.module').then(
         (m) => m.VerticalTabsetModule
       ),
+  },
+  {
+    path: 'wizard',
+    loadChildren: () =>
+      import('./wizard/wizard-demo.module').then((m) => m.WizardModule),
   },
 ];
 

@@ -11,15 +11,15 @@ export class SearchTestComponent {
     read: SkySearchComponent,
     static: false,
   })
-  public searchComponent: SkySearchComponent;
+  public searchComponent!: SkySearchComponent;
 
-  public searchText: string;
-  public placeholderText: string;
+  public searchText: string | undefined;
+  public placeholderText: string | undefined;
 
-  public expandMode: string;
+  public expandMode: string | undefined;
 
-  public lastSearchTextApplied: string;
-  public lastSearchTextChanged: string;
+  public lastSearchTextApplied: string | undefined;
+  public lastSearchTextChanged: string | undefined;
 
   public searchApplied(searchText: string) {
     this.lastSearchTextApplied = searchText;

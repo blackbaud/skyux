@@ -3,6 +3,9 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyThemeModule } from '@skyux/theme';
 
+/**
+ * @internal
+ */
 @NgModule({
   exports: [
     SkyPopoverModule,

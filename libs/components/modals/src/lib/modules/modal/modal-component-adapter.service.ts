@@ -6,7 +6,11 @@ import { SkyCoreAdapterService } from '@skyux/core';
  */
 @Injectable()
 export class SkyModalComponentAdapterService {
-  constructor(private coreAdapter: SkyCoreAdapterService) {}
+  #coreAdapter: SkyCoreAdapterService;
+
+  constructor(coreAdapter: SkyCoreAdapterService) {
+    this.#coreAdapter = coreAdapter;
+  }
 
   public handleWindowChange(modalEl: ElementRef): void {
     const boundedHeightEl = modalEl.nativeElement.querySelector('.sky-modal');
@@ -20,7 +24,7 @@ export class SkyModalComponentAdapterService {
 
     boundedHeightEl.style.maxHeight = newHeight.toString() + 'px';
     if (fullPageModalEl) {
-      this.setFullPageHeight(fullPageModalEl);
+      this.#setFullPageHeight(fullPageModalEl);
     } else {
       /*
         IE11 doesn't handle flex and max-height correctly so we have to explicitly add
@@ -79,6 +83,14 @@ export class SkyModalComponentAdapterService {
     return false;
   }
 
+  public modalContentHasDirectChildViewkeeper(
+    modalContentEl: ElementRef
+  ): boolean {
+    return !!modalContentEl.nativeElement.querySelector(
+      'sky-modal-content > .sky-viewkeeper-fixed'
+    );
+  }
+
   public modalOpened(modalEl: ElementRef): void {
     /* istanbul ignore else */
     /* handle the case where somehow there is a focused element already in the modal */
@@ -97,7 +109,7 @@ export class SkyModalComponentAdapterService {
       if (inputWithAutofocus) {
         inputWithAutofocus.focus();
       } else {
-        this.coreAdapter.getFocusableChildrenAndApplyFocus(
+        this.#coreAdapter.getFocusableChildrenAndApplyFocus(
           modalEl,
           '.sky-modal-content',
           true
@@ -107,7 +119,7 @@ export class SkyModalComponentAdapterService {
     }
   }
 
-  private setFullPageHeight(fullPageModalEl: HTMLElement): void {
+  #setFullPageHeight(fullPageModalEl: HTMLElement): void {
     const windowHeight = window.innerHeight;
     const fullPageModalStyle = getComputedStyle(fullPageModalEl);
 

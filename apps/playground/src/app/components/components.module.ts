@@ -58,6 +58,11 @@ export const componentRoutes: Routes = [
       import('./lookup/lookup.module').then((m) => m.LookupModule),
   },
   {
+    path: 'modal',
+    loadChildren: () =>
+      import('./modal/modal-visual.module').then((m) => m.ModalVisualModule),
+  },
+  {
     path: 'pages',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
@@ -82,6 +87,11 @@ export const componentRoutes: Routes = [
     path: 'theme',
     loadChildren: () =>
       import('./theme/theme.module').then((m) => m.ThemeModule),
+  },
+  {
+    path: 'toast',
+    loadChildren: () =>
+      import('./toast/toast.module').then((m) => m.ToastModule),
   },
   {
     path: 'validation',

@@ -2,13 +2,13 @@ import {
   applicationGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import { readProjectConfiguration } from '@nrwl/devkit';
+import { getWorkspacePath, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 import { removeGenerator } from '@nrwl/workspace';
 
-import { updateJson } from '../../utils/update-json';
+import { updateJson } from '../../utils';
 
 import configureStorybook from './index';
 
@@ -32,6 +32,24 @@ describe('configure-storybook', () => {
       `test-app:storybook`
     );
     expect(e2eConfig.targets.e2e.configurations.ci.skipServe).toBeTruthy();
+    updateJson(tree, getWorkspacePath(tree), (json) => {
+      delete json['projects']['test-app'].architect.build.options;
+      return json;
+    });
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(
+      readProjectConfiguration(tree, `test-app`).targets.build.options.styles
+        .length
+    ).toBeGreaterThan(0);
+    updateJson(tree, getWorkspacePath(tree), (json) => {
+      json['projects']['test-app'].architect.build.options = {};
+      return json;
+    });
+    await configureStorybook(tree, { name: 'test-app' });
+    expect(
+      readProjectConfiguration(tree, `test-app`).targets.build.options.styles
+        .length
+    ).toBeGreaterThan(0);
   });
 
   it('should configure storybook tsconfig', async () => {

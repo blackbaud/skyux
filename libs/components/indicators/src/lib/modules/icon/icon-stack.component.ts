@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 
 import { SkyIconStackItem } from './icon-stack-item';
 
+/**
+ * @internal
+ */
 @Component({
   selector: 'sky-icon-stack',
   templateUrl: './icon-stack.component.html',
@@ -13,17 +16,17 @@ export class SkyIconStackComponent {
    * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons).
    */
   @Input()
-  public size: string;
+  public size: string | undefined;
 
   /**
    * The icon to display at the bottom of the stack.
    */
   @Input()
-  public baseIcon: SkyIconStackItem;
+  public baseIcon: SkyIconStackItem | undefined;
 
   /**
    * The icon to display at the top of the stack.
    */
   @Input()
-  public topIcon: SkyIconStackItem;
+  public topIcon: SkyIconStackItem | undefined;
 }

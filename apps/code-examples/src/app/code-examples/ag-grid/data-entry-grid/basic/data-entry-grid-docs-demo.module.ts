@@ -18,7 +18,6 @@ import { SkyDataEntryGridDemoComponent } from './data-entry-grid-docs-demo.compo
     SkyDataEntryGridEditModalComponent,
   ],
   imports: [
-    AgGridModule.withComponents([SkyDataEntryGridContextMenuComponent]),
     SkyToolbarModule,
     SkySearchModule,
     AgGridModule,

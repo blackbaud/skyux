@@ -9,6 +9,7 @@ import { SkyMockAppConfig } from './mock-app-config';
 /**
  * Overrides the default token logic in `SkyAuthHttpInterceptor` so code that
  * makes authenticated HTTP calls can be unit tested.
+ * @internal
  */
 @NgModule({
   imports: [SkyAuthHttpClientModule],

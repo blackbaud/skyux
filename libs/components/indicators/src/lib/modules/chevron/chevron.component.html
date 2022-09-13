@@ -5,11 +5,13 @@
   [attr.aria-expanded]="ariaExpanded"
   [attr.aria-label]="ariaLabel"
   [disabled]="disabled"
-  [ngClass]="['sky-chevron-' + direction]"
+  [ngClass]="['sky-chevron-' + directionOrDefault]"
   [skyThemeClass]="{
     'sky-btn sky-btn-icon-borderless': 'modern'
   }"
   (click)="chevronClick($event)"
 >
-  <sky-expansion-indicator [direction]="direction"></sky-expansion-indicator>
+  <sky-expansion-indicator
+    [direction]="directionOrDefault"
+  ></sky-expansion-indicator>
 </button>

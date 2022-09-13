@@ -3,21 +3,113 @@
     "_description": "Screen reader text for the close button on alerts",
     "message": "Close the alert"
   },
+  "skyux_alert_sr_attention": {
+    "_description": "Screen reader text when the alert contains info that needs attention",
+    "message": "Attention:"
+  },
+  "skyux_alert_sr_caution": {
+    "_description": "Screen reader text when the alert contains info that needs caution",
+    "message": "Caution:"
+  },
+  "skyux_alert_sr_completed": {
+    "_description": "Screen reader text when the alert indicates a completed status",
+    "message": "Completed:"
+  },
+  "skyux_alert_sr_danger": {
+    "_description": "Screen reader text when the alert contains info with a danger status",
+    "message": "Danger:"
+  },
+  "skyux_alert_sr_error": {
+    "_description": "Screen reader text when the alert contains an error",
+    "message": "Error:"
+  },
+  "skyux_alert_sr_important_info": {
+    "_description": "Screen reader text when the alert contains important information",
+    "message": "Important information:"
+  },
+  "skyux_alert_sr_important_warning": {
+    "_description": "Screen reader text when the alert contains an important warning",
+    "message": "Important warning:"
+  },
+  "skyux_alert_sr_success": {
+    "_description": "Screen reader text when the alert indicates a success status",
+    "message": "Success:"
+  },
+  "skyux_alert_sr_warning": {
+    "_description": "Screen reader text when the alert contains a warning",
+    "message": "Warning:"
+  },
   "skyux_help_inline_button_title": {
     "_description": "The title for the help button.",
     "message": "Show help content"
   },
+  "skyux_label_sr_attention": {
+    "_description": "Screen reader text when the label contains info that needs attention",
+    "message": "Attention:"
+  },
+  "skyux_label_sr_caution": {
+    "_description": "Screen reader text when the label contains info that needs caution",
+    "message": "Caution:"
+  },
+  "skyux_label_sr_completed": {
+    "_description": "Screen reader text when the label indicates a completed status",
+    "message": "Completed:"
+  },
+  "skyux_label_sr_danger": {
+    "_description": "Screen reader text when the label contains info with a danger status",
+    "message": "Danger:"
+  },
+  "skyux_label_sr_error": {
+    "_description": "Screen reader text when the label contains an error",
+    "message": "Error:"
+  },
+  "skyux_label_sr_important_info": {
+    "_description": "Screen reader text when the label contains important information",
+    "message": "Important information:"
+  },
+  "skyux_label_sr_important_warning": {
+    "_description": "Screen reader text when the label contains an important warning",
+    "message": "Important warning:"
+  },
+  "skyux_label_sr_success": {
+    "_description": "Screen reader text when the label indicates a success status",
+    "message": "Success:"
+  },
+  "skyux_label_sr_warning": {
+    "_description": "Screen reader text when the label contains a warning",
+    "message": "Warning:"
+  },
+  "skyux_status_indicator_sr_attention": {
+    "_description": "Screen reader text when the status indicator needs attention",
+    "message": "Attention:"
+  },
+  "skyux_status_indicator_sr_caution": {
+    "_description": "Screen reader text when the status indicator needs caution",
+    "message": "Caution:"
+  },
   "skyux_status_indicator_sr_completed": {
     "_description": "Screen reader text when the status indicator is a completed indicator",
     "message": "Completed:"
+  },
+  "skyux_status_indicator_sr_danger": {
+    "_description": "Screen reader text when the status indicator indicates danger",
+    "message": "Danger:"
   },
   "skyux_status_indicator_sr_error": {
     "_description": "Screen reader text when the status indicator is an error indicator",
     "message": "Error:"
   },
   "skyux_status_indicator_sr_important_info": {
-    "_description": "Screen reader text when the status indicator is an important info indicator",
+    "_description": "Screen reader text when the status indicator has important information",
     "message": "Important information:"
+  },
+  "skyux_status_indicator_sr_important_warning": {
+    "_description": "Screen reader text when the status indicator has an important warning",
+    "message": "Important warning:"
+  },
+  "skyux_status_indicator_sr_success": {
+    "_description": "Screen reader text when the status indicator indicates success",
+    "message": "Success:"
   },
   "skyux_status_indicator_sr_warning": {
     "_description": "Screen reader text when the status indicator is a warning indicator",

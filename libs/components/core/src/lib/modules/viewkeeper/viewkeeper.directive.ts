@@ -21,67 +21,89 @@ import { SkyViewkeeperService } from './viewkeeper.service';
 })
 export class SkyViewkeeperDirective implements OnInit, OnDestroy {
   @Input()
-  public set skyViewkeeper(value: string[]) {
-    this._skyViewkeeper = value;
+  public set skyViewkeeper(value: string[] | undefined) {
+    this.#_skyViewkeeper = value;
 
-    this.detectElements();
+    this.#detectElements();
   }
 
-  public get skyViewkeeper(): string[] {
-    return this._skyViewkeeper;
+  public get skyViewkeeper(): string[] | undefined {
+    return this.#_skyViewkeeper;
   }
 
-  private _skyViewkeeper: string[];
+  #_skyViewkeeper: string[] | undefined;
 
-  private viewkeepers: SkyViewkeeper[] = [];
+  #currentViewkeeperEls: HTMLElement[] | undefined;
 
-  private observer: MutationObserver;
+  #el: ElementRef;
 
-  private currentViewkeeperEls: HTMLElement[];
+  #mutationObserverSvc: MutationObserverService;
 
-  private scrollableHostWatchUnsubscribe: Subject<void> | undefined = undefined;
+  #observer: MutationObserver | undefined;
+
+  #scrollableHostSvc: SkyScrollableHostService | undefined;
+
+  #scrollableHostWatchUnsubscribe: Subject<void> | undefined;
+
+  #viewkeepers: SkyViewkeeper[] = [];
+
+  #viewkeeperSvc: SkyViewkeeperService;
 
   constructor(
-    private el: ElementRef,
-    private mutationObserverSvc: MutationObserverService,
-    private viewkeeperSvc: SkyViewkeeperService,
-    @Optional() private scrollableHostService: SkyScrollableHostService
-  ) {}
+    el: ElementRef,
+    mutationObserverSvc: MutationObserverService,
+    viewkeeperSvc: SkyViewkeeperService,
+    @Optional() scrollableHostSvc?: SkyScrollableHostService
+  ) {
+    this.#el = el;
+    this.#mutationObserverSvc = mutationObserverSvc;
+    this.#viewkeeperSvc = viewkeeperSvc;
+    this.#scrollableHostSvc = scrollableHostSvc;
+  }
 
   public ngOnInit(): void {
-    this.observer = this.mutationObserverSvc.create(() =>
-      this.detectElements()
+    this.#observer = this.#mutationObserverSvc.create(() =>
+      this.#detectElements()
     );
 
-    this.observer.observe(this.el.nativeElement, {
+    this.#observer.observe(this.#el.nativeElement, {
       childList: true,
       subtree: true,
     });
   }
 
   public ngOnDestroy(): void {
-    this.observer.disconnect();
-
-    this.destroyViewkeepers();
-  }
-
-  private destroyViewkeepers(): void {
-    for (const viewkeeper of this.viewkeepers) {
-      this.viewkeeperSvc.destroy(viewkeeper);
+    /*istanbul ignore else*/
+    if (this.#observer) {
+      this.#observer.disconnect();
     }
 
-    this.viewkeepers = [];
+    /*istanbul ignore else*/
+    if (this.#scrollableHostWatchUnsubscribe) {
+      this.#scrollableHostWatchUnsubscribe.next();
+      this.#scrollableHostWatchUnsubscribe.complete();
+    }
+
+    this.#destroyViewkeepers();
   }
 
-  private getViewkeeperEls(): HTMLElement[] {
-    let viewkeeperEls: HTMLElement[];
+  #destroyViewkeepers(): void {
+    for (const viewkeeper of this.#viewkeepers) {
+      this.#viewkeeperSvc.destroy(viewkeeper);
+    }
+
+    this.#viewkeepers = [];
+  }
+
+  #getViewkeeperEls(): HTMLElement[] {
+    let viewkeeperEls: HTMLElement[] = [];
 
     if (this.skyViewkeeper) {
       viewkeeperEls = [];
 
       for (const item of this.skyViewkeeper) {
         const matchingEls = Array.from(
-          (this.el.nativeElement as HTMLElement).querySelectorAll(item)
+          (this.#el.nativeElement as HTMLElement).querySelectorAll(item)
         ) as HTMLElement[];
 
         viewkeeperEls = [...viewkeeperEls, ...matchingEls];
@@ -91,18 +113,18 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     return viewkeeperEls;
   }
 
-  private viewkeeperElsChanged(viewkeeperEls: HTMLElement[]): boolean {
-    if (!viewkeeperEls !== !this.currentViewkeeperEls) {
+  #viewkeeperElsChanged(viewkeeperEls: HTMLElement[]): boolean {
+    if (!viewkeeperEls !== !this.#currentViewkeeperEls) {
       return true;
     }
 
-    if (viewkeeperEls && this.currentViewkeeperEls) {
-      if (viewkeeperEls.length !== this.currentViewkeeperEls.length) {
+    if (viewkeeperEls && this.#currentViewkeeperEls) {
+      if (viewkeeperEls.length !== this.#currentViewkeeperEls.length) {
         return true;
       }
 
       for (let i = 0, n = viewkeeperEls.length; i < n; i++) {
-        if (viewkeeperEls[i] !== this.currentViewkeeperEls[i]) {
+        if (viewkeeperEls[i] !== this.#currentViewkeeperEls[i]) {
           return true;
         }
       }
@@ -111,44 +133,47 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
     return false;
   }
 
-  private detectElements(): void {
-    const viewkeeperEls = this.getViewkeeperEls();
+  #detectElements(): void {
+    const viewkeeperEls = this.#getViewkeeperEls();
 
-    if (this.viewkeeperElsChanged(viewkeeperEls)) {
-      if (this.scrollableHostWatchUnsubscribe) {
-        this.scrollableHostWatchUnsubscribe.next();
-        this.scrollableHostWatchUnsubscribe = new Subject();
+    if (this.#viewkeeperElsChanged(viewkeeperEls)) {
+      if (this.#scrollableHostWatchUnsubscribe) {
+        this.#scrollableHostWatchUnsubscribe.next();
+        this.#scrollableHostWatchUnsubscribe.complete();
+        this.#scrollableHostWatchUnsubscribe = new Subject();
       } else {
-        this.scrollableHostWatchUnsubscribe = new Subject();
+        this.#scrollableHostWatchUnsubscribe = new Subject();
       }
 
-      this.scrollableHostService
-        .watchScrollableHost(this.el)
-        .pipe(takeUntil(this.scrollableHostWatchUnsubscribe))
-        .subscribe((scrollableHost) => {
-          this.destroyViewkeepers();
+      if (this.#scrollableHostSvc) {
+        this.#scrollableHostSvc
+          .watchScrollableHost(this.#el)
+          .pipe(takeUntil(this.#scrollableHostWatchUnsubscribe))
+          .subscribe((scrollableHost) => {
+            this.#destroyViewkeepers();
 
-          let previousViewkeeperEl: HTMLElement;
+            let previousViewkeeperEl: HTMLElement | undefined;
 
-          for (const viewkeeperEl of viewkeeperEls) {
-            this.viewkeepers.push(
-              this.viewkeeperSvc.create({
-                boundaryEl: this.el.nativeElement,
-                scrollableHost:
-                  scrollableHost instanceof HTMLElement
-                    ? scrollableHost
-                    : undefined,
-                el: viewkeeperEl,
-                setWidth: true,
-                verticalOffsetEl: previousViewkeeperEl,
-              })
-            );
+            for (const viewkeeperEl of viewkeeperEls) {
+              this.#viewkeepers.push(
+                this.#viewkeeperSvc.create({
+                  boundaryEl: this.#el.nativeElement,
+                  scrollableHost:
+                    scrollableHost instanceof HTMLElement
+                      ? scrollableHost
+                      : undefined,
+                  el: viewkeeperEl,
+                  setWidth: true,
+                  verticalOffsetEl: previousViewkeeperEl,
+                })
+              );
 
-            previousViewkeeperEl = viewkeeperEl;
-          }
-        });
+              previousViewkeeperEl = viewkeeperEl;
+            }
+          });
+      }
 
-      this.currentViewkeeperEls = viewkeeperEls;
+      this.#currentViewkeeperEls = viewkeeperEls;
     }
   }
 }

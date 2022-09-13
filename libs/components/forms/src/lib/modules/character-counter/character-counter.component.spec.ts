@@ -1,11 +1,10 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyCharacterCounterIndicatorComponent } from './character-counter-indicator.component';
 import { CharacterCountNoIndicatorTestComponent } from './fixtures/character-count-no-indicator.component.fixture';
@@ -17,7 +16,7 @@ describe('Character Counter component', () => {
     fixture: ComponentFixture<
       CharacterCountTestComponent | CharacterCountNoIndicatorTestComponent
     >,
-    value: string
+    value: string | null
   ): void {
     fixture.componentInstance.firstName.setValue(value);
     fixture.detectChanges();
@@ -45,7 +44,7 @@ describe('Character Counter component', () => {
       fixture.detectChanges();
 
       characterCountComponent =
-        component.inputDirective.skyCharacterCounterIndicator;
+        component.inputDirective!.skyCharacterCounterIndicator!;
       characterCountLabel = nativeElement.querySelector(
         '.sky-character-count-label'
       ) as HTMLLabelElement;
@@ -113,7 +112,7 @@ describe('Character Counter component', () => {
       ).toBeFalsy();
     }));
 
-    it('should only update the limit if different', async(() => {
+    it('should only update the limit if different', () => {
       const spy = spyOnProperty(
         characterCountComponent,
         'characterCountLimit',
@@ -133,7 +132,7 @@ describe('Character Counter component', () => {
       component.setCharacterCountLimit(10);
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledWith(10);
-    }));
+    });
 
     it('should default the limit to zero', fakeAsync(() => {
       component.setCharacterCountLimit(5);
@@ -147,12 +146,11 @@ describe('Character Counter component', () => {
       expect(characterCountComponent.characterCountLimit).toEqual(0);
     }));
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('without count indicator', () => {
@@ -190,11 +188,10 @@ describe('Character Counter component', () => {
       expect(component.firstName.valid).toBeTruthy();
     }));
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

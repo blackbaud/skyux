@@ -253,14 +253,14 @@ describe('datepicker', () => {
       }
     });
 
-    it('should mark the control as dirty on keyup', function () {
+    it('should mark the control as dirty on input', function () {
       fixture.detectChanges();
       const inputElement = fixture.debugElement.query(By.css('input'));
       const ngModel = inputElement.injector.get(NgModel);
 
       expect(ngModel.dirty).toEqual(false);
 
-      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'keyup');
+      SkyAppTestUtility.fireDomEvent(inputElement.nativeElement, 'input');
       fixture.detectChanges();
 
       expect(ngModel.dirty).toEqual(true);
@@ -366,16 +366,23 @@ describe('datepicker', () => {
     }));
 
     it('should hide when datepicker is scrolled off screen', fakeAsync(() => {
+      // Make the body element scrollable.
+      window.document.body.style.height = '5000px';
+
       fixture.detectChanges();
       tick();
       clickTrigger(fixture);
 
-      const affixer = component.datepicker['affixer'];
-      affixer['_placementChange'].next({ placement: null });
+      // Scroll datepicker offscreen.
+      window.scrollTo(0, 1000);
+      SkyAppTestUtility.fireDomEvent(window, 'scroll');
       fixture.detectChanges();
       tick();
 
       expect(component.datepicker.isVisible).toBe(false);
+
+      // Reset body height.
+      window.document.body.style.height = 'initial';
     }));
 
     it('should handle non-keyboard events', fakeAsync(() => {
@@ -1253,6 +1260,25 @@ describe('datepicker', () => {
         expect(getInputElementValue(fixture)).toBe('05/12/2017');
         expect(component.dateControl.value).toEqual(new Date('5/12/2017'));
       }));
+
+      it('should set the initial value correctly if the form is disabled on creation and then reenabled', fakeAsync(() => {
+        fixture = TestBed.createComponent(DatepickerReactiveTestComponent);
+        nativeElement = fixture.nativeElement as HTMLElement;
+        component = fixture.componentInstance;
+
+        // Default to US long date format to avoid any test runners that are using a different locale.
+        component.dateFormat = 'MM/DD/YYYY';
+
+        component.initialValue = '5/12/2017';
+        component.disableFormOnCreation = true;
+        detectChanges(fixture);
+
+        component.datepickerForm.enable();
+        detectChanges(fixture);
+
+        expect(getInputElementValue(fixture)).toBe('05/12/2017');
+        expect(component.dateControl.value).toEqual(new Date('5/12/2017'));
+      }));
     });
 
     describe('input change', () => {
@@ -1536,7 +1562,7 @@ describe('datepicker', () => {
     });
 
     describe('shortcut functionality', () => {
-      it(`should validate properly when a integer is given but is outside the current month's number of days`, fakeAsync(() => {
+      it(`should validate properly when a short integer is given but is outside the current month's number of days`, fakeAsync(() => {
         detectChanges(fixture);
 
         setInputElementValue(fixture.nativeElement, '1995', fixture);
@@ -1599,6 +1625,102 @@ describe('datepicker', () => {
 
         expect(getInputElementValue(fixture)).toBe('30');
         expect(component.dateControl.value).toEqual('30');
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it(`should convert an 8 digit integer to a date based on the default date format when possible`, fakeAsync(() => {
+        detectChanges(fixture);
+
+        const expectedDate = new Date('02/01/2022');
+
+        setInputElementValue(fixture.nativeElement, '02012022', fixture);
+
+        const expectedDateString = '02/01/2022';
+        expect(getInputElementValue(fixture)).toBe(expectedDateString);
+        expect(component.dateControl.value).toEqual(expectedDate);
+        expect(component.dateControl.valid).toBe(true);
+      }));
+
+      it('should convert an 8 digit integer to a date based on the current date format when possible', fakeAsync(() => {
+        component.dateFormat = 'YY/MM/DD';
+
+        detectChanges(fixture);
+
+        const expectedDate = new Date('01/02/2022');
+
+        setInputElementValue(fixture.nativeElement, '20220102', fixture);
+
+        const expectedDateString = '22/01/02';
+        expect(getInputElementValue(fixture)).toBe(expectedDateString);
+        expect(component.dateControl.value).toEqual(expectedDate);
+        expect(component.dateControl.valid).toBe(true);
+      }));
+
+      it('should validate properly when an 8 digit integer is given with a long date format (MMM & Do)', fakeAsync(() => {
+        component.dateFormat = 'MMM Do, YYYY';
+        detectChanges(fixture);
+        const dateString = '12132022';
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when an 8 digit integer is given with a long date format (Mo & D)', fakeAsync(() => {
+        component.dateFormat = 'Mo D, YYYY';
+        detectChanges(fixture);
+        const dateString = '12012022';
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when an 8 digit integer is given with a long date format (MMM & YY)', fakeAsync(() => {
+        component.dateFormat = 'MMMM DD, YY';
+        detectChanges(fixture);
+        const dateString = '12012022';
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when an 8 digit integer is given that does not conform to the default date format', fakeAsync(() => {
+        detectChanges(fixture);
+        const dateString = '13122022';
+
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when an 8 digit integer is given that does not conform to a custom date format', fakeAsync(() => {
+        component.dateFormat = 'DD/MM/YYYY';
+        detectChanges(fixture);
+        const dateString = '12132022';
+
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
+        expect(component.dateControl.valid).toBe(false);
+      }));
+
+      it('should validate properly when an 8 digit integer is given but the date format does not have day, month, and year', fakeAsync(() => {
+        component.dateFormat = 'MM/YYYY';
+        detectChanges(fixture);
+        const dateString = '12132022';
+
+        setInputElementValue(fixture.nativeElement, dateString, fixture);
+
+        expect(getInputElementValue(fixture)).toBe(dateString);
+        expect(component.dateControl.value).toEqual(dateString);
         expect(component.dateControl.valid).toBe(false);
       }));
     });

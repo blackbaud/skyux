@@ -1,3 +1,6 @@
+/**
+ * @internal
+ */
 export class SkyMockAppConfig {
   public runtime = {
     app: {

@@ -23,9 +23,13 @@ import { SkySkipLinkHostComponent } from './skip-link-host.component';
   providedIn: 'any',
 })
 export class SkySkipLinkService {
-  private static host: ComponentRef<SkySkipLinkHostComponent>;
+  private static host: ComponentRef<SkySkipLinkHostComponent> | undefined;
 
-  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
+  #dynamicComponentService: SkyDynamicComponentService;
+
+  constructor(dynamicComponentService: SkyDynamicComponentService) {
+    this.#dynamicComponentService = dynamicComponentService;
+  }
 
   public setSkipLinks(args: SkySkipLinkArgs) {
     args.links = args.links.filter((link: SkySkipLink) => {
@@ -35,19 +39,21 @@ export class SkySkipLinkService {
 
     // Timeout needed in case the consumer sets the skip links within an Angular lifecycle hook.
     setTimeout(() => {
-      const host = this.createHostComponent();
+      const host = this.#createHostComponent();
       host.instance.links = args.links;
     });
   }
 
   public removeHostComponent(): void {
-    this.dynamicComponentService.removeComponent(SkySkipLinkService.host);
-    SkySkipLinkService.host = undefined;
+    if (SkySkipLinkService.host) {
+      this.#dynamicComponentService.removeComponent(SkySkipLinkService.host);
+      SkySkipLinkService.host = undefined;
+    }
   }
 
-  private createHostComponent(): ComponentRef<SkySkipLinkHostComponent> {
+  #createHostComponent(): ComponentRef<SkySkipLinkHostComponent> {
     if (!SkySkipLinkService.host) {
-      const componentRef = this.dynamicComponentService.createComponent(
+      const componentRef = this.#dynamicComponentService.createComponent(
         SkySkipLinkHostComponent,
         {
           location: SkyDynamicComponentLocation.BodyTop,

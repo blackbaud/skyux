@@ -28,7 +28,15 @@ describe('Modal service', () => {
     applicationRef.tick();
   }
 
+  function getModalEls() {
+    return document.querySelectorAll('sky-test-cmp');
+  }
+
   beforeEach(() => {
+    // Confirm that each test starts without a modal host component.
+    const modalHosts = document.querySelectorAll('sky-modal-host');
+    expect(modalHosts.length).toEqual(0);
+
     TestBed.configureTestingModule({
       imports: [SkyModalModule, SkyModalFixturesModule],
     });
@@ -41,13 +49,6 @@ describe('Modal service', () => {
       applicationRef = _applicationRef;
     }
   ));
-
-  afterEach(() => {
-    // NOTE: This is important as it ensures that the modal host component is fully disposed of
-    // between tests. This is important as the modal host might need a different set of component
-    // injectors than the previous test.
-    modalService.dispose();
-  });
 
   it('should show a modal and return an instance that can then be closed', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent);
@@ -179,9 +180,158 @@ describe('Modal service', () => {
 
   it('should show a modal with a wrapper class', fakeAsync(() => {
     const wrapperClass = 'custom-wrapper-class';
-    openModal(ModalTestComponent, { wrapperClass });
+    const modal = openModal(ModalTestComponent, { wrapperClass });
     applicationRef.tick();
 
     expect(document.body.querySelector(`sky-modal.${wrapperClass}`)).toExist();
+    closeModal(modal);
   }));
+
+  describe('accessibility', () => {
+    it('should not hide modal host from screen readers when opening a modal', fakeAsync(() => {
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(
+        document.querySelector('sky-modal-host').getAttribute('aria-hidden')
+      ).toBe(null);
+      closeModal(modal);
+    }));
+
+    it('should hide and unhide elements at the host level from screen readers', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBe('true');
+
+      closeModal(modal);
+
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+    }));
+
+    it('should keep hidden status elements at the host level consistent', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-hidden', 'true');
+
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBe('true');
+
+      closeModal(modal);
+
+      expect(div.getAttribute('aria-hidden')).toBe('true');
+      div.remove();
+    }));
+
+    it('should not hide host siblings that are live', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-live', 'true');
+
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+      closeModal(modal);
+    }));
+
+    it('should not modify siblings if they have been removed from the DOM before the modal closes', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      const previousAriaHidden = 'bingbong';
+
+      div.setAttribute('aria-hidden', previousAriaHidden);
+
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBeTruthy();
+
+      div.remove();
+
+      closeModal(modal);
+      expect(div.getAttribute('aria-hidden')).not.toBe(previousAriaHidden);
+    }));
+
+    it('should keep sibling modals hidden when non top modal closes', fakeAsync(() => {
+      const firstModal = openModal(ModalTestComponent, { fullPage: false });
+      const secondModal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'firstModal';
+      modalsList.item(1).id = 'secondModal';
+
+      const topModal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(
+        document.getElementById('firstModal').getAttribute('aria-hidden')
+      ).toBe('true');
+
+      closeModal(secondModal);
+
+      expect(
+        document.getElementById('firstModal').getAttribute('aria-hidden')
+      ).toBe('true');
+
+      closeModal(firstModal);
+      closeModal(topModal);
+    }));
+
+    it('should unhide the correct modal when the top modal closes', fakeAsync(() => {
+      const lowerModal = openModal(ModalTestComponent, { fullPage: false });
+      const middleModal = openModal(ModalTestComponent, { fullPage: false });
+      const topModal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'lowerModal';
+
+      closeModal(middleModal);
+      closeModal(topModal);
+
+      expect(
+        document.getElementById('lowerModal').getAttribute('aria-hidden')
+      ).toBe(null);
+
+      closeModal(lowerModal);
+    }));
+
+    it('should hide and unhide modal siblings from screen readers', fakeAsync(() => {
+      const siblingModal = openModal(ModalTestComponent, { fullPage: false });
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+      const modalsList = getModalEls();
+      modalsList.item(0).id = 'sibling';
+
+      expect(
+        document.getElementById('sibling').getAttribute('aria-hidden')
+      ).toBe('true');
+
+      closeModal(modal);
+      expect(
+        document.getElementById('sibling').getAttribute('aria-hidden')
+      ).toBe(null);
+      closeModal(siblingModal);
+    }));
+
+    it('should not hide live elements from screen readers', fakeAsync(() => {
+      const div = document.createElement('div');
+      document.body.appendChild(div);
+      div.setAttribute('aria-live', 'true');
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+
+      closeModal(modal);
+      expect(div.getAttribute('aria-hidden')).toBe(null);
+      div.remove();
+    }));
+
+    it('should not hide current modal from screen readers', fakeAsync(() => {
+      const modal = openModal(ModalTestComponent, { fullPage: false });
+
+      expect(
+        document.querySelector('sky-test-cmp').getAttribute('aria-hidden')
+      ).toBe(null);
+
+      closeModal(modal);
+    }));
+  });
 });

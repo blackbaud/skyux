@@ -4,15 +4,15 @@ import { Observable, of as observableOf } from 'rxjs';
 
 import { SkyAppLocaleInfo } from './locale-info';
 
+const SKY_APP_LOCALE_PROVIDER_DEFAULT_LOCALE = 'en-US';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SkyAppLocaleProvider {
   public get defaultLocale(): string {
-    return SkyAppLocaleProvider._defaultLocale;
+    return SKY_APP_LOCALE_PROVIDER_DEFAULT_LOCALE;
   }
-
-  private static _defaultLocale = 'en-US';
 
   public getLocaleInfo(): Observable<SkyAppLocaleInfo> {
     return observableOf({

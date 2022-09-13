@@ -17,7 +17,7 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
   templateUrl: './autocomplete.component.fixture.html',
 })
 export class SkyAutocompleteFixtureComponent {
-  public autocompleteAttribute: string;
+  public autocompleteAttribute: string | undefined;
 
   public data: { objectid?: string; name?: string; text?: string }[] = [
     { name: 'Red', objectid: 'abc' },
@@ -36,58 +36,59 @@ export class SkyAutocompleteFixtureComponent {
   public model: {
     favoriteColor: { objectid?: string; name?: string; text?: string };
   } = {
-    favoriteColor: undefined,
+    favoriteColor: {},
   };
-  public customNoResultsMessage: string;
-  public debounceTime: number;
-  public descriptorProperty: string;
+
+  public customNoResultsMessage: string | undefined;
+  public debounceTime: number | undefined;
+  public descriptorProperty: string | undefined;
   public disabled = false;
   public enableShowMore = false;
   public hideInput = false;
-  public propertiesToSearch: string[];
-  public messageStream: Subject<SkyAutocompleteMessage>;
-  public search: SkyAutocompleteSearchFunction;
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
-  public searchResultsLimit: number;
-  public searchResultTemplate: TemplateRef<unknown>;
-  public searchTextMinimumCharacters: number;
-  public selectionFromChangeEvent: SkyAutocompleteSelectionChange;
+  public propertiesToSearch: string[] | undefined;
+  public messageStream: Subject<SkyAutocompleteMessage> | undefined;
+  public search: SkyAutocompleteSearchFunction | undefined;
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
+  public searchResultsLimit: number | undefined;
+  public searchResultTemplate: TemplateRef<unknown> | undefined;
+  public searchTextMinimumCharacters: number | undefined;
+  public selectionFromChangeEvent: SkyAutocompleteSelectionChange | undefined;
   public showAddButton = false;
 
   @ViewChild('asyncAutocomplete', {
     read: SkyAutocompleteComponent,
     static: true,
   })
-  public asyncAutocomplete: SkyAutocompleteComponent;
+  public asyncAutocomplete!: SkyAutocompleteComponent;
 
   @ViewChild('standardAutocomplete', {
     read: SkyAutocompleteComponent,
     static: true,
   })
-  public autocomplete: SkyAutocompleteComponent;
+  public autocomplete!: SkyAutocompleteComponent;
 
   @ViewChild(SkyAutocompleteInputDirective, {
     read: SkyAutocompleteInputDirective,
   })
-  public autocompleteInput: SkyAutocompleteInputDirective;
+  public autocompleteInput!: SkyAutocompleteInputDirective;
 
   @ViewChild('myForm', {
     read: NgForm,
     static: true,
   })
-  public myForm: NgForm;
+  public myForm!: NgForm;
 
   @ViewChild('asyncForm', {
     read: NgForm,
     static: true,
   })
-  public asyncForm: NgForm;
+  public asyncForm!: NgForm;
 
   @ViewChild('customSearchResultTemplate', {
     read: TemplateRef,
     static: true,
   })
-  public customSearchResultTemplate: TemplateRef<unknown>;
+  public customSearchResultTemplate!: TemplateRef<unknown>;
 
   public addButtonClicked(): void {
     return;
@@ -96,9 +97,10 @@ export class SkyAutocompleteFixtureComponent {
   public searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
     const searchText = (args.searchText || '').toLowerCase();
 
-    const filteredData = this.data.filter(
-      (item) => item.name.toLowerCase().indexOf(searchText) >= 0
-    );
+    const filteredData = this.data.filter((item) => {
+      const index = item?.name?.toLowerCase()?.indexOf(searchText);
+      return index !== undefined && index >= 0;
+    });
 
     args.result = of({
       items: filteredData,

@@ -6,6 +6,15 @@ import {
   RendererFactory2,
 } from '@angular/core';
 
+const busyElements: {
+  [key: string]: {
+    busyEl: HTMLElement | undefined;
+    listener: () => void;
+    restoreFocusElement?: HTMLElement | undefined;
+    restoreFocusCheckElement?: HTMLElement | undefined;
+  };
+} = {};
+
 // Need to add the following to classes which contain static methods.
 // See: https://github.com/ng-packagr/ng-packagr/issues/641
 /**
@@ -14,25 +23,21 @@ import {
  */
 @Injectable()
 export class SkyWaitAdapterService implements OnDestroy {
-  private static isPageWaitActive = false;
-  private static busyElements: {
-    [key: string]: { busyEl: HTMLElement; listener: any };
-  } = {};
+  public static isPageWaitActive = false;
 
-  private focussableElements: HTMLElement[];
+  #focusableElements: HTMLElement[] | undefined;
+  #renderer: Renderer2;
 
-  private renderer: Renderer2;
-
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor(rendererFactory: RendererFactory2) {
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   public ngOnDestroy(): void {
-    this.clearListeners();
+    this.#clearListeners();
   }
 
   public setWaitBounds(waitEl: ElementRef): void {
-    this.renderer.setStyle(
+    this.#renderer.setStyle(
       waitEl.nativeElement.parentElement,
       'position',
       'relative'
@@ -40,14 +45,14 @@ export class SkyWaitAdapterService implements OnDestroy {
   }
 
   public removeWaitBounds(waitEl: ElementRef): void {
-    this.renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
+    this.#renderer.removeStyle(waitEl.nativeElement.parentElement, 'position');
   }
 
   public setBusyState(
     waitEl: ElementRef,
     isFullPage: boolean,
     isWaiting: boolean,
-    isNonBlocking = false,
+    isNonBlocking: boolean,
     waitComponentId?: string
   ): void {
     const busyEl = isFullPage
@@ -56,16 +61,22 @@ export class SkyWaitAdapterService implements OnDestroy {
 
     if (!isNonBlocking) {
       if (isWaiting) {
-        this.renderer.setAttribute(busyEl, 'aria-busy', 'true');
+        let restoreFocusElement: HTMLElement | undefined = undefined;
+        let restoreFocusCheckElement: HTMLElement | undefined = undefined;
+        this.#renderer.setAttribute(busyEl, 'aria-busy', 'true');
 
         // Remove focus from page when full page blocking wait
         if (isFullPage || busyEl.contains(document.activeElement)) {
-          this.clearDocumentFocus();
+          if (document.activeElement !== document.body) {
+            restoreFocusElement = document.activeElement as HTMLElement;
+          }
+          this.#clearDocumentFocus();
+          restoreFocusCheckElement = document.activeElement as HTMLElement;
         }
 
         if (isFullPage) {
           SkyWaitAdapterService.isPageWaitActive = true;
-          const endListenerFunc = this.renderer.listen(
+          const endListenerFunc = this.#renderer.listen(
             document.body,
             'keydown',
             (event: KeyboardEvent) => {
@@ -73,21 +84,26 @@ export class SkyWaitAdapterService implements OnDestroy {
               if (event.key) {
                 /* istanbul ignore else */
                 if (event.key.toLowerCase() === 'tab') {
-                  (event.target as any).blur();
+                  (event.target as HTMLElement).blur();
                   event.preventDefault();
                   event.stopPropagation();
                   event.stopImmediatePropagation();
-                  this.clearDocumentFocus();
+                  this.#clearDocumentFocus();
                 }
               }
             }
           );
-          SkyWaitAdapterService.busyElements[waitComponentId] = {
-            listener: endListenerFunc,
-            busyEl: undefined,
-          };
+
+          if (waitComponentId) {
+            busyElements[waitComponentId] = {
+              listener: endListenerFunc,
+              busyEl: undefined,
+              restoreFocusElement,
+              restoreFocusCheckElement,
+            };
+          }
         } else {
-          const endListenerFunc = this.renderer.listen(
+          const endListenerFunc = this.#renderer.listen(
             busyEl,
             'focusin',
             (event: KeyboardEvent) => {
@@ -98,69 +114,82 @@ export class SkyWaitAdapterService implements OnDestroy {
                 event.stopImmediatePropagation();
 
                 if (SkyWaitAdapterService.isPageWaitActive) {
-                  this.clearDocumentFocus();
+                  this.#clearDocumentFocus();
                 } else {
                   // Propagate tab navigation if attempted into waited element
-                  const target: any = event.target;
-                  target.blur();
-                  this.focusNextElement(target, this.isShift(event), busyEl);
+                  const target = event.target as HTMLElement;
+
+                  if (target) {
+                    target.blur();
+                    this.#focusNextElement(target, this.#isShift(event));
+                  }
                 }
               }
             }
           );
-          SkyWaitAdapterService.busyElements[waitComponentId] = {
-            listener: endListenerFunc,
-            busyEl: busyEl,
-          };
+
+          if (waitComponentId) {
+            busyElements[waitComponentId] = {
+              listener: endListenerFunc,
+              busyEl,
+              restoreFocusElement,
+              restoreFocusCheckElement,
+            };
+          }
         }
       } else {
-        this.renderer.removeAttribute(busyEl, 'aria-busy');
+        this.#renderer.removeAttribute(busyEl, 'aria-busy');
 
         if (isFullPage) {
           SkyWaitAdapterService.isPageWaitActive = false;
         }
-        if (waitComponentId in SkyWaitAdapterService.busyElements) {
-          SkyWaitAdapterService.busyElements[waitComponentId].listener();
-          delete SkyWaitAdapterService.busyElements[waitComponentId];
+
+        if (waitComponentId && waitComponentId in busyElements) {
+          const busyElement = busyElements[waitComponentId];
+
+          busyElement.listener();
+
+          // If there is a restore focus element and the focus has not moved, restore focus.
+          if (busyElement.restoreFocusCheckElement === document.activeElement) {
+            busyElement.restoreFocusElement?.focus();
+          }
+
+          delete busyElements[waitComponentId];
         }
       }
     }
   }
 
-  private focusNextElement(
-    targetElement: HTMLElement,
-    shiftKey: boolean,
-    busyEl: Element
-  ): void {
-    const focussable = this.getFocussableElements();
+  #focusNextElement(targetElement: HTMLElement, shiftKey: boolean): void {
+    const focusable = this.#getFocusableElements();
 
     // If shift tab, go in the other direction
     const modifier = shiftKey ? -1 : 1;
 
     // Find the next navigable element that isn't waiting
-    const startingIndex = focussable.indexOf(targetElement);
+    const startingIndex = focusable.indexOf(targetElement);
     let curIndex = startingIndex + modifier;
     while (
-      focussable[curIndex] &&
-      this.isElementBusyOrHidden(focussable[curIndex])
+      focusable[curIndex] &&
+      this.#isElementBusyOrHidden(focusable[curIndex])
     ) {
       curIndex += modifier;
     }
 
     if (
-      focussable[curIndex] &&
-      !this.isElementBusyOrHidden(focussable[curIndex])
+      focusable[curIndex] &&
+      !this.#isElementBusyOrHidden(focusable[curIndex])
     ) {
-      focussable[curIndex].focus();
+      focusable[curIndex].focus();
     } else {
       // Try wrapping the navigation
       /* istanbul ignore next */
       /* sanity check */
-      curIndex = modifier > 0 ? 0 : focussable.length - 1;
+      curIndex = modifier > 0 ? 0 : focusable.length - 1;
       while (
         curIndex !== startingIndex &&
-        focussable[curIndex] &&
-        this.isElementBusyOrHidden(focussable[curIndex])
+        focusable[curIndex] &&
+        this.#isElementBusyOrHidden(focusable[curIndex])
       ) {
         /* istanbul ignore next */
         /* sanity check */
@@ -170,24 +199,24 @@ export class SkyWaitAdapterService implements OnDestroy {
       /* istanbul ignore else */
       /* sanity check */
       if (
-        focussable[curIndex] &&
-        !this.isElementBusyOrHidden(focussable[curIndex])
+        focusable[curIndex] &&
+        !this.#isElementBusyOrHidden(focusable[curIndex])
       ) {
-        focussable[curIndex].focus();
+        focusable[curIndex].focus();
       } else {
         // No valid target, wipe focus
-        this.clearDocumentFocus();
+        this.#clearDocumentFocus();
       }
     }
 
-    // clear focussableElements list
-    this.focussableElements = undefined;
+    // clear focusableElements list
+    this.#focusableElements = undefined;
   }
 
-  private isShift(event: Event): boolean {
+  #isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
-    const elements = this.getFocussableElements().filter(
-      (elem) => !this.isElementHidden(elem)
+    const elements = this.#getFocusableElements().filter(
+      (elem) => !this.#isElementHidden(elem)
     );
 
     const previousInd = elements.indexOf((event as any).relatedTarget);
@@ -201,18 +230,18 @@ export class SkyWaitAdapterService implements OnDestroy {
     );
   }
 
-  private isElementHidden(element: any): boolean {
+  #isElementHidden(element: HTMLElement): boolean {
     const style = window.getComputedStyle(element);
     return style.display === 'none' || style.visibility === 'hidden';
   }
 
-  private isElementBusyOrHidden(element: any): boolean {
-    if (this.isElementHidden(element)) {
+  #isElementBusyOrHidden(element: HTMLElement): boolean {
+    if (this.#isElementHidden(element)) {
       return true;
     }
 
-    for (const key of Object.keys(SkyWaitAdapterService.busyElements)) {
-      const parentElement = SkyWaitAdapterService.busyElements[key].busyEl;
+    for (const key of Object.keys(busyElements)) {
+      const parentElement = busyElements[key].busyEl;
       if (parentElement && parentElement.contains(element)) {
         return true;
       }
@@ -220,22 +249,25 @@ export class SkyWaitAdapterService implements OnDestroy {
     return false;
   }
 
-  private clearDocumentFocus(): void {
+  #clearDocumentFocus(): void {
+    const activeElement = document.activeElement as HTMLElement;
+
     /* istanbul ignore else */
-    if (document.activeElement && (document.activeElement as any).blur) {
-      (document.activeElement as any).blur();
+    if (activeElement) {
+      activeElement.blur();
     }
+
     document.body.focus();
   }
 
-  private getFocussableElements(): HTMLElement[] {
-    // Keep this cached so we can reduce querys
-    if (this.focussableElements) {
-      return this.focussableElements;
+  #getFocusableElements(): HTMLElement[] {
+    // Keep this cached so we can reduce queries
+    if (this.#focusableElements) {
+      return this.#focusableElements;
     }
 
-    // Select all possible focussable elements
-    const focussableElements =
+    // Select all possible focusable elements
+    const focusableElements =
       'a[href], ' +
       'area[href], ' +
       "input:not([disabled]):not([tabindex='-1']), " +
@@ -246,9 +278,9 @@ export class SkyWaitAdapterService implements OnDestroy {
       "*[tabindex]:not([tabindex='-1']), " +
       '*[contenteditable=true]';
 
-    this.focussableElements = Array.prototype.filter.call(
-      document.body.querySelectorAll(focussableElements),
-      (element: any) => {
+    this.#focusableElements = Array.prototype.filter.call(
+      document.body.querySelectorAll(focusableElements),
+      (element: HTMLElement) => {
         return (
           element.offsetWidth > 0 ||
           element.offsetHeight > 0 ||
@@ -256,14 +288,14 @@ export class SkyWaitAdapterService implements OnDestroy {
         );
       }
     );
-    return this.focussableElements;
+    return this.#focusableElements;
   }
 
-  private clearListeners(): void {
+  #clearListeners(): void {
     SkyWaitAdapterService.isPageWaitActive = false;
-    for (const key of Object.keys(SkyWaitAdapterService.busyElements)) {
-      SkyWaitAdapterService.busyElements[key].listener();
-      delete SkyWaitAdapterService.busyElements[key];
+    for (const key of Object.keys(busyElements)) {
+      busyElements[key].listener();
+      delete busyElements[key];
     }
   }
 }

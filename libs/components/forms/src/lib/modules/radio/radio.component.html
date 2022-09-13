@@ -1,6 +1,6 @@
 <label
   class="sky-radio-wrapper sky-switch"
-  [ngClass]="{ 'sky-switch-disabled': disabled }"
+  [ngClass]="{ 'sky-switch-disabled': disabled || radioGroupDisabled }"
 >
   <input
     class="sky-radio-input sky-switch-input"
@@ -8,7 +8,7 @@
     [attr.aria-label]="label"
     [attr.aria-labelledby]="labelledBy"
     [checked]="checked"
-    [disabled]="disabled"
+    [disabled]="disabled || radioGroupDisabled"
     [id]="inputId"
     [name]="name"
     [tabIndex]="tabindex"
@@ -28,7 +28,7 @@
       'sky-switch-control-danger': icon && radioType === 'danger'
     }"
   >
-    <sky-icon *ngIf="icon" fixedWidth="true" [icon]="icon"> </sky-icon>
+    <sky-icon *ngIf="icon" [fixedWidth]="true" [icon]="icon"> </sky-icon>
   </span>
   <ng-content select="sky-radio-label"></ng-content>
 </label>

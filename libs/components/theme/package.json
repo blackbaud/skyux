@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@blackbaud/skyux-design-tokens": "0.0.24",
-    "@skyux/icons": "5.0.0",
+    "@skyux/icons": "5.1.1",
     "fontfaceobserver": "2.1.0",
     "tslib": "^2.3.1"
   }

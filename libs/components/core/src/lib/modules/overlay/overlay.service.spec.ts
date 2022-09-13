@@ -52,7 +52,7 @@ describe('Overlay service', () => {
       .getElementsByTagName('head')[0]
       .querySelector(
         '[data-test-selector="sky-overlay-restrict-scroll-styles"]'
-      );
+      ) as HTMLStyleElement;
   }
 
   beforeEach(() => {
@@ -153,7 +153,7 @@ describe('Overlay service', () => {
     });
 
     SkyAppTestUtility.fireDomEvent(
-      document.querySelector('.sky-overlay-content'),
+      document.querySelector('.sky-overlay-content') as Element,
       'click'
     );
     fixture.detectChanges();
@@ -345,9 +345,16 @@ describe('Overlay service', () => {
 
   it('should emit when overlay is closed by the service', fakeAsync(() => {
     const instance = createOverlay();
-    const closedSpy = spyOn(instance['_closed'], 'next').and.callThrough();
+
+    let closedCalled = false;
+
+    instance.closed.pipe(take(1)).subscribe(() => {
+      closedCalled = true;
+    });
+
     service.close(instance);
-    expect(closedSpy).toHaveBeenCalled();
+
+    expect(closedCalled).toEqual(true);
   }));
 
   it('should emit when a user clicks outside of the overlay content', fakeAsync(() => {
@@ -367,7 +374,7 @@ describe('Overlay service', () => {
 
     // Clicking the overlay content should not trigger the event.
     SkyAppTestUtility.fireDomEvent(
-      getAllOverlays().item(0).querySelector('.sky-overlay-content'),
+      getAllOverlays().item(0).querySelector('.sky-overlay-content') as Element,
       'click'
     );
 
@@ -395,33 +402,17 @@ describe('Overlay service', () => {
     });
 
     expect(
-      Array.from(getAllOverlays()).shift().classList.contains('added-class')
+      Array.from(getAllOverlays()).shift()?.classList.contains('added-class')
     ).toBeTrue();
   }));
 
-  it('should add additional classes from the configuration', fakeAsync(() => {
+  it('should add an ID to the overlay wrapper element', () => {
+    service.create();
+
     fixture.detectChanges();
-    tick();
 
-    createOverlay({
-      wrapperClass: 'added-class',
-    });
+    const el = document.querySelector('sky-overlay');
 
-    expect(
-      Array.from(getAllOverlays()).shift().classList.contains('added-class')
-    ).toBeTrue();
-  }));
-
-  it('should add additional classes from the configuration', fakeAsync(() => {
-    fixture.detectChanges();
-    tick();
-
-    createOverlay({
-      wrapperClass: 'added-class',
-    });
-
-    expect(
-      Array.from(getAllOverlays()).shift().classList.contains('added-class')
-    ).toBeTrue();
-  }));
+    expect(el?.id).toBeTruthy();
+  });
 });

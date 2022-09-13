@@ -38,6 +38,22 @@ describe('Expansion indicator component', () => {
     expect(indicatorEl.classList).not.toContain('sky-expansion-indicator-up');
   });
 
+  it('should handle an undefined direction being passed in', () => {
+    const indicatorEl = getIndicatorEl();
+
+    fixture.componentInstance.direction = 'down';
+    fixture.detectChanges();
+
+    expect(indicatorEl.classList).toContain('sky-expansion-indicator-down');
+    expect(indicatorEl.classList).not.toContain('sky-expansion-indicator-up');
+
+    fixture.componentInstance.direction = undefined;
+    fixture.detectChanges();
+
+    expect(indicatorEl.classList).toContain('sky-expansion-indicator-up');
+    expect(indicatorEl.classList).not.toContain('sky-expansion-indicator-down');
+  });
+
   it('should not be a focusable element', () => {
     const indicatorEl = getIndicatorEl();
     indicatorEl.focus();

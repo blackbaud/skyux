@@ -9,26 +9,57 @@ $indicator-size: 22px;
   align-items: baseline;
 }
 
-.sky-toggle-switch-button {
+.sky-toggle-switch-switch {
   border: 1px solid $sky-border-color-neutral-medium;
   background-color: $sky-background-color-neutral-light;
   padding: 1px;
   border-radius: $indicator-size + 2;
-  flex: 1 0 $indicator-size * 2 + 2;
+  flex: none;
   line-height: $sky-line-height-base;
+  width: $indicator-size * 2 + 2;
+  display: inline-block;
+
+  & + .sky-toggle-switch-label {
+    margin-left: $sky-margin;
+    flex: 1 0 auto;
+  }
+}
+
+.sky-toggle-switch-button {
+  border: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  white-space: nowrap;
+
+  &:focus-visible .sky-toggle-switch-switch {
+    outline: none;
+    border: solid 2px $sky-theme-modern-background-color-primary-dark;
+    padding: 0;
+  }
 
   &:hover:not(.sky-toggle-switch-disabled) {
-    border-color: $sky-highlight-color-info;
-    border-width: 2px;
-    padding: 0;
     cursor: pointer;
+
+    &:not(:focus-visible) .sky-toggle-switch-switch {
+      border-color: $sky-highlight-color-info;
+      border-width: 2px;
+      padding: 0;
+    }
   }
 
   &.sky-toggle-switch-checked {
-    background-color: $sky-background-color-info-light;
-    border-color: $sky-highlight-color-info;
-    border-width: 2px;
-    padding: 0;
+    .sky-toggle-switch-switch {
+      background-color: $sky-background-color-info-light;
+      border-width: 2px;
+      padding: 0;
+    }
+
+    &:not(:focus-visible, .sky-toggle-switch-disabled)
+      .sky-toggle-switch-switch {
+      border-color: $sky-highlight-color-info;
+    }
 
     .sky-toggle-switch-indicator {
       left: 100%;
@@ -36,17 +67,16 @@ $indicator-size: 22px;
   }
 
   &.sky-toggle-switch-disabled {
-    background-color: $sky-background-color-disabled;
-    border-color: transparent;
+    color: var(--sky-text-color-default);
+
+    .sky-toggle-switch-switch {
+      background-color: $sky-background-color-disabled;
+      border-color: transparent;
+    }
 
     .sky-toggle-switch-indicator {
       background-color: $sky-background-color-neutral-light;
     }
-  }
-
-  & + .sky-toggle-switch-label {
-    margin-left: $sky-margin;
-    flex: 1 0 auto;
   }
 }
 
@@ -69,46 +99,48 @@ $indicator-size: 22px;
 
 @include sky-theme-modern {
   .sky-toggle-switch-button {
-    background-color: $sky-color-white;
-    border-width: 1px;
-    flex-basis: 48px;
-    transition: border-color $sky-transition-time-short,
-      box-shadow $sky-transition-time-short;
+    .sky-toggle-switch-switch {
+      background-color: $sky-color-white;
+      border-width: 1px;
+      width: 48px;
+      transition: border-color $sky-transition-time-short,
+        box-shadow $sky-transition-time-short;
+    }
 
-    &.sky-toggle-switch-disabled {
+    &.sky-toggle-switch-disabled .sky-toggle-switch-switch {
       border-color: $sky-theme-modern-background-color-disabled;
       cursor: not-allowed;
     }
 
-    &.sky-toggle-switch-disabled,
+    &.sky-toggle-switch-disabled .sky-toggle-switch-switch,
     &.sky-toggle-switch-disabled .sky-toggle-switch-indicator {
       background-color: $sky-theme-modern-color-gray-07;
     }
 
-    &.sky-toggle-switch-checked {
+    &.sky-toggle-switch-checked .sky-toggle-switch-switch {
       padding: 1px;
     }
 
     &:not(.sky-toggle-switch-disabled) {
-      &.sky-toggle-switch-checked {
+      &.sky-toggle-switch-checked .sky-toggle-switch-switch {
         background-color: $sky-background-color-info-light;
         border-color: $sky-theme-modern-background-color-primary-dark;
       }
 
-      &:active,
-      &:focus {
+      &:active .sky-toggle-switch-switch,
+      &:focus-visible .sky-toggle-switch-switch {
         outline: none;
         border: solid 2px $sky-theme-modern-background-color-primary-dark;
         padding: 0;
       }
 
       &:not(:active) {
-        &:focus {
+        &:focus-visible .sky-toggle-switch-switch {
           box-shadow: $sky-theme-modern-elevation-3-shadow-size
             $sky-theme-modern-elevation-3-shadow-color;
         }
 
-        &:hover:not(:focus) {
+        &:hover:not(:focus-visible) .sky-toggle-switch-switch {
           padding: 1px;
           border: solid 1px $sky-theme-modern-background-color-primary-dark;
         }

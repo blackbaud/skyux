@@ -342,3 +342,24 @@ describe('SkyAgGridDataManagerAdapterDirective', () => {
     expect(agGridDataManagerDirective.skyAgGridWrapperList.length).toBe(1);
   });
 });
+
+it('should move the horizontal scroll based on enableTopScroll check', async () => {
+  TestBed.configureTestingModule({
+    imports: [SkyAgGridFixtureModule],
+    providers: [SkyDataManagerService],
+  });
+
+  const fixture = TestBed.createComponent(SkyAgGridDataManagerFixtureComponent);
+  fixture.componentInstance.gridOptions.context = {
+    enableTopScroll: true,
+  };
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.componentInstance.agGrid.gridReady.emit();
+  fixture.detectChanges();
+  await fixture.whenStable();
+  const scrollElement = fixture.nativeElement.querySelectorAll(
+    '.ag-body-horizontal-scroll'
+  );
+  expect(scrollElement.length).toEqual(1);
+});

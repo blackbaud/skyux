@@ -1,8 +1,11 @@
 <button
-  class="sky-btn sky-btn-default"
-  type="button"
+  *ngIf="isVisible"
+  class="sky-btn sky-margin-inline-sm"
+  [attr.aria-controls]="ariaControls"
   [disabled]="disabled"
-  (click)="buttonClick()"
+  [ngClass]="buttonClassName"
+  [type]="type"
+  (click)="buttonType === 'finish' ? null : buttonClick()"
 >
-  {{ buttonText }}
+  {{ buttonText || ('skyux_tabs_navigator_' + buttonType | skyLibResources) }}
 </button>

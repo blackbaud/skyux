@@ -41,7 +41,7 @@ describe('PreviewWrapperComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the theme', () => {
+  it('should set the theme', async () => {
     const themeService = TestBed.inject(SkyThemeService);
     let expectedTheme = {
       theme: 'default',
@@ -65,13 +65,12 @@ describe('PreviewWrapperComponent', () => {
       mode: 'dark',
     };
     component.theme = 'modern-dark';
-    expect(component.theme).toEqual('modern-dark');
     expectedTheme = {
       theme: 'default',
       mode: 'light',
     };
     component.theme = 'default';
-    expect(component.theme).toEqual('default');
     subscription.unsubscribe();
+    themeService.destroy();
   });
 });

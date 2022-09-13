@@ -105,6 +105,14 @@ sky-input-box .sky-lookup {
 
   sky-input-box .sky-lookup {
     sky-tokens.sky-lookup-tokens {
+      // Input box adds a negative margin-top to elements with the
+      // `sky-form-control` class in modern theme which causes that
+      // element to cover the token elements. Setting z-index here
+      // will place the token elements over the form control.
+      sky-token {
+        z-index: 1;
+      }
+
       .sky-tokens {
         margin-top: 0;
         margin-bottom: 0;

@@ -1,12 +1,6 @@
 import { Directive, ElementRef, Renderer2 } from '@angular/core';
 
-let idIndex = 0;
-
-function generateId(): string {
-  idIndex++;
-
-  return `sky-id-gen__${idIndex}`;
-}
+import { SkyIdService } from './id.service';
 
 /**
  * Sets the element's `id` attribute to a unique ID. To reference this unique ID on other elements,
@@ -19,18 +13,18 @@ function generateId(): string {
 })
 export class SkyIdDirective {
   public get id(): string {
-    return this._id;
+    return this.#_id;
   }
 
-  private _id: string;
+  #_id: string;
 
-  constructor(elRef: ElementRef, renderer: Renderer2) {
+  constructor(elRef: ElementRef, renderer: Renderer2, idSvc: SkyIdService) {
     // Generate and apply the ID before the template is rendered
     // to avoid a changed-after-checked error.
-    const id = generateId();
+    const id = idSvc.generateId();
 
     renderer.setAttribute(elRef.nativeElement, 'id', id);
 
-    this._id = id;
+    this.#_id = id;
   }
 }

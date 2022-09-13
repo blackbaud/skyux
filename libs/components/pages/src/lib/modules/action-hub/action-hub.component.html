@@ -11,7 +11,7 @@
     </sky-column>
   </sky-row>
   <sky-row>
-    <sky-column screenLarge="9" screenXSmall="12">
+    <sky-column [screenLarge]="9" [screenXSmall]="12">
       <div
         [skyThemeClass]="{
           'sky-margin-stacked-separate': 'default',
@@ -35,7 +35,9 @@
           "
         ></ng-container>
         <ng-template #needsAttentionTemplateRef>
-          <sky-needs-attention [items]="needsAttention"></sky-needs-attention>
+          <sky-needs-attention
+            [items]="needsAttentionArray"
+          ></sky-needs-attention>
         </ng-template>
       </div>
 
@@ -48,7 +50,7 @@
         <ng-content select="sky-action-hub-content"></ng-content>
       </div>
     </sky-column>
-    <sky-column screenLarge="3" screenXSmall="12">
+    <sky-column [screenLarge]="3" [screenXSmall]="12">
       <sky-link-list
         [links]="relatedLinks | skyActionHubRelatedLinksSort"
         [title]="'sky_action_hub_related_links' | skyLibResources"
@@ -57,6 +59,10 @@
         [links]="recentLinks | skyActionHubRecentLinksResolve"
         [title]="'sky_action_hub_recent_links' | skyLibResources"
       ></sky-link-list>
+      <sky-modal-link-list
+        [links]="settingsLinks"
+        [title]="'sky_action_hub_settings_links' | skyLibResources"
+      ></sky-modal-link-list>
     </sky-column>
   </sky-row>
 </sky-fluid-grid>

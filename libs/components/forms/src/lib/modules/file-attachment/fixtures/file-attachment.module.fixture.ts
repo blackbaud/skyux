@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyFileAttachmentsModule } from '../file-attachments.module';
@@ -18,6 +19,7 @@ import { TemplateDrivenFileAttachmentTestComponent } from './template-driven-fil
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
+    SkyHelpInlineModule,
   ],
   exports: [
     FileAttachmentTestComponent,

@@ -12,6 +12,7 @@
             *ngFor="let column of displayedColumnData"
             [selectable]="true"
             [(isSelected)]="column.isSelected"
+            (isSelectedChange)="onIsSelectedChange()"
           >
             <sky-repeater-item-title>
               {{ column.label }}
@@ -25,9 +26,21 @@
     </sky-data-manager>
   </sky-modal-content>
   <sky-modal-footer>
+    <div
+      class="sky-data-manager-column-picker-footer-stacked-indicator"
+      *ngIf="!isAnyDisplayedColumnSelected"
+    >
+      <sky-status-indicator descriptionType="error" indicatorType="danger">
+        {{
+          'skyux_data_manager_select_column_status_indicator_title'
+            | skyLibResources
+        }}
+      </sky-status-indicator>
+    </div>
     <button
       sky-cmp-id="apply-changes"
       class="sky-btn sky-btn-primary"
+      [disabled]="!isAnyDisplayedColumnSelected"
       (click)="applyChanges()"
     >
       {{ 'skyux_data_manager_apply_changes_button_title' | skyLibResources }}

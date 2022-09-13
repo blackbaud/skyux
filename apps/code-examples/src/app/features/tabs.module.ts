@@ -17,6 +17,8 @@ import { VerticalTabDemoComponent as VerticalTabsBasicVerticalTabsDemoComponent 
 import { SkyVerticalTabDemoModule as VerticalTabsBasicVerticalTabsDemoModule } from '../code-examples/tabs/vertical-tabs/basic/vertical-tabs-demo.module';
 import { SkyVerticalTabsDemoComponent as VerticalTabsGroupedVerticalTabsDemoComponent } from '../code-examples/tabs/vertical-tabs/grouped/vertical-tabs-demo.component';
 import { SkyVerticalTabDemoModule as VerticalTabsGroupedVerticalTabsDemoModule } from '../code-examples/tabs/vertical-tabs/grouped/vertical-tabs-demo.module';
+import { WizardDemoComponent } from '../code-examples/tabs/wizard/basic/wizard-demo.component';
+import { WizardDemoModule } from '../code-examples/tabs/wizard/basic/wizard-demo.module';
 
 const routes: Routes = [
   { path: 'sectioned-form/modal', component: SectionedFormModalDemoComponent },
@@ -39,6 +41,10 @@ const routes: Routes = [
     path: 'vertical-tabs/grouped',
     component: VerticalTabsGroupedVerticalTabsDemoComponent,
   },
+  {
+    path: 'tabs/wizard/basic',
+    component: WizardDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -58,6 +64,7 @@ export class TabsFeatureRoutingModule {}
     VerticalTabsBasicVerticalTabsDemoModule,
     VerticalTabsGroupedVerticalTabsDemoModule,
     TabsFeatureRoutingModule,
+    WizardDemoModule,
   ],
 })
 export class TabsFeatureModule {}

@@ -36,6 +36,10 @@ export abstract class SkyA11yAnalyzer {
     element?: axe.ElementContext,
     config?: SkyA11yAnalyzerConfig
   ): Promise<void> {
+    if (element === undefined) {
+      throw new Error('No element was specified for accessibility checking.');
+    }
+
     const defaults: SkyA11yAnalyzerConfig = {
       rules: {},
     };
@@ -67,7 +71,7 @@ export abstract class SkyA11yAnalyzer {
       };
 
       SkyA11yAnalyzer.analyzer.run(
-        element!,
+        element,
         { ...defaults, ...config },
         callback
       );

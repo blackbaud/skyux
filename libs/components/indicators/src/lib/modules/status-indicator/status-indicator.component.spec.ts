@@ -8,12 +8,22 @@ describe('Status indicator component', () => {
   function getStatusIndicatorEl(
     fixture: ComponentFixture<StatusIndicatorTestComponent>
   ): HTMLDivElement {
-    return fixture.nativeElement.querySelector('.sky-status-indicator');
+    return fixture.nativeElement.querySelector(
+      '#status-indicator-with-indicator-type .sky-status-indicator'
+    );
+  }
+
+  function getStatusIndicatorElWithoutIndicatorType(
+    fixture: ComponentFixture<StatusIndicatorTestComponent>
+  ): HTMLDivElement {
+    return fixture.nativeElement.querySelector(
+      '#status-indicator-without-indicator-type .sky-status-indicator'
+    );
   }
 
   function validateIconWrapperClass(
     statusIndicatorEl: HTMLElement,
-    indicatorType: string
+    indicatorType: string | undefined
   ): void {
     const iconWrapperEl = statusIndicatorEl.querySelector(
       '.sky-status-indicator-icon'
@@ -26,14 +36,21 @@ describe('Status indicator component', () => {
 
   function validateIcon(
     fixture: ComponentFixture<StatusIndicatorTestComponent>,
-    indicatorType: string,
+    indicatorType: string | undefined,
     expectedIcon: string
   ): void {
-    fixture.componentInstance.indicatorType = indicatorType;
+    let statusIndicatorEl;
+    if (indicatorType) {
+      fixture.componentInstance.indicatorType = indicatorType;
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const statusIndicatorEl = getStatusIndicatorEl(fixture);
+      statusIndicatorEl = getStatusIndicatorEl(fixture);
+    } else {
+      fixture.detectChanges();
+
+      statusIndicatorEl = getStatusIndicatorElWithoutIndicatorType(fixture);
+    }
 
     validateIconWrapperClass(statusIndicatorEl, indicatorType);
 
@@ -92,7 +109,7 @@ describe('Status indicator component', () => {
     );
 
     // Check exact text content here to ensure it has been trimmed by the skyTrim directive.
-    expect(messageEl.textContent).toBe('Indicator text');
+    expect(messageEl?.textContent).toBe('Indicator text');
   });
 
   it('should display the expected icon', () => {
@@ -117,7 +134,7 @@ describe('Status indicator component', () => {
     const statusIndicatorEl = getStatusIndicatorEl(fixture);
 
     const helpEl = statusIndicatorEl.querySelector(
-      '.sky-status-indicator-help .sky-control-help'
+      '.sky-control-help-container .sky-control-help'
     );
 
     expect(helpEl).toHaveText('Help inline');
@@ -141,6 +158,11 @@ describe('Status indicator component', () => {
     validateDescription(fixture, 'important-info', 'Important information:');
     validateDescription(fixture, 'none');
     validateDescription(fixture, 'warning', 'Warning:');
+    validateDescription(fixture, 'important-warning', 'Important warning:');
+    validateDescription(fixture, 'danger', 'Danger:');
+    validateDescription(fixture, 'caution', 'Caution:');
+    validateDescription(fixture, 'success', 'Success:');
+    validateDescription(fixture, 'attention', 'Attention:');
   });
 
   it('should be accessible', async () => {
@@ -156,7 +178,7 @@ describe('Status indicator component', () => {
   describe('when modern theme', () => {
     function validateIconStack(
       fixture: ComponentFixture<StatusIndicatorTestComponent>,
-      indicatorType: string,
+      indicatorType: string | undefined,
       expectedBaseIcon: string,
       expectedTopIcon: string
     ): void {
@@ -170,8 +192,8 @@ describe('Status indicator component', () => {
 
       const iconStackEl = statusIndicatorEl.querySelector('.sky-icon-stack');
 
-      const baseIconEl = iconStackEl.querySelector('.fa-stack-2x');
-      const topIconEl = iconStackEl.querySelector('.fa-stack-1x');
+      const baseIconEl = iconStackEl?.querySelector('.fa-stack-2x');
+      const topIconEl = iconStackEl?.querySelector('.fa-stack-1x');
 
       expect(baseIconEl).toHaveCssClass(`sky-i-${expectedBaseIcon}`);
       expect(topIconEl).toHaveCssClass(`sky-i-${expectedTopIcon}`);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDropdownMenuChange } from '@skyux/popovers';
 import {
@@ -125,7 +125,7 @@ describe('Dropdown fixture', () => {
     dropdownFixture = new SkyDropdownFixture(fixture, DATA_SKY_ID);
   });
 
-  it('should expose the properties for the dropdown button', async(() => {
+  it('should expose the properties for the dropdown button', () => {
     // Give properties non-default values.
     testComponent.buttonStyle = 'primary';
     testComponent.buttonType = 'context-menu';
@@ -147,13 +147,23 @@ describe('Dropdown fixture', () => {
     expect(dropdownFixture.dropdown.buttonType).toEqual(
       testComponent.buttonType
     );
-  }));
 
-  it('should expose the inner text of the dropdown button', async(() => {
+    // Check default button styling.
+    testComponent.buttonStyle = undefined;
+    fixture.detectChanges();
+    expect(dropdownFixture.dropdown.buttonStyle).toEqual('default');
+
+    // Check custom button styling.
+    testComponent.buttonStyle = 'invalid';
+    fixture.detectChanges();
+    expect(dropdownFixture.dropdown.buttonStyle).toBeUndefined();
+  });
+
+  it('should expose the inner text of the dropdown button', () => {
     expect(dropdownFixture.dropdownButtonText).toEqual(
       testComponent.dropdownButtonText
     );
-  }));
+  });
 
   it('should open and close the dropdown menu when the dropdown button is clicked', async () => {
     await dropdownFixture.clickDropdownButton();
@@ -231,5 +241,31 @@ describe('Dropdown fixture', () => {
       testComponent.items[2].name
     );
     expect(buttonEls[2].disabled).toEqual(false);
+  });
+
+  it('should handle actions against the dropdown in various states', async () => {
+    // Retrieving the dropdown menu when it's not open.
+    expect(dropdownFixture.dropdownMenu).toBeUndefined();
+
+    // Clicking an item on an unopened menu.
+    await expectAsync(dropdownFixture.clickDropdownItem(0)).toBeResolvedTo(
+      undefined
+    );
+
+    // Getting items from a closed menu.
+    expect(dropdownFixture.getDropdownItem(0)).toBeUndefined();
+
+    // Open the dropdown for the following expectations.
+    await dropdownFixture.clickDropdownButton();
+
+    // Getting a non-existent item.
+    expect(() => dropdownFixture.getDropdownItem(999)).toThrowError(
+      'There is no dropdown item at index 999.'
+    );
+
+    // Clicking a non-existent menu item.
+    await expectAsync(
+      dropdownFixture.clickDropdownItem(999)
+    ).toBeRejectedWithError('There is no dropdown item at index 999.');
   });
 });

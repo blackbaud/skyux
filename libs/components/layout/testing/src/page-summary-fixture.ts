@@ -5,6 +5,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX page summary component.
+ * @internal
  */
 export class SkyPageSummaryFixture {
   /**

@@ -5,12 +5,13 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 
 /**
  * Allows interaction with a SKY UX label component.
+ * @internal
  */
 export class SkyLabelFixture {
   /**
    * The label's current type.
    */
-  public get labelType(): string {
+  public get labelType(): string | undefined {
     const clsList = this.getLabelEl().nativeElement.classList;
 
     if (clsList.contains('sky-label-danger')) {
@@ -35,7 +36,7 @@ export class SkyLabelFixture {
   /**
    * The label's current text.
    */
-  public get text(): string {
+  public get text(): string | undefined {
     const labelEl = this.getLabelEl();
 
     return SkyAppTestUtility.getText(labelEl);

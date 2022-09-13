@@ -1,45 +1,137 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { SkyLibResourcesService } from '@skyux/i18n';
+
+import { Subscription } from 'rxjs/internal/Subscription';
 
 import { SkyIconStackItem } from '../icon/icon-stack-item';
+import { SkyIndicatorDescriptionType } from '../shared/indicator-description-type';
 import { SkyIndicatorIconUtility } from '../shared/indicator-icon-utility';
 
 import { SkyLabelType } from './label-type';
+
+const LABEL_TYPE_DEFAULT = 'info';
 
 @Component({
   selector: 'sky-label',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
 })
-export class SkyLabelComponent {
+export class SkyLabelComponent implements OnDestroy, OnInit {
   /**
    * The type of label to display.
-   * @required
+   * @default 'info'
    */
   @Input()
-  public set labelType(value: SkyLabelType) {
-    this._labelType = value;
-    this.updateIcon();
+  public set labelType(value: SkyLabelType | undefined) {
+    this.labelTypeOrDefault = value === undefined ? LABEL_TYPE_DEFAULT : value;
+
+    this.#updateIcon();
   }
 
-  public get labelType(): SkyLabelType {
-    return this._labelType || 'info';
+  /**
+   * Specifies the predefined text to be read by screen readers for users who cannot see the indicator icon.
+   * This property is optional but will be required in future versions of SKY UX.
+   */
+  @Input()
+  public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
+    this.#_descriptionType = value;
+    this.#updateDescriptionComputed();
   }
 
-  public baseIcon: SkyIconStackItem;
+  /**
+   * Specifies the text to be read by screen readers for users who cannot see
+   * the indicator icon when `descriptionType` is `custom`.
+   */
+  @Input()
+  public set customDescription(value: string | undefined) {
+    this.#_customDescription = value;
+    this.#updateDescriptionComputed();
+  }
 
-  public icon: string;
+  public baseIcon: SkyIconStackItem | undefined;
 
-  public topIcon: SkyIconStackItem;
+  public descriptionComputed: string | undefined;
 
-  private _labelType: SkyLabelType;
+  public icon: string | undefined;
 
-  private updateIcon(): void {
+  public labelTypeOrDefault: SkyLabelType = LABEL_TYPE_DEFAULT;
+
+  public topIcon: SkyIconStackItem | undefined;
+
+  #_descriptionType: SkyIndicatorDescriptionType | undefined;
+
+  #_customDescription: string | undefined;
+
+  #changeDetector: ChangeDetectorRef;
+
+  #descriptionTypeResourceSubscription: Subscription | undefined;
+
+  #resources: SkyLibResourcesService;
+
+  constructor(
+    changeDetector: ChangeDetectorRef,
+    resources: SkyLibResourcesService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#resources = resources;
+  }
+
+  public ngOnInit(): void {
+    this.#updateIcon();
+  }
+
+  public ngOnDestroy(): void {
+    this.#unsubscribe();
+  }
+
+  #updateIcon(): void {
     const indicatorIcon = SkyIndicatorIconUtility.getIconsForType(
-      this.labelType
+      this.labelTypeOrDefault
     );
 
     this.icon = indicatorIcon.defaultThemeIcon;
     this.baseIcon = indicatorIcon.modernThemeBaseIcon;
     this.topIcon = indicatorIcon.modernThemeTopIcon;
+  }
+
+  #updateDescriptionComputed(): void {
+    this.#unsubscribe();
+
+    if (this.#_descriptionType) {
+      switch (this.#_descriptionType) {
+        case 'none':
+          this.descriptionComputed = undefined;
+          break;
+        case 'custom':
+          this.descriptionComputed = this.#_customDescription;
+          break;
+        default:
+          this.#descriptionTypeResourceSubscription = this.#resources
+            .getString(
+              'skyux_label_sr_' + this.#_descriptionType.replace(/-/g, '_')
+            )
+            .subscribe((value) => {
+              this.descriptionComputed = value;
+              this.#changeDetector.markForCheck();
+            });
+
+          break;
+      }
+    } else {
+      this.descriptionComputed = undefined;
+    }
+  }
+
+  #unsubscribe(): void {
+    if (this.#descriptionTypeResourceSubscription) {
+      this.#descriptionTypeResourceSubscription.unsubscribe();
+      this.#descriptionTypeResourceSubscription = undefined;
+    }
   }
 }

@@ -1,15 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`stories generator should generate folder path 1`] = `
+"import { AppModule } from '../../../app.module';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
+import { NestedComponent } from './nested.component';
+export default {
+    id: \\"nestedcomponent-nested\\",
+    title: \\"Components/To/Nested\\",
+    component: NestedComponent,
+    decorators: [
+        moduleMetadata({
+            imports: [AppModule],
+        })
+    ]
+} as Meta<NestedComponent>;
+const Template: Story<NestedComponent> = (args: NestedComponent) => ({
+    props: args,
+});
+export const Nested = Template.bind({});
+Nested.args = {};
+"
+`;
+
+exports[`stories generator should generate folder path 2`] = `
+"import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('test', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(\`in \${theme} theme\`, () => {
+      beforeEach(() => cy.visit(\`/iframe.html?globals=theme:\${theme}&id=nestedcomponent-nested--nested\`));
+      it('should render the component', () => {
+        cy.get('proj-nested').should('exist')
+          .should('be.visible')
+          .screenshot(\`nestedcomponent-nested--nested-\${theme}\`)
+          .percySnapshot(\`nestedcomponent-nested--nested-\${theme}\`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
+    });
+  });
+});"
+`;
+
 exports[`stories generator should run successfully 1`] = `
-"import { moduleMetadata, Story, Meta } from '@storybook/angular';
+"import { AppModule } from './app.module';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
-    id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/Nx Welcome\\",
+    id: \\"nxwelcomecomponent-nxwelcome\\",
+    title: \\"Components/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({
-            imports: [],
+            imports: [AppModule],
         })
     ]
 } as Meta<NxWelcomeComponent>;
@@ -22,15 +65,16 @@ NxWelcome.args = {};
 `;
 
 exports[`stories generator should use -storybook project 1`] = `
-"import { moduleMetadata, Story, Meta } from '@storybook/angular';
+"import { AppModule } from './app.module';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { NxWelcomeComponent } from './nx-welcome.component';
 export default {
-    id: \\"nxwelcomecomponent--primary\\",
-    title: \\"Components/App/Nx Welcome\\",
+    id: \\"nxwelcomecomponent-nxwelcome\\",
+    title: \\"Components/Nx Welcome\\",
     component: NxWelcomeComponent,
     decorators: [
         moduleMetadata({
-            imports: [],
+            imports: [AppModule],
         })
     ]
 } as Meta<NxWelcomeComponent>;
@@ -40,4 +84,24 @@ const Template: Story<NxWelcomeComponent> = (args: NxWelcomeComponent) => ({
 export const NxWelcome = Template.bind({});
 NxWelcome.args = {};
 "
+`;
+
+exports[`stories generator should use -storybook project 2`] = `
+"import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+
+describe('test-storybook', () => {
+  E2eVariations.forEachTheme((theme) => {
+    describe(\`in \${theme} theme\`, () => {
+      beforeEach(() => cy.visit(\`/iframe.html?globals=theme:\${theme}&id=nxwelcomecomponent-nxwelcome--nx-welcome\`));
+      it('should render the component', () => {
+        cy.get('proj-nx-welcome').should('exist')
+          .should('be.visible')
+          .screenshot(\`nxwelcomecomponent-nxwelcome--nx-welcome-\${theme}\`)
+          .percySnapshot(\`nxwelcomecomponent-nxwelcome--nx-welcome-\${theme}\`, {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+          });
+      });
+    });
+  });
+});"
 `;

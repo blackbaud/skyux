@@ -9,25 +9,25 @@ import { SkyCountryFieldCountry } from '../types/country';
   templateUrl: './country-field.component.fixture.html',
 })
 export class CountryFieldTestComponent {
-  public autocompleteAttribute: string;
+  public autocompleteAttribute: string | undefined;
 
   @ViewChild(SkyCountryFieldComponent, {
     static: true,
   })
-  public countryFieldComponent: SkyCountryFieldComponent;
+  public countryFieldComponent!: SkyCountryFieldComponent;
 
   @ViewChild(NgModel)
-  public ngModel: NgModel;
+  public ngModel!: NgModel;
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
   public isDisabled = false;
 
   public isRequired = false;
 
-  public modelValue: SkyCountryFieldCountry;
+  public modelValue: SkyCountryFieldCountry | undefined;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] | undefined;
 
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;

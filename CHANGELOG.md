@@ -1,5 +1,226 @@
 # Changelog
 
+## [6.18.0](https://github.com/blackbaud/skyux/compare/6.17.1...6.18.0) (2022-09-08)
+
+
+### Features
+
+* **components/indicators:** add harness for interacting with label components in tests ([#489](https://github.com/blackbaud/skyux/issues/489)) ([9edd8b7](https://github.com/blackbaud/skyux/commit/9edd8b7954d3d6dc23a50b6de7181a772576c887))
+
+
+### Bug Fixes
+
+* **components/lookup:** set z-index on lookup tokens inside input box ([#493](https://github.com/blackbaud/skyux/issues/493)) ([bd09496](https://github.com/blackbaud/skyux/commit/bd09496af82a1800f5a694839fa0d30593f1b42b))
+* **components/theme:** replaced link glyph and added attach icon ([#494](https://github.com/blackbaud/skyux/issues/494)) ([885f011](https://github.com/blackbaud/skyux/commit/885f011cdd30997262746f5696f006f12806dc32))
+
+## [6.17.1](https://github.com/blackbaud/skyux/compare/6.17.0...6.17.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* **components/data-manager:** update activeView on data view config updates ([#480](https://github.com/blackbaud/skyux/issues/480)) ([90177b5](https://github.com/blackbaud/skyux/commit/90177b5171d69291ab0c8987062c11e6f984fb6b))
+* **components/modals:** hide non modal elements from screen readers ([#397](https://github.com/blackbaud/skyux/issues/397)) ([6e2a171](https://github.com/blackbaud/skyux/commit/6e2a17156766a4d08585b0fb6b62ead5efee11c6))
+
+## [6.17.0](https://github.com/blackbaud/skyux/compare/6.16.0...6.17.0) (2022-09-02)
+
+
+### Features
+
+* **components/indicators:** add accessibility description inputs to alert ([#474](https://github.com/blackbaud/skyux/issues/474)) ([81d5166](https://github.com/blackbaud/skyux/commit/81d5166dcc89807b1e651bd0f47316750d90ebb2))
+* **components/tabs:** tabset wizard finish nav button ([#454](https://github.com/blackbaud/skyux/issues/454)) ([735312f](https://github.com/blackbaud/skyux/commit/735312ff0e86226db757d9e1938f43f7a90af0b4))
+
+
+### Bug Fixes
+
+* **components/indicators:** only escape highlight directive search text once ([#464](https://github.com/blackbaud/skyux/issues/464)) ([1e5741b](https://github.com/blackbaud/skyux/commit/1e5741bd45fa19631e39f50550d77b7b170db354))
+* **components/progress-indicator:** fix spacing on wizard buttons in modern theme ([#465](https://github.com/blackbaud/skyux/issues/465)) ([f36b243](https://github.com/blackbaud/skyux/commit/f36b2433630dc12a63fe0f66cabafe33b85c5500))
+
+## [6.16.0](https://github.com/blackbaud/skyux/compare/6.15.0...6.16.0) (2022-08-30)
+
+
+### Features
+
+* **components/indicators:** label accessibility updates ([#409](https://github.com/blackbaud/skyux/issues/409)) ([4c2c878](https://github.com/blackbaud/skyux/commit/4c2c8789f1e77f822bc1fac07f5787aa3fc194bf))
+* **components/theme:** add CSS custom properties for spacing ([#453](https://github.com/blackbaud/skyux/issues/453)) ([60389bd](https://github.com/blackbaud/skyux/commit/60389bd0ffef143a7f29391a4be580c92c7cc4fb))
+
+
+### Bug Fixes
+
+* **components/indicators:** alert harness filters interface is now exported ([#456](https://github.com/blackbaud/skyux/issues/456)) ([1b653aa](https://github.com/blackbaud/skyux/commit/1b653aa74672f09cb0d6427d7cad4f76ffc1a282))
+
+## [6.15.0](https://github.com/blackbaud/skyux/compare/6.14.0...6.15.0) (2022-08-26)
+
+### Features
+
+- **components/lookup:** add harness for interacting with search components in tests ([#431](https://github.com/blackbaud/skyux/issues/431)) ([385f97b](https://github.com/blackbaud/skyux/commit/385f97b478f1aecc0f0c86b1120144a68e1c3d22))
+- **components/lookup:** add lookup testing harness ([#364](https://github.com/blackbaud/skyux/issues/364)) ([ec23a51](https://github.com/blackbaud/skyux/commit/ec23a518470a9e2e53bbf05d5d5ec3b268840ed6))
+
+### Bug Fixes
+
+- **components/ag-grid:** top scroll not visible ([#415](https://github.com/blackbaud/skyux/issues/415)) ([6fd28d5](https://github.com/blackbaud/skyux/commit/6fd28d57fcbf6106656f00d3089d7c75c5415676))
+- **components/datetime:** use input event to mark picker as dirty ([#438](https://github.com/blackbaud/skyux/issues/438)) ([8d69ff1](https://github.com/blackbaud/skyux/commit/8d69ff1da74353e80fafc41d83f68f647fe7a08b))
+- **components/indicators:** label and status indicator show icons when default states are being used ([#410](https://github.com/blackbaud/skyux/issues/410)) ([b3233b7](https://github.com/blackbaud/skyux/commit/b3233b7d1a2d65807d0e2ac3687f64e9dbc182fa))
+- **components/layout:** fix 'TemplateRef<any>' is not assignable to type 'TemplateRef<never>' ([#450](https://github.com/blackbaud/skyux/issues/450)) ([fb7d8fd](https://github.com/blackbaud/skyux/commit/fb7d8fd1bd282baa7c5576550b53751714348b12))
+- **components/lookup:** show more modal infinite scroll respects only show selected checkbox ([#427](https://github.com/blackbaud/skyux/issues/427)) ([4d47aaf](https://github.com/blackbaud/skyux/commit/4d47aafd1846aa2e7813ed8b8def5a4335868b8b))
+- **components/pages:** action hub allow callback on needs attention items ([#386](https://github.com/blackbaud/skyux/issues/386)) ([c6cbe16](https://github.com/blackbaud/skyux/commit/c6cbe16983ad69d7f36c3aa596959a15f00fcfd5))
+- **components/toast:** toast shows icon when default state is being used ([#426](https://github.com/blackbaud/skyux/issues/426)) ([b46dbfc](https://github.com/blackbaud/skyux/commit/b46dbfccbcf2e55d5921be9e8ac262c8d8bb2c77))
+- **sdk/e2e-schematics:** support Windows ([#430](https://github.com/blackbaud/skyux/issues/430)) ([473b643](https://github.com/blackbaud/skyux/commit/473b6431ffb7beb34aaf571502d11e40499ff6a6))
+
+## [6.14.0](https://github.com/blackbaud/skyux/compare/6.13.0...6.14.0) (2022-08-23)
+
+### Features
+
+- **components/forms:** add harness to interact with checkbox components in tests ([#428](https://github.com/blackbaud/skyux/issues/428)) ([cf67022](https://github.com/blackbaud/skyux/commit/cf67022ab1e54b452bf51ca6c1c5c4c432d20b02))
+- **components/indicators:** add harness for interacting with alert components in tests ([#422](https://github.com/blackbaud/skyux/issues/422)) ([37acc5e](https://github.com/blackbaud/skyux/commit/37acc5e21d769e8cbda41a9ce89af346ab8cd16a))
+- **components/indicators:** add harness for interacting with token components in tests ([#417](https://github.com/blackbaud/skyux/issues/417)) ([33fd786](https://github.com/blackbaud/skyux/commit/33fd786fcb77518e4c5d099032eae7c04f4b1249))
+- **components/lists:** add harness for interacting with infinite scroll components in tests ([#421](https://github.com/blackbaud/skyux/issues/421)) ([4970a20](https://github.com/blackbaud/skyux/commit/4970a2069bf404be05f766bb536319cfed29bd53))
+- **components/lists:** add harness for interacting with repeater components in tests ([#429](https://github.com/blackbaud/skyux/issues/429)) ([c7b6b3e](https://github.com/blackbaud/skyux/commit/c7b6b3ec7065317408b917b83123754936e5875a))
+- **components/lookup:** add harness for interacting with autocomplete components in tests ([#413](https://github.com/blackbaud/skyux/issues/413)) ([be233a5](https://github.com/blackbaud/skyux/commit/be233a58818a630100b0ba9c538bb8a7a8060dfa))
+
+### Bug Fixes
+
+- **components/modals:** close all modals before removing host element ([#424](https://github.com/blackbaud/skyux/issues/424)) ([43f360c](https://github.com/blackbaud/skyux/commit/43f360c16da2f63f3f13c6229c3f6cc6d3ea9010))
+
+## [6.13.0](https://github.com/blackbaud/skyux/compare/6.12.0...6.13.0) (2022-08-18)
+
+### Features
+
+- **components/core:** add `SkyIdService` to generate unique IDs for HTML elements ([#395](https://github.com/blackbaud/skyux/issues/395)) ([e7e48dc](https://github.com/blackbaud/skyux/commit/e7e48dcea700395c88ecc9a3b70ac4b399bd7a9d))
+- **components/core:** add overlay harness for interacting with overlay components in tests ([#398](https://github.com/blackbaud/skyux/issues/398)) ([c96f6d7](https://github.com/blackbaud/skyux/commit/c96f6d7ca8aad57696d416bd5305a1204c827eb2))
+- **components/forms:** add input box harness for interacting with input box components in tests ([#399](https://github.com/blackbaud/skyux/issues/399)) ([ed377a1](https://github.com/blackbaud/skyux/commit/ed377a166a991f080da0be9ded6fc65098c44ae8))
+
+### Bug Fixes
+
+- **components/lookup:** add context to searches ([#381](https://github.com/blackbaud/skyux/issues/381)) ([0d02f73](https://github.com/blackbaud/skyux/commit/0d02f73cb977912d8beb1ea623db09c814edea9e))
+- **components/lookup:** async show more modal toolbars now correctly stick to the top of the modal content ([#408](https://github.com/blackbaud/skyux/issues/408)) ([2ccc8ec](https://github.com/blackbaud/skyux/commit/2ccc8ecf56a146b545a3b633c64ddcc16ae485e5))
+
+## [6.12.0](https://github.com/blackbaud/skyux/compare/6.11.2...6.12.0) (2022-08-15)
+
+### Features
+
+- **components/tabs:** update modern theme styling for tabset wizard ([#382](https://github.com/blackbaud/skyux/issues/382)) ([e9d8ee8](https://github.com/blackbaud/skyux/commit/e9d8ee85e7b04cf767ff909dff3233ffc72169dc))
+
+### Bug Fixes
+
+- **components/forms:** move toggle switch label inside button for improved accessibility ([#387](https://github.com/blackbaud/skyux/issues/387)) ([17013ed](https://github.com/blackbaud/skyux/commit/17013ed7db9e01db297ce32e3d1b956c6d421904))
+- **components/lookup:** require `idProperty` for async search ([#299](https://github.com/blackbaud/skyux/issues/299)) ([93e33be](https://github.com/blackbaud/skyux/commit/93e33be9841eeee1ca3b4be087ba15967b9fa571))
+- **components/modals:** add teardown functionality to modal host component ([#389](https://github.com/blackbaud/skyux/issues/389)) ([14469aa](https://github.com/blackbaud/skyux/commit/14469aa94ad53a6e96726b60001685036ae44e3b))
+
+### [6.11.2](https://github.com/blackbaud/skyux/compare/6.11.1...6.11.2) (2022-08-09)
+
+### Bug Fixes
+
+- **components/modals:** modal content popovers correctly position above the modal footer ([#385](https://github.com/blackbaud/skyux/issues/385)) ([5ae11b7](https://github.com/blackbaud/skyux/commit/5ae11b7709834acac13003e206e4f8d9178ce974))
+
+### [6.11.1](https://github.com/blackbaud/skyux/compare/6.11.0...6.11.1) (2022-08-08)
+
+### Bug Fixes
+
+- **components/forms:** radio buttons disabled states update independently from the wrapping radio group disabled state ([#384](https://github.com/blackbaud/skyux/issues/384)) ([5e870a6](https://github.com/blackbaud/skyux/commit/5e870a63eca0154de1d1e5cced9b5d182c37d832))
+
+## [6.11.0](https://github.com/blackbaud/skyux/compare/6.10.0...6.11.0) (2022-08-08)
+
+### Features
+
+- **components/forms:** add inline help support for file attachment ([#372](https://github.com/blackbaud/skyux/issues/372)) ([a9693e8](https://github.com/blackbaud/skyux/commit/a9693e839dc7228a9dcbab8ebf42482edd90470f))
+
+### Bug Fixes
+
+- **components/indicators:** sky-wait restore focus when wait closes ([#377](https://github.com/blackbaud/skyux/issues/377)) ([b5c05b2](https://github.com/blackbaud/skyux/commit/b5c05b22f9dae3c6dc1d83fa14896e2447c35905))
+- **components/lists:** repeater inline form uses form role ([#380](https://github.com/blackbaud/skyux/issues/380)) ([6d95e79](https://github.com/blackbaud/skyux/commit/6d95e797847f4df123ed16b5189db0b0f9224b29))
+
+## [6.10.0](https://github.com/blackbaud/skyux/compare/6.9.0...6.10.0) (2022-08-03)
+
+### Features
+
+- **components/ag-grid:** opt-in top horizontal scrollbar in ag-grid ([#374](https://github.com/blackbaud/skyux/issues/374)) ([ea51e4e](https://github.com/blackbaud/skyux/commit/ea51e4ebded825333b5cd0023661a7ffe05034db))
+- **components/forms:** add inline help support for toggle switch component ([#361](https://github.com/blackbaud/skyux/issues/361)) ([52dfc70](https://github.com/blackbaud/skyux/commit/52dfc70ef71de3079a5f436973a63ba54860e83c))
+- **sdk/testing:** add SkyBy.dataSkyId() to make it easier to match data-sky-id ([#332](https://github.com/blackbaud/skyux/issues/332)) ([a61ff53](https://github.com/blackbaud/skyux/commit/a61ff531fd11c85b0eb8a5f24a3bdb3cb485b0f9))
+
+### Bug Fixes
+
+- **components/core:** viewkeeper now properly unsubscribes from watching for scrollable host changes when destroyed ([#376](https://github.com/blackbaud/skyux/issues/376)) ([3badc27](https://github.com/blackbaud/skyux/commit/3badc270bcc185adf4013b7714d3203e9a59c2bf))
+- **components/forms:** toggle switch labels now include the `for` attribute ([#371](https://github.com/blackbaud/skyux/issues/371)) ([17c9933](https://github.com/blackbaud/skyux/commit/17c9933c11ab3ff35010c067de232ac1a26f0e8f))
+
+## [6.9.0](https://github.com/blackbaud/skyux/compare/6.8.0...6.9.0) (2022-07-27)
+
+### Features
+
+- **components/forms:** add inline help support for checkbox component ([#354](https://github.com/blackbaud/skyux/issues/354)) ([49d2d3e](https://github.com/blackbaud/skyux/commit/49d2d3e2c8482eaf5f07e65a54c823f415c5ea02))
+- **components/forms:** add inline help support for radio component ([#355](https://github.com/blackbaud/skyux/issues/355)) ([6e0146c](https://github.com/blackbaud/skyux/commit/6e0146c786bed7a23cc629bb022f6e554fc2a9a2))
+- **components/indicators:** update icons and moment dependencies ([#359](https://github.com/blackbaud/skyux/issues/359)) ([8578e81](https://github.com/blackbaud/skyux/commit/8578e810fc090a3e48908717c1f024fa915e69de)), closes [#34](https://github.com/blackbaud/skyux/issues/34) [#35](https://github.com/blackbaud/skyux/issues/35) [#33](https://github.com/blackbaud/skyux/issues/33)
+
+### Bug Fixes
+
+- **components/forms:** form controls on radio groups now properly disable radio buttons on initialization and do not mark the form as dirty on programatic changes ([#356](https://github.com/blackbaud/skyux/issues/356)) ([34eeb4b](https://github.com/blackbaud/skyux/commit/34eeb4b25c2ffd3b17065db04658f609f51bbcac))
+- **components/indicators:** update icons cdn link ([#360](https://github.com/blackbaud/skyux/issues/360)) ([4c42599](https://github.com/blackbaud/skyux/commit/4c425996daede636b7c5100378c7c82aa0e2e70a))
+- **components/modals:** viewkept toolbars now style correctly at the top of modern theme modals ([#347](https://github.com/blackbaud/skyux/issues/347)) ([1e570dd](https://github.com/blackbaud/skyux/commit/1e570dd02a11594d04f905ed817c67a97455ca91))
+
+## [6.8.0](https://github.com/blackbaud/skyux/compare/6.7.0...6.8.0) (2022-07-22)
+
+### Features
+
+- **components/indicators:** add inline help support for key info component ([#346](https://github.com/blackbaud/skyux/issues/346)) ([748add9](https://github.com/blackbaud/skyux/commit/748add9c235eb41ed3e90ee6d082eaa32b365dbf))
+
+### Bug Fixes
+
+- **components/data-manager:** fix column picker once-ability and disable & warn when no columns selected ([#349](https://github.com/blackbaud/skyux/issues/349)) ([c49e4f5](https://github.com/blackbaud/skyux/commit/c49e4f50faa637caf39336489c6c9ca3a369c661))
+- **components/forms:** prevent overlapping text after toggle switch label ([#344](https://github.com/blackbaud/skyux/issues/344)) ([5821fa5](https://github.com/blackbaud/skyux/commit/5821fa56522a6ae053f52b749db618971134e34e))
+- **components/tabs:** fix color of text on modern theme tabsets ([#345](https://github.com/blackbaud/skyux/issues/345)) ([74a5e28](https://github.com/blackbaud/skyux/commit/74a5e289ef9e7bcbc0e511bdb4443851acad40f5))
+
+## [6.7.0](https://github.com/blackbaud/skyux/compare/6.6.0...6.7.0) (2022-07-18)
+
+### Features
+
+- **components/pages:** support action hub settings ([#342](https://github.com/blackbaud/skyux/issues/342)) ([edad4e0](https://github.com/blackbaud/skyux/commit/edad4e054383ecd6c7a0967d8c463234b45da152))
+
+### Bug Fixes
+
+- **components/core:** add timestamp to generated IDs to avoid browser autocomplete collisions across sessions ([#339](https://github.com/blackbaud/skyux/issues/339)) ([4de1127](https://github.com/blackbaud/skyux/commit/4de112756deb64ec9bc53a010b6ea6e1b06d817c))
+- **components/datetime:** datepicker handles reactive forms which are disabled during initialization ([#320](https://github.com/blackbaud/skyux/issues/320)) ([679793f](https://github.com/blackbaud/skyux/commit/679793fb23e9303a1dcf06f65f812d23c6c82add))
+- **components/lookup:** show more modal toolbars now correctly stick to the top of the modal content ([#343](https://github.com/blackbaud/skyux/issues/343)) ([144a1eb](https://github.com/blackbaud/skyux/commit/144a1eb97b8a6dc381e0b1cf3b9b59308144e52d))
+
+## [6.6.0](https://github.com/blackbaud/skyux/compare/6.5.0...6.6.0) (2022-07-08)
+
+### Features
+
+- **components/datetime:** convert eight digit user-entered input to a date for the datepicker component based on the specified date format ([#334](https://github.com/blackbaud/skyux/issues/334)) ([bfde6c8](https://github.com/blackbaud/skyux/commit/bfde6c823c93a87fa42603d9a49692dadc2f3bb5))
+
+### Bug Fixes
+
+- **components/ag-grid:** center the no-rows overlay ([#336](https://github.com/blackbaud/skyux/issues/336)) ([c67332a](https://github.com/blackbaud/skyux/commit/c67332aa14297db164d05df2040d77406aba8f0e))
+- **components/layout:** keep box component's control button placement static when there is no header ([#338](https://github.com/blackbaud/skyux/issues/338)) ([89740be](https://github.com/blackbaud/skyux/commit/89740be0b19e41a0e9d5c08d64164a27aac8a839))
+
+### Deprecations
+
+- **components/layout:** `SkyErrorModalService` is deprecated; use a standard modal with an error component instead ([#328](https://github.com/blackbaud/skyux/issues/328)) ([abb1617](https://github.com/blackbaud/skyux/commit/abb1617d00534d40c6d7579c223dcbb90d3bc52e))
+
+## [6.5.0](https://github.com/blackbaud/skyux/compare/6.4.0...6.5.0) (2022-07-07)
+
+### Features
+
+- **components/theme:** add CSS custom properties for color ([#321](https://github.com/blackbaud/skyux/issues/321)) ([c4802d6](https://github.com/blackbaud/skyux/commit/c4802d6f075a99713982b88f2c9fba8ece6833ba))
+- **sdk/testing:** provide actual inner text to resource matchers messages that didn't have it ([#323](https://github.com/blackbaud/skyux/issues/323)) ([abbc6b2](https://github.com/blackbaud/skyux/commit/abbc6b2d5a4d5e13fcff386466bbb81ae5c0282a))
+
+### Bug Fixes
+
+- **components/core:** add timestamp to generated IDs ([#327](https://github.com/blackbaud/skyux/issues/327)) ([bef0548](https://github.com/blackbaud/skyux/commit/bef054829f08a1fcd1a7fb9de9e064a731117c83))
+- **components/datetime:** timepicker does not error if all lifecycle hooks do not run prior to destruction ([#324](https://github.com/blackbaud/skyux/issues/324)) ([6deab51](https://github.com/blackbaud/skyux/commit/6deab51e3002df57f2a4431b167d3a510997c0d6))
+- **components/theme:** modify margin-bottom styles in Default Visual Style ([#325](https://github.com/blackbaud/skyux/issues/325)) ([d217c75](https://github.com/blackbaud/skyux/commit/d217c7504e67def986b109abeb664bab63c61025))
+- **components/theme:** modify margin-right style in Default Visual Style ([#329](https://github.com/blackbaud/skyux/issues/329)) ([e5eb943](https://github.com/blackbaud/skyux/commit/e5eb943feb02b98d93d472b22fc2df278165d69e))
+- **components/theme:** use deemphasized text style for sky-font-data-label in Default Visual Style ([#317](https://github.com/blackbaud/skyux/issues/317)) ([3e0d2f4](https://github.com/blackbaud/skyux/commit/3e0d2f460b4a201e11b5986f2170340913d67d51))
+
+## [6.4.0](https://github.com/blackbaud/skyux/compare/6.3.3...6.4.0) (2022-07-05)
+
+### Features
+
+- **components/indicators:** add support for `.sky-control-help` to status indicator ([#312](https://github.com/blackbaud/skyux/issues/312)) ([14bab9d](https://github.com/blackbaud/skyux/commit/14bab9d4665b76915db4f8f38f76682e18b13e11))
+- **components/layout:** add support for `.sky-control-help` to description list term ([#319](https://github.com/blackbaud/skyux/issues/319)) ([c68af16](https://github.com/blackbaud/skyux/commit/c68af160c95398cb423eed5b1688a09a156c89bc))
+
+### Bug Fixes
+
+- **components/theme:** use 6px border radius for sky-rounded-corners in Modern Visual Style ([#313](https://github.com/blackbaud/skyux/issues/313)) ([197c3ac](https://github.com/blackbaud/skyux/commit/197c3ac2314d7fb7df9e83737a991db54fb8867c))
+
 ### [6.3.3](https://github.com/blackbaud/skyux/compare/6.3.2...6.3.3) (2022-06-24)
 
 ### Bug Fixes

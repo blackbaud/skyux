@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { SkyKeyInfoLayoutType } from './key-info-layout-type';
+
 @Component({
   selector: 'sky-key-info',
   templateUrl: './key-info.component.html',
@@ -11,6 +13,7 @@ export class SkyKeyInfoComponent {
    * value or in a horizontal layout with the label beside the value.
    * @default "vertical"
    */
+  // TODO: More strongly type this in a future breaking change.
   @Input()
-  public layout = 'vertical';
+  public layout: SkyKeyInfoLayoutType | string | undefined = 'vertical';
 }

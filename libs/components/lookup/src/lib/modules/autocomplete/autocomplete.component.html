@@ -45,6 +45,7 @@
         role="option"
         tabindex="0"
         [attr.aria-selected]="isElementFocused(searchResultEl)"
+        [attr.data-descriptor-value]="result.data[descriptorProperty]"
         [attr.id]="result.elementId"
         [skyHighlight]="highlightText"
         (mousedown)="onResultMouseDown(result.elementId, $event)"
@@ -53,7 +54,7 @@
       >
         <ng-container
           *ngTemplateOutlet="
-            searchResultTemplate;
+            searchResultTemplate || defaultSearchResultTemplate;
             context: { item: result.data }
           "
         >

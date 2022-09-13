@@ -24,6 +24,32 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   }
 }
 
+.sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
+  > .ag-header {
+    order: 1;
+  }
+
+  > .ag-body-horizontal-scroll {
+    order: 2;
+  }
+
+  > .ag-floating-top {
+    order: 3;
+  }
+
+  > .ag-body-viewport {
+    order: 4;
+  }
+
+  > .ag-floating-bottom {
+    order: 5;
+  }
+
+  > .ag-overlay {
+    order: 6;
+  }
+}
+
 ag-grid-angular:not(.sky-ag-grid-editable) {
   @include ag-theme-base(
     (
@@ -48,6 +74,10 @@ ag-grid-angular:not(.sky-ag-grid-editable) {
       selected-row-background-color: $sky-background-color-selected,
     )
   );
+
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 37px;
+  }
 
   border-top: $sky-standard-border;
 
@@ -103,6 +133,10 @@ ag-grid-angular.sky-ag-grid-editable {
       secondary-foreground-color: $sky-text-color-deemphasized,
     )
   );
+
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 37px;
+  }
 
   border-top: $sky-standard-border;
 
@@ -230,6 +264,10 @@ ag-grid-angular.sky-ag-grid-editable {
     )
   );
 
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 60px;
+  }
+
   .ag-header-cell-text {
     text-transform: uppercase;
   }
@@ -314,6 +352,10 @@ ag-grid-angular.sky-ag-grid-editable {
   }
 
   border-top: $sky-standard-border;
+
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 60px;
+  }
 
   .ag-header-cell-text {
     font-weight: 700;
@@ -418,6 +460,10 @@ ag-grid-angular.sky-ag-grid-editable {
     text-transform: uppercase;
   }
 
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 60px;
+  }
+
   @include skyux-cell-wrap-text(
     $sky-cell-wrap-text-padding-modern,
     $sky-cell-wrap-text-line-height-modern
@@ -485,6 +531,10 @@ ag-grid-angular.sky-ag-grid-editable {
         $sky-theme-modern-mode-dark-font-deemphasized-color,
     )
   );
+
+  .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
+    padding-top: 60px;
+  }
 
   .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
     align-items: flex-start;

@@ -11,15 +11,15 @@ export class CountryFieldNoFormTestComponent {
   @ViewChild(SkyCountryFieldComponent, {
     static: true,
   })
-  public countryFieldComponent: SkyCountryFieldComponent;
+  public countryFieldComponent!: SkyCountryFieldComponent;
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
   public isDisabled = false;
 
   public isRequired = false;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] = [];
 
   public countryChanged(country: SkyCountryFieldCountry): void {
     return;
