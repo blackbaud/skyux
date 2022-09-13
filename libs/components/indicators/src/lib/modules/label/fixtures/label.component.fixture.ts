@@ -8,7 +8,7 @@ import { SkyLabelType } from '../label-type';
   templateUrl: './label.component.fixture.html',
 })
 export class LabelTestComponent {
-  public labelType: SkyLabelType = 'info';
+  public labelType: SkyLabelType | undefined = 'info';
   public descriptionType: SkyIndicatorDescriptionType | undefined;
   public customDescription: string | undefined;
 }
