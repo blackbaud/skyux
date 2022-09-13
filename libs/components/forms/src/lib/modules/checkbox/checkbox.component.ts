@@ -121,14 +121,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Input()
   public set checkboxType(value: string | undefined) {
-    if (value) {
-      this.checkboxTypeOrDefault = value.toLowerCase();
-    } else {
-      this.checkboxTypeOrDefault = 'info';
-    }
+    this.#_checkboxType = value ? value.toLowerCase() : 'info';
   }
 
-  public checkboxTypeOrDefault = 'info';
+  public get checkboxType(): string {
+    return this.#_checkboxType;
+  }
 
   public inputId = `input-sky-checkbox-${++nextId}`;
 
@@ -196,6 +194,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #_checked = false;
 
   #_checkedChange = new BehaviorSubject<boolean>(this.#_checked);
+
+  #_checkboxType = 'info';
 
   #_disabled = false;
 
