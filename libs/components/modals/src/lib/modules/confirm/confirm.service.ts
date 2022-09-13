@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { SkyModalCloseArgs } from '../modal/modal-close-args';
@@ -22,9 +22,12 @@ import { SkyConfirmComponent } from './confirm.component';
 })
 export class SkyConfirmService {
   #modalService: SkyModalService;
-  #logService: SkyLogService;
+  #logService: SkyLogService | undefined;
 
-  constructor(modalService: SkyModalService, logService: SkyLogService) {
+  constructor(
+    modalService: SkyModalService,
+    @Optional() logService?: SkyLogService
+  ) {
     this.#modalService = modalService;
     this.#logService = logService;
   }
@@ -35,7 +38,7 @@ export class SkyConfirmService {
    */
   public open(config: SkyConfirmConfig): SkyConfirmInstance {
     if (config.buttons?.some((button) => button.autofocus != undefined)) {
-      this.#logService.deprecated('autofocus');
+      this.#logService?.deprecated('autofocus');
     }
 
     const modalInstance: SkyModalInstance = this.#modalService.open(
