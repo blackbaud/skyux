@@ -5,6 +5,9 @@ import { SkyComponentHarness } from '@skyux/core/testing';
  * @internal
  */
 export class SkyKeyInfoValueHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-key-info-value';
 
   /**

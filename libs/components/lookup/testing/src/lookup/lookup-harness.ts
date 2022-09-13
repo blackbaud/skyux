@@ -16,6 +16,7 @@ export class SkyLookupHarness extends SkyAutocompleteHarness {
    * Finds a standard lookup component, or a lookup component that is wrapped by an input box component.
    * For input box implementations, we need to use the `.sky-input-box` selector since the `sky-lookup`
    * element is removed from the DOM.
+   * @internal
    */
   public static hostSelector = 'sky-lookup,.sky-input-box';
 

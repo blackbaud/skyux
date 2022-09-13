@@ -12,6 +12,9 @@ import { SkyOverlayHarnessFilters } from './overlay-harness-filters';
  * @internal
  */
 export class SkyOverlayHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-overlay';
 
   /**

@@ -7,6 +7,9 @@ import { SkyTokenHarnessFilters } from './token-harness-filters';
  * @internal
  */
 export class SkyTokenHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-token';
 
   #getDismissButton = this.locatorFor('button.sky-token-btn-close');

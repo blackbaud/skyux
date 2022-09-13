@@ -18,6 +18,7 @@ export class SkyLookupShowMorePickerHarness extends ComponentHarness {
   /**
    * Use the class name since the async and non-async pickers use different
    * host components but share the same wrapper CSS class.
+   * @internal
    */
   public static hostSelector = '.sky-lookup-show-more-modal';
 

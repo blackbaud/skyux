@@ -11,6 +11,9 @@ import { SkyAlertHarnessFilters } from './alert-harness-filters';
  * Harness for interacting with an alert component in tests.
  */
 export class SkyAlertHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-alert';
 
   #getAlert = this.locatorFor('.sky-alert');
