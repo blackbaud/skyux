@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Optional,
@@ -52,16 +53,24 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Specifies an ID for the checkbox.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
+  @HostBinding('attr.id')
   @Input()
   public set id(value: string | undefined) {
     if (value) {
       const newId = `sky-checkbox-${value}`;
+      this.#_id = newId;
       this.inputId = `input-${newId}`;
     } else {
       const defaultId = `sky-checkbox-${++nextId}`;
+      this.#_id = defaultId;
       this.inputId = `input-${defaultId}`;
     }
   }
+
+  public get id(): string {
+    return this.#_id;
+  }
+
   /**
    * Indicates whether to disable the checkbox.
    * @default false
@@ -128,7 +137,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_checkboxType;
   }
 
-  public inputId = `input-sky-checkbox-${++nextId}`;
+  // The non-null assertion here is because we set this via the `id` that is set in the constructor.
+  public inputId!: string;
 
   /**
    * Indicates whether the checkbox is selected.
@@ -201,6 +211,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #_disabledChange = new BehaviorSubject<boolean>(this.#_disabled);
 
+  #_id: string;
+
   #_required = false;
 
   #ngControl: NgControl | undefined;
@@ -210,6 +222,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     if (ngControl) {
       ngControl.valueAccessor = this;
     }
+
+    this.id = `sky-checkbox-${++nextId}`;
   }
 
   public ngOnInit(): void {
