@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -14,30 +13,31 @@ import { SkyCharacterCounterInputDirective } from '../character-counter.directiv
   templateUrl: './character-count-no-indicator.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CharacterCountNoIndicatorTestComponent implements OnInit {
+export class CharacterCountNoIndicatorTestComponent {
   public testForm: FormGroup;
   public firstName: FormControl;
   public firstNameLabel = 'Field label';
-  public maxCharacterCount = 5;
+  public maxCharacterCount: number | undefined = 5;
 
   @ViewChild(SkyCharacterCounterInputDirective)
-  public inputDirective: SkyCharacterCounterInputDirective;
+  public inputDirective: SkyCharacterCounterInputDirective | undefined;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+  #changeDetector: ChangeDetectorRef;
+  #formBuilder: FormBuilder;
 
-  public ngOnInit(): void {
-    this.firstName = this.formBuilder.control('test');
+  constructor(formBuilder: FormBuilder, changeDetector: ChangeDetectorRef) {
+    this.#formBuilder = formBuilder;
+    this.#changeDetector = changeDetector;
 
-    this.testForm = this.formBuilder.group({
+    this.firstName = this.#formBuilder.control('test');
+
+    this.testForm = this.#formBuilder.group({
       firstName: this.firstName,
     });
   }
 
-  public setCharacterCountLimit(limit: number): void {
+  public setCharacterCountLimit(limit: number | undefined): void {
     this.maxCharacterCount = limit;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 }
