@@ -137,8 +137,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_checkboxType;
   }
 
-  // The non-null assertion here is because we set this via the `id` that is set in the constructor.
-  public inputId!: string;
+  public inputId: string;
 
   /**
    * Indicates whether the checkbox is selected.
@@ -223,7 +222,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
       ngControl.valueAccessor = this;
     }
 
-    this.id = `sky-checkbox-${++nextId}`;
+    this.#_id = `sky-checkbox-${++nextId}`;
+    this.inputId = `input-${this.#_id}`;
   }
 
   public ngOnInit(): void {

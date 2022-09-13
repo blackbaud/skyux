@@ -39,10 +39,10 @@ export class SkyCheckboxFixture {
    * The checkbox's icon type
    */
   public get iconType(): string | undefined {
-    const classList = this.debugEl.query(By.css('.fa.sky-icon')).nativeElement
+    const classList = this.debugEl.query(By.css('.fa.sky-icon'))?.nativeElement
       .classList;
 
-    for (let i = 0, n = classList.length; i < n; i++) {
+    for (let i = 0, n = classList?.length; i < n; i++) {
       const cls = classList.item(i);
 
       if (cls.indexOf('fa-') === 0) {

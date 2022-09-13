@@ -78,6 +78,12 @@ describe('Checkbox fixture', () => {
     fixture.detectChanges();
 
     expect(checkbox.checkboxType).toBeUndefined();
+
+    fixture.componentInstance.icon = undefined;
+
+    fixture.detectChanges();
+
+    expect(checkbox.iconType).toBeUndefined();
   });
 
   it('should provide a method for selecting the checkbox', () => {

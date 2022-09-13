@@ -12,6 +12,7 @@ import {
 })
 export class CheckboxHarnessTestComponent {
   public myForm: FormGroup;
+  public hideEmailLabel = false;
 
   #formBuilder: FormBuilder;
 
