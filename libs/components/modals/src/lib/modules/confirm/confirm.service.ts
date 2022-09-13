@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { SkyModalCloseArgs } from '../modal/modal-close-args';
 import { SkyModalInstance } from '../modal/modal-instance';
