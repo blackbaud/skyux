@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.19.0](https://github.com/blackbaud/skyux/compare/6.18.0...6.19.0) (2022-09-14)
+
+
+### Features
+
+* **components/indicators:** add key info component harness ([#498](https://github.com/blackbaud/skyux/issues/498)) ([4ba11a0](https://github.com/blackbaud/skyux/commit/4ba11a050ad09e762f718cc613ffb55bfdb686ff))
+* **components/indicators:** update alert test harness with accessibility functions ([#500](https://github.com/blackbaud/skyux/issues/500)) ([ee7c8bf](https://github.com/blackbaud/skyux/commit/ee7c8bf424b3542674cfbeb2a145a4e88bd86cba))
+
+
+### Deprecations
+
+* **components/modals:** deprecate confirm autofocus ([#507](https://github.com/blackbaud/skyux/issues/507)) ([67a0fa9](https://github.com/blackbaud/skyux/commit/67a0fa92f6a185e2976fd63330fc0694510c0964))
+
 ## [6.18.0](https://github.com/blackbaud/skyux/compare/6.17.1...6.18.0) (2022-09-08)
 
 
