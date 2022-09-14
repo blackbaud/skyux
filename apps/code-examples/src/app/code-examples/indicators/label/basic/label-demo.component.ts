@@ -7,22 +7,30 @@ import { SkyIndicatorDescriptionType, SkyLabelType } from '@skyux/indicators';
 })
 export class LabelDemoComponent {
   @Input()
+  public get daysUntilDue(): number {
+    return this.#_daysUntilDue;
+  }
+
   public set daysUntilDue(days: number) {
-    this.#_days = days;
-    this.updateLabelProperties(this.#_submitted, this.#_days);
+    this.#_daysUntilDue = days;
+    this.updateLabelProperties(this.submitted, days);
   }
 
   @Input()
+  public get submitted(): boolean {
+    return this.#_submitted;
+  }
+
   public set submitted(submitted: boolean) {
     this.#_submitted = submitted;
-    this.updateLabelProperties(this.#_submitted, this.#_days);
+    this.updateLabelProperties(submitted, this.daysUntilDue);
   }
 
   public labelType: SkyLabelType = 'info';
   public descriptionType: SkyIndicatorDescriptionType = 'attention';
   public labelText = 'Incomplete';
   public todaysDate = new Date('9/14/22');
-  #_days = 14;
+  #_daysUntilDue = 14;
   #_submitted = false;
 
   private updateLabelProperties(submitted: boolean, days: number) {
