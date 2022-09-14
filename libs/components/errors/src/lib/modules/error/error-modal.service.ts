@@ -13,20 +13,22 @@ import { SkyErrorModalFormComponent } from './error-modal-form.component';
   providedIn: 'root',
 })
 export class SkyErrorModalService {
-  #_logService: SkyLogService | undefined;
+  #modalSvc: SkyModalService;
+  #logSvc: SkyLogService | undefined;
 
   constructor(
-    private modal: SkyModalService,
+    modalSvc: SkyModalService,
     @Optional() logService?: SkyLogService
   ) {
-    this.#_logService = logService;
+    this.#modalSvc = modalSvc;
+    this.#logSvc = logService;
   }
   /**
    * Specifies text for the the error message, including title, description, and action label.
    * @deprecated We recommend using a standard modal with an error component instead.
    */
   public open(config: ErrorModalConfig) {
-    this.#_logService?.deprecated("SkyErrorModalService's open method", {
+    this.#logSvc?.deprecated("SkyErrorModalService's open method", {
       deprecationMajorVersion: 6,
       replacementRecommendation:
         'We recommend using a standard modal with an error component instead.',
@@ -34,7 +36,7 @@ export class SkyErrorModalService {
 
     const providers = [{ provide: ErrorModalConfig, useValue: config }];
 
-    this.modal.open(SkyErrorModalFormComponent, {
+    this.#modalSvc.open(SkyErrorModalFormComponent, {
       ariaRole: 'alertdialog',
       providers: providers,
     });

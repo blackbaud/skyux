@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { SkyErrorService } from './error.service';
+
 /**
  * Specifies a title to display with the error message.
  */
@@ -14,5 +16,14 @@ export class SkyErrorTitleComponent {
    * @default false
    */
   @Input()
-  public replaceDefaultTitle = false;
+  public set replaceDefaultTitle(value: boolean | undefined) {
+    this.#errorSvc.replaceDefaultTitle.next(!!value);
+  }
+
+  #errorSvc: SkyErrorService;
+
+  constructor(errorSvc: SkyErrorService) {
+    this.#errorSvc = errorSvc;
+    errorSvc.replaceDefaultTitle.next(false);
+  }
 }

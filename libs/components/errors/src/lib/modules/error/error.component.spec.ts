@@ -80,7 +80,7 @@ describe('Error component', () => {
     return el.querySelector(`${selector} .sky-error-action button`);
   }
 
-  it('error type broken displays correct image, title, description, and action text', () => {
+  it('should display correct image, title, description, and action text when errorType is broken', () => {
     component.errorType = 'broken';
     fixture.detectChanges();
 
@@ -100,7 +100,7 @@ describe('Error component', () => {
     );
   });
 
-  it('error type broken does not display image when "showImage" is false', () => {
+  it('should not not display image when "showImage" is false and errorType is broken', () => {
     component.errorType = 'broken';
     component.showImage = false;
     fixture.detectChanges();
@@ -122,7 +122,7 @@ describe('Error component', () => {
     );
   });
 
-  it('error type notfound displays correct image, title, and action text', () => {
+  it('should display correct image, title, and action text for notfound errorType', () => {
     component.errorType = 'notfound';
     fixture.detectChanges();
 
@@ -142,7 +142,7 @@ describe('Error component', () => {
     );
   });
 
-  it('error type construction displays correct image, title, and action text', () => {
+  it('should display correct image, title, and action text for construction errorType', () => {
     component.errorType = 'construction';
     fixture.detectChanges();
 
@@ -161,7 +161,7 @@ describe('Error component', () => {
     );
   });
 
-  it('error type security displays correct image, title, description, and action text', () => {
+  it('should display correct image, title, description, and action text for security errorType', () => {
     component.errorType = 'security';
     fixture.detectChanges();
 
@@ -181,7 +181,7 @@ describe('Error component', () => {
     );
   });
 
-  it('error type custom displays correct image, title, description, and action text', () => {
+  it('should display correct image, title, description, and action text for custom errorType', () => {
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error-custom')).not.toExist();
@@ -203,7 +203,7 @@ describe('Error component', () => {
     );
   });
 
-  it('can replace title and description', () => {
+  it('should replace title and description', () => {
     component.errorType = 'broken';
     component.replaceDefaultDescription = true;
     component.replaceDefaultTitle = true;
@@ -228,7 +228,7 @@ describe('Error component', () => {
     ).toHaveText(`${component.customDescription}`);
   });
 
-  it('can append onto title and description', () => {
+  it('should append onto title and description', () => {
     component.errorType = 'broken';
     component.replaceDefaultDescription = false;
     component.replaceDefaultTitle = false;
@@ -255,7 +255,7 @@ describe('Error component', () => {
     );
   });
 
-  it('custom action method is called with action button is clicked', () => {
+  it('should call custom action method when action button is clicked', () => {
     spyOn(component, 'customAction');
 
     getErrorActionButton('#test-error').click();
@@ -263,8 +263,16 @@ describe('Error component', () => {
     expect(component.customAction).toHaveBeenCalled();
   });
 
-  it('Invalid error type text is ignored', () => {
-    (component.errorType as string) = 'INVALID ERROR TYPE';
+  it('should not display previous default title or description after errorType is set to undefined', () => {
+    fixture.detectChanges();
+    expect(getErrorTitle('#test-error')).toHaveText(
+      resourceStrings.brokenTitle
+    );
+    expect(getErrorDescription('#test-error')).toHaveText(
+      resourceStrings.brokenDescription
+    );
+
+    component.errorType = undefined;
     fixture.detectChanges();
 
     expect(getBrokenImage('#test-error')).not.toExist();
@@ -272,12 +280,8 @@ describe('Error component', () => {
     expect(getConstructionImage('#test-error')).not.toExist();
     expect(getSecurityImage('#test-error')).not.toExist();
 
-    expect(getErrorTitle('#test-error')).toHaveText(
-      resourceStrings.brokenTitle
-    );
-    expect(getErrorDescription('#test-error')).toHaveText(
-      resourceStrings.brokenDescription
-    );
+    expect(getErrorTitle('#test-error')).toHaveText('');
+    expect(getErrorDescription('#test-error')).toHaveText('');
     expect(getErrorActionButton('#test-error')).toHaveText(
       component.buttonText
     );

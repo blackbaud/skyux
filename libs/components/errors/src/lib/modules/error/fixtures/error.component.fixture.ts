@@ -15,7 +15,7 @@ export class ErrorTestComponent {
 
   public customTitle = 'custom title value';
 
-  public errorType: SkyErrorType = 'broken';
+  public errorType: SkyErrorType | undefined = 'broken';
 
   public replaceDefaultDescription = false;
 
