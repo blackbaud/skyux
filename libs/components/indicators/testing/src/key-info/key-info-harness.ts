@@ -8,7 +8,6 @@ import { SkyKeyInfoValueHarness } from './key-info-value-harness';
 
 /**
  * Harness for interacting with a key info component in tests.
- * @internal
  */
 export class SkyKeyInfoHarness extends SkyComponentHarness {
   /**
