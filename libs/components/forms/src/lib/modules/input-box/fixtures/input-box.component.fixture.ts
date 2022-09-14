@@ -1,30 +1,30 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-box-fixture',
+  selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
 })
-export class InputBoxFixtureComponent implements OnInit {
+export class InputBoxFixtureComponent {
   @Input()
-  public basicDisabled: boolean;
+  public basicDisabled: boolean | undefined;
 
   @Input()
-  public hasErrors: boolean;
+  public hasErrors: boolean | undefined;
 
   @Input()
-  public insetIconDisabled: boolean;
+  public insetIconDisabled: boolean | undefined;
 
   public errorField: FormControl;
 
   public errorForm: FormGroup;
 
-  public errorNgModelValue: string;
+  public errorNgModelValue: string | undefined;
 
   @ViewChild('errorNgModel')
-  public errorNgModel: NgModel;
+  public errorNgModel!: NgModel;
 
-  public ngOnInit(): void {
+  constructor() {
     this.errorField = new FormControl('', [Validators.required]);
 
     this.errorForm = new FormGroup({

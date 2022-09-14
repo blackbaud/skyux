@@ -8,13 +8,17 @@ import { SkyInputBoxComponent } from './input-box.component';
  */
 @Injectable()
 export class SkyInputBoxHostService {
-  private host: SkyInputBoxComponent;
+  #host: SkyInputBoxComponent | undefined;
 
   public init(host: SkyInputBoxComponent): void {
-    this.host = host;
+    this.#host = host;
   }
 
   public populate(args: SkyInputBoxPopulateArgs): void {
-    this.host.populate(args);
+    if (!this.#host) {
+      throw new Error('Input box host has not been initialized');
+    }
+
+    this.#host.populate(args);
   }
 }

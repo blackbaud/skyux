@@ -51,27 +51,27 @@ export class SkyInputBoxComponent implements OnInit {
    * @default false
    */
   @Input()
-  public disabled: boolean;
+  public disabled: boolean | undefined;
 
-  public hostInputTemplate: TemplateRef<unknown>;
+  public hostInputTemplate: TemplateRef<unknown> | undefined;
 
-  public hostButtonsTemplate: TemplateRef<unknown>;
+  public hostButtonsTemplate: TemplateRef<unknown> | undefined;
 
-  public hostButtonsInsetTemplate: TemplateRef<unknown>;
+  public hostButtonsInsetTemplate: TemplateRef<unknown> | undefined;
 
-  public hostButtonsLeftTemplate: TemplateRef<unknown>;
+  public hostButtonsLeftTemplate: TemplateRef<unknown> | undefined;
 
-  public formControlHasFocus: boolean;
+  public formControlHasFocus = false;
 
-  public hostIconsInsetTemplate: TemplateRef<unknown>;
+  public hostIconsInsetTemplate: TemplateRef<unknown> | undefined;
 
-  public hostIconsInsetLeftTemplate: TemplateRef<unknown>;
+  public hostIconsInsetLeftTemplate: TemplateRef<unknown> | undefined;
 
   @ContentChild(FormControlDirective)
-  public formControl: FormControlDirective;
+  public formControl: FormControlDirective | undefined;
 
   @ContentChild(FormControlName)
-  public formControlByName: FormControlName;
+  public formControlByName: FormControlName | undefined;
 
   @ContentChild(NgModel)
   public ngModel: NgModel;
@@ -88,33 +88,42 @@ export class SkyInputBoxComponent implements OnInit {
     return this.hasErrors;
   }
 
+  #changeRef: ChangeDetectorRef;
+  #inputBoxHostSvc: SkyInputBoxHostService;
+  #adapterService: SkyInputBoxAdapterService;
+  #elementRef: ElementRef;
   constructor(
-    private changeRef: ChangeDetectorRef,
-    private inputBoxHostSvc: SkyInputBoxHostService,
-    private adapterService: SkyInputBoxAdapterService,
-    private elementRef: ElementRef
-  ) {}
+    changeRef: ChangeDetectorRef,
+    inputBoxHostSvc: SkyInputBoxHostService,
+    adapterService: SkyInputBoxAdapterService,
+    elementRef: ElementRef
+  ) {
+    this.#changeRef = changeRef;
+    this.#inputBoxHostSvc = inputBoxHostSvc;
+    this.#adapterService = adapterService;
+    this.#elementRef = elementRef;
+  }
 
   public ngOnInit(): void {
-    this.inputBoxHostSvc.init(this);
+    this.#inputBoxHostSvc.init(this);
   }
 
   public formControlFocusIn(): void {
-    const inlineHelpEl = this.adapterService.getInlineHelpElement(
-      this.elementRef
+    const inlineHelpEl = this.#adapterService.getInlineHelpElement(
+      this.#elementRef
     );
-    if (!this.adapterService.isFocusInElement(inlineHelpEl)) {
-      this.updateHasFocus(true);
+    if (!this.#adapterService.isFocusInElement(inlineHelpEl)) {
+      this.#updateHasFocus(true);
     }
   }
 
   public formControlFocusOut(): void {
-    this.updateHasFocus(false);
+    this.#updateHasFocus(false);
   }
 
   public onInsetIconClick(): void {
     if (!this.disabled) {
-      this.adapterService.focusControl(this.elementRef);
+      this.#adapterService.focusControl(this.#elementRef);
     }
   }
 
@@ -127,13 +136,13 @@ export class SkyInputBoxComponent implements OnInit {
     this.hostIconsInsetLeftTemplate = args.iconsInsetLeftTemplate;
   }
 
-  private updateHasFocus(hasFocus: boolean): void {
+  #updateHasFocus(hasFocus: boolean): void {
     // Some components manipulate the focus of elements inside an input box programmatically,
     // which can cause an `ExpressionChangedAfterItHasBeenCheckedError` if focus was set after
     // initial change detection. Using `setTimeout()` here fixes it.
     setTimeout(() => {
       this.formControlHasFocus = hasFocus;
-      this.changeRef.markForCheck();
+      this.#changeRef.markForCheck();
     });
   }
 

@@ -88,26 +88,35 @@
 
 <ng-template #inputTemplate>
   <ng-content select=".sky-form-control"></ng-content>
-  <ng-container *ngTemplateOutlet="hostInputTemplate"></ng-container>
+  <ng-container *ngIf="hostInputTemplate">
+    <ng-container *ngTemplateOutlet="hostInputTemplate"></ng-container
+  ></ng-container>
 </ng-template>
 
 <ng-template #buttonsLeftTemplate>
   <ng-content select=".sky-input-group-btn.sky-input-box-btn-left"></ng-content>
-  <ng-container *ngTemplateOutlet="hostButtonsLeftTemplate"></ng-container>
+
+  <ng-container *ngIf="hostButtonsLeftTemplate">
+    <ng-container *ngTemplateOutlet="hostButtonsLeftTemplate"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #buttonsTemplate>
   <ng-content
     select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset)"
   ></ng-content>
-  <ng-container *ngTemplateOutlet="hostButtonsTemplate"></ng-container>
+  <ng-container *ngIf="hostButtonsTemplate">
+    <ng-container *ngTemplateOutlet="hostButtonsTemplate"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #buttonsInsetTemplate>
   <ng-content
     select=".sky-input-group-btn.sky-input-box-btn-inset"
   ></ng-content>
-  <ng-container *ngTemplateOutlet="hostButtonsInsetTemplate"></ng-container>
+  <ng-container *ngIf="hostButtonsInsetTemplate">
+    <ng-container *ngTemplateOutlet="hostButtonsInsetTemplate"></ng-container>
+  </ng-container>
 </ng-template>
 
 <ng-template #iconsInsetTemplate>
@@ -115,7 +124,9 @@
     <ng-content
       select=".sky-input-group-icon.sky-input-box-icon-inset"
     ></ng-content>
-    <ng-container *ngTemplateOutlet="hostIconsInsetTemplate"></ng-container>
+    <ng-container *ngIf="hostIconsInsetTemplate">
+      <ng-container *ngTemplateOutlet="hostIconsInsetTemplate"></ng-container>
+    </ng-container>
   </div>
 </ng-template>
 
@@ -127,7 +138,11 @@
     <ng-content
       select=".sky-input-group-icon.sky-input-box-icon-inset-left"
     ></ng-content>
-    <ng-container *ngTemplateOutlet="hostIconsInsetLeftTemplate"></ng-container>
+    <ng-container *ngIf="hostIconsInsetLeftTemplate">
+      <ng-container
+        *ngTemplateOutlet="hostIconsInsetLeftTemplate"
+      ></ng-container>
+    </ng-container>
   </div>
 </ng-template>
 

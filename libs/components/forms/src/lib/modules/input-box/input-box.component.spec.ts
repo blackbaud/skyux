@@ -29,7 +29,7 @@ describe('Input box component', () => {
   function getInputBoxEl(
     fixture: ComponentFixture<any>,
     parentCls: string
-  ): HTMLDivElement {
+  ): HTMLDivElement | null {
     return fixture.nativeElement.querySelector(`.${parentCls} sky-input-box`);
   }
 
@@ -53,10 +53,10 @@ describe('Input box component', () => {
 
   function validateInvalid(
     context: string,
-    inputBoxEl: Element,
+    inputBoxEl: Element | null,
     invalid: boolean
   ): void {
-    const formControlEl = inputBoxEl.querySelector(
+    const formControlEl = inputBoxEl?.querySelector(
       '.sky-input-box-group-form-control'
     );
 
@@ -75,7 +75,7 @@ describe('Input box component', () => {
 
   function validateControlValid(
     fixture: ComponentFixture<any>,
-    inputBoxEl: Element,
+    inputBoxEl: Element | null,
     control: AbstractControl
   ): void {
     validateInvalid('when pristine and untouched', inputBoxEl, false);
@@ -99,52 +99,52 @@ describe('Input box component', () => {
       fixture: ComponentFixture<any>,
       parentCls: string
     ): {
-      characterCountEl: HTMLElement;
-      inputBoxEl: HTMLElement;
-      inputEl: HTMLElement;
+      characterCountEl: HTMLElement | null;
+      inputBoxEl: HTMLElement | null;
+      inputEl: HTMLElement | null;
       inputGroupBtnEls: HTMLElement[];
-      inputGroupEl: HTMLElement;
-      insetBtnEl: HTMLElement;
-      labelEl: HTMLLabelElement;
-      inlineHelpEl: HTMLElement;
+      inputGroupEl: HTMLElement | null;
+      insetBtnEl: HTMLElement | null;
+      labelEl: HTMLLabelElement | null;
+      inlineHelpEl: HTMLElement | null;
     } {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
-      const formGroupEl = inputBoxEl.querySelector(
+      const formGroupEl = inputBoxEl?.querySelector(
         '.sky-form-group'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const labelEl = formGroupEl.querySelector(
+      const labelEl = formGroupEl?.querySelector(
         '.sky-control-label'
-      ) as HTMLLabelElement;
+      ) as HTMLLabelElement | null;
 
-      const inlineHelpEl = formGroupEl.querySelector(
+      const inlineHelpEl = formGroupEl?.querySelector(
         '.sky-control-help'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const characterCountEl = formGroupEl.querySelector(
+      const characterCountEl = formGroupEl?.querySelector(
         'sky-character-counter-indicator'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const inputGroupEl = formGroupEl.querySelector(
+      const inputGroupEl = formGroupEl?.querySelector(
         '.sky-input-group'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const inputGroupInnerEl = inputGroupEl.querySelector(
+      const inputGroupInnerEl = inputGroupEl?.querySelector(
         '.sky-input-box-input-group-inner'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const inputEl = inputGroupInnerEl.querySelector(
+      const inputEl = inputGroupInnerEl?.querySelector(
         '.sky-form-control'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const insetBtnEl = inputGroupInnerEl.querySelector(
+      const insetBtnEl = inputGroupInnerEl?.querySelector(
         '.sky-input-box-btn-inset'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const inputGroupBtnEls = Array.from(inputGroupEl.children).slice(
-        1
-      ) as HTMLElement[];
+      const inputGroupBtnEls = inputGroupEl?.children
+        ? (Array.from(inputGroupEl.children).slice(1) as HTMLElement[])
+        : [];
 
       return {
         characterCountEl,
@@ -188,12 +188,12 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-basic');
 
       expect(els.labelEl).toExist();
-      expect(els.labelEl.htmlFor).toBe(els.inputEl.id);
-
+      expect(els.inputEl).toExist();
       expect(els.inputGroupEl).toExist();
 
-      expect(els.inputEl).toExist();
-      expect(els.inputEl.tagName).toBe('INPUT');
+      expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+
+      expect(els.inputEl?.tagName).toBe('INPUT');
     });
 
     it('should render the inline help in the expected location', () => {
@@ -204,7 +204,7 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-inline-help');
 
       expect(els.inlineHelpEl).toExist();
-      expect(els.inlineHelpEl.innerText.trim()).toBe('CUSTOM HELP WIDGET');
+      expect(els.inlineHelpEl?.innerText.trim()).toBe('CUSTOM HELP WIDGET');
     });
 
     it('should render the input group button elements in the expected locations', () => {
@@ -215,12 +215,12 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-multiple-buttons');
 
       expect(els.inputEl).toExist();
-      expect(els.inputEl.tagName).toBe('INPUT');
+      expect(els.inputEl?.tagName).toBe('INPUT');
 
-      expect(els.inputGroupBtnEls[0].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[0]?.children.item(0)).toHaveCssClass(
         'test-button-1'
       );
-      expect(els.inputGroupBtnEls[1].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[1]?.children.item(0)).toHaveCssClass(
         'test-button-2'
       );
     });
@@ -233,7 +233,7 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-character-count');
 
       expect(els.characterCountEl).toExist();
-      expect(els.characterCountEl.tagName).toBe(
+      expect(els.characterCountEl?.tagName).toBe(
         'SKY-CHARACTER-COUNTER-INDICATOR'
       );
     });
@@ -245,7 +245,7 @@ describe('Input box component', () => {
 
       const els = getDefaultEls(fixture, 'input-button-inset');
 
-      expect(els.insetBtnEl.children.item(0)).toHaveCssClass(
+      expect(els.insetBtnEl?.children.item(0)).toHaveCssClass(
         'test-button-inset'
       );
     });
@@ -258,12 +258,12 @@ describe('Input box component', () => {
       const els = getDefaultEls(fixture, 'input-host-service');
 
       expect(els.inputEl).toExist();
-      expect(els.inputEl.tagName).toBe('INPUT');
+      expect(els.inputEl?.tagName).toBe('INPUT');
 
-      expect(els.inputGroupBtnEls[0].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[0]?.children.item(0)).toHaveCssClass(
         'host-service-button-1'
       );
-      expect(els.inputGroupBtnEls[1].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[1]?.children.item(0)).toHaveCssClass(
         'host-service-button-2'
       );
     });
@@ -274,7 +274,7 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
-      const inputBoxWrapperEl = inputBoxEl.querySelector('.sky-input-box');
+      const inputBoxWrapperEl = inputBoxEl?.querySelector('.sky-input-box');
 
       expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
 
@@ -300,66 +300,66 @@ describe('Input box component', () => {
       fixture: ComponentFixture<any>,
       parentCls: string
     ): {
-      characterCountEl: HTMLElement;
-      inputBoxEl: HTMLElement;
-      inputEl: HTMLElement;
+      characterCountEl: HTMLElement | null;
+      inputBoxEl: HTMLElement | null;
+      inputEl: HTMLElement | null;
       inputGroupBtnEls: HTMLElement[];
-      insetBtnEl: HTMLElement;
-      insetIconEl: HTMLElement;
-      insetIconWrapperEl: HTMLElement;
-      leftInsetIconEl: HTMLElement;
-      labelEl: HTMLLabelElement;
-      inlineHelpEl: HTMLElement;
+      insetBtnEl: HTMLElement | null;
+      insetIconEl: HTMLElement | null;
+      insetIconWrapperEl: HTMLElement | null;
+      leftInsetIconEl: HTMLElement | null;
+      labelEl: HTMLLabelElement | null;
+      inlineHelpEl: HTMLElement | null;
     } {
       const inputBoxEl = getInputBoxEl(fixture, parentCls);
 
-      const inputGroupEl = inputBoxEl.querySelector(
+      const inputGroupEl = inputBoxEl?.querySelector(
         '.sky-input-box-group'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const formGroupEl = inputGroupEl.querySelector(
+      const formGroupEl = inputGroupEl?.querySelector(
         '.sky-input-box-group-form-control > .sky-form-group'
       );
 
-      const formGroupInnerEl = formGroupEl.querySelector(
+      const formGroupInnerEl = formGroupEl?.querySelector(
         '.sky-input-box-form-group-inner'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const labelEl = formGroupInnerEl.querySelector(
+      const labelEl = formGroupInnerEl?.querySelector(
         '.sky-input-box-label-wrapper > .sky-control-label'
-      ) as HTMLLabelElement;
+      ) as HTMLLabelElement | null;
 
-      const inlineHelpEl = formGroupEl.querySelector(
+      const inlineHelpEl = formGroupEl?.querySelector(
         '.sky-control-help'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const characterCountEl = formGroupInnerEl.children
-        .item(0)
-        .children.item(1) as HTMLLabelElement;
+      const characterCountEl = formGroupInnerEl?.children
+        ?.item(0)
+        ?.children.item(1) as HTMLLabelElement | null;
 
-      const inputEl = formGroupInnerEl.querySelector(
+      const inputEl = formGroupInnerEl?.querySelector(
         '.sky-form-control'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const insetBtnEl = formGroupEl.querySelector(
+      const insetBtnEl = formGroupEl?.querySelector(
         '.sky-input-box-btn-inset'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const insetIconEl = formGroupEl.querySelector(
+      const insetIconEl = formGroupEl?.querySelector(
         '.sky-input-box-icon-inset'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const insetIconWrapperEl = formGroupEl.querySelector(
+      const insetIconWrapperEl = formGroupEl?.querySelector(
         '.sky-input-box-icon-inset-wrapper'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const leftInsetIconEl = formGroupEl.querySelector(
+      const leftInsetIconEl = formGroupEl?.querySelector(
         '.sky-input-box-icon-inset-left'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      const inputGroupBtnEls = Array.from(inputGroupEl.children).slice(
-        1
-      ) as HTMLElement[];
+      const inputGroupBtnEls = inputGroupEl?.children
+        ? (Array.from(inputGroupEl.children).slice(1) as HTMLElement[])
+        : [];
 
       return {
         characterCountEl,
@@ -415,10 +415,10 @@ describe('Input box component', () => {
       const els = getModernEls(fixture, 'input-basic');
 
       expect(els.labelEl).toExist();
-      expect(els.labelEl.htmlFor).toBe(els.inputEl.id);
-
       expect(els.inputEl).toExist();
-      expect(els.inputEl.tagName).toBe('INPUT');
+      expect(els.labelEl?.htmlFor).toBe(els.inputEl?.id);
+
+      expect(els.inputEl?.tagName).toBe('INPUT');
     });
 
     it('should render the inline help in the expected location', () => {
@@ -429,7 +429,7 @@ describe('Input box component', () => {
       const els = getModernEls(fixture, 'input-inline-help');
 
       expect(els.inlineHelpEl).toExist();
-      expect(els.inlineHelpEl.innerText.trim()).toBe('CUSTOM HELP WIDGET');
+      expect(els.inlineHelpEl?.innerText.trim()).toBe('CUSTOM HELP WIDGET');
     });
 
     it('should render the character count element in the expected locations', () => {
@@ -440,7 +440,7 @@ describe('Input box component', () => {
       const moderlEls = getModernEls(fixture, 'input-character-count');
 
       expect(moderlEls.characterCountEl).toExist();
-      expect(moderlEls.characterCountEl.tagName).toBe(
+      expect(moderlEls.characterCountEl?.tagName).toBe(
         'SKY-CHARACTER-COUNTER-INDICATOR'
       );
     });
@@ -452,10 +452,10 @@ describe('Input box component', () => {
 
       const els = getModernEls(fixture, 'input-multiple-buttons');
 
-      expect(els.inputGroupBtnEls[0].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[0]?.children.item(0)).toHaveCssClass(
         'test-button-1'
       );
-      expect(els.inputGroupBtnEls[1].children.item(0)).toHaveCssClass(
+      expect(els.inputGroupBtnEls[1]?.children.item(0)).toHaveCssClass(
         'test-button-2'
       );
     });
@@ -467,7 +467,7 @@ describe('Input box component', () => {
 
       const els = getModernEls(fixture, 'input-button-inset');
 
-      expect(els.insetBtnEl.children.item(0)).toHaveCssClass(
+      expect(els.insetBtnEl?.children.item(0)).toHaveCssClass(
         'test-button-inset'
       );
     });
@@ -479,7 +479,7 @@ describe('Input box component', () => {
 
       const els = getModernEls(fixture, 'input-icon-inset');
 
-      expect(els.insetIconEl.children.item(0)).toHaveCssClass(
+      expect(els.insetIconEl?.children.item(0)).toHaveCssClass(
         'test-icon-inset'
       );
     });
@@ -491,7 +491,7 @@ describe('Input box component', () => {
 
       const els = getModernEls(fixture, 'input-icon-inset-left');
 
-      expect(els.leftInsetIconEl.children.item(0)).toHaveCssClass(
+      expect(els.leftInsetIconEl?.children.item(0)).toHaveCssClass(
         'test-icon-inset'
       );
     });
@@ -512,6 +512,10 @@ describe('Input box component', () => {
       insetIconWrapperEl.click();
 
       expect(spy).toHaveBeenCalledTimes(1);
+      if (!document.activeElement) {
+        fail('Expected there to be an active element');
+        return;
+      }
       expect(el).toEqual(document.activeElement);
     });
 
@@ -540,12 +544,12 @@ describe('Input box component', () => {
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-single-button-left');
 
-      const inputBoxGroupEl = inputBoxEl.querySelector('.sky-input-box-group');
-      const inputGroupBtnEl1 = inputBoxGroupEl.children.item(0);
-      const inputEl = inputBoxGroupEl.children.item(1);
+      const inputBoxGroupEl = inputBoxEl?.querySelector('.sky-input-box-group');
+      const inputGroupBtnEl1 = inputBoxGroupEl?.children.item(0);
+      const inputEl = inputBoxGroupEl?.children.item(1);
 
       expect(inputEl).toHaveCssClass('sky-input-box-group-form-control');
-      expect(inputGroupBtnEl1.children.item(0)).toHaveCssClass(
+      expect(inputGroupBtnEl1?.children.item(0)).toHaveCssClass(
         'test-button-left'
       );
     });
@@ -556,9 +560,14 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
-      const inputBoxFormControlEl = inputBoxEl.querySelector(
+      const inputBoxFormControlEl = inputBoxEl?.querySelector(
         '.sky-input-box-group-form-control'
       );
+
+      if (!inputBoxFormControlEl) {
+        fail('Expected input box form control element to exist');
+        return;
+      }
 
       const focusCls = 'sky-input-box-group-form-control-focus';
 
@@ -585,16 +594,22 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-inline-help');
-      const inputBoxFormControlEl = inputBoxEl.querySelector(
+      const inputBoxFormControlEl = inputBoxEl?.querySelector(
         '.sky-input-box-group-form-control'
       );
-      const helpBtn = inputBoxEl.querySelector('button');
+
+      if (!inputBoxFormControlEl) {
+        fail('Expected input box form control element to exist');
+        return;
+      }
+
+      const helpBtn = inputBoxEl?.querySelector('button');
 
       const focusCls = 'sky-input-box-group-form-control-focus';
 
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
 
-      helpBtn.focus();
+      helpBtn?.focus();
       SkyAppTestUtility.fireDomEvent(inputBoxFormControlEl, 'focusin');
 
       tick();
@@ -609,7 +624,7 @@ describe('Input box component', () => {
       fixture.detectChanges();
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-basic');
-      const inputBoxWrapperEl = inputBoxEl.querySelector('.sky-input-box');
+      const inputBoxWrapperEl = inputBoxEl?.querySelector('.sky-input-box');
 
       expect(inputBoxWrapperEl).not.toHaveCssClass('sky-input-box-disabled');
 
