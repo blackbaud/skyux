@@ -24,7 +24,6 @@ describe(`ag-grid-storybook data manager`, () => {
               .get('#root')
               .should('exist')
               .should('be.visible')
-              .wait(500)
               .screenshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {

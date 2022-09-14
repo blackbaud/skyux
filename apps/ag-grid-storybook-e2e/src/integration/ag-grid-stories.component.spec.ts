@@ -17,7 +17,6 @@ describe(`ag-grid-storybook`, () => {
           .get('#root')
           .should('exist')
           .should('be.visible')
-          .wait(500)
           .screenshot(
             `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
             {
