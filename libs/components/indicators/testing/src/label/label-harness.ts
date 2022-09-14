@@ -20,8 +20,6 @@ export class SkyLabelHarness extends SkyComponentHarness {
   #getTextEl = this.locatorFor('.sky-label-text');
   #getScreenReaderTextEl = this.locatorForOptional('.sky-screen-reader-only');
 
-  // #getAccessibilityEl = this.locatorForAll
-
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyLookupHarness` that meets certain criteria.
