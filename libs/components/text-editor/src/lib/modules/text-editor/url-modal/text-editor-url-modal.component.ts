@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SkyModalInstance } from '@skyux/modals';
+import { SkyTabIndex } from '@skyux/tabs';
 import { SkyValidation } from '@skyux/validation';
 
 import { SkyUrlModalContext } from './text-editor-url-modal-context';
@@ -89,7 +90,7 @@ export class SkyTextEditorUrlModalComponent {
     }
   }
 
-  public activeTabChanged(value: string | number): void {
+  public activeTabChanged(value: SkyTabIndex): void {
     this.activeTab = Number(value);
   }
 
