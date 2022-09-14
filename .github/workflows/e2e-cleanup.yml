@@ -1,0 +1,36 @@
+name: E2E Cleanup
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout blackbaud/skyux-pr-preview
+        uses: actions/checkout@v3
+        with:
+          repository: blackbaud/skyux-pr-preview
+          ref: 'main'
+          fetch-depth: 1
+          token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Delete old PR previews
+        run: |
+          for pr in $(gh pr list -R blackbaud/skyux -s closed -s merged --json number --jq '.[] | .number')
+          do
+            if [[ -d $pr ]]
+            then
+              git rm -rf $pr
+            fi
+          done
+          if [[ -n "$(git status --porcelain)" ]]
+          then
+            git config --global user.name 'Blackbaud Sky Build User'
+            git config --global user.email 'sky-build-user@blackbaud.com'
+            git commit -m "Delete old PR previews $(date +'%Y-%m-%d')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
