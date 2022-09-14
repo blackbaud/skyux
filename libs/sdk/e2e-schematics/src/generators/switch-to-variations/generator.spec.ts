@@ -38,6 +38,9 @@ describe('switch-to-variations generator', () => {
       });
       fail('should have thrown');
     } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown an Error');
+      }
       expect(e.message).toContain('Project bogus not found');
     }
     try {
@@ -47,6 +50,9 @@ describe('switch-to-variations generator', () => {
       });
       fail('should have thrown');
     } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown an Error');
+      }
       expect(e.message).toContain('Project test is not an e2e project');
     }
   });
