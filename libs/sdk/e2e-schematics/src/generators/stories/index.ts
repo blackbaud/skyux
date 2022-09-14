@@ -59,7 +59,6 @@ function normalizeOptions(
   const projectDirectory = projectConfig.sourceRoot!;
   const projectName = options.project;
   const projectRoot = projectConfig.root;
-  console.log(projects);
   const e2eProjectConfig = projects.get(
     options.cypressProject || `${projectName}-e2e`
   );
