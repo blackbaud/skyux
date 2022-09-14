@@ -18,7 +18,10 @@ describe(`ag-grid-storybook`, () => {
           .should('exist')
           .should('be.visible')
           .screenshot(
-            `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`
+            `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
+            {
+              clip: { x: 0, y: 0, width: 1300, height: 600 },
+            }
           )
           .percySnapshot(
             `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
@@ -27,8 +30,8 @@ describe(`ag-grid-storybook`, () => {
               scope: '#root',
               percyCSS: `
                 /* Avoid "virtual rows" in the screenshot. */
-                :root {
-                  --viewport-height: 600px;
+                #root {
+                  height: 600px;
                 }
               `,
             }
