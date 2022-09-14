@@ -9,7 +9,6 @@ import { SkyLabelHarnessFilters } from './label-harness-filters';
 
 /**
  * Harness for interacting with a label component in tests.
- * @internal
  */
 export class SkyLabelHarness extends SkyComponentHarness {
   /**
