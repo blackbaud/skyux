@@ -60,9 +60,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
       this.#_id = value;
       this.inputId = `input-sky-checkbox-${value}`;
     } else {
-      const defaultId = `sky-checkbox-${++nextId}`;
-      this.#_id = defaultId;
-      this.inputId = `input-${defaultId}`;
+      this.#_id = this.#defaultId;
+      this.inputId = `input-${this.#defaultId}`;
     }
   }
 
@@ -77,16 +76,16 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   @Input()
   public set disabled(value: boolean | undefined) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
+    if (coercedValue !== this.#_disabled) {
       this.#_disabled = coercedValue;
-      this.#_disabledChange.next(this.#_disabled);
+      this.#disabledChange.next(coercedValue);
     }
   }
 
   /**
    * Indicates whether the checkbox is disabled.
    */
-  public get disabled() {
+  public get disabled(): boolean {
     return this.#_disabled;
   }
 
@@ -102,7 +101,17 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
-  public name: string | undefined = `sky-checkbox-${++nextId}`;
+  public set name(value: string | undefined) {
+    if (value) {
+      this.#_name = value;
+    } else {
+      this.#_name = this.#defaultId;
+    }
+  }
+
+  public get name(): string {
+    return this.#_name;
+  }
 
   /**
    * Fires when the selected value changes.
@@ -136,18 +145,20 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_checkboxType;
   }
 
-  public inputId: string;
+  // Non-null assertion is needed because this property is set in the constructor through the `id` setter and that is not recognized
+  public inputId!: string;
 
   /**
    * Indicates whether the checkbox is selected.
    * @default false
    */
   @Input()
-  public set checked(checked: boolean | undefined) {
-    if (!!checked !== this.checked) {
-      this.#_checked = !!checked;
-      this.#_controlValueAccessorChangeFn(checked);
-      this.#_checkedChange.next(this.#_checked);
+  public set checked(value: boolean | undefined) {
+    const checked = !!value;
+    if (checked !== this.#_checked) {
+      this.#_checked = checked;
+      this.#controlValueAccessorChangeFn(checked);
+      this.#checkedChange.next(checked);
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
@@ -161,7 +172,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Indicates whether the checkbox is selected.
    */
-  public get checked() {
+  public get checked(): boolean {
     return this.#_checked;
   }
 
@@ -186,7 +197,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Output()
   public get checkedChange(): Observable<boolean> {
-    return this.#_checkedChange;
+    return this.#checkedChangeObs;
   }
 
   /**
@@ -194,22 +205,32 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Output()
   public get disabledChange(): Observable<boolean> {
-    return this.#_disabledChange;
+    return this.#disabledChangeObs;
   }
+
+  #checkedChange: BehaviorSubject<boolean>;
+
+  #checkedChangeObs: Observable<boolean>;
+
+  #defaultId: string;
+
+  #disabledChange: BehaviorSubject<boolean>;
+
+  #disabledChangeObs: Observable<boolean>;
 
   #isFirstChange = true;
 
   #_checked = false;
 
-  #_checkedChange = new BehaviorSubject<boolean>(this.#_checked);
-
   #_checkboxType = 'info';
 
   #_disabled = false;
 
-  #_disabledChange = new BehaviorSubject<boolean>(this.#_disabled);
+  // Non-null assertion is needed because this property is set in the constructor through the `id` setter and that is not recognized
+  #_id!: string;
 
-  #_id: string;
+  // Non-null assertion is needed because this property is set in the constructor through the `name` setter and that is not recognized
+  #_name!: string;
 
   #_required = false;
 
@@ -221,8 +242,15 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
       ngControl.valueAccessor = this;
     }
 
-    this.#_id = `sky-checkbox-${++nextId}`;
-    this.inputId = `input-${this.#_id}`;
+    this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
+    this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
+
+    this.#checkedChangeObs = this.#checkedChange.asObservable();
+    this.#disabledChangeObs = this.#disabledChange.asObservable();
+
+    this.#defaultId = `sky-checkbox-${++nextId}`;
+    this.id = this.#defaultId;
+    this.name = this.#defaultId;
   }
 
   public ngOnInit(): void {
@@ -244,7 +272,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Implemented as part of ControlValueAccessor.
    */
   public registerOnChange(fn: (value: any) => void) {
-    this.#_controlValueAccessorChangeFn = fn;
+    this.#controlValueAccessorChangeFn = fn;
   }
 
   /**
@@ -272,8 +300,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     event.stopPropagation();
 
     if (!this.disabled) {
-      this.#_toggle();
-      this.#_emitChangeEvent();
+      this.#toggle();
+      this.#emitChangeEvent();
     }
   }
 
@@ -287,21 +315,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public onTouched: () => any = () => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  #_controlValueAccessorChangeFn: (value: any) => void = (value) => {};
+  #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
-  #_emitChangeEvent() {
+  #emitChangeEvent() {
     const event = new SkyCheckboxChange();
     event.source = this;
     event.checked = this.#_checked;
 
-    this.#_controlValueAccessorChangeFn(this.#_checked);
+    this.#controlValueAccessorChangeFn(this.#_checked);
     this.change.emit(event);
   }
 
   /**
    * Toggles the `checked` value between true and false
    */
-  #_toggle() {
+  #toggle() {
     this.checked = !this.checked;
   }
 }

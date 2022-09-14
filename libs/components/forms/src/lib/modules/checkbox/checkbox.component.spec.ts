@@ -216,9 +216,11 @@ class CheckboxWithAriaLabelledbyComponent {}
 
 /** Simple test component with name attribute */
 @Component({
-  template: `<sky-checkbox name="test-name"></sky-checkbox>`,
+  template: `<sky-checkbox [name]="name"></sky-checkbox>`,
 })
-class CheckboxWithNameAttributeComponent {}
+class CheckboxWithNameAttributeComponent {
+  public name = 'test-name';
+}
 
 /** Simple test component with change event */
 @Component({
@@ -275,11 +277,11 @@ describe('Checkbox component', () => {
 
   describe('basic behaviors', () => {
     let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement;
+    let checkboxNativeElement: HTMLElement | null;
     let checkboxInstance: SkyCheckboxComponent;
     let testComponent: SingleCheckboxComponent;
-    let inputElement: HTMLInputElement;
-    let labelElement: HTMLLabelElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(SingleCheckboxComponent);
@@ -291,17 +293,10 @@ describe('Checkbox component', () => {
       checkboxNativeElement = checkboxDebugElement.nativeElement;
       checkboxInstance = checkboxDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-      const label: HTMLLabelElement | null =
-        checkboxNativeElement.querySelector('label.sky-checkbox-wrapper');
-
-      if (!(input && label)) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-      inputElement = input;
-      labelElement = label;
+      inputElement = checkboxNativeElement?.querySelector('input');
+      labelElement = checkboxNativeElement?.querySelector(
+        'label.sky-checkbox-wrapper'
+      );
     });
 
     it('should emit the new disabled value when it is modified', fakeAsync(() => {
@@ -314,19 +309,19 @@ describe('Checkbox component', () => {
 
     it('should add and remove the checked state', () => {
       expect(checkboxInstance.checked).toBe(false);
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.checked).toBe(false);
 
       testComponent.isChecked = true;
       fixture.detectChanges();
 
       expect(checkboxInstance.checked).toBe(true);
-      expect(inputElement.checked).toBe(true);
+      expect(inputElement?.checked).toBe(true);
 
       testComponent.isChecked = false;
       fixture.detectChanges();
 
       expect(checkboxInstance.checked).toBe(false);
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.checked).toBe(false);
     });
 
     it('should toggle checked state on click', async () => {
@@ -334,14 +329,14 @@ describe('Checkbox component', () => {
       expect(checkboxInstance.checked).toBe(false);
       expect(testComponent.isChecked).toBe(false);
 
-      labelElement.click();
+      labelElement?.click();
 
       await fixture.whenStable();
       fixture.detectChanges();
       expect(checkboxInstance.checked).toBe(true);
       expect(testComponent.isChecked).toBe(true);
 
-      labelElement.click();
+      labelElement?.click();
 
       await fixture.whenStable();
       fixture.detectChanges();
@@ -352,67 +347,67 @@ describe('Checkbox component', () => {
 
     it('should add and remove disabled state', () => {
       expect(checkboxInstance.disabled).toBe(false);
-      expect(inputElement.tabIndex).toBe(0);
-      expect(inputElement.disabled).toBe(false);
+      expect(inputElement?.tabIndex).toBe(0);
+      expect(inputElement?.disabled).toBe(false);
 
       testComponent.isDisabled = true;
       fixture.detectChanges();
 
       expect(checkboxInstance.disabled).toBe(true);
-      expect(inputElement.disabled).toBe(true);
+      expect(inputElement?.disabled).toBe(true);
 
       testComponent.isDisabled = false;
       fixture.detectChanges();
 
       expect(checkboxInstance.disabled).toBe(false);
-      expect(inputElement.tabIndex).toBe(0);
-      expect(inputElement.disabled).toBe(false);
+      expect(inputElement?.tabIndex).toBe(0);
+      expect(inputElement?.disabled).toBe(false);
     });
 
     it('should not toggle `checked` state upon interation while disabled', () => {
       testComponent.isDisabled = true;
       fixture.detectChanges();
 
-      inputElement.dispatchEvent(createEvent('change'));
+      inputElement?.dispatchEvent(createEvent('change'));
       fixture.detectChanges();
       expect(checkboxInstance.checked).toBe(false);
-      labelElement.click();
+      labelElement?.click();
       expect(checkboxInstance.checked).toBe(false);
     });
 
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
-      expect(checkboxNativeElement.id).toBe('simple-check');
-      expect(inputElement.id).toBe('input-sky-checkbox-simple-check');
+      expect(checkboxNativeElement?.id).toBe('simple-check');
+      expect(inputElement?.id).toBe('input-sky-checkbox-simple-check');
     });
 
     it('should handle undefined being passed in as the id', () => {
       testComponent.id = undefined;
       fixture.detectChanges();
-      expect(checkboxNativeElement.id).toEqual(
+      expect(checkboxNativeElement?.id).toEqual(
         jasmine.stringMatching(/sky-checkbox-[0-9]/)
       );
-      expect(inputElement.id).toEqual(
+      expect(inputElement?.id).toEqual(
         jasmine.stringMatching(/input-sky-checkbox-[0-9]/)
       );
     });
 
     it('should project the checkbox content into the label element', () => {
-      const label = checkboxNativeElement.querySelector(
+      const label = checkboxNativeElement?.querySelector(
         '.sky-checkbox-wrapper sky-checkbox-label'
       );
       expect(label?.textContent?.trim()).toBe('Simple checkbox');
     });
 
     it('should make the host element a tab stop', () => {
-      expect(inputElement.tabIndex).toBe(0);
+      expect(inputElement?.tabIndex).toBe(0);
     });
 
     it('should show inline help', () => {
       testComponent.showInlineHelp = true;
       fixture.detectChanges();
-      const label: HTMLElement | null =
-        checkboxNativeElement.querySelector('sky-checkbox-label');
+      const label: HTMLElement | null | undefined =
+        checkboxNativeElement?.querySelector('sky-checkbox-label');
       expect(label?.innerText).toBe('Simple checkboxHelp inline'); // expect no additional space between label and help
     });
 
@@ -425,10 +420,10 @@ describe('Checkbox component', () => {
 
   describe('with change event and no initial value', () => {
     let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement;
+    let checkboxNativeElement: HTMLElement | null;
     let checkboxInstance: SkyCheckboxComponent;
     let testComponent: CheckboxWithChangeEventComponent;
-    let inputElement: HTMLInputElement;
+    let inputElement: HTMLInputElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithChangeEventComponent);
@@ -443,13 +438,7 @@ describe('Checkbox component', () => {
       checkboxInstance = checkboxDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
 
-      const input = checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input to be defined');
-        return;
-      }
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
     });
 
     it('should call not call the change event when the checkbox is not interacted with', async () => {
@@ -469,7 +458,7 @@ describe('Checkbox component', () => {
 
       // Trigger the click on the inputElement, because the input will probably
       // emit a DOM event to the change output.
-      inputElement.click();
+      inputElement?.click();
       fixture.detectChanges();
 
       await fixture.whenStable();
@@ -482,8 +471,8 @@ describe('Checkbox component', () => {
 
   describe('with provided label attribute ', () => {
     let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement;
-    let inputElement: HTMLInputElement;
+    let checkboxNativeElement: HTMLElement | null;
+    let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided label as the input aria-label', async () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelComponent);
@@ -492,26 +481,19 @@ describe('Checkbox component', () => {
         By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      const input = checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       fixture.detectChanges();
 
       await fixture.whenStable();
-      expect(inputElement.getAttribute('aria-label')).toBe('Super effective');
+      expect(inputElement?.getAttribute('aria-label')).toBe('Super effective');
     });
   });
 
   describe('with provided labelledBy attribute ', () => {
     let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement;
-    let inputElement: HTMLInputElement;
+    let checkboxNativeElement: HTMLElement | null;
+    let inputElement: HTMLInputElement | null | undefined;
 
     it('should use the provided labeledBy as the input aria-labelledby', async () => {
       fixture = TestBed.createComponent(CheckboxWithAriaLabelledbyComponent);
@@ -520,20 +502,12 @@ describe('Checkbox component', () => {
         By.directive(SkyCheckboxComponent)
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       fixture.detectChanges();
 
       await fixture.whenStable();
-      expect(inputElement.getAttribute('aria-labelledby')).toBe('some-id');
+      expect(inputElement?.getAttribute('aria-labelledby')).toBe('some-id');
     });
 
     it('should not assign aria-labelledby if no labeledBy is provided', async () => {
@@ -544,28 +518,20 @@ describe('Checkbox component', () => {
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       fixture.detectChanges();
 
       await fixture.whenStable();
-      expect(inputElement.getAttribute('aria-labelledby')).toBeNull();
+      expect(inputElement?.getAttribute('aria-labelledby')).toBeNull();
     });
   });
 
   describe('with provided tabIndex', () => {
     let checkboxDebugElement: DebugElement;
-    let checkboxNativeElement: HTMLElement;
+    let checkboxNativeElement: HTMLElement | null;
     let testComponent: CheckboxWithTabIndexComponent;
-    let inputElement: HTMLInputElement;
+    let inputElement: HTMLInputElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithTabIndexComponent);
@@ -579,19 +545,11 @@ describe('Checkbox component', () => {
       );
       checkboxNativeElement = checkboxDebugElement.nativeElement;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
     });
 
     it('should preserve any given tabIndex', async () => {
-      expect(inputElement.tabIndex).toBe(7);
+      expect(inputElement?.tabIndex).toBe(7);
     });
 
     it('should preserve given tabIndex when the checkbox is disabled then enabled', () => {
@@ -604,7 +562,7 @@ describe('Checkbox component', () => {
       testComponent.isDisabled = false;
       fixture.detectChanges();
 
-      expect(inputElement.tabIndex).toBe(13);
+      expect(inputElement?.tabIndex).toBe(13);
     });
   });
 
@@ -631,10 +589,10 @@ describe('Checkbox component', () => {
   describe('with ngModel and an initial value', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithFormDirectivesComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let ngModel: NgModel;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithFormDirectivesComponent);
@@ -648,15 +606,7 @@ describe('Checkbox component', () => {
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -672,7 +622,7 @@ describe('Checkbox component', () => {
       expect(ngModel.touched).toBe(false);
       expect(testComponent.isGood).toBe(true);
 
-      labelElement.click();
+      labelElement?.click();
 
       fixture.detectChanges();
 
@@ -685,7 +635,7 @@ describe('Checkbox component', () => {
       expect(ngModel.touched).toBe(false);
       expect(testComponent.isGood).toBe(false);
 
-      inputElement.dispatchEvent(createEvent('blur'));
+      inputElement?.dispatchEvent(createEvent('blur'));
       expect(ngModel.touched).toBe(true);
     });
   });
@@ -693,10 +643,10 @@ describe('Checkbox component', () => {
   describe('with ngModel', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithFormDirectivesComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let ngModel: NgModel;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithFormDirectivesComponent);
@@ -710,15 +660,7 @@ describe('Checkbox component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -733,7 +675,7 @@ describe('Checkbox component', () => {
       expect(ngModel.dirty).toBe(false);
       expect(ngModel.touched).toBe(false);
 
-      labelElement.click();
+      labelElement?.click();
 
       fixture.detectChanges();
 
@@ -746,14 +688,14 @@ describe('Checkbox component', () => {
       expect(ngModel.touched).toBe(false);
       expect(testComponent.isGood).toBe(true);
 
-      inputElement.dispatchEvent(createEvent('blur'));
+      inputElement?.dispatchEvent(createEvent('blur'));
       expect(ngModel.touched).toBe(true);
     });
 
     it('should change check state through ngModel programmatically', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.checked).toBe(false);
       expect(testComponent.isGood).toBe(false);
       fixture.detectChanges();
       testComponent.isGood = true;
@@ -761,14 +703,14 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(true);
+      expect(inputElement?.checked).toBe(true);
     });
 
     it('should not have required and aria-reqiured attributes when not required', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toBeNull();
+      expect(inputElement?.getAttribute('required')).toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toBeNull();
     });
 
     it('should not have "sky-control-label-required" class', async () => {
@@ -781,10 +723,10 @@ describe('Checkbox component', () => {
   describe('with ngModel and required input', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithRequiredInputComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let ngModel: NgModel;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithRequiredInputComponent);
@@ -797,15 +739,7 @@ describe('Checkbox component', () => {
       testComponent = fixture.componentInstance;
       checkboxNativeElement = checkboxElement.nativeElement;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -817,8 +751,8 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).not.toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toEqual('true');
+      expect(inputElement?.getAttribute('required')).not.toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
     it('should have "sky-control-label-required" class', async () => {
@@ -832,16 +766,16 @@ describe('Checkbox component', () => {
       testComponent.required = false;
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).toBeNull();
-      expect(inputElement.getAttribute('aria-required')).not.toEqual('true');
+      expect(inputElement?.getAttribute('required')).toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).not.toEqual('true');
     });
 
     it('should mark form as invalid when required input is true and checkbox is not checked', async () => {
       fixture.detectChanges();
       expect(ngModel.valid).toBe(false);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(false);
     });
 
@@ -849,19 +783,19 @@ describe('Checkbox component', () => {
       testComponent.required = false;
       fixture.detectChanges();
       expect(ngModel.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(true);
     });
   });
 
   describe('with ngModel and required attribute', () => {
     let checkboxElement: DebugElement;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let ngModel: NgModel;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithRequiredAttributeComponent);
@@ -873,15 +807,7 @@ describe('Checkbox component', () => {
       );
       checkboxNativeElement = checkboxElement.nativeElement;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       ngModel = checkboxElement.injector.get(NgModel);
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -893,16 +819,16 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).not.toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toEqual('true');
+      expect(inputElement?.getAttribute('required')).not.toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
     it('should mark form as invalid when required input is true and checkbox is not checked', async () => {
       fixture.detectChanges();
       expect(ngModel.valid).toBe(false);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(ngModel.valid).toBe(false);
     });
   });
@@ -910,10 +836,10 @@ describe('Checkbox component', () => {
   describe('with reactive form', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithReactiveFormComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let formControl: FormControl;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(CheckboxWithReactiveFormComponent);
@@ -927,15 +853,7 @@ describe('Checkbox component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -950,7 +868,7 @@ describe('Checkbox component', () => {
       expect(formControl.dirty).toBe(false);
       expect(formControl.touched).toBe(false);
 
-      labelElement.click();
+      labelElement?.click();
 
       fixture.detectChanges();
 
@@ -963,14 +881,14 @@ describe('Checkbox component', () => {
       expect(formControl.dirty).toBe(true);
       expect(formControl.value).toBe(true);
 
-      inputElement.dispatchEvent(createEvent('blur'));
+      inputElement?.dispatchEvent(createEvent('blur'));
       expect(formControl.touched).toBe(true);
     });
 
     it('should change check state through form control programmatically', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.checked).toBe(false);
       expect(formControl.value).toBe(false);
       fixture.detectChanges();
       formControl.setValue(true);
@@ -978,13 +896,13 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(true);
+      expect(inputElement?.checked).toBe(true);
     });
 
     it('should change disable state through form control programmatically', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.disabled).toBe(false);
+      expect(inputElement?.disabled).toBe(false);
       expect(formControl.value).toBe(false);
       fixture.detectChanges();
       formControl.disable();
@@ -992,32 +910,32 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.disabled).toBe(true);
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.disabled).toBe(true);
+      expect(inputElement?.checked).toBe(false);
 
       formControl.enable();
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.disabled).toBe(false);
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.disabled).toBe(false);
+      expect(inputElement?.checked).toBe(false);
     });
 
     it('should not have required and aria-reqiured attributes when not required', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toBeNull();
+      expect(inputElement?.getAttribute('required')).toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toBeNull();
     });
   });
 
   describe('with reactive form and required validator', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithReactiveFormRequiredValidatorComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let formControl: FormControl;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
@@ -1032,15 +950,7 @@ describe('Checkbox component', () => {
       checkboxNativeElement = checkboxElement.nativeElement;
       testComponent = fixture.debugElement.componentInstance;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -1052,16 +962,16 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).not.toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toEqual('true');
+      expect(inputElement?.getAttribute('required')).not.toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
     it('should mark form as invalid when required checkbox is not checked', async () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
-      labelElement.click();
+      labelElement?.click();
       expect(formControl.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(formControl.valid).toBe(false);
     });
   });
@@ -1069,10 +979,10 @@ describe('Checkbox component', () => {
   describe('with reactive form and required input', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithReactiveFormRequiredInputComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
     let formControl: FormControl;
-    let labelElement: HTMLLabelElement;
+    let labelElement: HTMLLabelElement | null | undefined;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
@@ -1087,15 +997,7 @@ describe('Checkbox component', () => {
       checkboxNativeElement = checkboxElement.nativeElement;
       testComponent = fixture.debugElement.componentInstance;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
 
       formControl = testComponent.checkbox1;
       labelElement = checkboxElement.nativeElement.querySelector(
@@ -1107,8 +1009,8 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.getAttribute('required')).not.toBeNull();
-      expect(inputElement.getAttribute('aria-required')).toEqual('true');
+      expect(inputElement?.getAttribute('required')).not.toBeNull();
+      expect(inputElement?.getAttribute('aria-required')).toEqual('true');
     });
 
     it('should update validator when required input is changed', async () => {
@@ -1125,9 +1027,9 @@ describe('Checkbox component', () => {
     it('should mark form as invalid when required checkbox is not checked', async () => {
       fixture.detectChanges();
       expect(formControl.valid).toBe(false);
-      labelElement.click();
+      labelElement?.click();
       expect(formControl.valid).toBe(true);
-      labelElement.click();
+      labelElement?.click();
       expect(formControl.valid).toBe(false);
     });
   });
@@ -1145,6 +1047,19 @@ describe('Checkbox component', () => {
       );
       const inputElement = checkboxElement.nativeElement.querySelector('input');
       expect(inputElement.getAttribute('name')).toBe('test-name');
+    });
+
+    it('should handle the name being set to undefined', () => {
+      const checkboxElement = fixture.debugElement.query(
+        By.directive(SkyCheckboxComponent)
+      );
+      fixture.componentInstance.name = undefined;
+      fixture.detectChanges();
+
+      const inputElement = checkboxElement.nativeElement.querySelector('input');
+      expect(inputElement.getAttribute('name')).toEqual(
+        jasmine.stringMatching(/sky-checkbox-[0-9]/)
+      );
     });
   });
 
@@ -1210,8 +1125,8 @@ describe('Checkbox component', () => {
   describe('with a consumer using OnPush change detection', () => {
     let checkboxElement: DebugElement;
     let testComponent: CheckboxWithOnPushChangeDetectionComponent;
-    let inputElement: HTMLInputElement;
-    let checkboxNativeElement: HTMLElement;
+    let inputElement: HTMLInputElement | null | undefined;
+    let checkboxNativeElement: HTMLElement | null;
 
     beforeEach(async () => {
       fixture = TestBed.createComponent(
@@ -1227,21 +1142,13 @@ describe('Checkbox component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const input: HTMLInputElement | null =
-        checkboxNativeElement.querySelector('input');
-
-      if (!input) {
-        fail('Expected input and label to be defined');
-        return;
-      }
-
-      inputElement = input;
+      inputElement = checkboxNativeElement?.querySelector('input');
     });
 
     it('should change check state through ngModel programmatically', async () => {
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(false);
+      expect(inputElement?.checked).toBe(false);
       expect(testComponent.isChecked).toBe(false);
       fixture.detectChanges();
       testComponent.isChecked = true;
@@ -1250,7 +1157,7 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
-      expect(inputElement.checked).toBe(true);
+      expect(inputElement?.checked).toBe(true);
     });
   });
 });
