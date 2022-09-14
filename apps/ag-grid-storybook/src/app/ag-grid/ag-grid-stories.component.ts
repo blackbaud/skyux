@@ -8,7 +8,8 @@ import {
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject, interval } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
@@ -68,7 +69,9 @@ export class AgGridStoriesComponent implements OnInit {
         domLayout: this.domLayout,
         onGridReady: () => {
           // Delay to allow the grid to render before capturing the screenshot.
-          interval(600).subscribe(() => this.ready.next(true));
+          timer(800)
+            .pipe(first())
+            .subscribe(() => this.ready.next(true));
         },
       },
     });
