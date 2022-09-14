@@ -60,6 +60,18 @@ describe('component generator', () => {
     ).toMatchSnapshot();
   });
 
+  it('should error if a project name is not given', async () => {
+    options.project = undefined;
+    try {
+      await storyGenerator(appTree, options);
+    } catch (e) {
+      if (!(e instanceof Error)) {
+        fail('should have thrown error');
+      }
+      expect(e.message).toBe('Project name not specified');
+    }
+  });
+
   it('should run successfully with sub directory', async () => {
     await angularModuleGenerator(appTree, {
       name: 'test-sub',
@@ -171,12 +183,17 @@ describe('component generator', () => {
 
   it('should throw errors', async () => {
     appTree.write('apps/test-storybook/src/app/example/example.ts', 'test');
+
     try {
       await storyGenerator(appTree, options);
-      fail();
+      fail('should have thrown');
     } catch (e) {
-      expect(e.message).toEqual(`example already exists for test-storybook`);
+      if (!(e instanceof Error)) {
+        fail('should have thrown an error');
+      }
+      expect(e.message).toBe(`example already exists for test-storybook`);
     }
+
     appTree.delete('apps/test-storybook/src/app/example/example.ts');
     try {
       await storyGenerator(appTree, {

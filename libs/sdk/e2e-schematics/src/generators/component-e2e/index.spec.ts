@@ -52,7 +52,7 @@ describe('component-e2e', () => {
     expect(
       tree
         .read(`${config['test-storybook-e2e'].sourceRoot}/support/index.ts`)
-        .toString()
+        ?.toString()
     ).toContain('percy');
   });
 

@@ -36,8 +36,8 @@ describe('find-module', () => {
       'apps/test/src',
       'apps/test/src/app/test/test.component.ts'
     );
-    expect(module.filepath).toBe('apps/test/src/app/test/test.module.ts');
-    expect(module.module.classDeclaration.name.text).toBe('TestModule');
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
   });
 
   it('should find module, skip non-declaring reference', async () => {
@@ -64,8 +64,8 @@ describe('find-module', () => {
       'apps/test/src',
       'apps/test/src/app/test/test.component.ts'
     );
-    expect(module.filepath).toBe('apps/test/src/app/test/test.module.ts');
-    expect(module.module.classDeclaration.name.text).toBe('TestModule');
+    expect(module?.filepath).toBe('apps/test/src/app/test/test.module.ts');
+    expect(module?.module.classDeclaration.name?.text).toBe('TestModule');
   });
 
   it('should find routing module', async () => {
@@ -88,9 +88,11 @@ describe('find-module', () => {
       tree,
       'apps/test/src',
       (path) => {
-        return tree
-          .read(path, 'utf-8')
-          .includes('export class TestRoutingModule ');
+        return (
+          tree
+            .read(path, 'utf-8')
+            ?.includes('export class TestRoutingModule ') ?? false
+        );
       },
       '-routing.module.ts'
     );
@@ -123,8 +125,9 @@ describe('find-module', () => {
     });
     const modules = findModulePaths(tree, 'apps/test/src', (path) => {
       const source = readSourceFile(tree, path);
-      const module = findNgModuleClass(source);
-      return isRoutingModule(module, source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const module = findNgModuleClass(source)!;
+      return !!module && isRoutingModule(module, source);
     });
     expect(modules).toEqual([
       'apps/test/src/app/test/test-routing.module.ts',
