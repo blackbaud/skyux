@@ -31,7 +31,7 @@ describe('Toggle switch component', () => {
     let toggleNativeElement: HTMLElement;
     let toggleInstance: SkyToggleSwitchComponent;
     let testComponent: SkyToggleSwitchFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
@@ -46,20 +46,13 @@ describe('Toggle switch component', () => {
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
     }));
 
     it('should add and remove the checked state', () => {
       expect(toggleInstance.checked).toEqual(false);
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
 
       testComponent.isChecked = true;
@@ -67,7 +60,7 @@ describe('Toggle switch component', () => {
 
       expect(toggleInstance.checked).toEqual(true);
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(true);
 
       testComponent.isChecked = false;
@@ -75,7 +68,7 @@ describe('Toggle switch component', () => {
 
       expect(toggleInstance.checked).toEqual(false);
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
     });
 
@@ -85,14 +78,14 @@ describe('Toggle switch component', () => {
       expect(toggleInstance.checked).toEqual(false);
       expect(testComponent.isChecked).toEqual(false);
 
-      buttonElement.click();
+      buttonElement?.click();
 
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(true);
       expect(testComponent.isChecked).toEqual(true);
 
-      buttonElement.click();
+      buttonElement?.click();
 
       fixture.detectChanges();
 
@@ -104,33 +97,33 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(toggleInstance.disabled).toEqual(false);
-      expect(buttonElement.tabIndex).toEqual(0);
-      expect(buttonElement.disabled).toEqual(false);
+      expect(buttonElement?.tabIndex).toEqual(0);
+      expect(buttonElement?.disabled).toEqual(false);
 
       testComponent.isDisabled = true;
       fixture.detectChanges();
 
       expect(toggleInstance.disabled).toEqual(true);
-      expect(buttonElement.disabled).toEqual(true);
+      expect(buttonElement?.disabled).toEqual(true);
 
       testComponent.isDisabled = false;
       fixture.detectChanges();
 
       expect(toggleInstance.disabled).toEqual(false);
-      expect(buttonElement.tabIndex).toEqual(0);
-      expect(buttonElement.disabled).toEqual(false);
+      expect(buttonElement?.tabIndex).toEqual(0);
+      expect(buttonElement?.disabled).toEqual(false);
     });
 
     it('should not toggle `checked` state upon interation while disabled', () => {
       testComponent.isDisabled = true;
       fixture.detectChanges();
 
-      buttonElement.click();
+      buttonElement?.click();
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(false);
 
-      buttonElement.click();
+      buttonElement?.click();
       fixture.detectChanges();
 
       expect(toggleInstance.checked).toEqual(false);
@@ -147,7 +140,7 @@ describe('Toggle switch component', () => {
     });
 
     it('should make the host element a tab stop', () => {
-      expect(buttonElement.tabIndex).toEqual(0);
+      expect(buttonElement?.tabIndex).toEqual(0);
     });
 
     it('should show inline help', () => {
@@ -195,7 +188,7 @@ describe('Toggle switch component', () => {
     let toggleNativeElement: HTMLElement;
     let toggleInstance: SkyToggleSwitchComponent;
     let testComponent: SkyToggleSwitchChangeEventFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(
@@ -210,15 +203,7 @@ describe('Toggle switch component', () => {
       toggleNativeElement = toggleDebugElement.nativeElement;
       toggleInstance = toggleDebugElement.componentInstance;
       testComponent = fixture.debugElement.componentInstance;
-
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
     });
 
     it('should call not call the change event when the toggle is not interacted with', () => {
@@ -237,7 +222,7 @@ describe('Toggle switch component', () => {
 
       // Trigger the click on the buttonElement, because the input will probably
       // emit a DOM event to the change output.
-      buttonElement.click();
+      buttonElement?.click();
       fixture.detectChanges();
 
       // We're checking the arguments type / emitted value to be a boolean, because sometimes the
@@ -250,7 +235,7 @@ describe('Toggle switch component', () => {
   describe('with provided ariaLabel attribute ', () => {
     let toggleDebugElement: DebugElement;
     let toggleNativeElement: HTMLElement;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
 
     it('should use the provided ariaLabel as the input aria-label', () => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
@@ -264,16 +249,9 @@ describe('Toggle switch component', () => {
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
+      buttonElement = toggleNativeElement.querySelector('button');
 
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
-
-      expect(buttonElement.getAttribute('aria-label')).toEqual(
+      expect(buttonElement?.getAttribute('aria-label')).toEqual(
         'Super effective'
       );
     });
@@ -283,7 +261,7 @@ describe('Toggle switch component', () => {
     let toggleDebugElement: DebugElement;
     let toggleNativeElement: HTMLElement;
     let testComponent: SkyToggleSwitchFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkyToggleSwitchFixtureComponent);
@@ -296,21 +274,14 @@ describe('Toggle switch component', () => {
       );
       toggleNativeElement = toggleDebugElement.nativeElement;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
 
       testComponent.customTabIndex = 7;
       fixture.detectChanges();
     });
 
     it('should preserve any given tabIndex', () => {
-      expect(buttonElement.tabIndex).toEqual(7);
+      expect(buttonElement?.tabIndex).toEqual(7);
     });
 
     it('should preserve given tabIndex when the toggle is disabled then enabled', () => {
@@ -323,14 +294,14 @@ describe('Toggle switch component', () => {
       testComponent.isDisabled = false;
       fixture.detectChanges();
 
-      expect(buttonElement.tabIndex).toEqual(13);
+      expect(buttonElement?.tabIndex).toEqual(13);
     });
   });
 
   describe('with ngModel and an initial value', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchFormDirectivesFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
     let toggleNativeElement: HTMLElement;
     let ngModel: NgModel;
 
@@ -349,14 +320,7 @@ describe('Toggle switch component', () => {
       );
       toggleNativeElement = toggleElement.nativeElement;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
 
       ngModel = toggleElement.injector.get(NgModel);
     }));
@@ -370,7 +334,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.touched).toEqual(false);
       expect(testComponent.modelValue).toEqual(true);
 
-      buttonElement.click();
+      buttonElement?.click();
 
       fixture.detectChanges();
       tick();
@@ -382,7 +346,12 @@ describe('Toggle switch component', () => {
       expect(ngModel.touched).toEqual(false);
       expect(testComponent.modelValue).toEqual(false);
 
-      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      if (buttonElement) {
+        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      } else {
+        fail('Expected button element to exist');
+        return;
+      }
 
       expect(ngModel.touched).toEqual(true);
     }));
@@ -391,7 +360,7 @@ describe('Toggle switch component', () => {
   describe('with ngModel', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchFormDirectivesFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
     let toggleNativeElement: HTMLElement;
     let ngModel: NgModel;
 
@@ -410,14 +379,7 @@ describe('Toggle switch component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
 
       ngModel = toggleElement.injector.get(NgModel);
     }));
@@ -430,7 +392,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.dirty).toEqual(false);
       expect(ngModel.touched).toEqual(false);
 
-      buttonElement.click();
+      buttonElement?.click();
 
       fixture.detectChanges();
       tick();
@@ -442,7 +404,12 @@ describe('Toggle switch component', () => {
       expect(ngModel.touched).toEqual(false);
       expect(testComponent.modelValue).toEqual(true);
 
-      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      if (buttonElement) {
+        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      } else {
+        fail('Expected button element to exist');
+        return;
+      }
 
       expect(ngModel.touched).toEqual(true);
     }));
@@ -452,7 +419,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
       expect(testComponent.modelValue).toEqual(false);
 
@@ -465,7 +432,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(true);
     }));
   });
@@ -473,7 +440,7 @@ describe('Toggle switch component', () => {
   describe('with reactive form', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchReactiveFormFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
     let toggleNativeElement: HTMLElement;
     let formControl: FormControl;
 
@@ -492,14 +459,7 @@ describe('Toggle switch component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
 
       formControl = testComponent.toggle1;
     }));
@@ -512,7 +472,7 @@ describe('Toggle switch component', () => {
       expect(formControl.dirty).toEqual(false);
       expect(formControl.touched).toEqual(false);
 
-      buttonElement.click();
+      buttonElement?.click();
 
       fixture.detectChanges();
       tick();
@@ -524,7 +484,12 @@ describe('Toggle switch component', () => {
       expect(formControl.dirty).toEqual(true);
       expect(formControl.value).toEqual(true);
 
-      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      if (buttonElement) {
+        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
+      } else {
+        fail('Expected button element to exist');
+        return;
+      }
 
       expect(formControl.touched).toEqual(true);
     }));
@@ -534,7 +499,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
       expect(formControl.value).toEqual(false);
 
@@ -547,7 +512,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(true);
     }));
 
@@ -555,7 +520,7 @@ describe('Toggle switch component', () => {
       tick();
       fixture.detectChanges();
 
-      expect(buttonElement.disabled).toEqual(false);
+      expect(buttonElement?.disabled).toEqual(false);
       expect(formControl.value).toEqual(false);
 
       fixture.detectChanges();
@@ -566,9 +531,9 @@ describe('Toggle switch component', () => {
       tick();
       fixture.detectChanges();
 
-      expect(buttonElement.disabled).toEqual(true);
+      expect(buttonElement?.disabled).toEqual(true);
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
 
       formControl.enable();
@@ -577,9 +542,9 @@ describe('Toggle switch component', () => {
       tick();
       fixture.detectChanges();
 
-      expect(buttonElement.disabled).toEqual(false);
+      expect(buttonElement?.disabled).toEqual(false);
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
     }));
   });
@@ -587,7 +552,7 @@ describe('Toggle switch component', () => {
   describe('with a consumer using OnPush change detection', () => {
     let toggleElement: DebugElement;
     let testComponent: SkyToggleSwitchOnPushFixtureComponent;
-    let buttonElement: HTMLButtonElement;
+    let buttonElement: HTMLButtonElement | null;
     let toggleNativeElement: HTMLElement;
 
     beforeEach(fakeAsync(() => {
@@ -603,14 +568,7 @@ describe('Toggle switch component', () => {
 
       testComponent = fixture.debugElement.componentInstance;
 
-      const button: HTMLButtonElement | null =
-        toggleNativeElement.querySelector('button');
-
-      if (!button) {
-        fail('Expected button to be defined');
-        return;
-      }
-      buttonElement = button;
+      buttonElement = toggleNativeElement.querySelector('button');
     }));
 
     it('should change toggle state through ngModel programmatically', fakeAsync(() => {
@@ -618,7 +576,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(false);
       expect(testComponent.isChecked).toEqual(false);
 
@@ -632,7 +590,7 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
 
       expect(
-        buttonElement.classList.contains('sky-toggle-switch-checked')
+        buttonElement?.classList.contains('sky-toggle-switch-checked')
       ).toEqual(true);
     }));
 

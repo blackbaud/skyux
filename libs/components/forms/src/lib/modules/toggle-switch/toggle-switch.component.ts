@@ -22,6 +22,7 @@ import {
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { __values } from 'tslib';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
@@ -63,9 +64,10 @@ export class SkyToggleSwitchComponent
    * @default false
    */
   @Input()
-  public set checked(checked: boolean | undefined) {
-    if (!!checked !== this.checked) {
-      this.#_checked = !!checked;
+  public set checked(value: boolean | undefined) {
+    const checked = !!value;
+    if (checked !== this.#_checked) {
+      this.#_checked = checked;
       this.#onChange(checked);
 
       // Do not mark the field as "dirty"
@@ -120,21 +122,19 @@ export class SkyToggleSwitchComponent
   }
 
   public ngAfterContentInit(): void {
-    // istanbul ignore if
-    if (!this.labelComponents) {
-      throw new Error('No list of label components was found');
+    // istanbul ignore else
+    if (this.labelComponents) {
+      this.hasLabelComponent = this.labelComponents.length > 0;
+
+      this.labelComponents.changes
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((newLabelComponents) => {
+          this.hasLabelComponent = newLabelComponents.length > 0;
+          // Allow the template to reload any ARIA attributes that are relying on the
+          // label component existing in the DOM.
+          this.#changeDetector.markForCheck();
+        });
     }
-
-    this.hasLabelComponent = this.labelComponents.length > 0;
-
-    this.labelComponents.changes
-      .pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((newLabelComponents) => {
-        this.hasLabelComponent = newLabelComponents.length > 0;
-        // Allow the template to reload any ARIA attributes that are relying on the
-        // label component existing in the DOM.
-        this.#changeDetector.markForCheck();
-      });
 
     // Wait for the view to render before applying animation effects.
     // (Some browsers, such as Firefox, apply the animation too early.)
