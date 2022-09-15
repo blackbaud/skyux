@@ -22,7 +22,7 @@ describe('Input box host service', () => {
     ).toThrowError('Input box host has not been initialized');
   });
 
-  it('should throw an error if the populate method is called prior to initialization', () => {
+  it('should not an error and should populate the input box component if the populate method is called prior to initialization', () => {
     const mockTemplateRef = jasmine.createSpyObj('TemplateRef', [
       'createEmbeddedView',
     ]);

@@ -16,7 +16,9 @@ export class SkyInputBoxHostService {
 
   public populate(args: SkyInputBoxPopulateArgs): void {
     if (!this.#host) {
-      throw new Error('Input box host has not been initialized');
+      throw new Error(
+        'Cannot populate the input box because `SkyInputBoxHostService` has not yet been initialized. Try running the `populate` method within an Angular lifecycle hook, such as `ngOnInit`.'
+      );
     }
 
     this.#host.populate(args);
