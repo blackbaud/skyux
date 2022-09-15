@@ -8,7 +8,9 @@
           label="Your email address"
           labelledBy="foo-email-id"
         >
-          <sky-checkbox-label> Email </sky-checkbox-label>
+          <sky-checkbox-label *ngIf="!hideEmailLabel">
+            Email
+          </sky-checkbox-label>
         </sky-checkbox>
       </li>
       <li>

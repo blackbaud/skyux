@@ -5,12 +5,18 @@ import { SkyCheckboxHarness } from './checkbox-harness';
 import { CheckboxHarnessTestComponent } from './fixtures/checkbox-harness-test.component';
 import { CheckboxHarnessTestModule } from './fixtures/checkbox-harness-test.module';
 
-async function setupTest(options: { dataSkyId?: string } = {}) {
+async function setupTest(
+  options: { dataSkyId?: string; hideEmailLabel?: boolean } = {}
+) {
   await TestBed.configureTestingModule({
     imports: [CheckboxHarnessTestModule],
   }).compileComponents();
 
   const fixture = TestBed.createComponent(CheckboxHarnessTestComponent);
+  if (options.hideEmailLabel) {
+    fixture.componentInstance.hideEmailLabel = true;
+    fixture.detectChanges();
+  }
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   const checkboxHarness: SkyCheckboxHarness = options.dataSkyId
@@ -91,6 +97,14 @@ describe('Checkbox harness', () => {
       'foo-email-id'
     );
     await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo('Email');
+  });
+
+  it('should handle a missing label when getting the label text', async () => {
+    const { checkboxHarness } = await setupTest({
+      dataSkyId: 'my-email-checkbox',
+      hideEmailLabel: true,
+    });
+    await expectAsync(checkboxHarness.getLabelText()).toBeResolvedTo(undefined);
   });
 
   it('should get the checkbox name and value', async () => {
