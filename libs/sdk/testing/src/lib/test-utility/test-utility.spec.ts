@@ -149,6 +149,22 @@ describe('Test utility', () => {
     expect(inputEl.value).toEqual('foobar');
   });
 
+  it('should throw and error if `fireDomEvent` is called with an null element', () => {
+    expect(() =>
+      SkyAppTestUtility.fireDomEvent(null, 'mousedown')
+    ).toThrowError(
+      'Event `mousedown` could not be fired because the element is not defined.'
+    );
+  });
+
+  it('should throw and error if `fireDomEvent` is called with an undefined element', () => {
+    expect(() =>
+      SkyAppTestUtility.fireDomEvent(undefined, 'mousedown')
+    ).toThrowError(
+      'Event `mousedown` could not be fired because the element is not defined.'
+    );
+  });
+
   describe('getDebugElementByTestId', function () {
     let fixture: ComponentFixture<TestParentComponent>;
 
