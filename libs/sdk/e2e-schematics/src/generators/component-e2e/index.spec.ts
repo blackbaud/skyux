@@ -1,4 +1,7 @@
-import { libraryGenerator } from '@nrwl/angular/generators';
+import {
+  applicationGenerator,
+  libraryGenerator,
+} from '@nrwl/angular/generators';
 import { UnitTestRunner } from '@nrwl/angular/src/utils/test-runners';
 import { ProjectConfiguration, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
@@ -8,7 +11,7 @@ import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   it('should create e2e infrastructure for a component', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace(2);
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -57,7 +60,7 @@ describe('component-e2e', () => {
   });
 
   it('should error without a name', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace(2);
     try {
       await componentE2eGenerator(tree, { name: '' });
       fail();
@@ -69,7 +72,7 @@ describe('component-e2e', () => {
   });
 
   it('should handle tagging', async () => {
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace(2);
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -89,7 +92,7 @@ describe('component-e2e', () => {
 
   it('should allow being called twice', async () => {
     const spy = jest.spyOn(console, 'warn');
-    const tree = createTreeWithEmptyWorkspace();
+    const tree = createTreeWithEmptyWorkspace(2);
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -110,5 +113,28 @@ describe('component-e2e', () => {
     );
     const config = readProjectConfiguration(tree, 'test-storybook');
     expect(config.projectType).toEqual('application');
+  });
+
+  it('should move the projects to a subdirectory', async () => {
+    const tree = createTreeWithEmptyWorkspace(2);
+
+    await libraryGenerator(tree, {
+      name: 'storybook',
+      routing: false,
+      unitTestRunner: UnitTestRunner.None,
+      linter: Linter.None,
+    });
+    await libraryGenerator(tree, {
+      name: 'test-component',
+      routing: false,
+      unitTestRunner: UnitTestRunner.None,
+      linter: Linter.None,
+    });
+    await applicationGenerator(tree, {
+      name: 'test-component-storybook',
+    });
+    await componentE2eGenerator(tree, { name: 'test-component' });
+    const config = readProjectConfiguration(tree, 'test-component-storybook');
+    expect(config.root).toEqual('apps/e2e/test-component-storybook');
   });
 });
