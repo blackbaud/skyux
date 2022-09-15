@@ -136,7 +136,7 @@ describe('Confirm harness', () => {
     it('should return false when whitespace is not preserved', async () => {
       const { confirmHarness } = await setupTest();
 
-      const isPreserved = await confirmHarness.getWhiteSpaceIsPreserved();
+      const isPreserved = await confirmHarness.isWhiteSpacePreserved();
 
       expect(isPreserved).toBeFalse();
     });
@@ -146,80 +146,187 @@ describe('Confirm harness', () => {
         preserveWhiteSpace: true,
       });
 
-      const isPreserved = await confirmHarness.getWhiteSpaceIsPreserved();
+      const isPreserved = await confirmHarness.isWhiteSpacePreserved();
 
       expect(isPreserved).toBeTrue();
     });
   });
 
-  describe('clickOKButton', () => {
-    it('should ouput a closed event', async () => {
+  describe('getCustomButtons', () => {
+    it('should query and filter child button harnesses', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'primary',
+          },
+          {
+            text: 'Cancel',
+            action: 'cancel',
+            styleType: 'link',
+          },
+        ],
+      });
+
+      const results = await confirmHarness.getCustomButtons({
+        textContent: 'Proceed',
+        styleType: 'primary',
+      });
+
+      expect(results.length).toEqual(1);
+      await expectAsync(results[0].textContent()).toBeResolvedTo('Proceed');
+      await expectAsync(results[0].styleType()).toBeResolvedTo('primary');
+    });
+
+    it('should return harnesses for all matching buttons', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'default',
+          },
+          {
+            text: 'Cancel',
+            action: 'cancel',
+            styleType: 'link',
+          },
+        ],
+      });
+
+      const results = await confirmHarness.getCustomButtons();
+
+      expect(results.length).toEqual(2);
+      await expectAsync(results[0].textContent()).toBeResolvedTo('Proceed');
+      await expectAsync(results[0].styleType()).toBeResolvedTo('default');
+      await expectAsync(results[1].textContent()).toBeResolvedTo('Cancel');
+      await expectAsync(results[1].styleType()).toBeResolvedTo('link');
+    });
+
+    it('should throw an error when no child button harnesses are found', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'default',
+          },
+        ],
+      });
+
+      await expectAsync(
+        confirmHarness.getCustomButtons({ textContent: /invalidbuttonname/ })
+      ).toBeRejectedWithError(
+        `Could not find buttons matching filter(s): {"textContent":"/invalidbuttonname/"}`
+      );
+    });
+
+    it('should throw an error when called on confirm of type OK', async () => {
+      const { confirmHarness } = await setupTest();
+
+      await expectAsync(
+        confirmHarness.getCustomButtons({})
+      ).toBeRejectedWithError(
+        'Cannot get custom buttons for confirm of type OK'
+      );
+    });
+  });
+
+  describe('clickOkButton', () => {
+    it('should throw an error when called on a custom confirm', async () => {
+      const { confirmHarness } = await setupTest({
+        ...DEFAULT_CONFIRM_CONFIG,
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'default',
+          },
+        ],
+      });
+
+      await expectAsync(confirmHarness.clickOkButton()).toBeRejectedWithError(
+        'Cannot click OK button on a confirm of type custom'
+      );
+    });
+
+    it('should ouput a closed event when OK button is clicked', async () => {
       const { confirmHarness, fixture } = await setupTest();
       const closedSpy = spyOn(fixture.componentInstance, 'closedChange');
       fixture.detectChanges();
 
-      await confirmHarness.clickOKConfirmButton();
+      await confirmHarness.clickOkButton();
 
       expect(closedSpy).toHaveBeenCalledWith({
         action: 'ok',
       });
     });
+  });
 
-    it('should throw an error when used with a custom confirm', async () => {
+  describe('clickCustomButton', () => {
+    it('should throw an error when called on an OK confirm', async () => {
+      const { confirmHarness } = await setupTest();
+
+      await expectAsync(
+        confirmHarness.clickCustomButton({})
+      ).toBeRejectedWithError(
+        'Cannot get custom buttons for confirm of type OK'
+      );
+    });
+
+    it('should throw an error if more than one button matches the filters', async () => {
       const { confirmHarness } = await setupTest({
         ...DEFAULT_CONFIRM_CONFIG,
         type: SkyConfirmType.Custom,
-        buttons: [{ text: 'Proceed', action: 'proceed' }],
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'default',
+          },
+          {
+            text: 'Cancel',
+            action: 'cancel',
+            styleType: 'link',
+          },
+        ],
       });
 
       await expectAsync(
-        confirmHarness.clickOKConfirmButton()
+        confirmHarness.clickCustomButton({ textContent: /c/ })
       ).toBeRejectedWithError(
-        '`clickOKButton` should only be used with confirm components with type `OK`'
+        `More than one button matches the filter(s): {"textContent":"/c/"}`
       );
     });
-  });
 
-  describe('clickCustomButtonByText', () => {
-    it('should ouput a closed event when a button is clicked', async () => {
+    it('should ouput a closed event when a custom button is clicked', async () => {
       const { confirmHarness, fixture } = await setupTest({
         ...DEFAULT_CONFIRM_CONFIG,
         type: SkyConfirmType.Custom,
         buttons: [
-          { text: 'Proceed', action: 'proceed' },
-          { text: 'Cancel', action: 'cancel' },
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            styleType: 'default',
+          },
         ],
       });
       const closedSpy = spyOn(fixture.componentInstance, 'closedChange');
       fixture.detectChanges();
 
-      await confirmHarness.clickCustomButtonByText('Cancel');
+      await confirmHarness.clickCustomButton({ textContent: 'Proceed' });
 
       expect(closedSpy).toHaveBeenCalledWith({
-        action: 'cancel',
+        action: 'proceed',
       });
-    });
-
-    it('should throw an error when used with an OK confirm', async () => {
-      const { confirmHarness } = await setupTest();
-
-      await expectAsync(
-        confirmHarness.clickCustomButtonByText('OK')
-      ).toBeRejectedWithError(
-        '`clickCustomButtonByText` should only be used with confirm components with type `Custom`'
-      );
-    });
-
-    it('should throw an error when a button with the given text is not present', async () => {
-      const { confirmHarness } = await setupTest({
-        ...DEFAULT_CONFIRM_CONFIG,
-        type: SkyConfirmType.Custom,
-        buttons: [{ text: 'Proceed', action: 'proceed' }],
-      });
-
-      await expectAsync(
-        confirmHarness.clickCustomButtonByText('Cancel')
-      ).toBeRejectedWithError('No button was found with the text "Cancel"');
     });
   });
 });

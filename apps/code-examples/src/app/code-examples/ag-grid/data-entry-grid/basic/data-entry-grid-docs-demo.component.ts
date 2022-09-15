@@ -118,6 +118,7 @@ export class SkyDataEntryGridDemoComponent {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
     };
+
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
