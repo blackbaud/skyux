@@ -346,12 +346,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.touched).toEqual(false);
       expect(testComponent.modelValue).toEqual(false);
 
-      if (buttonElement) {
-        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
-      } else {
-        fail('Expected button element to exist');
-        return;
-      }
+      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
 
       expect(ngModel.touched).toEqual(true);
     }));
@@ -404,12 +399,7 @@ describe('Toggle switch component', () => {
       expect(ngModel.touched).toEqual(false);
       expect(testComponent.modelValue).toEqual(true);
 
-      if (buttonElement) {
-        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
-      } else {
-        fail('Expected button element to exist');
-        return;
-      }
+      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
 
       expect(ngModel.touched).toEqual(true);
     }));
@@ -484,12 +474,7 @@ describe('Toggle switch component', () => {
       expect(formControl.dirty).toEqual(true);
       expect(formControl.value).toEqual(true);
 
-      if (buttonElement) {
-        SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
-      } else {
-        fail('Expected button element to exist');
-        return;
-      }
+      SkyAppTestUtility.fireDomEvent(buttonElement, 'blur');
 
       expect(formControl.touched).toEqual(true);
     }));
