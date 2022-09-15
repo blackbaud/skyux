@@ -9,7 +9,6 @@ import { SkyLabelHarnessFilters } from './label-harness-filters';
 
 /**
  * Harness for interacting with a label component in tests.
- * @internal
  */
 export class SkyLabelHarness extends SkyComponentHarness {
   /**
@@ -20,8 +19,6 @@ export class SkyLabelHarness extends SkyComponentHarness {
   #getWrapper = this.locatorFor('.sky-label');
   #getTextEl = this.locatorFor('.sky-label-text');
   #getScreenReaderTextEl = this.locatorForOptional('.sky-screen-reader-only');
-
-  // #getAccessibilityEl = this.locatorForAll
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
