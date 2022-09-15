@@ -22,7 +22,6 @@ import {
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { __values } from 'tslib';
 
 import { SkyToggleSwitchLabelComponent } from './toggle-switch-label.component';
 import { SkyToggleSwitchChange } from './types/toggle-switch-change';
@@ -122,7 +121,7 @@ export class SkyToggleSwitchComponent
   }
 
   public ngAfterContentInit(): void {
-    // istanbul ignore else
+    /* istanbul ignore else */
     if (this.labelComponents) {
       this.hasLabelComponent = this.labelComponents.length > 0;
 
@@ -185,10 +184,10 @@ export class SkyToggleSwitchComponent
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // istanbul ignore next
+  /* istanbul ignore next */
   #onTouched: () => any = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // istanbul ignore next
+  /* istanbul ignore next */
   #onChange: (value: any) => void = () => {};
 
   #emitChangeEvent(): void {
