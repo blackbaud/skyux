@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 
 @Component({
   selector: 'app-key-info-demo',
@@ -6,13 +7,16 @@ import { Component, Input } from '@angular/core';
 })
 export class KeyInfoDemoComponent {
   @Input()
-  public set layout(value: 'vertical' | 'horizontal') {
-    this.#_layout = value;
+  public set value(value: number) {
+    this.#_value = value;
+    this.layout = this.#_value >= 100 ? 'vertical' : 'horizontal';
   }
 
-  public get layout(): 'vertical' | 'horizontal' {
-    return this.#_layout;
+  public get value(): number {
+    return this.#_value;
   }
 
-  #_layout: 'vertical' | 'horizontal' = 'vertical';
+  public layout: SkyKeyInfoLayoutType = 'vertical';
+
+  #_value: number | undefined;
 }
