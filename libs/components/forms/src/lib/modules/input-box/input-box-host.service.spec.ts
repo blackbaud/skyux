@@ -19,7 +19,9 @@ describe('Input box host service', () => {
           'createEmbeddedView',
         ]),
       })
-    ).toThrowError('Input box host has not been initialized');
+    ).toThrowError(
+      'Cannot populate the input box because `SkyInputBoxHostService` has not yet been initialized. Try running the `populate` method within an Angular lifecycle hook, such as `ngOnInit`.'
+    );
   });
 
   it('should not an error and should populate the input box component if the populate method is called prior to initialization', () => {
