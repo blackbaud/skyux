@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  HostBinding,
   Input,
   OnInit,
   Optional,
@@ -53,20 +52,13 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Specifies an ID for the checkbox.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
-  @HostBinding('attr.id')
   @Input()
   public set id(value: string | undefined) {
     if (value) {
-      this.#_id = value;
       this.inputId = `input-sky-checkbox-${value}`;
     } else {
-      this.#_id = this.#defaultId;
       this.inputId = `input-${this.#defaultId}`;
     }
-  }
-
-  public get id(): string {
-    return this.#_id;
   }
 
   /**
@@ -145,8 +137,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     return this.#_checkboxType;
   }
 
-  // Non-null assertion is needed because this property is set in the constructor through the `id` setter and that is not recognized
-  public inputId!: string;
+  public inputId = '';
 
   /**
    * Indicates whether the checkbox is selected.
@@ -226,11 +217,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #_disabled = false;
 
-  // Non-null assertion is needed because this property is set in the constructor through the `id` setter and that is not recognized
-  #_id!: string;
-
-  // Non-null assertion is needed because this property is set in the constructor through the `name` setter and that is not recognized
-  #_name!: string;
+  #_name = '';
 
   #_required = false;
 
@@ -264,28 +251,28 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public writeValue(value: any) {
+  public writeValue(value: any): void {
     this.checked = !!value;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public registerOnChange(fn: (value: any) => void) {
+  public registerOnChange(fn: (value: any) => void): void {
     this.#controlValueAccessorChangeFn = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public registerOnTouched(fn: any) {
+  public registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
@@ -293,7 +280,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Event handler for checkbox input element.
    * Toggles checked state if element is not disabled.
    */
-  public onInteractionEvent(event: Event) {
+  public onInteractionEvent(event: Event): void {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
     // emit its event object to the `change` output.
@@ -305,7 +292,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     }
   }
 
-  public onInputBlur() {
+  public onInputBlur(): void {
     this.onTouched();
   }
 
@@ -317,7 +304,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
-  #emitChangeEvent() {
+  #emitChangeEvent(): void {
     const event = new SkyCheckboxChange();
     event.source = this;
     event.checked = this.#_checked;
@@ -329,7 +316,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Toggles the `checked` value between true and false
    */
-  #toggle() {
+  #toggle(): void {
     this.checked = !this.checked;
   }
 }

@@ -377,16 +377,12 @@ describe('Checkbox component', () => {
 
     it('should handle a user-provided id', () => {
       fixture.detectChanges();
-      expect(checkboxNativeElement?.id).toBe('simple-check');
       expect(inputElement?.id).toBe('input-sky-checkbox-simple-check');
     });
 
     it('should handle undefined being passed in as the id', () => {
       testComponent.id = undefined;
       fixture.detectChanges();
-      expect(checkboxNativeElement?.id).toEqual(
-        jasmine.stringMatching(/sky-checkbox-[0-9]/)
-      );
       expect(inputElement?.id).toEqual(
         jasmine.stringMatching(/input-sky-checkbox-[0-9]/)
       );
