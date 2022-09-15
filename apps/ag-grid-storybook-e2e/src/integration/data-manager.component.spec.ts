@@ -25,7 +25,10 @@ describe(`ag-grid-storybook data manager`, () => {
               .should('exist')
               .should('be.visible')
               .screenshot(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`
+                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
+                {
+                  clip: { x: 0, y: 0, width: 1300, height: 600 },
+                }
               )
               .percySnapshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
@@ -34,8 +37,8 @@ describe(`ag-grid-storybook data manager`, () => {
                   scope: '#root',
                   percyCSS: `
                     /* Avoid "virtual rows" in the screenshot. */
-                    :root {
-                      --viewport-height: 600px;
+                    #root {
+                      height: 600px;
                     }
                   `,
                 }

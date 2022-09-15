@@ -14,7 +14,8 @@ import {
 } from '@skyux/data-manager';
 
 import { GridOptions } from 'ag-grid-community';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, timer } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { columnDefinitions, data } from '../shared/baseball-players-data';
 
@@ -152,7 +153,10 @@ export class DataManagerComponent implements OnInit {
         },
         domLayout: this.domLayout,
         onGridReady: () => {
-          this.ready.next(true);
+          // Delay to allow the grid to render before capturing the screenshot.
+          timer(800)
+            .pipe(first())
+            .subscribe(() => this.ready.next(true));
         },
       },
     });
