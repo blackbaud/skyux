@@ -36,7 +36,7 @@ describe('Input box component', () => {
   function getControlEl(
     fixture: ComponentFixture<any>,
     parentCls: string
-  ): HTMLInputElement {
+  ): HTMLInputElement | null {
     return fixture.nativeElement.querySelector(
       `.${parentCls} .sky-form-control`
     );
@@ -45,7 +45,7 @@ describe('Input box component', () => {
   function getInsetIconWrapperEl(
     fixture: ComponentFixture<any>,
     parentCls: string
-  ): HTMLInputElement {
+  ): HTMLInputElement | null {
     return fixture.nativeElement.querySelector(
       `.${parentCls} .sky-input-box-icon-inset-wrapper`
     );
@@ -508,15 +508,11 @@ describe('Input box component', () => {
         fixture,
         'input-icon-inset'
       );
-      const el = getControlEl(fixture, 'input-icon-inset') as Element;
-      insetIconWrapperEl.click();
+      const el = getControlEl(fixture, 'input-icon-inset') as Element | null;
+      insetIconWrapperEl?.click();
 
       expect(spy).toHaveBeenCalledTimes(1);
-      if (!document.activeElement) {
-        fail('Expected there to be an active element');
-        return;
-      }
-      expect(el).toEqual(document.activeElement);
+      expect(el).toEqual(document?.activeElement);
     });
 
     it('should not call adapter method when clicking on a disabled inset icon', () => {
@@ -532,7 +528,7 @@ describe('Input box component', () => {
         fixture,
         'input-icon-inset'
       );
-      insetIconWrapperEl.click();
+      insetIconWrapperEl?.click();
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -564,11 +560,6 @@ describe('Input box component', () => {
         '.sky-input-box-group-form-control'
       );
 
-      if (!inputBoxFormControlEl) {
-        fail('Expected input box form control element to exist');
-        return;
-      }
-
       const focusCls = 'sky-input-box-group-form-control-focus';
 
       expect(inputBoxFormControlEl).not.toHaveCssClass(focusCls);
@@ -597,11 +588,6 @@ describe('Input box component', () => {
       const inputBoxFormControlEl = inputBoxEl?.querySelector(
         '.sky-input-box-group-form-control'
       );
-
-      if (!inputBoxFormControlEl) {
-        fail('Expected input box form control element to exist');
-        return;
-      }
 
       const helpBtn = inputBoxEl?.querySelector('button');
 
