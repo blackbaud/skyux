@@ -18,10 +18,14 @@ export class CheckboxComponent implements OnInit {
 
   public showInlineHelp = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.reactiveFormGroup = this.formBuilder.group({
+    this.reactiveFormGroup = this.#formBuilder.group({
       reactiveCheckbox: [undefined],
     });
   }
