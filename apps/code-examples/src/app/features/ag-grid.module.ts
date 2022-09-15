@@ -5,10 +5,10 @@ import { SkyDataEntryGridDemoComponent as DataEntryGridBasicDataEntryGridDocsDem
 import { SkyDataEntryGridDocsDemoModule as DataEntryGridBasicDataEntryGridDocsDemoModule } from '../code-examples/ag-grid/data-entry-grid/basic/data-entry-grid-docs-demo.module';
 import { SkyDataManagerDataEntryGridDemoComponent as DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoComponent } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.component';
 import { SkyDataManagerDataEntryGridDocsDemoModule as DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoModule } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.module';
-import { SkyBasicDataGridDemoComponent as DataGridBasicBasicDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.component';
-import { SkyBasicDataGridDocsDemoModule as DataGridBasicBasicDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.module';
-import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.component';
-import { SkyDataManagerDataGridDocsDemoModule as DataGridDataManagerAddedDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.module';
+import { SkyBasicDataGridDemoComponent as DataGridBasicBasicDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/basic-copy/basic-data-grid-docs-demo.component';
+import { SkyBasicDataGridDocsDemoModule as DataGridBasicBasicDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/basic-copy/basic-data-grid-docs-demo.module';
+import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager-added-copy/data-manager-data-grid-docs-demo.component';
+import { SkyDataManagerDataGridDocsDemoModule as DataGridDataManagerAddedDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager-added-copy/data-manager-data-grid-docs-demo.module';
 import { SkyTopScrollDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.component';
 import { SkyTopScrollDataGridDemoModule } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.module';
 
@@ -23,11 +23,11 @@ const routes: Routes = [
       DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoComponent,
   },
   {
-    path: 'data-grid/basic',
+    path: 'data-grid/basic-copy',
     component: DataGridBasicBasicDataGridDocsDemoComponent,
   },
   {
-    path: 'data-grid/data-manager-added',
+    path: 'data-grid/data-manager-added-copy',
     component: DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent,
   },
   {
