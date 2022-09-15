@@ -1,39 +1,41 @@
 @import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
 
-.sky-confirm-message {
-  margin-top: $sky-margin-half;
-}
-
-.sky-confirm-body {
-  margin-top: $sky-margin;
-}
-
-.sky-confirm-buttons {
-  margin-top: $sky-margin-double;
-}
-
-.sky-confirm-preserve-white-space {
-  white-space: pre-wrap;
+.sky-confirm {
+  --sky-confirm-body-margin-top: var(--sky-margin-stacked-sm);
+  --sky-confirm-buttons-margin-top: var(--sky-margin-stacked-xl);
+  --sky-confirm-content-padding: 0;
+  --sky-confirm-message-padding-bottom: 0;
 }
 
 @include sky-theme-modern {
-  .sky-confirm-content {
-    padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
-  }
-
-  .sky-confirm-message {
-    padding-bottom: $sky-theme-modern-space-lg;
-  }
-
-  .sky-confirm-body {
-    margin: 0;
+  .sky-confirm {
+    --sky-confirm-body-margin-top: 0;
+    --sky-confirm-buttons-margin-top: var(--sky-margin-stacked-lg);
+    --sky-confirm-content-padding: var(--sky-margin-stacked-lg)
+      var(--sky-margin-inline-xl);
+    --sky-confirm-message-padding-bottom: var(--sky-margin-stacked-lg);
   }
 }
 
-@include sky-theme-modern-dark {
-  .sky-confirm-message {
-    color: $sky-theme-modern-mode-dark-font-body-default-color;
+.sky-confirm {
+  &-content {
+    padding: var(--sky-confirm-content-padding);
+  }
+
+  &-message {
+    margin-top: var(--sky-margin-stacked-xs);
+    padding-bottom: var(--sky-confirm-message-padding-bottom);
+  }
+
+  &-body {
+    margin-top: var(--sky-confirm-body-margin-top);
+  }
+
+  &-buttons {
+    margin-top: var(--sky-confirm-buttons-margin-top);
+  }
+
+  &-preserve-white-space {
+    white-space: pre-wrap;
   }
 }

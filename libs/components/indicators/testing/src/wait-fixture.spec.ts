@@ -17,10 +17,10 @@ import { SkyWaitFixture } from './wait-fixture';
   `,
 })
 class TestComponent {
-  public isWaiting: boolean = true;
-  public isFullPage: boolean = true;
-  public isNonBlocking: boolean = false;
-  public label: string = 'test label';
+  public isWaiting = true;
+  public isFullPage = true;
+  public isNonBlocking = false;
+  public label = 'test label';
 }
 
 describe('Wait fixture', () => {

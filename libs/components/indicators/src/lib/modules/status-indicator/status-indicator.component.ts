@@ -44,12 +44,12 @@ export class SkyStatusIndicatorComponent implements OnInit {
    * @required
    */
   @Input()
-  public set descriptionType(value: SkyIndicatorDescriptionType) {
+  public set descriptionType(value: SkyIndicatorDescriptionType | undefined) {
     this.#_descriptionType = value;
     this.#updateDescriptionComputed();
   }
 
-  public get descriptionType(): SkyIndicatorDescriptionType {
+  public get descriptionType(): SkyIndicatorDescriptionType | undefined {
     return this.#_descriptionType;
   }
 
@@ -58,39 +58,37 @@ export class SkyStatusIndicatorComponent implements OnInit {
    * the indicator icon when `descriptionType` is `custom`.
    */
   @Input()
-  public set customDescription(value: string) {
+  public set customDescription(value: string | undefined) {
     this.#_customDescription = value;
     this.#updateDescriptionComputed();
   }
 
-  public get customDescription(): string {
+  public get customDescription(): string | undefined {
     return this.#_customDescription;
   }
 
-  public descriptionComputed: string;
+  public descriptionComputed: string | undefined;
 
-  public baseIcon: SkyIconStackItem;
+  public baseIcon: SkyIconStackItem | undefined;
 
-  public icon: string;
+  public icon: string | undefined;
 
   public indicatorTypeOrDefault: SkyIndicatorIconType = INDICATOR_TYPE_DEFAULT;
 
-  public topIcon: SkyIconStackItem;
+  public topIcon: SkyIconStackItem | undefined;
 
   #changeDetector: ChangeDetectorRef;
+  #resourcesSvc: SkyLibResourcesService;
 
-  #resources: SkyLibResourcesService;
-
-  #_descriptionType: SkyIndicatorDescriptionType;
-
-  #_customDescription: string;
+  #_descriptionType: SkyIndicatorDescriptionType | undefined;
+  #_customDescription: string | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
     resources: SkyLibResourcesService
   ) {
     this.#changeDetector = changeDetector;
-    this.#resources = resources;
+    this.#resourcesSvc = resources;
   }
 
   public ngOnInit(): void {
@@ -117,7 +115,7 @@ export class SkyStatusIndicatorComponent implements OnInit {
           this.descriptionComputed = this.customDescription;
           break;
         default:
-          this.#resources
+          this.#resourcesSvc
             .getString(
               'skyux_status_indicator_sr_' +
                 this.descriptionType.replace(/-/g, '_')

@@ -2,7 +2,9 @@ import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 
 export class SkyModalInstanceMock {
   /* istanbul ignore next */
-  public close() {}
+  public close() {
+    /* */
+  }
 }
 
 export class MockHostService {
@@ -12,16 +14,16 @@ export class MockHostService {
 }
 
 export interface OpenParameters {
-  component: any;
-  providers?: any[];
+  component: unknown;
+  providers?: unknown[];
 }
 
 export class MockModalService extends SkyModalService {
   public openCalls: OpenParameters[] = [];
 
-  public open(component: any, config: any): SkyModalInstance {
+  public open(component: unknown, config: unknown[]): SkyModalInstance {
     this.openCalls.push({ component: component, providers: config });
 
-    return undefined;
+    return new SkyModalInstance();
   }
 }

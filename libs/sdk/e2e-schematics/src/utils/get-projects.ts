@@ -16,7 +16,7 @@ function filterProjects(
       );
     projectNames.forEach((projectName) => {
       const projectConfiguration = projectConfigurations.get(projectName);
-      if (filter(projectConfiguration)) {
+      if (projectConfiguration && filter(projectConfiguration)) {
         projects.set(projectName, projectConfiguration);
       }
     });
@@ -34,8 +34,11 @@ function projectHasTargetWithExecutor(
   projectConfiguration: ProjectConfiguration,
   executor: string
 ): boolean {
-  return Object.values(projectConfiguration.targets).some(
-    (target) => target.executor === executor
+  return (
+    !!projectConfiguration.targets &&
+    Object.values(projectConfiguration.targets).some(
+      (target) => target.executor === executor
+    )
   );
 }
 
@@ -73,18 +76,28 @@ export function getStorybookProject(
   tree: Tree,
   options: Partial<{ project: string }>
 ) {
+  if (!options.project) {
+    throw new Error(`Project name not specified`);
+  }
+
   const projects = getProjects(tree);
   if (!projects.has(options.project)) {
     throw new Error(`Unable to find project ${options.project}`);
   }
-  let projectConfig = projects.get(options.project);
-  if (!('storybook' in projectConfig.targets)) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  let projectConfig = projects.get(options.project)!;
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  if (!('storybook' in projectConfig.targets!)) {
     options.project = `${options.project}-storybook`;
     if (!projects.has(options.project)) {
       throw new Error(`Unable to find project ${options.project}`);
     }
-    projectConfig = projects.get(options.project);
-    if (!('storybook' in projectConfig.targets)) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    projectConfig = projects.get(options.project)!;
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    if (!('storybook' in projectConfig.targets!)) {
       throw new Error(`Storybook is not configured for ${options.project}`);
     }
   }

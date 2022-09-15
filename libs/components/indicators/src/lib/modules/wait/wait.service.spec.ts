@@ -1,6 +1,5 @@
 import { ApplicationRef } from '@angular/core';
-import { TestBed, fakeAsync, inject, tick } from '@angular/core/testing';
-import { SkyAppWindowRef } from '@skyux/core';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { ReplaySubject } from 'rxjs';
 
@@ -8,10 +7,10 @@ import { SkyWaitFixturesModule } from './fixtures/wait-fixtures.module';
 import { SkyWaitTestComponent } from './fixtures/wait.component.fixture';
 import { SkyWaitService } from './wait.service';
 
-const NO_OP_FUNC: () => void = () => {};
-
 describe('Wait service', () => {
-  let waitService: SkyWaitService;
+  const NO_OP_FUNC = jasmine.createSpy('NO_OP_FUNC');
+
+  let waitSvc: SkyWaitService;
   let applicationRef: ApplicationRef;
 
   const pageBlockingSelector =
@@ -19,24 +18,35 @@ describe('Wait service', () => {
   const pageNonBlockingSelector =
     '.sky-wait-page .sky-wait-mask-loading-fixed.sky-wait-mask-loading-non-blocking';
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [SkyWaitFixturesModule],
-    });
-  });
+  function beginBlockingPageWait(): void {
+    waitSvc.beginBlockingPageWait();
+    tick();
+    applicationRef.tick();
+  }
 
-  beforeEach(inject(
-    [ApplicationRef, SkyWaitService, SkyAppWindowRef],
-    (_applicationRef: ApplicationRef, _waitService: SkyWaitService) => {
-      applicationRef = _applicationRef;
-      waitService = _waitService;
-      waitService.dispose();
-    }
-  ));
+  function endBlockingPageWait(): void {
+    waitSvc.endBlockingPageWait();
+    tick();
+    applicationRef.tick();
+  }
 
-  afterEach(() => {
-    waitService.dispose();
-  });
+  function beginNonBlockingPageWait(): void {
+    waitSvc.beginNonBlockingPageWait();
+    tick();
+    applicationRef.tick();
+  }
+
+  function endNonBlockingPageWait(): void {
+    waitSvc.endNonBlockingPageWait();
+    tick();
+    applicationRef.tick();
+  }
+
+  function clearAllPageWaits(): void {
+    waitSvc.clearAllPageWaits();
+    tick();
+    applicationRef.tick();
+  }
 
   function verifyBlockingPageWaitExists(doesExist: boolean): void {
     if (doesExist) {
@@ -62,35 +72,40 @@ describe('Wait service', () => {
     }
   }
 
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkyWaitFixturesModule],
+    });
+  });
+
+  beforeEach(() => {
+    applicationRef = TestBed.inject(ApplicationRef);
+    waitSvc = TestBed.inject(SkyWaitService);
+    waitSvc.dispose();
+  });
+
+  afterEach(() => {
+    waitSvc.dispose();
+  });
+
   it('should add a blocking page wait when beginPageWait is called with isBlocking true', fakeAsync(() => {
-    waitService.beginBlockingPageWait();
-    tick();
-    applicationRef.tick();
-
+    beginBlockingPageWait();
     verifyBlockingPageWaitExists(true);
 
-    waitService.beginBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginBlockingPageWait();
     verifyBlockingPageWaitExists(true);
 
-    waitService.endBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endBlockingPageWait();
     verifyBlockingPageWaitExists(true);
 
-    waitService.endBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endBlockingPageWait();
     verifyBlockingPageWaitExists(false);
   }));
 
   it('should block tab navigation when a blocking page wait is active', fakeAsync(() => {
     TestBed.createComponent(SkyWaitTestComponent);
 
-    waitService.beginBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginBlockingPageWait();
     verifyBlockingPageWaitExists(true);
 
     const button = document.body.querySelector('button');
@@ -98,95 +113,66 @@ describe('Wait service', () => {
       relatedTarget: document.body,
     });
     event.initEvent('focusin', true, true);
-    button.dispatchEvent(event);
+    button?.dispatchEvent(event);
 
     expect(document.activeElement).toBe(document.body);
   }));
 
   it('should add a nonblocking page wait when beginPageWait is called with isBlocking false', fakeAsync(() => {
-    waitService.beginNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
-
+    beginNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(true);
 
-    waitService.beginNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(true);
 
-    waitService.endNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(true);
 
-    waitService.endNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(false);
   }));
 
   it('do nothing if wait component not created and endPageWait is called', fakeAsync(() => {
-    waitService.endNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(false);
   }));
 
   it('not drop counts below zero', fakeAsync(() => {
-    waitService.beginNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
-
+    beginNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(true);
 
-    waitService.endNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(false);
 
-    waitService.endNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(false);
 
-    waitService.beginNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
-
+    beginNonBlockingPageWait();
     verifyNonBlockingPageWaitExists(true);
 
-    waitService.endBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    endBlockingPageWait();
     verifyBlockingPageWaitExists(false);
 
-    waitService.beginBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginBlockingPageWait();
     verifyBlockingPageWaitExists(true);
   }));
 
   it('should clear appropriate waits when clearPageWait is called', fakeAsync(() => {
-    waitService.beginNonBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginNonBlockingPageWait();
 
-    waitService.beginBlockingPageWait();
-    tick();
-    applicationRef.tick();
+    beginBlockingPageWait();
 
-    waitService.clearAllPageWaits();
-    tick();
-    applicationRef.tick();
+    clearAllPageWaits();
 
     verifyNonBlockingPageWaitExists(false);
     verifyBlockingPageWaitExists(false);
   }));
 
   it('should clear wait even if closed too fast', fakeAsync(() => {
-    waitService.beginNonBlockingPageWait();
-    waitService.clearAllPageWaits();
+    // Don't call the convenience methods in this test file since tick()/applicationRef.tick()
+    // can't be called to test this feature.
+    waitSvc.beginNonBlockingPageWait();
+    waitSvc.clearAllPageWaits();
     tick();
 
     verifyNonBlockingPageWaitExists(false);
@@ -194,9 +180,7 @@ describe('Wait service', () => {
   }));
 
   it('should only clear waits if waitcomponent not created', fakeAsync(() => {
-    waitService.clearAllPageWaits();
-    tick();
-    applicationRef.tick();
+    clearAllPageWaits();
 
     verifyNonBlockingPageWaitExists(false);
     verifyBlockingPageWaitExists(false);
@@ -204,7 +188,7 @@ describe('Wait service', () => {
 
   it('should wrap with blocking wait when the given observable is hot', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
+    waitSvc.blockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
     subject.next('A');
     tick();
     applicationRef.tick();
@@ -217,7 +201,7 @@ describe('Wait service', () => {
 
   it('should not wrap with blocking wait when the given observable is cold', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.blockingWrap(subject.asObservable());
+    waitSvc.blockingWrap(subject.asObservable());
     subject.next('A');
     tick();
     applicationRef.tick();
@@ -230,7 +214,7 @@ describe('Wait service', () => {
 
   it('should wrap with blocking wait when the given observable throws error', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService
+    waitSvc
       .blockingWrap(subject.asObservable())
       .subscribe(NO_OP_FUNC, NO_OP_FUNC);
     subject.next('A');
@@ -245,7 +229,7 @@ describe('Wait service', () => {
 
   it('should wrap with nonblocking wait when the given observable is hot', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
+    waitSvc.nonBlockingWrap(subject.asObservable()).subscribe(NO_OP_FUNC);
     subject.next('A');
     tick();
     applicationRef.tick();
@@ -258,7 +242,7 @@ describe('Wait service', () => {
 
   it('should not wrap with nonblocking wait when the given observable is cold', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService.nonBlockingWrap(subject.asObservable());
+    waitSvc.nonBlockingWrap(subject.asObservable());
     subject.next('A');
     tick();
     applicationRef.tick();
@@ -271,7 +255,7 @@ describe('Wait service', () => {
 
   it('should wrap with nonblocking wait when the given observable throws error', fakeAsync(() => {
     const subject = new ReplaySubject();
-    waitService
+    waitSvc
       .nonBlockingWrap(subject.asObservable())
       .subscribe(NO_OP_FUNC, NO_OP_FUNC);
     subject.next('A');

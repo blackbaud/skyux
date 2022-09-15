@@ -28,26 +28,30 @@ describe('configure-storybook', () => {
     expect(tree.exists(`apps/test-app/.storybook/preview.js`)).toBeFalsy();
     expect(tree.exists(`apps/test-app/.storybook/preview.ts`)).toBeTruthy();
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    expect(e2eConfig.targets.e2e.options.devServerTarget).toEqual(
+    expect(e2eConfig.targets?.e2e.options.devServerTarget).toEqual(
       `test-app:storybook`
     );
-    expect(e2eConfig.targets.e2e.configurations.ci.skipServe).toBeTruthy();
-    updateJson(tree, getWorkspacePath(tree), (json) => {
-      delete json['projects']['test-app'].architect.build.options;
+    expect(e2eConfig.targets?.e2e.configurations?.ci.skipServe).toBeTruthy();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    updateJson(tree, getWorkspacePath(tree)!, (json) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (json as any)['projects']['test-app'].architect.build.options;
       return json;
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(
-      readProjectConfiguration(tree, `test-app`).targets.build.options.styles
+      readProjectConfiguration(tree, `test-app`).targets?.build.options.styles
         .length
     ).toBeGreaterThan(0);
-    updateJson(tree, getWorkspacePath(tree), (json) => {
-      json['projects']['test-app'].architect.build.options = {};
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    updateJson(tree, getWorkspacePath(tree)!, (json) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (json as any)['projects']['test-app'].architect.build.options = {};
       return json;
     });
     await configureStorybook(tree, { name: 'test-app' });
     expect(
-      readProjectConfiguration(tree, `test-app`).targets.build.options.styles
+      readProjectConfiguration(tree, `test-app`).targets?.build.options.styles
         .length
     ).toBeGreaterThan(0);
   });
@@ -90,8 +94,11 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
     expect(
-      JSON.parse(tree.read(`apps/test-app/.storybook/tsconfig.json`).toString())
-        .include
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      JSON.parse(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        tree.read(`apps/test-app/.storybook/tsconfig.json`)!.toString()
+      ).include
     ).toBeTruthy();
   });
 
@@ -116,7 +123,8 @@ describe('configure-storybook', () => {
     await configureStorybook(tree, { name: 'test-app' });
     await configureStorybook(tree, { name: 'test-app', ansiColor: false });
     const e2eConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    expect(e2eConfig.targets.e2e).toBeFalsy();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(e2eConfig.targets!.e2e).toBeFalsy();
     expect(errorSpy).toHaveBeenCalledWith(
       `Project "test-app-e2e" does not have an e2e target with @nrwl/cypress:cypress`
     );

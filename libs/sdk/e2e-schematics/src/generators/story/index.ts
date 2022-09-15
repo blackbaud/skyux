@@ -39,13 +39,19 @@ function normalizeOptions(
   tree: Tree,
   options: ComponentGeneratorSchema
 ): NormalizedSchema {
+  if (!options.project) {
+    throw new Error('Project name not specified');
+  }
+
   options.name = normalizePath(options.name);
   const projects = getProjects(tree);
   const projectConfig = getStorybookProject(tree, options);
-  const projectDirectory = projectConfig.sourceRoot;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const projectDirectory = projectConfig.sourceRoot!;
   const projectName = options.project;
   const projectRoot = projectConfig.root;
   const projectTypeBase = getProjectTypeBase(projectConfig);
+
   if (
     tree.exists(
       joinPathFragments(projectDirectory, projectTypeBase, options.name)
@@ -55,24 +61,31 @@ function normalizeOptions(
   }
   options.cypressProject = options.cypressProject || `${projectName}-e2e`;
   const e2eProjectConfig = projects.get(options.cypressProject);
+
+  // istanbul ignore if
+  if (!e2eProjectConfig) {
+    throw new Error('e2e project configuration not found');
+  }
+
   const e2eSourceRoot = e2eProjectConfig.sourceRoot;
-  let module: string;
+  let module: string | undefined;
   if (options.module) {
     module = options.module;
   } else {
     const moduleOptions = findModulePaths(tree, projectDirectory, (path) => {
       const sourceFile = readSourceFile(tree, path);
       const module = findNgModuleClass(sourceFile);
-      return module && isRoutingModule(module, sourceFile);
+      return !!module && isRoutingModule(module, sourceFile);
     });
     if (moduleOptions.length === 0) {
       throw new Error(
         `Could not find a router module to add the component to. Please specify a module using the --module option.`
       );
     } else if (moduleOptions.length === 1) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       module = moduleOptions[0]
         .split('/')
-        .pop()
+        .pop()!
         .replace(/\.module\.ts$/, '');
     } else {
       const componentDirectory = `${projectTypeBase}${
@@ -130,11 +143,18 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const componentFilePath = componentFilePaths.find((filepath) =>
     filepath.endsWith('.component.ts')
   );
+
+  // istanbul ignore if
+  if (!componentFilePath) {
+    throw new Error('Unable to find component file path');
+  }
+
   // Module generator creates the component and adds the route, but it doesn't provide options or use the defaults.
   componentFilePaths.forEach((filepath) => {
     tree.delete(filepath);
   });
-  const baseName = normalizedOptions.name.split('/').pop();
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const baseName = normalizedOptions.name.split('/').pop()!;
   await componentGenerator(tree, {
     name: normalizedOptions.name,
     module: baseName,
@@ -156,16 +176,18 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
       nameCapitalized: capitalizeWords(baseName),
       project: normalizedOptions.project,
       componentPath: dirname(componentFilePath),
-      prefix: normalizedOptions.projectConfig['prefix'],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      prefix: (normalizedOptions.projectConfig as any)['prefix'],
     }
   );
 
   // Determine paths that should be created by this generator.
   const expectedPaths = [
     `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/`,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     `${normalizedOptions.e2eSourceRoot}/integration/${componentFilePath
       .split('/')
-      .pop()
+      .pop()!
       .replace(/\.ts$/, '.spec.ts')}`,
   ];
 

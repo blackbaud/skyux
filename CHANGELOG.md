@@ -1,5 +1,39 @@
 # Changelog
 
+## [6.19.0](https://github.com/blackbaud/skyux/compare/6.18.0...6.19.0) (2022-09-14)
+
+
+### Features
+
+* **components/indicators:** add key info component harness ([#498](https://github.com/blackbaud/skyux/issues/498)) ([4ba11a0](https://github.com/blackbaud/skyux/commit/4ba11a050ad09e762f718cc613ffb55bfdb686ff))
+* **components/indicators:** update alert test harness with accessibility functions ([#500](https://github.com/blackbaud/skyux/issues/500)) ([ee7c8bf](https://github.com/blackbaud/skyux/commit/ee7c8bf424b3542674cfbeb2a145a4e88bd86cba))
+
+
+### Deprecations
+
+* **components/modals:** deprecate confirm autofocus ([#507](https://github.com/blackbaud/skyux/issues/507)) ([67a0fa9](https://github.com/blackbaud/skyux/commit/67a0fa92f6a185e2976fd63330fc0694510c0964))
+
+## [6.18.0](https://github.com/blackbaud/skyux/compare/6.17.1...6.18.0) (2022-09-08)
+
+
+### Features
+
+* **components/indicators:** add harness for interacting with label components in tests ([#489](https://github.com/blackbaud/skyux/issues/489)) ([9edd8b7](https://github.com/blackbaud/skyux/commit/9edd8b7954d3d6dc23a50b6de7181a772576c887))
+
+
+### Bug Fixes
+
+* **components/lookup:** set z-index on lookup tokens inside input box ([#493](https://github.com/blackbaud/skyux/issues/493)) ([bd09496](https://github.com/blackbaud/skyux/commit/bd09496af82a1800f5a694839fa0d30593f1b42b))
+* **components/theme:** replaced link glyph and added attach icon ([#494](https://github.com/blackbaud/skyux/issues/494)) ([885f011](https://github.com/blackbaud/skyux/commit/885f011cdd30997262746f5696f006f12806dc32))
+
+## [6.17.1](https://github.com/blackbaud/skyux/compare/6.17.0...6.17.1) (2022-09-06)
+
+
+### Bug Fixes
+
+* **components/data-manager:** update activeView on data view config updates ([#480](https://github.com/blackbaud/skyux/issues/480)) ([90177b5](https://github.com/blackbaud/skyux/commit/90177b5171d69291ab0c8987062c11e6f984fb6b))
+* **components/modals:** hide non modal elements from screen readers ([#397](https://github.com/blackbaud/skyux/issues/397)) ([6e2a171](https://github.com/blackbaud/skyux/commit/6e2a17156766a4d08585b0fb6b62ead5efee11c6))
+
 ## [6.17.0](https://github.com/blackbaud/skyux/compare/6.16.0...6.17.0) (2022-09-02)
 
 

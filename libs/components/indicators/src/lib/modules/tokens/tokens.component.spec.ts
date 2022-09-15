@@ -1,11 +1,12 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+
+import { Subject } from 'rxjs';
 
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
@@ -16,7 +17,7 @@ describe('Tokens component', () => {
   let component: SkyTokensTestComponent;
 
   function getTokenElements(): NodeListOf<HTMLElement> {
-    const tokensElement = component.tokensElementRef.nativeElement;
+    const tokensElement = component.tokensElementRef?.nativeElement;
     const tokenElements = tokensElement.querySelectorAll('sky-token');
     return tokenElements as NodeListOf<HTMLElement>;
   }
@@ -26,7 +27,7 @@ describe('Tokens component', () => {
     component.publishTokens();
 
     fixture.detectChanges();
-    expect(component.tokensComponent.activeIndex).toEqual(0);
+    expect(component.tokensComponent?.activeIndex).toEqual(0);
 
     const tokenElements = getTokenElements();
     SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
@@ -34,7 +35,7 @@ describe('Tokens component', () => {
     });
 
     fixture.detectChanges();
-    expect(component.tokensComponent.activeIndex).toEqual(1);
+    expect(component.tokensComponent?.activeIndex).toEqual(1);
     expect(document.activeElement).toEqual(
       tokenElements.item(1).querySelector('.sky-token')
     );
@@ -44,7 +45,7 @@ describe('Tokens component', () => {
     });
     fixture.detectChanges();
 
-    expect(component.tokensComponent.activeIndex).toEqual(0);
+    expect(component.tokensComponent?.activeIndex).toEqual(0);
     expect(document.activeElement).toEqual(
       tokenElements.item(0).querySelector('.sky-token')
     );
@@ -54,25 +55,25 @@ describe('Tokens component', () => {
     type: SkyTokensMessageType,
     index: number
   ): void {
-    component.messageStream.next({ type });
+    component.messageStream?.next({ type });
     fixture.detectChanges();
 
     const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
     const focusedToken = tokenElements[index] as HTMLElement;
 
-    expect(component.tokensComponent.activeIndex).toEqual(index);
+    expect(component.tokensComponent?.activeIndex).toEqual(index);
     expect(document.activeElement).toEqual(focusedToken);
   }
 
   function removeActiveItemAndVerifyLength(length: number): void {
-    component.messageStream.next({
+    component.messageStream?.next({
       type: SkyTokensMessageType.RemoveActiveToken,
     });
     fixture.detectChanges();
 
     const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
     expect(tokenElements.length).toEqual(length);
-    expect(component.tokens.length).toEqual(length);
+    expect(component.tokens?.length).toEqual(length);
   }
 
   beforeEach(() => {
@@ -89,24 +90,24 @@ describe('Tokens component', () => {
   });
 
   describe('basic setup', () => {
-    it('should set defaults', async(() => {
+    it('should set defaults', async () => {
       fixture.detectChanges();
-      expect(component.tokensComponent.tokens).toEqual([]);
+      expect(component.tokensComponent?.tokens).toEqual([]);
       fixture.detectChanges();
-      expect(component.tokensComponent.disabled).toEqual(false);
-      expect(component.tokensComponent.dismissible).toEqual(true);
-      expect(component.tokensComponent.displayWith).toEqual('name');
-      expect(component.tokensComponent.messageStream).toBeUndefined();
-      expect(component.tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.disabled).toEqual(false);
+      expect(component.tokensComponent?.dismissible).toEqual(true);
+      expect(component.tokensComponent?.displayWith).toEqual('name');
+      expect(component.tokensComponent?.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.messageStream).toEqual(
+        jasmine.any(Subject)
+      );
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
     it('should wrap internal content', () => {
       fixture.detectChanges();
-      expect(component.tokensElementRef.nativeElement).toHaveText(
+      expect(component.tokensElementRef?.nativeElement).toHaveText(
         'INNER CONTENT'
       );
     });
@@ -154,7 +155,10 @@ describe('Tokens component', () => {
       component.publishTokens();
 
       fixture.detectChanges();
-      component.tokensComponent.activeIndex = 2;
+
+      if (component.tokensComponent) {
+        component.tokensComponent.activeIndex = 2;
+      }
 
       const tokenElements = getTokenElements();
       const spy = spyOn(component, 'onFocusIndexOverRange').and.callThrough();
@@ -165,7 +169,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalled();
-      expect(component.tokensComponent.activeIndex).toEqual(2);
+      expect(component.tokensComponent?.activeIndex).toEqual(2);
     });
 
     it('should emit when the focus index is less than zero', () => {
@@ -174,7 +178,10 @@ describe('Tokens component', () => {
       component.publishTokens();
 
       fixture.detectChanges();
-      component.tokensComponent.activeIndex = 0;
+
+      if (component.tokensComponent) {
+        component.tokensComponent.activeIndex = 0;
+      }
 
       const tokenElements = getTokenElements();
       const spy = spyOn(component, 'onFocusIndexUnderRange').and.callThrough();
@@ -185,7 +192,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalled();
-      expect(component.tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.activeIndex).toEqual(0);
     });
 
     it('should emit when token is selected on click', () => {
@@ -201,7 +208,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: component.tokensComponent.tokens[0],
+        token: component.tokensComponent?.tokens[0],
       });
     });
 
@@ -274,13 +281,13 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      expect(component.tokens.length).toEqual(3);
+      expect(component.tokens?.length).toEqual(3);
 
       removeActiveItemAndVerifyLength(2);
-      expect(component.tokens[0].value.name).toEqual('White');
+      expect((component.tokens || [])[0].value.name).toEqual('White');
 
       removeActiveItemAndVerifyLength(1);
-      expect(component.tokens[0].value.name).toEqual('Blue');
+      expect((component.tokens || [])[0].value.name).toEqual('Blue');
 
       removeActiveItemAndVerifyLength(0);
 
@@ -296,32 +303,29 @@ describe('Tokens component', () => {
       component.publishMessageStream();
       fixture.detectChanges();
 
-      const spy = spyOn(
-        component.tokensComponent as any,
-        'focusLastToken'
-      ).and.callThrough();
-
-      component.messageStream.next({
+      component.messageStream?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
+
       fixture.detectChanges();
 
       component.publishMessageStream();
       fixture.detectChanges();
 
-      component.messageStream.next({
+      component.messageStream?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
+
       fixture.detectChanges();
 
       const tokenElements =
         fixture.nativeElement.querySelectorAll('.sky-token');
       const lastToken = tokenElements[tokenElements.length - 1] as HTMLElement;
 
-      expect(spy.calls.count()).toEqual(2);
-      expect(component.tokensComponent.activeIndex).toEqual(
+      expect(component.tokensComponent?.activeIndex).toEqual(
         tokenElements.length - 1
       );
+
       expect(document.activeElement).toEqual(lastToken);
     });
 
@@ -331,13 +335,13 @@ describe('Tokens component', () => {
 
       component.disabled = true;
       fixture.detectChanges();
-      expect(component.tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.activeIndex).toEqual(0);
 
-      component.messageStream.next({
+      component.messageStream?.next({
         type: SkyTokensMessageType.FocusLastToken,
       });
       fixture.detectChanges();
-      expect(component.tokensComponent.activeIndex).toEqual(0);
+      expect(component.tokensComponent?.activeIndex).toEqual(0);
     });
   });
 
@@ -360,14 +364,16 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       const tokenElements = getTokenElements();
-      const spy = spyOn(component.messageStream, 'next').and.callThrough();
+
+      let messageStreamUpdated = false;
+      component.messageStream?.subscribe(() => (messageStreamUpdated = true));
 
       SkyAppTestUtility.fireDomEvent(tokenElements.item(0), 'keydown', {
         keyboardEventInit: { key: 'ArrowLeft' },
       });
       fixture.detectChanges();
 
-      expect(spy).not.toHaveBeenCalled();
+      expect(messageStreamUpdated).toBeFalse();
     });
 
     it('should select token with enter keyup', () => {
@@ -384,7 +390,7 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       expect(spy).toHaveBeenCalledWith({
-        token: component.tokensComponent.tokens[0],
+        token: component.tokensComponent?.tokens[0],
       });
     });
 
@@ -411,13 +417,9 @@ describe('Tokens component', () => {
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
-      expect(component.tokensComponent.tokens.length).toEqual(3);
+      expect(component.tokensComponent?.tokens.length).toEqual(3);
 
-      const removedToken = component.tokensComponent.tokens[0];
-      const spy = spyOn(
-        component.tokensComponent,
-        'removeToken'
-      ).and.callThrough();
+      const removedToken = (component.tokensComponent?.tokens || [])[0];
 
       let tokenElements = getTokenElements();
       (
@@ -428,22 +430,17 @@ describe('Tokens component', () => {
       fixture.detectChanges();
 
       tokenElements = getTokenElements();
-      expect(component.tokensComponent.tokens.length).toEqual(2);
-      expect(spy).toHaveBeenCalledWith(removedToken);
+      expect(component.tokensComponent?.tokens).not.toContain(removedToken);
+      expect(component.tokensComponent?.tokens.length).toEqual(2);
     });
 
-    it('should add a sky-btn-disabled class if disabled', async(() => {
+    it('should add a sky-btn-disabled class if disabled', async () => {
       component.disabled = true;
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
 
-      expect(component.tokensComponent.tokens.length).toEqual(3);
-
-      const spy = spyOn(
-        component.tokensComponent,
-        'removeToken'
-      ).and.callThrough();
+      expect(component.tokensComponent?.tokens.length).toEqual(3);
 
       let tokenElements = getTokenElements();
       (
@@ -457,33 +454,32 @@ describe('Tokens component', () => {
       expect(
         tokenElements.item(0).querySelector('.sky-btn-disabled')
       ).not.toBeNull();
-      expect(component.tokensComponent.tokens.length).toEqual(3);
-      expect(spy).not.toHaveBeenCalled();
+      expect(component.tokensComponent?.tokens.length).toEqual(3);
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should adjust the tabindex if set to not-focusable', async(() => {
+    it('should adjust the tabindex if set to not-focusable', async () => {
       fixture.detectChanges();
       component.publishTokens();
       fixture.detectChanges();
 
       let tokenDivs: NodeListOf<HTMLDivElement> =
-        component.tokensElementRef.nativeElement.querySelectorAll('.sky-token');
+        component.tokensElementRef?.nativeElement.querySelectorAll(
+          '.sky-token'
+        );
 
       expect(tokenDivs.item(0).tabIndex).toEqual(0);
 
       component.focusable = false;
       fixture.detectChanges();
       tokenDivs =
-        component.tokensElementRef.nativeElement.querySelectorAll('.sky-token');
+        component.tokensElementRef?.nativeElement.querySelectorAll(
+          '.sky-token'
+        );
       expect(tokenDivs.item(0).tabIndex).toEqual(-1);
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

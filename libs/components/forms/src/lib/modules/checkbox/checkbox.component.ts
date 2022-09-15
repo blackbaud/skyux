@@ -37,7 +37,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * checkboxes. If the checkbox includes a visible label, use `labelledBy` instead.
    */
   @Input()
-  public label: string;
+  public label: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels the
@@ -46,33 +46,39 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * If the checkbox does not include a visible label, use `label` instead.
    */
   @Input()
-  public labelledBy: string;
+  public labelledBy: string | undefined;
 
   /**
    * Specifies an ID for the checkbox.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
-  public id = `sky-checkbox-${++nextId}`;
+  public set id(value: string | undefined) {
+    if (value) {
+      this.inputId = `input-sky-checkbox-${value}`;
+    } else {
+      this.inputId = `input-${this.#defaultId}`;
+    }
+  }
 
   /**
    * Indicates whether to disable the checkbox.
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
-    if (coercedValue !== this.disabled) {
-      this._disabled = coercedValue;
-      this._disabledChange.next(this._disabled);
+    if (coercedValue !== this.#_disabled) {
+      this.#_disabled = coercedValue;
+      this.#disabledChange.next(coercedValue);
     }
   }
 
   /**
    * Indicates whether the checkbox is disabled.
    */
-  public get disabled() {
-    return this._disabled;
+  public get disabled(): boolean {
+    return this.#_disabled;
   }
 
   /**
@@ -80,14 +86,24 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * checkbox on load.
    */
   @Input()
-  public tabindex = 0;
+  public tabindex: number | undefined = 0;
 
   /**
    * Specifies a name for a group of checkboxes.
    * @default a unique, auto-incrementing integer. For example: `sky-checkbox-1`
    */
   @Input()
-  public name = `sky-checkbox-${++nextId}`;
+  public set name(value: string | undefined) {
+    if (value) {
+      this.#_name = value;
+    } else {
+      this.#_name = this.#defaultId;
+    }
+  }
+
+  public get name(): string {
+    return this.#_name;
+  }
 
   /**
    * Fires when the selected value changes.
@@ -102,7 +118,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * element of the checkboxes.
    */
   @Input()
-  public icon: string;
+  public icon: string | undefined;
 
   /**
    * Specifies a type to set the background color after users select a checkbox where the
@@ -113,36 +129,33 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @default "info"
    */
   @Input()
-  public set checkboxType(value: string) {
-    if (value) {
-      this._checkboxType = value.toLowerCase();
-    }
+  public set checkboxType(value: string | undefined) {
+    this.#_checkboxType = value ? value.toLowerCase() : 'info';
   }
 
   public get checkboxType(): string {
-    return this._checkboxType || 'info';
+    return this.#_checkboxType;
   }
 
-  public get inputId(): string {
-    return `input-${this.id}`;
-  }
+  public inputId = '';
 
   /**
    * Indicates whether the checkbox is selected.
    * @default false
    */
   @Input()
-  public set checked(checked: boolean) {
-    if (checked !== this.checked) {
-      this._checked = checked;
-      this._controlValueAccessorChangeFn(checked);
-      this._checkedChange.next(this._checked);
+  public set checked(value: boolean | undefined) {
+    const checked = !!value;
+    if (checked !== this.#_checked) {
+      this.#_checked = checked;
+      this.#controlValueAccessorChangeFn(checked);
+      this.#checkedChange.next(checked);
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.ngControl && this.ngControl.control) {
-        this.ngControl.control.markAsPristine();
-        this.isFirstChange = false;
+      if (this.#isFirstChange && this.#ngControl && this.#ngControl.control) {
+        this.#ngControl.control.markAsPristine();
+        this.#isFirstChange = false;
       }
     }
   }
@@ -150,8 +163,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   /**
    * Indicates whether the checkbox is selected.
    */
-  public get checked() {
-    return this._checked;
+  public get checked(): boolean {
+    return this.#_checked;
   }
 
   /**
@@ -162,12 +175,12 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * @default false
    */
   @Input()
-  set required(value: boolean) {
-    this._required = SkyFormsUtility.coerceBooleanProperty(value);
+  set required(value: boolean | undefined) {
+    this.#_required = SkyFormsUtility.coerceBooleanProperty(value);
   }
 
   get required(): boolean {
-    return this._required;
+    return this.#_required;
   }
 
   /**
@@ -175,7 +188,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Output()
   public get checkedChange(): Observable<boolean> {
-    return this._checkedChange;
+    return this.#checkedChangeObs;
   }
 
   /**
@@ -183,62 +196,83 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    */
   @Output()
   public get disabledChange(): Observable<boolean> {
-    return this._disabledChange;
+    return this.#disabledChangeObs;
   }
 
-  private isFirstChange = true;
+  #checkedChange: BehaviorSubject<boolean>;
 
-  private _checkboxType: string;
+  #checkedChangeObs: Observable<boolean>;
 
-  private _checked = false;
+  #defaultId: string;
 
-  private _checkedChange = new BehaviorSubject<boolean>(this._checked);
+  #disabledChange: BehaviorSubject<boolean>;
 
-  private _disabled = false;
+  #disabledChangeObs: Observable<boolean>;
 
-  private _disabledChange = new BehaviorSubject<boolean>(this._disabled);
+  #isFirstChange = true;
 
-  private _required = false;
+  #_checked = false;
 
-  constructor(@Self() @Optional() private ngControl: NgControl) {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
+  #_checkboxType = 'info';
+
+  #_disabled = false;
+
+  #_name = '';
+
+  #_required = false;
+
+  #ngControl: NgControl | undefined;
+
+  constructor(@Self() @Optional() ngControl: NgControl) {
+    this.#ngControl = ngControl;
+    if (ngControl) {
+      ngControl.valueAccessor = this;
     }
+
+    this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
+    this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
+
+    this.#checkedChangeObs = this.#checkedChange.asObservable();
+    this.#disabledChangeObs = this.#disabledChange.asObservable();
+
+    this.#defaultId = `sky-checkbox-${++nextId}`;
+    this.id = this.#defaultId;
+    this.name = this.#defaultId;
   }
 
   public ngOnInit(): void {
-    if (this.ngControl) {
+    if (this.#ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
     }
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public writeValue(value: any) {
+  public writeValue(value: any): void {
     this.checked = !!value;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public registerOnChange(fn: (value: any) => void) {
-    this._controlValueAccessorChangeFn = fn;
+  public registerOnChange(fn: (value: any) => void): void {
+    this.#controlValueAccessorChangeFn = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public registerOnTouched(fn: any) {
+  public registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
@@ -246,19 +280,19 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
    * Event handler for checkbox input element.
    * Toggles checked state if element is not disabled.
    */
-  public onInteractionEvent(event: Event) {
+  public onInteractionEvent(event: Event): void {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
     // emit its event object to the `change` output.
     event.stopPropagation();
 
     if (!this.disabled) {
-      this._toggle();
-      this._emitChangeEvent();
+      this.#toggle();
+      this.#emitChangeEvent();
     }
   }
 
-  public onInputBlur() {
+  public onInputBlur(): void {
     this.onTouched();
   }
 
@@ -268,21 +302,21 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   public onTouched: () => any = () => {};
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _controlValueAccessorChangeFn: (value: any) => void = (value) => {};
+  #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
-  private _emitChangeEvent() {
+  #emitChangeEvent(): void {
     const event = new SkyCheckboxChange();
     event.source = this;
-    event.checked = this._checked;
+    event.checked = this.#_checked;
 
-    this._controlValueAccessorChangeFn(this._checked);
+    this.#controlValueAccessorChangeFn(this.#_checked);
     this.change.emit(event);
   }
 
   /**
    * Toggles the `checked` value between true and false
    */
-  private _toggle() {
+  #toggle(): void {
     this.checked = !this.checked;
   }
 }
