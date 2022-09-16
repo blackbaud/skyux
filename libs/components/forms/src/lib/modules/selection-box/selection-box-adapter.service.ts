@@ -22,13 +22,15 @@ const BREAKPOINT_MD_MAX_PIXELS = 1439;
  */
 @Injectable()
 export class SkySelectionBoxAdapterService {
-  private renderer: Renderer2;
+  #coreAdapterService: SkyCoreAdapterService;
+  #renderer: Renderer2;
 
   constructor(
-    private coreAdapterService: SkyCoreAdapterService,
+    coreAdapterService: SkyCoreAdapterService,
     rendererFactory: RendererFactory2
   ) {
-    this.renderer = rendererFactory.createRenderer(undefined, undefined);
+    this.#coreAdapterService = coreAdapterService;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   /**
@@ -87,7 +89,7 @@ export class SkySelectionBoxAdapterService {
    */
   public setChildrenTabIndex(element: ElementRef, tabIndex: number): void {
     const el = element.nativeElement;
-    const focusableElems = this.coreAdapterService.getFocusableChildren(el, {
+    const focusableElems = this.#coreAdapterService.getFocusableChildren(el, {
       ignoreVisibility: true,
     });
     let index = focusableElems.length;
@@ -105,10 +107,10 @@ export class SkySelectionBoxAdapterService {
   ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
-    this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_XS);
-    this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_SM);
-    this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_MD);
-    this.renderer.removeClass(nativeEl, RESPONSIVE_CLASS_LG);
+    this.#renderer.removeClass(nativeEl, RESPONSIVE_CLASS_XS);
+    this.#renderer.removeClass(nativeEl, RESPONSIVE_CLASS_SM);
+    this.#renderer.removeClass(nativeEl, RESPONSIVE_CLASS_MD);
+    this.#renderer.removeClass(nativeEl, RESPONSIVE_CLASS_LG);
 
     let newClass: string;
 
@@ -131,14 +133,17 @@ export class SkySelectionBoxAdapterService {
       }
     }
 
-    this.renderer.addClass(nativeEl, newClass);
+    this.#renderer.addClass(nativeEl, newClass);
   }
 
   /**
    * Sets the `tabIndex` of the `element` to the provided `tabIndex`.
    */
-  public setTabIndex(element: ElementRef, tabIndex: number): void {
-    const el = element.nativeElement;
-    el.tabIndex = tabIndex;
+  public setTabIndex(element: ElementRef | undefined, tabIndex: number): void {
+    const el = element?.nativeElement;
+
+    if (el) {
+      el.tabIndex = tabIndex;
+    }
   }
 }

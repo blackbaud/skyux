@@ -31,10 +31,14 @@ export class SelectionBoxDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+    this.myForm = this.#formBuilder.group({
       myOption: this.items[2].value,
     });
     this.myForm.valueChanges.subscribe((value) => console.log(value));

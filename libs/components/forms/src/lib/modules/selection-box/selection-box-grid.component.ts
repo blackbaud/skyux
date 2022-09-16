@@ -49,24 +49,31 @@ export class SkySelectionBoxGridComponent
    * @default 'center'
    */
   @Input()
-  public set alignItems(value: SkySelectionBoxGridAlignItemsType) {
-    this._alignItems = value;
+  public set alignItems(value: SkySelectionBoxGridAlignItemsType | undefined) {
+    if (value) {
+      this.#_alignItems = value;
+    } else {
+      this.#_alignItems = 'center';
+    }
   }
 
   public get alignItems(): SkySelectionBoxGridAlignItemsType {
-    return this._alignItems || 'center';
+    return this.#_alignItems;
   }
 
   @ContentChildren(SkySelectionBoxComponent, {
     read: SkySelectionBoxComponent,
   })
-  public selectionBoxes: QueryList<SkySelectionBoxComponent>;
+  public selectionBoxes: QueryList<SkySelectionBoxComponent> | undefined;
 
-  private set currentBreakpoint(value: SkyMediaBreakpoints) {
-    if (value !== this._currentBreakpoint) {
-      this._currentBreakpoint = value;
-      this.selectionBoxAdapter.setResponsiveClass(this.elementRef, value);
-      this.updateChildrenHeights();
+  set #currentBreakpoint(value: SkyMediaBreakpoints) {
+    if (value !== this.#_currentBreakpoint) {
+      this.#_currentBreakpoint = value;
+      this.#selectionBoxAdapter.setResponsiveClass(
+        this.containerElementRef,
+        value
+      );
+      this.#updateChildrenHeights();
     }
   }
 
@@ -74,69 +81,83 @@ export class SkySelectionBoxGridComponent
     read: ElementRef,
     static: true,
   })
-  private elementRef: ElementRef<any>;
+  public containerElementRef!: ElementRef<any>;
 
-  private mutationObserver: MutationObserver;
+  #mutationObserver: MutationObserver | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _alignItems: SkySelectionBoxGridAlignItemsType;
+  #_alignItems: SkySelectionBoxGridAlignItemsType = 'center';
 
-  private _currentBreakpoint: SkyMediaBreakpoints;
+  #_currentBreakpoint: SkyMediaBreakpoints | undefined;
+
+  #coreAdapterService: SkyCoreAdapterService;
+  #selectionBoxAdapter: SkySelectionBoxAdapterService;
+  #hostElRef: ElementRef;
+  #mutationObserverSvc: MutationObserverService;
+  #ngZone: NgZone;
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
-    private coreAdapterService: SkyCoreAdapterService,
-    private selectionBoxAdapter: SkySelectionBoxAdapterService,
-    private hostElRef: ElementRef,
-    private mutationObserverSvc: MutationObserverService,
-    private ngZone: NgZone,
-    @Optional() private themeSvc?: SkyThemeService
-  ) {}
+    coreAdapterService: SkyCoreAdapterService,
+    selectionBoxAdapter: SkySelectionBoxAdapterService,
+    hostElRef: ElementRef,
+    mutationObserverSvc: MutationObserverService,
+    ngZone: NgZone,
+    @Optional() themeSvc?: SkyThemeService
+  ) {
+    this.#coreAdapterService = coreAdapterService;
+    this.#selectionBoxAdapter = selectionBoxAdapter;
+    this.#hostElRef = hostElRef;
+    this.#mutationObserverSvc = mutationObserverSvc;
+    this.#ngZone = ngZone;
+    this.#themeSvc = themeSvc;
+  }
 
   public ngOnInit(): void {
     /* istanbul ignore else */
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+    if (this.#themeSvc) {
+      this.#themeSvc.settingsChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.updateBreakpointClass();
-          this.updateChildrenHeights();
+          this.#updateBreakpointClass();
+          this.#updateChildrenHeights();
         });
     }
   }
 
   public ngAfterViewInit(): void {
-    this.updateBreakpointClass();
-    this.updateChildrenHeights();
-    this.initMutationObserver();
+    this.#updateBreakpointClass();
+    this.#updateChildrenHeights();
+    this.#initMutationObserver();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
-    this.destroyMutationObserver();
+    this.#destroyMutationObserver();
   }
 
   @HostListener('window:resize')
   public onWindowResize(): void {
-    this.updateBreakpointClass();
+    this.#updateBreakpointClass();
   }
 
-  private initMutationObserver(): void {
+  #initMutationObserver(): void {
     /* istanbul ignore else */
-    if (!this.mutationObserver) {
-      const el = this.elementRef.nativeElement;
+    if (!this.#mutationObserver) {
+      const el = this.containerElementRef.nativeElement;
 
       // MutationObserver is patched by Zone.js and therefore becomes part of the
       // Angular change detection cycle, but this can lead to infinite loops in some
       // scenarios. This will keep MutationObserver from triggering change detection.
-      this.ngZone.runOutsideAngular(() => {
-        this.mutationObserver = this.mutationObserverSvc.create(() => {
-          this.updateChildrenHeights();
+      this.#ngZone.runOutsideAngular(() => {
+        this.#mutationObserver = this.#mutationObserverSvc.create(() => {
+          this.#updateChildrenHeights();
         });
 
-        this.mutationObserver.observe(el, {
+        this.#mutationObserver.observe(el, {
           characterData: true,
           subtree: true,
         });
@@ -144,27 +165,29 @@ export class SkySelectionBoxGridComponent
     }
   }
 
-  private destroyMutationObserver(): void {
+  #destroyMutationObserver(): void {
     /* istanbul ignore else */
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = undefined;
+    if (this.#mutationObserver) {
+      this.#mutationObserver.disconnect();
+      this.#mutationObserver = undefined;
     }
   }
 
-  private updateBreakpointClass(): void {
-    const parentWidth = this.selectionBoxAdapter.getParentWidth(this.hostElRef);
-    this.currentBreakpoint =
-      this.selectionBoxAdapter.getBreakpointForWidth(parentWidth);
+  #updateBreakpointClass(): void {
+    const parentWidth = this.#selectionBoxAdapter.getParentWidth(
+      this.#hostElRef
+    );
+    this.#currentBreakpoint =
+      this.#selectionBoxAdapter.getBreakpointForWidth(parentWidth);
   }
 
-  private updateChildrenHeights(): void {
-    this.coreAdapterService.resetHeight(
-      this.elementRef,
+  #updateChildrenHeights(): void {
+    this.#coreAdapterService.resetHeight(
+      this.containerElementRef,
       SKY_SELECTION_BOX_CLASS_NAME
     );
-    this.coreAdapterService.syncMaxHeight(
-      this.elementRef,
+    this.#coreAdapterService.syncMaxHeight(
+      this.containerElementRef,
       SKY_SELECTION_BOX_CLASS_NAME
     );
   }

@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
+  styleUrls: ['./selection-box.component.fixture.scss'],
 })
-export class SelectionBoxTestComponent implements OnInit {
+export class SelectionBoxTestComponent {
   public myForm: FormGroup;
 
-  public get selectionBoxFormArray(): FormArray {
-    return this.myForm.get('checkboxes') as FormArray;
-  }
+  public selectionBoxFormArray: FormArray;
 
   public checkboxSelectionBoxes: any[] = [
     {
@@ -55,20 +54,22 @@ export class SelectionBoxTestComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
 
-  public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      checkboxes: this.buildCheckboxes(),
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+    this.selectionBoxFormArray = this.#buildCheckboxes();
+    this.myForm = this.#formBuilder.group({
+      checkboxes: this.selectionBoxFormArray,
     });
   }
 
-  private buildCheckboxes(): FormArray {
+  #buildCheckboxes(): FormArray {
     const checkboxItemControls = this.checkboxSelectionBoxes.map(
       (aCheckboxSelectionBox) => {
-        return this.formBuilder.control(aCheckboxSelectionBox.undefinedValue);
+        return this.#formBuilder.control(aCheckboxSelectionBox.undefinedValue);
       }
     );
-    return this.formBuilder.array(checkboxItemControls);
+    return this.#formBuilder.array(checkboxItemControls);
   }
 }
