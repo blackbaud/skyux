@@ -50,7 +50,7 @@
     "list-builder-view-grids-testing": "libs/components/list-builder-view-grids/testing",
     "lists": "libs/components/lists",
     "lists-storybook": "apps/e2e/lists-storybook",
-    "lists-storybook-e2e": "apps/e2e/e2e-lists-storybook-e2e",
+    "lists-storybook-e2e": "apps/e2e/lists-storybook-e2e",
     "lists-testing": "libs/components/lists/testing",
     "lookup": "libs/components/lookup",
     "lookup-testing": "libs/components/lookup/testing",

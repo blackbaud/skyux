@@ -59,10 +59,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "e2e-ag-grid-storybook:build:production"
+          "browserTarget": "ag-grid-storybook:build:production"
         },
         "development": {
-          "browserTarget": "e2e-ag-grid-storybook:build:development"
+          "browserTarget": "ag-grid-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -70,7 +70,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "e2e-ag-grid-storybook:build"
+        "browserTarget": "ag-grid-storybook:build"
       }
     },
     "lint": {
@@ -95,7 +95,7 @@
       "options": {
         "port": 4400,
         "configDir": "apps/e2e/ag-grid-storybook/.storybook",
-        "browserTarget": "e2e-ag-grid-storybook:build",
+        "browserTarget": "ag-grid-storybook:build",
         "compodoc": false,
         "styles": [
           "apps/e2e/ag-grid-storybook/src/styles.scss",
@@ -116,7 +116,7 @@
       "options": {
         "outputDir": "dist/storybook/ag-grid-storybook",
         "configDir": "apps/e2e/ag-grid-storybook/.storybook",
-        "browserTarget": "e2e-ag-grid-storybook:build",
+        "browserTarget": "ag-grid-storybook:build",
         "compodoc": false,
         "styles": [
           "apps/e2e/ag-grid-storybook/src/styles.scss",

@@ -7,7 +7,7 @@
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/e2e/popovers-storybook-e2e/cypress.json",
-        "devServerTarget": "e2e-popovers-storybook:storybook",
+        "devServerTarget": "popovers-storybook:storybook",
         "baseUrl": "http://localhost:4400"
       },
       "configurations": {
@@ -25,5 +25,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["e2e-popovers-storybook"]
+  "implicitDependencies": ["popovers-storybook"]
 }

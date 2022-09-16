@@ -58,10 +58,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "e2e-popovers-storybook:build:production"
+          "browserTarget": "popovers-storybook:build:production"
         },
         "development": {
-          "browserTarget": "e2e-popovers-storybook:build:development"
+          "browserTarget": "popovers-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -69,7 +69,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "e2e-popovers-storybook:build"
+        "browserTarget": "popovers-storybook:build"
       }
     },
     "lint": {
@@ -94,7 +94,7 @@
       "options": {
         "port": 4400,
         "configDir": "apps/e2e/popovers-storybook/.storybook",
-        "browserTarget": "e2e-popovers-storybook:build",
+        "browserTarget": "popovers-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
@@ -113,7 +113,7 @@
       "options": {
         "outputDir": "dist/storybook/popovers-storybook",
         "configDir": "apps/e2e/popovers-storybook/.storybook",
-        "browserTarget": "e2e-popovers-storybook:build",
+        "browserTarget": "popovers-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",

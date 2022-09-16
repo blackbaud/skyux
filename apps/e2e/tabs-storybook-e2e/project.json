@@ -7,7 +7,7 @@
       "executor": "@nrwl/cypress:cypress",
       "options": {
         "cypressConfig": "apps/e2e/tabs-storybook-e2e/cypress.json",
-        "devServerTarget": "e2e-tabs-storybook:storybook",
+        "devServerTarget": "tabs-storybook:storybook",
         "baseUrl": "http://localhost:4400"
       },
       "configurations": {
@@ -25,5 +25,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["e2e-tabs-storybook"]
+  "implicitDependencies": ["tabs-storybook"]
 }

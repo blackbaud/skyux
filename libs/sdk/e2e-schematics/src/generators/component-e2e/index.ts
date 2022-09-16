@@ -19,6 +19,7 @@ import { moveGenerator } from '@nrwl/workspace';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
 import { RawWorkspaceJsonConfiguration } from 'nx/src/config/workspace-json-project-json';
+import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 import { workspaceFileName } from 'nx/src/project-graph/file-utils';
 
 import { updateJson } from '../../utils';
@@ -76,6 +77,12 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
       }
     );
   }
+  const projectConfig = readProjectConfiguration(tree, projectName);
+  const projectConfigJson = JSON.stringify(projectConfig).replace(
+    new RegExp(`${BASE_PATH}-${projectName}`, 'g'),
+    projectName
+  );
+  updateProjectConfiguration(tree, projectName, JSON.parse(projectConfigJson));
 }
 
 /**

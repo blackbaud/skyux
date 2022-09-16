@@ -58,10 +58,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "e2e-modals-storybook:build:production"
+          "browserTarget": "modals-storybook:build:production"
         },
         "development": {
-          "browserTarget": "e2e-modals-storybook:build:development"
+          "browserTarget": "modals-storybook:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -69,7 +69,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "e2e-modals-storybook:build"
+        "browserTarget": "modals-storybook:build"
       }
     },
     "lint": {
@@ -94,7 +94,7 @@
       "options": {
         "port": 4400,
         "configDir": "apps/e2e/modals-storybook/.storybook",
-        "browserTarget": "e2e-modals-storybook:build",
+        "browserTarget": "modals-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
@@ -113,7 +113,7 @@
       "options": {
         "outputDir": "dist/storybook/modals-storybook",
         "configDir": "apps/e2e/modals-storybook/.storybook",
-        "browserTarget": "e2e-modals-storybook:build",
+        "browserTarget": "modals-storybook:build",
         "compodoc": false,
         "styles": [
           "libs/components/theme/src/lib/styles/sky.scss",
