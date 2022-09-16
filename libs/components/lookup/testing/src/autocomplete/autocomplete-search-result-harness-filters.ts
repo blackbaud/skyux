@@ -9,5 +9,5 @@ export interface SkyAutocompleteSearchResultHarnessFilters
   /**
    * Only find instances whose content matches the given value.
    */
-  textContent?: string | RegExp;
+  text?: string | RegExp;
 }
