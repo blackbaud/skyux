@@ -26,8 +26,12 @@ import { Schema } from './schema';
  */
 export default async function (tree: Tree, options: Schema) {
   const storybookConfig = getProjects(tree).get('storybook');
-  if (!storybookConfig) {
-    throw new Error('Storybook project not found');
+  if (
+    !(storybookConfig && storybookConfig.targets && storybookConfig.sourceRoot)
+  ) {
+    throw new Error(
+      'Storybook project or storybook project information not found'
+    );
   }
   if (!storybookConfig.targets.storybook) {
     // nx g @nrwl/angular:storybook-configuration storybook --no-configureCypress --no-generateStories --no-generateCypressSpecs

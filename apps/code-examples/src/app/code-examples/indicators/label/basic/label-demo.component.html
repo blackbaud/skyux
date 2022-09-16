@@ -1,40 +1,7 @@
 <sky-label
-  class="sky-margin-inline-lg"
-  labelType="info"
-  descriptionType="important-info"
+  data-sky-id="label-demo"
+  [labelType]="labelType"
+  [descriptionType]="descriptionType"
 >
-  Board member
-</sky-label>
-
-<sky-label
-  class="sky-margin-inline-lg"
-  labelType="success"
-  descriptionType="success"
->
-  Approved
-</sky-label>
-
-<sky-label
-  class="sky-margin-inline-lg"
-  labelType="warning"
-  descriptionType="warning"
->
-  Needs approval
-</sky-label>
-
-<sky-label
-  class="sky-margin-inline-lg"
-  labelType="danger"
-  descriptionType="important-warning"
->
-  Overdue
-</sky-label>
-
-<sky-label
-  class="sky-margin-inline-lg"
-  labelType="info"
-  descriptionType="custom"
-  customDescription="Fun fact:"
->
-  Custom screen reader description
+  {{ labelText }}
 </sky-label>

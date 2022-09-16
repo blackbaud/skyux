@@ -10,13 +10,21 @@ export default async function (
   if (!projectConfiguration) {
     throw new Error(`Project ${options.project} not found`);
   }
+
+  // istanbul ignore if
+  if (!(projectConfiguration.sourceRoot && projectConfiguration.targets)) {
+    throw new Error(`Project source root or targets could not be found`);
+  }
+
   if (!projectConfiguration.targets.e2e) {
     throw new Error(`Project ${options.project} is not an e2e project`);
   }
+
   visitNotIgnoredFiles(tree, projectConfiguration.sourceRoot, (filepath) => {
     let reason = '';
     if (filepath.endsWith('.spec.ts') || filepath.endsWith('.cy.ts')) {
-      const source = tree.read(filepath, 'utf-8');
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const source = tree.read(filepath, 'utf-8')!;
       // Quick check if this looks like the old pattern
       if (
         source.startsWith(
@@ -27,7 +35,7 @@ export default async function (
           /^ {2}describe\(`([-\w ]+) in \$\{theme} theme`, \(\) => \{$/;
         const specLines = source.split(/\r?\n/);
         specLines.shift(); // Remove first line
-        const describeLine = specLines.shift();
+        const describeLine = `${specLines.shift()}`;
         if (describeLine.match(describePattern)) {
           // Strip empty lines from the bottom of the file
           while (specLines[specLines.length - 1].trim() === '') {

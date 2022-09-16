@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
+import { SkyIconFixturesModule } from './fixtures/icon-fixtures.module';
 import { IconTestComponent } from './fixtures/icon.component.fixture';
 import { SkyIconResolverService } from './icon-resolver.service';
-import { SkyIconModule } from './icon.module';
 
 describe('Icon component', () => {
   let fixture: ComponentFixture<IconTestComponent>;
@@ -23,8 +23,7 @@ describe('Icon component', () => {
     });
 
     TestBed.configureTestingModule({
-      declarations: [IconTestComponent],
-      imports: [SkyIconModule],
+      imports: [SkyIconFixturesModule],
       providers: [
         {
           provide: SkyIconResolverService,
@@ -43,10 +42,10 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-circle');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');
     expect(element.querySelector('.sky-icon')).not.toHaveCssClass('fa-fw');
-    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe(
-      'true'
-    );
-    expect(element.querySelector('.sky-icon').classList.length).toBe(4);
+    expect(
+      element.querySelector('.sky-icon')?.getAttribute('aria-hidden')
+    ).toBe('true');
+    expect(element.querySelector('.sky-icon')?.classList.length).toBe(4);
 
     // Accessibility checks
     fixture.whenStable().then(() => {
@@ -64,10 +63,10 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-broom');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-5x');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-fw');
-    expect(element.querySelector('.sky-icon').classList.length).toBe(5);
-    expect(element.querySelector('.sky-icon').getAttribute('aria-hidden')).toBe(
-      'true'
-    );
+    expect(element.querySelector('.sky-icon')?.classList.length).toBe(5);
+    expect(
+      element.querySelector('.sky-icon')?.getAttribute('aria-hidden')
+    ).toBe('true');
   });
 
   it('should show an icon without optional inputs', () => {
@@ -77,7 +76,7 @@ describe('Icon component', () => {
     fixture.detectChanges();
 
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-spinner');
-    expect(element.querySelector('.sky-icon').classList.length).toBe(3);
+    expect(element.querySelector('.sky-icon')?.classList.length).toBe(3);
   });
 
   it('should display the specified variant', () => {

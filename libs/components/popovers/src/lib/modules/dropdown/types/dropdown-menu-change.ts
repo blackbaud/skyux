@@ -2,6 +2,7 @@ import { SkyDropdownItemComponent } from '../dropdown-item.component';
 
 /**
  * Specifies menu items, including the selected one.
+ * @internal
  */
 export interface SkyDropdownMenuChange {
   /**

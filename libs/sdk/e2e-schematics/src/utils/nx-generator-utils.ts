@@ -11,7 +11,7 @@ export function getGeneratorDefaults(
   const nxConfig = readJsonFile(tree, 'nx.json');
   const projects = getProjects(tree);
   let defaults = {};
-  if (nxConfig?.generators) {
+  if (nxConfig.generators) {
     if (nxConfig.generators[collectionName]?.[generatorName]) {
       defaults = {
         ...defaults,
@@ -26,11 +26,12 @@ export function getGeneratorDefaults(
     }
   }
   if (projectName && projects.get(projectName)?.generators) {
-    const g = projects.get(projectName).generators;
-    if (g[collectionName] && g[collectionName][generatorName]) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const g = projects.get(projectName)!.generators;
+    if (g && g[collectionName] && g[collectionName][generatorName]) {
       defaults = { ...defaults, ...g[collectionName][generatorName] };
     }
-    if (g[`${collectionName}:${generatorName}`]) {
+    if (g && g[`${collectionName}:${generatorName}`]) {
       defaults = {
         ...defaults,
         ...g[`${collectionName}:${generatorName}`],

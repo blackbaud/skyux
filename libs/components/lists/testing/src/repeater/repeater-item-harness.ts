@@ -9,6 +9,9 @@ import { SkyRepeaterItemHarnessFilters } from './repeater-item-harness-filters';
  * @internal
  */
 export class SkyRepeaterItemHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-repeater-item';
 
   #getCheckbox = this.locatorForOptional(SkyCheckboxHarness);

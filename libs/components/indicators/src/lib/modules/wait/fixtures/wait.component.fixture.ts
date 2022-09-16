@@ -8,7 +8,7 @@ import { SkyWaitService } from '../wait.service';
   templateUrl: './wait.component.fixture.html',
 })
 export class SkyWaitTestComponent {
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   public isWaiting = false;
   public isFullPage = false;
@@ -26,23 +26,27 @@ export class SkyWaitTestComponent {
   public secondWaitIsWaiting = false;
 
   @ViewChild(SkyWaitComponent)
-  public waitComponent: SkyWaitComponent;
+  public waitComponent: SkyWaitComponent | undefined;
 
-  constructor(private waitService: SkyWaitService) {}
+  #waitSvc: SkyWaitService;
+
+  constructor(waitSvc: SkyWaitService) {
+    this.#waitSvc = waitSvc;
+  }
 
   public endBlockingWait(): void {
-    this.waitService.endBlockingPageWait();
+    this.#waitSvc.endBlockingPageWait();
   }
 
   public endNonBlockingWait(): void {
-    this.waitService.endNonBlockingPageWait();
+    this.#waitSvc.endNonBlockingPageWait();
   }
 
   public startBlockingWait(): void {
-    this.waitService.beginBlockingPageWait();
+    this.#waitSvc.beginBlockingPageWait();
   }
 
   public startNonBlockingWait(): void {
-    this.waitService.beginNonBlockingPageWait();
+    this.#waitSvc.beginNonBlockingPageWait();
   }
 }

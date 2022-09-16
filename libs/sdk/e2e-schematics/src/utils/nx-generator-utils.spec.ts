@@ -20,7 +20,8 @@ describe('nx-generator-utils', () => {
     expect(empty).toEqual({});
     const tree = createTreeWithEmptyWorkspace();
     updateJson(tree, 'nx.json', (json) => {
-      json['generators'] = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (json as any)['generators'] = {
         nx: {
           generator: {
             setting1: 'my-value',

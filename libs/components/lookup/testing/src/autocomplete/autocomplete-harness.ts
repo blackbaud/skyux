@@ -11,6 +11,9 @@ import { SkyAutocompleteSearchResultHarnessFilters } from './autocomplete-search
  * @internal
  */
 export class SkyAutocompleteHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-autocomplete';
 
   #documentRootLocator = this.documentRootLocatorFactory();

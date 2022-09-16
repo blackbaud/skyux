@@ -11,6 +11,7 @@ import { Linter } from '@nrwl/linter';
 import {
   getE2eProjects,
   getProjectTypeBase,
+  getStorybookProject,
   getStorybookProjects,
 } from './get-projects';
 
@@ -72,7 +73,17 @@ describe('some-or-all-projects', () => {
     await applicationGenerator(tree, { name: 'test-app' });
     await libraryGenerator(tree, { name: 'test-lib' });
     const projects = getProjects(tree);
-    expect(getProjectTypeBase(projects.get('test-app'))).toEqual('app');
-    expect(getProjectTypeBase(projects.get('test-lib'))).toEqual('lib');
+    expect(projects.get('test-app')).toBeTruthy();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(getProjectTypeBase(projects.get('test-app')!)).toEqual('app');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(getProjectTypeBase(projects.get('test-lib')!)).toEqual('lib');
+  });
+
+  it('should error when getStorybookProject is called without a project name', () => {
+    const tree = createTreeWithEmptyWorkspace(1);
+    expect(() => getStorybookProject(tree, {})).toThrowError(
+      'Project name not specified'
+    );
   });
 });
