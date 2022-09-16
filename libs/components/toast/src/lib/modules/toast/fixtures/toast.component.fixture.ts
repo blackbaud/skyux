@@ -11,14 +11,16 @@ import { SkyToastType } from '../types/toast-type';
   templateUrl: './toast.component.fixture.html',
 })
 export class SkyToastTestComponent {
-  public autoClose: boolean;
+  public autoClose = false;
 
   @ViewChild(SkyToastComponent, {
     read: SkyToastComponent,
   })
-  public toastComponent: SkyToastComponent;
+  public toastComponent: SkyToastComponent | undefined;
 
-  public toastType: SkyToastType;
+  public toastType: SkyToastType | undefined;
 
-  public onClosed(): void {}
+  public onClosed(): void {
+    /* */
+  }
 }

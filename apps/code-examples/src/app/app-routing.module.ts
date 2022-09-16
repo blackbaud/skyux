@@ -115,6 +115,11 @@ const routes: Routes = [
         (m) => m.DataManagerFeatureModule
       ),
   },
+  {
+    path: 'toast',
+    loadChildren: () =>
+      import('./features/toast.module').then((m) => m.ToastFeatureModule),
+  },
 ];
 
 @NgModule({
