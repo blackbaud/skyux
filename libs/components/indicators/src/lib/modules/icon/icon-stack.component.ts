@@ -16,7 +16,7 @@ export class SkyIconStackComponent {
    * [Font Awesome sizes](https://fontawesome.com/how-to-use/on-the-web/styling/sizing-icons).
    */
   @Input()
-  public size: string;
+  public size: string | undefined;
 
   /**
    * The icon to display at the bottom of the stack.

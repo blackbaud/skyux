@@ -56,43 +56,44 @@ export class SkyToggleSwitchComponent
    * If the `sky-toggle-switch-label` component displays a visible label, do not use this property.
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Indicates whether the toggle switch is selected.
    * @default false
    */
   @Input()
-  public set checked(checked: boolean) {
-    if (checked !== this.checked) {
-      this._checked = checked;
-      this.onChange(checked);
+  public set checked(value: boolean | undefined) {
+    const checked = !!value;
+    if (checked !== this.#_checked) {
+      this.#_checked = checked;
+      this.#onChange(checked);
 
       // Do not mark the field as "dirty"
       // if the field has been initialized with a value.
-      if (this.isFirstChange && this.control) {
-        this.control.markAsPristine();
-        this.isFirstChange = false;
+      if (this.#isFirstChange && this.#control) {
+        this.#control.markAsPristine();
+        this.#isFirstChange = false;
       }
     }
   }
 
   public get checked(): boolean {
-    return this._checked || false;
+    return this.#_checked;
   }
 
   /**
    * Indicates whether to disable the toggle switch.
    */
   @Input()
-  public disabled = false;
+  public disabled: boolean | undefined = false;
 
   /**
    * Specifies a tab index for the toggle switch. If not defined, the index is set to the position
    * of the toggle switch on load.
    */
   @Input()
-  public tabIndex = 0;
+  public tabIndex: number | undefined = 0;
 
   /**
    * Fires when the checked state of a toggle switch changes.
@@ -100,31 +101,39 @@ export class SkyToggleSwitchComponent
   @Output()
   public toggleChange = new EventEmitter<SkyToggleSwitchChange>();
 
-  public get hasLabelComponent(): boolean {
-    return this.labelComponents.length > 0;
-  }
+  public hasLabelComponent = false;
 
   public enableIndicatorAnimation = false;
 
   @ContentChildren(SkyToggleSwitchLabelComponent)
-  private labelComponents: QueryList<SkyToggleSwitchLabelComponent>;
+  public labelComponents: QueryList<SkyToggleSwitchLabelComponent> | undefined;
 
-  private control: AbstractControl;
-  private isFirstChange = true;
-  private ngUnsubscribe = new Subject<void>();
+  #control: AbstractControl | undefined;
+  #isFirstChange = true;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _checked = false;
+  #_checked = false;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public ngAfterContentInit(): void {
-    this.labelComponents.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        // Allow the template to reload any ARIA attributes that are relying on the
-        // label component existing in the DOM.
-        this.changeDetector.markForCheck();
-      });
+    /* istanbul ignore else */
+    if (this.labelComponents) {
+      this.hasLabelComponent = this.labelComponents.length > 0;
+
+      this.labelComponents.changes
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((newLabelComponents) => {
+          this.hasLabelComponent = newLabelComponents.length > 0;
+          // Allow the template to reload any ARIA attributes that are relying on the
+          // label component existing in the DOM.
+          this.#changeDetector.markForCheck();
+        });
+    }
 
     // Wait for the view to render before applying animation effects.
     // (Some browsers, such as Firefox, apply the animation too early.)
@@ -134,61 +143,61 @@ export class SkyToggleSwitchComponent
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public writeValue(value: boolean): void {
     this.checked = !!value;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  public validate(control: AbstractControl): ValidationErrors {
-    if (!this.control) {
-      this.control = control;
+  public validate(control: AbstractControl): ValidationErrors | null {
+    if (!this.#control) {
+      this.#control = control;
     }
 
-    return;
+    return null;
   }
 
   public registerOnChange(fn: (value: any) => void) {
-    this.onChange = fn;
+    this.#onChange = fn;
   }
 
   public registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+    this.#onTouched = fn;
   }
 
   public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onButtonClick(event: any): void {
     event.stopPropagation();
-    this.toggleChecked();
-    this.emitChangeEvent();
+    this.#toggleChecked();
+    this.#emitChangeEvent();
   }
 
   public onButtonBlur(): void {
-    this.onTouched();
+    this.#onTouched();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // istanbul ignore next
-  private onTouched: () => any = () => {};
+  /* istanbul ignore next */
+  #onTouched: () => any = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // istanbul ignore next
-  private onChange: (value: any) => void = () => {};
+  /* istanbul ignore next */
+  #onChange: (value: any) => void = () => {};
 
-  private emitChangeEvent(): void {
-    this.onChange(this._checked);
+  #emitChangeEvent(): void {
+    this.#onChange(this.#_checked);
     this.toggleChange.emit({
-      checked: this._checked,
+      checked: this.#_checked,
     });
   }
 
-  private toggleChecked(): void {
+  #toggleChecked(): void {
     this.checked = !this.checked;
   }
 }

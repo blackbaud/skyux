@@ -72,7 +72,7 @@ describe('Autocomplete harness', () => {
     const results = await autocompleteHarness.getSearchResults();
 
     await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
-    await expectAsync(results[0].textContent()).toBeResolvedTo('Red');
+    await expectAsync(results[0].getText()).toBeResolvedTo('Red');
   });
 
   it('should return search results text content', async () => {
@@ -113,7 +113,7 @@ describe('Autocomplete harness', () => {
 
     await autocompleteHarness.enterText('r');
     await autocompleteHarness.selectSearchResult({
-      textContent: 'Green',
+      text: 'Green',
     });
 
     await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
@@ -127,7 +127,7 @@ describe('Autocomplete harness', () => {
     // First, set a value on the autocomplete.
     await autocompleteHarness.enterText('r');
     await autocompleteHarness.selectSearchResult({
-      textContent: 'Green',
+      text: 'Green',
     });
     await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
 
@@ -157,10 +157,10 @@ describe('Autocomplete harness', () => {
 
     await expectAsync(
       autocompleteHarness.getSearchResults({
-        textContent: /invalidsearchtext/,
+        text: /invalidsearchtext/,
       })
     ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"textContent":"/invalidsearchtext/"}'
+      'Could not find search results matching filter(s): {"text":"/invalidsearchtext/"}'
     );
   });
 
@@ -187,7 +187,7 @@ describe('Autocomplete harness', () => {
       const results = await autocompleteHarness.getSearchResults();
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
-      await expectAsync(results[0].textContent()).toBeResolvedTo('Red ID: 1');
+      await expectAsync(results[0].getText()).toBeResolvedTo('Red ID: 1');
     });
 
     it('should query child harnesses', async () => {

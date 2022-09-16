@@ -5,6 +5,9 @@ import { ComponentHarness } from '@angular/cdk/testing';
  * @internal
  */
 export class SkyCheckboxLabelHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-checkbox-label';
 
   #getLabelContent = this.locatorFor('.sky-switch-label');

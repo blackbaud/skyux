@@ -6,5 +6,5 @@ import { SkyToggleSwitchChange } from '../types/toggle-switch-change';
   templateUrl: './toggle-switch-change-event.component.fixture.html',
 })
 export class SkyToggleSwitchChangeEventFixtureComponent {
-  public lastEvent: SkyToggleSwitchChange;
+  public lastEvent: SkyToggleSwitchChange | undefined;
 }

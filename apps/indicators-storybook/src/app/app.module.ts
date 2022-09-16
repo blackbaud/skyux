@@ -11,6 +11,11 @@ const routes: Route[] = [
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
   {
+    path: 'key-info',
+    loadChildren: () =>
+      import('./key-info/key-info.module').then((m) => m.KeyInfoModule),
+  },
+  {
     path: 'label',
     loadChildren: () =>
       import('./label/label.module').then((m) => m.LabelModule),

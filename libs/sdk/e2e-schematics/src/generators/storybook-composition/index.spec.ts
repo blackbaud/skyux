@@ -25,12 +25,13 @@ describe('storybook-composition', () => {
       await configureStorybook(tree, { name });
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
-    expect(tree.read(storybookMain).toString()).not.toContain('test-app');
+    expect(tree.isFile(storybookMain)).toBeTruthy();
+    expect(tree.read(storybookMain)?.toString()).not.toContain('test-app');
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),
       baseUrl: '../storybooks',
     });
-    expect(tree.read(storybookMain).toString()).toContain('test-app');
+    expect(tree.read(storybookMain)?.toString()).toContain('test-app');
   });
 
   it('should skip non-storybook project', async () => {
@@ -50,12 +51,14 @@ describe('storybook-composition', () => {
       }
     }
     const storybookMain = 'apps/storybook/.storybook/main.ts';
-    expect(tree.read(storybookMain).toString()).not.toContain('test-app');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(tree.read(storybookMain)!.toString()).not.toContain('test-app');
     await generateStorybookComposition(tree, {
       projectsJson: JSON.stringify(['test-app']),
       baseUrl: '../storybooks',
     });
-    expect(tree.read(storybookMain).toString()).not.toContain('test-app');
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    expect(tree.read(storybookMain)!.toString()).not.toContain('test-app');
   });
 
   it('should error without storybook project', async () => {

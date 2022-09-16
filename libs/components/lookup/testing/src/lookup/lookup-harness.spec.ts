@@ -44,7 +44,7 @@ function testSingleSelect(dataSkyId: string) {
     const results = await lookupHarness.getSearchResults();
 
     await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
-    await expectAsync(results[0].textContent()).toBeResolvedTo('Abed');
+    await expectAsync(results[0].getText()).toBeResolvedTo('Abed');
   });
 
   it('should select one option from the autocomplete results', async () => {
@@ -56,7 +56,7 @@ function testSingleSelect(dataSkyId: string) {
 
     await lookupHarness.enterText('d');
     await lookupHarness.selectSearchResult({
-      textContent: 'Leonard',
+      text: 'Leonard',
     });
 
     await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
@@ -312,7 +312,7 @@ describe('Lookup harness', () => {
       const results = await lookupHarness.getSearchResults();
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
-      await expectAsync(results[0].textContent()).toBeResolvedTo(
+      await expectAsync(results[0].getText()).toBeResolvedTo(
         'Abed (Mr. Nadir)'
       );
     });

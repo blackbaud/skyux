@@ -4,6 +4,9 @@ import { ComponentHarness } from '@angular/cdk/testing';
  * @internal
  */
 export class SkyAutocompleteInputHarness extends ComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = '[skyAutocomplete]';
 
   /**

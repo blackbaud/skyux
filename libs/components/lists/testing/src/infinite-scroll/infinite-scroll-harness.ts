@@ -7,6 +7,9 @@ import { SkyInfiniteScrollHarnessFilters } from './infinite-scroll-harness-filte
  * @internal
  */
 export class SkyInfiniteScrollHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-infinite-scroll';
 
   #showMoreButton = this.locatorForOptional(

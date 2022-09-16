@@ -9,16 +9,16 @@ import { SkyLabelHarnessFilters } from './label-harness-filters';
 
 /**
  * Harness for interacting with a label component in tests.
- * @internal
  */
 export class SkyLabelHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-label';
 
   #getWrapper = this.locatorFor('.sky-label');
   #getTextEl = this.locatorFor('.sky-label-text');
   #getScreenReaderTextEl = this.locatorForOptional('.sky-screen-reader-only');
-
-  // #getAccessibilityEl = this.locatorForAll
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -41,18 +41,22 @@ export class SkyLabelHarness extends SkyComponentHarness {
    * Gets the `labelType` of the label component.
    */
   public async getLabelType(): Promise<SkyLabelType> {
-    const labelClasses = await (await this.#getWrapper()).getAttribute('class');
+    const labelClasses: DOMTokenList = await (
+      await this.#getWrapper()
+    ).getProperty('classList');
 
-    if (labelClasses.includes('sky-label-success')) {
+    if (labelClasses.contains('sky-label-success')) {
       return 'success';
     }
-    if (labelClasses.includes('sky-label-danger')) {
+
+    if (labelClasses.contains('sky-label-danger')) {
       return 'danger';
     }
 
-    if (labelClasses.includes('sky-label-warning')) {
+    if (labelClasses.contains('sky-label-warning')) {
       return 'warning';
     }
+
     return 'info';
   }
 

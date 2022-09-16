@@ -37,7 +37,7 @@ let nextId = 0;
 })
 export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   /**
-   * Specifies the HTML element ID (without the leading `#`) of the element that labels
+   * Specifies the HTML element ID of the element that labels
    * the dropdown menu. This sets the dropdown menu's `aria-labelledby` attribute
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
@@ -68,6 +68,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    * For example, to let users interact with the dropdown menu but keep the keyboard focus on a
    * different element, set this property to `false`.
    * @default true
+   * @internal
    */
   @Input()
   public set useNativeFocus(value: boolean | undefined) {
@@ -86,6 +87,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    * Fires when the dropdown menu's active index or selected item changes. This event provides an
    * observable to emit changes, and the response is of
    * the SkyDropdownMenuChange type.
+   * @internal
    */
   @Output()
   public menuChanges = new EventEmitter<SkyDropdownMenuChange>();

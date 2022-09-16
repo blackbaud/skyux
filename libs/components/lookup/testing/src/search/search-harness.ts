@@ -8,6 +8,9 @@ import { SkySearchHarnessFilters } from './search-harness-filters';
  * @internal
  */
 export class SkySearchHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-search';
 
   #getInput = this.locatorFor('input.sky-search-input');

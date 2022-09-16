@@ -8,10 +8,14 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class CheckboxDemoComponent implements OnInit {
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+    this.myForm = this.#formBuilder.group({
       bold: new FormControl(false),
       italic: new FormControl(false),
       underline: new FormControl(false),
