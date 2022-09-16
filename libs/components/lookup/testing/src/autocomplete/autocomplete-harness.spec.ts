@@ -160,7 +160,7 @@ describe('Autocomplete harness', () => {
         text: /invalidsearchtext/,
       })
     ).toBeRejectedWithError(
-      'Could not find search results matching filter(s): {"textContent":"/invalidsearchtext/"}'
+      'Could not find search results matching filter(s): {"text":"/invalidsearchtext/"}'
     );
   });
 
