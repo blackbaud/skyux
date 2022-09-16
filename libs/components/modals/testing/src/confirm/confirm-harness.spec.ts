@@ -187,8 +187,13 @@ describe('Confirm harness', () => {
         type: SkyConfirmType.Custom,
         buttons: [
           {
-            text: 'Proceed',
-            action: 'proceed',
+            text: 'Delete',
+            action: 'delete',
+            styleType: 'danger',
+          },
+          {
+            text: 'Learn more',
+            action: 'learn',
             styleType: 'default',
           },
           {
@@ -201,11 +206,13 @@ describe('Confirm harness', () => {
 
       const results = await confirmHarness.getCustomButtons();
 
-      expect(results.length).toEqual(2);
-      await expectAsync(results[0].getText()).toBeResolvedTo('Proceed');
-      await expectAsync(results[0].getStyleType()).toBeResolvedTo('default');
-      await expectAsync(results[1].getText()).toBeResolvedTo('Cancel');
-      await expectAsync(results[1].getStyleType()).toBeResolvedTo('link');
+      expect(results.length).toEqual(3);
+      await expectAsync(results[0].getText()).toBeResolvedTo('Delete');
+      await expectAsync(results[0].getStyleType()).toBeResolvedTo('danger');
+      await expectAsync(results[1].getText()).toBeResolvedTo('Learn more');
+      await expectAsync(results[1].getStyleType()).toBeResolvedTo('default');
+      await expectAsync(results[2].getText()).toBeResolvedTo('Cancel');
+      await expectAsync(results[2].getStyleType()).toBeResolvedTo('link');
     });
 
     it('should throw an error when no child button harnesses are found', async () => {

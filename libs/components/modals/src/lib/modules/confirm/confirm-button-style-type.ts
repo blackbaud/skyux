@@ -1,1 +1,5 @@
-export type SkyConfirmButtonStyleType = 'primary' | 'default' | 'link';
+export type SkyConfirmButtonStyleType =
+  | 'primary'
+  | 'default'
+  | 'link'
+  | 'danger';

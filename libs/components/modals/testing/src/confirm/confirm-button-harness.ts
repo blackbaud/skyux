@@ -18,7 +18,7 @@ export class SkyConfirmButtonHarness extends ComponentHarness {
     filters: SkyConfirmButtonHarnessFilters
   ): HarnessPredicate<SkyConfirmButtonHarness> {
     return new HarnessPredicate(SkyConfirmButtonHarness, filters)
-      .addOption('textContent', filters.text, async (harness, text) =>
+      .addOption('text', filters.text, async (harness, text) =>
         HarnessPredicate.stringMatches(await harness.getText(), text)
       )
       .addOption('styleType', filters.styleType, async (harness, styleType) =>
@@ -43,6 +43,8 @@ export class SkyConfirmButtonHarness extends ComponentHarness {
       return 'primary';
     } else if (await hostEl.hasClass('sky-btn-link')) {
       return 'link';
+    } else if (await hostEl.hasClass('sky-btn-danger')) {
+      return 'danger';
     }
     return 'default';
   }
