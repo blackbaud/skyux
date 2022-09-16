@@ -154,7 +154,7 @@ describe('File item component', () => {
     componentInstance.fileItem = {
       url: '$/myFile.txt',
     };
-    let deletedItem: SkyFileLink;
+    let deletedItem: SkyFileLink | undefined;
 
     componentInstance.deleteFile.subscribe(
       (newDeletedFile: SkyFileLink) => (deletedItem = newDeletedFile)
@@ -163,7 +163,7 @@ describe('File item component', () => {
     fixture.detectChanges();
     triggerDelete();
 
-    expect(deletedItem.url).toBe('$/myFile.txt');
+    expect(deletedItem?.url).toBe('$/myFile.txt');
 
     componentInstance.fileItem = {
       file: {
@@ -173,7 +173,7 @@ describe('File item component', () => {
       },
     } as SkyFileItem;
 
-    let deletedFile: SkyFileItem;
+    let deletedFile: SkyFileItem | undefined;
 
     componentInstance.deleteFile.subscribe(
       (newDeletedFile: SkyFileItem) => (deletedFile = newDeletedFile)
@@ -182,8 +182,8 @@ describe('File item component', () => {
 
     triggerDelete();
 
-    expect(deletedFile.file.name).toBe('myFile.txt');
-    expect(deletedFile.file.size).toBe(1000);
+    expect(deletedFile?.file.name).toBe('myFile.txt');
+    expect(deletedFile?.file.size).toBe(1000);
   });
 
   it('shows an image if the item is an image', () => {

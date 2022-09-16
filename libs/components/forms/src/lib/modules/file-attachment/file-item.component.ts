@@ -26,7 +26,7 @@ export class SkyFileItemComponent implements DoCheck {
    * @required
    */
   @Input()
-  public fileItem: SkyFileItem | SkyFileLink;
+  public fileItem!: SkyFileItem | SkyFileLink;
 
   /**
    * Fires when users select the delete button for an item. The deleted item is passed to the
@@ -47,23 +47,25 @@ export class SkyFileItemComponent implements DoCheck {
     return this.fileItem.url;
   }
 
-  public icon: string;
+  public icon: string | undefined;
 
-  private differ: KeyValueDiffer<any, any>;
+  #differ: KeyValueDiffer<any, any>;
+  #fileItemService: SkyFileItemService;
 
   public constructor(
-    private differs: KeyValueDiffers,
-    private fileItemService: SkyFileItemService
+    differs: KeyValueDiffers,
+    fileItemService: SkyFileItemService
   ) {
-    this.differ = this.differs.find({}).create();
+    this.#differ = differs.find({}).create();
+    this.#fileItemService = fileItemService;
   }
 
   public ngDoCheck() {
-    const changes = this.differ.diff(this.fileItem);
+    const changes = this.#differ.diff(this.fileItem);
 
     if (changes) {
-      let cls: string;
-      const extensionUpper = this.fileItemService.getFileExtensionUpper(
+      let cls: string | undefined;
+      const extensionUpper = this.#fileItemService.getFileExtensionUpper(
         this.fileItem as SkyFileItem
       );
       let fileTypeUpper: string;
@@ -102,7 +104,7 @@ export class SkyFileItemComponent implements DoCheck {
       }
 
       if (!cls) {
-        fileTypeUpper = this.fileItemService.getFileTypeUpper(
+        fileTypeUpper = this.#fileItemService.getFileTypeUpper(
           this.fileItem as SkyFileItem
         );
 
@@ -135,10 +137,10 @@ export class SkyFileItemComponent implements DoCheck {
   }
 
   public isFile() {
-    return this.fileItemService.isFile(this.fileItem as SkyFileItem);
+    return this.#fileItemService.isFile(this.fileItem as SkyFileItem);
   }
 
   public isImage() {
-    return this.fileItemService.isImage(this.fileItem as SkyFileItem);
+    return this.#fileItemService.isImage(this.fileItem as SkyFileItem);
   }
 }

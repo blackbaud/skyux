@@ -52,42 +52,64 @@ export class SkyFileAttachmentComponent
    * @required
    */
   @Input()
-  public acceptedTypes: string;
+  public acceptedTypes!: string;
 
   /**
    * Indicates whether to disable the input.
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this._disabled !== newDisabledState) {
-      this._disabled = newDisabledState;
+    if (this.#_disabled !== newDisabledState) {
+      this.#_disabled = newDisabledState;
     }
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   /**
    * Specifies the maximum size in bytes for valid files.
+   * @default 500000
    */
   @Input()
-  public maxFileSize = 500000;
+  public set maxFileSize(value: number | undefined) {
+    if (value !== undefined) {
+      this.#_maxFileSize = value;
+    } else {
+      this.#_maxFileSize = 500000;
+    }
+  }
+
+  public get maxFileSize(): number {
+    return this.#_maxFileSize;
+  }
 
   /**
    * Specifies the minimum size in bytes for valid files.
+   * @default 0
    */
   @Input()
-  public minFileSize = 0;
+  public set minFileSize(value: number | undefined) {
+    if (value !== undefined) {
+      this.#_minFileSize = value;
+    } else {
+      this.#_minFileSize = 0;
+    }
+  }
+
+  public get minFileSize(): number {
+    return this.#_minFileSize;
+  }
 
   /**
    * Specifies a custom validation function. This validation runs alongside the internal
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
-  public validateFn: Function;
+  public validateFn: Function | undefined;
 
   /**
    * Fires when users add or remove files.
@@ -104,9 +126,7 @@ export class SkyFileAttachmentComponent
 
   public acceptedOver = false;
 
-  public get hasLabelComponent(): boolean {
-    return this.labelComponents.length > 0;
-  }
+  public hasLabelComponent = false;
 
   public fileDropDescriptionElementId: string;
 
@@ -121,66 +141,99 @@ export class SkyFileAttachmentComponent
    * is complete.
    */
   @Input()
-  public required = false;
+  public required: boolean | undefined = false;
 
-  public set value(value: SkyFileItem) {
+  public set value(value: SkyFileItem | undefined) {
     // The null check is needed to address a bug in Angular 4.
     // writeValue is being called twice, first time with a phantom null value
     // See: https://github.com/angular/angular/issues/14988
     const isNewValue = value !== this.value && value !== null;
 
     if (isNewValue) {
-      this._value = value;
-      this._onChange(value);
-      this.updateFileAttachmentButton();
+      if (value) {
+        this.isImage = this.#fileItemService.isImage(value);
+      } else {
+        this.isImage = false;
+      }
+      this.#setFileName(value);
+
+      this.#_value = value;
+      this.#onChange(value);
+      this.#updateFileAttachmentButton();
     }
   }
 
-  public get value(): SkyFileItem {
-    return this._value;
+  public get value(): SkyFileItem | undefined {
+    return this.#_value;
   }
 
-  public currentThemeName: string;
+  public currentThemeName: string | undefined;
 
-  public showFileAttachmentButton: boolean;
+  public fileName = '';
+
+  public showFileAttachmentButton = true;
+
+  public truncatedFileName = '';
 
   @ViewChild('fileInput')
-  private inputEl: ElementRef;
+  public inputEl!: ElementRef;
 
   @ContentChildren(SkyFileAttachmentLabelComponent)
-  private labelComponents: QueryList<SkyFileAttachmentLabelComponent>;
+  public labelComponents:
+    | QueryList<SkyFileAttachmentLabelComponent>
+    | undefined;
 
-  private enterEventTarget: any;
+  public isImage = false;
 
-  private fileAttachmentId = uniqueId++;
+  #enterEventTarget: any;
 
-  private ngUnsubscribe = new Subject<void>();
+  #fileAttachmentId = uniqueId++;
 
-  private _disabled = false;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _value: any;
+  #_disabled = false;
+
+  #_maxFileSize = 500000;
+
+  #_minFileSize = 0;
+
+  #_value: any;
+
+  #changeDetector: ChangeDetectorRef;
+  #fileAttachmentService: SkyFileAttachmentService;
+  #fileItemService: SkyFileItemService;
+  #ngControl: NgControl | undefined;
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private fileAttachmentService: SkyFileAttachmentService,
-    private fileItemService: SkyFileItemService,
-    @Self() @Optional() private ngControl?: NgControl,
-    @Optional() private themeSvc?: SkyThemeService
+    changeDetector: ChangeDetectorRef,
+    fileAttachmentService: SkyFileAttachmentService,
+    fileItemService: SkyFileItemService,
+    @Self() @Optional() ngControl?: NgControl,
+    @Optional() themeSvc?: SkyThemeService
   ) {
-    this.labelElementId = `sky-file-attachment-label-${this.fileAttachmentId}`;
-    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${this.fileAttachmentId}`;
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
+    this.#changeDetector = changeDetector;
+    this.#fileAttachmentService = fileAttachmentService;
+    this.#fileItemService = fileItemService;
+    this.#ngControl = ngControl;
+    this.#themeSvc = themeSvc;
+
+    this.labelElementId = `sky-file-attachment-label-${this.#fileAttachmentId}`;
+    this.fileDropDescriptionElementId = `sky-file-attachment-drop-description-${
+      this.#fileAttachmentId
+    }`;
+    if (this.#ngControl) {
+      this.#ngControl.valueAccessor = this;
     }
   }
 
   public ngOnInit(): void {
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+    if (this.#themeSvc) {
+      this.#themeSvc.settingsChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((themeSettings) => {
           this.currentThemeName = themeSettings.currentSettings.theme.name;
-          this.updateFileAttachmentButton();
+          this.#updateFileAttachmentButton();
         });
     }
   }
@@ -192,45 +245,49 @@ export class SkyFileAttachmentComponent
     // Of note is the parent check which allows us to determine if the form is reactive.
     // Without this check there is a changed before checked error
     /* istanbul ignore else */
-    if (this.ngControl) {
+    if (this.#ngControl) {
       setTimeout(() => {
-        this.ngControl.control.setValue(this.value, {
+        this.#ngControl!.control!.setValue(this.value, {
           emitEvent: false,
         });
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
     }
   }
 
   public ngAfterContentInit(): void {
-    // Handles updating classes when label changes
-    this.labelComponents.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.changeDetector.detectChanges();
-      });
-  }
+    if (this.labelComponents) {
+      this.hasLabelComponent = this.labelComponents.length > 0;
+      this.#changeDetector.detectChanges();
 
-  public isImage(): boolean {
-    return this.fileItemService.isImage(this.value);
+      // Handles updating classes when label changes
+      this.labelComponents.changes
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(
+          (newLabelComponents: QueryList<SkyFileAttachmentLabelComponent>) => {
+            this.hasLabelComponent = newLabelComponents.length > 0;
+            this.#changeDetector.detectChanges();
+          }
+        );
+    }
   }
 
   public onDropClicked(): void {
-    this._onTouched();
+    this.#onTouched();
     this.inputEl.nativeElement.click();
   }
 
   public fileChangeEvent(fileChangeEvent: any): void {
-    this.handleFiles(fileChangeEvent.target.files);
+    this.#handleFiles(fileChangeEvent.target.files);
   }
 
   public fileDragEnter(dragEnterEvent: any): void {
     // Save this target to know when the drag event leaves
-    this.enterEventTarget = dragEnterEvent.target;
+    this.#enterEventTarget = dragEnterEvent.target;
     dragEnterEvent.stopPropagation();
     dragEnterEvent.preventDefault();
   }
@@ -250,7 +307,7 @@ export class SkyFileAttachmentComponent
 
           if (
             file.type &&
-            this.fileAttachmentService.fileTypeRejected(
+            this.#fileAttachmentService.fileTypeRejected(
               file.type,
               this.acceptedTypes
             )
@@ -279,7 +336,7 @@ export class SkyFileAttachmentComponent
     dropEvent.stopPropagation();
     dropEvent.preventDefault();
 
-    this.enterEventTarget = undefined;
+    this.#enterEventTarget = undefined;
     this.rejectedOver = false;
     this.acceptedOver = false;
 
@@ -289,17 +346,17 @@ export class SkyFileAttachmentComponent
       }
 
       if (
-        this.fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files)
+        this.#fileAttachmentService.hasDirectory(dropEvent.dataTransfer.files)
       ) {
         return;
       }
 
-      this.handleFiles(dropEvent.dataTransfer.files);
+      this.#handleFiles(dropEvent.dataTransfer.files);
     }
   }
 
   public fileDragLeave(dragLeaveEvent: any): void {
-    if (this.enterEventTarget === dragLeaveEvent.target) {
+    if (this.#enterEventTarget === dragLeaveEvent.target) {
       this.rejectedOver = false;
       this.acceptedOver = false;
     }
@@ -307,43 +364,26 @@ export class SkyFileAttachmentComponent
 
   public deleteFileAttachment(): void {
     this.value = undefined;
-    this.changeDetector.markForCheck();
-    this.emitFileChangeEvent(this.value);
-  }
-
-  public getFileName(truncate = true): string | undefined {
-    if (this.value) {
-      const dropName =
-        this.fileItemService.isFile(this.value) && this.value.file.name
-          ? this.value.file.name
-          : this.value.url;
-
-      if (truncate && dropName.length > 26) {
-        return dropName.slice(0, 26) + '...';
-      } else {
-        return dropName;
-      }
-    } else {
-      return undefined;
-    }
+    this.#changeDetector.markForCheck();
+    this.#emitFileChangeEvent(this.value);
   }
 
   public ngOnDestroy(): void {
     this.fileChange.complete();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn;
+    this.#onChange = fn;
   }
   public registerOnTouched(fn: () => any): void {
-    this._onTouched = fn;
+    this.#onTouched = fn;
   }
 
   public writeValue(value: any): void {
     this.value = value;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -353,16 +393,16 @@ export class SkyFileAttachmentComponent
    */
   public setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public emitClick(): void {
     this.fileClick.emit({
-      file: this.value,
+      file: this.value!,
     });
   }
 
-  private emitFileChangeEvent(currentFile: SkyFileItem): void {
+  #emitFileChangeEvent(currentFile: SkyFileItem | undefined): void {
     if (currentFile && !currentFile.errorType) {
       this.writeValue(currentFile);
     }
@@ -373,27 +413,29 @@ export class SkyFileAttachmentComponent
     this.inputEl.nativeElement.value = '';
   }
 
-  private loadFile(file: SkyFileItem): void {
-    const reader = new FileReader();
+  #loadFile(file: SkyFileItem): void {
+    if (file.file) {
+      const reader = new FileReader();
 
-    reader.addEventListener('load', (event: any): void => {
-      file.url = event.target.result;
-      this.emitFileChangeEvent(file);
-    });
+      reader.addEventListener('load', (event: any): void => {
+        file.url = event.target.result;
+        this.#emitFileChangeEvent(file);
+      });
 
-    reader.addEventListener('error', (event: any): void => {
-      this.emitFileChangeEvent(file);
-    });
+      reader.addEventListener('error', (event: any): void => {
+        this.#emitFileChangeEvent(file);
+      });
 
-    reader.addEventListener('abort', (event: any): void => {
-      this.emitFileChangeEvent(file);
-    });
+      reader.addEventListener('abort', (event: any): void => {
+        this.#emitFileChangeEvent(file);
+      });
 
-    reader.readAsDataURL(file.file);
+      reader.readAsDataURL(file.file);
+    }
   }
 
-  private handleFiles(files: FileList): void {
-    const processedFiles = this.fileAttachmentService.checkFiles(
+  #handleFiles(files: FileList): void {
+    const processedFiles = this.#fileAttachmentService.checkFiles(
       files,
       this.minFileSize,
       this.maxFileSize,
@@ -403,24 +445,44 @@ export class SkyFileAttachmentComponent
 
     for (const file of processedFiles) {
       if (file.errorType) {
-        this.emitFileChangeEvent(file);
+        this.#emitFileChangeEvent(file);
       } else {
-        this.loadFile(file);
+        this.#loadFile(file);
       }
     }
   }
 
-  private updateFileAttachmentButton(): void {
+  #setFileName(file: SkyFileItem | undefined): void {
+    if (file) {
+      const dropName =
+        this.#fileItemService.isFile(file) && file.file.name
+          ? file.file.name
+          : file.url;
+
+      this.fileName = dropName;
+
+      if (dropName.length > 26) {
+        this.truncatedFileName = dropName.slice(0, 26) + '...';
+      } else {
+        this.truncatedFileName = dropName;
+      }
+    } else {
+      this.fileName = '';
+      this.truncatedFileName = '';
+    }
+  }
+
+  #updateFileAttachmentButton(): void {
     this.showFileAttachmentButton = !(
       this.value && this.currentThemeName === 'modern'
     );
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   // istanbul ignore next
-  private _onChange = (_: any) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
+  #onChange = (_: any) => {};
   // istanbul ignore next
-  private _onTouched = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  #onTouched = () => {};
 }

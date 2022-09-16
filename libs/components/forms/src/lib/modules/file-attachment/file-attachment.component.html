@@ -53,7 +53,7 @@
       }}
     </button>
     <sky-icon
-      *ngIf="value && !isImage() && currentThemeName === 'modern'"
+      *ngIf="value && !isImage && currentThemeName === 'modern'"
       class="sky-file-attachment-icon sky-deemphasized"
       icon="file-o"
       size="2x"
@@ -65,10 +65,10 @@
     >
       <a
         *ngIf="value; else noFile"
-        [attr.title]="getFileName(false)"
+        [attr.title]="fileName"
         (click)="emitClick()"
       >
-        {{ getFileName() }}
+        {{ truncatedFileName }}
       </a>
     </span>
     <ng-template #noFile>
@@ -94,7 +94,7 @@
   </div>
 
   <img
-    *ngIf="value && isImage()"
+    *ngIf="value && isImage"
     class="sky-file-attachment-preview-img"
     [alt]="
       'skyux_file_attachment_file_upload_image_preview_alt_text'

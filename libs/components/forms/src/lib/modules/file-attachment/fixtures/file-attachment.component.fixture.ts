@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
@@ -7,7 +7,7 @@ import { SkyFileAttachmentComponent } from '../file-attachment.component';
   selector: 'sky-file-attachment-test',
   templateUrl: './file-attachment.component.fixture.html',
 })
-export class FileAttachmentTestComponent implements OnInit {
+export class FileAttachmentTestComponent {
   public attachment: FormControl;
 
   public fileForm: FormGroup;
@@ -19,14 +19,12 @@ export class FileAttachmentTestComponent implements OnInit {
   public showLabel = true;
 
   @ViewChild(SkyFileAttachmentComponent)
-  public fileAttachmentComponent: SkyFileAttachmentComponent;
+  public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;
 
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
+  constructor(formBuilder: FormBuilder) {
     this.attachment = new FormControl(undefined);
-    this.fileForm = this.formBuilder.group({
+    this.fileForm = formBuilder.group({
       attachment: this.attachment,
     });
   }

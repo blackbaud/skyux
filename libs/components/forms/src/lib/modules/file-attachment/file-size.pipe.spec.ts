@@ -10,7 +10,7 @@ describe('File size pipe', () => {
   let decimalPipe: DecimalPipe;
 
   function validateFormatted(
-    value: number,
+    value: number | undefined | null,
     expected: string,
     newFileSizePipe: SkyFileSizePipe
   ) {

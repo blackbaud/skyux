@@ -12,7 +12,7 @@ export class SkyFileAttachmentService {
     minFileSize: number,
     maxFileSize: number,
     acceptedTypes: string,
-    validateFn: Function
+    validateFn: Function | undefined
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 
@@ -78,20 +78,20 @@ export class SkyFileAttachmentService {
     const acceptedTypesUpper = acceptedTypes.toUpperCase();
     const typeArray = acceptedTypesUpper.split(',');
 
-    return !this.fileTypeInArray(typeArray, fileType.toUpperCase());
+    return !this.#fileTypeInArray(typeArray, fileType.toUpperCase());
   }
 
-  private fileTypeInArray(typeArray: string[], fileType: string): boolean {
+  #fileTypeInArray(typeArray: string[], fileType: string): boolean {
     if (typeArray.indexOf(fileType) !== -1) {
       return true;
     }
 
     for (let index = 0; index < typeArray.length; index++) {
       const type = typeArray[index];
-      const validSubtype = this.getMimeSubtype(type);
+      const validSubtype = this.#getMimeSubtype(type);
 
       if (validSubtype === '*') {
-        if (this.getMimeMainType(type) === this.getMimeMainType(fileType)) {
+        if (this.#getMimeMainType(type) === this.#getMimeMainType(fileType)) {
           return true;
         }
       }
@@ -100,11 +100,11 @@ export class SkyFileAttachmentService {
     return false;
   }
 
-  private getMimeSubtype(type: string): string {
+  #getMimeSubtype(type: string): string {
     return type.substr(type.indexOf('/') + 1, type.length);
   }
 
-  private getMimeMainType(type: string): string {
+  #getMimeMainType(type: string): string {
     return type.substr(0, type.indexOf('/'));
   }
 }

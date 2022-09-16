@@ -9,12 +9,18 @@ import { SkyLibResourcesService } from '@skyux/i18n';
   name: 'skyFileSize',
 })
 export class SkyFileSizePipe implements PipeTransform {
-  constructor(
-    private decimalPipe: DecimalPipe,
-    private resourcesService: SkyLibResourcesService
-  ) {}
+  #decimalPipe: DecimalPipe;
+  #resourcesService: SkyLibResourcesService;
 
-  public transform(input: number): string {
+  constructor(
+    decimalPipe: DecimalPipe,
+    resourcesService: SkyLibResourcesService
+  ) {
+    this.#decimalPipe = decimalPipe;
+    this.#resourcesService = resourcesService;
+  }
+
+  public transform(input: number | undefined | null): string {
     let decimalPlaces = 0,
       dividend = 1,
       template: string;
@@ -44,14 +50,14 @@ export class SkyFileSizePipe implements PipeTransform {
       Math.floor(input / (dividend / Math.pow(10, decimalPlaces))) /
       Math.pow(10, decimalPlaces);
 
-    const formattedSize = this.decimalPipe.transform(roundedSize, '.0-3');
+    const formattedSize = this.#decimalPipe.transform(roundedSize, '.0-3');
 
-    return this.getString(template, formattedSize);
+    return this.#getString(template, formattedSize);
   }
 
-  private getString(key: string, ...args: any[]): string {
+  #getString(key: string, ...args: any[]): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale(
+    return this.#resourcesService.getStringForLocale(
       { locale: 'en-US' },
       key,
       ...args

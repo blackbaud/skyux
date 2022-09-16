@@ -110,7 +110,7 @@ describe('File drop component', () => {
     inputEl.triggerEventHandler('change', fileChangeEvent);
   }
 
-  function setupFileReaderSpy() {
+  function setupFileReaderSpy(existingSpy?: jasmine.Spy) {
     const loadCallbacks: ((opts: {
       target: {
         result: string;
@@ -119,9 +119,10 @@ describe('File drop component', () => {
     const errorCallbacks: (() => void)[] = [];
     const abortCallbacks: (() => void)[] = [];
 
-    spyOn(window as any, 'FileReader').and.returnValue({
+    const fileReadyerSpy = existingSpy ?? spyOn(window as any, 'FileReader');
+    fileReadyerSpy.and.returnValue({
       readAsDataURL: function () {},
-      addEventListener: function (type: string, callback) {
+      addEventListener: function (type: string, callback: () => void) {
         if (type === 'load') {
           loadCallbacks.push(callback);
         } else if (type === 'error') {
@@ -136,11 +137,15 @@ describe('File drop component', () => {
       loadCallbacks: loadCallbacks,
       errorCallbacks: errorCallbacks,
       abortCallbacks: abortCallbacks,
+      fileReaderSpy: fileReadyerSpy,
     };
   }
 
-  function setupStandardFileChangeEvent(files?: any[]) {
-    const fileReaderSpy = setupFileReaderSpy();
+  function setupStandardFileChangeEvent(
+    files?: any[],
+    existingSpy?: jasmine.Spy
+  ): jasmine.Spy {
+    const fileReaderSpyData = setupFileReaderSpy(existingSpy);
 
     if (!files) {
       files = [
@@ -160,16 +165,16 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    if (fileReaderSpy.loadCallbacks[0]) {
-      fileReaderSpy.loadCallbacks[0]({
+    if (fileReaderSpyData.loadCallbacks[0]) {
+      fileReaderSpyData.loadCallbacks[0]({
         target: {
           result: 'url',
         },
       });
     }
 
-    if (fileReaderSpy.loadCallbacks[1]) {
-      fileReaderSpy.loadCallbacks[1]({
+    if (fileReaderSpyData.loadCallbacks[1]) {
+      fileReaderSpyData.loadCallbacks[1]({
         target: {
           result: 'newurl',
         },
@@ -177,6 +182,7 @@ describe('File drop component', () => {
     }
 
     fixture.detectChanges();
+    return fileReaderSpyData.fileReaderSpy;
   }
 
   function triggerDragEnter(enterTarget: any, dropDebugEl: DebugElement) {
@@ -289,7 +295,7 @@ describe('File drop component', () => {
   });
 
   it('should load and emit files on file change event', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -297,18 +303,18 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.files.length).toBe(2);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files.length).toBe(2);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
 
-    expect(filesChangedActual.files[1].url).toBe('newurl');
-    expect(filesChangedActual.files[1].file.name).toBe('woo.txt');
-    expect(filesChangedActual.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
   });
 
   it('should load and emit files on file change event when file reader has an error and aborts', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -345,18 +351,18 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('anotherurl');
-    expect(filesChangedActual.files[0].file.name).toBe('woo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(2000);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('anotherurl');
+    expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(2000);
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(2);
+    expect(filesChangedActual?.rejectedFiles.length).toBe(2);
 
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(1000);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
 
-    expect(filesChangedActual.rejectedFiles[1].file.name).toBe('goo.txt');
-    expect(filesChangedActual.rejectedFiles[1].file.size).toBe(3000);
+    expect(filesChangedActual?.rejectedFiles[1].file.name).toBe('goo.txt');
+    expect(filesChangedActual?.rejectedFiles[1].file.size).toBe(3000);
   });
 
   it('should allow the user to specify to not allow multiple files', () => {
@@ -380,7 +386,7 @@ describe('File drop component', () => {
   });
 
   it('should allow the user to specify a min file size', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -391,20 +397,75 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(1);
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(1000);
-    expect(filesChangedActual.rejectedFiles[0].errorType).toBe('minFileSize');
-    expect(filesChangedActual.rejectedFiles[0].errorParam).toBe('1500');
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
 
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('woo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(2000);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(2000);
+  });
+
+  it('should respect a default min file size of 0', () => {
+    let filesChangedActual: SkyFileDropChange | undefined;
+
+    componentInstance.filesChanged.subscribe(
+      (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
+    );
+
+    const spy = setupStandardFileChangeEvent();
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.files.length).toBe(2);
+
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
+
+    // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
+    filesChangedActual = undefined as SkyFileDropChange | undefined;
+    componentInstance.minFileSize = 1500;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(undefined, spy);
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('minFileSize');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(2000);
+
+    // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
+    filesChangedActual = undefined as SkyFileDropChange | undefined;
+    componentInstance.minFileSize = undefined;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(undefined, spy);
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.files.length).toBe(2);
+
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
   });
 
   it('should allow the user to specify a max file size', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -415,20 +476,75 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(1);
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('woo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(2000);
-    expect(filesChangedActual.rejectedFiles[0].errorType).toBe('maxFileSize');
-    expect(filesChangedActual.rejectedFiles[0].errorParam).toBe('1500');
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
 
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+  });
+
+  it('should respect a default max file size of 500000', () => {
+    let filesChangedActual: SkyFileDropChange | undefined;
+
+    componentInstance.filesChanged.subscribe(
+      (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
+    );
+
+    const spy = setupStandardFileChangeEvent();
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.files.length).toBe(2);
+
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
+
+    // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
+    filesChangedActual = undefined as SkyFileDropChange | undefined;
+    componentInstance.maxFileSize = 1500;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(undefined, spy);
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('maxFileSize');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe('1500');
+
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+
+    // The `as` statement is needed as the analyzer does not know about the subscription that sets this back and causes issues with the future check.
+    filesChangedActual = undefined as SkyFileDropChange | undefined;
+    componentInstance.maxFileSize = undefined;
+    fixture.detectChanges();
+
+    setupStandardFileChangeEvent(undefined, spy);
+
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.files.length).toBe(2);
+
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
   });
 
   it('should allow the user to specify a validation function', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -437,30 +553,31 @@ describe('File drop component', () => {
     const errorMessage =
       'You may not upload a file that begins with the letter "w."';
 
-    componentInstance.validateFn = function (file: any) {
+    componentInstance.validateFn = function (file: any): string | undefined {
       if (file.file.name.indexOf('w') === 0) {
         return errorMessage;
       }
+      return;
     };
 
     fixture.detectChanges();
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(1);
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('woo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(2000);
-    expect(filesChangedActual.rejectedFiles[0].errorType).toBe('validate');
-    expect(filesChangedActual.rejectedFiles[0].errorParam).toBe(errorMessage);
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('validate');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(errorMessage);
 
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
   });
 
   it('should allow the user to specify accepted types', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -472,22 +589,22 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(1);
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('woo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(2000);
-    expect(filesChangedActual.rejectedFiles[0].errorType).toBe('fileType');
-    expect(filesChangedActual.rejectedFiles[0].errorParam).toBe(
+    expect(filesChangedActual?.rejectedFiles.length).toBe(1);
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(2000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('fileType');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
 
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
   });
 
   it('should reject a file with no type when accepted types are defined', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -511,24 +628,24 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent(files);
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(2);
-    expect(filesChangedActual.rejectedFiles[1].file.name).toBe('woo.txt');
-    expect(filesChangedActual.rejectedFiles[1].file.size).toBe(2000);
-    expect(filesChangedActual.rejectedFiles[1].errorType).toBe('fileType');
-    expect(filesChangedActual.rejectedFiles[1].errorParam).toBe(
+    expect(filesChangedActual?.rejectedFiles.length).toBe(2);
+    expect(filesChangedActual?.rejectedFiles[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.rejectedFiles[1].file.size).toBe(2000);
+    expect(filesChangedActual?.rejectedFiles[1].errorType).toBe('fileType');
+    expect(filesChangedActual?.rejectedFiles[1].errorParam).toBe(
       componentInstance.acceptedTypes
     );
 
-    expect(filesChangedActual.rejectedFiles[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.rejectedFiles[0].file.size).toBe(1000);
-    expect(filesChangedActual.rejectedFiles[0].errorType).toBe('fileType');
-    expect(filesChangedActual.rejectedFiles[0].errorParam).toBe(
+    expect(filesChangedActual?.rejectedFiles[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.rejectedFiles[0].file.size).toBe(1000);
+    expect(filesChangedActual?.rejectedFiles[0].errorType).toBe('fileType');
+    expect(filesChangedActual?.rejectedFiles[0].errorParam).toBe(
       componentInstance.acceptedTypes
     );
   });
 
   it('should allow the user to specify accepted type with wildcards', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -540,19 +657,19 @@ describe('File drop component', () => {
 
     setupStandardFileChangeEvent();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
 
-    expect(filesChangedActual.files.length).toBe(2);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
-    expect(filesChangedActual.files[1].url).toBe('newurl');
-    expect(filesChangedActual.files[1].file.name).toBe('woo.txt');
-    expect(filesChangedActual.files[1].file.size).toBe(2000);
+    expect(filesChangedActual?.files.length).toBe(2);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.files[1].url).toBe('newurl');
+    expect(filesChangedActual?.files[1].file.name).toBe('woo.txt');
+    expect(filesChangedActual?.files[1].file.size).toBe(2000);
   });
 
   it('should load files and set classes on drag and drop', () => {
-    let filesChangedActual: SkyFileDropChange;
+    let filesChangedActual: SkyFileDropChange | undefined;
 
     componentInstance.filesChanged.subscribe(
       (filesChanged: SkyFileDropChange) => (filesChangedActual = filesChanged)
@@ -600,11 +717,11 @@ describe('File drop component', () => {
 
     fixture.detectChanges();
 
-    expect(filesChangedActual.rejectedFiles.length).toBe(0);
-    expect(filesChangedActual.files.length).toBe(1);
-    expect(filesChangedActual.files[0].url).toBe('url');
-    expect(filesChangedActual.files[0].file.name).toBe('foo.txt');
-    expect(filesChangedActual.files[0].file.size).toBe(1000);
+    expect(filesChangedActual?.rejectedFiles.length).toBe(0);
+    expect(filesChangedActual?.files.length).toBe(1);
+    expect(filesChangedActual?.files[0].url).toBe('url');
+    expect(filesChangedActual?.files[0].file.name).toBe('foo.txt');
+    expect(filesChangedActual?.files[0].file.size).toBe(1000);
 
     // Verify reject classes when appropriate
     triggerDragEnter('sky-drop', dropDebugEl);
@@ -774,7 +891,7 @@ describe('File drop component', () => {
   }));
 
   it('should emit link event when link is added on click', () => {
-    let fileLinkActual: SkyFileLink;
+    let fileLinkActual: SkyFileLink | undefined;
 
     componentInstance.linkChanged.subscribe(
       (newLink: SkyFileLink) => (fileLinkActual = newLink)
@@ -791,11 +908,11 @@ describe('File drop component', () => {
     linkButton.nativeElement.click();
     fixture.detectChanges();
 
-    expect(fileLinkActual.url).toBe('link.com');
+    expect(fileLinkActual?.url).toBe('link.com');
   });
 
   it('should emit link event when link is added on enter press', () => {
-    let fileLinkActual: SkyFileLink;
+    let fileLinkActual: SkyFileLink | undefined;
 
     componentInstance.linkChanged.subscribe(
       (newLink: SkyFileLink) => (fileLinkActual = newLink)
@@ -822,7 +939,7 @@ describe('File drop component', () => {
     });
     fixture.detectChanges();
 
-    expect(fileLinkActual.url).toBe('link.com');
+    expect(fileLinkActual?.url).toBe('link.com');
   });
 
   it('should allow custom content inside of the file drop component', () => {
@@ -857,7 +974,7 @@ describe('File drop component', () => {
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Add a link to a file');
-    expect(dropEl.attributes.getNamedItem('aria-label').value).toBe(
+    expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe(
       'Drag a file here or click to browse'
     );
 
@@ -869,7 +986,7 @@ describe('File drop component', () => {
     expect(
       linkInput.nativeElement.attributes.getNamedItem('aria-label').value
     ).toBe('Test 34');
-    expect(dropEl.attributes.getNamedItem('aria-label').value).toBe('Test 12');
+    expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe('Test 12');
   });
 
   it('should pass accessibility', async(() => {
