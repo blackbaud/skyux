@@ -1,7 +1,15 @@
-import { Component, ElementRef, Input, OnInit, Optional } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
+} from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyWaitAdapterService } from './wait-adapter.service';
 
@@ -13,7 +21,7 @@ let nextId = 0;
   styleUrls: ['./wait.component.scss'],
   providers: [SkyWaitAdapterService],
 })
-export class SkyWaitComponent implements OnInit {
+export class SkyWaitComponent implements OnInit, OnDestroy {
   /**
    * Specifies an ARIA label for the wait icon while an element or page loads.
    * This sets the icon's `aria-label` attribute
@@ -23,32 +31,37 @@ export class SkyWaitComponent implements OnInit {
    * wait is "Page loading. Please wait."
    */
   @Input()
-  public ariaLabel: string;
+  public set ariaLabel(value: string | undefined) {
+    this.#customAriaLabel = value;
+    this.#publishAriaLabel();
+  }
 
   /**
    * When set to `true`, wait indication appears on the parent element of the `sky-wait` component.
    */
   @Input()
-  public set isWaiting(value: boolean) {
-    if (value && !this._isFullPage) {
-      this.adapterService.setWaitBounds(this.elRef);
-    } else if (!value && !this._isFullPage) {
-      this.adapterService.removeWaitBounds(this.elRef);
+  public set isWaiting(value: boolean | undefined) {
+    if (!this.isFullPage) {
+      if (value) {
+        this.#adapterService.setWaitBounds(this.#elRef);
+      } else {
+        this.#adapterService.removeWaitBounds(this.#elRef);
+      }
     }
 
-    this.adapterService.setBusyState(
-      this.elRef,
-      this.isFullPage,
-      value,
-      this.isNonBlocking,
-      this.id
+    this.#adapterService.setBusyState(
+      this.#elRef,
+      !!this.isFullPage,
+      !!value,
+      !!this.isNonBlocking,
+      this.#id
     );
 
-    this._isWaiting = value;
+    this.#_isWaiting = value;
   }
 
-  public get isWaiting(): boolean {
-    return this._isWaiting;
+  public get isWaiting(): boolean | undefined {
+    return this.#_isWaiting;
   }
 
   /**
@@ -59,19 +72,20 @@ export class SkyWaitComponent implements OnInit {
    * @default false
    */
   @Input()
-  public set isFullPage(value: boolean) {
+  public set isFullPage(value: boolean | undefined) {
     /* istanbul ignore else: untestable */
     if (value) {
-      this.adapterService.removeWaitBounds(this.elRef);
-    } else if (!value && this._isWaiting) {
-      this.adapterService.setWaitBounds(this.elRef);
+      this.#adapterService.removeWaitBounds(this.#elRef);
+    } else if (this.isWaiting) {
+      this.#adapterService.setWaitBounds(this.#elRef);
     }
 
-    this._isFullPage = value;
+    this.#_isFullPage = value;
+    this.#publishAriaLabel();
   }
 
-  public get isFullPage(): boolean {
-    return this._isFullPage;
+  public get isFullPage(): boolean | undefined {
+    return this.#_isFullPage;
   }
 
   /**
@@ -80,38 +94,67 @@ export class SkyWaitComponent implements OnInit {
    * @default false
    */
   @Input()
-  public isNonBlocking: boolean;
+  public set isNonBlocking(value: boolean | undefined) {
+    this.#_isNonBlocking = value;
+    this.#publishAriaLabel();
+  }
+
+  public get isNonBlocking(): boolean | undefined {
+    return this.#_isNonBlocking;
+  }
 
   public ariaLabelStream = new BehaviorSubject<string>('');
 
-  private id = `sky-wait-${++nextId}`;
-  private _isFullPage: boolean;
-  private _isWaiting: boolean;
+  #elRef: ElementRef;
+  #adapterService: SkyWaitAdapterService;
+  #resourceSvc: SkyLibResourcesService;
+  #ngUnsubscribe = new Subject<void>();
+
+  #id: string;
+  #customAriaLabel: string | undefined;
+
+  #_isFullPage: boolean | undefined;
+  #_isNonBlocking: boolean | undefined;
+  #_isWaiting: boolean | undefined;
 
   constructor(
-    private elRef: ElementRef,
-    private adapterService: SkyWaitAdapterService,
-    @Optional() private resourceService: SkyLibResourcesService
-  ) {}
+    elRef: ElementRef,
+    adapterService: SkyWaitAdapterService,
+    @Optional() resourceSvc: SkyLibResourcesService
+  ) {
+    this.#elRef = elRef;
+    this.#adapterService = adapterService;
+    this.#resourceSvc = resourceSvc;
 
-  public ngOnInit(): void {
-    this.publishAriaLabel();
+    this.#id = `sky-wait-${++nextId}`;
   }
 
-  private publishAriaLabel(): void {
-    if (this.ariaLabel) {
-      this.ariaLabelStream.next(this.ariaLabel);
+  public ngOnInit(): void {
+    this.#publishAriaLabel();
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+  }
+
+  #publishAriaLabel(): void {
+    if (this.#customAriaLabel) {
+      this.ariaLabelStream.next(this.#customAriaLabel);
       return;
     }
 
     /* istanbul ignore else */
-    if (this.resourceService) {
+    if (this.#resourceSvc) {
       const type = this.isFullPage ? '_page' : '';
       const blocking = this.isNonBlocking ? '' : '_blocking';
       const key = `skyux_wait${type}${blocking}_aria_alt_text`;
-      this.resourceService.getString(key).subscribe((value: string) => {
-        this.ariaLabelStream.next(value);
-      });
+      this.#resourceSvc
+        .getString(key)
+        .pipe(take(1), takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          this.ariaLabelStream.next(value);
+        });
     }
   }
 }

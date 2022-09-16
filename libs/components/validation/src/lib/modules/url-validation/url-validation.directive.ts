@@ -18,9 +18,7 @@ const SKY_URL_VALIDATION_VALIDATOR = {
 };
 
 /**
- * Creates an input to validate URLs. Place this attribute on an `input` element.
- * If users enters values that are not valid URLs, an error message appears.
- * This directive uses `NgModel` to bind data.
+ * Adds URL validation to an input element. The directive uses `NgModel` to bind data.
  */
 @Directive({
   selector: '[skyUrlValidation]',

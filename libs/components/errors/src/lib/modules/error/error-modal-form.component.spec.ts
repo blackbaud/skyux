@@ -20,7 +20,7 @@ describe('Error modal form component', () => {
   const modalInstance = new SkyModalInstanceMock();
   const mockHost = new MockHostService();
   let fixture: ComponentFixture<SkyErrorModalFormComponent>;
-  let el: any;
+  let el: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,7 +56,9 @@ describe('Error modal form component', () => {
   it('clicking close button invokes close method', () => {
     // test close method is called when clicked
     spyOn(modalInstance, 'close');
-    const closeButtonEl = el.querySelector('.sky-error-modal-close button');
+    const closeButtonEl = el.querySelector(
+      '.sky-error-modal-close button'
+    ) as HTMLElement;
     closeButtonEl.click();
     expect(modalInstance.close).toHaveBeenCalled();
   });

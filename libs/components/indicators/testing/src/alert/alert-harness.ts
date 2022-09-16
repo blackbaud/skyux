@@ -1,19 +1,25 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyIndicatorIconType } from '@skyux/indicators';
+import type {
+  SkyIndicatorDescriptionType,
+  SkyIndicatorIconType,
+} from '@skyux/indicators';
 
 import { SkyAlertHarnessFilters } from './alert-harness-filters';
 
 /**
  * Harness for interacting with an alert component in tests.
- * @internal
  */
 export class SkyAlertHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-alert';
 
   #getAlert = this.locatorFor('.sky-alert');
   #getContent = this.locatorFor('.sky-alert-content');
   #getCloseButton = this.locatorFor('.sky-alert-close');
+  #getScreenReaderTextEl = this.locatorForOptional('.sky-screen-reader-only');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -43,11 +49,7 @@ export class SkyAlertHarness extends SkyComponentHarness {
       return 'success';
     }
 
-    if (await alert.hasClass('sky-alert-warning')) {
-      return 'warning';
-    }
-
-    return undefined;
+    return 'warning';
   }
 
   /**
@@ -83,5 +85,58 @@ export class SkyAlertHarness extends SkyComponentHarness {
   public async isCloseable(): Promise<boolean> {
     const closeBtn = await this.#getCloseButton();
     return !(await closeBtn.getProperty('hidden'));
+  }
+
+  /**
+   * Gets the `descriptionType` of the label component.
+   */
+  public async getDescriptionType(): Promise<SkyIndicatorDescriptionType> {
+    const srEl = await this.#getScreenReaderTextEl();
+
+    if (!srEl) {
+      return 'none';
+    }
+
+    const srText = await srEl.text();
+
+    switch (srText) {
+      case 'Attention:':
+        return 'attention';
+      case 'Caution:':
+        return 'caution';
+      case 'Completed:':
+        return 'completed';
+      case 'Danger:':
+        return 'danger';
+      case 'Error:':
+        return 'error';
+      case 'Important information:':
+        return 'important-info';
+      case 'Important warning:':
+        return 'important-warning';
+      case 'Success:':
+        return 'success';
+      case 'Warning:':
+        return 'warning';
+      default:
+        return 'custom';
+    }
+  }
+
+  /**
+   * Gets the custom text used for the screen reader description of the label component icon.
+   */
+  public async getCustomDescription(): Promise<string> {
+    const descriptionType = await this.getDescriptionType();
+
+    if (descriptionType === 'custom') {
+      const srEl = await this.#getScreenReaderTextEl();
+
+      if (srEl) {
+        return await srEl.text();
+      }
+    }
+
+    return '';
   }
 }

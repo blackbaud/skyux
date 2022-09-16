@@ -115,6 +115,13 @@ const routes: Routes = [
         (m) => m.DataManagerFeatureModule
       ),
   },
+  {
+    path: 'text-editor',
+    loadChildren: () =>
+      import('./features/text-editor.module').then(
+        (m) => m.TextEditorFeatureModule
+      ),
+  },
 ];
 
 @NgModule({

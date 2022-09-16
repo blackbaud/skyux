@@ -28,9 +28,11 @@ export default async function (tree: Tree, schema: Schema) {
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {
       const projectConfiguration = allProjects.get(project);
+
       return (
         projectConfiguration &&
-        'build-storybook' in projectConfiguration.targets
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        'build-storybook' in projectConfiguration.targets!
       );
     });
 

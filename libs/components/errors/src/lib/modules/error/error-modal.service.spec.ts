@@ -8,11 +8,12 @@ import { SkyErrorModalService } from './error-modal.service';
 import { MockModalService } from './fixtures/mocks';
 
 describe('Error modal service', () => {
+  function createMockModalService() {
+    return new MockModalService();
+  }
+
   it('should open with correct parameters (log service undefined)', () => {
-    const modalService = new MockModalService({
-      removeComponent: function (): any {},
-      addComponent: function (ref: any): any {},
-    } as any);
+    const modalService = createMockModalService();
 
     const config: ErrorModalConfig = {
       errorTitle: 'Error title',
@@ -47,10 +48,7 @@ describe('Error modal service', () => {
   });
 
   it('should open with correct parameters (log service defined)', () => {
-    const modalService = new MockModalService({
-      removeComponent: function (): any {},
-      addComponent: function (ref: any): any {},
-    } as any);
+    const modalService = createMockModalService();
 
     const config: ErrorModalConfig = {
       errorTitle: 'Error title',

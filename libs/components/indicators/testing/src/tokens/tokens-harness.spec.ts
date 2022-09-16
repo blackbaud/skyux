@@ -6,7 +6,7 @@ import { TokensHarnessTestModule } from './fixtures/tokens-harness-test.module';
 import { SkyTokensHarness } from './tokens-harness';
 
 describe('Tokens harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}) {
+  async function setupTest(options: { dataSkyId: string }) {
     await TestBed.configureTestingModule({
       imports: [TokensHarnessTestModule],
     }).compileComponents();
@@ -14,12 +14,9 @@ describe('Tokens harness', () => {
     const fixture = TestBed.createComponent(TokensHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    let tokensHarness: SkyTokensHarness;
-    if (options.dataSkyId) {
-      tokensHarness = await loader.getHarness(
-        SkyTokensHarness.with({ dataSkyId: options.dataSkyId })
-      );
-    }
+    const tokensHarness = await loader.getHarness(
+      SkyTokensHarness.with({ dataSkyId: options.dataSkyId })
+    );
 
     return { tokensHarness, fixture, loader };
   }

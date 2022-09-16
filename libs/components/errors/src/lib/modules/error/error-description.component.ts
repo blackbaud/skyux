@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { SkyErrorService } from './error.service';
+
 /**
  * Specifies a description to provide additional details about the error.
  */
@@ -14,5 +16,14 @@ export class SkyErrorDescriptionComponent {
    * @default false
    */
   @Input()
-  public replaceDefaultDescription = false;
+  public set replaceDefaultDescription(value: boolean | undefined) {
+    this.#errorSvc.replaceDefaultDescription.next(!!value);
+  }
+
+  #errorSvc: SkyErrorService;
+
+  constructor(errorSvc: SkyErrorService) {
+    this.#errorSvc = errorSvc;
+    errorSvc.replaceDefaultDescription.next(false);
+  }
 }

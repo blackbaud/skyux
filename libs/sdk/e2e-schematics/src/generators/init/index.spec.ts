@@ -26,26 +26,33 @@ describe('init generator', () => {
     });
     await generator(appTree, { ansiColor: false });
     const config = readProjectConfiguration(appTree, 'storybook');
-    expect(config.targets.storybook).toBeDefined();
+    expect(config.targets?.storybook).toBeDefined();
     expect(
       appTree.isFile(
         joinPathFragments(
-          config.sourceRoot,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          config.sourceRoot!,
           'lib/preview-wrapper/preview-wrapper-decorators.ts'
         )
       )
     ).toBeTruthy();
     expect(
-      appTree.read(joinPathFragments(config.sourceRoot, 'index.ts'), 'utf-8')
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      appTree.read(joinPathFragments(config.sourceRoot!, 'index.ts'), 'utf-8')
     ).toMatchSnapshot();
   });
 
   it('should error without a "storybook" project', async () => {
     try {
       await generator(appTree, { ansiColor: false });
-      fail();
+      fail('should have thrown');
     } catch (e) {
-      expect(e.message).toEqual('Storybook project not found');
+      if (!(e instanceof Error)) {
+        fail('should have thrown an error');
+      }
+      expect(e.message).toBe(
+        'Storybook project or storybook project information not found'
+      );
     }
   });
 

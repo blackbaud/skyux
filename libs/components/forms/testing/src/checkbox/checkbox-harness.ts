@@ -9,6 +9,9 @@ import { SkyCheckboxLabelHarness } from './checkbox-label-harness';
  * @internal
  */
 export class SkyCheckboxHarness extends SkyComponentHarness {
+  /**
+   * @internal
+   */
   public static hostSelector = 'sky-checkbox';
 
   #getInput = this.locatorFor('input.sky-checkbox-input');
@@ -70,6 +73,7 @@ export class SkyCheckboxHarness extends SkyComponentHarness {
     if (label) {
       return label.getText();
     }
+    return;
   }
 
   /**

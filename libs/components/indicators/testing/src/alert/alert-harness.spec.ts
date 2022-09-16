@@ -1,7 +1,11 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAlertModule, SkyIndicatorIconType } from '@skyux/indicators';
+import {
+  SkyAlertModule,
+  SkyIndicatorDescriptionType,
+  SkyIndicatorIconType,
+} from '@skyux/indicators';
 
 import { SkyAlertHarness } from './alert-harness';
 
@@ -13,6 +17,8 @@ import { SkyAlertHarness } from './alert-harness';
       [alertType]="alertType"
       [closeable]="closeable"
       [closed]="closed"
+      [customDescription]="customDescription"
+      [descriptionType]="descriptionType"
       (closedChange)="closedChange()"
       data-sky-id="test-alert"
     >
@@ -28,6 +34,10 @@ class TestComponent {
 
   public closed = false;
 
+  public customDescription: string | undefined;
+
+  public descriptionType: SkyIndicatorDescriptionType | undefined;
+
   public closedChange() {
     // Only exists for the spy.
   }
@@ -42,6 +52,21 @@ async function validateAlertType(
   fixture.componentInstance.alertType = alertType;
   fixture.detectChanges();
   await expectAsync(alertHarness.getAlertType()).toBeResolvedTo(alertType);
+}
+
+async function validateDescriptionType(
+  alertHarness: SkyAlertHarness,
+  fixture: ComponentFixture<TestComponent>,
+  descriptionType: SkyIndicatorDescriptionType,
+  customDescription?: string
+) {
+  fixture.componentInstance.descriptionType = descriptionType;
+  fixture.componentInstance.customDescription = customDescription;
+  fixture.detectChanges();
+
+  const componentDesciptionType = await alertHarness.getDescriptionType();
+
+  expect(componentDesciptionType).toEqual(descriptionType);
 }
 
 describe('Alert harness', () => {
@@ -114,6 +139,52 @@ describe('Alert harness', () => {
     await validateAlertType(alertHarness, fixture, 'info');
     await validateAlertType(alertHarness, fixture, 'success');
     await validateAlertType(alertHarness, fixture, 'warning');
+  });
+
+  it('should return the expected description type', async () => {
+    const { alertHarness, fixture } = await setupTest();
+    await validateDescriptionType(alertHarness, fixture, 'attention');
+    await validateDescriptionType(alertHarness, fixture, 'caution');
+    await validateDescriptionType(alertHarness, fixture, 'completed');
+    await validateDescriptionType(alertHarness, fixture, 'danger');
+    await validateDescriptionType(alertHarness, fixture, 'error');
+    await validateDescriptionType(alertHarness, fixture, 'important-info');
+    await validateDescriptionType(alertHarness, fixture, 'important-warning');
+    await validateDescriptionType(alertHarness, fixture, 'success');
+    await validateDescriptionType(alertHarness, fixture, 'warning');
+    await validateDescriptionType(alertHarness, fixture, 'none');
+    await validateDescriptionType(
+      alertHarness,
+      fixture,
+      'custom',
+      'custom text'
+    );
+  });
+
+  it('should return the custom description when `descriptionType` is custom', async () => {
+    const { fixture, alertHarness } = await setupTest();
+    const description = 'Custom description:';
+
+    fixture.componentInstance.descriptionType = 'custom';
+    fixture.componentInstance.customDescription = description;
+
+    fixture.detectChanges();
+
+    const componentDesciption = await alertHarness.getCustomDescription();
+
+    expect(componentDesciption).toEqual(description);
+  });
+
+  it('should return an empty string when `descriptionType` is not custom', async () => {
+    const { fixture, alertHarness } = await setupTest();
+
+    fixture.componentInstance.descriptionType = 'attention';
+
+    fixture.detectChanges();
+
+    const componentDesciption = await alertHarness.getCustomDescription();
+
+    expect(componentDesciption).toEqual('');
   });
 
   it('should return the expected text', async () => {
