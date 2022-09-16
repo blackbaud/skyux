@@ -172,13 +172,13 @@ describe('Confirm harness', () => {
       });
 
       const results = await confirmHarness.getCustomButtons({
-        textContent: 'Proceed',
+        text: 'Proceed',
         styleType: 'primary',
       });
 
       expect(results.length).toEqual(1);
-      await expectAsync(results[0].textContent()).toBeResolvedTo('Proceed');
-      await expectAsync(results[0].styleType()).toBeResolvedTo('primary');
+      await expectAsync(results[0].getText()).toBeResolvedTo('Proceed');
+      await expectAsync(results[0].getStyleType()).toBeResolvedTo('primary');
     });
 
     it('should return harnesses for all matching buttons', async () => {
@@ -202,10 +202,10 @@ describe('Confirm harness', () => {
       const results = await confirmHarness.getCustomButtons();
 
       expect(results.length).toEqual(2);
-      await expectAsync(results[0].textContent()).toBeResolvedTo('Proceed');
-      await expectAsync(results[0].styleType()).toBeResolvedTo('default');
-      await expectAsync(results[1].textContent()).toBeResolvedTo('Cancel');
-      await expectAsync(results[1].styleType()).toBeResolvedTo('link');
+      await expectAsync(results[0].getText()).toBeResolvedTo('Proceed');
+      await expectAsync(results[0].getStyleType()).toBeResolvedTo('default');
+      await expectAsync(results[1].getText()).toBeResolvedTo('Cancel');
+      await expectAsync(results[1].getStyleType()).toBeResolvedTo('link');
     });
 
     it('should throw an error when no child button harnesses are found', async () => {
@@ -222,9 +222,9 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(
-        confirmHarness.getCustomButtons({ textContent: /invalidbuttonname/ })
+        confirmHarness.getCustomButtons({ text: /invalidbuttonname/ })
       ).toBeRejectedWithError(
-        `Could not find buttons matching filter(s): {"textContent":"/invalidbuttonname/"}`
+        `Could not find buttons matching filter(s): {"text":"/invalidbuttonname/"}.`
       );
     });
 
@@ -234,7 +234,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.getCustomButtons({})
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK'
+        'Cannot get custom buttons for confirm of type OK.'
       );
     });
   });
@@ -254,7 +254,7 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(confirmHarness.clickOkButton()).toBeRejectedWithError(
-        'Cannot click OK button on a confirm of type custom'
+        'Cannot click OK button on a confirm of type custom.'
       );
     });
 
@@ -278,7 +278,7 @@ describe('Confirm harness', () => {
       await expectAsync(
         confirmHarness.clickCustomButton({})
       ).toBeRejectedWithError(
-        'Cannot get custom buttons for confirm of type OK'
+        'Cannot get custom buttons for confirm of type OK.'
       );
     });
 
@@ -301,9 +301,9 @@ describe('Confirm harness', () => {
       });
 
       await expectAsync(
-        confirmHarness.clickCustomButton({ textContent: /c/ })
+        confirmHarness.clickCustomButton({ text: /c/ })
       ).toBeRejectedWithError(
-        `More than one button matches the filter(s): {"textContent":"/c/"}`
+        'More than one button matches the filter(s): {"text":"/c/"}.'
       );
     });
 
@@ -322,7 +322,7 @@ describe('Confirm harness', () => {
       const closedSpy = spyOn(fixture.componentInstance, 'closedChange');
       fixture.detectChanges();
 
-      await confirmHarness.clickCustomButton({ textContent: 'Proceed' });
+      await confirmHarness.clickCustomButton({ text: 'Proceed' });
 
       expect(closedSpy).toHaveBeenCalledWith({
         action: 'proceed',

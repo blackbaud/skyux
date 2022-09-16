@@ -8,7 +8,7 @@ export interface SkyConfirmButtonHarnessFilters
   /**
    * Only find instances whose content matches the given value.
    */
-  textContent?: string | RegExp;
+  text?: string | RegExp;
 
   /**
    * Only find instances whose style matches the given value.

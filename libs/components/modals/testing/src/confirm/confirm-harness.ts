@@ -11,15 +11,43 @@ import { SkyConfirmButtonHarnessFilters } from './confirm-button-harness-filters
 export class SkyConfirmHarness extends SkyComponentHarness {
   public static hostSelector = 'sky-confirm';
 
-  #getMessageEl = this.locatorFor('.sky-confirm-message');
   #getBodyEl = this.locatorForOptional('.sky-confirm-body');
   #getButtons = this.locatorForAll(SkyConfirmButtonHarness);
+  #getConfirmEl = this.locatorFor('.sky-confirm');
+  #getMessageEl = this.locatorFor('.sky-confirm-message');
 
   /**
-   * Gets the message of the confirm component.
+   * Clicks a confirm button.
    */
-  public async getMessageText(): Promise<string> {
-    return (await this.#getMessageEl()).text();
+  public async clickCustomButton(
+    filters: SkyConfirmButtonHarnessFilters
+  ): Promise<void> {
+    const buttons = await this.getCustomButtons(filters);
+
+    if (buttons.length > 1) {
+      if (filters.text instanceof RegExp) {
+        filters.text = filters.text.toString();
+      }
+      throw new Error(
+        `More than one button matches the filter(s): ${JSON.stringify(
+          filters
+        )}.`
+      );
+    }
+    await buttons[0].click();
+  }
+
+  /**
+   * Clicks a confirm button.
+   */
+  public async clickOkButton(): Promise<void> {
+    const type = await this.getType();
+
+    if (type === SkyConfirmType.Custom) {
+      throw new Error('Cannot click OK button on a confirm of type custom.');
+    }
+    const buttons = await this.#getButtons();
+    await buttons[0].click();
   }
 
   /**
@@ -27,28 +55,6 @@ export class SkyConfirmHarness extends SkyComponentHarness {
    */
   public async getBodyText(): Promise<string | undefined> {
     return (await this.#getBodyEl())?.text();
-  }
-
-  /**
-   * Gets the type of the confirm component.
-   */
-  public async getType(): Promise<SkyConfirmType> {
-    const buttons = await this.#getButtons();
-
-    if (buttons.length === 1 && (await buttons[0].textContent()) === 'OK') {
-      return SkyConfirmType.OK;
-    }
-
-    return SkyConfirmType.Custom;
-  }
-
-  /**
-   * Indicates if the whitespace is preserved on the confirom component.
-   */
-  public async isWhiteSpacePreserved(): Promise<boolean> {
-    return await (
-      await this.#getMessageEl()
-    ).hasClass('sky-confirm-preserve-white-space');
   }
 
   /**
@@ -60,7 +66,7 @@ export class SkyConfirmHarness extends SkyComponentHarness {
     const confirmType = await this.getType();
 
     if (confirmType === SkyConfirmType.OK) {
-      throw new Error('Cannot get custom buttons for confirm of type OK');
+      throw new Error('Cannot get custom buttons for confirm of type OK.');
     }
 
     const harnesses = await this.#queryHarnesses(
@@ -69,12 +75,12 @@ export class SkyConfirmHarness extends SkyComponentHarness {
 
     if (filters && harnesses.length === 0) {
       // Stringify the regular expression so that it's readable in the console log.
-      if (filters.textContent instanceof RegExp) {
-        filters.textContent = filters.textContent.toString();
+      if (filters.text instanceof RegExp) {
+        filters.text = filters.text.toString();
       }
 
       throw new Error(
-        `Could not find buttons matching filter(s): ${JSON.stringify(filters)}`
+        `Could not find buttons matching filter(s): ${JSON.stringify(filters)}.`
       );
     }
 
@@ -82,35 +88,31 @@ export class SkyConfirmHarness extends SkyComponentHarness {
   }
 
   /**
-   * Clicks a confirm button.
+   * Gets the message of the confirm component.
    */
-  public async clickOkButton(): Promise<void> {
-    const type = await this.getType();
-
-    if (type === SkyConfirmType.Custom) {
-      throw new Error('Cannot click OK button on a confirm of type custom');
-    }
-    const buttons = await this.#getButtons();
-    await buttons[0].click();
+  public async getMessageText(): Promise<string> {
+    return (await this.#getMessageEl()).text();
   }
 
   /**
-   * Clicks a confirm button.
+   * Gets the type of the confirm component.
    */
-  public async clickCustomButton(
-    filters: SkyConfirmButtonHarnessFilters
-  ): Promise<void> {
-    const buttons = await this.getCustomButtons(filters);
-
-    if (buttons.length > 1) {
-      if (filters.textContent instanceof RegExp) {
-        filters.textContent = filters.textContent.toString();
-      }
-      throw new Error(
-        `More than one button matches the filter(s): ${JSON.stringify(filters)}`
-      );
+  public async getType(): Promise<SkyConfirmType> {
+    const confirmEl = await this.#getConfirmEl();
+    if (await confirmEl.hasClass('sky-confirm-type-ok')) {
+      return SkyConfirmType.OK;
     }
-    await buttons[0].click();
+
+    return SkyConfirmType.Custom;
+  }
+
+  /**
+   * Indicates if the whitespace is preserved on the confirom component.
+   */
+  public async isWhiteSpacePreserved(): Promise<boolean> {
+    return (await this.#getMessageEl()).hasClass(
+      'sky-confirm-preserve-white-space'
+    );
   }
 
   /**
