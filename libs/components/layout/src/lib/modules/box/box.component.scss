@@ -15,25 +15,6 @@
       display: none;
     }
 
-    sky-box-header {
-      flex: 1 0;
-      order: 0;
-
-      .sky-box-header {
-        padding: 0 $sky-space-xl 0 0;
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-          margin: 0;
-          display: inline;
-        }
-      }
-    }
-
     sky-box-controls {
       order: 1;
       margin-left: auto;
@@ -63,12 +44,6 @@
     .sky-box-header-content {
       padding: $sky-theme-modern-margin-inline-xl
         $sky-theme-modern-margin-inline-xl 0 $sky-theme-modern-margin-inline-xl;
-
-      sky-box-header {
-        .sky-box-header {
-          padding: 0 $sky-theme-modern-margin-inline-xl 0 0;
-        }
-      }
     }
 
     sky-box-content {
