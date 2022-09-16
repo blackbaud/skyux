@@ -60,7 +60,10 @@ function normalizeOptions(options: Partial<Schema>): NormalizedSchema {
 function simplifyWorkspaceName(tree: Tree, projectName: string) {
   const workspaceJson = readJson(tree, workspaceFileName());
   if (`${BASE_PATH}-${projectName}` in workspaceJson.projects) {
-    const projectConfig = readProjectConfiguration(tree, `${BASE_PATH}-${projectName}`);
+    const projectConfig = readProjectConfiguration(
+      tree,
+      `${BASE_PATH}-${projectName}`
+    );
     let projectConfigJson = JSON.stringify(projectConfig).replace(
       new RegExp(`${BASE_PATH}-${projectName}`, 'g'),
       projectName
@@ -72,7 +75,11 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
         withoutE2e
       );
     }
-    updateProjectConfiguration(tree, `${BASE_PATH}-${projectName}`, JSON.parse(projectConfigJson));
+    updateProjectConfiguration(
+      tree,
+      `${BASE_PATH}-${projectName}`,
+      JSON.parse(projectConfigJson)
+    );
 
     updateJson(
       tree,
