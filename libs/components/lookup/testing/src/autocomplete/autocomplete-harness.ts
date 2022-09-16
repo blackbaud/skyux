@@ -78,8 +78,8 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     if (filters && harnesses.length === 0) {
       // Stringify the regular expression so that it's readable in the console log.
-      if (filters.textContent instanceof RegExp) {
-        filters.textContent = filters.textContent.toString();
+      if (filters.text instanceof RegExp) {
+        filters.text = filters.text.toString();
       }
 
       throw new Error(
@@ -102,7 +102,7 @@ export class SkyAutocompleteHarness extends SkyComponentHarness {
 
     const text: string[] = [];
     for (const harness of harnesses) {
-      text.push(await harness.textContent());
+      text.push(await harness.getText());
     }
 
     return text;
