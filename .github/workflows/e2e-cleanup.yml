@@ -1,0 +1,48 @@
+# Nightly cleanup to remove old PRs from skyux-pr-preview. Runs at 3:00 AM UTC.
+
+name: E2E Cleanup
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout blackbaud/skyux-pr-preview
+        uses: actions/checkout@v3
+        with:
+          repository: blackbaud/skyux-pr-preview
+          ref: 'main'
+          fetch-depth: 1
+          token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
+      - name: Delete old PR previews
+        run: |
+          # List open PR numbers and save to a temporary file.
+          gh pr list -R blackbaud/skyux -s open --json number --jq '.[] | .number' > ${{ runner.temp }}/open-prs.txt
+
+          # List the checkout files, filter to just number directories, filter out open PRs.
+          ls | grep -E '^[0-9]+$' | grep -v -f ${{ runner.temp }}/open-prs.txt > ${{ runner.temp }}/delete-prs.txt
+
+          # Delete the directories.
+          for pr in $(cat ${{ runner.temp }}/delete-prs.txt)
+          do
+            if [[ -d $pr ]]
+            then
+              echo "Deleting $pr"
+              git rm -qrf $pr
+            fi
+          done
+
+          # If there are any changes, configure the user, commit the deletions, and push to skyux-pr-preview repo.
+          if [[ -n "$(git status --porcelain)" ]]
+          then
+            git config user.name 'Blackbaud Sky Build User'
+            git config user.email 'sky-build-user@blackbaud.com'
+            git commit -m "Delete old PR previews $(date +'%Y-%m-%d')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
