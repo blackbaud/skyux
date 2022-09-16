@@ -1,0 +1,14 @@
+<form novalidate [formGroup]="myForm">
+  <sky-input-box>
+    <label skyId #textEditorLabel="skyId" class="sky-control-label">
+      Text editor demo
+    </label>
+    <sky-help-inline class="sky-control-help"></sky-help-inline>
+    <sky-text-editor
+      formControlName="myText"
+      [attr.aria-labelledby]="textEditorLabel.id"
+      class="sky-form-control"
+    >
+    </sky-text-editor>
+  </sky-input-box>
+</form>

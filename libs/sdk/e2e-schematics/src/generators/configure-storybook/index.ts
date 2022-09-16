@@ -1,14 +1,18 @@
 import {
+  ProjectConfiguration,
+  TargetConfiguration,
   Tree,
   formatFiles,
   generateFiles,
   getWorkspacePath,
   joinPathFragments,
   logger,
+  readProjectConfiguration,
   updateJson,
 } from '@nrwl/devkit';
 import { TsConfig } from '@nrwl/storybook/src/utils/utilities';
 
+import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 import { relative } from 'path';
 
 import { getStorybookProjects } from '../../utils';
@@ -27,94 +31,105 @@ export default async function (tree: Tree, schema: Schema) {
     throw new Error(`Unable to determine workspace file path`);
   }
 
+  // istanbul ignore next
+  const errorLogger = schema.ansiColor === false ? console.error : logger.fatal;
+
   projects.forEach((project, projectName) => {
-    updateJson(tree, workspacePath, (angularJson) => {
-      const targets = Object.keys(angularJson.projects[projectName].architect);
-      targets.forEach((target) => {
-        // Does the builder support styles?
-        if (
-          [
-            '@angular-devkit/build-angular:browser',
-            '@storybook/angular:build-storybook',
-            '@storybook/angular:start-storybook',
-          ].includes(
-            angularJson.projects[projectName].architect[target].builder
-          )
-        ) {
-          // Add stylesheets to project.
-          if (!angularJson.projects[projectName].architect[target].options) {
-            angularJson.projects[projectName].architect[target].options = {
-              styles: [],
-            };
-          }
-          [
-            'libs/components/theme/src/lib/styles/sky.scss',
-            'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
-          ].forEach((stylesheet) => {
-            if (
-              !angularJson.projects[projectName].architect[
-                target
-              ].options.styles?.includes(stylesheet)
-            ) {
-              if (
-                angularJson.projects[projectName].architect[target].options
-                  .styles
-              ) {
-                angularJson.projects[projectName].architect[
-                  target
-                ].options.styles.push(stylesheet);
-              } else {
-                angularJson.projects[projectName].architect[
-                  target
-                ].options.styles = [stylesheet];
-              }
-            }
-          });
-
-          // Fix an NX bug where outputs uses the wrong path. The outputs setting is used for caching.
-          if (
-            angularJson.projects[projectName].architect[target].outputs?.join(
-              'X'
-            ) === '{options.outputPath}' &&
-            !(
-              'outputPath' in
-              angularJson.projects[projectName].architect[target].options
-            ) &&
-            'outputDir' in
-              angularJson.projects[projectName].architect[target].options
-          ) {
-            angularJson.projects[projectName].architect[target].outputs = [
-              '{options.outputDir}',
-            ];
-          }
-        }
-      });
-      // Drop the asset path.
-      if (angularJson.projects[projectName].architect.build?.options?.assets) {
-        delete angularJson.projects[projectName].architect.build.options.assets;
-      }
-
-      const e2eProjectName = `${projectName}-e2e`;
-      if (e2eProjectName in angularJson.projects) {
-        const e2eProject = angularJson.projects[e2eProjectName];
-        if (e2eProject.architect.e2e?.builder === '@nrwl/cypress:cypress') {
-          // During development, run Storybook and Cypress.
-          const e2eOptions = e2eProject.architect.e2e.options;
-          e2eOptions.devServerTarget = `${projectName}:storybook`;
-          e2eOptions.baseUrl = `http://localhost:4400`;
-          e2eProject.architect.e2e.configurations = {
-            ci: {
-              skipServe: true,
-            },
+    let hasChanged = false;
+    const targets = Object.keys(
+      project.targets as Record<string, TargetConfiguration>
+    );
+    targets.forEach((target) => {
+      project.targets = project.targets as Record<string, TargetConfiguration>;
+      const targetConfig = project.targets[target] as TargetConfiguration;
+      // Does the builder support styles?
+      if (
+        [
+          '@angular-devkit/build-angular:browser',
+          '@storybook/angular:build-storybook',
+          '@storybook/angular:start-storybook',
+        ].includes(targetConfig.executor)
+      ) {
+        // Add stylesheets to project.
+        if (!targetConfig.options) {
+          targetConfig.options = {
+            styles: [],
           };
-        } else {
-          (schema.ansiColor === false ? console.error : logger.fatal)(
-            `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
-          );
+        }
+        [
+          'libs/components/theme/src/lib/styles/sky.scss',
+          'libs/components/theme/src/lib/styles/themes/modern/styles.scss',
+        ].forEach((stylesheet) => {
+          if (!targetConfig.options.styles?.includes(stylesheet)) {
+            hasChanged = true;
+            if (targetConfig.options.styles) {
+              targetConfig.options.styles.push(stylesheet);
+            } else {
+              targetConfig.options.styles = [stylesheet];
+            }
+          }
+        });
+
+        // Fix an NX bug where outputs uses the wrong path. The outputs setting is used for caching.
+        if (
+          targetConfig.outputs?.join('X') === '{options.outputPath}' &&
+          !('outputPath' in targetConfig.options) &&
+          'outputDir' in targetConfig.options
+        ) {
+          hasChanged = true;
+          targetConfig.outputs = ['{options.outputDir}'];
         }
       }
-      return angularJson;
+      // Drop the asset path.
+      if (target === 'build' && targetConfig.options.assets) {
+        hasChanged = true;
+        delete targetConfig.options.assets;
+      }
     });
+    if (hasChanged) {
+      updateProjectConfiguration(tree, projectName, project);
+    }
+
+    const e2eProjectName = `${projectName}-e2e`;
+    let e2eProject: ProjectConfiguration | undefined = undefined;
+    try {
+      e2eProject = readProjectConfiguration(tree, e2eProjectName);
+    } catch (e) {
+      errorLogger(`Project "${e2eProjectName}" does not exist`);
+    }
+    if (
+      e2eProject?.targets?.e2e &&
+      e2eProject.targets.e2e.executor === '@nrwl/cypress:cypress'
+    ) {
+      let hasChanged = false;
+      if (
+        !e2eProject.targets.e2e.options.devServerTarget ||
+        !e2eProject.targets.e2e.options.baseUrl
+      ) {
+        hasChanged = true;
+        // During development, run Storybook and Cypress.
+        e2eProject.targets.e2e.options = {
+          ...e2eProject.targets.e2e.options,
+          devServerTarget: `${projectName}:storybook`,
+          baseUrl: `http://localhost:4400`,
+        };
+      }
+      if (!e2eProject.targets.e2e.configurations?.ci?.skipServe) {
+        hasChanged = true;
+        e2eProject.targets.e2e.configurations = {
+          ci: {
+            skipServe: true,
+          },
+        };
+      }
+      if (hasChanged) {
+        updateProjectConfiguration(tree, e2eProjectName, e2eProject);
+      }
+    } else {
+      errorLogger(
+        `Project "${e2eProjectName}" does not have an e2e target with @nrwl/cypress:cypress`
+      );
+    }
 
     const projectRoot = project.root;
     const relativeToRoot = relative(`/${projectRoot}/.storybook`, `/`);

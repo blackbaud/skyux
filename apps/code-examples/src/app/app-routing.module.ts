@@ -120,6 +120,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/toast.module').then((m) => m.ToastFeatureModule),
   },
+  {
+    path: 'text-editor',
+    loadChildren: () =>
+      import('./features/text-editor.module').then(
+        (m) => m.TextEditorFeatureModule
+      ),
+  },
 ];
 
 @NgModule({

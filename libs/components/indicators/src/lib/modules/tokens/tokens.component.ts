@@ -25,7 +25,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
 
 /**
  * Creates a container that enables navigation between tokens using keyboard arrow keys.
- * This is useful when combined with other components where the <kbd>Tab<kbd> key is
+ * This is useful when combined with other components where the <kbd>Tab</kbd> key is
  * reserved for other functions, such as the SKY UX Lookup component.
  */
 @Component({

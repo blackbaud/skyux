@@ -11,8 +11,8 @@ export class ToggleSwitchDemoComponent {
 
   public formGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: FormBuilder) {
+    this.formGroup = formBuilder.group({
       dynamicToggle: new FormControl(true),
     });
   }
