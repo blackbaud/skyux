@@ -15,6 +15,10 @@ const routes: Routes = [
       import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
   },
   {
+    path: 'box',
+    loadChildren: () => import('./box/box.module').then((m) => m.BoxModule),
+  },
+  {
     path: 'description-list',
     loadChildren: () =>
       import('./description-list/description-list.module').then(
