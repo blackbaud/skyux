@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
   OnInit,
 } from '@angular/core';
 import {
@@ -10,25 +9,23 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
-import { SKY_AG_GRID_DEMO_DATA } from './data-manager-data-grid-docs-demo-data';
-import { DataManagerDataGridDocsDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
+import { SKY_AG_GRID_DEMO_DATA } from './data-manager-multiselect-data-grid-docs-demo-data';
+import { DataManagerMultiselectDataGridDocsDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-docs-demo-filter-modal.component';
 
 @Component({
-  selector: 'app-data-manager-data-grid-docs-demo',
-  templateUrl: './data-manager-data-grid-docs-demo.component.html',
+  selector: 'app-data-manager-multiselect-data-grid-docs-demo',
+  templateUrl: './data-manager-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [SkyDataManagerService],
 })
-export class SkyDataManagerDataGridDemoComponent implements OnInit {
-  @Input()
-  public enableMultiselect: boolean;
-
+export class SkyDataManagerMultiselectDataGridDemoComponent implements OnInit {
   public items = SKY_AG_GRID_DEMO_DATA;
 
   public dataState = new SkyDataManagerState({});
 
   public dataManagerConfig = {
-    filterModalComponent: DataManagerDataGridDocsDemoFiltersModalComponent,
+    filterModalComponent:
+      DataManagerMultiselectDataGridDocsDemoFiltersModalComponent,
     sortOptions: [
       {
         id: 'az',
@@ -55,8 +52,9 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
     },
     views: [
       {
-        viewId: 'dataGridWithDataManagerView',
+        viewId: 'dataGridMultiselectWithDataManagerView',
         columnIds: [
+          'selected',
           'name',
           'age',
           'startDate',
@@ -65,6 +63,7 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
           'jobTitle',
         ],
         displayedColumnIds: [
+          'selected',
           'name',
           'age',
           'startDate',
@@ -76,7 +75,7 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
     ],
   });
 
-  public activeViewId = 'dataGridWithDataManagerView';
+  public activeViewId = 'dataGridMultiselectWithDataManagerView';
 
   constructor(
     private changeDetector: ChangeDetectorRef,

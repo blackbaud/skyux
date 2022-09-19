@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
@@ -14,62 +13,14 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
+import { SKY_AG_GRID_DEMO_DATA } from './basic-multiselect-data-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-basic-data-grid-docs-demo',
-  templateUrl: './basic-data-grid-docs-demo.component.html',
+  selector: 'app-basic-multiselect-data-grid-docs-demo',
+  templateUrl: './basic-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyBasicDataGridDemoComponent {
-  @Input()
-  public set enableMultiselect(value: boolean | undefined) {
-    if (value !== this.enableMultiselectOrDefault) {
-      this.enableMultiselectOrDefault = value || false;
-      if (this.gridApi) {
-        this.updateGrid();
-      }
-      this.changeDetector.markForCheck();
-    }
-  }
-
-  public enableMultiselectOrDefault = false;
-
-  public columnDefs: ColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Name',
-    },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: SkyCellType.Number,
-      maxWidth: 60,
-    },
-    {
-      field: 'startDate',
-      headerName: 'Start date',
-      type: SkyCellType.Date,
-      sort: 'asc',
-    },
-    {
-      field: 'endDate',
-      headerName: 'End date',
-      type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
-    },
-    {
-      field: 'department',
-      headerName: 'Department',
-      type: SkyCellType.Autocomplete,
-    },
-    {
-      field: 'jobTitle',
-      headerName: 'Title',
-      type: SkyCellType.Autocomplete,
-    },
-  ];
-
+export class SkyBasicMultiselectDataGridDemoComponent {
   public multiselectColumnDefs: ColDef[] = [
     {
       field: 'selected',
@@ -121,8 +72,9 @@ export class SkyBasicDataGridDemoComponent {
   ) {
     this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
     this.gridOptions = {
-      columnDefs: this.columnDefs,
+      columnDefs: this.multiselectColumnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      rowSelection: 'multiple',
     };
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: this.gridOptions,
@@ -133,7 +85,6 @@ export class SkyBasicDataGridDemoComponent {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.updateGrid();
     this.changeDetector.markForCheck();
   }
 
@@ -142,20 +93,5 @@ export class SkyBasicDataGridDemoComponent {
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
       : 'N/A';
-  }
-
-  private updateGrid(): void {
-    this.gridOptions.rowSelection = this.enableMultiselectOrDefault
-      ? 'multiple'
-      : 'single';
-    this.gridApi.setColumnDefs(
-      this.enableMultiselectOrDefault
-        ? this.multiselectColumnDefs
-        : this.columnDefs
-    );
-    this.gridApi.sizeColumnsToFit();
-    if (!this.enableMultiselectOrDefault) {
-      this.gridApi.deselectAll();
-    }
   }
 }

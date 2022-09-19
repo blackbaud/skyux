@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerColumnPickerOption,
+  SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
-  SkyDataManagerService,
-  SkyDataManagerColumnPickerOption,
   SkyDataViewState,
 } from '@skyux/data-manager';
 
@@ -20,73 +20,23 @@ import {
   GridApi,
   GridOptions,
   GridReadyEvent,
-  ValueFormatterParams,
   RowSelectedEvent,
+  ValueFormatterParams,
 } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-data-manager-data-grid-docs-demo-view-grid',
-  templateUrl: './data-manager-data-grid-docs-demo-view-grid.component.html',
+  selector: 'app-data-manager-multiselect-data-grid-docs-demo-view-grid',
+  templateUrl:
+    './data-manager-multiselect-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
+export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
+  implements OnInit
+{
   @Input()
   public items: any[] = [];
 
-  @Input()
-  public set enableMultiselect(value: boolean) {
-    if (value !== this.enableMultiselectOrDefault) {
-      this.enableMultiselectOrDefault = value || false;
-
-      if (this.gridApi) {
-        this.updateViewState();
-        this.updateColumnOrder();
-        this.updateGridOptionsSelectionType();
-        this.updateColumnDefinitions();
-        this.checkForDeselect();
-        this.updateViewConfig();
-      }
-
-      this.changeDetector.markForCheck();
-    }
-  }
-
-  public viewId = 'dataGridWithDataManagerView';
-
-  public singleSelectColumnDefinitions: ColDef[] = [
-    {
-      field: 'name',
-      headerName: 'Name',
-    },
-    {
-      field: 'age',
-      headerName: 'Age',
-      type: SkyCellType.Number,
-      maxWidth: 60,
-    },
-    {
-      field: 'startDate',
-      headerName: 'Start date',
-      type: SkyCellType.Date,
-      sort: 'asc',
-    },
-    {
-      field: 'endDate',
-      headerName: 'End date',
-      type: SkyCellType.Date,
-      valueFormatter: this.endDateFormatter,
-    },
-    {
-      field: 'department',
-      headerName: 'Department',
-      type: SkyCellType.Autocomplete,
-    },
-    {
-      field: 'jobTitle',
-      headerName: 'Title',
-      type: SkyCellType.Autocomplete,
-    },
-  ];
+  public viewId = 'dataGridMultiselectWithDataManagerView';
 
   public multiSelectColumnDefinitions: ColDef[] = [
     {
@@ -170,12 +120,10 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
   public columnApi?: ColumnApi;
   public displayedItems: any[] = [];
   public gridApi?: GridApi;
-  public isGridReadyForInitialization: boolean = false;
+  public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
   public noRowsTemplate: string;
-  public isThisViewActive: boolean = false;
-
-  public enableMultiselectOrDefault: boolean = false;
+  public isThisViewActive = false;
 
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
@@ -183,7 +131,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     icon: 'table',
     searchEnabled: true,
     sortEnabled: true,
-    multiselectToolbarEnabled: false,
+    multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
     columnOptions: this.columnPickerOptions,
@@ -204,10 +152,8 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
 
     this.gridOptions = this.skyAgGridService.getGridOptions({
       gridOptions: {
-        columnDefs: this.enableMultiselectOrDefault
-          ? this.multiSelectColumnDefinitions
-          : this.singleSelectColumnDefinitions,
-        rowSelection: this.enableMultiselectOrDefault ? 'multiple' : 'single',
+        columnDefs: this.multiSelectColumnDefinitions,
+        rowSelection: 'multiple',
         onGridReady: this.onGridReady.bind(this),
       },
     });
@@ -216,10 +162,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
-        this.updateViewState();
         this.updateColumnOrder();
-        this.updateGridOptionsSelectionType();
-        this.updateViewConfig();
         this.isGridReadyForInitialization = true;
         this.updateDisplayedItems();
         this.changeDetector.detectChanges();
@@ -235,11 +178,6 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
     this.columnApi = gridReadyEvent.columnApi;
-    this.updateGridOptionsSelectionType();
-    this.updateColumnDefinitions();
-    this.checkForDeselect();
-    this.updateViewConfig();
-    this.updateViewState();
     this.updateDisplayedItems();
     this.changeDetector.markForCheck();
   }
@@ -252,7 +190,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
 
   private searchItems(items: any[]): any[] {
     let searchedItems = items;
-    let searchText = this.dataState && this.dataState.searchText;
+    const searchText = this.dataState && this.dataState.searchText;
 
     if (searchText) {
       searchedItems = items.filter(function (item: any) {
@@ -260,7 +198,7 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
 
         for (property in item) {
           if (
-            item.hasOwnProperty(property) &&
+            Object.prototype.hasOwnProperty.call(item, property) &&
             (property === 'name' || property === 'description')
           ) {
             const propertyText = item[property].toLowerCase();
@@ -277,10 +215,10 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
 
   private filterItems(items: any[]): any[] {
     let filteredItems = items;
-    let filterData = this.dataState && this.dataState.filterData;
+    const filterData = this.dataState && this.dataState.filterData;
 
     if (filterData && filterData.filters) {
-      let filters = filterData.filters;
+      const filters = filterData.filters;
       filteredItems = items.filter((item: any) => {
         return (
           ((filters.hideSales && item.department.name !== 'Sales') ||
@@ -305,83 +243,37 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
 
   // TODO: put this logic in the skyAgGridDataManagerAdapter
   private updateColumnOrder(): void {
-    let viewState: SkyDataViewState = this.dataState.getViewStateById(
+    const viewState: SkyDataViewState = this.dataState.getViewStateById(
       this.viewId
     );
 
-    const columnDefinitionsToModify = this.enableMultiselectOrDefault
-      ? this.multiSelectColumnDefinitions
-      : this.singleSelectColumnDefinitions;
-    columnDefinitionsToModify.sort((columnDefinition1, columnDefinition2) => {
-      let displayedColumnIdIndex1: number =
-        viewState.displayedColumnIds.findIndex(
-          (aDisplayedColumnId: string) =>
-            aDisplayedColumnId === columnDefinition1.field
-        );
-      let displayedColumnIdIndex2: number =
-        viewState.displayedColumnIds.findIndex(
-          (aDisplayedColumnId: string) =>
-            aDisplayedColumnId === columnDefinition2.field
-        );
+    this.multiSelectColumnDefinitions.sort(
+      (columnDefinition1, columnDefinition2) => {
+        const displayedColumnIdIndex1: number =
+          viewState.displayedColumnIds.findIndex(
+            (aDisplayedColumnId: string) =>
+              aDisplayedColumnId === columnDefinition1.field
+          );
+        const displayedColumnIdIndex2: number =
+          viewState.displayedColumnIds.findIndex(
+            (aDisplayedColumnId: string) =>
+              aDisplayedColumnId === columnDefinition2.field
+          );
 
-      if (displayedColumnIdIndex1 === -1) {
-        return 0;
-      } else if (displayedColumnIdIndex2 === -1) {
-        return 0;
-      } else {
-        return displayedColumnIdIndex1 - displayedColumnIdIndex2;
+        if (displayedColumnIdIndex1 === -1) {
+          return 0;
+        } else if (displayedColumnIdIndex2 === -1) {
+          return 0;
+        } else {
+          return displayedColumnIdIndex1 - displayedColumnIdIndex2;
+        }
       }
-    });
+    );
     this.changeDetector.markForCheck();
   }
 
-  private updateGridOptionsSelectionType() {
-    this.gridOptions.rowSelection = this.enableMultiselectOrDefault
-      ? 'multiple'
-      : 'single';
-  }
-
-  private updateColumnDefinitions() {
-    this.gridApi.setColumnDefs(
-      this.enableMultiselectOrDefault
-        ? this.multiSelectColumnDefinitions
-        : this.singleSelectColumnDefinitions
-    );
-
-    this.gridApi.sizeColumnsToFit();
-  }
-
-  private checkForDeselect() {
-    if (!this.enableMultiselectOrDefault) {
-      this.gridApi.deselectAll();
-    }
-  }
-
-  private updateViewConfig() {
-    this.dataManagerService.updateViewConfig({
-      ...this.viewConfig,
-      multiselectToolbarEnabled: this.enableMultiselectOrDefault,
-    });
-  }
-
-  private updateViewState() {
-    let viewState = this.dataState.getViewStateById(this.viewId);
-    if (this.enableMultiselectOrDefault) {
-      if (!viewState.columnIds.includes('selected')) {
-        viewState.columnIds.unshift('selected');
-        viewState.displayedColumnIds.unshift('selected');
-      }
-    } else {
-      if (viewState.columnIds.includes('selected')) {
-        viewState.columnIds.shift();
-        viewState.displayedColumnIds.shift();
-      }
-    }
-    this.dataState.addOrUpdateView(this.viewId, viewState);
-  }
-
   private updateDisplayedItems(): void {
-    let sortOption = this.dataState.activeSortOption;
+    const sortOption = this.dataState.activeSortOption;
     if (this.columnApi && sortOption) {
       this.columnApi.applyColumnState({
         state: [

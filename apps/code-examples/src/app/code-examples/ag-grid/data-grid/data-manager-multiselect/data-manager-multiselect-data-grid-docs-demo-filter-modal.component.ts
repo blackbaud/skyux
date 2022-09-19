@@ -10,11 +10,12 @@ import {
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
-  selector: 'app-data-manager-data-grid-docs-demo-filter-modal',
-  templateUrl: './data-manager-data-grid-docs-demo-filter-modal.component.html',
+  selector: 'app-data-manager-multiselect-data-grid-docs-demo-filter-modal',
+  templateUrl:
+    './data-manager-multiselect-data-grid-docs-demo-filter-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataManagerDataGridDocsDemoFiltersModalComponent {
+export class DataManagerMultiselectDataGridDocsDemoFiltersModalComponent {
   public jobTitle = '';
 
   public hideSales = false;

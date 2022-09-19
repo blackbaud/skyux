@@ -10,17 +10,17 @@ import { SkyModalModule } from '@skyux/modals';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { DataManagerDataGridDocsDemoFiltersModalComponent } from './data-manager-data-grid-docs-demo-filter-modal.component';
-import { DataManagerDataGridsDocsDemoViewGridComponent } from './data-manager-data-grid-docs-demo-view-grid.component';
-import { SkyDataManagerDataGridDemoComponent } from './data-manager-data-grid-docs-demo.component';
+import { DataManagerMultiselectDataGridDocsDemoFiltersModalComponent } from './data-manager-multiselect-data-grid-docs-demo-filter-modal.component';
+import { DataManagerMultiselectDataGridDocsDemoViewGridComponent } from './data-manager-multiselect-data-grid-docs-demo-view-grid.component';
+import { SkyDataManagerMultiselectDataGridDemoComponent } from './data-manager-multiselect-data-grid-docs-demo.component';
 
 @NgModule({
   declarations: [
-    SkyDataManagerDataGridDemoComponent,
-    DataManagerDataGridDocsDemoFiltersModalComponent,
-    DataManagerDataGridsDocsDemoViewGridComponent,
+    SkyDataManagerMultiselectDataGridDemoComponent,
+    DataManagerMultiselectDataGridDocsDemoFiltersModalComponent,
+    DataManagerMultiselectDataGridDocsDemoViewGridComponent,
   ],
-  exports: [SkyDataManagerDataGridDemoComponent],
+  exports: [SkyDataManagerMultiselectDataGridDemoComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -35,4 +35,4 @@ import { SkyDataManagerDataGridDemoComponent } from './data-manager-data-grid-do
     SkyCheckboxModule,
   ],
 })
-export class SkyDataManagerDataGridDocsDemoModule {}
+export class SkyDataManagerMultiselectDataGridDocsDemoModule {}

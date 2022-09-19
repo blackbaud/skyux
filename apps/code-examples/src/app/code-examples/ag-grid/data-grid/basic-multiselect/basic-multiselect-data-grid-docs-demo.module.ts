@@ -10,11 +10,11 @@ import { SkySearchModule } from '@skyux/lookup';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { SkyBasicDataGridDemoComponent } from './basic-data-grid-docs-demo.component';
+import { SkyBasicMultiselectDataGridDemoComponent } from './basic-multiselect-data-grid-docs-demo.component';
 
 @NgModule({
-  declarations: [SkyBasicDataGridDemoComponent],
-  exports: [SkyBasicDataGridDemoComponent],
+  declarations: [SkyBasicMultiselectDataGridDemoComponent],
+  exports: [SkyBasicMultiselectDataGridDemoComponent],
   imports: [
     CommonModule,
     SkyToolbarModule,
@@ -25,4 +25,4 @@ import { SkyBasicDataGridDemoComponent } from './basic-data-grid-docs-demo.compo
   ],
   providers: [SkyDataManagerService],
 })
-export class SkyBasicDataGridDocsDemoModule {}
+export class SkyBasicMultiselectDataGridDocsDemoModule {}

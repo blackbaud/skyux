@@ -46,13 +46,21 @@ export class SkyDataManagerDataGridDemoComponent implements OnInit {
       filtersApplied: false,
       filters: {
         hideSales: false,
+        jobTitle: 'any',
       },
     },
     views: [
       {
         viewId: 'dataGridWithDataManagerView',
+        columnIds: [
+          'name',
+          'age',
+          'startDate',
+          'endDate',
+          'department',
+          'jobTitle',
+        ],
         displayedColumnIds: [
-          'selected',
           'name',
           'age',
           'startDate',
