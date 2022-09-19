@@ -154,12 +154,6 @@
   width: calc(100% + 30px);
 }
 
-::ng-deep {
-  .sky-control-help:not(:empty) {
-    margin-left: var(--sky-margin-inline-sm);
-  }
-}
-
 @include sky-theme-modern {
   .sky-modal-header {
     border: none;
