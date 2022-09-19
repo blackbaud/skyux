@@ -1,7 +1,5 @@
 // #region imports
-import { EventEmitter } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 // #endregion
 
@@ -10,16 +8,22 @@ export class SkyToastInstance {
    * An observable that indicates when the toast is closed.
    */
   public get closed(): Observable<void> {
-    return this.#closed;
+    return this.#closedObs;
   }
 
-  #closed = new EventEmitter<void>();
+  #closed: Subject<void>;
+  #closedObs: Observable<void>;
+
+  constructor() {
+    this.#closed = new Subject<void>();
+    this.#closedObs = this.#closed.asObservable();
+  }
 
   /**
    * Closes the toast component.
    */
   public close(): void {
-    this.#closed.emit();
+    this.#closed.next();
     this.#closed.complete();
   }
 }
