@@ -1,5 +1,7 @@
 import { NavigationExtras } from '@angular/router';
 
+import { SkyActionHubNeedsAttentionClickHandler } from './action-hub-needs-attention-click-handler';
+
 /**
  * Specifies action items that require attention and directs users to pages
  * where they can resolve them.
@@ -26,5 +28,5 @@ export interface SkyActionHubNeedsAttention {
   /**
    * Specifies a click handler for the action item.
    */
-  click?: () => void;
+  click?: SkyActionHubNeedsAttentionClickHandler;
 }

@@ -80,7 +80,7 @@
             'sky-border-bottom-row': !isLast
           }"
           type="button"
-          (click)="item.click()"
+          (click)="item.click({item})"
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </button>

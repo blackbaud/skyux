@@ -14,8 +14,7 @@ export class LinkAsPipe implements PipeTransform {
     switch (linkAs) {
       case 'button':
         return (
-          this.isSkyActionHubNeedsAttention(value) &&
-          value.click !== undefined &&
+          (value as SkyActionHubNeedsAttention)?.click !== undefined &&
           value.permalink === undefined
         );
       case 'href':
@@ -39,11 +38,5 @@ export class LinkAsPipe implements PipeTransform {
       default:
         return false;
     }
-  }
-
-  private isSkyActionHubNeedsAttention(
-    item: any
-  ): item is SkyActionHubNeedsAttention {
-    return item?.title !== undefined;
   }
 }
