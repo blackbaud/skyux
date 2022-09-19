@@ -110,6 +110,7 @@ jobs:
       matrix:
         app:
           - code-examples
+          - dep-graph
           - integration
           - playground
     steps:
@@ -137,7 +138,10 @@ jobs:
         run: |
           npx nx build ${{ matrix.app }} \
             --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' && matrix.app != 'dep-graph' }}
+      - name: Build ${{ matrix.app }}
+        run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
+        if: ${{ github.event_name == 'pull_request' && matrix.app == 'dep-graph' }}
       - name: Upload app artifact
         uses: actions/upload-artifact@v3
         with:
@@ -183,7 +187,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           mkdir -p ./dist/apps
-          mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/{code-examples,integration,playground} ./dist/apps/
+          mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/{code-examples,integration,playground,dep-graph} ./dist/apps/
       - name: Generate Storybook Composition
         run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
