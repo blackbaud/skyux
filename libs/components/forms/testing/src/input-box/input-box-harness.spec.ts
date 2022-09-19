@@ -30,6 +30,6 @@ describe('Input box harness', () => {
 
     const harness = await inputBoxHarness.queryHarness(LastNameHarness);
 
-    await expectAsync(harness.value()).toBeResolvedTo('Doe');
+    await expectAsync(harness?.value()).toBeResolvedTo('Doe');
   });
 });
