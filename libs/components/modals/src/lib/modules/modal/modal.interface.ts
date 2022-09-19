@@ -62,7 +62,7 @@ export interface SkyModalConfigurationInterface {
   tiledBody?: boolean;
 
   /**
-   * @deprecated Use `sky-inline-help` in the modal header instead.
+   * @deprecated Use SkyHelpInlineComponent in the modal header instead.
    * Specifies a `helpKey` string. This property displays
    * the <i class="fa fa-question-circle" aria-hidden="true"></i> button in the modal header.
    * When users click this button, the `helpOpened` event broadcasts the `helpKey` parameter.
