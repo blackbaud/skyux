@@ -12,13 +12,13 @@ import { SkyToasterService } from '../toaster.service';
   providers: [SkyToasterService],
 })
 export class SkyToastWithToasterServiceTestComponent {
-  public autoClose: boolean;
+  public autoClose = false;
 
   @ViewChild(SkyToastComponent, {
     read: SkyToastComponent,
     static: true,
   })
-  public toastComponent: SkyToastComponent;
+  public toastComponent: SkyToastComponent | undefined;
 
   constructor(public toasterService: SkyToasterService) {}
 }

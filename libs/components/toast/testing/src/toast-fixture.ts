@@ -11,7 +11,7 @@ export class SkyToastFixture {
   /**
    * The toast's current text.
    */
-  public get text(): string {
+  public get text(): string | undefined {
     return SkyAppTestUtility.getText(this.debugEl);
   }
 
@@ -25,23 +25,15 @@ export class SkyToastFixture {
       return 'danger';
     }
 
-    if (clsList.contains('sky-toast-info')) {
-      return 'info';
-    }
-
     if (clsList.contains('sky-toast-success')) {
       return 'success';
     }
 
-    /* istanbul ignore else */
     if (clsList.contains('sky-toast-warning')) {
       return 'warning';
     }
 
-    // This line can't currently be hit because toast's internal implementation falls
-    // back to "info" if no toast type is defined by the consuming component.
-    /* istanbul ignore next */
-    return undefined;
+    return 'info';
   }
 
   private debugEl: DebugElement;

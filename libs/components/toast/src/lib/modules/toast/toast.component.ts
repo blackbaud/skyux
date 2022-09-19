@@ -40,7 +40,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
    * automatically if users can access the messages after the toasts close.
    */
   @Input()
-  public autoClose: boolean;
+  public autoClose: boolean | undefined;
 
   /**
    * Specifies a `SkyToastType` type for the toast to determine the color and icon to display.
@@ -58,55 +58,21 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   @Output()
   public closed = new EventEmitter<void>();
 
-  public get animationState(): string {
-    return this.isOpen ? 'open' : 'closed';
+  public get isOpen(): boolean {
+    return this.#isOpen;
   }
 
   public ariaLive = 'polite';
-
   public ariaRole: string | undefined;
-
-  public get classNames(): string {
-    const classNames: string[] = [];
-
-    let typeLabel: string;
-    switch (this.toastTypeOrDefault) {
-      case SkyToastType.Danger:
-        typeLabel = 'danger';
-        break;
-
-      case SkyToastType.Info:
-      default:
-        typeLabel = 'info';
-        break;
-
-      case SkyToastType.Success:
-        typeLabel = 'success';
-        break;
-
-      case SkyToastType.Warning:
-        typeLabel = 'warning';
-        break;
-    }
-
-    classNames.push(`sky-toast-${typeLabel}`);
-
-    return classNames.join(' ');
-  }
-
-  public baseIcon: SkyIconStackItem;
-
-  public icon: string;
-
+  public baseIcon: SkyIconStackItem | undefined;
+  public classNames = '';
+  public icon: string | undefined;
   public toastTypeOrDefault: SkyToastType = SKY_TOAST_TYPE_DEFAULT;
+  public topIcon: SkyIconStackItem | undefined;
 
-  public topIcon: SkyIconStackItem;
-
-  private autoCloseTimeoutId: any;
-
-  private isOpen = false;
-
-  private ngUnsubscribe = new Subject<void>();
+  #autoCloseTimeoutId: unknown;
+  #isOpen = false;
+  #ngUnsubscribe = new Subject<void>();
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -114,7 +80,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.isOpen = true;
+    this.#isOpen = true;
 
     this.startAutoCloseTimer();
 
@@ -123,7 +89,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
         this.toasterService.focusIn,
         this.toasterService.mouseOver,
       ])
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(([hasFocus, hasMouseOver]) => {
           if (hasFocus || hasMouseOver) {
             this.stopAutoCloseTimer();
@@ -137,8 +103,8 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
     this.stopAutoCloseTimer();
   }
@@ -153,7 +119,7 @@ export class SkyToastComponent implements OnInit, OnDestroy {
   public close(): void {
     this.stopAutoCloseTimer();
 
-    this.isOpen = false;
+    this.#isOpen = false;
     this.changeDetector.markForCheck();
   }
 
@@ -166,15 +132,15 @@ export class SkyToastComponent implements OnInit, OnDestroy {
     ) {
       this.stopAutoCloseTimer();
 
-      this.autoCloseTimeoutId = setTimeout(() => {
+      this.#autoCloseTimeoutId = setTimeout(() => {
         this.close();
       }, AUTO_CLOSE_MILLISECONDS);
     }
   }
 
   public stopAutoCloseTimer(): void {
-    if (this.autoCloseTimeoutId) {
-      clearTimeout(this.autoCloseTimeoutId);
+    if (this.#autoCloseTimeoutId) {
+      clearTimeout(this.#autoCloseTimeoutId as number);
     }
   }
 
@@ -218,5 +184,27 @@ export class SkyToastComponent implements OnInit, OnDestroy {
       this.toastTypeOrDefault === SkyToastType.Danger ? 'assertive' : 'polite';
     this.ariaRole =
       this.toastTypeOrDefault === SkyToastType.Danger ? 'alert' : undefined;
+
+    let typeLabel: string;
+    switch (this.toastTypeOrDefault) {
+      case SkyToastType.Danger:
+        typeLabel = 'danger';
+        break;
+
+      case SkyToastType.Info:
+      default:
+        typeLabel = 'info';
+        break;
+
+      case SkyToastType.Success:
+        typeLabel = 'success';
+        break;
+
+      case SkyToastType.Warning:
+        typeLabel = 'warning';
+        break;
+    }
+
+    this.classNames = `sky-toast-${typeLabel}`;
   }
 }

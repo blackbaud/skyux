@@ -12,12 +12,16 @@ import { SkyToastBodyTestContext } from './toast-body-context';
   templateUrl: './toast-body.component.fixture.html',
 })
 export class SkyToastBodyTestComponent {
+  #instance: SkyToastInstance;
+
   constructor(
     public context: SkyToastBodyTestContext,
-    private instance: SkyToastInstance
-  ) {}
+    instance: SkyToastInstance
+  ) {
+    this.#instance = instance;
+  }
 
   public close(): void {
-    this.instance.close();
+    this.#instance.close();
   }
 }

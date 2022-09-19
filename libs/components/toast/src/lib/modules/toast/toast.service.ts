@@ -18,23 +18,25 @@ export class SkyToastService implements OnDestroy {
    * @internal
    */
   public get toastStream(): Observable<SkyToast[]> {
-    return this._toastStream;
+    return this.#toastStream;
   }
 
-  private host: ComponentRef<SkyToasterComponent>;
+  #dynamicComponentService: SkyDynamicComponentService;
+  #host: ComponentRef<SkyToasterComponent> | undefined;
+  #toasts: SkyToast[] = [];
+  #toastStream = new BehaviorSubject<SkyToast[]>([]);
 
-  private toasts: SkyToast[] = [];
-
-  private _toastStream = new BehaviorSubject<SkyToast[]>([]);
-
-  constructor(private dynamicComponentService: SkyDynamicComponentService) {}
+  constructor(dynamicComponentService: SkyDynamicComponentService) {
+    this.#dynamicComponentService = dynamicComponentService;
+  }
 
   public ngOnDestroy(): void {
-    if (this.host) {
+    if (this.#host) {
       this.closeAll();
-      this.removeHostComponent();
+      this.#removeHostComponent();
     }
-    this._toastStream.complete();
+
+    this.#toastStream.complete();
   }
 
   /**
@@ -67,6 +69,8 @@ export class SkyToastService implements OnDestroy {
    * constructor.
    */
   public openComponent(
+    // TODO: change this to Type<unknown> in a breaking change to match the first
+    // parameter of the dynamic component service's createComponent() method.
     component: any,
     config?: SkyToastConfig,
     providers: Provider[] = []
@@ -78,9 +82,8 @@ export class SkyToastService implements OnDestroy {
       useValue: instance,
     });
 
-    const toast = new SkyToast(component, providers, config);
-    toast.instance = instance;
-    this.addToast(toast);
+    const toast = new SkyToast(component, providers, instance, config);
+    this.#addToast(toast, instance);
 
     return instance;
   }
@@ -89,44 +92,44 @@ export class SkyToastService implements OnDestroy {
    * Closes all active toast components.
    */
   public closeAll(): void {
-    if (!this.host) {
+    if (!this.#host) {
       return;
     }
 
-    this.host.instance.closeAll();
+    this.#host.instance.closeAll();
   }
 
-  private addToast(toast: SkyToast): void {
-    if (!this.host) {
-      this.createHostComponent();
+  #addToast(toast: SkyToast, instance: SkyToastInstance): void {
+    if (!this.#host) {
+      this.#createHostComponent();
     }
 
-    this.toasts.push(toast);
-    this._toastStream.next(this.toasts);
-    toast.instance.closed.subscribe(() => {
-      this.removeToast(toast);
+    this.#toasts.push(toast);
+    this.#toastStream.next(this.#toasts);
+    instance.closed.subscribe(() => {
+      this.#removeToast(toast);
     });
   }
 
-  private removeToast(toast: SkyToast): void {
-    this.toasts = this.toasts.filter((t) => t !== toast);
-    this._toastStream.next(this.toasts);
+  #removeToast(toast: SkyToast): void {
+    this.#toasts = this.#toasts.filter((t) => t !== toast);
+    this.#toastStream.next(this.#toasts);
 
-    if (this.toasts.length === 0) {
-      this.removeHostComponent();
+    if (this.#toasts.length === 0) {
+      this.#removeHostComponent();
     }
   }
 
-  private createHostComponent(): ComponentRef<SkyToasterComponent> {
-    this.host =
-      this.dynamicComponentService.createComponent(SkyToasterComponent);
-    return this.host;
+  #createHostComponent(): ComponentRef<SkyToasterComponent> {
+    this.#host =
+      this.#dynamicComponentService.createComponent(SkyToasterComponent);
+    return this.#host;
   }
 
-  private removeHostComponent() {
-    if (this.host) {
-      this.dynamicComponentService.removeComponent(this.host);
-      this.host = undefined;
+  #removeHostComponent() {
+    if (this.#host) {
+      this.#dynamicComponentService.removeComponent(this.#host);
+      this.#host = undefined;
     }
   }
 }

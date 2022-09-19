@@ -1,5 +1,5 @@
 // #region imports
-import { Provider } from '@angular/core';
+import { Provider, Type } from '@angular/core';
 
 import { SkyToastInstance } from './toast-instance';
 import { SkyToastConfig } from './types/toast-config';
@@ -12,39 +12,43 @@ let toastCount = 0;
  * @internal
  */
 export class SkyToast {
-  public get bodyComponent(): any {
-    return this._bodyComponent;
+  public get bodyComponent(): Type<unknown> {
+    return this.#bodyComponent;
   }
 
   public get bodyComponentProviders(): Provider[] {
-    return this._bodyComponentProviders;
+    return this.#bodyComponentProviders;
   }
 
-  public get config(): SkyToastConfig {
-    return this._config;
+  public get config(): SkyToastConfig | undefined {
+    return this.#config;
   }
 
   public get instance(): SkyToastInstance {
-    return this._instance;
+    return this.#instance;
   }
 
-  public set instance(value: SkyToastInstance) {
-    if (!this._instance) {
-      this._instance = value;
-    }
-  }
-
-  public isRendered: boolean;
+  public isRendered = false;
 
   public toastId: number;
 
-  private _instance: SkyToastInstance;
+  #bodyComponent: Type<unknown>;
+  #bodyComponentProviders: Provider[];
+  #config: SkyToastConfig | undefined;
+
+  #instance: SkyToastInstance;
 
   constructor(
-    private _bodyComponent: any,
-    private _bodyComponentProviders: Provider[],
-    private _config: SkyToastConfig
+    bodyComponent: Type<unknown>,
+    bodyComponentProviders: Provider[],
+    instance: SkyToastInstance,
+    config?: SkyToastConfig
   ) {
+    this.#bodyComponent = bodyComponent;
+    this.#bodyComponentProviders = bodyComponentProviders;
+    this.#instance = instance;
+    this.#config = config;
+
     this.toastId = ++toastCount;
   }
 }
