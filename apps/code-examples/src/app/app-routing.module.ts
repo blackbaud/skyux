@@ -116,6 +116,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'toast',
+    loadChildren: () =>
+      import('./features/toast.module').then((m) => m.ToastFeatureModule),
+  },
+  {
     path: 'text-editor',
     loadChildren: () =>
       import('./features/text-editor.module').then(
