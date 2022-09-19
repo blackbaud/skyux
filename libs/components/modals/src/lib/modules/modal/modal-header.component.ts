@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
   templateUrl: './modal-header.component.html',
   styleUrls: ['./modal-header.component.scss'],
 })
-export class SkyModalHeaderComponent {}
+export class SkyModalHeaderComponent {
+  public showInlineHelp = true;
+}
