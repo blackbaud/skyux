@@ -26,8 +26,8 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
     return new HarnessPredicate(
       SkyAutocompleteSearchResultHarness,
       filters
-    ).addOption('textContent', filters.textContent, async (harness, text) =>
-      HarnessPredicate.stringMatches(await harness.textContent(), text)
+    ).addOption('textContent', filters.text, async (harness, text) =>
+      HarnessPredicate.stringMatches(await harness.getText(), text)
     );
   }
 
@@ -58,9 +58,9 @@ export class SkyAutocompleteSearchResultHarness extends ComponentHarness {
   }
 
   /**
-   * Returns the text content of the search result.
+   * Returns the text of the search result.
    */
-  public async textContent(): Promise<string> {
+  public async getText(): Promise<string> {
     return (await this.host()).text();
   }
 }

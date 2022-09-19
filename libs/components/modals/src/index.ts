@@ -2,6 +2,7 @@
 export * from './lib/modules/confirm/confirm-button';
 export * from './lib/modules/confirm/confirm-button-action';
 export * from './lib/modules/confirm/confirm-button-config';
+export * from './lib/modules/confirm/confirm-button-style-type';
 export * from './lib/modules/confirm/confirm-closed-event-args';
 export * from './lib/modules/confirm/confirm-config';
 export * from './lib/modules/confirm/confirm-instance';
