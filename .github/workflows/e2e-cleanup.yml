@@ -1,15 +1,21 @@
+# Nightly cleanup to remove old PRs from skyux-pr-preview. Runs at 3:00 AM UTC.
+
 name: E2E Cleanup
+
 on:
   schedule:
-    - cron: '0 0 * * 1-5'
+    - cron: '0 3 * * *'
+
 jobs:
   cleanup:
+    name: Cleanup
     runs-on: ubuntu-latest
     steps:
-      - name: Cleanup
-        # Delete artifacts older than 90 days
+      - name: Delete old PR previews
         run: |
-          set -x
+          set -exuo pipefail
+
+          # Delete PR previews older than 90 days.
           az storage blob delete-batch \
             --source='$web' \
             --if-unmodified-since="$(date -d '-90 days' '+%Y-%m-%dT07:00Z')"

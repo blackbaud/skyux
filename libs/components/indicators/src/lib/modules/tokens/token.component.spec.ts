@@ -4,6 +4,8 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyTokenComponent } from '../tokens/token.component';
 import { SkyTokensModule } from '../tokens/tokens.module';
 
+import { SkyTokenTestComponent } from './fixtures/token.component.fixture';
+
 describe('Token component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,19 +19,19 @@ describe('Token component', () => {
 
     const tokenEl = fixture.debugElement.nativeElement;
 
-    const tokenCloseBtnEl = tokenEl.querySelector(`.${elClass}`);
+    const el = tokenEl.querySelector(`.${elClass}`);
 
-    expect(tokenCloseBtnEl).not.toHaveClass(`${elClass}-active`);
+    expect(el).not.toHaveClass(`${elClass}-active`);
 
-    SkyAppTestUtility.fireDomEvent(tokenCloseBtnEl, 'mousedown');
+    SkyAppTestUtility.fireDomEvent(el, 'mousedown');
     fixture.detectChanges();
 
-    expect(tokenCloseBtnEl).toHaveClass(`${elClass}-active`);
+    expect(el).toHaveClass(`${elClass}-active`);
 
     SkyAppTestUtility.fireDomEvent(document, 'mouseup');
     fixture.detectChanges();
 
-    expect(tokenCloseBtnEl).not.toHaveClass(`${elClass}-active`);
+    expect(el).not.toHaveClass(`${elClass}-active`);
   }
 
   it('should toggle the token active state', () => {
@@ -38,5 +40,23 @@ describe('Token component', () => {
 
   it('should toggle the close button active state', () => {
     validateActive('sky-token-btn-close');
+  });
+
+  it('should use the specified ARIA label', () => {
+    const fixture = TestBed.createComponent(SkyTokenTestComponent);
+
+    fixture.componentInstance.ariaLabel = 'test';
+    fixture.detectChanges();
+
+    const btnEl = fixture.nativeElement.querySelector(
+      'sky-token .sky-token-btn-close'
+    );
+
+    expect(btnEl.getAttribute('aria-label')).toBe('test');
+
+    fixture.componentInstance.ariaLabel = undefined;
+    fixture.detectChanges();
+
+    expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
   });
 });

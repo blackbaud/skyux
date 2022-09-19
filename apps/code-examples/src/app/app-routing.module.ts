@@ -115,6 +115,18 @@ const routes: Routes = [
         (m) => m.DataManagerFeatureModule
       ),
   },
+  {
+    path: 'toast',
+    loadChildren: () =>
+      import('./features/toast.module').then((m) => m.ToastFeatureModule),
+  },
+  {
+    path: 'text-editor',
+    loadChildren: () =>
+      import('./features/text-editor.module').then(
+        (m) => m.TextEditorFeatureModule
+      ),
+  },
 ];
 
 @NgModule({

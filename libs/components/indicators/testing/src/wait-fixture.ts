@@ -15,8 +15,7 @@ export class SkyWaitFixture {
   }
 
   public get ariaLabel(): string {
-    const div: HTMLDivElement =
-      this.debugEl.nativeElement.querySelector('.sky-wait-mask');
+    const div = this.debugEl.nativeElement.querySelector('.sky-wait-mask');
     return div.getAttribute('aria-label');
   }
 
@@ -28,7 +27,7 @@ export class SkyWaitFixture {
 
   private debugEl: DebugElement;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,

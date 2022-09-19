@@ -13,7 +13,7 @@ export class SkyErrorFixture {
   /**
    * The error's current type.
    */
-  public get errorType(): string {
+  public get errorType(): string | undefined {
     const imageEl = this.debugEl.query(
       By.css('.sky-error-image-container > div')
     );
@@ -37,7 +37,7 @@ export class SkyErrorFixture {
 
   private debugEl: DebugElement;
 
-  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,

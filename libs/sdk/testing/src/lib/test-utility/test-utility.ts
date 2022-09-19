@@ -18,10 +18,16 @@ function getNativeEl(el: any): any {
 
 export class SkyAppTestUtility {
   public static fireDomEvent(
-    element: EventTarget,
+    element: EventTarget | null | undefined,
     eventName: string,
     options?: SkyAppTestUtilityDomEventOptions
   ): void {
+    if (!element) {
+      throw new Error(
+        `Event \`${eventName}\` could not be fired because the element is not defined.`
+      );
+    }
+
     const defaults = {
       bubbles: true,
       cancelable: true,

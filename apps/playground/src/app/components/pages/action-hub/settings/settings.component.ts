@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SkyModalService } from '@skyux/modals';
 import {
   SkyActionHubNeedsAttention,
   SkyPageLink,
@@ -16,7 +17,7 @@ export class SettingsComponent {
   public settingsLinks: SkyPageModalLink[] = [];
   public needsAttention: SkyActionHubNeedsAttention[];
 
-  constructor() {
+  constructor(private modalService: SkyModalService) {
     ['Back', 'Home'].forEach((label) => {
       this.relatedLinks.push({
         label,
@@ -79,6 +80,22 @@ export class SettingsComponent {
         title: 'Hash link',
         permalink: {
           url: '#',
+        },
+      },
+      {
+        title: 'Click to open a modal',
+        click: () => {
+          this.modalService.open(SettingsModalComponent, {
+            providers: [
+              { provide: 'modalTitle', useValue: 'Click event modal' },
+            ],
+          });
+        },
+      },
+      {
+        title: 'Click to show alert',
+        click: () => {
+          alert('Click event alert');
         },
       },
     ];

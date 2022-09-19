@@ -1,5 +1,6 @@
 export * from './lib/modules/action-hub/action-hub.module';
 export * from './lib/modules/action-hub/types/action-hub-needs-attention';
+export * from './lib/modules/action-hub/types/action-hub-needs-attention-click-handler';
 export * from './lib/modules/action-hub/types/page-link';
 export * from './lib/modules/action-hub/types/page-links-input';
 export * from './lib/modules/action-hub/types/page-modal-link';

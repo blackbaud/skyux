@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class SkyToastBodyContext {
-  public message: string;
+  public message: string | undefined;
 }
