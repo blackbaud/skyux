@@ -79,12 +79,13 @@ export class SkyRadioFixture {
     return this.debugEl.queryAll(By.css('.sky-radio-group sky-radio input'));
   }
 
-  private getRadioButtonInputEl(index: number): DebugElement {
+  private getRadioButtonInputEl(index: number): DebugElement | undefined {
     const allRadioInputs = this.getAllRadioInputEls();
 
     if (allRadioInputs && allRadioInputs[index]) {
       return allRadioInputs[index];
     }
+    return;
   }
 
   private radioButtonDisabled(index: number): boolean {

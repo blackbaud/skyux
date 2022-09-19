@@ -58,20 +58,20 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   public set checked(value: boolean) {
     const newCheckedState = !!value;
 
-    if (this._checked !== newCheckedState) {
-      this._checked = newCheckedState;
-      this._checkedChange.next(this._checked);
+    if (this.#_checked !== newCheckedState) {
+      this.#_checked = newCheckedState;
+      this.#_checkedChange.next(this.#_checked);
 
       if (newCheckedState) {
         this.selectedValue = this.value;
       }
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public get checked(): boolean {
-    return this._checked;
+    return this.#_checked;
   }
 
   /**
@@ -79,17 +79,17 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
-      this._disabled = coercedValue;
-      this._disabledChange.next(this._disabled);
-      this.changeDetector.markForCheck();
+      this.#_disabled = coercedValue;
+      this.#_disabledChange.next(this.#_disabled);
+      this.#changeDetector.markForCheck();
     }
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   /**
@@ -97,7 +97,13 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @default a unique, auto-incrementing integer. For example: `sky-radio-1`
    */
   @Input()
-  public id = `sky-radio-${++nextUniqueId}`;
+  public set id(value: string | undefined) {
+    if (value) {
+      this.inputId = `sky-radio-${value}-input`;
+    } else {
+      this.inputId = `sky-radio-${this.#defaultId}-input`;
+    }
+  }
 
   /**
    * Specifies an ARIA label for the radio button. This sets the radio button's `aria-label`
@@ -106,7 +112,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * radio buttons. If the radio button includes a visible label, use `labelledBy` instead.
    */
   @Input()
-  public label: string;
+  public label: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
@@ -115,7 +121,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * If the radio button does not include a visible label, use `label` instead.
    */
   @Input()
-  public labelledBy: string;
+  public labelledBy: string | undefined;
 
   /**
    * This property is deprecated in favor of the `name` property on the `sky-radio-group element`.
@@ -124,13 +130,13 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @deprecated
    */
   @Input()
-  public set name(value: string) {
-    this._name = value;
-    this.changeDetector.markForCheck();
+  public set name(value: string | undefined) {
+    this.#_name = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public get name(): string {
-    return this._name;
+  public get name(): string | undefined {
+    return this.#_name;
   }
 
   /**
@@ -140,21 +146,30 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @deprecated
    */
   @Input()
-  public set tabindex(value: number) {
+  public set tabindex(value: number | undefined) {
     console.warn(
       'The sky-radio `tabindex` property is deprecated. Please use the `tabindex` property on the sky-radio-group component.'
     );
-    this._tabindex = value;
-    this.changeDetector.markForCheck();
+    if (value) {
+      this.#_tabindex = value;
+    } else {
+      this.#_tabindex = 0;
+    }
+    this.#changeDetector.markForCheck();
   }
   public get tabindex(): number {
-    return this._tabindex || 0;
+    return this.#_tabindex;
   }
 
   // For setting the tabindex from the radio group
-  public set groupTabIndex(value: number) {
-    this._tabindex = value;
-    this.changeDetector.markForCheck();
+  public set groupTabIndex(value: number | undefined) {
+    if (value) {
+      this.#_tabindex = value;
+    } else {
+      this.#_tabindex = 0;
+    }
+
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -166,21 +181,21 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   @Input()
   public set value(value: any) {
     /* istanbul ignore else */
-    if (this._value !== value) {
-      if (this.selectedValue && this.selectedValue === this._value) {
+    if (this.#_value !== value) {
+      if (this.selectedValue && this.selectedValue === this.#_value) {
         this.selectedValue = value;
-        this.onChangeCallback(this.selectedValue);
-        this.onTouchedCallback();
+        this.#onChangeCallback(this.selectedValue);
+        this.#onTouchedCallback();
       }
 
-      this._value = value;
+      this.#_value = value;
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public get value(): any {
-    return this._value;
+    return this.#_value;
   }
 
   /**
@@ -189,7 +204,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * radio buttons.
    */
   @Input()
-  public icon: string;
+  public icon: string | undefined;
 
   /**
    * Specifies a type to set the background color after users select an icon radio button.
@@ -201,11 +216,13 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Input()
   public get radioType(): string {
-    return this._radioType || 'info';
+    return this.#_radioType;
   }
-  public set radioType(value: string) {
+  public set radioType(value: string | undefined) {
     if (value) {
-      this._radioType = value.toLowerCase();
+      this.#_radioType = value.toLowerCase();
+    } else {
+      this.#_radioType = 'info';
     }
   }
 
@@ -215,7 +232,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   @Output()
   // eslint-disable-next-line @angular-eslint/no-output-native
   public get change(): Observable<SkyRadioChange> {
-    return this._change;
+    return this.#_change;
   }
 
   /**
@@ -223,7 +240,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Output()
   public get checkedChange(): Observable<boolean> {
-    return this._checkedChange;
+    return this.#_checkedChange;
   }
 
   /**
@@ -231,39 +248,45 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Output()
   public get disabledChange(): Observable<boolean> {
-    return this._disabledChange;
-  }
-
-  public get inputId(): string {
-    return `sky-radio-${this.id}-input`;
+    return this.#_disabledChange;
   }
 
   public set selectedValue(value: any) {
-    if (value !== this._selectedValue) {
-      this._selectedValue = value;
+    if (value !== this.#_selectedValue) {
+      this.#_selectedValue = value;
     }
   }
   public get selectedValue(): any {
-    return this._selectedValue;
+    return this.#_selectedValue;
   }
+
+  public inputId = '';
 
   public radioGroupDisabled = false;
 
-  private _change = new EventEmitter<SkyRadioChange>();
-  private _checked = false;
-  private _checkedChange = new BehaviorSubject<boolean>(this._checked);
-  private _disabled = false;
-  private _disabledChange = new BehaviorSubject<boolean>(this._disabled);
-  private _name: string;
-  private _radioType: string;
-  private _selectedValue: any;
-  private _tabindex: number;
-  private _value: any;
+  #defaultId = `sky-radio-${++nextUniqueId}`;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #_change = new EventEmitter<SkyRadioChange>();
+  #_checked = false;
+  #_checkedChange = new BehaviorSubject<boolean>(this.#_checked);
+  #_disabled = false;
+  #_disabledChange = new BehaviorSubject<boolean>(this.#_disabled);
+  #_name: string | undefined;
+  #_radioType = 'info';
+  #_selectedValue: any;
+  #_tabindex = 0;
+  #_value: any;
+
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+
+    this.id = this.#defaultId;
+  }
 
   public ngOnDestroy(): void {
-    this.removeUniqueSelectionListener();
+    this.#removeUniqueSelectionListener();
   }
 
   public writeValue(value: any): void {
@@ -274,7 +297,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.selectedValue = value;
     this.checked = this.value === this.selectedValue;
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   /**
@@ -287,15 +310,15 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   public setGroupDisabledState(isDisabled: boolean) {
     this.radioGroupDisabled = isDisabled;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public registerOnChange(fn: any): void {
-    this.onChangeCallback = fn;
+    this.#onChangeCallback = fn;
   }
 
   public registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn;
+    this.#onTouchedCallback = fn;
   }
 
   public onInputChange(event: Event): void {
@@ -303,25 +326,25 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (!this.disabled) {
       this.checked = true;
-      this._change.emit({
+      this.#_change.emit({
         source: this,
-        value: this._value,
+        value: this.#_value,
       });
 
       this.onInputFocusChange(undefined);
-      this.onChangeCallback(this.value);
+      this.#onChangeCallback(this.value);
     }
   }
 
-  public onInputFocusChange(event: Event): void {
-    this.onTouchedCallback();
+  public onInputFocusChange(event: Event | undefined): void {
+    this.#onTouchedCallback();
     this.blur.next();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private removeUniqueSelectionListener = () => {};
+  #removeUniqueSelectionListener = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChangeCallback = (value: any) => {};
+  #onChangeCallback = (value: any) => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouchedCallback = () => {};
+  #onTouchedCallback = () => {};
 }

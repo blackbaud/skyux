@@ -42,7 +42,7 @@ export class SkyRadioGroupComponent
    * If the radio button group does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies an ARIA label for the radio button group. This sets the
@@ -51,23 +51,23 @@ export class SkyRadioGroupComponent
    * If the radio button group includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Indicates whether to disable the input.
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
+  public set disabled(value: boolean | undefined) {
     const newDisabledState = SkyFormsUtility.coerceBooleanProperty(value);
-    if (this._disabled !== newDisabledState) {
-      this._disabled = newDisabledState;
-      this.updateRadioButtonDisabled();
+    if (this.#_disabled !== newDisabledState) {
+      this.#_disabled = newDisabledState;
+      this.#updateRadioButtonDisabled();
     }
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   /**
@@ -77,12 +77,16 @@ export class SkyRadioGroupComponent
    * @required
    */
   @Input()
-  public set name(value: string) {
-    this._name = value;
-    this.updateRadioButtonNames();
+  public set name(value: string | undefined) {
+    if (value) {
+      this.#_name = value;
+    } else {
+      this.#_name = this.#defaultName;
+    }
+    this.#updateRadioButtonNames();
   }
   public get name(): string {
-    return this._name;
+    return this.#_name;
   }
 
   /**
@@ -93,7 +97,7 @@ export class SkyRadioGroupComponent
    * @default false
    */
   @Input()
-  public required = false;
+  public required: boolean | undefined = false;
 
   /**
    * Specifies the value of the radio button to select by default when the group loads.
@@ -105,7 +109,7 @@ export class SkyRadioGroupComponent
     this.#updateValue(value, true);
   }
   public get value(): any {
-    return this._value;
+    return this.#_value;
   }
 
   /**
@@ -116,87 +120,101 @@ export class SkyRadioGroupComponent
    * depending on how users navigate to the radio button group.
    */
   @Input()
-  public set tabIndex(value: number) {
-    if (this._tabIndex !== value) {
-      this._tabIndex = value;
-      this.updateRadioButtonTabIndexes();
+  public set tabIndex(value: number | undefined) {
+    if (this.#_tabIndex !== value) {
+      this.#_tabIndex = value;
+      this.#updateRadioButtonTabIndexes();
     }
   }
-  public get tabIndex(): number {
-    return this._tabIndex;
+  public get tabIndex(): number | undefined {
+    return this.#_tabIndex;
   }
 
   @ContentChildren(SkyRadioComponent, { descendants: true })
-  private radios: QueryList<SkyRadioComponent>;
+  public radios: QueryList<SkyRadioComponent> | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #defaultName = `sky-radio-group-${nextUniqueId++}`;
 
-  private _disabled = false;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _name = `sky-radio-group-${nextUniqueId++}`;
+  #_disabled = false;
 
-  private _tabIndex: number;
+  #_name = '';
 
-  private _value: any;
+  #_tabIndex: number | undefined;
+
+  #_value: any;
+
+  #changeDetector: ChangeDetectorRef;
+  #ngControl: NgControl | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    @Self() @Optional() private ngControl: NgControl
+    changeDetector: ChangeDetectorRef,
+    @Self() @Optional() ngControl: NgControl
   ) {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
+    if (ngControl) {
+      ngControl.valueAccessor = this;
     }
+    this.#changeDetector = changeDetector;
+    this.#ngControl = ngControl;
+    this.name = this.#defaultName;
   }
 
   public ngAfterContentInit(): void {
     // Let child radio components render before updating.
     setTimeout(() => {
-      this.resetRadioButtons();
+      this.#resetRadioButtons();
     });
 
     // Watch for radio selections.
     this.watchForSelections();
 
-    this.radios.changes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      // Wait for child radio components to finish any rendering updates.
-      setTimeout(() => {
-        this.resetRadioButtons();
-      });
+    /* istanbul ignore else */
+    if (this.radios) {
+      this.radios.changes.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+        // Wait for child radio components to finish any rendering updates.
+        setTimeout(() => {
+          this.#resetRadioButtons();
+        });
 
-      // Subscribe to the new radio buttons
-      this.watchForSelections();
-    });
+        // Subscribe to the new radio buttons
+        this.watchForSelections();
+      });
+    }
   }
 
   public ngAfterViewInit(): void {
-    if (this.ngControl) {
+    if (this.#ngControl) {
       // Backwards compatibility support for anyone still using Validators.Required.
       this.required =
-        this.required || SkyFormsUtility.hasRequiredValidation(this.ngControl);
+        this.required || SkyFormsUtility.hasRequiredValidation(this.#ngControl);
 
       // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-      this.changeDetector.detectChanges();
+      this.#changeDetector.detectChanges();
     }
   }
 
   public watchForSelections() {
-    this.radios.forEach((radio) => {
-      radio.change
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((change: SkyRadioChange) => {
-          this.onTouched();
-          this.value = change.value;
+    /* istanbul ignore else */
+    if (this.radios) {
+      this.radios.forEach((radio) => {
+        radio.change
+          .pipe(takeUntil(this.#ngUnsubscribe))
+          .subscribe((change: SkyRadioChange) => {
+            this.#onTouched();
+            this.value = change.value;
+          });
+        radio.blur.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+          this.#onTouched();
+          this.#changeDetector.markForCheck();
         });
-      radio.blur.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-        this.onTouched();
-        this.changeDetector.markForCheck();
       });
-    });
+    }
   }
 
   public ngOnDestroy() {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public writeValue(value: any): void {
@@ -212,19 +230,19 @@ export class SkyRadioGroupComponent
   }
 
   public registerOnChange(fn: (value: any) => void): void {
-    this.onChange = fn;
+    this.#onChange = fn;
   }
 
   public registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+    this.#onTouched = fn;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onChange: (value: any) => void = () => {};
+  #onChange: (value: any) => void = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouched: () => any = () => {};
+  #onTouched: () => any = () => {};
 
-  private updateRadioButtonDisabled(): void {
+  #updateRadioButtonDisabled(): void {
     if (this.radios) {
       this.radios.forEach((radio) =>
         radio.setGroupDisabledState(this.disabled)
@@ -232,7 +250,7 @@ export class SkyRadioGroupComponent
     }
   }
 
-  private updateRadioButtonNames(): void {
+  #updateRadioButtonNames(): void {
     if (this.radios) {
       this.radios.forEach((radio) => {
         radio.name = this.name;
@@ -240,7 +258,7 @@ export class SkyRadioGroupComponent
     }
   }
 
-  private updateRadioButtonTabIndexes(): void {
+  #updateRadioButtonTabIndexes(): void {
     if (this.radios) {
       this.radios.forEach((radio) => {
         radio.groupTabIndex = this.tabIndex;
@@ -248,33 +266,33 @@ export class SkyRadioGroupComponent
     }
   }
 
-  private updateCheckedRadioFromValue(): void {
+  #updateCheckedRadioFromValue(): void {
     if (!this.radios) {
       return;
     }
 
     this.radios.forEach((radio) => {
-      radio.checked = this._value === radio.value;
+      radio.checked = this.#_value === radio.value;
     });
   }
 
-  private resetRadioButtons(): void {
-    this.updateCheckedRadioFromValue();
-    this.updateRadioButtonNames();
-    this.updateRadioButtonTabIndexes();
-    this.updateRadioButtonDisabled();
+  #resetRadioButtons(): void {
+    this.#updateCheckedRadioFromValue();
+    this.#updateRadioButtonNames();
+    this.#updateRadioButtonTabIndexes();
+    this.#updateRadioButtonDisabled();
   }
 
   #updateValue(value: any, markDirty: boolean): void {
-    const isNewValue = value !== this._value;
+    const isNewValue = value !== this.#_value;
 
     /* istanbul ignore else */
     if (isNewValue) {
-      this._value = value;
+      this.#_value = value;
       if (markDirty) {
-        this.onChange(this._value);
+        this.#onChange(this.#_value);
       }
-      this.updateCheckedRadioFromValue();
+      this.#updateCheckedRadioFromValue();
     }
   }
 }
