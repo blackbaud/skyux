@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MutationObserverService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyModalModule } from '../modal.module';
 
-import { ModalMockMutationObserverService } from './mock-modal-mutation-observer';
 import { ModalMockThemeService } from './mock-theme.service';
 import { ModalAutofocusTestComponent } from './modal-autofocus.component.fixture';
 import { ModalFooterTestComponent } from './modal-footer.component.fixture';
@@ -33,10 +31,6 @@ import { ModalTestComponent } from './modal.component.fixture';
     {
       provide: SkyThemeService,
       useClass: ModalMockThemeService,
-    },
-    {
-      provide: MutationObserverService,
-      useClass: ModalMockMutationObserverService,
     },
   ],
 })
