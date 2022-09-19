@@ -4,7 +4,6 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
-  styleUrls: ['./selection-box.component.fixture.scss'],
 })
 export class SelectionBoxTestComponent {
   public myForm: FormGroup;
