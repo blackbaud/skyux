@@ -60,10 +60,12 @@ export class SkySelectionBoxComponent implements OnDestroy {
   }
 
   public set disabled(value: boolean) {
-    this.#selectionBoxAdapterService.setTabIndex(
-      this.selectionBoxEl,
-      value ? -1 : 0
-    );
+    if (this.selectionBoxEl) {
+      this.#selectionBoxAdapterService.setTabIndex(
+        this.selectionBoxEl,
+        value ? -1 : 0
+      );
+    }
     this.#_disabled = value;
     this.#changeDetector.markForCheck();
   }

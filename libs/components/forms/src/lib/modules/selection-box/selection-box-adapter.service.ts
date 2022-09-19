@@ -139,11 +139,9 @@ export class SkySelectionBoxAdapterService {
   /**
    * Sets the `tabIndex` of the `element` to the provided `tabIndex`.
    */
-  public setTabIndex(element: ElementRef | undefined, tabIndex: number): void {
-    const el = element?.nativeElement;
+  public setTabIndex(element: ElementRef, tabIndex: number): void {
+    const el = element.nativeElement;
 
-    if (el) {
-      el.tabIndex = tabIndex;
-    }
+    el.tabIndex = tabIndex;
   }
 }

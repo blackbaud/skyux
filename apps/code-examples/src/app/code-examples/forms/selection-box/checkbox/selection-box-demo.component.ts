@@ -6,7 +6,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './selection-box-demo.component.html',
 })
 export class SelectionBoxDemoComponent implements OnInit {
-  public checkboxArray: FormArray;
+  public checkboxArray: FormArray | undefined;
 
   public selectionBoxes: any[] = [
     {

@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
@@ -14,11 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  MutationObserverService,
-  SkyCoreAdapterService,
-  SkyMediaBreakpoints,
-} from '@skyux/core';
+import { MutationObserverService, SkyCoreAdapterService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
@@ -40,9 +35,7 @@ const SKY_SELECTION_BOX_CLASS_NAME = '.sky-selection-box';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SkySelectionBoxGridComponent
-  implements AfterViewInit, OnDestroy, OnInit
-{
+export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   /**
    * @internal
    * Specifies how to display the selection boxes in the grid.
@@ -66,22 +59,22 @@ export class SkySelectionBoxGridComponent
   })
   public selectionBoxes: QueryList<SkySelectionBoxComponent> | undefined;
 
-  set #currentBreakpoint(value: SkyMediaBreakpoints) {
-    if (value !== this.#_currentBreakpoint) {
-      this.#_currentBreakpoint = value;
-      this.#selectionBoxAdapter.setResponsiveClass(
-        this.containerElementRef,
-        value
-      );
-      this.#updateChildrenHeights();
-    }
-  }
-
   @ViewChild('container', {
     read: ElementRef,
     static: true,
   })
-  public containerElementRef!: ElementRef<any>;
+  public set containerElementRef(value: ElementRef | undefined) {
+    this.#_containerElementRef = value;
+    this.#destroyMutationObserver();
+    if (value) {
+      this.#updateBreakpointClass();
+      this.#initMutationObserver();
+    }
+  }
+
+  public get containerElementRef(): ElementRef | undefined {
+    return this.#_containerElementRef;
+  }
 
   #mutationObserver: MutationObserver | undefined;
 
@@ -89,7 +82,7 @@ export class SkySelectionBoxGridComponent
 
   #_alignItems: SkySelectionBoxGridAlignItemsType = 'center';
 
-  #_currentBreakpoint: SkyMediaBreakpoints | undefined;
+  #_containerElementRef: ElementRef | undefined;
 
   #coreAdapterService: SkyCoreAdapterService;
   #selectionBoxAdapter: SkySelectionBoxAdapterService;
@@ -121,15 +114,8 @@ export class SkySelectionBoxGridComponent
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           this.#updateBreakpointClass();
-          this.#updateChildrenHeights();
         });
     }
-  }
-
-  public ngAfterViewInit(): void {
-    this.#updateBreakpointClass();
-    this.#updateChildrenHeights();
-    this.#initMutationObserver();
   }
 
   public ngOnDestroy(): void {
@@ -146,7 +132,7 @@ export class SkySelectionBoxGridComponent
 
   #initMutationObserver(): void {
     /* istanbul ignore else */
-    if (!this.#mutationObserver) {
+    if (!this.#mutationObserver && this.containerElementRef) {
       const el = this.containerElementRef.nativeElement;
 
       // MutationObserver is patched by Zone.js and therefore becomes part of the
@@ -177,18 +163,26 @@ export class SkySelectionBoxGridComponent
     const parentWidth = this.#selectionBoxAdapter.getParentWidth(
       this.#hostElRef
     );
-    this.#currentBreakpoint =
-      this.#selectionBoxAdapter.getBreakpointForWidth(parentWidth);
+
+    if (this.containerElementRef) {
+      this.#selectionBoxAdapter.setResponsiveClass(
+        this.containerElementRef,
+        this.#selectionBoxAdapter.getBreakpointForWidth(parentWidth)
+      );
+    }
+    this.#updateChildrenHeights();
   }
 
   #updateChildrenHeights(): void {
-    this.#coreAdapterService.resetHeight(
-      this.containerElementRef,
-      SKY_SELECTION_BOX_CLASS_NAME
-    );
-    this.#coreAdapterService.syncMaxHeight(
-      this.containerElementRef,
-      SKY_SELECTION_BOX_CLASS_NAME
-    );
+    if (this.containerElementRef) {
+      this.#coreAdapterService.resetHeight(
+        this.containerElementRef,
+        SKY_SELECTION_BOX_CLASS_NAME
+      );
+      this.#coreAdapterService.syncMaxHeight(
+        this.containerElementRef,
+        SKY_SELECTION_BOX_CLASS_NAME
+      );
+    }
   }
 }
