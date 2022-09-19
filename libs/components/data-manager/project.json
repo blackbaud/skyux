@@ -9,7 +9,7 @@
       "outputs": ["dist/libs/components/data-manager"],
       "options": {
         "project": "libs/components/data-manager/ng-package.json",
-        "x": false
+        "updateBuildableProjectDepsInPackageJson": false
       },
       "configurations": {
         "production": {
