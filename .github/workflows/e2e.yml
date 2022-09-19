@@ -192,18 +192,18 @@ jobs:
         run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
-      - name: Publish to Azure Storage
+      - name: Publish PR preview
         if: ${{ github.event_name == 'pull_request' }}
         run: |
-          set -x
+          set -euxo pipefail
 
           npx nx g @skyux-sdk/e2e-schematics:pr-comment \
             --pr=${{ github.event.number }} \
             --storybooks=$(echo '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' | jq -r 'join(",")') \
-            --apps="code-examples,integration,playground" \
+            --apps="code-examples,dep-graph,integration,playground" \
             --baseUrl="https://skyuxprpreview-dqbtf8ckcua9bhgf.z01.azurefd.net/pr-${{ github.event.number }}-${GITHUB_SHA::7}"
 
-          # code-examples,integration,playground
+          # code-examples,dep-graph,integration,playground
           az storage blob upload-batch \
             --destination='$web' \
             --source=./dist/apps \
@@ -236,7 +236,7 @@ jobs:
           fetch-depth: 1
           path: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           token: ${{secrets.GH_PERSONAL_ACCESS_TOKEN}}
-      - name: Publish preview and comment on PR
+      - name: Publish branch preview
         if: ${{ github.event_name == 'push' }}
         run: |
           npx skyux-dev publish-storybook --workingDirectory=${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
