@@ -22,6 +22,7 @@ export class SkyConfirmComponent {
   public message: string;
   public body: string | undefined;
   public preserveWhiteSpace = false;
+  public isOkType = false;
 
   #config: SkyConfirmConfig;
   #modal: SkyModalInstance;
@@ -52,6 +53,7 @@ export class SkyConfirmComponent {
     this.message = config.message;
     this.body = config.body;
     this.preserveWhiteSpace = !!config.preserveWhiteSpace;
+    this.isOkType = config.type === SkyConfirmType.OK;
   }
 
   public close(button: SkyConfirmButton) {

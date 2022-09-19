@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.20.0](https://github.com/blackbaud/skyux/compare/6.19.0...6.20.0) (2022-09-16)
+
+
+### Features
+
+* **components/modals:** confirm test harness ([#510](https://github.com/blackbaud/skyux/issues/510)) ([3b373e9](https://github.com/blackbaud/skyux/commit/3b373e9a6733c392846ac030c10537cdd287d962))
+* **components/text-editor:** add inline help example for text editor ([#502](https://github.com/blackbaud/skyux/issues/502)) ([476daca](https://github.com/blackbaud/skyux/commit/476dacafa0269f645f5b7cd546b4c065707b816b))
+
+
+### Bug Fixes
+
+* **components/lookup:** rename harness filters `textContent` property to `text` to satisfy conventions ([#526](https://github.com/blackbaud/skyux/issues/526)) ([8f1b8f5](https://github.com/blackbaud/skyux/commit/8f1b8f55dce5ed094e34e3d75364d3c6f584b620))
+
 ## [6.19.0](https://github.com/blackbaud/skyux/compare/6.18.0...6.19.0) (2022-09-14)
 
 
