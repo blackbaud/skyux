@@ -45,13 +45,25 @@ export class SkyTabButtonComponent {
   public disabled: boolean;
 
   @Input()
-  public tabStyle: SkyTabsetStyle;
+  public get tabStyle(): SkyTabsetStyle {
+    return this.#_tabStyle;
+  }
+
+  public set tabStyle(style: SkyTabsetStyle) {
+    this.#_tabStyle = style;
+    this.elementRole = style === 'tabs' ? 'tab' : 'link';
+  }
 
   @Output()
   public buttonClick = new EventEmitter<void>();
 
   @Output()
   public closeClick = new EventEmitter<void>();
+
+
+  public elementRole = 'tab';
+  #_tabStyle: SkyTabsetStyle;
+
 
   public onButtonClick(event: any): void {
     if (!this.disabled) {
