@@ -10,6 +10,10 @@ env:
   BROWSER_STACK_USERNAME: ${{ secrets.BROWSER_STACK_USERNAME }}
   BROWSER_STACK_ACCESS_KEY: ${{ secrets.BROWSER_STACK_ACCESS_KEY }}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   install-deps:
     name: Install and cache dependencies
@@ -40,8 +44,8 @@ jobs:
       - name: Get projects
         id: projects
         run: |
-          echo "::set-output name=test-projects::$(nx print-affected --target=test | jq -cr '.tasks | map(.target.project)')"
-          echo "::set-output name=build-projects::$(nx print-affected --target=build | jq -cr '.tasks | map(.target.project)')"
+          echo "::set-output name=test-projects::$(npx nx print-affected --target=test | jq -cr '.tasks | map(.target.project)')"
+          echo "::set-output name=build-projects::$(npx nx print-affected --target=build | jq -cr '.tasks | map(.target.project)')"
 
   lint:
     name: Lint
