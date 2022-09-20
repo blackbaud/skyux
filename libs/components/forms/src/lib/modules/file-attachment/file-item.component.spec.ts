@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -23,19 +24,23 @@ describe('File item component', () => {
   });
 
   //#region helper functions
-  function getNameEl() {
+  function getFileItemEl(): DebugElement | null {
+    return fixture.debugElement.query(By.css('.sky-file-item'));
+  }
+
+  function getNameEl(): DebugElement | null {
     return fixture.debugElement.query(
       By.css('.sky-file-item-title .sky-file-item-name strong')
     );
   }
 
-  function getSizeEl() {
+  function getSizeEl(): DebugElement | null {
     return fixture.debugElement.query(
       By.css('.sky-file-item-title .sky-file-item-size')
     );
   }
 
-  function triggerDelete() {
+  function triggerDelete(): void {
     const deleteEl = fixture.debugElement.query(
       By.css('.sky-file-item-btn-delete')
     );
@@ -43,17 +48,17 @@ describe('File item component', () => {
     fixture.detectChanges();
   }
 
-  function getImage() {
+  function getImage(): DebugElement | null {
     return fixture.debugElement.query(
       By.css('.sky-file-item-preview-img-container img')
     );
   }
 
-  function getOtherPreview() {
+  function getOtherPreview(): DebugElement | null {
     return fixture.debugElement.query(By.css('.sky-file-item-preview-other i'));
   }
 
-  function testImage(extension: string) {
+  function testImage(extension: string): void {
     componentInstance.fileItem = {
       file: {
         name: 'myFile.' + extension,
@@ -66,7 +71,7 @@ describe('File item component', () => {
     fixture.detectChanges();
 
     const imageEl = getImage();
-    expect(imageEl.nativeElement.getAttribute('src')).toBe(
+    expect(imageEl?.nativeElement.getAttribute('src')).toBe(
       '$/myFile.' + extension
     );
 
@@ -105,7 +110,7 @@ describe('File item component', () => {
     } else if (extension === 'htm' || extension === 'html') {
       expectedClassExtension = 'code';
     }
-    expect(otherEl.nativeElement.classList).toContain(
+    expect(otherEl?.nativeElement.classList).toContain(
       'fa-file-' + expectedClassExtension + '-o'
     );
 
@@ -125,10 +130,10 @@ describe('File item component', () => {
 
     const nameEl = getNameEl();
 
-    expect(nameEl.nativeElement.textContent).toBe('myFile.txt');
+    expect(nameEl?.nativeElement.textContent).toBe('myFile.txt');
 
     const sizeEl = getSizeEl();
-    expect(sizeEl.nativeElement.textContent).toContain('(1 KB)');
+    expect(sizeEl?.nativeElement.textContent).toContain('(1 KB)');
   });
 
   it('shows the url if the item is a link', async () => {
@@ -140,7 +145,7 @@ describe('File item component', () => {
 
     const nameEl = getNameEl();
 
-    expect(nameEl.nativeElement.textContent).toBe('$/myFile.txt');
+    expect(nameEl?.nativeElement.textContent).toBe('$/myFile.txt');
 
     const sizeEl = getSizeEl();
     expect(sizeEl).toBeFalsy();
@@ -212,6 +217,15 @@ describe('File item component', () => {
     testOtherPreview('tiff', 'image');
     testOtherPreview('other', 'text');
     testOtherPreview('mp4', 'video');
+  });
+
+  it('should not show anything if a file item is not given', () => {
+    componentInstance.fileItem = undefined;
+    fixture.detectChanges();
+
+    expect(getFileItemEl()).toBeNull();
+    expect(getNameEl()).toBeNull();
+    expect(getSizeEl()).toBeNull();
   });
 
   it('should pass accessibility', async () => {

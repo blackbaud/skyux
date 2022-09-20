@@ -20,7 +20,7 @@ export class SkyFileSizePipe implements PipeTransform {
     this.#resourcesService = resourcesService;
   }
 
-  public transform(input: number | undefined | null): string {
+  public transform(input?: number | null): string {
     let decimalPlaces = 0,
       dividend = 1,
       template: string;

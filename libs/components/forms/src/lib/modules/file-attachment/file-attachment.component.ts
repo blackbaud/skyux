@@ -33,6 +33,9 @@ import { SkyFileAttachmentClick } from './types/file-attachment-click';
 
 let uniqueId = 0;
 
+const MAX_FILE_SIZE_DEFAULT = 500000;
+const MIN_FILE_SIZE_DEFAULT = 0;
+
 /**
  * Provides an element to attach a single local file.
  */
@@ -52,7 +55,7 @@ export class SkyFileAttachmentComponent
    * @required
    */
   @Input()
-  public acceptedTypes!: string;
+  public acceptedTypes: string | undefined;
 
   /**
    * Indicates whether to disable the input.
@@ -76,11 +79,7 @@ export class SkyFileAttachmentComponent
    */
   @Input()
   public set maxFileSize(value: number | undefined) {
-    if (value !== undefined) {
-      this.#_maxFileSize = value;
-    } else {
-      this.#_maxFileSize = 500000;
-    }
+    this.#_maxFileSize = value ?? MAX_FILE_SIZE_DEFAULT;
   }
 
   public get maxFileSize(): number {
@@ -93,11 +92,7 @@ export class SkyFileAttachmentComponent
    */
   @Input()
   public set minFileSize(value: number | undefined) {
-    if (value !== undefined) {
-      this.#_minFileSize = value;
-    } else {
-      this.#_minFileSize = 0;
-    }
+    this.#_minFileSize = value ?? MIN_FILE_SIZE_DEFAULT;
   }
 
   public get minFileSize(): number {
@@ -109,6 +104,7 @@ export class SkyFileAttachmentComponent
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
+  // TODO: Change `Function` to a more specific type in a breaking change.
   public validateFn: Function | undefined;
 
   /**
@@ -143,7 +139,7 @@ export class SkyFileAttachmentComponent
   @Input()
   public required: boolean | undefined = false;
 
-  public set value(value: SkyFileItem | undefined) {
+  public set value(value: SkyFileItem | undefined | null) {
     // The null check is needed to address a bug in Angular 4.
     // writeValue is being called twice, first time with a phantom null value
     // See: https://github.com/angular/angular/issues/14988
@@ -193,11 +189,11 @@ export class SkyFileAttachmentComponent
 
   #_disabled = false;
 
-  #_maxFileSize = 500000;
+  #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
-  #_minFileSize = 0;
+  #_minFileSize = MIN_FILE_SIZE_DEFAULT;
 
-  #_value: any;
+  #_value: SkyFileItem | undefined;
 
   #changeDetector: ChangeDetectorRef;
   #fileAttachmentService: SkyFileAttachmentService;
@@ -270,7 +266,7 @@ export class SkyFileAttachmentComponent
         .subscribe(
           (newLabelComponents: QueryList<SkyFileAttachmentLabelComponent>) => {
             this.hasLabelComponent = newLabelComponents.length > 0;
-            this.#changeDetector.detectChanges();
+            this.#changeDetector.markForCheck();
           }
         );
     }
@@ -397,9 +393,12 @@ export class SkyFileAttachmentComponent
   }
 
   public emitClick(): void {
-    this.fileClick.emit({
-      file: this.value!,
-    });
+    /* istanbul ignore else */
+    if (this.value) {
+      this.fileClick.emit({
+        file: this.value,
+      });
+    }
   }
 
   #emitFileChangeEvent(currentFile: SkyFileItem | undefined): void {

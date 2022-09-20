@@ -13,6 +13,9 @@ import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
 import { SkyFileDropChange } from './types/file-drop-change';
 
+const MAX_FILE_SIZE_DEFAULT = 500000;
+const MIN_FILE_SIZE_DEFAULT = 0;
+
 /**
  * Provides an element to attach multiple files where users can browse or drag and drop local files
  * or provide hyperlinks to external files. You can leave the contents of the component
@@ -68,11 +71,7 @@ export class SkyFileDropComponent implements OnDestroy {
    */
   @Input()
   public set minFileSize(value: number | undefined) {
-    if (value !== undefined) {
-      this.#_minFileSize = value;
-    } else {
-      this.#_minFileSize = 0;
-    }
+    this.#_minFileSize = value ?? MIN_FILE_SIZE_DEFAULT;
   }
 
   public get minFileSize(): number {
@@ -85,11 +84,7 @@ export class SkyFileDropComponent implements OnDestroy {
    */
   @Input()
   public set maxFileSize(value: number | undefined) {
-    if (value !== undefined) {
-      this.#_maxFileSize = value;
-    } else {
-      this.#_maxFileSize = 500000;
-    }
+    this.#_maxFileSize = value ?? MAX_FILE_SIZE_DEFAULT;
   }
 
   public get maxFileSize(): number {
@@ -107,6 +102,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
+  // TODO: Change `Function` to a more specific type in a breaking change.
   public validateFn: Function | undefined;
 
   /**
@@ -115,7 +111,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public acceptedTypes!: string;
+  public acceptedTypes: string | undefined;
 
   /**
    * Indicates whether to disable the option to browse for files to attach.
@@ -130,7 +126,7 @@ export class SkyFileDropComponent implements OnDestroy {
   public allowLinks: boolean | undefined = false;
 
   @ViewChild('fileInput')
-  public inputEl!: ElementRef;
+  public inputEl: ElementRef | undefined;
 
   public rejectedOver = false;
   public acceptedOver = false;
@@ -138,9 +134,9 @@ export class SkyFileDropComponent implements OnDestroy {
 
   #enterEventTarget: any;
 
-  #_maxFileSize = 500000;
+  #_maxFileSize = MAX_FILE_SIZE_DEFAULT;
 
-  #_minFileSize = 0;
+  #_minFileSize = MIN_FILE_SIZE_DEFAULT;
 
   #fileAttachmentService: SkyFileAttachmentService;
 
@@ -155,7 +151,7 @@ export class SkyFileDropComponent implements OnDestroy {
   }
 
   public dropClicked() {
-    if (!this.noClick) {
+    if (!this.noClick && this.inputEl) {
       this.inputEl.nativeElement.click();
     }
   }
@@ -268,7 +264,9 @@ export class SkyFileDropComponent implements OnDestroy {
         rejectedFiles: rejectedFileArray,
       } as SkyFileDropChange);
 
-      this.inputEl.nativeElement.value = '';
+      if (this.inputEl) {
+        this.inputEl.nativeElement.value = '';
+      }
     }
   }
 

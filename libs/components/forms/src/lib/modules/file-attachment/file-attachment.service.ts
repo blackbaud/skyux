@@ -11,8 +11,8 @@ export class SkyFileAttachmentService {
     files: FileList,
     minFileSize: number,
     maxFileSize: number,
-    acceptedTypes: string,
-    validateFn: Function | undefined
+    acceptedTypes?: string,
+    validateFn?: Function
   ): SkyFileItem[] {
     const fileResults: SkyFileItem[] = [];
 
@@ -66,7 +66,10 @@ export class SkyFileAttachmentService {
     return false;
   }
 
-  public fileTypeRejected(fileType: string, acceptedTypes: string): boolean {
+  public fileTypeRejected(
+    fileType: string,
+    acceptedTypes: string | undefined
+  ): boolean {
     if (!acceptedTypes) {
       return false;
     }
