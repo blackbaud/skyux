@@ -3,6 +3,8 @@
 
 const { join } = require('path');
 const { constants } = require('karma');
+process.env.WEBKIT_HEADLESS_BIN =
+  require('playwright-webkit').webkit.executablePath();
 
 module.exports = () => {
   return {
@@ -12,6 +14,7 @@ module.exports = () => {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-webkit-launcher'),
       require('karma-coverage'),
       require('@angular-devkit/build-angular/plugins/karma'),
       {
