@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyTrimModule } from '@skyux/core';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyBoxContentComponent } from './box-content.component';
@@ -14,7 +15,7 @@ import { SkyBoxComponent } from './box.component';
     SkyBoxContentComponent,
     SkyBoxControlsComponent,
   ],
-  imports: [CommonModule, SkyThemeModule],
+  imports: [CommonModule, SkyThemeModule, SkyTrimModule],
   exports: [
     SkyBoxComponent,
     SkyBoxHeaderComponent,

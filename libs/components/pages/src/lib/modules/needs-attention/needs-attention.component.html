@@ -73,6 +73,17 @@
         >
           <ng-container *ngTemplateOutlet="link"></ng-container>
         </a>
+        <button
+          *ngIf="item | linkAs: 'button'"
+          class="sky-needs-attention-item sky-padding-vertical-lg sky-btn sky-btn-link-inline"
+          [ngClass]="{
+            'sky-border-bottom-row': !isLast
+          }"
+          type="button"
+          (click)="item.click({item})"
+        >
+          <ng-container *ngTemplateOutlet="link"></ng-container>
+        </button>
       </sky-column>
     </sky-row>
   </sky-fluid-grid>

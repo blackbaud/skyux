@@ -40,17 +40,20 @@ describe('Toast component', () => {
   });
 
   function verifyType(type?: SkyToastType) {
-    component.toastType = type;
+    if (component) {
+      component.toastType = type;
+    }
+
     fixture.detectChanges();
 
     let className: string;
-    if (SkyToastType[type]) {
+    if (type !== undefined && SkyToastType[type]) {
       className = `sky-toast-${SkyToastType[type].toLowerCase()}`;
     } else {
       className = `sky-toast-info`;
     }
 
-    expect(className).toEqual(component.toastComponent.classNames);
+    expect(component.toastComponent?.classNames).toEqual(className);
   }
 
   function validateIcon(
@@ -65,7 +68,7 @@ describe('Toast component', () => {
 
     const toastEl = document.querySelector('sky-toast');
 
-    const iconEl = toastEl.querySelector('.sky-icon');
+    const iconEl = toastEl?.querySelector('.sky-icon');
 
     expect(iconEl).toHaveCssClass(`fa-${expectedIcon}`);
   }
@@ -96,22 +99,20 @@ describe('Toast component', () => {
   it('should close the toast when clicking close button', () => {
     setupTest();
     fixture.detectChanges();
-    expect(component.toastComponent['isOpen']).toEqual(true);
-    expect(component.toastComponent.animationState).toEqual('open');
+    expect(component.toastComponent?.isOpen).toEqual(true);
     fixture.nativeElement.querySelector('.sky-toast-btn-close').click();
     fixture.detectChanges();
-    expect(component.toastComponent['isOpen']).toEqual(false);
-    expect(component.toastComponent.animationState).toEqual('closed');
+    expect(component.toastComponent?.isOpen).toEqual(false);
   });
 
   it('should set aria attributes', () => {
     setupTest();
-    expect(component.toastComponent.ariaLive).toEqual('polite');
-    expect(component.toastComponent.ariaRole).toEqual(undefined);
+    expect(component.toastComponent?.ariaLive).toEqual('polite');
+    expect(component.toastComponent?.ariaRole).toEqual(undefined);
     fixture.componentInstance.toastType = SkyToastType.Danger;
     fixture.detectChanges();
-    expect(component.toastComponent.ariaLive).toEqual('assertive');
-    expect(component.toastComponent.ariaRole).toEqual('alert');
+    expect(component.toastComponent?.ariaLive).toEqual('assertive');
+    expect(component.toastComponent?.ariaRole).toEqual('alert');
   });
 
   it('should pass accessibility', async(() => {
@@ -132,20 +133,20 @@ describe('Toast component', () => {
 
       setupTest();
 
-      expect(component.toastComponent['isOpen']).toBe(true);
+      expect(component.toastComponent?.isOpen).toBe(true);
 
       waitForAutoClose();
 
-      expect(component.toastComponent['isOpen']).toBe(false);
+      expect(component.toastComponent?.isOpen).toBe(false);
     }));
 
     describe('with toaster service', () => {
       let withServiceFixture: ComponentFixture<SkyToastWithToasterServiceTestComponent>;
       let withServiceComponent: SkyToastWithToasterServiceTestComponent;
-      let withServiceToastComponent: SkyToastComponent;
+      let withServiceToastComponent: SkyToastComponent | undefined;
 
       function validateToastOpen(open: boolean) {
-        expect(withServiceToastComponent['isOpen']).toBe(open);
+        expect(withServiceToastComponent?.isOpen).toBe(open);
       }
 
       beforeEach(() => {
