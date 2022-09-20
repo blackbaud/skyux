@@ -13,17 +13,17 @@ import { WizardComponent } from './wizard.component';
 
 const routes: Routes = [{ path: '', component: WizardComponent }];
 @NgModule({
-    declarations: [WizardComponent, WizardModalComponent],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        SkyCheckboxModule,
-        SkyIdModule,
-        SkyInputBoxModule,
-        SkyTabsModule,
-        SkyModalModule,
-        ReactiveFormsModule,
-    ],
-    exports: [WizardComponent]
+  declarations: [WizardComponent, WizardModalComponent],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    SkyCheckboxModule,
+    SkyIdModule,
+    SkyInputBoxModule,
+    SkyTabsModule,
+    SkyModalModule,
+    ReactiveFormsModule,
+  ],
+  exports: [WizardComponent],
 })
 export class WizardModule {}

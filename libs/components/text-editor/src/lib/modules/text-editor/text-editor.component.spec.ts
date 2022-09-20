@@ -8,10 +8,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import {
-  UntypedFormControl,
   FormsModule,
   NgModel,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';

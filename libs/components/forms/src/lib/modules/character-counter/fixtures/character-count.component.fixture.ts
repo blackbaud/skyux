@@ -4,7 +4,11 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 import { SkyCharacterCounterInputDirective } from '../character-counter.directive';
 
@@ -25,7 +29,10 @@ export class CharacterCountTestComponent {
   #changeDetector: ChangeDetectorRef;
   #formBuilder: UntypedFormBuilder;
 
-  constructor(formBuilder: UntypedFormBuilder, changeDetector: ChangeDetectorRef) {
+  constructor(
+    formBuilder: UntypedFormBuilder,
+    changeDetector: ChangeDetectorRef
+  ) {
     this.#formBuilder = formBuilder;
     this.#changeDetector = changeDetector;
 

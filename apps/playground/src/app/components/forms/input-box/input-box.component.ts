@@ -1,5 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, NgModel, Validators } from '@angular/forms';
+import {
+  NgModel,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-input-box',

@@ -1,5 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,

@@ -4,7 +4,11 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({

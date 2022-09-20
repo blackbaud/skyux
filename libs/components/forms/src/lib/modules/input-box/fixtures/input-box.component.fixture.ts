@@ -1,5 +1,10 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, NgModel, Validators } from '@angular/forms';
+import {
+  NgModel,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'sky-input-box-fixture',

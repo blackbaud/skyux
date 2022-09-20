@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, NgModel } from '@angular/forms';
+import { NgModel, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSelectionChange,
