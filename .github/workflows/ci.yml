@@ -41,6 +41,8 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - name: Get projects
@@ -88,6 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' }}
     strategy:
+      fail-fast: false
       matrix:
         project: ${{ fromJson(needs.install-deps.outputs.build-projects) }}
     steps:
@@ -140,6 +143,7 @@ jobs:
     needs: install-deps
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         project: ${{ fromJson(needs.install-deps.outputs.test-projects) }}
     steps:
@@ -162,7 +166,12 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
+          set -euxo pipefail
+
+          npx playwright install --with-deps webkit
+
           npx nx test ${{ matrix.project }} --browsers=ChromeHeadless,WebkitHeadless --skip-nx-cache
+
           if [[ "$(nx print-affected --target=posttest | jq -r '.tasks | map(.target.project) | .[]' | grep -E '^${{ matrix.project }}$')" ]]
           then
             npx nx posttest ${{ matrix.project }} --browsers=ChromeHeadless,WebkitHeadless --skip-nx-cache
