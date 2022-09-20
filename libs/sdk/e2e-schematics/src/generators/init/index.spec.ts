@@ -1,5 +1,4 @@
-import { libraryGenerator } from '@nrwl/angular/generators';
-import { UnitTestRunner } from '@nrwl/angular/src/utils/test-runners';
+import { UnitTestRunner, libraryGenerator } from '@nrwl/angular/generators';
 import {
   Tree,
   joinPathFragments,

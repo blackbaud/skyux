@@ -1,8 +1,8 @@
 import {
   applicationGenerator,
+  componentGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import componentGenerator from '@nrwl/angular/src/generators/component/component';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';

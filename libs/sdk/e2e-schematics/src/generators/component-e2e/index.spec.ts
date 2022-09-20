@@ -1,8 +1,8 @@
 import {
+  UnitTestRunner,
   applicationGenerator,
   libraryGenerator,
 } from '@nrwl/angular/generators';
-import { UnitTestRunner } from '@nrwl/angular/src/utils/test-runners';
 import { ProjectConfiguration, readProjectConfiguration } from '@nrwl/devkit';
 import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
