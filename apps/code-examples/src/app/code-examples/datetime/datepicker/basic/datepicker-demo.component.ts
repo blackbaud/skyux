@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-datepicker-demo',
   templateUrl: './datepicker-demo.component.html',
 })
 export class DatepickerDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      myDate: new FormControl(new Date(1999, 10, 5)),
+      myDate: new UntypedFormControl(new Date(1999, 10, 5)),
     });
   }
 }

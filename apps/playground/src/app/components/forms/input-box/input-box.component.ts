@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, NgModel, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-input-box',
@@ -7,9 +7,9 @@ import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
   styleUrls: ['./input-box.component.scss'],
 })
 export class InputBoxComponent implements OnInit, AfterViewInit {
-  public errorField: FormControl;
+  public errorField: UntypedFormControl;
 
-  public errorForm: FormGroup;
+  public errorForm: UntypedFormGroup;
 
   public errorNgModelValue: string;
 
@@ -19,12 +19,12 @@ export class InputBoxComponent implements OnInit, AfterViewInit {
   public errorNgModel: NgModel;
 
   public ngOnInit(): void {
-    this.errorField = new FormControl('', [Validators.required]);
+    this.errorField = new UntypedFormControl('', [Validators.required]);
 
     this.errorField.markAsTouched();
 
-    this.errorForm = new FormGroup({
-      errorFormField: new FormControl('', [Validators.required]),
+    this.errorForm = new UntypedFormGroup({
+      errorFormField: new UntypedFormControl('', [Validators.required]),
     });
 
     this.errorForm.controls['errorFormField'].markAsTouched();

@@ -13,7 +13,7 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   NgControl,
@@ -251,8 +251,8 @@ export class SkyColorpickerInputDirective
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      const control: FormControl = this.injector.get<NgControl>(NgControl)
-        .control as FormControl;
+      const control: UntypedFormControl = this.injector.get<NgControl>(NgControl)
+        .control as UntypedFormControl;
       if (control) {
         control.setValue(this.modelValue, { emitEvent: false });
       }

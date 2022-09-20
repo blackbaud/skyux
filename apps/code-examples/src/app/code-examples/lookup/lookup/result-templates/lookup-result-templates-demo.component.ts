@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
@@ -13,7 +13,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
   styleUrls: ['./lookup-result-templates-demo.component.scss'],
 })
 export class LookupResultTemplatesDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public people: LookupDemoPerson[] = [
     {
@@ -109,7 +109,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
     this.showMoreConfig.nativePickerConfig.itemTemplate = template;
   }
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
@@ -142,7 +142,7 @@ export class LookupResultTemplatesDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names),
+      names: new UntypedFormControl(this.names),
     });
   }
 }

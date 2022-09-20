@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 interface Color {
   name: string;
@@ -27,14 +27,14 @@ export class AutocompleteHarnessTestComponent {
 
   public enableShowMore = true;
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public showAddButton = true;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({
       favoriteColor: undefined,
-      customResultTemplate: new FormControl(),
+      customResultTemplate: new UntypedFormControl(),
       addShowMore: undefined,
     });
   }

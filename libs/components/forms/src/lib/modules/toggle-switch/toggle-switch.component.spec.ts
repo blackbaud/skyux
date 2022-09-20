@@ -5,7 +5,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { FormControl, NgModel } from '@angular/forms';
+import { UntypedFormControl, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
@@ -432,7 +432,7 @@ describe('Toggle switch component', () => {
     let testComponent: SkyToggleSwitchReactiveFormFixtureComponent;
     let buttonElement: HTMLButtonElement | null;
     let toggleNativeElement: HTMLElement;
-    let formControl: FormControl;
+    let formControl: UntypedFormControl;
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(

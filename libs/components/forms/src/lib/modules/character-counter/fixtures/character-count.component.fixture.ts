@@ -4,7 +4,7 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyCharacterCounterInputDirective } from '../character-counter.directive';
 
@@ -14,8 +14,8 @@ import { SkyCharacterCounterInputDirective } from '../character-counter.directiv
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterCountTestComponent {
-  public testForm: FormGroup;
-  public firstName: FormControl;
+  public testForm: UntypedFormGroup;
+  public firstName: UntypedFormControl;
   public firstNameLabel = 'Field label';
   public maxCharacterCount: number | undefined = 5;
 
@@ -23,9 +23,9 @@ export class CharacterCountTestComponent {
   public inputDirective: SkyCharacterCounterInputDirective | undefined;
 
   #changeDetector: ChangeDetectorRef;
-  #formBuilder: FormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
-  constructor(formBuilder: FormBuilder, changeDetector: ChangeDetectorRef) {
+  constructor(formBuilder: UntypedFormBuilder, changeDetector: ChangeDetectorRef) {
     this.#formBuilder = formBuilder;
     this.#changeDetector = changeDetector;
 

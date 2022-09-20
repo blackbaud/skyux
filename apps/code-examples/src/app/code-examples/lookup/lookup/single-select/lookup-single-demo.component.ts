@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 import { LookupDemoPerson } from './lookup-demo-person';
@@ -10,7 +10,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
   styleUrls: ['./lookup-single-demo.component.scss'],
 })
 export class LookupSingleSelectDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
@@ -37,7 +37,7 @@ export class LookupSingleSelectDemoComponent implements OnInit {
 
   public name: LookupDemoPerson[] = [this.people[15]];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
@@ -70,7 +70,7 @@ export class LookupSingleSelectDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      name: new FormControl(this.name),
+      name: new UntypedFormControl(this.name),
     });
   }
 }

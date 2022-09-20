@@ -11,7 +11,7 @@ import componentE2eGenerator from './index';
 
 describe('component-e2e', () => {
   it('should create e2e infrastructure for a component', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -60,7 +60,7 @@ describe('component-e2e', () => {
   });
 
   it('should error without a name', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     try {
       await componentE2eGenerator(tree, { name: '' });
       fail();
@@ -72,7 +72,7 @@ describe('component-e2e', () => {
   });
 
   it('should handle tagging', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -92,7 +92,7 @@ describe('component-e2e', () => {
 
   it('should allow being called twice', async () => {
     const spy = jest.spyOn(console, 'warn');
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     await libraryGenerator(tree, {
       name: 'storybook',
       routing: false,
@@ -116,7 +116,7 @@ describe('component-e2e', () => {
   });
 
   it('should move the projects to a subdirectory', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
 
     await libraryGenerator(tree, {
       name: 'storybook',

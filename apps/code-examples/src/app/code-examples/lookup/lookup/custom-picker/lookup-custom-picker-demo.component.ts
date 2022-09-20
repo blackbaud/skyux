@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
@@ -18,7 +18,7 @@ import { LookupDemoPerson } from './lookup-demo-person';
 export class LookupCustomPickerDemoComponent implements OnInit {
   public showMoreConfig: SkyLookupShowMoreConfig;
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
@@ -47,7 +47,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: SkyModalService
   ) {
     this.showMoreConfig = {
@@ -112,7 +112,7 @@ export class LookupCustomPickerDemoComponent implements OnInit {
 
   private createForm(): void {
     this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names),
+      names: new UntypedFormControl(this.names),
     });
   }
 }

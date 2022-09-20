@@ -7,7 +7,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyThemeService } from '@skyux/theme';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
@@ -36,8 +36,8 @@ export class SkyAgGridCellEditorDatepickerComponent
 {
   public columnWidth: number;
   public columnWidthWithoutBorders: number;
-  public editorForm = new FormGroup({
-    date: new FormControl(),
+  public editorForm = new UntypedFormGroup({
+    date: new UntypedFormControl(),
   });
   public rowHeightWithoutBorders: number;
   public skyComponentProperties: SkyAgGridDatepickerProperties = {};

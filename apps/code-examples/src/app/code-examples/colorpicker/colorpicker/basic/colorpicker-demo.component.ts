@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SkyColorpickerOutput } from '@skyux/colorpicker';
 
 @Component({
@@ -7,7 +7,7 @@ import { SkyColorpickerOutput } from '@skyux/colorpicker';
   templateUrl: './colorpicker-demo.component.html',
 })
 export class ColorpickerDemoComponent implements OnInit {
-  public reactiveForm: FormGroup;
+  public reactiveForm: UntypedFormGroup;
 
   public swatches: string[] = [
     '#BD4040',
@@ -18,7 +18,7 @@ export class ColorpickerDemoComponent implements OnInit {
     '#DA9C9C',
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();
@@ -36,7 +36,7 @@ export class ColorpickerDemoComponent implements OnInit {
 
   private createForm(): void {
     this.reactiveForm = this.formBuilder.group({
-      favoriteColor: new FormControl('#f00'),
+      favoriteColor: new UntypedFormControl('#f00'),
     });
   }
 }

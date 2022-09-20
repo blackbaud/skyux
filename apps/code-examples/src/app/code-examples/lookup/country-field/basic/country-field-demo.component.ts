@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { SkyCountryFieldCountry } from '@skyux/lookup';
 
 @Component({
@@ -7,19 +7,19 @@ import { SkyCountryFieldCountry } from '@skyux/lookup';
   templateUrl: './country-field-demo.component.html',
 })
 export class CountryFieldDemoComponent implements OnInit {
-  public countryControl: FormControl;
+  public countryControl: UntypedFormControl;
 
   public countryData: SkyCountryFieldCountry;
 
-  public countryForm: FormGroup;
+  public countryForm: UntypedFormGroup;
 
   public ngOnInit(): void {
-    this.countryControl = new FormControl();
+    this.countryControl = new UntypedFormControl();
     this.countryControl.setValue({
       name: 'Australia',
       iso2: 'au',
     });
-    this.countryForm = new FormGroup({
+    this.countryForm = new UntypedFormGroup({
       countryControl: this.countryControl,
     });
 

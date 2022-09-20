@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
@@ -45,11 +45,11 @@ export class ColorpickerReactiveTestComponent {
     colorModel4: '#333',
   };
 
-  public colorControl = new FormControl('#00f');
-  public colorControl2 = new FormControl('#aaa');
-  public colorControl3 = new FormControl('#bbb');
-  public colorControl4 = new FormControl('#ccc');
-  public colorForm = new FormGroup({
+  public colorControl = new UntypedFormControl('#00f');
+  public colorControl2 = new UntypedFormControl('#aaa');
+  public colorControl3 = new UntypedFormControl('#bbb');
+  public colorControl4 = new UntypedFormControl('#ccc');
+  public colorForm = new UntypedFormGroup({
     colorModel: this.colorControl,
     colorModel2: this.colorControl2,
     colorModel3: this.colorControl3,

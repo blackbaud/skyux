@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { SkyCountryFieldComponent } from '../country-field.component';
 import { SkyCountryFieldCountry } from '../types/country';
@@ -14,9 +14,9 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   })
   public countryFieldComponent!: SkyCountryFieldComponent;
 
-  public countryForm: FormGroup | undefined;
+  public countryForm: UntypedFormGroup | undefined;
 
-  public countryControl!: FormControl;
+  public countryControl!: UntypedFormControl;
 
   public initialValue: SkyCountryFieldCountry | undefined;
 
@@ -59,13 +59,13 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   private _isRequired = false;
 
   public ngOnInit(): void {
-    this.countryControl = new FormControl();
+    this.countryControl = new UntypedFormControl();
 
     if (this.initialValue || this.initiallizeToUndefined) {
       this.countryControl.setValue(this.initialValue);
     }
 
-    this.countryForm = new FormGroup({
+    this.countryForm = new UntypedFormGroup({
       countryControl: this.countryControl,
     });
 
