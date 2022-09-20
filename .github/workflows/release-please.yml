@@ -15,14 +15,16 @@ jobs:
           release-type: 'node'
           default-branch: '${{ github.ref_name }}'
           package-name: 'skyux'
-          pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
+          pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
-          prerelease: false
+          # remove the following line after initial release
+          release-as: 7.0.0-alpha.0
+          prerelease: true
           draft-pull-request: true
           include-v-in-tag: false
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           cache: npm
@@ -36,7 +38,7 @@ jobs:
       - name: Cache node modules
         if: ${{ steps.release.outputs.release_created }}
         id: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
