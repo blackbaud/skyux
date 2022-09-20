@@ -1,4 +1,4 @@
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 
@@ -64,13 +64,13 @@ describe('Tabset navigation button', () => {
 
   describe('wizard style', () => {
     describe('without finish button', () => {
-      it('should be accessible', async(async () => {
+      it('should be accessible', async () => {
         const fixture = TestBed.createComponent(SkyWizardTestFormComponent);
         fixture.detectChanges();
         await fixture.whenStable();
         fixture.detectChanges();
         await expectAsync(fixture.nativeElement).toBeAccessible();
-      }));
+      });
 
       describe('previous button', () => {
         it('should navigate to the previous tab when clicked', fakeAsync(() => {

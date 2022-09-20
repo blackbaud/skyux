@@ -16,6 +16,7 @@ import {
 import { Subject, combineLatest, race } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
+import { TabButtonViewModel } from './tab-button-view-model';
 import { SkyTabIndex } from './tab-index';
 import { SkyTabComponent } from './tab.component';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
@@ -24,21 +25,6 @@ import { SkyTabsetPermalinkService } from './tabset-permalink.service';
 import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetTabIndexesChange } from './tabset-tab-indexes-change';
 import { SkyTabsetService } from './tabset.service';
-
-/**
- * @internal
- */
-interface TabButtonViewModel {
-  active: boolean;
-  ariaControls: string;
-  buttonHref: string;
-  buttonId: string;
-  buttonText: string;
-  buttonTextCount: string;
-  closeable: boolean;
-  disabled: boolean;
-  tabIndex: SkyTabIndex;
-}
 
 @Component({
   selector: 'sky-tabset',
@@ -134,6 +120,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   @Input()
   public set tabStyle(value: SkyTabsetStyle) {
     this._tabStyle = value;
+    this.elementRole = value === 'tabs' ? 'tablist' : undefined;
   }
 
   public get tabStyle(): SkyTabsetStyle {
@@ -198,6 +185,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   public lastActiveTabIndex: SkyTabIndex;
 
   public tabButtons: TabButtonViewModel[] = [];
+
+  public elementRole: string | undefined = 'tablist';
 
   private ngUnsubscribe = new Subject<void>();
 
@@ -280,6 +269,22 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
 
   public onOpenTabClick(): void {
     this.openTab.emit();
+  }
+
+  public onRightKeyDown(): void {
+    this.tabsetService.focusNextTabBtn(this.tabButtons);
+  }
+
+  public onLeftKeyDown(): void {
+    this.tabsetService.focusPrevTabBtn(this.tabButtons);
+  }
+
+  public onHomeKeyDown(): void {
+    this.tabsetService.focusFirstTabBtn(this.tabButtons);
+  }
+
+  public onEndKeyDown(): void {
+    this.tabsetService.focusLastTabBtn(this.tabButtons);
   }
 
   /**
