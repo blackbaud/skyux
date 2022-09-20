@@ -121,17 +121,20 @@ export class SkyAppRuntimeConfigParams {
    * Returns the decoded value of the requested param.
    * @param key The parameter's key.
    */
-  public get(key: string): string | undefined {
+  public get(key: string): string {
     if (this.has(key)) {
       return decodeURIComponent(this.#params[key]);
     }
-    return;
+
+    // TODO: Return `string | undefined` in a breaking change.
+    return undefined as unknown as string;
   }
 
   /**
    * Returns the params object.
    * @param excludeDefaults Exclude params that have default values
    */
+  // TODO: Return a more specific type in a breaking change.
   public getAll(excludeDefaults?: boolean): Object {
     const filteredParams: { [key: string]: string } = {};
 
