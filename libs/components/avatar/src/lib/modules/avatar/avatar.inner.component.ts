@@ -22,41 +22,44 @@ import { SkyAvatarSrc } from './avatar-src';
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
-  public get src(): SkyAvatarSrc {
-    return this._src;
+  public get src(): SkyAvatarSrc | undefined {
+    return this.#_src;
   }
 
   @Input()
-  public set src(value: SkyAvatarSrc) {
-    this._src = value;
-    this.updateImage();
+  public set src(value: SkyAvatarSrc | undefined) {
+    this.#_src = value;
+    this.#updateImage();
   }
 
-  public get name(): string {
-    return this._name;
-  }
-
-  @Input()
-  public set name(value: string) {
-    this._name = value;
+  public get name(): string | undefined {
+    return this.#_name;
   }
 
   @Input()
-  public size: SkyAvatarSize;
+  public set name(value: string | undefined) {
+    this.#_name = value;
+  }
 
-  private viewInitialized: boolean;
+  @Input()
+  public size: SkyAvatarSize = 'large';
 
-  private _src: SkyAvatarSrc;
+  #viewInitialized = false;
 
-  private _name: string;
+  #_src: SkyAvatarSrc | undefined;
 
-  constructor(
-    private elementRef: ElementRef,
-    private adapter: SkyAvatarAdapterService
-  ) {}
+  #_name: string | undefined;
 
-  public get initials(): string {
-    let initials: string;
+  #elementRef: ElementRef;
+  #adapter: SkyAvatarAdapterService;
+
+  constructor(elementRef: ElementRef, adapter: SkyAvatarAdapterService) {
+    this.#elementRef = elementRef;
+    this.#adapter = adapter;
+  }
+
+  public get initials(): string | undefined {
+    let initials: string | undefined;
 
     if (this.name) {
       const nameSplit = this.name.split(' ');
@@ -88,17 +91,17 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit() {
-    this.viewInitialized = true;
-    this.updateImage();
+    this.#viewInitialized = true;
+    this.#updateImage();
   }
 
   public ngOnDestroy() {
-    this.adapter.destroy();
+    this.#adapter.destroy();
   }
 
-  private updateImage() {
-    if (this.viewInitialized) {
-      this.adapter.updateImage(this.elementRef, this.src);
+  #updateImage() {
+    if (this.#viewInitialized && this.src) {
+      this.#adapter.updateImage(this.#elementRef, this.src);
     }
   }
 }
