@@ -19,7 +19,7 @@ jobs:
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           # remove the following line after initial release
-          release-as: 7.0.0-alpha.0
+          release-as: 7.0.0-beta.0
           prerelease: true
           draft-pull-request: true
           include-v-in-tag: false
