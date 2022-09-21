@@ -99,7 +99,7 @@ describe('Selection box component', () => {
 
     fixture.detectChanges();
 
-    testComponent.myForm.get('checkboxes').get('0').disable();
+    testComponent.myForm.get('checkboxes')?.get('0')?.disable();
 
     await fixture.whenStable();
     fixture.detectChanges();
@@ -108,7 +108,7 @@ describe('Selection box component', () => {
 
     fixture.detectChanges();
 
-    testComponent.myForm.get('checkboxes').get('0').enable();
+    testComponent.myForm.get('checkboxes')?.get('0')?.enable();
 
     await fixture.whenStable();
     fixture.detectChanges();
@@ -239,13 +239,14 @@ describe('Selection box component', () => {
   }));
 
   it('should have a role of button', () => {
-    const role: string = getRadioSelectionBoxes()[0].getAttribute('role');
+    const role: string | null =
+      getRadioSelectionBoxes()[0]?.getAttribute('role');
     expect(role).toBe('button');
   });
 
   it('should have a tabindex of 0', () => {
-    const tabIndex: string =
-      getRadioSelectionBoxes()[0].getAttribute('tabindex');
+    const tabIndex: string | null =
+      getRadioSelectionBoxes()[0]?.getAttribute('tabindex');
     expect(tabIndex).toBe('0');
   });
 
@@ -269,8 +270,12 @@ describe('Selection box component', () => {
   }));
 
   it('should be accessible', async () => {
+    document.body.classList.add('sky-theme-modern');
+
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    document.body.classList.remove('sky-theme-modern');
   });
 });

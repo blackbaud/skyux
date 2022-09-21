@@ -6,9 +6,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './selection-box-demo.component.html',
 })
 export class SelectionBoxDemoComponent implements OnInit {
-  public get checkboxArray(): FormArray {
-    return this.myForm.get('checkboxes') as FormArray;
-  }
+  public checkboxArray: FormArray | undefined;
 
   public selectionBoxes: any[] = [
     {
@@ -32,20 +30,25 @@ export class SelectionBoxDemoComponent implements OnInit {
 
   public myForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  #formBuilder: FormBuilder;
+
+  constructor(formBuilder: FormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      checkboxes: this.buildCheckboxes(),
+    this.checkboxArray = this.#buildCheckboxes();
+    this.myForm = this.#formBuilder.group({
+      checkboxes: this.checkboxArray,
     });
 
     this.myForm.valueChanges.subscribe((value) => console.log(value));
   }
 
-  private buildCheckboxes(): FormArray {
+  #buildCheckboxes(): FormArray {
     const checkboxArray = this.selectionBoxes.map((checkbox) => {
-      return this.formBuilder.control(checkbox.selected);
+      return this.#formBuilder.control(checkbox.selected);
     });
-    return this.formBuilder.array(checkboxArray);
+    return this.#formBuilder.array(checkboxArray);
   }
 }
