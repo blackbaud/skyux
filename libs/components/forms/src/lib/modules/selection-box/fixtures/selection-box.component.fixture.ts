@@ -12,7 +12,7 @@ import {
 export class SelectionBoxTestComponent {
   public myForm: UntypedFormGroup;
 
-  public get selectionBoxFormArray(): UntypedFormArray;
+  public selectionBoxFormArray: UntypedFormArray;
 
   public checkboxSelectionBoxes: any[] = [
     {

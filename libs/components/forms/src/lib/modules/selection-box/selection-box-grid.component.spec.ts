@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyCoreAdapterService } from '@skyux/core';
 import {
@@ -114,7 +114,7 @@ describe('Selection box grid component', () => {
     }
   });
 
-  it(`should update CSS responsive classes on window resize`, async(() => {
+  it(`should update CSS responsive classes on window resize`, async () => {
     const setResponsiveClassSpy = spyOn(
       SkySelectionBoxAdapterService.prototype,
       'setResponsiveClass'
@@ -129,7 +129,7 @@ describe('Selection box grid component', () => {
     fixture.detectChanges();
 
     expect(setResponsiveClassSpy).toHaveBeenCalledTimes(1);
-  }));
+  });
 
   it(`should recalculate heights when child DOM elements change`, async () => {
     const resetHeightSpy = spyOn(
