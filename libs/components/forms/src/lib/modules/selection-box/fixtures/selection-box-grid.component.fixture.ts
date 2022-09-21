@@ -8,7 +8,7 @@ import { SkySelectionBoxGridAlignItemsType } from '../types/selection-box-grid-a
   templateUrl: './selection-box-grid.component.fixture.html',
 })
 export class SelectionBoxGridTestComponent {
-  public alignItems: SkySelectionBoxGridAlignItemsType;
+  public alignItems: SkySelectionBoxGridAlignItemsType | undefined;
 
   public firstBoxHeight = '500px';
 
@@ -18,5 +18,5 @@ export class SelectionBoxGridTestComponent {
     read: SkySelectionBoxGridComponent,
     static: false,
   })
-  public selectionBoxGrid: SkySelectionBoxGridComponent;
+  public selectionBoxGrid: SkySelectionBoxGridComponent | undefined;
 }
