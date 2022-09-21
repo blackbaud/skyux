@@ -4,7 +4,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ICellEditorParams } from 'ag-grid-community';
@@ -28,8 +28,8 @@ export class SkyAgGridCellEditorTextComponent
   public textInputLabel: string;
   public columnHeader: string;
   public columnWidth: number;
-  public editorForm = new FormGroup({
-    text: new FormControl(),
+  public editorForm = new UntypedFormGroup({
+    text: new UntypedFormControl(),
   });
   public rowHeightWithoutBorders: number;
   public rowNumber: number;

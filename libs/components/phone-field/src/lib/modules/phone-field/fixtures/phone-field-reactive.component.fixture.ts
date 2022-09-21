@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
 import { SkyPhoneFieldComponent } from '../phone-field.component';
@@ -23,9 +23,9 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public noValidate = false;
 
-  public phoneControl: FormControl;
+  public phoneControl: UntypedFormControl;
 
-  public phoneForm: FormGroup;
+  public phoneForm: UntypedFormGroup;
 
   public returnFormat: SkyPhoneFieldNumberReturnFormat;
 
@@ -48,8 +48,8 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
   public phoneFieldComponent: SkyPhoneFieldComponent;
 
   public ngOnInit(): void {
-    this.phoneControl = new FormControl(this.initialValue);
-    this.phoneForm = new FormGroup({
+    this.phoneControl = new UntypedFormControl(this.initialValue);
+    this.phoneForm = new UntypedFormGroup({
       phone: this.phoneControl,
     });
   }

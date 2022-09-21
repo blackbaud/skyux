@@ -4,7 +4,11 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { SkySectionedFormService } from '@skyux/tabs';
 
 @Component({
@@ -14,12 +18,12 @@ import { SkySectionedFormService } from '@skyux/tabs';
 })
 export class InformationFormDemoComponent implements OnInit {
   public id = '5324901';
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public name = '';
   public nameRequired = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private sectionedFormService: SkySectionedFormService,
     private changeDetector: ChangeDetectorRef
   ) {

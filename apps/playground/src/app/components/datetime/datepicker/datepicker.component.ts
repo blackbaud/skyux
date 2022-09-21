@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -24,13 +24,13 @@ export class DatepickerComponent implements OnInit {
   public minDate: Date | undefined;
   public maxDate: Date | undefined;
   public noValidate = false;
-  public reactiveForm: FormGroup | undefined;
+  public reactiveForm: UntypedFormGroup | undefined;
   public showCustomDates = false;
   public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public get reactiveDate(): AbstractControl {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -39,7 +39,10 @@ export class DatepickerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.reactiveForm = this.formBuilder.group({
-      selectedDate: new FormControl(new Date(1955, 10, 5), Validators.required),
+      selectedDate: new UntypedFormControl(
+        new Date(1955, 10, 5),
+        Validators.required
+      ),
     });
 
     this.reactiveDate.statusChanges

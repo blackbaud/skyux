@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostBinding,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 import { ColumnResizedEvent } from 'ag-grid-community';
@@ -34,8 +34,8 @@ export class SkyAgGridCellEditorLookupComponent
 
   public skyComponentProperties?: SkyAgGridLookupProperties;
   public isAlive = false;
-  public editorForm = new FormGroup({
-    selection: new FormControl({
+  public editorForm = new UntypedFormGroup({
+    selection: new UntypedFormControl({
       value: [],
       disabled: false,
     }),

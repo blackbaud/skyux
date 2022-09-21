@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { SkyValidators } from '@skyux/validation';
 
 @Component({
@@ -8,23 +12,23 @@ import { SkyValidators } from '@skyux/validation';
   styleUrls: ['./input-box-demo.component.scss'],
 })
 export class InputBoxDemoComponent implements OnInit {
-  public firstName: FormControl;
-  public lastName: FormControl;
-  public bio: FormControl;
-  public email: FormControl;
-  public dob: FormControl;
-  public newMemberForm: FormGroup;
+  public firstName: UntypedFormControl;
+  public lastName: UntypedFormControl;
+  public bio: UntypedFormControl;
+  public email: UntypedFormControl;
+  public dob: UntypedFormControl;
+  public newMemberForm: UntypedFormGroup;
 
   public ngOnInit(): void {
-    this.firstName = new FormControl('');
-    this.lastName = new FormControl('', Validators.required);
-    this.bio = new FormControl('');
-    this.email = new FormControl('', [
+    this.firstName = new UntypedFormControl('');
+    this.lastName = new UntypedFormControl('', Validators.required);
+    this.bio = new UntypedFormControl('');
+    this.email = new UntypedFormControl('', [
       Validators.required,
       SkyValidators.email,
     ]);
-    this.dob = new FormControl('', Validators.required);
-    this.newMemberForm = new FormGroup({
+    this.dob = new UntypedFormControl('', Validators.required);
+    this.newMemberForm = new UntypedFormGroup({
       firstName: this.firstName,
       lastName: this.lastName,
       bio: this.bio,
