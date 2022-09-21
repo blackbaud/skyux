@@ -57,7 +57,8 @@ describe('configure-storybook', () => {
         .length
     ).toBeGreaterThan(0);
     expect(
-      readProjectConfiguration(tree, `test-app-e2e`).targets?.e2e.options.devServerTarget
+      readProjectConfiguration(tree, `test-app-e2e`).targets?.e2e.options
+        .devServerTarget
     ).toEqual('test-app:storybook');
   });
 
@@ -73,15 +74,20 @@ describe('configure-storybook', () => {
       name: `test-app`,
     });
     tree.delete(`apps/test-app/.storybook/tsconfig.json`);
-    updateJson(tree, `apps/test-app/tsconfig.app.json`, (tsConfig: TsConfig) => {
-      tsConfig.exclude = [];
-      return tsConfig;
-    });
+    updateJson(
+      tree,
+      `apps/test-app/tsconfig.app.json`,
+      (tsConfig: TsConfig) => {
+        tsConfig.exclude = [];
+        return tsConfig;
+      }
+    );
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
-    expect(JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}').exclude).toEqual([
-      'jest.config.ts',
-    ]);
+    expect(
+      JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}')
+        .exclude
+    ).toEqual(['jest.config.ts']);
   });
 
   it('should configure storybook tsconfig, add include and exclude', async () => {
@@ -100,7 +106,8 @@ describe('configure-storybook', () => {
       `apps/test-app/.storybook/tsconfig.json`,
       (tsconfig) => {
         delete tsconfig.include;
-        tsconfig.exclude = tsconfig.exclude?.filter((e) => e !== 'jest.config.ts') || [];
+        tsconfig.exclude =
+          tsconfig.exclude?.filter((e) => e !== 'jest.config.ts') || [];
         return tsconfig;
       }
     );
