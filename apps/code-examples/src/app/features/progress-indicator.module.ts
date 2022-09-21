@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SkyProgressIndicatorPassiveDemoComponent } from '../code-examples/progress-indicator/passive-indicator/basic/progress-indicator-passive-demo.component';
 import { SkyProgressIndicatorPassiveDemoModule } from '../code-examples/progress-indicator/passive-indicator/basic/progress-indicator-passive-demo.module';
+import { SkyProgressIndicatorPassiveDemoComponent as ProgressIndicatorPassiveInlineHelpDemoComponent } from '../code-examples/progress-indicator/passive-indicator/inline-help/progress-indicator-passive-demo.component';
+import { SkyProgressIndicatorPassiveDemoModule as ProgressIndicatorPassiveInlineHelpModule } from '../code-examples/progress-indicator/passive-indicator/inline-help/progress-indicator-passive-demo.module';
 import { WaterfallIndicatorDocsComponent } from '../code-examples/progress-indicator/waterfall-indicator/basic/progress-indicator-waterfall-demo.component';
 import { SkyProgressIndicatorPassiveDemoModule as SkyProgressIndicatorWaterfallDemoModule } from '../code-examples/progress-indicator/waterfall-indicator/basic/progress-indicator-waterfall-demo.module';
 import { SkyProgressIndicatorPassiveDemoModule as SkyWizardDemoModule } from '../code-examples/progress-indicator/wizard/basic/wizard-demo.module';
@@ -12,6 +14,10 @@ const routes: Routes = [
   { path: 'waterfall', component: WaterfallIndicatorDocsComponent },
   { path: 'passive', component: SkyProgressIndicatorPassiveDemoComponent },
   { path: 'wizard', component: WizardDemoComponent },
+  {
+    path: 'passive/inline-help',
+    component: ProgressIndicatorPassiveInlineHelpDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -25,6 +31,7 @@ export class ProgressIndicatorRoutingModule {}
     SkyProgressIndicatorWaterfallDemoModule,
     SkyWizardDemoModule,
     SkyProgressIndicatorPassiveDemoModule,
+    ProgressIndicatorPassiveInlineHelpModule,
     ProgressIndicatorRoutingModule,
   ],
 })
