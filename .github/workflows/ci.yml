@@ -166,6 +166,8 @@ jobs:
         with:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
+      - name: Run NGCC
+        run: npx ngcc
       - name: Code coverage
         run: |
           npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --code-coverage
