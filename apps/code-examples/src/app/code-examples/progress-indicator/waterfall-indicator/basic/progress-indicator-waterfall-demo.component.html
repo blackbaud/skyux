@@ -7,7 +7,6 @@
 >
   <sky-progress-indicator-title>
     Set up my connection
-    <sky-help-inline class="sky-control-help"></sky-help-inline>
   </sky-progress-indicator-title>
 
   <sky-progress-indicator-item title="Configure connection">
@@ -32,6 +31,7 @@
   </sky-progress-indicator-item>
 
   <sky-progress-indicator-item title="Select remote server">
+    <sky-help-inline class="sky-control-help"></sky-help-inline>
     <div *ngIf="activeIndex >= 1">
       <button
         *ngIf="activeIndex === 1"
