@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'test-input-box-harness',
   templateUrl: './input-box-harness-test.component.html',
 })
 export class InputBoxHarnessTestComponent {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({
-      firstName: new FormControl('John'),
-      lastName: new FormControl('Doe'),
+      firstName: new UntypedFormControl('John'),
+      lastName: new UntypedFormControl('Doe'),
     });
   }
 }

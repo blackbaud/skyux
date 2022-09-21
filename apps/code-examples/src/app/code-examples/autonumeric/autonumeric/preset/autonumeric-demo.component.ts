@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { SkyAutonumericOptions } from '@skyux/autonumeric';
@@ -14,13 +14,13 @@ import { SkyAutonumericOptions } from '@skyux/autonumeric';
 export class AutonumericDemoComponent implements OnInit {
   public autonumericOptions: SkyAutonumericOptions;
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      donationAmount: new FormControl(1234.5678, [Validators.required]),
+      donationAmount: new UntypedFormControl(1234.5678, [Validators.required]),
     });
 
     this.autonumericOptions = 'Chinese';

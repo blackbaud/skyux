@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
   SkyConfirmService,
@@ -70,7 +70,7 @@ export class SplitViewComponent {
 
   public listWidth: number;
 
-  public splitViewDemoForm: FormGroup;
+  public splitViewDemoForm: UntypedFormGroup;
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
 
@@ -103,9 +103,9 @@ export class SplitViewComponent {
   }
 
   private loadFormGroup(record: any): void {
-    this.splitViewDemoForm = new FormGroup({
-      approvedAmount: new FormControl(record.approvedAmount),
-      comments: new FormControl(record.comments),
+    this.splitViewDemoForm = new UntypedFormGroup({
+      approvedAmount: new UntypedFormControl(record.approvedAmount),
+      comments: new UntypedFormControl(record.comments),
     });
   }
 

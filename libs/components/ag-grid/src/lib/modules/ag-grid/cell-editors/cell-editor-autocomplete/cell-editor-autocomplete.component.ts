@@ -4,7 +4,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -26,8 +26,8 @@ export class SkyAgGridCellEditorAutocompleteComponent
   implements ICellEditorAngularComp
 {
   public columnHeader: string;
-  public editorForm = new FormGroup({
-    selection: new FormControl(),
+  public editorForm = new UntypedFormGroup({
+    selection: new UntypedFormControl(),
   });
   public rowNumber: number;
   public skyComponentProperties: SkyAgGridAutocompleteProperties = {};

@@ -158,9 +158,13 @@ export default function generateLibraryResourcesModule(options: Schema): Rule {
   return async (tree, context) => {
     const { workspace } = await getWorkspace(tree);
 
+    if (!options.project) {
+      throw new Error('A project name is required.');
+    }
+
     const { project, projectName } = await getProject(
       workspace,
-      options.project || (workspace.extensions.defaultProject as string)
+      options.project
     );
 
     // Abort if executed against an application.

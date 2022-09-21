@@ -5,10 +5,10 @@ import {
   tick,
 } from '@angular/core/testing';
 import {
-  FormControl,
   FormsModule,
   NgModel,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -157,7 +157,7 @@ describe('Phone Field Component', () => {
     formattedValue: string,
     isValid: boolean,
     isTouched: boolean,
-    model: NgModel | FormControl,
+    model: NgModel | UntypedFormControl,
     fixture: ComponentFixture<any>
   ) {
     fixture.detectChanges();

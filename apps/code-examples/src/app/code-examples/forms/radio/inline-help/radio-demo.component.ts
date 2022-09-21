@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-radio-demo',
   templateUrl: './radio-demo.component.html',
 })
 export class RadioDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public options: any[] = [
     { name: 'Option 1', value: '1', disabled: false },
@@ -14,7 +14,7 @@ export class RadioDemoComponent implements OnInit {
     { name: 'Option 3 is disabled', value: '3', disabled: true },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.myForm = this.formBuilder.group({
