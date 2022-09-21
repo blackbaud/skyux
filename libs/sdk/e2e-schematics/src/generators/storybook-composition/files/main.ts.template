@@ -19,7 +19,6 @@ const config: StorybookConfig = {
     '<%= project %>': {
       title: '<%= project %>',
       url: '<%= baseUrl %>/<%= project %>/',
-      expanded: false,
     },<% }) %>
   },<% } %>
 };
