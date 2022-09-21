@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -9,12 +9,10 @@ import {
   selector: 'sky-test-cmp',
   templateUrl: './selection-box.component.fixture.html',
 })
-export class SelectionBoxTestComponent implements OnInit {
+export class SelectionBoxTestComponent {
   public myForm: UntypedFormGroup;
 
-  public get selectionBoxFormArray(): UntypedFormArray {
-    return this.myForm.get('checkboxes') as UntypedFormArray;
-  }
+  public selectionBoxFormArray: UntypedFormArray;
 
   public checkboxSelectionBoxes: any[] = [
     {
@@ -59,20 +57,22 @@ export class SelectionBoxTestComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
 
-  public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
-      checkboxes: this.buildCheckboxes(),
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+    this.selectionBoxFormArray = this.#buildCheckboxes();
+    this.myForm = this.#formBuilder.group({
+      checkboxes: this.selectionBoxFormArray,
     });
   }
 
-  private buildCheckboxes(): UntypedFormArray {
+  #buildCheckboxes(): UntypedFormArray {
     const checkboxItemControls = this.checkboxSelectionBoxes.map(
       (aCheckboxSelectionBox) => {
-        return this.formBuilder.control(aCheckboxSelectionBox.undefinedValue);
+        return this.#formBuilder.control(aCheckboxSelectionBox.undefinedValue);
       }
     );
-    return this.formBuilder.array(checkboxItemControls);
+    return this.#formBuilder.array(checkboxItemControls);
   }
 }

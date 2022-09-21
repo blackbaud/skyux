@@ -14,25 +14,25 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
   `,
 })
 class SkySelectionBoxAdapterTestComponent {
-  public parentWidth: string;
+  public parentWidth: string | undefined;
 
   @ViewChild('child', {
     read: ElementRef,
     static: true,
   })
-  public childRef: ElementRef;
+  public childRef!: ElementRef;
 
   @ViewChild('outisde', {
     read: ElementRef,
     static: true,
   })
-  public outsideRef: ElementRef;
+  public outsideRef!: ElementRef;
 
   @ViewChild('parent', {
     read: ElementRef,
     static: true,
   })
-  public parentRef: ElementRef;
+  public parentRef!: ElementRef;
 }
 
 describe('Action button adapter service', () => {
