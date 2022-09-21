@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-radio',
@@ -10,7 +14,7 @@ export class RadioComponent implements OnInit {
 
   public iconSelectedValue = '1';
 
-  public radioForm: FormGroup;
+  public radioForm: UntypedFormGroup;
 
   public radioValue: { name: string; disabled: boolean };
 
@@ -27,11 +31,11 @@ export class RadioComponent implements OnInit {
 
   public selectedValue = '3';
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.radioForm = this.formBuilder.group({
-      favoriteSeason: new FormControl({
+      favoriteSeason: new UntypedFormControl({
         value: this.seasons[0],
         disabled: this.disabled,
       }),

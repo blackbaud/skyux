@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
@@ -17,9 +17,9 @@ import {
   templateUrl: './single-file-attachment.component.html',
 })
 export class SingleFileAttachmentComponent implements OnInit {
-  public attachment: FormControl;
+  public attachment: UntypedFormControl;
 
-  public fileForm: FormGroup;
+  public fileForm: UntypedFormGroup;
 
   public maxFileSize = 4000000;
 
@@ -29,7 +29,7 @@ export class SingleFileAttachmentComponent implements OnInit {
 
   public reactiveUploadError: string;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public fileClick($event: SkyFileAttachmentClick): void {
     const link = document.createElement('a');
@@ -39,7 +39,7 @@ export class SingleFileAttachmentComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.attachment = new FormControl(undefined, Validators.required);
+    this.attachment = new UntypedFormControl(undefined, Validators.required);
     this.fileForm = this.formBuilder.group({
       attachment: this.attachment,
     });

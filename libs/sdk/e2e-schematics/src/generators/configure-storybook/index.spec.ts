@@ -16,7 +16,7 @@ import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   it('should configure storybook', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -60,7 +60,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -76,7 +76,7 @@ describe('configure-storybook', () => {
   });
 
   it('should configure storybook tsconfig, add include', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -106,7 +106,7 @@ describe('configure-storybook', () => {
   });
 
   it('should skip configuration for non-cypress e2e project', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {

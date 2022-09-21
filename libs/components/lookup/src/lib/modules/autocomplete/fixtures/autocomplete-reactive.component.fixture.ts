@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 import { SkyAutocompleteComponent } from '../autocomplete.component';
 
@@ -8,7 +8,7 @@ import { SkyAutocompleteComponent } from '../autocomplete.component';
   templateUrl: './autocomplete-reactive.component.fixture.html',
 })
 export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
-  public reactiveForm: FormGroup | undefined;
+  public reactiveForm: UntypedFormGroup | undefined;
 
   public data: { objectid?: string; name?: string; text?: string }[] = [
     { name: 'Red' },
@@ -33,9 +33,9 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
   })
   public autocomplete: SkyAutocompleteComponent | undefined;
 
-  #formBuilder: FormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
   }
 

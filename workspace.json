@@ -41,6 +41,8 @@
     "integration": "apps/integration",
     "integration-e2e": "apps/integration-e2e",
     "layout": "libs/components/layout",
+    "layout-storybook": "apps/e2e/layout-storybook",
+    "layout-storybook-e2e": "apps/e2e/layout-storybook-e2e",
     "layout-testing": "libs/components/layout/testing",
     "list-builder": "libs/components/list-builder",
     "list-builder-common": "libs/components/list-builder-common",

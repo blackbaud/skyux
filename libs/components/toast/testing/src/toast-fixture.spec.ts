@@ -39,9 +39,11 @@ class TestComponent {
     }
   }
 
-  public toastTypeValue: SkyToastType;
+  public toastTypeValue: SkyToastType | undefined;
 
-  public onClosed(): void {}
+  public onClosed(): void {
+    /* */
+  }
 }
 //#endregion Test component
 

@@ -7,6 +7,5 @@ import { CustomMultilineComponent } from './custom-multiline.component';
   declarations: [CustomMultilineComponent],
   imports: [CommonModule],
   exports: [CustomMultilineComponent],
-  entryComponents: [CustomMultilineComponent],
 })
 export class CustomMultilineModule {}

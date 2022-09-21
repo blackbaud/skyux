@@ -1,6 +1,6 @@
 import { applicationGenerator } from '@nrwl/angular/generators';
 import { Tree, generateFiles, joinPathFragments } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 
 import generator from './generator';
 import { SwitchToVariationsGeneratorSchema } from './schema';
@@ -10,7 +10,7 @@ describe('switch-to-variations generator', () => {
   const options: SwitchToVariationsGeneratorSchema = { project: 'test-e2e' };
 
   beforeEach(async () => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyV1Workspace();
     appTree.write('.gitignore', '# test');
     await applicationGenerator(appTree, {
       name: 'test',

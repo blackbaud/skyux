@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgModel } from '@angular/forms';
+import { NgModel, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSelectionChange,
@@ -13,8 +13,8 @@ import { delay } from 'rxjs/operators';
   templateUrl: './autocomplete.component.html',
 })
 export class AutocompleteComponent implements OnInit {
-  public controlForm: FormGroup;
-  public reactiveForm: FormGroup;
+  public controlForm: UntypedFormGroup;
+  public reactiveForm: UntypedFormGroup;
 
   public templateDrivenModel: NgModel;
 
@@ -36,7 +36,7 @@ export class AutocompleteComponent implements OnInit {
 
   private reactiveDisabledState = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.controlForm = this.formBuilder.group({

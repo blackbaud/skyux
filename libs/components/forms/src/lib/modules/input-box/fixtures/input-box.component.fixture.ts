@@ -1,34 +1,39 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgModel, Validators } from '@angular/forms';
+import { Component, Input, ViewChild } from '@angular/core';
+import {
+  NgModel,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
-  selector: 'app-input-box-fixture',
+  selector: 'sky-input-box-fixture',
   templateUrl: './input-box.component.fixture.html',
 })
-export class InputBoxFixtureComponent implements OnInit {
+export class InputBoxFixtureComponent {
   @Input()
-  public basicDisabled: boolean;
-
-  @Input()
-  public hasErrors: boolean;
+  public basicDisabled: boolean | undefined;
 
   @Input()
-  public insetIconDisabled: boolean;
+  public hasErrors: boolean | undefined;
 
-  public errorField: FormControl;
+  @Input()
+  public insetIconDisabled: boolean | undefined;
 
-  public errorForm: FormGroup;
+  public errorField: UntypedFormControl;
 
-  public errorNgModelValue: string;
+  public errorForm: UntypedFormGroup;
+
+  public errorNgModelValue: string | undefined;
 
   @ViewChild('errorNgModel')
-  public errorNgModel: NgModel;
+  public errorNgModel!: NgModel;
 
-  public ngOnInit(): void {
-    this.errorField = new FormControl('', [Validators.required]);
+  constructor() {
+    this.errorField = new UntypedFormControl('', [Validators.required]);
 
-    this.errorForm = new FormGroup({
-      errorFormField: new FormControl('', [Validators.required]),
+    this.errorForm = new UntypedFormGroup({
+      errorFormField: new UntypedFormControl('', [Validators.required]),
     });
   }
 }

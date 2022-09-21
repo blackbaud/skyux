@@ -8,29 +8,18 @@ import { SkyToastConfig } from './types/toast-config';
 
 // #endregion
 
+class ToastTestComponent {}
+
 describe('Toast class', () => {
   it('should set defaults', () => {
-    const component = function () {};
     const providers: Provider[] = [];
     const config: SkyToastConfig = {};
-    const toast = new SkyToast(component, providers, config);
-    expect(toast.bodyComponent).toEqual(component);
+    const instance = new SkyToastInstance();
+    const toast = new SkyToast(ToastTestComponent, providers, instance, config);
+
+    expect(toast.bodyComponent).toEqual(ToastTestComponent);
     expect(toast.bodyComponentProviders).toEqual(providers);
     expect(toast.config).toEqual(config);
-    expect(toast.instance).toBeUndefined();
-  });
-
-  it('should only allow setting the instance once', () => {
-    const component = function () {};
-    const providers: Provider[] = [];
-    const config: SkyToastConfig = {};
-    const toast = new SkyToast(component, providers, config);
-    const firstInstance = new SkyToastInstance();
-    (firstInstance as any).fooName = 'first';
-    const secondInstance = new SkyToastInstance();
-    (secondInstance as any).fooName = 'second';
-    toast.instance = firstInstance;
-    toast.instance = secondInstance;
-    expect((toast.instance as any).fooName).toEqual('first');
+    expect(toast.instance).toBe(instance);
   });
 });

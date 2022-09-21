@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
@@ -81,14 +81,14 @@ class PhoneFieldTestComponent implements OnInit {
   public showInvalidDirective: boolean = false;
   public supportedCountryISOs: string[];
 
-  public phoneControl: FormControl;
-  public phoneForm: FormGroup;
+  public phoneControl: UntypedFormControl;
+  public phoneForm: UntypedFormGroup;
 
   public selectedCountryChange(query: string): void {}
 
   public ngOnInit(): void {
-    this.phoneControl = new FormControl();
-    this.phoneForm = new FormGroup({
+    this.phoneControl = new UntypedFormControl();
+    this.phoneForm = new UntypedFormGroup({
       phoneControl: this.phoneControl,
     });
   }

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyModalInstance } from '@skyux/modals';
 
 @Component({
@@ -7,11 +7,11 @@ import { SkyModalInstance } from '@skyux/modals';
   templateUrl: './settings-modal.component.html',
 })
 export class SettingsModalComponent {
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public fields: string[] = [];
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public modal: SkyModalInstance,
     @Inject('modalTitle') public title: string
   ) {

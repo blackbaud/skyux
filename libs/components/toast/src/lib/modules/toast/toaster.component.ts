@@ -18,7 +18,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyToast } from './toast';
@@ -41,55 +41,71 @@ import { SkyToastDisplayDirection } from './types/toast-display-direction';
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyToasterComponent implements AfterViewInit, OnDestroy {
-  public toastsForDisplay: SkyToast[];
-
-  public get toastStream(): Observable<SkyToast[]> {
-    return this.toastService.toastStream;
-  }
+  public toastsForDisplay: SkyToast[] | undefined;
 
   @ViewChild('toaster')
-  private toaster: ElementRef;
+  public toaster: ElementRef | undefined;
 
   @ViewChildren('toastContent', { read: ViewContainerRef })
-  private toastContent: QueryList<ViewContainerRef>;
+  public toastContent: QueryList<ViewContainerRef> | undefined;
 
   @ViewChildren(SkyToastComponent)
-  private toastComponents: QueryList<SkyToastComponent>;
+  public toastComponents: QueryList<SkyToastComponent> | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
+  #applicationRef: ApplicationRef;
+  #domAdapter: SkyToastAdapterService;
+  #toastService: SkyToastService;
+  #resolver: ComponentFactoryResolver;
+  #injector: Injector;
+  #toasterService: SkyToasterService;
+  #changeDetector: ChangeDetectorRef;
+  #containerOptions: SkyToastContainerOptions | undefined;
 
   constructor(
-    private applicationRef: ApplicationRef,
-    private domAdapter: SkyToastAdapterService,
-    private toastService: SkyToastService,
-    private resolver: ComponentFactoryResolver,
-    private injector: Injector,
-    private toasterService: SkyToasterService,
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private containerOptions?: SkyToastContainerOptions
-  ) {}
+    applicationRef: ApplicationRef,
+    domAdapter: SkyToastAdapterService,
+    toastService: SkyToastService,
+    resolver: ComponentFactoryResolver,
+    injector: Injector,
+    toasterService: SkyToasterService,
+    changeDetector: ChangeDetectorRef,
+    @Optional() containerOptions?: SkyToastContainerOptions
+  ) {
+    this.#applicationRef = applicationRef;
+    this.#domAdapter = domAdapter;
+    this.#toastService = toastService;
+    this.#resolver = resolver;
+    this.#injector = injector;
+    this.#toasterService = toasterService;
+    this.#changeDetector = changeDetector;
+    this.#containerOptions = containerOptions;
+  }
 
   public ngAfterViewInit(): void {
-    this.toastContent.changes.subscribe(() => {
-      this.injectToastContent();
-    });
-
-    this.toastStream
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((toasts: SkyToast[]) => {
-        this.toastsForDisplay = this.sortToastsForDisplay(toasts);
-
-        // Scroll to the bottom of the toaster element when a new toast is added.
-        if (
-          !this.containerOptions ||
-          this.containerOptions.displayDirection ===
-            SkyToastDisplayDirection.OldestOnTop
-        ) {
-          this.domAdapter.scrollBottom(this.toaster);
-        }
-
-        this.changeDetector.detectChanges();
+    if (this.toastContent) {
+      this.toastContent.changes.subscribe(() => {
+        this.#injectToastContent();
       });
+
+      this.#toastService.toastStream
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((toasts: SkyToast[]) => {
+          this.toastsForDisplay = this.#sortToastsForDisplay(toasts);
+
+          // Scroll to the bottom of the toaster element when a new toast is added.
+          if (
+            this.toaster &&
+            (!this.#containerOptions ||
+              this.#containerOptions.displayDirection ===
+                SkyToastDisplayDirection.OldestOnTop)
+          ) {
+            this.#domAdapter.scrollBottom(this.toaster);
+          }
+
+          this.#changeDetector.detectChanges();
+        });
+    }
   }
 
   public onToastClosed(toast: SkyToast): void {
@@ -97,78 +113,88 @@ export class SkyToasterComponent implements AfterViewInit, OnDestroy {
   }
 
   public closeAll(): void {
-    /* istanbul ignore else */
     // Sanity check
+    /* istanbul ignore else */
     if (this.toastComponents) {
-      this.toastComponents.forEach((toastComponent) => {
+      for (const toastComponent of this.toastComponents) {
         toastComponent.close();
-      });
+      }
     }
   }
 
   public onMouseEnter(): void {
-    this.toasterService.mouseOver.next(true);
+    this.#toasterService.mouseOver.next(true);
   }
 
   public onMouseLeave(): void {
-    this.toasterService.mouseOver.next(false);
+    this.#toasterService.mouseOver.next(false);
   }
 
   public onFocusIn(): void {
-    this.toasterService.focusIn.next(true);
+    this.#toasterService.focusIn.next(true);
   }
 
   public onFocusOut(): void {
-    this.toasterService.focusIn.next(false);
+    this.#toasterService.focusIn.next(false);
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  private injectToastContent(): void {
+  #injectToastContent(): void {
     // Dynamically inject each toast's body content when the number of toasts changes.
-    this.toastService.toastStream.pipe(take(1)).subscribe((toasts) => {
-      this.toastContent.toArray().forEach((target: ViewContainerRef) => {
-        const toastId = this.domAdapter.getToastId(target);
+    this.#toastService.toastStream.pipe(take(1)).subscribe((toasts) => {
+      /* istanbul ignore else */
+      if (this.toastContent) {
+        for (const target of this.toastContent) {
+          const toastId = this.#domAdapter.getToastId(target);
 
-        const toast = toasts.find((item) => item.toastId === toastId);
+          const toast = toasts.find((item) => item.toastId === toastId);
 
-        if (!toast.isRendered) {
-          target.clear();
+          if (toast && !toast.isRendered) {
+            target.clear();
 
-          const injector = Injector.create({
-            providers: toast.bodyComponentProviders as StaticProvider[],
-            parent: this.injector,
-          });
+            const injector = Injector.create({
+              providers: toast.bodyComponentProviders as StaticProvider[],
+              parent: this.#injector,
+            });
 
-          const componentRef = this.resolver
-            .resolveComponentFactory(toast.bodyComponent)
-            .create(injector);
+            const componentRef = this.#resolver
+              .resolveComponentFactory(toast.bodyComponent)
+              .create(injector);
 
-          this.applicationRef.attachView(componentRef.hostView);
+            this.#applicationRef.attachView(componentRef.hostView);
 
-          const el = (componentRef.hostView as EmbeddedViewRef<any>)
-            .rootNodes[0];
-          document
-            .querySelector(`[data-toast-id="${toast.toastId}"]`)
-            .appendChild(el);
-          componentRef.changeDetectorRef.detectChanges();
+            const el = (componentRef.hostView as EmbeddedViewRef<unknown>)
+              .rootNodes[0];
 
-          toast.isRendered = true;
+            const toastEl = document.querySelector(
+              `[data-toast-id="${toast.toastId}"]`
+            );
+
+            /* istanbul ignore else */
+            if (toastEl) {
+              toastEl.appendChild(el);
+            }
+
+            componentRef.changeDetectorRef.detectChanges();
+
+            toast.isRendered = true;
+          }
         }
-      });
+      }
     });
   }
 
-  private sortToastsForDisplay(toasts: SkyToast[]) {
-    const sortedToasts = toasts && toasts.slice();
+  #sortToastsForDisplay(toasts: SkyToast[]): SkyToast[] {
+    const sortedToasts = toasts.slice();
 
     if (
       sortedToasts &&
-      this.containerOptions &&
-      this.containerOptions.displayDirection ===
+      this.#containerOptions &&
+      this.#containerOptions.displayDirection ===
         SkyToastDisplayDirection.NewestOnTop
     ) {
       sortedToasts.reverse();

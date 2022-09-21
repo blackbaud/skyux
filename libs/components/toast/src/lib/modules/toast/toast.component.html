@@ -1,5 +1,5 @@
 <aside
-  [@skyAnimationEmerge]="animationState"
+  [@skyAnimationEmerge]="isOpen ? 'open' : 'closed'"
   (@skyAnimationEmerge.done)="onAnimationDone($event)"
 >
   <div

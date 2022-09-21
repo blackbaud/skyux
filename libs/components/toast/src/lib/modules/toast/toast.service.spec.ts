@@ -7,72 +7,86 @@ import { take } from 'rxjs/operators';
 
 import { SkyToast } from './toast';
 import { SkyToastService } from './toast.service';
+import { SkyToasterComponent } from './toaster.component';
 import { SkyToastType } from './types/toast-type';
 
 // #endregion
 
+interface MockComponentRef {
+  instance: {
+    closeAll: jasmine.Spy;
+  };
+}
+
 describe('Toast service', () => {
-  let toastService: SkyToastService;
+  let toastSvc: SkyToastService;
+  let mockSkyDynamicComponentSvc: jasmine.SpyObj<{
+    createComponent(): MockComponentRef;
+    removeComponent(): void;
+  }>;
+
+  let fakeToasterCompRef: MockComponentRef;
 
   beforeEach(() => {
+    fakeToasterCompRef = {
+      instance: {
+        closeAll: jasmine.createSpy('closeAll'),
+      },
+    };
+
+    mockSkyDynamicComponentSvc = jasmine.createSpyObj(
+      'mockSkyDynamicComponentSvc',
+      ['createComponent', 'removeComponent']
+    );
+
+    mockSkyDynamicComponentSvc.createComponent.and.returnValue(
+      fakeToasterCompRef
+    );
+
     TestBed.configureTestingModule({
       providers: [
         SkyToastService,
         {
           provide: SkyDynamicComponentService,
-          useValue: {
-            createComponent() {
-              return {
-                instance: {
-                  closeAll() {},
-                },
-              };
-            },
-            removeComponent() {},
-          },
+          useValue: mockSkyDynamicComponentSvc,
         },
       ],
     });
 
-    toastService = TestBed.get(SkyToastService);
+    toastSvc = TestBed.inject(SkyToastService);
   });
 
   it('should only create a single host component', () => {
-    const spy = spyOn(
-      toastService as any,
-      'createHostComponent'
-    ).and.callThrough();
-    toastService.openMessage('message');
-    toastService.openMessage('message');
-    expect(spy.calls.count()).toEqual(1);
+    toastSvc.openMessage('message');
+    toastSvc.openMessage('message');
+    expect(mockSkyDynamicComponentSvc.createComponent).toHaveBeenCalledOnceWith(
+      SkyToasterComponent
+    );
   });
 
   it('should return an instance with a close method', () => {
-    const toast = toastService.openMessage('message');
+    const toast = toastSvc.openMessage('message');
     expect(typeof toast.close).toEqual('function');
   });
 
   it('should only remove the host element if it exists', () => {
-    toastService.openMessage('message');
-    const dynamicService = TestBed.get(SkyDynamicComponentService);
-    const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
-    toastService['removeHostComponent']();
-    toastService['removeHostComponent']();
-    expect(spy.calls.count()).toEqual(1);
+    const instance = toastSvc.openMessage('message');
+    instance.close();
+
+    expect(mockSkyDynamicComponentSvc.removeComponent).toHaveBeenCalledOnceWith(
+      fakeToasterCompRef
+    );
   });
 
   it('should expose a method to remove the toast from the DOM', () => {
-    toastService.openMessage('message');
-    const spy = spyOn(toastService['host'].instance, 'closeAll').and.callFake(
-      () => {}
-    );
-    toastService.ngOnDestroy();
-    expect(spy).toHaveBeenCalledWith();
+    toastSvc.openMessage('message');
+    toastSvc.ngOnDestroy();
+    expect(fakeToasterCompRef.instance.closeAll).toHaveBeenCalledWith();
   });
 
   describe('openMessage() method', () => {
     it('should open a toast with the given message and configuration', function () {
-      const instance = toastService.openMessage('Real message', {
+      const instance = toastSvc.openMessage('Real message', {
         type: SkyToastType.Danger,
       });
 
@@ -88,21 +102,21 @@ describe('Toast service', () => {
     });
 
     it('should remove message from queue when the message is closed', () => {
-      const instance = toastService.openMessage('My message');
+      const instance = toastSvc.openMessage('My message');
 
       let isClosedCalled = false;
       instance.closed.subscribe(() => (isClosedCalled = true));
 
       instance.close();
 
-      toastService.toastStream.pipe(take(1)).subscribe((value) => {
+      toastSvc.toastStream.pipe(take(1)).subscribe((value) => {
         expect(value.length).toEqual(0);
         expect(isClosedCalled).toBeTruthy();
       });
     });
 
     it('should complete the instance closed emitter', () => {
-      const instance = toastService.openMessage('My message');
+      const instance = toastSvc.openMessage('My message');
       let numTimesCalled = 0;
       instance.closed.subscribe(() => {
         numTimesCalled++;
@@ -116,7 +130,7 @@ describe('Toast service', () => {
 
   describe('openComponent() method', () => {
     class TestContext {
-      public message: string;
+      public message: string | undefined;
     }
 
     class TestComponent {}
@@ -130,7 +144,7 @@ describe('Toast service', () => {
         useValue: context,
       };
 
-      const instance = toastService.openComponent(
+      const instance = toastSvc.openComponent(
         TestComponent,
         {
           type: SkyToastType.Danger,
@@ -138,7 +152,7 @@ describe('Toast service', () => {
         [providers]
       );
 
-      toastService.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
+      toastSvc.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
         expect(toasts[0].bodyComponentProviders[0]).toEqual(providers);
       });
 
@@ -154,11 +168,11 @@ describe('Toast service', () => {
     });
 
     it('should handle empty providers', () => {
-      toastService.openComponent(TestComponent, {
+      toastSvc.openComponent(TestComponent, {
         type: SkyToastType.Danger,
       });
 
-      toastService.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
+      toastSvc.toastStream.pipe(take(1)).subscribe((toasts: SkyToast[]) => {
         expect(toasts[0].bodyComponentProviders.length).toEqual(1);
       });
     });
