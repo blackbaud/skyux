@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.21.0](https://github.com/blackbaud/skyux/compare/6.20.0...6.21.0) (2022-09-20)
+
+
+### Features
+
+* **components/layout:** add inline help support for box ([#504](https://github.com/blackbaud/skyux/issues/504)) ([460ff73](https://github.com/blackbaud/skyux/commit/460ff7389659d9329385debc0151f59c3cccaf83))
+* **components/pages:** add option for click event from needs attention items ([#496](https://github.com/blackbaud/skyux/issues/496)) ([4c33198](https://github.com/blackbaud/skyux/commit/4c33198f34b8b19350cf3deb3f869fb6544f5616))
+
+
+### Bug Fixes
+
+* **components/config:** revert accidental breaking change resulting from the `SkyAppRuntimeConfigParams.get` method's return type ([#534](https://github.com/blackbaud/skyux/issues/534)) ([6784e67](https://github.com/blackbaud/skyux/commit/6784e67f68e9ba7df83f2a7c8342acd3a50fb6b4))
+
 ## [6.20.0](https://github.com/blackbaud/skyux/compare/6.19.0...6.20.0) (2022-09-16)
 
 
