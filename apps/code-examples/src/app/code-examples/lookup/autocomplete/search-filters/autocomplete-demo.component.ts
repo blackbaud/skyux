@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 @Component({
@@ -21,7 +21,7 @@ export class AutocompleteDemoComponent implements OnInit {
     { name: 'Black' },
   ];
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] = [
     (searchText: string, item: any): boolean => {
@@ -29,7 +29,7 @@ export class AutocompleteDemoComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();

@@ -75,7 +75,7 @@ describe('Toast component', () => {
     fixture.destroy();
   }));
 
-  function getToastElements(): NodeListOf<any> {
+  function getToastElements(): NodeListOf<HTMLElement> {
     return document.querySelectorAll('sky-toast');
   }
 
@@ -103,11 +103,15 @@ describe('Toast component', () => {
     return instance;
   }
 
-  function validateToastMessage(toastEl: any, message: string): void {
+  function validateToastMessage(toastEl: Element, message: string): void {
     expect(toastEl.querySelector('.sky-toast-content')).toHaveText(
       message,
       true
     );
+  }
+
+  function clickElement(el: HTMLElement | null): void {
+    el?.click();
   }
 
   it('should not create a toaster element if one exists', fakeAsync(() => {
@@ -142,7 +146,9 @@ describe('Toast component', () => {
     let toasts = getToastElements();
     expect(toasts.length).toEqual(3);
 
-    toasts.item(0).querySelector('.sky-toast-btn-close').click();
+    (
+      toasts.item(0).querySelector('.sky-toast-btn-close') as HTMLElement
+    )?.click();
     fixture.detectChanges();
     tick();
 
@@ -160,7 +166,9 @@ describe('Toast component', () => {
       toasts.item(0).querySelector('.sky-toast-body-test-content')
     ).toHaveText(message, true);
 
-    toasts.item(0).querySelector('.sky-toast-body-test-btn-close').click();
+    clickElement(
+      toasts.item(0).querySelector('.sky-toast-body-test-btn-close')
+    );
     fixture.detectChanges();
     tick();
 
@@ -217,9 +225,11 @@ describe('Toast component', () => {
 
     const toaster = document.querySelector('.sky-toaster');
     const toast = document.querySelector('.sky-toast');
-    const checkbox: any = toast.querySelector('.sky-toast-checkbox-test');
+    const checkbox = toast?.querySelector(
+      '.sky-toast-checkbox-test'
+    ) as HTMLInputElement;
 
-    expect(checkbox.checked).toEqual(false);
+    expect(checkbox?.checked).toEqual(false);
 
     let numDocumentClicks = 0;
     document.addEventListener('click', function () {
@@ -227,12 +237,12 @@ describe('Toast component', () => {
     });
 
     let numToasterClicks = 0;
-    toaster.addEventListener('click', function () {
+    toaster?.addEventListener('click', function () {
       numToasterClicks++;
     });
 
-    SkyAppTestUtility.fireDomEvent(toaster, 'click');
-    SkyAppTestUtility.fireDomEvent(toast, 'click');
+    toaster && SkyAppTestUtility.fireDomEvent(toaster, 'click');
+    toast && SkyAppTestUtility.fireDomEvent(toast, 'click');
 
     checkbox.click();
 
@@ -257,7 +267,7 @@ describe('Toast component', () => {
       spy: jasmine.Spy,
       expectedValue: boolean
     ) {
-      SkyAppTestUtility.fireDomEvent(toaster, eventName);
+      toaster && SkyAppTestUtility.fireDomEvent(toaster, eventName);
       expect(spy).toHaveBeenCalledWith(expectedValue);
     }
 

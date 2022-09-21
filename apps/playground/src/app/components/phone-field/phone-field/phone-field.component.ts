@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-phone-field',
@@ -10,13 +10,13 @@ export class PhoneFieldComponent implements OnInit {
 
   public phoneNumberInputBox: string;
 
-  public phoneForm: FormGroup;
+  public phoneForm: UntypedFormGroup;
 
-  public phoneControl: FormControl;
+  public phoneControl: UntypedFormControl;
 
   public ngOnInit() {
-    this.phoneControl = new FormControl();
-    this.phoneForm = new FormGroup({
+    this.phoneControl = new UntypedFormControl();
+    this.phoneForm = new UntypedFormGroup({
       phoneControl: this.phoneControl,
     });
   }

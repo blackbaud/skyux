@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyAutocompleteSelectionChange,
@@ -12,7 +12,7 @@ import {
 export class AutocompleteDemoComponent implements OnInit {
   public farthestPlanet: any;
 
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public planets: any[] = [
     {
@@ -40,7 +40,7 @@ export class AutocompleteDemoComponent implements OnInit {
     },
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.createForm();

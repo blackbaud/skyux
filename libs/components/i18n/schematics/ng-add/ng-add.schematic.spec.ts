@@ -5,13 +5,12 @@ import {
 
 import path from 'path';
 
-import { SkyuxVersions } from '../shared/skyux-versions';
 import { createTestLibrary } from '../testing/scaffold';
 
 const COLLECTION_PATH = path.resolve(__dirname, '../collection.json');
 
 describe('ng-add.schematic', () => {
-  const defaultProjectName = 'my-app';
+  const defaultProjectName = 'my-lib';
 
   let runner: SchematicTestRunner;
   let tree: UnitTestTree;
@@ -24,13 +23,14 @@ describe('ng-add.schematic', () => {
     });
   });
 
-  function runSchematic(
-    options: { project?: string } = {}
-  ): Promise<UnitTestTree> {
-    return runner.runSchematicAsync('ng-add', options, tree).toPromise();
+  function runSchematic(): Promise<UnitTestTree> {
+    return runner.runSchematicAsync('ng-add', {}, tree).toPromise();
   }
 
-  function readPackageJson(tree: UnitTestTree): any {
+  function readPackageJson(tree: UnitTestTree): {
+    scripts?: { [_: string]: string };
+    dependencies?: { [_: string]: string };
+  } {
     return JSON.parse(tree.readContent('package.json'));
   }
 
@@ -47,7 +47,7 @@ describe('ng-add.schematic', () => {
     const packageJson = readPackageJson(updatedTree);
     expect(packageJson.dependencies).toEqual(
       jasmine.objectContaining({
-        '@skyux/assets': SkyuxVersions.Assets,
+        '@skyux/assets': '^7.0.0-beta.0',
       })
     );
   });
@@ -55,9 +55,9 @@ describe('ng-add.schematic', () => {
   it('should add package.json script', async () => {
     const updatedTree = await runSchematic();
     const packageJson = readPackageJson(updatedTree);
-    expect(packageJson.scripts['skyux:generate-lib-resources-module']).toEqual(
-      'ng generate @skyux/i18n:lib-resources-module'
-    );
+    expect(
+      packageJson.scripts?.['skyux:generate-lib-resources-module']
+    ).toEqual('ng generate @skyux/i18n:lib-resources-module');
   });
 
   it('should handle an empty scripts section', async () => {
@@ -70,8 +70,8 @@ describe('ng-add.schematic', () => {
 
     packageJson = readPackageJson(updatedTree);
 
-    expect(packageJson.scripts['skyux:generate-lib-resources-module']).toEqual(
-      'ng generate @skyux/i18n:lib-resources-module'
-    );
+    expect(
+      packageJson.scripts?.['skyux:generate-lib-resources-module']
+    ).toEqual('ng generate @skyux/i18n:lib-resources-module');
   });
 });

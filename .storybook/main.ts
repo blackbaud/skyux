@@ -1,6 +1,6 @@
-import { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
 
-const main: StorybookConfig = {
+export const rootMain: StorybookConfig = {
   stories: [],
   addons: [
     '@storybook/addon-a11y',
@@ -22,5 +22,3 @@ const main: StorybookConfig = {
     builder: 'webpack5',
   },
 };
-
-module.exports = main;

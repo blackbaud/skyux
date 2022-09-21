@@ -4,7 +4,7 @@ import {
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
 import { Tree } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 import { RoutingScope } from '@schematics/angular/module/schema';
 
@@ -18,7 +18,7 @@ describe('component generator', () => {
   let options: ComponentGeneratorSchema;
 
   beforeEach(async () => {
-    appTree = createTreeWithEmptyWorkspace(1);
+    appTree = createTreeWithEmptyV1Workspace();
     options = {
       name: 'example',
       project: 'test-storybook',

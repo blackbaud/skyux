@@ -7,5 +7,5 @@ export class SkyToastContainerOptions {
   /**
    * Order in which toasts should appear in the page's toast container.
    */
-  public displayDirection: SkyToastDisplayDirection;
+  public displayDirection: SkyToastDisplayDirection | undefined;
 }

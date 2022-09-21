@@ -14,7 +14,6 @@ import { WizardComponent } from './wizard.component';
 const routes: Routes = [{ path: '', component: WizardComponent }];
 @NgModule({
   declarations: [WizardComponent, WizardModalComponent],
-  entryComponents: [WizardModalComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

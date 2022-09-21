@@ -1,5 +1,31 @@
 # Changelog
 
+## [6.21.0](https://github.com/blackbaud/skyux/compare/6.20.0...6.21.0) (2022-09-20)
+
+
+### Features
+
+* **components/layout:** add inline help support for box ([#504](https://github.com/blackbaud/skyux/issues/504)) ([460ff73](https://github.com/blackbaud/skyux/commit/460ff7389659d9329385debc0151f59c3cccaf83))
+* **components/pages:** add option for click event from needs attention items ([#496](https://github.com/blackbaud/skyux/issues/496)) ([4c33198](https://github.com/blackbaud/skyux/commit/4c33198f34b8b19350cf3deb3f869fb6544f5616))
+
+
+### Bug Fixes
+
+* **components/config:** revert accidental breaking change resulting from the `SkyAppRuntimeConfigParams.get` method's return type ([#534](https://github.com/blackbaud/skyux/issues/534)) ([6784e67](https://github.com/blackbaud/skyux/commit/6784e67f68e9ba7df83f2a7c8342acd3a50fb6b4))
+
+## [6.20.0](https://github.com/blackbaud/skyux/compare/6.19.0...6.20.0) (2022-09-16)
+
+
+### Features
+
+* **components/modals:** confirm test harness ([#510](https://github.com/blackbaud/skyux/issues/510)) ([3b373e9](https://github.com/blackbaud/skyux/commit/3b373e9a6733c392846ac030c10537cdd287d962))
+* **components/text-editor:** add inline help example for text editor ([#502](https://github.com/blackbaud/skyux/issues/502)) ([476daca](https://github.com/blackbaud/skyux/commit/476dacafa0269f645f5b7cd546b4c065707b816b))
+
+
+### Bug Fixes
+
+* **components/lookup:** rename harness filters `textContent` property to `text` to satisfy conventions ([#526](https://github.com/blackbaud/skyux/issues/526)) ([8f1b8f5](https://github.com/blackbaud/skyux/commit/8f1b8f55dce5ed094e34e3d75364d3c6f584b620))
+
 ## [6.19.0](https://github.com/blackbaud/skyux/compare/6.18.0...6.19.0) (2022-09-14)
 
 

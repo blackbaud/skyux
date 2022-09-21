@@ -20,7 +20,7 @@ export async function createTestApp(
       routing: true,
       strict: true,
       style: 'scss',
-      version: '13',
+      version: '14',
     })
     .toPromise();
 }
@@ -40,7 +40,7 @@ export async function createTestLibrary(
       name: `${libOptions.name}-workspace`,
       createApplication: false,
       strict: true,
-      version: '13',
+      version: '14',
     })
     .toPromise();
 

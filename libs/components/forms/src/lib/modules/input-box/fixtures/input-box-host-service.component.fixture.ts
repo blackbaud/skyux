@@ -3,7 +3,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { SkyInputBoxHostService } from '../input-box-host.service';
 
 @Component({
-  selector: 'app-input-box-host-service-fixture',
+  selector: 'sky-input-box-host-service-fixture',
   templateUrl: './input-box-host-service.component.fixture.html',
 })
 export class InputBoxHostServiceFixtureComponent implements OnInit {
@@ -11,19 +11,23 @@ export class InputBoxHostServiceFixtureComponent implements OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplate: TemplateRef<unknown>;
+  public inputTemplate: TemplateRef<unknown> | undefined;
 
   @ViewChild('buttonsTemplate', {
     read: TemplateRef,
     static: true,
   })
-  private buttonsTemplate: TemplateRef<unknown>;
+  public buttonsTemplate: TemplateRef<unknown> | undefined;
 
-  constructor(private inputBoxHostSvc: SkyInputBoxHostService) {}
+  #inputBoxHostSvc: SkyInputBoxHostService;
+
+  constructor(inputBoxHostSvc: SkyInputBoxHostService) {
+    this.#inputBoxHostSvc = inputBoxHostSvc;
+  }
 
   public ngOnInit(): void {
-    this.inputBoxHostSvc.populate({
-      inputTemplate: this.inputTemplate,
+    this.#inputBoxHostSvc.populate({
+      inputTemplate: this.inputTemplate!,
       buttonsTemplate: this.buttonsTemplate,
     });
   }

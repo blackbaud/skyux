@@ -5,7 +5,7 @@ import {
 } from '@nrwl/angular/generators';
 import { cypressProjectGenerator } from '@nrwl/cypress';
 import { getProjects } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
 import {
@@ -17,7 +17,7 @@ import {
 
 describe('some-or-all-projects', () => {
   it('should get someOrAllE2eProjects', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     for (let i = 1; i <= 3; i++) {
       await cypressProjectGenerator(tree, {
         name: `cypress${i}`,
@@ -40,7 +40,7 @@ describe('some-or-all-projects', () => {
   });
 
   it('should get someOrAllStorybookProjects', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     for (let i = 1; i <= 3; i++) {
       await applicationGenerator(tree, { name: `test-app${i}` });
@@ -68,7 +68,7 @@ describe('some-or-all-projects', () => {
   });
 
   it('should getProjectTypeBase', async () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: 'test-app' });
     await libraryGenerator(tree, { name: 'test-lib' });
@@ -81,7 +81,7 @@ describe('some-or-all-projects', () => {
   });
 
   it('should error when getStorybookProject is called without a project name', () => {
-    const tree = createTreeWithEmptyWorkspace(1);
+    const tree = createTreeWithEmptyV1Workspace();
     expect(() => getStorybookProject(tree, {})).toThrowError(
       'Project name not specified'
     );

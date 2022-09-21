@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import {
-  FormArray,
-  FormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormArray,
+  UntypedFormControl,
   Validators,
 } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -88,18 +88,20 @@ export class RepeaterVisualComponent {
     },
   ];
 
-  public get itemsForReorderableRepeaterWithAddButton(): FormArray {
+  public get itemsForReorderableRepeaterWithAddButton(): UntypedFormArray {
     if (typeof this._itemsForReorderableRepeaterWithAddButton === 'undefined') {
-      this._itemsForReorderableRepeaterWithAddButton = new FormArray(
+      this._itemsForReorderableRepeaterWithAddButton = new UntypedFormArray(
         Array.from(Array(5).keys()).map((n) =>
           this.newItemForReorderableRepeaterWithAddButton(n + 1)
         )
       );
     }
-    return this._itemsForReorderableRepeaterWithAddButton as FormArray;
+    return this._itemsForReorderableRepeaterWithAddButton as UntypedFormArray;
   }
 
-  public _itemsForReorderableRepeaterWithAddButton: FormArray | undefined;
+  public _itemsForReorderableRepeaterWithAddButton:
+    | UntypedFormArray
+    | undefined;
 
   public reorderable = true;
 
@@ -151,7 +153,7 @@ export class RepeaterVisualComponent {
   }
 
   public onOrderChangeForReorderableRepeaterWithAddButton(
-    tags: FormControl[]
+    tags: UntypedFormControl[]
   ): void {
     console.log(tags);
     this.itemsForReorderableRepeaterWithAddButton.clear();
@@ -209,8 +211,10 @@ export class RepeaterVisualComponent {
     this.showStandardInlineDelete = true;
   }
 
-  private newItemForReorderableRepeaterWithAddButton(n: number): FormControl {
-    return new FormControl(`item ${n}`, [
+  private newItemForReorderableRepeaterWithAddButton(
+    n: number
+  ): UntypedFormControl {
+    return new UntypedFormControl(`item ${n}`, [
       Validators.required,
       Validators.maxLength(20),
     ]);
