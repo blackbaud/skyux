@@ -4,7 +4,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyAutocompleteSearchAsyncResult,
@@ -24,7 +28,7 @@ interface Person {
   templateUrl: './lookup-harness-test.component.html',
 })
 export class LookupHarnessTestComponent implements AfterViewInit {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
 
   public people: Person[] = [
     {
@@ -120,13 +124,13 @@ export class LookupHarnessTestComponent implements AfterViewInit {
   @ViewChild('showMoreSearchResultTemplate')
   public showMoreSearchResultTemplate: TemplateRef<unknown> | undefined;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.myForm = formBuilder.group({
-      basic: new FormControl(),
-      formalNames: new FormControl(),
-      singleSelect: new FormControl(this.name),
-      multiselect: new FormControl(this.names),
-      asyncNames: new FormControl(this.names),
+      basic: new UntypedFormControl(),
+      formalNames: new UntypedFormControl(),
+      singleSelect: new UntypedFormControl(this.name),
+      multiselect: new UntypedFormControl(this.names),
+      asyncNames: new UntypedFormControl(this.names),
     });
   }
 

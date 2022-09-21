@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-phone-field-demo',
@@ -7,13 +7,13 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./phone-field-demo.component.scss'],
 })
 export class PhoneFieldDemoComponent implements OnInit {
-  public phoneControl: FormControl;
+  public phoneControl: UntypedFormControl;
 
-  public phoneForm: FormGroup;
+  public phoneForm: UntypedFormGroup;
 
   public ngOnInit(): void {
-    this.phoneControl = new FormControl();
-    this.phoneForm = new FormGroup({
+    this.phoneControl = new UntypedFormControl();
+    this.phoneForm = new UntypedFormGroup({
       phoneControl: this.phoneControl,
     });
   }

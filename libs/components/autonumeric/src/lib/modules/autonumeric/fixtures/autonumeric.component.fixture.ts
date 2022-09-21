@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
   NgModel,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
 
 import { SkyAutonumericOptions } from '../autonumeric-options';
@@ -30,7 +30,7 @@ export class AutonumericFixtureComponent implements OnInit {
 
   public autonumericOptions: SkyAutonumericOptions | undefined;
 
-  public formGroup: FormGroup | undefined;
+  public formGroup: UntypedFormGroup | undefined;
 
   public templateDrivenModel: any = {
     donationAmount: 1000,
@@ -46,12 +46,12 @@ export class AutonumericFixtureComponent implements OnInit {
 
   constructor(
     public changeDetector: ChangeDetectorRef,
-    private formBuilder: FormBuilder
+    private formBuilder: UntypedFormBuilder
   ) {}
 
   public ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      donationAmount: new FormControl(),
+      donationAmount: new UntypedFormControl(),
     });
   }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
 import {
   SkyDateRangeCalculation,
@@ -20,18 +20,18 @@ export class DateRangePickerComponent implements OnInit {
   public dateFormat: string;
   public disabled = false;
   public endDateRequired = false;
-  public reactiveForm: FormGroup;
+  public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
 
   public get pickerFormControl(): AbstractControl {
     return this.reactiveForm.get('lastDonation');
   }
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.reactiveForm = this.formBuilder.group({
-      lastDonation: new FormControl(),
+      lastDonation: new UntypedFormControl(),
     });
     this.pickerFormControl.statusChanges.subscribe((status) => {
       console.log(

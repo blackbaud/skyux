@@ -1,5 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 import { SkyFileAttachmentComponent } from '../file-attachment.component';
 
@@ -8,9 +12,9 @@ import { SkyFileAttachmentComponent } from '../file-attachment.component';
   templateUrl: './file-attachment.component.fixture.html',
 })
 export class FileAttachmentTestComponent {
-  public attachment: FormControl;
+  public attachment: UntypedFormControl;
 
-  public fileForm: FormGroup;
+  public fileForm: UntypedFormGroup;
 
   public labelText = 'Choose file';
 
@@ -22,8 +26,8 @@ export class FileAttachmentTestComponent {
   public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;
 
-  constructor(formBuilder: FormBuilder) {
-    this.attachment = new FormControl(undefined);
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.attachment = new UntypedFormControl(undefined);
     this.fileForm = formBuilder.group({
       attachment: this.attachment,
     });

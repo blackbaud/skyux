@@ -6,12 +6,16 @@ import {
 } from '@schematics/angular/utility/dependencies';
 
 import { SkyuxVersions } from '../shared/skyux-versions';
+import { readRequiredFile } from '../utility/tree';
 
 function addPackageJsonScript(): Rule {
   return (tree) => {
-    const packageJson = JSON.parse(tree.read('package.json')!.toString());
+    const packageJson = JSON.parse(
+      readRequiredFile(tree, 'package.json').toString()
+    );
 
     packageJson.scripts = packageJson.scripts || {};
+
     packageJson.scripts['skyux:generate-lib-resources-module'] =
       'ng generate @skyux/i18n:lib-resources-module';
 

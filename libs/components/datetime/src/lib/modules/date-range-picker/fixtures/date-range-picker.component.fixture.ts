@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,13 +34,13 @@ export class DateRangePickerTestComponent implements OnInit, OnDestroy {
   public initialValue: SkyDateRangeCalculation;
   public label: string;
   public numValueChangeNotifications = 0;
-  public reactiveForm: FormGroup;
+  public reactiveForm: UntypedFormGroup;
   public startDateRequired = false;
   public templateDisable: boolean = undefined;
 
   private ngUnsubscribe = new Subject<void>();
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
     this.reactiveForm = this.formBuilder.group({
