@@ -3,7 +3,6 @@ name: E2E
 on:
   push:
     branches:
-      - main
       - 6.x.x
   pull_request:
 

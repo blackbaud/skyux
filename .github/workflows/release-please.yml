@@ -2,7 +2,7 @@ name: Release Please
 on:
   push:
     branches:
-      - main
+      - 6.x.x
 
 jobs:
   release:
@@ -15,7 +15,7 @@ jobs:
           release-type: 'node'
           default-branch: '${{ github.ref_name }}'
           package-name: 'skyux'
-          pull-request-title-pattern: 'chore: ${{ github.ref_name }} release ${version}'
+          pull-request-title-pattern: 'chore: release ${version}'
           labels: 'autorelease ${{ github.ref_name }}: pending'
           release-labels: 'autorelease ${{ github.ref_name }}: tagged'
           prerelease: false
@@ -56,6 +56,6 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/main/CHANGELOG.md
+          SLACK_MESSAGE: Successfully published SKY UX ${{ steps.release.outputs.tag_name }} to NPM. http://github.com/${{ github.repository }}/blob/6.x.x/CHANGELOG.md
           SLACK_ICON: https://github.com/blackbaud.png?size=48
           SLACK_USERNAME: SKY UX

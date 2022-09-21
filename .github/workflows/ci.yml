@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - 6.x.x
   pull_request:
 
 env:
@@ -44,7 +44,7 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3, 4, 5, 6, 7]
+        agent: [1, 2, 3]
     steps:
       - uses: actions/checkout@v2
       - name: Retrieve node_modules cache
@@ -86,7 +86,7 @@ jobs:
       - name: Check code formatting
         run: npx prettier --check .
       - name: Run lint
-        run: npx nx affected:lint --quiet --silent --parallel --maxParallel=5
+        run: npx nx affected:lint --quiet --silent --parallel=3
 
   build:
     name: Build
@@ -112,7 +112,7 @@ jobs:
           path: node_modules
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Build
-        run: npx nx affected --target=build --parallel --maxParallel=5
+        run: npx nx affected --target=build --parallel=3
 
   build-dist:
     name: Build packages distribution
@@ -162,8 +162,8 @@ jobs:
           key: cache-node-modules-${{ hashFiles('package-lock.json') }}
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel --maxParallel=5 --browsers=ChromeHeadless
-          npx nx affected --target=posttest --parallel --maxParallel=5 --browsers=ChromeHeadless
+          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless
+          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless
 
   stop-agents:
     name: Stop Nx Cloud agents
