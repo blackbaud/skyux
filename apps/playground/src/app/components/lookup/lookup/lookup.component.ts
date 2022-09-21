@@ -5,7 +5,11 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import {
   SkyAutocompleteSearchAsyncArgs,
   SkyLookupSelectModeType,
@@ -25,8 +29,8 @@ import { LookupCustomPickerComponent } from './lookup-custom-picker.component';
   styleUrls: ['./lookup.component.scss'],
 })
 export class LookupComponent implements OnInit {
-  public friendsForm: FormGroup;
-  public bestFriendsForm: FormGroup;
+  public friendsForm: UntypedFormGroup;
+  public bestFriendsForm: UntypedFormGroup;
   public showMoreConfig: SkyLookupShowMoreConfig = {};
   public disabled = false;
 
@@ -72,7 +76,7 @@ export class LookupComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private modalService: SkyModalService,
     private changeDetector: ChangeDetectorRef
   ) {}
@@ -158,12 +162,12 @@ export class LookupComponent implements OnInit {
 
   private createForms(): void {
     this.friendsForm = this.formBuilder.group({
-      friends: new FormControl(this.friends),
-      friends2: new FormControl(this.friends2),
+      friends: new UntypedFormControl(this.friends),
+      friends2: new UntypedFormControl(this.friends2),
     });
 
     this.bestFriendsForm = this.formBuilder.group({
-      bestFriend: new FormControl(this.bestFriend),
+      bestFriend: new UntypedFormControl(this.bestFriend),
       bestFriendAsync: undefined,
     });
   }

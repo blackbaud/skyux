@@ -19,10 +19,10 @@ import {
 import {
   AbstractControl,
   ControlValueAccessor,
-  FormControl,
   NG_VALIDATORS,
   NgControl,
   NgModel,
+  UntypedFormControl,
   ValidationErrors,
   Validator,
 } from '@angular/forms';
@@ -162,7 +162,7 @@ export class SkyCountryFieldComponent
 
   public countries: SkyCountryFieldCountry[] = [];
 
-  public countrySearchFormControl: FormControl;
+  public countrySearchFormControl: UntypedFormControl;
 
   public isInputFocused = false;
 
@@ -292,7 +292,7 @@ export class SkyCountryFieldComponent
 
     this.#setupCountries();
 
-    this.countrySearchFormControl = new FormControl();
+    this.countrySearchFormControl = new UntypedFormControl();
   }
 
   /**

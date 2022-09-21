@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 
@@ -11,17 +11,17 @@ import {
   templateUrl: './checkbox-harness-test.component.html',
 })
 export class CheckboxHarnessTestComponent {
-  public myForm: FormGroup;
+  public myForm: UntypedFormGroup;
   public hideEmailLabel = false;
 
-  #formBuilder: FormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
 
     this.myForm = this.#formBuilder.group({
-      email: new FormControl(false),
-      phone: new FormControl(false, [Validators.required]),
+      email: new UntypedFormControl(false),
+      phone: new UntypedFormControl(false, [Validators.required]),
     });
   }
 

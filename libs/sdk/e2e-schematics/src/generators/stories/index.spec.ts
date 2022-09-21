@@ -1,10 +1,10 @@
 import {
   applicationGenerator,
+  componentGenerator,
   storybookConfigurationGenerator,
 } from '@nrwl/angular/generators';
-import componentGenerator from '@nrwl/angular/src/generators/component/component';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
-import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
+import { createTreeWithEmptyV1Workspace } from '@nrwl/devkit/testing';
 import { Linter } from '@nrwl/linter';
 
 import storiesGenerator from './index';
@@ -15,7 +15,7 @@ describe('stories generator', () => {
   let options: StoriesGeneratorSchema;
 
   beforeEach(() => {
-    appTree = createTreeWithEmptyWorkspace();
+    appTree = createTreeWithEmptyV1Workspace();
     options = {
       project: 'test',
       generateCypressSpecs: true,

@@ -1,5 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 import { SkyRadioGroupComponent } from '../radio-group.component';
 
@@ -23,8 +27,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
     { name: 'Harry Mckenzie', disabled: false },
   ];
 
-  public radioControl!: FormControl;
-  public radioForm!: FormGroup;
+  public radioControl!: UntypedFormControl;
+  public radioForm!: UntypedFormGroup;
 
   public required = false;
 
@@ -35,14 +39,14 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
-  #fb: FormBuilder;
+  #fb: UntypedFormBuilder;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: UntypedFormBuilder) {
     this.#fb = fb;
   }
 
-  public ngOnInit() {
-    this.radioControl = new FormControl({
+  public ngOnInit(): void {
+    this.radioControl = new UntypedFormControl({
       value: this.initialValue,
       disabled: this.initialDisabled,
     });

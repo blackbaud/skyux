@@ -5,7 +5,6 @@ import {
 
 import path from 'path';
 
-import { SkyuxVersions } from '../../shared/skyux-versions';
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 import { readRequiredFile } from '../../utility/tree';
 
@@ -40,7 +39,9 @@ describe('lib-resources-module.schematic', () => {
   });
 
   function runSchematic(
-    options: { name?: string; project?: string } = {}
+    options: { name?: string; project?: string } = {
+      project: defaultProjectName,
+    }
   ): Promise<UnitTestTree> {
     return runner.runSchematicAsync(schematicName, options, tree).toPromise();
   }
@@ -135,6 +136,7 @@ export class MyLibResourcesModule { }
   it('should allow changing the location of the module', async () => {
     const updatedTree = await runSchematic({
       name: 'shared/foobar',
+      project: defaultProjectName,
     });
 
     const customModulePath =
@@ -197,7 +199,7 @@ export class FoobarResourcesModule { }
     );
 
     expect(packageJsonContents.peerDependencies['@skyux/i18n']).toEqual(
-      SkyuxVersions.I18n
+      '^7.0.0-beta.0'
     );
   });
 
@@ -247,5 +249,11 @@ export class FoobarResourcesModule { }
     await expectAsync(runSchematic()).toBeRejectedWithError(
       `The file '${packageJsonPath}' was expected to exist but was not found.`
     );
+  });
+
+  it('should throw an error if project not defined', async () => {
+    await expectAsync(
+      runSchematic({ project: undefined })
+    ).toBeRejectedWithError(`A project name is required.`);
   });
 });

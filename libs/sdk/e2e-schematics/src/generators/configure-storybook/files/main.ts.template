@@ -1,10 +1,8 @@
-import { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/core-common';
 
-import * as rootMainImport from '<%= relativeToRoot %>/.storybook/main';
+import { rootMain } from '<%= relativeToRoot %>/.storybook/main';
 
-const rootMain = rootMainImport as StorybookConfig;
-
-module.exports = {
+const config: StorybookConfig = {
   ...rootMain,
 
   stories: [
@@ -13,3 +11,5 @@ module.exports = {
     '../src/app/**/*.stories.@(js|jsx|ts|tsx)',
   ],
 };
+
+module.exports = config;

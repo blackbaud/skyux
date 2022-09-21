@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-radio',
@@ -10,7 +14,7 @@ export class RadioComponent {
 
   public iconSelectedValue = '1';
 
-  public radioForm: FormGroup;
+  public radioForm: UntypedFormGroup;
 
   public radioValue: { name: string; disabled: boolean };
 
@@ -27,9 +31,9 @@ export class RadioComponent {
 
   public selectedValue = '3';
 
-  constructor(formBuilder: FormBuilder) {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.radioForm = formBuilder.group({
-      favoriteSeason: new FormControl({
+      favoriteSeason: new UntypedFormControl({
         value: this.seasons[0],
         disabled: this.disabled,
       }),
