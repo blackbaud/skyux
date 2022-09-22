@@ -23,46 +23,46 @@ import { SkyDropdownTriggerType } from '../types/dropdown-trigger-type';
 export class DropdownFixtureComponent {
   //#region directive properties
 
-  public buttonStyle: string;
+  public buttonStyle: string | undefined;
 
-  public buttonType: string;
+  public buttonType: string | undefined;
 
-  public disabled: boolean;
+  public disabled: boolean | undefined;
 
-  public dismissOnBlur: boolean;
+  public dismissOnBlur: boolean | undefined;
 
-  public horizontalAlignment: SkyDropdownHorizontalAlignment;
+  public horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
 
-  public itemAriaRole: string;
+  public itemAriaRole: string | undefined;
 
-  public label: string;
+  public label: string | undefined;
 
   public messageStream = new Subject<SkyDropdownMessage>();
 
-  public menuAriaLabelledBy: string;
+  public menuAriaLabelledBy: string | undefined;
 
-  public menuAriaRole: string;
+  public menuAriaRole: string | undefined;
 
-  public title: string;
+  public title: string | undefined;
 
-  public trigger: SkyDropdownTriggerType;
+  public trigger: SkyDropdownTriggerType | undefined;
 
-  public useNativeFocus: boolean;
+  public useNativeFocus: boolean | undefined;
 
   //#endregion directive properties
 
   @ViewChild('dropdownRef', {
     read: SkyDropdownComponent,
   })
-  public dropdownRef: SkyDropdownComponent;
+  public dropdownRef: SkyDropdownComponent | undefined;
 
   @ViewChild('dropdownMenuRef', {
     read: SkyDropdownMenuComponent,
   })
-  public dropdownMenuRef: SkyDropdownMenuComponent;
+  public dropdownMenuRef: SkyDropdownMenuComponent | undefined;
 
   @ViewChildren(SkyDropdownItemComponent)
-  public dropdownItemRefs: QueryList<SkyDropdownItemComponent>;
+  public dropdownItemRefs: QueryList<SkyDropdownItemComponent> | undefined;
 
   public items: any[] = [
     { name: 'Option 1', disabled: false },
@@ -73,7 +73,11 @@ export class DropdownFixtureComponent {
 
   public show = true;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public onMenuChanges(): void {}
 
@@ -81,7 +85,7 @@ export class DropdownFixtureComponent {
 
   public changeItems() {
     this.items.pop();
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   public setManyItems(): void {
@@ -95,7 +99,7 @@ export class DropdownFixtureComponent {
     }
 
     this.items = items;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public sendMessage(type: SkyDropdownMessageType) {

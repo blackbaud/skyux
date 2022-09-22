@@ -55,11 +55,11 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    */
   @Input()
   public set ariaRole(value: string | undefined) {
-    this._ariaRole = value;
+    this.#_ariaRole = value ?? 'menu';
   }
 
   public get ariaRole(): string {
-    return this._ariaRole || 'menu';
+    return this.#_ariaRole;
   }
 
   /**
@@ -72,15 +72,11 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
    */
   @Input()
   public set useNativeFocus(value: boolean | undefined) {
-    this._useNativeFocus = value;
+    this.#_useNativeFocus = value ?? true;
   }
 
   public get useNativeFocus(): boolean {
-    if (this._useNativeFocus === undefined) {
-      return true;
-    }
-
-    return this._useNativeFocus;
+    return this.#_useNativeFocus;
   }
 
   /**
@@ -94,11 +90,6 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
 
   public dropdownMenuId = `sky-dropdown-menu-${++nextId}`;
 
-  private get hasFocusableItems(): boolean {
-    const found = this.menuItems.find((item) => item.isFocusable());
-    return found !== undefined;
-  }
-
   public set menuIndex(value: number) {
     if (value < 0) {
       value = this.menuItems.length - 1;
@@ -108,38 +99,46 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
       value = 0;
     }
 
-    this._menuIndex = value;
+    this.#_menuIndex = value;
   }
 
   public get menuIndex(): number {
-    return this._menuIndex;
+    return this.#_menuIndex;
   }
 
   @ContentChildren(SkyDropdownItemComponent, { descendants: true })
   public menuItems!: QueryList<SkyDropdownItemComponent>;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _ariaRole: string | undefined;
+  #_ariaRole = 'menu';
 
-  private _menuIndex = 0;
+  #_menuIndex = 0;
 
-  private _useNativeFocus: boolean | undefined;
+  #_useNativeFocus = true;
+
+  #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
+  #dropdownComponent: SkyDropdownComponent | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    @Optional() private dropdownComponent: SkyDropdownComponent
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    @Optional() dropdownComponent: SkyDropdownComponent
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#dropdownComponent = dropdownComponent;
+  }
 
   public ngAfterContentInit(): void {
     /* istanbul ignore else */
-    if (this.dropdownComponent) {
-      this.dropdownComponent.menuId = this.dropdownMenuId;
-      this.dropdownComponent.menuAriaRole = this.ariaRole;
+    if (this.#dropdownComponent) {
+      this.#dropdownComponent.menuId = this.dropdownMenuId;
+      this.#dropdownComponent.menuAriaRole = this.ariaRole;
 
-      this.dropdownComponent.messageStream
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.#dropdownComponent.messageStream
+        ?.pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((message: SkyDropdownMessage) => {
           switch (message.type) {
             case SkyDropdownMessageType.Open:
@@ -166,24 +165,24 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
         });
 
       this.menuChanges
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((change: SkyDropdownMenuChange) => {
           // Close the dropdown when a menu item is selected.
           if (change.selectedItem) {
-            this.sendMessage(SkyDropdownMessageType.Close);
-            this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+            this.#sendMessage(SkyDropdownMessageType.Close);
+            this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
           }
 
           if (change.items) {
             // Update the popover style and position whenever the number of items changes.
-            this.sendMessage(SkyDropdownMessageType.Reposition);
+            this.#sendMessage(SkyDropdownMessageType.Reposition);
           }
         });
     }
 
     // Reset dropdown whenever the menu items change.
     this.menuItems.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((items: QueryList<SkyDropdownItemComponent>) => {
         this.reset();
         this.menuChanges.emit({
@@ -191,99 +190,99 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
         });
       });
 
-    this.addEventListeners();
+    this.#addEventListeners();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public focusFirstItem(): void {
-    if (!this.hasFocusableItems) {
+    if (!this.#hasFocusableItems()) {
       return;
     }
 
     this.menuIndex = 0;
 
-    const firstItem = this.getItemByIndex(this.menuIndex);
+    const firstItem = this.#getItemByIndex(this.menuIndex);
     if (firstItem && firstItem.isFocusable()) {
-      this.focusItem(firstItem);
+      this.#focusItem(firstItem);
     } else {
       this.focusNextItem();
     }
   }
 
   public focusLastItem(): void {
-    if (!this.hasFocusableItems) {
+    if (!this.#hasFocusableItems()) {
       return;
     }
 
     this.menuIndex = this.menuItems.length - 1;
 
-    const lastItem = this.getItemByIndex(this.menuIndex);
+    const lastItem = this.#getItemByIndex(this.menuIndex);
     if (lastItem && lastItem.isFocusable()) {
-      this.focusItem(lastItem);
+      this.#focusItem(lastItem);
     } else {
       this.focusPreviousItem();
     }
   }
 
   public focusPreviousItem(): void {
-    if (!this.hasFocusableItems) {
+    if (!this.#hasFocusableItems()) {
       return;
     }
 
     this.menuIndex--;
 
-    const previousItem = this.getItemByIndex(this.menuIndex);
+    const previousItem = this.#getItemByIndex(this.menuIndex);
     if (previousItem && previousItem.isFocusable()) {
-      this.focusItem(previousItem);
+      this.#focusItem(previousItem);
     } else {
       this.focusPreviousItem();
     }
   }
 
   public focusNextItem() {
-    if (!this.hasFocusableItems) {
+    if (!this.#hasFocusableItems()) {
       return;
     }
 
     this.menuIndex++;
 
-    const nextItem = this.getItemByIndex(this.menuIndex);
+    const nextItem = this.#getItemByIndex(this.menuIndex);
     if (nextItem && nextItem.isFocusable()) {
-      this.focusItem(nextItem);
+      this.#focusItem(nextItem);
     } else {
       this.focusNextItem();
     }
   }
 
   public reset(): void {
-    this._menuIndex = -1;
-    this.resetItemsActiveState();
-    this.changeDetector.markForCheck();
+    this.#_menuIndex = -1;
+    this.#resetItemsActiveState();
+    this.#changeDetector.markForCheck();
   }
 
-  private resetItemsActiveState() {
+  #resetItemsActiveState() {
     this.menuItems.forEach((item: SkyDropdownItemComponent) => {
       item.resetState();
     });
   }
 
-  private focusItem(item: SkyDropdownItemComponent): void {
-    this.resetItemsActiveState();
+  #focusItem(item: SkyDropdownItemComponent): void {
+    this.#resetItemsActiveState();
     item.focusElement(this.useNativeFocus);
     this.menuChanges.emit({
       activeIndex: this.menuIndex,
     });
   }
 
-  private getItemByIndex(index: number): SkyDropdownItemComponent | undefined {
+  #getItemByIndex(index: number): SkyDropdownItemComponent | undefined {
     return this.menuItems.find((_, i) => i === index);
   }
 
-  private selectItemByEventTarget(target: EventTarget): void {
+  #selectItemByEventTarget(target: EventTarget): void {
     const selectedItem = this.menuItems.find(
       (item: SkyDropdownItemComponent, i: number) => {
         const found = item.elementRef.nativeElement.contains(target);
@@ -307,28 +306,28 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  private sendMessage(type: SkyDropdownMessageType): void {
-    this.dropdownComponent.messageStream.next({ type });
+  #sendMessage(type: SkyDropdownMessageType): void {
+    this.#dropdownComponent?.messageStream?.next({ type });
   }
 
-  private addEventListeners(): void {
-    const dropdownMenuElement = this.elementRef.nativeElement;
+  #addEventListeners(): void {
+    const dropdownMenuElement = this.#elementRef.nativeElement;
 
     observableFromEvent<MouseEvent>(dropdownMenuElement, 'click')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {
-        this.selectItemByEventTarget(event.target as EventTarget);
+        this.#selectItemByEventTarget(event.target as EventTarget);
       });
 
     observableFromEvent<KeyboardEvent>(dropdownMenuElement, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {
         const key = event.key.toLowerCase();
 
         switch (key) {
           case 'escape':
-            this.sendMessage(SkyDropdownMessageType.Close);
-            this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+            this.#sendMessage(SkyDropdownMessageType.Close);
+            this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
             event.stopPropagation();
             event.preventDefault();
             break;
@@ -346,34 +345,46 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
             break;
 
           case 'tab':
-            if (this.dropdownComponent.dismissOnBlur) {
-              this.sendMessage(SkyDropdownMessageType.Close);
+            if (this.#dropdownComponent?.dismissOnBlur) {
+              this.#sendMessage(SkyDropdownMessageType.Close);
             }
-            this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+            this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
             break;
         }
       });
 
     observableFromEvent(dropdownMenuElement, 'mouseenter')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.dropdownComponent.isMouseEnter = true;
+        /* istanbul ignore else */
+        if (this.#dropdownComponent) {
+          this.#dropdownComponent.isMouseEnter = true;
+        }
       });
 
     observableFromEvent(dropdownMenuElement, 'mouseleave')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.dropdownComponent.isMouseEnter = false;
-        // Allow the dropdown component to set isMouseEnter before checking if the close action
-        // should be taken.
-        setTimeout(() => {
-          if (
-            this.dropdownComponent.trigger === 'hover' &&
-            this.dropdownComponent.isMouseEnter === false
-          ) {
-            this.sendMessage(SkyDropdownMessageType.Close);
-          }
-        });
+        /* istanbul ignore else */
+        if (this.#dropdownComponent) {
+          this.#dropdownComponent.isMouseEnter = false;
+          // Allow the dropdown component to set isMouseEnter before checking if the close action
+          // should be taken.
+          setTimeout(() => {
+            if (
+              this.#dropdownComponent &&
+              this.#dropdownComponent.trigger === 'hover' &&
+              this.#dropdownComponent.isMouseEnter === false
+            ) {
+              this.#sendMessage(SkyDropdownMessageType.Close);
+            }
+          });
+        }
       });
+  }
+
+  #hasFocusableItems(): boolean {
+    const found = this.menuItems.find((item) => item.isFocusable());
+    return found !== undefined;
   }
 }

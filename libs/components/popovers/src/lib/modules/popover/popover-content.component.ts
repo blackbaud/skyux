@@ -44,20 +44,18 @@ import { SkyPopoverType } from './types/popover-type';
   providers: [SkyPopoverAdapterService],
 })
 export class SkyPopoverContentComponent implements OnInit, OnDestroy {
-  public get animationState(): SkyPopoverAnimationState {
-    return this.isOpen ? 'open' : 'closed';
-  }
+  public animationState: SkyPopoverAnimationState = 'closed';
 
   public get closed(): Observable<void> {
-    return this._closed.asObservable();
+    return this.#_closed.asObservable();
   }
 
   public get opened(): Observable<void> {
-    return this._opened.asObservable();
+    return this.#_opened.asObservable();
   }
 
   public get isMouseEnter(): Observable<boolean> {
-    return this._isMouseEnter.asObservable();
+    return this.#_isMouseEnter.asObservable();
   }
 
   public affixer: SkyAffixer | undefined;
@@ -70,15 +68,22 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
   public enableAnimations = true;
 
-  public horizontalAlignment!: SkyPopoverAlignment;
+  public horizontalAlignment: SkyPopoverAlignment = 'center';
 
-  public isOpen = false;
+  public set isOpen(value: boolean) {
+    this.#_isOpen = value;
+    this.animationState = value ? 'open' : 'closed';
+  }
+
+  public get isOpen() {
+    return this.#_isOpen;
+  }
 
   public placement: SkyPopoverPlacement | null = null;
 
   public popoverTitle: string | undefined;
 
-  public popoverType!: SkyPopoverType;
+  public popoverType: SkyPopoverType = 'info';
 
   public themeName: string | undefined;
 
@@ -86,48 +91,69 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     read: ElementRef,
     static: true,
   })
-  private arrowRef!: ElementRef;
+  public arrowRef: ElementRef | undefined;
 
   @ViewChild('popoverRef', {
     read: ElementRef,
     static: true,
   })
-  private popoverRef!: ElementRef;
+  public popoverRef: ElementRef | undefined;
 
   @ViewChild('contentTarget', {
     read: ViewContainerRef,
     static: true,
   })
-  private contentTarget!: ViewContainerRef;
+  public set contentTarget(value: ViewContainerRef | undefined) {
+    if (value) {
+      value.createEmbeddedView(this.#context.contentTemplateRef);
+    }
+  }
 
-  private caller!: ElementRef;
+  #caller: ElementRef | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _closed = new Subject<void>();
+  #_closed = new Subject<void>();
 
-  private _isMouseEnter = new Subject<boolean>();
+  #_isMouseEnter = new Subject<boolean>();
 
-  private _opened = new Subject<void>();
+  #_isOpen = false;
+
+  #_opened = new Subject<void>();
+
+  #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
+  #affixService: SkyAffixService;
+  #coreAdapterService: SkyCoreAdapterService;
+  #adapterService: SkyPopoverAdapterService;
+  #context: SkyPopoverContext;
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private affixService: SkyAffixService,
-    private coreAdapterService: SkyCoreAdapterService,
-    private adapterService: SkyPopoverAdapterService,
-    private context: SkyPopoverContext,
-    @Optional() private themeSvc?: SkyThemeService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    affixService: SkyAffixService,
+    coreAdapterService: SkyCoreAdapterService,
+    adapterService: SkyPopoverAdapterService,
+    context: SkyPopoverContext,
+    @Optional() themeSvc?: SkyThemeService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#affixService = affixService;
+    this.#coreAdapterService = coreAdapterService;
+    this.#adapterService = adapterService;
+    this.#context = context;
+    this.#themeSvc = themeSvc;
+  }
 
   public ngOnInit(): void {
-    this.contentTarget.createEmbeddedView(this.context.contentTemplateRef);
-    this.addEventListeners();
+    this.#addEventListeners();
 
     /*istanbul ignore else*/
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+    if (this.#themeSvc) {
+      this.#themeSvc.settingsChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((themeSettings) => {
           /*istanbul ignore next*/
           this.themeName = themeSettings.currentSettings?.theme?.name;
@@ -136,12 +162,12 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
-    this._closed.complete();
-    this._isMouseEnter.complete();
-    this._opened.complete();
+    this.#_closed.complete();
+    this.#_isMouseEnter.complete();
+    this.#_opened.complete();
 
     /* istanbul ignore else */
     if (this.affixer) {
@@ -157,9 +183,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
 
     if (event.phaseName === 'done') {
       if (event.toState === 'open') {
-        this._opened.next();
+        this.#_opened.next();
       } else {
-        this._closed.next();
+        this.#_closed.next();
       }
     }
   }
@@ -176,7 +202,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
       popoverType: SkyPopoverType;
     }
   ): void {
-    this.caller = caller;
+    this.#caller = caller;
     this.dismissOnBlur = config.dismissOnBlur;
     this.enableAnimations = config.enableAnimations;
     this.horizontalAlignment = config.horizontalAlignment;
@@ -184,7 +210,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     this.popoverTitle = config.popoverTitle;
     this.popoverType = config.popoverType;
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
     // Indicates if the popover should be displayed statically.
     // Please note: This feature is internal-only and used by the visual tests to capture multiple
@@ -192,18 +218,19 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     /* istanbul ignore if */
     if (config.isStatic) {
       this.isOpen = true;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
       return;
     }
 
     // Let the styles render before gauging the affix dimensions.
     setTimeout(() => {
-      if (!this.popoverRef.nativeElement || this.ngUnsubscribe.isStopped) {
+      /* istanbul ignore if */
+      if (!this.popoverRef?.nativeElement || this.#ngUnsubscribe.isStopped) {
         return;
       }
 
       if (!this.affixer) {
-        this.setupAffixer();
+        this.#setupAffixer();
       }
 
       const affixOptions: SkyAffixConfig = {
@@ -224,23 +251,23 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
         affixOptions.verticalAlignment = 'middle';
       }
 
-      this.affixer!.affixTo(this.caller.nativeElement, affixOptions);
+      this.affixer!.affixTo(this.#caller?.nativeElement, affixOptions);
 
-      this.updateArrowOffset();
+      this.#updateArrowOffset();
 
       this.isOpen = true;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 
   public close(): void {
     this.isOpen = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public applyFocus(): void {
     if (this.isOpen) {
-      this.coreAdapterService.getFocusableChildrenAndApplyFocus(
+      this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.popoverRef,
         '.sky-popover',
         true
@@ -248,34 +275,40 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setupAffixer(): void {
-    const affixer = this.affixService.createAffixer(this.popoverRef);
+  #setupAffixer(): void {
+    if (this.popoverRef) {
+      const affixer = this.#affixService.createAffixer(this.popoverRef);
 
-    affixer.offsetChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.updateArrowOffset();
-      this.changeDetector.markForCheck();
-    });
+      affixer.offsetChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateArrowOffset();
+          this.#changeDetector.markForCheck();
+        });
 
-    affixer.overflowScroll.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.updateArrowOffset();
-      this.changeDetector.markForCheck();
-    });
+      affixer.overflowScroll
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.#updateArrowOffset();
+          this.#changeDetector.markForCheck();
+        });
 
-    affixer.placementChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((change) => {
-        this.placement = change.placement;
-        this.changeDetector.markForCheck();
-      });
+      affixer.placementChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((change) => {
+          this.placement = change.placement;
+          this.#changeDetector.markForCheck();
+        });
 
-    this.affixer = affixer;
+      this.affixer = affixer;
+    }
   }
 
-  private updateArrowOffset(): void {
-    if (this.placement) {
-      const { top, left } = this.adapterService.getArrowCoordinates(
+  #updateArrowOffset(): void {
+    if (this.#caller && this.popoverRef && this.arrowRef && this.placement) {
+      const { top, left } = this.#adapterService.getArrowCoordinates(
         {
-          caller: this.caller,
+          caller: this.#caller,
           popover: this.popoverRef,
           popoverArrow: this.arrowRef,
         },
@@ -288,9 +321,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private isFocusLeavingElement(event: KeyboardEvent): boolean {
-    const focusableItems = this.coreAdapterService.getFocusableChildren(
-      this.elementRef.nativeElement
+  #isFocusLeavingElement(event: KeyboardEvent): boolean {
+    const focusableItems = this.#coreAdapterService.getFocusableChildren(
+      this.#elementRef.nativeElement
     );
 
     const isFirstItem = focusableItems[0] === event.target && event.shiftKey;
@@ -302,26 +335,26 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
     return focusableItems.length === 0 || isFirstItem || isLastItem;
   }
 
-  private addEventListeners(): void {
-    const hostElement = this.elementRef.nativeElement;
+  #addEventListeners(): void {
+    const hostElement = this.#elementRef.nativeElement;
 
     observableFromEvent(hostElement, 'mouseenter')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => this._isMouseEnter.next(true));
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => this.#_isMouseEnter.next(true));
 
     observableFromEvent(hostElement, 'mouseleave')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => this._isMouseEnter.next(false));
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => this.#_isMouseEnter.next(false));
 
     observableFromEvent<KeyboardEvent>(hostElement, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {
         const key = event.key.toLowerCase();
 
         switch (key) {
           case 'escape':
             this.close();
-            this.caller.nativeElement.focus();
+            this.#caller?.nativeElement.focus();
             event.preventDefault();
             event.stopPropagation();
             break;
@@ -335,9 +368,9 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
             }
 
             /*istanbul ignore else*/
-            if (this.isFocusLeavingElement(event)) {
+            if (this.#isFocusLeavingElement(event)) {
               this.close();
-              this.caller.nativeElement.focus();
+              this.#caller?.nativeElement.focus();
               event.preventDefault();
               event.stopPropagation();
             }
