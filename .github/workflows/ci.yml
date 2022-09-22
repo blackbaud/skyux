@@ -44,7 +44,29 @@ jobs:
     needs: install-deps
     strategy:
       matrix:
-        agent: [1, 2, 3]
+        agent:
+          [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+          ]
     steps:
       - uses: actions/checkout@v3
       - name: Retrieve node_modules cache
@@ -170,8 +192,8 @@ jobs:
         run: npx ngcc
       - name: Code coverage
         run: |
-          npx nx affected --target=test --parallel=3 --browsers=ChromeHeadless --code-coverage
-          npx nx affected --target=posttest --parallel=3 --browsers=ChromeHeadless
+          npx nx affected --target=test --browsers=ChromeHeadless --code-coverage --parallel=3 --progress=false --source-map --watch=false
+          npx nx affected --target=posttest --browsers=ChromeHeadless --parallel=3 --watch=false
 
   stop-agents:
     name: Stop Nx Cloud agents
