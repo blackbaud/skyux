@@ -227,7 +227,6 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
       : 'N/A';
   }
 
-  // TODO: put this logic in the skyAgGridDataManagerAdapter
   private updateColumnOrder(): void {
     const viewState: SkyDataViewState = this.dataState.getViewStateById(
       this.viewId
