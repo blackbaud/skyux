@@ -30,7 +30,7 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
   `,
 })
 class PopoverTestComponent {
-  public dismissOnBlur = false;
+  public dismissOnBlur: boolean | undefined;
   public popoverAlignment: string | undefined;
   public popoverBody = 'popover body';
   public popoverPlacement: string | undefined;
