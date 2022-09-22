@@ -69,16 +69,6 @@ export default async function (tree: Tree, schema: Schema) {
             }
           }
         });
-
-        // Fix an NX bug where outputs uses the wrong path. The outputs setting is used for caching.
-        if (
-          targetConfig.outputs?.join('X') === '{options.outputPath}' &&
-          !('outputPath' in targetConfig.options) &&
-          'outputDir' in targetConfig.options
-        ) {
-          hasChanged = true;
-          targetConfig.outputs = ['{options.outputDir}'];
-        }
       }
       // Drop the asset path.
       if (target === 'build' && targetConfig.options.assets) {
@@ -98,7 +88,8 @@ export default async function (tree: Tree, schema: Schema) {
       errorLogger(`Project "${e2eProjectName}" does not exist`);
     }
     if (
-      e2eProject?.targets?.e2e &&
+      e2eProject &&
+      e2eProject.targets?.e2e &&
       e2eProject.targets.e2e.executor === '@nrwl/cypress:cypress'
     ) {
       let hasChanged = false;
@@ -114,14 +105,6 @@ export default async function (tree: Tree, schema: Schema) {
           baseUrl: `http://localhost:4400`,
         };
       }
-      if (!e2eProject.targets.e2e.configurations?.ci?.skipServe) {
-        hasChanged = true;
-        e2eProject.targets.e2e.configurations = {
-          ci: {
-            skipServe: true,
-          },
-        };
-      }
       if (hasChanged) {
         updateProjectConfiguration(tree, e2eProjectName, e2eProject);
       }
@@ -135,6 +118,7 @@ export default async function (tree: Tree, schema: Schema) {
     const relativeToRoot = relative(`/${projectRoot}/.storybook`, `/`);
 
     const tsconfigFile = `${projectRoot}/.storybook/tsconfig.json`;
+    const tsconfigAppFile = `${projectRoot}/tsconfig.app.json`;
     if (!tree.isFile(tsconfigFile)) {
       tree.write(
         `${projectRoot}/.storybook/tsconfig.json`,
@@ -143,7 +127,7 @@ export default async function (tree: Tree, schema: Schema) {
           compilerOptions: {
             emitDecoratorMetadata: true,
           },
-          exclude: ['../**/*.spec.ts'],
+          exclude: ['../**/*.spec.ts', 'jest.config.ts'],
           include: ['../src/**/*', './*'],
         })
       );
@@ -155,8 +139,19 @@ export default async function (tree: Tree, schema: Schema) {
       if (!tsconfig.include.includes('./*')) {
         tsconfig.include.push('./*');
       }
+      if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
+        tsconfig.exclude.push('jest.config.ts');
+      }
       return tsconfig;
     });
+    if (tree.isFile(tsconfigAppFile)) {
+      updateJson(tree, tsconfigAppFile, (tsconfig: TsConfig) => {
+        if (tsconfig.exclude && !tsconfig.exclude.includes('jest.config.ts')) {
+          tsconfig.exclude.push('jest.config.ts');
+        }
+        return tsconfig;
+      });
+    }
 
     // Remove default files.
     ['preview', 'main'].forEach((file) => {
