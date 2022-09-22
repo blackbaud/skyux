@@ -64,13 +64,12 @@ export class SkyTopScrollDataGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,

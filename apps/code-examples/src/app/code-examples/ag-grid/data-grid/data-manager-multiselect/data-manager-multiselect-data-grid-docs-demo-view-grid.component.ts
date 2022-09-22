@@ -122,7 +122,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   public gridApi?: GridApi;
   public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
   public isThisViewActive = false;
 
   public viewConfig: SkyDataViewConfig = {
@@ -141,9 +141,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     private skyAgGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-  ) {
-    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.displayedItems = this.items;

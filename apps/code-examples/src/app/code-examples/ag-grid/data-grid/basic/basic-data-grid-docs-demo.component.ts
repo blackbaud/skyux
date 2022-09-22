@@ -56,7 +56,6 @@ export class SkyBasicDataGridDemoComponent {
     },
   ];
 
-  public noRowsTemplate: string;
   public gridApi: GridApi | undefined;
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
@@ -66,7 +65,6 @@ export class SkyBasicDataGridDemoComponent {
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef
   ) {
-    this.noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
     this.gridOptions = {
       columnDefs: this.columnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
