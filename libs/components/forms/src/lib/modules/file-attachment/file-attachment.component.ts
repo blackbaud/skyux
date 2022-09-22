@@ -280,7 +280,7 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  public fileChangeEvent(fileChangeEvent: DragEvent): void {
+  public fileChangeEvent(fileChangeEvent: Event): void {
     this.#handleFiles(
       (fileChangeEvent.target as HTMLInputElement | undefined)?.files
     );

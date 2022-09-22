@@ -156,7 +156,7 @@ export class SkyFileDropComponent implements OnDestroy {
     }
   }
 
-  public fileChangeEvent(fileChangeEvent: DragEvent) {
+  public fileChangeEvent(fileChangeEvent: Event) {
     this.#handleFiles(
       (fileChangeEvent.target as HTMLInputElement | undefined)?.files
     );
