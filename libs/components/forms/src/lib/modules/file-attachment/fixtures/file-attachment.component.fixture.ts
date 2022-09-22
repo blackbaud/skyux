@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -11,7 +11,7 @@ import { SkyFileAttachmentComponent } from '../file-attachment.component';
   selector: 'sky-file-attachment-test',
   templateUrl: './file-attachment.component.fixture.html',
 })
-export class FileAttachmentTestComponent implements OnInit {
+export class FileAttachmentTestComponent {
   public attachment: UntypedFormControl;
 
   public fileForm: UntypedFormGroup;
@@ -23,14 +23,12 @@ export class FileAttachmentTestComponent implements OnInit {
   public showLabel = true;
 
   @ViewChild(SkyFileAttachmentComponent)
-  public fileAttachmentComponent: SkyFileAttachmentComponent;
+  public fileAttachmentComponent!: SkyFileAttachmentComponent;
   public showInlineHelp = false;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
+  constructor(formBuilder: UntypedFormBuilder) {
     this.attachment = new UntypedFormControl(undefined);
-    this.fileForm = this.formBuilder.group({
+    this.fileForm = formBuilder.group({
       attachment: this.attachment,
     });
   }
