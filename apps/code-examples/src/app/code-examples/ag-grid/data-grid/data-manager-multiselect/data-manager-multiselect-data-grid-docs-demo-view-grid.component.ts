@@ -38,7 +38,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
 
   public viewId = 'dataGridMultiselectWithDataManagerView';
 
-  public multiSelectColumnDefinitions: ColDef[] = [
+  public columnDefinitions: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -123,7 +123,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
   public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
   public noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
-  public isThisViewActive = false;
+  public isViewActive = false;
 
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
@@ -150,7 +150,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
 
     this.gridOptions = this.skyAgGridService.getGridOptions({
       gridOptions: {
-        columnDefs: this.multiSelectColumnDefinitions,
+        columnDefs: this.columnDefinitions,
         rowSelection: 'multiple',
         onGridReady: this.onGridReady.bind(this),
       },
@@ -167,7 +167,7 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
       });
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isThisViewActive = id === this.viewId;
+      this.isViewActive = id === this.viewId;
       this.changeDetector.detectChanges();
     });
   }
@@ -245,28 +245,26 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
       this.viewId
     );
 
-    this.multiSelectColumnDefinitions.sort(
-      (columnDefinition1, columnDefinition2) => {
-        const displayedColumnIdIndex1: number =
-          viewState.displayedColumnIds.findIndex(
-            (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition1.field
-          );
-        const displayedColumnIdIndex2: number =
-          viewState.displayedColumnIds.findIndex(
-            (aDisplayedColumnId: string) =>
-              aDisplayedColumnId === columnDefinition2.field
-          );
+    this.columnDefinitions.sort((columnDefinition1, columnDefinition2) => {
+      const displayedColumnIdIndex1: number =
+        viewState.displayedColumnIds.findIndex(
+          (aDisplayedColumnId: string) =>
+            aDisplayedColumnId === columnDefinition1.field
+        );
+      const displayedColumnIdIndex2: number =
+        viewState.displayedColumnIds.findIndex(
+          (aDisplayedColumnId: string) =>
+            aDisplayedColumnId === columnDefinition2.field
+        );
 
-        if (displayedColumnIdIndex1 === -1) {
-          return 0;
-        } else if (displayedColumnIdIndex2 === -1) {
-          return 0;
-        } else {
-          return displayedColumnIdIndex1 - displayedColumnIdIndex2;
-        }
+      if (displayedColumnIdIndex1 === -1) {
+        return 0;
+      } else if (displayedColumnIdIndex2 === -1) {
+        return 0;
+      } else {
+        return displayedColumnIdIndex1 - displayedColumnIdIndex2;
       }
-    );
+    });
     this.changeDetector.markForCheck();
   }
 
