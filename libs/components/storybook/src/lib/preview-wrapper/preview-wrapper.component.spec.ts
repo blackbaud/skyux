@@ -70,6 +70,11 @@ describe('PreviewWrapperComponent', () => {
       mode: 'light',
     };
     component.theme = 'default';
+    expectedTheme = {
+      theme: 'default',
+      mode: 'light',
+    };
+    component.theme = undefined;
     subscription.unsubscribe();
     themeService.destroy();
   });

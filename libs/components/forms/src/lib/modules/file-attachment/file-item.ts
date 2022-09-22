@@ -13,9 +13,9 @@ export interface SkyFileItem {
   /**
    * The type of error that caused the file to be rejected.
    */
-  errorType: SkyFileItemErrorType;
+  errorType?: SkyFileItemErrorType;
   /**
    * Additional parameters about the error that caused the file to be rejected.
    */
-  errorParam: string;
+  errorParam?: string;
 }
