@@ -119,7 +119,6 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     icon: 'table',
     searchEnabled: true,
     sortEnabled: true,
-    multiselectToolbarEnabled: false,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
     columnOptions: this.columnPickerOptions,
