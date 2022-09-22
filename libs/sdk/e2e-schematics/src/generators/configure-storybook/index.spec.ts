@@ -16,7 +16,7 @@ import configureStorybook from './index';
 
 describe('configure-storybook', () => {
   it('should configure storybook', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -33,7 +33,6 @@ describe('configure-storybook', () => {
     expect(e2eConfig.targets?.e2e.options.devServerTarget).toEqual(
       `test-app:storybook`
     );
-    expect(e2eConfig.targets?.e2e.configurations?.ci.skipServe).toBeTruthy();
     let testAppConfig = readProjectConfiguration(tree, `test-app`);
     delete testAppConfig.targets?.build.options;
     updateProjectConfiguration(tree, `test-app`, testAppConfig);
@@ -50,17 +49,21 @@ describe('configure-storybook', () => {
     testAppConfig.targets.build.options = {};
     updateProjectConfiguration(tree, `test-app`, testAppConfig);
     testE2eAppConfig = readProjectConfiguration(tree, `test-app-e2e`);
-    delete testE2eAppConfig.targets?.e2e.configurations?.ci.skipServe;
+    delete testE2eAppConfig.targets?.e2e.options.baseUrl;
     updateProjectConfiguration(tree, `test-app-e2e`, testE2eAppConfig);
     await configureStorybook(tree, { name: 'test-app' });
     expect(
       readProjectConfiguration(tree, `test-app`).targets?.build.options.styles
         .length
     ).toBeGreaterThan(0);
+    expect(
+      readProjectConfiguration(tree, `test-app-e2e`).targets?.e2e.options
+        .devServerTarget
+    ).toEqual('test-app:storybook');
   });
 
   it('should configure storybook tsconfig', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -71,12 +74,24 @@ describe('configure-storybook', () => {
       name: `test-app`,
     });
     tree.delete(`apps/test-app/.storybook/tsconfig.json`);
+    updateJson(
+      tree,
+      `apps/test-app/tsconfig.app.json`,
+      (tsConfig: TsConfig) => {
+        tsConfig.exclude = [];
+        return tsConfig;
+      }
+    );
     await configureStorybook(tree, { name: 'test-app' });
     expect(tree.exists(`apps/test-app/.storybook/tsconfig.json`)).toBeTruthy();
+    expect(
+      JSON.parse(tree.read(`apps/test-app/tsconfig.app.json`, 'utf-8') || '{}')
+        .exclude
+    ).toEqual(['jest.config.ts']);
   });
 
-  it('should configure storybook tsconfig, add include', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+  it('should configure storybook tsconfig, add include and exclude', async () => {
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {
@@ -91,6 +106,8 @@ describe('configure-storybook', () => {
       `apps/test-app/.storybook/tsconfig.json`,
       (tsconfig) => {
         delete tsconfig.include;
+        tsconfig.exclude =
+          tsconfig.exclude?.filter((e) => e !== 'jest.config.ts') || [];
         return tsconfig;
       }
     );
@@ -106,7 +123,7 @@ describe('configure-storybook', () => {
   });
 
   it('should skip configuration for non-cypress e2e project', async () => {
-    const tree = createTreeWithEmptyWorkspace(2);
+    const tree = createTreeWithEmptyWorkspace();
     tree.write('.gitignore', '#');
     await applicationGenerator(tree, { name: `test-app` });
     await storybookConfigurationGenerator(tree, {

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyTimepickerComponent } from '../timepicker.component';
 import { SkyTimepickerInputDirective } from '../timepicker.directive';
@@ -22,21 +22,21 @@ export class TimepickerReactiveTestComponent implements AfterViewInit, OnInit {
 
   public selectedTime: SkyTimepickerTimeOutput;
 
-  public timeControl: FormControl;
+  public timeControl: UntypedFormControl;
 
   public timeControlValueAfterInit: any;
 
   public timeFormat: string;
 
-  public timepickerForm: FormGroup;
+  public timepickerForm: UntypedFormGroup;
 
   public ngAfterViewInit(): void {
     this.timeControlValueAfterInit = this.timeControl.value;
   }
 
   public ngOnInit(): void {
-    this.timeControl = new FormControl('2:55 AM');
-    this.timepickerForm = new FormGroup({
+    this.timeControl = new UntypedFormControl('2:55 AM');
+    this.timepickerForm = new UntypedFormGroup({
       time: this.timeControl,
     });
   }

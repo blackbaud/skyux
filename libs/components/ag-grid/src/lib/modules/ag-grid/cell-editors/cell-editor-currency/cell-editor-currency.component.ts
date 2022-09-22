@@ -5,7 +5,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { ICellEditorAngularComp } from 'ag-grid-angular';
 
@@ -29,8 +29,8 @@ export class SkyAgGridCellEditorCurrencyComponent
   public skyComponentProperties: SkyAgGridCurrencyProperties = {};
   public columnHeader: string;
   public columnWidth: number;
-  public editorForm = new FormGroup({
-    currency: new FormControl(),
+  public editorForm = new UntypedFormGroup({
+    currency: new UntypedFormControl(),
   });
   public params: SkyCellEditorCurrencyParams;
   public rowHeightWithoutBorders: number;

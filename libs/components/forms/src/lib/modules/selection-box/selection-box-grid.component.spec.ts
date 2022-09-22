@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyCoreAdapterService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -12,6 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { SkySelectionBoxFixturesModule } from './fixtures/selection-box-fixtures.module';
 import { SelectionBoxGridTestComponent } from './fixtures/selection-box-grid.component.fixture';
+import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
 
 describe('Selection box grid component', () => {
   //#region helpers
@@ -23,6 +25,14 @@ describe('Selection box grid component', () => {
     return fixture.nativeElement.querySelectorAll(
       '.sky-selection-box-grid .sky-selection-box'
     );
+  }
+
+  // Wait for the next change detection cycle. This avoids having nested setTimeout() calls
+  // and using the Jasmine done() function.
+  function waitForMutationObserver() {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => resolve());
+    });
   }
   //#endregion
 
@@ -89,7 +99,8 @@ describe('Selection box grid component', () => {
     );
   });
 
-  it(`should sync all child selection boxes to have the same height as the tallest selection box`, () => {
+  it(`should sync all child selection boxes to have the same height as the tallest selection box`, async () => {
+    await waitForMutationObserver();
     const selectionBoxes = getSelectionBoxes();
     const newHeight = selectionBoxes[0].getBoundingClientRect().height;
 
@@ -103,32 +114,46 @@ describe('Selection box grid component', () => {
     }
   });
 
-  it(`should update CSS responsive classes on window resize`, async(() => {
-    const spy = spyOn(
-      component.selectionBoxGrid as any,
-      'updateBreakpointClass'
+  it(`should update CSS responsive classes on window resize`, async () => {
+    const setResponsiveClassSpy = spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'setResponsiveClass'
     );
-    expect(spy).not.toHaveBeenCalled();
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.returnValue(300);
+    expect(setResponsiveClassSpy).not.toHaveBeenCalled();
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalledTimes(1);
-  }));
+    expect(setResponsiveClassSpy).toHaveBeenCalledTimes(1);
+  });
 
-  it(`should recalculate heights when child DOM elements change`, async(() => {
-    const spy = spyOn(
-      component.selectionBoxGrid as any,
-      'updateChildrenHeights'
+  it(`should recalculate heights when child DOM elements change`, async () => {
+    const resetHeightSpy = spyOn(
+      SkyCoreAdapterService.prototype,
+      'resetHeight'
     );
-    expect(spy).not.toHaveBeenCalled();
+    const syncMaxHeightSpy = spyOn(
+      SkyCoreAdapterService.prototype,
+      'syncMaxHeight'
+    );
+    spyOn(
+      SkySelectionBoxAdapterService.prototype,
+      'getParentWidth'
+    ).and.returnValue(300);
+    expect(resetHeightSpy).not.toHaveBeenCalled();
+    expect(syncMaxHeightSpy).not.toHaveBeenCalled();
 
     component.dynamicDescription = `Something really really really really really really really really really really really really really really really long to force a large height than before!`;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-  }));
+    await fixture.whenStable();
+    await waitForMutationObserver();
+    expect(resetHeightSpy).toHaveBeenCalledTimes(1);
+    expect(syncMaxHeightSpy).toHaveBeenCalledTimes(1);
+  });
 
   it('should be accessible', async () => {
     fixture.detectChanges();

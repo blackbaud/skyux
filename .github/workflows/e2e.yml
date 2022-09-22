@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 6.x.x
   pull_request:
 
 env:
@@ -32,7 +31,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
         id: cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -44,7 +43,7 @@ jobs:
         run: npm ci
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         id: setSHAs
-        uses: nrwl/nx-set-shas@v2
+        uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
         run: |
@@ -76,7 +75,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ matrix.project != 'skip' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -126,7 +125,7 @@ jobs:
         run: node ./scripts/rebase-pr.js
         if: ${{ github.event_name == 'pull_request' }}
       - name: Retrieve dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -171,7 +170,7 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -225,7 +224,7 @@ jobs:
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules

@@ -13,13 +13,12 @@ import {
   readJson,
   readProjectConfiguration,
   removeDependenciesFromPackageJson,
+  updateProjectConfiguration,
 } from '@nrwl/devkit';
 import { Linter } from '@nrwl/linter';
 import { moveGenerator } from '@nrwl/workspace';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 
-import { RawWorkspaceJsonConfiguration } from 'nx/src/config/workspace-json-project-json';
-import { updateProjectConfiguration } from 'nx/src/generators/utils/project-configuration';
 import { workspaceFileName } from 'nx/src/project-graph/file-utils';
 
 import { updateJson } from '../../utils';
@@ -81,10 +80,10 @@ function simplifyWorkspaceName(tree: Tree, projectName: string) {
       JSON.parse(projectConfigJson)
     );
 
-    updateJson(
+    updateJson<{ projects: { [_: string]: unknown } }>(
       tree,
       workspaceFileName(),
-      (json: RawWorkspaceJsonConfiguration) => {
+      (json) => {
         json.projects[projectName] =
           json.projects[`${BASE_PATH}-${projectName}`];
         delete json.projects[`${BASE_PATH}-${projectName}`];

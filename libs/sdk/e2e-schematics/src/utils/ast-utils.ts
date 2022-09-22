@@ -84,36 +84,37 @@ function findDecoratedClass(
   ngModuleName: ts.__String
 ): DecoratedClass | undefined {
   const classDeclarations = sourceFile.statements.filter(ts.isClassDeclaration);
-  const classDeclaration = classDeclarations.find(
-    (declaration) =>
-      declaration.decorators &&
-      declaration.decorators.some(
-        (decorator) =>
-          ts.isCallExpression(decorator.expression) &&
-          ts.isIdentifier(decorator.expression.expression) &&
-          decorator.expression.expression.escapedText === ngModuleName
-      )
-  );
+  const classDeclaration = classDeclarations.find((declaration) => {
+    const decorators = ts.getDecorators(declaration);
+    return decorators
+      ? decorators.some(
+          (decorator) =>
+            ts.isCallExpression(decorator.expression) &&
+            ts.isIdentifier(decorator.expression.expression) &&
+            decorator.expression.expression.escapedText === ngModuleName
+        )
+      : undefined;
+  });
   if (classDeclaration) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const decorator = classDeclaration.decorators!.find(
+    const decorators = ts.getDecorators(classDeclaration);
+
+    const decorator = decorators?.find(
       (decorator) =>
         ts.isCallExpression(decorator.expression) &&
         ts.isIdentifier(decorator.expression.expression) &&
         decorator.expression.expression.escapedText === ngModuleName
     );
+
     const properties: { [key: string]: ts.Expression } = {};
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const callExpression = decorator!.expression as ts.CallExpression;
+
+    const callExpression = decorator?.expression as ts.CallExpression;
+
     let propertiesObjectLiteral: ts.ObjectLiteralExpression | undefined;
 
     if (callExpression.arguments.length > 0) {
       if (!ts.isObjectLiteralExpression(callExpression.arguments[0])) {
         throw new Error(
-          `The ${ngModuleName} options for ${
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            classDeclaration.name!.escapedText
-          } are not an object literal`
+          `The ${ngModuleName} options for ${classDeclaration.name?.escapedText} are not an object literal`
         );
       }
 
@@ -216,7 +217,6 @@ export function getInsertExportTransformer(
       ) => ts.Node | ts.NodeArray<ts.ExportDeclaration> = (
         rootNode: ts.Node
       ) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const node = ts.visitEachChild(rootNode, visitor as any, context);
         if (ts.isExportDeclaration(node)) {
           const exportPath = (
@@ -237,7 +237,6 @@ export function getInsertExportTransformer(
         }
         return node;
       };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return ts.visitNode(sourceFile, visitor as any);
     };
   };
