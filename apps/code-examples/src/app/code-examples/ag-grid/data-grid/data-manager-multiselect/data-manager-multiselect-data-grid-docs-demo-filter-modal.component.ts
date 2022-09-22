@@ -30,7 +30,6 @@ export class DataManagerMultiselectDataGridDocsDemoFiltersModalComponent {
       this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
-    this.changeDetector.markForCheck();
   }
 
   public applyFilters() {
@@ -49,7 +48,6 @@ export class DataManagerMultiselectDataGridDocsDemoFiltersModalComponent {
   public clearAllFilters() {
     this.hideSales = false;
     this.jobTitle = 'any';
-    this.changeDetector.markForCheck();
   }
 
   public cancel() {

@@ -29,7 +29,6 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
       this.jobTitle = filters.jobTitle || 'any';
       this.hideSales = filters.hideSales || false;
     }
-    this.changeDetector.markForCheck();
   }
 
   public applyFilters() {
@@ -48,7 +47,6 @@ export class DataManagerDataGridDocsDemoFiltersModalComponent {
   public clearAllFilters() {
     this.hideSales = false;
     this.jobTitle = 'any';
-    this.changeDetector.markForCheck();
   }
 
   public cancel() {

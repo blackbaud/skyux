@@ -177,7 +177,6 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     this.gridApi.sizeColumnsToFit();
     this.columnApi = gridReadyEvent.columnApi;
     this.updateDisplayedItems();
-    this.changeDetector.markForCheck();
   }
 
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
@@ -291,7 +290,5 @@ export class DataManagerMultiselectDataGridDocsDemoViewGridComponent
     } else {
       this.gridApi?.showNoRowsOverlay();
     }
-
-    this.changeDetector.markForCheck();
   }
 }

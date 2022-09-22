@@ -164,7 +164,6 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     this.gridApi.sizeColumnsToFit();
     this.columnApi = gridReadyEvent.columnApi;
     this.updateDisplayedItems();
-    this.changeDetector.markForCheck();
   }
 
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
@@ -278,7 +277,5 @@ export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
     } else {
       this.gridApi?.showNoRowsOverlay();
     }
-
-    this.changeDetector.markForCheck();
   }
 }

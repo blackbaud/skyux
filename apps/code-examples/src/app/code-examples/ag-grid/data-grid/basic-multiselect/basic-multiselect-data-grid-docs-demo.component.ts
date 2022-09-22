@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
@@ -65,10 +61,7 @@ export class SkyBasicMultiselectDataGridDemoComponent {
   public gridOptions: GridOptions;
   public searchText = '';
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef
-  ) {
+  constructor(private agGridService: SkyAgGridService) {
     this.gridOptions = {
       columnDefs: this.multiselectColumnDefs,
       onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
@@ -77,13 +70,11 @@ export class SkyBasicMultiselectDataGridDemoComponent {
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: this.gridOptions,
     });
-    this.changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
   }
 
   private endDateFormatter(params: ValueFormatterParams): string {
