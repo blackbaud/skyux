@@ -358,8 +358,37 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   fixture.componentInstance.agGrid.gridReady.emit();
   fixture.detectChanges();
   await fixture.whenStable();
-  const scrollElement = fixture.nativeElement.querySelectorAll(
-    '.ag-body-horizontal-scroll'
-  );
-  expect(scrollElement.length).toEqual(1);
+  let gridComponents: string[] = Array.from(
+    fixture.nativeElement.querySelector('.ag-root')?.children || []
+  ).map((el: HTMLElement) => el.classList[0]);
+  // Expect the scrollbar below the header.
+  expect(gridComponents).toEqual([
+    'ag-header',
+    'ag-body-horizontal-scroll',
+    'ag-floating-top',
+    'ag-body-viewport',
+    'ag-floating-bottom',
+    'ag-overlay',
+  ]);
+
+  fixture.componentInstance.gridOptions.context = {
+    enableTopScroll: false,
+  };
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.componentInstance.agGrid.rowDataChanged.emit();
+  fixture.detectChanges();
+  await fixture.whenStable();
+  gridComponents = Array.from(
+    fixture.nativeElement.querySelector('.ag-root')?.children || []
+  ).map((el: HTMLElement) => el.classList[0]);
+  // Expect the scrollbar at the bottom.
+  expect(gridComponents).toEqual([
+    'ag-header',
+    'ag-floating-top',
+    'ag-body-viewport',
+    'ag-floating-bottom',
+    'ag-overlay',
+    'ag-body-horizontal-scroll',
+  ]);
 });

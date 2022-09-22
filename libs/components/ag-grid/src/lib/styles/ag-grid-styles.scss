@@ -25,28 +25,14 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 }
 
 .sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
-  > .ag-header {
-    order: 1;
-  }
-
-  > .ag-body-horizontal-scroll {
-    order: 2;
-  }
-
-  > .ag-floating-top {
-    order: 3;
-  }
-
   > .ag-body-viewport {
-    order: 4;
-  }
+    .ag-center-cols-viewport {
+      scrollbar-width: none;
 
-  > .ag-floating-bottom {
-    order: 5;
-  }
-
-  > .ag-overlay {
-    order: 6;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }
 
