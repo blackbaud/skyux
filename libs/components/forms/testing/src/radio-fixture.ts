@@ -85,6 +85,7 @@ export class SkyRadioFixture {
     if (allRadioInputs && allRadioInputs[index]) {
       return allRadioInputs[index];
     }
+    /* istanbul ignore next */
     return;
   }
 
