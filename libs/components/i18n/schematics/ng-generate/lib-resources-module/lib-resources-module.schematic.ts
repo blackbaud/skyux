@@ -7,7 +7,6 @@ import {
   apply,
   applyTemplates,
   chain,
-  forEach,
   mergeWith,
   move,
   url,
@@ -133,25 +132,10 @@ function generateTemplateFiles(
     const templateSource = apply(url('./files'), [
       applyTemplates(templateConfig),
       move(movePath),
-      overwriteIfExists(tree),
     ]);
 
     return mergeWith(templateSource, MergeStrategy.Overwrite);
   };
-}
-
-/**
- * Fixes an Angular CLI issue with merge strategies.
- * @see https://github.com/angular/angular-cli/issues/11337#issuecomment-516543220
- */
-function overwriteIfExists(tree: Tree): Rule {
-  return forEach((fileEntry) => {
-    if (tree.exists(fileEntry.path)) {
-      tree.overwrite(fileEntry.path, fileEntry.content);
-      return null;
-    }
-    return fileEntry;
-  });
 }
 
 export default function generateLibraryResourcesModule(options: Schema): Rule {
