@@ -172,7 +172,7 @@ export class SkyFileAttachmentComponent
   public truncatedFileName = '';
 
   @ViewChild('fileInput')
-  public inputEl!: ElementRef;
+  public inputEl: ElementRef | undefined;
 
   @ContentChildren(SkyFileAttachmentLabelComponent)
   public labelComponents:
@@ -181,7 +181,7 @@ export class SkyFileAttachmentComponent
 
   public isImage = false;
 
-  #enterEventTarget: any;
+  #enterEventTarget: EventTarget | undefined | null;
 
   #fileAttachmentId = uniqueId++;
 
@@ -274,21 +274,26 @@ export class SkyFileAttachmentComponent
 
   public onDropClicked(): void {
     this.#onTouched();
-    this.inputEl.nativeElement.click();
+    /* istanbul ignore else */
+    if (this.inputEl) {
+      this.inputEl.nativeElement.click();
+    }
   }
 
-  public fileChangeEvent(fileChangeEvent: any): void {
-    this.#handleFiles(fileChangeEvent.target.files);
+  public fileChangeEvent(fileChangeEvent: DragEvent): void {
+    this.#handleFiles(
+      (fileChangeEvent.target as HTMLInputElement | undefined)?.files
+    );
   }
 
-  public fileDragEnter(dragEnterEvent: any): void {
+  public fileDragEnter(dragEnterEvent: DragEvent): void {
     // Save this target to know when the drag event leaves
     this.#enterEventTarget = dragEnterEvent.target;
     dragEnterEvent.stopPropagation();
     dragEnterEvent.preventDefault();
   }
 
-  public fileDragOver(dragOverEvent: any): void {
+  public fileDragOver(dragOverEvent: DragEvent): void {
     const transfer = dragOverEvent.dataTransfer;
 
     dragOverEvent.stopPropagation();
@@ -351,7 +356,7 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  public fileDragLeave(dragLeaveEvent: any): void {
+  public fileDragLeave(dragLeaveEvent: DragEvent): void {
     if (this.#enterEventTarget === dragLeaveEvent.target) {
       this.rejectedOver = false;
       this.acceptedOver = false;
@@ -401,7 +406,7 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  #emitFileChangeEvent(currentFile: SkyFileItem | undefined): void {
+  #emitFileChangeEvent(currentFile?: SkyFileItem): void {
     if (currentFile && !currentFile.errorType) {
       this.writeValue(currentFile);
     }
@@ -409,7 +414,10 @@ export class SkyFileAttachmentComponent
       file: currentFile,
     } as SkyFileAttachmentChange);
 
-    this.inputEl.nativeElement.value = '';
+    /* istanbul ignore else */
+    if (this.inputEl) {
+      this.inputEl.nativeElement.value = '';
+    }
   }
 
   #loadFile(file: SkyFileItem): void {
@@ -433,25 +441,27 @@ export class SkyFileAttachmentComponent
     }
   }
 
-  #handleFiles(files: FileList): void {
-    const processedFiles = this.#fileAttachmentService.checkFiles(
-      files,
-      this.minFileSize,
-      this.maxFileSize,
-      this.acceptedTypes,
-      this.validateFn
-    );
+  #handleFiles(files?: FileList | null): void {
+    if (files) {
+      const processedFiles = this.#fileAttachmentService.checkFiles(
+        files,
+        this.minFileSize,
+        this.maxFileSize,
+        this.acceptedTypes,
+        this.validateFn
+      );
 
-    for (const file of processedFiles) {
-      if (file.errorType) {
-        this.#emitFileChangeEvent(file);
-      } else {
-        this.#loadFile(file);
+      for (const file of processedFiles) {
+        if (file.errorType) {
+          this.#emitFileChangeEvent(file);
+        } else {
+          this.#loadFile(file);
+        }
       }
     }
   }
 
-  #setFileName(file: SkyFileItem | undefined): void {
+  #setFileName(file?: SkyFileItem): void {
     if (file) {
       const dropName =
         this.#fileItemService.isFile(file) && file.file.name

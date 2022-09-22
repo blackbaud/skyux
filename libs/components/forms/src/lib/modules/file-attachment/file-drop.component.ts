@@ -156,18 +156,20 @@ export class SkyFileDropComponent implements OnDestroy {
     }
   }
 
-  public fileChangeEvent(fileChangeEvent: any) {
-    this.#handleFiles(fileChangeEvent.target.files);
+  public fileChangeEvent(fileChangeEvent: DragEvent) {
+    this.#handleFiles(
+      (fileChangeEvent.target as HTMLInputElement | undefined)?.files
+    );
   }
 
-  public fileDragEnter(dragEnterEvent: any) {
+  public fileDragEnter(dragEnterEvent: DragEvent) {
     // Save this target to know when the drag event leaves
     this.#enterEventTarget = dragEnterEvent.target;
     dragEnterEvent.stopPropagation();
     dragEnterEvent.preventDefault();
   }
 
-  public fileDragOver(dragOverEvent: any) {
+  public fileDragOver(dragOverEvent: DragEvent) {
     const transfer = dragOverEvent.dataTransfer;
 
     dragOverEvent.stopPropagation();
@@ -320,35 +322,37 @@ export class SkyFileDropComponent implements OnDestroy {
     reader.readAsDataURL(file.file);
   }
 
-  #handleFiles(files: FileList) {
-    const validFileArray: Array<SkyFileItem> = [];
-    const rejectedFileArray: Array<SkyFileItem> = [];
-    const totalFiles = files.length;
+  #handleFiles(files?: FileList | null) {
+    if (files) {
+      const validFileArray: Array<SkyFileItem> = [];
+      const rejectedFileArray: Array<SkyFileItem> = [];
+      const totalFiles = files.length;
 
-    const processedFiles = this.#fileAttachmentService.checkFiles(
-      files,
-      this.minFileSize,
-      this.maxFileSize,
-      this.acceptedTypes,
-      this.validateFn
-    );
+      const processedFiles = this.#fileAttachmentService.checkFiles(
+        files,
+        this.minFileSize,
+        this.maxFileSize,
+        this.acceptedTypes,
+        this.validateFn
+      );
 
-    for (const file of processedFiles) {
-      if (file.errorType) {
-        this.#filesRejected(
-          file,
-          validFileArray,
-          rejectedFileArray,
-          totalFiles
-        );
-      } else {
-        this.#loadFile(
-          this,
-          file,
-          validFileArray,
-          rejectedFileArray,
-          totalFiles
-        );
+      for (const file of processedFiles) {
+        if (file.errorType) {
+          this.#filesRejected(
+            file,
+            validFileArray,
+            rejectedFileArray,
+            totalFiles
+          );
+        } else {
+          this.#loadFile(
+            this,
+            file,
+            validFileArray,
+            rejectedFileArray,
+            totalFiles
+          );
+        }
       }
     }
   }

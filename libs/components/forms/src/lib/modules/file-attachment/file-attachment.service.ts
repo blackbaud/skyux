@@ -66,10 +66,7 @@ export class SkyFileAttachmentService {
     return false;
   }
 
-  public fileTypeRejected(
-    fileType: string,
-    acceptedTypes: string | undefined
-  ): boolean {
+  public fileTypeRejected(fileType: string, acceptedTypes?: string): boolean {
     if (!acceptedTypes) {
       return false;
     }
