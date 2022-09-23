@@ -58,19 +58,19 @@ describe('Radio group component (reactive)', function () {
   it('should update the form properly when nothing is selected on init', fakeAsync(function () {
     fixture.detectChanges();
 
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
-    expect(componentInstance.radioForm.touched).toEqual(false);
-    expect(componentInstance.radioForm.pristine).toEqual(true);
-    expect(componentInstance.radioForm.dirty).toEqual(false);
+    expect(componentInstance.radioForm?.value).toEqual({ radioGroup: null });
+    expect(componentInstance.radioForm?.touched).toEqual(false);
+    expect(componentInstance.radioForm?.pristine).toEqual(true);
+    expect(componentInstance.radioForm?.dirty).toEqual(false);
 
     clickCheckbox(fixture, 0);
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: { name: 'Lillith Corharvest', disabled: false },
     });
-    expect(componentInstance.radioForm.touched).toEqual(true);
-    expect(componentInstance.radioForm.pristine).toEqual(false);
-    expect(componentInstance.radioForm.dirty).toEqual(true);
+    expect(componentInstance.radioForm?.touched).toEqual(true);
+    expect(componentInstance.radioForm?.pristine).toEqual(false);
+    expect(componentInstance.radioForm?.dirty).toEqual(true);
   }));
 
   it('should update the form properly when form is initialized with values', fakeAsync(function () {
@@ -78,54 +78,54 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: { name: 'Lillith Corharvest', disabled: false },
     });
-    expect(componentInstance.radioForm.touched).toEqual(false);
-    expect(componentInstance.radioForm.pristine).toEqual(true);
-    expect(componentInstance.radioForm.dirty).toEqual(false);
+    expect(componentInstance.radioForm?.touched).toEqual(false);
+    expect(componentInstance.radioForm?.pristine).toEqual(true);
+    expect(componentInstance.radioForm?.dirty).toEqual(false);
 
     clickCheckbox(fixture, 1);
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: { name: 'Harima Kenji', disabled: false },
     });
-    expect(componentInstance.radioForm.touched).toEqual(true);
-    expect(componentInstance.radioForm.pristine).toEqual(false);
-    expect(componentInstance.radioForm.dirty).toEqual(true);
+    expect(componentInstance.radioForm?.touched).toEqual(true);
+    expect(componentInstance.radioForm?.pristine).toEqual(false);
+    expect(componentInstance.radioForm?.dirty).toEqual(true);
   }));
 
   it('should not update dirty state when form value is updated programatically', fakeAsync(function () {
     fixture.detectChanges();
 
-    componentInstance.radioForm.patchValue({
+    componentInstance.radioForm?.patchValue({
       radioGroup: componentInstance.options[0],
     });
 
     fixture.detectChanges();
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: { name: 'Lillith Corharvest', disabled: false },
     });
-    expect(componentInstance.radioForm.touched).toEqual(false);
-    expect(componentInstance.radioForm.pristine).toEqual(true);
-    expect(componentInstance.radioForm.dirty).toEqual(false);
+    expect(componentInstance.radioForm?.touched).toEqual(false);
+    expect(componentInstance.radioForm?.pristine).toEqual(true);
+    expect(componentInstance.radioForm?.dirty).toEqual(false);
 
     clickCheckbox(fixture, 1);
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: { name: 'Harima Kenji', disabled: false },
     });
-    expect(componentInstance.radioForm.touched).toEqual(true);
-    expect(componentInstance.radioForm.pristine).toEqual(false);
-    expect(componentInstance.radioForm.dirty).toEqual(true);
+    expect(componentInstance.radioForm?.touched).toEqual(true);
+    expect(componentInstance.radioForm?.pristine).toEqual(false);
+    expect(componentInstance.radioForm?.dirty).toEqual(true);
   }));
 
   it('should mark the form as touched after losing focus', fakeAsync(function () {
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.touched).toEqual(false);
+    expect(componentInstance.radioForm?.touched).toEqual(false);
 
     const debugElement = fixture.debugElement.query(
       By.css('input[type="radio"]')
@@ -134,7 +134,7 @@ describe('Radio group component (reactive)', function () {
     debugElement.triggerEventHandler('focus', {});
     debugElement.triggerEventHandler('blur', {});
 
-    expect(componentInstance.radioForm.touched).toEqual(true);
+    expect(componentInstance.radioForm?.touched).toEqual(true);
   }));
 
   it('should update the the form properly when radio button is changed', fakeAsync(function () {
@@ -143,7 +143,7 @@ describe('Radio group component (reactive)', function () {
     const radios = getRadios(fixture);
     clickCheckbox(fixture, 1);
 
-    const value = componentInstance.radioForm.value.radioGroup;
+    const value = componentInstance.radioForm?.value.radioGroup;
 
     expect(radios.item(1).checked).toBe(true);
     expect(value.name).toEqual('Harima Kenji');
@@ -157,7 +157,7 @@ describe('Radio group component (reactive)', function () {
       'Lillith Corharvest'
     );
 
-    componentInstance.radioForm.patchValue({
+    componentInstance.radioForm?.patchValue({
       radioGroup: componentInstance.options[1],
     });
     fixture.detectChanges();
@@ -192,11 +192,11 @@ describe('Radio group component (reactive)', function () {
     componentInstance.required = true;
     fixture.detectChanges();
 
-    expect(componentInstance.radioForm.valid).toBe(false);
+    expect(componentInstance.radioForm?.valid).toBe(false);
 
     clickCheckbox(fixture, 1);
 
-    expect(componentInstance.radioForm.valid).toBe(true);
+    expect(componentInstance.radioForm?.valid).toBe(true);
   }));
 
   it('should use tabIndex when specified', fakeAsync(function () {
@@ -392,7 +392,7 @@ describe('Radio group component (reactive)', function () {
   it('should support resetting form control when fields are added dynamically', fakeAsync(function () {
     fixture.detectChanges();
 
-    componentInstance.radioForm.patchValue({
+    componentInstance.radioForm?.patchValue({
       radioGroup: componentInstance.options[0],
     });
 
@@ -402,7 +402,7 @@ describe('Radio group component (reactive)', function () {
       radioGroup: { name: 'Lillith Corharvest', disabled: false },
     };
 
-    expect(componentInstance.radioForm.value).toEqual(expectedValue);
+    expect(componentInstance.radioForm?.value).toEqual(expectedValue);
 
     // Toggle the field's generation on and off to make sure the form control's state
     // isn't directly tied to the template's change detection.
@@ -414,17 +414,17 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.value).toEqual(expectedValue);
+    expect(componentInstance.radioForm?.value).toEqual(expectedValue);
 
     componentInstance.showRadioGroup = false;
     fixture.detectChanges();
     tick();
 
-    componentInstance.radioControl.reset();
+    componentInstance.radioControl?.reset();
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.value).toEqual({
+    expect(componentInstance.radioForm?.value).toEqual({
       radioGroup: null,
     });
   }));
@@ -437,11 +437,11 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
-    expect(componentInstance.radioForm.touched).toEqual(false);
-    expect(componentInstance.radioForm.pristine).toEqual(true);
-    expect(componentInstance.radioForm.dirty).toEqual(false);
-    expect(componentInstance.radioForm.disabled).toEqual(true);
+    expect(componentInstance.radioForm?.value).toEqual({ radioGroup: null });
+    expect(componentInstance.radioForm?.touched).toEqual(false);
+    expect(componentInstance.radioForm?.pristine).toEqual(true);
+    expect(componentInstance.radioForm?.dirty).toEqual(false);
+    expect(componentInstance.radioForm?.disabled).toEqual(true);
     expect(componentInstance.radioGroupComponent?.disabled).toEqual(true);
 
     const inputArray = Array.from(getRadios(fixture));
@@ -455,11 +455,11 @@ describe('Radio group component (reactive)', function () {
     }
 
     // Call form control's enable method. Expect form to be enabled.
-    componentInstance.radioForm.get('radioGroup')?.enable();
+    componentInstance.radioForm?.get('radioGroup')?.enable();
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.disabled).toEqual(false);
+    expect(componentInstance.radioForm?.disabled).toEqual(false);
     expect(componentInstance.radioGroupComponent?.disabled).toEqual(false);
 
     for (const input of inputArray) {
@@ -479,11 +479,11 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.value).toEqual({ radioGroup: null });
-    expect(componentInstance.radioForm.touched).toEqual(false);
-    expect(componentInstance.radioForm.pristine).toEqual(true);
-    expect(componentInstance.radioForm.dirty).toEqual(false);
-    expect(componentInstance.radioForm.disabled).toEqual(true);
+    expect(componentInstance.radioForm?.value).toEqual({ radioGroup: null });
+    expect(componentInstance.radioForm?.touched).toEqual(false);
+    expect(componentInstance.radioForm?.pristine).toEqual(true);
+    expect(componentInstance.radioForm?.dirty).toEqual(false);
+    expect(componentInstance.radioForm?.disabled).toEqual(true);
     expect(componentInstance.radioGroupComponent?.disabled).toEqual(true);
 
     const inputArray = Array.from(getRadios(fixture));
@@ -497,11 +497,11 @@ describe('Radio group component (reactive)', function () {
     }
 
     // Call form control's enable method. Expect form to be enabled.
-    componentInstance.radioForm.get('radioGroup')?.enable();
+    componentInstance.radioForm?.get('radioGroup')?.enable();
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioForm.disabled).toEqual(false);
+    expect(componentInstance.radioForm?.disabled).toEqual(false);
     expect(componentInstance.radioGroupComponent?.disabled).toEqual(false);
 
     for (const input of inputArray) {
@@ -535,7 +535,7 @@ describe('Radio group component (reactive)', function () {
     }
 
     // Call form control's disable method. Expect form to be disabled.
-    componentInstance.radioForm.get('radioGroup')?.disable();
+    componentInstance.radioForm?.get('radioGroup')?.disable();
     fixture.detectChanges();
     tick();
 
@@ -547,7 +547,7 @@ describe('Radio group component (reactive)', function () {
     }
 
     // Call form control's enable method. Expect form to be enabled.
-    componentInstance.radioForm.get('radioGroup')?.enable();
+    componentInstance.radioForm?.get('radioGroup')?.enable();
     fixture.detectChanges();
     tick();
 

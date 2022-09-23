@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
+import { RadioDemoItem } from './radio-demo-item';
+
 @Component({
   selector: 'app-radio-demo',
   templateUrl: './radio-demo.component.html',
@@ -8,7 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class RadioDemoComponent {
   public myForm: FormGroup;
 
-  public views: any[] = [
+  public views: RadioDemoItem[] = [
     { icon: 'table', label: 'Table', name: 'table' },
     { icon: 'list', label: 'List', name: 'list' },
     { icon: 'map-marker', label: 'Map', name: 'map' },

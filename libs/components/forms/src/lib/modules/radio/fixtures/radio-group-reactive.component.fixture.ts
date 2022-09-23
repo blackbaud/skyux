@@ -27,8 +27,8 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
     { name: 'Harry Mckenzie', disabled: false },
   ];
 
-  public radioControl!: UntypedFormControl;
-  public radioForm!: UntypedFormGroup;
+  public radioControl: UntypedFormControl | undefined;
+  public radioForm: UntypedFormGroup | undefined;
 
   public required = false;
 
@@ -39,10 +39,10 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
   @ViewChild(SkyRadioGroupComponent)
   public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
-  #fb: UntypedFormBuilder;
+  #formBuilder: UntypedFormBuilder;
 
-  constructor(fb: UntypedFormBuilder) {
-    this.#fb = fb;
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
   }
 
   public ngOnInit(): void {
@@ -51,7 +51,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
       disabled: this.initialDisabled,
     });
 
-    this.radioForm = this.#fb.group({
+    this.radioForm = this.#formBuilder.group({
       radioGroup: this.radioControl,
     });
   }

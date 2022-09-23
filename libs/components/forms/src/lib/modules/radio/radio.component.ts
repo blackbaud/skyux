@@ -60,7 +60,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (this.#_checked !== newCheckedState) {
       this.#_checked = newCheckedState;
-      this.#_checkedChange.next(this.#_checked);
+      this.#checkedChange.next(newCheckedState);
 
       if (newCheckedState) {
         this.selectedValue = this.value;
@@ -83,7 +83,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     const coercedValue = SkyFormsUtility.coerceBooleanProperty(value);
     if (coercedValue !== this.disabled) {
       this.#_disabled = coercedValue;
-      this.#_disabledChange.next(this.#_disabled);
+      this.#disabledChange.next(coercedValue);
       this.#changeDetector.markForCheck();
     }
   }
@@ -179,7 +179,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @required
    */
   @Input()
-  public set value(value: any) {
+  public set value(value: unknown) {
     /* istanbul ignore else */
     if (this.#_value !== value) {
       if (this.selectedValue && this.selectedValue === this.#_value) {
@@ -194,7 +194,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.#changeDetector.markForCheck();
   }
 
-  public get value(): any {
+  public get value(): unknown {
     return this.#_value;
   }
 
@@ -220,7 +220,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   }
   public set radioType(value: string | undefined) {
     if (value) {
-      this.#_radioType = value.toLowerCase();
+      this.#_radioType = value.toLocaleLowerCase();
     } else {
       this.#_radioType = 'info';
     }
@@ -240,7 +240,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Output()
   public get checkedChange(): Observable<boolean> {
-    return this.#_checkedChange;
+    return this.#checkedChangeObs;
   }
 
   /**
@@ -248,7 +248,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Output()
   public get disabledChange(): Observable<boolean> {
-    return this.#_disabledChange;
+    return this.#disabledChangeObs;
   }
 
   public set selectedValue(value: any) {
@@ -264,23 +264,29 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   public radioGroupDisabled = false;
 
+  #checkedChange: BehaviorSubject<boolean>;
+  #checkedChangeObs: Observable<boolean>;
   #defaultId = `sky-radio-${++nextUniqueId}`;
+  #disabledChange: BehaviorSubject<boolean>;
+  #disabledChangeObs: Observable<boolean>;
 
   #_change = new EventEmitter<SkyRadioChange>();
   #_checked = false;
-  #_checkedChange = new BehaviorSubject<boolean>(this.#_checked);
   #_disabled = false;
-  #_disabledChange = new BehaviorSubject<boolean>(this.#_disabled);
   #_name: string | undefined;
   #_radioType = 'info';
-  #_selectedValue: any;
+  #_selectedValue: unknown;
   #_tabindex = 0;
-  #_value: any;
+  #_value: unknown;
 
   #changeDetector: ChangeDetectorRef;
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
+    this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
+    this.#checkedChangeObs = this.#checkedChange.asObservable();
+    this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
+    this.#disabledChangeObs = this.#disabledChange.asObservable();
 
     this.id = this.#defaultId;
   }
@@ -289,7 +295,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.#removeUniqueSelectionListener();
   }
 
-  public writeValue(value: any): void {
+  public writeValue(value: unknown): void {
     if (value === undefined) {
       return;
     }

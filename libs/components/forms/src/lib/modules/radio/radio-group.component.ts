@@ -272,7 +272,7 @@ export class SkyRadioGroupComponent
     }
 
     this.radios.forEach((radio) => {
-      radio.checked = this.#_value === radio.value;
+      radio.checked = this.value === radio.value;
     });
   }
 
