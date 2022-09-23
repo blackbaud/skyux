@@ -5,7 +5,7 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 describe('Flyout instance', () => {
   it('should expose observables for closed event', () => {
-    const flyout = new SkyFlyoutInstance();
+    const flyout = new SkyFlyoutInstance(undefined);
 
     let closedCalled = false;
 
@@ -18,7 +18,7 @@ describe('Flyout instance', () => {
   });
 
   it('should expose method to close the flyout', () => {
-    const flyout = new SkyFlyoutInstance();
+    const flyout = new SkyFlyoutInstance(undefined);
     const spy = spyOn(flyout.hostController, 'next').and.callThrough();
 
     flyout.close();
@@ -31,7 +31,7 @@ describe('Flyout instance', () => {
   });
 
   it('should expose iterator next button methods to the flyout', () => {
-    const flyout = new SkyFlyoutInstance();
+    const flyout = new SkyFlyoutInstance(undefined);
     const spy = spyOn(flyout.hostController, 'next').and.callThrough();
 
     flyout.iteratorNextButtonDisabled = true;
@@ -46,7 +46,7 @@ describe('Flyout instance', () => {
   });
 
   it('should expose iterator previous button methods to the flyout', () => {
-    const flyout = new SkyFlyoutInstance();
+    const flyout = new SkyFlyoutInstance(undefined);
     const spy = spyOn(flyout.hostController, 'next').and.callThrough();
 
     flyout.iteratorPreviousButtonDisabled = true;
@@ -61,7 +61,7 @@ describe('Flyout instance', () => {
   });
 
   it('should complete iterator emitters when the flyout closes', () => {
-    const flyout = new SkyFlyoutInstance();
+    const flyout = new SkyFlyoutInstance(undefined);
     const previousSpy = spyOn(
       flyout.iteratorPreviousButtonClick,
       'complete'

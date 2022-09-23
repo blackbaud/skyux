@@ -13,10 +13,12 @@ import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.componen
   providers: [SkyFlyoutService],
 })
 export class SkyFlyoutHostsTestComponent {
-  constructor(
-    private modal: SkyModalService,
-    private toastService: SkyToastService
-  ) {}
+  #modal: SkyModalService;
+  #toastService: SkyToastService;
+  constructor(modal: SkyModalService, toastService: SkyToastService) {
+    this.#modal = modal;
+    this.#toastService = toastService;
+  }
 
   public openModal(): void {
     const context = new SkyFlyoutModalFixtureContext();
@@ -27,11 +29,11 @@ export class SkyFlyoutHostsTestComponent {
       ariaDescribedBy: 'docs-modal-content',
     };
 
-    this.modal.open(SkyFlyoutModalFixtureFormComponent, options);
+    this.#modal.open(SkyFlyoutModalFixtureFormComponent, options);
   }
 
   public openMessage(): void {
-    this.toastService.openMessage(`This is a sample toast message.`, {
+    this.#toastService.openMessage(`This is a sample toast message.`, {
       type: SkyToastType.Info,
     });
   }

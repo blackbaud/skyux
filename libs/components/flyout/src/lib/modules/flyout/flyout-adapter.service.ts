@@ -11,21 +11,21 @@ import { SkyAppWindowRef, SkyMediaBreakpoints } from '@skyux/core';
  */
 @Injectable()
 export class SkyFlyoutAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
-  constructor(
-    private rendererFactory: RendererFactory2,
-    private windowRef: SkyAppWindowRef
-  ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  #windowRef: SkyAppWindowRef;
+
+  constructor(rendererFactory: RendererFactory2, windowRef: SkyAppWindowRef) {
+    this.#windowRef = windowRef;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   public adjustHeaderForHelp(header: ElementRef): void {
-    const windowObj = this.windowRef.nativeWindow;
+    const windowObj = this.#windowRef.nativeWindow;
     const helpWidget = windowObj.document.getElementById('bb-help-invoker');
 
     if (helpWidget) {
-      this.renderer.addClass(header.nativeElement, 'sky-flyout-help-shim');
+      this.#renderer.addClass(header.nativeElement, 'sky-flyout-help-shim');
     }
   }
 
@@ -35,10 +35,10 @@ export class SkyFlyoutAdapterService {
   ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-md');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
 
     let newClass: string;
 
@@ -61,7 +61,7 @@ export class SkyFlyoutAdapterService {
       }
     }
 
-    this.renderer.addClass(nativeEl, newClass);
+    this.#renderer.addClass(nativeEl, newClass);
   }
 
   public toggleIframePointerEvents(enable: boolean): void {

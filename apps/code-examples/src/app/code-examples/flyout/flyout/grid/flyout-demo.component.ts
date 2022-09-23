@@ -77,19 +77,23 @@ export class FlyoutDemoComponent {
   @ViewChild(SkyListViewGridComponent)
   public listViewGridComponent: SkyListViewGridComponent;
 
-  private listState: ListItemModel[];
+  #listState: ListItemModel[];
 
-  private openFlyoutStream = new Subject<boolean>();
+  #openFlyoutStream = new Subject<boolean>();
 
-  constructor(private flyoutService: SkyFlyoutService) {}
+  #flyoutService: SkyFlyoutService;
 
-  public onNameClick(record: FlyoutDemoContext): void {
-    this.openRecord(record);
+  constructor(flyoutService: SkyFlyoutService) {
+    this.#flyoutService = flyoutService;
   }
 
-  private openRecord(record: FlyoutDemoContext) {
+  public onNameClick(record: FlyoutDemoContext): void {
+    this.#openRecord(record);
+  }
+
+  #openRecord(record: FlyoutDemoContext) {
     // Prevent highlight from being prematurely removed.
-    this.openFlyoutStream.next(true);
+    this.#openFlyoutStream.next(true);
 
     const flyoutConfig: SkyFlyoutConfig = {
       providers: [
@@ -113,7 +117,7 @@ export class FlyoutDemoComponent {
       showIterator: true,
     };
 
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
@@ -122,69 +126,65 @@ export class FlyoutDemoComponent {
       this.flyout = undefined;
     });
 
-    this.initIterators(record, this.flyout);
+    this.#initIterators(record, this.flyout);
   }
 
-  private initIterators(record: any, flyout: SkyFlyoutInstance<any>) {
+  #initIterators(record: any, flyout: SkyFlyoutInstance<any>) {
     this.rowHighlightedId = record.id;
 
     // Remove highlights when flyout is closed.
-    flyout.closed.pipe(takeUntil(this.openFlyoutStream)).subscribe(() => {
+    flyout.closed.pipe(takeUntil(this.#openFlyoutStream)).subscribe(() => {
       this.rowHighlightedId = undefined;
     });
 
     this.listViewGridComponent.items
-      .pipe(takeUntil(this.openFlyoutStream))
+      .pipe(takeUntil(this.#openFlyoutStream))
       .subscribe((s: any) => {
-        this.listState = s;
+        this.#listState = s;
 
-        flyout.iteratorPreviousButtonDisabled = this.isFirstElementInArray(
+        flyout.iteratorPreviousButtonDisabled = this.#isFirstElementInArray(
           this.rowHighlightedId,
-          this.listState
+          this.#listState
         );
-        flyout.iteratorNextButtonDisabled = this.isLastElementInArray(
+        flyout.iteratorNextButtonDisabled = this.#isLastElementInArray(
           this.rowHighlightedId,
-          this.listState
+          this.#listState
         );
       });
 
     flyout.iteratorPreviousButtonClick
-      .pipe(takeUntil(this.openFlyoutStream))
+      .pipe(takeUntil(this.#openFlyoutStream))
       .subscribe(() => {
-        const previous = this.stepToItemInArray(
-          this.listState,
+        const previous = this.#stepToItemInArray(
+          this.#listState,
           this.rowHighlightedId,
           -1
         );
-        this.openRecord(previous.data);
+        this.#openRecord(previous.data);
       });
 
     flyout.iteratorNextButtonClick
-      .pipe(takeUntil(this.openFlyoutStream))
+      .pipe(takeUntil(this.#openFlyoutStream))
       .subscribe(() => {
-        const next = this.stepToItemInArray(
-          this.listState,
+        const next = this.#stepToItemInArray(
+          this.#listState,
           this.rowHighlightedId,
           1
         );
-        this.openRecord(next.data);
+        this.#openRecord(next.data);
       });
 
-    flyout.iteratorPreviousButtonDisabled = this.isFirstElementInArray(
+    flyout.iteratorPreviousButtonDisabled = this.#isFirstElementInArray(
       this.rowHighlightedId,
-      this.listState
+      this.#listState
     );
-    flyout.iteratorNextButtonDisabled = this.isLastElementInArray(
+    flyout.iteratorNextButtonDisabled = this.#isLastElementInArray(
       this.rowHighlightedId,
-      this.listState
+      this.#listState
     );
   }
 
-  private stepToItemInArray(
-    array: Array<any>,
-    currentId: string,
-    step: number
-  ) {
+  #stepToItemInArray(array: Array<any>, currentId: string, step: number) {
     for (let i = 0; i < array.length; i++) {
       if (array[i].id === currentId) {
         return array[i + step];
@@ -192,7 +192,7 @@ export class FlyoutDemoComponent {
     }
   }
 
-  private isFirstElementInArray(id: any, array: any[]) {
+  #isFirstElementInArray(id: any, array: any[]) {
     const element = array.find((x) => x.id === id);
     if (array[0] === element) {
       return true;
@@ -200,7 +200,7 @@ export class FlyoutDemoComponent {
     return false;
   }
 
-  private isLastElementInArray(id: any, array: any[]) {
+  #isLastElementInArray(id: any, array: any[]) {
     const element = array.find((x) => x.id === id);
     if (array[array.length - 1] === element) {
       return true;

@@ -9,8 +9,12 @@ import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 export class FlyoutResponsiveDemoContentComponent {
   public currentMediaBreakpoint: string;
 
-  constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.mediaQueryService.subscribe((breakpoint) => {
+  #mediaQueryService: SkyMediaQueryService;
+
+  constructor(mediaQueryService: SkyMediaQueryService) {
+    this.#mediaQueryService = mediaQueryService;
+
+    this.#mediaQueryService.subscribe((breakpoint) => {
       switch (breakpoint) {
         case SkyMediaBreakpoints.xs: {
           this.currentMediaBreakpoint = 'xs';

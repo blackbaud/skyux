@@ -73,9 +73,9 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
-  public config: SkyFlyoutConfig;
-  public enableTrapFocus: boolean;
-  public enableTrapFocusAutoCapture: boolean;
+  public config: SkyFlyoutConfig = {};
+  public enableTrapFocus = false;
+  public enableTrapFocusAutoCapture = false;
   public flyoutId = `sky-flyout-${++nextId}`;
   public flyoutState = FLYOUT_CLOSED_STATE;
   public isOpen = false;
@@ -87,11 +87,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   public isFullscreen = false;
   public resizeKeyControlActive = false;
 
-  private xCoord = 0;
-  private windowBufferSize = 20;
+  #xCoord = 0;
+  #windowBufferSize = 20;
 
   public get messageStream(): Subject<SkyFlyoutMessage> {
-    return this._messageStream;
+    return this.#_messageStream;
   }
 
   public get permalink(): SkyFlyoutPermalink {
@@ -108,7 +108,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       return this.permalink.label;
     }
 
-    return this.getString('skyux_flyout_permalink_button');
+    return this.#getString('skyux_flyout_permalink_button');
   }
 
   public get primaryAction(): SkyFlyoutAction {
@@ -125,10 +125,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       return this.config.primaryAction.label;
     }
 
-    return this.getString('skyux_flyout_primary_action_button');
+    return this.#getString('skyux_flyout_primary_action_button');
   }
-
-  public themeName: string;
 
   /**
    * @internal
@@ -142,85 +140,108 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     read: ElementRef,
     static: true,
   })
-  public flyoutRef: ElementRef;
+  public flyoutRef: ElementRef | undefined;
 
   @ViewChild('target', {
     read: ViewContainerRef,
     static: true,
   })
-  private target: ViewContainerRef;
+  public target: ViewContainerRef | undefined;
 
   @ViewChild('flyoutHeader', {
     read: ElementRef,
     static: true,
   })
-  private flyoutHeader: ElementRef;
+  public flyoutHeader: ElementRef | undefined;
 
-  private flyoutInstance: SkyFlyoutInstance<any>;
+  #flyoutInstance: SkyFlyoutInstance<any> | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _messageStream = new Subject<SkyFlyoutMessage>();
+  #_messageStream = new Subject<SkyFlyoutMessage>();
+
+  #adapter: SkyFlyoutAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #injector: Injector;
+  #resolver: ComponentFactoryResolver;
+  #resourcesService: SkyLibResourcesService;
+  #flyoutMediaQueryService: SkyFlyoutMediaQueryService;
+  #elementRef: ElementRef;
+  #uiConfigService: SkyUIConfigService;
+  #ngZone: NgZone;
 
   constructor(
-    private adapter: SkyFlyoutAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private injector: Injector,
-    private resolver: ComponentFactoryResolver,
-    private resourcesService: SkyLibResourcesService,
-    private flyoutMediaQueryService: SkyFlyoutMediaQueryService,
-    private elementRef: ElementRef,
-    private uiConfigService: SkyUIConfigService,
-    private readonly _ngZone: NgZone
+    adapter: SkyFlyoutAdapterService,
+    changeDetector: ChangeDetectorRef,
+    injector: Injector,
+    resolver: ComponentFactoryResolver,
+    resourcesService: SkyLibResourcesService,
+    flyoutMediaQueryService: SkyFlyoutMediaQueryService,
+    elementRef: ElementRef,
+    uiConfigService: SkyUIConfigService,
+    ngZone: NgZone
   ) {
+    this.#adapter = adapter;
+    this.#changeDetector = changeDetector;
+    this.#injector = injector;
+    this.#resolver = resolver;
+    this.#resourcesService = resourcesService;
+    this.#flyoutMediaQueryService = flyoutMediaQueryService;
+    this.#elementRef = elementRef;
+    this.#uiConfigService = uiConfigService;
+    this.#ngZone = ngZone;
+
     // All commands flow through the message stream.
     this.messageStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyFlyoutMessage) => {
-        this.handleIncomingMessages(message);
+        this.#handleIncomingMessages(message);
       });
   }
 
   public ngOnInit(): void {
-    this.adapter.adjustHeaderForHelp(this.flyoutHeader);
+    /* istanbul ignore else */
+    if (this.flyoutHeader) {
+      this.#adapter.adjustHeaderForHelp(this.flyoutHeader);
+    }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   @HostListener('window:resize', ['$event'])
   public onWindowResize(event: any): void {
     if (
-      this.flyoutMediaQueryService.isWidthWithinBreakpiont(
+      this.#flyoutMediaQueryService.isWidthWithinBreakpiont(
         event.target.innerWidth,
         SkyMediaBreakpoints.xs
       )
     ) {
-      this.updateBreakpointAndResponsiveClass(event.target.innerWidth);
+      this.#updateBreakpointAndResponsiveClass(event.target.innerWidth);
     } else {
-      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+      this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
 
-    this.setFullscreen();
+    this.#setFullscreen();
 
-    if (event.target.innerWidth - this.flyoutWidth < this.windowBufferSize) {
-      this.flyoutWidth = event.target.innerWidth - this.windowBufferSize;
-      this.xCoord = this.windowBufferSize;
-      this.setUserData();
+    if (event.target.innerWidth - this.flyoutWidth < this.#windowBufferSize) {
+      this.flyoutWidth = event.target.innerWidth - this.#windowBufferSize;
+      this.#xCoord = this.#windowBufferSize;
+      this.#setUserData();
     }
   }
 
   public attach<T>(
     component: Type<T>,
-    config: SkyFlyoutConfig
+    config?: SkyFlyoutConfig
   ): SkyFlyoutInstance<T> {
-    this.cleanTemplate();
+    this.#cleanTemplate();
 
     // Emit the closed event on any previously opened flyout instance
-    if (this.flyoutInstance) {
-      this.notifyClosed();
+    if (this.#flyoutInstance) {
+      this.#notifyClosed();
     }
 
     this.config = Object.assign({ providers: [] }, config);
@@ -235,25 +256,27 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     this.config.iteratorPreviousButtonDisabled =
       this.config.iteratorPreviousButtonDisabled || false;
 
-    const factory = this.resolver.resolveComponentFactory(component);
+    const factory = this.#resolver.resolveComponentFactory(component);
 
     const injector = Injector.create({
-      parent: this.injector,
-      providers: this.config.providers,
+      parent: this.#injector,
+      providers: this.config.providers ?? [],
     });
 
-    const componentRef = this.target.createComponent(
+    const componentRef = this.target?.createComponent(
       factory,
       undefined,
       injector
     );
 
-    this.flyoutInstance = this.createFlyoutInstance<T>(componentRef.instance);
+    this.#flyoutInstance = this.#createFlyoutInstance<T>(
+      componentRef!.instance
+    );
 
     // This is used to ensure we do not render the flyout until we have attached the component.
     // This allows the aria-labelledby to function correctly.
     this.instanceReady = true;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
     // Open the flyout immediately.
     this.messageStream.next({
@@ -261,7 +284,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     });
 
     if (this.config.settingsKey) {
-      this.uiConfigService
+      this.#uiConfigService
         .getConfig(this.config.settingsKey)
         .pipe(take(1))
         .subscribe((value: any) => {
@@ -269,16 +292,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
             this.flyoutWidth = value.flyoutWidth;
           } else {
             // Bad data, or config is the default config.
-            this.flyoutWidth = this.config.defaultWidth;
+            this.flyoutWidth = this.config.defaultWidth!;
           }
-          this.checkInitialSize();
+          this.#checkInitialSize();
         });
     } else {
       this.flyoutWidth = this.config.defaultWidth;
-      this.checkInitialSize();
+      this.#checkInitialSize();
     }
 
-    return this.flyoutInstance;
+    return this.#flyoutInstance;
   }
 
   public close(): void {
@@ -288,13 +311,16 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public invokePrimaryAction(): boolean {
-    this.primaryAction.callback();
+    if (this.primaryAction.callback) {
+      this.primaryAction.callback();
 
-    if (this.primaryAction.closeAfterInvoking) {
-      this.close();
+      if (this.primaryAction.closeAfterInvoking) {
+        this.close();
+      }
+
+      return false;
     }
-
-    return false;
+    return true;
   }
 
   public getAnimationState(): string {
@@ -310,8 +336,8 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     if (event.toState === FLYOUT_CLOSED_STATE) {
       this.isOpen = false;
-      this.notifyClosed();
-      this.cleanTemplate();
+      this.#notifyClosed();
+      this.#cleanTemplate();
     }
   }
 
@@ -320,11 +346,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   public onHeaderGrabHandleKeyDown(event: KeyboardEvent): void {
-    this.handleResizeKeyDown(event);
+    this.#handleResizeKeyDown(event);
   }
 
   public onResizeHandleKeyDown(event: KeyboardEvent): void {
-    this.handleResizeKeyDown(event);
+    this.#handleResizeKeyDown(event);
   }
 
   public onResizeHandleMouseDown(event: MouseEvent): void {
@@ -336,9 +362,9 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
 
     this.isDragging = true;
-    this.xCoord = event.clientX;
+    this.#xCoord = event.clientX;
 
-    this.adapter.toggleIframePointerEvents(false);
+    this.#adapter.toggleIframePointerEvents(false);
 
     fromEvent(document, 'mousemove')
       .pipe(
@@ -368,27 +394,27 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       return;
     }
 
-    const offsetX = event.clientX - this.xCoord;
+    const offsetX = event.clientX - this.#xCoord;
     let width = this.flyoutWidth;
 
     width -= offsetX;
 
-    if (width < this.config.minWidth || width > this.config.maxWidth) {
+    if (width < this.config.minWidth! || width > this.config.maxWidth!) {
       return;
     }
 
-    if (window.innerWidth - width < this.windowBufferSize) {
-      width = window.innerWidth - this.windowBufferSize;
-      this.xCoord = this.windowBufferSize;
+    if (window.innerWidth - width < this.#windowBufferSize) {
+      width = window.innerWidth - this.#windowBufferSize;
+      this.#xCoord = this.#windowBufferSize;
     } else {
-      this.xCoord = event.clientX;
+      this.#xCoord = event.clientX;
     }
 
     this.flyoutWidth = width;
 
-    this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+    this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public onHandleRelease(event: MouseEvent): void {
@@ -396,25 +422,30 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       .pipe(take(1))
       .subscribe(() => {
         this.isDragging = false;
-        this.adapter.toggleIframePointerEvents(true);
-        this.setUserData();
+        this.#adapter.toggleIframePointerEvents(true);
+        this.#setUserData();
       });
   }
 
   public onIteratorPreviousButtonClick(): void {
-    this.flyoutInstance.iteratorPreviousButtonClick.emit();
+    /* istanbul ignore else */
+    if (this.#flyoutInstance) {
+      this.#flyoutInstance.iteratorPreviousButtonClick.emit();
+    }
   }
 
   public onIteratorNextButtonClick(): void {
-    this.flyoutInstance.iteratorNextButtonClick.emit();
+    /* istanbul ignore else */
+    if (this.#flyoutInstance) {
+      this.#flyoutInstance.iteratorNextButtonClick.emit();
+    }
   }
 
-  private createFlyoutInstance<T>(component: T): SkyFlyoutInstance<T> {
-    const instance = new SkyFlyoutInstance<T>();
+  #createFlyoutInstance<T>(component: T): SkyFlyoutInstance<T> {
+    const instance = new SkyFlyoutInstance<T>(component);
 
-    instance.componentInstance = component;
     instance.hostController
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyFlyoutMessage) => {
         this.messageStream.next(message);
       });
@@ -422,26 +453,26 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return instance;
   }
 
-  private handleIncomingMessages(message: SkyFlyoutMessage): void {
+  #handleIncomingMessages(message: SkyFlyoutMessage): void {
     switch (message.type) {
       case SkyFlyoutMessageType.Open:
         if (!this.isOpen) {
           this.isOpen = false;
           this.isOpening = true;
         }
-        this.initFocusTrap();
+        this.#initFocusTrap();
         break;
 
       case SkyFlyoutMessageType.Close:
         if (
-          (this.flyoutInstance.beforeClose as Subject<any>).observers.length ===
-            0 ||
+          (this.#flyoutInstance?.beforeClose as Subject<any>)?.observers
+            .length === 0 ||
           message.data?.ignoreBeforeClose
         ) {
           this.isOpen = true;
           this.isOpening = false;
         } else {
-          (this.flyoutInstance.beforeClose as Subject<any>).next(
+          (this.#flyoutInstance?.beforeClose as Subject<any>)?.next(
             new SkyFlyoutBeforeCloseHandler(() => {
               this.isOpen = true;
               this.isOpening = false;
@@ -467,37 +498,37 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         break;
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  private notifyClosed(): void {
-    this.flyoutInstance.closed.emit();
-    this.flyoutInstance.closed.complete();
+  #notifyClosed(): void {
+    this.#flyoutInstance?.closed.emit();
+    this.#flyoutInstance?.closed.complete();
   }
 
-  private cleanTemplate(): void {
-    this.target.clear();
+  #cleanTemplate(): void {
+    this.target?.clear();
   }
 
-  private updateBreakpointAndResponsiveClass(width: number): void {
-    this.flyoutMediaQueryService.setBreakpointForWidth(width);
+  #updateBreakpointAndResponsiveClass(width: number): void {
+    this.#flyoutMediaQueryService.setBreakpointForWidth(width);
 
-    const newBreakpiont = this.flyoutMediaQueryService.current;
+    const newBreakpiont = this.#flyoutMediaQueryService.current;
 
-    this.adapter.setResponsiveClass(this.elementRef, newBreakpiont);
+    this.#adapter.setResponsiveClass(this.#elementRef, newBreakpiont);
   }
 
-  private setFullscreen(): void {
-    if (window.innerWidth - this.windowBufferSize < this.config.minWidth) {
+  #setFullscreen(): void {
+    if (window.innerWidth - this.#windowBufferSize < this.config.minWidth!) {
       this.isFullscreen = true;
     } else {
       this.isFullscreen = false;
     }
   }
 
-  private setUserData(): void {
+  #setUserData(): void {
     if (this.config.settingsKey) {
-      this.uiConfigService
+      this.#uiConfigService
         .setConfig(this.config.settingsKey, {
           flyoutWidth: this.flyoutWidth,
         })
@@ -513,42 +544,42 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     }
   }
 
-  private checkInitialSize(): void {
-    if (this.flyoutWidth < this.config.minWidth) {
-      this.flyoutWidth = this.config.minWidth;
-      this.setUserData();
-    } else if (this.flyoutWidth > this.config.maxWidth) {
-      this.flyoutWidth = this.config.maxWidth;
-      this.setUserData();
+  #checkInitialSize(): void {
+    if (this.flyoutWidth < this.config.minWidth!) {
+      this.flyoutWidth = this.config.minWidth!;
+      this.#setUserData();
+    } else if (this.flyoutWidth > this.config.maxWidth!) {
+      this.flyoutWidth = this.config.maxWidth!;
+      this.#setUserData();
     }
 
     // Ensure flyout does not load larger than the window and its buffer
-    if (window.innerWidth - this.flyoutWidth < this.windowBufferSize) {
-      this.flyoutWidth = window.innerWidth - this.windowBufferSize;
-      this.xCoord = this.windowBufferSize;
-      this.setUserData();
+    if (window.innerWidth - this.flyoutWidth < this.#windowBufferSize) {
+      this.flyoutWidth = window.innerWidth - this.#windowBufferSize;
+      this.#xCoord = this.#windowBufferSize;
+      this.#setUserData();
     }
 
     if (
-      this.flyoutMediaQueryService.isWidthWithinBreakpiont(
+      this.#flyoutMediaQueryService.isWidthWithinBreakpiont(
         window.innerWidth,
         SkyMediaBreakpoints.xs
       )
     ) {
-      this.updateBreakpointAndResponsiveClass(window.innerWidth);
+      this.#updateBreakpointAndResponsiveClass(window.innerWidth);
     } else {
-      this.updateBreakpointAndResponsiveClass(this.flyoutWidth);
+      this.#updateBreakpointAndResponsiveClass(this.flyoutWidth);
     }
 
-    this.setFullscreen();
+    this.#setFullscreen();
   }
 
-  private getString(key: string): string {
+  #getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
+    return this.#resourcesService.getStringForLocale({ locale: 'en-US' }, key);
   }
 
-  private handleResizeKeyDown(event: KeyboardEvent): void {
+  #handleResizeKeyDown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (event.key) {
       const keyPressed = event.key.toLowerCase().replace('arrow', '');
@@ -566,10 +597,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         case 'left':
           if (this.resizeKeyControlActive) {
             /* istanbul ignore else */
-            if (this.flyoutWidth < this.config.maxWidth) {
+            if (this.flyoutWidth < this.config.maxWidth!) {
               this.flyoutWidth = Math.min(
                 this.flyoutWidth + this.widthStep,
-                this.config.maxWidth
+                this.config.maxWidth!
               );
             }
           }
@@ -578,10 +609,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         case 'right':
           if (this.resizeKeyControlActive) {
             /* istanbul ignore else */
-            if (this.flyoutWidth > this.config.minWidth) {
+            if (this.flyoutWidth > this.config.minWidth!) {
               this.flyoutWidth = Math.max(
                 this.flyoutWidth - this.widthStep,
-                this.config.minWidth
+                this.config.minWidth!
               );
             }
           }
@@ -595,19 +626,19 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   /** Executes a function when the zone is stable. */
-  private _executeOnStable(fn: () => any): void {
-    if (this._ngZone.isStable) {
+  #executeOnStable(fn: () => any): void {
+    if (this.#ngZone.isStable) {
       fn();
     } else {
-      this._ngZone.onStable.pipe(take(1)).subscribe(fn);
+      this.#ngZone.onStable.pipe(take(1)).subscribe(fn);
     }
   }
 
-  private initFocusTrap(): void {
+  #initFocusTrap(): void {
     this.enableTrapFocusAutoCapture = false;
     this.enableTrapFocus = false;
     // Waiting for zone to be stable will avoid ExpressionChangeAfterCheckedError.
-    this._executeOnStable(() => {
+    this.#executeOnStable(() => {
       this.enableTrapFocusAutoCapture = true;
       this.enableTrapFocus = true;
     });

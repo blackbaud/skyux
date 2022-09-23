@@ -33,31 +33,45 @@ import { SkyFlyoutMessageType } from './types/flyout-message-type';
   providedIn: 'any',
 })
 export class SkyFlyoutService implements OnDestroy {
-  private host: ComponentRef<SkyFlyoutComponent>;
-  private removeAfterClosed = false;
-  private isOpening = false;
-  private ngUnsubscribe = new Subject<boolean>();
+  #host: ComponentRef<SkyFlyoutComponent> | undefined;
+  #removeAfterClosed = false;
+  #isOpening = false;
+  #ngUnsubscribe = new Subject<boolean>();
+
+  #coreAdapter: SkyCoreAdapterService;
+  #windowRef: SkyAppWindowRef;
+  #dynamicComponentService: SkyDynamicComponentService;
+  #router: Router;
+  #ngZone: NgZone;
+  #applicationRef: ApplicationRef | undefined;
 
   constructor(
-    private coreAdapter: SkyCoreAdapterService,
-    private windowRef: SkyAppWindowRef,
-    private dynamicComponentService: SkyDynamicComponentService,
-    private router: Router,
-    private readonly _ngZone: NgZone,
+    coreAdapter: SkyCoreAdapterService,
+    windowRef: SkyAppWindowRef,
+    dynamicComponentService: SkyDynamicComponentService,
+    router: Router,
+    ngZone: NgZone,
     // NOTE: This used to be used for an `applicationRef.tick` which has since been removed.
     // We can not remove this due to it being a breaking change for those manually constructing the service.
-    @Optional() private readonly _applicationRef?: ApplicationRef
+    @Optional() applicationRef?: ApplicationRef
   ) {
+    this.#coreAdapter = coreAdapter;
+    this.#windowRef = windowRef;
+    this.#dynamicComponentService = dynamicComponentService;
+    this.#router = router;
+    this.#ngZone = ngZone;
+    this.#applicationRef = applicationRef;
+
     /*istanbul ignore if*/
     /*eslint-disable-next-line no-empty*/
-    if (this._applicationRef) {
+    if (this.#applicationRef) {
     }
   }
 
   public ngOnDestroy(): void {
-    this.removeListners();
-    if (this.host) {
-      this.removeHostComponent();
+    this.#removeListners();
+    if (this.#host) {
+      this.#removeHostComponent();
     }
   }
 
@@ -66,8 +80,8 @@ export class SkyFlyoutService implements OnDestroy {
    * @param args Arguments used when closing the flyout.
    */
   public close(args?: SkyFlyoutCloseArgs): void {
-    if (this.host && !this.isOpening) {
-      this.host.instance.messageStream.next({
+    if (this.#host && !this.#isOpening) {
+      this.#host.instance.messageStream.next({
         type: SkyFlyoutMessageType.Close,
         data: {
           ignoreBeforeClose: args ? args.ignoreBeforeClose : false,
@@ -86,54 +100,54 @@ export class SkyFlyoutService implements OnDestroy {
     config?: SkyFlyoutConfig
   ): SkyFlyoutInstance<T> {
     // isOpening flag will prevent close() from firing when open() is also fired.
-    this.isOpening = true;
-    this.windowRef.nativeWindow.setTimeout(() => {
-      this.isOpening = false;
+    this.#isOpening = true;
+    this.#windowRef.nativeWindow.setTimeout(() => {
+      this.#isOpening = false;
     });
 
-    if (!this.host) {
-      this.host = this.createHostComponent();
+    if (!this.#host) {
+      this.#host = this.#createHostComponent();
 
-      this.router.events
-        .pipe(takeWhile(() => this.host !== undefined))
+      this.#router.events
+        .pipe(takeWhile(() => this.#host !== undefined))
         .subscribe((event) => {
           if (event instanceof NavigationStart) {
             this.close();
 
             // Sanity check - if the host still exists after animations should have completed - remove host
-            this._ngZone.onStable.pipe(take(1)).subscribe(() => {
-              if (this.host) {
-                this.removeHostComponent();
+            this.#ngZone.onStable.pipe(take(1)).subscribe(() => {
+              if (this.#host) {
+                this.#removeHostComponent();
               }
             });
           }
         });
     }
 
-    const flyout = this.host.instance.attach(component, config);
+    const flyout = this.#host.instance.attach(component, config);
 
-    this.addListeners(flyout);
+    this.#addListeners(flyout);
 
     return flyout;
   }
 
-  private createHostComponent(): ComponentRef<SkyFlyoutComponent> {
-    this.host =
-      this.dynamicComponentService.createComponent(SkyFlyoutComponent);
-    return this.host;
+  #createHostComponent(): ComponentRef<SkyFlyoutComponent> {
+    this.#host =
+      this.#dynamicComponentService.createComponent(SkyFlyoutComponent);
+    return this.#host;
   }
 
-  private removeHostComponent(): void {
-    if (this.host) {
-      this.dynamicComponentService.removeComponent(this.host);
-      this.host = undefined;
+  #removeHostComponent(): void {
+    if (this.#host) {
+      this.#dynamicComponentService.removeComponent(this.#host);
+      this.#host = undefined;
     }
   }
 
-  private addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
+  #addListeners<T>(flyout: SkyFlyoutInstance<T>): void {
     /* istanbul ignore else */
-    if (this.host) {
-      const flyoutInstance = this.host.instance;
+    if (this.#host) {
+      const flyoutInstance = this.#host.instance;
 
       let doClose = false;
 
@@ -145,24 +159,24 @@ export class SkyFlyoutService implements OnDestroy {
        * relative to the flyout's container.
        */
       fromEvent(document, 'mouseup')
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((event: MouseEvent) => {
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event: Event) => {
           doClose = false;
 
-          if (this.host.instance.isDragging) {
+          if (this.#host?.instance.isDragging) {
             return;
           }
 
-          if (flyoutInstance.flyoutRef.nativeElement.contains(event.target)) {
+          if (flyoutInstance.flyoutRef?.nativeElement.contains(event.target)) {
             return;
           }
 
           const isAbove =
-            event.target === document
+            event.target === document || !event.target
               ? false
-              : this.coreAdapter.isTargetAboveElement(
+              : this.#coreAdapter.isTargetAboveElement(
                   event.target,
-                  flyoutInstance.flyoutRef.nativeElement
+                  flyoutInstance.flyoutRef?.nativeElement
                 );
 
           /* istanbul ignore else */
@@ -178,35 +192,35 @@ export class SkyFlyoutService implements OnDestroy {
        * before determining if the flyout should be closed.
        */
       fromEvent(document, 'click')
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           if (doClose) {
             this.close();
           }
         });
 
-      this.removeAfterClosed = false;
+      this.#removeAfterClosed = false;
       flyoutInstance.messageStream
-        .pipe(takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((message: SkyFlyoutMessage) => {
           if (message.type === SkyFlyoutMessageType.Close) {
-            this.removeAfterClosed = true;
-            this.isOpening = false;
+            this.#removeAfterClosed = true;
+            this.#isOpening = false;
           }
         });
 
       flyout.closed.pipe(take(1)).subscribe(() => {
-        this.removeListners();
-        if (this.removeAfterClosed) {
-          this.removeHostComponent();
+        this.#removeListners();
+        if (this.#removeAfterClosed) {
+          this.#removeHostComponent();
         }
       });
     }
   }
 
-  private removeListners(): void {
-    this.ngUnsubscribe.next(true);
-    this.ngUnsubscribe.unsubscribe();
-    this.ngUnsubscribe = new Subject<boolean>();
+  #removeListners(): void {
+    this.#ngUnsubscribe.next(true);
+    this.#ngUnsubscribe.unsubscribe();
+    this.#ngUnsubscribe = new Subject<boolean>();
   }
 }

@@ -13,7 +13,11 @@ import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture'
   templateUrl: './flyout.component.fixture.html',
 })
 export class SkyFlyoutTestComponent {
-  constructor(private flyoutService: SkyFlyoutService) {}
+  #flyoutService: SkyFlyoutService;
+
+  constructor(flyoutService: SkyFlyoutService) {
+    this.#flyoutService = flyoutService;
+  }
 
   public openFlyout(options?: SkyFlyoutConfig): SkyFlyoutInstance<any> {
     if (!options) {
@@ -27,10 +31,10 @@ export class SkyFlyoutTestComponent {
       };
     }
 
-    return this.flyoutService.open(SkyFlyoutTestSampleComponent, options);
+    return this.#flyoutService.open(SkyFlyoutTestSampleComponent, options);
   }
 
   public openHostsFlyout(): SkyFlyoutInstance<any> {
-    return this.flyoutService.open(SkyFlyoutHostsTestComponent);
+    return this.#flyoutService.open(SkyFlyoutHostsTestComponent);
   }
 }

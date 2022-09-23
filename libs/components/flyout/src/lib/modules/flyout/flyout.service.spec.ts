@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { expect } from '@skyux-sdk/testing';
 import { SkyAppWindowRef, SkyDynamicComponentService } from '@skyux/core';
 
+import { Subject } from 'rxjs';
+
 import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 import { SkyFlyoutHostsTestComponent } from './fixtures/flyout-hosts.component.fixture';
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
@@ -36,7 +38,10 @@ describe('Flyout service', () => {
   ));
 
   it('should only create a single host component', () => {
-    const spy = spyOn(service as any, 'createHostComponent').and.callThrough();
+    const spy = spyOn(
+      SkyDynamicComponentService.prototype,
+      'createComponent'
+    ).and.callThrough();
     service.open(SkyFlyoutHostsTestComponent);
     service.open(SkyFlyoutHostsTestComponent);
     expect(spy.calls.count()).toEqual(1);
@@ -54,10 +59,7 @@ describe('Flyout service', () => {
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
-    const spy = spyOn(
-      service['host'].instance.messageStream,
-      'next'
-    ).and.callThrough();
+    const spy = spyOn(Subject.prototype, 'next').and.callThrough();
     service.close();
     applicationRef.tick();
     expect(spy).toHaveBeenCalledWith({
@@ -75,10 +77,7 @@ describe('Flyout service', () => {
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
-    const spy = spyOn(
-      service['host'].instance.messageStream,
-      'next'
-    ).and.callThrough();
+    const spy = spyOn(Subject.prototype, 'next').and.callThrough();
     service.close({ ignoreBeforeClose: true });
     applicationRef.tick();
     expect(spy).toHaveBeenCalledWith({
@@ -139,13 +138,13 @@ describe('Flyout service', () => {
   }));
 
   it('should remove the host when the user navigates through history if no closed event is fired in 500ms - sanity check', fakeAsync(() => {
-    service.open(SkyFlyoutHostsTestComponent);
+    const instance = service.open(SkyFlyoutHostsTestComponent);
     const dynamicService = TestBed.inject(SkyDynamicComponentService);
     const removeComponentSpy = spyOn(
       dynamicService,
       'removeComponent'
     ).and.callThrough();
-    spyOn(service['host'].instance.messageStream, 'next').and.stub();
+    spyOn(instance.closed, 'emit').and.stub();
 
     tick();
     applicationRef.tick();

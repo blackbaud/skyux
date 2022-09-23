@@ -9,21 +9,22 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 @Injectable()
 export class SkyFlyoutMediaQueryService {
   public get current(): SkyMediaBreakpoints {
-    return this._current;
+    return this.#_current;
   }
 
-  private currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-    this.current
-  );
+  #currentSubject: BehaviorSubject<SkyMediaBreakpoints>;
 
-  private _current = SkyMediaBreakpoints.xs;
+  #_current = SkyMediaBreakpoints.xs;
 
   constructor() {
-    this.currentSubject.next(this._current);
+    this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
+      this.current
+    );
+    this.#currentSubject.next(this.#_current);
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
-    return this.currentSubject.subscribe({
+    return this.#currentSubject.subscribe({
       next: (breakpoints: SkyMediaBreakpoints) => {
         listener(breakpoints);
       },
@@ -43,8 +44,8 @@ export class SkyFlyoutMediaQueryService {
       breakpoint = SkyMediaBreakpoints.lg;
     }
 
-    this._current = breakpoint;
-    this.currentSubject.next(this._current);
+    this.#_current = breakpoint;
+    this.#currentSubject.next(this.#_current);
   }
 
   public isWidthWithinBreakpiont(
@@ -75,6 +76,6 @@ export class SkyFlyoutMediaQueryService {
   }
 
   public destroy(): void {
-    this.currentSubject.complete();
+    this.#currentSubject.complete();
   }
 }

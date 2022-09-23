@@ -24,18 +24,22 @@ export class FlyoutComponent implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public flyout: SkyFlyoutInstance<any>;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  constructor(private flyoutService: SkyFlyoutService) {}
+  #flyoutService: SkyFlyoutService;
+
+  constructor(flyoutService: SkyFlyoutService) {
+    this.#flyoutService = flyoutService;
+  }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public openFlyout(record: any): void {
-    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+    this.flyout = this.#flyoutService.open(FlyoutDemoComponent, {
       providers: [
         {
           provide: FlyoutDemoContext,
@@ -53,7 +57,7 @@ export class FlyoutComponent implements OnDestroy {
     previousButtonDisabled: boolean,
     nextButtonDisabled: boolean
   ): void {
-    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+    this.flyout = this.#flyoutService.open(FlyoutDemoComponent, {
       providers: [
         {
           provide: FlyoutDemoContext,
@@ -67,13 +71,13 @@ export class FlyoutComponent implements OnDestroy {
     });
 
     this.flyout.iteratorPreviousButtonClick
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         console.log('previous clicked');
       });
 
     this.flyout.iteratorNextButtonClick
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         console.log('next clicked');
       });
@@ -81,7 +85,7 @@ export class FlyoutComponent implements OnDestroy {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public openFlyoutWithFullscreenAvailable(record: any): void {
-    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+    this.flyout = this.#flyoutService.open(FlyoutDemoComponent, {
       providers: [
         {
           provide: FlyoutDemoContext,
@@ -95,7 +99,7 @@ export class FlyoutComponent implements OnDestroy {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public openFlyoutWithPermalink(record: any): void {
-    this.flyout = this.flyoutService.open(FlyoutDemoComponent, {
+    this.flyout = this.#flyoutService.open(FlyoutDemoComponent, {
       providers: [
         {
           provide: FlyoutDemoContext,
@@ -112,7 +116,7 @@ export class FlyoutComponent implements OnDestroy {
   }
 
   public openResponsiveFlyout(width: number): void {
-    this.flyout = this.flyoutService.open(FlyoutResponsiveDemoComponent, {
+    this.flyout = this.#flyoutService.open(FlyoutResponsiveDemoComponent, {
       defaultWidth: width,
       maxWidth: 5000,
     });
