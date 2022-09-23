@@ -104,7 +104,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
   public gridApi?: GridApi;
   public gridInitialized = false;
   public gridOptions!: GridOptions;
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
   public isActive = false;
 
   public viewConfig: SkyDataViewConfig = {
@@ -171,9 +171,7 @@ export class DataManagerDataEntryGridDocsDemoViewGridComponent
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-  ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.displayedItems = this._items;
