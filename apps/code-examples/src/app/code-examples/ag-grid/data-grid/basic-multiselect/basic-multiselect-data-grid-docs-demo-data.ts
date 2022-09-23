@@ -97,6 +97,7 @@ export interface SkyAgGridDemoRow {
 
 export const SKY_AG_GRID_DEMO_DATA = [
   {
+    selected: false,
     name: 'Billy Bob',
     age: 55,
     startDate: new Date('12/1/1994'),
@@ -104,6 +105,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     jobTitle: SKY_JOB_TITLES['Customer Support'][1],
   },
   {
+    selected: false,
     name: 'Jane Deere',
     age: 33,
     startDate: new Date('7/15/2009'),
@@ -111,6 +113,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     jobTitle: SKY_JOB_TITLES['Engineering'][2],
   },
   {
+    selected: false,
     name: 'John Doe',
     age: 38,
     startDate: new Date('9/1/2017'),
@@ -118,6 +121,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     department: SKY_DEPARTMENTS[1],
   },
   {
+    selected: false,
     name: 'David Smith',
     age: 51,
     startDate: new Date('1/1/2012'),
@@ -126,6 +130,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     jobTitle: SKY_JOB_TITLES['Engineering'][4],
   },
   {
+    selected: true,
     name: 'Emily Johnson',
     age: 41,
     startDate: new Date('1/15/2014'),
@@ -133,6 +138,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     jobTitle: SKY_JOB_TITLES['Marketing'][2],
   },
   {
+    selected: false,
     name: 'Nicole Davidson',
     age: 22,
     startDate: new Date('11/1/2019'),
@@ -140,6 +146,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     jobTitle: SKY_JOB_TITLES['Engineering'][0],
   },
   {
+    selected: false,
     name: 'Carl Roberts',
     age: 23,
     startDate: new Date('11/1/2019'),

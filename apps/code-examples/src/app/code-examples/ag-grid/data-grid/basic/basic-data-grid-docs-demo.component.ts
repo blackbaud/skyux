@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
@@ -22,10 +18,6 @@ import { SKY_AG_GRID_DEMO_DATA } from './basic-data-grid-docs-demo-data';
 })
 export class SkyBasicDataGridDemoComponent {
   public columnDefs: ColDef[] = [
-    {
-      field: 'selected',
-      type: SkyCellType.RowSelector,
-    },
     {
       field: 'name',
       headerName: 'Name',
@@ -64,43 +56,21 @@ export class SkyBasicDataGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
-  public noRowsTemplate: string;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef
-  ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  constructor(private agGridService: SkyAgGridService) {
+    this.gridOptions = {
+      columnDefs: this.columnDefs,
+      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      rowSelection: 'single',
+    };
     this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: {
-        columnDefs: this.columnDefs,
-        onGridReady: this.onGridReady.bind(this),
-      },
+      gridOptions: this.gridOptions,
     });
-    this.changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
-  }
-
-  public searchApplied(searchText: string | void): void {
-    if (searchText) {
-      this.searchText = searchText;
-    } else {
-      this.searchText = '';
-    }
-    if (this.gridApi) {
-      this.gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.gridApi.getDisplayedRowCount();
-      if (displayedRowCount > 0) {
-        this.gridApi.hideOverlay();
-      } else {
-        this.gridApi.showNoRowsOverlay();
-      }
-    }
   }
 
   private endDateFormatter(params: ValueFormatterParams): string {
