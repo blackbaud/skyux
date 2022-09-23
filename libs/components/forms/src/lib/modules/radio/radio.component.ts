@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   Output,
@@ -178,8 +177,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * component.
    * @required
    */
+  // TODO: Look into more strongly typing in a breaking change
   @Input()
-  public set value(value: unknown) {
+  public set value(value: any) {
     /* istanbul ignore else */
     if (this.#_value !== value) {
       if (this.selectedValue && this.selectedValue === this.#_value) {
@@ -194,7 +194,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.#changeDetector.markForCheck();
   }
 
-  public get value(): unknown {
+  public get value(): any {
     return this.#_value;
   }
 
@@ -230,14 +230,16 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * Fires when users select a radio button.
    */
   @Output()
+  // TODO: convert to EventEmitter in a breaking change
   // eslint-disable-next-line @angular-eslint/no-output-native
   public get change(): Observable<SkyRadioChange> {
-    return this.#_change;
+    return this.#changeObs;
   }
 
   /**
    * Fires when the selected value changes.
    */
+  // TODO: convert to EventEmitter in a breaking change
   @Output()
   public get checkedChange(): Observable<boolean> {
     return this.#checkedChangeObs;
@@ -247,6 +249,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * Fires when the selected value changes.
    */
   @Output()
+  // TODO: convert to EventEmitter in a breaking change
   public get disabledChange(): Observable<boolean> {
     return this.#disabledChangeObs;
   }
@@ -264,25 +267,28 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   public radioGroupDisabled = false;
 
+  #change: Subject<SkyRadioChange>;
+  #changeObs: Observable<SkyRadioChange>;
   #checkedChange: BehaviorSubject<boolean>;
   #checkedChangeObs: Observable<boolean>;
   #defaultId = `sky-radio-${++nextUniqueId}`;
   #disabledChange: BehaviorSubject<boolean>;
   #disabledChangeObs: Observable<boolean>;
 
-  #_change = new EventEmitter<SkyRadioChange>();
   #_checked = false;
   #_disabled = false;
   #_name: string | undefined;
   #_radioType = 'info';
   #_selectedValue: unknown;
   #_tabindex = 0;
-  #_value: unknown;
+  #_value: any;
 
   #changeDetector: ChangeDetectorRef;
 
   constructor(changeDetector: ChangeDetectorRef) {
     this.#changeDetector = changeDetector;
+    this.#change = new Subject<SkyRadioChange>();
+    this.#changeObs = this.#change.asObservable();
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
     this.#checkedChangeObs = this.#checkedChange.asObservable();
     this.#disabledChange = new BehaviorSubject<boolean>(this.disabled);
@@ -293,6 +299,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
   public ngOnDestroy(): void {
     this.#removeUniqueSelectionListener();
+    this.#change.complete();
+    this.#checkedChange.complete();
+    this.#disabledChange.complete();
   }
 
   public writeValue(value: unknown): void {
@@ -332,9 +341,9 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
 
     if (!this.disabled) {
       this.checked = true;
-      this.#_change.emit({
+      this.#change.next({
         source: this,
-        value: this.#_value,
+        value: this.value,
       });
 
       this.onInputFocusChange(undefined);

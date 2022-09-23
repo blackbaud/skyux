@@ -147,13 +147,13 @@ describe('Radio group component (reactive)', function () {
 
     expect(radios.item(1).checked).toBe(true);
     expect(value.name).toEqual('Harima Kenji');
-    expect(componentInstance.radioGroupComponent?.value).toEqual(value);
+    expect(componentInstance.radioControl?.value).toEqual(value);
   }));
 
   it('should update the radio buttons properly when the form is changed', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioGroupComponent?.value.name).toEqual(
+    expect(componentInstance.radioControl?.value.name).toEqual(
       'Lillith Corharvest'
     );
 
@@ -163,9 +163,7 @@ describe('Radio group component (reactive)', function () {
     fixture.detectChanges();
     tick();
 
-    expect(componentInstance.radioGroupComponent?.value.name).toEqual(
-      'Harima Kenji'
-    );
+    expect(componentInstance.radioControl?.value.name).toEqual('Harima Kenji');
   }));
 
   it('should not show a required state when not required', fakeAsync(() => {
@@ -231,7 +229,7 @@ describe('Radio group component (reactive)', function () {
   it('should update selected value when options change', fakeAsync(function () {
     fixture.detectChanges();
     clickCheckbox(fixture, 0);
-    expect(componentInstance.radioGroupComponent?.value.name).toEqual(
+    expect(componentInstance.radioControl?.value.name).toEqual(
       'Lillith Corharvest'
     );
 
@@ -239,9 +237,7 @@ describe('Radio group component (reactive)', function () {
 
     fixture.detectChanges();
     clickCheckbox(fixture, 1);
-    expect(componentInstance.radioGroupComponent?.value.name).toEqual(
-      'Hank Salizar'
-    );
+    expect(componentInstance.radioControl?.value.name).toEqual('Hank Salizar');
   }));
 
   it('should set the radio name properties correctly', fakeAsync(() => {
@@ -368,20 +364,20 @@ describe('Radio group component (reactive)', function () {
 
     const radios = getRadios(booleanFixture);
 
-    expect(booleanComponent.radioGroupComponent?.value).toEqual(false);
+    expect(booleanComponent.radioForm.get('booleanValue')?.value).toEqual(
+      false
+    );
     expect(radios.item(0).checked).toEqual(true);
     expect(radios.item(1).checked).toEqual(false);
 
     clickCheckbox(booleanFixture, 1);
 
-    expect(booleanComponent.radioGroupComponent?.value).toEqual(true);
     expect(booleanComponent.radioForm.get('booleanValue')?.value).toEqual(true);
     expect(radios.item(0).checked).toEqual(false);
     expect(radios.item(1).checked).toEqual(true);
 
     clickCheckbox(booleanFixture, 0);
 
-    expect(booleanComponent.radioGroupComponent?.value).toEqual(false);
     expect(booleanComponent.radioForm.get('booleanValue')?.value).toEqual(
       false
     );

@@ -104,12 +104,17 @@ export class SkyRadioGroupComponent
    * The value corresponds to the `value` property of an individual `sky-radio` element within the
    * group.
    */
+  // TODO: Look into more strongly typing in a breaking change
   @Input()
   public set value(value: any) {
-    this.#updateValue(value, true);
-  }
-  public get value(): any {
-    return this.#_value;
+    const isNewValue = value !== this.#controlValue;
+
+    /* istanbul ignore else */
+    if (isNewValue) {
+      this.#controlValue = value;
+      this.#onChange(value);
+      this.#updateCheckedRadioFromValue();
+    }
   }
 
   /**
@@ -133,6 +138,8 @@ export class SkyRadioGroupComponent
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
 
+  #controlValue: any;
+
   #defaultName = `sky-radio-group-${nextUniqueId++}`;
 
   #ngUnsubscribe = new Subject<void>();
@@ -142,8 +149,6 @@ export class SkyRadioGroupComponent
   #_name = '';
 
   #_tabIndex: number | undefined;
-
-  #_value: any;
 
   #changeDetector: ChangeDetectorRef;
   #ngControl: NgControl | undefined;
@@ -217,8 +222,14 @@ export class SkyRadioGroupComponent
     this.#ngUnsubscribe.complete();
   }
 
-  public writeValue(value: any): void {
-    this.#updateValue(value, false);
+  public writeValue(value: unknown): void {
+    const isNewValue = value !== this.#controlValue;
+
+    /* istanbul ignore else */
+    if (isNewValue) {
+      this.#controlValue = value;
+      this.#updateCheckedRadioFromValue();
+    }
   }
 
   /**
@@ -272,7 +283,7 @@ export class SkyRadioGroupComponent
     }
 
     this.radios.forEach((radio) => {
-      radio.checked = this.value === radio.value;
+      radio.checked = this.#controlValue === radio.value;
     });
   }
 
@@ -281,18 +292,5 @@ export class SkyRadioGroupComponent
     this.#updateRadioButtonNames();
     this.#updateRadioButtonTabIndexes();
     this.#updateRadioButtonDisabled();
-  }
-
-  #updateValue(value: any, markDirty: boolean): void {
-    const isNewValue = value !== this.#_value;
-
-    /* istanbul ignore else */
-    if (isNewValue) {
-      this.#_value = value;
-      if (markDirty) {
-        this.#onChange(this.#_value);
-      }
-      this.#updateCheckedRadioFromValue();
-    }
   }
 }
