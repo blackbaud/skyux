@@ -260,7 +260,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     const injector = Injector.create({
       parent: this.#injector,
-      providers: this.config.providers ?? [],
+      providers: this.config.providers!,
     });
 
     const componentRef = this.target?.createComponent(
@@ -320,6 +320,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
       return false;
     }
+    /* istanbul ignore next */
     return true;
   }
 

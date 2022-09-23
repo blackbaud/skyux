@@ -75,7 +75,7 @@ export class FlyoutDemoComponent {
   ]);
 
   @ViewChild(SkyListViewGridComponent)
-  public listViewGridComponent: SkyListViewGridComponent;
+  public listViewGridComponent: SkyListViewGridComponent | undefined;
 
   #listState: ListItemModel[];
 
@@ -137,7 +137,7 @@ export class FlyoutDemoComponent {
       this.rowHighlightedId = undefined;
     });
 
-    this.listViewGridComponent.items
+    this.listViewGridComponent?.items
       .pipe(takeUntil(this.#openFlyoutStream))
       .subscribe((s: any) => {
         this.#listState = s;
