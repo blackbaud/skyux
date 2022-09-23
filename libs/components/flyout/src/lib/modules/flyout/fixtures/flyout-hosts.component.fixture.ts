@@ -5,6 +5,7 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
 import { SkyFlyoutService } from '../flyout.service';
 
 import { SkyFlyoutModalFixtureContext } from './flyout-modal-context';
+import { SKY_FLYOUT_MODAL_CONTEXT } from './flyout-modal-context-token';
 import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.component';
 
 @Component({
@@ -21,11 +22,10 @@ export class SkyFlyoutHostsTestComponent {
   }
 
   public openModal(): void {
-    const context = new SkyFlyoutModalFixtureContext();
-    context.valueA = 'Hello';
+    const context: SkyFlyoutModalFixtureContext = { valueA: 'Hello' };
 
     const options: any = {
-      providers: [{ provide: SkyFlyoutModalFixtureContext, useValue: context }],
+      providers: [{ provide: SKY_FLYOUT_MODAL_CONTEXT, useValue: context }],
       ariaDescribedBy: 'docs-modal-content',
     };
 

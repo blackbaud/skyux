@@ -26,6 +26,7 @@ import {
 } from 'rxjs';
 
 import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
+import { SKY_FLYOUT_SAMPLE_CONTEXT } from './fixtures/flyout-sample-context-token';
 import { SkyFlyoutTestSampleContext } from './fixtures/flyout-sample-context.fixture';
 import { SkyFlyoutTestComponent } from './fixtures/flyout.component.fixture';
 import { SkyFlyoutInstance } from './flyout-instance';
@@ -53,7 +54,7 @@ describe('Flyout component', () => {
       {
         providers: [
           {
-            provide: SkyFlyoutTestSampleContext,
+            provide: SKY_FLYOUT_SAMPLE_CONTEXT,
             useValue: context ? context : { name: 'Sam' },
           },
         ],
@@ -108,7 +109,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
     document.dispatchEvent(evt);
   }
@@ -131,7 +132,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
 
     handleElement.dispatchEvent(evt);
@@ -155,7 +156,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
 
     handleElement.dispatchEvent(evt);
@@ -399,11 +400,11 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
 
-    const deleteMeButton: HTMLButtonElement =
+    const deleteMeButton: HTMLButtonElement | null =
       getModalElement().querySelector('.delete-me-button');
     // Remove the button before triggering the click event.
     // Angular fires the click event before removing the element in unit tests.
-    deleteMeButton.parentElement.removeChild(deleteMeButton);
+    deleteMeButton?.parentElement?.removeChild(deleteMeButton);
 
     // Pass in the removed element as the target.
     const event = document.createEvent('CustomEvent');
@@ -498,7 +499,7 @@ describe('Flyout component', () => {
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
-    let handlerFunction: Function;
+    let handlerFunction: Function | undefined;
 
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
@@ -526,7 +527,9 @@ describe('Flyout component', () => {
 
     expect(flyout.isOpen).toBe(true);
 
-    handlerFunction();
+    if (handlerFunction) {
+      handlerFunction();
+    }
     tick();
     fixture.detectChanges();
     tick();
@@ -572,7 +575,7 @@ describe('Flyout component', () => {
     openFlyout({
       providers: [
         {
-          provide: SkyFlyoutTestSampleContext,
+          provide: SKY_FLYOUT_SAMPLE_CONTEXT,
           useValue: {
             name: 'Sally',
           },
@@ -1032,7 +1035,7 @@ describe('Flyout component', () => {
     tick();
 
     let numFlyoutClicks = 0;
-    flyout.addEventListener('click', () => {
+    flyout?.addEventListener('click', () => {
       numFlyoutClicks++;
     });
 

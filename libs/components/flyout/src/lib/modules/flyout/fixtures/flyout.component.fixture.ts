@@ -5,7 +5,7 @@ import { SkyFlyoutConfig } from '../../flyout/types/flyout-config';
 import { SkyFlyoutInstance } from '../flyout-instance';
 
 import { SkyFlyoutHostsTestComponent } from './flyout-hosts.component.fixture';
-import { SkyFlyoutTestSampleContext } from './flyout-sample-context.fixture';
+import { SKY_FLYOUT_SAMPLE_CONTEXT } from './flyout-sample-context-token';
 import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture';
 
 @Component({
@@ -24,7 +24,7 @@ export class SkyFlyoutTestComponent {
       options = {
         providers: [
           {
-            provide: SkyFlyoutTestSampleContext,
+            provide: SKY_FLYOUT_SAMPLE_CONTEXT,
             useValue: { name: 'Sam', showIframe: false },
           },
         ],
