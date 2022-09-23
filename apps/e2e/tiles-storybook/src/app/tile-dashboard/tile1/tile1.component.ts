@@ -7,6 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class Tile1Component {
   public tileSettingsClick() {
-    alert('Tile settings clicked!');
+    console.log('Tile settings clicked!');
   }
 }
