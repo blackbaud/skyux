@@ -92,16 +92,14 @@ export class DataViewGridDemoComponent implements OnInit {
   public gridApi?: GridApi;
   public gridInitialized = false;
   public gridOptions!: GridOptions;
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
   public isActive = false;
 
   constructor(
     private agGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-  ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
