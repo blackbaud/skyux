@@ -18,6 +18,7 @@ describe(`ag-grid-storybook data manager`, () => {
           });
 
           it(`should render ag-grid with data manager, ${label} layout`, () => {
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.get('#ready')
               .should('exist')
               .end()
@@ -31,6 +32,7 @@ describe(`ag-grid-storybook data manager`, () => {
               .should('have.descendants', '.sky-switch-control')
               .end()
               .get('#root')
+              .wait(2000)
               .screenshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
