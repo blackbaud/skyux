@@ -203,7 +203,7 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
 
   #checkedChangeObs: Observable<boolean>;
 
-  #defaultId: string;
+  #defaultId = `sky-checkbox-${++nextId}`;
 
   #disabledChange: BehaviorSubject<boolean>;
 
@@ -235,7 +235,6 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
     this.#checkedChangeObs = this.#checkedChange.asObservable();
     this.#disabledChangeObs = this.#disabledChange.asObservable();
 
-    this.#defaultId = `sky-checkbox-${++nextId}`;
     this.id = this.#defaultId;
     this.name = this.#defaultId;
   }

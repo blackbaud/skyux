@@ -163,6 +163,28 @@ describe('Radio component', function () {
       expect(componentInstance.selectedValue).toBe('1');
     }));
 
+    it('should set the input id appropriately', fakeAsync(function () {
+      fixture.detectChanges();
+
+      const radios = fixture.nativeElement.querySelectorAll('input');
+      expect(radios.item(0).id).toBe(`sky-radio-test-id-0-input`);
+      expect(radios.item(1).id).toBe(`sky-radio-test-id-1-input`);
+      expect(radios.item(2).id).toBe(`sky-radio-test-id-2-input`);
+
+      componentInstance.provideIds = false;
+      fixture.detectChanges();
+
+      expect(radios.item(0).id).toEqual(
+        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
+      );
+      expect(radios.item(1).id).toEqual(
+        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
+      );
+      expect(radios.item(2).id).toEqual(
+        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
+      );
+    }));
+
     it('should pass a label when specified', fakeAsync(function () {
       componentInstance.label1 = 'My label';
       fixture.detectChanges();

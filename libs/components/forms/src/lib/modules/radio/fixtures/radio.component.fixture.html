@@ -3,9 +3,9 @@
 
   <div role="radiogroup" aria-labelledby="radio-group-label">
     <sky-radio
-      id="hey"
       name="testName"
       [disabled]="disabled1"
+      [id]="provideIds ? 'test-id-0' : undefined"
       [label]="label1"
       [value]="value1"
       [(ngModel)]="selectedValue"
@@ -14,8 +14,8 @@
     </sky-radio>
 
     <sky-radio
-      id="hey-2"
       name="testName"
+      [id]="provideIds ? 'test-id-1' : undefined"
       [tabindex]="tabindex2"
       [value]="value2"
       [(ngModel)]="selectedValue"
@@ -24,8 +24,8 @@
     </sky-radio>
 
     <sky-radio
-      id="hey-3"
       name="testName"
+      [id]="provideIds ? 'test-id-2' : undefined"
       [labelledBy]="labelledBy3"
       [value]="value3"
       [(ngModel)]="selectedValue"
