@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
 })
 export class SkySingleRadioComponent {
   public icon = 'bold';
-  public radioType: string;
+  public radioType: string | undefined;
 }

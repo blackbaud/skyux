@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  templateUrl: './radio.component.fixture.html',
+  templateUrl: './radio-on-push.component.fixture.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyRadioOnPushTestComponent {
@@ -16,10 +16,10 @@ export class SkyRadioOnPushTestComponent {
   public value2 = '2';
   public value3 = '3';
 
-  public label1: string;
-  public labelledBy3: string;
+  public label1: string | undefined;
+  public labelledBy3: string | undefined;
 
-  public tabindex2: string;
+  public tabindex2: number | undefined;
 
   constructor(public ref: ChangeDetectorRef) {}
 }
