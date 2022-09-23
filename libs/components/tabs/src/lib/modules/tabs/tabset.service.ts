@@ -100,7 +100,7 @@ export class SkyTabsetService {
     }
   }
 
-  public focusFirstTabBtn(tabButtons: TabButtonViewModel[]): void {
+  public focusFirstOrNearestTabBtn(tabButtons: TabButtonViewModel[]): void {
     for (let i = 0; i < tabButtons.length; i++) {
       const tabBtn = tabButtons[i];
 
@@ -111,7 +111,7 @@ export class SkyTabsetService {
     }
   }
 
-  public focusLastTabBtn(tabButtons: TabButtonViewModel[]): void {
+  public focusLastOrNearestTabBtn(tabButtons: TabButtonViewModel[]): void {
     for (let i = tabButtons.length - 1; i >= 0; i--) {
       const tabBtn = tabButtons[i];
 

@@ -280,11 +280,11 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   public onHomeKeyDown(): void {
-    this.tabsetService.focusFirstTabBtn(this.tabButtons);
+    this.tabsetService.focusFirstOrNearestTabBtn(this.tabButtons);
   }
 
   public onEndKeyDown(): void {
-    this.tabsetService.focusLastTabBtn(this.tabButtons);
+    this.tabsetService.focusLastOrNearestTabBtn(this.tabButtons);
   }
 
   /**
