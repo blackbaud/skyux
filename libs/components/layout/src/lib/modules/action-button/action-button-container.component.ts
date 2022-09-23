@@ -43,34 +43,36 @@ export class SkyActionButtonContainerComponent
    * @default "center"
    */
   @Input()
-  public set alignItems(value: SkyActionButtonContainerAlignItemsType) {
-    this.#_alignItems = value;
+  public set alignItems(
+    value: SkyActionButtonContainerAlignItemsType | undefined
+  ) {
+    this.#_alignItems = value ?? 'center';
   }
 
   public get alignItems(): SkyActionButtonContainerAlignItemsType {
-    return this.#_alignItems || 'center';
+    return this.#_alignItems;
   }
 
   @ContentChildren(SkyActionButtonComponent)
-  private actionButtons: QueryList<SkyActionButtonComponent> | undefined;
+  public actionButtons: QueryList<SkyActionButtonComponent> | undefined;
 
   @ViewChild('container', {
     read: ElementRef,
     static: true,
   })
-  private containerRef: ElementRef | undefined;
+  public containerRef: ElementRef | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
   #syncMaxHeightTimeout?: number;
 
-  private set themeName(value: string) {
+  set #themeName(value: string) {
     this.#_themeName = value;
-    this.updateResponsiveClass();
-    this.updateHeight();
+    this.#updateResponsiveClass();
+    this.#updateHeight();
   }
 
-  #_alignItems: SkyActionButtonContainerAlignItemsType | undefined;
+  #_alignItems: SkyActionButtonContainerAlignItemsType = 'center';
 
   #_themeName: string | undefined;
 
@@ -102,14 +104,14 @@ export class SkyActionButtonContainerComponent
       this.#themeSvc.settingsChange
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((themeSettings) => {
-          this.themeName = themeSettings.currentSettings.theme.name;
+          this.#themeName = themeSettings.currentSettings.theme.name;
           this.#changeDetector.markForCheck();
         });
     }
 
     // Wait for children components to complete rendering before container width is determined.
     setTimeout(() => {
-      this.updateResponsiveClass();
+      this.#updateResponsiveClass();
     });
   }
 
@@ -120,11 +122,11 @@ export class SkyActionButtonContainerComponent
       this.actionButtons.changes
         .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
-          this.updateHeight();
+          this.#updateHeight();
         });
     }
     this.#viewInitialized = true;
-    this.updateHeight();
+    this.#updateHeight();
   }
 
   public ngOnDestroy(): void {
@@ -132,16 +134,16 @@ export class SkyActionButtonContainerComponent
     this.#ngUnsubscribe.complete();
   }
 
-  public onContentChange() {
-    this.updateHeight();
+  public onContentChange(): void {
+    this.#updateHeight();
   }
 
   @HostListener('window:resize')
   public onWindowResize(): void {
-    this.updateResponsiveClass();
+    this.#updateResponsiveClass();
   }
 
-  private updateHeight(delay = 0): void {
+  #updateHeight(delay = 0): void {
     const ref = this.containerRef;
     if (ref && this.#viewInitialized) {
       this.#coreAdapterService.resetHeight(ref, '.sky-action-button');
@@ -155,14 +157,14 @@ export class SkyActionButtonContainerComponent
             this.#coreAdapterService.syncMaxHeight(ref, selector);
           } else if (delay < 200) {
             // Wait progressively longer between retries.
-            this.updateHeight(delay + 50);
+            this.#updateHeight(delay + 50);
           }
         }, delay) as unknown as number;
       }
     }
   }
 
-  private updateResponsiveClass(): void {
+  #updateResponsiveClass(): void {
     if (this.containerRef) {
       const parentWidth = this.#actionButtonAdapterService.getParentWidth(
         this.#hostElRef

@@ -30,8 +30,8 @@ export class SkyActionButtonIconComponent implements OnDestroy {
 
   #subscription: Subscription;
 
-  constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.#subscription = this.mediaQueryService.subscribe(
+  constructor(mediaQueryService: SkyMediaQueryService) {
+    this.#subscription = mediaQueryService.subscribe(
       (args: SkyMediaBreakpoints) => {
         if (args === SkyMediaBreakpoints.xs) {
           this.fontSizeClass = FONTSIZECLASS_SMALL;
