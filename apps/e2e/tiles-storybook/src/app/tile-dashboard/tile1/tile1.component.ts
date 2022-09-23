@@ -5,4 +5,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './tile1.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Tile1Component {}
+export class Tile1Component {
+  public tileSettingsClick() {
+    alert('Tile settings clicked!');
+  }
+}
