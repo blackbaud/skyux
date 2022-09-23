@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -28,74 +27,103 @@ import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
+export class SkySelectionBoxComponent implements OnDestroy {
   /**
    * Specifies the radio button or checkbox to display in the selection box.
    * @required
    */
   @Input()
-  public control: SkyCheckboxComponent | SkyRadioComponent;
+  public set control(
+    value: SkyCheckboxComponent | SkyRadioComponent | undefined
+  ) {
+    this.#_control = value;
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+    this.#ngUnsubscribe = new Subject<void>();
+    if (value) {
+      this.#updateCheckedOnControlChange();
+      this.#updateDisabledState();
+    }
+  }
+
+  public get control(): SkyCheckboxComponent | SkyRadioComponent | undefined {
+    return this.#_control;
+  }
 
   public set checked(value: boolean) {
-    this._checked = value;
-    this.changeDetector.markForCheck();
+    this.#_checked = value;
+    this.#changeDetector.markForCheck();
   }
 
   public get checked(): boolean {
-    return this._checked;
+    return this.#_checked;
   }
 
   public set disabled(value: boolean) {
-    this.selectionBoxAdapterService.setTabIndex(
-      this.selectionBoxEl,
-      value ? -1 : 0
-    );
-    this._disabled = value;
-    this.changeDetector.markForCheck();
+    if (this.selectionBoxEl) {
+      this.#selectionBoxAdapterService.setTabIndex(
+        this.selectionBoxEl,
+        value ? -1 : 0
+      );
+    }
+    this.#_disabled = value;
+    this.#changeDetector.markForCheck();
   }
 
   public get disabled(): boolean {
-    return this._disabled || false;
+    return this.#_disabled;
   }
 
   @ViewChild('control', {
     read: ElementRef,
     static: false,
   })
-  private controlEl: ElementRef;
+  public controlEl: ElementRef | undefined;
 
   @ViewChild('selectionBox', {
     read: ElementRef,
     static: false,
   })
-  private selectionBoxEl: ElementRef;
+  public set selectionBoxEl(value: ElementRef | undefined) {
+    this.#_selectionBoxEl = value;
+    if (value) {
+      this.#selectionBoxAdapterService.setTabIndex(
+        value,
+        this.disabled ? -1 : 0
+      );
 
-  private ngUnsubscribe = new Subject<void>();
+      this.#selectionBoxAdapterService.setChildrenTabIndex(value, -1);
+    }
+  }
 
-  private _checked: boolean;
+  public get selectionBoxEl(): ElementRef | undefined {
+    return this.#_selectionBoxEl;
+  }
 
-  private _disabled: boolean;
+  #ngUnsubscribe = new Subject<void>();
+
+  #_checked = false;
+
+  #_control: SkyCheckboxComponent | SkyRadioComponent | undefined;
+
+  #_disabled = false;
+
+  #_selectionBoxEl: ElementRef | undefined;
+
+  #changeDetector: ChangeDetectorRef;
+  #selectionBoxAdapterService: SkySelectionBoxAdapterService;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private selectionBoxAdapterService: SkySelectionBoxAdapterService
-  ) {}
-
-  public ngAfterViewInit(): void {
-    // Wait for consumer form controls to initialize before setting selected/disabled states.
-    setTimeout(() => {
-      this.selectionBoxAdapterService.setChildrenTabIndex(
-        this.selectionBoxEl,
-        -1
-      );
-      this.updateCheckedOnControlChange();
-      this.updateDisabledState();
-    });
+    changeDetector: ChangeDetectorRef,
+    selectionBoxAdapterService: SkySelectionBoxAdapterService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#selectionBoxAdapterService = selectionBoxAdapterService;
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -103,41 +131,54 @@ export class SkySelectionBoxComponent implements AfterViewInit, OnDestroy {
    * make sure user is not clicking on the control before firing click logic.
    */
   public onClick(event: any): void {
-    const isControlClick = this.selectionBoxAdapterService.isDescendant(
-      this.controlEl,
-      event.target
-    );
+    const isControlClick =
+      this.controlEl &&
+      this.#selectionBoxAdapterService.isDescendant(
+        this.controlEl,
+        event.target
+      );
     if (!isControlClick) {
-      this.selectControl();
+      this.#selectControl();
     }
   }
 
   public onKeydown(event: KeyboardEvent): void {
     /* istanbul ignore else */
     if (event.key === ' ') {
-      this.selectControl();
+      this.#selectControl();
       event.preventDefault();
     }
   }
 
-  private selectControl(): void {
-    this.selectionBoxAdapterService.getControl(this.controlEl).click();
-    this.selectionBoxAdapterService.focus(this.selectionBoxEl);
+  #selectControl(): void {
+    if (this.controlEl) {
+      this.#selectionBoxAdapterService.getControl(this.controlEl).click();
+    }
+
+    if (this.selectionBoxEl) {
+      this.#selectionBoxAdapterService.focus(this.selectionBoxEl);
+    }
   }
 
-  private updateCheckedOnControlChange(): void {
-    this.control.checkedChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value) => {
-        this.checked = value;
-      });
+  #updateCheckedOnControlChange(): void {
+    /* istanbul ignore else */
+    if (this.control) {
+      this.control.checkedChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          this.checked = value;
+        });
+    }
   }
 
-  private updateDisabledState(): void {
-    this.control.disabledChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((value) => {
-        this.disabled = value;
-      });
+  #updateDisabledState(): void {
+    /* istanbul ignore else */
+    if (this.control) {
+      this.control.disabledChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((value) => {
+          this.disabled = value;
+        });
+    }
   }
 }

@@ -14,5 +14,5 @@ export class TemplateDrivenFileAttachmentTestComponent {
   public disabled = false;
 
   @ViewChild(SkyFileAttachmentComponent)
-  public fileAttachmentComponent: SkyFileAttachmentComponent;
+  public fileAttachmentComponent!: SkyFileAttachmentComponent;
 }

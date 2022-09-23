@@ -10,7 +10,7 @@ export class SkyFileItemService {
   public isFile(fileItem: SkyFileItem): boolean {
     const file = fileItem.file;
 
-    return (
+    return !!(
       file &&
       file !== undefined &&
       file !== null &&

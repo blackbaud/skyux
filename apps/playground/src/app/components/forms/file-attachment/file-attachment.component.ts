@@ -26,9 +26,9 @@ export class FileAttachmentComponent {
   }
 
   public deleteFile(file: SkyFileItem | SkyFileLink): void {
-    this.removeFromArray(this.allItems, file);
-    this.removeFromArray(this.filesToUpload, file);
-    this.removeFromArray(this.linksToUpload, file);
+    this.#removeFromArray(this.allItems, file);
+    this.#removeFromArray(this.filesToUpload, file);
+    this.#removeFromArray(this.linksToUpload, file);
   }
 
   public filesUpdated(result: SkyFileDropChange): void {
@@ -48,7 +48,7 @@ export class FileAttachmentComponent {
     }
   }
 
-  private removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {
+  #removeFromArray(items: any[], obj: SkyFileItem | SkyFileLink): void {
     if (items) {
       const index = items.indexOf(obj);
 
