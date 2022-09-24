@@ -1,11 +1,8 @@
-import { DOCUMENT } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectorRef,
   ContentChildren,
   Directive,
-  ElementRef,
-  Inject,
   Input,
   OnDestroy,
   QueryList,
@@ -57,9 +54,7 @@ export class SkyAgGridDataManagerAdapterDirective
 
   constructor(
     private changeDetector: ChangeDetectorRef,
-    private dataManagerSvc: SkyDataManagerService,
-    private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document
+    private dataManagerSvc: SkyDataManagerService
   ) {}
 
   public ngAfterContentInit(): void {
@@ -172,8 +167,6 @@ export class SkyAgGridDataManagerAdapterDirective
         ]);
       }
 
-      this.#moveHorizontalScroll();
-
       agGrid.api.sizeColumnsToFit();
     });
 
@@ -254,10 +247,6 @@ export class SkyAgGridDataManagerAdapterDirective
         this.viewConfig.id
       );
     });
-
-    agGrid.rowDataChanged.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.#moveHorizontalScroll();
-    });
   }
 
   private updateColumnsInCurrentDataState(columnApi: ColumnApi) {
@@ -317,30 +306,5 @@ export class SkyAgGridDataManagerAdapterDirective
   private clearAll(): void {
     const agGrid = this.agGridList.first;
     agGrid.api.deselectAll();
-  }
-
-  #moveHorizontalScroll() {
-    const agGrid = this.agGridList.first;
-    const toTop = !!agGrid.gridOptions.context?.enableTopScroll;
-    const root: HTMLDivElement =
-      this.elementRef.nativeElement.querySelector('.ag-root');
-    const header: HTMLDivElement | null = root.querySelector('.ag-header');
-    const scrollbar: HTMLDivElement | null = root.querySelector(
-      '.ag-body-horizontal-scroll'
-    );
-    if (header && scrollbar) {
-      const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
-      if (toTop && !isTop) {
-        // AG Grid detects whether the scrollbar takes up space, but we want to leave space for it regardless.
-        scrollbar.classList.remove('ag-scrollbar-invisible');
-        const fragment = this.document.createDocumentFragment();
-        fragment.appendChild(scrollbar);
-        header.after(fragment);
-      } else if (!toTop && isTop) {
-        const fragment = this.document.createDocumentFragment();
-        fragment.appendChild(scrollbar);
-        root.appendChild(fragment);
-      }
-    }
   }
 }
