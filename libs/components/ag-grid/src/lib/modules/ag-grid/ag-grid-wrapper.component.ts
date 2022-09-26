@@ -167,10 +167,19 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
         '.ag-body-horizontal-scroll'
       );
       if (header && floatingBottom && scrollbar) {
+        if (
+          scrollbar.style.height !==
+          scrollbar.style.getPropertyValue(
+            '--sky-ag-body-horizontal-scroll-width'
+          )
+        ) {
+          scrollbar.style.setProperty(
+            '--sky-ag-body-horizontal-scroll-width',
+            scrollbar.style.height
+          );
+        }
         const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
         if (toTop && !isTop) {
-          // AG Grid detects whether the scrollbar takes up space, but we want to leave space for it regardless.
-          scrollbar.classList.remove('ag-scrollbar-invisible');
           const fragment = this.document.createDocumentFragment();
           fragment.appendChild(scrollbar);
           header.after(fragment);

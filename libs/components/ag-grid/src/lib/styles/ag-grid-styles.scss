@@ -27,12 +27,21 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 .sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {
   > .ag-body-viewport {
     .ag-center-cols-viewport {
+      /* Prevent a double scrollbar. */
       scrollbar-width: none;
 
       &::-webkit-scrollbar {
         display: none;
       }
     }
+  }
+  .ag-body-horizontal-scroll.ag-scrollbar-invisible {
+    /* Value is overridden in SkyAgGridWrapperComponent to match the calculated value AG Grid uses. */
+    --sky-ag-body-horizontal-scroll-width: 15px;
+    position: relative;
+    z-index: 1;
+    bottom: revert;
+    margin-bottom: calc(var(--sky-ag-body-horizontal-scroll-width) * -1);
   }
 }
 
