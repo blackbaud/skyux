@@ -6,8 +6,9 @@
   }"
 >
   <a
+    #tabButtonEl
     class="sky-btn-tab"
-    role="tab"
+    [attr.role]="elementRole"
     [attr.aria-controls]="ariaControls"
     [attr.aria-disabled]="disabled"
     [attr.aria-selected]="active"
@@ -19,9 +20,10 @@
       'sky-btn-tab-disabled': disabled,
       'sky-tab-btn-closeable': closeable
     }"
-    [tabindex]="disabled ? '-1' : '0'"
+    [tabindex]="active ? '0' : '-1'"
     (click)="onButtonClick($event)"
     (keydown)="onTabButtonKeyDown($event)"
+    (focus)="onFocus()"
   >
     <span class="sky-tab-heading">
       {{ buttonText }}
@@ -34,6 +36,7 @@
   <button
     *ngIf="closeable"
     class="sky-btn-tab-close"
+    [tabindex]="closeBtnTabIndex"
     type="button"
     [attr.aria-label]="'skyux_tab_close' | skyLibResources: buttonText"
     [disabled]="disabled"
