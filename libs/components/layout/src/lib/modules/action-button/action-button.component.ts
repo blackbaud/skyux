@@ -29,7 +29,7 @@ export class SkyActionButtonComponent {
    * Specifies a link for the action button.
    */
   @Input()
-  public permalink: SkyActionButtonPermalink;
+  public permalink: SkyActionButtonPermalink | undefined;
 
   /**
    * Fires when users select the action button.
@@ -37,7 +37,11 @@ export class SkyActionButtonComponent {
   @Output()
   public actionClick = new EventEmitter<any>();
 
-  constructor(@SkipSelf() private changeRef: ChangeDetectorRef) {}
+  #changeDetector: ChangeDetectorRef;
+
+  constructor(@SkipSelf() changeDetector: ChangeDetectorRef) {
+    this.#changeDetector = changeDetector;
+  }
 
   public buttonClicked() {
     this.actionClick.emit();
@@ -51,7 +55,7 @@ export class SkyActionButtonComponent {
     if (this.hidden === $event.userHasAccess) {
       setTimeout(() => {
         this.hidden = !$event.userHasAccess;
-        this.changeRef.markForCheck();
+        this.#changeDetector.markForCheck();
       });
     }
   }
