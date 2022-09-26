@@ -25,13 +25,6 @@ describe(`ag-grid-storybook data manager`, () => {
               .get('#root')
               .should('exist')
               .should('be.visible')
-              .end()
-              // Verify that the checkboxes are visible.
-              .get('[name="center"] .sky-ag-grid-cell-row-selector')
-              .should('have.length.gt', 14)
-              .should('have.descendants', '.sky-switch-control')
-              .end()
-              .get('#root')
               .wait(2000)
               .screenshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
