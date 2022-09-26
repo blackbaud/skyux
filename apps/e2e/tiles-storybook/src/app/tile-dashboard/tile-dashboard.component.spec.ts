@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TileDashboardComponent } from './tile-dashboard.component';
@@ -33,9 +38,8 @@ describe('TileDashboardComponent', () => {
 
   it('should create', fakeAsync(() => {
     expect(component).toBeTruthy();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.ready$.getValue()).toBeTruthy();
-    });
+    component.ngAfterViewInit();
+    tick();
+    expect(component.ready$.getValue()).toBeTruthy();
   }));
 });
