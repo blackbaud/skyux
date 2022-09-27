@@ -9,7 +9,11 @@ import { TileParametersType } from '../tile-parameters.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Tile2Component {
+  public tileParameters: TileParametersType;
+
   constructor(
-    @Inject(TileParameters) public tileParameters: TileParametersType
-  ) {}
+    @Inject(TileParameters) tileParameters: TileParametersType | any
+  ) {
+    this.tileParameters = tileParameters as TileParametersType;
+  }
 }
