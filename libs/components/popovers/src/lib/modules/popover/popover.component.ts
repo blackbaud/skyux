@@ -31,11 +31,11 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   @Input()
   public set alignment(value: SkyPopoverAlignment | undefined) {
-    this._alignment = value;
+    this.#_alignment = value ?? 'center';
   }
 
   public get alignment(): SkyPopoverAlignment {
-    return this._alignment || 'center';
+    return this.#_alignment;
   }
 
   /**
@@ -45,15 +45,11 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   @Input()
   public set dismissOnBlur(value: boolean | undefined) {
-    this._dismissOnBlur = value;
+    this.#_dismissOnBlur = value ?? true;
   }
 
   public get dismissOnBlur(): boolean {
-    if (this._dismissOnBlur === undefined) {
-      return true;
-    }
-
-    return this._dismissOnBlur;
+    return this.#_dismissOnBlur;
   }
 
   /**
@@ -62,12 +58,12 @@ export class SkyPopoverComponent implements OnDestroy {
    * @default "above"
    */
   @Input()
-  public set placement(value: SkyPopoverPlacement) {
-    this._placement = value;
+  public set placement(value: SkyPopoverPlacement | undefined) {
+    this.#_placement = value ?? 'above';
   }
 
   public get placement(): SkyPopoverPlacement {
-    return this._placement || 'above';
+    return this.#_placement;
   }
 
   /**
@@ -82,11 +78,11 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   @Input()
   public set popoverType(value: SkyPopoverType | undefined) {
-    this._popoverType = value;
+    this.#_popoverType = value ?? 'info';
   }
 
   public get popoverType(): SkyPopoverType {
-    return this._popoverType || 'info';
+    return this.#_popoverType;
   }
 
   /**
@@ -120,33 +116,37 @@ export class SkyPopoverComponent implements OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private templateRef!: TemplateRef<unknown>;
+  public templateRef: TemplateRef<unknown> | undefined;
 
-  private contentRef!: SkyPopoverContentComponent;
+  #contentRef!: SkyPopoverContentComponent;
 
-  private isMarkedForCloseOnMouseLeave = false;
+  #isMarkedForCloseOnMouseLeave = false;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance | undefined;
+  #overlay: SkyOverlayInstance | undefined;
 
-  private _alignment: SkyPopoverAlignment | undefined;
+  #_alignment: SkyPopoverAlignment = 'center';
 
-  private _dismissOnBlur: boolean | undefined;
+  #_dismissOnBlur = true;
 
-  private _placement: SkyPopoverPlacement | undefined;
+  #_placement: SkyPopoverPlacement = 'above';
 
-  private _popoverType: SkyPopoverType | undefined;
+  #_popoverType: SkyPopoverType = 'info';
 
-  constructor(private overlayService: SkyOverlayService) {}
+  #overlayService: SkyOverlayService;
+
+  constructor(overlayService: SkyOverlayService) {
+    this.#overlayService = overlayService;
+  }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
-    if (this.overlay) {
-      this.overlayService.close(this.overlay);
-      this.overlay = undefined;
+    if (this.#overlay) {
+      this.#overlayService.close(this.#overlay);
+      this.#overlay = undefined;
     }
   }
 
@@ -162,15 +162,15 @@ export class SkyPopoverComponent implements OnDestroy {
     placement?: SkyPopoverPlacement,
     alignment?: SkyPopoverAlignment
   ): void {
-    if (!this.overlay) {
-      this.setupOverlay();
+    if (!this.#overlay) {
+      this.#setupOverlay();
     }
 
     this.placement = placement ?? this.placement;
     this.alignment = alignment ?? this.alignment;
     this.isActive = true;
 
-    this.contentRef.open(caller, {
+    this.#contentRef.open(caller, {
       dismissOnBlur: this.dismissOnBlur,
       enableAnimations: this.enableAnimations,
       horizontalAlignment: this.alignment,
@@ -187,7 +187,7 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   public close(): void {
     /*istanbul ignore next*/
-    this.contentRef?.close();
+    this.#contentRef?.close();
   }
 
   /**
@@ -196,7 +196,7 @@ export class SkyPopoverComponent implements OnDestroy {
    */
   public applyFocus(): void {
     /*istanbul ignore next*/
-    this.contentRef?.applyFocus();
+    this.#contentRef?.applyFocus();
   }
 
   /**
@@ -204,55 +204,59 @@ export class SkyPopoverComponent implements OnDestroy {
    * @internal
    */
   public markForCloseOnMouseLeave(): void {
-    this.isMarkedForCloseOnMouseLeave = true;
+    this.#isMarkedForCloseOnMouseLeave = true;
   }
 
-  private setupOverlay(): void {
-    const overlay = this.overlayService.create({
-      enableScroll: true,
-      enablePointerEvents: true,
-    });
+  #setupOverlay(): void {
+    if (this.templateRef) {
+      const overlay = this.#overlayService.create({
+        enableScroll: true,
+        enablePointerEvents: true,
+      });
 
-    overlay.backdropClick.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      if (this.dismissOnBlur) {
-        this.close();
-      }
-    });
+      overlay.backdropClick
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          if (this.dismissOnBlur) {
+            this.close();
+          }
+        });
 
-    const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [
-      {
-        provide: SkyPopoverContext,
-        useValue: new SkyPopoverContext({
-          contentTemplateRef: this.templateRef,
-        }),
-      },
-    ]);
+      const contentRef = overlay.attachComponent(SkyPopoverContentComponent, [
+        {
+          provide: SkyPopoverContext,
+          useValue: new SkyPopoverContext({
+            contentTemplateRef: this.templateRef,
+          }),
+        },
+      ]);
 
-    contentRef.opened.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      this.popoverOpened.emit(this);
-    });
+      contentRef.opened.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+        this.popoverOpened.emit(this);
+      });
 
-    contentRef.closed.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      /*istanbul ignore else*/
-      if (this.isActive && this.overlay) {
-        this.overlayService.close(this.overlay);
-        this.overlay = undefined;
-        this.isActive = false;
-        this.popoverClosed.emit(this);
-      }
-    });
-
-    contentRef.isMouseEnter
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((isMouseEnter) => {
-        this.isMouseEnter = isMouseEnter;
-        if (this.isMarkedForCloseOnMouseLeave) {
-          this.isMarkedForCloseOnMouseLeave = false;
-          this.close();
+      contentRef.closed.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+        /*istanbul ignore else*/
+        if (this.isActive && this.#overlay) {
+          this.#overlayService.close(this.#overlay);
+          this.#overlay = undefined;
+          this.isActive = false;
+          this.popoverClosed.emit(this);
         }
       });
 
-    this.overlay = overlay;
-    this.contentRef = contentRef;
+      contentRef.isMouseEnter
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((isMouseEnter) => {
+          this.isMouseEnter = isMouseEnter;
+          if (this.#isMarkedForCloseOnMouseLeave) {
+            this.#isMarkedForCloseOnMouseLeave = false;
+            this.close();
+          }
+        });
+
+      this.#overlay = overlay;
+      this.#contentRef = contentRef;
+    }
   }
 }

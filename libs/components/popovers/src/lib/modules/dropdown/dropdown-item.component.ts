@@ -30,61 +30,66 @@ export class SkyDropdownItemComponent implements AfterViewInit {
    */
   @Input()
   public set ariaRole(value: string | undefined) {
-    this._ariaRole = value;
+    this.#_ariaRole = value ?? 'menuitem';
   }
 
   public get ariaRole(): string {
-    return this._ariaRole || 'menuitem';
-  }
-
-  public get buttonElement(): HTMLButtonElement {
-    return this.elementRef.nativeElement.querySelector('button,a');
+    return this.#_ariaRole;
   }
 
   public isActive = false;
 
   public isDisabled = false;
 
-  private _ariaRole: string | undefined;
+  #_ariaRole = 'menuitem';
+
+  #changeDetector: ChangeDetectorRef;
+  #renderer: Renderer2;
 
   public constructor(
     public elementRef: ElementRef,
-    private changeDetector: ChangeDetectorRef,
-    private renderer: Renderer2
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    renderer: Renderer2
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#renderer = renderer;
+  }
 
   public ngAfterViewInit(): void {
     this.isDisabled = !this.isFocusable();
 
     // Make sure anchor elements are tab-able.
-    const buttonElement = this.buttonElement;
+    const buttonElement = this.#getButtonElement();
     /* istanbul ignore else */
     if (buttonElement) {
-      this.renderer.setAttribute(buttonElement, 'tabIndex', '0');
+      this.#renderer.setAttribute(buttonElement, 'tabIndex', '0');
     }
 
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   public focusElement(enableNativeFocus: boolean): void {
     this.isActive = true;
 
     if (enableNativeFocus) {
-      this.buttonElement.focus();
+      this.#getButtonElement()?.focus();
     }
 
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   public isFocusable(): boolean {
     const isFocusable =
-      this.buttonElement &&
-      this.buttonElement.getAttribute('disabled') === null;
+      this.#getButtonElement()?.getAttribute('disabled') === null;
     return isFocusable;
   }
 
   public resetState(): void {
     this.isActive = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
+  }
+
+  #getButtonElement(): HTMLButtonElement | null {
+    return this.elementRef.nativeElement.querySelector('button,a');
   }
 }

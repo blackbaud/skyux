@@ -49,11 +49,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set buttonStyle(value: string | undefined) {
-    this._buttonStyle = value;
+    this.#_buttonStyle = value ?? 'default';
   }
 
   public get buttonStyle(): string {
-    return this._buttonStyle || 'default';
+    return this.#_buttonStyle;
   }
 
   /**
@@ -67,7 +67,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   // TODO: Remove 'string' as a valid type in a breaking change.
   @Input()
   public set buttonType(value: SkyDropdownButtonType | string | undefined) {
-    this.#_buttonType = value || DEFAULT_BUTTON_TYPE;
+    this.#_buttonType = value ?? DEFAULT_BUTTON_TYPE;
   }
 
   public get buttonType(): string {
@@ -80,11 +80,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set disabled(value: boolean | undefined) {
-    this._disabled = value;
+    this.#_disabled = value ?? false;
   }
 
   public get disabled(): boolean {
-    return this._disabled || false;
+    return this.#_disabled;
   }
 
   /**
@@ -92,16 +92,12 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default true
    */
   @Input()
-  public set dismissOnBlur(value: boolean) {
-    this._dismissOnBlur = value;
+  public set dismissOnBlur(value: boolean | undefined) {
+    this.#_dismissOnBlur = value ?? true;
   }
 
   public get dismissOnBlur(): boolean {
-    if (this._dismissOnBlur === undefined) {
-      return true;
-    }
-
-    return this._dismissOnBlur;
+    return this.#_dismissOnBlur;
   }
 
   /**
@@ -119,11 +115,11 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   public set horizontalAlignment(
     value: SkyDropdownHorizontalAlignment | undefined
   ) {
-    this._horizontalAlignment = value;
+    this.#_horizontalAlignment = value ?? 'left';
   }
 
   public get horizontalAlignment(): SkyDropdownHorizontalAlignment {
-    return this._horizontalAlignment || 'left';
+    return this.#_horizontalAlignment;
   }
 
   /**
@@ -132,7 +128,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @internal
    */
   @Input()
-  public messageStream = new Subject<SkyDropdownMessage>();
+  public messageStream: Subject<SkyDropdownMessage> | undefined =
+    new Subject<SkyDropdownMessage>();
 
   /**
    * Specifies a title to display in a tooltip when users hover the mouse over the dropdown button.
@@ -152,20 +149,20 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set trigger(value: SkyDropdownTriggerType | undefined) {
-    this._trigger = value;
+    this.#_trigger = value ?? 'click';
   }
 
   public get trigger(): SkyDropdownTriggerType {
-    return this._trigger || 'click';
+    return this.#_trigger;
   }
 
   public set isOpen(value: boolean) {
-    this._isOpen = value;
-    this.changeDetector.markForCheck();
+    this.#_isOpen = value;
+    this.#changeDetector.markForCheck();
   }
 
   public get isOpen(): boolean {
-    return this._isOpen || false;
+    return this.#_isOpen;
   }
 
   @ViewChild('menuContainerElementRef', {
@@ -173,15 +170,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   })
   public set menuContainerElementRef(value: ElementRef | undefined) {
     if (value) {
-      this._menuContainerElementRef = value;
-      this.destroyAffixer();
-      this.createAffixer(value);
-      this.changeDetector.markForCheck();
+      this.#destroyAffixer();
+      this.#createAffixer(value);
+      this.#changeDetector.markForCheck();
     }
-  }
-
-  public get menuContainerElementRef(): ElementRef | undefined {
-    return this._menuContainerElementRef;
   }
 
   public isMouseEnter = false;
@@ -196,261 +188,286 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
     read: TemplateRef,
     static: true,
   })
-  private menuContainerTemplateRef!: TemplateRef<unknown>;
+  public menuContainerTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('triggerButton', {
     read: ElementRef,
     static: true,
   })
-  private triggerButton!: ElementRef;
+  public set triggerButton(value: ElementRef | undefined) {
+    this.#_triggerButton = value;
+    this.#addEventListeners();
+  }
 
-  private affixer: SkyAffixer | undefined;
+  public get triggerButton(): ElementRef | undefined {
+    return this.#_triggerButton;
+  }
 
-  private ngUnsubscribe = new Subject<void>();
+  #affixer: SkyAffixer | undefined;
 
-  private overlay: SkyOverlayInstance | undefined;
+  #ngUnsubscribe = new Subject<void>();
 
-  private _buttonStyle: string | undefined;
+  #overlay: SkyOverlayInstance | undefined;
+
+  #_buttonStyle = 'default';
 
   #_buttonType: string = DEFAULT_BUTTON_TYPE;
 
-  private _disabled: boolean | undefined;
+  #_disabled = false;
 
-  private _dismissOnBlur: boolean | undefined;
+  #_dismissOnBlur = true;
 
-  private _horizontalAlignment: SkyDropdownHorizontalAlignment | undefined;
+  #_horizontalAlignment: SkyDropdownHorizontalAlignment = 'left';
 
-  private _isOpen = false;
+  #_isOpen = false;
 
-  private _menuContainerElementRef: ElementRef | undefined;
+  #_trigger: SkyDropdownTriggerType = 'click';
 
-  private _trigger: SkyDropdownTriggerType | undefined;
+  #_triggerButton: ElementRef | undefined;
 
   #positionTimeout: number | undefined;
 
+  #changeDetector: ChangeDetectorRef;
+  #affixService: SkyAffixService;
+  #overlayService: SkyOverlayService;
+  #themeSvc: SkyThemeService | undefined;
+
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private affixService: SkyAffixService,
-    private overlayService: SkyOverlayService,
-    @Optional() private themeSvc?: SkyThemeService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    affixService: SkyAffixService,
+    overlayService: SkyOverlayService,
+    @Optional() themeSvc?: SkyThemeService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#affixService = affixService;
+    this.#overlayService = overlayService;
+    this.#themeSvc = themeSvc;
+  }
 
   public ngOnInit(): void {
-    this.addEventListeners();
-
     this.messageStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyDropdownMessage) => {
-        this.handleIncomingMessages(message);
+        this.#handleIncomingMessages(message);
       });
 
     // Load proper icons on theme change.
-    this.themeSvc?.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#themeSvc?.settingsChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
   public ngOnDestroy(): void {
-    this.destroyAffixer();
-    this.destroyOverlay();
+    this.#destroyAffixer();
+    this.#destroyOverlay();
     clearTimeout(this.#positionTimeout);
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  private addEventListeners(): void {
-    const buttonElement = this.triggerButton.nativeElement;
+  #addEventListeners(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+    this.#ngUnsubscribe = new Subject<void>();
+    const buttonElement = this.triggerButton?.nativeElement;
+    if (buttonElement) {
+      observableFromEvent(buttonElement, 'click')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          if (this.isOpen) {
+            this.#sendMessage(SkyDropdownMessageType.Close);
+          } else {
+            this.#sendMessage(SkyDropdownMessageType.Open);
+            // Wait for dropdown to open, then set focus on first item.
+            setTimeout(() => {
+              this.#sendMessage(SkyDropdownMessageType.FocusFirstItem);
+            });
+          }
+        });
 
-    observableFromEvent(buttonElement, 'click')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        if (this.isOpen) {
-          this.sendMessage(SkyDropdownMessageType.Close);
-        } else {
-          this.sendMessage(SkyDropdownMessageType.Open);
-          // Wait for dropdown to open, then set focus on first item.
-          setTimeout(() => {
-            this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
-          });
-        }
-      });
+      observableFromEvent<KeyboardEvent>(buttonElement, 'keydown')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe((event) => {
+          const key = event.key.toLowerCase();
 
-    observableFromEvent<KeyboardEvent>(buttonElement, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((event) => {
-        const key = event.key.toLowerCase();
+          switch (key) {
+            case 'escape':
+              /*istanbul ignore else*/
+              if (this.isOpen) {
+                this.#sendMessage(SkyDropdownMessageType.Close);
+                this.#sendMessage(SkyDropdownMessageType.FocusTriggerButton);
+                event.stopPropagation();
+              }
+              break;
 
-        switch (key) {
-          case 'escape':
-            /*istanbul ignore else*/
-            if (this.isOpen) {
-              this.sendMessage(SkyDropdownMessageType.Close);
-              this.sendMessage(SkyDropdownMessageType.FocusTriggerButton);
-              event.stopPropagation();
-            }
-            break;
+            case 'tab':
+              if (this.isOpen && this.dismissOnBlur) {
+                this.#sendMessage(SkyDropdownMessageType.Close);
+              }
+              break;
 
-          case 'tab':
-            if (this.isOpen && this.dismissOnBlur) {
-              this.sendMessage(SkyDropdownMessageType.Close);
-            }
-            break;
+            case 'arrowup':
+            case 'up':
+              if (!this.isOpen) {
+                this.#sendMessage(SkyDropdownMessageType.Open);
+                this.#sendMessage(SkyDropdownMessageType.FocusLastItem);
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              break;
 
-          case 'arrowup':
-          case 'up':
-            if (!this.isOpen) {
-              this.sendMessage(SkyDropdownMessageType.Open);
-              this.sendMessage(SkyDropdownMessageType.FocusLastItem);
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            break;
+            case 'enter':
+            case 'arrowdown':
+            case 'down':
+            case ' ': // Spacebar.
+              /*istanbul ignore else*/
+              if (!this.isOpen) {
+                this.#sendMessage(SkyDropdownMessageType.Open);
+                this.#sendMessage(SkyDropdownMessageType.FocusFirstItem);
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              break;
+          }
+        });
 
-          case 'enter':
-          case 'arrowdown':
-          case 'down':
-          case ' ': // Spacebar.
-            /*istanbul ignore else*/
-            if (!this.isOpen) {
-              this.sendMessage(SkyDropdownMessageType.Open);
-              this.sendMessage(SkyDropdownMessageType.FocusFirstItem);
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            break;
-        }
-      });
+      observableFromEvent(buttonElement, 'mouseenter')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.isMouseEnter = true;
+          if (this.trigger === 'hover') {
+            this.#sendMessage(SkyDropdownMessageType.Open);
+          }
+        });
 
-    observableFromEvent(buttonElement, 'mouseenter')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.isMouseEnter = true;
-        if (this.trigger === 'hover') {
-          this.sendMessage(SkyDropdownMessageType.Open);
-        }
-      });
-
-    observableFromEvent(buttonElement, 'mouseleave')
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.isMouseEnter = false;
-        if (this.trigger === 'hover') {
-          // Allow the dropdown menu to set isMouseEnter before checking if the close action
-          // should be taken.
-          setTimeout(() => {
-            if (!this.isMouseEnter) {
-              this.sendMessage(SkyDropdownMessageType.Close);
-            }
-          });
-        }
-      });
+      observableFromEvent(buttonElement, 'mouseleave')
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.isMouseEnter = false;
+          if (this.trigger === 'hover') {
+            // Allow the dropdown menu to set isMouseEnter before checking if the close action
+            // should be taken.
+            setTimeout(() => {
+              if (!this.isMouseEnter) {
+                this.#sendMessage(SkyDropdownMessageType.Close);
+              }
+            });
+          }
+        });
+    }
   }
 
-  private createOverlay(): void {
-    if (this.overlay) {
+  #createOverlay(): void {
+    if (this.#overlay) {
       return;
     }
 
-    const overlay = this.overlayService.create({
-      enableScroll: true,
-      enablePointerEvents: true,
-    });
-
-    overlay.attachTemplate(this.menuContainerTemplateRef);
-
-    overlay.backdropClick.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
-      if (this.dismissOnBlur) {
-        this.sendMessage(SkyDropdownMessageType.Close);
-      }
-    });
-
-    this.overlay = overlay;
-  }
-
-  private destroyAffixer(): void {
-    /*istanbul ignore else*/
-    if (this.affixer) {
-      this.affixer.destroy();
-      this.affixer = undefined;
-    }
-  }
-
-  private destroyOverlay(): void {
-    /*istanbul ignore else*/
-    if (this.overlay) {
-      this.overlayService.close(this.overlay);
-      this.overlay = undefined;
-    }
-  }
-
-  private createAffixer(menuContainerElementRef: ElementRef): void {
-    const affixer = this.affixService.createAffixer(menuContainerElementRef);
-
-    affixer.placementChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((change) => {
-        this.isVisible = change.placement !== null;
-        this.changeDetector.markForCheck();
+    if (this.menuContainerTemplateRef) {
+      const overlay = this.#overlayService.create({
+        enableScroll: true,
+        enablePointerEvents: true,
       });
 
-    this.affixer = affixer;
+      overlay.attachTemplate(this.menuContainerTemplateRef);
+
+      overlay.backdropClick
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          if (this.dismissOnBlur) {
+            this.#sendMessage(SkyDropdownMessageType.Close);
+          }
+        });
+
+      this.#overlay = overlay;
+    }
   }
 
-  private handleIncomingMessages(message: SkyDropdownMessage): void {
+  #destroyAffixer(): void {
+    /*istanbul ignore else*/
+    if (this.#affixer) {
+      this.#affixer.destroy();
+      this.#affixer = undefined;
+    }
+  }
+
+  #destroyOverlay(): void {
+    /*istanbul ignore else*/
+    if (this.#overlay) {
+      this.#overlayService.close(this.#overlay);
+      this.#overlay = undefined;
+    }
+  }
+
+  #createAffixer(menuContainerElementRef: ElementRef): void {
+    const affixer = this.#affixService.createAffixer(menuContainerElementRef);
+
+    affixer.placementChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((change) => {
+        this.isVisible = change.placement !== null;
+        this.#changeDetector.markForCheck();
+      });
+
+    this.#affixer = affixer;
+  }
+
+  #handleIncomingMessages(message: SkyDropdownMessage): void {
     if (!this.disabled) {
       switch (message.type) {
         case SkyDropdownMessageType.Open:
           this.isOpen = true;
-          this.positionDropdownMenu();
+          this.#positionDropdownMenu();
           break;
 
         case SkyDropdownMessageType.Close:
           this.isOpen = false;
-          this.destroyOverlay();
+          this.#destroyOverlay();
           break;
 
         case SkyDropdownMessageType.Reposition:
           // Only reposition the dropdown if it is already open.
           /* istanbul ignore else */
-          if (this.isOpen && this.affixer) {
-            this.affixer.reaffix();
+          if (this.isOpen && this.#affixer) {
+            this.#affixer.reaffix();
           }
           break;
 
         case SkyDropdownMessageType.FocusTriggerButton:
-          this.triggerButton.nativeElement.focus();
+          this.triggerButton?.nativeElement.focus();
           break;
       }
     }
   }
 
-  private sendMessage(type: SkyDropdownMessageType): void {
-    this.messageStream.next({ type });
+  #sendMessage(type: SkyDropdownMessageType): void {
+    this.messageStream?.next({ type });
   }
 
-  private positionDropdownMenu(): void {
+  #positionDropdownMenu(): void {
     this.isVisible = false;
-    this.createOverlay();
-    this.changeDetector.markForCheck();
+    this.#createOverlay();
+    this.#changeDetector.markForCheck();
 
     // Explicitly declare the `setTimeout` from the `window` object in order to use the DOM typings
     // during a unit test (instead of confusing this with Node's `setTimeout`).
     this.#positionTimeout = window.setTimeout(() => {
-      this.affixer!.affixTo(this.triggerButton.nativeElement, {
-        autoFitContext: SkyAffixAutoFitContext.Viewport,
-        enableAutoFit: true,
-        horizontalAlignment: parseAffixHorizontalAlignment(
-          this.horizontalAlignment
-        ),
-        isSticky: true,
-        placement: 'below',
-      });
+      if (this.#affixer) {
+        this.#affixer.affixTo(this.triggerButton?.nativeElement, {
+          autoFitContext: SkyAffixAutoFitContext.Viewport,
+          enableAutoFit: true,
+          horizontalAlignment: parseAffixHorizontalAlignment(
+            this.horizontalAlignment
+          ),
+          isSticky: true,
+          placement: 'below',
+        });
 
-      this.isVisible = true;
-      this.changeDetector.markForCheck();
+        this.isVisible = true;
+        this.#changeDetector.markForCheck();
+      }
     });
   }
 }

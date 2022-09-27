@@ -18,10 +18,10 @@ export class SkyDropdownFixture {
    * Returns information about the dropdown component.
    */
   public get dropdown(): SkyPopoversFixtureDropdown | undefined {
-    const button = this.buttonDebugElement;
+    const button = this.#buttonDebugElement;
     return {
-      buttonStyle: this.getButtonStyle(button.classes),
-      buttonType: this.getButtonType(button.classes),
+      buttonStyle: this.#getButtonStyle(button.classes),
+      buttonType: this.#getButtonType(button.classes),
       disabled: button.nativeElement.disabled,
       label: button.nativeElement.getAttribute('aria-label'),
       title: button.nativeElement.getAttribute('title'),
@@ -32,7 +32,7 @@ export class SkyDropdownFixture {
    * Returns the dropdown button's text.
    */
   public get dropdownButtonText(): string | undefined {
-    return SkyAppTestUtility.getText(this.buttonDebugElement.nativeElement);
+    return SkyAppTestUtility.getText(this.#buttonDebugElement.nativeElement);
   }
 
   /**
@@ -57,14 +57,17 @@ export class SkyDropdownFixture {
     return this.getDropdownMenuContent() !== undefined;
   }
 
-  private get buttonDebugElement(): DebugElement {
-    return this.debugEl.query(By.css('.sky-dropdown-button'));
+  get #buttonDebugElement(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-dropdown-button'));
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
-  constructor(private fixture: ComponentFixture<unknown>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  #fixture: ComponentFixture<unknown>;
+
+  constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-dropdown'
@@ -75,16 +78,16 @@ export class SkyDropdownFixture {
    * Click the dropdown button to open or close the dropdown menu.
    */
   public async clickDropdownButton(): Promise<unknown> {
-    this.buttonDebugElement.nativeElement.click();
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#buttonDebugElement.nativeElement.click();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
    * Click the dropdown item at the provided index.
    */
   public async clickDropdownItem(index: number): Promise<unknown> {
-    const itemEls = this.getDropdownItemEls();
+    const itemEls = this.#getDropdownItemEls();
 
     if (!itemEls) {
       return;
@@ -96,8 +99,8 @@ export class SkyDropdownFixture {
 
     itemEls[index].querySelector('button,a').click();
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
@@ -106,7 +109,7 @@ export class SkyDropdownFixture {
   public getDropdownItem(
     index: number
   ): SkyPopoversFixtureDropdownItem | undefined {
-    const itemEls = this.getDropdownItemEls();
+    const itemEls = this.#getDropdownItemEls();
 
     if (!itemEls) {
       return;
@@ -127,7 +130,7 @@ export class SkyDropdownFixture {
    * Returns the contents of the dropdown menu.
    */
   public getDropdownMenuContent(): any {
-    const overlay = this.getOverlay();
+    const overlay = this.#getOverlay();
     if (!overlay) {
       return;
     }
@@ -135,8 +138,8 @@ export class SkyDropdownFixture {
     return overlay.querySelector('.sky-dropdown-menu');
   }
 
-  private getDropdownItemEls(): NodeListOf<any> | undefined {
-    const overlay = this.getOverlay();
+  #getDropdownItemEls(): NodeListOf<any> | undefined {
+    const overlay = this.#getOverlay();
 
     if (!overlay) {
       return;
@@ -145,13 +148,11 @@ export class SkyDropdownFixture {
     return overlay.querySelectorAll('.sky-dropdown-item');
   }
 
-  private getOverlay(): HTMLElement | null {
+  #getOverlay(): HTMLElement | null {
     return document.querySelector('sky-overlay');
   }
 
-  private getButtonStyle(classNames: {
-    [key: string]: boolean;
-  }): string | undefined {
+  #getButtonStyle(classNames: { [key: string]: boolean }): string | undefined {
     if (classNames['sky-btn-primary']) {
       return 'primary';
     }
@@ -161,7 +162,7 @@ export class SkyDropdownFixture {
     return;
   }
 
-  private getButtonType(classNames: { [key: string]: boolean }): string {
+  #getButtonType(classNames: { [key: string]: boolean }): string {
     const prefix = 'sky-dropdown-button-type-';
 
     let found = '';

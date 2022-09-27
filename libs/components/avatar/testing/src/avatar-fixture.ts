@@ -11,8 +11,8 @@ export class SkyAvatarFixture {
   /**
    * The initials displayed when no image URL is specified.
    */
-  public get initials(): string {
-    const initialsEl = this.debugEl.query(By.css('.sky-avatar-initials'));
+  public get initials(): string | undefined {
+    const initialsEl = this.#debugEl.query(By.css('.sky-avatar-initials'));
 
     if (SkyAppTestUtility.isVisible(initialsEl)) {
       return SkyAppTestUtility.getText(
@@ -26,8 +26,8 @@ export class SkyAvatarFixture {
   /**
    * The avatar's current image URL.
    */
-  public get imageUrl(): string {
-    const imageEl = this.debugEl.query(By.css('.sky-avatar-image'));
+  public get imageUrl(): string | undefined {
+    const imageEl = this.#debugEl.query(By.css('.sky-avatar-image'));
 
     if (SkyAppTestUtility.isVisible(imageEl)) {
       return SkyAppTestUtility.getBackgroundImageUrl(imageEl);
@@ -36,10 +36,10 @@ export class SkyAvatarFixture {
     return undefined;
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-avatar'
