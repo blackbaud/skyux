@@ -30,14 +30,14 @@ export class SkyUrlValidationDirective implements Validator {
    */
   @Input()
   public set skyUrlValidation(value: SkyUrlValidationOptions | undefined) {
-    this._skyUrlValidationOptions = value;
-    this._validatorChange();
+    this.#_skyUrlValidationOptions = value;
+    this.#validatorChange();
   }
 
-  private _skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
+  #_skyUrlValidationOptions: SkyUrlValidationOptions | undefined;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _validatorChange = () => {};
+  #validatorChange = () => {};
 
   public validate(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
@@ -46,12 +46,12 @@ export class SkyUrlValidationDirective implements Validator {
       return null;
     }
 
-    return SkyValidation.isUrl(value, this._skyUrlValidationOptions)
+    return SkyValidation.isUrl(value, this.#_skyUrlValidationOptions)
       ? null
       : { skyUrl: { invalid: value } };
   }
 
   public registerOnValidatorChange(fn: () => void): void {
-    this._validatorChange = fn;
+    this.#validatorChange = fn;
   }
 }

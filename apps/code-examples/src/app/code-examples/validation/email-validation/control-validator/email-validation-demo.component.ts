@@ -19,10 +19,14 @@ export class EmailValidationDemoComponent implements OnInit {
 
   public formGroup: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
+    this.formGroup = this.#formBuilder.group({
       email: new UntypedFormControl(undefined, [
         Validators.required,
         SkyValidators.email,
