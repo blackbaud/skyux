@@ -1,5 +1,19 @@
 # Changelog
 
+## [7.0.0-beta.1](https://github.com/blackbaud/skyux/compare/7.0.0-beta.0...7.0.0-beta.1) (2022-09-27)
+
+
+### Features
+
+* **components/tabs:** wizard keyboard nav and roles ([#558](https://github.com/blackbaud/skyux/issues/558)) ([49c7872](https://github.com/blackbaud/skyux/commit/49c7872239f9bacbc52839ab1d5d59b342186597))
+* **components/tiles:** add inline help support for tile dashboard ([#563](https://github.com/blackbaud/skyux/issues/563)) ([#567](https://github.com/blackbaud/skyux/issues/567)) ([2377a7f](https://github.com/blackbaud/skyux/commit/2377a7f9ecf5af8616a4b5fee5da9bcd14c6d73d))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** option to show horizontal scrollbar at top when using trackpad ([#552](https://github.com/blackbaud/skyux/issues/552)) ([#578](https://github.com/blackbaud/skyux/issues/578)) ([1f2d314](https://github.com/blackbaud/skyux/commit/1f2d31425158002940f5379db35d23e9c45463d6))
+* **components/lookup:** set `aria-expanded` to true on the autocomplete component when the dropdown is open ([#544](https://github.com/blackbaud/skyux/issues/544)) ([1aa059d](https://github.com/blackbaud/skyux/commit/1aa059d5892ce4a3f7da206ac353e18fb71f0614))
+
 ## [7.0.0-beta.0](https://github.com/blackbaud/skyux/compare/6.21.0...7.0.0-beta.0) (2022-09-22)
 
 
