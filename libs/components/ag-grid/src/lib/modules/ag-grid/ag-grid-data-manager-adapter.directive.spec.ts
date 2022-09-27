@@ -358,8 +358,16 @@ it('should move the horizontal scroll based on enableTopScroll check', async () 
   fixture.componentInstance.agGrid.gridReady.emit();
   fixture.detectChanges();
   await fixture.whenStable();
-  const scrollElement = fixture.nativeElement.querySelectorAll(
-    '.ag-body-horizontal-scroll'
-  );
-  expect(scrollElement.length).toEqual(1);
+  const gridComponents: string[] = Array.from(
+    fixture.nativeElement.querySelector('.ag-root')?.children || []
+  ).map((el: HTMLElement) => el.classList[0]);
+  // Expect the scrollbar below the header.
+  expect(gridComponents).toEqual([
+    'ag-header',
+    'ag-body-horizontal-scroll',
+    'ag-floating-top',
+    'ag-body-viewport',
+    'ag-floating-bottom',
+    'ag-overlay',
+  ]);
 });

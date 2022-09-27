@@ -1,5 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  InjectionToken,
+  OnInit,
+  Optional,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 
+import { AgGridAngular } from 'ag-grid-angular';
 import { GridOptions } from 'ag-grid-community';
 
 import { SkyAgGridService } from '../ag-grid.service';
@@ -7,12 +16,17 @@ import { SkyCellType } from '../types/cell-type';
 
 import { SKY_AG_GRID_DATA, SKY_AG_GRID_LOOKUP } from './ag-grid-data.fixture';
 
+export const EnableTopScroll = new InjectionToken('EnableTopScroll');
+
 @Component({
   selector: 'sky-ag-grid-component-fixture',
   templateUrl: './ag-grid.component.fixture.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class SkyAgGridFixtureComponent implements OnInit {
+  @ViewChild('agGrid', { static: true })
+  public agGrid: AgGridAngular;
+
   public gridData = SKY_AG_GRID_DATA;
   public columnDefs = [
     {
@@ -130,9 +144,17 @@ export class SkyAgGridFixtureComponent implements OnInit {
   public gridOptions: GridOptions = {
     columnDefs: this.columnDefs,
     suppressColumnVirtualisation: true,
+    context: {
+      enableTopScroll: this.enableTopScroll,
+    },
   };
 
-  constructor(private gridService: SkyAgGridService) {}
+  constructor(
+    private gridService: SkyAgGridService,
+    @Optional()
+    @Inject(EnableTopScroll)
+    public enableTopScroll: boolean | undefined
+  ) {}
 
   public ngOnInit(): void {
     this.gridOptions = this.gridService.getEditableGridOptions({
