@@ -252,9 +252,7 @@ describe('Avatar component', () => {
     fixture.componentInstance.src = imgUrl;
 
     fixture.detectChanges();
-    if (fixture.componentInstance.avatarComponent) {
-      fixture.componentInstance.avatarComponent.canChange = true;
-    }
+    fixture.componentInstance.avatarComponent.canChange = true;
 
     fixture.detectChanges();
     tick();

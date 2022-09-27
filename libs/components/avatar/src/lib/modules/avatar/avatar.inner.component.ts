@@ -42,7 +42,7 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input()
-  public size: SkyAvatarSize = 'large';
+  public size: SkyAvatarSize | undefined = 'large';
 
   #viewInitialized = false;
 
@@ -90,16 +90,16 @@ export class SkyAvatarInnerComponent implements AfterViewInit, OnDestroy {
     return colorIndex;
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.#viewInitialized = true;
     this.#updateImage();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.#adapter.destroy();
   }
 
-  #updateImage() {
+  #updateImage(): void {
     if (this.#viewInitialized && this.src) {
       this.#adapter.updateImage(this.#elementRef, this.src);
     }

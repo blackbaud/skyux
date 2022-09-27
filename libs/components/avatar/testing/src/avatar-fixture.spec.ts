@@ -25,7 +25,9 @@ class TestComponent {
 
   public canChange = false;
 
-  public avatarChanged() {}
+  public avatarChanged(): void {
+    return;
+  }
 }
 //#endregion Test component
 
