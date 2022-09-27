@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TileDashboardModule } from '../tile-dashboard.module';
+import { TileParameters } from '../tile-parameters.token';
 
 import { Tile1Component } from './tile1.component';
 
@@ -9,7 +10,7 @@ describe('Tile1Component', () => {
   let component: Tile1Component;
   let fixture: ComponentFixture<Tile1Component>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: jest.fn().mockImplementation((query) => ({
@@ -24,12 +25,19 @@ describe('Tile1Component', () => {
       })),
     });
 
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, TileDashboardModule],
-    }).compileComponents();
-  });
+      providers: [
+        {
+          provide: TileParameters,
+          useValue: {
+            tileName: 'Test Tile',
+            showInlineHelp: false,
+          },
+        },
+      ],
+    });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(Tile1Component);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,5 +1,11 @@
 <sky-tile>
-  <sky-tile-title> Tile 2 </sky-tile-title>
+  <sky-tile-title>
+    {{ tileParameters.tileName }}
+    <sky-help-inline
+      *ngIf="tileParameters.showInlineHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-tile-title>
   <sky-tile-content>
     <sky-tile-content-section> Section 1 </sky-tile-content-section>
     <sky-tile-content-section> Section 2 </sky-tile-content-section>
