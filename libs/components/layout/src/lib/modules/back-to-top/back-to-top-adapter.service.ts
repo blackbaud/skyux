@@ -79,16 +79,14 @@ export class SkyBackToTopDomAdapterService implements OnDestroy {
   }
 
   public isElementScrolledInView(element: ElementRef): boolean {
-    const parentElement = this.scrollableHostService.getScrollableHost(
-      element.nativeElement
-    );
+    const parentElement = this.scrollableHostService.getScrollableHost(element);
+
     if (!element.nativeElement.offsetParent) {
       return true;
     }
     const buffer = 25;
     const elementRect = element.nativeElement.getBoundingClientRect();
 
-    /* istanbul ignore else */
     if (parentElement instanceof HTMLElement) {
       const parentRect = parentElement.getBoundingClientRect();
       return elementRect.top > parentRect.top - buffer;

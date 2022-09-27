@@ -13,13 +13,13 @@ import { Observable, Subject } from 'rxjs';
 })
 export class SkyBackToTopComponent {
   public get scrollToTopClick(): Observable<void> {
-    return this._scrollToTopClick.asObservable();
+    return this.#_scrollToTopClick.asObservable();
   }
 
-  private _scrollToTopClick = new Subject<void>();
+  #_scrollToTopClick = new Subject<void>();
 
   public onScrollToTopClick(): void {
-    this._scrollToTopClick.next();
-    this._scrollToTopClick.complete();
+    this.#_scrollToTopClick.next();
+    this.#_scrollToTopClick.complete();
   }
 }
