@@ -2,11 +2,24 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { Column, ColumnApi, DetailGridInfo, GridApi } from 'ag-grid-community';
+import {
+  Column,
+  ColumnApi,
+  DetailGridInfo,
+  FirstDataRenderedEvent,
+  GridApi,
+  GridReadyEvent,
+  RowDataChangedEvent,
+} from 'ag-grid-community';
+import { Subject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
 import { SkyAgGridModule } from './ag-grid.module';
+import {
+  EnableTopScroll,
+  SkyAgGridFixtureComponent,
+} from './fixtures/ag-grid.component.fixture';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridAdapterService: SkyAgGridAdapterService;
@@ -17,6 +30,9 @@ describe('SkyAgGridWrapperComponent', () => {
   const agGrid: AgGridAngular = {
     api: new GridApi(),
     columnApi: new ColumnApi(),
+    gridReady: new Subject<GridReadyEvent>(),
+    rowDataChanged: new Subject<RowDataChangedEvent>(),
+    firstDataRendered: new Subject<FirstDataRenderedEvent>(),
   } as AgGridAngular;
 
   beforeEach(() => {
@@ -253,5 +269,92 @@ describe('SkyAgGridWrapperComponent', () => {
 
       expect(gridAdapterService.setFocusedElementById).not.toHaveBeenCalled();
     });
+  });
+});
+
+describe('SkyAgGridWrapperComponent via fixture', () => {
+  let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
+  let gridWrapperNativeElement: HTMLElement;
+  const getChildrenClassNames = () =>
+    Array.from(
+      gridWrapperNativeElement.querySelector('.ag-root')?.children || []
+    ).map((el: HTMLElement) => el.classList[0]);
+
+  it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridModule],
+      providers: [
+        {
+          provide: EnableTopScroll,
+          useValue: true,
+        },
+      ],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    // Expect the scrollbar at the bottom.
+    expect(getChildrenClassNames()).toEqual([
+      'ag-header',
+      'ag-body-horizontal-scroll',
+      'ag-floating-top',
+      'ag-body-viewport',
+      'ag-floating-bottom',
+      'ag-overlay',
+    ]);
+  });
+
+  it('should move the horizontal scroll based on enableTopScroll check, async loading', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridModule],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    // Expect the scrollbar at the bottom.
+    expect(getChildrenClassNames()).toEqual([
+      'ag-header',
+      'ag-floating-top',
+      'ag-body-viewport',
+      'ag-floating-bottom',
+      'ag-body-horizontal-scroll',
+      'ag-overlay',
+    ]);
+
+    gridWrapperFixture.componentInstance.gridOptions.context = {
+      enableTopScroll: true,
+    };
+    gridWrapperFixture.componentInstance.agGrid.gridReady.emit();
+
+    // Expect the scrollbar below the header.
+    expect(getChildrenClassNames()).toEqual([
+      'ag-header',
+      'ag-body-horizontal-scroll',
+      'ag-floating-top',
+      'ag-body-viewport',
+      'ag-floating-bottom',
+      'ag-overlay',
+    ]);
+
+    gridWrapperFixture.componentInstance.gridOptions.context = {
+      enableTopScroll: false,
+    };
+    gridWrapperFixture.componentInstance.agGrid.rowDataChanged.emit();
+
+    // Expect the scrollbar at the bottom.
+    expect(getChildrenClassNames()).toEqual([
+      'ag-header',
+      'ag-floating-top',
+      'ag-body-viewport',
+      'ag-floating-bottom',
+      'ag-body-horizontal-scroll',
+      'ag-overlay',
+    ]);
   });
 });
