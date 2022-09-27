@@ -38,9 +38,12 @@ function getBackToTopTarget(): HTMLElement | null {
   return document.querySelector('#back-to-top-target');
 }
 
-function isElementInView(element: HTMLElement): boolean {
-  const elementRect = element.getBoundingClientRect();
-  return elementRect.top >= 0 && elementRect.bottom <= window.innerHeight;
+function isElementInView(element: HTMLElement | null): boolean {
+  if (element) {
+    const elementRect = element.getBoundingClientRect();
+    return elementRect.top >= 0 && elementRect.bottom <= window.innerHeight;
+  }
+  return false;
 }
 
 function scrollElement(
@@ -110,7 +113,7 @@ describe('back to top component', () => {
     it('should scroll to target element when back to top button is clicked', fakeAsync(() => {
       fixture.detectChanges();
       scrollWindowToBottom(fixture);
-      const backToTopTarget = getBackToTopTarget()!;
+      const backToTopTarget = getBackToTopTarget();
 
       expect(isElementInView(backToTopTarget)).toBe(false);
 
@@ -200,7 +203,7 @@ describe('back to top component', () => {
 
     it('should scroll to target element when back to top button is clicked', () => {
       scrollElement(parentElement, 999, fixture);
-      const backToTopTarget = getBackToTopTarget()!;
+      const backToTopTarget = getBackToTopTarget();
 
       expect(isElementInView(backToTopTarget)).toBe(false);
 
@@ -214,7 +217,7 @@ describe('back to top component', () => {
     it('should scroll to target element when a BackToTop message is sent', () => {
       fixture.detectChanges();
       scrollWindowToBottom(fixture);
-      const backToTopTarget = getBackToTopTarget()!;
+      const backToTopTarget = getBackToTopTarget();
 
       expect(isElementInView(backToTopTarget)).toBe(false);
 
