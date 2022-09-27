@@ -30,12 +30,14 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', params.bubbles, params.cancelable);
     const inputEl = element.querySelector('input');
-    inputEl.value = text;
+    if (inputEl) {
+      inputEl.value = text;
+    }
 
-    inputEl.dispatchEvent(inputEvent);
+    inputEl?.dispatchEvent(inputEvent);
     compFixture.detectChanges();
 
-    inputEl.dispatchEvent(changeEvent);
+    inputEl?.dispatchEvent(changeEvent);
     compFixture.detectChanges();
   }
 
@@ -61,7 +63,7 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     setInput(nativeElement, 'https://blackbaud.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       'https://blackbaud.com'
     );
 
@@ -76,7 +78,7 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
 
@@ -91,7 +93,7 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
     tick();
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
     expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
@@ -100,7 +102,7 @@ describe('URL validation via directive - ruleset v1 (implicit)', () => {
     tick();
     setInput(nativeElement, 'blackbaud.com', fixture);
 
-    expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
+    expect(nativeElement.querySelector('input')?.value).toBe('blackbaud.com');
     expect(component.urlValidator).toEqual('blackbaud.com');
 
     expect(ngModel.control.valid).toBe(true);
@@ -130,7 +132,9 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     };
 
     const inputEl = element.querySelector('input');
-    inputEl.value = text;
+    if (inputEl) {
+      inputEl.value = text;
+    }
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
@@ -164,7 +168,7 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     setInput(nativeElement, 'https://blackbaud.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       'https://blackbaud.com'
     );
 
@@ -182,7 +186,7 @@ describe('URL validation via directive - ruleset v1 (explicit)', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
 
@@ -204,7 +208,9 @@ describe('URL validation via directive - ruleset v2', () => {
     };
 
     const inputEl = element.querySelector('input');
-    inputEl.value = text;
+    if (inputEl) {
+      inputEl.value = text;
+    }
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
@@ -235,7 +241,7 @@ describe('URL validation via directive - ruleset v2', () => {
     setInput(nativeElement, 'https://blackbaud.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       'https://blackbaud.com'
     );
 
@@ -250,7 +256,7 @@ describe('URL validation via directive - ruleset v2', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
 
@@ -265,7 +271,7 @@ describe('URL validation via directive - ruleset v2', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
     tick();
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
     expect(component.urlValidator).toEqual('[]awefhawenfc0293ejwf]');
@@ -274,7 +280,7 @@ describe('URL validation via directive - ruleset v2', () => {
     tick();
     setInput(nativeElement, 'blackbaud.com', fixture);
 
-    expect(nativeElement.querySelector('input').value).toBe('blackbaud.com');
+    expect(nativeElement.querySelector('input')?.value).toBe('blackbaud.com');
     expect(component.urlValidator).toEqual('blackbaud.com');
 
     expect(ngModel.control.valid).toBe(true);
@@ -303,7 +309,9 @@ describe('URL validation via directive - non-onceability', () => {
     };
 
     const inputEl = element.querySelector('input');
-    inputEl.value = text;
+    if (inputEl) {
+      inputEl.value = text;
+    }
 
     SkyAppTestUtility.fireDomEvent(inputEl, 'input', params);
     compFixture.detectChanges();
@@ -337,7 +345,7 @@ describe('URL validation via directive - non-onceability', () => {
     setInput(nativeElement, 'sub.domain,com/pagename', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       'sub.domain,com/pagename'
     );
 

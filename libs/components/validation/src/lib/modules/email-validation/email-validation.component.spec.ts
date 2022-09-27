@@ -29,12 +29,14 @@ describe('Email validation', () => {
     const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', params.bubbles, params.cancelable);
     const inputEl = element.querySelector('input');
-    inputEl.value = text;
+    if (inputEl) {
+      inputEl.value = text;
+    }
 
-    inputEl.dispatchEvent(inputEvent);
+    inputEl?.dispatchEvent(inputEvent);
     compFixture.detectChanges();
 
-    inputEl.dispatchEvent(changeEvent);
+    inputEl?.dispatchEvent(changeEvent);
     compFixture.detectChanges();
   }
 
@@ -60,7 +62,7 @@ describe('Email validation', () => {
     setInput(nativeElement, 'joe@abc.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe('joe@abc.com');
+    expect(nativeElement.querySelector('input')?.value).toBe('joe@abc.com');
 
     expect(ngModel.control.valid).toBe(true);
     expect(ngModel.control.pristine).toBe(false);
@@ -73,7 +75,7 @@ describe('Email validation', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       '[]awefhawenfc0293ejwf]'
     );
 
@@ -88,7 +90,7 @@ describe('Email validation', () => {
     setInput(nativeElement, 'joe@abc.com@abc.com', fixture);
     fixture.detectChanges();
 
-    expect(nativeElement.querySelector('input').value).toBe(
+    expect(nativeElement.querySelector('input')?.value).toBe(
       'joe@abc.com@abc.com'
     );
 
@@ -103,7 +105,7 @@ describe('Email validation', () => {
     setInput(nativeElement, '[]awefhawenfc0293ejwf]', fixture);
     setInput(nativeElement, 'joe@abc.com', fixture);
 
-    expect(nativeElement.querySelector('input').value).toBe('joe@abc.com');
+    expect(nativeElement.querySelector('input')?.value).toBe('joe@abc.com');
     expect(component.emailValidator).toEqual('joe@abc.com');
 
     expect(ngModel.control.valid).toBe(true);
