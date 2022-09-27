@@ -4,4 +4,4 @@ import { Component } from '@angular/core';
   selector: 'sky-test-cmp',
   templateUrl: './toolbar-sectioned.component.fixture.html',
 })
-export class ToolbarSectionedTestComponent {}
+export class SkyToolbarSectionedTestComponent {}

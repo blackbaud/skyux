@@ -1,21 +1,20 @@
-import { TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import { ToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
-import { ToolbarTestComponent } from './fixtures/toolbar.component.fixture';
-import { SkyToolbarModule } from './toolbar.module';
+import { SkyToolbarSectionedTestComponent } from './fixtures/toolbar-sectioned.component.fixture';
+import { SkyToolbarTestComponent } from './fixtures/toolbar.component.fixture';
+import { SkyToolbarFixturesModule } from './fixtures/toolbar.module.fixture';
 
 describe('toolbar component', () => {
   describe('standard', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ToolbarTestComponent],
-        imports: [SkyToolbarModule],
+        imports: [SkyToolbarFixturesModule],
       });
     });
 
     it('should create a toolbar with transcluded items', () => {
-      const fixture = TestBed.createComponent(ToolbarTestComponent);
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
       const el = fixture.nativeElement as HTMLElement;
 
       fixture.detectChanges();
@@ -28,25 +27,23 @@ describe('toolbar component', () => {
       expect(buttonEls.item(1)).toHaveText('Button 2');
     });
 
-    it('should be accessible', async(() => {
-      const fixture = TestBed.createComponent(ToolbarTestComponent);
+    it('should be accessible', async () => {
+      const fixture = TestBed.createComponent(SkyToolbarTestComponent);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('sectioned', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ToolbarSectionedTestComponent],
-        imports: [SkyToolbarModule],
+        imports: [SkyToolbarFixturesModule],
       });
     });
 
     it('should create a toolbar with sections with transcluded items', () => {
-      const fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
+      const fixture = TestBed.createComponent(SkyToolbarSectionedTestComponent);
       const el = fixture.nativeElement as HTMLElement;
 
       fixture.detectChanges();
@@ -63,12 +60,11 @@ describe('toolbar component', () => {
       );
     });
 
-    it('should be accessible', async(() => {
-      const fixture = TestBed.createComponent(ToolbarSectionedTestComponent);
+    it('should be accessible', async () => {
+      const fixture = TestBed.createComponent(SkyToolbarSectionedTestComponent);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
