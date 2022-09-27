@@ -269,6 +269,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   protected skyColorpickerRedId: string;
   protected skyColorpickerGreenId: string;
   protected skyColorpickerBlueId: string;
+  protected slider: SliderPosition;
   protected allowTransparency: boolean | undefined;
   protected alphaSliderColor: string | undefined;
   protected hexText: string | undefined;
@@ -276,7 +277,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   protected presetColors: string[] | undefined;
   protected rgbaText: SkyColorpickerRgba | undefined;
   protected selectedColor: SkyColorpickerOutput | undefined;
-  protected slider: SliderPosition | undefined;
   protected iconColor: string | undefined;
   protected isPickerVisible: boolean | undefined;
 
@@ -285,7 +285,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   #format: number | undefined;
   #outputFormat: string | undefined;
   #hsva: SkyColorpickerHsva | undefined;
-  #sliderDimMax: SliderDimension | undefined;
+  #sliderDimMax: SliderDimension;
   #ngUnsubscribe = new Subject<void>();
   #affixer: SkyAffixer | undefined;
   #overlay: SkyOverlayInstance | undefined;
@@ -320,14 +320,17 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     componentIdIndex++;
 
     this.#idIndex = componentIdIndex;
-    this.skyColorpickerRedId = 'sky-colorpicker-red-' + this.#idIndex;
-    this.skyColorpickerHexId = 'sky-colorpicker-hex-' + this.#idIndex;
-    this.skyColorpickerRedId = 'sky-colorpicker-red-' + this.#idIndex;
-    this.skyColorpickerGreenId = 'sky-colorpicker-green-' + this.#idIndex;
-    this.skyColorpickerBlueId = 'sky-colorpicker-blue-' + this.#idIndex;
-    this.skyColorpickerAlphaId = 'sky-colorpicker-alpha-' + this.#idIndex;
-    this.colorpickerId = `sky-colorpicker-${this.#idIndex}`;
-    this.triggerButtonId = `sky-colorpicker-button-${this.#idIndex}`;
+    this.skyColorpickerRedId = `sky-colorpicker-red-${this.#idIndex}`;
+    this.skyColorpickerHexId = `sky-colorpicker-hex--${this.#idIndex}`;
+    this.skyColorpickerRedId = `sky-colorpicker-red--${this.#idIndex}`;
+    this.skyColorpickerGreenId = `sky-colorpicker-green--${this.#idIndex}`;
+    this.skyColorpickerBlueId = `sky-colorpicker-blue--${this.#idIndex}`;
+    this.skyColorpickerAlphaId = `sky-colorpicker-alpha--${this.#idIndex}`;
+    this.colorpickerId = `sky-colorpicker--${this.#idIndex}`;
+    this.triggerButtonId = `sky-colorpicker-button--${this.#idIndex}`;
+
+    this.#sliderDimMax = new SliderDimension(182, 270, 170, 182);
+    this.slider = new SliderPosition(0, 0, 0, 0);
   }
 
   public setDialog(
@@ -353,8 +356,6 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.#sliderDimMax = new SliderDimension(182, 270, 170, 182);
-    this.slider = new SliderPosition(0, 0, 0, 0);
     this.messageStream
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyColorpickerMessage) => {
