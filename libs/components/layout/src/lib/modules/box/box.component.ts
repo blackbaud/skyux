@@ -16,7 +16,7 @@ export class SkyBoxComponent {
    * If the box includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
@@ -25,7 +25,7 @@ export class SkyBoxComponent {
    * If the box does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies an ARIA role for the box
@@ -35,5 +35,5 @@ export class SkyBoxComponent {
    * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
    */
   @Input()
-  public ariaRole: string;
+  public ariaRole: string | undefined;
 }
