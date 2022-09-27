@@ -7,6 +7,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "allowedCommonJsDependencies": ["dragula", "ng2-dragula"],
         "outputPath": "dist/apps/e2e/tiles-storybook",
         "index": "apps/e2e/tiles-storybook/src/index.html",
         "main": "apps/e2e/tiles-storybook/src/main.ts",

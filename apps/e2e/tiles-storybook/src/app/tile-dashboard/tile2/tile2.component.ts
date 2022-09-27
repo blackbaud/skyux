@@ -1,8 +1,19 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+
+import { TileParameters } from '../tile-parameters.token';
+import { TileParametersType } from '../tile-parameters.type';
 
 @Component({
   selector: 'app-tile2',
   templateUrl: './tile2.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Tile2Component {}
+export class Tile2Component {
+  public tileParameters: TileParametersType;
+
+  constructor(
+    @Inject(TileParameters) tileParameters: TileParametersType | any
+  ) {
+    this.tileParameters = tileParameters as TileParametersType;
+  }
+}
