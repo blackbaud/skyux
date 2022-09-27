@@ -5,5 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './url-validation.component.fixture.html',
 })
 export class UrlValidationTestComponent {
-  public urlValidator: string;
+  public urlValidator: string | undefined;
 }
