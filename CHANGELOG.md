@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.22.0](https://github.com/blackbaud/skyux/compare/6.21.0...6.22.0) (2022-09-27)
+
+
+### Features
+
+* **components/tabs:** wizard keyboard nav and roles ([#558](https://github.com/blackbaud/skyux/issues/558)) ([#561](https://github.com/blackbaud/skyux/issues/561)) ([d0db9a9](https://github.com/blackbaud/skyux/commit/d0db9a9754be7e8b609b29ceadf1c0dc61108abe))
+* **components/tiles:** add inline help support for tile dashboard ([#563](https://github.com/blackbaud/skyux/issues/563)) ([5e9afad](https://github.com/blackbaud/skyux/commit/5e9afade9ba1e542fefc83f473c057ac1057e89f))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** option to show horizontal scrollbar at top when using trackpad ([#552](https://github.com/blackbaud/skyux/issues/552)) ([2f75827](https://github.com/blackbaud/skyux/commit/2f75827fc7fe8966583f30b5f44eae990956beac))
+
 ## [7.0.0-beta.0](https://github.com/blackbaud/skyux/compare/6.21.0...7.0.0-beta.0) (2022-09-22)
 
 
