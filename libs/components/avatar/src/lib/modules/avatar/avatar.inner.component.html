@@ -1,6 +1,6 @@
 <div
   class="sky-elevation-1 sky-avatar-wrapper"
-  [ngClass]="'sky-avatar-wrapper-size-' + (size || 'large')"
+  [ngClass]="'sky-avatar-wrapper-size-' + size"
 >
   <div class="sky-avatar-image" [hidden]="!src"></div>
   <div *ngIf="src" class="sky-screen-reader-only">
@@ -30,7 +30,7 @@
       {{ initials }}
     </div>
     <div
-      *ngIf="size !== 'small' && size !== 'medium'"
+      *ngIf="size === 'large'"
       class="sky-avatar-initials-inner"
       [skyThemeClass]="{
         'sky-font-display-2': 'modern'

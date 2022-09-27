@@ -34,23 +34,23 @@ describe('Avatar component', () => {
 
   const mockErrorModalService = new MockErrorModalService();
 
-  function getFileDropTargetEl(el: Element): Element {
+  function getFileDropTargetEl(el: Element): Element | null {
     return el.querySelector('.sky-file-drop-target');
   }
 
-  function getWrapperEl(el: Element): Element {
+  function getWrapperEl(el: Element): Element | null {
     return el.querySelector('.sky-avatar-wrapper');
   }
 
-  function getPhotoEl(el: Element): Element {
+  function getPhotoEl(el: Element): Element | null {
     return el.querySelector('.sky-avatar-image');
   }
 
-  function getScreenReaderEl(el: Element): Element {
+  function getScreenReaderEl(el: Element): Element | null {
     return el.querySelector('.sky-screen-reader-only');
   }
 
-  function getPlaceholderEl(el: Element): Element {
+  function getPlaceholderEl(el: Element): Element | null {
     return el.querySelector('.sky-avatar-initials');
   }
 
@@ -69,7 +69,10 @@ describe('Avatar component', () => {
 
   function getBackgroundImageUrl(el: Element): string {
     const regex = /url\("(.*?)"\)/gi;
-    const backgroundImage = getComputedStyle(getPhotoEl(el)).backgroundImage;
+    const photoEl = getPhotoEl(el);
+    const backgroundImage = photoEl
+      ? getComputedStyle(photoEl).backgroundImage
+      : '';
 
     const match = regex.exec(backgroundImage);
 
@@ -168,7 +171,7 @@ describe('Avatar component', () => {
 
     const screenReaderEl: HTMLElement = getScreenReaderEl(el) as HTMLElement;
     expect(screenReaderEl).not.toBeNull();
-    expect(screenReaderEl.textContent.trim()).toBe(
+    expect(screenReaderEl?.textContent?.trim()).toBe(
       'Profile picture of Robert Hernandez'
     );
   });
@@ -232,9 +235,9 @@ describe('Avatar component', () => {
     fixture.detectChanges();
 
     expect(
-      getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem(
+      getFileDropTargetEl(fixture.nativeElement)?.attributes.getNamedItem(
         'aria-label'
-      ).value
+      )?.value
     ).toBe(
       'Add profile photo of Robert Hernandez. Drag a file here or click to browse.'
     );
@@ -254,9 +257,9 @@ describe('Avatar component', () => {
     fixture.detectChanges();
 
     expect(
-      getFileDropTargetEl(fixture.nativeElement).attributes.getNamedItem(
+      getFileDropTargetEl(fixture.nativeElement)?.attributes.getNamedItem(
         'aria-label'
-      ).value
+      )?.value
     ).toBe(
       'Change profile photo of Robert Hernandez. Drag a file here or click to browse.'
     );
@@ -294,7 +297,7 @@ describe('Avatar component', () => {
   it('should notify the consumer when the user chooses a new image', function () {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
-    let expectedFile: SkyFileItem;
+    let expectedFile: SkyFileItem | undefined;
     const actualFile = {
       file: {
         name: 'foo.png',
@@ -319,7 +322,7 @@ describe('Avatar component', () => {
   it('should not notify the consumer when the new image is rejected', function () {
     const fixture = TestBed.createComponent(SkyAvatarComponent);
     const instance = fixture.componentInstance;
-    let expectedFile: SkyFileItem;
+    let expectedFile: SkyFileItem | undefined;
     const actualFile = {
       file: {
         name: 'foo.png',
@@ -359,8 +362,8 @@ describe('Avatar component', () => {
 
     instance.photoDrop({
       files: [],
-      rejectedFiles: [badFileType],
-    } as SkyFileDropChange);
+      rejectedFiles: [badFileType as SkyFileItem],
+    });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is not an image.',
@@ -388,8 +391,8 @@ describe('Avatar component', () => {
 
     instance.photoDrop({
       files: [],
-      rejectedFiles: [badFileType],
-    } as SkyFileDropChange);
+      rejectedFiles: [badFileType as SkyFileItem],
+    });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
@@ -419,8 +422,8 @@ describe('Avatar component', () => {
 
     instance.photoDrop({
       files: [],
-      rejectedFiles: [badFileType],
-    } as SkyFileDropChange);
+      rejectedFiles: [badFileType as SkyFileItem],
+    });
 
     const config: ErrorModalConfig = {
       errorTitle: 'File is too large.',
@@ -433,7 +436,7 @@ describe('Avatar component', () => {
 
   function validateWrapperSizeClass(
     fixture: ComponentFixture<AvatarTestComponent>,
-    size: SkyAvatarSize
+    size: SkyAvatarSize | undefined
   ): void {
     fixture.componentInstance.size = size;
     fixture.detectChanges();
@@ -460,7 +463,7 @@ describe('Avatar component', () => {
   describe('when modern theme', () => {
     function validatePlaceholderClass(
       fixture: ComponentFixture<AvatarTestComponent>,
-      size: SkyAvatarSize,
+      size: SkyAvatarSize | undefined,
       expectedClass: string
     ) {
       fixture.componentInstance.size = size;
