@@ -11,7 +11,7 @@ export class SkyColorpickerFixture {
   private debugEl: DebugElement;
 
   constructor(
-    private fixture: ComponentFixture<any>,
+    private fixture: ComponentFixture<unknown>,
     private skyTestId: string
   ) {
     this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
@@ -32,7 +32,7 @@ export class SkyColorpickerFixture {
    * Set the colorpicker's color hex code.
    * @param hexValue The new color hex code. Must inculde '#'.
    */
-  public async setValueFromHex(hexValue: string): Promise<any> {
+  public async setValueFromHex(hexValue: string): Promise<void> {
     await this.clickColorpickerButtonEl();
 
     const hexInput = document.querySelector(
@@ -59,7 +59,7 @@ export class SkyColorpickerFixture {
     green: number,
     blue: number,
     alpha: number
-  ): Promise<any> {
+  ): Promise<void> {
     await this.clickColorpickerButtonEl();
 
     const rInput = document.querySelector(
@@ -94,7 +94,7 @@ export class SkyColorpickerFixture {
    * Set the colorpicker's color to the provided preset color at the given index.
    * @param presetIndex The index of the color in the `presetColors` list to select.
    */
-  public async setValueFromPresets(presetIndex: number): Promise<any> {
+  public async setValueFromPresets(presetIndex: number): Promise<void> {
     await this.clickColorpickerButtonEl();
 
     const presetColors = document.querySelectorAll(
@@ -113,7 +113,7 @@ export class SkyColorpickerFixture {
     return this.fixture.whenStable();
   }
 
-  private async clickColorpickerButtonEl(): Promise<any> {
+  private async clickColorpickerButtonEl(): Promise<void> {
     const colorpickerButton = this.debugEl.query(
       By.css('sky-colorpicker button')
     ).nativeElement;
@@ -125,7 +125,7 @@ export class SkyColorpickerFixture {
     return this.fixture.whenStable();
   }
 
-  private async clickColorpickerApplyButtonEl(): Promise<any> {
+  private async clickColorpickerApplyButtonEl(): Promise<void> {
     const applyButton = document.querySelector(
       '.sky-btn-colorpicker-apply'
     ) as HTMLButtonElement;

@@ -19,15 +19,15 @@ export class SkyColorpickerTextDirective {
   @Output()
   public newColorContrast = new EventEmitter<SkyColorpickerChangeColor>();
   @Input()
-  public skyColorpickerText: any;
+  public skyColorpickerText: string | undefined;
   @Input()
-  public color: string;
+  public color: string | undefined;
   @Input()
-  public maxRange: number;
+  public maxRange: number | undefined;
 
   @HostListener('input', ['$event'])
-  public changeInput(event: Event) {
-    const element: HTMLInputElement = event.target as HTMLInputElement;
+  protected changeInput(event: Event) {
+    const element = event.target as HTMLInputElement;
     const elementValue = parseFloat(element.value);
     if (this.maxRange === undefined) {
       this.newColorContrast.emit({
@@ -40,13 +40,16 @@ export class SkyColorpickerTextDirective {
     if (
       !isNaN(elementValue) &&
       elementValue >= 0 &&
+      this.maxRange &&
       elementValue <= this.maxRange
     ) {
       this.newColorContrast.emit({
-        color: this.color,
+        // This code assumed non-null pre-strict mode.
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        color: this.color!,
         colorValue: elementValue,
         maxRange: this.maxRange,
-      } as SkyColorpickerChangeColor);
+      });
     }
   }
 }

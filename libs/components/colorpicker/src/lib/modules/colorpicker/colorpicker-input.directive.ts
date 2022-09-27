@@ -1,6 +1,7 @@
 import {
   Directive,
   ElementRef,
+  HostBinding,
   HostListener,
   Injector,
   Input,
@@ -11,12 +12,12 @@ import {
   forwardRef,
 } from '@angular/core';
 import {
-  AbstractControl,
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   NgControl,
   UntypedFormControl,
+  ValidationErrors,
   Validator,
 } from '@angular/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
@@ -25,7 +26,6 @@ import { Subscription } from 'rxjs';
 
 import { SkyColorpickerComponent } from './colorpicker.component';
 import { SkyColorpickerService } from './colorpicker.service';
-import { SkyColorpickerHsva } from './types/colorpicker-hsva';
 import { SkyColorpickerOutput } from './types/colorpicker-output';
 
 const SKY_COLORPICKER_VALUE_ACCESSOR = {
@@ -52,8 +52,6 @@ const SKY_COLORPICKER_DEFAULT_COLOR = '#FFFFFF';
 export class SkyColorpickerInputDirective
   implements OnInit, OnChanges, ControlValueAccessor, Validator, OnDestroy
 {
-  public pickerChangedSubscription: Subscription;
-
   /**
    * Creates the colorpicker element and dropdown. Place this attribute on an `input` element
    * or `button` element, wrap the element in a `sky-colorpicker` component, and set the attribute
@@ -61,7 +59,7 @@ export class SkyColorpickerInputDirective
    * @required
    */
   @Input()
-  public skyColorpickerInput: SkyColorpickerComponent;
+  public skyColorpickerInput!: SkyColorpickerComponent;
 
   /**
    * Specifies an initial color to load in the colorpicker. Use a reactive or
@@ -71,16 +69,17 @@ export class SkyColorpickerInputDirective
    * @deprecated
    */
   @Input()
-  public set initialColor(value: string) {
+  public set initialColor(value: string | undefined) {
     /* istanbul ignore else */
-    if (!this._initialColor && !this.modelValue) {
+    if (!this.#_initialColor && !this.#modelValue) {
       this.writeValue(value);
     }
-    this._initialColor = value;
+
+    this.#_initialColor = value;
   }
 
   public get initialColor(): string {
-    return this._initialColor || SKY_COLORPICKER_DEFAULT_COLOR;
+    return this.#_initialColor || SKY_COLORPICKER_DEFAULT_COLOR;
   }
 
   /**
@@ -123,57 +122,74 @@ export class SkyColorpickerInputDirective
   @Input()
   public allowTransparency = true;
 
-  private _disabled: boolean;
-  private _initialColor: string;
-  private modelValue: SkyColorpickerOutput;
+  @HostBinding('readonly')
+  protected get readonly(): boolean {
+    return true;
+  }
+
+  @HostBinding('class.sky-colorpicker-input')
+  protected get colorInputClass(): boolean {
+    return true;
+  }
+
+  #modelValue: SkyColorpickerOutput | undefined;
+  #pickerChangedSubscription: Subscription | undefined;
+  #elementRef: ElementRef;
+  #renderer: Renderer2;
+  #svc: SkyColorpickerService;
+  #resourcesSvc: SkyLibResourcesService;
+  #injector: Injector;
+
+  #_disabled: boolean | undefined;
+  #_initialColor: string | undefined;
 
   constructor(
-    private elementRef: ElementRef,
-    private renderer: Renderer2,
-    private service: SkyColorpickerService,
-    private resourcesService: SkyLibResourcesService,
-    private injector: Injector
-  ) {}
+    elementRef: ElementRef,
+    renderer: Renderer2,
+    svc: SkyColorpickerService,
+    resourcesSvc: SkyLibResourcesService,
+    injector: Injector
+  ) {
+    this.#elementRef = elementRef;
+    this.#renderer = renderer;
+    this.#svc = svc;
+    this.#resourcesSvc = resourcesSvc;
+    this.#injector = injector;
+  }
 
-  @HostListener('input', ['$event'])
-  public changeInput(event: any) {
-    const value = event.target.value;
+  @HostListener('input')
+  public changeInput(): void {
+    const value = this.#elementRef.nativeElement.value;
     this.skyColorpickerInput.updatePickerValues(value);
     this.skyColorpickerInput.backgroundColorForDisplay = value;
   }
 
-  @HostListener('change', ['$event'])
-  public onChange(event: any) {
-    const newValue = event.target.value;
-    this.modelValue = this.formatter(newValue);
-    this._validatorChange();
-    this._onChange(this.modelValue);
-    this.writeModelValue(this.modelValue);
+  @HostListener('change')
+  public onChange(): void {
+    const newValue = this.#elementRef.nativeElement.value;
+    const formattedValue = this.#formatter(newValue);
+    this.#modelValue = formattedValue;
+    this.#writeModelValue(formattedValue);
   }
 
-  /* istanbul ignore next */
-  @HostListener('blur')
-  public onBlur() {
-    /*istanbul ignore next */
-    this._onTouched();
-  }
+  public ngOnInit(): void {
+    const element = this.#elementRef.nativeElement;
 
-  public ngOnInit() {
-    const element = this.elementRef.nativeElement;
-
-    this.renderer.addClass(element, 'sky-form-control');
+    this.#renderer.addClass(element, 'sky-form-control');
     this.skyColorpickerInput.initialColor = this.initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
 
-    this.pickerChangedSubscription =
+    this.#pickerChangedSubscription =
       this.skyColorpickerInput.selectedColorChanged.subscribe(
         (newColor: SkyColorpickerOutput) => {
           /* istanbul ignore else */
           if (newColor) {
-            this.modelValue = this.formatter(newColor);
-            this.writeModelValue(this.modelValue);
+            this.#modelValue = this.#formatter(newColor);
+
+            // This code assumed non-null pre-strict mode.
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.#writeModelValue(this.#modelValue!);
           }
-          this._onChange(newColor);
         }
       );
 
@@ -181,16 +197,16 @@ export class SkyColorpickerInputDirective
 
     /* Sanity check */
     /* istanbul ignore else */
-    if (!this._disabled) {
+    if (!this.#_disabled) {
       this.skyColorpickerInput.backgroundColorForDisplay = this.initialColor;
     }
 
     /// Set aria-label as default, if not set
     if (!element.getAttribute('aria-label')) {
-      this.renderer.setAttribute(
+      this.#renderer.setAttribute(
         element,
         'aria-label',
-        this.getString('skyux_colorpicker_input_default_label')
+        this.#getString('skyux_colorpicker_input_default_label')
       );
     }
 
@@ -200,19 +216,16 @@ export class SkyColorpickerInputDirective
     } else {
       this.skyColorpickerInput.isVisible = true;
     }
-
-    element.setAttribute('readonly', 'true');
-    this.renderer.addClass(element, 'sky-colorpicker-input');
   }
 
-  public ngOnDestroy() {
-    this.pickerChangedSubscription.unsubscribe();
+  public ngOnDestroy(): void {
+    if (this.#pickerChangedSubscription) {
+      this.#pickerChangedSubscription.unsubscribe();
+    }
   }
 
-  public setColorPickerDefaults() {
+  public setColorPickerDefaults(): void {
     this.skyColorpickerInput.setDialog(
-      this,
-      this.elementRef,
       this.initialColor,
       this.outputFormat,
       this.presetColors,
@@ -222,119 +235,110 @@ export class SkyColorpickerInputDirective
   }
 
   public ngOnChanges(): void {
-    this._validatorChange();
     this.skyColorpickerInput.returnFormat = this.returnFormat;
     this.setColorPickerDefaults();
   }
 
-  public registerOnChange(fn: (value: any) => any): void {
-    this._onChange = fn;
-  }
-  public registerOnTouched(fn: () => any): void {
-    this._onTouched = fn;
-  }
-  public registerOnValidatorChange(fn: () => void): void {
-    this._validatorChange = fn;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public registerOnChange(): void {}
 
-  public writeValue(value: any) {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public registerOnTouched(): void {}
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public registerOnValidatorChange(): void {}
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public writeValue(value: any): void {
     if (
       this.skyColorpickerInput &&
       value &&
       value !== this.skyColorpickerInput.lastAppliedColor
     ) {
-      this.modelValue = this.formatter(value);
-      this.writeModelValue(this.modelValue);
+      const formattedValue = this.#formatter(value);
 
-      if (!this._initialColor) {
-        this._initialColor = value;
+      this.#modelValue = formattedValue;
+      this.#writeModelValue(formattedValue);
+
+      if (!this.#_initialColor) {
+        this.#_initialColor = value;
         this.skyColorpickerInput.initialColor = value;
       }
       this.skyColorpickerInput.lastAppliedColor = value;
-      const control: UntypedFormControl = this.injector.get<NgControl>(
+      const control: UntypedFormControl = this.#injector.get<NgControl>(
         NgControl
       ).control as UntypedFormControl;
       if (control) {
-        control.setValue(this.modelValue, { emitEvent: false });
+        control.setValue(this.#modelValue, { emitEvent: false });
       }
     }
   }
 
-  public validate(control: AbstractControl): { [key: string]: any } {
-    const value = control.value;
-    if (!value) {
-      return;
-    }
-    // Validation
+  public validate(): ValidationErrors | null {
+    return null;
   }
 
   /**
    * Implemented as part of ControlValueAccessor.
    */
   public setDisabledState(isDisabled: boolean): void {
-    this._disabled = isDisabled;
+    this.#_disabled = isDisabled;
     this.skyColorpickerInput.disabled = isDisabled;
-    if (this._disabled) {
+    if (this.#_disabled) {
       this.skyColorpickerInput.backgroundColorForDisplay = '#fff';
-    } else {
-      this.skyColorpickerInput.backgroundColorForDisplay = this.modelValue.hex;
+    } else if (this.#modelValue) {
+      this.skyColorpickerInput.backgroundColorForDisplay = this.#modelValue.hex;
     }
   }
 
-  private writeModelValue(model: SkyColorpickerOutput) {
+  #writeModelValue(model: SkyColorpickerOutput): void {
     const setElementValue = model.rgbaText;
-    const element = this.elementRef.nativeElement;
+    const element = this.#elementRef.nativeElement;
 
     let output: string;
     switch (this.outputFormat) {
-      case 'rgba':
-        output = model.rgbaText;
-        break;
-
       case 'hsla':
         output = model.hslaText;
         break;
-
       case 'cmyk':
         output = model.cmykText;
         break;
-
       case 'hex':
         output = model.hex;
+        break;
+      default:
+        output = model.rgbaText;
         break;
     }
 
     this.skyColorpickerInput.updatePickerValues(output);
     this.skyColorpickerInput.backgroundColorForDisplay = output;
 
-    this.renderer.setStyle(element, 'background-color', setElementValue);
-    this.renderer.setProperty(element, 'value', output);
+    this.#renderer.setStyle(element, 'background-color', setElementValue);
+    this.#renderer.setProperty(element, 'value', output);
   }
 
-  private formatter(color: any) {
+  #formatter(
+    color: string | SkyColorpickerOutput | undefined
+  ): SkyColorpickerOutput {
     if (color && typeof color !== 'string') {
       return color;
     }
 
-    const hsva: SkyColorpickerHsva = this.service.stringToHsva(
-      color,
+    const hsva = this.#svc.stringToHsva(
+      color as string,
       this.alphaChannel === 'hex8'
     );
 
-    const formatColor = this.service.skyColorpickerOut(hsva);
+    // This code assumed non-null pre-strict mode.
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const formatColor = this.#svc.skyColorpickerOut(hsva!);
 
     return formatColor;
   }
 
-  private getString(key: string): string {
+  #getString(key: string): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale({ locale: 'en-US' }, key);
+    return this.#resourcesSvc.getStringForLocale({ locale: 'en-US' }, key);
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onChange = (_: any) => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _onTouched = () => {};
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private _validatorChange = () => {};
 }

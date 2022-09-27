@@ -4,6 +4,6 @@
  */
 export interface SkyColorpickerChangeColor {
   color: string;
-  colorValue: number;
-  maxRange: number;
+  colorValue?: number;
+  maxRange?: number;
 }
