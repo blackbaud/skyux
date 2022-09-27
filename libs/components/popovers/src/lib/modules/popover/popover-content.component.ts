@@ -266,7 +266,7 @@ export class SkyPopoverContentComponent implements OnInit, OnDestroy {
   }
 
   public applyFocus(): void {
-    if (this.isOpen) {
+    if (this.popoverRef && this.isOpen) {
       this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
         this.popoverRef,
         '.sky-popover',

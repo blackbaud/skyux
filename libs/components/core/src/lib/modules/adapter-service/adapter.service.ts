@@ -125,14 +125,10 @@ export class SkyCoreAdapterService {
    * recieve focus if no focusable children are found.
    */
   public getFocusableChildrenAndApplyFocus(
-    elementRef: ElementRef | undefined,
+    elementRef: ElementRef,
     containerSelector?: string,
     focusOnContainerIfNoChildrenFound = false
   ): void {
-    if (!elementRef) {
-      return;
-    }
-
     const containerElement =
       elementRef.nativeElement.querySelector(containerSelector);
 

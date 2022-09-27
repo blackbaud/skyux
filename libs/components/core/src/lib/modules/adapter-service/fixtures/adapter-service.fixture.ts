@@ -44,7 +44,7 @@ export class AdapterServiceFixtureComponent {
   }
 
   public getFocusableChildrenAndApplyFocus(
-    element: ElementRef | undefined,
+    element: ElementRef,
     containerSelector?: string,
     focusOnContainerIfNotFound?: boolean
   ): void {

@@ -124,7 +124,7 @@ export class SkyDropdownMenuComponent implements AfterContentInit, OnDestroy {
   constructor(
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
-    @Optional() dropdownComponent: SkyDropdownComponent
+    @Optional() dropdownComponent?: SkyDropdownComponent
   ) {
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;

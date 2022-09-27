@@ -112,16 +112,6 @@ describe('Core adapter service', () => {
 
       expect(document.activeElement).toEqual(document.body);
     });
-
-    it('should not apply focus if the element is undefined', () => {
-      component.getFocusableChildrenAndApplyFocus(
-        undefined,
-        '#paragraph-container',
-        true
-      );
-
-      expect(document.activeElement).toEqual(document.body);
-    });
   });
 
   describe('applyAutoFocus', () => {
