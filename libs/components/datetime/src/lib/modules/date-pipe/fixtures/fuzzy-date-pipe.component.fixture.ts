@@ -8,14 +8,14 @@ import { SkyFuzzyDatePipe } from '../fuzzy-date.pipe';
   templateUrl: './fuzzy-date-pipe.component.fixture.html',
 })
 export class FuzzyDatePipeTestComponent {
-  public dateValue: SkyFuzzyDate = {
+  public dateValue: SkyFuzzyDate | undefined = {
     year: 1955,
     month: 11,
   };
 
   public format = 'MMM Y';
 
-  public locale: string;
+  public locale: string | undefined;
 
   constructor(private fuzzyDatePipe: SkyFuzzyDatePipe) {}
 

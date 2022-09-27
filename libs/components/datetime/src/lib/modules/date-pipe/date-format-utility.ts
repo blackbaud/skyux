@@ -22,7 +22,7 @@ export class SkyDateFormatUtility {
     locale: string,
     value: any,
     pattern: string
-  ): string | null {
+  ): string | undefined {
     let date: Date;
 
     if (isBlank(value) || value !== value) {
@@ -33,7 +33,7 @@ export class SkyDateFormatUtility {
     // introduce a breaking change, so we check for it here. This could probably be removed
     // in a future major version.
     if (value instanceof Object && !(value instanceof Date)) {
-      handleInvalidDate(value);
+      throw new Error('Invalid value: ' + value);
     }
 
     // Use moment to avoid inconsistencies between browsers interpreting the value differently.
@@ -41,7 +41,7 @@ export class SkyDateFormatUtility {
     if (momentDate.isValid()) {
       date = momentDate.toDate();
     } else {
-      handleInvalidDate(value);
+      throw new Error('Invalid value: ' + value);
     }
 
     return SkyIntlDateFormatter.format(
@@ -54,8 +54,4 @@ export class SkyDateFormatUtility {
 
 function isBlank(obj: any): boolean {
   return !obj;
-}
-
-function handleInvalidDate(value: any): void {
-  throw new Error('Invalid value: ' + value);
 }

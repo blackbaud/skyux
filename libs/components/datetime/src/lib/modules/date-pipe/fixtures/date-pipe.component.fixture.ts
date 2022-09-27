@@ -8,8 +8,8 @@ import { SkyDatePipe } from '../date.pipe';
 })
 export class DatePipeTestComponent {
   public dateValue: any = new Date(2000, 0, 1);
-  public format: string;
-  public locale: string;
+  public format: string | undefined;
+  public locale: string | undefined;
 
   constructor(private datePipe: SkyDatePipe) {}
 
