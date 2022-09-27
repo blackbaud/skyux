@@ -228,9 +228,7 @@ describe('Avatar component', () => {
     fixture.componentInstance.name = 'Robert Hernandez';
 
     fixture.detectChanges();
-    if (fixture.componentInstance.avatarComponent) {
-      fixture.componentInstance.avatarComponent.canChange = true;
-    }
+    fixture.componentInstance.avatarComponent.canChange = true;
 
     fixture.detectChanges();
     tick();
