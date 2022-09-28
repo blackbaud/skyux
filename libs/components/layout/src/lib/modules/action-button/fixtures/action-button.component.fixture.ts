@@ -9,7 +9,7 @@ import { SkyActionButtonContainerAlignItemsType } from '../types/action-button-c
   templateUrl: './action-button.component.fixture.html',
 })
 export class ActionButtonTestComponent {
-  public firstButtonHeight: string;
+  public firstButtonHeight: string | undefined;
 
   public permalink1: SkyActionButtonPermalink = {
     url: 'https://developer.blackbaud.com/skyux/components',
@@ -38,13 +38,13 @@ export class ActionButtonTestComponent {
 
   public buttonIsClicked = false;
 
-  public alignItems: SkyActionButtonContainerAlignItemsType;
+  public alignItems: SkyActionButtonContainerAlignItemsType | undefined;
 
   @ViewChild(SkyActionButtonContainerComponent, {
     read: SkyActionButtonContainerComponent,
     static: true,
   })
-  public actionButtonContainer: SkyActionButtonContainerComponent;
+  public actionButtonContainer: SkyActionButtonContainerComponent | undefined;
 
   public buttonClicked() {
     this.buttonIsClicked = true;
