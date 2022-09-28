@@ -1,33 +1,7 @@
-import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkyBoxModule } from './box.module';
-
-@Component({
-  selector: 'sky-box-test',
-  template: `
-    <sky-box
-      [ariaLabel]="ariaLabel"
-      [ariaLabelledBy]="ariaLabelledBy"
-      [ariaRole]="ariaRole"
-    >
-      <sky-box-header>
-        <h2 class="sky-font-heading-2" id="my-header">Header</h2>
-      </sky-box-header>
-      <sky-box-controls>
-        <button class="sky-btn sky-btn-default sky-btn-icon" type="button">
-          X
-        </button>
-      </sky-box-controls>
-      <sky-box-content> Lorem ipsum dolor sit amet. </sky-box-content>
-    </sky-box>
-  `,
-})
-export class BoxTestComponent {
-  public ariaLabel: string;
-  public ariaLabelledBy: string;
-  public ariaRole: string;
-}
+import { BoxTestComponent } from './fixtures/box.component.fixture';
+import { SkyBoxFixturesModule } from './fixtures/box.module.fixture';
 
 function getBoxEl(fixture: ComponentFixture<any>): HTMLElement {
   return fixture.nativeElement.querySelector('.sky-box');
@@ -40,7 +14,7 @@ describe('BoxComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [BoxTestComponent],
-      imports: [SkyBoxModule],
+      imports: [SkyBoxFixturesModule],
     }).compileComponents();
   });
 
