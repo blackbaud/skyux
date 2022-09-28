@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 /**
@@ -38,27 +37,6 @@ export class SkyFluidGridComponent {
 
   public get gutterSize(): SkyFluidGridGutterSizeType {
     return this._gutterSize === undefined ? 'large' : this._gutterSize;
-  }
-
-  /**
-   * @internal
-   */
-  public get gutterSizeResolved(): SkyFluidGridGutterSizeType {
-    // Before this change, the template did a `==` comparison, implicitly converting numerical
-    // string values to their numeric values before comparing them. Checking for the numerical
-    // string value in addition to the values allowed by the type maintains this behavior.
-    switch (this.gutterSize) {
-      case 'medium':
-      case SkyFluidGridGutterSize.Medium:
-      case SkyFluidGridGutterSize.Medium.toString():
-        return 'medium';
-      case 'small':
-      case SkyFluidGridGutterSize.Small:
-      case SkyFluidGridGutterSize.Small.toString():
-        return 'small';
-      default:
-        return 'large';
-    }
   }
 
   private _disableMargin: boolean;

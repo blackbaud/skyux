@@ -18,7 +18,6 @@ export * from './lib/modules/description-list/description-list.module';
 export * from './lib/modules/description-list/types/description-list-mode';
 export * from './lib/modules/description-list/types/description-list-mode-type';
 
-export * from './lib/modules/fluid-grid/fluid-grid-gutter-size';
 export * from './lib/modules/fluid-grid/fluid-grid.module';
 export * from './lib/modules/fluid-grid/types/fluid-grid-gutter-size-type';
 

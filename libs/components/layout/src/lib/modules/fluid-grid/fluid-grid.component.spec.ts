@@ -3,7 +3,6 @@ import { expect } from '@skyux-sdk/testing';
 
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
 import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
-import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 // #region helpers
@@ -64,29 +63,14 @@ describe('SkyFluidGridComponent', () => {
     const fluidGrid = getFluidGrid(fixture);
 
     validateGutterSize(fluidGrid, 'small', 'sky-fluid-grid-gutter-size-small');
-    validateGutterSize(
-      fluidGrid,
-      SkyFluidGridGutterSize.Small,
-      'sky-fluid-grid-gutter-size-small'
-    );
 
     validateGutterSize(
       fluidGrid,
       'medium',
       'sky-fluid-grid-gutter-size-medium'
     );
-    validateGutterSize(
-      fluidGrid,
-      SkyFluidGridGutterSize.Medium,
-      'sky-fluid-grid-gutter-size-medium'
-    );
 
     validateGutterSize(fluidGrid, 'large', 'sky-fluid-grid-gutter-size-large');
-    validateGutterSize(
-      fluidGrid,
-      SkyFluidGridGutterSize.Large,
-      'sky-fluid-grid-gutter-size-large'
-    );
   });
 
   it('should not have the no-margins CSS class when disableMargin is false or undefined', () => {
