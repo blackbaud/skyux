@@ -11,14 +11,14 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
   templateUrl: './colorpicker-component.fixture.html',
 })
 export class ColorpickerTestComponent {
-  public pickerButtonIcon: string;
-  public pickerButtonIconType: string;
-  public label: string;
-  public labelledBy: string;
+  public pickerButtonIcon: string | undefined;
+  public pickerButtonIconType: string | undefined;
+  public label: string | undefined;
+  public labelledBy: string | undefined;
   public selectedHexType = 'hex6';
-  public selectedColor = '#2889e5';
+  public selectedColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
-  public presetColors: string[] = [
+  public presetColors = [
     '#333333',
     '#888888',
     '#EFEFEF',
@@ -39,10 +39,10 @@ export class ColorpickerTestComponent {
   @ViewChild(SkyColorpickerComponent, {
     static: true,
   })
-  public colorpickerComponent: SkyColorpickerComponent;
+  public colorpickerComponent!: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 
-  public colorModel: string;
+  public colorModel: string | undefined;
 
   public sendMessage(type: SkyColorpickerMessageType) {
     this.colorpickerController.next({ type });

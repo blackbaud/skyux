@@ -13,9 +13,9 @@ import { SkyColorpickerMessageType } from '../types/colorpicker-message-type';
 })
 export class ColorpickerReactiveTestComponent {
   public selectedHexType = 'hex6';
-  public initialColor = '#2889e5';
+  public initialColor: string | undefined = '#2889e5';
   public selectedOutputFormat = 'rgba';
-  public presetColors: string[] = [
+  public presetColors = [
     '#333333',
     '#888888',
     '#EFEFEF',
@@ -34,11 +34,11 @@ export class ColorpickerReactiveTestComponent {
   @ViewChild('colorPickerTest', {
     static: true,
   })
-  public colorpickerComponent: SkyColorpickerComponent;
+  public colorpickerComponent!: SkyColorpickerComponent;
   public colorpickerController = new Subject<SkyColorpickerMessage>();
 
-  public showMultiple: boolean;
-  public newValues: any = {
+  public showMultiple = false;
+  public newValues = {
     colorModel: '#000',
     colorModel2: '#111',
     colorModel3: '#222',
