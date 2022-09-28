@@ -1,0 +1,9 @@
+@import 'libs/components/theme/src/lib/styles/variables';
+
+:host {
+  display: block;
+
+  @media (min-width: $sky-screen-sm-min) {
+    padding-top: var(--sky-margin-stacked-lg);
+  }
+}

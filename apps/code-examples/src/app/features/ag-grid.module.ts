@@ -5,10 +5,14 @@ import { SkyDataEntryGridDemoComponent as DataEntryGridBasicDataEntryGridDocsDem
 import { SkyDataEntryGridDocsDemoModule as DataEntryGridBasicDataEntryGridDocsDemoModule } from '../code-examples/ag-grid/data-entry-grid/basic/data-entry-grid-docs-demo.module';
 import { SkyDataManagerDataEntryGridDemoComponent as DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoComponent } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.component';
 import { SkyDataManagerDataEntryGridDocsDemoModule as DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoModule } from '../code-examples/ag-grid/data-entry-grid/data-manager-added/data-manager-data-entry-grid-docs-demo.module';
-import { SkyBasicDataGridDemoComponent as DataGridBasicBasicDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.component';
+import { SkyBasicMultiselectDataGridDemoComponent as DataGridBasicMultiselectDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/basic-multiselect/basic-multiselect-data-grid-docs-demo.component';
+import { SkyBasicMultiselectDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/basic-multiselect/basic-multiselect-data-grid-docs-demo.module';
+import { SkyBasicDataGridDemoComponent as DataGridBasicDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.component';
 import { SkyBasicDataGridDocsDemoModule as DataGridBasicBasicDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/basic/basic-data-grid-docs-demo.module';
-import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.component';
-import { SkyDataManagerDataGridDocsDemoModule as DataGridDataManagerAddedDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager-added/data-manager-data-grid-docs-demo.module';
+import { SkyDataManagerMultiselectDataGridDemoComponent as DataGridDataManagerAddedDataManagerMultiselectDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager-multiselect/data-manager-multiselect-data-grid-docs-demo.component';
+import { SkyDataManagerMultiselectDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager-multiselect/data-manager-multiselect-data-grid-docs-demo.module';
+import { SkyDataManagerDataGridDemoComponent as DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent } from '../code-examples/ag-grid/data-grid/data-manager/data-manager-data-grid-docs-demo.component';
+import { SkyDataManagerDataGridDocsDemoModule } from '../code-examples/ag-grid/data-grid/data-manager/data-manager-data-grid-docs-demo.module';
 import { SkyTopScrollDataGridDemoComponent } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.component';
 import { SkyTopScrollDataGridDemoModule } from '../code-examples/ag-grid/data-grid/top-scroll/top-scroll-data-grid-demo.module';
 
@@ -24,11 +28,20 @@ const routes: Routes = [
   },
   {
     path: 'data-grid/basic',
-    component: DataGridBasicBasicDataGridDocsDemoComponent,
+    component: DataGridBasicDataGridDocsDemoComponent,
   },
   {
-    path: 'data-grid/data-manager-added',
+    path: 'data-grid/basic-multiselect',
+    component: DataGridBasicMultiselectDataGridDocsDemoComponent,
+  },
+  {
+    path: 'data-grid/data-manager',
     component: DataGridDataManagerAddedDataManagerDataGridDocsDemoComponent,
+  },
+  {
+    path: 'data-grid/data-manager-multiselect',
+    component:
+      DataGridDataManagerAddedDataManagerMultiselectDataGridDocsDemoComponent,
   },
   {
     path: 'data-grid/top-scroll',
@@ -47,7 +60,9 @@ export class AgGridFeatureRoutingModule {}
     DataEntryGridBasicDataEntryGridDocsDemoModule,
     DataEntryGridDataManagerAddedDataManagerDataEntryGridDocsDemoModule,
     DataGridBasicBasicDataGridDocsDemoModule,
-    DataGridDataManagerAddedDataManagerDataGridDocsDemoModule,
+    SkyBasicMultiselectDataGridDocsDemoModule,
+    SkyDataManagerDataGridDocsDemoModule,
+    SkyDataManagerMultiselectDataGridDocsDemoModule,
     SkyTopScrollDataGridDemoModule,
     AgGridFeatureRoutingModule,
   ],

@@ -24,35 +24,36 @@ import { SkyPopoverTrigger } from '../types/popover-trigger';
 export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   //#region directive properties
 
-  public alignment: SkyPopoverAlignment;
+  public alignment: SkyPopoverAlignment | undefined;
 
-  public dismissOnBlur: boolean;
+  public dismissOnBlur: boolean | undefined;
 
-  public messageStream = new Subject<SkyPopoverMessage>();
+  public messageStream: Subject<SkyPopoverMessage> | undefined =
+    new Subject<SkyPopoverMessage>();
 
-  public placement: SkyPopoverPlacement;
+  public placement: SkyPopoverPlacement | undefined;
 
-  public popoverAlignment: SkyPopoverAlignment;
+  public popoverAlignment: SkyPopoverAlignment | undefined;
 
-  public popoverPlacement: SkyPopoverPlacement;
+  public popoverPlacement: SkyPopoverPlacement | undefined;
 
-  public popoverTitle: string;
+  public popoverTitle: string | undefined;
 
-  public skyPopover: SkyPopoverComponent;
+  public skyPopover: SkyPopoverComponent | undefined;
 
-  public trigger: SkyPopoverTrigger;
+  public trigger: SkyPopoverTrigger | undefined;
 
   //#endregion directive properties
 
   @ViewChild('directiveRef', {
     read: ElementRef,
   })
-  public callerElementRef: ElementRef;
+  public callerElementRef: ElementRef | undefined;
 
   @ViewChild('directiveRef', {
     read: SkyPopoverDirective,
   })
-  public directiveRef: SkyPopoverDirective;
+  public directiveRef: SkyPopoverDirective | undefined;
 
   /**
    * Used to test popover directives that do not set any inputs.
@@ -60,22 +61,24 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   @ViewChild('noArgsDirectiveRef', {
     read: SkyPopoverDirective,
   })
-  public noArgsDirectiveRef: SkyPopoverDirective;
+  public noArgsDirectiveRef: SkyPopoverDirective | undefined;
 
   @ViewChild('popoverRef', {
     read: SkyPopoverComponent,
     static: true,
   })
-  public popoverRef: SkyPopoverComponent;
+  public popoverRef: SkyPopoverComponent | undefined;
 
-  public height: number;
+  public height: number | undefined;
 
-  public showFocusableChildren = false;
+  public showFocusableChildren: boolean | undefined;
 
-  public popoverType: 'info' | 'danger';
+  public popoverType: 'info' | 'danger' | undefined;
 
   public ngOnInit(): void {
-    this.popoverRef.enableAnimations = false;
+    if (this.popoverRef) {
+      this.popoverRef.enableAnimations = false;
+    }
   }
 
   public ngAfterViewInit(): void {
@@ -90,7 +93,7 @@ export class PopoverFixtureComponent implements OnInit, AfterViewInit {
   public onPopoverOpened(): void {}
 
   public sendMessage(messageType: SkyPopoverMessageType): void {
-    this.messageStream.next({ type: messageType });
+    this.messageStream?.next({ type: messageType });
   }
 
   public setHeight(height: number): void {

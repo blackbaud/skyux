@@ -218,7 +218,7 @@ describe('FormControl Validators', () => {
       control.setValue('sub.domain,com/pagename');
       expect(control.valid).toBeTruthy();
       control.clearValidators();
-      control.addValidators(SkyValidators.url(optionsRulesetV2));
+      control.addValidators(SkyValidators.url(optionsRulesetV2)!);
       control.updateValueAndValidity();
       expect(control.valid).toBeFalsy();
     });

@@ -7,7 +7,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
-import { SkyAffixConfig, SkyAffixService } from '@skyux/core';
+import { SkyAffixConfig, SkyAffixService, SkyAffixer } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -32,15 +32,15 @@ describe('Dropdown component', function () {
 
   //#region helpers
 
-  function getButtonElement(): HTMLButtonElement {
+  function getButtonElement(): HTMLButtonElement | null {
     return fixture.nativeElement.querySelector('.sky-dropdown-button');
   }
 
-  function getMenuContainerElement(): HTMLElement {
+  function getMenuContainerElement(): HTMLElement | null {
     return document.querySelector('.sky-dropdown-menu-container');
   }
 
-  function getMenuElement(): Element {
+  function getMenuElement(): Element | null {
     const container = getMenuContainerElement();
     if (!container) {
       return container;
@@ -49,18 +49,18 @@ describe('Dropdown component', function () {
     return container.querySelector('.sky-dropdown-menu');
   }
 
-  function getMenuItems(): NodeListOf<Element> {
-    return getMenuElement().querySelectorAll('.sky-dropdown-item');
+  function getMenuItems(): NodeListOf<Element> | undefined {
+    return getMenuElement()?.querySelectorAll('.sky-dropdown-item');
   }
 
-  function getFirstMenuItem(): Element {
-    return getMenuItems().item(0);
+  function getFirstMenuItem(): Element | undefined {
+    return getMenuItems()?.item(0);
   }
 
   function verifyActiveMenuItemByIndex(index: number): void {
-    const menuItems = fixture.componentInstance.dropdownItemRefs.toArray();
+    const menuItems = fixture.componentInstance.dropdownItemRefs?.toArray();
 
-    menuItems.forEach((item: SkyDropdownItemComponent, i: number) => {
+    menuItems?.forEach((item: SkyDropdownItemComponent, i: number) => {
       if (i === index) {
         expect(item.isActive).toEqual(true);
         expect(
@@ -82,12 +82,12 @@ describe('Dropdown component', function () {
     return isElementFocused(menuItemButtons[index]);
   }
 
-  function isElementFocused(elem: Element): boolean {
-    return elem === document.activeElement;
+  function isElementFocused(elem: Element | undefined | null): boolean {
+    return !!elem && elem === document.activeElement;
   }
 
-  function isElementVisible(elem: Element): boolean {
-    return getComputedStyle(elem).visibility !== 'hidden';
+  function isElementVisible(elem: Element | undefined | null): boolean {
+    return !!elem && getComputedStyle(elem).visibility !== 'hidden';
   }
 
   /**
@@ -129,22 +129,22 @@ describe('Dropdown component', function () {
     detectChangesFakeAsync();
 
     const dropdownRef = fixture.componentInstance.dropdownRef;
-    expect(dropdownRef.buttonStyle).toEqual('default');
-    expect(dropdownRef.buttonType).toEqual('select');
-    expect(dropdownRef.disabled).toEqual(false);
-    expect(dropdownRef.dismissOnBlur).toEqual(true);
-    expect(dropdownRef.horizontalAlignment).toEqual('left');
-    expect(dropdownRef.label).toBeUndefined();
-    expect(dropdownRef.title).toBeUndefined();
-    expect(dropdownRef.trigger).toEqual('click');
+    expect(dropdownRef?.buttonStyle).toEqual('default');
+    expect(dropdownRef?.buttonType).toEqual('select');
+    expect(dropdownRef?.disabled).toEqual(false);
+    expect(dropdownRef?.dismissOnBlur).toEqual(true);
+    expect(dropdownRef?.horizontalAlignment).toEqual('left');
+    expect(dropdownRef?.label).toBeUndefined();
+    expect(dropdownRef?.title).toBeUndefined();
+    expect(dropdownRef?.trigger).toEqual('click');
 
     const menuRef = fixture.componentInstance.dropdownMenuRef;
-    expect(menuRef.ariaLabelledBy).toBeUndefined();
-    expect(menuRef.ariaRole).toEqual('menu');
-    expect(menuRef.useNativeFocus).toEqual(true);
+    expect(menuRef?.ariaLabelledBy).toBeUndefined();
+    expect(menuRef?.ariaRole).toEqual('menu');
+    expect(menuRef?.useNativeFocus).toEqual(true);
 
     const itemRefs = fixture.componentInstance.dropdownItemRefs;
-    expect(itemRefs.first.ariaRole).toEqual('menuitem');
+    expect(itemRefs?.first.ariaRole).toEqual('menuitem');
 
     const button = getButtonElement();
     expect(button).toHaveCssClass('sky-btn-default');
@@ -171,9 +171,9 @@ describe('Dropdown component', function () {
     detectChangesFakeAsync();
     const button = getButtonElement();
     // Open the menu.
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
-    expect(fixture.componentInstance.dropdownRef.isOpen).toBeTrue();
+    expect(fixture.componentInstance.dropdownRef?.isOpen).toBeTrue();
     fixture.componentInstance.show = false;
     detectChangesFakeAsync();
     tick();
@@ -186,7 +186,7 @@ describe('Dropdown component', function () {
 
       fixture.componentInstance.horizontalAlignment = expectedAlignment;
 
-      let actualConfig: SkyAffixConfig;
+      let actualConfig: SkyAffixConfig | undefined;
 
       const mockAffixer: any = {
         placementChange: observableOf({}),
@@ -205,10 +205,10 @@ describe('Dropdown component', function () {
       ).and.returnValue(mockAffixer);
 
       detectChangesFakeAsync();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      expect(actualConfig.horizontalAlignment).toEqual(expectedAlignment);
+      expect(actualConfig?.horizontalAlignment).toEqual(expectedAlignment);
 
       // Clear the spy to return the service to normal.
       createAffixerSpy.and.callThrough();
@@ -231,10 +231,10 @@ describe('Dropdown component', function () {
 
     const button = getButtonElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
-    expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(4);
+    expect(fixture.componentInstance.dropdownItemRefs?.length).toEqual(4);
 
     const spy = spyOn(
       fixture.componentInstance.messageStream,
@@ -244,7 +244,7 @@ describe('Dropdown component', function () {
 
     detectChangesFakeAsync();
 
-    expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(3);
+    expect(fixture.componentInstance.dropdownItemRefs?.length).toEqual(3);
     expect(spy).toHaveBeenCalledWith({
       type: SkyDropdownMessageType.Reposition,
     });
@@ -255,19 +255,19 @@ describe('Dropdown component', function () {
 
     const button = getButtonElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     const menu = getMenuElement();
 
     // Should NOT have a scrollbar.
-    expect(menu.scrollHeight > menu.clientHeight).toEqual(false);
+    expect(menu && menu.scrollHeight > menu.clientHeight).toEqual(false);
 
     fixture.componentInstance.setManyItems();
     detectChangesFakeAsync();
 
     // Should now have a scrollbar.
-    expect(menu.scrollHeight > menu.clientHeight).toEqual(true);
+    expect(menu && menu.scrollHeight > menu.clientHeight).toEqual(true);
   }));
 
   it('should emit when a menu item is clicked', fakeAsync(() => {
@@ -284,18 +284,18 @@ describe('Dropdown component', function () {
     const button = getButtonElement();
 
     // Open the menu.
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     // Click third item button.
     const buttonIndex = 2;
     const firstItemButton = getMenuItems()
-      .item(buttonIndex)
+      ?.item(buttonIndex)
       .querySelector('button');
-    firstItemButton.click();
+    firstItemButton?.click();
     detectChangesFakeAsync();
 
-    const selectedItem = fixture.componentInstance.dropdownItemRefs.find(
+    const selectedItem = fixture.componentInstance.dropdownItemRefs?.find(
       (item, i) => {
         return i === buttonIndex;
       }
@@ -310,11 +310,13 @@ describe('Dropdown component', function () {
 
   it('should survive reposition when items change as the menu opens', fakeAsync(() => {
     detectChangesFakeAsync();
-    fixture.componentInstance.dropdownRef.isOpen = true;
+    if (fixture.componentInstance.dropdownRef) {
+      fixture.componentInstance.dropdownRef.isOpen = true;
+    }
     fixture.componentInstance.changeItems();
     detectChangesFakeAsync();
 
-    expect(fixture.componentInstance.dropdownItemRefs.length).toEqual(3);
+    expect(fixture.componentInstance.dropdownItemRefs?.length).toEqual(3);
   }));
 
   describe('mouse interactions', function () {
@@ -324,7 +326,7 @@ describe('Dropdown component', function () {
 
       const button = getButtonElement();
 
-      button.click();
+      button?.click();
       // Simulate mouse movement as well.
       SkyAppTestUtility.fireDomEvent(button, 'mouseenter');
       detectChangesFakeAsync();
@@ -332,7 +334,7 @@ describe('Dropdown component', function () {
       let dropdownMenu = getMenuElement();
       expect(isElementVisible(dropdownMenu)).toEqual(true);
 
-      button.click();
+      button?.click();
       // Simulate mouse movement as well.
       SkyAppTestUtility.fireDomEvent(button, 'mouseleave');
       detectChangesFakeAsync();
@@ -421,7 +423,7 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       const button = getButtonElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let container = getMenuContainerElement();
@@ -441,7 +443,7 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       const button = getButtonElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let container = getMenuContainerElement();
@@ -464,7 +466,7 @@ describe('Dropdown component', function () {
         'next'
       ).and.callThrough();
       const button = getButtonElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       expect(spy).toHaveBeenCalledWith({ type: SkyDropdownMessageType.Open });
@@ -493,7 +495,7 @@ describe('Dropdown component', function () {
       expect(isElementVisible(container)).toEqual(true);
 
       // Close the dropdown.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       container = getMenuContainerElement();
@@ -511,7 +513,7 @@ describe('Dropdown component', function () {
 
       container = getMenuContainerElement();
       const menuItems = getMenuItems();
-      const firstButton = menuItems.item(0).querySelector('button');
+      const firstButton = menuItems?.item(0)?.querySelector('button');
 
       expect(isElementVisible(container)).toEqual(true);
       expect(isElementFocused(firstButton)).toEqual(true);
@@ -535,7 +537,7 @@ describe('Dropdown component', function () {
       expect(isElementVisible(container)).toEqual(true);
 
       // Close the dropdown.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       container = getMenuContainerElement();
@@ -554,8 +556,8 @@ describe('Dropdown component', function () {
       container = getMenuContainerElement();
       const menuItems = getMenuItems();
       const lastButton = menuItems
-        .item(menuItems.length - 1)
-        .querySelector('button');
+        ?.item(menuItems.length - 1)
+        ?.querySelector('button');
 
       expect(isElementVisible(container)).toEqual(true);
       expect(isElementFocused(lastButton)).toEqual(true);
@@ -580,15 +582,19 @@ describe('Dropdown component', function () {
       const container = getMenuContainerElement();
       const menuItems = getMenuItems();
       expect(isElementVisible(container)).toEqual(true);
-      expect(isMenuItemFocused(menuItems.length - 1)).toEqual(false);
-      expect(isMenuItemFocused(menuItems.length - 2)).toEqual(true);
+      expect(menuItems && isMenuItemFocused(menuItems.length - 1)).toEqual(
+        false
+      );
+      expect(menuItems && isMenuItemFocused(menuItems.length - 2)).toEqual(
+        true
+      );
     }));
 
     it('should close menu with escape key while trigger button is focused', fakeAsync(() => {
       detectChangesFakeAsync();
 
       const button = getButtonElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let container = getMenuContainerElement();
@@ -612,7 +618,7 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       const button = getButtonElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let container = getMenuContainerElement();
@@ -856,7 +862,7 @@ describe('Dropdown component', function () {
           key: 'tab',
         },
       });
-      button.blur();
+      button?.blur();
 
       detectChangesFakeAsync();
 
@@ -890,7 +896,7 @@ describe('Dropdown component', function () {
           key: 'tab',
         },
       });
-      button.blur();
+      button?.blur();
 
       detectChangesFakeAsync();
 
@@ -917,7 +923,7 @@ describe('Dropdown component', function () {
 
       expect(isElementVisible(container)).toEqual(true);
 
-      const firstButton = getMenuItems().item(0).querySelector('button');
+      const firstButton = getMenuItems()?.item(0)?.querySelector('button');
 
       // Run 'tab' on first item.
       SkyAppTestUtility.fireDomEvent(firstButton, 'keydown', {
@@ -925,7 +931,7 @@ describe('Dropdown component', function () {
           key: 'tab',
         },
       });
-      firstButton.blur();
+      firstButton?.blur();
 
       detectChangesFakeAsync();
 
@@ -953,7 +959,7 @@ describe('Dropdown component', function () {
 
       const menuItems = getMenuItems();
 
-      SkyAppTestUtility.fireDomEvent(menuItems.item(0), 'keydown', {
+      SkyAppTestUtility.fireDomEvent(menuItems?.item(0), 'keydown', {
         keyboardEventInit: {
           key: 'tab',
         },
@@ -1062,8 +1068,7 @@ describe('Dropdown component', function () {
       fixture.componentInstance.sendMessage(SkyDropdownMessageType.Open);
       detectChangesFakeAsync();
 
-      const affixer = fixture.componentInstance.dropdownRef['affixer'];
-      const affixSpy = spyOn(affixer, 'reaffix').and.callThrough();
+      const affixSpy = spyOn(SkyAffixer.prototype, 'reaffix').and.callThrough();
 
       // Reposition the menu.
       fixture.componentInstance.sendMessage(SkyDropdownMessageType.Reposition);
@@ -1084,10 +1089,13 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
 
       const items = getMenuItems();
+      // Set a dummy index if items doesn't exist so that the test will fail
 
-      verifyActiveMenuItemByIndex(items.length - 1);
+      expect(items).toExist();
+      const lastItemIndex = items!.length - 1;
+      verifyActiveMenuItemByIndex(lastItemIndex);
 
-      expect(isMenuItemFocused(items.length - 1)).toEqual(true);
+      expect(isMenuItemFocused(lastItemIndex)).toEqual(true);
 
       fixture.componentInstance.items = [];
 
@@ -1099,7 +1107,7 @@ describe('Dropdown component', function () {
 
       detectChangesFakeAsync();
 
-      expect(getMenuElement().contains(document.activeElement)).toEqual(
+      expect(getMenuElement()?.contains(document.activeElement)).toEqual(
         false,
         'Requesting to focus the last item of an empty menu should not trigger focus within the menu container.'
       );
@@ -1111,27 +1119,27 @@ describe('Dropdown component', function () {
       detectChangesFakeAsync();
       const button = getButtonElement();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       const menu = getMenuElement();
       const item = getFirstMenuItem();
 
-      expect(button.getAttribute('aria-haspopup')).toEqual(
-        menu.getAttribute('role')
+      expect(button?.getAttribute('aria-haspopup')).toEqual(
+        menu?.getAttribute('role')
       );
-      expect(button.getAttribute('aria-label')).toEqual('Context menu');
-      expect(button.getAttribute('aria-expanded')).toEqual('true');
-      expect(menu.getAttribute('role')).toEqual('menu');
-      expect(menu.getAttribute('aria-labelledby')).toBeNull();
-      expect(item.getAttribute('role')).toEqual('menuitem');
+      expect(button?.getAttribute('aria-label')).toEqual('Context menu');
+      expect(button?.getAttribute('aria-expanded')).toEqual('true');
+      expect(menu?.getAttribute('role')).toEqual('menu');
+      expect(menu?.getAttribute('aria-labelledby')).toBeNull();
+      expect(item?.getAttribute('role')).toEqual('menuitem');
     }));
 
     it('should allow custom overrides of ARIA attributes', fakeAsync(() => {
       detectChangesFakeAsync();
       const button = getButtonElement();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       fixture.componentInstance.menuAriaRole = 'menu-role-override';
@@ -1146,51 +1154,51 @@ describe('Dropdown component', function () {
       const menu = getMenuElement();
       const item = getFirstMenuItem();
 
-      expect(button.getAttribute('aria-label')).toEqual(
+      expect(button?.getAttribute('aria-label')).toEqual(
         'button-label-override'
       );
-      expect(menu.getAttribute('role')).toEqual('menu-role-override');
-      expect(menu.getAttribute('aria-labelledby')).toEqual(
+      expect(menu?.getAttribute('role')).toEqual('menu-role-override');
+      expect(menu?.getAttribute('aria-labelledby')).toEqual(
         'menu-labelled-by-override'
       );
-      expect(item.getAttribute('role')).toEqual('item-role-override');
+      expect(item?.getAttribute('role')).toEqual('item-role-override');
     }));
 
     it('should set the aria-expanded attribute', fakeAsync(() => {
       detectChangesFakeAsync();
       const button = getButtonElement();
 
-      expect(button.getAttribute('aria-expanded')).toEqual('false');
+      expect(button?.getAttribute('aria-expanded')).toEqual('false');
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      expect(button.getAttribute('aria-expanded')).toEqual('true');
+      expect(button?.getAttribute('aria-expanded')).toEqual('true');
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      expect(button.getAttribute('aria-expanded')).toEqual('false');
+      expect(button?.getAttribute('aria-expanded')).toEqual('false');
     }));
 
     it('should set the aria-controls attribute', fakeAsync(() => {
       detectChangesFakeAsync();
       const button = getButtonElement();
 
-      expect(button.getAttribute('aria-controls')).toBeNull();
+      expect(button?.getAttribute('aria-controls')).toBeNull();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       const menu = getMenuElement();
-      expect(button.getAttribute('aria-controls')).toEqual(
-        menu.getAttribute('id')
+      expect(button?.getAttribute('aria-controls')).toEqual(
+        menu?.getAttribute('id')
       );
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      expect(button.getAttribute('aria-controls')).toBeNull();
+      expect(button?.getAttribute('aria-controls')).toBeNull();
     }));
 
     it('should set the title attribute', fakeAsync(() => {
@@ -1198,15 +1206,15 @@ describe('Dropdown component', function () {
 
       const button = getButtonElement();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      expect(button.getAttribute('title')).toBeNull();
+      expect(button?.getAttribute('title')).toBeNull();
 
       fixture.componentInstance.title = 'dropdown-title-override';
       detectChangesFakeAsync();
 
-      expect(button.getAttribute('title')).toEqual('dropdown-title-override');
+      expect(button?.getAttribute('title')).toEqual('dropdown-title-override');
     }));
 
     it('should be accessible when closed', async(() => {
@@ -1231,7 +1239,7 @@ describe('Dropdown component', function () {
       fixture.whenStable().then(() => {
         const button = getButtonElement();
 
-        button.click();
+        button?.click();
 
         fixture.detectChanges();
         fixture.whenStable().then(() => {

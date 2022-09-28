@@ -1,9 +1,4 @@
-import {
-  AfterContentInit,
-  Component,
-  ContentChildren,
-  QueryList,
-} from '@angular/core';
+import { Component, ContentChildren, QueryList } from '@angular/core';
 
 import { SkyToolbarSectionComponent } from './toolbar-section.component';
 
@@ -15,13 +10,13 @@ import { SkyToolbarSectionComponent } from './toolbar-section.component';
   styleUrls: ['./toolbar.component.scss'],
   templateUrl: './toolbar.component.html',
 })
-export class SkyToolbarComponent implements AfterContentInit {
+export class SkyToolbarComponent {
   public hasSections = false;
 
   @ContentChildren(SkyToolbarSectionComponent, { descendants: true })
-  private sectionComponents: QueryList<SkyToolbarSectionComponent>;
-
-  public ngAfterContentInit() {
-    this.hasSections = this.sectionComponents.length > 0;
+  public set sectionComponents(
+    value: QueryList<SkyToolbarSectionComponent> | undefined
+  ) {
+    this.hasSections = !!value && value.length > 0;
   }
 }

@@ -55,23 +55,23 @@ const DATA_SKY_ID = 'test-dropdown';
   `,
 })
 class DropdownTestComponent {
-  public activeIndex: number;
+  public activeIndex: number | undefined;
 
-  public buttonStyle: string;
+  public buttonStyle: string | undefined;
 
-  public buttonType: string;
+  public buttonType: string | undefined;
 
   public disabled = false;
 
   public dropdownButtonText = 'Show dropdown';
 
-  public dropdownMenuAriaLabelledBy: string;
+  public dropdownMenuAriaLabelledBy: string | undefined;
 
-  public dropdownMenuAriaRole: string;
+  public dropdownMenuAriaRole: string | undefined;
 
-  public label: string;
+  public label: string | undefined;
 
-  public title: string;
+  public title: string | undefined;
 
   public items: { name: string; disabled?: boolean }[] = [
     { name: 'Option 1' },
@@ -135,28 +135,28 @@ describe('Dropdown fixture', () => {
     fixture.detectChanges();
 
     // Expect new values to be set on sky-dropdown component.
-    expect(dropdownFixture.dropdown.buttonStyle).toEqual(
+    expect(dropdownFixture.dropdown?.buttonStyle).toEqual(
       testComponent.buttonStyle
     );
-    expect(dropdownFixture.dropdown.buttonType).toEqual(
+    expect(dropdownFixture.dropdown?.buttonType).toEqual(
       testComponent.buttonType
     );
-    expect(dropdownFixture.dropdown.disabled).toEqual(testComponent.disabled);
-    expect(dropdownFixture.dropdown.label).toEqual(testComponent.label);
-    expect(dropdownFixture.dropdown.title).toEqual(testComponent.title);
-    expect(dropdownFixture.dropdown.buttonType).toEqual(
+    expect(dropdownFixture.dropdown?.disabled).toEqual(testComponent.disabled);
+    expect(dropdownFixture.dropdown?.label).toEqual(testComponent.label);
+    expect(dropdownFixture.dropdown?.title).toEqual(testComponent.title);
+    expect(dropdownFixture.dropdown?.buttonType).toEqual(
       testComponent.buttonType
     );
 
     // Check default button styling.
     testComponent.buttonStyle = undefined;
     fixture.detectChanges();
-    expect(dropdownFixture.dropdown.buttonStyle).toEqual('default');
+    expect(dropdownFixture.dropdown?.buttonStyle).toEqual('default');
 
     // Check custom button styling.
     testComponent.buttonStyle = 'invalid';
     fixture.detectChanges();
-    expect(dropdownFixture.dropdown.buttonStyle).toBeUndefined();
+    expect(dropdownFixture.dropdown?.buttonStyle).toBeUndefined();
   });
 
   it('should expose the inner text of the dropdown button', () => {
@@ -182,10 +182,10 @@ describe('Dropdown fixture', () => {
     await dropdownFixture.clickDropdownButton();
 
     // Expect new values to be set on sky-dropdown-menu component.
-    expect(dropdownFixture.dropdownMenu.ariaLabelledBy).toEqual(
+    expect(dropdownFixture.dropdownMenu?.ariaLabelledBy).toEqual(
       testComponent.dropdownMenuAriaLabelledBy
     );
-    expect(dropdownFixture.dropdownMenu.ariaRole).toEqual(
+    expect(dropdownFixture.dropdownMenu?.ariaRole).toEqual(
       testComponent.dropdownMenuAriaRole
     );
   });
@@ -193,9 +193,9 @@ describe('Dropdown fixture', () => {
   it('should expose the properties for dropdown items', async () => {
     await dropdownFixture.clickDropdownButton();
 
-    expect(dropdownFixture.getDropdownItem(0).ariaRole).toEqual('menuitem');
-    expect(dropdownFixture.getDropdownItem(1).ariaRole).toEqual('menuitem');
-    expect(dropdownFixture.getDropdownItem(2).ariaRole).toEqual(
+    expect(dropdownFixture.getDropdownItem(0)?.ariaRole).toEqual('menuitem');
+    expect(dropdownFixture.getDropdownItem(1)?.ariaRole).toEqual('menuitem');
+    expect(dropdownFixture.getDropdownItem(2)?.ariaRole).toEqual(
       'item-custom-role'
     );
   });

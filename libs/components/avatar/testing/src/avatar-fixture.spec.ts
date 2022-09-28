@@ -19,13 +19,15 @@ import { SkyAvatarFixture } from './avatar-fixture';
   `,
 })
 class TestComponent {
-  public name: string;
+  public name: string | undefined;
 
-  public src: string;
+  public src: string | undefined;
 
-  public canChange: false;
+  public canChange = false;
 
-  public avatarChanged() {}
+  public avatarChanged(): void {
+    return;
+  }
 }
 //#endregion Test component
 

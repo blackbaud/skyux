@@ -10,13 +10,13 @@ import { SkyAvatarComponent } from '../avatar.component';
 })
 export class AvatarTestComponent {
   @ViewChild(SkyAvatarComponent)
-  public avatarComponent: SkyAvatarComponent;
+  public avatarComponent!: SkyAvatarComponent;
 
   public maxFileSize = 500000;
 
-  public name: string;
+  public name: string | undefined;
 
-  public size: SkyAvatarSize;
+  public size: SkyAvatarSize | undefined;
 
-  public src: SkyAvatarSrc;
+  public src: SkyAvatarSrc | undefined;
 }

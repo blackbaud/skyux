@@ -3,13 +3,13 @@
     *ngSwitchCase="!!permalink?.route?.commands"
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
-    [fragment]="permalink.route?.extras?.fragment"
+    [fragment]="permalink?.route?.extras?.fragment"
     [skyThemeClass]="{
       'sky-btn sky-box': 'modern'
     }"
-    [queryParams]="permalink.route?.extras?.queryParams"
-    [queryParamsHandling]="permalink.route?.extras?.queryParamsHandling"
-    [routerLink]="permalink.route?.commands"
+    [queryParams]="permalink?.route?.extras?.queryParams"
+    [queryParamsHandling]="permalink?.route?.extras?.queryParamsHandling"
+    [routerLink]="permalink?.route?.commands"
   >
     <ng-container *ngTemplateOutlet="actionButtonContent"></ng-container>
   </a>
@@ -23,7 +23,7 @@
     "
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
-    [href]="permalink.url"
+    [href]="permalink?.url"
     [skyThemeClass]="{
       'sky-btn sky-box': 'modern'
     }"
@@ -40,7 +40,7 @@
     "
     class="sky-action-button sky-btn-default sky-rounded-corners"
     tabindex="0"
-    [skyHref]="permalink.url"
+    [skyHref]="permalink?.url"
     (skyHrefChange)="onSkyHrefDisplayChange($event)"
     [skyThemeClass]="{
       'sky-btn sky-box': 'modern'

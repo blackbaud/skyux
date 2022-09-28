@@ -1,8 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
@@ -64,13 +60,9 @@ export class SkyTopScrollDataGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
-  public noRowsTemplate: string;
+  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
-  constructor(
-    private agGridService: SkyAgGridService,
-    private changeDetector: ChangeDetectorRef
-  ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
+  constructor(private agGridService: SkyAgGridService) {
     this.gridOptions = this.agGridService.getGridOptions({
       gridOptions: {
         columnDefs: this.columnDefs,
@@ -80,13 +72,11 @@ export class SkyTopScrollDataGridDemoComponent {
         },
       },
     });
-    this.changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-    this.changeDetector.markForCheck();
   }
 
   public searchApplied(searchText: string | void): void {

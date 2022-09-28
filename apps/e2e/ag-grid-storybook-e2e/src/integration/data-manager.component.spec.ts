@@ -18,6 +18,7 @@ describe(`ag-grid-storybook data manager`, () => {
           });
 
           it(`should render ag-grid with data manager, ${label} layout`, () => {
+            // eslint-disable-next-line cypress/no-unnecessary-waiting
             cy.get('#ready')
               .should('exist')
               .end()
@@ -30,6 +31,8 @@ describe(`ag-grid-storybook data manager`, () => {
               .should('have.length.gt', 14)
               .should('have.descendants', '.sky-switch-control')
               .end()
+              // Necessary to wait for the grid to render.
+              .wait(1000)
               .get('#root')
               .screenshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
@@ -37,6 +40,7 @@ describe(`ag-grid-storybook data manager`, () => {
                   clip: { x: 0, y: 0, width: 1300, height: 600 },
                 }
               )
+              .get('#root')
               .percySnapshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
