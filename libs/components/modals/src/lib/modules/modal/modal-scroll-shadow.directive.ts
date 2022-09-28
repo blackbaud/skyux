@@ -9,7 +9,7 @@ import {
   Optional,
   Output,
 } from '@angular/core';
-import { MutationObserverService } from '@skyux/core';
+import { SkyMutationObserverService } from '@skyux/core';
 import { SkyTheme, SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
@@ -38,13 +38,13 @@ export class SkyModalScrollShadowDirective implements OnInit, OnDestroy {
   #ngUnsubscribe = new Subject<void>();
 
   #elRef: ElementRef;
-  #mutationObserverSvc: MutationObserverService;
+  #mutationObserverSvc: SkyMutationObserverService;
   #ngZone: NgZone;
   #themeSvc: SkyThemeService | undefined;
 
   constructor(
     elRef: ElementRef,
-    mutationObserverSvc: MutationObserverService,
+    mutationObserverSvc: SkyMutationObserverService,
     ngZone: NgZone,
     @Optional() themeSvc?: SkyThemeService
   ) {

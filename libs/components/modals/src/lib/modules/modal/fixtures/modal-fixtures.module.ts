@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MutationObserverService } from '@skyux/core';
+import { SkyMutationObserverService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { SkyModalModule } from '../modal.module';
@@ -35,7 +35,7 @@ import { ModalTestComponent } from './modal.component.fixture';
       useClass: ModalMockThemeService,
     },
     {
-      provide: MutationObserverService,
+      provide: SkyMutationObserverService,
       useClass: ModalMockMutationObserverService,
     },
   ],

@@ -3,10 +3,10 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
-  MutationObserverService,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMutationObserverService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -107,7 +107,7 @@ describe('Modal component', () => {
   }
 
   function getMockMutationObserverService(): ModalMockMutationObserverService {
-    return TestBed.inject<any>(MutationObserverService);
+    return TestBed.inject<any>(SkyMutationObserverService);
   }
 
   function openModal<T>(modalType: T, config?: Record<string, any>) {

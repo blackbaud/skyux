@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
 import { SkyTrimTestComponent } from './fixtures/trim-test.component';
 import { SkyTrimModule } from './trim.module';
 
 describe('Trim directive', () => {
   let fixture: ComponentFixture<SkyTrimTestComponent>;
-  let createSpy: jasmine.Spy<typeof MutationObserverService.prototype.create>;
+  let createSpy: jasmine.Spy<
+    typeof SkyMutationObserverService.prototype.create
+  >;
 
   // Wait for the next change detection cycle. This avoids having nested setTimeout() calls
   // and using the Jasmine done() function.
@@ -23,7 +25,7 @@ describe('Trim directive', () => {
       imports: [SkyTrimModule],
     });
 
-    const mutationObsSvc = TestBed.inject(MutationObserverService);
+    const mutationObsSvc = TestBed.inject(SkyMutationObserverService);
     createSpy = spyOn(mutationObsSvc, 'create').and.callThrough();
 
     fixture = TestBed.createComponent(SkyTrimTestComponent);
