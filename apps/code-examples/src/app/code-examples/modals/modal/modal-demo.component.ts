@@ -19,12 +19,11 @@ export class ModalDemoComponent {
   }
 
   public onOpenModalClick(): void {
-    const modalInstanceType: any = ModalDemoModalComponent;
     const options: SkyModalConfiguration = {
       helpKey: this.helpKey,
       size: this.modalSize,
     };
 
-    this.#modalSvc.open(modalInstanceType, options);
+    this.#modalSvc.open(ModalDemoModalComponent, options);
   }
 }
