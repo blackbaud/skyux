@@ -186,7 +186,7 @@ export class SkyColorpickerInputDirective
           if (newColor) {
             this.#modelValue = this.#formatter(newColor);
 
-            // This code assumed non-null pre-strict mode.
+            // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.#writeModelValue(this.#modelValue!);
           }
@@ -330,7 +330,7 @@ export class SkyColorpickerInputDirective
       this.alphaChannel === 'hex8'
     );
 
-    // This code assumed non-null pre-strict mode.
+    // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const formatColor = this.#svc.skyColorpickerOut(hsva!);
 

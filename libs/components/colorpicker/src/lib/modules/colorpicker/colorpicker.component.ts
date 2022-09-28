@@ -145,7 +145,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     if (this.#hsva) {
       const rgba = this.#svc.hsvaToRgba(this.#hsva);
 
-      // This code assumed non-null pre-strict mode.
+      // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       rgba.red = change.colorValue! / change.maxRange!;
       this.#hsva = this.#svc.rgbaToHsva(rgba);
@@ -157,7 +157,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     if (this.#hsva) {
       const rgba = this.#svc.hsvaToRgba(this.#hsva);
 
-      // This code assumed non-null pre-strict mode.
+      // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       rgba.green = change.colorValue! / change.maxRange!;
       this.#hsva = this.#svc.rgbaToHsva(rgba);
@@ -169,7 +169,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
     if (this.#hsva) {
       const rgba = this.#svc.hsvaToRgba(this.#hsva);
 
-      // This code assumed non-null pre-strict mode.
+      // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       rgba.blue = change.colorValue! / change.maxRange!;
       this.#hsva = this.#svc.rgbaToHsva(rgba);
@@ -190,7 +190,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
 
   public set alphaColor(change: SkyColorpickerChangeColor) {
     if (this.#hsva) {
-      // This code assumed non-null pre-strict mode.
+      // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.#hsva.alpha = change.colorValue! / change.maxRange!;
       this.#update();
@@ -513,7 +513,7 @@ export class SkyColorpickerComponent implements OnInit, OnDestroy {
         this.updatePickerValues(this.initialColor);
         this.backgroundColorForDisplay = this.initialColor;
         this.selectedColorChanged.emit(this.selectedColor);
-        // This code assumed non-null pre-strict mode.
+        // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.selectedColorApplied.emit({ color: this.selectedColor! });
         break;
