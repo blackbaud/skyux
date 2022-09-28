@@ -26,6 +26,7 @@ import { TabsetActiveTestComponent } from './fixtures/tabset-active.component.fi
 import { MockTabsetAdapterService } from './fixtures/tabset-adapter.service.mock';
 import { TabsetLoopTestComponent } from './fixtures/tabset-loop.component.fixture';
 import { SkyTabsetPermalinksFixtureComponent } from './fixtures/tabset-permalinks.component.fixture';
+import { SkyWizardTestFormComponent } from './fixtures/tabset-wizard.component.fixture';
 import { TabsetTestComponent } from './fixtures/tabset.component.fixture';
 import { SkyTabsetAdapterService } from './tabset-adapter.service';
 import { SkyTabsetPermalinkService } from './tabset-permalink.service';
@@ -1619,6 +1620,51 @@ describe('Tabset component', () => {
         tick();
 
         validateElFocused(tabBtn2);
+      }));
+    });
+
+    describe('button aria label', () => {
+      it('should indicate the current state of a wizard step', fakeAsync(() => {
+        const wizardFixture = TestBed.createComponent(
+          SkyWizardTestFormComponent
+        );
+
+        wizardFixture.detectChanges();
+        tick();
+        wizardFixture.detectChanges();
+        tick();
+
+        wizardFixture.componentInstance.requiredValue1 = 'test';
+        wizardFixture.componentInstance.selectedTab = 1;
+        wizardFixture.componentInstance.step3Disabled = true;
+
+        wizardFixture.detectChanges();
+        tick();
+        wizardFixture.detectChanges();
+        tick();
+
+        const tabBtns = wizardFixture.debugElement.queryAll(
+          By.css('.sky-btn-tab')
+        );
+        const tabBtn1 = tabBtns[0]?.nativeElement;
+        const tabBtn2 = tabBtns[1]?.nativeElement;
+        const tabBtn3 = tabBtns[2]?.nativeElement;
+
+        expect(tabBtn1?.ariaLabel).toEqual('Step 1 of 3, completed: Step 1');
+        expect(tabBtn2?.ariaLabel).toEqual('Step 2 of 3, current: Step 2');
+        expect(tabBtn3?.ariaLabel).toEqual('Step 3 of 3, unavailable: Step 3');
+      }));
+
+      it('should indicate the current tab number out of the total tabs', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtns = debugElement.queryAll(By.css('.sky-btn-tab'));
+        const tabBtn1 = tabBtns[0]?.nativeElement;
+
+        expect(tabBtn1?.ariaLabel).toEqual('Tab 1 of 3: Tab 1');
       }));
     });
   });
