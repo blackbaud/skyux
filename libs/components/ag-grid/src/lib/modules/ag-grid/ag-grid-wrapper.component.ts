@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
@@ -5,10 +6,14 @@ import {
   Component,
   ContentChild,
   ElementRef,
+  Inject,
+  OnDestroy,
 } from '@angular/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { DetailGridInfo } from 'ag-grid-community';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 
@@ -19,7 +24,7 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridWrapperComponent implements AfterContentInit {
+export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   @ContentChild(AgGridAngular, {
     static: true,
   })
@@ -40,10 +45,13 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
 
   private _viewkeeperClasses: string[] = [];
 
+  #ngUnsubscribe = new Subject<void>();
+
   constructor(
     private adapterService: SkyAgGridAdapterService,
     private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    @Inject(DOCUMENT) private document: Document
   ) {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
@@ -62,6 +70,24 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
         this.viewkeeperClasses.push('.ag-header');
       }
     }
+    this.agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
+      this.#moveHorizontalScroll();
+    });
+    this.agGrid.firstDataRendered
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#moveHorizontalScroll();
+      });
+    this.agGrid.rowDataChanged
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#moveHorizontalScroll();
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -125,6 +151,44 @@ export class SkyAgGridWrapperComponent implements AfterContentInit {
       }
     } else {
       return false;
+    }
+  }
+
+  #moveHorizontalScroll() {
+    if (this.agGrid && this.agGrid.api) {
+      const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
+      const root: HTMLElement =
+        this.elementRef.nativeElement.querySelector('.ag-root');
+      const header: HTMLDivElement | null = root.querySelector('.ag-header');
+      const floatingBottom: HTMLDivElement | null = root.querySelector(
+        '.ag-floating-bottom'
+      );
+      const scrollbar: HTMLDivElement | null = root.querySelector(
+        '.ag-body-horizontal-scroll'
+      );
+      if (header && floatingBottom && scrollbar) {
+        if (
+          scrollbar.style.height !==
+          scrollbar.style.getPropertyValue(
+            '--sky-ag-body-horizontal-scroll-width'
+          )
+        ) {
+          scrollbar.style.setProperty(
+            '--sky-ag-body-horizontal-scroll-width',
+            scrollbar.style.height
+          );
+        }
+        const isTop = !!root.children[1].matches('.ag-body-horizontal-scroll');
+        if (toTop && !isTop) {
+          const fragment = this.document.createDocumentFragment();
+          fragment.appendChild(scrollbar);
+          header.after(fragment);
+        } else if (!toTop && isTop) {
+          const fragment = this.document.createDocumentFragment();
+          fragment.appendChild(scrollbar);
+          floatingBottom.after(fragment);
+        }
+      }
     }
   }
 }
