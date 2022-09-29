@@ -7,8 +7,9 @@ import { SkyThemeModule } from '@skyux/theme';
 
 import { Column, ColumnApi } from 'ag-grid-community';
 
-import { SkyAgGridHeaderComponent } from './header.component';
 import { SkyAgGridHeaderParams } from '../types/header-params';
+
+import { SkyAgGridHeaderComponent } from './header.component';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
