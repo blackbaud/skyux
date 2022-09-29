@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.23.0](https://github.com/blackbaud/skyux/compare/6.22.0...6.23.0) (2022-09-28)
+
+
+### Features
+
+* **components/modals:** add inline-help support for modals ([#565](https://github.com/blackbaud/skyux/issues/565)) ([f41e411](https://github.com/blackbaud/skyux/commit/f41e4111716c9d240db4ee7d1318a94ac6c97112))
+* **components/progress-indicator:** add inline-help support for progress indicator component ([#566](https://github.com/blackbaud/skyux/issues/566)) ([2df708e](https://github.com/blackbaud/skyux/commit/2df708e08dc22395ee2b9e1b33de78d46375628d))
+
 ## [7.0.0-beta.1](https://github.com/blackbaud/skyux/compare/7.0.0-beta.0...7.0.0-beta.1) (2022-09-27)
 
 
@@ -13,6 +21,8 @@
 
 * **components/ag-grid:** option to show horizontal scrollbar at top when using trackpad ([#552](https://github.com/blackbaud/skyux/issues/552)) ([#578](https://github.com/blackbaud/skyux/issues/578)) ([1f2d314](https://github.com/blackbaud/skyux/commit/1f2d31425158002940f5379db35d23e9c45463d6))
 * **components/lookup:** set `aria-expanded` to true on the autocomplete component when the dropdown is open ([#544](https://github.com/blackbaud/skyux/issues/544)) ([1aa059d](https://github.com/blackbaud/skyux/commit/1aa059d5892ce4a3f7da206ac353e18fb71f0614))
+* **components/modals:** add inline-help support for modals ([#565](https://github.com/blackbaud/skyux/issues/565)) ([f41e411](https://github.com/blackbaud/skyux/commit/f41e4111716c9d240db4ee7d1318a94ac6c97112))
+* **components/progress-indicator:** add inline-help support for progress indicator component ([#566](https://github.com/blackbaud/skyux/issues/566)) ([2df708e](https://github.com/blackbaud/skyux/commit/2df708e08dc22395ee2b9e1b33de78d46375628d))
 
 ## [6.22.0](https://github.com/blackbaud/skyux/compare/6.21.0...6.22.0) (2022-09-27)
 
