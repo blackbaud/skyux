@@ -11,7 +11,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   styleUrls: ['./definition-list-value.component.scss'],
 })
 export class SkyDefinitionListValueComponent {
-  public defaultValue: string;
+  public defaultValue: string | undefined;
 
   constructor(public service: SkyDefinitionListService) {}
 }
