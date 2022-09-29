@@ -8,6 +8,7 @@ import { SkyModalInstance, SkyModalService } from '@skyux/modals';
 })
 export class ModalFormDemoComponent {
   public title = 'Modal form with scroll';
+  public showHelp = false;
 
   constructor(public instance: SkyModalInstance) {}
 }

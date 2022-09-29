@@ -1,5 +1,11 @@
 <sky-modal>
-  <sky-modal-header> Title </sky-modal-header>
+  <sky-modal-header>
+    Title
+    <sky-help-inline
+      *ngIf="showHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
+  </sky-modal-header>
   <sky-modal-content>
     <label for="unsaved-work-checkbox">
       Is there unsaved work?
