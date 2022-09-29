@@ -15,6 +15,20 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
 
 import { SkyAgGridHeaderAppendComponent } from './header-params-token';
 
+/**
+ * Custom header component for adding inline help to Data Grid and Data Entry Grid column headers. To display a help
+ * button beside the column header, create a component that includes the help button element, such as `sky-help-inline`,
+ * optionally including `@Inject(SkyAgGridHeaderAppendComponent)` in the constructor to access information such as the
+ * column header's display name. Then, add the component to the `headerComponentParams.headerAppendComponent` property
+ * of the column definition like this:
+ *
+ * ```typescript
+ * headerComponent: SkyAgGridHeaderComponent,
+ * headerComponentParams: {
+ *   headerAppendComponent: MyHelpButtonComponent,
+ * },
+ * ```
+ */
 @Component({
   selector: 'sky-ag-grid-header',
   templateUrl: './header.component.html',
