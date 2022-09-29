@@ -1,6 +1,12 @@
-import { SkyCellType } from '@skyux/ag-grid';
+import {
+  SkyAgGridHeaderComponent,
+  SkyAgGridHeaderParams,
+  SkyCellType,
+} from '@skyux/ag-grid';
 
 import { ColDef } from 'ag-grid-community';
+
+import { InlineHelpComponent } from './inline-help/inline-help.component';
 
 export const columnDefinitions: ColDef[] = [
   {
@@ -16,6 +22,11 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Text,
     minWidth: 200,
+    headerComponent: SkyAgGridHeaderComponent,
+    headerComponentParams: {
+      appendComponent: InlineHelpComponent,
+    } as SkyAgGridHeaderParams,
+    initialSort: 'asc',
   },
   {
     field: 'birthday',
@@ -24,6 +35,10 @@ export const columnDefinitions: ColDef[] = [
     sortable: true,
     type: SkyCellType.Date,
     minWidth: 300,
+    headerComponent: SkyAgGridHeaderComponent,
+    headerComponentParams: {
+      appendComponent: InlineHelpComponent,
+    } as SkyAgGridHeaderParams,
   },
   ...[
     ['seasons_played', 'Seasons Played'],
