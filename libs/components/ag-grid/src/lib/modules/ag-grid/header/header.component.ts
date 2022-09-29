@@ -18,7 +18,7 @@ import { SkyAgGridHeaderParams } from '../types/header-params';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
-  public params: SkyAgGridHeaderParams;
+  public params: SkyAgGridHeaderParams | undefined = undefined;
   public sorted = '';
   public componentPortal: ComponentPortal<unknown> | undefined = undefined;
   public readonly filterEnabled$ = new BehaviorSubject<boolean>(false);
@@ -42,15 +42,20 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
   public agInit(params: SkyAgGridHeaderParams): void {
     this.params = params;
     this.#subscriptions.unsubscribe();
+    if (!this.params) {
+      return;
+    }
     this.#subscriptions = new Subscription();
-    this.#subscriptions.add(
-      fromEvent(params.column, 'filterChanged').subscribe(() => {
-        const isFilterActive = params.column.isFilterActive();
-        if (isFilterActive !== this.filterEnabled$.getValue()) {
-          this.filterEnabled$.next(isFilterActive);
-        }
-      })
-    );
+    if (params.column.isFilterAllowed()) {
+      this.#subscriptions.add(
+        fromEvent(params.column, 'filterChanged').subscribe(() => {
+          const isFilterActive = params.column.isFilterActive();
+          if (isFilterActive !== this.filterEnabled$.getValue()) {
+            this.filterEnabled$.next(isFilterActive);
+          }
+        })
+      );
+    }
     if (params.enableSorting) {
       this.#subscriptions.add(
         fromEvent(params.column, 'sortChanged').subscribe(() => {

@@ -1,6 +1,6 @@
 <div class="ag-cell-label-container" role="presentation">
   <span
-    *ngIf="params.enableMenu"
+    *ngIf="params?.enableMenu"
     class="ag-header-icon ag-header-cell-menu-button"
     aria-hidden="true"
     (click)="onMenuClick($event)"
@@ -13,13 +13,20 @@
     role="presentation"
     (click)="onSortRequested($event)"
   >
-    <span class="ag-header-cell-text">{{ params.displayName }}</span>
+    <span class="ag-header-cell-text">{{ params?.displayName }}</span>
     <span
       *ngIf="filterEnabled$ | async"
       class="ag-header-icon ag-header-label-icon ag-filter-icon"
       aria-hidden="true"
-    ></span>
-    <span class="ag-sort-indicator-container">
+    >
+      <sky-icon *skyThemeIf="'default'" icon="filter"></sky-icon>
+      <sky-icon
+        *skyThemeIf="'modern'"
+        icon="filter"
+        iconType="skyux"
+      ></sky-icon>
+    </span>
+    <span *ngIf="params?.enableSorting" class="ag-sort-indicator-container">
       <sky-icon
         *ngIf="(sortOrder$ | async) === 'desc'"
         icon="caret-down"
