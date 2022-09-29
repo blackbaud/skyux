@@ -1,4 +1,4 @@
-import { SkyAgGridHeaderParams } from '@skyux/ag-grid';
+import { SkyAgGridHeaderParams } from './header-params';
 
 export interface SkyAgGridHeaderAppendComponentParams {
   api: SkyAgGridHeaderParams['api'];

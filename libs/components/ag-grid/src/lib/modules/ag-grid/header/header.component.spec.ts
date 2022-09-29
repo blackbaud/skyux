@@ -2,13 +2,13 @@ import { PortalModule } from '@angular/cdk/portal';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyAgGridHeaderParams } from '@skyux/ag-grid';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
 import { Column, ColumnApi } from 'ag-grid-community';
 
 import { SkyAgGridHeaderComponent } from './header.component';
+import { SkyAgGridHeaderParams } from '../types/header-params';
 
 @Component({
   template: `<span class="test-help-component">Help text</span>`,
