@@ -24,7 +24,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SkyAgGridHeaderComponent],
+      declarations: [SkyAgGridHeaderComponent, TestHelpComponent],
       imports: [SkyIconModule, PortalModule, SkyThemeModule],
     });
 
@@ -171,7 +171,7 @@ describe('HeaderComponent', () => {
   it('should inject help component', () => {
     params = {
       ...params,
-      appendComponent: TestHelpComponent,
+      headerAppendComponent: TestHelpComponent,
     };
     component.agInit(params);
     fixture.detectChanges();

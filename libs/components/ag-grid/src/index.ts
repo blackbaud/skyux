@@ -1,6 +1,7 @@
 // Export any types that should be included in the root.
 export * from './lib/modules/ag-grid/ag-grid.module';
 export * from './lib/modules/ag-grid/ag-grid.service';
+export * from './lib/modules/ag-grid/header/header-params-token';
 export * from './lib/modules/ag-grid/types/ag-grid-row-delete-cancel-args';
 export * from './lib/modules/ag-grid/types/ag-grid-row-delete-confirm-args';
 export * from './lib/modules/ag-grid/types/autocomplete-properties';
@@ -10,6 +11,7 @@ export * from './lib/modules/ag-grid/types/cell-editor-utils';
 export * from './lib/modules/ag-grid/types/cell-type';
 export * from './lib/modules/ag-grid/types/currency-properties';
 export * from './lib/modules/ag-grid/types/datepicker-properties';
+export * from './lib/modules/ag-grid/types/header-append-component-params';
 export * from './lib/modules/ag-grid/types/header-class';
 export * from './lib/modules/ag-grid/types/header-params';
 export * from './lib/modules/ag-grid/types/lookup-properties';

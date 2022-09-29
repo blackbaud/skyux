@@ -97,7 +97,7 @@ export class EditComplexCellsComponent implements OnInit {
         type: SkyCellType.Text,
         headerComponent: SkyAgGridHeaderComponent,
         headerComponentParams: {
-          appendComponent: InlineHelpComponent,
+          headerAppendComponent: InlineHelpComponent,
         } as SkyAgGridHeaderParams,
       },
       {
@@ -112,7 +112,7 @@ export class EditComplexCellsComponent implements OnInit {
         editable: this.editMode,
         headerComponent: SkyAgGridHeaderComponent,
         headerComponentParams: {
-          appendComponent: InlineHelpComponent,
+          headerAppendComponent: InlineHelpComponent,
         } as SkyAgGridHeaderParams,
       },
       {

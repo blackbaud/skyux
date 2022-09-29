@@ -4,12 +4,16 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  Injector,
 } from '@angular/core';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 
+import { SkyAgGridHeaderAppendComponentParams } from '../types/header-append-component-params';
 import { SkyAgGridHeaderParams } from '../types/header-params';
+
+import { SkyAgGridHeaderAppendComponent } from './header-params-token';
 
 @Component({
   selector: 'sky-ag-grid-header',
@@ -30,13 +34,16 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
   #changeDetector: ChangeDetectorRef;
   #subscriptions = new Subscription();
   #nativeElement: HTMLElement;
+  #injector: Injector;
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    { nativeElement }: ElementRef
+    { nativeElement }: ElementRef,
+    injector: Injector
   ) {
     this.#changeDetector = changeDetector;
     this.#nativeElement = nativeElement;
+    this.#injector = injector;
   }
 
   public agInit(params: SkyAgGridHeaderParams): void {
@@ -70,8 +77,26 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
       this.#updateSort();
       this.#updateSortIndex();
     }
-    if (params.appendComponent) {
-      this.componentPortal = new ComponentPortal(params.appendComponent);
+    if (params.headerAppendComponent) {
+      this.componentPortal = new ComponentPortal(
+        params.headerAppendComponent,
+        null,
+        Injector.create({
+          providers: [
+            {
+              provide: SkyAgGridHeaderAppendComponent,
+              useValue: {
+                api: params.api,
+                column: params.column,
+                columnApi: params.columnApi,
+                context: params.context,
+                displayName: params.displayName,
+              } as SkyAgGridHeaderAppendComponentParams,
+            },
+          ],
+          parent: this.#injector,
+        })
+      );
     } else {
       this.componentPortal = undefined;
     }

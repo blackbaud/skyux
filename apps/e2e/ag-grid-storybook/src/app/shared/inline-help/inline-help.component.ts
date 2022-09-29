@@ -1,4 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  SkyAgGridHeaderAppendComponent,
+  SkyAgGridHeaderAppendComponentParams,
+} from '@skyux/ag-grid';
 
 @Component({
   selector: 'app-inline-help',
@@ -13,7 +17,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InlineHelpComponent {
+  readonly #displayName: string;
+
+  constructor(
+    @Inject(SkyAgGridHeaderAppendComponent)
+    { displayName }: SkyAgGridHeaderAppendComponentParams
+  ) {
+    this.#displayName = displayName;
+  }
+
   public onHelpClick(): void {
-    console.log(`Help was clicked.`);
+    console.log(`Help was clicked for ${this.#displayName}.`);
   }
 }

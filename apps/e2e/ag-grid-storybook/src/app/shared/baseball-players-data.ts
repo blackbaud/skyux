@@ -24,7 +24,7 @@ export const columnDefinitions: ColDef[] = [
     minWidth: 200,
     headerComponent: SkyAgGridHeaderComponent,
     headerComponentParams: {
-      appendComponent: InlineHelpComponent,
+      headerAppendComponent: InlineHelpComponent,
     } as SkyAgGridHeaderParams,
     initialSort: 'asc',
   },
@@ -37,7 +37,7 @@ export const columnDefinitions: ColDef[] = [
     minWidth: 300,
     headerComponent: SkyAgGridHeaderComponent,
     headerComponentParams: {
-      appendComponent: InlineHelpComponent,
+      headerAppendComponent: InlineHelpComponent,
     } as SkyAgGridHeaderParams,
   },
   ...[
