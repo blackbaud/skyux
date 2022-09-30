@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   NgModel,
@@ -19,39 +13,35 @@ import { SkyAutonumericDirective } from '../autonumeric.directive';
 @Component({
   selector: 'sky-autonumeric-directive-test',
   templateUrl: './autonumeric.component.fixture.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutonumericFixtureComponent implements OnInit {
+export class AutonumericFixtureComponent {
   @ViewChild(SkyAutonumericDirective)
   public autonumericDirective: SkyAutonumericDirective | undefined;
 
-  @ViewChild('donationAmountTemplateDriven', { read: NgModel })
-  public donationAmountTemplateDriven: NgModel | undefined;
+  @ViewChild('templateNgModel', { read: NgModel })
+  public templateNgModel!: NgModel;
 
   public autonumericOptions: SkyAutonumericOptions | undefined;
 
-  public formGroup: UntypedFormGroup | undefined;
+  public formGroup: UntypedFormGroup;
 
-  public templateDrivenModel: any = {
-    donationAmount: 1000,
-  };
+  public formControl: AbstractControl;
 
-  public get formControl(): AbstractControl | undefined {
-    return this.formGroup?.get('donationAmount') || undefined;
-  }
+  public templateDrivenDonationAmount: string | number = 1000;
 
   public required = false;
 
   public setUnformatted = false;
 
-  constructor(
-    public changeDetector: ChangeDetectorRef,
-    private formBuilder: UntypedFormBuilder
-  ) {}
+  #formBuilder: UntypedFormBuilder;
 
-  public ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+
+    this.formGroup = this.#formBuilder.group({
       donationAmount: new UntypedFormControl(),
     });
+
+    this.formControl = this.formGroup.controls['donationAmount'];
   }
 }

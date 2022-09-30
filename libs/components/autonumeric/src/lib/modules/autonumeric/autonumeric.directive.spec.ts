@@ -1,12 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { Validators } from '@angular/forms';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { AbstractControl, NgModel, Validators } from '@angular/forms';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyAutonumericOptions } from './autonumeric-options';
 import { SkyAutonumericOptionsProvider } from './autonumeric-options-provider';
@@ -19,7 +18,7 @@ describe('Autonumeric directive', () => {
   let fixture: ComponentFixture<AutonumericFixtureComponent>;
 
   // #region helpers
-  function detectChanges(): void {
+  function detectChangesTick(): void {
     fixture.detectChanges();
     tick();
   }
@@ -30,10 +29,10 @@ describe('Autonumeric directive', () => {
     ) as HTMLInputElement;
   }
 
-  function setValue(value: number): void {
-    fixture.componentInstance.formGroup?.get('donationAmount')?.setValue(value);
-    fixture.componentInstance.templateDrivenModel = { donationAmount: value };
-    fixture.componentInstance.changeDetector.markForCheck();
+  function setValue(value: number | string): void {
+    fixture.componentInstance.formControl.setValue(value);
+    fixture.componentInstance.templateDrivenDonationAmount = value;
+    detectChangesTick();
   }
 
   function setOptions(options: SkyAutonumericOptions): void {
@@ -62,9 +61,8 @@ describe('Autonumeric directive', () => {
   }
 
   function getModelValue(): number {
-    const reactiveValue = fixture.componentInstance.formControl?.value;
-    const templateDrivenValue =
-      fixture.componentInstance.donationAmountTemplateDriven?.value;
+    const reactiveValue = fixture.componentInstance.formControl.value;
+    const templateDrivenValue = fixture.componentInstance.templateNgModel.value;
 
     if (reactiveValue !== templateDrivenValue) {
       fail(
@@ -102,12 +100,16 @@ describe('Autonumeric directive', () => {
    * @param statuses A set of Angular NgModel statuses to check against (e.g., pristine, touched, valid).
    */
   function verifyFormControlStatuses(statuses: { [_: string]: boolean }): void {
-    const control: any = fixture.componentInstance.formControl;
-    const model: any = fixture.componentInstance.donationAmountTemplateDriven;
+    const control = fixture.componentInstance.formControl;
+    const ngModel = fixture.componentInstance.templateNgModel;
 
     Object.keys(statuses).forEach((status) => {
-      expect(control[status]).toEqual(statuses[status]);
-      expect(model[status]).toEqual(statuses[status]);
+      expect(control[status as keyof AbstractControl])
+        .withContext('REACTIVE form - ' + status.toUpperCase())
+        .toEqual(statuses[status]);
+      expect(ngModel[status as keyof NgModel])
+        .withContext('TEMPLATE form - ' + status.toUpperCase())
+        .toEqual(statuses[status]);
     });
   }
   // #endregion
@@ -125,11 +127,9 @@ describe('Autonumeric directive', () => {
   });
 
   it('should use default configuration', fakeAsync(() => {
-    detectChanges();
+    detectChangesTick();
 
     setValue(1000);
-
-    detectChanges();
 
     const modelValue = getModelValue();
     const formattedValue = getFormattedValue();
@@ -139,11 +139,9 @@ describe('Autonumeric directive', () => {
   }));
 
   it('should properly format 0 values', fakeAsync(() => {
-    detectChanges();
+    detectChangesTick();
 
     setValue(0);
-
-    detectChanges();
 
     const modelValue = getModelValue();
     const formattedValue = getFormattedValue();
@@ -155,11 +153,9 @@ describe('Autonumeric directive', () => {
   it('should support preset configuration', fakeAsync(() => {
     setOptions('dollar');
 
-    detectChanges();
+    detectChangesTick();
 
     setValue(1000);
-
-    detectChanges();
 
     const modelValue = getModelValue();
     const formattedValue = getFormattedValue();
@@ -171,15 +167,13 @@ describe('Autonumeric directive', () => {
   it('should support setting the value unformatted', fakeAsync(() => {
     setOptions('dollar');
 
-    detectChanges();
+    detectChangesTick();
 
     setUnformatted();
 
-    detectChanges();
+    detectChangesTick();
 
     setValue(2000);
-
-    detectChanges();
 
     const modelValue = getModelValue();
     const formattedValue = getFormattedValue();
@@ -193,11 +187,9 @@ describe('Autonumeric directive', () => {
       decimalPlaces: 5,
     });
 
-    detectChanges();
+    detectChangesTick();
 
     setValue(1000);
-
-    detectChanges();
 
     const modelValue = getModelValue();
     const formattedValue = getFormattedValue();
@@ -207,98 +199,45 @@ describe('Autonumeric directive', () => {
   }));
 
   it('should update numeric value on keyup', fakeAsync(() => {
-    detectChanges();
-
-    const autonumericInstance =
-      // @ts-ignore
-      fixture.componentInstance.autonumericDirective['autonumericInstance'];
-    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
+    detectChangesTick();
 
     const input = fixture.nativeElement.querySelector('input');
 
     input.value = '1000';
     SkyAppTestUtility.fireDomEvent(input, 'input');
     SkyAppTestUtility.fireDomEvent(input, 'keyup');
-    detectChanges();
+    detectChangesTick();
 
-    expect(spy).toHaveBeenCalled();
-  }));
-
-  it('should not update numeric value on keyup when no change is made', fakeAsync(() => {
-    detectChanges();
-
-    const autonumericInstance =
-      // @ts-ignore
-      fixture.componentInstance.autonumericDirective['autonumericInstance'];
-    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
-
-    const input = fixture.nativeElement.querySelector('input');
-
-    SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
-    SkyAppTestUtility.fireDomEvent(input, 'input');
-    SkyAppTestUtility.fireDomEvent(input, 'keyup');
-    detectChanges();
-
-    expect(spy).not.toHaveBeenCalled();
+    expect(input.value).toEqual('1,000');
   }));
 
   it('should not update numeric value on keyup when no change is made and a currency symbol is specified', fakeAsync(() => {
     setOptions('dollar');
 
-    detectChanges();
-
-    const autonumericInstance =
-      // @ts-ignore
-      fixture.componentInstance.autonumericDirective['autonumericInstance'];
-    const spy = spyOn(autonumericInstance, 'getNumber').and.callThrough();
+    detectChangesTick();
 
     const input = fixture.nativeElement.querySelector('input');
 
     SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
     SkyAppTestUtility.fireDomEvent(input, 'input');
     SkyAppTestUtility.fireDomEvent(input, 'keyup');
-    detectChanges();
 
-    expect(spy).not.toHaveBeenCalled();
+    expect(fixture.componentInstance.formControl.value).toBeFalsy();
+
+    detectChangesTick();
   }));
 
-  it('should not notify identical value changes', fakeAsync(() => {
-    detectChanges();
-
-    const spy = spyOn(
-      fixture.componentInstance.autonumericDirective as any,
-      'onChange'
-    ).and.callThrough();
-
-    setValue(1000);
-    detectChanges();
-
-    expect(spy).toHaveBeenCalled();
-
-    spy.calls.reset();
-    setValue(1000);
-    detectChanges();
-
-    expect(spy).not.toHaveBeenCalled();
-  }));
-
-  it('should accommodate undefined values', fakeAsync(() => {
-    detectChanges();
-    fixture.componentInstance.formGroup = undefined;
-    expect(fixture.componentInstance.formControl).toBeFalsy();
-  }));
-
-  it('should be accessible', async(() => {
+  it('should be accessible', async () => {
     fixture.detectChanges();
+    await fixture.whenStable();
 
-    setValue(1000);
+    fixture.componentInstance.formControl.setValue(1000);
+    fixture.componentInstance.templateDrivenDonationAmount = 1000;
 
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   describe('global configuration', () => {
     beforeEach(() => {
@@ -318,11 +257,9 @@ describe('Autonumeric directive', () => {
     });
 
     it('should support global configuration', fakeAsync(() => {
-      detectChanges();
+      detectChangesTick();
 
       setValue(1000);
-
-      detectChanges();
 
       const modelValue = getModelValue();
       const formattedValue = getFormattedValue();
@@ -338,11 +275,9 @@ describe('Autonumeric directive', () => {
         'set'
       ).and.stub();
 
-      detectChanges();
+      detectChangesTick();
 
       setValue(1000);
-
-      detectChanges();
 
       const modelValue = getModelValue();
       const formattedValue = getFormattedValue();
@@ -354,11 +289,9 @@ describe('Autonumeric directive', () => {
     it('should support global configuration when the local configuration is set to undefined', fakeAsync(() => {
       fixture.componentInstance.autonumericOptions = undefined;
 
-      detectChanges();
+      detectChangesTick();
 
       setValue(1000);
-
-      detectChanges();
 
       const modelValue = getModelValue();
       const formattedValue = getFormattedValue();
@@ -370,11 +303,9 @@ describe('Autonumeric directive', () => {
     it('should overwrite global configuration with configuration from the input', fakeAsync(() => {
       setOptions('dollar');
 
-      detectChanges();
+      detectChangesTick();
 
       setValue(1000);
-
-      detectChanges();
 
       const modelValue = getModelValue();
       const formattedValue = getFormattedValue();
@@ -386,20 +317,7 @@ describe('Autonumeric directive', () => {
 
   describe('Angular form control statuses', () => {
     it('should set correct statuses when initialized without value', fakeAsync(() => {
-      detectChanges();
-
-      verifyFormControlStatuses({
-        dirty: false,
-        pristine: true,
-        touched: false,
-        valid: true,
-      });
-    }));
-
-    it('should set correct statuses when initialized with falsey value', fakeAsync(() => {
-      detectChanges();
-
-      setValue(0);
+      detectChangesTick();
 
       verifyFormControlStatuses({
         dirty: false,
@@ -410,11 +328,9 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should set correct statuses when initialized with a value', fakeAsync(() => {
-      detectChanges();
+      detectChangesTick();
 
       setValue(1000);
-
-      detectChanges();
 
       verifyFormControlStatuses({
         dirty: false,
@@ -425,7 +341,7 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should mark the control as touched on blur', fakeAsync(() => {
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         touched: false,
@@ -433,7 +349,7 @@ describe('Autonumeric directive', () => {
 
       triggerBlur();
 
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         touched: true,
@@ -441,12 +357,12 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should mark the control as invalid on keyup if the field is required and the value is undefined', fakeAsync(() => {
-      detectChanges();
-      fixture.componentInstance.formControl?.setValidators([
+      detectChangesTick();
+      fixture.componentInstance.formControl.setValidators([
         Validators.required,
       ]);
       fixture.componentInstance.required = true;
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         valid: true,
@@ -458,7 +374,7 @@ describe('Autonumeric directive', () => {
         SkyAppTestUtility.fireDomEvent(inputs[i], 'input');
         SkyAppTestUtility.fireDomEvent(inputs[i], 'keyup');
       }
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         valid: false,
@@ -466,17 +382,13 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should mark the control as invalid if given a non-numerical value', fakeAsync(() => {
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         valid: true,
       });
 
-      fixture.componentInstance.formGroup
-        ?.get('donationAmount')
-        ?.setValue('foo');
-      fixture.componentInstance.templateDrivenModel.donationAmount = 'foo';
-      detectChanges();
+      setValue('foo');
 
       verifyFormControlStatuses({
         valid: false,
@@ -484,7 +396,7 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should mark the control as dirty on keyup', fakeAsync(() => {
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         dirty: false,
@@ -492,7 +404,7 @@ describe('Autonumeric directive', () => {
 
       triggerInput();
 
-      detectChanges();
+      detectChangesTick();
 
       verifyFormControlStatuses({
         dirty: true,
@@ -500,14 +412,13 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should disable the form when the form control disabled() method is called', fakeAsync(() => {
-      detectChanges();
-      const formControl =
-        fixture.componentInstance.formGroup.get('donationAmount')!;
+      detectChangesTick();
+      const formControl = fixture.componentInstance.formControl;
       const input = getReactiveInput();
 
       // Disable the form via form control.
       formControl.disable();
-      detectChanges();
+      detectChangesTick();
 
       // Expect both the input element and form control to be disabled.
       expect(input.disabled).toEqual(true);
@@ -515,7 +426,7 @@ describe('Autonumeric directive', () => {
 
       // Enable the form via form control.
       formControl.enable();
-      detectChanges();
+      detectChangesTick();
 
       // Expect both the input element and form control to be enabled.
       expect(input.disabled).toEqual(false);
