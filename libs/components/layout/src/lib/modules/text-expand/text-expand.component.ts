@@ -239,8 +239,10 @@ export class SkyTextExpandComponent implements AfterContentInit {
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
 
       setTimeout(() => {
-        // Set height back to auto so the browser can change the height as needed with window changes
-        this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
+        if (this.containerEl) {
+          // Set height back to auto so the browser can change the height as needed with window changes
+          this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
+        }
       });
     }
   }
