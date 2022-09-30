@@ -92,6 +92,7 @@ describe('back to top component', () => {
       await fixture.whenStable();
       fixture.componentInstance.hideElement = true;
       fixture.detectChanges();
+      await fixture.whenStable();
       await waitForMutationObserver();
 
       const backToTopElement = getBackToTop();

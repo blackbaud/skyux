@@ -11,8 +11,10 @@ export class TextExpandTestComponent {
     read: SkyTextExpandComponent,
     static: false,
   })
-  public textExpand: SkyTextExpandComponent;
-  public text: string;
-  public maxLength: number;
+  public textExpand: SkyTextExpandComponent | undefined;
+  public text: string | undefined;
+  public maxExpandedNewlines: number | undefined;
+  public maxExpandedLength: number | undefined;
+  public maxLength: number | undefined;
   public truncateNewlines = true;
 }

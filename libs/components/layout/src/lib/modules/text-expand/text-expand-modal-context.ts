@@ -1,7 +1,7 @@
 /**
  * @internal
  */
-export class SkyTextExpandModalContext {
-  public header: string;
-  public text: string;
+export interface SkyTextExpandModalContext {
+  header: string;
+  text: string;
 }

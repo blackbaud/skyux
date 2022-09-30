@@ -1,11 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-  async,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
 import { TextExpandFixturesModule } from './fixtures/text-expand.module.fixture';
@@ -17,6 +11,8 @@ describe('Text expand component', () => {
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\nAenean commodo ligula eget dolor. Aenean massa.\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu';
   const LONG_TEXT =
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
+  const LONG_TEXT_WITH_NEWLINES =
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\nAenean commodo ligula eget dolor. Aenean massa.\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
   const LONGER_TEXT =
     'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec foo bar.';
   const VERY_LONG_TEXT =
@@ -28,13 +24,12 @@ describe('Text expand component', () => {
   let cmp: TextExpandTestComponent;
   let el: HTMLElement;
 
-  function clickTextExpandButton(buttonElem: HTMLElement) {
-    buttonElem.click();
+  async function clickTextExpandButton(buttonElem: HTMLElement | null) {
+    buttonElem?.click();
     fixture.detectChanges();
-    tick(20);
+    await fixture.whenStable();
     fixture.detectChanges();
-    tick(500);
-    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   beforeEach(() => {
@@ -52,45 +47,65 @@ describe('Text expand component', () => {
   });
 
   describe('basic behaviors', () => {
-    it('should have necessary aria properties', fakeAsync(() => {
+    it('should have necessary aria properties', async () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
       const buttonElem = el.querySelector(
         '.sky-text-expand-see-more'
-      ) as HTMLElement;
+      ) as HTMLElement | null;
 
-      expect(buttonElem.getAttribute('aria-expanded')).toBe('false');
-      expect(buttonElem.getAttribute('aria-controls')).toBe(
-        cmp.textExpand.contentSectionId
+      expect(buttonElem?.getAttribute('aria-expanded')).toBe('false');
+      expect(buttonElem?.getAttribute('aria-controls')).toBe(
+        cmp.textExpand?.contentSectionId
       );
-      expect(buttonElem.getAttribute('aria-haspopup')).toBeNull();
+      expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
-      clickTextExpandButton(buttonElem);
+      await clickTextExpandButton(buttonElem);
 
-      expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
-      expect(buttonElem.getAttribute('aria-controls')).toBe(
-        cmp.textExpand.contentSectionId
+      expect(buttonElem?.getAttribute('aria-expanded')).toBe('true');
+      expect(buttonElem?.getAttribute('aria-controls')).toBe(
+        cmp.textExpand?.contentSectionId
       );
-      expect(buttonElem.getAttribute('aria-haspopup')).toBeNull();
+      expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
       cmp.text = VERY_LONG_TEXT;
       fixture.detectChanges();
 
-      expect(buttonElem.getAttribute('aria-expanded')).toBeNull();
-      expect(buttonElem.getAttribute('aria-controls')).toBeNull();
-      expect(buttonElem.getAttribute('aria-haspopup')).toBe('dialog');
-    }));
+      expect(buttonElem?.getAttribute('aria-expanded')).toBeNull();
+      expect(buttonElem?.getAttribute('aria-controls')).toBeNull();
+      expect(buttonElem?.getAttribute('aria-haspopup')).toBe('dialog');
+    });
 
     it('should not have see more button or ellipsis if text is short', () => {
       cmp.text = SHORT_TEXT;
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
+    });
+
+    it('should default to a max length of 200 when the max length is given as undefined', () => {
+      cmp.text = LONG_TEXT;
+      cmp.maxLength = undefined;
+
+      fixture.detectChanges();
+
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      expect(ellipsis).not.toBeNull();
+      expect(seeMoreButton).not.toBeNull();
     });
 
     it('should not have see more button or ellipsis if text is long but less than the set max length', () => {
@@ -99,8 +114,12 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
     });
@@ -109,22 +128,30 @@ describe('Text expand component', () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
     });
 
     it('should not have a see more button if changed from long text to undefined', () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
-      let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      let ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      let seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
       cmp.text = undefined;
 
@@ -139,11 +166,15 @@ describe('Text expand component', () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
-      let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      let ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      let seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
       cmp.text = undefined;
 
@@ -160,18 +191,22 @@ describe('Text expand component', () => {
       seeMoreButton = el.querySelector('.sky-text-expand-see-more');
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
     });
 
     it('should not have a see more button if changed from long text to short text', () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
-      let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      let seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      let ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      let seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
 
       cmp.text = SHORT_TEXT;
 
@@ -187,12 +222,18 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      const textArea: HTMLElement = el.querySelector('.sky-text-expand-text');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      const textArea: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-text'
+      );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
-      expect(textArea.innerText.trim()).toBe('');
+      expect(textArea?.innerText.trim()).toBe('');
     });
 
     it('should have the see more button or ellipsis if text is short but has newlines', () => {
@@ -200,50 +241,60 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).not.toBeNull();
       expect(seeMoreButton).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
     });
 
-    it('should expand on click of the see more button', fakeAsync(() => {
+    it('should expand on click of the see more button', async () => {
       const expandedText = LONG_TEXT;
       cmp.text = expandedText;
       const collapsedText = COLLAPSED_TEXT;
 
       fixture.detectChanges();
 
-      let ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      let textArea: HTMLElement = el.querySelector('.sky-text-expand-text');
-      const container: HTMLElement = el.querySelector(
+      let ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      let textArea: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-text'
+      );
+      const container: HTMLElement | null = el.querySelector(
         '.sky-text-expand-container'
       );
       expect(ellipsis).not.toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
-      expect(textArea.innerText.trim()).toBe(collapsedText);
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
 
-      expect(container.style.maxHeight).toBe('');
-      expect(seeMoreButton.innerText.trim()).toBe('See less');
+      expect(container?.style.maxHeight).toBe('');
+      expect(seeMoreButton?.innerText.trim()).toBe('See less');
       expect(ellipsis).toBeNull();
-      expect(textArea.innerText.trim()).toBe(expandedText);
+      expect(textArea?.innerText.trim()).toBe(expandedText);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
 
-      expect(container.style.maxHeight).toBe('');
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
+      expect(container?.style.maxHeight).toBe('');
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
-      expect(textArea.innerText.trim()).toBe(collapsedText);
-    }));
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
+    });
 
     it('should render newlines if requested', () => {
       cmp.text = SHORT_TEXT_WITH_NEWLINES;
@@ -251,8 +302,12 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
       expect(ellipsis).toBeNull();
       expect(seeMoreButton).toBeNull();
     });
@@ -263,24 +318,23 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      expect(el.textContent.trim()).toContain('See more');
-      expect(el.textContent.trim()).not.toContain(cmp.text.trim());
+      expect(el.textContent?.trim()).toContain('See more');
+      expect(el.textContent?.trim()).not.toContain(cmp.text.trim());
 
       cmp.maxLength = cmp.text.length + 100;
 
       fixture.detectChanges();
 
-      expect(el.textContent.trim()).toContain(
+      expect(el.textContent?.trim()).toContain(
         cmp.text.replace(/(?:\r\n|\r|\n)/g, ' ')
       );
     });
 
-    it('should be accessible', async(() => {
+    it('should be accessible', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('modal behaviors', () => {
@@ -291,34 +345,173 @@ describe('Text expand component', () => {
 
       fixture.detectChanges();
 
-      const ellipsis: any = el.querySelector('.sky-text-expand-ellipsis');
-      const seeMoreButton: any = el.querySelector('.sky-text-expand-see-more');
-      const textArea: HTMLElement = el.querySelector('.sky-text-expand-text');
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      const textArea: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-text'
+      );
       let modal = document.querySelector('.sky-modal');
 
       expect(ellipsis).not.toBeNull();
       expect(modal).toBeNull();
-      expect(seeMoreButton.innerText.trim()).toBe('See more');
-      expect(textArea.innerText.trim()).toBe(collapsedText);
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
 
-      seeMoreButton.click();
+      seeMoreButton?.click();
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
-      const modalHeader: HTMLElement =
+      const modalHeader: HTMLElement | null =
         document.querySelector('sky-modal-header');
-      const modalContent: HTMLElement =
+      const modalContent: HTMLElement | null =
         document.querySelector('sky-modal-content');
-      const closeButton: HTMLElement = document.querySelector(
+      const closeButton: HTMLElement | null = document.querySelector(
         'sky-modal-footer button'
       );
 
       expect(modal).not.toBeNull();
-      expect(modalHeader.innerText.trim()).toBe('Expanded view');
-      expect(modalContent.innerText.trim()).toBe(expandedText);
-      expect(closeButton.innerText.trim()).toBe('Close');
+      expect(modalHeader?.innerText.trim()).toBe('Expanded view');
+      expect(modalContent?.innerText.trim()).toBe(expandedText);
+      expect(closeButton?.innerText.trim()).toBe('Close');
 
-      closeButton.click();
+      closeButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+
+      expect(modal).toBeNull();
+    });
+
+    it('should open a modal when looking at long text with a shorter max expanded length', () => {
+      const expandedText = LONG_TEXT;
+      cmp.text = expandedText;
+      cmp.maxExpandedLength = 299;
+      const collapsedText = COLLAPSED_TEXT;
+
+      fixture.detectChanges();
+
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      const textArea: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-text'
+      );
+      let modal = document.querySelector('.sky-modal');
+
+      expect(ellipsis).not.toBeNull();
+      expect(modal).toBeNull();
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
+
+      seeMoreButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+      const modalHeader: HTMLElement | null =
+        document.querySelector('sky-modal-header');
+      const modalContent: HTMLElement | null =
+        document.querySelector('sky-modal-content');
+      const closeButton: HTMLElement | null = document.querySelector(
+        'sky-modal-footer button'
+      );
+
+      expect(modal).not.toBeNull();
+      expect(modalHeader?.innerText.trim()).toBe('Expanded view');
+      expect(modalContent?.innerText.trim()).toBe(expandedText);
+      expect(closeButton?.innerText.trim()).toBe('Close');
+
+      closeButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+
+      expect(modal).toBeNull();
+
+      cmp.maxExpandedLength = undefined;
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+
+      expect(ellipsis).not.toBeNull();
+      expect(modal).toBeNull();
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
+
+      seeMoreButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+
+      expect(modal).toBeNull();
+    });
+
+    it('should open a modal when the maximun newlines is exceeded', () => {
+      const expandedText = LONG_TEXT_WITH_NEWLINES;
+      cmp.maxExpandedNewlines = 1;
+      cmp.text = expandedText;
+      const collapsedText = COLLAPSED_TEXT;
+
+      fixture.detectChanges();
+
+      const ellipsis: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-ellipsis'
+      );
+      const seeMoreButton: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-see-more'
+      );
+      const textArea: HTMLElement | null = el.querySelector(
+        '.sky-text-expand-text'
+      );
+      let modal = document.querySelector('.sky-modal');
+
+      expect(ellipsis).not.toBeNull();
+      expect(modal).toBeNull();
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
+
+      seeMoreButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+      const modalHeader: HTMLElement | null =
+        document.querySelector('sky-modal-header');
+      const modalContent: HTMLElement | null =
+        document.querySelector('sky-modal-content');
+      const closeButton: HTMLElement | null = document.querySelector(
+        'sky-modal-footer button'
+      );
+
+      expect(modal).not.toBeNull();
+      expect(modalHeader?.innerText.trim()).toBe('Expanded view');
+      expect(modalContent?.innerText.trim()).toBe(expandedText);
+      expect(closeButton?.innerText.trim()).toBe('Close');
+
+      closeButton?.click();
+      fixture.detectChanges();
+
+      modal = document.querySelector('.sky-modal');
+
+      expect(modal).toBeNull();
+
+      cmp.maxExpandedNewlines = undefined;
+      cmp.text = expandedText;
+
+      fixture.detectChanges();
+      modal = document.querySelector('.sky-modal');
+
+      expect(ellipsis).not.toBeNull();
+      expect(modal).toBeNull();
+      expect(seeMoreButton?.innerText.trim()).toBe('See more');
+      expect(textArea?.innerText.trim()).toBe(collapsedText);
+
+      seeMoreButton?.click();
       fixture.detectChanges();
 
       modal = document.querySelector('.sky-modal');
