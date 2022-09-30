@@ -8,16 +8,16 @@ import { SkyTextExpandRepeaterListStyleType } from '../types/text-expand-repeate
   templateUrl: './text-expand-repeater.component.fixture.html',
 })
 export class TextExpandRepeaterTestComponent {
-  public customTemplateData: any[];
+  public customTemplateData: any[] | undefined;
 
-  public data: string[];
+  public data: string[] | undefined;
 
-  public numItems: number;
+  public numItems: number | undefined;
 
   @ViewChildren(SkyTextExpandRepeaterComponent, {
     read: SkyTextExpandRepeaterComponent,
   })
-  public textExpand: QueryList<SkyTextExpandRepeaterComponent>;
+  public textExpand!: QueryList<SkyTextExpandRepeaterComponent>;
 
   public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';
 }
