@@ -31,6 +31,7 @@ import { SkyModalComponentAdapterService } from './modal-component-adapter.servi
 import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
+import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
 import { SkyModalService } from './modal.service';
 
 describe('Modal component', () => {
@@ -105,10 +106,6 @@ describe('Modal component', () => {
 
   function getRouter(): Router {
     return TestBed.inject(Router);
-  }
-
-  function getMockMutationObserverService(): ModalMockMutationObserverService {
-    return TestBed.inject<any>(MutationObserverService);
   }
 
   function openModal<T>(modalType: T, config?: Record<string, any>) {
@@ -918,8 +915,21 @@ describe('Modal component', () => {
     }
 
     beforeEach(() => {
+      const modalMockMutationObserverService =
+        new ModalMockMutationObserverService();
+
+      TestBed.overrideDirective(SkyModalScrollShadowDirective, {
+        add: {
+          providers: [
+            {
+              provide: MutationObserverService,
+              useValue: modalMockMutationObserverService,
+            },
+          ],
+        },
+      });
       mutationObserverCreateSpy = spyOn(
-        getMockMutationObserverService(),
+        modalMockMutationObserverService,
         'create'
       ).and.callThrough();
 
