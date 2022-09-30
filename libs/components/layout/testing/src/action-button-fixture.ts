@@ -40,7 +40,7 @@ export class SkyActionButtonFixture {
         return cls.substr(3);
       }
     }
-
+    /* istanbul ignore next */
     return undefined;
   }
 
