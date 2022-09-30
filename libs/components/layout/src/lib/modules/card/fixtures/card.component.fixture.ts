@@ -11,7 +11,7 @@ export class CardTestComponent {
     read: SkyCardComponent,
     static: false,
   })
-  public card: SkyCardComponent;
+  public card!: SkyCardComponent;
 
   public cardSelected = false;
 
