@@ -6,7 +6,7 @@
       value: isExpanded,
       params: { transitionHeight: transitionHeight }
     }"
-    (@expansionAnimation.done)="animationEnd($event)"
+    (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
     [ngClass]="{
       'sky-text-expand-repeater-list-style-none': listStyle === 'unstyled'
@@ -22,7 +22,7 @@
       value: isExpanded,
       params: { transitionHeight: transitionHeight }
     }"
-    (@expansionAnimation.done)="animationEnd($event)"
+    (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
     #container
   >

@@ -1,5 +1,4 @@
 import {
-  AnimationEvent,
   animate,
   state,
   style,
@@ -140,7 +139,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     this.#changeDetector = changeDetector;
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     observableForkJoin([
       this.#resources.getString('skyux_text_expand_see_more'),
       this.#resources.getString('skyux_text_expand_see_less'),
@@ -160,7 +159,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
       });
   }
 
-  public animationEnd(event: AnimationEvent) {
+  public animationEnd(): void {
     // Ensure all items that should be hidden are hidden. This is because we need them shown during the animation window for visual purposes.
     if (!this.isExpanded) {
       this.#hideItems();
@@ -168,12 +167,16 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
 
     // This set timeout is needed as the `animationEnd` function is called by the angular animation callback prior to the animation setting the style on the element
     setTimeout(() => {
-      // Set height back to auto so the browser can change the height as needed with window changes
-      this.#textExpandRepeaterAdapter.removeContainerMaxHeight(event.element);
+      if (this.containerEl) {
+        // Set height back to auto so the browser can change the height as needed with window changes
+        this.#textExpandRepeaterAdapter.removeContainerMaxHeight(
+          this.containerEl.nativeElement
+        );
+      }
     });
   }
 
-  public repeaterExpand() {
+  public repeaterExpand(): void {
     if (!this.isExpanded) {
       this.#animateRepeater(true);
     } else {
@@ -181,7 +184,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
     }
   }
 
-  #animateRepeater(expanding: boolean) {
+  #animateRepeater(expanding: boolean): void {
     const adapter = this.#textExpandRepeaterAdapter;
     const container = this.containerEl;
     if (container) {
@@ -197,13 +200,15 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
       } else {
         this.buttonText = this.#seeLessText;
       }
-      // Show all items during animation for visual purposes.
-      this.#showItems();
+      if (!expanding) {
+        // Show all items during animation for visual purposes.
+        this.#showItems();
+      }
       this.isExpanded = expanding;
     }
   }
 
-  #setup(value: Array<unknown> | undefined) {
+  #setup(value: Array<unknown> | undefined): void {
     if (value) {
       const length = value.length;
       if (this.maxItems && length > this.maxItems) {
