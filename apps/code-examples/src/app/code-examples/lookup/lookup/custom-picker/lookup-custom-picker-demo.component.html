@@ -1,21 +1,21 @@
 <form
   class="lookup-demo-form"
   novalidate
-  [formGroup]="myForm"
+  [formGroup]="favoritesForm"
   (ngSubmit)="onSubmit()"
 >
   <div class="sky-form-group">
-    <sky-input-box>
+    <sky-input-box data-sky-id="favorite-names-field">
       <label class="sky-control-label" skyId #namesLabel="skyId">
         Favorite names
       </label>
       <sky-lookup
-        formControlName="names"
+        formControlName="favoriteNames"
         (addClick)="onAddButtonClicked()"
         [ariaLabelledBy]="namesLabel.id"
         [data]="people"
         [enableShowMore]="true"
-        [searchFilters]="getSearchFilters()"
+        [searchFilters]="searchFilters"
         [showAddButton]="true"
         [showMoreConfig]="showMoreConfig"
       >
@@ -24,7 +24,7 @@
   </div>
   <div class="lookup-demo-alert">
     <strong>Form model:</strong>
-    <pre>{{ myForm.value | json }}</pre>
+    <pre>{{ favoritesForm.value | json }}</pre>
   </div>
   <button class="sky-btn sky-btn-default" type="submit">Submit</button>
 </form>

@@ -28,6 +28,7 @@ import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixtu
 import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalService } from './modal.service';
@@ -576,6 +577,22 @@ describe('Modal component', () => {
     expect(getModalElement()).not.toExist();
 
     getApplicationRef().tick();
+  }));
+
+  it('should not require Router provider', fakeAsync(() => {
+    TestBed.overrideComponent(SkyModalHostComponent, {
+      add: {
+        providers: [
+          {
+            provide: Router,
+            useValue: undefined,
+          },
+        ],
+      },
+    });
+
+    const modalInstance = openModal(ModalTestComponent);
+    closeModal(modalInstance);
   }));
 
   it('should not close on route change if it is already closed', fakeAsync(() => {
