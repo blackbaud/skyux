@@ -20,12 +20,8 @@ export class SkyTextExpandAdapterService {
     return containerEl.nativeElement.offsetHeight;
   }
 
-  public setContainerHeight(containerEl: ElementRef, height?: string) {
-    if (height === undefined) {
-      this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
-    } else {
-      this.#renderer.setStyle(containerEl.nativeElement, 'max-height', height);
-    }
+  public removeContainerMaxHeight(containerEl: ElementRef) {
+    this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 
   public setText(textEl: ElementRef, text: string) {

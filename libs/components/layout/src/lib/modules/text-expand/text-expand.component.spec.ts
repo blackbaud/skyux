@@ -1,9 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { TextExpandTestComponent } from './fixtures/text-expand.component.fixture';
@@ -29,13 +24,12 @@ describe('Text expand component', () => {
   let cmp: TextExpandTestComponent;
   let el: HTMLElement;
 
-  function clickTextExpandButton(buttonElem: HTMLElement | null) {
+  async function clickTextExpandButton(buttonElem: HTMLElement | null) {
     buttonElem?.click();
     fixture.detectChanges();
-    tick(20);
+    await fixture.whenStable();
     fixture.detectChanges();
-    tick(500);
-    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   beforeEach(() => {
@@ -53,7 +47,7 @@ describe('Text expand component', () => {
   });
 
   describe('basic behaviors', () => {
-    it('should have necessary aria properties', fakeAsync(() => {
+    it('should have necessary aria properties', async () => {
       cmp.text = LONG_TEXT;
 
       fixture.detectChanges();
@@ -67,7 +61,7 @@ describe('Text expand component', () => {
       );
       expect(buttonElem?.getAttribute('aria-haspopup')).toBeNull();
 
-      clickTextExpandButton(buttonElem);
+      await clickTextExpandButton(buttonElem);
 
       expect(buttonElem?.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem?.getAttribute('aria-controls')).toBe(
@@ -81,7 +75,7 @@ describe('Text expand component', () => {
       expect(buttonElem?.getAttribute('aria-expanded')).toBeNull();
       expect(buttonElem?.getAttribute('aria-controls')).toBeNull();
       expect(buttonElem?.getAttribute('aria-haspopup')).toBe('dialog');
-    }));
+    });
 
     it('should not have see more button or ellipsis if text is short', () => {
       cmp.text = SHORT_TEXT;
@@ -258,7 +252,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
     });
 
-    it('should expand on click of the see more button', fakeAsync(() => {
+    it('should expand on click of the see more button', async () => {
       const expandedText = LONG_TEXT;
       cmp.text = expandedText;
       const collapsedText = COLLAPSED_TEXT;
@@ -281,7 +275,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(textArea?.innerText.trim()).toBe(collapsedText);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
@@ -291,7 +285,7 @@ describe('Text expand component', () => {
       expect(ellipsis).toBeNull();
       expect(textArea?.innerText.trim()).toBe(expandedText);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       ellipsis = el.querySelector('.sky-text-expand-ellipsis');
       textArea = el.querySelector('.sky-text-expand-text');
@@ -300,7 +294,7 @@ describe('Text expand component', () => {
       expect(seeMoreButton?.innerText.trim()).toBe('See more');
       expect(ellipsis).not.toBeNull();
       expect(textArea?.innerText.trim()).toBe(collapsedText);
-    }));
+    });
 
     it('should render newlines if requested', () => {
       cmp.text = SHORT_TEXT_WITH_NEWLINES;

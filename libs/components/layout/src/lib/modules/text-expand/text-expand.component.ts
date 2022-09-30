@@ -1,4 +1,11 @@
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   AfterContentInit,
   Component,
   ElementRef,
@@ -21,6 +28,28 @@ import { SkyTextExpandModalComponent } from './text-expand-modal.component';
 let nextId = 0;
 
 @Component({
+  animations: [
+    trigger('expansionAnimation', [
+      transition(':enter', []),
+      state(
+        'true',
+        style({
+          maxHeight: '{{transitionHeight}}px',
+        }),
+        { params: { transitionHeight: 0 } }
+      ),
+      state(
+        'false',
+        style({
+          maxHeight: '{{transitionHeight}}px',
+        }),
+        { params: { transitionHeight: 0 } }
+      ),
+      transition('true => false', animate('250ms ease')),
+      transition('false => true', animate('250ms ease')),
+      transition('void => *', []),
+    ]),
+  ],
   selector: 'sky-text-expand',
   templateUrl: './text-expand.component.html',
   styleUrls: ['./text-expand.component.scss'],
@@ -119,22 +148,17 @@ export class SkyTextExpandComponent implements AfterContentInit {
 
   public expandable = false;
 
-  public isExpanded = false;
+  public isExpanded: boolean | undefined;
 
   public isModal = false;
+
+  public transitionHeight = 1;
 
   @ViewChild('container', {
     read: ElementRef,
     static: true,
   })
-  public set containerEl(value: ElementRef | undefined) {
-    this.#_containerEl = value;
-    this.#setContainerMaxHeight();
-  }
-
-  public get containerEl(): ElementRef | undefined {
-    return this.#_containerEl;
-  }
+  public containerEl: ElementRef | undefined;
 
   @ViewChild('text', {
     read: ElementRef,
@@ -158,8 +182,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
   #seeLessText = '';
 
   #textToShow = '';
-
-  #_containerEl: ElementRef | undefined;
 
   #_maxExpandedLength = 600;
 
@@ -204,17 +226,9 @@ export class SkyTextExpandComponent implements AfterContentInit {
     } else {
       // Normal View
       if (!this.isExpanded) {
-        this.#setContainerMaxHeight();
-        setTimeout(() => {
-          this.isExpanded = true;
-          this.#animateText(this.#collapsedText, this.text, true);
-        }, 10);
+        this.#animateText(true);
       } else {
-        this.#setContainerMaxHeight();
-        setTimeout(() => {
-          this.isExpanded = false;
-          this.#animateText(this.text, this.#collapsedText, false);
-        }, 10);
+        this.#animateText(false);
       }
     }
   }
@@ -223,8 +237,11 @@ export class SkyTextExpandComponent implements AfterContentInit {
     if (this.textEl && this.containerEl) {
       // Ensure the correct text is displayed
       this.#textExpandAdapter.setText(this.textEl, this.#textToShow);
-      // Set height back to auto so the browser can change the height as needed with window changes
-      this.#textExpandAdapter.setContainerHeight(this.containerEl, undefined);
+
+      setTimeout(() => {
+        // Set height back to auto so the browser can change the height as needed with window changes
+        this.#textExpandAdapter.removeContainerMaxHeight(this.containerEl);
+      });
     }
   }
 
@@ -249,22 +266,6 @@ export class SkyTextExpandComponent implements AfterContentInit {
             });
         }
       });
-  }
-
-  #setContainerMaxHeight(): void {
-    if (this.containerEl) {
-      // ensure everything is reset
-      this.animationEnd();
-      /* Before animation is kicked off, ensure that a maxHeight exists */
-      /* Once we have support for angular v4 animations with parameters we can use that instead */
-      const currentHeight = this.#textExpandAdapter.getContainerHeight(
-        this.containerEl
-      );
-      this.#textExpandAdapter.setContainerHeight(
-        this.containerEl,
-        `${currentHeight}px`
-      );
-    }
   }
 
   #setup(value: string | undefined): void {
@@ -320,40 +321,26 @@ export class SkyTextExpandComponent implements AfterContentInit {
     return value.substring(0, length);
   }
 
-  #animateText(
-    previousText: string,
-    newText: string,
-    expanding: boolean
-  ): void {
+  #animateText(expanding: boolean): void {
     if (this.containerEl && this.textEl) {
       const adapter = this.#textExpandAdapter;
       const container = this.containerEl;
-      // Reset max height
-      adapter.setContainerHeight(container, undefined);
-      // Measure the current height so we can animate from it.
-      const currentHeight = adapter.getContainerHeight(container);
-      this.#textToShow = newText;
-      adapter.setText(this.textEl, this.#textToShow);
+      if (expanding) {
+        adapter.setText(this.textEl, this.text);
+        this.#textToShow = this.text;
+      } else {
+        adapter.setText(this.textEl, this.#collapsedText);
+        this.#textToShow = this.#collapsedText;
+      }
       this.buttonText = expanding ? this.#seeLessText : this.#seeMoreText;
       // Measure the new height so we can animate to it.
       const newHeight = adapter.getContainerHeight(container);
-      /* istanbul ignore if */
-      if (newHeight < currentHeight) {
-        // The new text is smaller than the old text, so put the old text back before doing
-        // the collapse animation to avoid showing a big chunk of whitespace.
-        adapter.setText(this.textEl, previousText);
+      this.transitionHeight = newHeight;
+      // Always show all text while animating so that the animation is smooth. The animation callback will set this back if needed.
+      if (!expanding) {
+        adapter.setText(this.textEl, this.text);
       }
-
-      adapter.setContainerHeight(container, `${currentHeight}px`);
-      // This timeout is necessary due to the browser needing to pick up the non-auto height being set
-      // in order to do the transtion in height correctly. Without it the transition does not fire.
-      setTimeout(() => {
-        adapter.setContainerHeight(container, `${newHeight}px`);
-        /* This resets values if the transition does not get kicked off */
-        setTimeout(() => {
-          this.animationEnd();
-        }, 500);
-      }, 10);
+      this.isExpanded = expanding;
     }
   }
 }
