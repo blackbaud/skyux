@@ -200,9 +200,10 @@ export class SkyAutonumericDirective
   #getNumericValue(): number | undefined {
     const inputValue = this.#getInputValue();
     const result = this.#autonumericInstance.getNumber();
-    const numericValueOrUndefined = !result ? undefined : result;
-    return inputValue && !this.#isInputValueTheCurrencySymbol(inputValue)
-      ? numericValueOrUndefined
+    return inputValue &&
+      !this.#isInputValueTheCurrencySymbol(inputValue) &&
+      !!result
+      ? result
       : undefined;
   }
 
