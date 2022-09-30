@@ -61,7 +61,15 @@ export class SkyAutonumericDirective
    * @internal
    */
   @Input()
-  public skyAutonumericFormChangesUnformatted: boolean | undefined = false;
+  public get skyAutonumericFormChangesUnformatted(): boolean | undefined {
+    return this.#_skyAutonumericFormChangesUnformatted;
+  }
+
+  public set skyAutonumericFormChangesUnformatted(value: boolean | undefined) {
+    this.#_skyAutonumericFormChangesUnformatted = value || false;
+  }
+
+  #_skyAutonumericFormChangesUnformatted = false;
 
   #autonumericInstance: AutoNumeric;
   #autonumericOptions: SkyAutonumericOptions | undefined;
