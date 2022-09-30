@@ -13,9 +13,9 @@ export class CardTestComponent {
   })
   public card!: SkyCardComponent;
 
-  public cardSelected = false;
+  public cardSelected: boolean | undefined;
 
-  public showCheckbox = true;
+  public showCheckbox: boolean | undefined = true;
 
   public showTitle = true;
 
@@ -23,5 +23,5 @@ export class CardTestComponent {
 
   public showDelete = false;
 
-  public cardSize = 'large';
+  public cardSize: string | undefined;
 }

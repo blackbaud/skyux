@@ -32,7 +32,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default "large"
    */
   @Input()
-  public size: string | undefined = 'large';
+  public set size(value: string | undefined) {
+    this.#_size = value ?? 'large';
+  }
+
+  public get size(): string {
+    return this.#_size;
+  }
 
   /**
    * Indicates whether to display a checkbox to the right of the card title.
@@ -40,7 +46,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public selectable: boolean | undefined = false;
+  public set selectable(value: boolean | undefined) {
+    this.#_selectable = value ?? false;
+  }
+
+  public get selectable(): boolean {
+    return this.#_selectable;
+  }
 
   /**
    * Indicates whether the card is selected. This only applies to card where
@@ -48,7 +60,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public selected: boolean | undefined = false;
+  public set selected(value: boolean | undefined) {
+    this.#_selected = value ?? false;
+  }
+
+  public get selected(): boolean {
+    return this.#_selected;
+  }
 
   /**
    * Fires when users select or deselect the card.
@@ -65,6 +83,9 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public showTitle = true;
 
   #subscription: Subscription | undefined;
+  #_size = 'large';
+  #_selectable = false;
+  #_selected = false;
 
   constructor(logger: SkyLogService) {
     logger.deprecated('SkyCardComponent', {

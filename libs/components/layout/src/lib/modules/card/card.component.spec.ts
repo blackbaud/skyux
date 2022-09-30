@@ -17,7 +17,6 @@ function validateCardSelected(
     expect(cmp.cardSelected).toBe(true);
     expect(selectedEl).not.toBeNull();
   } else {
-    expect(cmp.cardSelected).toBe(false);
     expect(selectedEl).toBeNull();
   }
 }
@@ -163,7 +162,8 @@ describe('Card component', () => {
     fixture.detectChanges();
 
     cmp.showTitle = false;
-    cmp.showCheckbox = false;
+    // set undefined for coverage
+    cmp.showCheckbox = undefined;
     fixture.detectChanges();
 
     expect(el.querySelector('.sky-card-header')).toBeNull();
