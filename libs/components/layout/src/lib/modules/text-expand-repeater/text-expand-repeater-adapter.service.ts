@@ -10,35 +10,31 @@ import {
  */
 @Injectable()
 export class SkyTextExpandRepeaterAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor(rendererFactory: RendererFactory2) {
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
-  public getItems(elRef: ElementRef) {
-    return elRef.nativeElement.querySelectorAll(
+  public getItems(elRef: ElementRef): NodeListOf<HTMLElement> {
+    return (elRef.nativeElement as HTMLElement).querySelectorAll(
       '.sky-text-expand-repeater-item'
-    );
+    ) as NodeListOf<HTMLElement>;
   }
 
-  public hideItem(item: HTMLElement) {
-    this.renderer.setStyle(item, 'display', 'none');
+  public hideItem(item: HTMLElement): void {
+    this.#renderer.setStyle(item, 'display', 'none');
   }
 
-  public showItem(item: HTMLElement) {
-    this.renderer.setStyle(item, 'display', 'list-item');
+  public showItem(item: HTMLElement): void {
+    this.#renderer.removeStyle(item, 'display');
   }
 
-  public getContainerHeight(containerEl: ElementRef) {
+  public getContainerHeight(containerEl: ElementRef): number {
     return containerEl.nativeElement.offsetHeight;
   }
 
-  public setContainerHeight(containerEl: ElementRef, height: string) {
-    if (height === undefined) {
-      this.renderer.removeStyle(containerEl.nativeElement, 'max-height');
-    } else {
-      this.renderer.setStyle(containerEl.nativeElement, 'max-height', height);
-    }
+  public removeContainerMaxHeight(containerEl: ElementRef): void {
+    this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 }

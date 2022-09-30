@@ -1,11 +1,5 @@
-import {
-  ComponentFixture,
-  TestBed,
-  async,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { TextExpandRepeaterTestComponent } from './fixtures/text-expand-repeater.component.fixture';
 import { TextExpandRepeaterFixturesModule } from './fixtures/text-expand-repeater.module.fixture';
@@ -15,13 +9,12 @@ describe('Text expand repeater component', () => {
   let cmp: TextExpandRepeaterTestComponent;
   let el: HTMLElement;
 
-  function clickTextExpandButton(buttonElem: HTMLElement) {
+  async function clickTextExpandButton(buttonElem: HTMLElement) {
     buttonElem.click();
     fixture.detectChanges();
-    tick(20);
+    await fixture.whenStable();
     fixture.detectChanges();
-    tick(500);
-    fixture.detectChanges();
+    await fixture.whenStable();
   }
 
   beforeEach(() => {
@@ -35,10 +28,12 @@ describe('Text expand repeater component', () => {
   });
 
   describe('basic behaviors', () => {
-    it('should have necessary aria properties', fakeAsync(() => {
+    it('should have necessary aria properties', async () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
+      fixture.detectChanges();
+      await fixture.whenStable();
       fixture.detectChanges();
       const buttonElem = el.querySelector(
         '.sky-text-expand-repeater-see-more'
@@ -49,13 +44,13 @@ describe('Text expand repeater component', () => {
         cmp.textExpand.first.contentSectionId
       );
 
-      clickTextExpandButton(buttonElem);
+      await clickTextExpandButton(buttonElem);
 
       expect(buttonElem.getAttribute('aria-expanded')).toBe('true');
       expect(buttonElem.getAttribute('aria-controls')).toBe(
         cmp.textExpand.first.contentSectionId
       );
-    }));
+    });
 
     it('should not have see more button if data is less than or equal to max items', () => {
       cmp.data = ['john', 'bob'];
@@ -81,7 +76,7 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
-    it('should not have see more button or data if long data is changed to undefined', () => {
+    it('should not have see more button or data if long data is changed to undefined', async () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
@@ -99,13 +94,15 @@ describe('Text expand repeater component', () => {
       cmp.data = undefined;
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
       displayedItems = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(0);
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
       expect(seeMoreButton).toBeNull();
     });
 
-    it('should have see more button or data if long data is changed to undefined and back', () => {
+    it('should have see more button or data if long data is changed to undefined and back', async () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
@@ -123,6 +120,8 @@ describe('Text expand repeater component', () => {
       cmp.data = undefined;
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
       displayedItems = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(0);
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
@@ -131,6 +130,8 @@ describe('Text expand repeater component', () => {
       cmp.data = ['john', 'bob', 'hank'];
 
       fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
       displayedItems = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(3);
@@ -138,7 +139,7 @@ describe('Text expand repeater component', () => {
       expect(seeMoreButton.innerText.trim()).toBe('See more');
     });
 
-    it('should not have see more button or data if long data is changed to shorter data', () => {
+    it('should not have see more button or data if long data is changed to shorter data', async () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
@@ -155,6 +156,8 @@ describe('Text expand repeater component', () => {
 
       cmp.data = ['john', 'bob'];
 
+      fixture.detectChanges();
+      await fixture.whenStable();
       fixture.detectChanges();
       displayedItems = el.querySelectorAll('.sky-text-expand-repeater-item');
       expect(displayedItems.length).toBe(2);
@@ -196,7 +199,7 @@ describe('Text expand repeater component', () => {
       expect(contentSection).toExist();
     });
 
-    it('should expand and collapse correctly', fakeAsync(() => {
+    it('should expand and collapse correctly', async () => {
       cmp.data = ['john', 'bob', 'hank'];
       cmp.numItems = 2;
 
@@ -206,7 +209,9 @@ describe('Text expand repeater component', () => {
         '.sky-text-expand-repeater-item[style*="display: none"]';
 
       fixture.detectChanges();
-      const container: HTMLElement = document.querySelector(
+      await fixture.whenStable();
+      fixture.detectChanges();
+      const container: HTMLElement | null = document.querySelector(
         '.sky-text-expand-repeater-container'
       );
       let seeMoreButton: any = el.querySelector(
@@ -219,26 +224,26 @@ describe('Text expand repeater component', () => {
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       shownItems = el.querySelectorAll(shownItemsSelector);
       hiddenItems = el.querySelectorAll(hiddenItemsSelector);
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
-      expect(container.style.maxHeight).toBe('');
+      expect(container?.style.maxHeight).toBe('');
       expect(seeMoreButton.innerText.trim()).toBe('See less');
       expect(shownItems.length).toBe(3);
       expect(hiddenItems.length).toBe(0);
 
-      clickTextExpandButton(seeMoreButton);
+      await clickTextExpandButton(seeMoreButton);
 
       shownItems = el.querySelectorAll(shownItemsSelector);
       hiddenItems = el.querySelectorAll(hiddenItemsSelector);
       seeMoreButton = el.querySelector('.sky-text-expand-repeater-see-more');
-      expect(container.style.minHeight).toBe('');
+      expect(container?.style.minHeight).toBe('');
       expect(seeMoreButton.innerText.trim()).toBe('See more');
       expect(shownItems.length).toBe(2);
       expect(hiddenItems.length).toBe(1);
-    }));
+    });
 
     it('should not display anything if no value is given for the text', () => {
       cmp.data = undefined;
@@ -254,12 +259,11 @@ describe('Text expand repeater component', () => {
       expect(items.length).toBe(0);
     });
 
-    it('should be accessible', async(() => {
+    it('should be accessible', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('custom templates', () => {

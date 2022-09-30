@@ -7,6 +7,8 @@ import { BoxDemoComponent as InlineHelpBoxDemoComponent } from '../code-examples
 import { BoxDemoModule as InlineHelpBoxDemoModule } from '../code-examples/layout/box/inline-help/box-demo.module';
 import { DescriptionListDemoComponent } from '../code-examples/layout/description-list/horizontal/description-list-demo.component';
 import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
+import { TextExpandRepeaterDemoComponent } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.component';
+import { TextExpandRepeaterDemoModule } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.module';
 
 const routes: Routes = [
   {
@@ -20,6 +22,10 @@ const routes: Routes = [
   {
     path: 'description-list',
     component: DescriptionListDemoComponent,
+  },
+  {
+    path: 'text-expand-repeater',
+    component: TextExpandRepeaterDemoComponent,
   },
 ];
 
@@ -35,6 +41,7 @@ export class LayoutRoutingModule {}
     InlineHelpBoxDemoModule,
     DescriptionListDemoModule,
     LayoutRoutingModule,
+    TextExpandRepeaterDemoModule,
   ],
 })
 export class LayoutModule {}
