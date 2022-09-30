@@ -9,6 +9,8 @@ import { DescriptionListDemoComponent } from '../code-examples/layout/descriptio
 import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
 import { TextExpandRepeaterDemoComponent } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.component';
 import { TextExpandRepeaterDemoModule } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.module';
+import { TextExpandDemoComponent } from '../code-examples/layout/text-expand/inline/text-expand-demo.component';
+import { TextExpandDemoModule } from '../code-examples/layout/text-expand/inline/text-expand-demo.module';
 
 const routes: Routes = [
   {
@@ -27,6 +29,10 @@ const routes: Routes = [
     path: 'text-expand-repeater',
     component: TextExpandRepeaterDemoComponent,
   },
+  {
+    path: 'text-expand',
+    component: TextExpandDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -42,6 +48,7 @@ export class LayoutRoutingModule {}
     DescriptionListDemoModule,
     LayoutRoutingModule,
     TextExpandRepeaterDemoModule,
+    TextExpandDemoModule,
   ],
 })
 export class LayoutModule {}
