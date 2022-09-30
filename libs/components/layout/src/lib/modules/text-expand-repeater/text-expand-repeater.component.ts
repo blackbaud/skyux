@@ -170,7 +170,7 @@ export class SkyTextExpandRepeaterComponent implements AfterViewInit {
       if (this.containerEl) {
         // Set height back to auto so the browser can change the height as needed with window changes
         this.#textExpandRepeaterAdapter.removeContainerMaxHeight(
-          this.containerEl.nativeElement
+          this.containerEl
         );
       }
     });

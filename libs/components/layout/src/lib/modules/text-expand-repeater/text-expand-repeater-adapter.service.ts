@@ -34,7 +34,7 @@ export class SkyTextExpandRepeaterAdapterService {
     return containerEl.nativeElement.offsetHeight;
   }
 
-  public removeContainerMaxHeight(containerEl: HTMLElement) {
-    this.#renderer.removeStyle(containerEl, 'max-height');
+  public removeContainerMaxHeight(containerEl: ElementRef) {
+    this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 }
