@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import {
   AbstractControl,
+  FormControl,
   NgModel,
   UntypedFormBuilder,
   UntypedFormControl,
@@ -38,10 +39,8 @@ export class AutonumericFixtureComponent {
   constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
 
-    this.formGroup = this.#formBuilder.group({
-      donationAmount: new UntypedFormControl(),
-    });
+    this.formControl = new FormControl('donationAmount');
 
-    this.formControl = this.formGroup.controls['donationAmount'];
+    this.formGroup = this.#formBuilder.group(this.formControl);
   }
 }
