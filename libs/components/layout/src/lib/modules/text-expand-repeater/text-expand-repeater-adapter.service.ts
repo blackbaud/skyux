@@ -16,25 +16,25 @@ export class SkyTextExpandRepeaterAdapterService {
     this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
-  public getItems(elRef: ElementRef) {
+  public getItems(elRef: ElementRef): NodeListOf<HTMLElement> {
     return (elRef.nativeElement as HTMLElement).querySelectorAll(
       '.sky-text-expand-repeater-item'
     ) as NodeListOf<HTMLElement>;
   }
 
-  public hideItem(item: HTMLElement) {
+  public hideItem(item: HTMLElement): void {
     this.#renderer.setStyle(item, 'display', 'none');
   }
 
-  public showItem(item: HTMLElement) {
+  public showItem(item: HTMLElement): void {
     this.#renderer.removeStyle(item, 'display');
   }
 
-  public getContainerHeight(containerEl: ElementRef) {
+  public getContainerHeight(containerEl: ElementRef): number {
     return containerEl.nativeElement.offsetHeight;
   }
 
-  public removeContainerMaxHeight(containerEl: ElementRef) {
+  public removeContainerMaxHeight(containerEl: ElementRef): void {
     this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 }
