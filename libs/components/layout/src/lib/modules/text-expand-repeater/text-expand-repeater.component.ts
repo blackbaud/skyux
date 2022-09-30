@@ -1,11 +1,17 @@
 import {
+  AnimationEvent,
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
-  OnChanges,
-  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -23,195 +29,218 @@ import { SkyTextExpandRepeaterListStyleType } from './types/text-expand-repeater
 let nextId = 0;
 
 @Component({
+  animations: [
+    trigger('expansionAnimation', [
+      transition(':enter', []),
+      state(
+        'true',
+        style({
+          maxHeight: '{{transitionHeight}}px',
+        }),
+        { params: { transitionHeight: 0 } }
+      ),
+      state(
+        'false',
+        style({
+          maxHeight: '{{transitionHeight}}px',
+        }),
+        { params: { transitionHeight: 0 } }
+      ),
+      transition('true => false', animate('250ms ease')),
+      transition('false => true', animate('250ms ease')),
+      transition('void => *', []),
+    ]),
+  ],
   selector: 'sky-text-expand-repeater',
   templateUrl: './text-expand-repeater.component.html',
   styleUrls: ['./text-expand-repeater.component.scss'],
   providers: [SkyTextExpandRepeaterAdapterService],
 })
-export class SkyTextExpandRepeaterComponent
-  implements AfterViewInit, OnChanges
-{
+export class SkyTextExpandRepeaterComponent implements AfterViewInit {
   /**
    * Specifies the data to truncate.
    */
   @Input()
-  public data: any[];
+  public set data(value: any[] | undefined) {
+    this.#_data = value;
+
+    // Wait for the dom to render the new items based on the updated data
+    setTimeout(() => {
+      this.#htmlItems = this.#textExpandRepeaterAdapter.getItems(this.#elRef);
+      this.#setup(value);
+    });
+  }
+
+  public get data(): any[] | undefined {
+    return this.#_data;
+  }
 
   /**
    * Specifies a template for items in the list.
    */
   @Input()
-  public itemTemplate: TemplateRef<unknown>;
+  public itemTemplate: TemplateRef<unknown> | undefined;
 
   /**
    * Specifies the style of bullet to use
    * @default "unordered"
    */
   @Input()
-  public listStyle: SkyTextExpandRepeaterListStyleType = 'unordered';
+  public listStyle: SkyTextExpandRepeaterListStyleType | undefined =
+    'unordered';
 
   /**
-   * Specifies the number of items to display before truncating the list.
+   * Specifies the number of items to display before truncating the list. If not supplied, all items are shown.
    */
   @Input()
-  public maxItems: number;
+  public set maxItems(value: number | undefined) {
+    this.#_maxItems = value;
+    this.#setup(this.data);
+  }
 
-  public buttonText: string;
-  public contentItems: Array<any>;
-  public expandable: boolean;
+  public get maxItems(): number | undefined {
+    return this.#_maxItems;
+  }
+
+  public buttonText = '';
+  public expandable = false;
   public contentSectionId = `sky-text-expand-repeater-content-${++nextId}`;
 
-  public isExpanded = false;
+  public isExpanded: boolean | undefined;
+  public transitionHeight = 1;
 
-  private seeMoreText: string;
-  private seeLessText: string;
+  #seeMoreText = '';
+  #seeLessText = '';
 
   @ViewChild('container', {
     read: ElementRef,
     static: false,
   })
-  private containerEl: ElementRef;
+  public containerEl: ElementRef | undefined;
 
-  private items: Array<HTMLElement>;
+  #htmlItems: NodeListOf<HTMLElement> | undefined;
+
+  #_data: any[] | undefined;
+  #_maxItems: number | undefined;
+
+  #resources: SkyLibResourcesService;
+  #elRef: ElementRef;
+  #textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService;
+  #changeDetector: ChangeDetectorRef;
 
   constructor(
-    private resources: SkyLibResourcesService,
-    private elRef: ElementRef,
-    private textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    resources: SkyLibResourcesService,
+    elRef: ElementRef,
+    textExpandRepeaterAdapter: SkyTextExpandRepeaterAdapterService,
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#resources = resources;
+    this.#elRef = elRef;
+    this.#textExpandRepeaterAdapter = textExpandRepeaterAdapter;
+    this.#changeDetector = changeDetector;
+  }
 
   public ngAfterViewInit() {
-    if (this.contentItems) {
-      this.items = this.textExpandRepeaterAdapter.getItems(this.elRef);
-      for (let i = this.maxItems; i < this.contentItems.length; i++) {
-        this.textExpandRepeaterAdapter.hideItem(this.items[i]);
-      }
-    }
-
     observableForkJoin([
-      this.resources.getString('skyux_text_expand_see_more'),
-      this.resources.getString('skyux_text_expand_see_less'),
+      this.#resources.getString('skyux_text_expand_see_more'),
+      this.#resources.getString('skyux_text_expand_see_less'),
     ])
       .pipe(take(1))
       .subscribe((resources) => {
-        this.seeMoreText = resources[0];
-        this.seeLessText = resources[1];
+        this.#seeMoreText = resources[0];
+        this.#seeLessText = resources[1];
         /* sanity check */
         /* istanbul ignore else */
         if (!this.isExpanded) {
-          this.buttonText = this.seeMoreText;
+          this.buttonText = this.#seeMoreText;
         } else {
-          this.buttonText = this.seeLessText;
+          this.buttonText = this.#seeLessText;
         }
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
       });
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    /* istanbul ignore else */
-    if (changes.maxItems || changes.data) {
-      this.setup(this.data);
-    }
-  }
-
-  public animationEnd() {
-    // Ensure the correct items are displayed
+  public animationEnd(event: AnimationEvent) {
+    // Ensure all items that should be hidden are hidden. This is because we need them shown during the animation window for visual purposes.
     if (!this.isExpanded) {
-      for (let i = this.maxItems; i < this.contentItems.length; i++) {
-        this.textExpandRepeaterAdapter.hideItem(this.items[i]);
-      }
+      this.#hideItems();
     }
-    // Set height back to auto so the browser can change the height as needed with window changes
-    this.textExpandRepeaterAdapter.setContainerHeight(
-      this.containerEl,
-      undefined
-    );
+
+    // This set timeout is needed as the `animationEnd` function is called by the angular animation callback prior to the animation setting the style on the element
+    setTimeout(() => {
+      // Set height back to auto so the browser can change the height as needed with window changes
+      this.#textExpandRepeaterAdapter.removeContainerMaxHeight(event.element);
+    });
   }
 
   public repeaterExpand() {
     if (!this.isExpanded) {
-      this.setContainerMaxHeight();
-      setTimeout(() => {
-        this.isExpanded = true;
-        this.animateRepeater(true);
-      });
+      this.#animateRepeater(true);
     } else {
-      this.setContainerMaxHeight();
-      setTimeout(() => {
-        this.isExpanded = false;
-        this.animateRepeater(false);
-      });
+      this.#animateRepeater(false);
     }
   }
 
-  private setContainerMaxHeight() {
-    // ensure everything is reset
-    this.animationEnd();
-    /* Before animation is kicked off, ensure that a maxHeight exists */
-    /* Once we have support for angular v4 animations with parameters we can use that instead */
-    const currentHeight = this.textExpandRepeaterAdapter.getContainerHeight(
-      this.containerEl
-    );
-    this.textExpandRepeaterAdapter.setContainerHeight(
-      this.containerEl,
-      `${currentHeight}px`
-    );
-  }
-
-  private animateRepeater(expanding: boolean) {
-    const adapter = this.textExpandRepeaterAdapter;
+  #animateRepeater(expanding: boolean) {
+    const adapter = this.#textExpandRepeaterAdapter;
     const container = this.containerEl;
-
-    adapter.setContainerHeight(container, undefined);
-    const currentHeight = adapter.getContainerHeight(container);
-    for (let i = this.maxItems; i < this.contentItems.length; i++) {
-      if (!expanding) {
-        adapter.hideItem(this.items[i]);
+    if (container) {
+      if (expanding) {
+        this.#showItems();
       } else {
-        adapter.showItem(this.items[i]);
+        this.#hideItems();
       }
-    }
-    const newHeight = adapter.getContainerHeight(container);
-    if (!expanding) {
-      this.buttonText = this.seeMoreText;
-    } else {
-      this.buttonText = this.seeLessText;
-    }
-    if (newHeight < currentHeight) {
-      // The new text is smaller than the old text, so put the old text back before doing
-      // the collapse animation to avoid showing a big chunk of whitespace.
-      for (let i = this.maxItems; i < this.contentItems.length; i++) {
-        adapter.showItem(this.items[i]);
+      const newHeight = adapter.getContainerHeight(container);
+      this.transitionHeight = newHeight;
+      if (!expanding) {
+        this.buttonText = this.#seeMoreText;
+      } else {
+        this.buttonText = this.#seeLessText;
       }
+      // Show all items during animation for visual purposes.
+      this.#showItems();
+      this.isExpanded = expanding;
     }
-
-    adapter.setContainerHeight(container, `${currentHeight}px`);
-    // This timeout is necessary due to the browser needing to pick up the non-auto height being set
-    // in order to do the transtion in height correctly. Without it the transition does not fire.
-    setTimeout(() => {
-      adapter.setContainerHeight(container, `${newHeight}px`);
-      /* This resets values if the transition does not get kicked off */
-      setTimeout(() => {
-        this.animationEnd();
-      }, 500);
-    }, 10);
   }
 
-  private setup(value: Array<any>) {
+  #setup(value: Array<unknown> | undefined) {
     if (value) {
       const length = value.length;
-      if (length > this.maxItems) {
+      if (this.maxItems && length > this.maxItems) {
         this.expandable = true;
-        this.buttonText = this.seeMoreText;
+        this.buttonText = this.#seeMoreText;
+        this.#hideItems();
+        if (this.containerEl) {
+          this.transitionHeight =
+            this.#textExpandRepeaterAdapter.getContainerHeight(
+              this.containerEl
+            );
+        }
         this.isExpanded = false;
       } else {
         this.expandable = false;
+        this.isExpanded = undefined;
       }
-      this.contentItems = value;
     } else {
-      this.contentItems = undefined;
       this.expandable = false;
+      this.isExpanded = undefined;
+    }
+    this.#changeDetector.markForCheck();
+  }
+
+  #hideItems(): void {
+    if (this.#htmlItems && this.maxItems) {
+      for (let i = this.maxItems; i < this.#htmlItems.length; i++) {
+        this.#textExpandRepeaterAdapter.hideItem(this.#htmlItems[i]);
+      }
+    }
+  }
+
+  #showItems(): void {
+    if (this.#htmlItems && this.maxItems) {
+      for (let i = this.maxItems; i < this.#htmlItems.length; i++) {
+        this.#textExpandRepeaterAdapter.showItem(this.#htmlItems[i]);
+      }
     }
   }
 }
