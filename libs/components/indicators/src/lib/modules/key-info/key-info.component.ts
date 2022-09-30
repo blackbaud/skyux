@@ -15,5 +15,5 @@ export class SkyKeyInfoComponent {
    */
   // TODO: More strongly type this in a future breaking change.
   @Input()
-  public layout: SkyKeyInfoLayoutType | string | undefined = 'vertical';
+  public layout: SkyKeyInfoLayoutType | undefined = 'vertical';
 }

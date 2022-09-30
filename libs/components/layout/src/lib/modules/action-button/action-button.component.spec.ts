@@ -294,7 +294,7 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height as the tallest action button`, fakeAsync(() => {
     fixture.componentInstance.firstButtonHeight = '500px';
-    fixture.componentInstance.actionButtonContainer.onContentChange();
+    fixture.componentInstance.actionButtonContainer?.onContentChange();
     fixture.detectChanges();
     tick();
     const buttons = getActionButtons(fixture);

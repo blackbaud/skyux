@@ -197,8 +197,8 @@ describe('Card component', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(el.querySelector('sky-inline-delete')).not.toBeNull();
-      expect(cmp.card.inlineDeleteComponent.length).toBe(1);
-      expect(cmp.card.inlineDeleteComponent.first.type).toBe(
+      expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
+      expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
         SkyInlineDeleteType.Card
       );
     });
@@ -208,14 +208,14 @@ describe('Card component', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(el.querySelector('sky-inline-delete')).toBeNull();
-      expect(cmp.card.inlineDeleteComponent.length).toBe(0);
+      expect(cmp.card.inlineDeleteComponent?.length).toBe(0);
 
       cmp.showDelete = true;
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(el.querySelector('sky-inline-delete')).not.toBeNull();
-        expect(cmp.card.inlineDeleteComponent.length).toBe(1);
-        expect(cmp.card.inlineDeleteComponent.first.type).toBe(
+        expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
+        expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
           SkyInlineDeleteType.Card
         );
       });

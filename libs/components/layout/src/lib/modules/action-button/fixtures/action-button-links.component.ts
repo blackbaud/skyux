@@ -12,15 +12,17 @@ export class ActionButtonLinksComponent implements OnInit {
     read: SkyActionButtonContainerComponent,
     static: true,
   })
-  public actionButtonContainer: SkyActionButtonContainerComponent;
+  public actionButtonContainer: SkyActionButtonContainerComponent | undefined;
 
-  public permalink;
-  public items: {
-    header: string;
-    details: string;
-    permalink: SkyActionButtonPermalink;
-  }[];
-  public firstButtonHeight: string;
+  public permalink: string | undefined;
+  public items:
+    | {
+        header: string;
+        details: string;
+        permalink: SkyActionButtonPermalink;
+      }[]
+    | undefined;
+  public firstButtonHeight: string | undefined;
 
   public ngOnInit(): void {
     this.items = [

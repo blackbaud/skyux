@@ -11,9 +11,9 @@ export class SkyPageSummaryFixture {
   /**
    * The page summary's current title text.
    */
-  public get titleText(): string {
+  public get titleText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(
+      this.#debugEl.query(
         By.css('sky-page-summary-title .sky-page-summary-title')
       )
     );
@@ -22,9 +22,9 @@ export class SkyPageSummaryFixture {
   /**
    * The page summary's current subtitle text.
    */
-  public get subtitleText(): string {
+  public get subtitleText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(
+      this.#debugEl.query(
         By.css('sky-page-summary-subtitle .sky-page-summary-subtitle')
       )
     );
@@ -33,18 +33,18 @@ export class SkyPageSummaryFixture {
   /**
    * The page summary's current content text.
    */
-  public get contentText(): string {
+  public get contentText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(
+      this.#debugEl.query(
         By.css('sky-page-summary-content .sky-page-summary-content')
       )
     );
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-page-summary'

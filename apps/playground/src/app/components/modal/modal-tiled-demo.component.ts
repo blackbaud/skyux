@@ -7,5 +7,6 @@ import { SkyModalService } from '@skyux/modals';
   providers: [SkyModalService],
 })
 export class ModalTiledDemoComponent {
+  public showHelp = false;
   public title = 'Hello world';
 }
