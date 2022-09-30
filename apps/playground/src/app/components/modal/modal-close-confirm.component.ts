@@ -12,6 +12,7 @@ import {
   templateUrl: './modal-close-confirm.component.html',
 })
 export class ModalCloseConfirmComponent {
+  public showHelp = false;
   public hasUnsavedWork = true;
   public confirmationConfig = true;
 

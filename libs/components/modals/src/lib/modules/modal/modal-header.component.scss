@@ -5,6 +5,7 @@
 h1 {
   margin: 0;
   line-height: 1.2;
+  display: inline;
 }
 
 @include sky-theme-modern-dark {

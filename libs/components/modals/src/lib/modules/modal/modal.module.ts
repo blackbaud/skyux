@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SkyTrimModule } from '@skyux/core';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyThemeModule } from '@skyux/theme';
 
@@ -28,6 +29,7 @@ import { SkyModalComponent } from './modal.component';
     SkyIconModule,
     SkyModalsResourcesModule,
     SkyThemeModule,
+    SkyTrimModule,
   ],
   exports: [
     SkyModalComponent,
