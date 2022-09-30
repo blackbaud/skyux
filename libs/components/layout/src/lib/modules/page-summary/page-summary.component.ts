@@ -42,7 +42,7 @@ export class SkyPageSummaryComponent
     | QueryList<SkyPageSummaryKeyInfoComponent>
     | undefined;
 
-  #breakpointSubscription: Subscription;
+  #breakpointSubscription: Subscription | undefined;
   #ngUnsubscribe = new Subject<void>();
 
   #elRef: ElementRef;
