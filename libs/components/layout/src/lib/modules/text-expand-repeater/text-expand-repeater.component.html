@@ -2,8 +2,12 @@
   <ul
     *ngIf="listStyle !== 'ordered'"
     class="sky-text-expand-repeater-container"
+    [@expansionAnimation]="{
+      value: isExpanded,
+      params: { transitionHeight: transitionHeight }
+    }"
+    (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
-    (transitionend)="animationEnd()"
     [ngClass]="{
       'sky-text-expand-repeater-list-style-none': listStyle === 'unstyled'
     }"
@@ -14,8 +18,12 @@
   <ol
     *ngIf="listStyle === 'ordered'"
     class="sky-text-expand-repeater-container"
+    [@expansionAnimation]="{
+      value: isExpanded,
+      params: { transitionHeight: transitionHeight }
+    }"
+    (@expansionAnimation.done)="animationEnd()"
     [id]="contentSectionId"
-    (transitionend)="animationEnd()"
     #container
   >
     <ng-template [ngTemplateOutlet]="listItemTemplate"></ng-template>
@@ -24,7 +32,7 @@
     *ngIf="expandable"
     type="button"
     class="sky-btn sky-btn-link-inline sky-text-expand-repeater-see-more"
-    [attr.aria-expanded]="isExpanded"
+    [attr.aria-expanded]="!!isExpanded"
     [attr.aria-controls]="contentSectionId"
     (click)="repeaterExpand()"
     [ngClass]="{
@@ -41,7 +49,7 @@
 </ng-template>
 
 <ng-template #listItemTemplate>
-  <li *ngFor="let item of contentItems" class="sky-text-expand-repeater-item">
+  <li *ngFor="let item of data" class="sky-text-expand-repeater-item">
     <ng-template
       [ngTemplateOutlet]="itemTemplate || defaultItemTemplate"
       [ngTemplateOutletContext]="{ $implicit: item }"
