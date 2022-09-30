@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyHelpInlineModule } from '@skyux/indicators';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyTilesModule } from '@skyux/tiles';
 
@@ -35,6 +36,7 @@ import { ModalVisualComponent } from './modal-visual.component';
     SkyTilesModule,
     SkyModalModule,
     ModalVisualRoutingModule,
+    SkyHelpInlineModule,
   ],
 })
 export class ModalVisualModule {
