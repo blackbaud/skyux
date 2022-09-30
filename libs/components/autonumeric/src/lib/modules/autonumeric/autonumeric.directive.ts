@@ -87,7 +87,7 @@ export class SkyAutonumericDirective
     this.#renderer = renderer;
     this.#changeDetector = changeDetector;
 
-    this.#autonumericInstance = new AutoNumeric(this.#elementRef.nativeElement);
+    this.#autonumericInstance = new AutoNumeric(elementRef.nativeElement);
   }
 
   public ngOnInit(): void {
