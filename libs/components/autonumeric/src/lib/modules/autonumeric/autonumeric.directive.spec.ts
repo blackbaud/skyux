@@ -37,10 +37,12 @@ describe('Autonumeric directive', () => {
 
   function setOptions(options: SkyAutonumericOptions): void {
     fixture.componentInstance.autonumericOptions = options;
+    detectChangesTick();
   }
 
   function setUnformatted(): void {
     fixture.componentInstance.setUnformatted = true;
+    detectChangesTick();
   }
 
   function getFormattedValue(): string {
@@ -127,8 +129,6 @@ describe('Autonumeric directive', () => {
   });
 
   it('should use default configuration', fakeAsync(() => {
-    detectChangesTick();
-
     setValue(1000);
 
     const modelValue = getModelValue();
@@ -139,8 +139,6 @@ describe('Autonumeric directive', () => {
   }));
 
   it('should properly format 0 values', fakeAsync(() => {
-    detectChangesTick();
-
     setValue(0);
 
     const modelValue = getModelValue();
@@ -152,8 +150,6 @@ describe('Autonumeric directive', () => {
 
   it('should support preset configuration', fakeAsync(() => {
     setOptions('dollar');
-
-    detectChangesTick();
 
     setValue(1000);
 
@@ -167,11 +163,7 @@ describe('Autonumeric directive', () => {
   it('should support setting the value unformatted', fakeAsync(() => {
     setOptions('dollar');
 
-    detectChangesTick();
-
     setUnformatted();
-
-    detectChangesTick();
 
     setValue(2000);
 
@@ -186,8 +178,6 @@ describe('Autonumeric directive', () => {
     setOptions({
       decimalPlaces: 5,
     });
-
-    detectChangesTick();
 
     setValue(1000);
 
@@ -214,8 +204,6 @@ describe('Autonumeric directive', () => {
   it('should not update numeric value on keyup when no change is made and a currency symbol is specified', fakeAsync(() => {
     setOptions('dollar');
 
-    detectChangesTick();
-
     const input = fixture.nativeElement.querySelector('input');
 
     SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
@@ -223,8 +211,6 @@ describe('Autonumeric directive', () => {
     SkyAppTestUtility.fireDomEvent(input, 'keyup');
 
     expect(fixture.componentInstance.formControl.value).toBeFalsy();
-
-    detectChangesTick();
   }));
 
   it('should be accessible', async () => {
@@ -257,8 +243,6 @@ describe('Autonumeric directive', () => {
     });
 
     it('should support global configuration', fakeAsync(() => {
-      detectChangesTick();
-
       setValue(1000);
 
       const modelValue = getModelValue();
@@ -275,8 +259,6 @@ describe('Autonumeric directive', () => {
         'set'
       ).and.stub();
 
-      detectChangesTick();
-
       setValue(1000);
 
       const modelValue = getModelValue();
@@ -288,7 +270,6 @@ describe('Autonumeric directive', () => {
 
     it('should support global configuration when the local configuration is set to undefined', fakeAsync(() => {
       fixture.componentInstance.autonumericOptions = undefined;
-
       detectChangesTick();
 
       setValue(1000);
@@ -302,8 +283,6 @@ describe('Autonumeric directive', () => {
 
     it('should overwrite global configuration with configuration from the input', fakeAsync(() => {
       setOptions('dollar');
-
-      detectChangesTick();
 
       setValue(1000);
 
@@ -328,8 +307,6 @@ describe('Autonumeric directive', () => {
     }));
 
     it('should set correct statuses when initialized with a value', fakeAsync(() => {
-      detectChangesTick();
-
       setValue(1000);
 
       verifyFormControlStatuses({
