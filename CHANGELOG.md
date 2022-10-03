@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.23.1](https://github.com/blackbaud/skyux/compare/6.23.0...6.23.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* **components/pages:** update needs-attention to match box design ([#582](https://github.com/blackbaud/skyux/issues/582)) ([8ad0ada](https://github.com/blackbaud/skyux/commit/8ad0ada69aa01f4e9cfcbd62929a47eb573cef58))
+
 ## [6.23.0](https://github.com/blackbaud/skyux/compare/6.22.0...6.23.0) (2022-09-28)
 
 
