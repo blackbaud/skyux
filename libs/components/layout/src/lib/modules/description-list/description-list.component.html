@@ -17,18 +17,22 @@
     [style.width]="mode === 'horizontal' ? listItemWidth : ''"
   >
     <dt *ngFor="let termComponent of contentComponent?.termComponents">
-      <ng-container
-        *ngTemplateOutlet="termComponent.templateRef"
-      ></ng-container>
+      <ng-container *ngIf="termComponent.templateRef">
+        <ng-container
+          *ngTemplateOutlet="termComponent.templateRef"
+        ></ng-container>
+      </ng-container>
     </dt>
     <dd
       *ngFor="
         let descriptionComponent of contentComponent?.descriptionComponents
       "
     >
-      <ng-container
-        *ngTemplateOutlet="descriptionComponent.templateRef"
-      ></ng-container>
+      <ng-container *ngIf="descriptionComponent.templateRef">
+        <ng-container
+          *ngTemplateOutlet="descriptionComponent.templateRef"
+        ></ng-container>
+      </ng-container>
     </dd>
   </div>
 </dl>
