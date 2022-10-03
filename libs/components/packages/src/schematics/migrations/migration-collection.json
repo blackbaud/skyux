@@ -4,6 +4,11 @@
       "version": "0.0.0-PACKAGES_PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
+    },
+    "rename-mutation-observer-service": {
+      "version": "",
+      "factory": "./update-7/rename-mutation-observer-service",
+      "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
     }
   }
 }
