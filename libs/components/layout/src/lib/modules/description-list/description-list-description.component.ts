@@ -29,7 +29,7 @@ export class SkyDescriptionListDescriptionComponent
 {
   public defaultDescription: string | undefined;
 
-  public themeName = 'default';
+  public themeName: string | undefined;
 
   @ViewChild('descriptionTemplateRef', {
     read: TemplateRef,
