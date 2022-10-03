@@ -922,7 +922,7 @@ describe('Modal component', () => {
         add: {
           providers: [
             {
-              provide: MutationObserverService,
+              provide: SkyMutationObserverService,
               useValue: modalMockMutationObserverService,
             },
           ],
