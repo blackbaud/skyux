@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   SkyAutocompleteSearchFunctionFilter,
   SkyLookupShowMoreConfig,
   SkyLookupShowMoreCustomPickerContext,
 } from '@skyux/lookup';
-import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
+import { SkyModalService } from '@skyux/modals';
 
 import { LookupCustomPickerDemoModalComponent } from './lookup-custom-picker-demo-modal.component';
 import { LookupDemoPerson } from './lookup-demo-person';
@@ -17,43 +17,111 @@ import { LookupDemoPerson } from './lookup-demo-person';
 })
 export class LookupCustomPickerDemoComponent implements OnInit {
   public showMoreConfig: SkyLookupShowMoreConfig;
-
-  public myForm: FormGroup;
+  public favoritesForm: FormGroup;
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
   public people: LookupDemoPerson[] = [
-    { name: 'Abed' },
-    { name: 'Alex' },
-    { name: 'Ben' },
-    { name: 'Britta' },
-    { name: 'Buzz' },
-    { name: 'Craig' },
-    { name: 'Elroy' },
-    { name: 'Garrett' },
-    { name: 'Ian' },
-    { name: 'Jeff' },
-    { name: 'Leonard' },
-    { name: 'Neil' },
-    { name: 'Pierce' },
-    { name: 'Preston' },
-    { name: 'Rachel' },
-    { name: 'Shirley' },
-    { name: 'Todd' },
-    { name: 'Troy' },
-    { name: 'Vaughn' },
-    { name: 'Vicki' },
+    {
+      name: 'Abed',
+      formal: 'Mr. Nadir',
+    },
+    {
+      name: 'Alex',
+      formal: 'Mr. Osbourne',
+    },
+    {
+      name: 'Ben',
+      formal: 'Mr. Chang',
+    },
+    {
+      name: 'Britta',
+      formal: 'Ms. Perry',
+    },
+    {
+      name: 'Buzz',
+      formal: 'Mr. Hickey',
+    },
+    {
+      name: 'Craig',
+      formal: 'Mr. Pelton',
+    },
+    {
+      name: 'Elroy',
+      formal: 'Mr. Patashnik',
+    },
+    {
+      name: 'Garrett',
+      formal: 'Mr. Lambert',
+    },
+    {
+      name: 'Ian',
+      formal: 'Mr. Duncan',
+    },
+    {
+      name: 'Jeff',
+      formal: 'Mr. Winger',
+    },
+    {
+      name: 'Leonard',
+      formal: 'Mr. Rodriguez',
+    },
+    {
+      name: 'Neil',
+      formal: 'Mr. Neil',
+    },
+    {
+      name: 'Pierce',
+      formal: 'Mr. Hawthorne',
+    },
+    {
+      name: 'Preston',
+      formal: 'Mr. Koogler',
+    },
+    {
+      name: 'Rachel',
+      formal: 'Ms. Rachel',
+    },
+    {
+      name: 'Shirley',
+      formal: 'Ms. Bennett',
+    },
+    {
+      name: 'Todd',
+      formal: 'Mr. Jacobson',
+    },
+    {
+      name: 'Troy',
+      formal: 'Mr. Barnes',
+    },
+    {
+      name: 'Vaughn',
+      formal: 'Mr. Miller',
+    },
+    {
+      name: 'Vicki',
+      formal: 'Ms. Jenkins',
+    },
   ];
 
-  public names: LookupDemoPerson[] = [this.people[15]];
+  constructor(formBuilder: FormBuilder, modalService: SkyModalService) {
+    this.favoritesForm = formBuilder.group({
+      favoriteNames: [[this.people[15]]],
+    });
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private formBuilder: FormBuilder,
-    private modalService: SkyModalService
-  ) {
+    this.searchFilters = [
+      (_, item) => {
+        const names: LookupDemoPerson[] =
+          this.favoritesForm.controls.favoriteNames.value;
+
+        // Only show people in the search results that have not been chosen already.
+        return !names.some((option) => option.name === item.name);
+      },
+    ];
+
     this.showMoreConfig = {
       customPicker: {
-        open: (context: SkyLookupShowMoreCustomPickerContext) => {
-          const instance = this.modalService.open(
+        open: (context) => {
+          const instance = modalService.open(
             LookupCustomPickerDemoModalComponent,
             {
               providers: [
@@ -66,14 +134,11 @@ export class LookupCustomPickerDemoComponent implements OnInit {
             }
           );
 
-          instance.closed.subscribe((closeArgs: SkyModalCloseArgs) => {
+          instance.closed.subscribe((closeArgs) => {
             if (closeArgs.reason === 'save') {
-              if (closeArgs.data) {
-                this.myForm.setValue({
-                  names: [this.people[this.people.length - 1]],
-                });
-                this.changeDetector.markForCheck();
-              }
+              this.favoritesForm.controls.favoriteNames.setValue(
+                closeArgs.data
+              );
             }
           });
         },
@@ -82,24 +147,11 @@ export class LookupCustomPickerDemoComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.createForm();
-
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe((changes) => {
+    this.favoritesForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
-  }
-
-  // Only show people in the search results that have not been chosen already.
-  public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const names: LookupDemoPerson[] = this.myForm.controls.names.value;
-    return [
-      (searchText: string, item: LookupDemoPerson): boolean => {
-        const found = names.find((option) => option.name === item.name);
-        return !found;
-      },
-    ];
   }
 
   public onAddButtonClicked(): void {
@@ -107,12 +159,6 @@ export class LookupCustomPickerDemoComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names),
-    });
+    alert('Form submitted with: ' + JSON.stringify(this.favoritesForm.value));
   }
 }
