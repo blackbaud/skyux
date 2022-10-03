@@ -9,7 +9,6 @@ import { SkyLookupShowMorePickerHarness } from './lookup-show-more-picker-harnes
 
 /**
  * Harness for interacting with a lookup component in tests.
- * @internal
  */
 export class SkyLookupHarness extends SkyAutocompleteHarness {
   /**
