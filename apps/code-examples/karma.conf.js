@@ -11,13 +11,13 @@ module.exports = function (config) {
     coverageReporter: {
       ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../coverage/apps/code-examples'),
-      // TODO: remove these threshold overrides to meet 100% coverage!
+      // We don't care about coverage for the code examples SPA.
       check: {
         global: {
-          statements: 80,
-          branches: 81,
-          functions: 72,
-          lines: 77,
+          statements: 0,
+          branches: 0,
+          functions: 0,
+          lines: 0,
         },
       },
     },
