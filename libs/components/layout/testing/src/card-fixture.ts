@@ -11,18 +11,18 @@ export class SkyCardFixture {
   /**
    * The card's current title.
    */
-  public get titleText(): string {
+  public get titleText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('sky-card-title'))
+      this.#debugEl.query(By.css('sky-card-title'))
     );
   }
 
   /**
    * The card's current content text.
    */
-  public get contentText(): string {
+  public get contentText(): string | undefined {
     return SkyAppTestUtility.getText(
-      this.debugEl.query(By.css('sky-card-content'))
+      this.#debugEl.query(By.css('sky-card-content'))
     );
   }
 
@@ -30,7 +30,7 @@ export class SkyCardFixture {
    * A flag indicating whether the user can select the card.
    */
   public get selectable(): boolean {
-    return !!this.debugEl.query(By.css('.sky-card-check'));
+    return !!this.#debugEl.query(By.css('.sky-card-check'));
   }
 
   /**
@@ -39,16 +39,16 @@ export class SkyCardFixture {
    */
   public get selected(): boolean {
     if (this.selectable) {
-      return this.getCheckInputEl().nativeElement.checked;
+      return this.#getCheckInputEl().nativeElement.checked;
     }
 
     throw new Error('The card is not selectable.');
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-card'
@@ -60,7 +60,7 @@ export class SkyCardFixture {
    */
   public select(): void {
     if (!this.selected) {
-      this.clickCheckLabelEl();
+      this.#clickCheckLabelEl();
     }
   }
 
@@ -69,18 +69,18 @@ export class SkyCardFixture {
    */
   public deselect(): void {
     if (this.selected) {
-      this.clickCheckLabelEl();
+      this.#clickCheckLabelEl();
     }
   }
 
-  private clickCheckLabelEl(): void {
-    this.debugEl
+  #clickCheckLabelEl(): void {
+    this.#debugEl
       .query(By.css('.sky-card-check label.sky-checkbox-wrapper'))
       .nativeElement.click();
   }
 
-  private getCheckInputEl(): DebugElement {
-    return this.debugEl.query(
+  #getCheckInputEl(): DebugElement {
+    return this.#debugEl.query(
       By.css('.sky-card-check .sky-checkbox-wrapper input')
     );
   }

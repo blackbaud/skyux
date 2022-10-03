@@ -11,24 +11,30 @@ describe('Definition list component', () => {
     });
   });
 
-  function getListEl(el: Element, listIndex: number): Element {
+  function getListEl(el: Element, listIndex: number): Element | null {
     return el.querySelector('.sky-definition-list-test-' + listIndex);
   }
 
-  function getLabelEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll(
+  function getLabelEls(
+    listEl: Element | null
+  ): NodeListOf<Element> | undefined {
+    return listEl?.querySelectorAll(
       'sky-definition-list-label .sky-definition-list-label'
     );
   }
 
-  function getValueEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll(
+  function getValueEls(
+    listEl: Element | null
+  ): NodeListOf<Element> | undefined {
+    return listEl?.querySelectorAll(
       'sky-definition-list-value .sky-definition-list-value'
     );
   }
 
-  function getDefaultValueEl(valueEl: Element): Element {
-    return valueEl.querySelector('.sky-deemphasized');
+  function getDefaultValueEl(
+    valueEl: Element | undefined
+  ): Element | null | undefined {
+    return valueEl?.querySelector('.sky-deemphasized');
   }
 
   it('should render the heading in the expected location', () => {
@@ -39,7 +45,7 @@ describe('Definition list component', () => {
 
     const list1El = getListEl(el, 1);
 
-    const headingEl = list1El.querySelector(
+    const headingEl = list1El?.querySelector(
       'sky-definition-list-heading .sky-definition-list-heading'
     );
 
@@ -58,10 +64,10 @@ describe('Definition list component', () => {
     const labelEls = getLabelEls(list1El);
     const valueEls = getValueEls(list1El);
 
-    expect(labelEls[0]).toHaveCssClass('sky-field-label');
-    expect(labelEls[0]).toHaveText('Job title');
+    expect(labelEls?.[0]).toHaveCssClass('sky-field-label');
+    expect(labelEls?.[0]).toHaveText('Job title');
 
-    expect(valueEls[0]).toHaveText('Engineer');
+    expect(valueEls?.[0]).toHaveText('Engineer');
   });
 
   it('should display a default value when no value is specified', () => {
@@ -74,7 +80,7 @@ describe('Definition list component', () => {
 
     const valueEls = getValueEls(list1El);
 
-    const defaultValueEl = valueEls[2].querySelector('.sky-deemphasized');
+    const defaultValueEl = valueEls?.[2].querySelector('.sky-deemphasized');
 
     expect(defaultValueEl).toHaveText('None found.');
   });
@@ -89,7 +95,7 @@ describe('Definition list component', () => {
 
     const valueEls = getValueEls(list1El);
 
-    let defaultValueEl = getDefaultValueEl(valueEls[2]);
+    let defaultValueEl = getDefaultValueEl(valueEls?.[2]);
 
     expect(defaultValueEl).toHaveText('None found.');
 
@@ -97,11 +103,11 @@ describe('Definition list component', () => {
 
     fixture.detectChanges();
 
-    defaultValueEl = getDefaultValueEl(valueEls[2]);
+    defaultValueEl = getDefaultValueEl(valueEls?.[2]);
 
     expect(defaultValueEl).toBeNull();
 
-    expect(valueEls[2]).toHaveText('test');
+    expect(valueEls?.[2]).toHaveText('test');
   });
 
   it('should allow the default value to be specified', () => {
@@ -114,7 +120,7 @@ describe('Definition list component', () => {
 
     const valueEls = getValueEls(list1El);
 
-    expect(valueEls[2]).toHaveText('No information found');
+    expect(valueEls?.[2]).toHaveText('No information found');
   });
 
   it('should allow the label width to be specified', () => {
@@ -125,7 +131,7 @@ describe('Definition list component', () => {
 
     const list1El = getListEl(el, 2);
 
-    const labelEls = getLabelEls(list1El);
+    const labelEls = getLabelEls(list1El)!;
 
     expect(getComputedStyle(labelEls[0]).width).toBe('150px');
   });

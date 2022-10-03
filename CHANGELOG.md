@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.23.0](https://github.com/blackbaud/skyux/compare/6.22.0...6.23.0) (2022-09-28)
+
+
+### Features
+
+* **components/modals:** add inline-help support for modals ([#565](https://github.com/blackbaud/skyux/issues/565)) ([f41e411](https://github.com/blackbaud/skyux/commit/f41e4111716c9d240db4ee7d1318a94ac6c97112))
+* **components/progress-indicator:** add inline-help support for progress indicator component ([#566](https://github.com/blackbaud/skyux/issues/566)) ([2df708e](https://github.com/blackbaud/skyux/commit/2df708e08dc22395ee2b9e1b33de78d46375628d))
+
 ## [7.0.0-beta.1](https://github.com/blackbaud/skyux/compare/7.0.0-beta.0...7.0.0-beta.1) (2022-09-27)
 
 

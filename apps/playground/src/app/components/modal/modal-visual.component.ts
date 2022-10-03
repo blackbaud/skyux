@@ -20,6 +20,7 @@ import { ModalTiledDemoComponent } from './modal-tiled-demo.component';
   styleUrls: ['./modal-visual.component.scss'],
 })
 export class ModalVisualComponent {
+  public showHelp = false;
   public buttonsHidden: boolean;
 
   constructor(private modal: SkyModalService) {}
@@ -126,6 +127,8 @@ export class ModalVisualComponent {
     instance.closed.subscribe(() => {
       this.showButtons();
     });
+
+    instance.componentInstance.showHelp = this.showHelp;
 
     return instance;
   }

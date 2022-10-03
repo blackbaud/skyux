@@ -12,13 +12,13 @@ import { SkyActionButtonAdapterService } from './action-button-adapter-service';
   `,
 })
 class SkyActionButtonAdapterTestComponent {
-  public parentWidth: string;
+  public parentWidth: string | undefined;
 
   @ViewChild('el', {
     read: ElementRef,
     static: true,
   })
-  public input: ElementRef;
+  public input!: ElementRef;
 }
 
 describe('Action button adapter service', () => {
