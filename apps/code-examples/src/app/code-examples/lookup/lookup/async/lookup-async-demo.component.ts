@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import {
-  SkyAutocompleteSearchAsyncArgs,
-  SkyAutocompleteSearchAsyncResult,
-} from '@skyux/lookup';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { SkyAutocompleteSearchAsyncArgs } from '@skyux/lookup';
 
-import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { LookupAsyncDemoService } from './lookup-async-demo.service';
 import { LookupDemoPerson } from './lookup-demo-person';
 
 @Component({
@@ -15,68 +13,47 @@ import { LookupDemoPerson } from './lookup-demo-person';
   styleUrls: ['./lookup-async-demo.component.scss'],
 })
 export class LookupAsyncDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public favoritesForm: FormGroup;
 
-  public people: LookupDemoPerson[] = [
-    { name: 'Abed' },
-    { name: 'Alex' },
-    { name: 'Ben' },
-    { name: 'Britta' },
-    { name: 'Buzz' },
-    { name: 'Craig' },
-    { name: 'Elroy' },
-    { name: 'Garrett' },
-    { name: 'Ian' },
-    { name: 'Jeff' },
-    { name: 'Leonard' },
-    { name: 'Neil' },
-    { name: 'Pierce' },
-    { name: 'Preston' },
-    { name: 'Rachel' },
-    { name: 'Shirley' },
-    { name: 'Todd' },
-    { name: 'Troy' },
-    { name: 'Vaughn' },
-    { name: 'Vicki' },
-  ];
+  #searchSvc: LookupAsyncDemoService;
 
-  public name: LookupDemoPerson[] = [this.people[15]];
+  constructor(formBuilder: FormBuilder, searchSvc: LookupAsyncDemoService) {
+    this.#searchSvc = searchSvc;
 
-  constructor(private formBuilder: FormBuilder) {}
+    this.favoritesForm = formBuilder.group({
+      favoriteNames: [
+        [
+          {
+            name: 'Shirley',
+          } as LookupDemoPerson,
+        ],
+      ],
+    });
+  }
 
   public ngOnInit(): void {
-    this.createForm();
-
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe((changes) => {
+    this.favoritesForm.valueChanges.subscribe((changes) => {
       console.log('Lookup value changes:', changes);
     });
   }
 
   public onSubmit(): void {
-    alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
+    alert('Form submitted with: ' + JSON.stringify(this.favoritesForm.value));
   }
 
-  public searchAsync($event: SkyAutocompleteSearchAsyncArgs) {
-    const result = new Subject<SkyAutocompleteSearchAsyncResult>();
-    $event.result = result;
-    setTimeout(() => {
-      const searchText = $event.searchText.toLowerCase();
-      const items = this.people.filter((person) => {
-        return person.name.toLowerCase().includes(searchText);
-      });
-      result.next({
-        hasMore: false,
-        items,
-        totalCount: items.length,
-      });
-    }, 800);
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      name: new FormControl(this.name),
-    });
+  public searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
+    // In a real-world application the search service might return an Observable
+    // created by calling HttpClient.get(). Assigning that Observable to the result
+    // allows the lookup component to cancel the web request if it does not complete
+    // before the user searches again.
+    args.result = this.#searchSvc.search(args.searchText).pipe(
+      map((result) => ({
+        hasMore: result.hasMore,
+        items: result.people,
+        totalCount: result.totalCount,
+      }))
+    );
   }
 }

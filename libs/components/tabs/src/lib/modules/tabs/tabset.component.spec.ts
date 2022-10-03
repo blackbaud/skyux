@@ -141,6 +141,10 @@ describe('Tabset component', () => {
     }
   }
 
+  function validateElFocused(el: Element) {
+    expect(el.contains(document.activeElement)).toBeTrue();
+  }
+
   it('should not attempt to remove the query param if permalinkId is not set', () => {
     const location = TestBed.inject(Location);
 
@@ -1273,14 +1277,24 @@ describe('Tabset component', () => {
       }
     }));
 
-    it('should have tabindex of 0', fakeAsync(() => {
+    it('should have tabindex of 0 when active', fakeAsync(() => {
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+
+      const butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+        .nativeElement;
+      expect(butEl.getAttribute('tabindex')).toBe('0');
+    }));
+
+    it('should have tabindex of -1 when not active', fakeAsync(() => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
 
       const butEl = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
         .nativeElement;
-      expect(butEl.getAttribute('tabindex')).toBe('0');
+      expect(butEl.getAttribute('tabindex')).toBe('-1');
       expect(butEl.getAttribute('aria-disabled')).toBe('false');
     }));
 
@@ -1298,63 +1312,315 @@ describe('Tabset component', () => {
       expect(butEl.getAttribute('aria-disabled')).toBe('true');
     }));
 
-    it('should emit a click event on enter press', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-      let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
+    describe('keyboard navigation', () => {
+      it('should emit a click event on enter press', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
 
-      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
-        keyboardEventInit: {
-          key: 'enter',
-        },
-      });
-      fixture.detectChanges();
-      tick();
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+          keyboardEventInit: {
+            key: 'enter',
+          },
+        });
+        fixture.detectChanges();
+        tick();
 
-      validateTabSelected(fixture.nativeElement, 1);
+        validateTabSelected(fixture.nativeElement, 1);
 
-      el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
-      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
-        keyboardEventInit: {
-          key: 'enter',
-        },
-      });
-      fixture.detectChanges();
-      tick();
+        el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+          keyboardEventInit: {
+            key: 'enter',
+          },
+        });
+        fixture.detectChanges();
+        tick();
 
-      validateTabSelected(fixture.nativeElement, 2);
-    }));
+        validateTabSelected(fixture.nativeElement, 2);
+      }));
 
-    it('should emit a click event on spacebar press', fakeAsync(() => {
-      fixture.detectChanges();
-      tick();
-      fixture.detectChanges();
-      tick();
-      let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
+      it('should emit a click event on spacebar press', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        let el = debugElement.queryAll(By.css('.sky-btn-tab'))[1];
 
-      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
-        keyboardEventInit: {
-          key: ' ',
-        },
-      });
-      fixture.detectChanges();
-      tick();
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+          keyboardEventInit: {
+            key: ' ',
+          },
+        });
+        fixture.detectChanges();
+        tick();
 
-      validateTabSelected(fixture.nativeElement, 1);
+        validateTabSelected(fixture.nativeElement, 1);
 
-      el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
-      SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
-        keyboardEventInit: {
-          key: ' ',
-        },
-      });
-      fixture.detectChanges();
-      tick();
+        el = debugElement.queryAll(By.css('.sky-btn-tab'))[2];
+        SkyAppTestUtility.fireDomEvent(el.nativeElement, 'keydown', {
+          keyboardEventInit: {
+            key: ' ',
+          },
+        });
+        fixture.detectChanges();
+        tick();
 
-      validateTabSelected(fixture.nativeElement, 2);
-    }));
+        validateTabSelected(fixture.nativeElement, 2);
+      }));
+
+      it('should navigate to the next tab when the right arrow key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowRight',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn2 = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+          .nativeElement;
+        validateElFocused(tabBtn2);
+      }));
+
+      it('should navigate to the next tab and skip the disabled one when the right arrow key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.componentInstance.tab2Disabled = true;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowLeft',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn3 = debugElement.queryAll(By.css('.sky-btn-tab'))[2]
+          .nativeElement;
+        validateElFocused(tabBtn3);
+      }));
+
+      it('should navigate to the first tab when the right arrow key is pressed on the last tab', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.componentInstance.tabsetComponent.active = '3';
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn3 = debugElement.queryAll(By.css('.sky-btn-tab'))[2]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn3, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowRight',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+        validateElFocused(tabBtn1);
+      }));
+
+      it('should navigate to the previous tab when the left arrow key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.componentInstance.tabsetComponent.active = 1;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn2 = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn2, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowLeft',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+        validateElFocused(tabBtn1);
+      }));
+
+      it('should navigate to the previous tab and skip the disabled one when the left arrow key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.componentInstance.tabsetComponent.active = '3';
+        fixture.componentInstance.tab2Disabled = true;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn3 = debugElement.queryAll(By.css('.sky-btn-tab'))[2]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn3, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowLeft',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+        validateElFocused(tabBtn1);
+      }));
+
+      it('should navigate to the last tab when the left arrow key is pressed on the first tab', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowLeft',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn3 = debugElement.queryAll(By.css('.sky-btn-tab'))[2]
+          .nativeElement;
+        validateElFocused(tabBtn3);
+      }));
+
+      it('should navigate to the first tab when the home key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        fixture.componentInstance.tabsetComponent.active = 1;
+
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        const tabBtn2 = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn2, 'keydown', {
+          keyboardEventInit: {
+            key: 'home',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+        validateElFocused(tabBtn1);
+      }));
+
+      it('should navigate to the last tab when the end key is pressed', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'end',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn3 = debugElement.queryAll(By.css('.sky-btn-tab'))[2]
+          .nativeElement;
+        validateElFocused(tabBtn3);
+      }));
+
+      it('should reset the focus order when shift + tab navigates back to the active tab', fakeAsync(() => {
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+        const tabBtn1 = debugElement.queryAll(By.css('.sky-btn-tab'))[0]
+          .nativeElement;
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'ArrowRight',
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        const tabBtn2 = debugElement.queryAll(By.css('.sky-btn-tab'))[1]
+          .nativeElement;
+        validateElFocused(tabBtn2);
+
+        SkyAppTestUtility.fireDomEvent(tabBtn1, 'keydown', {
+          keyboardEventInit: {
+            key: 'Tab',
+            shiftKey: true,
+          },
+        });
+
+        fixture.detectChanges();
+        tick();
+
+        validateElFocused(tabBtn2);
+      }));
+    });
   });
 
   describe('Permalinks', () => {
@@ -1397,8 +1663,6 @@ describe('Tabset component', () => {
     it('should set a query param when a tab is selected', fakeAsync(() => {
       fixture.componentInstance.permalinkId = 'foobar';
 
-      fixture.detectChanges();
-      tick();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();

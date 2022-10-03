@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 
+import { RepeaterHarnessTestItemHarness } from './fixtures/repeater-harness-test-item-harness';
 import { RepeaterHarnessTestComponent } from './fixtures/repeater-harness-test.component';
 import { RepeaterHarnessTestModule } from './fixtures/repeater-harness-test.module';
 import { SkyRepeaterHarness } from './repeater-harness';
@@ -117,6 +118,24 @@ describe('Repeater harness', () => {
     });
 
     await expectAsync(items[0].getContentText()).toBeResolvedTo(
+      'Robert recently gave a very generous gift. We should call him to thank him.'
+    );
+  });
+
+  it('should allow querying harnesses inside an item', async () => {
+    const { repeaterHarness } = await setupTest({
+      dataSkyId: 'my-basic-repeater',
+    });
+
+    const items = await repeaterHarness.getRepeaterItems({
+      contentText: /We should call him to thank him/,
+    });
+
+    const noteHarness = await items[0].queryHarness(
+      RepeaterHarnessTestItemHarness
+    );
+
+    await expectAsync((await noteHarness.host()).text()).toBeResolvedTo(
       'Robert recently gave a very generous gift. We should call him to thank him.'
     );
   });
