@@ -27,17 +27,5 @@ export default function (): Rule {
         overwrite: false,
       });
     }
-    // const { workspace } = await getWorkspace(tree);
-
-    // for (const [, projectDefinition] of workspace.projects.entries()) {
-    //   try {
-    //     const packageJson = tree.readJson(
-    //       normalize(`${projectDefinition.root}/package.json`)
-    //     );
-    //     packageJson
-    //   } catch (err) {
-    //     /* */
-    //   }
-    // }
   };
 }
