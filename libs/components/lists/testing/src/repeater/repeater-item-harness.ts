@@ -1,4 +1,8 @@
-import { HarnessPredicate } from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  HarnessPredicate,
+  HarnessQuery,
+} from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 import { SkyCheckboxHarness } from '@skyux/forms/testing';
 
@@ -54,6 +58,15 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
     }
 
     return (await this.#getCheckbox()).isChecked();
+  }
+
+  /**
+   * Returns a child harness.
+   */
+  public async queryHarness<T extends ComponentHarness>(
+    query: HarnessQuery<T>
+  ): Promise<T | null> {
+    return this.locatorForOptional(query)();
   }
 
   /**
