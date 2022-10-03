@@ -6,85 +6,86 @@ import { SkyCoreAdapterService } from '@skyux/core';
  */
 @Injectable()
 export class SkyInlineDeleteAdapterService {
-  private element: HTMLElement;
-  private focussableElements: HTMLElement[];
-  private parentEl: HTMLElement;
-  private parentElUnlistenFn: () => void;
-  private renderer: Renderer2;
+  #element: HTMLElement | undefined;
+  #focusableElements: HTMLElement[] | undefined;
+  #parentEl: HTMLElement | null | undefined;
+  #parentElUnlistenFn: (() => void) | undefined;
+  #renderer: Renderer2;
+
+  #coreAdapterService: SkyCoreAdapterService;
 
   constructor(
-    private coreAdapterService: SkyCoreAdapterService,
+    coreAdapterService: SkyCoreAdapterService,
     rendererFactory: RendererFactory2
   ) {
-    this.renderer = rendererFactory.createRenderer(undefined, undefined);
+    this.#coreAdapterService = coreAdapterService;
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   public clearListeners(): void {
     /* istanbul ignore else */
-    if (this.parentElUnlistenFn) {
-      this.parentElUnlistenFn();
+    if (this.#parentElUnlistenFn) {
+      this.#parentElUnlistenFn();
     }
   }
 
   public setEl(element: HTMLElement): void {
-    this.element = element;
-    this.parentEl = element.parentElement;
+    this.#element = element;
+    this.#parentEl = element.parentElement;
 
     /* istanbul ignore else */
-    if (this.parentEl) {
-      this.parentElUnlistenFn = this.renderer.listen(
-        this.parentEl,
+    if (this.#parentEl) {
+      this.#parentElUnlistenFn = this.#renderer.listen(
+        this.#parentEl,
         'focusin',
         (event: FocusEvent) => {
-          const target: any = event.target;
-          if (!this.element.contains(target) && this.parentEl !== target) {
-            event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
+          if (this.#element) {
+            const target: any = event.target;
+            if (!this.#element.contains(target) && this.#parentEl !== target) {
+              event.preventDefault();
+              event.stopPropagation();
+              event.stopImmediatePropagation();
 
-            target.blur();
-            this.focusNextElement(target, this.isShift(event), this.parentEl);
+              target.blur();
+              this.#focusNextElement(target, this.#isShift(event));
+            }
           }
         }
       );
     }
   }
 
-  private focusNextElement(
-    targetElement: HTMLElement,
-    shiftKey: boolean,
-    busyEl: Element
-  ): void {
-    const focussable = this.getFocussableElements();
+  #focusNextElement(targetElement: HTMLElement, shiftKey: boolean): void {
+    const focusable = this.#getFocusableElements();
 
     // If shift tab, go in the other direction
     const modifier = shiftKey ? -1 : 1;
 
     // Find the next navigable element that isn't waiting
-    const startingIndex = focussable.indexOf(targetElement);
+    const startingIndex = focusable.indexOf(targetElement);
     let curIndex = startingIndex + modifier;
     while (
-      focussable[curIndex] &&
-      this.isElementHiddenOrCovered(focussable[curIndex])
+      focusable[curIndex] &&
+      this.#isElementHiddenOrCovered(focusable[curIndex])
     ) {
       curIndex += modifier;
     }
 
     if (
-      focussable[curIndex] &&
-      !this.isElementHiddenOrCovered(focussable[curIndex])
+      focusable[curIndex] &&
+      !this.#isElementHiddenOrCovered(focusable[curIndex])
     ) {
-      focussable[curIndex].focus();
+      focusable[curIndex].focus();
     } else {
       // Try wrapping the navigation
       /* istanbul ignore next */
-      curIndex = modifier > 0 ? 0 : focussable.length - 1;
+      curIndex = modifier > 0 ? 0 : focusable.length - 1;
 
       /* istanbul ignore next */
       while (
         curIndex !== startingIndex &&
-        focussable[curIndex] &&
-        this.isElementHiddenOrCovered(focussable[curIndex])
+        focusable[curIndex] &&
+        this.#isElementHiddenOrCovered(focusable[curIndex])
       ) {
         curIndex += modifier;
       }
@@ -92,10 +93,10 @@ export class SkyInlineDeleteAdapterService {
       /* istanbul ignore else */
       /* sanity check */
       if (
-        focussable[curIndex] &&
-        !this.isElementHiddenOrCovered(focussable[curIndex])
+        focusable[curIndex] &&
+        !this.#isElementHiddenOrCovered(focusable[curIndex])
       ) {
-        focussable[curIndex].focus();
+        focusable[curIndex].focus();
       } else {
         // No valid target, wipe focus
         // This should never happen in practice due to the multiple inline delete buttons
@@ -106,42 +107,43 @@ export class SkyInlineDeleteAdapterService {
       }
     }
 
-    // clear focussableElements list so that if things change between tabbing we know about it
-    this.focussableElements = undefined;
+    // clear focusableElements list so that if things change between tabbing we know about it
+    this.#focusableElements = undefined;
   }
 
-  private getFocussableElements(): HTMLElement[] {
+  #getFocusableElements(): HTMLElement[] {
     // Keep this cached so we can reduce querys
-    if (this.focussableElements) {
-      return this.focussableElements;
+    if (this.#focusableElements) {
+      return this.#focusableElements;
     }
 
-    this.focussableElements = this.coreAdapterService.getFocusableChildren(
+    this.#focusableElements = this.#coreAdapterService.getFocusableChildren(
       document.body
     );
 
-    return this.focussableElements;
+    return this.#focusableElements;
   }
 
-  private isElementHiddenOrCovered(element: any): boolean {
+  #isElementHiddenOrCovered(element: any): boolean {
     // Check if the element is hidden by css, not within the inline delete, or a wait is covering it
     return (
-      this.isElementHidden(element) ||
-      (this.parentEl.contains(element) &&
-        (!this.element.contains(element) ||
-          this.parentEl.querySelector('.sky-wait-mask') !== null))
+      this.#isElementHidden(element) ||
+      (!!this.#parentEl &&
+        this.#parentEl.contains(element) &&
+        (!this.#element?.contains(element) ||
+          this.#parentEl.querySelector('.sky-wait-mask') !== null))
     );
   }
 
-  private isElementHidden(element: any): boolean {
+  #isElementHidden(element: any): boolean {
     const style = window.getComputedStyle(element);
     return style.display === 'none' || style.visibility === 'hidden';
   }
 
-  private isShift(event: Event): boolean {
+  #isShift(event: Event): boolean {
     // Determine if shift+tab was used based on element order
-    const elements = this.getFocussableElements().filter(
-      (elem) => !this.isElementHidden(elem)
+    const elements = this.#getFocusableElements().filter(
+      (elem) => !this.#isElementHidden(elem)
     );
 
     const previousInd = elements.indexOf((event as any).relatedTarget);
