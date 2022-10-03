@@ -15,20 +15,20 @@ const tokenRegex = /(\{\d+\})/;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyFormatComponent {
-  public itemsForDisplay: SkyFormatItem[];
+  public itemsForDisplay: SkyFormatItem[] = [];
 
   /**
    * The tokenized string that represents the template. Tokens use the `{n}` notation
    * where `n` is the ordinal of the item to replace the token.
    */
   @Input()
-  public set text(value: string) {
-    this._text = value;
-    this.updateItemsForDisplay();
+  public set text(value: string | undefined) {
+    this.#_text = value;
+    this.#updateItemsForDisplay();
   }
 
-  public get text(): string {
-    return this._text;
+  public get text(): string | undefined {
+    return this.#_text;
   }
 
   /**
@@ -36,20 +36,20 @@ export class SkyFormatComponent {
    * item is placed at the `{n}` location in the template.
    */
   @Input()
-  public set args(value: TemplateRef<any>[]) {
-    this._args = value;
-    this.updateItemsForDisplay();
+  public set args(value: TemplateRef<any>[] | undefined) {
+    this.#_args = value;
+    this.#updateItemsForDisplay();
   }
 
-  public get args(): TemplateRef<any>[] {
-    return this._args;
+  public get args(): TemplateRef<any>[] | undefined {
+    return this.#_args;
   }
 
-  private _text: string;
+  #_text: string | undefined;
 
-  private _args: TemplateRef<any>[];
+  #_args: TemplateRef<any>[] | undefined;
 
-  private updateItemsForDisplay(): void {
+  #updateItemsForDisplay(): void {
     this.itemsForDisplay = [];
 
     if (this.text && this.args) {
