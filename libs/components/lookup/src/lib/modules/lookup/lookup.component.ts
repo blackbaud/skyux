@@ -249,12 +249,16 @@ export class SkyLookupComponent
     read: SkyAutocompleteInputDirective,
     static: false,
   })
-  public set autocompleteInputDirective(value: SkyAutocompleteInputDirective | undefined) {
+  public set autocompleteInputDirective(
+    value: SkyAutocompleteInputDirective | undefined
+  ) {
     this.#_autocompleteInputDirective = value;
     this.#updateForSelectMode();
   }
 
-  public get autocompleteInputDirective(): SkyAutocompleteInputDirective | undefined {
+  public get autocompleteInputDirective():
+    | SkyAutocompleteInputDirective
+    | undefined {
     return this.#_autocompleteInputDirective;
   }
 
@@ -488,8 +492,8 @@ export class SkyLookupComponent
 
   public clearSearchText(): void {
     if (this.autocompleteInputDirective) {
-    this.autocompleteInputDirective.value = undefined;
-    this.autocompleteInputDirective.inputTextValue = '';
+      this.autocompleteInputDirective.value = undefined;
+      this.autocompleteInputDirective.inputTextValue = '';
     }
   }
 
@@ -567,9 +571,7 @@ export class SkyLookupComponent
       searchValue = this.autocompleteInputDirective.inputTextValue;
     }
 
-    this.openPicker(
-      searchValue
-    );
+    this.openPicker(searchValue);
     this.autocompleteInputDirective?.restoreInputTextValueToPreviousState();
   }
 
@@ -600,7 +602,7 @@ export class SkyLookupComponent
     if (this.searchAsync.observers.length > 0) {
       modalComponentType = SkyLookupShowMoreAsyncModalComponent;
 
-      contextProviderValue = <SkyLookupShowMoreNativePickerAsyncContext> {};
+      contextProviderValue = {} as SkyLookupShowMoreNativePickerAsyncContext;
       contextProviderValue.idProperty = this.idProperty!;
       contextProviderValue.searchAsync = (args) => {
         this.searchAsync.emit(args);
@@ -609,7 +611,7 @@ export class SkyLookupComponent
     } else {
       modalComponentType = SkyLookupShowMoreModalComponent;
 
-      contextProviderValue = <SkyLookupShowMoreNativePickerContext> {};
+      contextProviderValue = {} as SkyLookupShowMoreNativePickerContext;
       contextProviderValue.items = this.data;
       contextProviderValue.search = this.searchOrDefault;
     }
