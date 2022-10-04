@@ -37,6 +37,7 @@ import { SkyFlyoutMediaQueryService } from './flyout-media-query.service';
 import { SkyFlyoutAction } from './types/flyout-action';
 import { SkyFlyoutBeforeCloseHandler } from './types/flyout-before-close-handler';
 import { SkyFlyoutConfig } from './types/flyout-config';
+import { SkyFlyoutConfigInternal } from './types/flyout-config-internal';
 import { SkyFlyoutMessage } from './types/flyout-message';
 import { SkyFlyoutMessageType } from './types/flyout-message-type';
 import { SkyFlyoutPermalink } from './types/flyout-permalink';
@@ -73,7 +74,12 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SkyFlyoutComponent implements OnDestroy, OnInit {
-  public config: SkyFlyoutConfig = {};
+  public config: SkyFlyoutConfigInternal = {
+    defaultWidth: window.innerWidth / 2,
+    minWidth: 320,
+    maxWidth: window.innerWidth / 2,
+    providers: [],
+  };
   public enableTrapFocus = false;
   public enableTrapFocusAutoCapture = false;
   public flyoutId = `sky-flyout-${++nextId}`;
@@ -218,11 +224,18 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.#notifyClosed();
     }
 
-    this.config = Object.assign({ providers: [] }, config);
-    this.config.defaultWidth =
-      this.config.defaultWidth || window.innerWidth / 2;
-    this.config.minWidth = this.config.minWidth || 320;
-    this.config.maxWidth = this.config.maxWidth || this.config.defaultWidth;
+    this.config = Object.assign(
+      {
+        defaultWidth: window.innerWidth / 2,
+        minWidth: 320,
+        maxWidth: window.innerWidth / 2,
+        providers: [],
+      },
+      config
+    );
+    if (config?.defaultWidth && !config?.maxWidth) {
+      this.config.maxWidth = config?.defaultWidth;
+    }
 
     this.config.showIterator = this.config.showIterator || false;
     this.config.iteratorNextButtonDisabled =
@@ -246,7 +259,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     const injector = Injector.create({
       parent: this.#injector,
-      providers: this.config.providers!,
+      providers: this.config.providers,
     });
 
     const componentRef = this.target?.createComponent(
@@ -255,9 +268,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       injector
     );
 
-    this.#flyoutInstance = this.#createFlyoutInstance<T>(
-      componentRef!.instance
-    );
+    /* safety check */
+    /* istanbul ignore if */
+    if (!componentRef) {
+      throw new Error("Flyout's internal component could not be created");
+    }
+
+    this.#flyoutInstance = this.#createFlyoutInstance<T>(componentRef.instance);
 
     // This is used to ensure we do not render the flyout until we have attached the component.
     // This allows the aria-labelledby to function correctly.
@@ -278,7 +295,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
             this.flyoutWidth = value.flyoutWidth;
           } else {
             // Bad data, or config is the default config.
-            this.flyoutWidth = this.config.defaultWidth!;
+            this.flyoutWidth = this.config.defaultWidth;
           }
           this.#checkInitialSize();
         });
@@ -386,7 +403,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
 
     width -= offsetX;
 
-    if (width < this.config.minWidth! || width > this.config.maxWidth!) {
+    if (width < this.config.minWidth || width > this.config.maxWidth) {
       return;
     }
 
@@ -506,7 +523,7 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   #setFullscreen(): void {
-    if (window.innerWidth - this.#windowBufferSize < this.config.minWidth!) {
+    if (window.innerWidth - this.#windowBufferSize < this.config.minWidth) {
       this.isFullscreen = true;
     } else {
       this.isFullscreen = false;
@@ -532,11 +549,11 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
   }
 
   #checkInitialSize(): void {
-    if (this.flyoutWidth < this.config.minWidth!) {
-      this.flyoutWidth = this.config.minWidth!;
+    if (this.flyoutWidth < this.config.minWidth) {
+      this.flyoutWidth = this.config.minWidth;
       this.#setUserData();
-    } else if (this.flyoutWidth > this.config.maxWidth!) {
-      this.flyoutWidth = this.config.maxWidth!;
+    } else if (this.flyoutWidth > this.config.maxWidth) {
+      this.flyoutWidth = this.config.maxWidth;
       this.#setUserData();
     }
 
@@ -584,10 +601,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         case 'left':
           if (this.resizeKeyControlActive) {
             /* istanbul ignore else */
-            if (this.flyoutWidth < this.config.maxWidth!) {
+            if (this.flyoutWidth < this.config.maxWidth) {
               this.flyoutWidth = Math.min(
                 this.flyoutWidth + this.widthStep,
-                this.config.maxWidth!
+                this.config.maxWidth
               );
             }
           }
@@ -596,10 +613,10 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
         case 'right':
           if (this.resizeKeyControlActive) {
             /* istanbul ignore else */
-            if (this.flyoutWidth > this.config.minWidth!) {
+            if (this.flyoutWidth > this.config.minWidth) {
               this.flyoutWidth = Math.max(
                 this.flyoutWidth - this.widthStep,
-                this.config.minWidth!
+                this.config.minWidth
               );
             }
           }
