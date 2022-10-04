@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TreeModule } from '@circlon/angular-tree-component';
-import { SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyTrimModule } from '@skyux/core';
 import { SkyCheckboxModule } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
@@ -27,6 +27,7 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
     SkyIconModule,
     SkyToolbarModule,
     TreeModule,
+    SkyTrimModule,
   ],
   providers: [SkyCoreAdapterService],
   exports: [SkyAngularTreeNodeComponent, SkyAngularTreeWrapperComponent],

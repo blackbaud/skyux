@@ -92,7 +92,7 @@ export class AngularTreeDemoComponent implements OnInit {
 
   public nodes: any[] = [
     {
-      name: 'Animals',
+      name: 'Animals       ',
       isExpanded: true,
       children: [
         {

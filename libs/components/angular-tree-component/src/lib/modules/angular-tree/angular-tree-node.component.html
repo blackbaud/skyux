@@ -91,8 +91,12 @@
         [node]="node"
         [template]="templates?.treeNodeTemplate"
         (click)="node.mouseAction('click', $event)"
+        skyTrim
       >
       </tree-node-content>
+      <span class="sky-control-help-container" skyTrim
+        ><ng-content select=".sky-control-help"></ng-content
+      ></span>
     </div>
   </div>
 
