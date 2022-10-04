@@ -6,7 +6,7 @@ import { AngularTreeDemoModule } from '../code-examples/angular-tree-component/a
 
 const routes: Routes = [
   {
-    path: 'basic',
+    path: 'advanced',
     component: AngularTreeDemoComponent,
   },
 ];
