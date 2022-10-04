@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.23.2](https://github.com/blackbaud/skyux/compare/6.23.1...6.23.2) (2022-10-04)
+
+
+### Bug Fixes
+
+* **components/modals:** set modal content tabindex to make scrollable area focusable ([#619](https://github.com/blackbaud/skyux/issues/619)) ([d71c467](https://github.com/blackbaud/skyux/commit/d71c46778cb7aaed64aa9ae4b190a410f5ecf437))
+
 ## [6.23.1](https://github.com/blackbaud/skyux/compare/6.23.0...6.23.1) (2022-10-03)
 
 
