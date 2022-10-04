@@ -43,8 +43,6 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
       true
     );
 
-    column.setActualWidth(200);
-
     cellRendererParams = {
       value: 123,
       column,

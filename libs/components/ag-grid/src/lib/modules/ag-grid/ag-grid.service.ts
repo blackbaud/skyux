@@ -451,8 +451,8 @@ export class SkyAgGridService implements OnDestroy {
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
-            return !!value && !isNaN(parseFloat(value));
+          validator: (value: unknown) => {
+            return !!value && !isNaN(parseFloat(`${value}`));
           },
           validatorMessage: 'Please enter a valid number',
         },
@@ -483,7 +483,7 @@ export class SkyAgGridService implements OnDestroy {
   ): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
 
-    defaultGridOptions.rowSelection = 'none';
+    defaultGridOptions.rowSelection = undefined;
 
     return defaultGridOptions;
   }

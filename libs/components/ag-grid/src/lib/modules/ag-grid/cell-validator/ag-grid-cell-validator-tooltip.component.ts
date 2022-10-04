@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { SkyPopoverMessage, SkyPopoverMessageType } from '@skyux/popovers';
 
-import { CellFocusedEvent, Events } from 'ag-grid-community';
+import { CellFocusedEvent, Column, Events } from 'ag-grid-community';
 import { Subject } from 'rxjs';
 
 import { SkyCellRendererValidatorParams } from '../types/cell-renderer-validator-params';
@@ -31,6 +31,7 @@ export class SkyAgGridCellValidatorTooltipComponent {
       (eventParams: CellFocusedEvent) => {
         // We want to close any popovers that are opened when other cells are focused, but open a popover if the current cell is focused.
         if (
+          !(eventParams.column instanceof Column) ||
           eventParams.column.getColId() !==
             this.cellRendererParams.column.getColId() ||
           eventParams.rowIndex !== this.cellRendererParams.rowIndex

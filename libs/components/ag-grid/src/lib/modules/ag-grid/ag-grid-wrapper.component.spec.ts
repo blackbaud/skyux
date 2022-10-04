@@ -93,7 +93,7 @@ describe('SkyAgGridWrapperComponent', () => {
       const col = {} as Column;
       spyOn(gridAdapterService, 'setFocusedElementById');
       spyOn(agGrid.api, 'getEditingCells').and.returnValue([
-        { rowIndex: 0, column: col, rowPinned: '' },
+        { rowIndex: 0, column: col, rowPinned: undefined },
       ]);
 
       fireKeydownOnGrid('Tab', false);
@@ -302,6 +302,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -322,6 +323,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-header',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',
@@ -338,6 +340,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-overlay',
     ]);
@@ -352,6 +355,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-header',
       'ag-floating-top',
       'ag-body-viewport',
+      'ag-sticky-top',
       'ag-floating-bottom',
       'ag-body-horizontal-scroll',
       'ag-overlay',

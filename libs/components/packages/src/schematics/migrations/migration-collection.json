@@ -4,6 +4,11 @@
       "version": "0.0.0-PACKAGES_PLACEHOLDER",
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
+    },
+    "ag-grid-28": {
+      "version": "7.0.0",
+      "factory": "./ag-grid-28/ag-grid-28.schematic",
+      "description": "Update ag-grid to version 28"
     }
   }
 }

@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should update getSecondaryColumns and setSecondaryColumns 1`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class AppComponent {
+          #columnApi: ColumnApi;
+
+          public getSecondaryColumns() {
+            return this.#columnApi.getPivotResultColumns();
+          }
+        }"
+`;
+
+exports[`ag-grid-28.schematic should update getSecondaryColumns and setSecondaryColumns 2`] = `
+"
+        import { ColumnApi } from 'ag-grid-community';
+
+        export class GridComponent {
+          #columnApi: ColumnApi;
+
+          public setSecondaryColumns() {
+            this.#columnApi.setPivotResultColumns([]);
+          }
+        }"
+`;

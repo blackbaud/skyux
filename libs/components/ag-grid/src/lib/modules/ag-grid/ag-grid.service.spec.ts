@@ -290,7 +290,7 @@ describe('SkyAgGridService', () => {
         gridOptions: {},
       });
 
-      expect(editableGridOptions.rowSelection).toEqual('none');
+      expect(editableGridOptions.rowSelection).toBeUndefined();
     });
   });
 
@@ -621,6 +621,7 @@ describe('SkyAgGridService', () => {
       }
 
       cellClassParams = {
+        column: undefined,
         value: undefined,
         data: undefined,
         node: undefined,
@@ -695,6 +696,7 @@ describe('SkyAgGridService', () => {
       }
 
       cellClassParams = {
+        column: undefined,
         value: undefined,
         data: undefined,
         node: undefined,
