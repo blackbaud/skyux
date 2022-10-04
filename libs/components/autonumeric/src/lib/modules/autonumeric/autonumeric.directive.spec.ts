@@ -287,10 +287,8 @@ describe('Autonumeric directive', () => {
 
       setValue(1000);
 
-      // const modelValue = getModelValue();
       const formattedValue = getFormattedValue();
 
-      // expect(modelValue).toEqual(1000);
       expect(formattedValue).toEqual('%1,000.00000');
     }));
 
