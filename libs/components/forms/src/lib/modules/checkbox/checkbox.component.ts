@@ -304,12 +304,8 @@ export class SkyCheckboxComponent implements ControlValueAccessor, OnInit {
   #controlValueAccessorChangeFn: (value: any) => void = (value) => {};
 
   #emitChangeEvent(): void {
-    const event = new SkyCheckboxChange();
-    event.source = this;
-    event.checked = this.#_checked;
-
-    this.#controlValueAccessorChangeFn(this.#_checked);
-    this.change.emit(event);
+    this.#controlValueAccessorChangeFn(this.checked);
+    this.change.emit({ source: this, checked: this.checked });
   }
 
   /**

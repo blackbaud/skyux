@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './column.component.fixture.html',
 })
 export class ColumnTestComponent {
-  public xsSize = 1;
-  public smallSize = 1;
-  public mediumSize = 2;
-  public largeSize = 5;
+  public xsSize: number | undefined = 1;
+  public smallSize: number | undefined = 1;
+  public mediumSize: number | undefined = 2;
+  public largeSize: number | undefined = 5;
 }

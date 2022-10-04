@@ -14,7 +14,6 @@ import {
   SkyDataViewConfig,
   SkyDataViewState,
 } from '@skyux/data-manager';
-import { SkyCheckboxChange } from '@skyux/forms';
 import { SkyModalService } from '@skyux/modals';
 
 import { Subject } from 'rxjs';
@@ -328,12 +327,11 @@ describe('SkyDataManagerToolbarComponent', () => {
   it('should update the data state when the only show selected checkbox state changes', () => {
     dataManagerToolbarFixture.detectChanges();
 
-    const event = { checked: true } as SkyCheckboxChange;
     const updatedDataState = dataManagerToolbarComponent.dataState;
     updatedDataState.onlyShowSelected = true;
     spyOn(dataManagerService, 'updateDataState');
 
-    dataManagerToolbarComponent.onOnlyShowSelected(event);
+    dataManagerToolbarComponent.onOnlyShowSelected({ checked: true });
 
     expect(dataManagerToolbarComponent.dataState.onlyShowSelected).toBeTrue();
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(

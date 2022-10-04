@@ -12,8 +12,10 @@ import { SkyDescriptionListTermComponent } from './description-list-term.compone
 })
 export class SkyDescriptionListContentComponent {
   @ContentChildren(SkyDescriptionListTermComponent)
-  public termComponents: QueryList<SkyDescriptionListTermComponent>;
+  public termComponents: QueryList<SkyDescriptionListTermComponent> | undefined;
 
   @ContentChildren(SkyDescriptionListDescriptionComponent)
-  public descriptionComponents: QueryList<SkyDescriptionListDescriptionComponent>;
+  public descriptionComponents:
+    | QueryList<SkyDescriptionListDescriptionComponent>
+    | undefined;
 }

@@ -4,7 +4,7 @@ import { SkyCheckboxComponent } from './checkbox.component';
 /**
  * Fires when users select or deselect the checkbox.
  */
-export class SkyCheckboxChange {
-  public source: SkyCheckboxComponent | undefined;
-  public checked: boolean | undefined;
+export interface SkyCheckboxChange {
+  source?: SkyCheckboxComponent;
+  checked?: boolean;
 }
