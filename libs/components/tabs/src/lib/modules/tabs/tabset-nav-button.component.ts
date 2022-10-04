@@ -31,10 +31,6 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
     }
 
     if (value) {
-      if (this.#_buttonType === buttonTypeFinish) {
-        this.#_tabset.hasFinishButton = true;
-      }
-
       this.#currentTabsetSub = this.#_tabset.activeChange
         .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
         .subscribe((index: SkyTabIndex) => {
@@ -135,29 +131,19 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   #updateButtonVisibility(): void {
     const isLastStep = this.#activeIndexNumber === this.#tabCount - 1;
 
-    if (this.#_buttonType === buttonTypeFinish) {
+    if (this.buttonType === buttonTypeFinish) {
       this.isVisible = isLastStep;
-      return;
+    } else if (this.buttonType === buttonTypeNext) {
+      this.isVisible = !isLastStep;
+    } else {
+      this.isVisible = true;
     }
-
-    // Hide the next button on the last step only if a finish button exists.
-    if (
-      this.#_buttonType === buttonTypeNext &&
-      isLastStep &&
-      this.#_tabset.hasFinishButton
-    ) {
-      this.isVisible = false;
-      return;
-    }
-
-    this.isVisible = true;
   }
 
   #updateButtonProperties(): void {
     if (
-      (this.#_buttonType === buttonTypeNext ||
-        this.#_buttonType === buttonTypeFinish) &&
-      this.#_tabset?.hasFinishButton
+      this.#_buttonType === buttonTypeNext ||
+      this.#_buttonType === buttonTypeFinish
     ) {
       this.buttonClassName = 'sky-btn-primary';
     } else {
