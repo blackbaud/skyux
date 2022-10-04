@@ -27,38 +27,43 @@ import { SkyDescriptionListService } from './description-list.service';
 export class SkyDescriptionListDescriptionComponent
   implements OnDestroy, OnInit
 {
-  public defaultDescription: string;
+  public defaultDescription: string | undefined;
 
-  public themeName: string;
+  public themeName: string | undefined;
 
   @ViewChild('descriptionTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  public templateRef: TemplateRef<unknown>;
+  public templateRef!: TemplateRef<unknown> | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
+  #ngUnsubscribe = new Subject<void>();
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
     public service: SkyDescriptionListService,
-    private changeRef: ChangeDetectorRef,
-    @Optional() private themeSvc?: SkyThemeService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    @Optional() themeSvc?: SkyThemeService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#themeSvc = themeSvc;
+  }
 
   public ngOnInit(): void {
     /* istanbul ignore else */
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
-        .pipe(takeUntil(this.ngUnsubscribe))
+    if (this.#themeSvc) {
+      this.#themeSvc.settingsChange
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((themeSettings) => {
           this.themeName = themeSettings.currentSettings.theme.name;
-          this.changeRef.markForCheck();
+          this.#changeDetector.markForCheck();
         });
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

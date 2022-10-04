@@ -70,29 +70,33 @@ describe('Description list component', () => {
   }));
 
   //#region helpers
-  function getListEl(el: Element, listIndex: number): Element {
+  function getListEl(el: Element, listIndex: number): Element | null {
     return el.querySelector('.sky-description-list-test-' + listIndex);
   }
 
-  function getDlEls(el: Element): NodeListOf<Element> {
-    return el.querySelectorAll('dl');
+  function getDlEls(el: Element | null): NodeListOf<Element> | undefined {
+    return el?.querySelectorAll('dl');
   }
 
-  function getTermEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll('dt');
+  function getTermEls(listEl: Element | null): NodeListOf<Element> | undefined {
+    return listEl?.querySelectorAll('dt');
   }
 
-  function getDescriptionEls(listEl: Element): NodeListOf<Element> {
-    return listEl.querySelectorAll('dd');
+  function getDescriptionEls(
+    listEl: Element | null
+  ): NodeListOf<Element> | undefined {
+    return listEl?.querySelectorAll('dd');
   }
   //#endregion
 
   it('should render list in vertical mode if no mode is supplied', () => {
     const dlEls = getDlEls(fixture.nativeElement);
 
-    expect(dlEls[0]).toHaveCssClass('sky-description-list-vertical-mode');
-    expect(dlEls[0]).not.toHaveCssClass('sky-description-list-horizontal-mode');
-    expect(dlEls[0]).not.toHaveCssClass(
+    expect(dlEls?.[0]).toHaveCssClass('sky-description-list-vertical-mode');
+    expect(dlEls?.[0]).not.toHaveCssClass(
+      'sky-description-list-horizontal-mode'
+    );
+    expect(dlEls?.[0]).not.toHaveCssClass(
       'sky-description-list-long-description-mode'
     );
   });
@@ -100,15 +104,15 @@ describe('Description list component', () => {
   it('should set list item width when in horizontal mode', () => {
     fixture.componentInstance.mode = 'horizontal';
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector(
+    const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content'
     );
-    expect(listItemContent.clientWidth).not.toEqual(300);
+    expect(listItemContent?.clientWidth).not.toEqual(300);
 
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
 
-    expect(listItemContent.clientWidth).toEqual(300);
+    expect(listItemContent?.clientWidth).toEqual(300);
   });
 
   it('should not set list item width when in vertical mode', () => {
@@ -116,13 +120,13 @@ describe('Description list component', () => {
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector(
+    const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content'
     );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
 
-    expect(listItemContent.clientWidth).not.toEqual(300);
+    expect(listItemContent?.clientWidth).not.toEqual(300);
   });
 
   it('should not set list item width when in longDescription mode', () => {
@@ -130,13 +134,13 @@ describe('Description list component', () => {
     fixture.detectChanges();
 
     const dlEls = getDlEls(fixture.nativeElement);
-    const listItemContent = dlEls[0].querySelector(
+    const listItemContent = dlEls?.[0].querySelector(
       '.sky-description-list-content'
     );
     fixture.componentInstance.listItemWidth = '300px';
     fixture.detectChanges();
 
-    expect(listItemContent.clientWidth).not.toEqual(300);
+    expect(listItemContent?.clientWidth).not.toEqual(300);
   });
 
   it('should render descriptions in the expected locations', () => {
@@ -144,17 +148,17 @@ describe('Description list component', () => {
     const termEls = getTermEls(list1El);
     const descriptionEls = getDescriptionEls(list1El);
 
-    expect(termEls[0]).toHaveText('Job title');
-    expect(descriptionEls[0].firstChild).toHaveText('Engineer');
-    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
+    expect(termEls?.[0]).toHaveText('Job title');
+    expect(descriptionEls?.[0].firstChild).toHaveText('Engineer');
+    expect(descriptionEls?.[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should display a default description when no description is specified', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
     const descriptionEls = getDescriptionEls(list1El);
 
-    expect(descriptionEls[2].childNodes[1]).toBeVisible();
-    expect(descriptionEls[2]).toHaveText('None found.');
+    expect(descriptionEls?.[2].childNodes[1]).toBeVisible();
+    expect(descriptionEls?.[2]).toHaveText('None found.');
   });
 
   it('should update DOM when consumer array is changed', () => {
@@ -162,8 +166,8 @@ describe('Description list component', () => {
     let termEls = getTermEls(list1El);
     let descriptionEls = getDescriptionEls(list1El);
 
-    expect(termEls.length).toEqual(3);
-    expect(descriptionEls.length).toEqual(3);
+    expect(termEls?.length).toEqual(3);
+    expect(descriptionEls?.length).toEqual(3);
 
     fixture.componentInstance.personalInfo = [
       {
@@ -176,18 +180,18 @@ describe('Description list component', () => {
     termEls = getTermEls(list1El);
     descriptionEls = getDescriptionEls(list1El);
 
-    expect(termEls.length).toEqual(1);
-    expect(descriptionEls.length).toEqual(1);
-    expect(termEls[0]).toHaveText('term1');
-    expect(descriptionEls[0].firstChild).toHaveText('description1');
-    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
+    expect(termEls?.length).toEqual(1);
+    expect(descriptionEls?.length).toEqual(1);
+    expect(termEls?.[0]).toHaveText('term1');
+    expect(descriptionEls?.[0].firstChild).toHaveText('description1');
+    expect(descriptionEls?.[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should allow the default value to be specified', () => {
     const list1El = getListEl(fixture.nativeElement, 2);
     const descriptionEls = getDescriptionEls(list1El);
 
-    expect(descriptionEls[2]).toHaveText('No information found');
+    expect(descriptionEls?.[2]).toHaveText('No information found');
   });
 
   it('should call the adapter service when window is resized', fakeAsync(() => {
@@ -199,13 +203,17 @@ describe('Description list component', () => {
 
   it('should use proper classes in modern theme', () => {
     const list1El = getListEl(fixture.nativeElement, 1);
-    const spans = list1El.querySelectorAll(
+    const spans = list1El?.querySelectorAll(
       '[data-sky-id*="sky-description-list-default-value"]'
     );
 
-    for (let i = 0; i < spans.length; i++) {
-      expect(spans[i]).toHaveCssClass('sky-deemphasized');
+    let hasSpans = false;
+    for (let i = 0; i < (spans?.length ?? 0); i++) {
+      hasSpans = true;
+      expect(spans?.[i]).toHaveCssClass('sky-deemphasized');
     }
+
+    expect(hasSpans).toBeTruthy();
 
     mockThemeSvc.settingsChange.next({
       currentSettings: new SkyThemeSettings(
@@ -216,9 +224,12 @@ describe('Description list component', () => {
     });
     fixture.detectChanges();
 
-    for (let i = 0; i < spans.length; i++) {
-      expect(spans[i]).toHaveCssClass('sky-font-deemphasized');
+    hasSpans = false;
+    for (let i = 0; i < (spans?.length ?? 0); i++) {
+      hasSpans = true;
+      expect(spans?.[i]).toHaveCssClass('sky-font-deemphasized');
     }
+    expect(hasSpans).toBeTruthy();
   });
 
   it('should be accessible', async () => {
@@ -236,10 +247,10 @@ describe('Description list component', () => {
     let termEls = getTermEls(list3El);
     let descriptionEls = getDescriptionEls(list3El);
 
-    expect(termEls.length).toEqual(3);
-    expect(descriptionEls.length).toEqual(3);
-    expect(descriptionEls[0].firstChild).toHaveText('Example 1');
-    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
+    expect(termEls?.length).toEqual(3);
+    expect(descriptionEls?.length).toEqual(3);
+    expect(descriptionEls?.[0].firstChild).toHaveText('Example 1');
+    expect(descriptionEls?.[0].childNodes[1]).not.toBeVisible();
 
     fixture.componentInstance.asyncInfo = [
       {
@@ -252,18 +263,18 @@ describe('Description list component', () => {
     termEls = getTermEls(list3El);
     descriptionEls = getDescriptionEls(list3El);
 
-    expect(termEls.length).toEqual(1);
-    expect(descriptionEls.length).toEqual(1);
-    expect(termEls[0]).toHaveText('boo');
-    expect(descriptionEls[0].firstChild).toHaveText('far');
-    expect(descriptionEls[0].childNodes[1]).not.toBeVisible();
+    expect(termEls?.length).toEqual(1);
+    expect(descriptionEls?.length).toEqual(1);
+    expect(termEls?.[0]).toHaveText('boo');
+    expect(descriptionEls?.[0].firstChild).toHaveText('far');
+    expect(descriptionEls?.[0].childNodes[1]).not.toBeVisible();
   });
 
   it('should render inline help with the expected spacing', () => {
     const list4El = getListEl(fixture.nativeElement, 4);
-    const termEl = getTermEls(list4El)[0];
+    const termEl = getTermEls(list4El)?.[0];
 
-    const helpEl = termEl.querySelector('.sky-control-help');
+    const helpEl = termEl?.querySelector('.sky-control-help');
 
     expect(helpEl).toHaveText('Help inline');
 

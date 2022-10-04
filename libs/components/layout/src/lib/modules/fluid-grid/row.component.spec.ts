@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyRowComponent } from './row.component';
 
@@ -24,15 +24,22 @@ describe('SkyRowComponent', () => {
   });
 
   it('should add a classname to reverse the column order', () => {
+    component.reverseColumnOrder = false;
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-row-reverse')).not.toExist();
+
     component.reverseColumnOrder = true;
     fixture.detectChanges();
     expect(element.querySelector('.sky-row-reverse')).toExist();
+
+    component.reverseColumnOrder = undefined;
+    fixture.detectChanges();
+    expect(element.querySelector('.sky-row-reverse')).not.toExist();
   });
 
-  it('should be accessible', async(() => {
+  it('should be accessible', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

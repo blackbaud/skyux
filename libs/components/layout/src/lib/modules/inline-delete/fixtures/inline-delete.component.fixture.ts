@@ -20,9 +20,9 @@ import { SkyInlineDeleteComponent } from '../inline-delete.component';
   ],
 })
 export class InlineDeleteTestComponent {
-  public parentTabIndex: number;
+  public parentTabIndex: number | undefined;
 
-  public pending = false;
+  public pending: boolean | undefined = false;
 
   public showDelete = true;
 
@@ -34,7 +34,7 @@ export class InlineDeleteTestComponent {
     read: SkyInlineDeleteComponent,
     static: false,
   })
-  public inlineDelete: SkyInlineDeleteComponent;
+  public inlineDelete!: SkyInlineDeleteComponent;
 
   public onCancelTriggered(): void {
     this.showDelete = false;

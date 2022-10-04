@@ -7,7 +7,7 @@ import { SkyFluidGridGutterSizeType } from '../types/fluid-grid-gutter-size-type
   templateUrl: './fluid-grid.component.fixture.html',
 })
 export class FluidGridTestComponent {
-  public disableMargin: boolean;
+  public disableMargin: boolean | undefined;
 
-  public gutterSize: SkyFluidGridGutterSizeType;
+  public gutterSize: SkyFluidGridGutterSizeType | undefined;
 }
