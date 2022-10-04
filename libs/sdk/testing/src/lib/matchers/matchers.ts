@@ -372,7 +372,6 @@ const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
         element: T,
         config?: SkyA11yAnalyzerConfig
       ): Promise<jasmine.CustomMatcherResult> {
-        console.log('EH?', element);
         return new Promise((resolve) => {
           SkyA11yAnalyzer.run(element, config)
             .then(() => {
