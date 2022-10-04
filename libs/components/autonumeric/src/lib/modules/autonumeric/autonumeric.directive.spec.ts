@@ -281,6 +281,19 @@ describe('Autonumeric directive', () => {
       expect(formattedValue).toEqual('%1,000.00000');
     }));
 
+    it('should support undefined values for the skyAutonumericFormChangesUnformatted Input', fakeAsync(() => {
+      fixture.componentInstance.setUnformatted = undefined;
+      detectChangesTick();
+
+      setValue(1000);
+
+      // const modelValue = getModelValue();
+      const formattedValue = getFormattedValue();
+
+      // expect(modelValue).toEqual(1000);
+      expect(formattedValue).toEqual('%1,000.00000');
+    }));
+
     it('should overwrite global configuration with configuration from the input', fakeAsync(() => {
       setOptions('dollar');
 

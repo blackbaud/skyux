@@ -66,7 +66,7 @@ export class SkyAutonumericDirective
   }
 
   public set skyAutonumericFormChangesUnformatted(value: boolean | undefined) {
-    this.#_skyAutonumericFormChangesUnformatted = value || false;
+    this.#_skyAutonumericFormChangesUnformatted = value ?? false;
   }
 
   #_skyAutonumericFormChangesUnformatted = false;

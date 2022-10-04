@@ -31,7 +31,7 @@ export class AutonumericFixtureComponent {
 
   public required = false;
 
-  public setUnformatted = false;
+  public setUnformatted: boolean | undefined = false;
 
   #formBuilder: UntypedFormBuilder;
 
