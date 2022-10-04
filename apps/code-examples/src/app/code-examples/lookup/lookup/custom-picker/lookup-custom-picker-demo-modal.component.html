@@ -1,18 +1,29 @@
-<sky-modal>
-  <sky-modal-header> Custom picker </sky-modal-header>
+<sky-modal class="lookup-custom-picker-modal">
+  <sky-modal-header>Names</sky-modal-header>
   <sky-modal-content>
-    This is a custom picker!
-    <form [formGroup]="myForm">
-      <sky-checkbox formControlName="selectLast">
-        <sky-checkbox-label> Select last item </sky-checkbox-label>
-      </sky-checkbox>
+    <form [formGroup]="peopleForm">
+      <sky-selection-box-grid>
+        <sky-selection-box
+          *ngFor="let personControl of peopleControls; let i = index"
+          [control]="checkbox"
+        >
+          <sky-icon icon="user" iconType="skyux"></sky-icon>
+          <sky-selection-box-header>
+            {{ people[i].name }}
+          </sky-selection-box-header>
+          <sky-selection-box-description>
+            {{ people[i].formal }}
+          </sky-selection-box-description>
+          <sky-checkbox [formControl]="personControl" #checkbox></sky-checkbox>
+        </sky-selection-box>
+      </sky-selection-box-grid>
     </form>
   </sky-modal-content>
   <sky-modal-footer>
     <button
-      class="sky-btn sky-btn-primary"
+      class="sky-btn sky-btn-primary lookup-custom-picker-save-button"
       type="button"
-      (click)="modalInstance.save(myForm.get('selectLast').value)"
+      (click)="save()"
     >
       Save
     </button>

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import {
-  SkyAutocompleteSearchArgs,
-  SkyAutocompleteSearchFunctionFilter,
-} from '@skyux/lookup';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 import { LookupDemoPerson } from './lookup-demo-person';
 
@@ -13,7 +10,8 @@ import { LookupDemoPerson } from './lookup-demo-person';
   styleUrls: ['./lookup-multiple-demo.component.scss'],
 })
 export class LookupMultipleSelectDemoComponent implements OnInit {
-  public myForm: FormGroup;
+  public favoritesForm: FormGroup;
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
@@ -38,38 +36,31 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
     { name: 'Vicki' },
   ];
 
-  public names: LookupDemoPerson[] = [this.people[15]];
-
-  constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
-
-    // If you need to execute some logic after the lookup values change,
-    // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
+  constructor(formBuilder: FormBuilder) {
+    this.favoritesForm = formBuilder.group({
+      favoriteNames: [[this.people[15]]],
     });
   }
 
-  /**
-   * When in the modal view, show all people in the search results, regardless if they have been chosen already.
-   * When in the popover view (or in any other view), show people in the search results that have not been chosen already.
-   */
-  public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const names: LookupDemoPerson[] = this.myForm.controls.names.value;
-    return [
-      (
-        searchText: string,
-        item: any,
-        args?: SkyAutocompleteSearchArgs
-      ): boolean => {
-        if (args?.context === 'modal') {
+  public ngOnInit(): void {
+    // If you need to execute some logic after the lookup values change,
+    // subscribe to Angular's built-in value changes observable.
+    this.favoritesForm.valueChanges.subscribe((changes) => {
+      console.log('Lookup value changes:', changes);
+    });
+
+    this.searchFilters = [
+      (_, item, args) => {
+        // When in the modal view, show all people in the search results, regardless if they have been chosen already.
+        if (args.context === 'modal') {
           return true;
         }
 
-        const found = names.find((option) => option.name === item.name);
-        return !found;
+        const names: LookupDemoPerson[] =
+          this.favoritesForm.controls.favoriteNames.value;
+
+        // When in the popover view (or in any other view), show people in the search results that have not been chosen already.
+        return !names.some((option) => option.name === item.name);
       },
     ];
   }
@@ -79,12 +70,6 @@ export class LookupMultipleSelectDemoComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      names: new FormControl(this.names),
-    });
+    alert('Form submitted with: ' + JSON.stringify(this.favoritesForm.value));
   }
 }
