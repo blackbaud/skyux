@@ -86,6 +86,8 @@
     "text-editor": "libs/components/text-editor",
     "theme": "libs/components/theme",
     "tiles": "libs/components/tiles",
+    "tiles-storybook": "apps/e2e/tiles-storybook",
+    "tiles-storybook-e2e": "apps/e2e/tiles-storybook-e2e",
     "toast": "libs/components/toast",
     "toast-testing": "libs/components/toast/testing",
     "validation": "libs/components/validation"

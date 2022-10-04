@@ -19,7 +19,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public skyPopover!: SkyPopoverComponent;
+  public skyPopover: SkyPopoverComponent | undefined;
 
   /**
    * Specifies the horizontal alignment of the popover in relation to the trigger element.
@@ -34,15 +34,15 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
   public set skyPopoverMessageStream(
     value: Subject<SkyPopoverMessage> | undefined
   ) {
-    this._skyPopoverMessageStream = value ?? new Subject<SkyPopoverMessage>();
-    this.subscribeMessageStream();
+    this.#_skyPopoverMessageStream = value ?? new Subject<SkyPopoverMessage>();
+    this.#subscribeMessageStream();
   }
 
   public get skyPopoverMessageStream(): Subject<SkyPopoverMessage> {
-    return this._skyPopoverMessageStream;
+    return this.#_skyPopoverMessageStream;
   }
 
-  private _skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
+  #_skyPopoverMessageStream = new Subject<SkyPopoverMessage>();
 
   #messageStreamSub: Subscription | undefined;
 
@@ -57,66 +57,69 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
    */
   @Input()
   public set skyPopoverTrigger(value: SkyPopoverTrigger | undefined) {
-    this._trigger = value;
+    this.#_trigger = value ?? 'click';
   }
 
   public get skyPopoverTrigger(): SkyPopoverTrigger {
-    return this._trigger || 'click';
+    return this.#_trigger;
   }
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _trigger: SkyPopoverTrigger | undefined;
+  #_trigger: SkyPopoverTrigger = 'click';
 
-  constructor(private elementRef: ElementRef) {
-    this.subscribeMessageStream();
+  #elementRef: ElementRef;
+
+  constructor(elementRef: ElementRef) {
+    this.#elementRef = elementRef;
+    this.#subscribeMessageStream();
   }
 
   public ngOnInit(): void {
-    this.addEventListeners();
+    this.#addEventListeners();
   }
 
   public ngOnDestroy(): void {
-    this.removeEventListeners();
-    this.unsubscribeMessageStream();
+    this.#removeEventListeners();
+    this.#unsubscribeMessageStream();
   }
 
   public togglePopover(): void {
-    if (this.skyPopover.isActive) {
-      this.sendMessage(SkyPopoverMessageType.Close);
+    if (this.skyPopover?.isActive) {
+      this.#sendMessage(SkyPopoverMessageType.Close);
       return;
     }
 
-    this.sendMessage(SkyPopoverMessageType.Open);
+    this.#sendMessage(SkyPopoverMessageType.Open);
   }
 
-  private positionPopover(): void {
-    this.skyPopover.positionNextTo(
-      this.elementRef,
+  #positionPopover(): void {
+    this.skyPopover?.positionNextTo(
+      this.#elementRef,
       this.skyPopoverPlacement,
       this.skyPopoverAlignment
     );
   }
 
-  private closePopover(): void {
-    this.skyPopover.close();
+  #closePopover(): void {
+    this.skyPopover?.close();
   }
 
-  private closePopoverOrMarkForClose(): void {
-    if (this.skyPopover.isMouseEnter) {
+  #closePopoverOrMarkForClose(): void {
+    if (this.skyPopover?.isMouseEnter) {
       this.skyPopover.markForCloseOnMouseLeave();
     } else {
-      this.sendMessage(SkyPopoverMessageType.Close);
+      this.#sendMessage(SkyPopoverMessageType.Close);
     }
   }
 
-  private addEventListeners(): void {
-    const element = this.elementRef.nativeElement;
+  #addEventListeners(): void {
+    const element = this.#elementRef.nativeElement;
 
     observableFromEvent<KeyboardEvent>(element, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event) => {
-        if (!this.skyPopover.isActive) {
+        if (!this.skyPopover?.isActive) {
           return;
         }
 
@@ -124,14 +127,14 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
 
         switch (key) {
           case 'escape':
-            this.sendMessage(SkyPopoverMessageType.Close);
+            this.#sendMessage(SkyPopoverMessageType.Close);
             event.preventDefault();
             event.stopPropagation();
             break;
 
           case 'tab':
             if (this.skyPopover.dismissOnBlur) {
-              this.sendMessage(SkyPopoverMessageType.Close);
+              this.#sendMessage(SkyPopoverMessageType.Close);
             }
             break;
 
@@ -143,7 +146,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
           case 'left':
           case 'right':
           case 'up':
-            this.sendMessage(SkyPopoverMessageType.Focus);
+            this.#sendMessage(SkyPopoverMessageType.Focus);
             event.stopPropagation();
             event.preventDefault();
             break;
@@ -151,7 +154,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       });
 
     observableFromEvent(element, 'click')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         if (this.skyPopover) {
           this.togglePopover();
@@ -159,7 +162,7 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
       });
 
     observableFromEvent(element, 'mouseenter')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         if (this.skyPopover) {
           this.skyPopover.isMouseEnter = true;
@@ -167,13 +170,13 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
             !this.skyPopover.isActive &&
             this.skyPopoverTrigger === 'mouseenter'
           ) {
-            this.sendMessage(SkyPopoverMessageType.Open);
+            this.#sendMessage(SkyPopoverMessageType.Open);
           }
         }
       });
 
     observableFromEvent(element, 'mouseleave')
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         if (this.skyPopover) {
           this.skyPopover.isMouseEnter = false;
@@ -184,59 +187,59 @@ export class SkyPopoverDirective implements OnInit, OnDestroy {
             // Give the popover a chance to set its isMouseEnter flag before checking to see
             // if it should be closed.
             setTimeout(() => {
-              this.closePopoverOrMarkForClose();
+              this.#closePopoverOrMarkForClose();
             });
           }
         }
       });
   }
 
-  private removeEventListeners(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+  #removeEventListeners(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  private handleIncomingMessages(message: SkyPopoverMessage): void {
+  #handleIncomingMessages(message: SkyPopoverMessage): void {
     switch (message.type) {
       case SkyPopoverMessageType.Open:
-        this.positionPopover();
+        this.#positionPopover();
         break;
 
       case SkyPopoverMessageType.Close:
         /*istanbul ignore else*/
-        if (this.skyPopover.isActive) {
-          this.closePopover();
+        if (this.skyPopover?.isActive) {
+          this.#closePopover();
         }
         break;
 
       case SkyPopoverMessageType.Reposition:
         // Only reposition the popover if it is already open.
-        if (this.skyPopover.isActive) {
-          this.positionPopover();
+        if (this.skyPopover?.isActive) {
+          this.#positionPopover();
         }
         break;
 
       case SkyPopoverMessageType.Focus:
-        this.skyPopover.applyFocus();
+        this.skyPopover?.applyFocus();
         break;
     }
   }
 
-  private sendMessage(messageType: SkyPopoverMessageType): void {
+  #sendMessage(messageType: SkyPopoverMessageType): void {
     this.skyPopoverMessageStream.next({ type: messageType });
   }
 
-  private subscribeMessageStream(): void {
-    this.unsubscribeMessageStream();
+  #subscribeMessageStream(): void {
+    this.#unsubscribeMessageStream();
 
     this.#messageStreamSub = this.skyPopoverMessageStream.subscribe(
       (message) => {
-        this.handleIncomingMessages(message);
+        this.#handleIncomingMessages(message);
       }
     );
   }
 
-  private unsubscribeMessageStream(): void {
+  #unsubscribeMessageStream(): void {
     if (this.#messageStreamSub) {
       this.#messageStreamSub.unsubscribe();
       this.#messageStreamSub = undefined;

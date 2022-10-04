@@ -10,7 +10,7 @@ export class SkyHelpInlineComponent {
    * Fires when the user clicks the help inline button.
    */
   @Output()
-  public actionClick = new EventEmitter<any>();
+  public actionClick = new EventEmitter<void>();
 
   public onClick(): void {
     this.actionClick.emit();

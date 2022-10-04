@@ -72,6 +72,13 @@ const routes: Routes = [
       import('./features/popovers.module').then((m) => m.PopoversFeatureModule),
   },
   {
+    path: 'progress-indicator',
+    loadChildren: () =>
+      import('./features/progress-indicator.module').then(
+        (m) => m.ProgressIndicatorFeatureModule
+      ),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./features/datetime.module').then((m) => m.DatetimeFeatureModule),

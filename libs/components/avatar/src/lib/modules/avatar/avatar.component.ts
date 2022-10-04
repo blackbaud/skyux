@@ -12,6 +12,8 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyAvatarSize } from './avatar-size';
 import { SkyAvatarSrc } from './avatar-src';
 
+const MAX_FILE_SIZE_DEFAULT = 500000;
+
 @Component({
   selector: 'sky-avatar',
   templateUrl: './avatar.component.html',
@@ -27,12 +29,12 @@ export class SkyAvatarComponent {
    * @default false
    */
   @Input()
-  public set canChange(value: boolean) {
-    this._canChange = value;
+  public set canChange(value: boolean | undefined) {
+    this.#_canChange = !!value;
   }
 
   public get canChange(): boolean {
-    return this._canChange;
+    return this.#_canChange;
   }
 
   /**
@@ -44,12 +46,12 @@ export class SkyAvatarComponent {
    * not required, but the component requires either the `name` or `src` property.
    */
   @Input()
-  public set name(value: string) {
-    this._name = value;
+  public set name(value: string | undefined) {
+    this.#_name = value;
   }
 
-  public get name(): string {
-    return this._name;
+  public get name(): string | undefined {
+    return this.#_name;
   }
 
   /**
@@ -57,19 +59,19 @@ export class SkyAvatarComponent {
    * not required, but the component requires either the `name` or `src` property.
    */
   @Input()
-  public set src(value: SkyAvatarSrc) {
-    this._src = value;
+  public set src(value: SkyAvatarSrc | undefined) {
+    this.#_src = value;
   }
 
-  public get src(): SkyAvatarSrc {
-    return this._src;
+  public get src(): SkyAvatarSrc | undefined {
+    return this.#_src;
   }
 
   /**
    * Specifies the maximum file size for the image in bytes.
    */
   @Input()
-  public maxFileSize = 500000;
+  public maxFileSize: number | undefined = MAX_FILE_SIZE_DEFAULT;
 
   /**
    * Specifies the size of the avatar.
@@ -77,7 +79,13 @@ export class SkyAvatarComponent {
    * @default "large"
    */
   @Input()
-  public size: SkyAvatarSize = 'large';
+  public set size(value: SkyAvatarSize | undefined) {
+    this.#_size = value ?? 'large';
+  }
+
+  public get size(): SkyAvatarSize {
+    return this.#_size;
+  }
 
   /**
    * Emits a `SkyFileItem` object when the image is updated.
@@ -85,17 +93,27 @@ export class SkyAvatarComponent {
   @Output()
   public avatarChanged = new EventEmitter<SkyFileItem>();
 
-  private _canChange: boolean;
+  #_canChange = false;
 
-  private _name: string;
+  #_name: string | undefined;
 
-  private _src: SkyAvatarSrc;
+  #_size: SkyAvatarSize = 'large';
+
+  #_src: SkyAvatarSrc | undefined;
+
+  #errorService: SkyErrorModalService;
+  #fileSizePipe: SkyFileSizePipe;
+  #resourcesService: SkyLibResourcesService;
 
   constructor(
-    private errorService: SkyErrorModalService,
-    private fileSizePipe: SkyFileSizePipe,
-    private resourcesService: SkyLibResourcesService
-  ) {}
+    errorService: SkyErrorModalService,
+    fileSizePipe: SkyFileSizePipe,
+    resourcesService: SkyLibResourcesService
+  ) {
+    this.#errorService = errorService;
+    this.#fileSizePipe = fileSizePipe;
+    this.#resourcesService = resourcesService;
+  }
 
   public photoDrop(result: SkyFileDropChange): void {
     /* sanity check */
@@ -103,48 +121,48 @@ export class SkyAvatarComponent {
     if (result.files && result.files.length > 0) {
       this.avatarChanged.emit(result.files[0]);
     } else if (result.rejectedFiles && result.rejectedFiles.length > 0) {
-      this.handleError(result.rejectedFiles);
+      this.#handleError(result.rejectedFiles);
     }
   }
 
-  private handleError(rejectedFiles: Array<SkyFileItem>): void {
+  #handleError(rejectedFiles: Array<SkyFileItem>): void {
     const rejectedFile = rejectedFiles[0];
 
     if (rejectedFile.errorType === 'maxFileSize') {
-      const title = this.getString('skyux_avatar_error_too_large_title');
-      const description = this.getString(
+      const title = this.#getString('skyux_avatar_error_too_large_title');
+      const description = this.#getString(
         'skyux_avatar_error_too_large_description',
-        this.maxFileSizeText()
+        this.#maxFileSizeText()
       );
 
-      this.openErrorModal(title, description);
+      this.#openErrorModal(title, description);
     } else if (rejectedFile.errorType === 'fileType') {
-      const title = this.getString('skyux_avatar_error_not_image_title');
-      const description = this.getString(
+      const title = this.#getString('skyux_avatar_error_not_image_title');
+      const description = this.#getString(
         'skyux_avatar_error_not_image_description'
       );
 
-      this.openErrorModal(title, description);
+      this.#openErrorModal(title, description);
     }
   }
 
-  private maxFileSizeText(): string {
-    return this.fileSizePipe.transform(this.maxFileSize);
+  #maxFileSizeText(): string {
+    return this.#fileSizePipe.transform(this.maxFileSize);
   }
 
-  private openErrorModal(title: string, description: string): void {
+  #openErrorModal(title: string, description: string): void {
     const config: ErrorModalConfig = {
       errorTitle: title,
       errorDescription: description,
-      errorCloseText: this.getString('skyux_avatar_errormodal_ok'),
+      errorCloseText: this.#getString('skyux_avatar_errormodal_ok'),
     };
 
-    this.errorService.open(config);
+    this.#errorService.open(config);
   }
 
-  private getString(key: string, ...args: any[]): string {
+  #getString(key: string, ...args: any[]): string {
     // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.resourcesService.getStringForLocale(
+    return this.#resourcesService.getStringForLocale(
       { locale: 'en-US' },
       key,
       ...args

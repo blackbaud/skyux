@@ -34,8 +34,8 @@ class TestComponent {
   public presetColors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff'];
   public selectedColor = this.hexColor;
 
-  public onColorChanged = () => {};
-  public onColorApplied = () => {};
+  public onColorChanged = jasmine.createSpy('onColorChanged');
+  public onColorApplied = jasmine.createSpy('onColorApplied');
 }
 
 describe('Colorpicker fixture', () => {
@@ -62,9 +62,6 @@ describe('Colorpicker fixture', () => {
     const newColor = '#fff';
     const fixture = TestBed.createComponent(TestComponent);
 
-    spyOn(fixture.componentInstance, 'onColorChanged');
-    spyOn(fixture.componentInstance, 'onColorApplied');
-
     fixture.detectChanges();
 
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
@@ -83,9 +80,6 @@ describe('Colorpicker fixture', () => {
     const currentColor = 'rgba(0,0,0,1)';
     const newColor = 'rgba(25,25,25,1)';
     const fixture = TestBed.createComponent(TestComponent);
-
-    spyOn(fixture.componentInstance, 'onColorChanged');
-    spyOn(fixture.componentInstance, 'onColorApplied');
 
     fixture.componentInstance.selectedColor = currentColor;
     fixture.componentInstance.outputFormat = 'rgba';
@@ -107,9 +101,6 @@ describe('Colorpicker fixture', () => {
   it('should select a color from the given index of the preset list if that color exists', async () => {
     const fixture = TestBed.createComponent(TestComponent);
 
-    spyOn(fixture.componentInstance, 'onColorChanged');
-    spyOn(fixture.componentInstance, 'onColorApplied');
-
     fixture.detectChanges();
 
     const colorpicker = new SkyColorpickerFixture(fixture, 'test-colorpicker');
@@ -128,9 +119,6 @@ describe('Colorpicker fixture', () => {
 
   it('should select a new color from the given index of the preset list if that color does not exist', async () => {
     const fixture = TestBed.createComponent(TestComponent);
-
-    spyOn(fixture.componentInstance, 'onColorChanged');
-    spyOn(fixture.componentInstance, 'onColorApplied');
 
     fixture.detectChanges();
 

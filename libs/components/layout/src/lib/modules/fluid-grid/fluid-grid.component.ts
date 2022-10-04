@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { SkyFluidGridGutterSize } from './fluid-grid-gutter-size';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
 /**
@@ -18,12 +17,12 @@ export class SkyFluidGridComponent {
    * @default false
    */
   @Input()
-  public set disableMargin(value: boolean) {
-    this._disableMargin = value;
+  public set disableMargin(value: boolean | undefined) {
+    this.#_disableMargin = value ?? false;
   }
 
   public get disableMargin(): boolean {
-    return this._disableMargin || false;
+    return this.#_disableMargin;
   }
 
   /**
@@ -32,36 +31,15 @@ export class SkyFluidGridComponent {
    * @default "large"
    */
   @Input()
-  public set gutterSize(value: SkyFluidGridGutterSizeType) {
-    this._gutterSize = value;
+  public set gutterSize(value: SkyFluidGridGutterSizeType | undefined) {
+    this.#_gutterSize = value ?? 'large';
   }
 
   public get gutterSize(): SkyFluidGridGutterSizeType {
-    return this._gutterSize === undefined ? 'large' : this._gutterSize;
+    return this.#_gutterSize;
   }
 
-  /**
-   * @internal
-   */
-  public get gutterSizeResolved(): SkyFluidGridGutterSizeType {
-    // Before this change, the template did a `==` comparison, implicitly converting numerical
-    // string values to their numeric values before comparing them. Checking for the numerical
-    // string value in addition to the values allowed by the type maintains this behavior.
-    switch (this.gutterSize) {
-      case 'medium':
-      case SkyFluidGridGutterSize.Medium:
-      case SkyFluidGridGutterSize.Medium.toString():
-        return 'medium';
-      case 'small':
-      case SkyFluidGridGutterSize.Small:
-      case SkyFluidGridGutterSize.Small.toString():
-        return 'small';
-      default:
-        return 'large';
-    }
-  }
+  #_disableMargin = false;
 
-  private _disableMargin: boolean;
-
-  private _gutterSize: SkyFluidGridGutterSizeType;
+  #_gutterSize: SkyFluidGridGutterSizeType = 'large';
 }

@@ -1,12 +1,16 @@
 <div
   class="sky-tabset"
-  role="tablist"
+  [attr.role]="elementRole"
   [attr.aria-label]="ariaLabel"
   [attr.aria-labelledby]="ariaLabelledBy"
   [ngClass]="
     'sky-tabset-mode-' + tabDisplayMode + ' sky-tabset-style-' + tabStyle
   "
   (window:resize)="onWindowResize()"
+  (keydown.arrowright)="onRightKeyDown()"
+  (keydown.arrowleft)="onLeftKeyDown()"
+  (keydown.home)="onHomeKeyDown()"
+  (keydown.end)="onEndKeyDown()"
 >
   <span class="sky-tabset-dropdown">
     <sky-dropdown *ngIf="tabDisplayMode === 'dropdown'" buttonType="tab">
@@ -88,6 +92,7 @@
     [buttonTextCount]="tabButton.buttonTextCount"
     [closeable]="tabButton.closeable"
     [disabled]="tabButton.disabled"
+    [tabIndex]="tabButton.tabIndex"
     [tabStyle]="tabStyle"
     (buttonClick)="onTabButtonClick(tabButton)"
     (closeClick)="onTabCloseClick(tabButton)"

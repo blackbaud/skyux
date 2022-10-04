@@ -10,19 +10,19 @@ import { Subject } from 'rxjs';
 export class PopoverDemoComponent {
   public popoverController = new Subject<SkyPopoverMessage>();
 
-  private popoverOpen = false;
+  #popoverOpen = false;
 
   public onPopoverStateChange(isOpen: boolean): void {
-    this.popoverOpen = isOpen;
+    this.#popoverOpen = isOpen;
   }
 
   public openPopover(): void {
-    if (!this.popoverOpen) {
-      this.sendMessage(SkyPopoverMessageType.Open);
+    if (!this.#popoverOpen) {
+      this.#sendMessage(SkyPopoverMessageType.Open);
     }
   }
 
-  private sendMessage(type: SkyPopoverMessageType): void {
+  #sendMessage(type: SkyPopoverMessageType): void {
     const message: SkyPopoverMessage = { type };
     this.popoverController.next(message);
   }

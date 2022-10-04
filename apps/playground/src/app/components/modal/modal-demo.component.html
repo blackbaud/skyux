@@ -1,6 +1,10 @@
 <sky-modal>
   <sky-modal-header>
     {{ title }}
+    <sky-help-inline
+      *ngIf="showHelp"
+      class="sky-control-help"
+    ></sky-help-inline>
   </sky-modal-header>
   <sky-modal-content>
     <div>Content A</div>

@@ -10,17 +10,17 @@ import { SkyBackToTopOptions } from '../models/back-to-top-options';
   templateUrl: './back-to-top.component.fixture.html',
 })
 export class SkyBackToTopFixtureComponent {
-  public height: number;
+  public height: number | undefined;
 
   public hideElement = false;
 
   public hideParent = false;
 
-  public scrollableParent: boolean;
+  public scrollableParent = false;
 
   public backToTopController: Subject<SkyBackToTopMessage> = new Subject();
 
-  public backToTopOptions: SkyBackToTopOptions = {
+  public backToTopOptions: SkyBackToTopOptions | undefined = {
     buttonHidden: false,
   };
 }

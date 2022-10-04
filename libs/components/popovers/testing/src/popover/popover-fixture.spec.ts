@@ -30,10 +30,10 @@ import { SkyPopoverTestingModule } from './popover-testing.module';
   `,
 })
 class PopoverTestComponent {
-  public dismissOnBlur: boolean;
-  public popoverAlignment: string;
+  public dismissOnBlur: boolean | undefined;
+  public popoverAlignment: string | undefined;
   public popoverBody = 'popover body';
-  public popoverPlacement: string;
+  public popoverPlacement: string | undefined;
   public popoverTitle = 'popover title';
 }
 //#endregion Test component
@@ -44,7 +44,7 @@ describe('Popover fixture', () => {
   let popoverFixture: SkyPopoverFixture;
 
   //#region helpers
-  function getPopoverTriggerEl(): HTMLButtonElement {
+  function getPopoverTriggerEl(): HTMLButtonElement | null {
     return document.querySelector('.sky-btn');
   }
 
@@ -52,7 +52,7 @@ describe('Popover fixture', () => {
     expect(popoverFixture.popoverIsVisible).toEqual(false);
 
     const triggerEl = getPopoverTriggerEl();
-    triggerEl.click();
+    triggerEl?.click();
     fixture.detectChanges();
 
     return fixture.whenStable().then(() => {

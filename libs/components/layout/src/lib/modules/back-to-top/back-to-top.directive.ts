@@ -29,10 +29,10 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
    * Specifies configuration options for the back to top component.
    */
   @Input()
-  public set skyBackToTop(value: SkyBackToTopOptions) {
-    this.buttonHidden = !!value?.buttonHidden;
+  public set skyBackToTop(value: SkyBackToTopOptions | undefined) {
+    this.#buttonHidden = !!value?.buttonHidden;
 
-    this.handleBackToTopButton(this.elementInView);
+    this.#handleBackToTopButton(this.#elementInView);
   }
 
   /**
@@ -40,97 +40,108 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
    * The commands respect the `SkyBackToTopMessage` type.
    */
   @Input()
-  public set skyBackToTopMessageStream(value: Subject<SkyBackToTopMessage>) {
-    if (this._skyBackToTopMessageStream) {
-      this._skyBackToTopMessageStream.unsubscribe();
+  public set skyBackToTopMessageStream(
+    value: Subject<SkyBackToTopMessage> | undefined
+  ) {
+    if (this.#_skyBackToTopMessageStream) {
+      this.#_skyBackToTopMessageStream.unsubscribe();
     }
-    this._skyBackToTopMessageStream = value;
-    this._skyBackToTopMessageStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#_skyBackToTopMessageStream = value;
+    this.#_skyBackToTopMessageStream
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkyBackToTopMessage) =>
-        this.handleIncomingMessages(message)
+        this.#handleIncomingMessages(message)
       );
   }
 
-  private buttonHidden = false;
-  private dockItem: SkyDockItem<SkyBackToTopComponent>;
-  private elementInView: boolean;
+  #buttonHidden = false;
+  #dockItem: SkyDockItem<SkyBackToTopComponent> | undefined;
+  #dockService: SkyDockService;
+  #domAdapter: SkyBackToTopDomAdapterService;
+  #elementInView = false;
+  #elementRef: ElementRef;
 
-  private ngUnsubscribe = new Subject<void>();
-  private _skyBackToTopMessageStream: Subject<SkyBackToTopMessage>;
+  #ngUnsubscribe = new Subject<void>();
+  #_skyBackToTopMessageStream: Subject<SkyBackToTopMessage> | undefined;
 
   constructor(
-    private dockService: SkyDockService,
-    private domAdapter: SkyBackToTopDomAdapterService,
-    private element: ElementRef
-  ) {}
+    dockService: SkyDockService,
+    domAdapter: SkyBackToTopDomAdapterService,
+    elementRef: ElementRef
+  ) {
+    this.#dockService = dockService;
+    this.#domAdapter = domAdapter;
+    this.#elementRef = elementRef;
+  }
 
   public ngAfterViewInit(): void {
-    this.elementInView = this.domAdapter.isElementScrolledInView(this.element);
+    this.#elementInView = this.#domAdapter.isElementScrolledInView(
+      this.#elementRef
+    );
 
-    this.handleBackToTopButton(this.elementInView);
-    this.setBackToTopListeners();
+    this.#handleBackToTopButton(this.#elementInView);
+    this.#setBackToTopListeners();
   }
 
   public ngOnDestroy(): void {
-    if (this.dockItem) {
-      this.dockItem.destroy();
+    if (this.#dockItem) {
+      this.#dockItem.destroy();
     }
   }
 
-  private handleBackToTopButton(elementInView: boolean): void {
+  #handleBackToTopButton(elementInView: boolean): void {
     // Add back to top button if user scrolls down and button is not hidden.
     if (
-      !this.dockItem &&
+      !this.#dockItem &&
       elementInView !== undefined &&
       !elementInView &&
-      !this.buttonHidden
+      !this.#buttonHidden
     ) {
-      this.addBackToTop();
+      this.#addBackToTop();
     }
     // Remove back to top button if user scrolls back up.
-    if (elementInView || this.buttonHidden) {
-      this.destroyBackToTop();
+    if (elementInView || this.#buttonHidden) {
+      this.#destroyBackToTop();
     }
   }
 
-  private addBackToTop(): void {
-    this.dockItem = this.dockService.insertComponent(SkyBackToTopComponent);
+  #addBackToTop(): void {
+    this.#dockItem = this.#dockService.insertComponent(SkyBackToTopComponent);
 
     // Listen for clicks on the "back to top" button so we know when to scroll up.
-    this.dockItem.componentInstance.scrollToTopClick
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#dockItem.componentInstance.scrollToTopClick
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.domAdapter.scrollToElement(this.element);
+        this.#domAdapter.scrollToElement(this.#elementRef);
       });
   }
 
-  private handleIncomingMessages(message: SkyBackToTopMessage): void {
+  #handleIncomingMessages(message: SkyBackToTopMessage): void {
     /* istanbul ignore else */
     if (message.type === SkyBackToTopMessageType.BackToTop) {
-      this.domAdapter.scrollToElement(this.element);
+      this.#domAdapter.scrollToElement(this.#elementRef);
     }
   }
 
-  private setBackToTopListeners(): void {
+  #setBackToTopListeners(): void {
     /* istanbul ignore else */
-    if (this.element) {
-      this.domAdapter
-        .elementInViewOnScroll(this.element)
-        .pipe(takeUntil(this.ngUnsubscribe))
+    if (this.#elementRef) {
+      this.#domAdapter
+        .elementInViewOnScroll(this.#elementRef)
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe((elementInView: boolean) => {
-          this.elementInView = elementInView;
+          this.#elementInView = elementInView;
 
-          this.handleBackToTopButton(elementInView);
+          this.#handleBackToTopButton(elementInView);
         });
     }
   }
 
-  private destroyBackToTop(): void {
+  #destroyBackToTop(): void {
     /* istanbul ignore else */
-    if (this.dockItem) {
-      this.dockItem.destroy();
-      this.dockItem = undefined;
+    if (this.#dockItem) {
+      this.#dockItem.destroy();
+      this.#dockItem = undefined;
     }
   }
 }

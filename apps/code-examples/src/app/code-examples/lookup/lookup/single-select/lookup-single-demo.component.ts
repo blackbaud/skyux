@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SkyAutocompleteSearchFunctionFilter } from '@skyux/lookup';
 
 import { LookupDemoPerson } from './lookup-demo-person';
@@ -14,7 +10,11 @@ import { LookupDemoPerson } from './lookup-demo-person';
   styleUrls: ['./lookup-single-demo.component.scss'],
 })
 export class LookupSingleSelectDemoComponent implements OnInit {
-  public myForm: UntypedFormGroup;
+  public favoritesForm: FormGroup<{
+    favoriteName: FormControl<LookupDemoPerson[]>;
+  }>;
+
+  public searchFilters: SkyAutocompleteSearchFunctionFilter[];
 
   public people: LookupDemoPerson[] = [
     { name: 'Abed' },
@@ -41,27 +41,27 @@ export class LookupSingleSelectDemoComponent implements OnInit {
 
   public name: LookupDemoPerson[] = [this.people[15]];
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.createForm();
-
-    // If you need to execute some logic after the lookup values change,
-    // subscribe to Angular's built-in value changes observable.
-    this.myForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
+  constructor(formBuilder: FormBuilder) {
+    this.favoritesForm = formBuilder.group({
+      favoriteName: [[this.people[15]]],
     });
-  }
 
-  // Only show people in the search results that have not been chosen already.
-  public getSearchFilters(): SkyAutocompleteSearchFunctionFilter[] {
-    const name: LookupDemoPerson[] = this.myForm.controls.name.value;
-    return [
-      (searchText: string, item: LookupDemoPerson): boolean => {
-        const found = name.find((option) => option.name === item.name);
-        return !found;
+    this.searchFilters = [
+      (_, item) => {
+        const names = this.favoritesForm.value.favoriteName;
+
+        // Only show people in the search results that have not been chosen already.
+        return !names.some((option) => option.name === item.name);
       },
     ];
+  }
+
+  public ngOnInit(): void {
+    // If you need to execute some logic after the lookup values change,
+    // subscribe to Angular's built-in value changes observable.
+    this.favoritesForm.valueChanges.subscribe((changes) => {
+      console.log('Lookup value changes:', changes);
+    });
   }
 
   public onAddButtonClicked(): void {
@@ -69,12 +69,6 @@ export class LookupSingleSelectDemoComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    alert('Form submitted with: ' + JSON.stringify(this.myForm.value));
-  }
-
-  private createForm(): void {
-    this.myForm = this.formBuilder.group({
-      name: new UntypedFormControl(this.name),
-    });
+    alert('Form submitted with: ' + JSON.stringify(this.favoritesForm.value));
   }
 }

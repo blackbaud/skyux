@@ -13,13 +13,15 @@ export class SkyRadioTestComponent implements AfterViewInit {
   public value2 = '2';
   public value3 = '3';
 
-  public label1: string;
-  public labelledBy3: string;
+  public label1: string | undefined;
+  public labelledBy3: string | undefined;
 
-  public tabindex2: string;
+  public provideIds = true;
+
+  public tabindex2: number | undefined;
 
   @ViewChild(SkyRadioComponent)
-  public checkboxComponent: SkyRadioComponent;
+  public checkboxComponent!: SkyRadioComponent;
 
   public ngAfterViewInit() {
     this.checkboxComponent.disabledChange.subscribe((value) => {

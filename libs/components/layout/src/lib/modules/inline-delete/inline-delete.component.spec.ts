@@ -87,6 +87,10 @@ describe('Inline delete component', () => {
     cmp.pending = true;
     fixture.detectChanges();
     expect(el.querySelector('.sky-wait-mask') as HTMLElement).not.toBeNull();
+    cmp.pending = undefined;
+    fixture.detectChanges();
+    tick();
+    expect(el.querySelector('.sky-wait-mask') as HTMLElement).toBeNull();
   }));
 
   describe('focus handling', () => {

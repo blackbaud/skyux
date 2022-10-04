@@ -11,9 +11,11 @@ import { SkyRadioGroupComponent } from '../radio-group.component';
   templateUrl: './radio-group-reactive.component.fixture.html',
 })
 export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
-  public ariaLabelledBy = 'radio-group-label';
+  public ariaLabelledBy: string | undefined = 'radio-group-label';
+
+  public groupName: string | undefined = 'radioGroup';
 
   public initialDisabled = false;
 
@@ -25,19 +27,23 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
     { name: 'Harry Mckenzie', disabled: false },
   ];
 
-  public radioControl: UntypedFormControl;
-  public radioForm: UntypedFormGroup;
+  public radioControl: UntypedFormControl | undefined;
+  public radioForm: UntypedFormGroup | undefined;
 
   public required = false;
 
   public showRadioGroup = true;
 
-  public tabIndex: number;
+  public tabIndex: number | undefined;
 
   @ViewChild(SkyRadioGroupComponent)
-  public radioGroupComponent: SkyRadioGroupComponent;
+  public radioGroupComponent: SkyRadioGroupComponent | undefined;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.radioControl = new UntypedFormControl({
@@ -45,7 +51,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
       disabled: this.initialDisabled,
     });
 
-    this.radioForm = this.fb.group({
+    this.radioForm = this.#formBuilder.group({
       radioGroup: this.radioControl,
     });
   }

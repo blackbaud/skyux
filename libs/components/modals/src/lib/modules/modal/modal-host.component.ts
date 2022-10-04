@@ -5,6 +5,7 @@ import {
   ElementRef,
   Injector,
   OnDestroy,
+  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -56,7 +57,7 @@ export class SkyModalHostComponent implements OnDestroy {
   #resolver: ComponentFactoryResolver;
   #adapter: SkyModalAdapterService;
   #injector: Injector;
-  #router: Router;
+  #router: Router | undefined;
   #changeDetector: ChangeDetectorRef;
   #modalHostContext: SkyModalHostContext;
   #elRef: ElementRef;
@@ -67,10 +68,10 @@ export class SkyModalHostComponent implements OnDestroy {
     resolver: ComponentFactoryResolver,
     adapter: SkyModalAdapterService,
     injector: Injector,
-    router: Router,
     changeDetector: ChangeDetectorRef,
     modalHostContext: SkyModalHostContext,
-    elRef: ElementRef
+    elRef: ElementRef,
+    @Optional() router?: Router
   ) {
     this.#resolver = resolver;
     this.#adapter = adapter;
@@ -189,7 +190,7 @@ export class SkyModalHostComponent implements OnDestroy {
       modalInstance.close();
     });
 
-    this.#router.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
+    this.#router?.events.pipe(takeWhile(() => isOpen)).subscribe((event) => {
       /* istanbul ignore else */
       if (event instanceof NavigationStart) {
         modalInstance.close();

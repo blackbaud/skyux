@@ -12,8 +12,8 @@ export class SkyPopoverFixture {
    * Returns the popover alignment if the popover is open, otherwise undefined.
    */
   public get alignment(): string | undefined {
-    return this.getClassSuffixByClassPrefix(
-      this.containerElement,
+    return this.#getClassSuffixByClassPrefix(
+      this.#containerElement,
       'sky-popover-alignment-'
     );
   }
@@ -22,15 +22,15 @@ export class SkyPopoverFixture {
    * Returns the popover body element if the popover is open, otherwise undefined.
    */
   public get body(): HTMLElement | undefined {
-    return this.bodyElement;
+    return this.#bodyElement;
   }
 
   /**
    * Returns the popover position if the popover is open, otherwise undefined.
    */
   public get placement(): string | undefined {
-    return this.getClassSuffixByClassPrefix(
-      this.containerElement,
+    return this.#getClassSuffixByClassPrefix(
+      this.#containerElement,
       'sky-popover-placement-'
     );
   }
@@ -39,17 +39,21 @@ export class SkyPopoverFixture {
    * Returns the popover title text if the popover is open, otherwise undefined.
    */
   public get popoverTitle(): string | undefined {
-    return SkyAppTestUtility.getText(this.titleElement);
+    return SkyAppTestUtility.getText(this.#titleElement);
   }
 
   /**
    * Indicates if the popover is open and visible.
    */
   public get popoverIsVisible(): boolean {
-    return this.contentElement !== undefined;
+    return this.#contentElement !== undefined;
   }
 
-  constructor(private fixture: ComponentFixture<unknown>) {}
+  #fixture: ComponentFixture<unknown>;
+
+  constructor(fixture: ComponentFixture<unknown>) {
+    this.#fixture = fixture;
+  }
 
   /**
    * Triggers the blur event for the popover.
@@ -58,33 +62,33 @@ export class SkyPopoverFixture {
     // close the popover by changing focus to the body element
     SkyAppTestUtility.fireDomEvent(window.document.body, 'click');
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   //#region helpers
-  private get contentElement(): HTMLElement | undefined {
-    return this.queryOverlay('sky-popover-content') || undefined;
+  get #contentElement(): HTMLElement | undefined {
+    return this.#queryOverlay('sky-popover-content') || undefined;
   }
 
-  private get containerElement(): HTMLElement | undefined {
-    return this.queryOverlay('.sky-popover-container') || undefined;
+  get #containerElement(): HTMLElement | undefined {
+    return this.#queryOverlay('.sky-popover-container') || undefined;
   }
 
-  private get titleElement(): HTMLElement | undefined {
-    return this.queryOverlay('.sky-popover-title') || undefined;
+  get #titleElement(): HTMLElement | undefined {
+    return this.#queryOverlay('.sky-popover-title') || undefined;
   }
 
-  private get bodyElement(): HTMLElement | undefined {
-    return this.queryOverlay('.sky-popover-body') || undefined;
+  get #bodyElement(): HTMLElement | undefined {
+    return this.#queryOverlay('.sky-popover-body') || undefined;
   }
 
-  private getOverlay(): Element | undefined {
+  #getOverlay(): Element | undefined {
     return document.querySelector('sky-overlay') || undefined;
   }
 
-  private queryOverlay(query: string): HTMLElement | null {
-    const overlay = this.getOverlay();
+  #queryOverlay(query: string): HTMLElement | null {
+    const overlay = this.#getOverlay();
 
     return !overlay ? null : overlay.querySelector(query);
   }
@@ -99,7 +103,7 @@ export class SkyPopoverFixture {
    *   should return the value 'right'.
    * @param prefix
    */
-  private getClassSuffixByClassPrefix(
+  #getClassSuffixByClassPrefix(
     element: HTMLElement | undefined,
     prefix: string
   ): string | undefined {

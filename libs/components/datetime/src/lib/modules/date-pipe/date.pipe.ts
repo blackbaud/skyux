@@ -20,33 +20,33 @@ import { SkyDateFormatUtility } from './date-format-utility';
   pure: false,
 })
 export class SkyDatePipe implements OnDestroy, PipeTransform {
-  private defaultFormat = 'short';
+  #defaultFormat = 'short';
 
-  private format: string;
+  #format: string | undefined;
 
-  private defaultLocale = 'en-US';
+  #defaultLocale = 'en-US';
 
-  private locale: string;
+  #locale: string | undefined;
 
-  private value: any;
+  #value: any;
 
-  private formattedValue: string;
+  #formattedValue: string | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
   constructor(private localeProvider: SkyAppLocaleProvider) {
     this.localeProvider
       .getLocaleInfo()
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((localeInfo: SkyAppLocaleInfo) => {
-        this.defaultLocale = localeInfo.locale;
+        this.#defaultLocale = localeInfo.locale;
         this.updateFormattedValue();
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   /**
@@ -58,22 +58,22 @@ export class SkyDatePipe implements OnDestroy, PipeTransform {
    * @param locale Specifies the locale code to use in the transform.
    */
   public transform(value: any, format?: string, locale?: string): string {
-    this.value = value;
-    this.format = format;
-    this.locale = locale;
+    this.#value = value;
+    this.#format = format;
+    this.#locale = locale;
 
     this.updateFormattedValue();
 
-    return this.formattedValue;
+    return this.#formattedValue ?? '';
   }
 
   private updateFormattedValue(): void {
-    const locale = this.locale || this.defaultLocale;
-    const format = this.format || this.defaultFormat;
+    const locale = this.#locale || this.#defaultLocale;
+    const format = this.#format || this.#defaultFormat;
 
-    this.formattedValue = SkyDateFormatUtility.format(
+    this.#formattedValue = SkyDateFormatUtility.format(
       locale,
-      this.value,
+      this.#value,
       format
     );
   }

@@ -16,7 +16,7 @@ import { Component } from '@angular/core';
   `,
 })
 export class SkyRadioGroupFixtureComponent {
-  public disableRadioGroup: boolean;
+  public disableRadioGroup = false;
 
   public items = [
     { value: '1', disabled: false },

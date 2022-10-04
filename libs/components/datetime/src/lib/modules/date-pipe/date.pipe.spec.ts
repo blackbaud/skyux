@@ -201,7 +201,6 @@ describe('Date pipe', () => {
 
     const value = pipe.transform(date, 'short');
     expect(expectedValues).toContain(value);
-    expect(pipe['defaultLocale']).toEqual('en-US');
   });
 
   it('should format invalid in IE ISO date', () => {

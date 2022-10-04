@@ -10,6 +10,7 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixPlacementChange,
   SkyAffixService,
+  SkyCoreAdapterService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -23,6 +24,8 @@ import { BehaviorSubject, Subject } from 'rxjs';
 
 import { PopoverFixtureComponent } from './fixtures/popover.component.fixture';
 import { PopoverFixturesModule } from './fixtures/popover.module.fixture';
+import { SkyPopoverAdapterService } from './popover-adapter.service';
+import { SkyPopoverMessage } from './types/popover-message';
 import { SkyPopoverMessageType } from './types/popover-message-type';
 
 describe('Popover directive', () => {
@@ -34,20 +37,24 @@ describe('Popover directive', () => {
 
   //#region helpers
 
-  function getCallerElement(): HTMLButtonElement {
-    return fixture.componentInstance.callerElementRef.nativeElement;
+  function getArrowElement(): HTMLElement | null {
+    return document.querySelector('.sky-popover-arrow');
   }
 
-  function getPopoverElement(): HTMLElement {
+  function getCallerElement(): HTMLButtonElement | undefined {
+    return fixture.componentInstance.callerElementRef?.nativeElement;
+  }
+
+  function getPopoverElement(): HTMLElement | null {
     return document.querySelector('.sky-popover-container');
   }
 
-  function isElementFocused(elem: Element): boolean {
-    return elem === document.activeElement;
+  function isElementFocused(elem: Element | undefined | null): boolean {
+    return !!elem && elem === document.activeElement;
   }
 
-  function isElementVisible(elem: Element): boolean {
-    return getComputedStyle(elem).visibility !== 'hidden';
+  function isElementVisible(elem: Element | undefined | null): boolean {
+    return !!elem && getComputedStyle(elem).visibility !== 'hidden';
   }
 
   function detectChangesFakeAsync(): void {
@@ -57,8 +64,8 @@ describe('Popover directive', () => {
     tick();
   }
 
-  function getFocusableItems(): NodeListOf<Element> {
-    return getPopoverElement().querySelectorAll('input, button');
+  function getFocusableItems(): NodeListOf<Element> | undefined {
+    return getPopoverElement()?.querySelectorAll('input, button');
   }
 
   //#endregion
@@ -91,15 +98,15 @@ describe('Popover directive', () => {
     detectChangesFakeAsync();
 
     const directiveRef = fixture.componentInstance.directiveRef;
-    expect(directiveRef.skyPopoverAlignment).toBeUndefined();
-    expect(directiveRef.skyPopoverPlacement).toBeUndefined();
-    expect(directiveRef.skyPopoverTrigger).toEqual('click');
+    expect(directiveRef?.skyPopoverAlignment).toBeUndefined();
+    expect(directiveRef?.skyPopoverPlacement).toBeUndefined();
+    expect(directiveRef?.skyPopoverTrigger).toEqual('click');
 
     const popoverRef = fixture.componentInstance.popoverRef;
-    expect(popoverRef.alignment).toEqual('center');
-    expect(popoverRef.dismissOnBlur).toEqual(true);
-    expect(popoverRef.placement).toEqual('above');
-    expect(popoverRef.popoverTitle).toBeUndefined();
+    expect(popoverRef?.alignment).toEqual('center');
+    expect(popoverRef?.dismissOnBlur).toEqual(true);
+    expect(popoverRef?.placement).toEqual('above');
+    expect(popoverRef?.popoverTitle).toBeUndefined();
   }));
 
   it('should use placement and alignment values of the popover component', fakeAsync(() => {
@@ -114,13 +121,13 @@ describe('Popover directive', () => {
 
     // Launch popover.
     const button = getCallerElement();
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     // Confirm popover class properties.
     const popoverRef = fixture.componentInstance.popoverRef;
-    expect(popoverRef.alignment).toEqual('left');
-    expect(popoverRef.placement).toEqual('left');
+    expect(popoverRef?.alignment).toEqual('left');
+    expect(popoverRef?.placement).toEqual('left');
 
     // Confirm popover CSS classes.
     const popover = getPopoverElement();
@@ -134,46 +141,46 @@ describe('Popover directive', () => {
 
     const button = getCallerElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     let popover = getPopoverElement();
 
     expect(popover).toHaveCssClass('sky-popover-placement-above');
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.placement = 'right';
     detectChangesFakeAsync();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     popover = getPopoverElement();
 
     expect(popover).toHaveCssClass('sky-popover-placement-right');
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.placement = 'below';
     detectChangesFakeAsync();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     popover = getPopoverElement();
 
     expect(popover).toHaveCssClass('sky-popover-placement-below');
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.placement = 'left';
     detectChangesFakeAsync();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     popover = getPopoverElement();
@@ -188,33 +195,33 @@ describe('Popover directive', () => {
 
     const button = getCallerElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     let popover = getPopoverElement();
 
     expect(popover).toHaveCssClass('sky-popover-alignment-left');
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.alignment = 'center';
     detectChangesFakeAsync();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     popover = getPopoverElement();
 
     expect(popover).toHaveCssClass('sky-popover-alignment-center');
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.alignment = 'right';
     detectChangesFakeAsync();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     popover = getPopoverElement();
@@ -228,10 +235,10 @@ describe('Popover directive', () => {
 
     const button = getCallerElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
-    const headingElement = getPopoverElement().querySelector(
+    const headingElement = getPopoverElement()?.querySelector(
       '.sky-popover-header'
     );
 
@@ -243,7 +250,7 @@ describe('Popover directive', () => {
 
     const button = getCallerElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
@@ -251,10 +258,12 @@ describe('Popover directive', () => {
     fixture.componentInstance.setHeight(4000);
     detectChangesFakeAsync();
 
-    const popover = getPopoverElement().querySelector('.sky-popover');
+    const popover = getPopoverElement()?.querySelector('.sky-popover');
 
     // Should now have a scrollbar.
-    expect(popover.scrollHeight > popover.clientHeight).toEqual(true);
+    expect(popover && popover.scrollHeight > popover.clientHeight).toEqual(
+      true
+    );
   }));
 
   it('should apply popup type', fakeAsync(() => {
@@ -262,25 +271,25 @@ describe('Popover directive', () => {
 
     const button = getCallerElement();
 
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
 
     let element = getPopoverElement();
 
     expect(element).toHaveCssClass('sky-popover-info');
-    button.click();
+    button?.click();
 
     fixture.componentInstance.popoverType = 'danger';
     detectChangesFakeAsync();
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
     element = getPopoverElement();
     expect(element).toHaveCssClass('sky-popover-danger');
-    button.click();
+    button?.click();
 
     fixture.componentInstance.popoverType = 'info';
     detectChangesFakeAsync();
-    button.click();
+    button?.click();
     detectChangesFakeAsync();
     element = getPopoverElement();
     expect(element).toHaveCssClass('sky-popover-info');
@@ -294,7 +303,7 @@ describe('Popover directive', () => {
 
       const button = getCallerElement();
 
-      button.click();
+      button?.click();
       // Simulate mouse movement as well.
       SkyAppTestUtility.fireDomEvent(button, 'mouseenter');
 
@@ -303,7 +312,7 @@ describe('Popover directive', () => {
       let popover = getPopoverElement();
       expect(isElementVisible(popover)).toEqual(true);
 
-      button.click();
+      button?.click();
       // Simulate mouse movement as well.
       SkyAppTestUtility.fireDomEvent(button, 'mouseleave');
 
@@ -412,7 +421,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -432,7 +441,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -458,7 +467,7 @@ describe('Popover directive', () => {
 
       const button = getCallerElement();
 
-      button.click();
+      button?.click();
       SkyAppTestUtility.fireDomEvent(button, 'mouseenter');
       SkyAppTestUtility.fireDomEvent(button, 'mouseleave');
 
@@ -475,7 +484,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -495,7 +504,7 @@ describe('Popover directive', () => {
       expect(popover).toBeNull();
 
       const messageSpy = spyOn(
-        fixture.componentInstance.messageStream,
+        fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
         'next'
       ).and.callThrough();
 
@@ -515,7 +524,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -542,7 +551,7 @@ describe('Popover directive', () => {
       const button = getCallerElement();
 
       // Open the popover.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
@@ -553,12 +562,12 @@ describe('Popover directive', () => {
 
       detectChangesFakeAsync();
 
-      const popover = getPopoverElement().querySelector('.sky-popover');
+      const popover = getPopoverElement()?.querySelector('.sky-popover');
 
       expect(isElementFocused(popover)).toEqual(true);
 
       // Move focus to the button.
-      button.focus();
+      button?.focus();
 
       expect(isElementFocused(popover)).toEqual(false);
 
@@ -574,11 +583,11 @@ describe('Popover directive', () => {
       expect(isElementFocused(popover)).toEqual(true);
 
       // Close the popover.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       const messageSpy = spyOn(
-        fixture.componentInstance.messageStream,
+        fixture.componentInstance.messageStream as Subject<SkyPopoverMessage>,
         'next'
       ).and.callThrough();
 
@@ -601,7 +610,7 @@ describe('Popover directive', () => {
       const button = getCallerElement();
 
       // Open and bring focus to the popover.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -613,15 +622,15 @@ describe('Popover directive', () => {
         },
       });
       // Also confirm focusin event fires correctly.
-      SkyAppTestUtility.fireDomEvent(focusableItems.item(0), 'focusin');
+      SkyAppTestUtility.fireDomEvent(focusableItems?.item(0), 'focusin');
 
       detectChangesFakeAsync();
 
       // Confirm the first focusable item has focus.
-      expect(isElementFocused(focusableItems.item(0))).toEqual(true);
+      expect(isElementFocused(focusableItems?.item(0))).toEqual(true);
 
       // Press 'shift+tab' to close the popover
-      SkyAppTestUtility.fireDomEvent(focusableItems.item(0), 'keydown', {
+      SkyAppTestUtility.fireDomEvent(focusableItems?.item(0), 'keydown', {
         keyboardEventInit: {
           key: 'tab',
           shiftKey: true,
@@ -637,7 +646,7 @@ describe('Popover directive', () => {
       expect(isElementFocused(button)).toEqual(true);
 
       // Re-open and bring focus to the popover.
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       SkyAppTestUtility.fireDomEvent(button, 'keydown', {
@@ -649,10 +658,10 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       // Focus the last item and press 'tab' to close the popover.
-      (focusableItems.item(1) as HTMLElement).focus();
+      (focusableItems?.item(1) as HTMLElement | undefined)?.focus();
       detectChangesFakeAsync();
 
-      SkyAppTestUtility.fireDomEvent(focusableItems.item(1), 'keydown', {
+      SkyAppTestUtility.fireDomEvent(focusableItems?.item(1), 'keydown', {
         keyboardEventInit: {
           key: 'tab',
         },
@@ -671,7 +680,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -695,7 +704,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let popover = getPopoverElement();
@@ -719,15 +728,16 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       let container = getPopoverElement();
 
       expect(isElementVisible(container)).toEqual(true);
 
-      const popover: HTMLElement = container.querySelector('.sky-popover');
-      popover.focus();
+      const popover: HTMLElement | undefined | null =
+        container?.querySelector('.sky-popover');
+      popover?.focus();
 
       SkyAppTestUtility.fireDomEvent(popover, 'keydown', {
         keyboardEventInit: {
@@ -747,7 +757,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.noArgsDirectiveRef.skyPopoverMessageStream
+        fixture.componentInstance.noArgsDirectiveRef?.skyPopoverMessageStream
       ).toBeDefined();
     }));
 
@@ -755,7 +765,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(fixture.componentInstance.messageStream).toEqual(
-        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef?.skyPopoverMessageStream
       );
 
       fixture.componentInstance.messageStream = undefined;
@@ -763,7 +773,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       expect(
-        fixture.componentInstance.directiveRef.skyPopoverMessageStream
+        fixture.componentInstance.directiveRef?.skyPopoverMessageStream
       ).toBeDefined();
     }));
 
@@ -791,7 +801,7 @@ describe('Popover directive', () => {
       fixture.componentInstance.sendMessage(SkyPopoverMessageType.Open);
       detectChangesFakeAsync();
 
-      const popover = getPopoverElement().querySelector('.sky-popover');
+      const popover = getPopoverElement()?.querySelector('.sky-popover');
 
       expect(isElementFocused(popover)).toEqual(false);
 
@@ -801,9 +811,7 @@ describe('Popover directive', () => {
       expect(isElementFocused(popover)).toEqual(true);
 
       const applyFocusSpy = spyOn(
-        fixture.componentInstance.popoverRef['contentRef'][
-          'coreAdapterService'
-        ],
+        TestBed.inject(SkyCoreAdapterService),
         'getFocusableChildrenAndApplyFocus'
       ).and.callThrough();
 
@@ -893,7 +901,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       expect(affixToSpy).toHaveBeenCalledWith(button, {
@@ -911,7 +919,7 @@ describe('Popover directive', () => {
       fixture.componentInstance.placement = 'below';
       detectChangesFakeAsync();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       expect(affixToSpy).toHaveBeenCalledWith(button, {
@@ -929,7 +937,7 @@ describe('Popover directive', () => {
       fixture.componentInstance.placement = 'left';
       detectChangesFakeAsync();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       expect(affixToSpy).toHaveBeenCalledWith(button, {
@@ -948,7 +956,7 @@ describe('Popover directive', () => {
       fixture.componentInstance.placement = 'right';
       detectChangesFakeAsync();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       expect(affixToSpy).toHaveBeenCalledWith(button, {
@@ -965,7 +973,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       const popover = getPopoverElement();
@@ -985,7 +993,7 @@ describe('Popover directive', () => {
       detectChangesFakeAsync();
 
       const button = getCallerElement();
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
       const popover = getPopoverElement();
@@ -1007,18 +1015,27 @@ describe('Popover directive', () => {
 
       const button = getCallerElement();
 
-      button.click();
+      button?.click();
       detectChangesFakeAsync();
 
-      const arrowSpy = spyOn(
-        fixture.componentInstance.popoverRef['contentRef'] as any,
-        'updateArrowOffset'
-      ).and.callThrough();
+      spyOn(
+        SkyPopoverAdapterService.prototype,
+        'getArrowCoordinates'
+      ).and.returnValue({ top: 50, left: 75 });
+
+      const arrowElement = getArrowElement();
+      expect(arrowElement).toExist();
+      const initialArrowStyle = window.getComputedStyle(arrowElement!);
+      const initialLeft = initialArrowStyle.left;
+      const initialTop = initialArrowStyle.top;
 
       mockAffixer.overflowScroll.next();
       detectChangesFakeAsync();
 
-      expect(arrowSpy).toHaveBeenCalled();
+      const endingArrowStyle = window.getComputedStyle(arrowElement!);
+
+      expect(initialLeft).not.toEqual(endingArrowStyle.left);
+      expect(initialTop).not.toEqual(endingArrowStyle.top);
     }));
   });
 });

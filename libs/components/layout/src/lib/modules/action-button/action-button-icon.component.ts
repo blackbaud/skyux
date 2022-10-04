@@ -24,14 +24,14 @@ export class SkyActionButtonIconComponent implements OnDestroy {
    * [icon component](https://developer.blackbaud.com/skyux/components/icon).
    */
   @Input()
-  public iconType: string;
+  public iconType: string | undefined;
 
   public fontSizeClass: string = FONTSIZECLASS_LARGE;
 
-  private subscription: Subscription;
+  #subscription: Subscription;
 
-  constructor(private mediaQueryService: SkyMediaQueryService) {
-    this.subscription = this.mediaQueryService.subscribe(
+  constructor(mediaQueryService: SkyMediaQueryService) {
+    this.#subscription = mediaQueryService.subscribe(
       (args: SkyMediaBreakpoints) => {
         if (args === SkyMediaBreakpoints.xs) {
           this.fontSizeClass = FONTSIZECLASS_SMALL;
@@ -45,8 +45,8 @@ export class SkyActionButtonIconComponent implements OnDestroy {
   public ngOnDestroy() {
     /* istanbul ignore else */
     /* sanity check */
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.#subscription) {
+      this.#subscription.unsubscribe();
     }
   }
 }

@@ -7,7 +7,7 @@ import { SkyUrlValidationOptions } from '../url-validation-options';
   templateUrl: './url-validation-ruleset.component.fixture.html',
 })
 export class UrlValidationRulesetTestComponent {
-  public urlValidator: string;
+  public urlValidator: string | undefined;
   public skyUrlValidationOptions: SkyUrlValidationOptions = {
     rulesetVersion: 2,
   };

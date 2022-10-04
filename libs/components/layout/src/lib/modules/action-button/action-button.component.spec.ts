@@ -23,6 +23,8 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyActionButtonAdapterService } from './action-button-adapter-service';
+import { SkyActionButtonContainerComponent } from './action-button-container.component';
 import { SkyActionButtonComponent } from './action-button.component';
 import { ActionButtonLinksComponent } from './fixtures/action-button-links.component';
 import { ActionButtonNgforTestComponent } from './fixtures/action-button-ngfor.component.fixture';
@@ -208,6 +210,7 @@ describe('Action button component', () => {
 describe('Action button component modern theme', () => {
   let fixture: ComponentFixture<ActionButtonTestComponent>;
   let mockMediaQueryService: MockSkyMediaQueryService;
+  let mockActionButtonAdapterService: any;
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
@@ -224,6 +227,10 @@ describe('Action button component modern theme', () => {
     };
 
     mockMediaQueryService = new MockSkyMediaQueryService();
+    mockActionButtonAdapterService = jasmine.createSpyObj(
+      'SkyActionButtonAdapterService',
+      ['getParentWidth', 'setResponsiveClass']
+    );
     TestBed.configureTestingModule({
       imports: [SkyActionButtonFixturesModule],
       providers: [
@@ -243,7 +250,18 @@ describe('Action button component modern theme', () => {
           },
         ],
       },
-    }).createComponent(ActionButtonTestComponent);
+    })
+      .overrideComponent(SkyActionButtonContainerComponent, {
+        add: {
+          providers: [
+            {
+              provide: SkyActionButtonAdapterService,
+              useValue: mockActionButtonAdapterService,
+            },
+          ],
+        },
+      })
+      .createComponent(ActionButtonTestComponent);
 
     fixture = TestBed.createComponent(ActionButtonTestComponent);
     fixture.detectChanges();
@@ -276,7 +294,7 @@ describe('Action button component modern theme', () => {
 
   it(`should sync all child action buttons to have the same height as the tallest action button`, fakeAsync(() => {
     fixture.componentInstance.firstButtonHeight = '500px';
-    fixture.componentInstance.actionButtonContainer.onContentChange();
+    fixture.componentInstance.actionButtonContainer?.onContentChange();
     fixture.detectChanges();
     tick();
     const buttons = getActionButtons(fixture);
@@ -286,15 +304,17 @@ describe('Action button component modern theme', () => {
   }));
 
   it(`should update CSS responsive classes on window resize`, () => {
-    const actionButtonContainer =
-      fixture.componentInstance.actionButtonContainer;
-    const spy = spyOn(actionButtonContainer as any, 'updateResponsiveClass');
-    expect(spy).not.toHaveBeenCalled();
+    // called during ngOnInit -> themeSvc subscribe -> set themeName
+    expect(
+      mockActionButtonAdapterService.setResponsiveClass
+    ).toHaveBeenCalledTimes(1);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
-    fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalledTimes(1);
+    // called during ngOnInit -> setTimeout & onWindowResize
+    expect(
+      mockActionButtonAdapterService.setResponsiveClass
+    ).toHaveBeenCalledTimes(3);
   });
 
   it(`should sync all child action buttons to have the same height when using SkyHref`, fakeAsync(() => {
