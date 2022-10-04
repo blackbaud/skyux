@@ -25,7 +25,13 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * @default 12
    */
   @Input()
-  public screenXSmall: number;
+  public set screenXSmall(value: number | undefined) {
+    this.#_screenXSmall = value ?? 12;
+  }
+
+  public get screenXSmall(): number {
+    return this.#_screenXSmall;
+  }
 
   /**
    * Specifies the number of columns (1-12) to use on small screens
@@ -33,7 +39,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * the `screenXSmall` value.
    */
   @Input()
-  public screenSmall: number;
+  public screenSmall: number | undefined;
 
   /**
    * Specifies the number of columns (1-12) to use on medium screens
@@ -41,7 +47,7 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * the `screenSmall` value.
    */
   @Input()
-  public screenMedium: number;
+  public screenMedium: number | undefined;
 
   /**
    * Specifies the number of columns (1-12) to use on large screens
@@ -49,10 +55,12 @@ export class SkyColumnComponent implements OnInit, OnChanges {
    * inherits the `screenMedium` value.
    */
   @Input()
-  public screenLarge: number;
+  public screenLarge: number | undefined;
 
   @HostBinding('class')
-  public classnames: string;
+  public classnames: string | undefined;
+
+  #_screenXSmall = 12;
 
   public ngOnChanges(changes: SimpleChanges) {
     /* istanbul ignore else */

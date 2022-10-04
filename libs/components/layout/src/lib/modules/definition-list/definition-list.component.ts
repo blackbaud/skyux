@@ -19,7 +19,7 @@ export class SkyDefinitionListComponent {
    * @default "90px"
    */
   @Input()
-  public set labelWidth(value: string) {
+  public set labelWidth(value: string | undefined) {
     this.service.labelWidth.next(value);
   }
 
@@ -29,7 +29,7 @@ export class SkyDefinitionListComponent {
    * @default "None found"
    */
   @Input()
-  public set defaultValue(value: string) {
+  public set defaultValue(value: string | undefined) {
     this.service.defaultValue.next(value);
   }
 

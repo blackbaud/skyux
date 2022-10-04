@@ -88,7 +88,13 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @default false
    */
   @Input()
-  public pending = false;
+  public set pending(value: boolean | undefined) {
+    this.#_pending = value ?? false;
+  }
+
+  public get pending(): boolean {
+    return this.#_pending;
+  }
 
   /**
    * Fires when users click the cancel button.
@@ -112,13 +118,23 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     read: ElementRef,
     static: false,
   })
-  private deleteButton: ElementRef;
+  public deleteButton: ElementRef | undefined;
+
+  #_pending = false;
+
+  #adapterService: SkyInlineDeleteAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #elRef: ElementRef;
 
   constructor(
-    private adapterService: SkyInlineDeleteAdapterService,
-    private changeDetector: ChangeDetectorRef,
-    private elRef: ElementRef
-  ) {}
+    adapterService: SkyInlineDeleteAdapterService,
+    changeDetector: ChangeDetectorRef,
+    elRef: ElementRef
+  ) {
+    this.#adapterService = adapterService;
+    this.#changeDetector = changeDetector;
+    this.#elRef = elRef;
+  }
 
   /**
    * Initialization lifecycle hook
@@ -133,7 +149,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @internal
    */
   public ngOnDestroy(): void {
-    this.adapterService.clearListeners();
+    this.#adapterService.clearListeners();
     this.cancelTriggered.complete();
     this.deleteTriggered.complete();
   }
@@ -159,7 +175,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    */
   public setType(type: SkyInlineDeleteType): void {
     this.type = type;
-    this.changeDetector.detectChanges();
+    this.#changeDetector.detectChanges();
   }
 
   /**
@@ -171,10 +187,10 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     if (event.toState === 'hidden') {
       this.cancelTriggered.emit();
     } else {
-      this.deleteButton.nativeElement.focus();
+      this.deleteButton?.nativeElement.focus();
       /* istanbul ignore else */
-      if (this.elRef) {
-        this.adapterService.setEl(this.elRef.nativeElement);
+      if (this.#elRef) {
+        this.#adapterService.setEl(this.#elRef.nativeElement);
       }
     }
   }

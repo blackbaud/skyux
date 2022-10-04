@@ -10,10 +10,10 @@ import {
  */
 @Injectable()
 export class SkyDescriptionListAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
   constructor(rendererFactory: RendererFactory2) {
-    this.renderer = rendererFactory.createRenderer(undefined, undefined);
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   public getWidth(elementRef: ElementRef): number {
@@ -23,16 +23,16 @@ export class SkyDescriptionListAdapterService {
   public setResponsiveClass(element: ElementRef): void {
     const nativeEl: any = element.nativeElement;
     const width = this.getWidth(element);
-    const className = this.getResponsiveClassName(width);
+    const className = this.#getResponsiveClassName(width);
 
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
 
-    this.renderer.addClass(nativeEl, className);
+    this.#renderer.addClass(nativeEl, className);
   }
 
-  private getResponsiveClassName(width: number): string {
+  #getResponsiveClassName(width: number): string {
     const xsBreakpointMaxPixels = 479;
     const smBreakpointMinPixels = 480;
     const smBreakpointMaxPixels = 767;

@@ -11,13 +11,17 @@ import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
   providers: [SkyPageThemeAdapterService],
 })
 export class SkyPageComponent implements OnInit, OnDestroy {
-  constructor(private themeAdapter: SkyPageThemeAdapterService) {}
+  #themeAdapter: SkyPageThemeAdapterService;
+
+  constructor(themeAdapter: SkyPageThemeAdapterService) {
+    this.#themeAdapter = themeAdapter;
+  }
 
   public ngOnInit(): void {
-    this.themeAdapter.addTheme();
+    this.#themeAdapter.addTheme();
   }
 
   public ngOnDestroy(): void {
-    this.themeAdapter.removeTheme();
+    this.#themeAdapter.removeTheme();
   }
 }

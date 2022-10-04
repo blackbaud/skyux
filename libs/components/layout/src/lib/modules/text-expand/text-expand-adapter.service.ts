@@ -10,25 +10,21 @@ import {
  */
 @Injectable()
 export class SkyTextExpandAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor(rendererFactory: RendererFactory2) {
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
-  public getContainerHeight(containerEl: ElementRef) {
+  public getContainerHeight(containerEl: ElementRef): number {
     return containerEl.nativeElement.offsetHeight;
   }
 
-  public setContainerHeight(containerEl: ElementRef, height: string) {
-    if (height === undefined) {
-      this.renderer.removeStyle(containerEl.nativeElement, 'max-height');
-    } else {
-      this.renderer.setStyle(containerEl.nativeElement, 'max-height', height);
-    }
+  public removeContainerMaxHeight(containerEl: ElementRef): void {
+    this.#renderer.removeStyle(containerEl.nativeElement, 'max-height');
   }
 
-  public setText(textEl: ElementRef, text: string) {
+  public setText(textEl: ElementRef, text: string): void {
     textEl.nativeElement.textContent = text;
   }
 }

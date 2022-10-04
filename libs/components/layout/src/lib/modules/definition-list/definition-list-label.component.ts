@@ -12,7 +12,7 @@ import { SkyDefinitionListService } from './definition-list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyDefinitionListLabelComponent {
-  public labelWidth: number;
+  public labelWidth: number | undefined;
 
   constructor(public service: SkyDefinitionListService) {}
 }

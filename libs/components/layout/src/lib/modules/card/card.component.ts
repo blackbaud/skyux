@@ -32,7 +32,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default "large"
    */
   @Input()
-  public size: string;
+  public set size(value: string | undefined) {
+    this.#_size = value ?? 'large';
+  }
+
+  public get size(): string {
+    return this.#_size;
+  }
 
   /**
    * Indicates whether to display a checkbox to the right of the card title.
@@ -40,7 +46,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public selectable: boolean;
+  public set selectable(value: boolean | undefined) {
+    this.#_selectable = value ?? false;
+  }
+
+  public get selectable(): boolean {
+    return this.#_selectable;
+  }
 
   /**
    * Indicates whether the card is selected. This only applies to card where
@@ -48,7 +60,13 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public selected: boolean;
+  public set selected(value: boolean | undefined) {
+    this.#_selected = value ?? false;
+  }
+
+  public get selected(): boolean {
+    return this.#_selected;
+  }
 
   /**
    * Fires when users select or deselect the card.
@@ -57,14 +75,17 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public selectedChange = new EventEmitter<boolean>();
 
   @ContentChildren(SkyInlineDeleteComponent)
-  public inlineDeleteComponent: QueryList<SkyInlineDeleteComponent>;
+  public inlineDeleteComponent: QueryList<SkyInlineDeleteComponent> | undefined;
 
   @ContentChildren(SkyCardTitleComponent)
-  public titleComponent: QueryList<SkyCardTitleComponent>;
+  public titleComponent: QueryList<SkyCardTitleComponent> | undefined;
 
   public showTitle = true;
 
-  private subscription: Subscription;
+  #subscription: Subscription | undefined;
+  #_size = 'large';
+  #_selectable = false;
+  #_selected = false;
 
   constructor(logger: SkyLogService) {
     logger.deprecated('SkyCardComponent', {
@@ -77,18 +98,18 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   }
 
   public ngAfterContentInit() {
-    this.showTitle = this.titleComponent.length > 0;
+    this.showTitle = !!this.titleComponent && this.titleComponent.length > 0;
 
-    this.subscription = this.titleComponent.changes.subscribe(() => {
-      this.showTitle = this.titleComponent.length > 0;
+    this.#subscription = this.titleComponent?.changes.subscribe(() => {
+      this.showTitle = !!this.titleComponent && this.titleComponent.length > 0;
     });
 
-    this.inlineDeleteComponent.forEach((item) => {
+    this.inlineDeleteComponent?.forEach((item) => {
       item.setType(SkyInlineDeleteType.Card);
     });
 
-    this.inlineDeleteComponent.changes.subscribe(() => {
-      this.inlineDeleteComponent.forEach((item) => {
+    this.inlineDeleteComponent?.changes.subscribe(() => {
+      this.inlineDeleteComponent?.forEach((item) => {
         item.setType(SkyInlineDeleteType.Card);
       });
     });
@@ -111,8 +132,8 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
   public ngOnDestroy() {
     /* istanbul ignore else */
     /* sanity check */
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.#subscription) {
+      this.#subscription.unsubscribe();
     }
   }
 }
