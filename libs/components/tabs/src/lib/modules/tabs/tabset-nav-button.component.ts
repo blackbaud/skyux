@@ -89,7 +89,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   public get disabled(): boolean {
     if (this.#_disabled !== undefined) {
       return this.#_disabled;
-    } else if (this.#_buttonType === buttonTypeFinish) {
+    } else if (this.buttonType === buttonTypeFinish) {
       return false;
     }
 
@@ -124,7 +124,7 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   public buttonClick() {
     /* istanbul ignore else */
     if (this.#tabToSelect && !this.#tabToSelect.disabled) {
-      this.#_tabset.active = this.#tabToSelect.tabIndex;
+      this.tabset.active = this.#tabToSelect.tabIndex;
     }
   }
 
@@ -142,8 +142,8 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
   #updateButtonProperties(): void {
     if (
-      this.#_buttonType === buttonTypeNext ||
-      this.#_buttonType === buttonTypeFinish
+      this.buttonType === buttonTypeNext ||
+      this.buttonType === buttonTypeFinish
     ) {
       this.buttonClassName = 'sky-btn-primary';
     } else {
@@ -154,8 +154,8 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
   }
 
   #updateTabToSelect(): void {
-    if (this.#_tabset?.tabs) {
-      const tabs = this.#_tabset.tabs.toArray();
+    if (this.tabset?.tabs) {
+      const tabs = this.tabset.tabs.toArray();
       this.#tabToSelect = undefined;
 
       // tab index can be a number or a string, but we need the actual number index
@@ -165,9 +165,9 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
 
       /* istanbul ignore else */
       if (this.#activeIndexNumber !== undefined) {
-        if (this.#_buttonType === buttonTypeNext) {
+        if (this.buttonType === buttonTypeNext) {
           this.#tabToSelect = tabs[this.#activeIndexNumber + 1];
-        } else if (this.#_buttonType === buttonTypePrevious) {
+        } else if (this.buttonType === buttonTypePrevious) {
           this.#tabToSelect = tabs[this.#activeIndexNumber - 1];
         }
       }
