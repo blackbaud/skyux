@@ -94,39 +94,13 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
     return this.#_messageStream;
   }
 
-  public get permalink(): SkyFlyoutPermalink {
-    const permalink = this.config.permalink;
-    if (permalink) {
-      return permalink;
-    }
+  public permalink: SkyFlyoutPermalink = {};
 
-    return {};
-  }
+  public permalinkLabel = '';
 
-  public get permalinkLabel(): string {
-    if (this.permalink.label) {
-      return this.permalink.label;
-    }
+  public primaryAction: SkyFlyoutAction = {};
 
-    return this.#getString('skyux_flyout_permalink_button');
-  }
-
-  public get primaryAction(): SkyFlyoutAction {
-    const primaryAction = this.config.primaryAction;
-    if (primaryAction) {
-      return primaryAction;
-    }
-
-    return {};
-  }
-
-  public get primaryActionLabel(): string {
-    if (this.config.primaryAction && this.config.primaryAction.label) {
-      return this.config.primaryAction.label;
-    }
-
-    return this.#getString('skyux_flyout_primary_action_button');
-  }
+  public primaryActionLabel = '';
 
   /**
    * @internal
@@ -255,6 +229,18 @@ export class SkyFlyoutComponent implements OnDestroy, OnInit {
       this.config.iteratorNextButtonDisabled || false;
     this.config.iteratorPreviousButtonDisabled =
       this.config.iteratorPreviousButtonDisabled || false;
+
+    this.permalink = this.config.permalink ?? {};
+    this.permalinkLabel =
+      this.config.permalink && this.config.permalink.label
+        ? this.config.permalink.label
+        : this.#getString('skyux_flyout_permalink_button');
+
+    this.primaryAction = this.config.primaryAction ?? {};
+    this.primaryActionLabel =
+      this.config.primaryAction && this.config.primaryAction.label
+        ? this.config.primaryAction.label
+        : this.#getString('skyux_flyout_primary_action_button');
 
     const factory = this.#resolver.resolveComponentFactory(component);
 
