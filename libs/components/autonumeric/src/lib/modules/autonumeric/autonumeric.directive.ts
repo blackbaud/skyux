@@ -199,11 +199,11 @@ export class SkyAutonumericDirective
 
   #getNumericValue(): number | undefined {
     const inputValue = this.#getInputValue();
-    const result = this.#autonumericInstance.getNumber();
+    const numericValue = this.#autonumericInstance.getNumber();
     return inputValue &&
       !this.#isInputValueTheCurrencySymbol(inputValue) &&
-      !!result
-      ? result
+      typeof numericValue === 'number'
+      ? numericValue
       : undefined;
   }
 
