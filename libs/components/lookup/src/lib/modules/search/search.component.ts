@@ -22,7 +22,7 @@ import {
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
 
@@ -91,19 +91,40 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
    * @default "responsive"
    */
   @Input()
-  public expandMode = EXPAND_MODE_RESPONSIVE;
+  public set expandMode(value: string | undefined) {
+    this.#_expandMode = value ?? EXPAND_MODE_RESPONSIVE;
+  }
+
+  public get expandMode(): string {
+    return this.#_expandMode;
+  }
 
   /**
    * Specifies how many milliseconds to wait before searching after users enter text in the search input.
+   * @default 0
    */
   @Input()
-  public debounceTime = 0;
+  public set debounceTime(value: number | undefined) {
+    this.#_debounceTime = value ?? 0;
+    this.#setupSearchChangedEvent();
+  }
+
+  public get debounceTime(): number {
+    return this.#_debounceTime;
+  }
 
   /**
    * Indicates whether to disable the filter button.
+   * @default false
    */
   @Input()
-  public disabled = false;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value ?? false;
+  }
+
+  public get disabled(): boolean {
+    return this.#_disabled;
+  }
 
   /**
    * Specifies placeholder text to display in the search input until users
@@ -139,6 +160,14 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #searchUpdated = new Subject<string>();
 
+  #searchUpdatedUnsubscribe = new Subject();
+
+  #_debounceTime = 0;
+
+  #_disabled = false;
+
+  #_expandMode = EXPAND_MODE_RESPONSIVE;
+
   constructor(
     mediaQueryService: SkyMediaQueryService,
     elRef: ElementRef,
@@ -161,12 +190,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
       );
     }
 
-    this.#searchUpdated
-      .asObservable()
-      .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
-      .subscribe((value) => {
-        this.searchChange.emit(value);
-      });
+    this.#setupSearchChangedEvent();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
@@ -284,6 +308,8 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     this.#searchUpdated.complete();
+    this.#searchUpdatedUnsubscribe.next();
+    this.#searchUpdatedUnsubscribe.complete();
   }
   #searchBindingChanged(changes: SimpleChanges) {
     return (
@@ -299,7 +325,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     );
   }
 
-  #shouldOpenInput() {
+  #shouldOpenInput(): boolean {
     return (
       this.searchText !== '' &&
       this.#mediaQueryService.current === SkyMediaBreakpoints.xs &&
@@ -307,7 +333,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     );
   }
 
-  #mediaQueryCallback(args: SkyMediaBreakpoints) {
+  #mediaQueryCallback(args: SkyMediaBreakpoints): void {
     if (this.#searchShouldCollapse()) {
       if (args === SkyMediaBreakpoints.xs) {
         this.inputAnimate = INPUT_HIDDEN_STATE;
@@ -320,10 +346,25 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     this.#changeRef.markForCheck();
   }
 
-  #searchShouldCollapse() {
+  #searchShouldCollapse(): boolean {
     return (
       (this.isCollapsible || this.isCollapsible === undefined) &&
       this.isFullWidth !== true
     );
+  }
+
+  #setupSearchChangedEvent(): void {
+    this.#searchUpdatedUnsubscribe.next();
+
+    this.#searchUpdated
+      .asObservable()
+      .pipe(
+        takeUntil(this.#searchUpdatedUnsubscribe),
+        debounceTime(this.debounceTime),
+        distinctUntilChanged()
+      )
+      .subscribe((value) => {
+        this.searchChange.emit(value);
+      });
   }
 }

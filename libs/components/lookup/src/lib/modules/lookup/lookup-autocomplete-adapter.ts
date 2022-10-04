@@ -30,12 +30,12 @@ export class SkyLookupAutocompleteAdapter {
    * @default "name"
    */
   @Input()
-  public set descriptorProperty(value: string) {
-    this.#_descriptorProperty = value;
+  public set descriptorProperty(value: string | undefined) {
+    this.#_descriptorProperty = value ?? 'name';
   }
 
   public get descriptorProperty(): string {
-    return this.#_descriptorProperty || 'name';
+    return this.#_descriptorProperty;
   }
 
   /**
@@ -43,12 +43,20 @@ export class SkyLookupAutocompleteAdapter {
    * @default ["name"]
    */
   @Input()
-  public set propertiesToSearch(value: string[]) {
-    this.#_propertiesToSearch = value;
+  public set propertiesToSearch(value: string[] | undefined) {
+    this.#_propertiesToSearch = value ?? ['name'];
+
+    // Reset default search if it is what is being used.
+    if (this.search !== this.searchOrDefault) {
+      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      });
+    }
   }
 
   public get propertiesToSearch(): string[] {
-    return this.#_propertiesToSearch || ['name'];
+    return this.#_propertiesToSearch;
   }
 
   /**
@@ -60,18 +68,18 @@ export class SkyLookupAutocompleteAdapter {
    * `search`.
    */
   @Input()
-  public set search(value: SkyAutocompleteSearchFunction) {
+  public set search(value: SkyAutocompleteSearchFunction | undefined) {
     this.#_search = value;
-  }
-
-  public get search(): SkyAutocompleteSearchFunction {
-    return (
-      this.#_search ||
+    this.searchOrDefault =
+      value ||
       skyAutocompleteDefaultSearchFunction({
         propertiesToSearch: this.propertiesToSearch,
         searchFilters: this.searchFilters,
-      })
-    );
+      });
+  }
+
+  public get search(): SkyAutocompleteSearchFunction | undefined {
+    return this.#_search;
   }
 
   /**
@@ -99,7 +107,25 @@ export class SkyLookupAutocompleteAdapter {
    * `false` for each result to indicate whether to display it in the dropdown list.
    */
   @Input()
-  public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
+  public set searchFilters(
+    value: SkyAutocompleteSearchFunctionFilter[] | undefined
+  ) {
+    this.#_searchFilters = value;
+
+    // Reset default search if it is what is being used.
+    if (this.search !== this.searchOrDefault) {
+      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      });
+    }
+  }
+
+  public get searchFilters():
+    | SkyAutocompleteSearchFunctionFilter[]
+    | undefined {
+    return this.#_searchFilters;
+  }
 
   /**
    * Specifies the maximum number of search results to display in the dropdown
@@ -115,9 +141,16 @@ export class SkyLookupAutocompleteAdapter {
   @Output()
   public searchAsync = new EventEmitter<SkyAutocompleteSearchAsyncArgs>();
 
-  #_descriptorProperty: string | undefined;
+  public searchOrDefault = skyAutocompleteDefaultSearchFunction({
+    propertiesToSearch: ['name'],
+    searchFilters: undefined,
+  });
 
-  #_propertiesToSearch: string[] | undefined;
+  #_descriptorProperty = 'name';
+
+  #_propertiesToSearch = ['name'];
 
   #_search: SkyAutocompleteSearchFunction | undefined;
+
+  #_searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 }

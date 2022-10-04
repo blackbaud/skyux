@@ -8,13 +8,13 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @internal
  */
 export class SkyCountryFieldFixture {
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   /**
    * The value of the input field's autocomplete attribute.
    */
   public get autocompleteAttribute(): string | null {
-    return this.getInputElement().getAttribute('autocomplete');
+    return this.#getInputElement().getAttribute('autocomplete');
   }
 
   /**
@@ -23,7 +23,7 @@ export class SkyCountryFieldFixture {
    * and if the hideSelectedCountryFlag option is false.
    */
   public get countryFlagIsVisible(): boolean {
-    const flag = this.getCountryFlag();
+    const flag = this.#getCountryFlag();
     return flag !== null;
   }
 
@@ -31,18 +31,21 @@ export class SkyCountryFieldFixture {
    * A flag indicating whether or not the input has been disabled.
    */
   public get disabled(): boolean {
-    return this.getInputElement().disabled;
+    return this.#getInputElement().disabled;
   }
 
   /**
    * The value of the input field.
    */
   public get searchText(): string {
-    return this.getInputElement().value;
+    return this.#getInputElement().value;
   }
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+  #fixture: ComponentFixture<any>;
+
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-country-field'
@@ -55,9 +58,9 @@ export class SkyCountryFieldFixture {
    * @returns The list of country names matching the search text.
    */
   public async search(searchText: string): Promise<string[]> {
-    const resultNodes = await this.searchAndGetResults(
+    const resultNodes = await this.#searchAndGetResults(
       searchText,
-      this.fixture
+      this.#fixture
     );
     const resultArray = Array.prototype.slice.call(resultNodes);
     const results = resultArray.map((result: HTMLElement) => {
@@ -66,8 +69,8 @@ export class SkyCountryFieldFixture {
       return countryName;
     });
 
-    this.fixture.detectChanges();
-    await this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    await this.#fixture.whenStable();
 
     return results;
   }
@@ -77,48 +80,48 @@ export class SkyCountryFieldFixture {
    * @param searchText The name of the country to select.
    */
   public async searchAndSelectFirstResult(searchText: string): Promise<void> {
-    await this.searchAndSelect(searchText, 0, this.fixture);
+    await this.#searchAndSelect(searchText, 0, this.#fixture);
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   /**
    * Clears the country selection and input field.
    */
   public clear(): Promise<void> {
-    this.enterSearch('', this.fixture);
+    this.#enterSearch('', this.#fixture);
 
-    this.fixture.detectChanges();
-    return this.fixture.whenStable();
+    this.#fixture.detectChanges();
+    return this.#fixture.whenStable();
   }
 
   //#region helpers
 
-  private getCountryFlag(): DebugElement {
-    return this.debugEl.query(By.css('.sky-country-field-flag'));
+  #getCountryFlag(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-country-field-flag'));
   }
 
-  private getAutocompleteElement(): HTMLElement {
+  #getAutocompleteElement(): HTMLElement {
     return document.querySelector('.sky-autocomplete-results') as HTMLElement;
   }
 
-  private getInputElement(): HTMLTextAreaElement {
-    const debugEl = this.debugEl.query(By.css('textarea'));
+  #getInputElement(): HTMLTextAreaElement {
+    const debugEl = this.#debugEl.query(By.css('textarea'));
     return debugEl.nativeElement as HTMLTextAreaElement;
   }
 
-  private blurInput(fixture: ComponentFixture<any>): Promise<void> {
-    SkyAppTestUtility.fireDomEvent(this.getInputElement(), 'blur');
+  #blurInput(fixture: ComponentFixture<any>): Promise<void> {
+    SkyAppTestUtility.fireDomEvent(this.#getInputElement(), 'blur');
     fixture.detectChanges();
     return fixture.whenStable();
   }
 
-  private enterSearch(
+  #enterSearch(
     newValue: string,
     fixture: ComponentFixture<any>
   ): Promise<void> {
-    const inputElement = this.getInputElement();
+    const inputElement = this.#getInputElement();
     inputElement.value = newValue;
     SkyAppTestUtility.fireDomEvent(inputElement, 'keyup');
     SkyAppTestUtility.fireDomEvent(inputElement, 'input');
@@ -126,25 +129,25 @@ export class SkyCountryFieldFixture {
     return fixture.whenStable();
   }
 
-  private async searchAndGetResults(
+  async #searchAndGetResults(
     newValue: string,
     fixture: ComponentFixture<any>
   ): Promise<NodeListOf<HTMLElement>> {
-    await this.enterSearch(newValue, fixture);
+    await this.#enterSearch(newValue, fixture);
     fixture.detectChanges();
     await fixture.whenStable();
-    return this.getAutocompleteElement().querySelectorAll(
+    return this.#getAutocompleteElement().querySelectorAll(
       '.sky-autocomplete-result'
     );
   }
 
-  private async searchAndSelect(
+  async #searchAndSelect(
     newValue: string,
     index: number,
     fixture: ComponentFixture<any>
   ): Promise<void> {
-    const inputElement = this.getInputElement();
-    const searchResults = await this.searchAndGetResults(newValue, fixture);
+    const inputElement = this.#getInputElement();
+    const searchResults = await this.#searchAndGetResults(newValue, fixture);
 
     if (searchResults.length < index + 1) {
       throw new Error('Index out of range for results');
@@ -153,7 +156,7 @@ export class SkyCountryFieldFixture {
     // Note: the ordering of these events is important!
     SkyAppTestUtility.fireDomEvent(inputElement, 'change');
     SkyAppTestUtility.fireDomEvent(searchResults[index], 'mousedown');
-    this.blurInput(fixture);
+    this.#blurInput(fixture);
   }
 
   //#endregion helpers

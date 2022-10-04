@@ -31,7 +31,7 @@ export class SkyAutocompleteReactiveFixtureComponent implements OnInit {
     read: SkyAutocompleteComponent,
     static: true,
   })
-  public autocomplete: SkyAutocompleteComponent | undefined;
+  public autocomplete!: SkyAutocompleteComponent;
 
   #formBuilder: UntypedFormBuilder;
 

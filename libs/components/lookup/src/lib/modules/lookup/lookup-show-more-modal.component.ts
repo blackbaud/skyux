@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Inject,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import { SkyModalInstance } from '@skyux/modals';
 import { Subject } from 'rxjs';
 
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
+import { SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT } from './types/lookup-show-more-native-picker-context-token';
 
 /**
  * @internal
@@ -80,6 +82,7 @@ export class SkyLookupShowMoreModalComponent
 
   constructor(
     public modalInstance: SkyModalInstance,
+    @Inject(SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT)
     public context: SkyLookupShowMoreNativePickerContext,
     changeDetector: ChangeDetectorRef,
     idSvc: SkyIdService
@@ -129,7 +132,7 @@ export class SkyLookupShowMoreModalComponent
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {
           item.selected = true;
-          const itemIndex = this.items!.indexOf(item);
+          const itemIndex = this.items.indexOf(item);
           if (
             selectedItems.findIndex(
               (selectedItem) => selectedItem.index === itemIndex
@@ -181,7 +184,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
-    const items = this.items!;
+    const items = this.items;
 
     if (this.context.selectMode === 'single') {
       /* Sanity check - single select mode should only alow for a `true` select state */
@@ -270,7 +273,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public selectAll(): void {
-    const items = this.items!;
+    const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
@@ -301,11 +304,11 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public updateDataState(): void {
-    const items = this.items!;
+    const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
-    items.forEach((item: any, index: number) => {
+    items?.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
           (selectedItem) => selectedItem.index === index
