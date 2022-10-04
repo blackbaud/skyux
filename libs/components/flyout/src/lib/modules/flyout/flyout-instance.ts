@@ -17,7 +17,7 @@ export class SkyFlyoutInstance<T> {
    * the modal does not close until the subscriber calls the handler's `closeModal` method.
    */
   public get beforeClose(): Observable<SkyFlyoutBeforeCloseHandler> {
-    return this.#_beforeCloseObs;
+    return this.#_beforeClose;
   }
 
   /**
@@ -101,7 +101,6 @@ export class SkyFlyoutInstance<T> {
   }
 
   #_beforeClose = new Subject<SkyFlyoutBeforeCloseHandler>();
-  #_beforeCloseObs: Observable<SkyFlyoutBeforeCloseHandler>;
 
   #_iteratorNextButtonClick = new EventEmitter<void>();
 
@@ -118,7 +117,6 @@ export class SkyFlyoutInstance<T> {
     this.closed.subscribe(() => {
       this.isOpen = false;
     });
-    this.#_beforeCloseObs = this.#_beforeClose.asObservable();
   }
 
   /**
