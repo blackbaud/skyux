@@ -18,6 +18,6 @@ const routes: Routes = [
 export class AngularTreeRoutingModule {}
 
 @NgModule({
-  imports: [AngularTreeDemoModule],
+  imports: [AngularTreeDemoModule, AngularTreeRoutingModule],
 })
 export class AngularTreeFeatureModule {}
