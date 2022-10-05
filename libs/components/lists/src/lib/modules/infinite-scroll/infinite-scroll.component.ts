@@ -28,11 +28,11 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
    * @default false
    */
   @Input()
-  public get enabled(): boolean {
+  public get enabled(): boolean | undefined {
     return this.#_enabled;
   }
   public set enabled(value: boolean | undefined) {
-    this.#_enabled = value ?? false;
+    this.#_enabled = value;
     this.#setListeners();
   }
 
@@ -47,7 +47,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
    * @required
    */
   @Input()
-  public get loading(): boolean {
+  public get loading(): boolean | undefined {
     return this.#_loading;
   }
 
@@ -73,7 +73,7 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   #domAdapter: SkyInfiniteScrollDomAdapterService;
   #elementRef: ElementRef;
   #ngUnsubscribe = new Subject<void>();
-  #_enabled = false;
+  #_enabled: boolean | undefined = false;
   #_loading: boolean | undefined;
 
   constructor(

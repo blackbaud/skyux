@@ -15,12 +15,11 @@ describe('Infinite scroll harness', () => {
     const fixture = TestBed.createComponent(InfiniteScrollHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    let infiniteScrollHarness: SkyInfiniteScrollHarness;
-    if (options.dataSkyId) {
-      infiniteScrollHarness = await loader.getHarness(
-        SkyInfiniteScrollHarness.with({ dataSkyId: options.dataSkyId })
-      );
-    }
+    const infiniteScrollHarness: SkyInfiniteScrollHarness = options.dataSkyId
+      ? await loader.getHarness(
+          SkyInfiniteScrollHarness.with({ dataSkyId: options.dataSkyId })
+        )
+      : await loader.getHarness(SkyInfiniteScrollHarness);
 
     return { fixture, infiniteScrollHarness, loader };
   }
@@ -39,7 +38,7 @@ describe('Infinite scroll harness', () => {
 
     verifyNumListItems(fixture, 0);
 
-    await infiniteScrollHarness.loadMore();
+    await infiniteScrollHarness?.loadMore();
 
     verifyNumListItems(fixture, 10);
   });

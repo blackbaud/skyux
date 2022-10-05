@@ -21,7 +21,7 @@ export class SkyInfiniteScrollTestComponent {
 
   public enabled: boolean | undefined;
 
-  public loading = false;
+  public loading: boolean | undefined;
 
   public items: Record<string, any>[] = [];
 
