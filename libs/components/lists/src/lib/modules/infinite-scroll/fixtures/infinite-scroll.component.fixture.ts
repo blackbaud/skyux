@@ -11,7 +11,7 @@ export class SkyInfiniteScrollTestComponent {
     read: SkyInfiniteScrollComponent,
     static: true,
   })
-  public infiniteScrollComponent: SkyInfiniteScrollComponent | undefined;
+  public infiniteScrollComponent!: SkyInfiniteScrollComponent;
 
   @ViewChild('wrapper', {
     read: ElementRef,
