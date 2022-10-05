@@ -9,13 +9,13 @@ import {
 export async function createTestApp(
   runner: SchematicTestRunner,
   appOptions: {
-    defaultProjectName: string;
+    projectName: string;
   }
 ): Promise<UnitTestTree> {
   return await runner
     .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
       directory: '/',
-      name: appOptions.defaultProjectName,
+      name: appOptions.projectName,
       routing: true,
       strict: true,
       style: 'scss',
@@ -30,13 +30,13 @@ export async function createTestApp(
 export async function createTestLibrary(
   runner: SchematicTestRunner,
   libOptions: {
-    name: string;
+    projectName: string;
   }
 ): Promise<UnitTestTree> {
   const workspaceTree = await runner
     .runExternalSchematicAsync('@schematics/angular', 'ng-new', {
       directory: '/',
-      name: `${libOptions.name}-workspace`,
+      name: `${libOptions.projectName}-workspace`,
       createApplication: false,
       strict: true,
       version: '14',
@@ -48,7 +48,7 @@ export async function createTestLibrary(
       '@schematics/angular',
       'library',
       {
-        name: libOptions.name,
+        name: libOptions.projectName,
       },
       workspaceTree
     )
@@ -60,7 +60,7 @@ export async function createTestLibrary(
       '@schematics/angular',
       'application',
       {
-        name: `${libOptions.name}-showcase`,
+        name: `${libOptions.projectName}-showcase`,
       },
       workspaceTree
     )

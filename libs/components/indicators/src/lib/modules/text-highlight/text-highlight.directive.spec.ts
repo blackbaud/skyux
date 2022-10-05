@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { MutationObserverService } from '@skyux/core';
+import { SkyMutationObserverService } from '@skyux/core';
 
 import { SkyTextHighlightTestComponent } from './fixtures/text-highlight.component.fixture';
 import { SkyTextHighlightFixtureModule } from './fixtures/text-highlight.module.fixture';
@@ -49,7 +49,7 @@ describe('Text Highlight', () => {
       imports: [SkyTextHighlightFixtureModule],
       providers: [
         {
-          provide: MutationObserverService,
+          provide: SkyMutationObserverService,
           useValue: {
             create(callback: () => void): {
               observe: jasmine.Spy;
