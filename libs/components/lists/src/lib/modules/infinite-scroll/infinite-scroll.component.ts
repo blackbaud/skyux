@@ -32,8 +32,10 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
     return this.#_enabled;
   }
   public set enabled(value: boolean | undefined) {
-    this.#_enabled = value;
-    this.#setListeners();
+    if (this.#_enabled !== value) {
+      this.#_enabled = value;
+      this.#setListeners();
+    }
   }
 
   /**
@@ -103,8 +105,6 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
   }
 
   #setListeners(): void {
-    this.#ngUnsubscribe.next();
-
     if (this.enabled) {
       // The user has scrolled to the infinite scroll element.
       this.#domAdapter
@@ -126,6 +126,8 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
             this.#changeDetector.markForCheck();
           }
         });
+    } else {
+      this.#ngUnsubscribe.next();
     }
   }
 }
