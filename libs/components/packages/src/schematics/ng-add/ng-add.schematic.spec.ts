@@ -17,7 +17,7 @@ describe('ng-add.schematic', () => {
 
   beforeEach(async () => {
     tree = await createTestLibrary(runner, {
-      name: defaultProjectName,
+      projectName: defaultProjectName,
     });
   });
 

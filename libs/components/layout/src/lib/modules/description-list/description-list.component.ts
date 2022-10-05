@@ -48,7 +48,7 @@ export class SkyDescriptionListComponent
    * the width is responsive based on the width of the container element.
    */
   @Input()
-  public listItemWidth: string;
+  public listItemWidth: string | undefined;
 
   /**
    * Specifies how to display term-description pairs within the description list.
@@ -56,26 +56,27 @@ export class SkyDescriptionListComponent
    * @default "vertical"
    */
   @Input()
-  public set mode(value: SkyDescriptionListModeType) {
-    this._mode = value;
+  public set mode(value: SkyDescriptionListModeType | undefined) {
+    this.#_mode = value || 'vertical';
   }
 
   public get mode(): SkyDescriptionListModeType {
-    return this._mode || 'vertical';
+    return this.#_mode;
   }
 
   @ContentChildren(SkyDescriptionListContentComponent)
-  public contentComponents: QueryList<SkyDescriptionListContentComponent>;
+  public contentComponents:
+    | QueryList<SkyDescriptionListContentComponent>
+    | undefined;
 
   @ViewChild('descriptionListElement', {
     read: ElementRef,
     static: true,
   })
-  private elementRef: ElementRef;
+  public elementRef: ElementRef | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
-
-  private _mode: SkyDescriptionListModeType;
+  #ngUnsubscribe = new Subject<void>();
+  #_mode: SkyDescriptionListModeType = 'vertical';
 
   constructor(
     private adapterService: SkyDescriptionListAdapterService,
@@ -89,16 +90,19 @@ export class SkyDescriptionListComponent
       this.updateResponsiveClass();
     });
 
-    this.contentComponents.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(() => {
-        this.changeDetector.markForCheck();
-      });
+    // istanbul ignore else
+    if (this.contentComponents) {
+      this.contentComponents.changes
+        .pipe(takeUntil(this.#ngUnsubscribe))
+        .subscribe(() => {
+          this.changeDetector.markForCheck();
+        });
+    }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   @HostListener('window:resize')
@@ -107,7 +111,9 @@ export class SkyDescriptionListComponent
   }
 
   private updateResponsiveClass(): void {
-    this.adapterService.setResponsiveClass(this.elementRef);
-    this.changeDetector.markForCheck();
+    if (this.elementRef) {
+      this.adapterService.setResponsiveClass(this.elementRef);
+      this.changeDetector.markForCheck();
+    }
   }
 }

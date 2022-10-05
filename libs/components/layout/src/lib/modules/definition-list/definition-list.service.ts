@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
  */
 @Injectable()
 export class SkyDefinitionListService {
-  public labelWidth = new BehaviorSubject<string>('');
+  public labelWidth = new BehaviorSubject<string | undefined>('');
 
-  public defaultValue = new BehaviorSubject<string>('');
+  public defaultValue = new BehaviorSubject<string | undefined>('');
 }

@@ -8,13 +8,13 @@ import { SkyDescriptionListAdapterService } from './description-list-adapter-ser
   template: `<div [style.width]="width" #el>Hello world</div>`,
 })
 class SkyDescriptionListAdapterTestComponent {
-  public width: string;
+  public width: string | undefined;
 
   @ViewChild('el', {
     read: ElementRef,
     static: true,
   })
-  public input: ElementRef;
+  public input!: ElementRef;
 }
 
 describe('Description list adapter service', () => {

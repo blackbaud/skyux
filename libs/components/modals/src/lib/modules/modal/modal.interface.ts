@@ -22,6 +22,7 @@ export interface SkyModalConfigurationInterface {
    * In Angular, a provider is something that can create or deliver a service.
    * This property can be used to pass context values from the component that launches the modal to the modal component.
    */
+  // TODO: Change this to `StaticProvider[]` in a breaking change.
   providers?: any[];
 
   /**
@@ -62,6 +63,7 @@ export interface SkyModalConfigurationInterface {
   tiledBody?: boolean;
 
   /**
+   * @deprecated To display a help button in the modal header, include a help button element, such as `sky-help-inline`, in the `sky-modal-header` element and a `sky-control-help` CSS class on that help button element
    * Specifies a `helpKey` string. This property displays
    * the <i class="fa fa-question-circle" aria-hidden="true"></i> button in the modal header.
    * When users click this button, the `helpOpened` event broadcasts the `helpKey` parameter.

@@ -9,8 +9,5 @@
   <sky-card-actions *ngIf="showActions">
     <button type="button" class="btn btn-default">Button</button>
   </sky-card-actions>
-  <sky-inline-delete
-    *ngIf="showDelete"
-    [pending]="deletePending"
-  ></sky-inline-delete>
+  <sky-inline-delete *ngIf="showDelete"></sky-inline-delete>
 </sky-card>
