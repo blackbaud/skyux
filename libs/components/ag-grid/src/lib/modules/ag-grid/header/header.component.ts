@@ -3,31 +3,21 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Injector,
+  OnDestroy,
 } from '@angular/core';
 
 import { IHeaderAngularComp } from 'ag-grid-angular';
+import { Events } from 'ag-grid-community';
 import { BehaviorSubject, Subscription, fromEvent } from 'rxjs';
 
-import { SkyAgGridHeaderAppendComponentParams } from '../types/header-append-component-params';
+import { SkyAgGridHeaderInfo } from '../types/header-info';
 import { SkyAgGridHeaderParams } from '../types/header-params';
 
-import { SkyAgGridHeaderAppendComponent } from './header-params-token';
+import { SkyAgGridHeader } from './header-token';
 
 /**
- * Custom header component for adding inline help to Data Grid and Data Entry Grid column headers. To display a help
- * button beside the column header, create a component that includes the help button element, such as `sky-help-inline`,
- * optionally including `@Inject(SkyAgGridHeaderAppendComponent)` in the constructor to access information such as the
- * column header's display name. Then, add the component to the `headerComponentParams.headerAppendComponent` property
- * of the column definition like this:
- *
- * ```typescript
- * headerComponent: SkyAgGridHeaderComponent,
- * headerComponentParams: {
- *   headerAppendComponent: MyHelpButtonComponent,
- * },
- * ```
+ * @internal
  */
 @Component({
   selector: 'sky-ag-grid-header',
@@ -35,7 +25,7 @@ import { SkyAgGridHeaderAppendComponent } from './header-params-token';
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
+export class SkyAgGridHeaderComponent implements IHeaderAngularComp, OnDestroy {
   public params: SkyAgGridHeaderParams | undefined = undefined;
   public sorted = '';
   public componentPortal: ComponentPortal<unknown> | undefined = undefined;
@@ -45,19 +35,17 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
   );
   public readonly sortIndexDisplay$ = new BehaviorSubject<string>('');
 
-  #changeDetector: ChangeDetectorRef;
   #subscriptions = new Subscription();
-  #nativeElement: HTMLElement;
-  #injector: Injector;
+  readonly #changeDetector: ChangeDetectorRef;
+  readonly #injector: Injector;
 
-  constructor(
-    changeDetector: ChangeDetectorRef,
-    { nativeElement }: ElementRef,
-    injector: Injector
-  ) {
+  constructor(changeDetector: ChangeDetectorRef, injector: Injector) {
     this.#changeDetector = changeDetector;
-    this.#nativeElement = nativeElement;
     this.#injector = injector;
+  }
+
+  public ngOnDestroy(): void {
+    this.#subscriptions.unsubscribe();
   }
 
   public agInit(params: SkyAgGridHeaderParams): void {
@@ -78,34 +66,34 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
       );
     }
     if (params.enableSorting) {
+      // Column sort state changes
       this.#subscriptions.add(
-        fromEvent(params.column, 'sortChanged').subscribe(() => {
+        fromEvent(params.column, Events.EVENT_SORT_CHANGED).subscribe(() => {
           this.#updateSort();
         })
       );
+      // Other column sort state changes, for multi-column sorting
       this.#subscriptions.add(
-        fromEvent(params.api, 'sortChanged').subscribe(() => {
+        fromEvent(params.api, Events.EVENT_SORT_CHANGED).subscribe(() => {
           this.#updateSortIndex();
         })
       );
       this.#updateSort();
       this.#updateSortIndex();
     }
-    if (params.headerAppendComponent) {
+    if (params.inlineHelpComponent) {
       this.componentPortal = new ComponentPortal(
-        params.headerAppendComponent,
+        params.inlineHelpComponent,
         null,
         Injector.create({
           providers: [
             {
-              provide: SkyAgGridHeaderAppendComponent,
+              provide: SkyAgGridHeader,
               useValue: {
-                api: params.api,
                 column: params.column,
-                columnApi: params.columnApi,
                 context: params.context,
                 displayName: params.displayName,
-              } as SkyAgGridHeaderAppendComponentParams,
+              } as SkyAgGridHeaderInfo,
             },
           ],
           parent: this.#injector,
@@ -132,22 +120,6 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp {
 
   #updateSort() {
     this.sortOrder$.next(this.params.column.getSort() || undefined);
-    this.#nativeElement.classList.toggle(
-      'ag-sort-ascending-icon',
-      this.params.column.isSortAscending()
-    );
-    this.#nativeElement.classList.toggle(
-      'ag-sort-descending-icon',
-      this.params.column.isSortDescending()
-    );
-    this.#nativeElement.classList.toggle(
-      'ag-sort-mixed-icon',
-      Number.isInteger(this.params.column.getSortIndex())
-    );
-    this.#nativeElement.classList.toggle(
-      'ag-sort-none-icon',
-      this.params.column.isSortNone()
-    );
   }
 
   #updateSortIndex() {

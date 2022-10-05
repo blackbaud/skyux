@@ -5,8 +5,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  SkyAgGridHeaderComponent,
-  SkyAgGridHeaderParams,
   SkyAgGridRowDeleteCancelArgs,
   SkyAgGridRowDeleteConfirmArgs,
   SkyAgGridService,
@@ -95,10 +93,9 @@ export class EditComplexCellsComponent implements OnInit {
         minWidth: 220,
         editable: this.editMode,
         type: SkyCellType.Text,
-        headerComponent: SkyAgGridHeaderComponent,
         headerComponentParams: {
-          headerAppendComponent: InlineHelpComponent,
-        } as SkyAgGridHeaderParams,
+          inlineHelpComponent: InlineHelpComponent,
+        },
       },
       {
         colId: 'language',
@@ -110,10 +107,9 @@ export class EditComplexCellsComponent implements OnInit {
           values: ['English', 'Spanish', 'French', 'Portuguese', '(other)'],
         },
         editable: this.editMode,
-        headerComponent: SkyAgGridHeaderComponent,
         headerComponentParams: {
-          headerAppendComponent: InlineHelpComponent,
-        } as SkyAgGridHeaderParams,
+          inlineHelpComponent: InlineHelpComponent,
+        },
       },
       {
         colId: 'validationAutocomplete',
@@ -135,7 +131,6 @@ export class EditComplexCellsComponent implements OnInit {
         },
         sortable: true,
         filter: true,
-        headerComponent: SkyAgGridHeaderComponent,
       },
       {
         colId: 'validationCurrency',

@@ -3,12 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
 } from '@angular/core';
-import {
-  SkyAgGridHeaderComponent,
-  SkyAgGridHeaderParams,
-  SkyAgGridService,
-  SkyCellType,
-} from '@skyux/ag-grid';
+import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 
 import {
   ColDef,
@@ -35,58 +30,52 @@ export class DataGridDemoComponent {
     {
       field: 'name',
       headerName: 'Name',
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
     {
       field: 'age',
       headerName: 'Age',
       type: SkyCellType.Number,
       maxWidth: 60,
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
     {
       field: 'startDate',
       headerName: 'Start date',
       type: SkyCellType.Date,
       sort: 'asc',
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
     {
       field: 'endDate',
       headerName: 'End date',
       type: SkyCellType.Date,
       valueFormatter: this.endDateFormatter,
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
     {
       field: 'department',
       headerName: 'Department',
       type: SkyCellType.Autocomplete,
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
     {
       field: 'jobTitle',
       headerName: 'Title',
       type: SkyCellType.Autocomplete,
-      headerComponent: SkyAgGridHeaderComponent,
       headerComponentParams: {
-        headerAppendComponent: InlineHelpComponent,
-      } as SkyAgGridHeaderParams,
+        inlineHelpComponent: InlineHelpComponent,
+      },
     },
   ];
 

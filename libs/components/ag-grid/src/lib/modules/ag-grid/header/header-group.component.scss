@@ -7,13 +7,16 @@
   align-content: center;
 }
 
-.ag-header-cell-label {
-  padding-right: 0;
-  padding-left: 0;
+.header-group-text {
+  flex-grow: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 button {
   cursor: pointer;
+  margin-left: var(--sky-margin-inline-sm);
   flex-grow: 0;
   flex-shrink: 0;
 }

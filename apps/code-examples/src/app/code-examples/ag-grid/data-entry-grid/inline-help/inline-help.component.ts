@@ -1,8 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import {
-  SkyAgGridHeaderAppendComponent,
-  SkyAgGridHeaderAppendComponentParams,
-} from '@skyux/ag-grid';
+import { SkyAgGridHeader, SkyAgGridHeaderInfo } from '@skyux/ag-grid';
 
 @Component({
   selector: 'app-inline-help',
@@ -20,8 +17,8 @@ export class InlineHelpComponent {
   readonly #displayName: string;
 
   constructor(
-    @Inject(SkyAgGridHeaderAppendComponent)
-    { displayName }: SkyAgGridHeaderAppendComponentParams
+    @Inject(SkyAgGridHeader)
+    { displayName }: SkyAgGridHeaderInfo
   ) {
     this.#displayName = displayName;
   }

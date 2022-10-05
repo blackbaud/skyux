@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
+import { SkyI18nModule } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/indicators';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 import { SkyThemeModule } from '@skyux/theme';
@@ -24,6 +25,7 @@ import { SkyAgGridCellRendererLookupModule } from './cell-renderers/cell-rendere
 import { SkyAgGridCellRendererRowSelectorModule } from './cell-renderers/cell-renderer-row-selector/cell-renderer-row-selector.module';
 import { SkyAgGridCellRendererValidatorTooltipModule } from './cell-renderers/cell-renderer-validator-tooltip/cell-renderer-validator-tooltip.module';
 import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-validator.module';
+import { SkyAgGridHeaderGroupComponent } from './header/header-group.component';
 import { SkyAgGridHeaderComponent } from './header/header.component';
 
 @NgModule({
@@ -33,6 +35,7 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridRowDeleteDirective,
     SkyAgGridWrapperComponent,
     SkyAgGridHeaderComponent,
+    SkyAgGridHeaderGroupComponent,
   ],
   imports: [
     AgGridModule,
@@ -49,6 +52,7 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridCellValidatorModule,
     SkyAgGridCellEditorTextModule,
     SkyDataManagerModule,
+    SkyI18nModule,
     SkyInlineDeleteModule,
     SkyViewkeeperModule,
     SkyIconModule,
@@ -61,6 +65,7 @@ import { SkyAgGridHeaderComponent } from './header/header.component';
     SkyAgGridRowDeleteDirective,
     SkyAgGridWrapperComponent,
     SkyAgGridHeaderComponent,
+    SkyAgGridHeaderGroupComponent,
   ],
 })
 export class SkyAgGridModule {}

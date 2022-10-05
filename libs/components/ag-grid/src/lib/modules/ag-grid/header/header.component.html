@@ -46,6 +46,6 @@
     </span>
   </div>
 </div>
-<span class="sky-control-help-container">
+<span *ngIf="componentPortal" class="sky-control-help-container">
   <ng-container [cdkPortalOutlet]="componentPortal"></ng-container>
 </span>

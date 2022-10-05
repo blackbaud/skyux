@@ -19,8 +19,8 @@ class TestHelpComponent {}
 describe('HeaderComponent', () => {
   let component: SkyAgGridHeaderComponent;
   let fixture: ComponentFixture<SkyAgGridHeaderComponent>;
-  let apiEvents: { [key: string]: Function[] };
-  let columnEvents: { [key: string]: Function[] };
+  let apiEvents: { [key: string]: (() => void)[] };
+  let columnEvents: { [key: string]: (() => void)[] };
   let params: SkyAgGridHeaderParams;
 
   beforeEach(() => {
@@ -28,22 +28,18 @@ describe('HeaderComponent', () => {
       declarations: [SkyAgGridHeaderComponent, TestHelpComponent],
       imports: [SkyIconModule, PortalModule, SkyThemeModule],
     });
-
-    fixture = TestBed.createComponent(SkyAgGridHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
     apiEvents = {};
     columnEvents = {};
     params = {
       displayName: 'Test Column',
-      showColumnMenu: () => {},
-      progressSort: () => {},
+      showColumnMenu: () => undefined,
+      progressSort: () => undefined,
       api: {
-        addEventListener(eventType: string, listener: Function) {
+        addEventListener: (eventType: string, listener: () => void) => {
           apiEvents[eventType] = apiEvents[eventType] || [];
           apiEvents[eventType].push(listener);
         },
-        removeEventListener(eventType: string, listener: Function) {
+        removeEventListener: (eventType: string, listener: () => void) => {
           apiEvents[eventType] = apiEvents[eventType] || [];
           apiEvents[eventType] = apiEvents[eventType].filter(
             (l) => l !== listener
@@ -51,48 +47,34 @@ describe('HeaderComponent', () => {
         },
       },
       column: {
-        addEventListener(eventType: string, listener: Function) {
+        addEventListener: (eventType: string, listener: () => void) => {
           columnEvents[eventType] = columnEvents[eventType] || [];
           columnEvents[eventType].push(listener);
         },
-        removeEventListener(eventType: string, listener: Function) {
+        removeEventListener: (eventType: string, listener: () => void) => {
           columnEvents[eventType] = columnEvents[eventType] || [];
           columnEvents[eventType] = columnEvents[eventType].filter(
             (l) => l !== listener
           );
         },
-        isFilterActive() {
-          return false;
-        },
-        isFilterAllowed(): boolean {
-          return false;
-        },
-        isSortAscending() {
-          return false;
-        },
-        isSortDescending() {
-          return false;
-        },
-        isSortNone(): boolean {
-          return true;
-        },
-        getSort(): 'asc' | 'desc' | null | undefined {
-          return undefined;
-        },
-        getSortIndex() {
-          return undefined;
-        },
-        getColId(): string {
-          return 'test';
-        },
+        isFilterActive: () => false,
+        isFilterAllowed: () => false,
+        isSortAscending: () => false,
+        isSortDescending: () => false,
+        isSortNone: () => true,
+        getSort: (): 'asc' | 'desc' | null | undefined => undefined,
+        getSortIndex: () => undefined,
+        getColId: () => 'test',
       } as Column,
       enableSorting: false,
       columnApi: {
-        getAllColumns() {
-          return [];
-        },
+        getAllColumns: () => [],
       } as ColumnApi,
     } as unknown as SkyAgGridHeaderParams;
+
+    fixture = TestBed.createComponent(SkyAgGridHeaderComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -154,13 +136,19 @@ describe('HeaderComponent', () => {
     expect(columnEvents['filterChanged'].length).toBeGreaterThanOrEqual(1);
     apiEvents['sortChanged'].forEach((listener) => listener());
     columnEvents['sortChanged'].forEach((listener) => listener());
-    expect(fixture.nativeElement.matches('.ag-sort-ascending-icon')).toBe(true);
+    expect(
+      fixture.debugElement.query(By.css('.ag-header-label-icon')).attributes[
+        'icon'
+      ]
+    ).toBe('caret-up');
     useSort = undefined;
     apiEvents['sortChanged'].forEach((listener) => listener());
     columnEvents['sortChanged'].forEach((listener) => listener());
-    expect(fixture.nativeElement.matches('.ag-sort-ascending-icon')).toBe(
-      false
-    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(
+      fixture.debugElement.query(By.css('.ag-header-label-icon'))
+    ).toBeFalsy();
 
     columnEvents['filterChanged'].forEach((listener) => listener());
     expect(component.filterEnabled$.getValue()).toBe(true);
@@ -172,7 +160,7 @@ describe('HeaderComponent', () => {
   it('should inject help component', () => {
     params = {
       ...params,
-      headerAppendComponent: TestHelpComponent,
+      inlineHelpComponent: TestHelpComponent,
     };
     component.agInit(params);
     fixture.detectChanges();
