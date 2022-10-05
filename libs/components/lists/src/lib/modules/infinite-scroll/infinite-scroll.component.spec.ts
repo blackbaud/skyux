@@ -52,14 +52,14 @@ describe('Infinite scroll', () => {
   }
 
   it('should set defaults', () => {
-    expect(fixture.componentInstance.infiniteScrollComponent.enabled).toEqual(
-      false
-    );
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toEqual(
+    expect(fixture.componentInstance.infiniteScrollComponent?.enabled).toEqual(
       false
     );
     expect(
-      fixture.componentInstance.infiniteScrollComponent.scrollEnd
+      fixture.componentInstance.infiniteScrollComponent?.isWaiting
+    ).toEqual(false);
+    expect(
+      fixture.componentInstance.infiniteScrollComponent?.scrollEnd
     ).toBeDefined();
     fixture.detectChanges();
   });
@@ -67,11 +67,11 @@ describe('Infinite scroll', () => {
   it('should not fire parentChanges event for infinite scroll elements', async () => {
     fixture.componentInstance.enabled = true;
     // Set this to true manually so we can check if the parentChanges event sets it to false.
-    fixture.componentInstance.infiniteScrollComponent.isWaiting = true;
+    fixture.componentInstance.infiniteScrollComponent!.isWaiting = true;
     fixture.detectChanges();
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toEqual(
-      true
-    );
+    expect(
+      fixture.componentInstance.infiniteScrollComponent?.isWaiting
+    ).toEqual(true);
   });
 
   it('should not show wait component or load button when enabled is false.', () => {
@@ -163,7 +163,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should emit a scrollEnd event on scroll when an element is the scrollable parent', async () => {
-    const wrapper = fixture.componentInstance.wrapper.nativeElement;
+    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow:auto;');
 
     fixture.componentInstance.enabled = true;
@@ -222,7 +222,7 @@ describe('Infinite scroll', () => {
 
     parentChangesObs.next();
 
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
+    expect(fixture.componentInstance.infiniteScrollComponent?.isWaiting).toBe(
       false
     );
   });
@@ -237,14 +237,14 @@ describe('Infinite scroll', () => {
     fixture.componentInstance.loading = true;
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
+    expect(fixture.componentInstance.infiniteScrollComponent?.isWaiting).toBe(
       true
     );
 
     // Parent DOM changes shouldn't change the isWaiting flag when loading is specified.
     parentChangesObs.next();
 
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
+    expect(fixture.componentInstance.infiniteScrollComponent?.isWaiting).toBe(
       true
     );
 
@@ -252,13 +252,13 @@ describe('Infinite scroll', () => {
     fixture.componentInstance.loading = false;
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.infiniteScrollComponent.isWaiting).toBe(
+    expect(fixture.componentInstance.infiniteScrollComponent?.isWaiting).toBe(
       false
     );
   });
 
   it('should support overflow-y', async () => {
-    const wrapper = fixture.componentInstance.wrapper.nativeElement;
+    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow-y:scroll;');
 
     fixture.componentInstance.enabled = true;
