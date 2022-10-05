@@ -21,15 +21,11 @@
         [node]="node"
         [templates]="templates"
       >
-        <div>HELLO{{ node.name }}</div>
         <sky-help-inline
-          *ngIf="node.data?.showHelp"
+          *ngIf="node.data"
           class="sky-control-help"
         ></sky-help-inline>
-        <sky-dropdown
-          *ngIf="demoOptions.value.showContextMenus"
-          buttonType="context-menu"
-        >
+        <sky-dropdown buttonType="context-menu">
           <sky-dropdown-menu>
             <sky-dropdown-item *ngFor="let item of dropdownItems">
               <button type="button" (click)="actionClicked(item.name, node)">

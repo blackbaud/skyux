@@ -15,6 +15,8 @@ import {
 
 import { TreeNodeDemo } from './angular-tree-demo-tree-node.model';
 
+//import { TreeNodeDemo } from './angular-tree-demo-tree-node.model';
+
 @Component({
   selector: 'app-angular-tree-component-demo',
   styles: [
@@ -97,9 +99,7 @@ export class AngularTreeDemoComponent implements OnInit {
       // add data that has a property on it that shows or not inline help. add a tree note that has name
       name: 'Animals       ',
       isExpanded: true,
-      data: {
-        showHelp: true,
-      },
+      data: true,
       children: [
         {
           name: 'Cats',
