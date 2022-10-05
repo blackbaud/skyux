@@ -7,7 +7,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { MutationObserverService } from '@skyux/core';
+import { SkyMutationObserverService } from '@skyux/core';
 
 const CLASS_NAME = 'sky-highlight-mark';
 const SPECIAL_CHAR_REGEX = /[-/\\^$*+?.()|[\]{}]/g;
@@ -132,9 +132,9 @@ export class SkyTextHighlightDirective
 
   #el: ElementRef;
 
-  #observerSvc: MutationObserverService;
+  #observerSvc: SkyMutationObserverService;
 
-  constructor(el: ElementRef, observerSvc: MutationObserverService) {
+  constructor(el: ElementRef, observerSvc: SkyMutationObserverService) {
     this.#el = el;
     this.#observerSvc = observerSvc;
   }

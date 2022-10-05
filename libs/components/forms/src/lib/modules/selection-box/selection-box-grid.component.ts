@@ -13,7 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MutationObserverService, SkyCoreAdapterService } from '@skyux/core';
+import { SkyCoreAdapterService, SkyMutationObserverService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
@@ -87,7 +87,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   #coreAdapterService: SkyCoreAdapterService;
   #selectionBoxAdapter: SkySelectionBoxAdapterService;
   #hostElRef: ElementRef;
-  #mutationObserverSvc: MutationObserverService;
+  #mutationObserverSvc: SkyMutationObserverService;
   #ngZone: NgZone;
   #themeSvc: SkyThemeService | undefined;
 
@@ -95,7 +95,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
     coreAdapterService: SkyCoreAdapterService,
     selectionBoxAdapter: SkySelectionBoxAdapterService,
     hostElRef: ElementRef,
-    mutationObserverSvc: MutationObserverService,
+    mutationObserverSvc: SkyMutationObserverService,
     ngZone: NgZone,
     @Optional() themeSvc?: SkyThemeService
   ) {

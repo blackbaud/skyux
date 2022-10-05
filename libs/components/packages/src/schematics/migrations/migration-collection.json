@@ -6,9 +6,19 @@
       "description": "Update all SKY UX component packages"
     },
     "ag-grid-28": {
-      "version": "7.0.0",
-      "factory": "./ag-grid-28/ag-grid-28.schematic",
+      "version": "7.0.0-beta.0",
+      "factory": "./update-7/ag-grid-28.schematic",
       "description": "Update ag-grid to version 28"
+    },
+    "add-moment-dependency": {
+      "version": "7.0.0-beta.0",
+      "factory": "./update-7/add-moment-dependency",
+      "description": "Add moment.js as a dependency since SKY UX 7 references moment.js as a peer."
+    },
+    "rename-mutation-observer-service": {
+      "version": "",
+      "factory": "./update-7/rename-mutation-observer-service",
+      "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
     }
   }
 }

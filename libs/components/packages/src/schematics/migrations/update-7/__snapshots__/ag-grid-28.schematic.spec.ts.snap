@@ -3,6 +3,44 @@
 exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 1`] = `
 "
         import { AgGridModule } from 'ag-grid-community';
+        import { ExampleComponent } from 'ag-grid-angular';
+        import { AgGridEnterpriseModule } from 'ag-grid-enterprise';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+            AgGridEnterpriseModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 2`] = `
+"
+
+        AG Grid recommends not mixing module and package imports.
+        https://ag-grid.com/angular-data-grid/modules/
+
+"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules when already on v28 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-community';
+
+        @NgModule({
+          imports: [
+            BrowserModule,
+            AgGridModule,
+          ],
+        })
+        export class AppModule {}"
+`;
+
+exports[`ag-grid-28.schematic should remove @ag-grid-enterprise/all-modules when already on v28 1`] = `
+"
+        import { AgGridModule } from 'ag-grid-enterprise';
 
         @NgModule({
           imports: [

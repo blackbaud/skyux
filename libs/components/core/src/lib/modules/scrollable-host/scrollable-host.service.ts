@@ -3,7 +3,7 @@ import { ElementRef, Injectable } from '@angular/core';
 import { Observable, Subject, Subscriber, Subscription, fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyAppWindowRef } from '../window/window-ref';
 
 function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
@@ -16,12 +16,12 @@ function notifySubscribers(subscribers: Subscriber<unknown>[], item?: unknown) {
   providedIn: 'root',
 })
 export class SkyScrollableHostService {
-  #mutationObserverSvc: MutationObserverService;
+  #mutationObserverSvc: SkyMutationObserverService;
 
   #windowRef: SkyAppWindowRef;
 
   constructor(
-    mutationObserverSvc: MutationObserverService,
+    mutationObserverSvc: SkyMutationObserverService,
     windowRef: SkyAppWindowRef
   ) {
     this.#mutationObserverSvc = mutationObserverSvc;

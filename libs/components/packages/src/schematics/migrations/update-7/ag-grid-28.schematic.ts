@@ -11,8 +11,9 @@ import ignore from 'ignore';
 import { relative } from 'path';
 import semver from 'semver';
 
+export const UPDATE_TO_VERSION = '28.2.0';
+
 const UPDATE_LT_VERSION = '28.0.0';
-const UPDATE_TO_VERSION = '28.2.0';
 const ANY_MODULE = '@ag-grid-community/';
 const ENT_MODULE = '@ag-grid-enterprise/';
 const AG_GRID = 'ag-grid-community';
@@ -73,9 +74,10 @@ export default function (): Rule {
       [AG_GRID, 'ag-grid-angular'].forEach((name) => {
         addPackageJsonDependency(tree, { name, overwrite, type, version });
       });
+    }
+    if (agGridAllModules) {
       removePackageJsonDependency(tree, `${ANY_MODULE}all-modules`);
       removePackageJsonDependency(tree, `${ANY_MODULE}angular`);
-      context.addTask(new NodePackageInstallTask());
     }
 
     // Determine if there are any enterprise packages that need to be updated.
@@ -96,10 +98,19 @@ export default function (): Rule {
         type,
         version,
       });
+    }
+    if (agGridAllModulesEnt) {
       removePackageJsonDependency(tree, `${ENT_MODULE}all-modules`);
-      if (!needsPackageUpdated) {
-        context.addTask(new NodePackageInstallTask());
-      }
+    }
+
+    // Install the new packages.
+    if (
+      needsPackageUpdated ||
+      needsEntPackageUpdated ||
+      agGridAllModules ||
+      agGridAllModulesEnt
+    ) {
+      context.addTask(new NodePackageInstallTask());
     }
 
     const ignoreList = tree.exists('.gitignore')
@@ -135,12 +146,12 @@ export default function (): Rule {
         );
       }
       if (
-        agGridAllModules &&
+        agGridAllModulesEnt &&
         updatedContent.includes(`${ENT_MODULE}all-modules`)
       ) {
         updatedContent = updatedContent.replace(
           /@ag-grid-enterprise\/all-modules/g,
-          AG_GRID
+          AG_GRID_ENT
         );
       }
       // Replace `@ag-grid-community/angular` with `ag-grid-angular`

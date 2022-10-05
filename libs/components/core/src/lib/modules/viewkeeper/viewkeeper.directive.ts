@@ -10,7 +10,7 @@ import {
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 import { SkyScrollableHostService } from '../scrollable-host/scrollable-host.service';
 
 import { SkyViewkeeper } from './viewkeeper';
@@ -37,7 +37,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
   #el: ElementRef;
 
-  #mutationObserverSvc: MutationObserverService;
+  #mutationObserverSvc: SkyMutationObserverService;
 
   #observer: MutationObserver | undefined;
 
@@ -51,7 +51,7 @@ export class SkyViewkeeperDirective implements OnInit, OnDestroy {
 
   constructor(
     el: ElementRef,
-    mutationObserverSvc: MutationObserverService,
+    mutationObserverSvc: SkyMutationObserverService,
     viewkeeperSvc: SkyViewkeeperService,
     @Optional() scrollableHostSvc?: SkyScrollableHostService
   ) {

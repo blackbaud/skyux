@@ -22,6 +22,7 @@ export interface SkyModalConfigurationInterface {
    * In Angular, a provider is something that can create or deliver a service.
    * This property can be used to pass context values from the component that launches the modal to the modal component.
    */
+  // TODO: Change this to `StaticProvider[]` in a breaking change.
   providers?: any[];
 
   /**
