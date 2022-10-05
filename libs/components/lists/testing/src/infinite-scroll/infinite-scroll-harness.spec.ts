@@ -38,7 +38,7 @@ describe('Infinite scroll harness', () => {
 
     verifyNumListItems(fixture, 0);
 
-    await infiniteScrollHarness?.loadMore();
+    await infiniteScrollHarness.loadMore();
 
     verifyNumListItems(fixture, 10);
   });
