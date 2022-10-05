@@ -21,7 +21,11 @@
         [node]="node"
         [templates]="templates"
       >
-        <sky-help-inline class="sky-control-help"></sky-help-inline>
+        <div>HELLO{{ node.name }}</div>
+        <sky-help-inline
+          *ngIf="node.data?.showHelp"
+          class="sky-control-help"
+        ></sky-help-inline>
         <sky-dropdown
           *ngIf="demoOptions.value.showContextMenus"
           buttonType="context-menu"

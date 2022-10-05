@@ -13,6 +13,8 @@ import {
   TreeNode,
 } from '@circlon/angular-tree-component';
 
+import { TreeNodeDemo } from './angular-tree-demo-tree-node.model';
+
 @Component({
   selector: 'app-angular-tree-component-demo',
   styles: [
@@ -90,10 +92,14 @@ export class AngularTreeDemoComponent implements OnInit {
     { name: 'Delete', disabled: false },
   ];
 
-  public nodes: any[] = [
+  public nodes: TreeNodeDemo[] = [
     {
+      // add data that has a property on it that shows or not inline help. add a tree note that has name
       name: 'Animals       ',
       isExpanded: true,
+      data: {
+        showHelp: true,
+      },
       children: [
         {
           name: 'Cats',
