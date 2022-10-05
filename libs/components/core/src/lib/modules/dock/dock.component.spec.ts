@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
 import { SkyDockInsertComponentConfig } from './dock-insert-component-config';
 import { SkyDockLocation } from './dock-location';
@@ -93,7 +93,7 @@ describe('Dock component', () => {
       imports: [DockFixturesModule],
       providers: [
         {
-          provide: MutationObserverService,
+          provide: SkyMutationObserverService,
           useValue: {
             create: function (callback: () => void) {
               mutationCallbacks.push(callback);

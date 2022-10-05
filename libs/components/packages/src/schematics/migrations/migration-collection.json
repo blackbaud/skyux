@@ -9,6 +9,11 @@
       "version": "7.0.0-beta.0",
       "factory": "./update-7/add-moment-dependency",
       "description": "Add moment.js as a dependency since SKY UX 7 references moment.js as a peer."
+    },
+    "rename-mutation-observer-service": {
+      "version": "",
+      "factory": "./update-7/rename-mutation-observer-service",
+      "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
     }
   }
 }

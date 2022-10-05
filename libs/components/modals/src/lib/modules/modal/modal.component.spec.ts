@@ -3,10 +3,10 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
 import {
-  MutationObserverService,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMutationObserverService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -28,6 +28,7 @@ import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixtu
 import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
+import { SkyModalHostComponent } from './modal-host.component';
 import { SkyModalHostService } from './modal-host.service';
 import { SkyModalInstance } from './modal-instance';
 import { SkyModalScrollShadowDirective } from './modal-scroll-shadow.directive';
@@ -575,6 +576,22 @@ describe('Modal component', () => {
     getApplicationRef().tick();
   }));
 
+  it('should not require Router provider', fakeAsync(() => {
+    TestBed.overrideComponent(SkyModalHostComponent, {
+      add: {
+        providers: [
+          {
+            provide: Router,
+            useValue: undefined,
+          },
+        ],
+      },
+    });
+
+    const modalInstance = openModal(ModalTestComponent);
+    closeModal(modalInstance);
+  }));
+
   it('should not close on route change if it is already closed', fakeAsync(() => {
     const instance = openModal(ModalTestComponent);
     const closeSpy = spyOn(instance, 'close').and.callThrough();
@@ -905,7 +922,7 @@ describe('Modal component', () => {
         add: {
           providers: [
             {
-              provide: MutationObserverService,
+              provide: SkyMutationObserverService,
               useValue: modalMockMutationObserverService,
             },
           ],

@@ -9,9 +9,9 @@ import { SkyDescriptionListModeType } from '../types/description-list-mode-type'
   templateUrl: './description-list.component.fixture.html',
 })
 export class SkyDescriptionListTestComponent {
-  public listItemWidth: string;
+  public listItemWidth: string | undefined;
 
-  public mode: SkyDescriptionListModeType;
+  public mode: SkyDescriptionListModeType | undefined;
 
   public personalInfo: { term: string; description?: string }[] = [
     {

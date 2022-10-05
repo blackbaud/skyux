@@ -17,12 +17,12 @@ export class SkyFluidGridComponent {
    * @default false
    */
   @Input()
-  public set disableMargin(value: boolean) {
-    this._disableMargin = value;
+  public set disableMargin(value: boolean | undefined) {
+    this.#_disableMargin = value ?? false;
   }
 
   public get disableMargin(): boolean {
-    return this._disableMargin || false;
+    return this.#_disableMargin;
   }
 
   /**
@@ -31,15 +31,15 @@ export class SkyFluidGridComponent {
    * @default "large"
    */
   @Input()
-  public set gutterSize(value: SkyFluidGridGutterSizeType) {
-    this._gutterSize = value;
+  public set gutterSize(value: SkyFluidGridGutterSizeType | undefined) {
+    this.#_gutterSize = value ?? 'large';
   }
 
   public get gutterSize(): SkyFluidGridGutterSizeType {
-    return this._gutterSize === undefined ? 'large' : this._gutterSize;
+    return this.#_gutterSize;
   }
 
-  private _disableMargin: boolean;
+  #_disableMargin = false;
 
-  private _gutterSize: SkyFluidGridGutterSizeType;
+  #_gutterSize: SkyFluidGridGutterSizeType = 'large';
 }
