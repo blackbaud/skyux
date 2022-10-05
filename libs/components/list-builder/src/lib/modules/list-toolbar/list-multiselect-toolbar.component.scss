@@ -1,9 +1,9 @@
-:host-context(sky-toolbar +)
-  .sky-list-multiselect-toolbar
+:host-context(sky-toolbar)
+  + .sky-list-multiselect-toolbar
   ::ng-deep
   .sky-toolbar-container,
-:host-context(.sky-list-toolbar-search +)
-  .sky-list-multiselect-toolbar
+:host-context(.sky-list-toolbar-search)
+  + .sky-list-multiselect-toolbar
   ::ng-deep
   .sky-toolbar-container {
   border-top: none;
