@@ -86,7 +86,7 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy {
   public size: string;
 
   @ViewChild('modalContentWrapper', { read: ElementRef })
-  private modalContentWrapperElement: ElementRef | undefined;
+  public modalContentWrapperElement: ElementRef | undefined;
 
   #hostService: SkyModalHostService;
   #elRef: ElementRef;

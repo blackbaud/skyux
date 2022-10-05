@@ -4,7 +4,7 @@ import {
   Renderer2,
   RendererFactory2,
 } from '@angular/core';
-import { MutationObserverService, SkyAppWindowRef } from '@skyux/core';
+import { SkyAppWindowRef, SkyMutationObserverService } from '@skyux/core';
 
 import { Subject, fromEvent } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ export class SkySplitViewAdapterService {
   private renderer: Renderer2;
 
   constructor(
-    private observerService: MutationObserverService,
+    private observerService: SkyMutationObserverService,
     private rendererFactory: RendererFactory2,
     private windowRef: SkyAppWindowRef
   ) {

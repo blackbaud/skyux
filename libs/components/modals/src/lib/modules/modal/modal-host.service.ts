@@ -36,7 +36,7 @@ export class SkyModalHostService {
   public zIndex: number;
 
   constructor() {
-    this.zIndex = this.calculateZIndex();
+    this.zIndex = this.#calculateZIndex();
     modalHosts.push(this);
   }
 
@@ -56,7 +56,7 @@ export class SkyModalHostService {
     modalHosts.splice(modalHosts.indexOf(this), 1);
   }
 
-  private calculateZIndex(): number {
+  #calculateZIndex(): number {
     const zIndexArray = modalHosts.map((hostService) => hostService.zIndex);
     if (zIndexArray.length === 0) {
       return BASE_Z_INDEX + 11;
