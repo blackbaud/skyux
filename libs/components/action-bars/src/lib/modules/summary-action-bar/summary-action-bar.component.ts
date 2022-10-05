@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { skyAnimationSlide } from '@skyux/animations';
 import {
-  MutationObserverService,
   SkyAppWindowRef,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
+  SkyMutationObserverService,
 } from '@skyux/core';
 
 import { fromEvent } from 'rxjs';
@@ -85,7 +85,7 @@ export class SkySummaryActionBarComponent implements AfterViewInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
     private mediaQueryService: SkyMediaQueryService,
-    private observerService: MutationObserverService,
+    private observerService: SkyMutationObserverService,
     private windowRef: SkyAppWindowRef
   ) {}
 
