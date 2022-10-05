@@ -23,7 +23,6 @@ export class SkyFilterButtonComponent {
     return this._filterButtonId || `sky-filter-button-${++nextId}`;
   }
   public set filterButtonId(value: string) {
-    //move default value here. check radio or checkbox for implementation
     this._filterButtonId = value;
   }
 
