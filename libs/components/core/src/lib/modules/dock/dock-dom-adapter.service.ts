@@ -9,7 +9,7 @@ import {
 import { Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
 /**
  * @internal
@@ -18,7 +18,7 @@ import { MutationObserverService } from '../mutation/mutation-observer-service';
 export class SkyDockDomAdapterService implements OnDestroy {
   #currentDockHeight: number | undefined;
 
-  #mutationSvc: MutationObserverService;
+  #mutationSvc: SkyMutationObserverService;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -29,7 +29,7 @@ export class SkyDockDomAdapterService implements OnDestroy {
   #styleElement: HTMLStyleElement | undefined;
 
   constructor(
-    mutationSvc: MutationObserverService,
+    mutationSvc: SkyMutationObserverService,
     rendererFactory: RendererFactory2
   ) {
     this.#mutationSvc = mutationSvc;

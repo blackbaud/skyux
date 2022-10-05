@@ -45,14 +45,6 @@ describe('Confirm component', () => {
     });
   });
 
-  afterEach(() => {
-    // Cleanup after unit tests.
-    // TODO: Figure out a better way to do this!
-    const element = document.querySelector('.sky-confirm');
-
-    element?.parentNode?.removeChild(element);
-  });
-
   it('should display an OK confirm by default', async(() => {
     const fixture = createConfirm({
       message: 'confirm message',

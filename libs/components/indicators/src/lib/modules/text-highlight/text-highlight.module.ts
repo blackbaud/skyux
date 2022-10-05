@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { MutationObserverService } from '@skyux/core';
+import { SkyMutationObserverService } from '@skyux/core';
 
 import { SkyTextHighlightDirective } from './text-highlight.directive';
 
 @NgModule({
   declarations: [SkyTextHighlightDirective],
   exports: [SkyTextHighlightDirective],
-  providers: [MutationObserverService],
+  providers: [SkyMutationObserverService],
 })
 export class SkyTextHighlightModule {}

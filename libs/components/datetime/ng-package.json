@@ -3,6 +3,5 @@
   "dest": "../../../dist/libs/components/datetime",
   "lib": {
     "entryFile": "src/index.ts"
-  },
-  "allowedNonPeerDependencies": ["moment"]
+  }
 }
