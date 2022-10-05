@@ -108,6 +108,21 @@ describe('Tokens harness', () => {
     });
   });
 
+  it('should return the disabled state of a token', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const tokens = await tokensHarness.getTokens();
+
+    await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(false);
+
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(true);
+  });
+
   it('should throw an error selecting a token the token is disabled', async () => {
     const { fixture, tokensHarness } = await setupTest({
       dataSkyId: 'my-tokens',

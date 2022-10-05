@@ -38,7 +38,7 @@ export class SkyTokenHarness extends ComponentHarness {
    * Selects the token.
    */
   public async select(): Promise<void> {
-    if (await (await this.#getWrapper()).hasClass('sky-btn-disabled')) {
+    if (await this.isDisabled()) {
       throw new Error('Could not select the token because it is disabled.');
     }
 
@@ -63,6 +63,13 @@ export class SkyTokenHarness extends ComponentHarness {
    */
   public async getText(): Promise<string> {
     return (await this.host()).text();
+  }
+
+  /**
+   * Whether the token is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return (await this.#getWrapper()).hasClass('sky-btn-disabled');
   }
 
   /**
