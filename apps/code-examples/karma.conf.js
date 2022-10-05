@@ -8,9 +8,18 @@ module.exports = function (config) {
   const baseConfig = getBaseKarmaConfig();
   config.set({
     ...baseConfig,
-    coverageIstanbulReporter: {
-      ...baseConfig.coverageIstanbulReporter,
+    coverageReporter: {
+      ...baseConfig.coverageReporter,
       dir: join(__dirname, '../../coverage/apps/code-examples'),
+      // We don't care about coverage for the code examples SPA.
+      check: {
+        global: {
+          statements: 0,
+          branches: 0,
+          functions: 0,
+          lines: 0,
+        },
+      },
     },
   });
 };
