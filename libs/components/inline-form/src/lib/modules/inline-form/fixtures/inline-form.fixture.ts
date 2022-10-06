@@ -20,7 +20,8 @@ export class SkyInlineFormFixtureComponent {
 
   public showFormWithNoElements = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public onClose(event: SkyInlineFormCloseArgs): void {
-    console.log('sky-inline-form onClose event = ', event);
+    return;
   }
 }
