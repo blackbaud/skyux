@@ -201,10 +201,16 @@ describe('Autonumeric directive', () => {
     expect(input.value).toEqual('1,000');
   }));
 
-  it('should not update numeric value on keyup when no change is made and a currency symbol is specified', fakeAsync(() => {
-    setOptions('dollar');
-
+  it('should not update numeric value on keyup when no change is made', fakeAsync(() => {
     const input = fixture.nativeElement.querySelector('input');
+
+    SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
+    SkyAppTestUtility.fireDomEvent(input, 'input');
+    SkyAppTestUtility.fireDomEvent(input, 'keyup');
+
+    expect(fixture.componentInstance.formControl.value).toBeFalsy();
+
+    setOptions('dollar');
 
     SkyAppTestUtility.fireDomEvent(input, 'mouseenter');
     SkyAppTestUtility.fireDomEvent(input, 'input');
