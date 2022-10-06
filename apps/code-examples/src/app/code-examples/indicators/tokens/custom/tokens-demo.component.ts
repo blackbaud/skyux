@@ -8,30 +8,30 @@ import {
 
 import { Subject } from 'rxjs';
 
+import { TokensDemoItem } from './tokens-demo-item';
+
 @Component({
   selector: 'app-tokens-demo',
   templateUrl: './tokens-demo.component.html',
 })
 export class TokensDemoComponent implements OnDestroy {
-  public myTokens: SkyToken[];
+  public myTokens: SkyToken<TokensDemoItem>[];
+  public tokensController = new Subject<SkyTokensMessage>();
+  public selectedToken = '';
 
-  private defaultTokens = [
+  #defaultItems: TokensDemoItem[] = [
     { label: 'Canada' },
     { label: 'Older than 55' },
     { label: 'Employed' },
     { label: 'Added before 2018' },
   ];
 
-  public tokensController: Subject<SkyTokensMessage>;
-
   constructor() {
-    this.myTokens = this.getTokens(this.defaultTokens);
+    this.myTokens = this.#getTokens(this.#defaultItems);
   }
 
   public ngOnDestroy(): void {
-    if (this.tokensController) {
-      this.tokensController.complete();
-    }
+    this.tokensController.complete();
   }
 
   public resetTokens(): void {
@@ -39,7 +39,7 @@ export class TokensDemoComponent implements OnDestroy {
   }
 
   public changeTokens(): void {
-    this.myTokens = this.getTokens([
+    this.myTokens = this.#getTokens([
       { label: 'Paid' },
       { label: 'Pending' },
       { label: 'Past due' },
@@ -51,11 +51,13 @@ export class TokensDemoComponent implements OnDestroy {
   }
 
   public createTokens(): void {
-    this.myTokens = this.getTokens(this.defaultTokens);
+    this.myTokens = this.#getTokens(this.#defaultItems);
   }
 
-  public onTokenSelected(args: SkyTokenSelectedEventArgs): void {
-    console.log('Token selected:', args);
+  public onTokenSelected(
+    args: SkyTokenSelectedEventArgs<TokensDemoItem>
+  ): void {
+    this.selectedToken = args.token.value.label;
   }
 
   public onFocusIndexUnderRange(): void {
@@ -67,20 +69,16 @@ export class TokensDemoComponent implements OnDestroy {
   }
 
   public focusLastToken(): void {
-    if (!this.tokensController) {
-      this.tokensController = new Subject<SkyTokensMessage>();
-    }
-
     this.tokensController.next({
       type: SkyTokensMessageType.FocusLastToken,
     });
   }
 
-  private getTokens(data: any[]): SkyToken[] {
-    return data.map((item: any) => {
+  #getTokens(data: TokensDemoItem[]): SkyToken<TokensDemoItem>[] {
+    return data.map((item) => {
       return {
         value: item,
-      } as SkyToken;
+      };
     });
   }
 }

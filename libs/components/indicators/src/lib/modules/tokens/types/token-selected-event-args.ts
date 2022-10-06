@@ -1,8 +1,8 @@
 import { SkyToken } from './token';
 
-export interface SkyTokenSelectedEventArgs {
+export interface SkyTokenSelectedEventArgs<T = any> {
   /**
    * Indicates the currently selected token.
    */
-  token?: SkyToken;
+  token?: SkyToken<T>;
 }
