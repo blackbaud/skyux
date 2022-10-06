@@ -1,7 +1,8 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { BehaviorSubject, Observable, zip as observableZip } from 'rxjs';
+import { Observable, Subject, zip as observableZip } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { SkyModalInstance } from '../modal/modal-instance';
 
@@ -45,9 +46,11 @@ export class SkyConfirmComponent {
     ) {
       this.buttons = this.#getCustomButtons(config.buttons);
     } else {
-      this.#getPresetButtons().subscribe((buttons: SkyConfirmButton[]) => {
-        this.buttons = buttons;
-      });
+      this.#getPresetButtons()
+        .pipe(take(1))
+        .subscribe((buttons: SkyConfirmButton[]) => {
+          this.buttons = buttons;
+        });
     }
 
     this.message = config.message;
@@ -65,7 +68,7 @@ export class SkyConfirmComponent {
   }
 
   #getPresetButtons(): Observable<SkyConfirmButton[]> {
-    const emitter = new BehaviorSubject<SkyConfirmButton[]>([]);
+    const emitter = new Subject<SkyConfirmButton[]>();
 
     switch (this.#config.type) {
       default:
@@ -143,7 +146,7 @@ export class SkyConfirmComponent {
         break;
     }
 
-    return emitter;
+    return emitter.asObservable();
   }
 
   #getCustomButtons(
