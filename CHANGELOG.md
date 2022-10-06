@@ -1,5 +1,12 @@
 # Changelog
 
+## [6.23.3](https://github.com/blackbaud/skyux/compare/6.23.2...6.23.3) (2022-10-06)
+
+
+### Bug Fixes
+
+* **components/phone-field:** validate new area codes as valid ([#634](https://github.com/blackbaud/skyux/issues/634)) ([deb20ae](https://github.com/blackbaud/skyux/commit/deb20ae5b41918bc35a383ebf585621a8b1a5dd4))
+
 ## [6.23.2](https://github.com/blackbaud/skyux/compare/6.23.1...6.23.2) (2022-10-04)
 
 
