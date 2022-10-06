@@ -5,10 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import {
-  SkyDataManagerService,
-  SkyDataManagerState,
-} from 'libs/components/data-manager/src/index';
+import { SkyDataManagerService, SkyDataManagerState } from '@skyux/data-manager';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 

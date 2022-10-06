@@ -7,7 +7,7 @@ import {
   SkyModalInstance,
 } from '@skyux/modals';
 
-import { SkyDataManagerColumnPickerSortStrategy } from 'libs/components/data-manager/src/index';
+import { SkyDataManagerColumnPickerSortStrategy } from '@skyux/data-manager';
 
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 

@@ -6,11 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import {
-  SkyDataManagerService,
-  SkyDataManagerState,
-  SkyDataViewConfig,
-} from 'libs/components/data-manager/src/index';
+import { SkyDataManagerService, SkyDataManagerState, SkyDataViewConfig } from '@skyux/data-manager';
 
 @Component({
   selector: 'sky-data-view-repeater-fixture',
