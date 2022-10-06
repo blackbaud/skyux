@@ -5,8 +5,14 @@ import { SkyFlyoutConfig } from '../../flyout/types/flyout-config';
 import { SkyFlyoutInstance } from '../flyout-instance';
 
 import { SkyFlyoutHostsTestComponent } from './flyout-hosts.component.fixture';
-import { SKY_FLYOUT_SAMPLE_CONTEXT } from './flyout-sample-context-token';
+import { SkyFlyoutTestSampleContext } from './flyout-sample-context.fixture';
 import { SkyFlyoutTestSampleComponent } from './flyout-sample.component.fixture';
+
+export function flyoutTestSampleFactory(): SkyFlyoutTestSampleContext {
+  const context = new SkyFlyoutTestSampleContext('Sam');
+  context.showIframe = false;
+  return context;
+}
 
 @Component({
   selector: 'sky-test-component',
@@ -24,8 +30,8 @@ export class SkyFlyoutTestComponent {
       options = {
         providers: [
           {
-            provide: SKY_FLYOUT_SAMPLE_CONTEXT,
-            useValue: { name: 'Sam', showIframe: false },
+            provide: SkyFlyoutTestSampleContext,
+            useFactory: flyoutTestSampleFactory,
           },
         ],
       };

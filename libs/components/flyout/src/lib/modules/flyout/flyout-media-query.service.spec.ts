@@ -22,7 +22,10 @@ describe('Flyout media query service', () => {
           }
         );
 
-        expect(result).toEqual(SkyMediaBreakpoints.xs);
+        expect(result).toBeUndefined();
+        mediaQueryService.setBreakpointForWidth(20);
+
+        expect(result).toBe(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
         mediaQueryService.destroy();

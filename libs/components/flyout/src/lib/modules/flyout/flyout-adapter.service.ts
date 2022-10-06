@@ -31,8 +31,12 @@ export class SkyFlyoutAdapterService {
 
   public setResponsiveClass(
     element: ElementRef,
-    breakpoint: SkyMediaBreakpoints
+    breakpoint?: SkyMediaBreakpoints
   ): void {
+    /* istanbul ignore if */
+    if (!breakpoint) {
+      return;
+    }
     const nativeEl: HTMLElement = element.nativeElement;
 
     this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');

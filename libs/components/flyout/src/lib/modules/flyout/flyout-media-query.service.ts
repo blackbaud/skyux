@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyFlyoutMediaQueryService {
-  public get current(): SkyMediaBreakpoints {
+  public get current(): SkyMediaBreakpoints | undefined {
     return this.#_current;
   }
 
-  #currentSubject: BehaviorSubject<SkyMediaBreakpoints>;
+  #currentSubject: ReplaySubject<SkyMediaBreakpoints>;
 
-  #_current = SkyMediaBreakpoints.xs;
+  #_current: SkyMediaBreakpoints | undefined;
 
   constructor() {
-    this.#currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(
-      this.current
-    );
-    this.#currentSubject.next(this.#_current);
+    this.#currentSubject = new ReplaySubject<SkyMediaBreakpoints>(1);
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {
