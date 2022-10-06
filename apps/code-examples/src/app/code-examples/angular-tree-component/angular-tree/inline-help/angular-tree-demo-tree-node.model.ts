@@ -1,10 +1,6 @@
 export class TreeNodeDemo {
   name: string;
-  data?: boolean;
+  showHelp?: boolean;
   children?: TreeNodeDemo[];
   isExpanded?: boolean;
-}
-
-export class TreeNodeSettings {
-  showHelp = false;
 }

@@ -1,15 +1,5 @@
-<sky-angular-tree-wrapper
-  [readOnly]="readOnly"
-  [selectLeafNodesOnly]="selectLeafNodesOnly"
-  [selectSingle]="selectSingle"
-  [showToolbar]="demoOptions.value.showToolbar"
->
-  <tree-root
-    [nodes]="nodes"
-    [options]="treeOptions"
-    (stateChange)="onTreeStateChange($event)"
-    #tree
-  >
+<sky-angular-tree-wrapper>
+  <tree-root [nodes]="nodes" #tree>
     <ng-template
       let-index="index"
       let-node
@@ -22,18 +12,9 @@
         [templates]="templates"
       >
         <sky-help-inline
-          *ngIf="node.data"
+          *ngIf="node.data.showHelp"
           class="sky-control-help"
         ></sky-help-inline>
-        <sky-dropdown buttonType="context-menu">
-          <sky-dropdown-menu>
-            <sky-dropdown-item *ngFor="let item of dropdownItems">
-              <button type="button" (click)="actionClicked(item.name, node)">
-                {{ item.name }}
-              </button>
-            </sky-dropdown-item>
-          </sky-dropdown-menu>
-        </sky-dropdown>
       </sky-angular-tree-node>
     </ng-template>
   </tree-root>
