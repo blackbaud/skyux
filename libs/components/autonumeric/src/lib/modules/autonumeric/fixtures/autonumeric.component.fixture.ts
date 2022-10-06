@@ -38,10 +38,10 @@ export class AutonumericFixtureComponent {
   constructor(formBuilder: UntypedFormBuilder) {
     this.#formBuilder = formBuilder;
 
-    this.formGroup = this.#formBuilder.group({
-      donationAmount: new UntypedFormControl(),
-    });
+    this.formControl = new UntypedFormControl();
 
-    this.formControl = this.formGroup.controls['donationAmount'];
+    this.formGroup = this.#formBuilder.group({
+      donationAmount: this.formControl,
+    });
   }
 }
