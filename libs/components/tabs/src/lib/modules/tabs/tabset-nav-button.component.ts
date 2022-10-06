@@ -23,6 +23,10 @@ export class SkyTabsetNavButtonComponent implements OnDestroy {
    * @required
    */
   @Input()
+  public get tabset(): SkyTabsetComponent {
+    return this.#_tabset;
+  }
+
   public set tabset(value: SkyTabsetComponent) {
     this.#_tabset = value;
 
