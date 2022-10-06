@@ -1,7 +1,7 @@
 import { Component, Inject, Optional } from '@angular/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, Subject, zip as observableZip } from 'rxjs';
+import { Observable, ReplaySubject, zip as observableZip } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { SkyModalInstance } from '../modal/modal-instance';
@@ -68,7 +68,7 @@ export class SkyConfirmComponent {
   }
 
   #getPresetButtons(): Observable<SkyConfirmButton[]> {
-    const emitter = new Subject<SkyConfirmButton[]>();
+    const emitter = new ReplaySubject<SkyConfirmButton[]>(1);
 
     switch (this.#config.type) {
       default:
