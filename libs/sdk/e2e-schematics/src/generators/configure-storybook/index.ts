@@ -124,6 +124,8 @@ export default async function (tree: Tree, schema: Schema) {
         `${projectRoot}/.storybook/tsconfig.json`,
         JSON.stringify({
           extends: '../tsconfig.json',
+          // This is needed to address a bug with dependency injection when using Storybook.
+          // See: https://stackoverflow.com/a/57115788/6178885
           compilerOptions: {
             emitDecoratorMetadata: true,
           },

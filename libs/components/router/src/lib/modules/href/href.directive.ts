@@ -104,7 +104,6 @@ export class SkyHrefDirective {
     this.#changeDetectorRef = changeDetectorRef;
   }
 
-  /* istanbul ignore next */
   @HostListener('click', [
     '$event.button',
     '$event.ctrlKey',
@@ -112,6 +111,7 @@ export class SkyHrefDirective {
     '$event.altKey',
     '$event.metaKey',
   ])
+  /* istanbul ignore next */
   public onClick(
     button: number,
     ctrlKey: boolean,
