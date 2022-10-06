@@ -1,7 +1,6 @@
 <sky-ag-grid-wrapper
   skyAgGridRowDelete
-  [rowDeleteIds]="rowDeleteIds"
-  (rowDeleteIdsChange)="rowDeleteIds = $event"
+  [(rowDeleteIds)]="rowDeleteIds"
   (rowDeleteCancel)="cancelRowDelete($event)"
   (rowDeleteConfirm)="finishRowDelete($event)"
 >
