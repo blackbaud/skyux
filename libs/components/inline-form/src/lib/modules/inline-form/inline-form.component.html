@@ -3,7 +3,7 @@
     <ng-content></ng-content>
   </div>
 
-  <div *ngIf="template && showForm" class="sky-slide-dissolve-last">
+  <div *ngIf="template && showForm && buttons" class="sky-slide-dissolve-last">
     <div class="sky-inline-form sky-shadow sky-box sky-elevation-3">
       <div class="sky-inline-form-content">
         <ng-container [ngTemplateOutlet]="template"> </ng-container>

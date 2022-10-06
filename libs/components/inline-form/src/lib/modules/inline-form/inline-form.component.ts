@@ -88,7 +88,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line @angular-eslint/no-output-native
   public close = new EventEmitter<SkyInlineFormCloseArgs>();
 
-  public buttons!: SkyInlineFormButtonConfig[];
+  public buttons: SkyInlineFormButtonConfig[] | undefined;
 
   #_config: SkyInlineFormConfig | undefined;
 
@@ -273,7 +273,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
         break;
     }
 
-    return promise; // uhhhh not sure how this was working before?? needs to be duplicated across each case statement... right? then needs to have an else statement?
+    return promise;
   }
 
   private getCustomButtons(
