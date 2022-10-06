@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { TreeNodeDemo } from './angular-tree-demo-tree-node.model';
-
 @Component({
   selector: 'app-angular-tree-component-demo',
   styles: [
@@ -20,9 +18,9 @@ import { TreeNodeDemo } from './angular-tree-demo-tree-node.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AngularTreeDemoComponent {
-  public nodes: TreeNodeDemo[] = [
+  public nodes = [
     {
-      name: 'Animals       ',
+      name: 'Animals',
       isExpanded: true,
       showHelp: true,
       children: [
@@ -40,7 +38,10 @@ export class AngularTreeDemoComponent {
           name: 'Dogs',
           isExpanded: true,
           children: [
-            { name: 'Beagle', showHelp: true },
+            {
+              name: 'Beagle',
+              showHelp: true,
+            },
             { name: 'German shepherd' },
             { name: 'Labrador retriever' },
           ],
