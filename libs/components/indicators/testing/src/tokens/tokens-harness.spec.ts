@@ -92,4 +92,63 @@ describe('Tokens harness', () => {
       'Could not dismiss the token because it is not dismissable.'
     );
   });
+
+  it('should select a token', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    spyOn(fixture.componentInstance, 'onTokenSelected');
+
+    const tokens = await tokensHarness.getTokens();
+    await tokens[0].select();
+
+    expect(fixture.componentInstance.onTokenSelected).toHaveBeenCalledOnceWith({
+      token: { value: { name: 'Red' } },
+    });
+  });
+
+  it('should return the disabled state of a token', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const tokens = await tokensHarness.getTokens();
+
+    await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(false);
+
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    await expectAsync(tokens[0].isDisabled()).toBeResolvedTo(true);
+  });
+
+  it('should throw an error selecting a token the token is disabled', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    fixture.componentInstance.disabled = true;
+    fixture.detectChanges();
+
+    const tokens = await tokensHarness.getTokens();
+
+    await expectAsync(tokens[0].select()).toBeRejectedWithError(
+      'Could not select the token because it is disabled.'
+    );
+  });
+
+  it('should return the focused state of a token', async () => {
+    const { fixture, tokensHarness } = await setupTest({
+      dataSkyId: 'my-tokens',
+    });
+
+    const firstToken = (await tokensHarness.getTokens())[0];
+
+    await expectAsync(firstToken.isFocused()).toBeResolvedTo(false);
+
+    fixture.nativeElement.querySelectorAll('sky-token .sky-btn')[0].focus();
+
+    await expectAsync(firstToken.isFocused()).toBeResolvedTo(true);
+  });
 });
