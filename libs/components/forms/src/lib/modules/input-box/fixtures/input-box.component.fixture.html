@@ -110,12 +110,11 @@
       [formControl]="errorField"
       #formControlErrorStatusIndicator="skyId"
     />
-    <sky-status-indicator
-      class="sky-error-indicator"
-      indicatorType="danger"
-      descriptionType="error"
-      >Field is required.</sky-status-indicator
-    >
+    <span class="sky-error-indicator">
+      <sky-status-indicator indicatorType="danger" descriptionType="error">
+        Field is required.
+      </sky-status-indicator>
+    </span>
   </sky-input-box>
 </div>
 
