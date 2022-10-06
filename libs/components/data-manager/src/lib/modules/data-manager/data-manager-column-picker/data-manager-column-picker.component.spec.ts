@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyDataManagerColumnPickerSortStrategy } from '@skyux/data-manager';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyModalConfiguration,
   SkyModalHostService,
   SkyModalInstance,
 } from '@skyux/modals';
-
-import { SkyDataManagerColumnPickerSortStrategy } from '@skyux/data-manager';
 
 import { DataManagerFixtureModule } from '../fixtures/data-manager.module.fixture';
 

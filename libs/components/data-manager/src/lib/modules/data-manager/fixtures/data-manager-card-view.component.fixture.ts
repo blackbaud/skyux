@@ -5,8 +5,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-
-import { SkyDataManagerService, SkyDataManagerState, SkyDataViewConfig } from '@skyux/data-manager';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+  SkyDataViewConfig,
+} from '@skyux/data-manager';
 
 @Component({
   selector: 'sky-data-view-cards-fixture',

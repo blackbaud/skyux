@@ -4,8 +4,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-
-import { SkyDataManagerService, SkyDataManagerState } from '@skyux/data-manager';
+import {
+  SkyDataManagerService,
+  SkyDataManagerState,
+} from '@skyux/data-manager';
 
 import { SkyDataManagerComponent } from '../data-manager.component';
 
