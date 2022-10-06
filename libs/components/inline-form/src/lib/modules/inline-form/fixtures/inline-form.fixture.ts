@@ -8,7 +8,7 @@ import { SkyInlineFormConfig } from '../types/inline-form-config';
   templateUrl: './inline-form.fixture.html',
 })
 export class SkyInlineFormFixtureComponent {
-  public config: SkyInlineFormConfig;
+  public config: SkyInlineFormConfig | undefined;
 
   public showForm = false;
 
@@ -20,5 +20,7 @@ export class SkyInlineFormFixtureComponent {
 
   public showFormWithNoElements = false;
 
-  public onClose(event: SkyInlineFormCloseArgs): void {}
+  public onClose(event: SkyInlineFormCloseArgs): void {
+    console.log('sky-inline-form onClose event = ', event);
+  }
 }
