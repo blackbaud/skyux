@@ -16,7 +16,10 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   #scrollableHostSvc: SkyScrollableHostService;
   #windowRef: SkyAppWindowRef;
 
-  constructor(scrollableHostSvc: SkyScrollableHostService, windowRef: SkyAppWindowRef) {
+  constructor(
+    scrollableHostSvc: SkyScrollableHostService,
+    windowRef: SkyAppWindowRef
+  ) {
     this.#scrollableHostSvc = scrollableHostSvc;
     this.#windowRef = windowRef;
 
@@ -61,7 +64,8 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     this.#observer = new MutationObserver((mutations: MutationRecord[]) => {
       const hasUpdates = !!mutations.find((mutation) => {
         return (
-          !elementRef.nativeElement.contains(mutation.target) && mutation.addedNodes.length > 0
+          !elementRef.nativeElement.contains(mutation.target) &&
+          mutation.addedNodes.length > 0
         );
       });
 
@@ -81,7 +85,10 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     });
   }
 
-  #isElementScrolledInView(element: HTMLElement, parentElement: HTMLElement | Window): boolean {
+  #isElementScrolledInView(
+    element: HTMLElement,
+    parentElement: HTMLElement | Window
+  ): boolean {
     const windowObj = this.#windowRef.nativeWindow as Window;
 
     if (parentElement === windowObj) {
@@ -92,7 +99,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     }
 
     const elementRect = element.getBoundingClientRect();
-    const parentRect = (<HTMLElement>parentElement).getBoundingClientRect();
+    const parentRect = (parentElement as HTMLElement).getBoundingClientRect();
 
     return elementRect.top < parentRect.top + parentRect.height;
   }
