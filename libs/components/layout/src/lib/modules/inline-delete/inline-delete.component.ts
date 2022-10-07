@@ -88,13 +88,7 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
    * @default false
    */
   @Input()
-  public set pending(value: boolean | undefined) {
-    this.#_pending = value ?? false;
-  }
-
-  public get pending(): boolean {
-    return this.#_pending;
-  }
+  public pending: boolean | undefined = false;
 
   /**
    * Fires when users click the cancel button.
@@ -119,8 +113,6 @@ export class SkyInlineDeleteComponent implements OnDestroy, OnInit {
     static: false,
   })
   public deleteButton: ElementRef | undefined;
-
-  #_pending = false;
 
   #adapterService: SkyInlineDeleteAdapterService;
   #changeDetector: ChangeDetectorRef;

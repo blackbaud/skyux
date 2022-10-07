@@ -131,7 +131,7 @@ describe('Dropdown component', function () {
     const dropdownRef = fixture.componentInstance.dropdownRef;
     expect(dropdownRef?.buttonStyle).toEqual('default');
     expect(dropdownRef?.buttonType).toEqual('select');
-    expect(dropdownRef?.disabled).toEqual(false);
+    expect(dropdownRef?.disabled).toBeUndefined();
     expect(dropdownRef?.dismissOnBlur).toEqual(true);
     expect(dropdownRef?.horizontalAlignment).toEqual('left');
     expect(dropdownRef?.label).toBeUndefined();

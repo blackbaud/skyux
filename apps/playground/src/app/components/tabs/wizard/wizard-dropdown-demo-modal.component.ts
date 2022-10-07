@@ -33,7 +33,7 @@ export class WizardDropdownDemoModalComponent implements OnInit {
   public checkRequirementsMet(): void {
     this.step2Disabled = !this.myForm.get('requiredValue1')?.value;
     this.step3Disabled = !this.myForm.get('requiredValue2')?.value;
-    this.saveDisabled = this.myForm.get('requiredValue3')?.value;
+    this.saveDisabled = !this.myForm.get('requiredValue3')?.value;
   }
 
   public onNextClick(): void {
