@@ -15,13 +15,5 @@ export class SkyRowComponent {
    * @default false
    */
   @Input()
-  public set reverseColumnOrder(value: boolean | undefined) {
-    this.#_reverseColumnOrder = value ?? false;
-  }
-
-  public get reverseColumnOrder(): boolean {
-    return this.#_reverseColumnOrder;
-  }
-
-  #_reverseColumnOrder = false;
+  public reverseColumnOrder: boolean | undefined = false;
 }

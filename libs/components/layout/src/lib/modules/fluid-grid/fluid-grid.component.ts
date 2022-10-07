@@ -17,13 +17,7 @@ export class SkyFluidGridComponent {
    * @default false
    */
   @Input()
-  public set disableMargin(value: boolean | undefined) {
-    this.#_disableMargin = value ?? false;
-  }
-
-  public get disableMargin(): boolean {
-    return this.#_disableMargin;
-  }
+  public disableMargin: boolean | undefined = false;
 
   /**
    * Specifies a `SkyFluidGridGutterSizeType` to define the size of the padding
@@ -38,8 +32,6 @@ export class SkyFluidGridComponent {
   public get gutterSize(): SkyFluidGridGutterSizeType {
     return this.#_gutterSize;
   }
-
-  #_disableMargin = false;
 
   #_gutterSize: SkyFluidGridGutterSizeType = 'large';
 }
