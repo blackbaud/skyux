@@ -8,13 +8,9 @@ import { ReplaySubject, Subscription } from 'rxjs';
  */
 @Injectable()
 export class SkyFlyoutMediaQueryService {
-  public get current(): SkyMediaBreakpoints | undefined {
-    return this.#_current;
-  }
+  public current: SkyMediaBreakpoints | undefined;
 
   #currentSubject: ReplaySubject<SkyMediaBreakpoints>;
-
-  #_current: SkyMediaBreakpoints | undefined;
 
   constructor() {
     this.#currentSubject = new ReplaySubject<SkyMediaBreakpoints>(1);
@@ -41,8 +37,8 @@ export class SkyFlyoutMediaQueryService {
       breakpoint = SkyMediaBreakpoints.lg;
     }
 
-    this.#_current = breakpoint;
-    this.#currentSubject.next(this.#_current);
+    this.current = breakpoint;
+    this.#currentSubject.next(this.current);
   }
 
   public isWidthWithinBreakpiont(
