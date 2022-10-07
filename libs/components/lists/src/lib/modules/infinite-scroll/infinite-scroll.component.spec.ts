@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyAppWindowRef } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyMutationObserverService,
+  SkyScrollableHostService,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -15,7 +19,11 @@ describe('Infinite scroll', () => {
   let parentChangesSpy: jasmine.Spy;
 
   beforeEach(() => {
-    adapter = new SkyInfiniteScrollDomAdapterService(new SkyAppWindowRef());
+    const windowRef = new SkyAppWindowRef();
+    adapter = new SkyInfiniteScrollDomAdapterService(
+      new SkyScrollableHostService(new SkyMutationObserverService(), windowRef),
+      windowRef
+    );
 
     parentChangesSpy = spyOn(adapter, 'parentChanges').and.callThrough();
 
