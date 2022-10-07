@@ -109,7 +109,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set descriptorProperty(value: string | undefined) {
-    this.#_descriptorProperty = value ?? 'name';
+    this.#_descriptorProperty = value || 'name';
   }
 
   public get descriptorProperty(): string {
@@ -121,13 +121,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * Indicates whether to display a button in the dropdown that opens a picker where users can view all options.
    */
   @Input()
-  public set enableShowMore(value: boolean | undefined) {
-    this.#_enableShowMore = value ?? false;
-  }
-
-  public get enableShowMore(): boolean {
-    return this.#_enableShowMore;
-  }
+  public enableShowMore: boolean | undefined = false;
 
   /**
    * Specifies an observable of `SkyAutocompleteMessage` that can close the dropdown.
@@ -157,13 +151,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public set propertiesToSearch(value: string[] | undefined) {
     this.#_propertiesToSearch = value ?? ['name'];
 
-    // Reset default search if it is what is being used.
-    if (this.search !== this.searchOrDefault) {
-      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
-        propertiesToSearch: this.propertiesToSearch,
-        searchFilters: this.searchFilters,
-      });
-    }
+    this.#updateDefaultSearchOptions();
   }
 
   public get propertiesToSearch(): string[] {
@@ -209,12 +197,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchTextMinimumCharacters(value: number | undefined) {
-    // If a user gives us 0 we set the variable to 1 as we would only search once a character is given.
-    if (value === 0 || value === undefined) {
-      this.#_searchTextMinimumCharacters = 1;
-    } else {
-      this.#_searchTextMinimumCharacters = value;
-    }
+    this.#_searchTextMinimumCharacters = value && value > 0 ? value : 1;
   }
 
   public get searchTextMinimumCharacters(): number {
@@ -234,13 +217,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   ) {
     this.#_searchFilters = value;
 
-    // Reset default search if it is what is being used.
-    if (this.search !== this.searchOrDefault) {
-      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
-        propertiesToSearch: this.propertiesToSearch,
-        searchFilters: this.searchFilters,
-      });
-    }
+    this.#updateDefaultSearchOptions();
   }
 
   public get searchFilters():
@@ -255,7 +232,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    */
   @Input()
   public set searchResultsLimit(value: number | undefined) {
-    this.#_searchResultsLimit = value ?? 0;
+    this.#_searchResultsLimit = value || 0;
   }
 
   public get searchResultsLimit(): number {
@@ -268,13 +245,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @default false
    */
   @Input()
-  public set showAddButton(value: boolean | undefined) {
-    this.#_showAddButton = value ?? false;
-  }
-
-  public get showAddButton(): boolean {
-    return this.#_showAddButton;
-  }
+  public showAddButton: boolean | undefined = false;
 
   /**
    * Specifies the text to display when no search results are found.
@@ -290,15 +261,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * @default false
    */
   @Input()
-  public set searchAsyncDisabled(value: boolean | undefined) {
-    // NOTE: Istanbul branch ignores don't work for the `??` operator and we don't hit both branches as this is internal - so ignoring line.
-    /* istanbul ignore next */
-    this.#_searchAsyncDisabled = value ?? false;
-  }
-
-  public get searchAsyncDisabled(): boolean {
-    return this.#_searchAsyncDisabled;
-  }
+  public searchAsyncDisabled: boolean | undefined = false;
 
   /**
    * @internal
@@ -356,7 +319,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   public searchText = '';
 
   public get showActionsArea(): boolean {
-    return this.showAddButton || this.enableShowMore;
+    return !!this.showAddButton || !!this.enableShowMore;
   }
 
   public isSearchingAsync = false;
@@ -442,11 +405,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     return this.#_resultsRef;
   }
 
-  public searchOrDefault: SkyAutocompleteSearchFunction =
-    skyAutocompleteDefaultSearchFunction({
-      propertiesToSearch: ['name'],
-      searchFilters: undefined,
-    });
+  public searchOrDefault: SkyAutocompleteSearchFunction;
 
   /**
    * Index that indicates which descendant of the overlay currently has focus.
@@ -490,8 +449,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_descriptorProperty = 'name';
 
-  #_enableShowMore = false;
-
   #_highlightText: string[] | undefined;
 
   #_inputDirective: SkyAutocompleteInputDirective | undefined;
@@ -504,8 +461,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
 
   #_search: SkyAutocompleteSearchFunction | undefined;
 
-  #_searchAsyncDisabled = false;
-
   #_searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
 
   #_searchResults: SkyAutocompleteSearchResult[] | undefined;
@@ -513,8 +468,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   #_searchResultsLimit = 0;
 
   #_searchTextMinimumCharacters = 1;
-
-  #_showAddButton = false;
 
   constructor(
     changeDetector: ChangeDetectorRef,
@@ -530,6 +483,11 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
     this.#adapterService = adapterService;
     this.#overlayService = overlayService;
     this.#inputBoxHostSvc = inputBoxHostSvc;
+
+    this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+      propertiesToSearch: ['name'],
+      searchFilters: undefined,
+    });
 
     const id = ++uniqueId;
     this.resultsListId = `sky-autocomplete-list-${id}`;
@@ -1028,6 +986,16 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
         'sky-autocomplete-descendant-focus'
       );
       this.#setActiveDescendant();
+    }
+  }
+
+  #updateDefaultSearchOptions(): void {
+    // Reset default search if it is what is being used.
+    if (this.search !== this.searchOrDefault) {
+      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      });
     }
   }
 }

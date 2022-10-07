@@ -31,7 +31,7 @@ export class SkyLookupAutocompleteAdapter {
    */
   @Input()
   public set descriptorProperty(value: string | undefined) {
-    this.#_descriptorProperty = value ?? 'name';
+    this.#_descriptorProperty = value || 'name';
   }
 
   public get descriptorProperty(): string {
@@ -46,13 +46,7 @@ export class SkyLookupAutocompleteAdapter {
   public set propertiesToSearch(value: string[] | undefined) {
     this.#_propertiesToSearch = value ?? ['name'];
 
-    // Reset default search if it is what is being used.
-    if (this.search !== this.searchOrDefault) {
-      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
-        propertiesToSearch: this.propertiesToSearch,
-        searchFilters: this.searchFilters,
-      });
-    }
+    this.#updateDefaultSearchOptions();
   }
 
   public get propertiesToSearch(): string[] {
@@ -112,13 +106,7 @@ export class SkyLookupAutocompleteAdapter {
   ) {
     this.#_searchFilters = value;
 
-    // Reset default search if it is what is being used.
-    if (this.search !== this.searchOrDefault) {
-      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
-        propertiesToSearch: this.propertiesToSearch,
-        searchFilters: this.searchFilters,
-      });
-    }
+    this.#updateDefaultSearchOptions();
   }
 
   public get searchFilters():
@@ -153,4 +141,14 @@ export class SkyLookupAutocompleteAdapter {
   #_search: SkyAutocompleteSearchFunction | undefined;
 
   #_searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
+
+  #updateDefaultSearchOptions(): void {
+    // Reset default search if it is what is being used.
+    if (this.search !== this.searchOrDefault) {
+      this.searchOrDefault = skyAutocompleteDefaultSearchFunction({
+        propertiesToSearch: this.propertiesToSearch,
+        searchFilters: this.searchFilters,
+      });
+    }
+  }
 }

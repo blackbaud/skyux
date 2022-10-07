@@ -22,7 +22,7 @@ import {
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { SkySearchAdapterService } from './search-adapter.service';
 
@@ -160,7 +160,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
 
   #searchUpdated = new Subject<string>();
 
-  #searchUpdatedUnsubscribe = new Subject();
+  #searchUpdatedSub: Subscription | undefined;
 
   #_debounceTime = 0;
 
@@ -308,8 +308,7 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
     }
 
     this.#searchUpdated.complete();
-    this.#searchUpdatedUnsubscribe.next();
-    this.#searchUpdatedUnsubscribe.complete();
+    this.#searchUpdatedSub?.unsubscribe();
   }
   #searchBindingChanged(changes: SimpleChanges) {
     return (
@@ -354,15 +353,10 @@ export class SkySearchComponent implements OnDestroy, OnInit, OnChanges {
   }
 
   #setupSearchChangedEvent(): void {
-    this.#searchUpdatedUnsubscribe.next();
+    this.#searchUpdatedSub?.unsubscribe();
 
-    this.#searchUpdated
-      .asObservable()
-      .pipe(
-        takeUntil(this.#searchUpdatedUnsubscribe),
-        debounceTime(this.debounceTime),
-        distinctUntilChanged()
-      )
+    this.#searchUpdatedSub = this.#searchUpdated
+      .pipe(debounceTime(this.debounceTime), distinctUntilChanged())
       .subscribe((value) => {
         this.searchChange.emit(value);
       });

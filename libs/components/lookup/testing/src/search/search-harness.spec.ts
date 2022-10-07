@@ -6,7 +6,7 @@ import { SearchHarnessTestModule } from './fixtures/search-harness-test.module';
 import { SkySearchHarness } from './search-harness';
 
 describe('Search harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}) {
+  async function setupTest(options: { dataSkyId: string }) {
     await TestBed.configureTestingModule({
       imports: [SearchHarnessTestModule],
     }).compileComponents();
@@ -14,12 +14,9 @@ describe('Search harness', () => {
     const fixture = TestBed.createComponent(SearchHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    let searchHarness: SkySearchHarness | undefined;
-    if (options.dataSkyId) {
-      searchHarness = await loader.getHarness(
-        SkySearchHarness.with({ dataSkyId: options.dataSkyId })
-      );
-    }
+    const searchHarness = await loader.getHarness(
+      SkySearchHarness.with({ dataSkyId: options.dataSkyId })
+    );
 
     return { searchHarness, fixture, loader };
   }

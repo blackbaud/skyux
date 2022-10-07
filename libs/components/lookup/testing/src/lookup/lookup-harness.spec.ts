@@ -14,7 +14,7 @@ async function setupTest(options: { dataSkyId: string }) {
   const fixture = TestBed.createComponent(LookupHarnessTestComponent);
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
-  let lookupHarness: SkyLookupHarness | null;
+  let lookupHarness: SkyLookupHarness;
 
   if (options.dataSkyId === 'my-basic-lookup') {
     lookupHarness = await loader.getHarness(
@@ -24,7 +24,7 @@ async function setupTest(options: { dataSkyId: string }) {
     const inputBoxHarness = await loader.getHarness(
       SkyInputBoxHarness.with({ dataSkyId: options.dataSkyId })
     );
-    lookupHarness = await inputBoxHarness.queryHarness(SkyLookupHarness);
+    lookupHarness = (await inputBoxHarness.queryHarness(SkyLookupHarness))!;
   }
 
   return { fixture, lookupHarness };
@@ -39,9 +39,9 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.enterText('d');
+    await lookupHarness.enterText('d');
 
-    const results = (await lookupHarness?.getSearchResults()) ?? [];
+    const results = (await lookupHarness.getSearchResults()) ?? [];
 
     await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
     await expectAsync(results[0].getText()).toBeResolvedTo('Abed');
@@ -52,14 +52,14 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await expectAsync(lookupHarness?.isMultiselect()).toBeResolvedTo(false);
+    await expectAsync(lookupHarness.isMultiselect()).toBeResolvedTo(false);
 
-    await lookupHarness?.enterText('d');
-    await lookupHarness?.selectSearchResult({
+    await lookupHarness.enterText('d');
+    await lookupHarness.selectSearchResult({
       text: 'Leonard',
     });
 
-    await expectAsync(lookupHarness?.getValue()).toBeResolvedTo('Leonard');
+    await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Leonard');
   });
 
   it('should click the add button', async () => {
@@ -67,11 +67,11 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.enterText('r');
+    await lookupHarness.enterText('r');
 
     const spy = spyOn(fixture.componentInstance, 'onAddClick');
 
-    await lookupHarness?.clickAddButton();
+    await lookupHarness.clickAddButton();
 
     expect(spy).toHaveBeenCalled();
   });
@@ -81,14 +81,14 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('rachel');
     await picker?.selectSearchResult({ contentText: 'Rachel' });
     await picker?.saveAndClose();
 
-    await expectAsync(lookupHarness?.getValue()).toBeResolvedTo('Rachel');
+    await expectAsync(lookupHarness.getValue()).toBeResolvedTo('Rachel');
   });
 
   it('should throw an error when clicking on non-existent "Select all" button', async () => {
@@ -96,9 +96,9 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(picker?.selectAll()).toBeRejectedWithError(
       'Could not select all selections because the "Select all" button could not be found.'
@@ -110,9 +110,9 @@ function testSingleSelect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(picker?.clearAll()).toBeRejectedWithError(
       'Could not clear all selections because the "Clear all" button could not be found.'
@@ -129,15 +129,15 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.dismissSelections();
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.dismissSelections();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('abed');
     await picker?.selectSearchResult({ contentText: 'Abed' });
     await picker?.saveAndClose();
 
-    const selections = (await lookupHarness?.getSelections()) ?? [];
+    const selections = (await lookupHarness.getSelections()) ?? [];
 
     expect(selections?.length).toBe(1);
     await expectAsync(selections[0].getText()).toBeResolvedTo('Abed');
@@ -148,16 +148,16 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.dismissSelections();
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([]);
+    await lookupHarness.dismissSelections();
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
 
-    await lookupHarness?.clickShowMoreButton();
-    const picker = await lookupHarness?.getShowMorePicker();
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('ra');
     await picker?.selectSearchResult({ contentText: /Craig|Rachel/ });
     await picker?.saveAndClose();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Craig',
       'Rachel',
     ]);
@@ -168,16 +168,16 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.dismissSelections();
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([]);
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.dismissSelections();
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('ra');
     await picker?.selectAll();
     await picker?.saveAndClose();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Craig',
       'Rachel',
     ]);
@@ -188,18 +188,18 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.loadMore(); // <-- make sure existing selection is present in the search results.
     await picker?.clearAll();
     await picker?.saveAndClose();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([]);
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
   });
 
   it('should clear search text from the "Show more" picker', async () => {
@@ -207,9 +207,9 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('rachel');
     let searchResults = await picker?.getSearchResults();
 
@@ -226,18 +226,18 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.enterSearchText('ra');
     await picker?.selectAll();
     await picker?.cancel();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Shirley',
     ]);
   });
@@ -247,18 +247,18 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.dismissSelections();
+    await lookupHarness.dismissSelections();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([]);
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([]);
 
-    await lookupHarness?.clickShowMoreButton();
+    await lookupHarness.clickShowMoreButton();
 
-    const picker = await lookupHarness?.getShowMorePicker();
+    const picker = await lookupHarness.getShowMorePicker();
     await picker?.loadMore();
     await picker?.selectSearchResult({ contentText: 'Vicki' });
     await picker?.saveAndClose();
 
-    await expectAsync(lookupHarness?.getSelectionsText()).toBeResolvedTo([
+    await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
       'Vicki',
     ]);
   });
@@ -268,8 +268,8 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await lookupHarness?.clickShowMoreButton();
-    const picker = await lookupHarness?.getShowMorePicker();
+    await lookupHarness.clickShowMoreButton();
+    const picker = await lookupHarness.getShowMorePicker();
 
     await expectAsync(
       picker?.selectSearchResult({ contentText: 'Invalid search' })
@@ -283,7 +283,7 @@ function testMultiselect(dataSkyId: string) {
       dataSkyId,
     });
 
-    await expectAsync(lookupHarness?.getShowMorePicker()).toBeRejectedWithError(
+    await expectAsync(lookupHarness.getShowMorePicker()).toBeRejectedWithError(
       'Cannot get the "Show more" picker because it is not open.'
     );
   });
@@ -307,9 +307,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my-custom-template-lookup',
       });
 
-      await lookupHarness?.enterText('d');
+      await lookupHarness.enterText('d');
 
-      const results = (await lookupHarness?.getSearchResults()) ?? [];
+      const results = (await lookupHarness.getSearchResults()) ?? [];
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Abed');
       await expectAsync(results[0].getText()).toBeResolvedTo(
@@ -322,9 +322,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my-custom-template-lookup',
       });
 
-      await lookupHarness?.clickShowMoreButton();
+      await lookupHarness.clickShowMoreButton();
 
-      const picker = await lookupHarness?.getShowMorePicker();
+      const picker = await lookupHarness.getShowMorePicker();
       await picker?.enterSearchText('d');
 
       const results = (await picker?.getSearchResults()) ?? [];
@@ -340,9 +340,9 @@ describe('Lookup harness', () => {
         dataSkyId: 'my-basic-lookup',
       });
 
-      await lookupHarness?.focus();
+      await lookupHarness.focus();
 
-      await expectAsync(lookupHarness?.isFocused()).toBeResolvedTo(true);
+      await expectAsync(lookupHarness.isFocused()).toBeResolvedTo(true);
     });
   });
 });

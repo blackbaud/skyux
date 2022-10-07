@@ -281,7 +281,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -295,11 +295,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -318,10 +318,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -530,11 +530,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0]
-            .querySelector('.sky-deemphasized')
-            ?.textContent?.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -870,7 +868,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -884,11 +882,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -904,11 +902,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -952,10 +950,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1199,11 +1197,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0]
-            .querySelector('.sky-deemphasized')
-            ?.textContent?.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -1398,7 +1394,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1412,11 +1408,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -1437,10 +1433,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Australia');
+        expect(results[0]).toHaveText('Australia');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__au');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1583,11 +1579,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0]
-            .querySelector('.sky-deemphasized')
-            ?.textContent?.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
