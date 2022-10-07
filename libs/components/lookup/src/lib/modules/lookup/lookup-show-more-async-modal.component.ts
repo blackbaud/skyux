@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -16,7 +15,6 @@ import { take } from 'rxjs/operators';
 import { SkyAutocompleteSearchAsyncResult } from '../autocomplete/types/autocomplete-search-async-result';
 
 import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
-import { SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT } from './types/lookup-show-more-native-picker-context-token';
 
 /**
  * @internal
@@ -72,7 +70,6 @@ export class SkyLookupShowMoreAsyncModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public modalInstance: SkyModalInstance,
-    @Inject(SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT)
     public context: SkyLookupShowMoreNativePickerAsyncContext,
     changeDetector: ChangeDetectorRef,
     idSvc: SkyIdService,

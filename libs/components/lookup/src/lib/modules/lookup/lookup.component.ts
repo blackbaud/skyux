@@ -47,7 +47,6 @@ import { SkyLookupSelectModeType } from './types/lookup-select-mode-type';
 import { SkyLookupShowMoreConfig } from './types/lookup-show-more-config';
 import { SkyLookupShowMoreNativePickerAsyncContext } from './types/lookup-show-more-native-picker-async-context';
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
-import { SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT } from './types/lookup-show-more-native-picker-context-token';
 
 @Component({
   selector: 'sky-lookup',
@@ -591,6 +590,10 @@ export class SkyLookupComponent
       modalConfig.itemTemplate = this.searchResultTemplate;
     }
 
+    let contextProviderType:
+      | typeof SkyLookupShowMoreNativePickerContext
+      | typeof SkyLookupShowMoreNativePickerAsyncContext;
+
     let contextProviderValue:
       | SkyLookupShowMoreNativePickerContext
       | SkyLookupShowMoreNativePickerAsyncContext;
@@ -600,18 +603,20 @@ export class SkyLookupComponent
       | typeof SkyLookupShowMoreAsyncModalComponent;
 
     if (this.searchAsync.observers.length > 0) {
+      contextProviderType = SkyLookupShowMoreNativePickerAsyncContext;
       modalComponentType = SkyLookupShowMoreAsyncModalComponent;
 
-      contextProviderValue = {} as SkyLookupShowMoreNativePickerAsyncContext;
+      contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext();
       contextProviderValue.idProperty = this.idProperty!;
       contextProviderValue.searchAsync = (args) => {
         this.searchAsync.emit(args);
         return args.result!;
       };
     } else {
+      contextProviderType = SkyLookupShowMoreNativePickerContext;
       modalComponentType = SkyLookupShowMoreModalComponent;
 
-      contextProviderValue = {} as SkyLookupShowMoreNativePickerContext;
+      contextProviderValue = new SkyLookupShowMoreNativePickerContext();
       contextProviderValue.items = this.data;
       contextProviderValue.search = this.searchOrDefault;
     }
@@ -626,7 +631,7 @@ export class SkyLookupComponent
     return this.#modalService.open(modalComponentType, {
       providers: [
         {
-          provide: SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT,
+          provide: contextProviderType,
           useValue: contextProviderValue,
         },
       ],

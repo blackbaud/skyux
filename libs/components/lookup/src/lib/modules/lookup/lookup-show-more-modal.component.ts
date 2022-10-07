@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
   OnDestroy,
   TemplateRef,
 } from '@angular/core';
@@ -13,7 +12,6 @@ import { SkyModalInstance } from '@skyux/modals';
 import { Subject } from 'rxjs';
 
 import { SkyLookupShowMoreNativePickerContext } from './types/lookup-show-more-native-picker-context';
-import { SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT } from './types/lookup-show-more-native-picker-context-token';
 
 /**
  * @internal
@@ -82,7 +80,6 @@ export class SkyLookupShowMoreModalComponent
 
   constructor(
     public modalInstance: SkyModalInstance,
-    @Inject(SKY_SHOW_MORE_NATIVE_PICKER_CONTEXT)
     public context: SkyLookupShowMoreNativePickerContext,
     changeDetector: ChangeDetectorRef,
     idSvc: SkyIdService
