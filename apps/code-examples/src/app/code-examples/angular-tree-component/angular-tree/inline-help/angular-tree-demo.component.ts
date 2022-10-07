@@ -2,18 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-angular-tree-component-demo',
-  styles: [
-    `
-      .app-demo-container {
-        border: 1px solid #cdcfd2;
-        padding: 20px;
-
-        .angular-tree-component {
-          background: #fff;
-        }
-      }
-    `,
-  ],
+  styleUrls: ['./angular-tree-demo.component.scss'],
   templateUrl: './angular-tree-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
