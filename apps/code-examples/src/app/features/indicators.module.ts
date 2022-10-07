@@ -11,6 +11,10 @@ import { StatusIndicatorDemoComponent } from '../code-examples/indicators/status
 import { StatusIndicatorDemoModule } from '../code-examples/indicators/status-indicator/basic/status-indicator-demo.module';
 import { TextHighlightDemoComponent } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.component';
 import { TextHighlightDemoModule } from '../code-examples/indicators/text-highlight/basic/text-highlight-demo.module';
+import { TokensDemoComponent as TokensBasicDemoComponent } from '../code-examples/indicators/tokens/basic/tokens-demo.component';
+import { TokensDemoModule as TokensBasicDemoModule } from '../code-examples/indicators/tokens/basic/tokens-demo.module';
+import { TokensDemoComponent as TokensCustomDemoComponent } from '../code-examples/indicators/tokens/custom/tokens-demo.component';
+import { TokensDemoModule as TokensCustomDemoModule } from '../code-examples/indicators/tokens/custom/tokens-demo.module';
 
 const routes: Routes = [
   {
@@ -33,6 +37,14 @@ const routes: Routes = [
     path: 'text-highlight/basic',
     component: TextHighlightDemoComponent,
   },
+  {
+    path: 'tokens/basic',
+    component: TokensBasicDemoComponent,
+  },
+  {
+    path: 'tokens/custom',
+    component: TokensCustomDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -49,6 +61,8 @@ export class IndicatorsFeatureRoutingModule {}
     KeyInfoDemoModule,
     LabelDemoModule,
     TextHighlightDemoModule,
+    TokensBasicDemoModule,
+    TokensCustomDemoModule,
   ],
 })
 export class IndicatorsFeatureModule {}

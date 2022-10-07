@@ -1,12 +1,12 @@
 import { ApplicationRef } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
-  MutationObserverService,
   SkyCoreAdapterService,
   SkyDockLocation,
   SkyDockService,
+  SkyMutationObserverService,
 } from '@skyux/core';
 import {
   SkyTheme,
@@ -20,11 +20,13 @@ import { ModalMockThemeService } from './fixtures/mock-theme.service';
 import { ModalAutofocusTestComponent } from './fixtures/modal-autofocus.component.fixture';
 import { SkyModalFixturesModule } from './fixtures/modal-fixtures.module';
 import { ModalFooterTestComponent } from './fixtures/modal-footer.component.fixture';
+import { ModalLauncherTestComponent } from './fixtures/modal-launcher.component.fixture';
 import { ModalNoHeaderTestComponent } from './fixtures/modal-no-header.component.fixture';
 import { ModalTiledBodyTestComponent } from './fixtures/modal-tiled-body.component.fixture';
 import { ModalWithCloseConfirmTestComponent } from './fixtures/modal-with-close-confirm.component.fixture';
 import { ModalWithFocusContentTestComponent } from './fixtures/modal-with-focus-content.fixture';
 import { ModalWithFocusContext } from './fixtures/modal-with-focus-context.fixture';
+import { ModalWithScrollingContentTestComponent } from './fixtures/modal-with-scrolling-content.fixture.component';
 import { ModalTestComponent } from './fixtures/modal.component.fixture';
 import { SkyModalBeforeCloseHandler } from './modal-before-close-handler';
 import { SkyModalComponentAdapterService } from './modal-component-adapter.service';
@@ -922,7 +924,7 @@ describe('Modal component', () => {
         add: {
           providers: [
             {
-              provide: MutationObserverService,
+              provide: SkyMutationObserverService,
               useValue: modalMockMutationObserverService,
             },
           ],
@@ -1047,5 +1049,19 @@ describe('Modal component', () => {
 
       closeModal(modalInstance1);
     }));
+  });
+
+  it('should pass accessibility with scrolling content', async () => {
+    const fixture = TestBed.createComponent(ModalLauncherTestComponent);
+
+    fixture.detectChanges();
+    fixture.componentInstance.launchModal(
+      ModalWithScrollingContentTestComponent
+    );
+    fixture.detectChanges();
+
+    await expectAsync(
+      document.querySelector('.sky-modal-dialog')
+    ).toBeAccessible();
   });
 });

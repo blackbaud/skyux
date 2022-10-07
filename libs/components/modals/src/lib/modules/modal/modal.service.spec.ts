@@ -192,7 +192,7 @@ describe('Modal service', () => {
       const modal = openModal(ModalTestComponent, { fullPage: false });
 
       expect(
-        document.querySelector('sky-modal-host').getAttribute('aria-hidden')
+        document.querySelector('sky-modal-host')?.getAttribute('aria-hidden')
       ).toBe(null);
       closeModal(modal);
     }));
@@ -264,13 +264,13 @@ describe('Modal service', () => {
       const topModal = openModal(ModalTestComponent, { fullPage: false });
 
       expect(
-        document.getElementById('firstModal').getAttribute('aria-hidden')
+        document.getElementById('firstModal')?.getAttribute('aria-hidden')
       ).toBe('true');
 
       closeModal(secondModal);
 
       expect(
-        document.getElementById('firstModal').getAttribute('aria-hidden')
+        document.getElementById('firstModal')?.getAttribute('aria-hidden')
       ).toBe('true');
 
       closeModal(firstModal);
@@ -288,7 +288,7 @@ describe('Modal service', () => {
       closeModal(topModal);
 
       expect(
-        document.getElementById('lowerModal').getAttribute('aria-hidden')
+        document.getElementById('lowerModal')?.getAttribute('aria-hidden')
       ).toBe(null);
 
       closeModal(lowerModal);
@@ -301,12 +301,12 @@ describe('Modal service', () => {
       modalsList.item(0).id = 'sibling';
 
       expect(
-        document.getElementById('sibling').getAttribute('aria-hidden')
+        document.getElementById('sibling')?.getAttribute('aria-hidden')
       ).toBe('true');
 
       closeModal(modal);
       expect(
-        document.getElementById('sibling').getAttribute('aria-hidden')
+        document.getElementById('sibling')?.getAttribute('aria-hidden')
       ).toBe(null);
       closeModal(siblingModal);
     }));
@@ -328,7 +328,7 @@ describe('Modal service', () => {
       const modal = openModal(ModalTestComponent, { fullPage: false });
 
       expect(
-        document.querySelector('sky-test-cmp').getAttribute('aria-hidden')
+        document.querySelector('sky-test-cmp')?.getAttribute('aria-hidden')
       ).toBe(null);
 
       closeModal(modal);
