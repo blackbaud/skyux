@@ -105,11 +105,11 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp, OnDestroy {
     this.#changeDetector.markForCheck();
   }
 
-  public onMenuClick($event: Event) {
+  public onMenuClick($event: Event): void {
     this.params.showColumnMenu($event.target as HTMLElement);
   }
 
-  public onSortRequested(event) {
+  public onSortRequested(event): void {
     this.params.progressSort(!!event.shiftKey);
   }
 
@@ -118,11 +118,11 @@ export class SkyAgGridHeaderComponent implements IHeaderAngularComp, OnDestroy {
     return false;
   }
 
-  #updateSort() {
+  #updateSort(): void {
     this.sortOrder$.next(this.params.column.getSort() || undefined);
   }
 
-  #updateSortIndex() {
+  #updateSortIndex(): void {
     const sortIndex = this.params.column.getSortIndex();
     const otherSortColumns = this.params.columnApi
       .getAllColumns()
