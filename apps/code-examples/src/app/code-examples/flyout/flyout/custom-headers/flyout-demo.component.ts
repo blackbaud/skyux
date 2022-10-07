@@ -14,7 +14,11 @@ import { FlyoutDemoFlyoutComponent } from './flyout-demo-flyout.component';
 export class FlyoutDemoComponent {
   public flyout: SkyFlyoutInstance<any>;
 
-  constructor(private flyoutService: SkyFlyoutService) {}
+  #flyoutService: SkyFlyoutService;
+
+  constructor(flyoutService: SkyFlyoutService) {
+    this.#flyoutService = flyoutService;
+  }
 
   public openFlyoutWithIterators(): void {
     const flyoutConfig: SkyFlyoutConfig = {
@@ -22,7 +26,7 @@ export class FlyoutDemoComponent {
       ariaRole: 'dialog',
       showIterator: true,
     };
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
@@ -57,7 +61,7 @@ export class FlyoutDemoComponent {
         },
       },
     };
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );
@@ -76,7 +80,7 @@ export class FlyoutDemoComponent {
         url: 'http://www.blackbaud.com',
       },
     };
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       FlyoutDemoFlyoutComponent,
       flyoutConfig
     );

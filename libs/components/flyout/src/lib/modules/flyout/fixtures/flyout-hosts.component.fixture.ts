@@ -5,6 +5,7 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
 import { SkyFlyoutService } from '../flyout.service';
 
 import { SkyFlyoutModalFixtureContext } from './flyout-modal-context';
+import { SKY_FLYOUT_MODAL_CONTEXT } from './flyout-modal-context-token';
 import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.component';
 
 @Component({
@@ -13,25 +14,26 @@ import { SkyFlyoutModalFixtureFormComponent } from './flyout-modal-form.componen
   providers: [SkyFlyoutService],
 })
 export class SkyFlyoutHostsTestComponent {
-  constructor(
-    private modal: SkyModalService,
-    private toastService: SkyToastService
-  ) {}
+  #modal: SkyModalService;
+  #toastService: SkyToastService;
+  constructor(modal: SkyModalService, toastService: SkyToastService) {
+    this.#modal = modal;
+    this.#toastService = toastService;
+  }
 
   public openModal(): void {
-    const context = new SkyFlyoutModalFixtureContext();
-    context.valueA = 'Hello';
+    const context: SkyFlyoutModalFixtureContext = { valueA: 'Hello' };
 
     const options: any = {
-      providers: [{ provide: SkyFlyoutModalFixtureContext, useValue: context }],
+      providers: [{ provide: SKY_FLYOUT_MODAL_CONTEXT, useValue: context }],
       ariaDescribedBy: 'docs-modal-content',
     };
 
-    this.modal.open(SkyFlyoutModalFixtureFormComponent, options);
+    this.#modal.open(SkyFlyoutModalFixtureFormComponent, options);
   }
 
   public openMessage(): void {
-    this.toastService.openMessage(`This is a sample toast message.`, {
+    this.#toastService.openMessage(`This is a sample toast message.`, {
       type: SkyToastType.Info,
     });
   }
