@@ -5,8 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-
-import { SkyDataManagerService } from 'libs/components/data-manager/src/index';
+import { SkyDataManagerService } from '@skyux/data-manager';
 
 import { DataViewRepeaterFixtureComponent } from './fixtures/data-manager-repeater-view.component.fixture';
 import { DataManagerFixtureModule } from './fixtures/data-manager.module.fixture';

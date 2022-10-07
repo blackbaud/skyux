@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 
-// TODO: Prefix this service with `Sky` in a breaking change.
+/**
+ * @internal
+ */
 @Injectable({
   providedIn: 'root',
 })
-export class MutationObserverService {
-  // TODO: Give the `callback` parameter a stricter type in a breaking change.
-  public create(callback: any): MutationObserver {
+export class SkyMutationObserverService {
+  public create(callback: MutationCallback): MutationObserver {
     return new MutationObserver(callback);
   }
 }

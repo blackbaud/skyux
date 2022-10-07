@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
 /**
  * Trims whitespace in each text node that is a direct descendent of the current element.
@@ -13,7 +13,7 @@ export class SkyTrimDirective implements OnInit, OnDestroy {
 
   #obs: MutationObserver;
 
-  constructor(elRef: ElementRef, mutationObs: MutationObserverService) {
+  constructor(elRef: ElementRef, mutationObs: SkyMutationObserverService) {
     this.#elRef = elRef;
 
     this.#obs = mutationObs.create((mutations: MutationRecord[]) => {

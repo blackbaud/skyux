@@ -160,21 +160,6 @@ export class SkyFuzzyDatepickerInputDirective
   public skyDatepickerNoValidate = false;
 
   /**
-   * Creates the fuzzy datepicker input and calendar to let users specify dates that are
-   * not complete. For example, if users know the year but not the month or day, they can
-   * enter just the year. Place this directive on an `input` element, and wrap the `input`
-   * in a `sky-datepicker` component. The value that users select is driven
-   * through the `ngModel` attribute specified on the `input` element.
-   * @required
-   */
-  @Input()
-  public set skyFuzzyDatepickerInput(
-    value: SkyDatepickerComponent | undefined | ''
-  ) {
-    // TODO: Remove this property in a future version of SKY UX.
-  }
-
-  /**
    * Specifies the starting day of the week in the calendar, where `0` sets the starting day
    * to Sunday. Place this attribute on the `input` element to override the default
    * in `SkyDatepickerConfigService`.

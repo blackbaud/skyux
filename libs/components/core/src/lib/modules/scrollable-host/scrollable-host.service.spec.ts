@@ -4,7 +4,7 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
 import { Subject } from 'rxjs';
 import { delay, take, takeUntil } from 'rxjs/operators';
 
-import { MutationObserverService } from '../mutation/mutation-observer-service';
+import { SkyMutationObserverService } from '../mutation/mutation-observer-service';
 
 import { ScrollableHostFixtureComponent } from './fixtures/scrollable-host.component.fixture';
 import { SkyScrollableHostService } from './scrollable-host.service';
@@ -179,7 +179,7 @@ describe('Scrollable host service', () => {
 
     const scrollableHostObservable = cmp.watchScrollableHost();
 
-    const mutationObserverSvc = TestBed.inject(MutationObserverService);
+    const mutationObserverSvc = TestBed.inject(SkyMutationObserverService);
 
     spyOn(mutationObserverSvc, 'create').and.callThrough();
 

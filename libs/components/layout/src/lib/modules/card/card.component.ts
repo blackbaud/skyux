@@ -46,13 +46,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public set selectable(value: boolean | undefined) {
-    this.#_selectable = value ?? false;
-  }
-
-  public get selectable(): boolean {
-    return this.#_selectable;
-  }
+  public selectable: boolean | undefined = false;
 
   /**
    * Indicates whether the card is selected. This only applies to card where
@@ -60,13 +54,7 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
    * @default false
    */
   @Input()
-  public set selected(value: boolean | undefined) {
-    this.#_selected = value ?? false;
-  }
-
-  public get selected(): boolean {
-    return this.#_selected;
-  }
+  public selected: boolean | undefined = false;
 
   /**
    * Fires when users select or deselect the card.
@@ -84,8 +72,6 @@ export class SkyCardComponent implements AfterContentInit, OnDestroy {
 
   #subscription: Subscription | undefined;
   #_size = 'large';
-  #_selectable = false;
-  #_selected = false;
 
   constructor(logger: SkyLogService) {
     logger.deprecated('SkyCardComponent', {
