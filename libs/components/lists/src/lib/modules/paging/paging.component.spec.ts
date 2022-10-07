@@ -2,21 +2,18 @@ import { DebugElement } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyThemeService } from '@skyux/theme';
 
-import { PagingTestComponent } from './fixtures/paging.component.fixture';
-import { SkyPagingModule } from './paging.module';
+import { SkyPagingTestComponent } from './fixtures/paging.component.fixture';
+import { SkyPagingFixturesModule } from './fixtures/paging.module.fixture';
 
 describe('Paging component', () => {
-  let component: PagingTestComponent, fixture: any, element: DebugElement;
+  let component: SkyPagingTestComponent, fixture: any, element: DebugElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PagingTestComponent],
-      imports: [SkyPagingModule],
-      providers: [SkyThemeService],
+      imports: [SkyPagingFixturesModule],
     });
 
-    fixture = TestBed.createComponent(PagingTestComponent);
+    fixture = TestBed.createComponent(SkyPagingTestComponent);
     element = fixture.debugElement as DebugElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
