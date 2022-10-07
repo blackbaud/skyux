@@ -17,7 +17,7 @@ export class SectionedFormInformationFormDemoComponent {
   public set nameRequired(value: boolean) {
     this._nameRequired = value;
 
-    if (this._nameRequired) {
+    if (value) {
       this.sectionService.requiredFieldChanged(true);
     } else {
       this.sectionService.requiredFieldChanged(false);
