@@ -55,7 +55,7 @@ export class SkySectionedFormComponent
    * @default false
    */
   @Input()
-  public maintainSectionContent = false;
+  public maintainSectionContent: boolean | undefined = false;
 
   /**
    * Fires when the active tab changes and emits the index of the active
@@ -64,62 +64,68 @@ export class SkySectionedFormComponent
   @Output()
   public indexChanged: EventEmitter<number> = new EventEmitter();
 
-  public get ariaRole(): string {
-    return this.isMobile ? undefined : 'tablist';
-  }
+  public ariaRole: string | undefined = 'tablist';
 
   @ViewChild('skySectionSideContent')
-  public content: ElementRef;
+  public content: ElementRef | undefined;
 
-  private isMobile = false;
-  private _ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
+
+  #changeRef: ChangeDetectorRef;
 
   constructor(
     public tabService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef
-  ) {}
+    changeRef: ChangeDetectorRef
+  ) {
+    this.#changeRef = changeRef;
+  }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.tabService.maintainTabContent = this.maintainSectionContent;
 
     this.tabService.indexChanged
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((index) => {
         this.indexChanged.emit(index);
-        this.changeRef.markForCheck();
+        this.#changeRef.markForCheck();
       });
 
     this.tabService.switchingMobile
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
-        this.isMobile = mobile;
-        this.changeRef.markForCheck();
+        if (!mobile) {
+          this.ariaRole = 'tablist';
+        } else {
+          this.ariaRole = undefined;
+        }
+
+        this.#changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
-      this.isMobile = true;
+      this.ariaRole = undefined;
       this.tabService.animationContentVisibleState = VISIBLE_STATE;
-      this.changeRef.markForCheck();
+      this.#changeRef.markForCheck();
     }
   }
 
-  public ngAfterViewChecked() {
+  public ngAfterViewChecked(): void {
     this.tabService.content = this.content;
     this.tabService.updateContent();
   }
 
-  public ngOnDestroy() {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+  public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
-  public tabsVisible() {
-    this.changeRef.markForCheck();
+  public tabsVisible(): boolean {
+    this.#changeRef.markForCheck();
     return this.tabService.tabsVisible();
   }
 
-  public showTabs() {
+  public showTabs(): void {
     this.tabService.showTabs();
-    this.changeRef.markForCheck();
+    this.#changeRef.markForCheck();
   }
 }
