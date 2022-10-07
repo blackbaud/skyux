@@ -88,7 +88,8 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line @angular-eslint/no-output-native
   public close = new EventEmitter<SkyInlineFormCloseArgs>();
 
-  public buttons: SkyInlineFormButtonConfig[] | undefined;
+  // TODO: handle buttons being set asynchronously ("| undefined") when setting autofocus
+  public buttons!: SkyInlineFormButtonConfig[];
 
   #_config: SkyInlineFormConfig | undefined;
 
