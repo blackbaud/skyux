@@ -1,4 +1,4 @@
-export class SkyFlyoutModalFixtureContext {
-  public valueA: string;
-  public eventMessage?: string;
+export interface SkyFlyoutModalFixtureContext {
+  valueA: string;
+  eventMessage?: string;
 }

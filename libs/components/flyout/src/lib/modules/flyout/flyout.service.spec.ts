@@ -8,7 +8,6 @@ import { SkyFlyoutFixturesModule } from './fixtures/flyout-fixtures.module';
 import { SkyFlyoutHostsTestComponent } from './fixtures/flyout-hosts.component.fixture';
 import { SkyFlyoutAdapterService } from './flyout-adapter.service';
 import { SkyFlyoutService } from './flyout.service';
-import { SkyFlyoutMessageType } from './types/flyout-message-type';
 
 describe('Flyout service', () => {
   let service: SkyFlyoutService;
@@ -36,7 +35,8 @@ describe('Flyout service', () => {
   ));
 
   it('should only create a single host component', () => {
-    const spy = spyOn(service as any, 'createHostComponent').and.callThrough();
+    const dynamicService = TestBed.inject(SkyDynamicComponentService);
+    const spy = spyOn(dynamicService, 'createComponent').and.callThrough();
     service.open(SkyFlyoutHostsTestComponent);
     service.open(SkyFlyoutHostsTestComponent);
     expect(spy.calls.count()).toEqual(1);
@@ -47,47 +47,39 @@ describe('Flyout service', () => {
     expect(typeof flyout.close).toEqual('function');
   });
 
-  it('should expose a method to remove the flyout from the DOM', () => {
+  it('should expose a method to remove the flyout from the DOM', fakeAsync(() => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });
     service.open(SkyFlyoutHostsTestComponent);
     applicationRef.tick();
-    const spy = spyOn(
-      service['host'].instance.messageStream,
-      'next'
-    ).and.callThrough();
+    const dynamicService = TestBed.inject(SkyDynamicComponentService);
+    const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
     service.close();
     applicationRef.tick();
-    expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.Close,
-      data: {
-        ignoreBeforeClose: false,
-      },
-    });
-  });
+    tick();
+    expect(spy).toHaveBeenCalled();
+  }));
 
-  it('should respect close method arguments', () => {
+  it('should respect ignoring the before close handler when closing the flyout', fakeAsync(() => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
       fun();
       return 0;
     });
-    service.open(SkyFlyoutHostsTestComponent);
+    const instance = service.open(SkyFlyoutHostsTestComponent);
+    instance.beforeClose.subscribe(() => {
+      fail('Should not have fired the beforeClose event if ignoring it');
+      return;
+    });
     applicationRef.tick();
-    const spy = spyOn(
-      service['host'].instance.messageStream,
-      'next'
-    ).and.callThrough();
+    const dynamicService = TestBed.inject(SkyDynamicComponentService);
+    const spy = spyOn(dynamicService, 'removeComponent').and.callThrough();
     service.close({ ignoreBeforeClose: true });
     applicationRef.tick();
-    expect(spy).toHaveBeenCalledWith({
-      type: SkyFlyoutMessageType.Close,
-      data: {
-        ignoreBeforeClose: true,
-      },
-    });
-  });
+    tick();
+    expect(spy).toHaveBeenCalled();
+  }));
 
   it('should dispose of any open host if the service is destroyed', () => {
     spyOn(window as any, 'setTimeout').and.callFake((fun: any) => {
@@ -139,13 +131,13 @@ describe('Flyout service', () => {
   }));
 
   it('should remove the host when the user navigates through history if no closed event is fired in 500ms - sanity check', fakeAsync(() => {
-    service.open(SkyFlyoutHostsTestComponent);
+    const instance = service.open(SkyFlyoutHostsTestComponent);
     const dynamicService = TestBed.inject(SkyDynamicComponentService);
     const removeComponentSpy = spyOn(
       dynamicService,
       'removeComponent'
     ).and.callThrough();
-    spyOn(service['host'].instance.messageStream, 'next').and.stub();
+    spyOn(instance.closed, 'emit');
 
     tick();
     applicationRef.tick();

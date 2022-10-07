@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyAppWindowRef } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyMutationObserverService,
+  SkyScrollableHostService,
+} from '@skyux/core';
 
 import { Subject } from 'rxjs';
 
@@ -15,7 +19,11 @@ describe('Infinite scroll', () => {
   let parentChangesSpy: jasmine.Spy;
 
   beforeEach(() => {
-    adapter = new SkyInfiniteScrollDomAdapterService(new SkyAppWindowRef());
+    const windowRef = new SkyAppWindowRef();
+    adapter = new SkyInfiniteScrollDomAdapterService(
+      new SkyScrollableHostService(new SkyMutationObserverService(), windowRef),
+      windowRef
+    );
 
     parentChangesSpy = spyOn(adapter, 'parentChanges').and.callThrough();
 
@@ -163,7 +171,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should emit a scrollEnd event on scroll when an element is the scrollable parent', async () => {
-    const wrapper = fixture.componentInstance.wrapper.nativeElement;
+    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow:auto;');
 
     fixture.componentInstance.enabled = true;
@@ -258,7 +266,7 @@ describe('Infinite scroll', () => {
   });
 
   it('should support overflow-y', async () => {
-    const wrapper = fixture.componentInstance.wrapper.nativeElement;
+    const wrapper = fixture.componentInstance.wrapper?.nativeElement;
     wrapper.setAttribute('style', 'height:200px;overflow-y:scroll;');
 
     fixture.componentInstance.enabled = true;
