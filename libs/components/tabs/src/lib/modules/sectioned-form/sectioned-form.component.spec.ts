@@ -207,7 +207,7 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.componentInstance.sectionedForm.tabService
+      fixture.componentInstance.sectionedForm?.tabService
         .animationContentVisibleState
     ).toBe('shown');
   });
@@ -227,7 +227,7 @@ describe('Sectioned form component', () => {
     expect(content.length).toBe(1);
     expect(content[0].textContent.trim()).toBe('information 2');
 
-    fixture.componentInstance.sectionedForm.showTabs();
+    fixture.componentInstance.sectionedForm?.showTabs();
 
     fixture.detectChanges();
 
@@ -251,7 +251,7 @@ describe('Sectioned form component', () => {
       expect(pane.getAttribute('role')).toBeFalsy();
     }
 
-    fixture.componentInstance.sectionedForm.showTabs();
+    fixture.componentInstance.sectionedForm?.showTabs();
     fixture.detectChanges();
 
     const tabs = el.querySelectorAll('.sky-vertical-tab');
@@ -322,13 +322,13 @@ describe('Sectioned form component', () => {
     fixture.detectChanges();
 
     // show tabs to hide content
-    fixture.componentInstance.sectionedForm.showTabs();
+    fixture.componentInstance.sectionedForm?.showTabs();
     fixture.detectChanges();
 
     // resize screen out of mobile
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
-    fixture.componentInstance.sectionedForm.tabService.updateContent();
+    fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();
 
     // content should be visible
@@ -339,7 +339,7 @@ describe('Sectioned form component', () => {
     // resize back to mobile
     mockQueryService.fire(SkyMediaBreakpoints.xs);
     fixture.detectChanges();
-    fixture.componentInstance.sectionedForm.tabService.updateContent();
+    fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();
 
     // content should be hidden
@@ -349,7 +349,7 @@ describe('Sectioned form component', () => {
     // resize to widescreen
     mockQueryService.fire(SkyMediaBreakpoints.lg);
     fixture.detectChanges();
-    fixture.componentInstance.sectionedForm.tabService.updateContent();
+    fixture.componentInstance.sectionedForm?.tabService.updateContent();
     fixture.detectChanges();
 
     // content should be visible

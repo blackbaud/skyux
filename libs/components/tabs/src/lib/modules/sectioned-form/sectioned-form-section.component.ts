@@ -35,54 +35,66 @@ export class SkySectionedFormSectionComponent implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public heading: string;
+  public heading: string | undefined;
 
   /**
    * Indicates the number of items within the section and displays a
    * counter alongside the section header.
    */
   @Input()
-  public itemCount: number;
+  public itemCount: number | undefined;
 
   /**
    * Indicates whether the section is active when the form loads.
    * @default false
    */
   @Input()
-  public active = false;
+  public active: boolean | undefined = false;
 
-  public fieldRequired: boolean;
-  public fieldInvalid: boolean;
+  public fieldRequired: boolean | undefined;
+  public fieldInvalid: boolean | undefined;
 
   @ViewChild(SkyVerticalTabComponent)
-  public tab: SkyVerticalTabComponent;
+  public tab: SkyVerticalTabComponent | undefined;
 
-  private _ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
+
+  #sectionedFormService: SkySectionedFormService;
+  #tabsetService: SkyVerticalTabsetService;
+  #changeRef: ChangeDetectorRef;
 
   constructor(
-    private sectionedFormService: SkySectionedFormService,
-    private tabsetService: SkyVerticalTabsetService,
-    private changeRef: ChangeDetectorRef
-  ) {}
+    sectionedFormService: SkySectionedFormService,
+    tabsetService: SkyVerticalTabsetService,
+    changeRef: ChangeDetectorRef
+  ) {
+    this.#sectionedFormService = sectionedFormService;
+    this.#tabsetService = tabsetService;
+    this.#changeRef = changeRef;
+  }
 
   public ngOnInit() {
-    this.changeRef.detectChanges();
+    this.#changeRef.detectChanges();
 
-    this.tabsetService.switchingMobile.subscribe((mobile: boolean) => {
-      this.changeRef.detectChanges();
+    this.#tabsetService.switchingMobile.subscribe((mobile: boolean) => {
+      this.#changeRef.detectChanges();
     });
 
-    this.sectionedFormService.requiredChange
-      .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe((required: boolean) => (this.fieldRequired = required));
+    this.#sectionedFormService.requiredChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(
+        (required: boolean | undefined) => (this.fieldRequired = required)
+      );
 
-    this.sectionedFormService.invalidChange
-      .pipe(takeUntil(this._ngUnsubscribe))
-      .subscribe((invalid: boolean) => (this.fieldInvalid = invalid));
+    this.#sectionedFormService.invalidChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(
+        (invalid: boolean | undefined) => (this.fieldInvalid = invalid)
+      );
   }
 
   public ngOnDestroy() {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

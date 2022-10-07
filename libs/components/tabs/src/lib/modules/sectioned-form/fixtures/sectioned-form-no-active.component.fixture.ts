@@ -10,5 +10,5 @@ export class SkySectionedFormNoActiveFixtureComponent {
   public maintainSectionContent = false;
 
   @ViewChild(SkySectionedFormComponent)
-  public sectionedForm: SkySectionedFormComponent;
+  public sectionedForm: SkySectionedFormComponent | undefined;
 }
