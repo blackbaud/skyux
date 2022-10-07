@@ -15,13 +15,13 @@
   <input
     aria-label="Donation amount"
     class="sky-form-control app-template-driven-input"
-    id="donationAmountTemplateDriven"
-    name="donationAmountTemplateDriven"
+    id="templateNgModel"
+    name="templateNgModel"
     type="text"
-    [required]="required ? 'required' : null"
+    [required]="required"
     [skyAutonumeric]="autonumericOptions"
     [skyAutonumericFormChangesUnformatted]="setUnformatted"
-    [(ngModel)]="templateDrivenModel.donationAmount"
-    #donationAmountTemplateDriven="ngModel"
+    [(ngModel)]="templateDrivenDonationAmount"
+    #templateNgModel="ngModel"
   />
 </form>

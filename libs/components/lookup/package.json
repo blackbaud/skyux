@@ -33,7 +33,7 @@
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
-    "intl-tel-input": "17.0.16",
+    "intl-tel-input": "17.0.19",
     "tslib": "^2.3.1"
   }
 }

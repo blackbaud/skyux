@@ -13,26 +13,32 @@ import { SkyInlineFormFixtureComponent } from './fixtures/inline-form.fixture';
 import { SkyInlineFormFixtureModule } from './fixtures/inline-form.fixture.module';
 import { SkyInlineFormButtonLayout } from './types/inline-form-button-layout';
 
-function getPrimaryButton(fixture: ComponentFixture<any>): DebugElement {
+function getPrimaryButton(
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
+): DebugElement {
   return fixture.debugElement.query(
     By.css('.sky-inline-form-footer .sky-btn-primary')
   );
 }
 
-function getDefaultButton(fixture: ComponentFixture<any>): DebugElement {
+function getDefaultButton(
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
+): DebugElement {
   return fixture.debugElement.query(
     By.css('.sky-inline-form-footer .sky-btn-default')
   );
 }
 
-function getLinkButton(fixture: ComponentFixture<any>): DebugElement {
+function getLinkButton(
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>
+): DebugElement {
   return fixture.debugElement.query(
     By.css('.sky-inline-form-footer .sky-btn-link')
   );
 }
 
 function verifyDoneButtonisDefined(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
   isDefined: boolean
 ): void {
   const doneButton = getPrimaryButton(fixture);
@@ -46,7 +52,7 @@ function verifyDoneButtonisDefined(
 }
 
 function verifySaveButtonisDefined(
-  fixture: ComponentFixture<any>,
+  fixture: ComponentFixture<SkyInlineFormFixtureComponent>,
   isDefined: boolean
 ): void {
   const saveButton = getPrimaryButton(fixture);

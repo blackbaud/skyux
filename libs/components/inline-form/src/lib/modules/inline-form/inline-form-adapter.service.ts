@@ -30,23 +30,23 @@ export class SkyInlineFormAdapterService {
         inlineFormElementRef.nativeElement.querySelector(
           '.sky-inline-form-content'
         );
-      const focusableChildren = this.loadFocusableChildren(focusEl);
+      const focusableChildren = this.#loadFocusableChildren(focusEl);
 
-      this.focusFirstElement(focusableChildren);
+      this.#focusFirstElement(focusableChildren);
     }
   }
 
-  private loadFocusableChildren(elem: HTMLElement): HTMLElement[] {
+  #loadFocusableChildren(elem: HTMLElement): HTMLElement[] {
     const elements: Array<HTMLElement> = Array.prototype.slice.call(
       elem.querySelectorAll(SKY_TABBABLE_SELECTOR)
     );
 
     return elements.filter((element) => {
-      return this.isVisible(element);
+      return this.#isVisible(element);
     });
   }
 
-  private isVisible(element: HTMLElement): boolean {
+  #isVisible(element: HTMLElement): boolean {
     const style = window.getComputedStyle(element);
     const isHidden = style.display === 'none' || style.visibility === 'hidden';
     if (isHidden) {
@@ -62,7 +62,7 @@ export class SkyInlineFormAdapterService {
     return hasBounds;
   }
 
-  private focusFirstElement(list: Array<HTMLElement>): void {
+  #focusFirstElement(list: Array<HTMLElement>): void {
     if (list.length > 0) {
       list[0].focus();
     }
