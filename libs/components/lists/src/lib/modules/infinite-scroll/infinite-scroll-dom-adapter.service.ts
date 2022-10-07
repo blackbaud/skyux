@@ -1,5 +1,5 @@
-import { ElementRef, EventEmitter, Injectable, OnDestroy } from '@angular/core';
-import { SkyAppWindowRef } from '@skyux/core';
+import { ElementRef, Injectable, OnDestroy } from '@angular/core';
+import { SkyAppWindowRef, SkyScrollableHostService } from '@skyux/core';
 
 import { Observable, Subject, fromEvent as observableFromEvent } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
@@ -11,11 +11,17 @@ import { filter, map, takeUntil } from 'rxjs/operators';
 export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
   #ngUnsubscribe = new Subject<void>();
   #observer: MutationObserver | undefined;
-  #parentChanges = new EventEmitter<void>();
+  #parentChanges: Subject<void>;
+  #parentChangesObs: Observable<void>;
+  #scrollableHostSvc: SkyScrollableHostService;
   #windowRef: SkyAppWindowRef;
 
-  constructor(windowRef: SkyAppWindowRef) {
+  constructor(scrollableHostSvc: SkyScrollableHostService, windowRef: SkyAppWindowRef) {
+    this.#scrollableHostSvc = scrollableHostSvc;
     this.#windowRef = windowRef;
+
+    this.#parentChanges = new Subject<void>();
+    this.#parentChangesObs = this.#parentChanges.asObservable();
   }
 
   public ngOnDestroy(): void {
@@ -30,8 +36,8 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
    * @param elementRef The infinite scroll element reference.
    */
   public parentChanges(elementRef: ElementRef): Observable<void> {
-    this.#createObserver(elementRef.nativeElement);
-    return this.#parentChanges;
+    this.#createObserver(elementRef);
+    return this.#parentChangesObs;
   }
 
   /**
@@ -40,7 +46,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
    * @param elementRef The infinite scroll element reference.
    */
   public scrollTo(elementRef: ElementRef): Observable<void> {
-    const parent = this.#findScrollableParent(elementRef.nativeElement);
+    const parent = this.#scrollableHostSvc.getScrollableHost(elementRef);
 
     return observableFromEvent(parent, 'scroll').pipe(
       takeUntil(this.#ngUnsubscribe),
@@ -51,21 +57,21 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     );
   }
 
-  #createObserver(element: any): void {
+  #createObserver(elementRef: ElementRef): void {
     this.#observer = new MutationObserver((mutations: MutationRecord[]) => {
       const hasUpdates = !!mutations.find((mutation) => {
         return (
-          !element.contains(mutation.target) && mutation.addedNodes.length > 0
+          !elementRef.nativeElement.contains(mutation.target) && mutation.addedNodes.length > 0
         );
       });
 
       if (hasUpdates) {
-        this.#parentChanges.emit();
+        this.#parentChanges.next();
       }
     });
 
     const windowObj = this.#windowRef.nativeWindow;
-    const parent = this.#findScrollableParent(element);
+    const parent = this.#scrollableHostSvc.getScrollableHost(elementRef);
     const observedParent =
       parent === windowObj ? windowObj.document.body : parent;
 
@@ -75,33 +81,8 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     });
   }
 
-  #findScrollableParent(element: any): any {
-    const regex = /(auto|scroll)/;
-    const windowObj = this.#windowRef.nativeWindow;
-    const bodyObj = windowObj.document.body;
-
-    let style = windowObj.getComputedStyle(element);
-    let parent = element;
-
-    do {
-      parent = parent.parentNode;
-      style = windowObj.getComputedStyle(parent);
-    } while (
-      !regex.test(style.overflow) &&
-      !regex.test(style.overflowY) &&
-      parent.parentNode &&
-      parent !== bodyObj
-    );
-
-    if (parent === bodyObj) {
-      return windowObj;
-    }
-
-    return parent;
-  }
-
-  #isElementScrolledInView(element: any, parentElement: any): boolean {
-    const windowObj = this.#windowRef.nativeWindow;
+  #isElementScrolledInView(element: HTMLElement, parentElement: HTMLElement | Window): boolean {
+    const windowObj = this.#windowRef.nativeWindow as Window;
 
     if (parentElement === windowObj) {
       return (
@@ -111,7 +92,7 @@ export class SkyInfiniteScrollDomAdapterService implements OnDestroy {
     }
 
     const elementRect = element.getBoundingClientRect();
-    const parentRect = parentElement.getBoundingClientRect();
+    const parentRect = (<HTMLElement>parentElement).getBoundingClientRect();
 
     return elementRect.top < parentRect.top + parentRect.height;
   }
