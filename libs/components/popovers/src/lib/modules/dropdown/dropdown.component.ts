@@ -79,13 +79,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public set disabled(value: boolean | undefined) {
-    this.#_disabled = value ?? false;
-  }
-
-  public get disabled(): boolean {
-    return this.#_disabled;
-  }
+  public disabled: boolean | undefined = false;
 
   /**
    * Indicates whether to close the dropdown when users click away from the menu.
@@ -212,8 +206,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_buttonStyle = 'default';
 
   #_buttonType: string = DEFAULT_BUTTON_TYPE;
-
-  #_disabled = false;
 
   #_dismissOnBlur = true;
 
