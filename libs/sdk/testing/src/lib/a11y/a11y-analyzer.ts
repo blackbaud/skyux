@@ -1,4 +1,4 @@
-import * as axe from 'axe-core';
+import axe from 'axe-core';
 
 import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 
@@ -30,8 +30,6 @@ function parseMessage(violations: axe.Result[]): string {
 }
 
 export abstract class SkyA11yAnalyzer {
-  private static analyzer = axe;
-
   public static run(
     element?: axe.ElementContext,
     config?: SkyA11yAnalyzerConfig
@@ -40,14 +38,27 @@ export abstract class SkyA11yAnalyzer {
       throw new Error('No element was specified for accessibility checking.');
     }
 
+    axe.reset();
+
     const defaults: SkyA11yAnalyzerConfig = {
       rules: {},
     };
 
     // Enable all rules by default.
-    axe.getRules().forEach((rule) => {
-      defaults.rules[rule.ruleId] = { enabled: true };
-    });
+    // aaa rules are disabled by default. Should we reconsider?
+    axe
+      .getRules([
+        'wcag2a',
+        'wcag2aa',
+        // 'wcag2aaa',
+        'wcag21a',
+        'wcag21aa',
+        // 'wcag21aaa',
+        'best-practice',
+      ])
+      .forEach((rule) => {
+        defaults.rules[rule.ruleId] = { enabled: true };
+      });
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
@@ -70,11 +81,7 @@ export abstract class SkyA11yAnalyzer {
         resolve();
       };
 
-      SkyA11yAnalyzer.analyzer.run(
-        element,
-        { ...defaults, ...config },
-        callback
-      );
+      axe.run(element, { ...defaults, ...config }, callback);
     });
   }
 }
