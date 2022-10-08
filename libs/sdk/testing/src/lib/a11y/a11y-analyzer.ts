@@ -1,40 +1,43 @@
 import axe from 'axe-core';
 
 import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
+import { SkyA11yAnalyzerElementContext } from './a11y-analyzer-element-context';
 
-function parseMessage(violations: axe.Result[]): string {
-  let message = 'Expected element to pass accessibility checks.\n\n';
+function formatViolations(results: axe.AxeResults): string {
+  let message = `Expected element to pass accessibility checks.
 
-  violations.forEach((violation) => {
-    const wcagTags = violation.tags
-      .filter((tag) => tag.match(/wcag\d{3}|^best*/gi))
-      .join(', ');
+The following violation(s) must be addressed:
+---------------------------------------------
+`;
 
-    const html = violation.nodes.reduce(
-      (accumulator: string, node: axe.NodeResult) => {
-        return `${accumulator}\n${node.html}\n`;
-      },
-      '       Elements:\n'
-    );
+  for (const violation of results.violations) {
+    const tags = `Tags:             ${violation.tags.join(' ')}`;
 
-    const error = [
-      `aXe - [Rule: '${violation.id}'] ${violation.help} - WCAG: ${wcagTags}`,
-      `       Get help at: ${violation.helpUrl}\n`,
-      `${html}\n\n`,
-    ].join('\n');
-
-    message += `${error}\n`;
-  });
+    message += `
+${violation.nodes.reduce(
+  (accumulator: string, node: axe.NodeResult) =>
+    `${accumulator}\n${node.html}\n`,
+  ''
+)}
+Rule:             \x1b[31m${violation.id}\x1b[0m
+Impact:           ${violation.impact || 'unknown'}
+Description:      ${violation.description}
+How to resolve:   ${violation.help}
+More info:        ${violation.helpUrl}
+${tags}
+${'-'.repeat(tags.length)}
+`;
+  }
 
   return message;
 }
 
 export abstract class SkyA11yAnalyzer {
   public static run(
-    element?: axe.ElementContext,
+    element: SkyA11yAnalyzerElementContext | null | undefined,
     config?: SkyA11yAnalyzerConfig
   ): Promise<void> {
-    if (element === undefined) {
+    if (!element) {
       throw new Error('No element was specified for accessibility checking.');
     }
 
@@ -44,8 +47,8 @@ export abstract class SkyA11yAnalyzer {
       rules: {},
     };
 
-    // Enable all rules by default.
-    // aaa rules are disabled by default. Should we reconsider?
+    // Enable all rules by default?
+    // AAA rules are disabled by default. Should we reconsider?
     axe
       .getRules([
         'wcag2a',
@@ -74,7 +77,7 @@ export abstract class SkyA11yAnalyzer {
         }
 
         if (results.violations.length > 0) {
-          const message = parseMessage(results.violations);
+          const message = formatViolations(results);
           reject(new Error(message));
         }
 
