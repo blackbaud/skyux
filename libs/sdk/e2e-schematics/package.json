@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/cdk": "^14.2.3",
-    "@angular/cli": "^14.2.4",
+    "@angular/cli": "^14.2.5",
     "@nrwl/angular": "^14.1.9 <14.2.0",
     "@nrwl/devkit": "^14.1.9",
     "@nrwl/linter": "^14.1.9",
