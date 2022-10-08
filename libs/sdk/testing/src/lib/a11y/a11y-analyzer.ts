@@ -14,11 +14,14 @@ The following violation(s) must be addressed:
     const tags = `Tags:             ${violation.tags.join(' ')}`;
 
     message += `
-${violation.nodes.reduce(
-  (accumulator: string, node: axe.NodeResult) =>
-    `${accumulator}\n${node.html}\n`,
-  ''
-)}
+${violation.nodes
+  .reduce(
+    (accumulator: string, node: axe.NodeResult) =>
+      `${accumulator}\n${node.html}\n`,
+    ''
+  )
+  .trim()}
+
 Rule:             \x1b[31m${violation.id}\x1b[0m
 Impact:           ${violation.impact || 'unknown'}
 Description:      ${violation.description}
@@ -26,6 +29,7 @@ How to resolve:   ${violation.help}
 More info:        ${violation.helpUrl}
 ${tags}
 ${'-'.repeat(tags.length)}
+
 `;
   }
 
