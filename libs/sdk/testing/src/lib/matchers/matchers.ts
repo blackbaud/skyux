@@ -46,7 +46,7 @@ const matchers: jasmine.CustomMatcherFactories = {
   toBeAccessible(): jasmine.CustomMatcher {
     return {
       compare(
-        element: any,
+        element: SkyA11yAnalyzerElementContext | undefined,
         callback?: () => void,
         config?: SkyA11yAnalyzerConfig
       ): jasmine.CustomMatcherResult {

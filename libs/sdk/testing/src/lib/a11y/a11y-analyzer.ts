@@ -53,19 +53,17 @@ export abstract class SkyA11yAnalyzer {
 
     // Enable all rules by default?
     // AAA rules are disabled by default. Should we reconsider?
-    axe
-      .getRules([
-        'wcag2a',
-        'wcag2aa',
-        // 'wcag2aaa',
-        'wcag21a',
-        'wcag21aa',
-        // 'wcag21aaa',
-        'best-practice',
-      ])
-      .forEach((rule) => {
-        defaults.rules[rule.ruleId] = { enabled: true };
-      });
+    for (const rule of axe.getRules([
+      'wcag2a',
+      'wcag2aa',
+      // 'wcag2aaa',
+      'wcag21a',
+      'wcag21aa',
+      // 'wcag21aaa',
+      'best-practice',
+    ])) {
+      defaults.rules[rule.ruleId] = { enabled: true };
+    }
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
