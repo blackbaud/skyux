@@ -1,4 +1,4 @@
-import axe from 'axe-core';
+import * as axe from 'axe-core';
 
 import { SkyA11yAnalyzer } from './a11y-analyzer';
 
@@ -12,7 +12,7 @@ describe('A11y analyzer', () => {
       callback(new Error('some error'), {} as axe.AxeResults);
     }
 
-    spyOn(axe, 'run').and.callFake(mockRun as any);
+    spyOn(SkyA11yAnalyzer['analyzer'], 'run').and.callFake(mockRun as any);
 
     SkyA11yAnalyzer.run('element').catch((err) => {
       expect(err.message).toEqual('some error');
@@ -20,7 +20,7 @@ describe('A11y analyzer', () => {
   });
 
   it('should handle undefined elements', () => {
-    expect(() => SkyA11yAnalyzer.run(undefined)).toThrowError(
+    expect(() => SkyA11yAnalyzer.run()).toThrowError(
       'No element was specified for accessibility checking.'
     );
   });

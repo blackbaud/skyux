@@ -1,69 +1,50 @@
-import axe from 'axe-core';
+import * as axe from 'axe-core';
 
 import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
-import { SkyA11yAnalyzerElementContext } from './a11y-analyzer-element-context';
 
-function formatViolations(results: axe.AxeResults): string {
-  let message = `Expected element to pass accessibility checks.
+function parseMessage(violations: axe.Result[]): string {
+  let message = 'Expected element to pass accessibility checks.\n\n';
 
-The following violation(s) must be addressed:
----------------------------------------------
-`;
+  violations.forEach((violation) => {
+    const wcagTags = violation.tags
+      .filter((tag) => tag.match(/wcag\d{3}|^best*/gi))
+      .join(', ');
 
-  for (const violation of results.violations) {
-    const tags = `Tags:             ${violation.tags.join(' ')}`;
+    const html = violation.nodes.reduce(
+      (accumulator: string, node: axe.NodeResult) => {
+        return `${accumulator}\n${node.html}\n`;
+      },
+      '       Elements:\n'
+    );
 
-    message += `
-${violation.nodes
-  .reduce(
-    (accumulator: string, node: axe.NodeResult) =>
-      `${accumulator}\n${node.html}\n`,
-    ''
-  )
-  .trim()}
+    const error = [
+      `aXe - [Rule: '${violation.id}'] ${violation.help} - WCAG: ${wcagTags}`,
+      `       Get help at: ${violation.helpUrl}\n`,
+      `${html}\n\n`,
+    ].join('\n');
 
-Rule:             \x1b[31m${violation.id}\x1b[0m
-Impact:           ${violation.impact || 'unknown'}
-Description:      ${violation.description}
-How to resolve:   ${violation.help}
-More info:        ${violation.helpUrl}
-${tags}
-${'-'.repeat(tags.length)}
-
-`;
-  }
+    message += `${error}\n`;
+  });
 
   return message;
 }
 
 export abstract class SkyA11yAnalyzer {
+  private static analyzer = axe;
+
   public static run(
-    element: SkyA11yAnalyzerElementContext | null | undefined,
+    element?: axe.ElementContext,
     config?: SkyA11yAnalyzerConfig
   ): Promise<void> {
-    if (!element) {
+    if (element === undefined) {
       throw new Error('No element was specified for accessibility checking.');
     }
 
-    axe.reset();
+    SkyA11yAnalyzer.analyzer.reset();
 
     const defaults: SkyA11yAnalyzerConfig = {
       rules: {},
     };
-
-    // Enable all rules by default?
-    // AAA rules are disabled by default. Should we reconsider?
-    for (const rule of axe.getRules([
-      'wcag2a',
-      'wcag2aa',
-      // 'wcag2aaa',
-      'wcag21a',
-      'wcag21aa',
-      // 'wcag21aaa',
-      'best-practice',
-    ])) {
-      defaults.rules[rule.ruleId] = { enabled: true };
-    }
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
@@ -79,14 +60,18 @@ export abstract class SkyA11yAnalyzer {
         }
 
         if (results.violations.length > 0) {
-          const message = formatViolations(results);
+          const message = parseMessage(results.violations);
           reject(new Error(message));
         }
 
         resolve();
       };
 
-      axe.run(element, { ...defaults, ...config }, callback);
+      SkyA11yAnalyzer.analyzer.run(
+        element,
+        { ...defaults, ...config },
+        callback
+      );
     });
   }
 }

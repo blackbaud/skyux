@@ -6,7 +6,6 @@ import { take } from 'rxjs/operators';
 
 import { SkyA11yAnalyzer } from '../a11y/a11y-analyzer';
 import { SkyA11yAnalyzerConfig } from '../a11y/a11y-analyzer-config';
-import { SkyA11yAnalyzerElementContext } from '../a11y/a11y-analyzer-element-context';
 
 import { SkyToBeVisibleOptions } from './to-be-visible-options';
 
@@ -46,7 +45,7 @@ const matchers: jasmine.CustomMatcherFactories = {
   toBeAccessible(): jasmine.CustomMatcher {
     return {
       compare(
-        element: SkyA11yAnalyzerElementContext | undefined,
+        element: any,
         callback?: () => void,
         config?: SkyA11yAnalyzerConfig
       ): jasmine.CustomMatcherResult {
@@ -369,8 +368,8 @@ const matchers: jasmine.CustomMatcherFactories = {
 const asyncMatchers: jasmine.CustomAsyncMatcherFactories = {
   toBeAccessible(): jasmine.CustomAsyncMatcher {
     return {
-      compare(
-        element: SkyA11yAnalyzerElementContext | undefined,
+      compare<T>(
+        element: T,
         config?: SkyA11yAnalyzerConfig
       ): Promise<jasmine.CustomMatcherResult> {
         return new Promise((resolve) => {
