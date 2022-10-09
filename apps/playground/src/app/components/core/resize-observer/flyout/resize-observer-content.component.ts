@@ -23,19 +23,26 @@ export class ResizeObserverContentComponent
   @ViewChild(SkySectionedFormComponent)
   public sectionedFormComponent: SkySectionedFormComponent | undefined;
 
-  private subscriptions = new Subscription();
+  #subscriptions = new Subscription();
+
+  #elementRef: ElementRef;
+  #skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService;
 
   constructor(
-    private elementRef: ElementRef,
-    private skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService
-  ) {}
+    elementRef: ElementRef,
+    skyResizeObserverMediaQueryService: SkyResizeObserverMediaQueryService
+  ) {
+    this.#elementRef = elementRef;
+    this.#skyResizeObserverMediaQueryService =
+      skyResizeObserverMediaQueryService;
+  }
 
   public ngAfterViewInit(): void {
-    this.skyResizeObserverMediaQueryService.observe(this.elementRef);
+    this.#skyResizeObserverMediaQueryService.observe(this.#elementRef);
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.#subscriptions.unsubscribe();
   }
 
   public tabsHidden(): boolean {

@@ -14,11 +14,15 @@ import { ResizeObserverContentComponent } from './resize-observer-content.compon
 export class ResizeObserverFlyoutComponent {
   public flyout: SkyFlyoutInstance<any>;
 
-  constructor(private flyoutService: SkyFlyoutService) {}
+  #flyoutService: SkyFlyoutService;
+
+  constructor(flyoutService: SkyFlyoutService) {
+    this.#flyoutService = flyoutService;
+  }
 
   public closeAndRemoveFlyout(): void {
     if (this.flyout && this.flyout.isOpen) {
-      this.flyoutService.close();
+      this.#flyoutService.close();
     }
     this.flyout = undefined;
   }
@@ -31,7 +35,7 @@ export class ResizeObserverFlyoutComponent {
       maxWidth: 500,
       minWidth: 200,
     };
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       ResizeObserverContentComponent,
       flyoutConfig
     );
@@ -46,7 +50,7 @@ export class ResizeObserverFlyoutComponent {
       ariaLabelledBy: 'flyout-title',
       ariaRole: 'dialog',
     };
-    this.flyout = this.flyoutService.open(
+    this.flyout = this.#flyoutService.open(
       ResizeObserverContentComponent,
       flyoutConfig
     );

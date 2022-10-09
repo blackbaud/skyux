@@ -1,5 +1,52 @@
 # Changelog
 
+## [7.0.0-beta.2](https://github.com/blackbaud/skyux/compare/7.0.0-beta.1...7.0.0-beta.2) (2022-10-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/tabs:** This change removes support for not using a finish navigation button with the previous and next wizard navigation buttons. To address this change, remove other save or finish buttons and use the `sky-tabset-nav-button` of type `finish` instead.
+* **components/datetime:** The 'SkyFuzzyDatepickerInputDirective' included a nonfunctional input 'skyFuzzyDatepickerInput' to support backward compatibility. The input can be removed from consumer templates without loss of functionality.
+* **components/forms:** This change updates the `SkyCheckboxChange` type to be an interface instead of a class. To address this, remove any instances of instantiating the `SkyCheckboxChange` class and instead create an object that uses the interface type.
+* **components/layout:** This change removes the `SkyFluidGridGutterSize` enum and the numerical options (0, 1, 2) from `SkyFluidGridGutterSizeType`. To address this, only use the strings 'small', 'medium', and 'large' for  the fluid grid component's `gutterSize` property, and use `SkyFluidGridGutterSizeType` for Typescript typing.
+* **components/indicators:** This change updates the types accepted by the key info component's layout property. To address this change, only pass 'horizontal' or 'vertical' to the property, and use the type `SkyKeyInfoLayoutType` if typing variables.
+
+### Features
+
+* **components/datetime:** make 'moment' a peer dependency ([#615](https://github.com/blackbaud/skyux/issues/615)) ([9bb61f9](https://github.com/blackbaud/skyux/commit/9bb61f92acdb976d39fc3bc9fc179d63d0ef6ae7))
+* **components/forms:** change `SkyCheckboxChange` type to an interface ([#597](https://github.com/blackbaud/skyux/issues/597)) ([2c3c1e9](https://github.com/blackbaud/skyux/commit/2c3c1e9643c7008f91aad6138aa7649aa095aa97))
+* **components/indicators:** remove support for key info layout string type ([#587](https://github.com/blackbaud/skyux/issues/587)) ([ffac254](https://github.com/blackbaud/skyux/commit/ffac254c75e600f044147a6ed5946eafee75e8c9))
+* **components/indicators:** update inline help emitter type to void ([#584](https://github.com/blackbaud/skyux/issues/584)) ([878b6de](https://github.com/blackbaud/skyux/commit/878b6ded9c2c2d967af751e52a64d1ce2a1be741))
+* **components/layout:** remove deprecated fluid grid gutter size options ([#585](https://github.com/blackbaud/skyux/issues/585)) ([338771d](https://github.com/blackbaud/skyux/commit/338771d3d43d96c057aa0957fc8a401d1a761ac9))
+* **components/modals:** add inline-help support for modals ([#598](https://github.com/blackbaud/skyux/issues/598)) ([92b49c9](https://github.com/blackbaud/skyux/commit/92b49c9e1e084e70ed1b03fad2683cc51fc3f265))
+* **components/progress-indicator:** add inline-help support for progress indicator ([#599](https://github.com/blackbaud/skyux/issues/599)) ([ac3ec1f](https://github.com/blackbaud/skyux/commit/ac3ec1f4c2c2a3c0483b503b253cd7e8460ba72f))
+* **components/tabs:** remove support for not using a finish nav button ([#618](https://github.com/blackbaud/skyux/issues/618)) ([cdd8a8f](https://github.com/blackbaud/skyux/commit/cdd8a8f4a58bb072bf93553d5f97509c4882e644))
+
+
+### Bug Fixes
+
+* **components/datetime:** remove nonfunctional 'skyFuzzyDatepickerInput' input from fuzzy date ([#591](https://github.com/blackbaud/skyux/issues/591)) ([b86e0ae](https://github.com/blackbaud/skyux/commit/b86e0aea90565d4f4e0c84041b1c02db15c53bbd))
+* **components/layout:** animate text expand consistently when the expansion state changes ([#592](https://github.com/blackbaud/skyux/issues/592)) ([9e468f5](https://github.com/blackbaud/skyux/commit/9e468f5833b5bccfc35a3e50f2d25ec47359a31c))
+* **components/layout:** animate text expand repeater consistently when the expansion state changes ([#602](https://github.com/blackbaud/skyux/issues/602)) ([62ddece](https://github.com/blackbaud/skyux/commit/62ddece3009240be335b8b9f37fd9d85d915cb12))
+* **components/modals:** set modal content tabindex to make scrollable area focusable ([#619](https://github.com/blackbaud/skyux/issues/619)) ([#625](https://github.com/blackbaud/skyux/issues/625)) ([ec2bc10](https://github.com/blackbaud/skyux/commit/ec2bc10aa3869c2a9aebdcb2c70c22710482099d))
+* **components/modals:** unsubscribe from preset button observable once the buttons have been emitted ([#640](https://github.com/blackbaud/skyux/issues/640)) ([a8a87ff](https://github.com/blackbaud/skyux/commit/a8a87ff8e0eeed44a73f4260d8998291b2ef8fa3))
+* **components/pages:** update needs-attention to match box design ([#582](https://github.com/blackbaud/skyux/issues/582)) ([#611](https://github.com/blackbaud/skyux/issues/611)) ([f1619a7](https://github.com/blackbaud/skyux/commit/f1619a7df407243614fd35396ca9576fd6b6de45))
+* **components/phone-field:** validate new area codes as valid ([#634](https://github.com/blackbaud/skyux/issues/634)) ([#637](https://github.com/blackbaud/skyux/issues/637)) ([636143d](https://github.com/blackbaud/skyux/commit/636143d65e03021f6eac98baeba04244eb2bf150))
+
+## [6.23.3](https://github.com/blackbaud/skyux/compare/6.23.2...6.23.3) (2022-10-06)
+
+
+### Bug Fixes
+
+* **components/phone-field:** validate new area codes as valid ([#634](https://github.com/blackbaud/skyux/issues/634)) ([deb20ae](https://github.com/blackbaud/skyux/commit/deb20ae5b41918bc35a383ebf585621a8b1a5dd4))
+
+## [6.23.2](https://github.com/blackbaud/skyux/compare/6.23.1...6.23.2) (2022-10-04)
+
+
+### Bug Fixes
+
+* **components/modals:** set modal content tabindex to make scrollable area focusable ([#619](https://github.com/blackbaud/skyux/issues/619)) ([d71c467](https://github.com/blackbaud/skyux/commit/d71c46778cb7aaed64aa9ae4b190a410f5ecf437))
+
 ## [6.23.1](https://github.com/blackbaud/skyux/compare/6.23.0...6.23.1) (2022-10-03)
 
 

@@ -11,17 +11,17 @@ export class SkyInfiniteScrollTestComponent {
     read: SkyInfiniteScrollComponent,
     static: true,
   })
-  public infiniteScrollComponent: SkyInfiniteScrollComponent;
+  public infiniteScrollComponent!: SkyInfiniteScrollComponent;
 
   @ViewChild('wrapper', {
     read: ElementRef,
     static: true,
   })
-  public wrapper: ElementRef;
+  public wrapper: ElementRef | undefined;
 
-  public enabled: boolean;
+  public enabled: boolean | undefined;
 
-  public loading: boolean;
+  public loading: boolean | undefined;
 
   public items: Record<string, any>[] = [];
 

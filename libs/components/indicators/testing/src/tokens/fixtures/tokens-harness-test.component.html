@@ -1,6 +1,8 @@
 <sky-tokens
   data-sky-id="my-tokens"
+  [disabled]="disabled"
   [dismissible]="dismissible"
   [tokens]="colors"
+  (tokenSelected)="onTokenSelected($event)"
 >
 </sky-tokens>

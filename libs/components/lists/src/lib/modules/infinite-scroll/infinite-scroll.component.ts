@@ -28,13 +28,13 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
    * @default false
    */
   @Input()
-  public get enabled(): boolean {
-    return this._enabled || false;
+  public get enabled(): boolean | undefined {
+    return this.#_enabled;
   }
-  public set enabled(value: boolean) {
-    if (this._enabled !== value) {
-      this._enabled = value;
-      this.setListeners();
+  public set enabled(value: boolean | undefined) {
+    if (this.#_enabled !== value) {
+      this.#_enabled = value;
+      this.#setListeners();
     }
   }
 
@@ -50,11 +50,11 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
    */
   @Input()
   public get loading(): boolean | undefined {
-    return this._loading;
+    return this.#_loading;
   }
 
   public set loading(value: boolean | undefined) {
-    this._loading = value;
+    this.#_loading = value;
 
     if (value !== undefined) {
       this.isWaiting = value;
@@ -71,58 +71,63 @@ export class SkyInfiniteScrollComponent implements OnDestroy {
 
   public isWaiting = false;
 
-  private ngUnsubscribe = new Subject<void>();
-
-  private _enabled: boolean;
-
-  private _loading: boolean | undefined;
+  #changeDetector: ChangeDetectorRef;
+  #domAdapter: SkyInfiniteScrollDomAdapterService;
+  #elementRef: ElementRef;
+  #ngUnsubscribe = new Subject<void>();
+  #_enabled: boolean | undefined = false;
+  #_loading: boolean | undefined;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    private domAdapter: SkyInfiniteScrollDomAdapterService
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    elementRef: ElementRef,
+    domAdapter: SkyInfiniteScrollDomAdapterService
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#elementRef = elementRef;
+    this.#domAdapter = domAdapter;
+  }
 
   public ngOnDestroy(): void {
     this.enabled = false;
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public startInfiniteScrollLoad(): void {
-    this.notifyScrollEnd();
+    this.#notifyScrollEnd();
   }
 
-  private notifyScrollEnd(): void {
+  #notifyScrollEnd(): void {
     this.isWaiting = true;
     this.scrollEnd.emit();
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  private setListeners(): void {
+  #setListeners(): void {
     if (this.enabled) {
       // The user has scrolled to the infinite scroll element.
-      this.domAdapter
-        .scrollTo(this.elementRef)
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.#domAdapter
+        .scrollTo(this.#elementRef)
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           if (!this.isWaiting && this.enabled) {
-            this.notifyScrollEnd();
+            this.#notifyScrollEnd();
           }
         });
 
       // New items have been loaded into the parent element.
-      this.domAdapter
-        .parentChanges(this.elementRef)
-        .pipe(takeUntil(this.ngUnsubscribe))
+      this.#domAdapter
+        .parentChanges(this.#elementRef)
+        .pipe(takeUntil(this.#ngUnsubscribe))
         .subscribe(() => {
           if (!this.loading) {
             this.isWaiting = false;
-            this.changeDetector.markForCheck();
+            this.#changeDetector.markForCheck();
           }
         });
     } else {
-      this.ngUnsubscribe.next();
+      this.#ngUnsubscribe.next();
     }
   }
 }

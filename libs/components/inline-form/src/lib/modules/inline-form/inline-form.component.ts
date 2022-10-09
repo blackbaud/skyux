@@ -40,15 +40,15 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public set config(value: SkyInlineFormConfig) {
-    if (value !== this._config) {
-      this._config = value;
-      this.setupButtons();
+  public set config(value: SkyInlineFormConfig | undefined) {
+    if (value !== this.#_config && !!value) {
+      this.#_config = value;
+      this.#setupButtons();
     }
   }
 
-  public get config(): SkyInlineFormConfig {
-    return this._config;
+  public get config(): SkyInlineFormConfig | undefined {
+    return this.#_config;
   }
 
   /**
@@ -56,7 +56,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
    * @required
    */
   @Input()
-  public template: TemplateRef<unknown>;
+  public template: TemplateRef<unknown> | undefined;
 
   /**
    * Indicates whether to display the inline form. Users can toggle between displaying
@@ -64,21 +64,21 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
    * @default false
    */
   @Input()
-  public set showForm(value: boolean) {
-    this._showForm = value;
+  public set showForm(value: boolean | undefined) {
+    this.#_showForm = value;
 
     /* istanbul ignore else */
     if (value) {
       // setTimeout() prevents applyAutofocus() from firing
       // until after *ngIf has added the form element to the DOM.
-      this.skyAppWindowRef.nativeWindow.setTimeout(() => {
-        this.adapter.applyAutofocus(this.elementRef);
+      this.#skyAppWindowRef.nativeWindow.setTimeout(() => {
+        this.#adapter.applyAutofocus(this.#elementRef);
       });
     }
   }
 
-  public get showForm() {
-    return this._showForm;
+  public get showForm(): boolean | undefined {
+    return this.#_showForm;
   }
 
   /**
@@ -88,22 +88,35 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   // eslint-disable-next-line @angular-eslint/no-output-native
   public close = new EventEmitter<SkyInlineFormCloseArgs>();
 
-  public buttons: SkyInlineFormButtonConfig[];
+  // TODO: handle buttons being set asynchronously ("| undefined") when setting autofocus
+  public buttons!: SkyInlineFormButtonConfig[];
 
-  private _config: SkyInlineFormConfig;
+  #_config: SkyInlineFormConfig | undefined;
 
-  private _showForm = false;
+  #_showForm: boolean | undefined = false;
+
+  #adapter: SkyInlineFormAdapterService;
+  #elementRef: ElementRef;
+  #resourcesService: SkyLibResourcesService;
+  #skyAppWindowRef: SkyAppWindowRef;
+  #changeDetectorRef: ChangeDetectorRef;
 
   constructor(
-    private adapter: SkyInlineFormAdapterService,
-    private elementRef: ElementRef,
-    private resourcesService: SkyLibResourcesService,
-    private skyAppWindowRef: SkyAppWindowRef,
-    private changeDetectorRef: ChangeDetectorRef
-  ) {}
+    adapter: SkyInlineFormAdapterService,
+    elementRef: ElementRef,
+    resourcesService: SkyLibResourcesService,
+    skyAppWindowRef: SkyAppWindowRef,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
+    this.#adapter = adapter;
+    this.#elementRef = elementRef;
+    this.#resourcesService = resourcesService;
+    this.#skyAppWindowRef = skyAppWindowRef;
+    this.#changeDetectorRef = changeDetectorRef;
+  }
 
   public ngOnInit(): void {
-    this.setupButtons();
+    this.#setupButtons();
   }
 
   public ngOnDestroy(): void {
@@ -117,38 +130,42 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     this.close.emit(args);
   }
 
-  private setupButtons(): void {
-    if (this.isValidCustomConfig(this.config)) {
+  #setupButtons(): void {
+    if (
+      this.isValidCustomConfig(this.config) &&
+      this.config &&
+      this.config.buttons
+    ) {
       this.buttons = this.getCustomButtons(this.config.buttons);
-      this.changeDetectorRef.markForCheck();
+      this.#changeDetectorRef.markForCheck();
       return;
     }
 
-    this.getPresetButtons().then((buttons) => {
+    this.getPresetButtons()?.then((buttons) => {
       this.buttons = buttons;
-      this.changeDetectorRef.markForCheck();
+      this.#changeDetectorRef.markForCheck();
     });
   }
 
-  private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> {
+  private getPresetButtons(): Promise<SkyInlineFormButtonConfig[]> | undefined {
     const buttonType = this.config
       ? this.config.buttonLayout
       : SkyInlineFormButtonLayout.DoneCancel;
 
-    let promise: Promise<SkyInlineFormButtonConfig[]>;
+    let promise: Promise<SkyInlineFormButtonConfig[]> | undefined;
 
     switch (buttonType) {
       /* istanbul ignore next */
       default:
       case SkyInlineFormButtonLayout.DoneCancel:
         observableZip(
-          this.resourcesService.getString('skyux_inline_form_button_done'),
-          this.resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_done'),
+          this.#resourcesService.getString('skyux_inline_form_button_cancel')
         )
           .pipe(take(1))
-          .subscribe((values: any) => {
+          .subscribe((values: string[]) => {
             promise = new Promise<SkyInlineFormButtonConfig[]>(
-              (resolve: any) => {
+              (resolve: (value: SkyInlineFormButtonConfig[]) => void) => {
                 resolve([
                   {
                     text: values[0],
@@ -168,13 +185,13 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
       case SkyInlineFormButtonLayout.SaveCancel:
         observableZip(
-          this.resourcesService.getString('skyux_inline_form_button_save'),
-          this.resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_save'),
+          this.#resourcesService.getString('skyux_inline_form_button_cancel')
         )
           .pipe(take(1))
-          .subscribe((values: any) => {
+          .subscribe((values: string[]) => {
             promise = new Promise<SkyInlineFormButtonConfig[]>(
-              (resolve: any) => {
+              (resolve: (value: SkyInlineFormButtonConfig[]) => void) => {
                 resolve([
                   {
                     text: values[0],
@@ -194,14 +211,14 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
       case SkyInlineFormButtonLayout.DoneDeleteCancel:
         observableZip(
-          this.resourcesService.getString('skyux_inline_form_button_done'),
-          this.resourcesService.getString('skyux_inline_form_button_delete'),
-          this.resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_done'),
+          this.#resourcesService.getString('skyux_inline_form_button_delete'),
+          this.#resourcesService.getString('skyux_inline_form_button_cancel')
         )
           .pipe(take(1))
-          .subscribe((values: any) => {
+          .subscribe((values: string[]) => {
             promise = new Promise<SkyInlineFormButtonConfig[]>(
-              (resolve: any) => {
+              (resolve: (value: SkyInlineFormButtonConfig[]) => void) => {
                 resolve([
                   {
                     text: values[0],
@@ -226,14 +243,14 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
       case SkyInlineFormButtonLayout.SaveDeleteCancel:
         observableZip(
-          this.resourcesService.getString('skyux_inline_form_button_save'),
-          this.resourcesService.getString('skyux_inline_form_button_delete'),
-          this.resourcesService.getString('skyux_inline_form_button_cancel')
+          this.#resourcesService.getString('skyux_inline_form_button_save'),
+          this.#resourcesService.getString('skyux_inline_form_button_delete'),
+          this.#resourcesService.getString('skyux_inline_form_button_cancel')
         )
           .pipe(take(1))
-          .subscribe((values: any) => {
+          .subscribe((values: string[]) => {
             promise = new Promise<SkyInlineFormButtonConfig[]>(
-              (resolve: any) => {
+              (resolve: (value: SkyInlineFormButtonConfig[]) => void) => {
                 resolve([
                   {
                     text: values[0],
@@ -280,11 +297,14 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     return buttons;
   }
 
-  private isValidCustomConfig(config: SkyInlineFormConfig): boolean {
+  private isValidCustomConfig(
+    config: SkyInlineFormConfig | undefined
+  ): boolean {
     return (
-      config &&
-      config.buttonLayout === SkyInlineFormButtonLayout.Custom &&
-      config.buttons.length > 0
+      !!config &&
+      !!config.buttons &&
+      config.buttons.length > 0 &&
+      config.buttonLayout === SkyInlineFormButtonLayout.Custom
     );
   }
 }

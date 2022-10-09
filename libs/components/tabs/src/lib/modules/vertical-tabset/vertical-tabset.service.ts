@@ -19,15 +19,13 @@ export class SkyVerticalTabsetService {
 
   public animationTabsVisibleState: string;
 
-  public set content(value: ElementRef) {
-    this._content = value;
-  }
+  public content: ElementRef | undefined;
 
   public hidingTabs = new BehaviorSubject(false);
 
   public indexChanged: BehaviorSubject<number> = new BehaviorSubject(undefined);
 
-  public maintainTabContent = false;
+  public maintainTabContent: boolean | undefined = false;
 
   public showingTabs = new BehaviorSubject(false);
 
@@ -38,8 +36,6 @@ export class SkyVerticalTabsetService {
   public tabAdded: Subject<SkyVerticalTabComponent> = new Subject();
 
   public tabClicked: BehaviorSubject<boolean> = new BehaviorSubject(undefined);
-
-  private _content: ElementRef;
 
   private _contentAdded = false;
 
@@ -94,9 +90,9 @@ export class SkyVerticalTabsetService {
       this.maintainTabContent &&
       tab.contentRendered &&
       /* istanbul ignore next */
-      this._content?.nativeElement.contains(tab.tabContent.nativeElement)
+      this.content?.nativeElement.contains(tab.tabContent.nativeElement)
     ) {
-      this._content.nativeElement.removeChild(tab.tabContent.nativeElement);
+      this.content?.nativeElement.removeChild(tab.tabContent.nativeElement);
     }
 
     this.tabs.splice(tabIndex, 1);
@@ -150,7 +146,7 @@ export class SkyVerticalTabsetService {
     } else {
       this.tabs.forEach((tab) => {
         if (!tab.contentRendered) {
-          this._content.nativeElement.appendChild(tab.tabContent.nativeElement);
+          this.content?.nativeElement.appendChild(tab.tabContent.nativeElement);
           tab.contentRendered = true;
         }
       });
@@ -174,20 +170,20 @@ export class SkyVerticalTabsetService {
   }
 
   private destroyContent(): void {
-    if (this._content) {
-      this._content.nativeElement.innerHTML = '';
+    if (this.content) {
+      this.content.nativeElement.innerHTML = '';
     }
     this.content = undefined;
   }
 
   private moveContent() {
     /* istanbul ignore else */
-    if (this._content && !this._contentAdded) {
+    if (this.content && !this._contentAdded) {
       const activeTab = this.activeTab();
       const activeContent = activeTab ? activeTab.tabContent : undefined;
 
       if (activeContent && activeContent.nativeElement) {
-        this._content.nativeElement.appendChild(activeContent.nativeElement);
+        this.content.nativeElement.appendChild(activeContent.nativeElement);
         activeTab.contentRendered = true;
         this._contentAdded = true;
       }

@@ -7,27 +7,30 @@ import { SkySectionedFormService } from './../sectioned-form.service';
   templateUrl: './sectioned-form-fixture-information-1.component.html',
 })
 export class SkySectionedFormFixtureInformation1Component {
-  private _required: boolean;
-
-  public get required() {
-    return this._required;
+  public get required(): boolean | undefined {
+    return this.#_required;
   }
 
-  public set required(value: boolean) {
-    this._required = value;
-    this.sectionedFormService.requiredFieldChanged(value);
+  public set required(value: boolean | undefined) {
+    this.#_required = value;
+    this.#sectionedFormService.requiredFieldChanged(value);
   }
 
-  private _invalid: boolean;
-
-  public get invalid() {
-    return this._invalid;
+  public get invalid(): boolean | undefined {
+    return this.#_invalid;
   }
 
-  public set invalid(value: boolean) {
-    this._invalid = value;
-    this.sectionedFormService.invalidFieldChanged(value);
+  public set invalid(value: boolean | undefined) {
+    this.#_invalid = value;
+    this.#sectionedFormService.invalidFieldChanged(value);
   }
 
-  constructor(private sectionedFormService: SkySectionedFormService) {}
+  #_invalid: boolean | undefined;
+  #_required: boolean | undefined;
+
+  #sectionedFormService: SkySectionedFormService;
+
+  constructor(sectionedFormService: SkySectionedFormService) {
+    this.#sectionedFormService = sectionedFormService;
+  }
 }

@@ -17,8 +17,6 @@ export class SkyWizardTestFormComponent {
 
   public finishDisabled = undefined;
 
-  public renderFinishButton = false;
-
   public passTabset = true;
 
   public onSave: () => void;
