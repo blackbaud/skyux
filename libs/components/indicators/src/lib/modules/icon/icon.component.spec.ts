@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyIconFixturesModule } from './fixtures/icon-fixtures.module';
 import { IconTestComponent } from './fixtures/icon.component.fixture';
@@ -37,7 +37,7 @@ describe('Icon component', () => {
     element = fixture.nativeElement as HTMLElement;
   });
 
-  it('should display an icon based on the given icon', async(() => {
+  it('should display an icon based on the given icon', async () => {
     fixture.detectChanges();
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-circle');
     expect(element.querySelector('.sky-icon')).toHaveCssClass('fa-3x');
@@ -48,10 +48,9 @@ describe('Icon component', () => {
     expect(element.querySelector('.sky-icon')?.classList.length).toBe(4);
 
     // Accessibility checks
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   it('should display a different icon with a different size and a fixedWidth', () => {
     cmp.icon = 'broom';
