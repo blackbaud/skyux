@@ -5,7 +5,9 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 import {
   CellClassParams,
   EditableCallbackParams,
+  GridApi,
   GridOptions,
+  GridReadyEvent,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
@@ -119,28 +121,32 @@ let rowNodeId = -1;
   providedIn: 'any',
 })
 export class SkyAgGridService implements OnDestroy {
-  /**
-   * @internal
-   */
-  public currentTheme: SkyThemeSettings;
-
   private ngUnsubscribe = new Subject<void>();
 
   private keyMap = new WeakMap<any, string>();
 
+  #currentTheme: SkyThemeSettings | undefined = undefined;
+  #gridApi: GridApi | undefined = undefined;
+
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
-    @Optional() private themeSvc?: SkyThemeService,
+    @Optional() themeSvc?: SkyThemeService,
     @Optional() private resources?: SkyLibResourcesService
   ) {
     /*istanbul ignore else*/
-    if (this.themeSvc) {
-      this.themeSvc.settingsChange
+    if (themeSvc) {
+      themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(
-          (settingsChange) =>
-            (this.currentTheme = settingsChange.currentSettings)
-        );
+        .subscribe((settingsChange) => {
+          if (this.#currentTheme && this.#gridApi) {
+            this.#currentTheme = settingsChange.currentSettings;
+            this.#gridApi.setHeaderHeight(this.#getHeaderHeight());
+            this.#gridApi.resetRowHeights();
+            this.#gridApi.refreshCells();
+          } else {
+            this.#currentTheme = settingsChange.currentSettings;
+          }
+        });
     }
   }
 
@@ -205,6 +211,12 @@ export class SkyAgGridService implements OnDestroy {
       icons: {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
+      },
+      onGridReady: (params: GridReadyEvent) => {
+        if (providedGridOptions.onGridReady) {
+          providedGridOptions.onGridReady(params);
+        }
+        defaultGridOptions.onGridReady(params);
       },
     };
 
@@ -297,7 +309,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
-          minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
+          minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
             this.dateFormatter(params, args.locale),
         },
@@ -399,7 +411,7 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 37,
+      headerHeight: this.#getHeaderHeight(),
       icons: {
         sortDescending: this.getIconTemplate('caret-down'),
         sortAscending: this.getIconTemplate('caret-up'),
@@ -410,7 +422,11 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.getIconTemplate('arrows'),
       },
       onCellFocused: () => this.onCellFocused(),
-      rowHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 38,
+      onGridReady: (params: GridReadyEvent) => {
+        this.#gridApi = params.api;
+      },
+      rowHeight: this.#getRowHeight(),
+      getRowHeight: () => this.#getRowHeight(),
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
@@ -451,8 +467,8 @@ export class SkyAgGridService implements OnDestroy {
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: unknown) => {
-            return !!value && !isNaN(parseFloat(`${value}`));
+          validator: (value: any, data: any, rowIndex: number) => {
+            return !!value && !isNaN(parseFloat(String(value)));
           },
           validatorMessage: 'Please enter a valid number',
         },
@@ -540,5 +556,13 @@ export class SkyAgGridService implements OnDestroy {
       return true;
     }
     return false;
+  }
+
+  #getHeaderHeight() {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
+  }
+
+  #getRowHeight() {
+    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
   }
 }

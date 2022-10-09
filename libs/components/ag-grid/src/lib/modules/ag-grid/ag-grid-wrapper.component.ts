@@ -8,7 +8,10 @@ import {
   ElementRef,
   Inject,
   OnDestroy,
+  OnInit,
+  Optional,
 } from '@angular/core';
+import { SkyThemeService } from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import { DetailGridInfo } from 'ag-grid-community';
@@ -24,7 +27,9 @@ let idIndex = 0;
   templateUrl: './ag-grid-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
+export class SkyAgGridWrapperComponent
+  implements AfterContentInit, OnDestroy, OnInit
+{
   @ContentChild(AgGridAngular, {
     static: true,
   })
@@ -43,20 +48,28 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
     this.changeDetector.markForCheck();
   }
 
+  public enableTopScroll = false;
+  public isDefaultTheme = true;
+  public isModernLightTheme = false;
+  public isModernDarkTheme = false;
+
   private _viewkeeperClasses: string[] = [];
 
   #ngUnsubscribe = new Subject<void>();
+  #themeSvc: SkyThemeService;
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    @Optional() themeSvc?: SkyThemeService
   ) {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
+    this.#themeSvc = themeSvc;
   }
 
   public ngAfterContentInit(): void {
@@ -65,8 +78,10 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
       this.agGrid.gridOptions.domLayout === 'autoHeight'
     ) {
       if (this.agGrid.gridOptions.context?.enableTopScroll) {
+        this.enableTopScroll = true;
         this.viewkeeperClasses.push('.ag-header', '.ag-body-horizontal-scroll');
       } else {
+        this.enableTopScroll = false;
         this.viewkeeperClasses.push('.ag-header');
       }
     }
@@ -78,7 +93,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
       .subscribe(() => {
         this.#moveHorizontalScroll();
       });
-    this.agGrid.rowDataChanged
+    this.agGrid.rowDataUpdated
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#moveHorizontalScroll();
@@ -88,6 +103,20 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  public ngOnInit(): void {
+    this.#themeSvc?.settingsChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((settings) => {
+        const themeName = settings.currentSettings.theme.name;
+        const themeMode = settings.currentSettings.mode.name;
+        this.isDefaultTheme = themeName === 'default';
+        this.isModernLightTheme =
+          themeName === 'modern' && themeMode === 'light';
+        this.isModernDarkTheme = themeName === 'modern' && themeMode === 'dark';
+        this.changeDetector.markForCheck();
+      });
   }
 
   /**

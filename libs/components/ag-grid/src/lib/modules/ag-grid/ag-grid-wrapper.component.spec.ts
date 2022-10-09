@@ -1,5 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
@@ -9,9 +15,9 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  RowDataChangedEvent,
+  RowDataUpdatedEvent,
 } from 'ag-grid-community';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
@@ -26,18 +32,36 @@ describe('SkyAgGridWrapperComponent', () => {
   let gridWrapperFixture: ComponentFixture<SkyAgGridWrapperComponent>;
   let gridWrapperComponent: SkyAgGridWrapperComponent;
   let gridWrapperNativeElement: HTMLElement;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
 
   const agGrid: AgGridAngular = {
     api: new GridApi(),
     columnApi: new ColumnApi(),
     gridReady: new Subject<GridReadyEvent>(),
-    rowDataChanged: new Subject<RowDataChangedEvent>(),
+    rowDataUpdated: new Subject<RowDataUpdatedEvent>(),
     firstDataRendered: new Subject<FirstDataRenderedEvent>(),
   } as AgGridAngular;
 
   beforeEach(() => {
+    mockThemeSvc = {
+      settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
+        currentSettings: {
+          theme: SkyTheme.presets.default,
+          mode: SkyThemeMode.presets.light,
+        },
+        previousSettings: undefined,
+      }),
+    };
     TestBed.configureTestingModule({
       imports: [SkyAgGridModule],
+      providers: [
+        {
+          provide: SkyThemeService,
+          useValue: mockThemeSvc,
+        },
+      ],
     });
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
@@ -68,6 +92,48 @@ describe('SkyAgGridWrapperComponent', () => {
     expect(
       autoHeightGridWrapperComponent.viewkeeperClasses.indexOf('.ag-header')
     ).not.toEqual(-1);
+  });
+
+  it('should apply ag-theme', async () => {
+    expect(gridWrapperComponent.isDefaultTheme).toBe(true);
+    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
+    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.modern,
+        mode: SkyThemeMode.presets.light,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(gridWrapperComponent.isDefaultTheme).toBe(false);
+    expect(gridWrapperComponent.isModernLightTheme).toBe(true);
+    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.modern,
+        mode: SkyThemeMode.presets.dark,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(gridWrapperComponent.isDefaultTheme).toBe(false);
+    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
+    expect(gridWrapperComponent.isModernDarkTheme).toBe(true);
+
+    mockThemeSvc.settingsChange.next({
+      currentSettings: {
+        theme: SkyTheme.presets.default,
+        mode: SkyThemeMode.presets.light,
+      },
+      previousSettings: undefined,
+    });
+    gridWrapperFixture.detectChanges();
+    expect(gridWrapperComponent.isDefaultTheme).toBe(true);
+    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
+    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
   });
 
   describe('onGridKeydown', () => {
@@ -348,7 +414,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     gridWrapperFixture.componentInstance.gridOptions.context = {
       enableTopScroll: false,
     };
-    gridWrapperFixture.componentInstance.agGrid.rowDataChanged.emit();
+    gridWrapperFixture.componentInstance.agGrid.rowDataUpdated.emit();
 
     // Expect the scrollbar at the bottom.
     expect(getChildrenClassNames()).toEqual([
