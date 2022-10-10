@@ -13,6 +13,10 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
+import {
+  CellRendererSelectorFunc,
+  CellRendererSelectorResult,
+} from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -59,7 +63,7 @@ function autocompleteFormatter(
   return params.value && params.value.name;
 }
 
-function dateComparator(date1: any, date2: any): number {
+function dateComparator(date1: Date | string, date2: Date | string): number {
   let date1value = date1;
   let date2value = date2;
 
@@ -86,7 +90,10 @@ function dateComparator(date1: any, date2: any): number {
   return date1value ? 1 : -1;
 }
 
-function getValidatorCellRendererSelector(component: string, fallback?: any) {
+function getValidatorCellRendererSelector(
+  component: string,
+  fallback?: CellRendererSelectorResult | undefined
+): CellRendererSelectorFunc {
   return (params: ICellRendererParams) => {
     if (
       params.colDef &&
@@ -150,7 +157,7 @@ export class SkyAgGridService implements OnDestroy {
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -162,12 +169,7 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(
-      defaultGridOptions,
-      args.gridOptions
-    );
-
-    return mergedGridOptions;
+    return this.mergeGridOptions(defaultGridOptions, args.gridOptions);
   }
 
   /**
@@ -177,12 +179,7 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultEditableGridOptions(args);
-    const mergedGridOptions = this.mergeGridOptions(
-      defaultGridOptions,
-      args.gridOptions
-    );
-
-    return mergedGridOptions;
+    return this.mergeGridOptions(defaultGridOptions, args.gridOptions);
   }
 
   private mergeGridOptions(
@@ -212,7 +209,7 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
       },
-      onGridReady: (params: GridReadyEvent) => {
+      onGridReady: (params: GridReadyEvent): void => {
         if (providedGridOptions.onGridReady) {
           providedGridOptions.onGridReady(params);
         }
@@ -230,7 +227,7 @@ export class SkyAgGridService implements OnDestroy {
 
   private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
-    const cellClassRuleTrueExpression = () => true;
+    const cellClassRuleTrueExpression = (): boolean => true;
 
     function getEditableFn(
       isUneditable?: boolean
@@ -439,7 +436,7 @@ export class SkyAgGridService implements OnDestroy {
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Currency],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
+          validator: (value: any, data: any, rowIndex: number): boolean => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
           validatorMessage: 'Please enter a valid currency',
@@ -467,7 +464,7 @@ export class SkyAgGridService implements OnDestroy {
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number) => {
+          validator: (value: any, data: any, rowIndex: number): boolean => {
             return !!value && !isNaN(parseFloat(String(value)));
           },
           validatorMessage: 'Please enter a valid number',
@@ -558,11 +555,11 @@ export class SkyAgGridService implements OnDestroy {
     return false;
   }
 
-  #getHeaderHeight() {
+  #getHeaderHeight(): number {
     return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
   }
 
-  #getRowHeight() {
+  #getRowHeight(): number {
     return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
   }
 }
