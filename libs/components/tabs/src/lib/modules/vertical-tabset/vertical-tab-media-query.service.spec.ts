@@ -14,7 +14,7 @@ describe('Vertical tab media query service', () => {
     it('should handle initialization properly', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
@@ -45,7 +45,7 @@ describe('Vertical tab media query service', () => {
     it('should update the breakpoint correctly when setBreakPoint is called', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {

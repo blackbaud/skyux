@@ -25,11 +25,13 @@ export class VerticalTabsetTestComponent {
   public showScrollable = false;
 
   public tabDisabled = true;
+  public tab1AriaRole: string | undefined = 'tab';
   public tab1Required = false;
+  public tabsetAriaRole: string | undefined = 'tablist';
 
   @ViewChild(SkyVerticalTabsetComponent)
-  public tabset: SkyVerticalTabsetComponent;
+  public tabset: SkyVerticalTabsetComponent | undefined;
 
   @ViewChildren(SkyVerticalTabComponent)
-  public verticalTabs: QueryList<SkyVerticalTabComponent>;
+  public verticalTabs: QueryList<SkyVerticalTabComponent> | undefined;
 }

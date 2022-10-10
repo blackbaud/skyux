@@ -10,5 +10,5 @@ export class VerticalTabsetNoActiveTestComponent {
   public maintainTabContent = false;
 
   @ViewChild(SkyVerticalTabsetComponent)
-  public tabset: SkyVerticalTabsetComponent;
+  public tabset: SkyVerticalTabsetComponent | undefined;
 }
