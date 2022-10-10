@@ -22,7 +22,15 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_tabs_navigator_next: { message: 'Next' },
     skyux_tabs_navigator_previous: { message: 'Previous' },
     skyux_tab_open: { message: 'Open tab' },
+    skyux_tabs_sr_tab_order: { message: 'Tab {0} of {1}: {2}' },
     skyux_vertical_tabs_show_tabs_text: { message: 'Tab list' },
+    skyux_wizard_sr_step_current: { message: 'Step {0} of {1}, current: {2}' },
+    skyux_wizard_sr_step_completed: {
+      message: 'Step {0} of {1}, completed: {2}',
+    },
+    skyux_wizard_sr_step_unavailable: {
+      message: 'Step {0} of {1}, unavailable: {2}',
+    },
   },
 };
 
