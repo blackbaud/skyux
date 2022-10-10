@@ -18,51 +18,61 @@ export class FlyoutDemoComponent implements OnInit {
 
   public enableInfiniteScroll = true;
 
-  private nextId = 0;
+  #nextId = 0;
+
+  #modalService: SkyModalService;
+  #toastService: SkyToastService;
+  #router: Router;
+  #changeDetector: ChangeDetectorRef;
 
   constructor(
     public context: FlyoutDemoContext,
-    private modalService: SkyModalService,
-    private toastService: SkyToastService,
-    private router: Router,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    modalService: SkyModalService,
+    toastService: SkyToastService,
+    router: Router,
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#modalService = modalService;
+    this.#toastService = toastService;
+    this.#router = router;
+    this.#changeDetector = changeDetector;
+  }
 
   public ngOnInit(): void {
     this.addData(false);
   }
 
   public openModal(): void {
-    this.modalService.open(FlyoutModalDemoComponent);
+    this.#modalService.open(FlyoutModalDemoComponent);
   }
 
   public openMessage(): void {
-    this.toastService.openMessage(`This is a sample toast message.`, {
+    this.#toastService.openMessage(`This is a sample toast message.`, {
       type: SkyToastType.Info,
     });
   }
 
   public goToPage(): void {
-    this.router.navigate(['/']);
+    this.#router.navigate(['/']);
   }
 
   public addData(delay = true): void {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.mockRemote(delay).then((result: any) => {
+    this.#mockRemote(delay).then((result: any) => {
       this.infiniteScrollData = this.infiniteScrollData.concat(result.data);
       this.enableInfiniteScroll = result.hasMore;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private mockRemote(delay: boolean): Promise<any> {
+  #mockRemote(delay: boolean): Promise<any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any[] = [];
 
     for (let i = 0; i < 8; i++) {
       data.push({
-        name: `Item #${++this.nextId}`,
+        name: `Item #${++this.#nextId}`,
       });
     }
 
@@ -73,7 +83,7 @@ export class FlyoutDemoComponent implements OnInit {
         () => {
           resolve({
             data,
-            hasMore: this.nextId < 24,
+            hasMore: this.#nextId < 24,
           });
         },
         delay ? 1000 : 0

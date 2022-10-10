@@ -17,7 +17,7 @@ export class SkyFlyoutInstance<T> {
    * the modal does not close until the subscriber calls the handler's `closeModal` method.
    */
   public get beforeClose(): Observable<SkyFlyoutBeforeCloseHandler> {
-    return this._beforeClose;
+    return this.#_beforeClose;
   }
 
   /**
@@ -35,7 +35,7 @@ export class SkyFlyoutInstance<T> {
    * @internal
    */
   public get hostController(): Subject<SkyFlyoutMessage> {
-    return this._hostController;
+    return this.#_hostController;
   }
 
   /**
@@ -48,14 +48,14 @@ export class SkyFlyoutInstance<T> {
    * An event that the flyout instance emits when users click the next iterator button.
    */
   public get iteratorNextButtonClick(): EventEmitter<void> {
-    return this._iteratorNextButtonClick;
+    return this.#_iteratorNextButtonClick;
   }
 
   /**
    * An event that the flyout instance emits when users click the previous iterator button.
    */
   public get iteratorPreviousButtonClick(): EventEmitter<void> {
-    return this._iteratorPreviousButtonClick;
+    return this.#_iteratorPreviousButtonClick;
   }
 
   /**
@@ -63,7 +63,7 @@ export class SkyFlyoutInstance<T> {
    * @default false
    */
   public set iteratorNextButtonDisabled(newValue: boolean) {
-    this._iteratorNextButtonDisabled = newValue;
+    this.#_iteratorNextButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
         type: SkyFlyoutMessageType.DisableIteratorNextButton,
@@ -76,7 +76,7 @@ export class SkyFlyoutInstance<T> {
   }
 
   public get iteratorNextButtonDisabled(): boolean {
-    return this._iteratorNextButtonDisabled;
+    return this.#_iteratorNextButtonDisabled;
   }
 
   /**
@@ -84,7 +84,7 @@ export class SkyFlyoutInstance<T> {
    * @default false
    */
   public set iteratorPreviousButtonDisabled(newValue: boolean) {
-    this._iteratorPreviousButtonDisabled = newValue;
+    this.#_iteratorPreviousButtonDisabled = newValue;
     if (newValue) {
       this.hostController.next({
         type: SkyFlyoutMessageType.DisableIteratorPreviousButton,
@@ -97,22 +97,23 @@ export class SkyFlyoutInstance<T> {
   }
 
   public get iteratorPreviousButtonDisabled(): boolean {
-    return this._iteratorPreviousButtonDisabled;
+    return this.#_iteratorPreviousButtonDisabled;
   }
 
-  private _beforeClose = new Subject<SkyFlyoutBeforeCloseHandler>();
+  #_beforeClose = new Subject<SkyFlyoutBeforeCloseHandler>();
 
-  private _iteratorNextButtonClick = new EventEmitter<void>();
+  #_iteratorNextButtonClick = new EventEmitter<void>();
 
-  private _iteratorPreviousButtonClick = new EventEmitter<void>();
+  #_iteratorPreviousButtonClick = new EventEmitter<void>();
 
-  private _iteratorNextButtonDisabled = false;
+  #_iteratorNextButtonDisabled = false;
 
-  private _iteratorPreviousButtonDisabled = false;
+  #_iteratorPreviousButtonDisabled = false;
 
-  private _hostController = new Subject<SkyFlyoutMessage>();
+  #_hostController = new Subject<SkyFlyoutMessage>();
 
-  constructor() {
+  constructor(componentInstance: T) {
+    this.componentInstance = componentInstance;
     this.closed.subscribe(() => {
       this.isOpen = false;
     });
@@ -128,8 +129,8 @@ export class SkyFlyoutInstance<T> {
       data: { ignoreBeforeClose: args ? args.ignoreBeforeClose : false },
     });
 
-    this._iteratorPreviousButtonClick.complete();
-    this._iteratorNextButtonClick.complete();
+    this.#_iteratorPreviousButtonClick.complete();
+    this.#_iteratorNextButtonClick.complete();
 
     this.hostController.complete();
   }

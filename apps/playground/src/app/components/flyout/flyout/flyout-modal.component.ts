@@ -24,9 +24,14 @@ import { SkyModalInstance } from '@skyux/modals';
 })
 export class FlyoutModalDemoComponent {
   public visible = true;
-  constructor(private instance: SkyModalInstance) {}
+
+  #instance: SkyModalInstance;
+
+  constructor(instance: SkyModalInstance) {
+    this.#instance = instance;
+  }
 
   public close(): void {
-    this.instance.close();
+    this.#instance.close();
   }
 }

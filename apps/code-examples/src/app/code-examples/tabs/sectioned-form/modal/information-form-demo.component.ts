@@ -22,12 +22,18 @@ export class InformationFormDemoComponent implements OnInit {
   public name = '';
   public nameRequired = false;
 
+  #sectionedFormService: SkySectionedFormService;
+  #changeDetector: ChangeDetectorRef;
+
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private sectionedFormService: SkySectionedFormService,
-    private changeDetector: ChangeDetectorRef
+    formBuilder: UntypedFormBuilder,
+    sectionedFormService: SkySectionedFormService,
+    changeDetector: ChangeDetectorRef
   ) {
-    this.myForm = this.formBuilder.group({
+    this.#sectionedFormService = sectionedFormService;
+    this.#changeDetector = changeDetector;
+
+    this.myForm = formBuilder.group({
       name: [this.name],
       nameRequired: [this.nameRequired],
       id: [this.id, Validators.pattern('^[0-9]+$')],
@@ -42,22 +48,22 @@ export class InformationFormDemoComponent implements OnInit {
       this.nameRequired = changes.nameRequired;
       this.checkValidity();
     });
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public checkValidity(): void {
     if (this.nameRequired) {
       this.myForm.get('name')?.setValidators([Validators.required]);
-      this.sectionedFormService.requiredFieldChanged(true);
+      this.#sectionedFormService.requiredFieldChanged(true);
     } else {
       this.myForm.get('name')?.setValidators([]);
-      this.sectionedFormService.requiredFieldChanged(false);
+      this.#sectionedFormService.requiredFieldChanged(false);
     }
 
     if (!this.myForm.get('name')?.value && this.nameRequired) {
-      this.sectionedFormService.invalidFieldChanged(true);
+      this.#sectionedFormService.invalidFieldChanged(true);
     } else {
-      this.sectionedFormService.invalidFieldChanged(false);
+      this.#sectionedFormService.invalidFieldChanged(false);
     }
   }
 }

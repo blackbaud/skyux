@@ -8,7 +8,7 @@ import { SkyInlineFormConfig } from '../types/inline-form-config';
   templateUrl: './inline-form.fixture.html',
 })
 export class SkyInlineFormFixtureComponent {
-  public config: SkyInlineFormConfig;
+  public config: SkyInlineFormConfig | undefined;
 
   public showForm = false;
 
@@ -20,5 +20,8 @@ export class SkyInlineFormFixtureComponent {
 
   public showFormWithNoElements = false;
 
-  public onClose(event: SkyInlineFormCloseArgs): void {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onClose(event: SkyInlineFormCloseArgs): void {
+    return;
+  }
 }

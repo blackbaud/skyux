@@ -9,10 +9,14 @@ import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.com
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionedFormDemoComponent {
-  constructor(private modal: SkyModalService) {}
+  #modal: SkyModalService;
+
+  constructor(modal: SkyModalService) {
+    this.#modal = modal;
+  }
 
   public openModal(): void {
-    const modalInstance = this.modal.open(SectionedFormModalDemoComponent);
+    const modalInstance = this.#modal.open(SectionedFormModalDemoComponent);
 
     modalInstance.closed.subscribe((result: SkyModalCloseArgs) => {
       if (result.reason === 'cancel') {

@@ -38,7 +38,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * Indicates whether the tab is active when the tabset loads.
    */
   @Input()
-  public active = false;
+  public active: boolean | undefined = false;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that contains
@@ -87,14 +87,14 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * Displays an item count alongside the tab header to indicate how many list items the tab contains.
    */
   @Input()
-  public tabHeaderCount: number;
+  public tabHeaderCount: number | undefined;
 
   /**
    * Specifies the tab header.
    * @required
    */
   @Input()
-  public tabHeading: string;
+  public tabHeading: string | undefined;
 
   /**
    * Indicates whether to display a chevron-right icon in the righthand side of the tab.
