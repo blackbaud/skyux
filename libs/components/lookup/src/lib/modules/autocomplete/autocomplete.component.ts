@@ -146,6 +146,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Specifies the object properties to search.
    * @default ["name"]
+   * @deprecated Use `searchAsync` to search specific properties instead.
    */
   @Input()
   public set propertiesToSearch(value: string[] | undefined) {
@@ -163,6 +164,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * useful when the data source does not live in the source code. If the
    * search requires calling a remote data source, use `searchAsync` instead of
    * `search`.
+   * @deprecated Use `searchAsync` instead.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction | undefined) {
@@ -211,6 +213,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * using the `search` property to specify a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
    * or `false` for each result to indicate whether to display it in the dropdown list.
+   * @deprecated Use `searchAsync` to filter results instead.
    */
   @Input()
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
