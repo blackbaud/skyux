@@ -1,7 +1,9 @@
 <div class="sky-wait-container">
   <div
     *ngIf="isWaiting"
+    aria-live="assertive"
     class="sky-wait-mask"
+    role="alert"
     [attr.aria-label]="ariaLabelStream | async"
     [ngClass]="{
       'sky-wait-mask-loading-fixed': isFullPage,
