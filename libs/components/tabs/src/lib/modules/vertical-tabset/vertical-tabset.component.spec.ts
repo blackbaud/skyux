@@ -250,18 +250,25 @@ describe('Vertical tabset component', () => {
     );
     expect(tab?.id).toBe('some-tab');
     expect(tab?.getAttribute('aria-controls')).toBe('some-div');
+    expect(tab?.getAttribute('id')).toBe('some-tab');
     expect(tab?.getAttribute('role')).toBe('tab');
     expect(tabset?.getAttribute('role')).toBe('tablist');
 
+    fixture.componentInstance.tab1Id = undefined;
     fixture.componentInstance.tab1AriaRole = undefined;
     fixture.componentInstance.tabsetAriaRole = undefined;
     fixture.detectChanges();
+    expect(tab?.getAttribute('id')).toEqual(
+      jasmine.stringMatching(/sky-vertical-tab-[0-9]/)
+    );
     expect(tab?.getAttribute('role')).toBe('tab');
     expect(tabset?.getAttribute('role')).toBe('tablist');
 
+    fixture.componentInstance.tab1Id = 'tab-changed';
     fixture.componentInstance.tab1AriaRole = 'custom';
     fixture.componentInstance.tabsetAriaRole = 'custom';
     fixture.detectChanges();
+    expect(tab?.getAttribute('id')).toBe('tab-changed');
     expect(tab?.getAttribute('role')).toBe('custom');
     expect(tabset?.getAttribute('role')).toBe('custom');
   });

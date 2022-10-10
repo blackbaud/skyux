@@ -105,7 +105,13 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * @deprecated Now that the vertical tabs provide aria labels automatically, this input is no longer necessary.
    */
   @Input()
-  public tabId: string | undefined = `sky-vertical-tab-${++nextId}`;
+  public set tabId(value: string | undefined) {
+    this.#_tabId = value || `sky-vertical-tab-${++nextId}`;
+  }
+
+  public get tabId(): string {
+    return this.#_tabId;
+  }
 
   public set contentRendered(value: boolean) {
     this.#_contentRendered = value;
@@ -136,6 +142,10 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   #_contentRendered = false;
 
+  #_tabId: string;
+
+  #defaultTabId = `sky-vertical-tab-${++nextId}`;
+
   #mobileSubscription = new Subject();
 
   #ngUnsubscribe = new Subject<void>();
@@ -155,6 +165,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
     this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
+    this.#_tabId = this.#defaultTabId;
   }
 
   public ngOnInit(): void {

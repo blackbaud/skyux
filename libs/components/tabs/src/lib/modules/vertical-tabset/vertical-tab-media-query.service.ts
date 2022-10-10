@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { SkyMediaBreakpoints, SkyMediaQueryListener } from '@skyux/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { ReplaySubject, Subscription } from 'rxjs';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyVerticalTabMediaQueryService {
-  public current = SkyMediaBreakpoints.xs;
+  public current: SkyMediaBreakpoints | undefined;
 
-  #currentSubject = new BehaviorSubject<SkyMediaBreakpoints>(this.current);
+  #currentSubject: ReplaySubject<SkyMediaBreakpoints>;
 
   constructor() {
-    this.#currentSubject.next(this.current);
+    this.#currentSubject = new ReplaySubject<SkyMediaBreakpoints>(1);
   }
 
   public subscribe(listener: SkyMediaQueryListener): Subscription {

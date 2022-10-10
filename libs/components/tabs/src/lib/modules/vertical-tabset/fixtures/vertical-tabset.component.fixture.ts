@@ -26,6 +26,7 @@ export class VerticalTabsetTestComponent {
 
   public tabDisabled = true;
   public tab1AriaRole: string | undefined = 'tab';
+  public tab1Id: string | undefined = 'some-tab';
   public tab1Required = false;
   public tabsetAriaRole: string | undefined = 'tablist';
 
