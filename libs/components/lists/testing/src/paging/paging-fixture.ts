@@ -115,7 +115,7 @@ export class SkyPagingFixture {
   }
 
   private getPageId(page: HTMLButtonElement): string {
-    return page.getAttribute('sky-cmp-id') || '';
+    return page?.getAttribute('sky-cmp-id') ?? '';
   }
 
   private async waitForComponentInitialization(): Promise<void> {
