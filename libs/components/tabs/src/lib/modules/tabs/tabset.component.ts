@@ -26,6 +26,8 @@ import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetTabIndexesChange } from './tabset-tab-indexes-change';
 import { SkyTabsetService } from './tabset.service';
 
+const DEFAULT_ELEMENT_ROLE = 'tablist';
+
 @Component({
   selector: 'sky-tabset',
   styleUrls: ['./tabset.component.scss'],
@@ -120,6 +122,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   @Input()
   public set tabStyle(value: SkyTabsetStyle) {
     this._tabStyle = value;
+    this.elementRole = value === 'tabs' ? DEFAULT_ELEMENT_ROLE : undefined;
   }
 
   public get tabStyle(): SkyTabsetStyle {
@@ -176,6 +179,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   public lastActiveTabIndex: SkyTabIndex;
 
   public tabButtons: TabButtonViewModel[] = [];
+
+  public elementRole: string | undefined = DEFAULT_ELEMENT_ROLE;
 
   private ngUnsubscribe = new Subject<void>();
 

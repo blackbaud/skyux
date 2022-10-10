@@ -19,6 +19,8 @@ import { SkyTabIndex } from './tab-index';
 import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetService } from './tabset.service';
 
+const DEFAULT_ELEMENT_ROLE = 'tab';
+
 /**
  * @internal
  */
@@ -65,6 +67,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
 
   public set tabStyle(style: SkyTabsetStyle | undefined) {
     this.#_tabStyle = style;
+    this.elementRole = style === 'tabs' ? DEFAULT_ELEMENT_ROLE : undefined;
   }
 
   @Output()
@@ -85,6 +88,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     this.#tabsetService = tabsetService;
   }
 
+  public elementRole: string | undefined = DEFAULT_ELEMENT_ROLE;
   public closeBtnTabIndex = '-1';
 
   #_tabStyle: SkyTabsetStyle;

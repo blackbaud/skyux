@@ -8,10 +8,10 @@
   <a
     #tabButtonEl
     class="sky-btn-tab"
-    role="tab"
+    [attr.role]="elementRole"
     [attr.aria-controls]="ariaControls"
     [attr.aria-disabled]="disabled"
-    [attr.aria-selected]="active"
+    [attr.aria-selected]="tabStyle === 'wizard' ? null : active"
     [attr.href]="buttonHref"
     [id]="buttonId"
     [ngClass]="{
