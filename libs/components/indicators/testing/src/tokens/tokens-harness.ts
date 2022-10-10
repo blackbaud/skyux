@@ -6,7 +6,6 @@ import { SkyTokensHarnessFilters } from './tokens-harness-filters';
 
 /**
  * Harness for interacting with a tokens component in tests.
- * @internal
  */
 export class SkyTokensHarness extends SkyComponentHarness {
   /**
