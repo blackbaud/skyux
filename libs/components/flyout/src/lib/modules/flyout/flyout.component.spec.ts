@@ -1,4 +1,3 @@
-import { ApplicationRef } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -35,7 +34,6 @@ import { SkyFlyoutService } from './flyout.service';
 import { SkyFlyoutConfig } from './types/flyout-config';
 
 describe('Flyout component', () => {
-  let applicationRef: ApplicationRef;
   let fixture: ComponentFixture<SkyFlyoutTestComponent>;
   let flyoutService: SkyFlyoutService;
   let mockThemeSvc: {
@@ -49,12 +47,15 @@ describe('Flyout component', () => {
     config: SkyFlyoutConfig = {},
     context?: SkyFlyoutTestSampleContext
   ): SkyFlyoutInstance<any> {
+    if (!context) {
+      context = new SkyFlyoutTestSampleContext('Sam');
+    }
     config = Object.assign(
       {
         providers: [
           {
             provide: SkyFlyoutTestSampleContext,
-            useValue: context ? context : { name: 'Sam' },
+            useValue: context,
           },
         ],
       },
@@ -63,7 +64,6 @@ describe('Flyout component', () => {
 
     const flyoutInstance = fixture.componentInstance.openFlyout(config);
 
-    applicationRef.tick();
     tick();
     fixture.detectChanges();
 
@@ -73,7 +73,6 @@ describe('Flyout component', () => {
   function openHostFlyout(): SkyFlyoutInstance<any> {
     const flyoutInstance = fixture.componentInstance.openHostsFlyout();
 
-    applicationRef.tick();
     tick();
     fixture.detectChanges();
 
@@ -108,7 +107,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
     document.dispatchEvent(evt);
   }
@@ -131,7 +130,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
 
     handleElement.dispatchEvent(evt);
@@ -155,7 +154,7 @@ describe('Flyout component', () => {
       false,
       false,
       0,
-      undefined
+      null
     );
 
     handleElement.dispatchEvent(evt);
@@ -308,24 +307,18 @@ describe('Flyout component', () => {
     );
   });
 
-  beforeEach(inject(
-    [ApplicationRef, SkyFlyoutService],
-    (_applicationRef: ApplicationRef, _flyoutService: SkyFlyoutService) => {
-      applicationRef = _applicationRef;
-      flyoutService = _flyoutService;
-      flyoutService.close();
-    }
-  ));
+  beforeEach(inject([SkyFlyoutService], (_flyoutService: SkyFlyoutService) => {
+    flyoutService = _flyoutService;
+    flyoutService.close();
+  }));
 
   afterEach(fakeAsync(() => {
     const modalService = TestBed.get(SkyModalService);
     modalService.dispose();
     flyoutService.close();
-    applicationRef.tick();
     tick();
     fixture.detectChanges();
     flyoutService.ngOnDestroy();
-    applicationRef.tick();
     fixture.destroy();
   }));
 
@@ -399,11 +392,11 @@ describe('Flyout component', () => {
     fixture.detectChanges();
     tick();
 
-    const deleteMeButton: HTMLButtonElement =
+    const deleteMeButton: HTMLButtonElement | null =
       getModalElement().querySelector('.delete-me-button');
     // Remove the button before triggering the click event.
     // Angular fires the click event before removing the element in unit tests.
-    deleteMeButton.parentElement.removeChild(deleteMeButton);
+    deleteMeButton?.parentElement?.removeChild(deleteMeButton);
 
     // Pass in the removed element as the target.
     const event = document.createEvent('CustomEvent');
@@ -498,7 +491,7 @@ describe('Flyout component', () => {
   }));
 
   it('should stop close event when beforeClose is subscribed to', fakeAsync(() => {
-    let handlerFunction: Function;
+    let handlerFunction: Function | undefined;
 
     const flyout = openFlyout({});
     expect(flyout.isOpen).toBe(true);
@@ -526,7 +519,9 @@ describe('Flyout component', () => {
 
     expect(flyout.isOpen).toBe(true);
 
-    handlerFunction();
+    if (handlerFunction) {
+      handlerFunction();
+    }
     tick();
     fixture.detectChanges();
     tick();
@@ -569,13 +564,12 @@ describe('Flyout component', () => {
   }));
 
   it('should pass providers to the flyout', fakeAsync(() => {
+    const context = new SkyFlyoutTestSampleContext('Sally');
     openFlyout({
       providers: [
         {
           provide: SkyFlyoutTestSampleContext,
-          useValue: {
-            name: 'Sally',
-          },
+          useValue: context,
         },
       ],
     });
@@ -796,7 +790,10 @@ describe('Flyout component', () => {
   it('should automatically focus the close button when the flyout opens', fakeAsync(() => {
     (document.querySelector('#flyout-trigger-button') as HTMLElement).focus();
 
-    openFlyout({}, { name: 'Sam', showNormalButton: true });
+    const context = new SkyFlyoutTestSampleContext('Sam');
+    context.showNormalButton = true;
+
+    openFlyout({}, context);
 
     tick();
     fixture.detectChanges();
@@ -810,11 +807,9 @@ describe('Flyout component', () => {
   it('should automatically focus the an element with autofoucus in the content area when the flyout opens if one exists', fakeAsync(() => {
     (document.querySelector('#flyout-trigger-button') as HTMLElement).focus();
 
-    const context: SkyFlyoutTestSampleContext = {
-      name: 'Sam',
-      showAutofocusButton: true,
-      showNormalButton: true,
-    };
+    const context = new SkyFlyoutTestSampleContext('Sam');
+    context.showAutofocusButton = true;
+    context.showNormalButton = true;
     openFlyout({}, context);
 
     tick();
@@ -956,7 +951,10 @@ describe('Flyout component', () => {
   }));
 
   it('should set iframe styles correctly during dragging', fakeAsync(() => {
-    openFlyout({}, { name: 'Sam', showIframe: true });
+    const context = new SkyFlyoutTestSampleContext('Sam');
+    context.showIframe = true;
+
+    openFlyout({}, context);
     const iframe = getIframe();
 
     expect(iframe.style.pointerEvents).toBeFalsy();
@@ -1032,7 +1030,7 @@ describe('Flyout component', () => {
     tick();
 
     let numFlyoutClicks = 0;
-    flyout.addEventListener('click', () => {
+    flyout?.addEventListener('click', () => {
       numFlyoutClicks++;
     });
 
@@ -1136,7 +1134,7 @@ describe('Flyout component', () => {
       });
       getPermalinkButtonElement().click();
       const navigation = TestBed.inject(Router).getCurrentNavigation();
-      expect(navigation.extras.state.foo).toEqual('bar');
+      expect(navigation?.extras.state?.foo).toEqual('bar');
       tick();
     }));
 
@@ -1203,7 +1201,6 @@ describe('Flyout component', () => {
       primaryActionButton.click();
 
       // let the close message propagate
-      applicationRef.tick();
       tick();
 
       expect(primaryActionInvoked).toBe(true);
@@ -1222,7 +1219,6 @@ describe('Flyout component', () => {
       primaryActionButton.click();
 
       // let the close message propagate
-      applicationRef.tick();
       tick();
 
       expect(flyoutInstance.isOpen).toBeFalsy();
@@ -1241,7 +1237,6 @@ describe('Flyout component', () => {
       primaryActionButton.click();
 
       // let the close message propagate
-      applicationRef.tick();
       tick();
 
       expect(flyoutInstance.isOpen).toBeTruthy();
@@ -1259,7 +1254,6 @@ describe('Flyout component', () => {
       primaryActionButton.click();
 
       // let the close message propagate
-      applicationRef.tick();
       tick();
 
       expect(flyoutInstance.isOpen).toBeTruthy();

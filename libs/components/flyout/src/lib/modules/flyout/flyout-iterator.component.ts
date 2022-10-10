@@ -18,45 +18,43 @@ import { Subject } from 'rxjs';
 })
 export class SkyFlyoutIteratorComponent implements OnDestroy {
   @Input()
-  public nextButtonDisabled: boolean;
+  public nextButtonDisabled: boolean | undefined;
 
   @Input()
-  public previousButtonDisabled: boolean;
+  public previousButtonDisabled: boolean | undefined;
 
   @Output()
   public get previousButtonClick(): EventEmitter<void> {
-    return this._previousButtonClick;
+    return this.#_previousButtonClick;
   }
 
   @Output()
   public get nextButtonClick(): EventEmitter<void> {
-    return this._nextButtonClick;
+    return this.#_nextButtonClick;
   }
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _nextButtonClick = new EventEmitter<void>();
+  #_nextButtonClick = new EventEmitter<void>();
 
-  private _previousButtonClick = new EventEmitter<void>();
+  #_previousButtonClick = new EventEmitter<void>();
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this._previousButtonClick.complete();
-    this._nextButtonClick.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onIteratorPreviousClick(): void {
     /* istanbul ignore else */
     if (!this.previousButtonDisabled) {
-      this._previousButtonClick.emit();
+      this.#_previousButtonClick.emit();
     }
   }
 
   public onIteratorNextClick(): void {
     /* istanbul ignore else */
     if (!this.nextButtonDisabled) {
-      this._nextButtonClick.emit();
+      this.#_nextButtonClick.emit();
     }
   }
 }

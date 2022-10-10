@@ -4,7 +4,6 @@ import { SkyTokenHarnessFilters } from './token-harness-filters';
 
 /**
  * Harness for interacting with a token component in tests.
- * @internal
  */
 export class SkyTokenHarness extends ComponentHarness {
   /**
@@ -35,6 +34,17 @@ export class SkyTokenHarness extends ComponentHarness {
   }
 
   /**
+   * Selects the token.
+   */
+  public async select(): Promise<void> {
+    if (await this.isDisabled()) {
+      throw new Error('Could not select the token because it is disabled.');
+    }
+
+    await (await this.host()).click();
+  }
+
+  /**
    * Dismisses the token.
    */
   public async dismiss(): Promise<void> {
@@ -55,9 +65,23 @@ export class SkyTokenHarness extends ComponentHarness {
   }
 
   /**
+   * Whether the token is disabled.
+   */
+  public async isDisabled(): Promise<boolean> {
+    return (await this.#getWrapper()).hasClass('sky-btn-disabled');
+  }
+
+  /**
    * Whether the token is dismissible.
    */
   public async isDismissible(): Promise<boolean> {
-    return await (await this.#getWrapper()).hasClass('sky-token-dismissable');
+    return (await this.#getWrapper()).hasClass('sky-token-dismissable');
+  }
+
+  /**
+   * Whether the token is focused.
+   */
+  public async isFocused(): Promise<boolean> {
+    return (await this.#getWrapper()).isFocused();
   }
 }

@@ -9,28 +9,32 @@ export class SectionedFormInformationFormDemoComponent {
   public name = '';
   public id = '5324901';
 
-  private _nameRequired = false;
+  #_nameRequired: boolean | undefined = false;
 
-  public get nameRequired(): boolean {
-    return this._nameRequired;
+  public get nameRequired(): boolean | undefined {
+    return this.#_nameRequired;
   }
-  public set nameRequired(value: boolean) {
-    this._nameRequired = value;
+  public set nameRequired(value: boolean | undefined) {
+    this.#_nameRequired = value;
 
-    if (this._nameRequired) {
-      this.sectionService.requiredFieldChanged(true);
+    if (value) {
+      this.#sectionService.requiredFieldChanged(true);
     } else {
-      this.sectionService.requiredFieldChanged(false);
+      this.#sectionService.requiredFieldChanged(false);
     }
   }
 
-  public constructor(private sectionService: SkySectionedFormService) {}
+  #sectionService: SkySectionedFormService;
+
+  public constructor(sectionService: SkySectionedFormService) {
+    this.#sectionService = sectionService;
+  }
 
   public checkValidity(): void {
     if (!this.name && this.nameRequired) {
-      this.sectionService.invalidFieldChanged(true);
+      this.#sectionService.invalidFieldChanged(true);
     } else {
-      this.sectionService.invalidFieldChanged(false);
+      this.#sectionService.invalidFieldChanged(false);
     }
   }
 

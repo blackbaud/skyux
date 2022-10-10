@@ -14,7 +14,7 @@ describe('Flyout media query service', () => {
     it('should handle initialization properly', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
@@ -22,7 +22,10 @@ describe('Flyout media query service', () => {
           }
         );
 
-        expect(result).toEqual(SkyMediaBreakpoints.xs);
+        expect(result).toBeUndefined();
+        mediaQueryService.setBreakpointForWidth(20);
+
+        expect(result).toBe(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
         mediaQueryService.destroy();
@@ -45,7 +48,7 @@ describe('Flyout media query service', () => {
     it('should update the breakpoint correctly when setBreakPoint is called', inject(
       [SkyFlyoutMediaQueryService],
       (mediaQueryService: SkyFlyoutMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
