@@ -14,6 +14,11 @@
       "version": "",
       "factory": "./update-7/rename-mutation-observer-service",
       "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
+    },
+    "add-compat-stylesheets": {
+      "version": "",
+      "factory": "./update-7/add-compat-stylesheets",
+      "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 7."
     }
   }
 }
