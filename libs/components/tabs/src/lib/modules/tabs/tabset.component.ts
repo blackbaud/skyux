@@ -444,7 +444,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
   }
 
   private createTabButtons(activeIndex: SkyTabIndex): TabButtonViewModel[] {
-    return this.tabs.map((tab) => ({
+    return this.tabs.map((tab, index) => ({
       active: this.tabsetService.tabIndexesEqual(tab.tabIndex, activeIndex),
       closeable: tab.closeable,
       ariaControls: tab.tabPanelId,
@@ -459,6 +459,8 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       buttonTextCount: tab.tabHeaderCount,
       buttonText: tab.tabHeading,
       tabIndex: tab.tabIndex,
+      tabNumber: index + 1,
+      totalTabsCount: this.tabs.length,
     }));
   }
 
