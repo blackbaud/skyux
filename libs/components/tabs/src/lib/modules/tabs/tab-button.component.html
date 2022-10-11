@@ -13,6 +13,12 @@
     [attr.aria-disabled]="disabled"
     [attr.aria-selected]="active"
     [attr.href]="buttonHref"
+    [attr.aria-label]="
+      (tabStyle === 'wizard'
+        ? 'skyux_wizard_sr_step_' + wizardStepState
+        : 'skyux_tabs_sr_tab_order'
+      ) | skyLibResources: tabNumber:totalTabsCount:buttonText
+    "
     [id]="buttonId"
     [ngClass]="{
       'sky-btn-tab-wizard': tabStyle === 'wizard',
@@ -25,7 +31,7 @@
     (keydown)="onTabButtonKeyDown($event)"
     (focus)="onFocus()"
   >
-    <span class="sky-tab-heading">
+    <span class="sky-tab-heading" [attr.aria-hidden]="true">
       {{ buttonText }}
       <span *ngIf="buttonTextCount !== undefined" class="sky-tab-header-count">
         {{ buttonTextCount }}

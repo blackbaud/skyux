@@ -8,6 +8,13 @@ const routes: Routes = [
       import('./features/action-bars.module').then((m) => m.ActionBarsModule),
   },
   {
+    path: 'angular-tree',
+    loadChildren: () =>
+      import('./features/angular-tree.modules').then(
+        (m) => m.AngularTreeFeatureModule
+      ),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
