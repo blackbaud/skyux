@@ -2,27 +2,24 @@ import { DebugElement } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyThemeService } from '@skyux/theme';
 
-import { PagingTestComponent } from './fixtures/paging.component.fixture';
-import { SkyPagingModule } from './paging.module';
+import { SkyPagingTestComponent } from './fixtures/paging.component.fixture';
+import { SkyPagingFixturesModule } from './fixtures/paging.module.fixture';
 
 describe('Paging component', () => {
-  let component: PagingTestComponent, fixture: any, element: DebugElement;
+  let component: SkyPagingTestComponent, fixture: any, element: DebugElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PagingTestComponent],
-      imports: [SkyPagingModule],
-      providers: [SkyThemeService],
+      imports: [SkyPagingFixturesModule],
     });
 
-    fixture = TestBed.createComponent(PagingTestComponent);
+    fixture = TestBed.createComponent(SkyPagingTestComponent);
     element = fixture.debugElement as DebugElement;
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  function getPagingSelector(type: string) {
+  function getPagingSelector(type: string): string {
     if (type === 'next' || type === 'previous') {
       return '.sky-paging-btn[sky-cmp-id="' + type + '"]';
     } else {
@@ -30,11 +27,17 @@ describe('Paging component', () => {
     }
   }
 
-  function verifyDisabled(elem: DebugElement) {
+  function getActivePageNumbers(): number[] {
+    return element
+      .queryAll(By.css('.sky-list-paging-link'))
+      .map((el) => parseInt(el.nativeElement.innerText));
+  }
+
+  function verifyDisabled(elem: DebugElement): void {
     expect(elem.nativeElement.disabled).toBeTruthy();
   }
 
-  function verifyEnabled(elem: DebugElement) {
+  function verifyEnabled(elem: DebugElement): void {
     expect(elem.nativeElement.disabled).toBeFalsy();
   }
 
@@ -261,88 +264,94 @@ describe('Paging component', () => {
       });
 
       it('should show the correct pages for an even number of maximum pages', () => {
-        let pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 6, 1);
+        component.itemCount = 16;
+        component.maxPages = 6;
+        fixture.detectChanges();
+
+        let pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 6, 2);
+        component.currentPage = 2;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 6, 4);
+        component.currentPage = 4;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 6, 7);
+        component.currentPage = 7;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([3, 4, 5, 6, 7, 8]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 6, 8);
+        component.currentPage = 8;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([3, 4, 5, 6, 7, 8]);
       });
 
       it('should show the correct pages for an odd number of maximum pages', () => {
-        let pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 5, 1);
+        component.itemCount = 16;
+        component.maxPages = 5;
+        fixture.detectChanges();
+
+        let pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 5, 2);
+        component.currentPage = 2;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 5, 4);
+        component.currentPage = 4;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 5, 7);
+        component.currentPage = 7;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([4, 5, 6, 7, 8]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(8, 5, 8);
+        component.currentPage = 8;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([4, 5, 6, 7, 8]);
       });
 
       it('should show the correct pages when maximum pages are >= the page count', () => {
-        let pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 6, 1);
+        component.itemCount = 12;
+        component.maxPages = 6;
+        fixture.detectChanges();
+
+        let pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 6, 3);
+        component.currentPage = 3;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 6, 6);
+        component.currentPage = 6;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 8, 1);
+        component.maxPages = 8;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 8, 3);
+        component.currentPage = 1;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
 
-        pageNumbers = (
-          component.pagingComponent as any
-        ).getDisplayedPageNumbers(6, 8, 6);
+        component.currentPage = 3;
+        fixture.detectChanges();
+        pageNumbers = getActivePageNumbers();
         expect(pageNumbers).toEqual([1, 2, 3, 4, 5, 6]);
       });
 
