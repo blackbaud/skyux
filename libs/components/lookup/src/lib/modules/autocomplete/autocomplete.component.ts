@@ -146,7 +146,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
   /**
    * Specifies the object properties to search.
    * @default ["name"]
-   * @deprecated Use `searchAsync` to search specific properties instead.
+   * @deprecated We recommend against using this property. To search specific properties, use the `searchAsync` event instead.
    */
   @Input()
   public set propertiesToSearch(value: string[] | undefined) {
