@@ -1,12 +1,7 @@
 import { Component, DebugElement } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  async,
-  fakeAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
@@ -989,10 +984,9 @@ describe('File drop component', () => {
     expect(dropEl.attributes.getNamedItem('aria-label')?.value).toBe('Test 12');
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

@@ -160,7 +160,7 @@ export class SkyTabsetService {
     );
 
     // Notify the tabset component when an active tab is unregistered.
-    if (this.isTabIndexActive(this.tabs[index].tabIndex)) {
+    if (this.isTabIndexActive(this.tabs[index]?.tabIndex)) {
       this._activeTabUnregistered.next({
         arrayIndex: index,
       });

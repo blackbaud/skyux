@@ -86,22 +86,18 @@ describe('Tile component', () => {
     tick();
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      const titleEl = el.querySelector('.sky-tile-title');
+    const titleEl = el.querySelector('.sky-tile-title');
 
-      titleEl.click();
-      fixture.detectChanges();
+    titleEl.click();
+    fixture.detectChanges();
 
-      const contentAttrs = el.querySelector('.sky-tile-content').attributes;
+    const contentAttrs = el.querySelector('.sky-tile-content').attributes;
 
-      expect(contentAttrs['hidden']).not.toBeNull();
+    expect(contentAttrs['hidden']).not.toBeNull();
 
-      titleEl.click();
+    titleEl.click();
 
-      fixture.whenStable().then(() => {
-        expect(contentAttrs['hidden']).toBe(undefined);
-      });
-    });
+    expect(contentAttrs['hidden']).toBe(undefined);
   }));
 
   it('should output state when collapsed/expanded', fakeAsync(() => {
