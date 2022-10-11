@@ -9,18 +9,20 @@ import { SkyAppTestUtility } from '@skyux-sdk/testing';
  * @internal
  */
 export class SkyFilterFixtureSummary {
-  private debugElement: DebugElement;
+  #debugElement: DebugElement;
+  #fixture: ComponentFixture<any>;
 
-  constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugElement = SkyAppTestUtility.getDebugElementByTestId(
-      this.fixture,
+  constructor(fixture: ComponentFixture<any>, skyTestId: string) {
+    this.#fixture = fixture;
+    this.#debugElement = SkyAppTestUtility.getDebugElementByTestId(
+      this.#fixture,
       skyTestId,
       'sky-filter-summary'
     );
   }
 
   public async filterCloseClick(index: number): Promise<any> {
-    const summaryItems = this.debugElement.nativeElement.querySelectorAll(
+    const summaryItems = this.#debugElement.nativeElement.querySelectorAll(
       'sky-filter-summary-item'
     );
     if (summaryItems.length > index) {
@@ -29,8 +31,8 @@ export class SkyFilterFixtureSummary {
         const closeButton = summaryItem.querySelector('.sky-token-btn-close');
         if (closeButton instanceof HTMLElement) {
           closeButton.click();
-          this.fixture.detectChanges();
-          return this.fixture.whenStable();
+          this.#fixture.detectChanges();
+          return this.#fixture.whenStable();
         }
       }
     }
