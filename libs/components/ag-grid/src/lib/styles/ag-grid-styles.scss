@@ -150,6 +150,15 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
       }
     }
   }
+
+  .ag-cell-label-container {
+    flex-direction: row;
+    justify-content: flex-start;
+
+    > .ag-header-cell-label {
+      flex-grow: 0;
+    }
+  }
 }
 
 .sky-ag-grid.sky-ag-grid-top-scrollbar .ag-root {

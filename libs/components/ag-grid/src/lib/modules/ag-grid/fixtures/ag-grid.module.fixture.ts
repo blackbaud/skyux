@@ -13,6 +13,7 @@ import { SkyAgGridCellValidatorTooltipFixtureComponent } from './ag-grid-cell-va
 import { SkyAgGridDataManagerFixtureComponent } from './ag-grid-data-manager.component.fixture';
 import { SkyAgGridRowDeleteFixtureComponent } from './ag-grid-row-delete.component.fixture';
 import { SkyAgGridFixtureComponent } from './ag-grid.component.fixture';
+import { FirstInlineHelpComponent } from './inline-help.component';
 
 @NgModule({
   imports: [
@@ -29,12 +30,14 @@ import { SkyAgGridFixtureComponent } from './ag-grid.component.fixture';
     SkyAgGridFixtureComponent,
     SkyAgGridRowDeleteFixtureComponent,
     SkyAgGridCellValidatorTooltipFixtureComponent,
+    FirstInlineHelpComponent,
   ],
   exports: [
     SkyAgGridDataManagerFixtureComponent,
     SkyAgGridFixtureComponent,
     SkyAgGridRowDeleteFixtureComponent,
     SkyAgGridCellValidatorTooltipFixtureComponent,
+    FirstInlineHelpComponent,
   ],
 })
 export class SkyAgGridFixtureModule {}
