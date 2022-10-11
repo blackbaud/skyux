@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { SkyDropdownItemComponent } from '../dropdown-item.component';
 import { SkyDropdownMenuComponent } from '../dropdown-menu.component';
 import { SkyDropdownComponent } from '../dropdown.component';
+import { SkyDropdownButtonType } from '../types/dropdown-button-type';
 import { SkyDropdownHorizontalAlignment } from '../types/dropdown-horizontal-alignment';
 import { SkyDropdownMessage } from '../types/dropdown-message';
 import { SkyDropdownMessageType } from '../types/dropdown-message-type';
@@ -25,7 +26,7 @@ export class DropdownFixtureComponent {
 
   public buttonStyle: string | undefined;
 
-  public buttonType: string | undefined;
+  public buttonType: SkyDropdownButtonType | string | undefined;
 
   public disabled: boolean | undefined;
 
