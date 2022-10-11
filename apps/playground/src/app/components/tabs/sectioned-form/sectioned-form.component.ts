@@ -9,9 +9,13 @@ import { SectionedFormModalComponent } from './sectioned-form-modal.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionedFormComponent {
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   public openSectionedForm(): void {
-    this.modalService.open(SectionedFormModalComponent);
+    this.#modalService.open(SectionedFormModalComponent);
   }
 }
