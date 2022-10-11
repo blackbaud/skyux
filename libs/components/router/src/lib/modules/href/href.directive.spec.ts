@@ -239,11 +239,9 @@ describe('SkyHref Directive', () => {
     fixture.componentInstance.dynamicLink = 'nope://simple-app/example/page';
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      const element = fixture.nativeElement.querySelector('.dynamicLink a');
-      expect(element.hidden).toBeFalse();
-      expect(element.getAttribute('href')).toBeNull();
-    });
+    const element = fixture.nativeElement.querySelector('.dynamicLink a');
+    expect(element.hidden).toBeFalse();
+    expect(element.getAttribute('href')).toBeNull();
   }));
 
   it('should handle link without protocol', fakeAsync(() => {
@@ -251,10 +249,9 @@ describe('SkyHref Directive', () => {
 
     fixture.componentInstance.dynamicLink = '/example/page';
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      const element = fixture.nativeElement.querySelector('.dynamicLink a');
-      expect(element.hidden).toBeFalse();
-    });
+    tick();
+    const element = fixture.nativeElement.querySelector('.dynamicLink a');
+    expect(element.hidden).toBeFalse();
   }));
 
   it('should handle link with a fragment', fakeAsync(() => {
@@ -300,8 +297,6 @@ describe('SkyHref Directive', () => {
     const element = fixture.nativeElement.querySelector('.slowLink a');
     expect(element.hidden).toBe(true);
     flush();
-    fixture.whenStable().then(() => {
-      expect(element.hidden).toBe(false);
-    });
+    expect(element.hidden).toBe(false);
   }));
 });

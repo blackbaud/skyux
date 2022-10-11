@@ -1,12 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   inject,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAffixConfig, SkyAffixService, SkyAffixer } from '@skyux/core';
 import {
   SkyTheme,
@@ -1217,42 +1216,38 @@ describe('Dropdown component', function () {
       expect(button?.getAttribute('title')).toEqual('dropdown-title-override');
     }));
 
-    it('should be accessible when closed', async(() => {
+    it('should be accessible when closed', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible(() => {}, {
-            rules: {
-              region: {
-                enabled: false,
-              },
-            },
-          });
-        });
+      await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(window.document.body).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
       });
-    }));
+    });
 
-    it('should be accessible when open', async(() => {
+    it('should be accessible when open', async () => {
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        const button = getButtonElement();
+      await fixture.whenStable();
+      const button = getButtonElement();
 
-        button?.click();
+      button?.click();
 
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(window.document.body).toBeAccessible(() => {}, {
-            rules: {
-              region: {
-                enabled: false,
-              },
-            },
-          });
-        });
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(window.document.body).toBeAccessible({
+        rules: {
+          region: {
+            enabled: false,
+          },
+        },
       });
-    }));
+    });
   });
 });
 

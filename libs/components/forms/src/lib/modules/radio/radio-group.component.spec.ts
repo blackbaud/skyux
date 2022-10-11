@@ -1,12 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
@@ -555,12 +554,11 @@ describe('Radio group component (reactive)', function () {
     }
   }));
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
 
 describe('Radio group component (template-driven)', () => {

@@ -3,7 +3,6 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
@@ -654,13 +653,13 @@ describe('Tabset component', () => {
     expect(tabEl).not.toBeNull();
   }));
 
-  it('should be accessible', async(async () => {
+  it('should be accessible', async () => {
     const fixture = TestBed.createComponent(TabsetTestComponent);
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
     await expectAsync(fixture.nativeElement).toBeAccessible();
-  }));
+  });
 
   describe('when collapsed', () => {
     let fixture: ComponentFixture<TabsetTestComponent>;
@@ -864,12 +863,12 @@ describe('Tabset component', () => {
       expect(closeSpy).toHaveBeenCalled();
     }));
 
-    it('should be accessible', async(async () => {
+    it('should be accessible', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    }));
+    });
   });
 
   describe('active state on tabset', () => {
@@ -1158,13 +1157,13 @@ describe('Tabset component', () => {
       validateTabSelected(fixture.nativeElement, 0);
     }));
 
-    it('should be accessible', async(async () => {
+    it('should be accessible', async () => {
       const fixture = TestBed.createComponent(TabsetActiveTestComponent);
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
-    }));
+    });
   });
 
   describe('general accessibility', () => {
