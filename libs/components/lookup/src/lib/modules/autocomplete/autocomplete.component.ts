@@ -164,7 +164,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * useful when the data source does not live in the source code. If the
    * search requires calling a remote data source, use `searchAsync` instead of
    * `search`.
-   * @deprecated Use `searchAsync` instead.
+   * @deprecated We recommend against using this property. To call a remote data source, use the `searchAsync` event instead.
    */
   @Input()
   public set search(value: SkyAutocompleteSearchFunction | undefined) {
