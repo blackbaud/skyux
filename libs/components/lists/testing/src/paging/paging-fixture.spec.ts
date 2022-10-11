@@ -126,11 +126,10 @@ describe('Paging fixture', () => {
     await fixture.whenStable();
 
     // verify active page
-    expect(pagingFixture.activePageId).toBeUndefined();
+    expect(pagingFixture.activePageId).toBe('');
 
     // verify page list
     expect(pagingFixture.pageLinks.length).toBe(0);
-    expect(pagingFixture.activePageId).toBeUndefined();
 
     // actions should not fail
     await pagingFixture.selectNextPage();

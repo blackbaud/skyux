@@ -1,5 +1,5 @@
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
@@ -78,7 +78,7 @@ describe('Page summary component', () => {
     expect(el.querySelector('.sky-page-summary-with-key-info')).not.toExist();
   }));
 
-  it('should be accessible', async(() => {
+  it('should be accessible', async () => {
     const mockQueryService = new MockSkyMediaQueryService();
 
     const fixture = TestBed.overrideComponent(SkyPageSummaryComponent, {
@@ -93,8 +93,7 @@ describe('Page summary component', () => {
     }).createComponent(SkyPageSummaryTestComponent);
 
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

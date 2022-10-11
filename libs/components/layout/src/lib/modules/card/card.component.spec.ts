@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyInlineDeleteType } from '../inline-delete/inline-delete-type';
 
@@ -169,56 +169,50 @@ describe('Card component', () => {
     expect(el.querySelector('.sky-card-header')).toBeNull();
   });
 
-  it('should be accessible when not selectable', async(() => {
+  it('should be accessible when not selectable', async () => {
     cmp.showCheckbox = false;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should be accessible when selectable', async(() => {
+  it('should be accessible when selectable', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should be accessible when title is removed', async(() => {
+  it('should be accessible when title is removed', async () => {
     cmp.showTitle = false;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should set the inline delete to the card style when initially added', async(() => {
+  it('should set the inline delete to the card style when initially added', async () => {
     cmp.showDelete = true;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.querySelector('sky-inline-delete')).not.toBeNull();
-      expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
-      expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
-        SkyInlineDeleteType.Card
-      );
-    });
-  }));
+    await fixture.whenStable();
+    expect(el.querySelector('sky-inline-delete')).not.toBeNull();
+    expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
+    expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
+      SkyInlineDeleteType.Card
+    );
+  });
 
-  it('should set the inline delete to the card style when dynamically added', async(() => {
+  it('should set the inline delete to the card style when dynamically added', async () => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(el.querySelector('sky-inline-delete')).toBeNull();
-      expect(cmp.card.inlineDeleteComponent?.length).toBe(0);
+    await fixture.whenStable();
+    expect(el.querySelector('sky-inline-delete')).toBeNull();
+    expect(cmp.card.inlineDeleteComponent?.length).toBe(0);
 
-      cmp.showDelete = true;
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(el.querySelector('sky-inline-delete')).not.toBeNull();
-        expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
-        expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
-          SkyInlineDeleteType.Card
-        );
-      });
-    });
-  }));
+    cmp.showDelete = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(el.querySelector('sky-inline-delete')).not.toBeNull();
+    expect(cmp.card.inlineDeleteComponent?.length).toBe(1);
+    expect(cmp.card.inlineDeleteComponent?.first.type).toBe(
+      SkyInlineDeleteType.Card
+    );
+  });
 });

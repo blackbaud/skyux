@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
@@ -159,26 +159,21 @@ describe('Selection box component', () => {
   });
 
   // Tests that depend on sky-checkbox and sky-radio need to use async.
-  it('show selected state when selection box is clicked', async(() => {
+  it('show selected state when selection box is clicked', async () => {
     const selectionBoxes = getCheckboxSelectionBoxes();
 
     selectionBoxes[1].click();
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-      expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+  });
 
   // Tests that depend on sky-checkbox and sky-radio need to use async.
-  it('show selected state when space key is pressed', async(() => {
+  it('show selected state when space key is pressed', async () => {
     const selectionBoxes = getCheckboxSelectionBoxes();
 
     SkyAppTestUtility.fireDomEvent(selectionBoxes[1], 'keydown', {
@@ -188,55 +183,40 @@ describe('Selection box component', () => {
     });
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-      expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+  });
 
   // Tests that depend on sky-checkbox and sky-radio need to use async.
-  it('show selected state when checkbox is clicked', async(() => {
+  it('show selected state when checkbox is clicked', async () => {
     const selectionBoxes = getCheckboxSelectionBoxes();
 
     getCheckboxes()[1].click();
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-      expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+  });
 
   // Tests that depend on sky-checkbox and sky-radio need to use async.
-  it('show selected state when radio button is clicked', async(() => {
+  it('show selected state when radio button is clicked', async () => {
     const selectionBoxes = getRadioSelectionBoxes();
 
     getRadioButtons()[1].click();
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(selectionBoxes[0]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-      expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
-      expect(selectionBoxes[2]).not.toHaveCssClass(
-        'sky-selection-box-selected'
-      );
-    });
-  }));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(selectionBoxes[0]).not.toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[1]).toHaveCssClass('sky-selection-box-selected');
+    expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
+  });
 
   it('should have a role of button', () => {
     const role: string | null =
@@ -250,24 +230,22 @@ describe('Selection box component', () => {
     expect(tabIndex).toBe('0');
   });
 
-  it('should have a tabindex of -1 when the control is disabled', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const disabledSelectionBox = fixture.nativeElement.querySelector(
-        '#disabled-selection-box .sky-selection-box'
-      );
-      const tabIndex: string = disabledSelectionBox.getAttribute('tabindex');
-      expect(tabIndex).toBe('-1');
-    });
-  }));
+  it('should have a tabindex of -1 when the control is disabled', async () => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const disabledSelectionBox = fixture.nativeElement.querySelector(
+      '#disabled-selection-box .sky-selection-box'
+    );
+    const tabIndex: string = disabledSelectionBox.getAttribute('tabindex');
+    expect(tabIndex).toBe('-1');
+  });
 
-  it('should update tabindex of tabbable children elements to -1', async(() => {
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const tabbableChild = fixture.nativeElement.querySelector('#link');
-      expect(tabbableChild.getAttribute('tabindex')).toBe('-1');
-    });
-  }));
+  it('should update tabindex of tabbable children elements to -1', async () => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const tabbableChild = fixture.nativeElement.querySelector('#link');
+    expect(tabbableChild.getAttribute('tabindex')).toBe('-1');
+  });
 
   it('should be accessible', async () => {
     document.body.classList.add('sky-theme-modern');
