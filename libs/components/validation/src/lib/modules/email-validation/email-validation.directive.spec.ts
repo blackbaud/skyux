@@ -1,13 +1,12 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyEmailValidationFixturesModule } from './fixtures/email-validation-fixtures.module';
 import { EmailValidationTestComponent } from './fixtures/email-validation.component.fixture';
@@ -110,11 +109,10 @@ describe('Email validation', () => {
     expect(ngModel.control.touched).toBe(false);
   }));
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     setInput('[]awefhawenfc0293ejwf]', fixture);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });
