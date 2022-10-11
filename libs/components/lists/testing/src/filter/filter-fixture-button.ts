@@ -36,10 +36,10 @@ export class SkyFilterFixtureButton {
   public get button(): SkyListsFilterFixtureButton {
     const buttonElement = this.getButtonElement();
     return {
-      ariaControls: buttonElement.getAttribute('aria-controls'),
-      ariaExpanded: buttonElement.getAttribute('aria-expanded') === 'true',
-      disabled: buttonElement.disabled,
-      id: buttonElement.id,
+      ariaControls: buttonElement?.getAttribute('aria-controls') ?? undefined,
+      ariaExpanded: buttonElement?.getAttribute('aria-expanded') === 'true',
+      disabled: !!buttonElement?.disabled,
+      id: buttonElement?.id,
     };
   }
   /**
@@ -54,7 +54,11 @@ export class SkyFilterFixtureButton {
     return this.debugElement.nativeElement.querySelector('.sky-filter-btn');
   }
 
-  private normalizeText(text: string): string {
-    return text.trim().replace(/\s+/g, ' ');
+  private normalizeText(text: string | undefined): string {
+    let retVal = '';
+    if (text) {
+      retVal = text?.trim().replace(/\s+/g, ' ');
+    }
+    return retVal;
   }
 }

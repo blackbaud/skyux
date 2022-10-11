@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './filter-summary.component.fixture.html',
 })
 export class FilterSummaryTestComponent {
-  public appliedFilters: Array<any> = [
+  public appliedFilters = [
     {
       label: 'hide orange',
       dismissible: false,
@@ -20,11 +20,11 @@ export class FilterSummaryTestComponent {
 
   public summaryClicked = false;
 
-  public onDismiss() {
+  public onDismiss(): void {
     this.dismissed = true;
   }
 
-  public filterButtonClicked() {
+  public filterButtonClicked(): void {
     this.summaryClicked = true;
   }
 }
