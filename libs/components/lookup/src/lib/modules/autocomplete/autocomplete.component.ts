@@ -211,7 +211,7 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * using the `search` property to specify a custom search function, you must
    * manually apply filters inside that function. The function must return `true`
    * or `false` for each result to indicate whether to display it in the dropdown list.
-   * @deprecated Use `searchAsync` to filter results instead.
+   * @deprecated We recommend against using this property. To filter results, use the `searchAsync` event instead.
    */
   @Input()
   public searchFilters: SkyAutocompleteSearchFunctionFilter[] | undefined;
