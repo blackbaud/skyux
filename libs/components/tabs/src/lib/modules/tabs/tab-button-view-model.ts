@@ -13,4 +13,6 @@ export type TabButtonViewModel = {
   closeable: boolean;
   disabled: boolean;
   tabIndex: SkyTabIndex;
+  tabNumber: number;
+  totalTabsCount: number;
 };
