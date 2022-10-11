@@ -162,7 +162,6 @@ export class SkyAutocompleteComponent implements OnDestroy, AfterViewInit {
    * change the text in the autocomplete field. The search function must return
    * an array or a promise of an array. The `search` property is particularly
    * useful when the data source does not live in the source code. If the
-   * search requires calling a remote data source, use `searchAsync` instead of
    * `search`.
    * @deprecated We recommend against using this property. To call a remote data source, use the `searchAsync` event instead.
    */
