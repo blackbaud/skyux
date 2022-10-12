@@ -53,6 +53,20 @@ describe('Radio component', function () {
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
     });
 
+    it('should emit when radio is checked', async () => {
+      const onCheckedChangeSpy = spyOn(testComponent, 'onCheckedChange');
+      const radios: NodeListOf<HTMLInputElement> =
+        fixture.nativeElement.querySelectorAll('input');
+
+      // Select the second radio.
+      radios.item(1).click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(onCheckedChangeSpy).toHaveBeenCalledWith(false);
+      expect(onCheckedChangeSpy).toHaveBeenCalledTimes(1);
+    });
+
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
       const radioElement = fixture.debugElement.queryAll(
         By.directive(SkyRadioComponent)

@@ -6,6 +6,7 @@ import {
   ContentChildren,
   Input,
   OnDestroy,
+  OnInit,
   Optional,
   QueryList,
   Self,
@@ -17,6 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
+import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioComponent } from './radio.component';
 import { SkyRadioChange } from './types/radio-change';
 
@@ -31,9 +33,10 @@ let nextUniqueId = 0;
 @Component({
   selector: 'sky-radio-group',
   templateUrl: './radio-group.component.html',
+  providers: [SkyRadioGroupIdService],
 })
 export class SkyRadioGroupComponent
-  implements AfterContentInit, AfterViewInit, OnDestroy
+  implements OnInit, AfterContentInit, AfterViewInit, OnDestroy
 {
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
@@ -135,6 +138,15 @@ export class SkyRadioGroupComponent
     return this.#_tabIndex;
   }
 
+  /**
+   * Our radio components are usually implemented using an unordered list. This is an
+   * accessibility violation because the unordered list has an implicit role which
+   * interrupts the 'radiogroup' and 'radio' relationship. To correct this, we can set the
+   * radio group's 'ariaOwns' attribute to a space-separated list of radio IDs.
+   * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/radio_role
+   */
+  public ariaOwns: string | undefined;
+
   @ContentChildren(SkyRadioComponent, { descendants: true })
   public radios: QueryList<SkyRadioComponent> | undefined;
 
@@ -151,18 +163,28 @@ export class SkyRadioGroupComponent
   #_tabIndex: number | undefined;
 
   #changeDetector: ChangeDetectorRef;
+  #radioGroupIdSvc: SkyRadioGroupIdService;
   #ngControl: NgControl | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
+    radioGroupIdSvc: SkyRadioGroupIdService,
     @Self() @Optional() ngControl: NgControl
   ) {
     if (ngControl) {
       ngControl.valueAccessor = this;
     }
     this.#changeDetector = changeDetector;
+    this.#radioGroupIdSvc = radioGroupIdSvc;
     this.#ngControl = ngControl;
     this.name = this.#defaultName;
+  }
+
+  public ngOnInit(): void {
+    this.#radioGroupIdSvc.radioIds$.subscribe((ids) => {
+      this.ariaOwns = ids.join(' ') || undefined;
+      this.#changeDetector.markForCheck();
+    });
   }
 
   public ngAfterContentInit(): void {
@@ -248,8 +270,11 @@ export class SkyRadioGroupComponent
     this.#onTouched = fn;
   }
 
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   #onChange: (value: any) => void = () => {};
+
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   #onTouched: () => any = () => {};
 

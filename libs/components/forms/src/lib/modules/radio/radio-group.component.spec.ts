@@ -559,6 +559,15 @@ describe('Radio group component (reactive)', function () {
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
+
+  it('should set aria-owns as a space-separated list of radio ids', () => {
+    fixture.detectChanges();
+    const radioGroupEl: HTMLDivElement =
+      fixture.nativeElement.querySelector('.sky-radio-group');
+    expect(radioGroupEl.getAttribute('aria-owns')).toMatch(
+      /sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input/
+    );
+  });
 });
 
 describe('Radio group component (template-driven)', () => {

@@ -4,6 +4,8 @@ import {
   Component,
   Input,
   OnDestroy,
+  OnInit,
+  Optional,
   Output,
   Provider,
   forwardRef,
@@ -14,6 +16,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { SkyFormsUtility } from '../shared/forms-utility';
 
+import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
 
 /**
@@ -43,7 +46,9 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
+export class SkyRadioComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
   /**
    * Fires when users focus off a radio button.
    */
@@ -97,10 +102,14 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Input()
   public set id(value: string | undefined) {
-    if (value) {
-      this.inputId = `sky-radio-${value}-input`;
-    } else {
-      this.inputId = `sky-radio-${this.#defaultId}-input`;
+    const oldId = this.inputId;
+    const newId = value
+      ? `sky-radio-${value}-input`
+      : `sky-radio-${this.#defaultId}-input`;
+
+    if (oldId !== newId) {
+      this.inputId = newId;
+      this.#radioGroupIdSvc?.updateId(oldId, newId);
     }
   }
 
@@ -284,9 +293,14 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #_value: any;
 
   #changeDetector: ChangeDetectorRef;
+  #radioGroupIdSvc: SkyRadioGroupIdService | undefined;
 
-  constructor(changeDetector: ChangeDetectorRef) {
+  constructor(
+    changeDetector: ChangeDetectorRef,
+    @Optional() radioGroupIdService?: SkyRadioGroupIdService
+  ) {
     this.#changeDetector = changeDetector;
+    this.#radioGroupIdSvc = radioGroupIdService;
     this.#change = new Subject<SkyRadioChange>();
     this.#changeObs = this.#change.asObservable();
     this.#checkedChange = new BehaviorSubject<boolean>(this.checked);
@@ -297,7 +311,12 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
     this.id = this.#defaultId;
   }
 
+  public ngOnInit(): void {
+    this.#radioGroupIdSvc?.registerId(this.inputId);
+  }
+
   public ngOnDestroy(): void {
+    this.#radioGroupIdSvc?.unregisterId(this.inputId);
     this.#removeUniqueSelectionListener();
     this.#change.complete();
     this.#checkedChange.complete();
