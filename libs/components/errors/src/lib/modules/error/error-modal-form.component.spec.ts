@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyModalHostService } from '@skyux/modals';
 import { SkyModalConfiguration } from '@skyux/modals';
 import { SkyModalInstance } from '@skyux/modals';
@@ -63,9 +63,8 @@ describe('Error modal form component', () => {
     expect(modalInstance.close).toHaveBeenCalled();
   });
 
-  it('should pass accessibility', async(() => {
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+  it('should pass accessibility', async () => {
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

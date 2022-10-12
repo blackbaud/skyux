@@ -8,19 +8,19 @@ import { SkySectionedFormComponent } from '../sectioned-form.component';
 })
 export class SkySectionedFormFixtureComponent implements AfterContentChecked {
   @ViewChild(SkySectionedFormComponent)
-  public sectionedForm: SkySectionedFormComponent;
+  public sectionedForm: SkySectionedFormComponent | undefined;
 
   public activeTab = true;
-  public activeIndexDisplay: number;
+  public activeIndexDisplay: number | undefined;
   public maintainSectionContent = false;
 
-  private _activeIndex: number;
+  #activeIndex: number | undefined;
 
-  public ngAfterContentChecked() {
-    this.activeIndexDisplay = this._activeIndex;
+  public ngAfterContentChecked(): void {
+    this.activeIndexDisplay = this.#activeIndex;
   }
 
-  public updateIndex(newIndex: number) {
-    this._activeIndex = newIndex;
+  public updateIndex(newIndex: number | undefined): void {
+    this.#activeIndex = newIndex;
   }
 }

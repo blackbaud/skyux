@@ -20,14 +20,18 @@ export class SectionedFormModalDemoComponent {
   @ViewChild(SkySectionedFormComponent)
   public sectionedFormComponent: SkySectionedFormComponent | undefined;
 
+  #changeDetector: ChangeDetectorRef;
+
   constructor(
     public modalInstance: SkyModalInstance,
-    private changeDetector: ChangeDetectorRef
-  ) {}
+    changeDetector: ChangeDetectorRef
+  ) {
+    this.#changeDetector = changeDetector;
+  }
 
   public onIndexChanged(newIndex: number): void {
     this.activeIndexDisplay = newIndex;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public tabsHidden(): boolean {

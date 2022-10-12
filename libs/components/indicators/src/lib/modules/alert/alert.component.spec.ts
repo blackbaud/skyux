@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -42,7 +42,7 @@ describe('Alert component', () => {
     });
   });
 
-  it('should hide the close button if it is not closeable', async(() => {
+  it('should hide the close button if it is not closeable', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
@@ -58,10 +58,10 @@ describe('Alert component', () => {
     fixture.detectChanges();
 
     expect(attributes?.getNamedItem('hidden')).not.toBeNull();
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should be hidden when the close button is clicked', async(() => {
+  it('should be hidden when the close button is clicked', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement;
@@ -72,10 +72,10 @@ describe('Alert component', () => {
 
     expect(el.querySelector('.sky-alert').attributes['hidden']).not.toBeNull();
     expect(cmp.closed).toBe(true);
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should allow the screen reader text for the close button to be localizable', async(() => {
+  it('should allow the screen reader text for the close button to be localizable', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
@@ -85,10 +85,10 @@ describe('Alert component', () => {
 
     const closeEl = el.querySelector('.sky-alert-close');
     expect(closeEl?.getAttribute('aria-label')).toBe('Close the alert');
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should add the appropriate styling when an alert type is specified', async(() => {
+  it('should add the appropriate styling when an alert type is specified', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
@@ -98,10 +98,10 @@ describe('Alert component', () => {
 
     const alertEl = el.querySelector('.sky-alert');
     expect(alertEl?.classList.contains('sky-alert-success')).toBe(true);
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should default to "warning" when no alert type is specified', async(() => {
+  it('should default to "warning" when no alert type is specified', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
@@ -111,10 +111,10 @@ describe('Alert component', () => {
 
     const alertEl = el.querySelector('.sky-alert');
     expect(alertEl?.classList.contains('sky-alert-warning')).toBe(true);
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
-  it('should have a role of "alert"', async(() => {
+  it('should have a role of "alert"', async () => {
     const fixture = TestBed.createComponent(AlertTestComponent);
     const cmp = fixture.componentInstance as AlertTestComponent;
     const el = fixture.nativeElement as HTMLElement;
@@ -124,8 +124,8 @@ describe('Alert component', () => {
 
     const alertEl = el.querySelector('.sky-alert');
     expect(alertEl?.getAttribute('role')).toBe('alert');
-    expect(fixture.nativeElement).toBeAccessible();
-  }));
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   describe('with description', () => {
     function validateDescription(
@@ -199,7 +199,7 @@ describe('Alert component', () => {
       });
     });
 
-    it('should show the expected icon', async(() => {
+    it('should show the expected icon', async () => {
       const fixture = TestBed.createComponent(AlertTestComponent);
       const cmp = fixture.componentInstance;
       const el = fixture.nativeElement;
@@ -223,6 +223,6 @@ describe('Alert component', () => {
       fixture.detectChanges();
 
       validateStackedIcon(el, 'triangle-solid', 'exclamation');
-    }));
+    });
   });
 });

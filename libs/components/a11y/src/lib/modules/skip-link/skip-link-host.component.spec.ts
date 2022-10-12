@@ -1,5 +1,5 @@
 import { DebugElement, ElementRef } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
@@ -46,7 +46,7 @@ describe('Skip link host component', () => {
     document.body.removeChild(testEl2);
   });
 
-  it('should render a list of skip links', async(() => {
+  it('should render a list of skip links', () => {
     const fixture = TestBed.createComponent(SkySkipLinkHostComponent);
 
     const links = [
@@ -67,7 +67,7 @@ describe('Skip link host component', () => {
 
     validateSkipLink(links[0], skipLinkEls[0], testEl1);
     validateSkipLink(links[1], skipLinkEls[1], testEl2);
-  }));
+  });
 
   it('should be accssible', async () => {
     const fixture = TestBed.createComponent(SkySkipLinkHostComponent);

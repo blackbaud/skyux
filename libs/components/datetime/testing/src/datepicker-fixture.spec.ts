@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { expect } from '@skyux-sdk/testing';
 import { SkyDatepickerModule } from '@skyux/datetime';
@@ -33,18 +33,17 @@ describe('Datepicker fixture', () => {
     });
   });
 
-  it('should expose the provided properties', async(() => {
+  it('should expose the provided properties', async () => {
     const fixture = TestBed.createComponent(TestComponent);
 
     fixture.detectChanges();
 
     const datepicker = new SkyDatepickerFixture(fixture, 'test-datepicker');
 
-    fixture.whenStable().then(() => {
-      expect(datepicker.disabled).toBe(false);
-      expect(datepicker.date).toEqual(fixture.componentInstance.date);
-    });
-  }));
+    await fixture.whenStable();
+    expect(datepicker.disabled).toBe(false);
+    expect(datepicker.date).toEqual(fixture.componentInstance.date);
+  });
 
   it('should open and close the calendar when clicked', fakeAsync(() => {
     const fixture = TestBed.createComponent(TestComponent);

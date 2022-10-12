@@ -23,8 +23,24 @@
     "_description": "Label for the tab open button",
     "message": "Open tab"
   },
+  "skyux_tabs_sr_tab_order": {
+    "_description": "Text that describes which tab the user is on out of the total tabs",
+    "message": "Tab {0} of {1}: {2}"
+  },
   "skyux_vertical_tabs_show_tabs_text": {
     "_description": "The default text for the show tabs button in mobile",
     "message": "Tab list"
+  },
+  "skyux_wizard_sr_step_current": {
+    "_description": "Text that describes the state of a wizard step as current",
+    "message": "Step {0} of {1}, current: {2}"
+  },
+  "skyux_wizard_sr_step_completed": {
+    "_description": "Text that describes the state of a wizard step as completed",
+    "message": "Step {0} of {1}, completed: {2}"
+  },
+  "skyux_wizard_sr_step_unavailable": {
+    "_description": "Text that describes the state of a wizard step as unavailable",
+    "message": "Step {0} of {1}, unavailable: {2}"
   }
 }

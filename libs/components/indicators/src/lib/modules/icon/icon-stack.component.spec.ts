@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { IconStackTestComponent } from './fixtures/icon-stack.component.fixture';
 import { SkyIconModule } from './icon.module';
@@ -19,7 +19,7 @@ describe('Icon stack component', () => {
     element = fixture.nativeElement;
   });
 
-  it('should display an icon stack based on the given icons', async(() => {
+  it('should display an icon stack based on the given icons', async () => {
     fixture.detectChanges();
 
     const wrapperEl = element.querySelector('span');
@@ -41,8 +41,7 @@ describe('Icon stack component', () => {
     expect(topIconEl).toHaveCssClass('fa-inverse');
 
     // Accessibility checks
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

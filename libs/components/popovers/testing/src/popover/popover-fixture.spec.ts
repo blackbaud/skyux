@@ -48,16 +48,15 @@ describe('Popover fixture', () => {
     return document.querySelector('.sky-btn');
   }
 
-  function openPopover(): Promise<unknown> {
+  async function openPopover(): Promise<void> {
     expect(popoverFixture.popoverIsVisible).toEqual(false);
 
     const triggerEl = getPopoverTriggerEl();
     triggerEl?.click();
     fixture.detectChanges();
 
-    return fixture.whenStable().then(() => {
-      expect(popoverFixture.popoverIsVisible).toEqual(true);
-    });
+    await fixture.whenStable();
+    expect(popoverFixture.popoverIsVisible).toEqual(true);
   }
   //#endregion
 
