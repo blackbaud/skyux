@@ -132,16 +132,16 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   #setupButtons(): void {
     if (
-      this.isValidCustomConfig(this.config) &&
+      this.#isValidCustomConfig(this.config) &&
       this.config &&
       this.config.buttons
     ) {
-      this.buttons = this.getCustomButtons(this.config.buttons);
+      this.buttons = this.#getCustomButtons(this.config.buttons);
       this.#changeDetectorRef.markForCheck();
       return;
     }
 
-    this.getPresetButtons()
+    this.#getPresetButtons()
       .pipe(take(1))
       .subscribe((buttons: SkyInlineFormButtonConfig[]) => {
         this.buttons = buttons;
@@ -149,7 +149,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  private getPresetButtons(): Observable<SkyInlineFormButtonConfig[]> {
+  #getPresetButtons(): Observable<SkyInlineFormButtonConfig[]> {
     const emitter = new ReplaySubject<SkyInlineFormButtonConfig[]>(1);
 
     const buttonType = this.config
@@ -255,7 +255,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     return emitter.asObservable();
   }
 
-  private getCustomButtons(
+  #getCustomButtons(
     buttonConfigs: SkyInlineFormButtonConfig[]
   ): SkyInlineFormButtonConfig[] {
     const buttons: SkyInlineFormButtonConfig[] = [];
@@ -275,9 +275,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     return buttons;
   }
 
-  private isValidCustomConfig(
-    config: SkyInlineFormConfig | undefined
-  ): boolean {
+  #isValidCustomConfig(config: SkyInlineFormConfig | undefined): boolean {
     return (
       !!config &&
       !!config.buttons &&
