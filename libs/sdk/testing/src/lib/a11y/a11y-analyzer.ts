@@ -59,8 +59,8 @@ export abstract class SkyA11yAnalyzer {
     axe
       .getRules(
         skyTheme === 'default'
-          ? ['wcag2a', 'wcag2aa']
-          : ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
+          ? ['wcag2a', 'wcag2aa', 'best-practice']
+          : ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']
       )
       .forEach((rule) => {
         defaults.rules[rule.ruleId] = { enabled: true };
