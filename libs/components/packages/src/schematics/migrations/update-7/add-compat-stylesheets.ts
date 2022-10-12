@@ -117,7 +117,7 @@ export default function (): Rule {
 
     if (contents) {
       contents = `${buildCommentBlock(
-        `TODO: The following componnent libraries introduced visual breaking changes in SKY UX 7. Each block of CSS reintroduces the styles that were changed or removed for backwards compatibility. You will need to do the following before migrating to the next major version of SKY UX:
+        `TODO: The following component libraries introduced visual breaking changes in SKY UX 7. Each block of CSS reintroduces the styles that were changed or removed for backwards compatibility. You will need to do the following before migrating to the next major version of SKY UX:
 - Address each of the changes by following the instructions
   in each block of CSS, then remove the block.
 - Delete this file after all blocks have been addressed.

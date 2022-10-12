@@ -11,12 +11,12 @@
       "description": "Add moment.js as a dependency since SKY UX 7 references moment.js as a peer."
     },
     "rename-mutation-observer-service": {
-      "version": "",
+      "version": "7.0.0-beta.0",
       "factory": "./update-7/rename-mutation-observer-service",
       "description": "Replace all instances of 'MutationObserverService' with 'SkyMutationObserverService'"
     },
     "add-compat-stylesheets": {
-      "version": "",
+      "version": "7.0.0-beta.0",
       "factory": "./update-7/add-compat-stylesheets",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 7."
     }
