@@ -1,4 +1,10 @@
-<div id="controls" *ngIf="router.url !== '/'">
+<div
+  *ngIf="router.url !== '/'"
+  id="controls"
+  [ngStyle]="{
+    'height.px': height
+  }"
+>
   <div>
     <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
       Go home
@@ -217,6 +223,12 @@
         </ul>
       </li>
       <li>
+        Page
+        <ul>
+          <li><a routerLink="layout/page">Fit layout</a></li>
+        </ul>
+      </li>
+      <li>
         Text expand
         <ul>
           <li>
@@ -339,7 +351,7 @@
   </li>
 
   <li>
-    Progress Indicators
+    Progress indicators
     <ul>
       <li>
         <a routerLink="progress-indicator/waterfall">Waterfall</a>
@@ -359,6 +371,18 @@
       </li>
       <li>
         <a routerLink="progress-indicator/wizard">Wizard</a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    Split view
+    <ul>
+      <li>
+        <a routerLink="split-view/basic">Basic</a>
+      </li>
+      <li>
+        <a routerLink="split-view/page-bound">Page-bound</a>
       </li>
     </ul>
   </li>

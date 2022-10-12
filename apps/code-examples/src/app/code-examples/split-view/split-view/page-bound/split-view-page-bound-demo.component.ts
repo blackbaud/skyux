@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   SkyConfirmCloseEventArgs,
@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
   templateUrl: './split-view-page-bound-demo.component.html',
   styleUrls: ['./split-view-page-bound-demo.component.scss'],
 })
-export class SplitViewPageBoundDemoComponent implements OnInit {
+export class SplitViewPageBoundDemoComponent {
   public set activeIndex(value: number) {
     this._activeIndex = value;
     this.activeRecord = this.items[this._activeIndex];
@@ -116,8 +116,6 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
 
   public listWidth: number;
 
-  public pageFlexOffsetTop: number;
-
   public splitViewDemoForm: FormGroup;
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
@@ -129,12 +127,6 @@ export class SplitViewPageBoundDemoComponent implements OnInit {
   constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
     this.activeIndex = 0;
-  }
-
-  public ngOnInit(): void {
-    // Make any adjustments to the page's offset top to accommodate fixed-positioned elements,
-    // such as a "sticky" navbar, etc.
-    this.pageFlexOffsetTop = 0;
   }
 
   public onItemClick(index: number): void {

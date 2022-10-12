@@ -24,6 +24,7 @@ import { SkySplitViewAdapterService } from './split-view-adapter.service';
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
 import { SkySplitViewMediaQueryService } from './split-view-media-query.service';
 import { SkySplitViewService } from './split-view.service';
+import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
 import { SkySplitViewMessageType } from './types/split-view-message-type';
 
@@ -93,6 +94,15 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
     return this._bindHeightToWindow;
   }
 
+  @Input()
+  public set dock(value: SkySplitViewDockType | undefined) {
+    this.#_dock = value || 'none';
+  }
+
+  public get dock(): SkySplitViewDockType {
+    return this.#_dock;
+  }
+
   /**
    * Provides an observable to send commands to the split view component.
    * The commands should respect the `SkySplitViewMessage` type.
@@ -131,6 +141,8 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   private _bindHeightToWindow = false;
 
   private _drawerVisible = true;
+
+  #_dock: SkySplitViewDockType = 'none';
 
   constructor(
     private adapter: SkySplitViewAdapterService,
