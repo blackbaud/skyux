@@ -137,12 +137,11 @@ describe('SkyAppRuntimeConfigParams', () => {
       }
     );
 
-    // TODO: In a breaking change, remove the `as unknown` declarations.
     expect(params.get('a1')).toBe('b');
-    expect(params.get('a2') as unknown).toBe(undefined);
+    expect(params.get('a2')).toBe(undefined);
     expect(params.get('a3')).toBe('d');
     expect(params.get('a4')).toBe('x');
-    expect(params.get('a5') as unknown).toBe(undefined);
+    expect(params.get('a5')).toBe(undefined);
   });
 
   it('should allow default values to be overridden by the query string', () => {
