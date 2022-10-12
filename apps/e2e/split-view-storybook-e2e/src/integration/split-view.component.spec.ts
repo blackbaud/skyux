@@ -9,7 +9,7 @@ describe('split-view-storybook', () => {
         )
       );
       it('should fill the page when dock is set to fill', () => {
-        cy.get('.sky-split-view')
+        cy.get('.screenshot-area')
           .should('exist')
           .should('be.visible')
           .screenshot(

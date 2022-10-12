@@ -10,11 +10,11 @@ describe('layout-storybook', () => {
       );
 
       it('should constrain the contents of the page with layout fit to the available viewport', () => {
-        cy.get('app-page')
+        cy.get('.screenshot-area')
           .should('exist')
           .should('be.visible')
-          .screenshot(`pagecomponent-page--page-${theme}`)
-          .percySnapshot(`pagecomponent-page--page-${theme}`, {
+          .screenshot(`pagecomponent-page--page-layout-fit-${theme}`)
+          .percySnapshot(`pagecomponent-page--page-layout-fit-${theme}`, {
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
       });
