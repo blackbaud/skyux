@@ -2,6 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyFileItem } from '@skyux/forms';
 
 import { SkyFileAttachmentsModule } from './file-attachments.module';
 import { SkyFileDropComponent } from './file-drop.component';
@@ -548,7 +549,9 @@ describe('File drop component', () => {
     const errorMessage =
       'You may not upload a file that begins with the letter "w."';
 
-    componentInstance.validateFn = function (file: any): string | undefined {
+    componentInstance.validateFn = function (
+      file: SkyFileItem
+    ): string | undefined {
       if (file.file.name.indexOf('w') === 0) {
         return errorMessage;
       }
