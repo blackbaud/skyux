@@ -16,6 +16,13 @@ import { SkyLibResourcesService } from '@skyux/i18n';
 })
 export class SkyTokenComponent {
   /**
+   * Used by the tokens component to set the appropriate role for each token.
+   * @internal
+   */
+  @Input()
+  public ariaRole: string | undefined;
+
+  /**
    * Indicates whether to disable the token to prevent users from selecting it, dismissing it,
    * or navigating to it with the arrow keys. When the token is disabled,
    * users can still place focus on it using the `Tab` key.

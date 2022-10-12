@@ -5,9 +5,9 @@
 >
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    role="listitem"
     [@.disabled]="!trackWith"
     [@dismiss]
+    [ariaRole]="'listitem'"
     [disabled]="disabled"
     [dismissible]="dismissible"
     [focusable]="focusable"
