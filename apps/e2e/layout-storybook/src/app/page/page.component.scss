@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.anchored-item {
+  background-color: green;
+  color: #fff;
+  position: absolute;
+  padding: var(--sky-padding-even-md);
+
+  &-left {
+    left: 0;
+    top: 50%;
+  }
+
+  &-top {
+    top: 0;
+    left: 50%;
+  }
+
+  &-right {
+    top: 50%;
+    right: 0;
+  }
+
+  &-bottom {
+    bottom: 0;
+    left: 50%;
+  }
+
+  &-center {
+    top: 50%;
+    left: 50%;
+  }
+}
