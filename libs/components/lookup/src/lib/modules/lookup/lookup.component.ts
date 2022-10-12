@@ -606,27 +606,34 @@ export class SkyLookupComponent
       contextProviderType = SkyLookupShowMoreNativePickerAsyncContext;
       modalComponentType = SkyLookupShowMoreAsyncModalComponent;
 
-      contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext();
-      contextProviderValue.idProperty = this.idProperty!;
-      contextProviderValue.searchAsync = (args) => {
-        this.searchAsync.emit(args);
-        return args.result!;
-      };
+      contextProviderValue = new SkyLookupShowMoreNativePickerAsyncContext(
+        this.descriptorProperty,
+        this.idProperty!,
+        initialSearch,
+        initialValue,
+        (args) => {
+          this.searchAsync.emit(args);
+          return args.result!;
+        },
+        this.selectMode,
+        this.showAddButton,
+        modalConfig
+      );
     } else {
       contextProviderType = SkyLookupShowMoreNativePickerContext;
       modalComponentType = SkyLookupShowMoreModalComponent;
 
-      contextProviderValue = new SkyLookupShowMoreNativePickerContext();
-      contextProviderValue.items = this.data;
-      contextProviderValue.search = this.searchOrDefault;
+      contextProviderValue = new SkyLookupShowMoreNativePickerContext(
+        this.descriptorProperty,
+        initialSearch,
+        initialValue,
+        this.data,
+        this.searchOrDefault,
+        this.selectMode,
+        this.showAddButton,
+        modalConfig
+      );
     }
-
-    contextProviderValue.descriptorProperty = this.descriptorProperty;
-    contextProviderValue.initialSearch = initialSearch;
-    contextProviderValue.initialValue = initialValue;
-    contextProviderValue.selectMode = this.selectMode;
-    contextProviderValue.showAddButton = this.showAddButton;
-    contextProviderValue.userConfig = modalConfig;
 
     return this.#modalService.open(modalComponentType, {
       providers: [

@@ -526,10 +526,12 @@ describe('Autocomplete component', () => {
 
     it('should allow for custom search function', fakeAsync(() => {
       let customSearchCalled = false;
-      const customFunction: SkyAutocompleteSearchFunction = (): Promise<
-        [{ objectid?: string; name?: string; text?: string }]
-      > => {
+      let customSearchParameter: string | undefined;
+      const customFunction: SkyAutocompleteSearchFunction = (
+        searchText: string
+      ): Promise<[{ objectid?: string; name?: string; text?: string }]> => {
         return new Promise((resolve) => {
+          customSearchParameter = searchText;
           customSearchCalled = true;
           resolve([{ name: 'Red' }]);
         });
@@ -539,11 +541,9 @@ describe('Autocomplete component', () => {
 
       fixture.detectChanges();
 
-      const spy = spyOn(autocomplete, 'search').and.callThrough();
-
       enterSearch('r', fixture);
 
-      expect(spy.calls.argsFor(0)[0]).toEqual('r');
+      expect(customSearchParameter).toEqual('r');
       expect(customSearchCalled).toEqual(true);
     }));
 
