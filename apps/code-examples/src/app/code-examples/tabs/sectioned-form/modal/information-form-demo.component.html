@@ -24,16 +24,19 @@
           class="sky-form-control"
           formControlName="id"
           type="text"
+          [attr.aria-describedby]="inputError.id"
           #idInput
         />
+        <span class="sky-error-indicator" skyId #inputError="skyId">
+          <sky-status-indicator
+            *ngIf="myForm.get('id')?.invalid"
+            indicatorType="danger"
+            descriptionType="error"
+          >
+            Enter a valid value.
+          </sky-status-indicator>
+        </span>
       </sky-input-box>
-      <div *ngIf="myForm.get('id')?.invalid" class="alert alert-danger"></div>
-      <div
-        *ngIf="myForm.get('id')?.invalid"
-        class="alert alert-danger sky-error-label"
-      >
-        Enter a valid value.
-      </div>
     </div>
   </div>
 </form>

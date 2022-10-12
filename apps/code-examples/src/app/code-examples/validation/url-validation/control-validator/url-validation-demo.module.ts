@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyUrlValidationModule } from '@skyux/validation';
 
 import { UrlValidationDemoComponent } from './url-validation-demo.component';
@@ -14,6 +15,7 @@ import { UrlValidationDemoComponent } from './url-validation-demo.component';
     ReactiveFormsModule,
     SkyIdModule,
     SkyInputBoxModule,
+    SkyStatusIndicatorModule,
     SkyUrlValidationModule,
   ],
   exports: [UrlValidationDemoComponent],

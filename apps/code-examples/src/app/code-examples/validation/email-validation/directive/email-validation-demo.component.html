@@ -7,23 +7,26 @@
       <input
         class="sky-form-control"
         name="emailAddress"
+        [attr.aria-describedby]="emailError.id"
         skyEmailValidation
         skyId
         [(ngModel)]="demoModel.emailAddress"
         #emailInput="skyId"
         #emailControl="ngModel"
       />
+      <span class="sky-error-indicator" skyId #emailError="skyId">
+        <sky-status-indicator
+          *ngIf="
+            emailControl.errors?.skyEmail &&
+            emailControl.dirty &&
+            emailControl.touched
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Enter a valid email in the "joe@abc.com" format.
+        </sky-status-indicator>
+      </span>
     </sky-input-box>
-  </div>
-
-  <div
-    *ngIf="
-      emailControl.errors?.skyEmail &&
-      emailControl.dirty &&
-      emailControl.touched
-    "
-    class="sky-error-label"
-  >
-    Enter a valid email in the "joe@abc.com" format.
   </div>
 </form>

@@ -5,22 +5,35 @@
       <input
         class="sky-form-control"
         formControlName="url"
+        [attr.aria-describedby]="urlError.id"
         skyId
         #urlInput="skyId"
       />
+      <span class="sky-error-indicator" skyId #urlError="skyId">
+        <sky-status-indicator
+          *ngIf="
+            urlControl.errors &&
+            urlControl.touched &&
+            urlControl.errors.required
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          URL is required.
+        </sky-status-indicator>
+        <sky-status-indicator
+          *ngIf="
+            urlControl.errors &&
+            urlControl.touched &&
+            urlControl.errors.skyUrl &&
+            urlControl.dirty
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Enter a valid URL in the "http(s)://site.domain" format.
+        </sky-status-indicator>
+      </span>
     </sky-input-box>
   </div>
-
-  <ng-container *ngIf="urlControl.errors && urlControl.touched">
-    <div *ngIf="urlControl.errors.required" class="sky-error-label">
-      URL is required.
-    </div>
-
-    <div
-      *ngIf="urlControl.errors.skyUrl && urlControl.dirty"
-      class="sky-error-label"
-    >
-      Enter a valid URL in the "http(s)://site.domain" format.
-    </div>
-  </ng-container>
 </form>
