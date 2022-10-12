@@ -2,12 +2,11 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMediaBreakpoints, SkyMediaQueryService } from '@skyux/core';
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 import { SkyDropdownMessageType } from '@skyux/popovers';
@@ -186,35 +185,31 @@ describe('Summary Action Bar action components', () => {
   });
 
   describe('a11y', () => {
-    it('should be accessible (standard lg setup)', async(() => {
+    it('should be accessible (standard lg setup)', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible (standard xs setup)', async(() => {
+    it('should be accessible (standard xs setup)', async () => {
       fixture.detectChanges();
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible (standard xs setup collapsed summary)', async(() => {
+    it('should be accessible (standard xs setup collapsed summary)', async () => {
       fixture.detectChanges();
       mockMediaQueryService.fire(SkyMediaBreakpoints.xs);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        debugElement
-          .query(By.css('.sky-summary-action-bar-details-collapse button'))
-          .nativeElement.click();
-        fixture.detectChanges();
-        fixture.whenStable().then(() => {
-          expect(fixture.nativeElement).toBeAccessible();
-        });
-      });
-    }));
+      await fixture.whenStable();
+      debugElement
+        .query(By.css('.sky-summary-action-bar-details-collapse button'))
+        .nativeElement.click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

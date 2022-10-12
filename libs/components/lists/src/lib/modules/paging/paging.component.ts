@@ -47,7 +47,7 @@ export class SkyPagingComponent implements OnChanges {
    * @default "Pagination"
    */
   @Input()
-  public pagingLabel: string;
+  public pagingLabel: string | undefined;
 
   /**
    * Fires when the current page changes and emits the new current page.
@@ -66,7 +66,7 @@ export class SkyPagingComponent implements OnChanges {
   public setPage(pageNumber: number): void {
     const previousPage = this.currentPage;
 
-    this.setPageCount();
+    this.#setPageCount();
 
     if (pageNumber < 1 || this.pageCount < 1) {
       this.currentPage = 1;
@@ -76,7 +76,7 @@ export class SkyPagingComponent implements OnChanges {
       this.currentPage = pageNumber;
     }
 
-    this.setDisplayedPages();
+    this.#setDisplayedPages();
 
     if (previousPage !== this.currentPage) {
       this.currentPageChange.emit(this.currentPage);
@@ -99,7 +99,7 @@ export class SkyPagingComponent implements OnChanges {
     return this.currentPage === this.pageCount;
   }
 
-  private getDisplayedPageNumbers(
+  #getDisplayedPageNumbers(
     pageCount: number,
     maxDisplayedPages: number,
     pageNumber: number
@@ -137,7 +137,7 @@ export class SkyPagingComponent implements OnChanges {
     return displayedPageNumbers;
   }
 
-  private setPageCount(): void {
+  #setPageCount(): void {
     if (this.itemCount === 0 || this.pageSize === 0) {
       this.pageCount = 0;
       return;
@@ -146,8 +146,8 @@ export class SkyPagingComponent implements OnChanges {
     this.pageCount = Math.ceil(this.itemCount / this.pageSize);
   }
 
-  private setDisplayedPages(): void {
-    this.displayedPages = this.getDisplayedPageNumbers(
+  #setDisplayedPages(): void {
+    this.displayedPages = this.#getDisplayedPageNumbers(
       this.pageCount,
       this.maxPages,
       this.currentPage

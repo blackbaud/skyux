@@ -1,11 +1,10 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyToastFixturesModule } from './fixtures/toast-fixtures.module';
 import { SkyToastWithToasterServiceTestComponent } from './fixtures/toast-with-toaster-service.component.fixture';
@@ -115,13 +114,12 @@ describe('Toast component', () => {
     expect(component.toastComponent?.ariaRole).toEqual('alert');
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     setupTest();
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 
   describe('auto-close option', () => {
     function waitForAutoClose() {

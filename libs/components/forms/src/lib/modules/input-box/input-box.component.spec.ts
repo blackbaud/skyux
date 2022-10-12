@@ -1,12 +1,11 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { AbstractControl } from '@angular/forms';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -284,15 +283,14 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('in modern theme', () => {
@@ -620,15 +618,14 @@ describe('Input box component', () => {
       expect(inputBoxWrapperEl).toHaveCssClass('sky-input-box-disabled');
     });
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
     it('should add an invalid CSS class when marked invalid with hasErrors property', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
