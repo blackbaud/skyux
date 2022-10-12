@@ -1,6 +1,6 @@
 export type SkyListsFilterFixtureButton = {
-  ariaControls: string;
+  ariaControls: string | undefined;
   ariaExpanded: boolean;
   disabled: boolean;
-  id: string;
+  id: string | undefined;
 };
