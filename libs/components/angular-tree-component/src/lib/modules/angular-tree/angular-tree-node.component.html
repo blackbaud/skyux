@@ -92,7 +92,10 @@
         [template]="templates?.treeNodeTemplate"
         (click)="node.mouseAction('click', $event)"
       >
-      </tree-node-content>
+      </tree-node-content
+      ><span class="sky-control-help-container"
+        ><ng-content select=".sky-control-help"></ng-content
+      ></span>
     </div>
   </div>
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## [6.24.0](https://github.com/blackbaud/skyux/compare/6.23.3...6.24.0) (2022-10-10)
+
+
+### Features
+
+* **components/angular-tree-component:** add inline help support for angular tree component ([#631](https://github.com/blackbaud/skyux/issues/631)) ([8674852](https://github.com/blackbaud/skyux/commit/86748522fc65f59830850303ed1839368e0e3317))
+* **components/tabs:** add descriptive aria label to tab buttons ([#586](https://github.com/blackbaud/skyux/issues/586)) ([f827ca0](https://github.com/blackbaud/skyux/commit/f827ca0cde063303fa525b4c01510ba8abe663d8))
+
 ## [7.0.0-beta.2](https://github.com/blackbaud/skyux/compare/7.0.0-beta.1...7.0.0-beta.2) (2022-10-07)
 
 

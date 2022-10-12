@@ -19,6 +19,10 @@ import { SkyTabIndex } from './tab-index';
 import { SkyTabsetStyle } from './tabset-style';
 import { SkyTabsetService } from './tabset.service';
 
+const DEFAULT_DISABLED = false;
+
+type SkyWizardStepState = 'completed' | 'current' | 'unavailable';
+
 /**
  * @internal
  */
@@ -32,7 +36,13 @@ import { SkyTabsetService } from './tabset.service';
 })
 export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   @Input()
-  public active: boolean;
+  public get active(): boolean {
+    return this.#_isActive;
+  }
+  public set active(value: boolean) {
+    this.#_isActive = value;
+    this.#updateWizardStepState();
+  }
 
   @Input()
   public ariaControls: string;
@@ -53,10 +63,23 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   public closeable: boolean;
 
   @Input()
-  public disabled: boolean;
+  public get disabled(): boolean {
+    return this.#_isDisabled;
+  }
+
+  public set disabled(value: boolean | undefined) {
+    this.#_isDisabled = value ?? DEFAULT_DISABLED;
+    this.#updateWizardStepState();
+  }
 
   @Input()
   public tabIndex: SkyTabIndex;
+
+  @Input()
+  public tabNumber: number | undefined;
+
+  @Input()
+  public totalTabsCount: number | undefined;
 
   @Input()
   public get tabStyle(): SkyTabsetStyle {
@@ -65,6 +88,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
 
   public set tabStyle(style: SkyTabsetStyle | undefined) {
     this.#_tabStyle = style;
+    this.#updateWizardStepState();
   }
 
   @Output()
@@ -86,7 +110,9 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   }
 
   public closeBtnTabIndex = '-1';
-
+  public wizardStepState: SkyWizardStepState | undefined;
+  #_isActive = false;
+  #_isDisabled = DEFAULT_DISABLED;
   #_tabStyle: SkyTabsetStyle;
   #adapterService: SkyTabButtonAdapterService;
   #changeDetectorRef: ChangeDetectorRef;
@@ -150,5 +176,21 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
 
   public onFocus(): void {
     this.#tabsetService.setFocusedTabBtnIndex(this.tabIndex);
+  }
+
+  #updateWizardStepState(): void {
+    if (this.tabStyle === 'tabs') {
+      this.wizardStepState = undefined;
+    } else {
+      if (this.active) {
+        this.wizardStepState = 'current';
+      } else if (!this.disabled) {
+        this.wizardStepState = 'completed';
+      } else {
+        this.wizardStepState = 'unavailable';
+      }
+    }
+
+    this.#changeDetectorRef.markForCheck();
   }
 }
