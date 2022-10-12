@@ -249,6 +249,33 @@ describe('Input box component', () => {
       );
     });
 
+    it('should render the error label in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
+
+      const errorEl = inputBoxEl.querySelector('.sky-error-label');
+
+      expect(errorEl).toBeVisible();
+    });
+
+    it('should render the error status indicator in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-error-status-indicator'
+      );
+
+      const errorEl = inputBoxEl.querySelector('.sky-error-indicator');
+
+      expect(errorEl).toBeVisible();
+    });
+
     it('should allow a child to place template items inside the input box programmatically', () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 
@@ -492,6 +519,33 @@ describe('Input box component', () => {
       expect(els.leftInsetIconEl?.children.item(0)).toHaveCssClass(
         'test-icon-inset'
       );
+    });
+
+    it('should render the error label in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
+
+      const errorEl = inputBoxEl.querySelector('.sky-error-label');
+
+      expect(errorEl).toBeVisible();
+    });
+
+    it('should render the error status indicator in the expected location', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+
+      fixture.detectChanges();
+
+      const inputBoxEl = getInputBoxEl(
+        fixture,
+        'input-box-form-control-error-status-indicator'
+      );
+
+      const errorEl = inputBoxEl.querySelector('.sky-error-indicator');
+
+      expect(errorEl).toBeVisible();
     });
 
     it('should focus on the control when clicking on an inset icon', () => {
