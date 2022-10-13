@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.25.0](https://github.com/blackbaud/skyux/compare/6.24.0...6.25.0) (2022-10-13)
+
+
+### Features
+
+* **components/forms:** support status indicator errors for input box ([#633](https://github.com/blackbaud/skyux/issues/633)) ([7648638](https://github.com/blackbaud/skyux/commit/764863802c3e4d18212dbd86fe390e14c3df0fb2))
+
+
+### Bug Fixes
+
+* **components/lookup:** modern search clickbox takes up entire input box ([#677](https://github.com/blackbaud/skyux/issues/677)) ([85330ed](https://github.com/blackbaud/skyux/commit/85330ed879054cd8967d9a075589ea601775509f))
+* **components/text-editor:** toolbars are hidden when no items exist within the toolbars ([#676](https://github.com/blackbaud/skyux/issues/676)) ([b2ba8de](https://github.com/blackbaud/skyux/commit/b2ba8de9952306c576bd04b066b70626cb756eee))
+
 ## [6.24.0](https://github.com/blackbaud/skyux/compare/6.23.3...6.24.0) (2022-10-10)
 
 
