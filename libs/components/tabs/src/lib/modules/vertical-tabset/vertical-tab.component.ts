@@ -60,7 +60,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    * In the next major version, this property will be automatically set to `tab`.
    */
   @Input()
-  public get ariaRole(): string | undefined {
+  public get ariaRole(): string {
     return this.#_ariaRole;
   }
   public set ariaRole(value: string | undefined) {
@@ -106,11 +106,11 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set tabId(value: string | undefined) {
-    this.#_tabId = value || `sky-vertical-tab-${++nextId}`;
+    this.#tabIdOrDefault = value || this.#defaultTabId;
   }
 
   public get tabId(): string {
-    return this.#_tabId;
+    return this.#tabIdOrDefault;
   }
 
   public set contentRendered(value: boolean) {
@@ -142,9 +142,9 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
 
   #_contentRendered = false;
 
-  #_tabId: string;
+  #tabIdOrDefault: string;
 
-  #defaultTabId = `sky-vertical-tab-${++nextId}`;
+  #defaultTabId: string;
 
   #mobileSubscription = new Subject();
 
@@ -165,7 +165,7 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
     this.#changeRef = changeRef;
     this.#tabsetService = tabsetService;
     this.#verticalTabMediaQueryService = verticalTabMediaQueryService;
-    this.#_tabId = this.#defaultTabId;
+    this.#tabIdOrDefault = this.#defaultTabId = `sky-vertical-tab-${++nextId}`;
   }
 
   public ngOnInit(): void {

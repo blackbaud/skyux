@@ -39,9 +39,9 @@ export class SkyVerticalTabsetService {
 
   #contentAdded = false;
 
-  #_tabsVisible = false;
+  #tabsVisible = false;
 
-  #_isMobile = false;
+  #isMobile = false;
 
   #mediaQueryService: SkyMediaQueryService;
 
@@ -50,23 +50,23 @@ export class SkyVerticalTabsetService {
     this.#mediaQueryService.subscribe((breakpoint) => {
       const nowMobile = breakpoint === SkyMediaBreakpoints.xs;
 
-      if (nowMobile && !this.#_isMobile) {
+      if (nowMobile && !this.#isMobile) {
         // switching to mobile
         this.switchingMobile.next(true);
 
-        if (!this.#_tabsVisible) {
+        if (!this.#tabsVisible) {
           this.hidingTabs.next(true);
         }
-      } else if (!nowMobile && this.#_isMobile) {
+      } else if (!nowMobile && this.#isMobile) {
         // switching to widescreen
         this.switchingMobile.next(false);
 
-        if (!this.#_tabsVisible) {
+        if (!this.#tabsVisible) {
           this.showingTabs.next(true);
         }
       }
 
-      this.#_isMobile = nowMobile;
+      this.#isMobile = nowMobile;
     });
   }
 
@@ -134,7 +134,7 @@ export class SkyVerticalTabsetService {
   }
 
   public isMobile() {
-    return this.#_isMobile;
+    return this.#isMobile;
   }
 
   public updateContent() {
@@ -159,15 +159,15 @@ export class SkyVerticalTabsetService {
   }
 
   public tabsVisible() {
-    return !this.isMobile() || this.#_tabsVisible;
+    return !this.isMobile() || this.#tabsVisible;
   }
 
   public contentVisible() {
-    return !this.isMobile() || !this.#_tabsVisible;
+    return !this.isMobile() || !this.#tabsVisible;
   }
 
   public showTabs() {
-    this.#_tabsVisible = true;
+    this.#tabsVisible = true;
     this.#contentAdded = false;
     this.animationTabsVisibleState = VISIBLE_STATE;
     this.animationContentVisibleState = HIDDEN_STATE;
@@ -199,7 +199,7 @@ export class SkyVerticalTabsetService {
     this.#contentAdded = false;
 
     if (this.isMobile()) {
-      this.#_tabsVisible = false;
+      this.#tabsVisible = false;
       this.animationContentVisibleState = VISIBLE_STATE;
       this.animationTabsVisibleState = HIDDEN_STATE;
       this.hidingTabs.next(true);
