@@ -1,55 +1,55 @@
-<p>
-  These tokens define a custom property to display their values. When users
-  select a token, it emits an event.
-</p>
-
-<div class="sky-margin-stacked-xl">
-  <sky-tokens
-    displayWith="label"
-    [messageStream]="tokensController"
-    (focusIndexOverRange)="onFocusIndexOverRange()"
-    (focusIndexUnderRange)="onFocusIndexUnderRange()"
-    (tokenSelected)="onTokenSelected($event)"
-    [(tokens)]="myTokens"
-    data-sky-id="demo-tokens"
-  >
-    (You may also include content inside the tokens component.)
-  </sky-tokens>
-</div>
-
-<div class="sky-margin-stacked-xl">
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm tokens-demo-change-btn"
-    type="button"
-    (click)="changeTokens()"
-  >
-    Change tokens
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm tokens-demo-reset-btn"
-    type="button"
-    (click)="resetTokens()"
-  >
-    Reset tokens
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm tokens-demo-destroy-btn"
-    type="button"
-    (click)="destroyTokens()"
-  >
-    Destroy tokens
-  </button>
-
-  <button
-    class="sky-btn sky-btn-default sky-margin-inline-sm tokens-demo-focus-last-btn"
-    (click)="focusLastToken()"
-  >
-    Focus last token
-  </button>
-</div>
-
+<label [for]="inputEl.id">Jokes</label>
 <div>
-  Selected token: <span class="tokens-demo-selected">{{ selectedToken }}</span>
+  <div
+    *ngIf="selections.length"
+    aria-orientation="horizontal"
+    role="listbox"
+    [attr.aria-label]="'Selections'"
+  >
+    <legend class="sky-screen-reader-only" skyId #selectionsLegend="skyId">
+      To remove this item press the backspace key
+    </legend>
+    <div
+      *ngFor="let selection of selections; let i = index"
+      role="option"
+      [attr.id]="selection.id + '_selection'"
+      [attr.aria-describedby]="selectionsLegend.id"
+      [class.active]="selectionsHasFocus && activeSelectionIndex === i"
+    >
+      {{ selection.name }}
+      <sky-icon icon="close" (click)="removeSelection(selection)"></sky-icon>
+    </div>
+  </div>
+  <legend
+    class="sky-screen-reader-only"
+    skyId
+    [innerText]="selectionsSummary"
+    #comboBoxLegend="skyId"
+  ></legend>
+  <input
+    [attr.aria-controls]="panelOpen ? panelId : null"
+    [attr.aria-expanded]="panelOpen"
+    [attr.aria-activedescendant]="activeDescendant"
+    [attr.aria-describedby]="comboBoxLegend.id"
+    aria-autocomplete="list"
+    aria-haspopup="listbox"
+    skyId
+    role="combobox"
+    tabindex="0"
+    type="text"
+    (focus)="onFocus()"
+    (keyup)="onKeyUp($event)"
+    #inputEl="skyId"
+  />
 </div>
+
+<ul *ngIf="panelOpen" [attr.id]="panelId" role="listbox" aria-label="Jokes">
+  <li
+    *ngFor="let item of data; let i = index"
+    [attr.id]="item.id"
+    [class.active]="activeIndex === i"
+    role="option"
+  >
+    {{ item.name }}
+  </li>
+</ul>

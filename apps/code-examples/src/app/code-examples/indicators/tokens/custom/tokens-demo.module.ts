@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyTokensModule } from '@skyux/indicators';
+import { SkyIdModule } from '@skyux/core';
+import { SkyIconModule, SkyTokensModule } from '@skyux/indicators';
 
 import { TokensDemoComponent } from './tokens-demo.component';
 
 @NgModule({
-  imports: [CommonModule, SkyTokensModule],
+  imports: [CommonModule, SkyIconModule, SkyIdModule, SkyTokensModule],
   exports: [TokensDemoComponent],
   declarations: [TokensDemoComponent],
 })
