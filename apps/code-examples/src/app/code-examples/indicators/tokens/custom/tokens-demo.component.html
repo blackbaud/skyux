@@ -15,6 +15,7 @@
       [attr.id]="selection.id + '_selection'"
       [attr.aria-describedby]="selectionsLegend.id"
       [class.active]="selectionsHasFocus && activeSelectionIndex === i"
+      tabindex="0"
     >
       {{ selection.name }}
       <sky-icon icon="close" (click)="removeSelection(selection)"></sky-icon>

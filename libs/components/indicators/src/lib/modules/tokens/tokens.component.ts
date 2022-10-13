@@ -63,6 +63,14 @@ const DISPLAY_WITH_DEFAULT = 'name';
 })
 export class SkyTokensComponent implements OnDestroy {
   /**
+   * Specifies an ARIA label for the tokens list. This sets the
+   * list's `aria-label` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   */
+  @Input()
+  public ariaLabel: string | undefined;
+
+  /**
    * Indicates whether to disable the tokens list to prevent users from selecting tokens,
    * dismissing tokens, or navigating through the list with the arrow keys. When the tokens list
    * is disabled, users can still place focus on items in the list using the `Tab` key.

@@ -45,6 +45,23 @@ export class SkyTokenComponent {
   }
 
   /**
+   * Specifies an ARIA description for the token. This sets the token's `aria-describedby` attribute
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   */
+  @Input()
+  public ariaDescribedBy: string | undefined;
+
+  /**
+   * Specifies an ARIA role for the token
+   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility)
+   * by indicating what the token contains. For information about
+   * how an ARIA role indicates what an item represents on a web page,
+   * see the [WAI-ARIA roles model](https://www.w3.org/WAI/PF/aria/roles).
+   */
+  @Input()
+  public ariaRole: string | undefined;
+
+  /**
    * Indicates whether users can remove the token from the list by selecting the close button.
    * @default true
    */

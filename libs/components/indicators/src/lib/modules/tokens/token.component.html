@@ -1,7 +1,8 @@
 <div
   class="sky-token sky-btn sky-btn-default"
-  role="button"
+  [attr.aria-describedby]="ariaDescribedBy"
   [attr.aria-disabled]="disabled"
+  [attr.role]="ariaRole"
   [attr.tabindex]="tabIndex"
   [ngClass]="{
     'sky-btn-disabled': disabled,
@@ -13,14 +14,10 @@
   (mousedown)="setTokenActive(true)"
 >
   <ng-content></ng-content>
-  <button
+  <span
     *ngIf="dismissible"
     class="sky-btn sky-token-btn-close"
-    type="button"
-    [attr.aria-label]="ariaLabel"
-    [attr.tabindex]="tabIndex"
     [attr.title]="ariaLabel"
-    [disabled]="disabled"
     [ngClass]="{
       'sky-token-btn-close-active': closeActive
     }"
@@ -35,5 +32,5 @@
       iconType="skyux"
     >
     </sky-icon>
-  </button>
+  </span>
 </div>

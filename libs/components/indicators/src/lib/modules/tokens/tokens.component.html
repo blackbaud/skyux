@@ -1,13 +1,19 @@
 <div
+  [attr.aria-orientation]="tokens.length ? 'horizontal' : null"
   class="sky-tokens"
+  [attr.role]="tokens.length ? 'listbox' : null"
   [@blockAnimationOnLoad]
-  [attr.role]="tokens.length ? 'list' : null"
+  [attr.aria-label]="tokens.length ? ariaLabel : null"
 >
+  <legend class="sky-screen-reader-only" skyId #selectionsLegend="skyId">
+    To remove this item press the backspace key
+  </legend>
   <sky-token
     *ngFor="let token of tokens; let i = index; trackBy: trackTokenFn"
-    role="listitem"
     [@.disabled]="!trackWith"
     [@dismiss]
+    [ariaDescribedBy]="selectionsLegend.id"
+    [ariaRole]="'option'"
     [disabled]="disabled"
     [dismissible]="dismissible"
     [focusable]="focusable"

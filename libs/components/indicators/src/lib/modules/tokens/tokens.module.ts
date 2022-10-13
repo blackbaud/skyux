@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SkyIdModule } from '@skyux/core';
 import { SkyI18nModule } from '@skyux/i18n';
 
 import { SkyIconModule } from '../icon/icon.module';
@@ -14,6 +15,7 @@ import { SkyTokensComponent } from './tokens.component';
     CommonModule,
     SkyI18nModule,
     SkyIconModule,
+    SkyIdModule,
     SkyIndicatorsResourcesModule,
   ],
   exports: [SkyTokenComponent, SkyTokensComponent],

@@ -52,11 +52,11 @@ describe('Token component', () => {
       'sky-token .sky-token-btn-close'
     );
 
-    expect(btnEl.getAttribute('aria-label')).toBe('test');
+    expect(btnEl.getAttribute('title')).toBe('test');
 
     fixture.componentInstance.ariaLabel = undefined;
     fixture.detectChanges();
 
-    expect(btnEl.getAttribute('aria-label')).toBe('Remove item');
+    expect(btnEl.getAttribute('title')).toBe('Remove item');
   });
 });
