@@ -119,6 +119,10 @@
     "_description": "The default text for the token dismiss button title.",
     "message": "Remove item"
   },
+  "skyux_tokens_token_aria_describedby": {
+    "_description": "The 'aria-describedby' text for each token, used by screen readers.",
+    "message": "To remove this item press the backspace key"
+  },
   "skyux_wait_aria_alt_text": {
     "_description": "The default alt text for a non-blocking section wait component.",
     "message": "Loading."

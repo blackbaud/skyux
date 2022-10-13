@@ -1,4 +1,4 @@
-import axe from 'axe-core';
+import * as axe from 'axe-core';
 
 import { SkyA11yAnalyzerConfig } from './a11y-analyzer-config';
 
@@ -41,30 +41,13 @@ export abstract class SkyA11yAnalyzer {
     }
 
     const defaults: SkyA11yAnalyzerConfig = {
-      skyTheme: 'default',
       rules: {},
     };
 
-    // Reset config.
-    SkyA11yAnalyzer.analyzer.reset();
-
-    // Disable all rules.
-    SkyA11yAnalyzer.analyzer.configure({
-      disableOtherRules: true,
+    // Enable all rules by default.
+    axe.getRules().forEach((rule) => {
+      defaults.rules[rule.ruleId] = { enabled: true };
     });
-
-    const skyTheme = config?.skyTheme ?? defaults.skyTheme;
-
-    // Enable certain rules based on theme.
-    axe
-      .getRules(
-        skyTheme === 'default'
-          ? ['wcag2a', 'wcag2aa', 'best-practice']
-          : ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']
-      )
-      .forEach((rule) => {
-        defaults.rules[rule.ruleId] = { enabled: true };
-      });
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
@@ -89,7 +72,7 @@ export abstract class SkyA11yAnalyzer {
 
       SkyA11yAnalyzer.analyzer.run(
         element,
-        { rules: { ...defaults.rules, ...(config?.rules || {}) } },
+        { ...defaults, ...config },
         callback
       );
     });

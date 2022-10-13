@@ -64,8 +64,7 @@ const DISPLAY_WITH_DEFAULT = 'name';
 export class SkyTokensComponent implements OnDestroy {
   /**
    * Specifies an ARIA label for the tokens list. This sets the
-   * list's `aria-label` attribute
-   * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
+   * list's `aria-label` attribute [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
   public ariaLabel: string | undefined;
