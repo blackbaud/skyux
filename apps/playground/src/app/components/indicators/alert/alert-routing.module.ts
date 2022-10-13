@@ -11,7 +11,7 @@ const routes: ComponentRouteInfo[] = [
     component: AlertDemoComponent,
     data: {
       name: 'Alert',
-      icon: 'key',
+      icon: 'warning',
       library: 'indicators',
     },
   },
