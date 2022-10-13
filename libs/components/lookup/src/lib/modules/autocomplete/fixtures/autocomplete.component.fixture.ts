@@ -19,7 +19,9 @@ import { SkyAutocompleteSelectionChange } from '../types/autocomplete-selection-
 export class SkyAutocompleteFixtureComponent {
   public autocompleteAttribute: string | undefined;
 
-  public data: { objectid?: string; name?: string; text?: string }[] = [
+  public data:
+    | { objectid?: string; name?: string; text?: string }[]
+    | undefined = [
     { name: 'Red', objectid: 'abc' },
     { name: 'Blue', objectid: 'def' },
     { name: 'Green', objectid: 'ghi' },
@@ -34,7 +36,9 @@ export class SkyAutocompleteFixtureComponent {
   ];
 
   public model: {
-    favoriteColor: { objectid?: string; name?: string; text?: string };
+    favoriteColor:
+      | { objectid?: string; name?: string; text?: string }
+      | undefined;
   } = {
     favoriteColor: {},
   };
@@ -42,8 +46,8 @@ export class SkyAutocompleteFixtureComponent {
   public customNoResultsMessage: string | undefined;
   public debounceTime: number | undefined;
   public descriptorProperty: string | undefined;
-  public disabled = false;
-  public enableShowMore = false;
+  public disabled: boolean | undefined = false;
+  public enableShowMore: boolean | undefined = false;
   public hideInput = false;
   public propertiesToSearch: string[] | undefined;
   public messageStream: Subject<SkyAutocompleteMessage> | undefined;
@@ -53,7 +57,7 @@ export class SkyAutocompleteFixtureComponent {
   public searchResultTemplate: TemplateRef<unknown> | undefined;
   public searchTextMinimumCharacters: number | undefined;
   public selectionFromChangeEvent: SkyAutocompleteSelectionChange | undefined;
-  public showAddButton = false;
+  public showAddButton: boolean | undefined = false;
 
   @ViewChild('asyncAutocomplete', {
     read: SkyAutocompleteComponent,
@@ -97,10 +101,11 @@ export class SkyAutocompleteFixtureComponent {
   public searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {
     const searchText = (args.searchText || '').toLowerCase();
 
-    const filteredData = this.data.filter((item) => {
-      const index = item?.name?.toLowerCase()?.indexOf(searchText);
-      return index !== undefined && index >= 0;
-    });
+    const filteredData =
+      this.data?.filter((item) => {
+        const index = item?.name?.toLowerCase()?.indexOf(searchText);
+        return index !== undefined && index >= 0;
+      }) ?? [];
 
     args.result = of({
       items: filteredData,

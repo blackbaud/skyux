@@ -44,13 +44,13 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public descriptorProperty: string | undefined;
 
-  public disabled = false;
+  public disabled: boolean | undefined = false;
 
   public enabledSearchResultTemplate: TemplateRef<unknown> | undefined;
 
-  public enableShowMore = false;
+  public enableShowMore: boolean | undefined = false;
 
-  public idProperty = 'name';
+  public idProperty: string | undefined = 'name';
 
   public ignoreAddDataUpdate = false;
 
@@ -66,9 +66,9 @@ export class SkyLookupTemplateTestComponent implements OnInit {
 
   public selectMode: SkyLookupSelectModeType | undefined;
 
-  public showAddButton = false;
+  public showAddButton: boolean | undefined = false;
 
-  public showMoreConfig: SkyLookupShowMoreConfig = {};
+  public showMoreConfig: SkyLookupShowMoreConfig | undefined = {};
 
   public ngOnInit(): void {
     this.data = [
@@ -129,11 +129,13 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   }
 
   public enableCustomPicker(): void {
-    this.showMoreConfig.customPicker = {
-      open: (context: SkyLookupShowMoreCustomPickerContext) => {
-        return;
-      },
-    };
+    if (this.showMoreConfig) {
+      this.showMoreConfig.customPicker = {
+        open: (context: SkyLookupShowMoreCustomPickerContext) => {
+          return;
+        },
+      };
+    }
   }
 
   public enableSearchResultTemplate(): void {
@@ -181,7 +183,9 @@ export class SkyLookupTemplateTestComponent implements OnInit {
   public setShowMoreNativePickerConfig(
     config: SkyLookupShowMoreNativePickerConfig
   ): void {
-    this.showMoreConfig.nativePickerConfig = config;
+    if (this.showMoreConfig) {
+      this.showMoreConfig.nativePickerConfig = config;
+    }
   }
 
   public setSingleSelect(): void {
