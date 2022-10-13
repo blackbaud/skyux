@@ -1,13 +1,14 @@
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
   Injector,
   Type,
   ViewChild,
   ViewContainerRef,
+  createComponent,
 } from '@angular/core';
 
 import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
@@ -46,18 +47,17 @@ export class SkyDockComponent {
 
   #options: SkyDockOptions | undefined;
 
-  #resolver: ComponentFactoryResolver;
+  #applicationRef: ApplicationRef;
 
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
+    applicationRef: ApplicationRef,
     changeDetector: ChangeDetectorRef,
-    resolver: ComponentFactoryResolver,
     elementRef: ElementRef,
     injector: Injector,
     domAdapter: SkyDockDomAdapterService
   ) {
+    this.#applicationRef = applicationRef;
     this.#changeDetector = changeDetector;
-    this.#resolver = resolver;
     this.#elementRef = elementRef;
     this.#injector = injector;
     this.#domAdapter = domAdapter;
@@ -74,17 +74,16 @@ export class SkyDockComponent {
       );
     }
 
-    const factory = this.#resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers: config.providers || [],
       parent: this.#injector,
     });
 
-    const componentRef = this.target.createComponent<T>(
-      factory,
-      undefined,
-      injector
-    );
+    const componentRef = createComponent<T>(component, {
+      environmentInjector: this.#applicationRef.injector,
+      elementInjector: injector,
+    });
+    this.target.insert(componentRef.hostView);
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
         ? config.stackOrder

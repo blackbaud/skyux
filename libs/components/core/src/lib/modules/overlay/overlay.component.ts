@@ -1,8 +1,8 @@
 import {
+  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
@@ -16,6 +16,7 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
+  createComponent,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -108,24 +109,23 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #resolver: ComponentFactoryResolver;
+  #applicationRef: ApplicationRef;
 
   #router: Router | undefined;
 
   #routerSubscription: Subscription | undefined;
 
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
+    applicationRef: ApplicationRef,
     changeDetector: ChangeDetectorRef,
-    resolver: ComponentFactoryResolver,
     injector: Injector,
     coreAdapter: SkyCoreAdapterService,
     context: SkyOverlayContext,
     idSvc: SkyIdService,
     @Optional() router?: Router
   ) {
+    this.#applicationRef = applicationRef;
     this.#changeDetector = changeDetector;
-    this.#resolver = resolver;
     this.#injector = injector;
     this.#coreAdapter = coreAdapter;
     this.#context = context;
@@ -176,17 +176,16 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     this.targetRef.clear();
 
-    const factory = this.#resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers,
       parent: this.#injector,
     });
 
-    const componentRef = this.targetRef.createComponent<C>(
-      factory,
-      undefined,
-      injector
-    );
+    const componentRef = createComponent<C>(component, {
+      environmentInjector: this.#applicationRef.injector,
+      elementInjector: injector,
+    });
+    this.targetRef.insert(componentRef.hostView);
 
     // Run an initial change detection cycle after the component has been created.
     componentRef.changeDetectorRef.detectChanges();
