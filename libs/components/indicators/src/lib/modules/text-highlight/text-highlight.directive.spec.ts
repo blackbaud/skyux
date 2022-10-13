@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyMutationObserverService } from '@skyux/core';
 
@@ -79,7 +79,7 @@ describe('Text Highlight', () => {
     expect(containerEl.querySelector('mark')).toBeFalsy();
   });
 
-  it('should highlight on startup if search term is set in component', async(() => {
+  it('should highlight on startup if search term is set in component', () => {
     fixture = TestBed.createComponent(SkyTextHighlightTestComponent);
     nativeElement = fixture.nativeElement as HTMLElement;
     component = fixture.componentInstance;
@@ -94,7 +94,7 @@ describe('Text Highlight', () => {
     if (mark) {
       validateInnerHTML(mark, 'test');
     }
-  }));
+  });
 
   it('should highlight search term', () => {
     updateInputText(fixture, 'text');

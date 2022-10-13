@@ -1,4 +1,10 @@
-import { ComponentRef, Injectable, OnDestroy, Provider } from '@angular/core';
+import {
+  ComponentRef,
+  Injectable,
+  OnDestroy,
+  Provider,
+  Type,
+} from '@angular/core';
 import { SkyDynamicComponentService } from '@skyux/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -69,9 +75,7 @@ export class SkyToastService implements OnDestroy {
    * constructor.
    */
   public openComponent(
-    // TODO: change this to Type<unknown> in a breaking change to match the first
-    // parameter of the dynamic component service's createComponent() method.
-    component: any,
+    component: Type<unknown>,
     config?: SkyToastConfig,
     providers: Provider[] = []
   ): SkyToastInstance {

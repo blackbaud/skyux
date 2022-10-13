@@ -1,11 +1,10 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyInlineDeleteFixturesModule } from './fixtures/inline-delete-fixtures.module';
 import { InlineDeleteTestComponent } from './fixtures/inline-delete.component.fixture';
@@ -94,14 +93,11 @@ describe('Inline delete component', () => {
   }));
 
   describe('focus handling', () => {
-    it('should focus the delete button on load', async(() => {
+    it('should focus the delete button on load', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(document.activeElement).toBe(
-          el.querySelector('.sky-btn-danger')
-        );
-      });
-    }));
+      await fixture.whenStable();
+      expect(document.activeElement).toBe(el.querySelector('.sky-btn-danger'));
+    });
 
     it('should skip items that are under the overlay when tabbing forward', fakeAsync(() => {
       fixture.componentInstance.showExtraButtons = true;
@@ -187,33 +183,25 @@ describe('Inline delete component', () => {
       cmp.showCoveredButtons = false;
     });
 
-    it('should be accessible in standard mode', async(() => {
+    it('should be accessible in standard mode', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible in card mode', async(() => {
+    it('should be accessible in card mode', async () => {
       fixture.detectChanges();
       cmp.inlineDelete.setType(SkyInlineDeleteType.Card);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
 
-    it('should be accessible when pending', async(() => {
+    it('should be accessible when pending', async () => {
       cmp.pending = true;
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        // NOTE: For some reason the color contrast rule fails on IE and Edge but passes all other
-        // browsers. A manual test was done and nothing is different in these browsers so I am just
-        // disabling the color contrast rule for this test for now.
-        expect(fixture.nativeElement).toBeAccessible(() => {}, {
-          rules: { 'color-contrast': { enabled: false } },
-        });
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

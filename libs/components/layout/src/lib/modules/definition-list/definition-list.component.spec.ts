@@ -1,5 +1,5 @@
-import { TestBed, async } from '@angular/core/testing';
-import { expect } from '@skyux-sdk/testing';
+import { TestBed } from '@angular/core/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyDefinitionListFixturesModule } from './fixtures/definition-list-fixtures.module';
 import { SkyDefinitionListTestComponent } from './fixtures/definition-list.component.fixture';
@@ -136,11 +136,10 @@ describe('Definition list component', () => {
     expect(getComputedStyle(labelEls[0]).width).toBe('150px');
   });
 
-  it('should be accessible', async(() => {
+  it('should be accessible', async () => {
     const fixture = TestBed.createComponent(SkyDefinitionListTestComponent);
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(fixture.nativeElement).toBeAccessible();
-    });
-  }));
+    await fixture.whenStable();
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
 });

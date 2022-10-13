@@ -25,7 +25,7 @@ export class SkyFilterFixtureButton {
    * Click the button to apply the filter.
    */
   public async clickFilterButton(): Promise<any> {
-    const button = this.getButtonElement();
+    const button = this.#getButtonElement();
     if (button instanceof HTMLButtonElement && !button.disabled) {
       button.click();
     }
@@ -34,27 +34,31 @@ export class SkyFilterFixtureButton {
   }
 
   public get button(): SkyListsFilterFixtureButton {
-    const buttonElement = this.getButtonElement();
+    const buttonElement = this.#getButtonElement();
     return {
-      ariaControls: buttonElement.getAttribute('aria-controls'),
-      ariaExpanded: buttonElement.getAttribute('aria-expanded') === 'true',
-      disabled: buttonElement.disabled,
-      id: buttonElement.id,
+      ariaControls: buttonElement?.getAttribute('aria-controls') ?? undefined,
+      ariaExpanded: buttonElement?.getAttribute('aria-expanded') === 'true',
+      disabled: !!buttonElement?.disabled,
+      id: buttonElement?.id,
     };
   }
   /**
    * Get the button text.
    */
   public get buttonText(): string {
-    const text = this.getButtonElement()?.innerText;
-    return this.normalizeText(text);
+    const text = this.#getButtonElement()?.innerText;
+    return this.#normalizeText(text);
   }
 
-  private getButtonElement(): HTMLButtonElement | null {
+  #getButtonElement(): HTMLButtonElement | null {
     return this.debugElement.nativeElement.querySelector('.sky-filter-btn');
   }
 
-  private normalizeText(text: string): string {
-    return text.trim().replace(/\s+/g, ' ');
+  #normalizeText(text: string | undefined): string {
+    let retVal = '';
+    if (text) {
+      retVal = text?.trim().replace(/\s+/g, ' ');
+    }
+    return retVal;
   }
 }

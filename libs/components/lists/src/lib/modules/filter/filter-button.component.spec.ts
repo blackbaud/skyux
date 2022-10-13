@@ -22,15 +22,15 @@ describe('Filter button', () => {
     fixture.detectChanges();
   });
 
-  function getButtonEl() {
+  function getButtonEl(): HTMLButtonElement {
     return nativeElement.querySelector('.sky-btn') as HTMLButtonElement;
   }
 
-  function verifyTextPresent() {
+  function verifyTextPresent(): void {
     expect(getButtonEl().innerText.trim()).toBe('Filter');
   }
 
-  function verifyTextNotPresent() {
+  function verifyTextNotPresent(): void {
     expect(getButtonEl().innerText.trim()).not.toBe('Filter');
   }
 
@@ -45,7 +45,7 @@ describe('Filter button', () => {
   it('should allow setting id', () => {
     component.buttonId = 'i-am-an-id-look-at-me';
     fixture.detectChanges();
-    expect(nativeElement.querySelector('.sky-btn').id).toBe(
+    expect(nativeElement.querySelector('.sky-btn')?.id).toBe(
       'i-am-an-id-look-at-me'
     );
   });
@@ -56,8 +56,8 @@ describe('Filter button', () => {
     fixture.detectChanges();
 
     const button = nativeElement.querySelector('.sky-btn');
-    expect(button.getAttribute('aria-controls')).toBe('filter-zone-2');
-    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(button?.getAttribute('aria-controls')).toBe('filter-zone-2');
+    expect(button?.getAttribute('aria-expanded')).toBe('true');
   });
 
   it('should emit event on click', () => {
