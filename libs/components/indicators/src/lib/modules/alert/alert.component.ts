@@ -30,10 +30,9 @@ export class SkyAlertComponent implements OnInit, OnDestroy {
    * @default "warning"
    */
   @Input()
-  public set alertType(value: string | undefined) {
+  public set alertType(value: SkyIndicatorIconType | undefined) {
     if (value !== this.alertTypeOrDefault) {
-      this.alertTypeOrDefault =
-        (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
+      this.alertTypeOrDefault = value || ALERT_TYPE_DEFAULT;
       this.#updateAlertIcon();
     }
   }
