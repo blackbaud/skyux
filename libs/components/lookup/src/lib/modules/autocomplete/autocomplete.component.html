@@ -40,7 +40,10 @@
   >
     <ng-container *ngFor="let result of searchResults; let i = index">
       <div
-        *ngIf="!searchResultsLimit || i < searchResultsLimit"
+        *ngIf="
+          (!searchResultsLimit || i < searchResultsLimit) &&
+          !(enableShowMore && i >= 5)
+        "
         class="sky-autocomplete-result"
         role="option"
         tabindex="0"

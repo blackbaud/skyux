@@ -9,10 +9,10 @@ export class FilterButtonTestComponent {
   public filtersActive = false;
   public showButtonText = false;
   public buttonClicked = false;
-  public buttonId: string;
-  public ariaExpanded: boolean;
-  public ariaControls: string;
-  public skyThemeSettings: SkyThemeSettings;
+  public buttonId: string | undefined;
+  public ariaExpanded: boolean | undefined;
+  public ariaControls: string | undefined;
+  public skyThemeSettings!: SkyThemeSettings;
 
   constructor() {
     this.useDefaultTheme();
@@ -32,7 +32,7 @@ export class FilterButtonTestComponent {
     );
   }
 
-  public filterButtonClicked() {
+  public filterButtonClicked(): void {
     this.buttonClicked = true;
   }
 }

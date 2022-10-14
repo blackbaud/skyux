@@ -3,7 +3,7 @@
   [attr.aria-controls]="isMobile ? null : ariaControls || tabContentPane.id"
   [attr.aria-selected]="active"
   [attr.id]="tabId"
-  [attr.role]="ariaRole"
+  [attr.role]="isMobile ? undefined : ariaRole"
   [ngClass]="{
     'sky-vertical-tab-active': active,
     'sky-vertical-tab-disabled': disabled,
@@ -31,7 +31,7 @@
       indicatorType="danger"
     ></sky-status-indicator>
     <sky-icon
-      *ngIf="showTabRightArrow"
+      *ngIf="isMobile && showTabRightArrow"
       class="sky-vertical-tab-right-arrow"
       icon="chevron-right"
     >

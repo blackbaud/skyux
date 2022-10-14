@@ -97,7 +97,7 @@ describe('Country Field Component', () => {
     value: string,
     flag?: string
   ): void {
-    expect(nativeElement.querySelector('textarea').value).toBe(value);
+    expect(nativeElement.querySelector('textarea')?.value).toBe(value);
 
     const flagEl = nativeElement.querySelector('.sky-country-field-flag');
 
@@ -106,7 +106,7 @@ describe('Country Field Component', () => {
     }
 
     if (flag) {
-      const flagInnerEl = flagEl.querySelector('.iti__flag');
+      const flagInnerEl = flagEl?.querySelector('.iti__flag');
 
       expect(flagInnerEl).toHaveCssClass('iti__' + flag);
     }
@@ -281,7 +281,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -295,11 +295,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -318,10 +318,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -375,11 +375,11 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(
-          textAreaElement.attributes.getNamedItem('disabled')
+          textAreaElement?.attributes.getNamedItem('disabled')
         ).not.toBeNull();
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'mousedown');
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'focusin');
@@ -398,7 +398,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(
@@ -487,7 +487,19 @@ describe('Country Field Component', () => {
           iso2: 'au',
         });
 
-        const searchResults = searchAndGetResults('Austr', fixture);
+        let searchResults = searchAndGetResults('Austr', fixture);
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
+
+        component.countryFieldComponent.includePhoneInfo = undefined;
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+        expect(changeEventSpy).toHaveBeenCalledWith({
+          name: 'Australia',
+          iso2: 'au',
+        });
+
+        searchResults = searchAndGetResults('Austr', fixture);
         expect(searchResults[0].querySelector('.sky-deemphasized')).toBeNull();
       }));
 
@@ -518,9 +530,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-deemphasized').textContent.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -736,7 +748,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(nativeElement.querySelector('textarea').value).toBe('');
+        expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
           nativeElement.querySelector('.sky-country-field-flag')
         ).toBeNull();
@@ -773,7 +785,7 @@ describe('Country Field Component', () => {
 
         validateSelectedCountry(nativeElement, 'United States', 'us');
 
-        component.countryControl.setValue({
+        component.countryControl?.setValue({
           name: 'Australia',
           iso2: 'au',
         });
@@ -790,7 +802,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        component.countryControl.setValue({
+        component.countryControl?.setValue({
           name: 'United States',
           iso2: 'us',
         });
@@ -813,7 +825,7 @@ describe('Country Field Component', () => {
 
         validateSelectedCountry(nativeElement, 'United States', 'us');
 
-        component.countryControl.setValue({
+        component.countryControl?.setValue({
           name: 'Test Name',
           iso2: 'au',
         });
@@ -836,7 +848,7 @@ describe('Country Field Component', () => {
 
         validateSelectedCountry(nativeElement, 'United States', 'us');
 
-        component.countryControl.setValue({
+        component.countryControl?.setValue({
           name: 'Australia',
           iso2: 'au',
         });
@@ -856,7 +868,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -870,11 +882,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -890,11 +902,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -938,10 +950,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -962,8 +974,8 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(component.countryControl.value).toBeUndefined();
-        expect(nativeElement.querySelector('textarea').value).toBe('');
+        expect(component.countryControl?.value).toBeUndefined();
+        expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
           nativeElement.querySelector('.sky-country-field-flag')
         ).toBeNull();
@@ -981,7 +993,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(component.countryFieldComponent.disabled).toBeTruthy();
@@ -1004,7 +1016,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(component.countryFieldComponent.disabled).toBeTruthy();
@@ -1030,13 +1042,13 @@ describe('Country Field Component', () => {
       it('should mark the form as touched when the form loses focus', fakeAsync(() => {
         fixture.detectChanges();
         const textAreaElement = getInputElement();
-        expect(component.countryForm.touched).toEqual(false);
+        expect(component.countryForm?.touched).toEqual(false);
 
         SkyAppTestUtility.fireDomEvent(textAreaElement, 'blur');
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.touched).toEqual(true);
+        expect(component.countryForm?.touched).toEqual(true);
       }));
 
       it('should emit the countryChange event correctly', fakeAsync(() => {
@@ -1185,9 +1197,9 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-deemphasized').textContent.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
@@ -1225,12 +1237,12 @@ describe('Country Field Component', () => {
         component.isRequired = true;
         fixture.detectChanges();
         tick();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(false);
+        expect(component.countryForm?.valid).toEqual(false);
       }));
 
       it('should mark the form valid when it is set and required', fakeAsync(() => {
@@ -1242,12 +1254,12 @@ describe('Country Field Component', () => {
         component.isRequired = true;
         fixture.detectChanges();
         tick();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(true);
+        expect(component.countryForm?.valid).toEqual(true);
       }));
 
       it('should mark the form invalid when it is set to a non-real country', fakeAsync(() => {
@@ -1256,12 +1268,12 @@ describe('Country Field Component', () => {
           iso2: 'xx',
         };
         fixture.detectChanges();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(false);
+        expect(component.countryForm?.valid).toEqual(false);
       }));
 
       it('should mark the form valid when it is set to a real country', fakeAsync(() => {
@@ -1270,12 +1282,12 @@ describe('Country Field Component', () => {
           iso2: 'us',
         };
         fixture.detectChanges();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(true);
+        expect(component.countryForm?.valid).toEqual(true);
       }));
 
       it('should mark the form valid when it is set to a supported country', fakeAsync(() => {
@@ -1285,12 +1297,12 @@ describe('Country Field Component', () => {
         };
         component.supportedCountryISOs = ['au', 'de'];
         fixture.detectChanges();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(true);
+        expect(component.countryForm?.valid).toEqual(true);
       }));
 
       it('should mark the form invalid when it is set to a non-supported country', fakeAsync(() => {
@@ -1300,12 +1312,12 @@ describe('Country Field Component', () => {
         };
         component.supportedCountryISOs = ['au', 'de'];
         fixture.detectChanges();
-        component.countryControl.updateValueAndValidity();
+        component.countryControl?.updateValueAndValidity();
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
 
-        expect(component.countryForm.valid).toEqual(false);
+        expect(component.countryForm?.valid).toEqual(false);
       }));
     });
 
@@ -1365,7 +1377,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
-        expect(nativeElement.querySelector('textarea').value).toBe('');
+        expect(nativeElement.querySelector('textarea')?.value).toBe('');
 
         searchAndSelect('Austr', 0, fixture);
 
@@ -1382,7 +1394,7 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[0]).toHaveText('Cyprus (Κύπρος)');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1396,11 +1408,11 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('United States');
+        expect(results[0]).toHaveText('United States');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__us');
 
-        expect(results[1].innerText.trim()).toBe('Australia');
+        expect(results[1]).toHaveText('Australia');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__au');
 
@@ -1421,10 +1433,10 @@ describe('Country Field Component', () => {
 
         const results = searchAndGetResults('us', fixture);
 
-        expect(results[0].innerText.trim()).toBe('Australia');
+        expect(results[0]).toHaveText('Australia');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[0].querySelector('div')).toHaveCssClass('iti__au');
-        expect(results[1].innerText.trim()).toBe('Cyprus (Κύπρος)');
+        expect(results[1]).toHaveText('Cyprus (Κύπρος)');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__flag');
         expect(results[1].querySelector('div')).toHaveCssClass('iti__cy');
       }));
@@ -1447,7 +1459,7 @@ describe('Country Field Component', () => {
         tick();
         fixture.detectChanges();
 
-        expect(nativeElement.querySelector('textarea').value).toBe('');
+        expect(nativeElement.querySelector('textarea')?.value).toBe('');
         expect(
           nativeElement.querySelector('.sky-country-field-flag')
         ).toBeNull();
@@ -1463,7 +1475,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(component.countryFieldComponent.disabled).toBeTruthy();
@@ -1482,7 +1494,7 @@ describe('Country Field Component', () => {
         fixture.detectChanges();
         tick();
 
-        const textAreaElement: HTMLElement =
+        const textAreaElement: HTMLElement | null =
           nativeElement.querySelector('textarea');
 
         expect(component.countryFieldComponent.disabled).toBeTruthy();
@@ -1567,13 +1579,26 @@ describe('Country Field Component', () => {
         });
 
         const searchResults = searchAndGetResults('Austr', fixture);
-        expect(
-          searchResults[0].querySelector('.sky-deemphasized').textContent.trim()
-        ).toBe('61');
+        expect(searchResults[0].querySelector('.sky-deemphasized')).toHaveText(
+          '61'
+        );
       }));
 
       it('should not hide the flag in the input box if the `hideSelectedCountryFlag` is not set', fakeAsync(() => {
         component.countryFieldComponent.hideSelectedCountryFlag = false;
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+
+        searchAndSelect('Austr', 0, fixture);
+        fixture.detectChanges();
+        tick();
+
+        expect(
+          nativeElement.querySelector('.sky-country-field-flag')
+        ).not.toBeNull();
+
+        component.countryFieldComponent.hideSelectedCountryFlag = undefined;
         fixture.detectChanges();
         tick();
         fixture.detectChanges();
@@ -1690,10 +1715,10 @@ describe('Country Field Component', () => {
 
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
 
-      const inputGroupEl = inputBoxEl.querySelector(
+      const inputGroupEl = inputBoxEl?.querySelector(
         '.sky-input-box-input-group-inner'
       );
-      const containerEl = inputGroupEl.children.item(1);
+      const containerEl = inputGroupEl?.children.item(1);
 
       expect(containerEl).toHaveCssClass('sky-country-field-container');
     }));
@@ -1703,14 +1728,16 @@ describe('Country Field Component', () => {
       tick();
 
       const inputBoxEl = nativeElement.querySelector('sky-input-box');
-      let inputBoxInsetIcon = inputBoxEl.querySelector(
+      let inputBoxInsetIcon = inputBoxEl?.querySelector(
         '.sky-input-box-icon-inset'
       );
       expect(inputBoxInsetIcon).toBeNull();
 
       setModernTheme();
 
-      inputBoxInsetIcon = inputBoxEl.querySelector('.sky-input-box-icon-inset');
+      inputBoxInsetIcon = inputBoxEl?.querySelector(
+        '.sky-input-box-icon-inset'
+      );
       expect(inputBoxInsetIcon).not.toBeNull();
     }));
 
@@ -1719,12 +1746,14 @@ describe('Country Field Component', () => {
       tick();
 
       const input = nativeElement.querySelector('.sky-form-control');
-      expect(input.getAttribute('placeholder')).toEqual('Search for a country');
+      expect(input?.getAttribute('placeholder')).toEqual(
+        'Search for a country'
+      );
 
       setModernTheme();
 
       const modernInput = nativeElement.querySelector('.sky-form-control');
-      expect(modernInput.getAttribute('placeholder')).toEqual('');
+      expect(modernInput?.getAttribute('placeholder')).toEqual('');
     }));
   });
 });

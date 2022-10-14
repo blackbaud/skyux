@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -11,7 +11,7 @@ import { SkyLookupComponent } from '../lookup.component';
   selector: 'sky-test-cmp',
   templateUrl: './lookup-input-box.component.fixture.html',
 })
-export class SkyLookupInputBoxTestComponent implements OnInit {
+export class SkyLookupInputBoxTestComponent {
   @ViewChild(SkyLookupComponent, {
     static: true,
   })
@@ -25,15 +25,9 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
 
   public friends: any[] = [];
 
-  public form!: UntypedFormGroup;
-
-  #formBuilder: UntypedFormBuilder;
+  public form: UntypedFormGroup;
 
   constructor(formBuilder: UntypedFormBuilder) {
-    this.#formBuilder = formBuilder;
-  }
-
-  public ngOnInit(): void {
     this.data = [
       { id: 1, name: 'Andy' },
       { id: 2, name: 'Beth' },
@@ -54,11 +48,7 @@ export class SkyLookupInputBoxTestComponent implements OnInit {
       { id: 17, name: 'Zack' },
     ];
 
-    this.#createForm();
-  }
-
-  #createForm(): void {
-    this.form = this.#formBuilder.group({
+    this.form = formBuilder.group({
       friends: new UntypedFormControl(this.friends),
     });
   }

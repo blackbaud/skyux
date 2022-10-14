@@ -61,7 +61,6 @@ export class SkyCountryFieldComponent
 {
   /**
    * Specifies the value for the `autocomplete` attribute on the form input.
-   * @default "off"
    */
   @Input()
   public autocompleteAttribute: string | undefined;
@@ -98,14 +97,14 @@ export class SkyCountryFieldComponent
    * @default false
    */
   @Input()
-  public set disabled(isDisabled: boolean) {
+  public set disabled(isDisabled: boolean | undefined) {
     this.#removeEventListeners();
 
     if (!isDisabled) {
-      this.addEventListeners();
+      this.#addEventListeners();
     }
 
-    this.#_disabled = isDisabled;
+    this.#_disabled = isDisabled ?? false;
 
     this.#changeDetector.markForCheck();
   }
@@ -116,23 +115,30 @@ export class SkyCountryFieldComponent
 
   /**
    * Indicates whether to hide the flag in the input element.
+   * @default false
    */
   @Input()
-  public hideSelectedCountryFlag = false;
+  public set hideSelectedCountryFlag(value: boolean | undefined) {
+    this.#_hideSelectedCountryFlag = value ?? false;
+  }
+
+  public get hideSelectedCountryFlag(): boolean {
+    return this.#_hideSelectedCountryFlag;
+  }
 
   /**
    * Indicates whether to include phone information in the selected country and country dropdown.
    * @default false
    */
   @Input()
-  public set includePhoneInfo(value: boolean) {
-    this.#_includePhoneInfo = value;
+  public set includePhoneInfo(value: boolean | undefined) {
+    this.#_includePhoneInfo = value ?? false;
 
     this.#setupCountries();
   }
 
   public get includePhoneInfo(): boolean {
-    return this.#_includePhoneInfo || false;
+    return this.#_includePhoneInfo;
   }
 
   /**
@@ -234,13 +240,13 @@ export class SkyCountryFieldComponent
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<unknown> | undefined;
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('searchIconTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private searchIconTemplateRef: TemplateRef<unknown> | undefined;
+  public searchIconTemplateRef: TemplateRef<unknown> | undefined;
 
   #changeDetector: ChangeDetectorRef;
 
@@ -267,6 +273,8 @@ export class SkyCountryFieldComponent
   #_defaultCountry: string | undefined;
 
   #_disabled = false;
+
+  #_hideSelectedCountryFlag = false;
 
   #_includePhoneInfo = false;
 
@@ -330,7 +338,7 @@ export class SkyCountryFieldComponent
       });
 
     if (!this.disabled) {
-      this.addEventListeners();
+      this.#addEventListeners();
     }
   }
 
@@ -424,7 +432,7 @@ export class SkyCountryFieldComponent
     this.#changeDetector.markForCheck();
   }
 
-  private addEventListeners(): void {
+  #addEventListeners(): void {
     this.#removeEventListeners();
 
     this.#idle = new Subject();
@@ -532,7 +540,7 @@ export class SkyCountryFieldComponent
       if (
         ((this.#defaultCountryData &&
           this.#countriesEqual(a, this.#defaultCountryData)) ||
-          a.name! < b.name!) &&
+          (a.name && b.name && a.name < b.name)) &&
         (!this.#defaultCountryData ||
           !this.#countriesEqual(this.#defaultCountryData, b))
       ) {
