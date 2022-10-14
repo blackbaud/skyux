@@ -1,5 +1,37 @@
 # Changelog
 
+## [7.0.0-beta.3](https://github.com/blackbaud/skyux/compare/7.0.0-beta.2...7.0.0-beta.3) (2022-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/indicators:** This change removes support for `alertType` on the alert component being an unaccepted string. To address this change, change the `alertType` to an accepted `SkyIndicatorTypeIcon` or remove it to use the default `alertType` of `'warning'`.
+* **components/forms:** The `SkyFileDrop` and `SkyFileAttachment` components' `validateFn` input type was updated to receive a `SkyFileType` parameter and return a string or undefined. To address this, ensure all `validateFn` inputs have the correct parameter and return types.
+* **components/config:** The config params `get` function was updated to accurately reflect that it may return undefined. To address this change, account for a possible undefined value wherever you are using the `get` function.
+* **components/modals:** `SkyModalConfigurationInterface.providers` accepts an array of `StaticProvider`s instead of any value.
+* **components/modals:** `SkyConfirmButton`'s `styleType` will only accept predefined strings of type `SkyConfirmButtonStyleType`. To address this, ensure `styleType` is only being set to a supported value.
+* **components/modals:** The `SkyConfirmButton` component is intended for internal use only and is removed from the exported API. To address this, remove any usages of the `SkyConfirmButton` component.
+
+### Features
+
+* **components/angular-tree-component:** add inline help support for angular tree component ([#659](https://github.com/blackbaud/skyux/issues/659)) ([3fbabf2](https://github.com/blackbaud/skyux/commit/3fbabf28cb406a220aa4d7dbfe282b8a81e6365a))
+* **components/config:** add more specific typing to config params function return types ([#668](https://github.com/blackbaud/skyux/issues/668)) ([102cd0a](https://github.com/blackbaud/skyux/commit/102cd0a97a5b64c78e469b462fe1f59601e44557))
+* **components/forms:** update file attachment validateFn inputs to more specific type ([#669](https://github.com/blackbaud/skyux/issues/669)) ([95b7ab5](https://github.com/blackbaud/skyux/commit/95b7ab59f6352a591dcff17da5d76c3e9c4d3325))
+* **components/indicators:** change `alertType` to `SkyIndicatorIconType` ([#683](https://github.com/blackbaud/skyux/issues/683)) ([9081186](https://github.com/blackbaud/skyux/commit/90811866e56e772f95422db308ed7caf801cfac0))
+* **components/indicators:** remove bottom margin from alert component ([#648](https://github.com/blackbaud/skyux/issues/648)) ([5bd8762](https://github.com/blackbaud/skyux/commit/5bd87621ba412cebb38285b6e9ece256e07bbe6b))
+* **components/lookup:** deprecate search inputs ([#647](https://github.com/blackbaud/skyux/issues/647)) ([74396bb](https://github.com/blackbaud/skyux/commit/74396bb18906e82e86fa920276c8f709bd5b0143))
+* **components/modals:** improve `SkyModalConfigurationInterface.providers` type ([#665](https://github.com/blackbaud/skyux/issues/665)) ([a65dae0](https://github.com/blackbaud/skyux/commit/a65dae0642b45764fed92d9671e2830e0f1cc24e))
+* **components/modals:** remove 'string' from `SkyConfirmButton`'s `styleType` type ([#664](https://github.com/blackbaud/skyux/issues/664)) ([8fda84e](https://github.com/blackbaud/skyux/commit/8fda84ebf9afa68e0c436578dbb6177f6cc7bfdd))
+* **components/modals:** remove public export of confirm button ([#656](https://github.com/blackbaud/skyux/issues/656)) ([f465207](https://github.com/blackbaud/skyux/commit/f46520739ebf874d759efa372a809d19cee3afb6))
+* **components/tabs:** add descriptive aria label to tab buttons ([#586](https://github.com/blackbaud/skyux/issues/586)) ([#660](https://github.com/blackbaud/skyux/issues/660)) ([9a01d54](https://github.com/blackbaud/skyux/commit/9a01d549d498a9616d16aae4e3334b878372da3e))
+* **components/toast:** improve toast service `openComponent` `component` param type ([#667](https://github.com/blackbaud/skyux/issues/667)) ([8ffa182](https://github.com/blackbaud/skyux/commit/8ffa182538269488b561fda377dc677927f0e227))
+
+
+### Bug Fixes
+
+* **components/lookup:** modern search clickbox takes up entire input box ([#677](https://github.com/blackbaud/skyux/issues/677)) ([#679](https://github.com/blackbaud/skyux/issues/679)) ([2b70b38](https://github.com/blackbaud/skyux/commit/2b70b383a69bbe0c7028e0fdfaeb129d0c6fb1fa))
+* **components/text-editor:** toolbars are hidden when no items exist within the toolbars ([#676](https://github.com/blackbaud/skyux/issues/676)) ([#678](https://github.com/blackbaud/skyux/issues/678)) ([9711a84](https://github.com/blackbaud/skyux/commit/9711a842e8c3a5c6887adfdfceab6719001a4a1e))
+
 ## [6.24.0](https://github.com/blackbaud/skyux/compare/6.23.3...6.24.0) (2022-10-10)
 
 
