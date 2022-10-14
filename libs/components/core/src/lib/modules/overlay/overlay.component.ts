@@ -1,5 +1,4 @@
 import {
-  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -16,7 +15,6 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
-  createComponent,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 
@@ -109,14 +107,11 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #applicationRef: ApplicationRef;
-
   #router: Router | undefined;
 
   #routerSubscription: Subscription | undefined;
 
   constructor(
-    applicationRef: ApplicationRef,
     changeDetector: ChangeDetectorRef,
     injector: Injector,
     coreAdapter: SkyCoreAdapterService,
@@ -124,7 +119,6 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     idSvc: SkyIdService,
     @Optional() router?: Router
   ) {
-    this.#applicationRef = applicationRef;
     this.#changeDetector = changeDetector;
     this.#injector = injector;
     this.#coreAdapter = coreAdapter;
@@ -181,11 +175,9 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
       parent: this.#injector,
     });
 
-    const componentRef = createComponent<C>(component, {
-      environmentInjector: this.#applicationRef.injector,
-      elementInjector: injector,
+    const componentRef = this.targetRef.createComponent<C>(component, {
+      injector,
     });
-    this.targetRef.insert(componentRef.hostView);
 
     // Run an initial change detection cycle after the component has been created.
     componentRef.changeDetectorRef.detectChanges();

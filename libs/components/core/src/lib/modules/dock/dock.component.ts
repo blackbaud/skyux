@@ -1,5 +1,4 @@
 import {
-  ApplicationRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,7 +7,6 @@ import {
   Type,
   ViewChild,
   ViewContainerRef,
-  createComponent,
 } from '@angular/core';
 
 import { SkyDockDomAdapterService } from './dock-dom-adapter.service';
@@ -47,16 +45,12 @@ export class SkyDockComponent {
 
   #options: SkyDockOptions | undefined;
 
-  #applicationRef: ApplicationRef;
-
   constructor(
-    applicationRef: ApplicationRef,
     changeDetector: ChangeDetectorRef,
     elementRef: ElementRef,
     injector: Injector,
     domAdapter: SkyDockDomAdapterService
   ) {
-    this.#applicationRef = applicationRef;
     this.#changeDetector = changeDetector;
     this.#elementRef = elementRef;
     this.#injector = injector;
@@ -79,11 +73,9 @@ export class SkyDockComponent {
       parent: this.#injector,
     });
 
-    const componentRef = createComponent<T>(component, {
-      environmentInjector: this.#applicationRef.injector,
-      elementInjector: injector,
+    const componentRef = this.target.createComponent<T>(component, {
+      injector,
     });
-    this.target.insert(componentRef.hostView);
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
         ? config.stackOrder
