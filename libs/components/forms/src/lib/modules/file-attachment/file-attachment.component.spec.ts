@@ -989,7 +989,7 @@ describe('File attachment', () => {
       'You may not upload a file that begins with the letter "w."';
 
     fileAttachmentInstance.validateFn = function (
-      inputFile: any
+      inputFile: SkyFileItem
     ): string | undefined {
       if (inputFile.file.name.indexOf('w') === 0) {
         return errorMessage;

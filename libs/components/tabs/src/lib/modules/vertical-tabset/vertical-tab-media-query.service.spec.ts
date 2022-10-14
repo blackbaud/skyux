@@ -14,7 +14,7 @@ describe('Vertical tab media query service', () => {
     it('should handle initialization properly', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {
@@ -22,7 +22,10 @@ describe('Vertical tab media query service', () => {
           }
         );
 
-        expect(result).toEqual(SkyMediaBreakpoints.xs);
+        expect(result).toBeUndefined();
+        mediaQueryService.setBreakpointForWidth(20);
+
+        expect(result).toBe(SkyMediaBreakpoints.xs);
 
         subscription.unsubscribe();
         mediaQueryService.destroy();
@@ -45,7 +48,7 @@ describe('Vertical tab media query service', () => {
     it('should update the breakpoint correctly when setBreakPoint is called', inject(
       [SkyVerticalTabMediaQueryService],
       (mediaQueryService: SkyVerticalTabMediaQueryService) => {
-        let result: SkyMediaBreakpoints;
+        let result: SkyMediaBreakpoints | undefined;
 
         const subscription = mediaQueryService.subscribe(
           (args: SkyMediaBreakpoints) => {

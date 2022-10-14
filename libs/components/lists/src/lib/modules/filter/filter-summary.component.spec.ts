@@ -43,8 +43,8 @@ describe('Filter summary', () => {
 
   it('should set aria-label and title on close filter button', () => {
     const el = nativeElement.querySelector('.sky-token-btn-close');
-    expect(el.getAttribute('aria-label')).toBe('Remove filter');
-    expect(el.getAttribute('title')).toBe('Remove filter');
+    expect(el?.getAttribute('aria-label')).toBe('Remove filter');
+    expect(el?.getAttribute('title')).toBe('Remove filter');
   });
 
   it('should emit an event on item click', () => {

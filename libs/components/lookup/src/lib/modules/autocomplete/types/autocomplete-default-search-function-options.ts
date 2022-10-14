@@ -4,7 +4,7 @@ import { SkyAutocompleteSearchFunctionFilter } from './autocomplete-search-funct
  * @internal
  */
 export interface SkyAutocompleteDefaultSearchFunctionOptions {
-  propertiesToSearch?: string[];
+  propertiesToSearch: string[];
   searchFilters?: SkyAutocompleteSearchFunctionFilter[];
   /** @deprecated */
   searchResultsLimit?: number;

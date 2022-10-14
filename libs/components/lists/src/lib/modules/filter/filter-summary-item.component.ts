@@ -20,7 +20,13 @@ export class SkyFilterSummaryItemComponent {
    * Indicates whether the filter summary item has a close button.
    */
   @Input()
-  public dismissible = true;
+  public get dismissible(): boolean {
+    return this.#_dismissible;
+  }
+
+  public set dismissible(value: boolean | undefined) {
+    this.#_dismissible = value !== false;
+  }
 
   /**
    * Fires when the summary item close button is selected.
@@ -33,6 +39,8 @@ export class SkyFilterSummaryItemComponent {
    */
   @Output()
   public itemClick = new EventEmitter<void>();
+
+  #_dismissible = true;
 
   public onItemDismiss(): void {
     this.dismiss.emit();

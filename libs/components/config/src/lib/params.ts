@@ -20,9 +20,9 @@ function getUrlSearchParams(url: string): HttpParams {
 }
 
 export class SkyAppRuntimeConfigParams {
-  #params: { [key: string]: string } = {};
+  #params: Record<string, string> = {};
 
-  #defaultParamValues: { [key: string]: string } = {};
+  #defaultParamValues: Record<string, string> = {};
 
   #requiredParams: string[] = [];
 
@@ -121,22 +121,20 @@ export class SkyAppRuntimeConfigParams {
    * Returns the decoded value of the requested param.
    * @param key The parameter's key.
    */
-  public get(key: string): string {
+  public get(key: string): string | undefined {
     if (this.has(key)) {
       return decodeURIComponent(this.#params[key]);
     }
 
-    // TODO: Return `string | undefined` in a breaking change.
-    return undefined as unknown as string;
+    return;
   }
 
   /**
    * Returns the params object.
    * @param excludeDefaults Exclude params that have default values
    */
-  // TODO: Return a more specific type in a breaking change.
-  public getAll(excludeDefaults?: boolean): Object {
-    const filteredParams: { [key: string]: string } = {};
+  public getAll(excludeDefaults?: boolean): Record<string, string> {
+    const filteredParams: Record<string, string> = {};
 
     this.getAllKeys().forEach((key) => {
       if (

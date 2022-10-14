@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './vertical-tabset-ngfor.component.fixture.html',
 })
 export class VerticalTabsetWithNgForTestComponent {
-  public activeIndex: number;
+  public activeIndex: number | undefined;
   public maintainTabContent = false;
 
   public tabs = [
