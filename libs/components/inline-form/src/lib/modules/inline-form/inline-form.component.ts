@@ -14,7 +14,7 @@ import { SkyAppWindowRef } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Observable, ReplaySubject, Subject, zip as observableZip } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { skySlideDissolve } from './animations/slide-dissolve';
 import { SkyInlineFormAdapterService } from './inline-form-adapter.service';
