@@ -9,13 +9,17 @@ import { WizardDropdownDemoModalComponent } from './wizard-dropdown-demo-modal.c
   templateUrl: './wizard-demo.component.html',
 })
 export class WizardDemoComponent {
-  constructor(private modal: SkyModalService) {}
+  #modal: SkyModalService;
+
+  constructor(modal: SkyModalService) {
+    this.#modal = modal;
+  }
 
   public openWizard(): void {
-    this.modal.open(WizardDemoModalComponent);
+    this.#modal.open(WizardDemoModalComponent);
   }
 
   public openDropdownWizard(): void {
-    this.modal.open(WizardDropdownDemoModalComponent);
+    this.#modal.open(WizardDropdownDemoModalComponent);
   }
 }

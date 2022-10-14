@@ -8,11 +8,15 @@ import { WizardDemoModalComponent } from './wizard-demo-modal.component';
   templateUrl: './wizard-demo.component.html',
 })
 export class WizardDemoComponent {
-  constructor(private modalService: SkyModalService) {}
+  #modalService: SkyModalService;
+
+  constructor(modalService: SkyModalService) {
+    this.#modalService = modalService;
+  }
 
   public modalSize = 'large';
 
   public openWizard(): void {
-    this.modalService.open(WizardDemoModalComponent, { size: this.modalSize });
+    this.#modalService.open(WizardDemoModalComponent, { size: this.modalSize });
   }
 }

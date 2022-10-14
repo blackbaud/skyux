@@ -17,28 +17,41 @@ interface PermalinkParams {
 @Injectable()
 export class SkyTabsetPermalinkService implements OnDestroy {
   public get popStateChange(): Observable<void> {
-    return this._popStateChange.asObservable();
+    return this.#_popStateChangeObs;
   }
 
-  private _popStateChange = new Subject<void>();
+  #_popStateChange: Subject<void>;
+  #_popStateChangeObs: Observable<void>;
 
-  private subscription: SubscriptionLike;
+  #subscription: SubscriptionLike | undefined;
+
+  #activatedRoute: ActivatedRoute;
+  #location: Location;
+  #router: Router;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private location: Location,
-    private router: Router
-  ) {}
+    activatedRoute: ActivatedRoute,
+    location: Location,
+    router: Router
+  ) {
+    this.#activatedRoute = activatedRoute;
+    this.#location = location;
+    this.#router = router;
+
+    this.#_popStateChange = new Subject<void>();
+    this.#_popStateChangeObs = this.#_popStateChange.asObservable();
+  }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+    if (this.#subscription) {
+      this.#subscription.unsubscribe();
     }
+    this.#_popStateChange.complete();
   }
 
   public init(): void {
-    this.subscription = this.location.subscribe(() => {
-      this._popStateChange.next();
+    this.#subscription = this.#location.subscribe(() => {
+      this.#_popStateChange.next();
     });
   }
 
@@ -46,14 +59,14 @@ export class SkyTabsetPermalinkService implements OnDestroy {
    * Returns the value of a URL query param.
    */
   public getParam(name: string): string {
-    return this.getParams()[name];
+    return this.#getParams()[name];
   }
 
   /**
    * Sets the value of a URL query param.
    */
   public setParam(name: string, value: string | null): void {
-    const params = this.getParams();
+    const params = this.#getParams();
 
     if (value === null) {
       delete params[name];
@@ -63,20 +76,20 @@ export class SkyTabsetPermalinkService implements OnDestroy {
 
     // Update the URL without triggering a navigation state change.
     // See: https://stackoverflow.com/a/46486677
-    const url = this.router
+    const url = this.#router
       .createUrlTree([], {
-        relativeTo: this.activatedRoute,
+        relativeTo: this.#activatedRoute,
         queryParams: params,
         queryParamsHandling: 'merge',
       })
       .toString();
 
     // Abort redirect if the current URL is equal to the new URL.
-    if (this.location.isCurrentPathEqualTo(url)) {
+    if (this.#location.isCurrentPathEqualTo(url)) {
       return;
     }
 
-    this.location.go(url);
+    this.#location.go(url);
   }
 
   /**
@@ -90,26 +103,26 @@ export class SkyTabsetPermalinkService implements OnDestroy {
    * Returns a relative URL that includes the provided query parameter. The value is inteded to be
    * used by an HTML anchor element.
    */
-  public getParamHref(name: string, value: string): string | null {
+  public getParamHref(name: string | undefined, value: string): string | null {
     if (!name) {
       return null;
     }
 
-    const params = this.getParams();
+    const params = this.#getParams();
     params[name] = value;
 
-    const baseUrl = this.location.path().split('?')[0];
+    const baseUrl = this.#location.path().split('?')[0];
     const paramString = Object.keys(params)
       .map((k) => `${k}=${params[k]}`)
       .join('&');
 
-    return this.location.prepareExternalUrl(`${baseUrl}?${paramString}`);
+    return this.#location.prepareExternalUrl(`${baseUrl}?${paramString}`);
   }
 
   /**
    * Converts the provided string into a value that can be safely used in a URL.
    */
-  public urlify(value: string): string {
+  public urlify(value: string | undefined): string {
     if (!value) {
       return '';
     }
@@ -132,10 +145,10 @@ export class SkyTabsetPermalinkService implements OnDestroy {
   /**
    * Returns all query params that exist in the current URL.
    */
-  private getParams(): PermalinkParams {
+  #getParams(): PermalinkParams {
     const params: PermalinkParams = {};
 
-    const path = this.location.path();
+    const path = this.#location.path();
     if (path.indexOf('?') === -1) {
       return params;
     }

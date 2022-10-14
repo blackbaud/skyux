@@ -5,21 +5,23 @@ import { Component } from '@angular/core';
   templateUrl: './tabset-wizard.component.fixture.html',
 })
 export class SkyWizardTestFormComponent {
-  public requiredValue1: string;
+  public requiredValue1: string | undefined;
 
-  public requiredValue2: boolean;
+  public requiredValue2: boolean | undefined;
 
-  public step2Disabled: boolean;
+  public step2Disabled: boolean | undefined;
 
-  public step3Disabled: boolean;
+  public step3Disabled: boolean | undefined;
 
   public selectedTab = 0;
 
-  public finishDisabled = undefined;
+  public finishDisabled: boolean | undefined = undefined;
 
   public passTabset = true;
 
-  public onSave: () => void;
+  public onSave: () => void = () => {
+    return;
+  };
 
   public validateStep1() {
     return true;
