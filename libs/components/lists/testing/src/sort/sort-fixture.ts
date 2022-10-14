@@ -26,12 +26,11 @@ export class SkySortFixture {
    */
   public get menu(): SkySortFixtureMenu | undefined {
     const sortButtonTextEl = this.#getSortButtonTextEl();
-    return sortButtonTextEl
-      ? <SkySortFixtureMenu>{
-          buttonText: SkyAppTestUtility.getText(sortButtonTextEl),
-          isOpen: this.#getDropdownMenuEl() !== null,
-        }
-      : undefined;
+    const theMenu: SkySortFixtureMenu = {
+      buttonText: SkyAppTestUtility.getText(sortButtonTextEl),
+      isOpen: this.#getDropdownMenuEl() !== null,
+    };
+    return sortButtonTextEl ? theMenu : undefined;
   }
 
   /**
