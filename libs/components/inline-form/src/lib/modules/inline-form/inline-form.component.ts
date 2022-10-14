@@ -13,8 +13,8 @@ import {
 import { SkyAppWindowRef } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import { Observable, ReplaySubject, zip as observableZip } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Observable, ReplaySubject, Subject, zip as observableZip } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { skySlideDissolve } from './animations/slide-dissolve';
 import { SkyInlineFormAdapterService } from './inline-form-adapter.service';
@@ -95,6 +95,8 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
 
   #_showForm: boolean | undefined = false;
 
+  #ngUnsubscribe = new Subject<void>();
+
   #adapter: SkyInlineFormAdapterService;
   #elementRef: ElementRef;
   #resourcesService: SkyLibResourcesService;
@@ -120,6 +122,9 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+
     this.close.complete();
   }
 
@@ -142,7 +147,7 @@ export class SkyInlineFormComponent implements OnInit, OnDestroy {
     }
 
     this.#getPresetButtons()
-      .pipe(take(1))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((buttons: SkyInlineFormButtonConfig[]) => {
         this.buttons = buttons;
         this.#changeDetectorRef.markForCheck();
