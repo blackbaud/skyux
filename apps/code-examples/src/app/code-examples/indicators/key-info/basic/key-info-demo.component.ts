@@ -7,7 +7,7 @@ import { SkyKeyInfoLayoutType } from '@skyux/indicators';
 })
 export class KeyInfoDemoComponent {
   @Input()
-  public set value(value: number) {
+  public set value(value: number | undefined) {
     this.#_value = value;
     this.layout = this.#_value >= 100 ? 'vertical' : 'horizontal';
   }
@@ -18,5 +18,5 @@ export class KeyInfoDemoComponent {
 
   public layout: SkyKeyInfoLayoutType = 'vertical';
 
-  #_value: number | undefined;
+  #_value: number | undefined = 575;
 }
