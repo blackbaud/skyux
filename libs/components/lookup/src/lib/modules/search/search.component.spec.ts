@@ -1,5 +1,10 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -72,6 +77,10 @@ describe('Search component', () => {
     fixture.destroy();
   });
 
+  function getInput(): DebugElement {
+    return element.query(By.css('input'));
+  }
+
   function setInput(text: string) {
     const inputEvent = document.createEvent('Event');
     const params = {
@@ -82,7 +91,7 @@ describe('Search component', () => {
 
     const changeEvent = document.createEvent('Event');
     changeEvent.initEvent('change', params.bubbles, params.cancelable);
-    const inputEl = element.query(By.css('input'));
+    const inputEl = getInput();
     inputEl.nativeElement.value = text;
 
     inputEl.nativeElement.dispatchEvent(inputEvent);
@@ -306,6 +315,25 @@ describe('Search component', () => {
       expect(component.searchComponent.searchClear.emit).toHaveBeenCalled();
     });
 
+    it('should disable the input correctly', async () => {
+      fixture.detectChanges();
+      await fixture.whenRenderingDone();
+      let input: HTMLInputElement = getInput().nativeElement;
+      expect(input.disabled).toBeFalse();
+
+      component.disabled = true;
+      fixture.detectChanges();
+      await fixture.whenRenderingDone();
+      input = getInput().nativeElement;
+      expect(input.disabled).toBeTrue();
+
+      component.disabled = undefined;
+      fixture.detectChanges();
+      await fixture.whenRenderingDone();
+      input = getInput().nativeElement;
+      expect(input.disabled).toBeFalse();
+    });
+
     it('should update search text when applySearchText is called with new search text', () => {
       component.searchComponent.applySearchText('new search text');
       fixture.detectChanges();
@@ -324,13 +352,30 @@ describe('Search component', () => {
       ).toBeVisible();
     });
 
-    it('should delay the search if debounce is used', async () => {
+    it('should delay the search if debounce is used', fakeAsync(() => {
       component.searchComponent.searchTextChanged('debounce this please');
       fixture.detectChanges();
-      await fixture.whenStable();
+      tick(1);
       fixture.detectChanges();
-      expect(component.searchComponent.searchText).toBe('debounce this please');
-    });
+      expect(component.lastSearchTextChanged).toBe('debounce this please');
+      component.debounceTime = 10;
+      fixture.detectChanges();
+      component.searchComponent.searchTextChanged('debounce this please 2');
+      fixture.detectChanges();
+      tick(1);
+      fixture.detectChanges();
+      expect(component.lastSearchTextChanged).toBe('debounce this please');
+      tick(10);
+      fixture.detectChanges();
+      expect(component.lastSearchTextChanged).toBe('debounce this please 2');
+      component.debounceTime = undefined;
+      fixture.detectChanges();
+      component.searchComponent.searchTextChanged('debounce this please 3');
+      fixture.detectChanges();
+      tick(1);
+      fixture.detectChanges();
+      expect(component.lastSearchTextChanged).toBe('debounce this please 3');
+    }));
 
     describe('animations', () => {
       describe('should animate the mobile search input open', () => {

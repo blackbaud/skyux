@@ -13,20 +13,20 @@ export class SkySearchFixture {
    * Gets the search's current text.
    */
   public get searchText(): string {
-    return this.getInputEl().nativeElement.value;
+    return this.#getInputEl().nativeElement.value;
   }
 
   /**
    * Gets the search's current placeholder text.
    */
   public get placeholderText(): string {
-    return this.getInputEl().nativeElement.placeholder;
+    return this.#getInputEl().nativeElement.placeholder;
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<any>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-search'
@@ -41,12 +41,12 @@ export class SkySearchFixture {
   public apply(searchText?: string) {
     if (searchText) {
       SkyAppTestUtility.setInputValue(
-        this.getInputEl().nativeElement,
+        this.#getInputEl().nativeElement,
         searchText
       );
     }
 
-    const btnEl = this.getApplyBtnEl();
+    const btnEl = this.#getApplyBtnEl();
 
     btnEl.triggerEventHandler('click', {});
   }
@@ -56,7 +56,7 @@ export class SkySearchFixture {
    * not currently applied, an error is thrown.
    */
   public clear() {
-    const clearEl = this.debugEl.query(By.css('.sky-input-group-clear'));
+    const clearEl = this.#debugEl.query(By.css('.sky-input-group-clear'));
 
     if (!SkyAppTestUtility.isVisible(clearEl)) {
       throw new Error(
@@ -65,20 +65,20 @@ export class SkySearchFixture {
       );
     }
 
-    const btnEl = this.getClearBtnEl();
+    const btnEl = this.#getClearBtnEl();
 
     btnEl.triggerEventHandler('click', {});
   }
 
-  private getApplyBtnEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-search-btn-apply'));
+  #getApplyBtnEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-search-btn-apply'));
   }
 
-  private getClearBtnEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-search-btn-clear'));
+  #getClearBtnEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-search-btn-clear'));
   }
 
-  private getInputEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-search-input'));
+  #getInputEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-search-input'));
   }
 }

@@ -57,7 +57,7 @@ export async function getProject(
  * Allows updates to the Angular project config (angular.json).
  */
 export function updateWorkspace(
-  updater: (workspace: workspaces.WorkspaceDefinition) => void
+  updater: (workspace: workspaces.WorkspaceDefinition) => void | Promise<void>
 ): Rule {
   return async (tree) => {
     const { host, workspace } = await getWorkspace(tree);

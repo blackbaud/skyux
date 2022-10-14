@@ -13,6 +13,9 @@ export class SearchTestComponent {
   })
   public searchComponent!: SkySearchComponent;
 
+  public disabled: boolean | undefined;
+  public debounceTime: number | undefined = 0;
+
   public searchText: string | undefined;
   public placeholderText: string | undefined;
 

@@ -68,8 +68,8 @@ export class SkyAutocompleteInputDirective
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
-    this.#_disabled = value;
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value ?? false;
     this.#renderer.setProperty(
       this.#elementRef.nativeElement,
       'disabled',
