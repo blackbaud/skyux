@@ -2,6 +2,7 @@
   <div
     *ngIf="isWaiting"
     class="sky-wait-mask"
+    role="progressbar"
     [attr.aria-label]="ariaLabelStream | async"
     [ngClass]="{
       'sky-wait-mask-loading-fixed': isFullPage,
