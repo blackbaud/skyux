@@ -1,5 +1,28 @@
 # Changelog
 
+## [7.0.0-beta.4](https://github.com/blackbaud/skyux/compare/7.0.0-beta.3...7.0.0-beta.4) (2022-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/modals:** `dynamicComponentService` is now a required parameter of `SkyModalService`. To address this change, provide the `dynamicComponentService` wherever you are constructing the `SkyModalService` or any mocks extending it  for unit testing.
+
+### Features
+
+* **components/modals:** make `dynamicComponentService` required in `SkyModalService` constructor ([#674](https://github.com/blackbaud/skyux/issues/674)) ([c7c60f2](https://github.com/blackbaud/skyux/commit/c7c60f273c8bb988bcd7908282ba623723e861e0))
+
+
+### Bug Fixes
+
+* **components/forms:** use a label instead of a button as the wrapper ([#687](https://github.com/blackbaud/skyux/issues/687)) ([f2f2039](https://github.com/blackbaud/skyux/commit/f2f2039c9da142d01c5b0f3444616209cb17a15c))
+* **components/packages:** remove forward slash to compat stylesheet in angular.json ([#696](https://github.com/blackbaud/skyux/issues/696)) ([5b7eb4b](https://github.com/blackbaud/skyux/commit/5b7eb4b5d4bae82847ac6607241558cbdd4c2d39))
+* **sdk/testing:** use default `axe-core` rules when running the `toBeAccessible` matcher ([#681](https://github.com/blackbaud/skyux/issues/681)) ([ed1b5bb](https://github.com/blackbaud/skyux/commit/ed1b5bba5a37f006bc25a09bd92f003501f848ea))
+
+
+### Deprecations
+
+* **components/popovers:** deprecate `SkyDropdownComponent` `buttonType` icon class option ([#663](https://github.com/blackbaud/skyux/issues/663)) ([b8c1027](https://github.com/blackbaud/skyux/commit/b8c102782998a85f43f818e7e923be0ef786c1e6))
+
 ## [7.0.0-beta.3](https://github.com/blackbaud/skyux/compare/7.0.0-beta.2...7.0.0-beta.3) (2022-10-14)
 
 
