@@ -11,6 +11,7 @@ import {
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
 import { SkyFileLink } from './file-link';
+import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileDropChange } from './types/file-drop-change';
 
 const MAX_FILE_SIZE_DEFAULT = 500000;
@@ -102,8 +103,7 @@ export class SkyFileDropComponent implements OnDestroy {
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
-  // TODO: Change `Function` to a more specific type in a breaking change.
-  public validateFn: Function | undefined;
+  public validateFn: SkyFileValidateFn | undefined;
 
   /**
    * Specifies a comma-delimited string literal of MIME types that users can attach.

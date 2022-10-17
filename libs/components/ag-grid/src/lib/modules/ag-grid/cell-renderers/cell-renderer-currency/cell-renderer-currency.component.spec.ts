@@ -1,7 +1,6 @@
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
@@ -152,11 +151,10 @@ describe('SkyAgGridCellRendererCurrencyComponent', () => {
     }));
   });
 
-  it('should pass accessibility', async(() => {
+  it('should pass accessibility', async () => {
     currencyFixture.detectChanges();
 
-    currencyFixture.whenStable().then(() => {
-      return expectAsync(currencyNativeElement).toBeAccessible();
-    });
-  }));
+    await currencyFixture.whenStable();
+    await expectAsync(currencyNativeElement).toBeAccessible();
+  });
 });

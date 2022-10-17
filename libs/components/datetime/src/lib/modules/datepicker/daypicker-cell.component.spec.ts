@@ -367,9 +367,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(controlerSpy).not.toHaveBeenCalled();
-      });
+      expect(controlerSpy).not.toHaveBeenCalled();
     }));
 
     it('should not open the tool tip if already open', fakeAsync(() => {
@@ -381,9 +379,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(controlerSpy).not.toHaveBeenCalled();
-      });
+      expect(controlerSpy).not.toHaveBeenCalled();
     }));
 
     it('should not open the tool tip if cancelled', async () => {
@@ -412,9 +408,7 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(controlerSpy).not.toHaveBeenCalled();
-      });
+      expect(controlerSpy).not.toHaveBeenCalled();
     }));
 
     it('should open the tool tip', fakeAsync(() => {
@@ -427,10 +421,8 @@ describe('daypicker cell', () => {
       tick(500);
       fixture.detectChanges();
 
-      fixture.whenStable().then(() => {
-        expect(controlerSpy).toHaveBeenCalledWith({
-          type: SkyPopoverMessageType.Open,
-        });
+      expect(controlerSpy).toHaveBeenCalledWith({
+        type: SkyPopoverMessageType.Open,
       });
     }));
   });

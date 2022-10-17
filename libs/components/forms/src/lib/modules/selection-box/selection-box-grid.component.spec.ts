@@ -29,7 +29,7 @@ describe('Selection box grid component', () => {
 
   // Wait for the next change detection cycle. This avoids having nested setTimeout() calls
   // and using the Jasmine done() function.
-  function waitForMutationObserver() {
+  function waitForMutationObserver(): Promise<void> {
     return new Promise<void>((resolve) => {
       setTimeout(() => resolve());
     });
@@ -75,7 +75,7 @@ describe('Selection box grid component', () => {
     );
   });
 
-  it('should set proper CSS classess when alignItems is set to center', () => {
+  it('should set proper CSS classes when alignItems is set to center', () => {
     component.alignItems = 'center';
     fixture.detectChanges();
 
@@ -87,7 +87,7 @@ describe('Selection box grid component', () => {
     );
   });
 
-  it('should set proper CSS classess when alignItems is set to left', () => {
+  it('should set proper CSS classes when alignItems is set to left', () => {
     component.alignItems = 'left';
     fixture.detectChanges();
 

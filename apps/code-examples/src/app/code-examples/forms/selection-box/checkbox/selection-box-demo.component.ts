@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-selection-box-demo',
   templateUrl: './selection-box-demo.component.html',
 })
 export class SelectionBoxDemoComponent implements OnInit {
-  public checkboxArray: FormArray | undefined;
+  public checkboxControls: FormControl[] | undefined;
 
-  public selectionBoxes: any[] = [
+  public selectionBoxes: {
+    name: string;
+    icon: string;
+    description: string;
+    selected?: boolean;
+  }[] = [
     {
       name: 'Save time and effort',
       icon: 'clock',
@@ -37,9 +42,12 @@ export class SelectionBoxDemoComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.checkboxArray = this.#buildCheckboxes();
+    const checkboxArray = this.#buildCheckboxes();
+
+    this.checkboxControls = checkboxArray.controls as FormControl[];
+
     this.myForm = this.#formBuilder.group({
-      checkboxes: this.checkboxArray,
+      checkboxes: checkboxArray,
     });
 
     this.myForm.valueChanges.subscribe((value) => console.log(value));

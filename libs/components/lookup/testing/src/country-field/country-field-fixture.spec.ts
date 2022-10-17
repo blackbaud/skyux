@@ -7,7 +7,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { SkyCountryFieldFixture } from './country-field-fixture';
 import { SkyCountryFieldTestingModule } from './country-field-testing.module';
 
-const COUNTRY: SkyCountryFieldCountry = {
+const COUNTRY: Required<Pick<SkyCountryFieldCountry, 'name' | 'iso2'>> = {
   name: 'United States',
   iso2: 'us',
 };
@@ -29,9 +29,9 @@ const DATA_SKY_ID = 'test-country-field';
   `,
 })
 class CountryFieldTestComponent {
-  public autocompleteAttribute: string;
-  public disabled: boolean;
-  public hideSelectedCountryFlag: boolean;
+  public autocompleteAttribute: string | undefined;
+  public disabled: boolean | undefined;
+  public hideSelectedCountryFlag: boolean | undefined;
 
   public selectedCountryChange(query: string): void {}
 }

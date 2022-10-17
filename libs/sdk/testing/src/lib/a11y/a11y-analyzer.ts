@@ -40,14 +40,11 @@ export abstract class SkyA11yAnalyzer {
       throw new Error('No element was specified for accessibility checking.');
     }
 
+    SkyA11yAnalyzer.analyzer.reset();
+
     const defaults: SkyA11yAnalyzerConfig = {
       rules: {},
     };
-
-    // Enable all rules by default.
-    axe.getRules().forEach((rule) => {
-      defaults.rules[rule.ruleId] = { enabled: true };
-    });
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values

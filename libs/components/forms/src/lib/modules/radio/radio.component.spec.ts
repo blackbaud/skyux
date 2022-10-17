@@ -2,13 +2,12 @@ import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   tick,
 } from '@angular/core/testing';
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
@@ -265,12 +264,11 @@ describe('Radio component', function () {
       expect(radioLabelElement.componentInstance.onClick).toHaveBeenCalled();
     }));
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('Radio icon component', () => {
@@ -325,12 +323,11 @@ describe('Radio component', function () {
       expect(span).toHaveCssClass('sky-switch-control-danger');
     });
 
-    it('should pass accessibility', async(() => {
+    it('should pass accessibility', async () => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(fixture.nativeElement).toBeAccessible();
-      });
-    }));
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 
   describe('Radio component with a consumer using OnPush change detection', () => {
@@ -341,7 +338,7 @@ describe('Radio component', function () {
       componentInstance = fixture.componentInstance;
     });
 
-    it('should update the ngModel properly when radio button is changed', async(async () => {
+    it('should update the ngModel properly when radio button is changed', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
       fixture.detectChanges();
@@ -365,6 +362,6 @@ describe('Radio component', function () {
       expect(radios.item(2).checked).toBeFalsy();
 
       expect(componentInstance.selectedValue).toBe('2');
-    }));
+    });
   });
 });

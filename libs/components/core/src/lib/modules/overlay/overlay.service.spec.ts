@@ -2,13 +2,12 @@ import { NgZone } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  async,
   fakeAsync,
   inject,
   tick,
 } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { SkyAppTestUtility, expect } from '@skyux-sdk/testing';
+import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { take } from 'rxjs/operators';
 
@@ -264,7 +263,7 @@ describe('Overlay service', () => {
     );
   }));
 
-  it('should attach a component', async(async () => {
+  it('should attach a component', async () => {
     const overlay = service.create();
 
     overlay.attachComponent(OverlayEntryFixtureComponent);
@@ -276,9 +275,9 @@ describe('Overlay service', () => {
     expect(getAllOverlays().item(0).textContent).toContain(
       'Overlay content ID: none'
     );
-  }));
+  });
 
-  it('should attach a component with providers', async(async () => {
+  it('should attach a component with providers', async () => {
     const overlay = service.create();
 
     overlay.attachComponent(OverlayEntryFixtureComponent, [
@@ -295,9 +294,9 @@ describe('Overlay service', () => {
     expect(getAllOverlays().item(0).textContent).toContain(
       'Overlay content ID: 1'
     );
-  }));
+  });
 
-  it('should attach a template', async(async () => {
+  it('should attach a template', async () => {
     const overlay = service.create();
 
     overlay.attachTemplate(fixture.componentInstance.myTemplate, {
@@ -313,35 +312,34 @@ describe('Overlay service', () => {
     expect(getAllOverlays().item(0).textContent).toContain(
       'Templated content ID: 5'
     );
-  }));
+  });
 
-  it('should be accessible', async(async (done: DoneFn) => {
+  it('should be accessible', async () => {
     const overlay = service.create();
 
     fixture.detectChanges();
 
     await fixture.whenStable();
 
-    expect(getAllOverlays().item(0)).toBeAccessible(async () => {
-      service.close(overlay);
+    await expectAsync(getAllOverlays().item(0)).toBeAccessible();
+    service.close(overlay);
 
-      fixture.detectChanges();
+    fixture.detectChanges();
 
-      // Create overlay with all options turned on.
-      service.create({
-        closeOnNavigation: false,
-        enableClose: true,
-        enableScroll: false,
-        showBackdrop: true,
-      });
-
-      fixture.detectChanges();
-
-      await fixture.whenStable();
-
-      expect(getAllOverlays().item(0)).toBeAccessible(done);
+    // Create overlay with all options turned on.
+    service.create({
+      closeOnNavigation: false,
+      enableClose: true,
+      enableScroll: false,
+      showBackdrop: true,
     });
-  }));
+
+    fixture.detectChanges();
+
+    await fixture.whenStable();
+
+    await expectAsync(getAllOverlays().item(0)).toBeAccessible();
+  });
 
   it('should emit when overlay is closed by the service', fakeAsync(() => {
     const instance = createOverlay();

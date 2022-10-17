@@ -16,7 +16,7 @@ describe('Autocomplete harness', () => {
     const fixture = TestBed.createComponent(AutocompleteHarnessTestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    let autocompleteHarness: SkyAutocompleteHarness;
+    let autocompleteHarness: SkyAutocompleteHarness | undefined;
     if (options.dataSkyId) {
       autocompleteHarness = await loader.getHarness(
         SkyAutocompleteHarness.with({ dataSkyId: options.dataSkyId })
@@ -31,13 +31,13 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(false);
+    await expectAsync(autocompleteHarness?.isFocused()).toBeResolvedTo(false);
 
-    await autocompleteHarness.focus();
-    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(true);
+    await autocompleteHarness?.focus();
+    await expectAsync(autocompleteHarness?.isFocused()).toBeResolvedTo(true);
 
-    await autocompleteHarness.blur();
-    await expectAsync(autocompleteHarness.isFocused()).toBeResolvedTo(false);
+    await autocompleteHarness?.blur();
+    await expectAsync(autocompleteHarness?.isFocused()).toBeResolvedTo(false);
   });
 
   it('should check if autocomplete is disabled', async () => {
@@ -45,11 +45,11 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await expectAsync(autocompleteHarness.isDisabled()).toBeResolvedTo(false);
+    await expectAsync(autocompleteHarness?.isDisabled()).toBeResolvedTo(false);
 
     fixture.componentInstance.disableForm();
 
-    await expectAsync(autocompleteHarness.isDisabled()).toBeResolvedTo(true);
+    await expectAsync(autocompleteHarness?.isDisabled()).toBeResolvedTo(true);
   });
 
   it('should check if autocomplete is open', async () => {
@@ -57,9 +57,9 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('r');
+    await autocompleteHarness?.enterText('r');
 
-    await expectAsync(autocompleteHarness.isOpen()).toBeResolvedTo(true);
+    await expectAsync(autocompleteHarness?.isOpen()).toBeResolvedTo(true);
   });
 
   it('should return search result harnesses', async () => {
@@ -67,9 +67,9 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('d');
+    await autocompleteHarness?.enterText('d');
 
-    const results = await autocompleteHarness.getSearchResults();
+    const results = (await autocompleteHarness?.getSearchResults()) ?? [];
 
     await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
     await expectAsync(results[0].getText()).toBeResolvedTo('Red');
@@ -80,10 +80,10 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('r');
+    await autocompleteHarness?.enterText('r');
 
     await expectAsync(
-      autocompleteHarness.getSearchResultsText()
+      autocompleteHarness?.getSearchResultsText()
     ).toBeResolvedTo([
       'Red',
       'Green',
@@ -99,11 +99,11 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('r');
-    const result = (await autocompleteHarness.getSearchResults())[0];
+    await autocompleteHarness?.enterText('r');
+    const result = ((await autocompleteHarness?.getSearchResults()) ?? [])[0];
     await result.select();
 
-    await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Red');
+    await expectAsync(autocompleteHarness?.getValue()).toBeResolvedTo('Red');
   });
 
   it('should select a search result using filters', async () => {
@@ -111,12 +111,12 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('r');
-    await autocompleteHarness.selectSearchResult({
+    await autocompleteHarness?.enterText('r');
+    await autocompleteHarness?.selectSearchResult({
       text: 'Green',
     });
 
-    await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
+    await expectAsync(autocompleteHarness?.getValue()).toBeResolvedTo('Green');
   });
 
   it('should clear the input value', async () => {
@@ -125,15 +125,15 @@ describe('Autocomplete harness', () => {
     });
 
     // First, set a value on the autocomplete.
-    await autocompleteHarness.enterText('r');
-    await autocompleteHarness.selectSearchResult({
+    await autocompleteHarness?.enterText('r');
+    await autocompleteHarness?.selectSearchResult({
       text: 'Green',
     });
-    await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('Green');
+    await expectAsync(autocompleteHarness?.getValue()).toBeResolvedTo('Green');
 
     // Now, clear the value.
-    await autocompleteHarness.clear();
-    await expectAsync(autocompleteHarness.getValue()).toBeResolvedTo('');
+    await autocompleteHarness?.clear();
+    await expectAsync(autocompleteHarness?.getValue()).toBeResolvedTo('');
   });
 
   it('should throw error if getting search results when autocomplete not open', async () => {
@@ -142,7 +142,7 @@ describe('Autocomplete harness', () => {
     });
 
     await expectAsync(
-      autocompleteHarness.getSearchResults()
+      autocompleteHarness?.getSearchResults()
     ).toBeRejectedWithError(
       'Unable to retrieve search results. The autocomplete is closed.'
     );
@@ -153,10 +153,10 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('r');
+    await autocompleteHarness?.enterText('r');
 
     await expectAsync(
-      autocompleteHarness.getSearchResults({
+      autocompleteHarness?.getSearchResults({
         text: /invalidsearchtext/,
       })
     ).toBeRejectedWithError(
@@ -169,9 +169,9 @@ describe('Autocomplete harness', () => {
       dataSkyId: 'my-autocomplete-1',
     });
 
-    await autocompleteHarness.enterText('invalidsearchtext');
+    await autocompleteHarness?.enterText('invalidsearchtext');
 
-    await expectAsync(autocompleteHarness.getSearchResults()).toBeResolvedTo(
+    await expectAsync(autocompleteHarness?.getSearchResults()).toBeResolvedTo(
       []
     );
   });
@@ -182,9 +182,9 @@ describe('Autocomplete harness', () => {
         dataSkyId: 'my-autocomplete-2',
       });
 
-      await autocompleteHarness.enterText('d');
+      await autocompleteHarness?.enterText('d');
 
-      const results = await autocompleteHarness.getSearchResults();
+      const results = (await autocompleteHarness?.getSearchResults()) ?? [];
 
       await expectAsync(results[0].getDescriptorValue()).toBeResolvedTo('Red');
       await expectAsync(results[0].getText()).toBeResolvedTo('Red ID: 1');
@@ -195,12 +195,12 @@ describe('Autocomplete harness', () => {
         dataSkyId: 'my-autocomplete-2',
       });
 
-      await autocompleteHarness.enterText('d');
+      await autocompleteHarness?.enterText('d');
 
-      const results = await autocompleteHarness.getSearchResults();
+      const results = (await autocompleteHarness?.getSearchResults()) ?? [];
       const harness = await results[0].queryHarness(ColorIdHarness);
 
-      await expectAsync((await harness.host()).text()).toBeResolvedTo('1');
+      await expectAsync((await harness?.host())?.text()).toBeResolvedTo('1');
     });
   });
 

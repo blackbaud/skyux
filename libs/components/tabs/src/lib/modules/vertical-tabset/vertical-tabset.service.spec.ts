@@ -1,16 +1,9 @@
 import { MockSkyMediaQueryService } from '@skyux/core/testing';
 
-import { SkyVerticalTabComponent } from './vertical-tab.component';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
-
-class MockChangeDetector {
-  public detectChanges() {}
-  public markForCheck() {}
-}
 
 describe('Vertical tabset service', () => {
   let service: SkyVerticalTabsetService;
-  const mockDetectChanges: any = new MockChangeDetector();
   const mockQueryService = new MockSkyMediaQueryService();
 
   beforeEach(() => {
@@ -18,24 +11,18 @@ describe('Vertical tabset service', () => {
   });
 
   it('should add two non active tabs', () => {
-    const tab1 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab1.tabHeading = 'tab 1';
 
-    const tab2 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab2 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab2.tabHeading = 'tab 2';
 
     service.tabClicked.subscribe((clicked) => {
-      if (service.activeIndex >= 0) {
+      if (service.activeIndex && service.activeIndex >= 0) {
         fail(
           `tab should not have been clicked with index =${service.activeIndex}`
         );
@@ -54,22 +41,16 @@ describe('Vertical tabset service', () => {
   });
 
   it('should add active tab', () => {
-    const tab1 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
-    const tab2 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
+    const tab2 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab2.active = true;
 
     service.tabClicked.subscribe((clicked) => {
-      if (service.activeIndex >= 0) {
+      if (service.activeIndex && service.activeIndex >= 0) {
         expect(service.activeIndex).toBe(1);
       }
     });
@@ -81,19 +62,13 @@ describe('Vertical tabset service', () => {
   });
 
   it('should deactive old active tab', () => {
-    const tab1 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab1.active = true;
-    const tab2 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab2 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
 
     service.addTab(tab1);
     service.addTab(tab2);
@@ -109,18 +84,12 @@ describe('Vertical tabset service', () => {
   });
 
   it('content should return undefined when no active tabs', () => {
-    const tab1 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
-    const tab2 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
+    const tab2 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
 
     service.addTab(tab1);
     service.addTab(tab2);
@@ -129,20 +98,14 @@ describe('Vertical tabset service', () => {
   });
 
   it('destroy tab removes it from the service', () => {
-    const tab1 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab1 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab1.tabHeading = 'tab 1';
 
-    const tab2 = new SkyVerticalTabComponent(
-      undefined,
-      mockDetectChanges,
-      undefined,
-      undefined
-    );
+    const tab2 = jasmine.createSpyObj('SkyVerticalTabComponent', [
+      'tabDeactivated',
+    ]);
     tab2.tabHeading = 'tab 2';
 
     service.addTab(tab1);
@@ -152,12 +115,7 @@ describe('Vertical tabset service', () => {
 
     // attempt to destroy tab not existing in service
     service.destroyTab(
-      new SkyVerticalTabComponent(
-        undefined,
-        mockDetectChanges,
-        undefined,
-        undefined
-      )
+      jasmine.createSpyObj('SkyVerticalTabComponent', ['tabDeactivated'])
     );
     expect(service.tabs.length).toBe(2);
 

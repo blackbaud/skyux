@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ElementRef,
   Injector,
   Type,
@@ -46,18 +45,13 @@ export class SkyDockComponent {
 
   #options: SkyDockOptions | undefined;
 
-  #resolver: ComponentFactoryResolver;
-
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
     changeDetector: ChangeDetectorRef,
-    resolver: ComponentFactoryResolver,
     elementRef: ElementRef,
     injector: Injector,
     domAdapter: SkyDockDomAdapterService
   ) {
     this.#changeDetector = changeDetector;
-    this.#resolver = resolver;
     this.#elementRef = elementRef;
     this.#injector = injector;
     this.#domAdapter = domAdapter;
@@ -74,17 +68,14 @@ export class SkyDockComponent {
       );
     }
 
-    const factory = this.#resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers: config.providers || [],
       parent: this.#injector,
     });
 
-    const componentRef = this.target.createComponent<T>(
-      factory,
-      undefined,
-      injector
-    );
+    const componentRef = this.target.createComponent<T>(component, {
+      injector,
+    });
     const stackOrder =
       config.stackOrder !== null && config.stackOrder !== undefined
         ? config.stackOrder
