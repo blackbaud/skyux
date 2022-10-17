@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as defaultVars;
 
 .sky-ag-grid-cell-editor-datepicker {
   position: relative;
@@ -12,8 +11,8 @@
       box-shadow: none;
       border-width: 1px;
       border-style: solid;
-      border-color: transparent $sky-border-color-neutral-medium transparent
-        transparent;
+      border-color: transparent defaultVars.$sky-border-color-neutral-medium
+        transparent transparent;
     }
 
     .sky-input-group-datepicker-btn {
@@ -22,7 +21,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include defaultMixins.sky-theme-modern {
   .sky-ag-grid-cell-editor-datepicker {
     position: static;
     top: initial;
@@ -31,7 +30,8 @@
     sky-datepicker {
       input.sky-form-control {
         border-radius: 0;
-        border: 1px solid $sky-theme-modern-border-color-primary-dark;
+        border: 1px solid
+          defaultVars.$sky-theme-modern-border-color-primary-dark;
 
         &:focus {
           border-width: 2px !important;

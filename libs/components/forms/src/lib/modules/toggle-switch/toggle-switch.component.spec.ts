@@ -172,15 +172,6 @@ describe('Toggle switch component', () => {
       fixture.detectChanges();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should fail accessibility with mismatched `ariaLabel` and label element content', async () => {
-      // https://dequeuniversity.com/rules/axe/html/3.5/label-content-name-mismatch?application=axeAP
-      testComponent.ariaLabel = 'My aria label';
-      testComponent.buttonLabel = 'Text that does not match aria label';
-
-      fixture.detectChanges();
-      await expectAsync(fixture.nativeElement).not.toBeAccessible();
-    });
   });
 
   describe('with change event and no initial value', () => {

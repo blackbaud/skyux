@@ -130,16 +130,7 @@
     class="sky-input-group-icon sky-input-box-icon-inset"
     [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
-    <sky-icon
-      *skyThemeIf="'default'"
-      icon="search"
-      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
-    ></sky-icon>
-    <sky-icon
-      *skyThemeIf="'modern'"
-      iconType="skyux"
-      icon="search"
-      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
-    ></sky-icon>
+    <sky-icon *skyThemeIf="'default'" icon="search"></sky-icon>
+    <sky-icon *skyThemeIf="'modern'" iconType="skyux" icon="search"></sky-icon>
   </div>
 </ng-template>

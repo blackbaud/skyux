@@ -3,7 +3,7 @@ import { Rule, chain } from '@angular-devkit/schematics';
 import { readRequiredFile } from '../../utility/tree';
 import { updateWorkspace } from '../../utility/workspace';
 
-const SKYUX7_COMPAT_CSS_PATH = '/src/app/skyux7-compat.css';
+const SKYUX7_COMPAT_CSS_PATH = 'src/app/skyux7-compat.css';
 
 const compatStyles = {
   libraries: [

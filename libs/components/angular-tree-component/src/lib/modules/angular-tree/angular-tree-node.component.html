@@ -1,4 +1,5 @@
 <div
+  *ngIf="node && index !== undefined"
   [class]="node.getClass()"
   [class.tree-node]="true"
   [class.tree-node-active]="node.isActive"
@@ -53,8 +54,9 @@
       role="treeitem"
       [allowDragoverStyling]="node.allowDragoverStyling()"
       [attr.aria-current]="node.isActive"
-      [attr.aria-expanded]="node.isExpanded"
+      [attr.aria-expanded]="node.children?.length ? node.isExpanded : null"
       [attr.aria-selected]="ariaSelected()"
+      [attr.aria-owns]="node.children?.length ? childNodes.id : null"
       [attr.data-node-id]="node.id"
       [attr.tabindex]="tabIndex"
       [treeAllowDrop]="node.allowDrop"
@@ -111,7 +113,13 @@
   </ng-container>
   <!-- #endregion <tree-node-wrapper> -->
 
-  <tree-node-children role="group" [node]="node" [templates]="templates">
+  <tree-node-children
+    role="group"
+    [node]="node"
+    [templates]="templates"
+    skyId
+    #childNodes="skyId"
+  >
   </tree-node-children>
 
   <tree-node-drop-slot [dropIndex]="node.index + 1" [node]="node.parent">

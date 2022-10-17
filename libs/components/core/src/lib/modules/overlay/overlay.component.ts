@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
   ComponentRef,
   ElementRef,
   EmbeddedViewRef,
@@ -108,16 +107,12 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
   #ngUnsubscribe = new Subject<void>();
 
-  #resolver: ComponentFactoryResolver;
-
   #router: Router | undefined;
 
   #routerSubscription: Subscription | undefined;
 
-  // TODO: Replace deprecated `ComponentFactoryResolver`.
   constructor(
     changeDetector: ChangeDetectorRef,
-    resolver: ComponentFactoryResolver,
     injector: Injector,
     coreAdapter: SkyCoreAdapterService,
     context: SkyOverlayContext,
@@ -125,7 +120,6 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
     @Optional() router?: Router
   ) {
     this.#changeDetector = changeDetector;
-    this.#resolver = resolver;
     this.#injector = injector;
     this.#coreAdapter = coreAdapter;
     this.#context = context;
@@ -176,17 +170,14 @@ export class SkyOverlayComponent implements OnInit, OnDestroy {
 
     this.targetRef.clear();
 
-    const factory = this.#resolver.resolveComponentFactory(component);
     const injector = Injector.create({
       providers,
       parent: this.#injector,
     });
 
-    const componentRef = this.targetRef.createComponent<C>(
-      factory,
-      undefined,
-      injector
-    );
+    const componentRef = this.targetRef.createComponent<C>(component, {
+      injector,
+    });
 
     // Run an initial change detection cycle after the component has been created.
     componentRef.changeDetectorRef.detectChanges();

@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-summary-action-bar {
   display: flex;
@@ -34,7 +33,7 @@
 
 .sky-summary-action-bar-summary {
   margin: $sky-margin 0;
-  @include sky-border(light, left);
+  @include defaultMixins.sky-border(light, left);
 }
 
 .sky-summary-action-bar-summary-body {
@@ -67,7 +66,7 @@
   .sky-summary-action-bar-summary {
     order: -1;
     width: 100%;
-    @include sky-border(light, bottom);
+    @include defaultMixins.sky-border(light, bottom);
     margin: 0;
     border-left: none;
     z-index: 998;
@@ -83,7 +82,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include defaultMixins.sky-theme-modern {
   .sky-summary-action-bar-actions {
     padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
   }
@@ -121,7 +120,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include defaultMixins.sky-theme-modern-dark {
   .sky-summary-action-bar {
     background-color: $sky-color-black;
     box-shadow: none;

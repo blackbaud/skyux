@@ -33,7 +33,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public readOnly = false;
+  public readOnly: boolean | undefined = false;
 
   /**
    * Indicates whether to use leaf-only selection mode. For tree views with
@@ -42,7 +42,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public selectLeafNodesOnly = false;
+  public selectLeafNodesOnly: boolean | undefined = false;
 
   /**
    * Indicates whether to use single-select mode. For tree views with
@@ -51,7 +51,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public selectSingle = false;
+  public selectSingle: boolean | undefined = false;
 
   /**
    * Indicates whether to display a toolbar with buttons to expand and collapse all nodes and buttons to select and clear all checkboxes.
@@ -60,40 +60,37 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
    * @default false
    */
   @Input()
-  public set showToolbar(value: boolean) {
-    this._showToolbar = value;
-  }
+  public showToolbar: boolean | undefined = false;
 
-  public get showToolbar(): boolean {
-    return this._showToolbar || false;
-  }
-
-  public selectableNodeIds: IDTypeDictionary;
+  public selectableNodeIds: IDTypeDictionary = {};
 
   @ContentChild(TreeComponent)
-  private treeComponent: TreeComponent;
-
-  private _showToolbar: boolean;
+  public treeComponent: TreeComponent | undefined;
 
   public ngAfterViewInit(): void {
-    if (this.selectSingle && this.treeComponent.treeModel.options.useTriState) {
+    if (
+      this.selectSingle &&
+      this.treeComponent?.treeModel.options.useTriState
+    ) {
       console.warn(
         'Single select mode should not be enabled while the tree is in triState mode (cascading selection). ' +
           'Please set "useTriState" to "false" if you want to remain in single select mode.'
       );
     }
-    this.overrideActionMapping();
+    this.#overrideActionMapping();
   }
 
   public multiselectable(): boolean {
     return (
-      this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle
+      !!this.treeComponent &&
+      this.treeComponent.treeModel.options.useCheckbox &&
+      !this.selectSingle
     );
   }
 
   public onClearAllClick(): void {
     /* istanbul ignore else */
-    if (!this.selectSingle) {
+    if (!this.selectSingle && this.treeComponent) {
       const currentState = this.treeComponent.treeModel.getState();
       this.treeComponent.state = {
         ...currentState,
@@ -103,16 +100,16 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
   }
 
   public onCollapseAllClick(): void {
-    this.treeComponent.treeModel.collapseAll();
+    this.treeComponent?.treeModel.collapseAll();
   }
 
   public onExpandAllClick(): void {
-    this.treeComponent.treeModel.expandAll();
+    this.treeComponent?.treeModel.expandAll();
   }
 
   public onSelectAllClick(): void {
     /* istanbul ignore else */
-    if (!this.selectSingle) {
+    if (!this.selectSingle && this.treeComponent) {
       // Get a list of all node ids that are selectable.
       this.selectableNodeIds = {};
       const getSelectableNodeIds = (node: TreeNode) => {
@@ -140,21 +137,23 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
 
   public showSelectButtons(): boolean {
     return (
-      this.treeComponent.treeModel.options.useCheckbox && !this.selectSingle
+      !!this.treeComponent &&
+      this.treeComponent.treeModel.options.useCheckbox &&
+      !this.selectSingle
     );
   }
 
-  private isSelectable(node: TreeNode): boolean {
+  #isSelectable(node: TreeNode): boolean {
     return node.isLeaf || !node.hasChildren || !this.selectLeafNodesOnly;
   }
 
-  private nodeDefaultAction(tree: TreeModel, node: TreeNode, event: any): void {
+  #nodeDefaultAction(tree: TreeModel, node: TreeNode, event: any): void {
     if (this.readOnly) {
       return;
     }
 
-    if (node.options.useCheckbox && this.isSelectable(node)) {
-      this.toggleSelected(node, event);
+    if (node.options.useCheckbox && this.#isSelectable(node)) {
+      this.#toggleSelected(node, event);
     } else {
       TREE_ACTIONS.TOGGLE_ACTIVE(tree, node, event);
     }
@@ -162,7 +161,7 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
     return;
   }
 
-  private onKeyDownAction(tree: TreeModel, node: TreeNode, event: any): void {
+  #onKeyDownAction(tree: TreeModel, node: TreeNode, event: any): void {
     const targetNodeId = event.target.getAttribute('data-node-id');
 
     // Key press did not happen on the node.
@@ -179,46 +178,51 @@ export class SkyAngularTreeWrapperComponent implements AfterViewInit {
       return;
     }
 
-    this.nodeDefaultAction(tree, node, event);
+    this.#nodeDefaultAction(tree, node, event);
   }
 
-  private overrideActionMapping(): void {
+  #overrideActionMapping(): void {
     const defaultActionMapping =
-      this.treeComponent.treeModel.options.actionMapping;
+      this.treeComponent?.treeModel.options.actionMapping;
 
-    // Override default click/enter/space action to check for unsupported options (leaf node, single-select).
-    defaultActionMapping.mouse.click = (tree, node, event) =>
-      this.nodeDefaultAction(tree, node, event);
-    defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event) =>
-      this.onKeyDownAction(tree, node, event);
-    defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event) =>
-      this.onKeyDownAction(tree, node, event);
+    if (defaultActionMapping?.mouse) {
+      // Override default click/enter/space action to check for unsupported options (leaf node, single-select).
+      defaultActionMapping.mouse.click = (tree, node, event) =>
+        this.#nodeDefaultAction(tree, node, event);
+    }
 
-    // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
-    // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
-    /* istanbul ignore next */
-    defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
-    /* istanbul ignore next */
-    defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
-    /* istanbul ignore next */
-    defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event) => undefined;
-    /* istanbul ignore next */
-    defaultActionMapping.keys[KEYS.UP] = (tree, node, $event) => undefined;
+    if (defaultActionMapping?.keys) {
+      defaultActionMapping.keys[KEYS.SPACE] = (tree, node, event) =>
+        this.#onKeyDownAction(tree, node, event);
+      defaultActionMapping.keys[KEYS.ENTER] = (tree, node, event) =>
+        this.#onKeyDownAction(tree, node, event);
+
+      // Disable left/right arrow keys to support navigating through interactive elements with keyboard.
+      // See onArrowLeft() / onArrowRight() methods inside the angular-tree-node.component.ts.
+      /* istanbul ignore next */
+      defaultActionMapping.keys[KEYS.RIGHT] = (tree, node, $event) => undefined;
+      /* istanbul ignore next */
+      defaultActionMapping.keys[KEYS.LEFT] = (tree, node, $event) => undefined;
+      /* istanbul ignore next */
+      defaultActionMapping.keys[KEYS.DOWN] = (tree, node, $event) => undefined;
+      /* istanbul ignore next */
+      defaultActionMapping.keys[KEYS.UP] = (tree, node, $event) => undefined;
+    }
   }
 
-  private toggleSelected(node: TreeNode, event: any): void {
+  #toggleSelected(node: TreeNode, event: any): void {
     // If single-selection is enabled, only select the node clicked.
     if (this.selectSingle && !node.isSelected) {
-      const oldState = this.treeComponent.treeModel.getState();
+      const oldState = this.treeComponent?.treeModel.getState();
       const newState = {
-        expandedNodeIds: oldState.expandedNodeIds,
+        expandedNodeIds: oldState?.expandedNodeIds,
         selectedLeafNodeIds: Object.assign({}, node.id, { [node.id]: true }),
-        activeNodeIds: oldState.activeNodeIds,
-        hiddenNodeIds: oldState.hiddenNodeIds,
+        activeNodeIds: oldState?.activeNodeIds,
+        hiddenNodeIds: oldState?.hiddenNodeIds,
         focusedNodeId: node.id,
       };
       // Reconstruct the state in one go, so we don't create multiple events for the consumer.
-      this.treeComponent.treeModel.setState(newState);
+      this.treeComponent?.treeModel.setState(newState);
     } else {
       TREE_ACTIONS.TOGGLE_SELECTED(node.treeModel, node, event);
     }

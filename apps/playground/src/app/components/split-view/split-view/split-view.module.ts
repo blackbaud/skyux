@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SkySummaryActionBarModule } from '@skyux/action-bars';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyDefinitionListModule } from '@skyux/layout';
+import {
+  SkyDefinitionListModule,
+  SkyFluidGridModule,
+  SkyPageModule,
+} from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkySplitViewModule } from '@skyux/split-view';
 
@@ -18,7 +22,9 @@ import { SplitViewRoutingModule } from './split-view-routing.module';
     FormsModule,
     ReactiveFormsModule,
     SkyDefinitionListModule,
+    SkyFluidGridModule,
     SkyInputBoxModule,
+    SkyPageModule,
     SkyRepeaterModule,
     SkySplitViewModule,
     SkySummaryActionBarModule,
