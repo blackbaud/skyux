@@ -1,17 +1,16 @@
-@use 'variables' as *;
-@use '_compat/variables' as compatVars;
 @use '_compat/mixins' as compatMixins;
 @use 'mixins' as defaultMixins;
+@use 'variables' as *;
 
 .sky-page-heading {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-section-heading {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 26px;
@@ -22,14 +21,14 @@
 }
 
 .sky-headline {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 600;
   font-size: 22px;
 }
 
 .sky-emphasized {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
   font-weight: 600;
   font-size: 16px;
@@ -40,10 +39,10 @@
 }
 
 .sky-field-label {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
 }
 
 // Status text
@@ -91,35 +90,35 @@
 // Retconning modern theme classes
 
 .sky-font-body-default {
-  font-size: compatVars.$sky-font-size-base;
-  font-family: compatVars.$sky-font-family;
+  font-size: $sky-font-size-base;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
 }
 
 .sky-font-body-sm {
   font-size: 13px;
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
 }
 
 .sky-font-body-lg {
   font-size: 16px;
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
 }
 
 .sky-font-field-label {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
 }
 
 .sky-font-deemphasized {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
   font-style: italic;
 }
 
@@ -128,38 +127,38 @@
 }
 
 .sky-font-heading-1 {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-font-heading-2 {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 26px;
 }
 
 .sky-font-heading-3 {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 300;
   font-size: 19px;
 }
 
 .sky-font-heading-4 {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
   font-weight: 600;
   font-size: 16px;
 }
 
 .sky-font-heading-5 {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
 }
 
 .sky-paragraph {
@@ -167,28 +166,28 @@
 }
 
 .sky-font-display-1 {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 34px;
 }
 
 .sky-font-display-2 {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 300;
   font-size: 26px;
 }
 
 .sky-font-display-3 {
-  font-family: compatVars.$sky-font-family-condensed;
+  font-family: $sky-font-family-condensed;
   color: $sky-text-color-default;
   font-weight: 600;
   font-size: 22px;
 }
 
 .sky-font-display-4 {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-default;
   font-weight: 600;
   font-size: 16px;
@@ -199,8 +198,8 @@
 }
 
 .sky-font-data-label {
-  font-family: compatVars.$sky-font-family;
+  font-family: $sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
 }

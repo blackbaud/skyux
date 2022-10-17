@@ -5,25 +5,24 @@
 // (Some style sheets only imported the mixins.scss file and expected the variables to be available.)
 @forward 'variables';
 
-@use 'variables' as defaultVars;
-@use '_compat/variables' as compatVars;
+@use 'variables' as vars;
 
 @mixin sky-deemphasized {
-  font-family: compatVars.$sky-font-family;
-  color: defaultVars.$sky-text-color-deemphasized;
+  font-family: vars.$sky-font-family;
+  color: vars.$sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: vars.$sky-font-size-base;
   font-style: italic;
 }
 
 @mixin sky-experimental(
   $property,
   $value,
-  $moz: defaultVars.$sky-experimental-support-for-mozilla,
-  $webkit: defaultVars.$sky-experimental-support-for-webkit,
-  $o: defaultVars.$sky-experimental-support-for-opera,
-  $ms: defaultVars.$sky-experimental-support-for-microsoft,
-  $khtml: defaultVars.$sky-experimental-support-for-khtml,
+  $moz: vars.$sky-experimental-support-for-mozilla,
+  $webkit: vars.$sky-experimental-support-for-webkit,
+  $o: vars.$sky-experimental-support-for-opera,
+  $ms: vars.$sky-experimental-support-for-microsoft,
+  $khtml: vars.$sky-experimental-support-for-khtml,
   $official: true
 ) {
   @if $webkit and $sky-experimental-support-for-webkit {

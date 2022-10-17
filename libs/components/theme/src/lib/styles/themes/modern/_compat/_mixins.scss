@@ -1,6 +1,5 @@
-@use '../../../variables' as *;
-@use '../../../_compat/variables' as defaultCompatVars;
 @use '../../../mixins' as defaultMixins;
+@use '../../../variables' as *;
 @use 'variables' as modernCompatVars;
 
 @mixin sky-theme-modern-button-variant(
@@ -76,7 +75,7 @@
   font-weight: $sky-theme-modern-font-body-default-weight;
   padding: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom
     modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
-  transition: box-shadow defaultCompatVars.$sky-transition-time-short;
+  transition: box-shadow $sky-transition-time-short;
 
   &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
     background-color: transparent;
@@ -157,7 +156,7 @@
   border-bottom: none;
   border-left: solid 3px $sky-theme-modern-background-color-primary-dark;
   padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom;
-  padding-left: defaultCompatVars.$sky-tab-btn-padding-left-right - 3px;
+  padding-left: $sky-tab-btn-padding-left-right - 3px;
 }
 
 @mixin sky-theme-modern-dark-btn-tab-selected {

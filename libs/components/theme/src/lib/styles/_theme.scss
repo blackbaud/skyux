@@ -1,6 +1,5 @@
-@use '_compat/variables' as compatVars;
-@use 'variables' as *;
 @use '_compat/mixins' as compatMixins;
+@use 'variables' as *;
 
 * {
   box-sizing: border-box;
@@ -9,8 +8,8 @@
 body,
 form,
 html {
-  font-size: compatVars.$sky-font-size-base;
-  font-family: compatVars.$sky-font-family;
+  font-size: $sky-font-size-base;
+  font-family: $sky-font-family;
 }
 
 body {
@@ -95,7 +94,7 @@ a {
   margin-bottom: 0;
 
   li:not(:last-of-type) {
-    padding-bottom: compatVars.$sky-padding-half;
+    padding-bottom: $sky-padding-half;
   }
 }
 

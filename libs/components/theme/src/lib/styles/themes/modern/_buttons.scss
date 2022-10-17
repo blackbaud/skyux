@@ -1,6 +1,5 @@
-@use '../../variables' as *;
 @use '../../mixins' as defaultMixins;
-@use '../../_compat/variables' as defaultCompatVars;
+@use '../../variables' as *;
 @use '_compat/mixins' as modernCompatMixins;
 
 .sky-theme-modern {
@@ -8,7 +7,7 @@
     border: none;
     border-radius: $sky-theme-modern-border-radius-md;
     font-size: $sky-theme-modern-font-body-default-size;
-    transition: box-shadow defaultCompatVars.$sky-transition-time-short;
+    transition: box-shadow $sky-transition-time-short;
   }
 
   .sky-btn-default {
@@ -98,7 +97,7 @@
   }
 
   .sky-btn-sm {
-    padding: defaultCompatVars.$sky-padding-half defaultCompatVars.$sky-padding;
+    padding: $sky-padding-half $sky-padding;
     font-size: 12px;
     line-height: 1.5;
   }

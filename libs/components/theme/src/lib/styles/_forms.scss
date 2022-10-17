@@ -1,14 +1,13 @@
-@use 'mixins' as defaultMixins;
-@use '_compat/variables' as compatVars;
 @use '_compat/mixins' as compatMixins;
+@use 'mixins' as defaultMixins;
 @use 'variables' as *;
 
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
   @include defaultMixins.sky-border(dark, top, bottom, left, right);
-  line-height: compatVars.$sky-line-height-base;
-  font-size: compatVars.$sky-font-size-base;
+  line-height: $sky-line-height-base;
+  font-size: $sky-font-size-base;
   color: $sky-text-color-default;
 
   &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
@@ -30,7 +29,7 @@
 }
 
 .sky-form-group {
-  margin-bottom: compatVars.$sky-margin;
+  margin-bottom: $sky-margin;
 }
 
 input.ng-invalid.ng-touched,
@@ -40,7 +39,7 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-error-label {
-  margin-top: compatVars.$sky-margin-half;
+  margin-top: $sky-margin-half;
   color: $sky-text-color-default;
 }
 
@@ -54,7 +53,7 @@ textarea.ng-invalid.ng-touched {
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: compatVars.$sky-margin-half;
+  margin-bottom: $sky-margin-half;
   max-width: 100%;
 }
 
@@ -84,17 +83,16 @@ select {
   background-size: 15px 30px;
   @include defaultMixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
-  font-size: compatVars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
   height: 34px;
-  padding: compatVars.$sky-padding-half compatVars.$sky-padding + 11
-    compatVars.$sky-padding-half compatVars.$sky-padding;
+  padding: $sky-padding-half $sky-padding + 11 $sky-padding-half $sky-padding;
 }
 
 // Firefox-specific padding
 @-moz-document url-prefix() {
   select {
-    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 7
-      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
+    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding -
+      3;
   }
 }
 
@@ -106,16 +104,16 @@ select::-ms-expand {
 // IE11-specific padding
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   select {
-    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 9
-      compatVars.$sky-padding-half compatVars.$sky-padding - 2;
+    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding -
+      2;
   }
 }
 
 // Edge-specific padding
 @supports (-ms-ime-align: auto) {
   select {
-    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 8
-      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
+    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding -
+      3;
   }
 }
 
