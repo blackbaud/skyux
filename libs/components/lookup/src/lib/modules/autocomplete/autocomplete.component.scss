@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-autocomplete-results-container {
   position: fixed;
@@ -35,7 +34,7 @@
 }
 
 .sky-autocomplete-actions {
-  @include sky-border(dark, top);
+  @include defaultMixins.sky-border(dark, top);
 
   .sky-autocomplete-action {
     border: none;
@@ -86,7 +85,7 @@
   }
 
   .sky-autocomplete-descendant-focus {
-    @include sky-theme-modern-border-focus(
+    @include defaultMixins.sky-theme-modern-border-focus(
       $sky-theme-modern-background-color-primary-dark,
       $sky-theme-modern-elevation-3-shadow-size,
       $sky-theme-modern-elevation-3-shadow-color
