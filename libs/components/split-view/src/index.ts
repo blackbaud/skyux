@@ -2,6 +2,7 @@
 export * from './lib/modules/split-view/split-view.module';
 
 // Split view types.
+export * from './lib/modules/split-view/types/split-view-dock-type';
 export * from './lib/modules/split-view/types/split-view-message';
 export * from './lib/modules/split-view/types/split-view-message-type';
 

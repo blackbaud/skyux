@@ -50,4 +50,10 @@
   /* padding */
   --sky-padding-even-md: #{$sky-space-lg};
   --sky-padding-even-xl: #{$sky-space-xl};
+
+  /* viewport */
+  --sky-viewport-left: 0;
+  --sky-viewport-top: 0;
+  --sky-viewport-right: 0;
+  --sky-viewport-bottom: 0;
 }

@@ -4,6 +4,7 @@ import { SkyConfirmService } from '@skyux/modals';
 import { Subject } from 'rxjs';
 
 import { SkySplitViewComponent } from '../split-view.component';
+import { SkySplitViewDockType } from '../types/split-view-dock-type';
 import { SkySplitViewMessage } from '../types/split-view-message';
 
 @Component({
@@ -40,6 +41,8 @@ export class SplitViewFixtureComponent {
   public splitViewMessageStream = new Subject<SkySplitViewMessage>();
 
   public width: number;
+
+  public dock: SkySplitViewDockType | undefined;
 
   @ViewChild(SkySplitViewComponent)
   public splitViewComponent: SkySplitViewComponent;

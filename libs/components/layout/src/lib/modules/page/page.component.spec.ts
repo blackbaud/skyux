@@ -1,6 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
+import { SkyPageLayoutType } from './page-layout-type';
 import { SkyPageComponent } from './page.component';
 import { SkyPageModule } from './page.module';
 
@@ -10,6 +11,19 @@ describe('Page component', () => {
 
   function validateBackgroundColor(expectedColor: string): void {
     expect(getComputedStyle(document.body).backgroundColor).toBe(expectedColor);
+  }
+
+  function validateLayout(
+    fixture: ComponentFixture<SkyPageComponent>,
+    layout: SkyPageLayoutType | undefined,
+    expectedCssClass: string
+  ): void {
+    fixture.componentInstance.layout = layout;
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('div')).toHaveCssClass(
+      expectedCssClass
+    );
   }
 
   beforeEach(() => {
@@ -34,7 +48,6 @@ describe('Page component', () => {
 
   it("should set the page's background color to white", () => {
     const fixture = TestBed.createComponent(SkyPageComponent);
-
     fixture.detectChanges();
 
     validateBackgroundColor('rgb(255, 255, 255)');
@@ -42,5 +55,16 @@ describe('Page component', () => {
     fixture.destroy();
 
     validateBackgroundColor(defaultBackgroundColor);
+  });
+
+  it('should add the expected CSS class for the layout input', () => {
+    const fixture = TestBed.createComponent(SkyPageComponent);
+    fixture.detectChanges();
+
+    validateLayout(fixture, 'auto', 'sky-page-layout-auto');
+    validateLayout(fixture, 'fit', 'sky-page-layout-fit');
+    validateLayout(fixture, undefined, 'sky-page-layout-auto');
+
+    fixture.destroy();
   });
 });

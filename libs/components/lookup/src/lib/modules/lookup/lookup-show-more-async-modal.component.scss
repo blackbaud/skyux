@@ -1,11 +1,11 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-lookup-show-more-no-results {
   padding: $sky-space-xl 0;
 }
 
-@include sky-theme-modern {
+@include defaultMixins.sky-theme-modern {
   .sky-lookup-show-more-no-results {
     padding: $sky-theme-modern-space-xl 0;
   }

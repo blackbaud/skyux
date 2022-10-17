@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SkyAppViewportService } from '@skyux/theme';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'code-examples';
+  public height = 60;
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, viewportSvc: SkyAppViewportService) {
+    viewportSvc.reserveSpace({
+      id: 'controls',
+      position: 'top',
+      size: this.height,
+    });
+  }
 }
