@@ -16,7 +16,7 @@ import {
 })
 export class SkyTreeViewToolbarComponent {
   @Input()
-  public showSelectButtons: boolean;
+  public showSelectButtons: boolean | undefined;
 
   @Output()
   public clearAllClick = new EventEmitter<void>();

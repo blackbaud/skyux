@@ -1,4 +1,5 @@
 <div
+  *ngIf="node && index !== undefined"
   [class]="node.getClass()"
   [class.tree-node]="true"
   [class.tree-node-active]="node.isActive"
