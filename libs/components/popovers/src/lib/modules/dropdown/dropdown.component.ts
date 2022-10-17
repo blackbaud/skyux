@@ -14,6 +14,7 @@ import {
   SkyAffixAutoFitContext,
   SkyAffixService,
   SkyAffixer,
+  SkyLogService,
   SkyOverlayInstance,
   SkyOverlayService,
 } from '@skyux/core';
@@ -60,17 +61,26 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * Specifies the type of button to render as the dropdown's trigger element. To display a button
    * with text and a caret, specify `'select'` and then enter the button text in a
    * `sky-dropdown-button` element. To display a round button with an ellipsis, specify
-   * `'context-menu'`. And to display a button with a [Font Awesome icon](http://fontawesome.io/icons/), specify the icon's class name.
-   * For example, to display the `'fa-filter'` icon, specify `'filter'`.
+   * `'context-menu'`.
    * @default "select"
    */
-  // TODO: Remove 'string' as a valid type in a breaking change.
   @Input()
   public set buttonType(value: SkyDropdownButtonType | string | undefined) {
     this.#_buttonType = value ?? DEFAULT_BUTTON_TYPE;
+
+    if (value && !['select', 'context-menu', 'tab'].includes(value)) {
+      this.#logService.deprecated(
+        'SkyDropdownComponent.buttonType Font Awesome icon class option',
+        {
+          deprecationMajorVersion: 7,
+          replacementRecommendation:
+            'Set `buttonType` to `select` and render a `<sky-icon>` element within the `<sky-dropdown-button>` element.',
+        }
+      );
+    }
   }
 
-  public get buttonType(): string {
+  public get buttonType(): SkyDropdownButtonType | string {
     return this.#_buttonType;
   }
 
@@ -205,7 +215,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
 
   #_buttonStyle = 'default';
 
-  #_buttonType: string = DEFAULT_BUTTON_TYPE;
+  #_buttonType: SkyDropdownButtonType | string = DEFAULT_BUTTON_TYPE;
 
   #_dismissOnBlur = true;
 
@@ -222,17 +232,20 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #changeDetector: ChangeDetectorRef;
   #affixService: SkyAffixService;
   #overlayService: SkyOverlayService;
+  #logService: SkyLogService;
   #themeSvc: SkyThemeService | undefined;
 
   constructor(
     changeDetector: ChangeDetectorRef,
     affixService: SkyAffixService,
     overlayService: SkyOverlayService,
+    logService: SkyLogService,
     @Optional() themeSvc?: SkyThemeService
   ) {
     this.#changeDetector = changeDetector;
     this.#affixService = affixService;
     this.#overlayService = overlayService;
+    this.#logService = logService;
     this.#themeSvc = themeSvc;
   }
 

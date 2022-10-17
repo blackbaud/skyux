@@ -8,10 +8,10 @@ import { SkyMediaBreakpoints } from '@skyux/core';
 
 @Injectable()
 export class SkyVerticalTabsetAdapterService {
-  private renderer: Renderer2;
+  #renderer: Renderer2;
 
-  constructor(private rendererFactory: RendererFactory2) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+  constructor(rendererFactory: RendererFactory2) {
+    this.#renderer = rendererFactory.createRenderer(undefined, null);
   }
 
   public getWidth(elementRef: ElementRef): number {
@@ -28,10 +28,10 @@ export class SkyVerticalTabsetAdapterService {
   ): void {
     const nativeEl: HTMLElement = element.nativeElement;
 
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-md');
-    this.renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-xs');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-sm');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-md');
+    this.#renderer.removeClass(nativeEl, 'sky-responsive-container-lg');
 
     let newClass: string;
 
@@ -54,6 +54,6 @@ export class SkyVerticalTabsetAdapterService {
       }
     }
 
-    this.renderer.addClass(nativeEl, newClass);
+    this.#renderer.addClass(nativeEl, newClass);
   }
 }

@@ -1,7 +1,7 @@
 <div style="max-height: 300px; display: flex">
   <sky-vertical-tabset
-    ariaRole="tablist"
     showTabsText="Tab list"
+    [ariaRole]="tabsetAriaRole"
     [maintainTabContent]="maintainTabContent"
   >
     <sky-vertical-tabset-group
@@ -11,12 +11,11 @@
     >
       <sky-vertical-tab
         ariaControls="some-div"
-        ariaRole="tab"
         tabHeading="Group 1 Tab 1"
-        tabHeaderCount="5"
-        tabId="some-tab"
         [active]="active"
-        [ariaRequired]="tab1Required"
+        [ariaRole]="tab1AriaRole"
+        [tabHeaderCount]="5"
+        [tabId]="tab1Id"
       >
         Group 1 Tab 1 content
         <div *ngIf="showScrollable">

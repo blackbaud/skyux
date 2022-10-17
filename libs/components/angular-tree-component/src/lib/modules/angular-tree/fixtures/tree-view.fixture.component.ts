@@ -12,7 +12,7 @@ import { IDTypeDictionary } from '@circlon/angular-tree-component/lib/defs/api';
 export class SkyTreeViewFixtureComponent {
   public activeNodeIds: any;
 
-  public expandedNodeIds: IDTypeDictionary;
+  public expandedNodeIds: IDTypeDictionary | undefined;
 
   public focusedNodeId: any;
 
@@ -40,15 +40,15 @@ export class SkyTreeViewFixtureComponent {
     },
   ];
 
-  public options: ITreeOptions;
+  public options: ITreeOptions | undefined;
 
   public readOnly = false;
 
-  public selectedLeafNodeIds: IDTypeDictionary;
+  public selectedLeafNodeIds: IDTypeDictionary | undefined;
 
-  public selectLeafNodesOnly: boolean;
+  public selectLeafNodesOnly: boolean | undefined;
 
-  public selectSingle: boolean;
+  public selectSingle: boolean | undefined;
 
   public showContextMenus = false;
 
@@ -56,12 +56,12 @@ export class SkyTreeViewFixtureComponent {
 
   public showToolbar = false;
 
-  public state: ITreeState;
+  public state: ITreeState | undefined;
 
   public stateChange: any;
 
   @ViewChild(TreeComponent)
-  public treeComponent: TreeComponent;
+  public treeComponent!: TreeComponent;
 
   public onStateChange(treeState: ITreeState): void {
     this.stateChange = treeState;
