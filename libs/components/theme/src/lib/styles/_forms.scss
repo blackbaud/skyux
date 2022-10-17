@@ -1,11 +1,10 @@
-@use '_compat/mixins' as compatMixins;
-@use 'mixins' as defaultMixins;
+@use 'mixins' as mixins;
 @use 'variables' as *;
 
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
-  @include defaultMixins.sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
   line-height: $sky-line-height-base;
   font-size: $sky-font-size-base;
   color: $sky-text-color-default;
@@ -20,7 +19,7 @@
   }
 
   &:focus {
-    @include compatMixins.sky-field-status(active);
+    @include mixins.sky-field-status(active);
   }
 
   &:disabled {
@@ -35,7 +34,7 @@
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-  @include compatMixins.sky-field-status(invalid);
+  @include mixins.sky-field-status(invalid);
 }
 
 .sky-error-label {
@@ -58,7 +57,7 @@ textarea.ng-invalid.ng-touched {
 }
 
 .sky-control-label-required:after {
-  @include compatMixins.sky-required-field;
+  @include mixins.sky-required-field;
 }
 
 .sky-control-help-container:not(:empty) {
@@ -81,7 +80,7 @@ select {
     url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
     no-repeat right 50%;
   background-size: 15px 30px;
-  @include defaultMixins.sky-border(light, top, bottom, left, right);
+  @include mixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
   font-size: $sky-font-size-base;
   height: 34px;
@@ -119,24 +118,24 @@ select::-ms-expand {
 
 // Placeholder text
 ::-webkit-input-placeholder {
-  @include defaultMixins.sky-deemphasized;
+  @include mixins.sky-deemphasized;
   opacity: 1;
 }
 
 ::-moz-placeholder {
   /* Firefox 19+ */
-  @include defaultMixins.sky-deemphasized;
+  @include mixins.sky-deemphasized;
   opacity: 1;
 }
 
 input:-moz-placeholder {
   /* Firefox 18- */
-  @include defaultMixins.sky-deemphasized;
+  @include mixins.sky-deemphasized;
   opacity: 1;
 }
 
 :-ms-input-placeholder {
   /* IE */
-  @include defaultMixins.sky-deemphasized;
+  @include mixins.sky-deemphasized;
   opacity: 1;
 }

@@ -1,4 +1,4 @@
-@use '_compat/mixins' as compatMixins;
+@use 'mixins' as mixins;
 @use 'variables' as *;
 
 $sky-switch-size: 22px !default;
@@ -61,7 +61,7 @@ $sky-switch-size: 22px !default;
   }
 
   &:focus + .sky-switch-control {
-    @include compatMixins.sky-focus-outline;
+    @include mixins.sky-focus-outline;
   }
 }
 

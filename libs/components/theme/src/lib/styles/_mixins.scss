@@ -1,5 +1,5 @@
-@forward 'mixins-public';
 @forward '_compat/mixins';
+@forward 'mixins-public';
 
 // Forward the variables for backward compatibility.
 // (Some style sheets only imported the mixins.scss file and expected the variables to be available.)

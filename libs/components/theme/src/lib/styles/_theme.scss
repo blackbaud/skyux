@@ -1,4 +1,4 @@
-@use '_compat/mixins' as compatMixins;
+@use 'mixins' as mixins;
 @use 'variables' as *;
 
 * {
@@ -116,13 +116,13 @@ mark.sky-highlight-mark {
 }
 
 .sky-field-status-active {
-  @include compatMixins.sky-field-status('active');
+  @include mixins.sky-field-status('active');
 }
 
 .sky-field-status-invalid {
-  @include compatMixins.sky-field-status('invalid');
+  @include mixins.sky-field-status('invalid');
 }
 
 .sky-field-status-success {
-  @include compatMixins.sky-field-status('success');
+  @include mixins.sky-field-status('success');
 }

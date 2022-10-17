@@ -1,5 +1,4 @@
-@use '_compat/mixins' as compatMixins;
-@use 'mixins' as defaultMixins;
+@use 'mixins' as mixins;
 @use 'variables' as *;
 
 .sky-page-heading {
@@ -17,7 +16,7 @@
 }
 
 .sky-subsection-heading {
-  @include compatMixins.sky-subsection-heading();
+  @include mixins.sky-subsection-heading();
 }
 
 .sky-headline {
@@ -35,7 +34,7 @@
 }
 
 .sky-deemphasized {
-  @include defaultMixins.sky-deemphasized();
+  @include mixins.sky-deemphasized();
 }
 
 .sky-field-label {
@@ -83,7 +82,7 @@
   color: $sky-text-color-default;
 
   &:before {
-    @include compatMixins.sky-danger;
+    @include mixins.sky-danger;
   }
 }
 
@@ -194,7 +193,7 @@
 }
 
 .sky-screen-reader-only {
-  @include compatMixins.sky-screen-reader-only;
+  @include mixins.sky-screen-reader-only;
 }
 
 .sky-font-data-label {

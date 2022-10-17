@@ -1,5 +1,4 @@
-@use '_compat/mixins' as compatMixins;
-@use 'mixins' as defaultMixins;
+@use 'mixins' as mixins;
 @use 'variables' as *;
 
 button {
@@ -15,7 +14,7 @@ button {
 
 .sky-btn {
   background-color: transparent;
-  @include defaultMixins.sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
   border-radius: $sky-border-radius;
   color: $sky-text-color-default;
   cursor: pointer;
@@ -26,7 +25,7 @@ button {
   font-size: $sky-font-size-base;
 
   &:hover {
-    @include defaultMixins.sky-border(light, top, bottom, left, right);
+    @include mixins.sky-border(light, top, bottom, left, right);
     color: $sky-text-color-default;
   }
 
@@ -46,7 +45,7 @@ a.sky-btn {
 }
 
 .sky-btn-default {
-  @include defaultMixins.sky-button-variant(
+  @include mixins.sky-button-variant(
     $sky-text-color-default,
     $sky-color-white,
     $sky-border-color-neutral-medium,
@@ -55,7 +54,7 @@ a.sky-btn {
 }
 
 .sky-btn-primary {
-  @include defaultMixins.sky-button-variant(
+  @include mixins.sky-button-variant(
     $sky-color-white,
     $sky-background-color-primary-dark,
     $sky-background-color-primary-dark
@@ -63,7 +62,7 @@ a.sky-btn {
 }
 
 .sky-btn-danger {
-  @include defaultMixins.sky-button-variant(
+  @include mixins.sky-button-variant(
     $sky-color-white,
     $sky-background-color-danger-dark,
     $sky-background-color-danger-dark
@@ -110,7 +109,7 @@ a.sky-btn {
 }
 
 .sky-btn-tab {
-  @include compatMixins.sky-btn-tab();
+  @include mixins.sky-btn-tab();
 }
 
 .sky-btn-tab-close {
@@ -134,7 +133,7 @@ a.sky-btn {
 }
 
 .sky-btn-tab-selected:not(.sky-btn-tab-disabled) {
-  @include compatMixins.sky-btn-tab-selected;
+  @include mixins.sky-btn-tab-selected;
 
   .sky-btn-tab-close,
   .sky-tab-header-count {
@@ -144,7 +143,7 @@ a.sky-btn {
 
 .sky-btn-tab-wizard {
   background-color: $sky-color-white;
-  @include defaultMixins.sky-border(light, top, bottom, left, right);
+  @include mixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
   font-weight: 400;
   color: $sky-text-color-default;
@@ -176,7 +175,7 @@ a.sky-btn {
 }
 
 .sky-btn-borderless {
-  @include compatMixins.sky-icon-button-borderless();
+  @include mixins.sky-icon-button-borderless();
   border: none;
 }
 
@@ -198,7 +197,7 @@ a.sky-btn {
 }
 
 .sky-btn-icon-borderless {
-  @include compatMixins.sky-icon-button-borderless();
+  @include mixins.sky-icon-button-borderless();
   height: 26px;
   width: 26px;
   border: none;
