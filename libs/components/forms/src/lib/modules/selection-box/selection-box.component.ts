@@ -92,7 +92,12 @@ export class SkySelectionBoxComponent implements OnDestroy {
         this.disabled ? -1 : 0
       );
 
-      this.#selectionBoxAdapterService.setChildrenTabIndex(value, -1);
+      // Wait for child elements to render before overriding tabIndex values.
+      // TODO: This logic is brittle since the checkbox/radio can set its own tab index
+      // value at any time. We need a way to enforce the tab index for the entire lifespan of the component.
+      setTimeout(() => {
+        this.#selectionBoxAdapterService.setChildrenTabIndex(value, -1);
+      });
     }
   }
 
@@ -124,22 +129,6 @@ export class SkySelectionBoxComponent implements OnDestroy {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-  }
-
-  /**
-   * Since we are programatically firing a click on the control,
-   * make sure user is not clicking on the control before firing click logic.
-   */
-  public onClick(event: any): void {
-    const isControlClick =
-      this.controlEl &&
-      this.#selectionBoxAdapterService.isDescendant(
-        this.controlEl,
-        event.target
-      );
-    if (!isControlClick) {
-      this.#selectControl();
-    }
   }
 
   public onKeydown(event: KeyboardEvent): void {

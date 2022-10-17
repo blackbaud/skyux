@@ -9,6 +9,10 @@ import { InputBoxDemoComponent } from '../code-examples/forms/input-box/basic/in
 import { InputBoxDemoModule } from '../code-examples/forms/input-box/basic/input-box-demo.module';
 import { RadioDemoComponent as InlineHelpRadioDemoComponent } from '../code-examples/forms/radio/inline-help/radio-demo.component';
 import { RadioDemoModule as InlineHelpRadioDemoModule } from '../code-examples/forms/radio/inline-help/radio-demo.module';
+import { SelectionBoxDemoComponent as SelectionBoxCheckboxDemoComponent } from '../code-examples/forms/selection-box/checkbox/selection-box-demo.component';
+import { SkySelectionBoxDemoModule as SelectionBoxCheckboxDemoModule } from '../code-examples/forms/selection-box/checkbox/selection-box-demo.module';
+import { SelectionBoxDemoComponent as SelectionBoxRadioDemoComponent } from '../code-examples/forms/selection-box/radio/selection-box-demo.component';
+import { SkySelectionBoxDemoModule as SelectionBoxRadioDemoModule } from '../code-examples/forms/selection-box/radio/selection-box-demo.module';
 import { SingleFileAttachmentDemoComponent as BasicSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.component';
 import { SkySingleFileAttachmentDemoModule as BasicSkySingleFileAttachmentDemoModule } from '../code-examples/forms/single-file-attachment/basic/single-file-attachment-demo.module';
 import { SingleFileAttachmentDemoComponent as InlineHelpSingleFileAttachmentDemoComponent } from '../code-examples/forms/single-file-attachment/inline-help/single-file-attachment-demo.component';
@@ -45,6 +49,14 @@ const routes: Routes = [
     path: 'input-box/basic',
     component: InputBoxDemoComponent,
   },
+  {
+    path: 'selection-box/checkbox',
+    component: SelectionBoxCheckboxDemoComponent,
+  },
+  {
+    path: 'selection-box/radio',
+    component: SelectionBoxRadioDemoComponent,
+  },
 ];
 
 @NgModule({
@@ -63,6 +75,8 @@ export class FormsRoutingModule {}
     InlineHelpRadioDemoModule,
     InlineHelpToggleSwitchModule,
     InputBoxDemoModule,
+    SelectionBoxCheckboxDemoModule,
+    SelectionBoxRadioDemoModule,
   ],
 })
 export class FormsModule {}
