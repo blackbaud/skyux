@@ -82,27 +82,24 @@ export class AngularTreeDemoComponent implements OnInit {
   public nodes: any[] = [
     {
       name: 'Animals',
-      index: 0,
       isExpanded: true,
       children: [
         {
           name: 'Cats',
-          index: 1,
           isExpanded: true,
           children: [
-            { name: 'Burmese', index: 3 },
-            { name: 'Persian', index: 4 },
-            { name: 'Tabby', index: 5 },
+            { name: 'Burmese' },
+            { name: 'Persian' },
+            { name: 'Tabby' },
           ],
         },
         {
           name: 'Dogs',
-          index: 2,
           isExpanded: true,
           children: [
-            { name: 'Beagle', index: 6 },
-            { name: 'German shepherd', index: 7 },
-            { name: 'Labrador retriever', index: 8 },
+            { name: 'Beagle' },
+            { name: 'German shepherd' },
+            { name: 'Labrador retriever' },
           ],
         },
       ],
