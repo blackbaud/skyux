@@ -1,5 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'node_modules/ag-grid-community/src/styles/ag-grid';
 @use 'node_modules/ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin'
   as agGridBaseMixin;
 
