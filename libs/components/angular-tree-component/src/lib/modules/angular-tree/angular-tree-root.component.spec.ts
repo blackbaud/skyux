@@ -1363,35 +1363,45 @@ describe('tree view', () => {
       expect(nodes[4].getAttribute('aria-selected')).toEqual('true');
     });
 
+    it('should set aria-owns for groups under child nodes', async () => {
+      setupCascadingMode();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const parentNodes = getNodeContentWrappers();
+      parentNodes.forEach((node) => {
+        if (node.getAttribute('aria-expanded') === null) {
+          expect(node.getAttribute('aria-owns')).toBeNull();
+        } else {
+          expect(node.getAttribute('aria-owns')).toBeDefined();
+        }
+      });
+    });
+
     it('should pass accessibility in basic setup', async () => {
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in multi-select mode', async () => {
       setupCascadingMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in single-select mode', async () => {
       setupSingleSelectMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
     it('should pass accessibility in leaf-select-only mode', async () => {
       setupLeafSelectOnlyMode();
       fixture.detectChanges();
-      await fixture.whenStable().then(async () => {
-        await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
+      await fixture.whenStable();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });
