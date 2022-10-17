@@ -1,8 +1,8 @@
-@use 'mixins' as defaultMixins;
+@use 'mixins' as mixins;
 
 .sky-elevation-0-bordered,
 .sky-elevation-1-bordered {
-  @include defaultMixins.sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
 }
 
 .sky-elevation-1,
