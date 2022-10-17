@@ -24,6 +24,7 @@ import { BehaviorSubject } from 'rxjs';
 import { SplitViewFixturesModule } from './fixtures/split-view-fixtures.module';
 import { SplitViewFixtureComponent } from './fixtures/split-view.fixture';
 import { SkySplitViewDrawerComponent } from './split-view-drawer.component';
+import { SkySplitViewDockType } from './types/split-view-dock-type';
 import { SkySplitViewMessage } from './types/split-view-message';
 import { SkySplitViewMessageType } from './types/split-view-message-type';
 
@@ -156,6 +157,18 @@ describe('Split view component', () => {
   };
   let rendererFactory: RendererFactory2;
   let renderer: Renderer2;
+
+  function validateDockCssClass(
+    dock: SkySplitViewDockType | undefined,
+    expectedDockCssClass: string
+  ): void {
+    fixture.componentInstance.dock = dock;
+    fixture.detectChanges();
+
+    expect(document.querySelector('.sky-split-view')).toHaveCssClass(
+      expectedDockCssClass
+    );
+  }
 
   beforeEach(() => {
     mockThemeSvc = {
@@ -769,6 +782,12 @@ describe('Split view component', () => {
         });
       });
     }));
+
+    it('should set the expected dock CSS class', () => {
+      validateDockCssClass('none', 'sky-split-view-dock-none');
+      validateDockCssClass('fill', 'sky-split-view-dock-fill');
+      validateDockCssClass(undefined, 'sky-split-view-dock-none');
+    });
 
     it('should pass accessibility', async () => {
       fixture.componentInstance.ariaLabelForDrawer = 'My drawer';

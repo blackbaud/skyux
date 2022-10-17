@@ -1,6 +1,7 @@
 import { Component, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  SkyAppViewportService,
   SkyTheme,
   SkyThemeMode,
   SkyThemeService,
@@ -13,13 +14,20 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'playground';
+  public height = 80;
 
   constructor(
     private router: Router,
     renderer: Renderer2,
-    themeService: SkyThemeService
+    themeService: SkyThemeService,
+    viewportService: SkyAppViewportService
   ) {
+    viewportService.reserveSpace({
+      id: 'playground-controls',
+      position: 'top',
+      size: this.height,
+    });
+
     themeService.init(
       document.body,
       renderer,
