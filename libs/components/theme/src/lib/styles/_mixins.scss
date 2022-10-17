@@ -1,11 +1,16 @@
 @forward 'mixins-public';
+@forward '_compat/mixins';
 
-@use 'variables' as *;
+// Forward the variables for backward compatibility.
+// (Some style sheets only imported the mixins.scss file and expected the variables to be available.)
+@forward 'variables';
+
+@use 'variables' as defaultVars;
 @use '_compat/variables' as compatVars;
 
 @mixin sky-deemphasized {
   font-family: compatVars.$sky-font-family;
-  color: $sky-text-color-deemphasized;
+  color: defaultVars.$sky-text-color-deemphasized;
   font-weight: 400;
   font-size: compatVars.$sky-font-size-base;
   font-style: italic;
@@ -14,11 +19,11 @@
 @mixin sky-experimental(
   $property,
   $value,
-  $moz: $sky-experimental-support-for-mozilla,
-  $webkit: $sky-experimental-support-for-webkit,
-  $o: $sky-experimental-support-for-opera,
-  $ms: $sky-experimental-support-for-microsoft,
-  $khtml: $sky-experimental-support-for-khtml,
+  $moz: defaultVars.$sky-experimental-support-for-mozilla,
+  $webkit: defaultVars.$sky-experimental-support-for-webkit,
+  $o: defaultVars.$sky-experimental-support-for-opera,
+  $ms: defaultVars.$sky-experimental-support-for-microsoft,
+  $khtml: defaultVars.$sky-experimental-support-for-khtml,
   $official: true
 ) {
   @if $webkit and $sky-experimental-support-for-webkit {
@@ -45,7 +50,7 @@
   $color,
   $background,
   $border,
-  $hoverbackground: darken($background, 10%)
+  $hoverBackground: darken($background, 10%)
 ) {
   color: $color;
   background-color: $background;
@@ -55,7 +60,7 @@
   &:active,
   &.sky-btn-active {
     color: $color;
-    background-color: $hoverbackground;
+    background-color: $hoverBackground;
     border-color: darken($border, 10%);
   }
   &:active,
