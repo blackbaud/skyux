@@ -1,4 +1,5 @@
-@import '../../variables-public';
+@use '../../_compat/variables' as defaultCompatVars;
+@use '../../variables' as *;
 
 $sky-switch-size-modern: 26px !default;
 
@@ -22,7 +23,7 @@ $sky-switch-size-modern: 26px !default;
   }
 
   .sky-switch-control {
-    transition: box-shadow $sky-transition-time-short;
+    transition: box-shadow defaultCompatVars.$sky-transition-time-short;
 
     &:not(.sky-switch-control-icon) {
       width: $sky-switch-size-modern;

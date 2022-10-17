@@ -1,4 +1,4 @@
-@import 'mixins';
+@use 'mixins' as *;
 
 .sky-border-bottom-dark {
   @include sky-border(dark);

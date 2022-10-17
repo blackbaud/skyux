@@ -1,5 +1,6 @@
-@import 'variables-public';
-@import './_compat/variables';
+@forward 'variables-public';
+
+@use 'variables-public' as *;
 
 $sky-border-radius: 3px;
 

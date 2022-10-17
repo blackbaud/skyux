@@ -1,6 +1,9 @@
+@use 'variables' as *;
+@use '_compat/variables' as compatVars;
+
 .sky-container {
   margin: 0 auto;
-  padding: 0 $sky-padding-plus-half;
+  padding: 0 compatVars.$sky-padding-plus-half;
 }
 
 @media (min-width: $sky-screen-sm-min) {

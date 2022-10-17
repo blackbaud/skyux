@@ -1,11 +1,14 @@
-@import 'mixins';
+@use 'mixins' as defaultMixins;
+@use '_compat/variables' as compatVars;
+@use '_compat/mixins' as compatMixins;
+@use 'variables' as *;
 
 .sky-form-control {
   width: 100%;
   padding: 6px 12px;
-  @include sky-border(dark, top, bottom, left, right);
-  line-height: $sky-line-height-base;
-  font-size: $sky-font-size-base;
+  @include defaultMixins.sky-border(dark, top, bottom, left, right);
+  line-height: compatVars.$sky-line-height-base;
+  font-size: compatVars.$sky-font-size-base;
   color: $sky-text-color-default;
 
   &:not([type='range']):not([type='radio']):not([type='checkbox']):not(select) {
@@ -18,7 +21,7 @@
   }
 
   &:focus {
-    @include sky-field-status(active);
+    @include compatMixins.sky-field-status(active);
   }
 
   &:disabled {
@@ -27,17 +30,17 @@
 }
 
 .sky-form-group {
-  margin-bottom: $sky-margin;
+  margin-bottom: compatVars.$sky-margin;
 }
 
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-  @include sky-field-status(invalid);
+  @include compatMixins.sky-field-status(invalid);
 }
 
 .sky-error-label {
-  margin-top: $sky-margin-half;
+  margin-top: compatVars.$sky-margin-half;
   color: $sky-text-color-default;
 }
 
@@ -51,12 +54,12 @@ textarea.ng-invalid.ng-touched {
 .sky-control-label {
   display: inline-block;
   font-weight: normal;
-  margin-bottom: $sky-margin-half;
+  margin-bottom: compatVars.$sky-margin-half;
   max-width: 100%;
 }
 
 .sky-control-label-required:after {
-  @include sky-required-field;
+  @include compatMixins.sky-required-field;
 }
 
 .sky-control-help-container:not(:empty) {
@@ -79,18 +82,19 @@ select {
     url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1IDEwIiB3aWR0aD0iNSIgaGVpZ2h0PSIxMCI+Cgk8c3R5bGU+CgkJdHNwYW4geyB3aGl0ZS1zcGFjZTpwcmUgfQoJCS5zaHAwIHsgZmlsbDogIzQ0NDQ0NCB9IAoJPC9zdHlsZT4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0xLjQxIDQuNjdMMi40OCAzLjE4TDMuNTQgNC42N0wxLjQxIDQuNjdMMS40MSA0LjY3WiIgLz4KCTxwYXRoIGlkPSJMYXllciIgY2xhc3M9InNocDAiIGQ9Ik0zLjU0IDUuMzNMMi40OCA2LjgyTDEuNDEgNS4zM0wzLjU0IDUuMzNMMy41NCA1LjMzWiIgLz4KPC9zdmc+)
     no-repeat right 50%;
   background-size: 15px 30px;
-  @include sky-border(light, top, bottom, left, right);
+  @include defaultMixins.sky-border(light, top, bottom, left, right);
   border-radius: $sky-border-radius;
-  font-size: $sky-font-size-base;
+  font-size: compatVars.$sky-font-size-base;
   height: 34px;
-  padding: $sky-padding-half $sky-padding + 11 $sky-padding-half $sky-padding;
+  padding: compatVars.$sky-padding-half compatVars.$sky-padding + 11
+    compatVars.$sky-padding-half compatVars.$sky-padding;
 }
 
 // Firefox-specific padding
 @-moz-document url-prefix() {
   select {
-    padding: $sky-padding-half $sky-padding + 7 $sky-padding-half $sky-padding -
-      3;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 7
+      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
   }
 }
 
@@ -102,39 +106,39 @@ select::-ms-expand {
 // IE11-specific padding
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   select {
-    padding: $sky-padding-half $sky-padding + 9 $sky-padding-half $sky-padding -
-      2;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 9
+      compatVars.$sky-padding-half compatVars.$sky-padding - 2;
   }
 }
 
 // Edge-specific padding
 @supports (-ms-ime-align: auto) {
   select {
-    padding: $sky-padding-half $sky-padding + 8 $sky-padding-half $sky-padding -
-      3;
+    padding: compatVars.$sky-padding-half compatVars.$sky-padding + 8
+      compatVars.$sky-padding-half compatVars.$sky-padding - 3;
   }
 }
 
 // Placeholder text
 ::-webkit-input-placeholder {
-  @include sky-deemphasized;
+  @include defaultMixins.sky-deemphasized;
   opacity: 1;
 }
 
 ::-moz-placeholder {
   /* Firefox 19+ */
-  @include sky-deemphasized;
+  @include defaultMixins.sky-deemphasized;
   opacity: 1;
 }
 
 input:-moz-placeholder {
   /* Firefox 18- */
-  @include sky-deemphasized;
+  @include defaultMixins.sky-deemphasized;
   opacity: 1;
 }
 
 :-ms-input-placeholder {
   /* IE */
-  @include sky-deemphasized;
+  @include defaultMixins.sky-deemphasized;
   opacity: 1;
 }

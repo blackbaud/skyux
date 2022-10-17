@@ -1,12 +1,13 @@
-@import 'mixins-public';
-@import 'variables';
-@import '_compat/mixins';
+@forward 'mixins-public';
+
+@use 'variables' as *;
+@use '_compat/variables' as compatVars;
 
 @mixin sky-deemphasized {
-  font-family: $sky-font-family;
+  font-family: compatVars.$sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: $sky-font-size-base;
+  font-size: compatVars.$sky-font-size-base;
   font-style: italic;
 }
 

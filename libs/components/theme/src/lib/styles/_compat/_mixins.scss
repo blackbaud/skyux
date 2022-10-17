@@ -1,4 +1,5 @@
-@import 'variables';
+@use 'variables' as compatVars;
+@use '../variables' as *;
 
 @mixin sky-btn-tab {
   background-color: transparent;
@@ -9,7 +10,8 @@
   display: inline-block;
   font-weight: 600;
   line-height: 1.8;
-  padding: $sky-tab-btn-padding-top-bottom $sky-tab-btn-padding-left-right;
+  padding: compatVars.$sky-tab-btn-padding-top-bottom
+    compatVars.$sky-tab-btn-padding-left-right;
 
   &:hover:not(.sky-btn-tab-disabled) {
     background-color: $sky-background-color-neutral-light;
@@ -114,7 +116,7 @@
 
   &:hover {
     color: darken($sky-text-color-icon-borderless, 20%);
-    transition: color $sky-transition-time-short;
+    transition: color compatVars.$sky-transition-time-short;
   }
 }
 
@@ -129,7 +131,7 @@
 @mixin sky-required-field {
   content: '*';
   color: $sky-highlight-color-danger;
-  padding-left: $sky-padding-half;
+  padding-left: compatVars.$sky-padding-half;
 }
 
 @mixin sky-screen-reader-only {
@@ -147,7 +149,7 @@
 }
 
 @mixin sky-subsection-heading {
-  font-family: $sky-font-family;
+  font-family: compatVars.$sky-font-family;
   color: $sky-text-color-deemphasized;
   font-weight: 300;
   font-size: 19px;

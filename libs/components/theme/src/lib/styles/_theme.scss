@@ -1,4 +1,6 @@
-@import 'mixins';
+@use '_compat/variables' as compatVars;
+@use 'variables' as *;
+@use '_compat/mixins' as compatMixins;
 
 * {
   box-sizing: border-box;
@@ -7,8 +9,8 @@
 body,
 form,
 html {
-  font-size: $sky-font-size-base;
-  font-family: $sky-font-family;
+  font-size: compatVars.$sky-font-size-base;
+  font-family: compatVars.$sky-font-family;
 }
 
 body {
@@ -93,7 +95,7 @@ a {
   margin-bottom: 0;
 
   li:not(:last-of-type) {
-    padding-bottom: $sky-padding-half;
+    padding-bottom: compatVars.$sky-padding-half;
   }
 }
 
@@ -115,13 +117,13 @@ mark.sky-highlight-mark {
 }
 
 .sky-field-status-active {
-  @include sky-field-status('active');
+  @include compatMixins.sky-field-status('active');
 }
 
 .sky-field-status-invalid {
-  @include sky-field-status('invalid');
+  @include compatMixins.sky-field-status('invalid');
 }
 
 .sky-field-status-success {
-  @include sky-field-status('success');
+  @include compatMixins.sky-field-status('success');
 }

@@ -1,2 +1,2 @@
-@import 'node_modules/@blackbaud/skyux-design-tokens/scss/variables';
-@import 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/variables';
+@forward 'node_modules/@blackbaud/skyux-design-tokens/scss/themes/modern/variables';

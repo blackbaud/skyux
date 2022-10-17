@@ -1,5 +1,7 @@
-@import '../../../variables';
-@import 'variables';
+@use '../../../variables' as *;
+@use '../../../_compat/variables' as defaultCompatVars;
+@use '../../../mixins' as defaultMixins;
+@use 'variables' as modernCompatVars;
 
 @mixin sky-theme-modern-button-variant(
   $color,
@@ -8,13 +10,13 @@
   $hover-border,
   $padding: $sky-theme-modern-padding-button-standard
 ) {
-  @include sky-theme-modern-border($border);
+  @include defaultMixins.sky-theme-modern-border($border);
   background-color: $background;
   color: $color;
-  padding: sky-theme-modern-border-padding($padding);
+  padding: defaultMixins.sky-theme-modern-border-padding($padding);
 
   &:hover {
-    @include sky-theme-modern-border-hover($hover-border);
+    @include defaultMixins.sky-theme-modern-border-hover($hover-border);
     text-decoration: none;
   }
 
@@ -26,7 +28,7 @@
 
   &:active,
   &.sky-btn-active {
-    @include sky-theme-modern-border-active($hover-border);
+    @include defaultMixins.sky-theme-modern-border-active($hover-border);
     background-image: none;
   }
 
@@ -40,7 +42,7 @@
     outline: none;
 
     &:not(:active) {
-      @include sky-theme-modern-border-focus(
+      @include defaultMixins.sky-theme-modern-border-focus(
         $hover-border,
         $sky-theme-modern-elevation-3-shadow-size,
         $sky-theme-modern-elevation-3-shadow-color
@@ -59,7 +61,7 @@
     &.sky-btn-focus,
     &:active,
     &.sky-btn-active {
-      @include sky-theme-modern-border($border);
+      @include defaultMixins.sky-theme-modern-border($border);
       background-color: $background;
       color: $color;
       opacity: 1;
@@ -72,15 +74,16 @@
   border-radius: 0;
   color: var(--sky-text-color-deemphasized);
   font-weight: $sky-theme-modern-font-body-default-weight;
-  padding: $sky-theme-modern-tab-btn-padding-top-bottom
-    $sky-theme-modern-tab-btn-padding-left-right;
-  transition: box-shadow $sky-transition-time-short;
+  padding: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom
+    modernCompatVars.$sky-theme-modern-tab-btn-padding-left-right;
+  transition: box-shadow defaultCompatVars.$sky-transition-time-short;
 
   &:hover:not(.sky-btn-tab-disabled):not(.sky-btn-tab-selected):not(.sky-dropdown-button-type-tab):not(:focus) {
     background-color: transparent;
     border-bottom: solid 1px $sky-highlight-color-info;
     color: var(--sky-text-color-default);
-    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 1px;
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      1px;
   }
 
   &:focus {
@@ -100,12 +103,13 @@
   &:active {
     border-bottom: solid 3px $sky-highlight-color-info;
     color: var(--sky-text-color-default);
-    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 3px;
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      3px;
   }
 
   &.sky-btn-tab-disabled {
     background-color: transparent;
-    @include sky-deemphasized;
+    @include defaultMixins.sky-deemphasized;
   }
 }
 
@@ -116,7 +120,8 @@
 
   &:not(:active) {
     border-bottom: solid 3px $sky-theme-modern-background-color-primary-dark;
-    padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom - 3px;
+    padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom -
+      3px;
   }
 
   &:hover:not(.sky-btn-tab-disabled) {
@@ -151,8 +156,8 @@
   color: $sky-text-color-default;
   border-bottom: none;
   border-left: solid 3px $sky-theme-modern-background-color-primary-dark;
-  padding-bottom: $sky-theme-modern-tab-btn-padding-top-bottom;
-  padding-left: $sky-tab-btn-padding-left-right - 3px;
+  padding-bottom: modernCompatVars.$sky-theme-modern-tab-btn-padding-top-bottom;
+  padding-left: defaultCompatVars.$sky-tab-btn-padding-left-right - 3px;
 }
 
 @mixin sky-theme-modern-dark-btn-tab-selected {
