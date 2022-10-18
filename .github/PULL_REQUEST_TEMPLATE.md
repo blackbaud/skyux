@@ -7,6 +7,7 @@ Please include what changed along with why they changed and important technical 
 - [ ] Update code examples with any new functionality
 - [ ] Update JS Doc comments 
 - [ ] Update or add visual tests 
+- [ ] Update or add test harnesses
 - [ ] Self review the changed code
 
 ## Review indicators
