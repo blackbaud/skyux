@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-error {
   display: flex;
@@ -25,7 +24,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-error {
     margin-top: $sky-theme-modern-margin-stacked-xxl;
   }

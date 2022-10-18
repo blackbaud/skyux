@@ -1,10 +1,10 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-datepicker-calendar-inner {
   border-radius: 5px;
   background-color: $sky-color-white;
-  @include sky-border(light, top, bottom, left, right);
+  @include mixins.sky-border(light, top, bottom, left, right);
 
   .sky-btn-default {
     border-color: transparent;
@@ -56,22 +56,22 @@
 
 .sky-theme-modern {
   .sky-datepicker-calendar-inner {
-    @include sky-theme-modern-border;
+    @include mixins.sky-theme-modern-border;
     border-radius: $sky-theme-modern-border-radius-md;
     padding: 5px 10px;
 
     &:focus-within {
-      @include sky-theme-modern-border-focus;
+      @include mixins.sky-theme-modern-border-focus;
     }
 
     .sky-btn-default {
-      @include sky-theme-modern-border(transparent);
+      @include mixins.sky-theme-modern-border(transparent);
       padding: 5px 7px;
     }
 
     .sky-btn-active,
     .sky-btn-default:hover {
-      @include sky-theme-modern-border-hover;
+      @include mixins.sky-theme-modern-border-hover;
     }
   }
 
@@ -96,7 +96,7 @@
       background-color: transparent;
 
       &:not(:focus-within) {
-        @include sky-theme-modern-border(
+        @include mixins.sky-theme-modern-border(
           $sky-theme-modern-mode-dark-border-color-neutral-medium
         );
       }

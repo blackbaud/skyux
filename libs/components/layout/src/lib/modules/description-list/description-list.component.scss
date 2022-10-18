@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-description-list {
   margin: 0;
@@ -88,7 +87,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-description-list {
     &.sky-description-list-vertical-mode {
       .sky-description-list-content {

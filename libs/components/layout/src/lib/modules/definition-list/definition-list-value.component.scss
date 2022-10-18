@@ -1,4 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 :host {
   flex: 1;

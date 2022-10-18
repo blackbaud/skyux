@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-needs-attention-container {
   background-color: #fff;
@@ -29,7 +29,7 @@
     outline: none;
 
     &:not(:active) {
-      @include sky-theme-modern-border-focus(
+      @include mixins.sky-theme-modern-border-focus(
         $sky-theme-modern-border-color-primary-dark,
         $sky-theme-modern-elevation-3-shadow-size,
         $sky-theme-modern-elevation-3-shadow-color
@@ -39,5 +39,5 @@
 }
 
 button.sky-needs-attention-item.sky-border-bottom-row {
-  @include sky-border(row, bottom);
+  @include mixins.sky-border(row, bottom);
 }

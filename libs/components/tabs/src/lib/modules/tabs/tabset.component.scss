@@ -1,6 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-tabset {
   align-items: center;
