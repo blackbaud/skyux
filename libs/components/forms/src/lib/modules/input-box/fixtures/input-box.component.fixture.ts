@@ -24,6 +24,8 @@ export class InputBoxFixtureComponent {
 
   public errorForm: UntypedFormGroup;
 
+  public errorStatusIndicatorField: UntypedFormControl;
+
   public errorNgModelValue: string | undefined;
 
   @ViewChild('errorNgModel')
@@ -31,6 +33,10 @@ export class InputBoxFixtureComponent {
 
   constructor() {
     this.errorField = new UntypedFormControl('', [Validators.required]);
+
+    this.errorStatusIndicatorField = new UntypedFormControl('', [
+      Validators.required,
+    ]);
 
     this.errorForm = new UntypedFormGroup({
       errorFormField: new UntypedFormControl('', [Validators.required]),
