@@ -256,7 +256,7 @@ describe('Input box component', () => {
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
 
-      const errorEl = inputBoxEl.querySelector('.sky-error-label');
+      const errorEl = inputBoxEl?.querySelector('.sky-error-label');
 
       expect(errorEl).toBeVisible();
     });
@@ -271,7 +271,7 @@ describe('Input box component', () => {
         'input-box-form-control-error-status-indicator'
       );
 
-      const errorEl = inputBoxEl.querySelector('.sky-error-indicator');
+      const errorEl = inputBoxEl?.querySelector('.sky-error-indicator');
 
       expect(errorEl).toBeVisible();
     });
@@ -528,7 +528,7 @@ describe('Input box component', () => {
 
       const inputBoxEl = getInputBoxEl(fixture, 'input-box-form-control-error');
 
-      const errorEl = inputBoxEl.querySelector('.sky-error-label');
+      const errorEl = inputBoxEl?.querySelector('.sky-error-label');
 
       expect(errorEl).toBeVisible();
     });
@@ -543,7 +543,7 @@ describe('Input box component', () => {
         'input-box-form-control-error-status-indicator'
       );
 
-      const errorEl = inputBoxEl.querySelector('.sky-error-indicator');
+      const errorEl = inputBoxEl?.querySelector('.sky-error-indicator');
 
       expect(errorEl).toBeVisible();
     });
