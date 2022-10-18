@@ -127,7 +127,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     this.#tabsetService.focusedTabBtnIndex
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((focusedIndex) => {
-        if (focusedIndex.toLocaleString() === this.tabIndex?.toLocaleString()) {
+        if (this.tabIndex !== undefined && focusedIndex === this.tabIndex) {
           this.closeBtnTabIndex = '0';
           this.focusBtn();
         } else {

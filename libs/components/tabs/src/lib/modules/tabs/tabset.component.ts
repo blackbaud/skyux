@@ -456,8 +456,9 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
     if (this.permalinkId) {
       const paramValue = this.#permalinkService.getParam(this.permalinkId);
       if (paramValue) {
-        return this.tabs?.find((tab) => tab.permalinkValue === paramValue)
-          ?.tabIndex;
+        return this.tabs?.find(
+          (tab) => tab.permalinkValueOrDefault === paramValue
+        )?.tabIndex;
       }
       return undefined;
     }
@@ -489,7 +490,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
         ? null
         : this.#permalinkService.getParamHref(
             this.permalinkId,
-            tab.permalinkValue
+            tab.permalinkValueOrDefault
           ),
       buttonId: tab.tabButtonId,
       buttonTextCount: tab.tabHeaderCount,
@@ -550,7 +551,7 @@ export class SkyTabsetComponent implements AfterViewInit, OnDestroy {
       if (activeTabComponent) {
         this.#permalinkService.setParam(
           this.permalinkId,
-          activeTabComponent.permalinkValue
+          activeTabComponent.permalinkValueOrDefault
         );
       }
     }

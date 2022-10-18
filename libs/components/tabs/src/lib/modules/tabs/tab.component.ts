@@ -62,14 +62,12 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    */
   @Input()
   public set permalinkValue(value: string | undefined) {
-    this.#permalinkValue = value;
-    this.#permalinkValueOrDefault =
-      this.#permalinkService.urlify(value) ||
-      this.#permalinkService.urlify(this.tabHeading);
+    this.#_permalinkValue = value;
+    this.#setPermalinkValueOrDefault();
   }
 
-  public get permalinkValue(): string {
-    return this.#permalinkValueOrDefault;
+  public get permalinkValue(): string | undefined {
+    return this.#_permalinkValue;
   }
 
   /**
@@ -91,9 +89,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   public set tabHeading(value: string | undefined) {
     this.#_tabHeading = value;
 
-    if (!this.#permalinkValue) {
-      this.#permalinkValueOrDefault = this.#permalinkService.urlify(value);
-    }
+    this.#setPermalinkValueOrDefault();
   }
 
   public get tabHeading(): string | undefined {
@@ -141,6 +137,8 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     return this.#_tabIndexChangeObs;
   }
 
+  public permalinkValueOrDefault = '';
+
   public showContent = false;
 
   public tabButtonId: string;
@@ -152,8 +150,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   #_activeChange: BehaviorSubject<void | undefined>;
   #_activeChangeObs: Observable<void | undefined>;
 
-  #permalinkValue: string | undefined;
-  #permalinkValueOrDefault: string;
+  #_permalinkValue: string | undefined;
 
   #_stateChange: BehaviorSubject<void>;
   #_stateChangeObs: Observable<void>;
@@ -192,9 +189,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     );
     this.#_tabIndexChangeObs = this.#_tabIndexChange.asObservable();
 
-    this.#permalinkValueOrDefault = this.#permalinkService.urlify(
-      this.tabHeading
-    );
+    this.#setPermalinkValueOrDefault();
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -235,5 +230,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   public isCloseable(): boolean {
     return this.close.observers.length > 0;
+  }
+
+  #setPermalinkValueOrDefault(): void {
+    this.permalinkValueOrDefault =
+      this.#permalinkService.urlify(this.permalinkValue) ||
+      this.#permalinkService.urlify(this.tabHeading);
   }
 }
