@@ -6,9 +6,10 @@
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/e2e/tabs-storybook-e2e/cypress.json",
+        "cypressConfig": "apps/e2e/tabs-storybook-e2e/cypress.config.ts",
         "devServerTarget": "tabs-storybook:storybook",
-        "baseUrl": "http://localhost:4400"
+        "baseUrl": "http://localhost:4400",
+        "testingType": "e2e"
       },
       "configurations": {
         "ci": {
