@@ -1,5 +1,5 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 @include mixins.sky-host-responsive-container-xs-min() {
   .sky-sectioned-form {

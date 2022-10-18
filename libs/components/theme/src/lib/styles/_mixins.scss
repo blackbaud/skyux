@@ -4,26 +4,24 @@
 @forward '_compat/mixins';
 @forward 'mixins-public';
 
-// We need to scope the variables used in this file in case the consumer also imports the mixins file.
-// (See reasoning for forwarding the variables, above.)
-@use 'variables' as vars;
+@use 'variables' as *;
 
 @mixin sky-deemphasized {
-  font-family: vars.$sky-font-family;
-  color: vars.$sky-text-color-deemphasized;
+  font-family: $sky-font-family;
+  color: $sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: vars.$sky-font-size-base;
+  font-size: $sky-font-size-base;
   font-style: italic;
 }
 
 @mixin sky-experimental(
   $property,
   $value,
-  $moz: vars.$sky-experimental-support-for-mozilla,
-  $webkit: vars.$sky-experimental-support-for-webkit,
-  $o: vars.$sky-experimental-support-for-opera,
-  $ms: vars.$sky-experimental-support-for-microsoft,
-  $khtml: vars.$sky-experimental-support-for-khtml,
+  $moz: $sky-experimental-support-for-mozilla,
+  $webkit: $sky-experimental-support-for-webkit,
+  $o: $sky-experimental-support-for-opera,
+  $ms: $sky-experimental-support-for-microsoft,
+  $khtml: $sky-experimental-support-for-khtml,
   $official: true
 ) {
   @if $webkit and $sky-experimental-support-for-webkit {

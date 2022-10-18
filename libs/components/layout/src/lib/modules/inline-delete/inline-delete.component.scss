@@ -1,5 +1,5 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-inline-delete {
   // The important is needed here because wait elements set element position styles but in our case

@@ -1,4 +1,3 @@
-@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
