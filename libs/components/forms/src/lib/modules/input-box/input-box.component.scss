@@ -1,7 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 $input-box-transitions: border-color 150ms, box-shadow 150ms, color 150ms;
 
@@ -33,7 +31,7 @@ sky-input-box {
     z-index: 1;
 
     &:not(.sky-field-status-active):not(.sky-field-status-invalid) {
-      @include sky-border(dark, top, bottom, left, right);
+      @include mixins.sky-border(dark, top, bottom, left, right);
     }
   }
 
@@ -200,7 +198,7 @@ sky-input-box {
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        @include sky-theme-modern-border-invalid;
+        @include mixins.sky-theme-modern-border-invalid;
         color: $sky-background-color-danger-dark;
       }
     }
@@ -215,14 +213,14 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        @include sky-theme-modern-border-focus;
+        @include mixins.sky-theme-modern-border-focus;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
 
     .sky-form-group {
       background-color: $sky-color-white;
-      @include sky-theme-modern-border;
+      @include mixins.sky-theme-modern-border;
       color: $sky-theme-modern-font-data-label-color;
       flex-wrap: nowrap;
       margin-bottom: 0;
@@ -380,7 +378,7 @@ sky-input-box {
         z-index: 1;
 
         .sky-form-group {
-          @include sky-theme-modern-border-hover;
+          @include mixins.sky-theme-modern-border-hover;
         }
       }
     }
@@ -388,23 +386,23 @@ sky-input-box {
     .sky-input-group-btn {
       .sky-btn {
         border: none;
-        @include sky-theme-modern-border;
+        @include mixins.sky-theme-modern-border;
 
         &:hover {
-          @include sky-theme-modern-border-hover;
+          @include mixins.sky-theme-modern-border-hover;
           z-index: 1;
         }
 
         &:active,
         &:focus {
-          @include sky-theme-modern-border-active;
+          @include mixins.sky-theme-modern-border-active;
           color: $sky-text-color-default;
           z-index: 2;
         }
 
         &:focus:not(:active) {
           outline: none;
-          @include sky-theme-modern-border-focus;
+          @include mixins.sky-theme-modern-border-focus;
         }
       }
     }
@@ -412,13 +410,13 @@ sky-input-box {
     .sky-input-box-group-form-control:active,
     .sky-input-box-group-form-control-focus {
       .sky-form-group {
-        @include sky-theme-modern-border-active;
+        @include mixins.sky-theme-modern-border-active;
       }
     }
 
     .sky-input-box-group-form-control-invalid {
       .sky-form-group {
-        @include sky-theme-modern-border-invalid;
+        @include mixins.sky-theme-modern-border-invalid;
         color: $sky-background-color-danger-dark;
       }
 
@@ -439,7 +437,7 @@ sky-input-box {
       z-index: 1;
 
       .sky-form-group {
-        @include sky-theme-modern-border-focus;
+        @include mixins.sky-theme-modern-border-focus;
         color: $sky-theme-modern-text-color-action-primary;
       }
     }
@@ -472,7 +470,7 @@ sky-input-box {
     .sky-input-group-btn .sky-btn {
       background-color: $sky-theme-modern-color-gray-07;
       border: none;
-      @include sky-theme-modern-border;
+      @include mixins.sky-theme-modern-border;
       opacity: 1;
     }
   }
@@ -481,7 +479,9 @@ sky-input-box {
     .sky-input-box {
       .sky-form-group {
         background-color: transparent;
-        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
+        @include mixins.sky-theme-modern-border(
+          $sky-theme-modern-color-gray-70
+        );
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
         .sky-form-control,
@@ -500,13 +500,15 @@ sky-input-box {
 
       .sky-input-box-group-form-control-invalid {
         .sky-form-group {
-          @include sky-theme-modern-border-invalid;
+          @include mixins.sky-theme-modern-border-invalid;
           color: $sky-background-color-danger-dark;
         }
       }
 
       .sky-input-group-btn .sky-btn {
-        @include sky-theme-modern-border($sky-theme-modern-color-gray-70);
+        @include mixins.sky-theme-modern-border(
+          $sky-theme-modern-color-gray-70
+        );
         color: $sky-theme-modern-mode-dark-font-deemphasized-color;
 
         &.sky-btn-default {

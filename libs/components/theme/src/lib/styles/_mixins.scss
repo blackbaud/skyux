@@ -4,10 +4,6 @@
 @forward '_compat/mixins';
 @forward 'mixins-public';
 
-// Export variables for backward compatibility.
-// (Some stylesheets only import the mixins.scss file and expected the variables to be available.)
-@forward 'variables';
-
 // We need to scope the variables used in this file in case the consumer also imports the mixins file.
 // (See reasoning for forwarding the variables, above.)
 @use 'variables' as vars;

@@ -1,6 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-split-view-drawer {
   background: #ffffff;
@@ -61,7 +61,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-split-view-drawer {
     background: transparent;
     border: none;

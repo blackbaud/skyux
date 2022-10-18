@@ -1,7 +1,7 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins' as
+  modernMixins;
 
 .sky-filter-btn-active,
 .sky-filter-btn-active:hover,
@@ -23,7 +23,7 @@
     color: initial;
     border: none;
 
-    @include sky-theme-modern-button-variant(
+    @include modernMixins.sky-theme-modern-button-variant(
       $sky-text-color-default,
       $sky-background-color-info-light,
       $sky-background-color-primary-dark,
@@ -33,7 +33,7 @@
   }
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-filter-btn-text {
     display: none;
   }
@@ -43,7 +43,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-filter-btn-text {
     display: inline;
   }

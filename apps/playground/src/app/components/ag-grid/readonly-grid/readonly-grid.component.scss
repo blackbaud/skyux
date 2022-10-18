@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 ::ng-deep {
   .complete i {

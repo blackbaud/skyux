@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .sky-inline-delete {
   // The important is needed here because wait elements set element position styles but in our case
@@ -15,7 +15,7 @@
 }
 
 .sky-inline-delete-assistive-text {
-  @include sky-screen-reader-only();
+  @include mixins.sky-screen-reader-only();
 }
 
 .sky-inline-delete-button {

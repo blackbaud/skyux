@@ -1,9 +1,10 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins' as
+  modernMixins;
 
 .sky-sort-item {
-  @include sky-dropdown-item();
+  @include mixins.sky-dropdown-item();
 }
 
 .sky-sort-item-selected {
@@ -12,12 +13,12 @@
   margin: 0;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-sort-item {
     margin: 0;
     margin-bottom: $sky-theme-modern-space-sm;
-    @include sky-theme-modern-btn-tab;
-    @include sky-theme-modern-btn-tab-dropdown-item;
+    @include modernMixins.sky-theme-modern-btn-tab;
+    @include modernMixins.sky-theme-modern-btn-tab-dropdown-item;
     padding: $sky-theme-modern-space-sm $sky-theme-modern-space-lg;
 
     & button {
@@ -27,7 +28,7 @@
   }
 
   .sky-sort-item-selected {
-    @include sky-theme-modern-btn-tab-selected-dropdown-item;
+    @include modernMixins.sky-theme-modern-btn-tab-selected-dropdown-item;
     padding-left: calc(#{$sky-theme-modern-space-lg} - 3px);
     background-color: inherit;
 
@@ -38,7 +39,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-sort-item button {
     color: $sky-theme-modern-mode-dark-font-deemphasized-color;
   }

@@ -1,24 +1,24 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-modal-footer-container {
   background-color: #fff;
-  @include sky-border(light, top);
+  @include mixins.sky-border(light, top);
   /* Offset the margin-left of the link */
   ::ng-deep .sky-btn-link:first-child {
     margin-left: -12px;
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-modal-footer-container {
     border-top: none;
     padding: $sky-theme-modern-space-lg $sky-theme-modern-space-xl;
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-modal-footer-container {
     background-color: transparent;
   }

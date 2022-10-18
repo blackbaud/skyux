@@ -1,6 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-file-attachment-wrapper {
   display: inline-block;
@@ -45,7 +45,7 @@
 
 .sky-file-attachment-delete {
   border: none;
-  @include sky-icon-button-borderless();
+  @include mixins.sky-icon-button-borderless();
   padding: 0;
 }
 
@@ -67,7 +67,7 @@
   overflow: hidden;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-file-attachment-none {
     font-size: $sky-theme-modern-text-size-125;
   }
@@ -81,7 +81,7 @@
     }
 
     .sky-file-attachment-preview-img {
-      @include sky-border(dark, top, bottom, left, right);
+      @include mixins.sky-border(dark, top, bottom, left, right);
       box-shadow: none;
       margin: 0 $sky-theme-modern-space-sm 0 0;
       width: 100px;
