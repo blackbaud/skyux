@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-file-drop-col {
   margin-bottom: $sky-margin;
@@ -8,7 +8,7 @@
   position: relative;
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-file-drop-row {
     display: block;
   }
@@ -22,7 +22,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-file-drop-row {
     display: flex;
   }
@@ -51,7 +51,7 @@ button.sky-file-drop {
 }
 
 .sky-file-drop-contents {
-  @include sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
   background-color: $sky-background-color-neutral-light;
   color: $sky-text-color-default;
   cursor: pointer;

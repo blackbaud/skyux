@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-split-view {
   // Set position:relative to give resize handle's absolute positioning a new origin.
@@ -25,18 +25,18 @@
 }
 
 // Drawer should be full-width when in mobile view.
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-split-view-drawer-flex-container {
     width: 100%;
   }
 }
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-split-view-drawer-flex-container {
     width: auto;
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-split-view {
     border: none;
   }
