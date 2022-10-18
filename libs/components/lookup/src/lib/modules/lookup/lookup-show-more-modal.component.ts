@@ -129,7 +129,7 @@ export class SkyLookupShowMoreModalComponent
 
         if (isInitialValue || (initialIsArray && initialValueContainsItem)) {
           item.selected = true;
-          const itemIndex = this.items!.indexOf(item);
+          const itemIndex = this.items.indexOf(item);
           if (
             selectedItems.findIndex(
               (selectedItem) => selectedItem.index === itemIndex
@@ -181,7 +181,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public onItemSelect(newSelectState: boolean, itemToSelect: any): void {
-    const items = this.items!;
+    const items = this.items;
 
     if (this.context.selectMode === 'single') {
       /* Sanity check - single select mode should only alow for a `true` select state */
@@ -270,7 +270,7 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public selectAll(): void {
-    const items = this.items!;
+    const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
@@ -301,11 +301,11 @@ export class SkyLookupShowMoreModalComponent
   }
 
   public updateDataState(): void {
-    const items = this.items!;
+    const items = this.items;
 
     const selectedItems: { index: number; itemData: any }[] =
       this.selectedItems;
-    items.forEach((item: any, index: number) => {
+    items?.forEach((item: any, index: number) => {
       item.selected =
         selectedItems.findIndex(
           (selectedItem) => selectedItem.index === index

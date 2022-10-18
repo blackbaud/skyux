@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-lookup {
   .sky-lookup-input.sky-form-control {
@@ -60,7 +60,7 @@
   flex-grow: 1;
 
   &:not(.sky-field-status-active) {
-    @include sky-border(dark, top, bottom, left, right);
+    @include defaultMixins.sky-border(dark, top, bottom, left, right);
   }
 }
 
@@ -83,7 +83,7 @@
 }
 
 sky-lookup.ng-invalid.ng-touched .sky-lookup-search {
-  @include sky-field-status(invalid);
+  @include defaultMixins.sky-field-status(invalid);
 }
 
 sky-input-box .sky-lookup {
@@ -96,7 +96,7 @@ sky-input-box .sky-lookup {
   }
 }
 
-@include sky-theme-modern {
+@include defaultMixins.sky-theme-modern {
   sky-tokens.sky-lookup-tokens {
     .sky-tokens {
       margin-top: -6px;

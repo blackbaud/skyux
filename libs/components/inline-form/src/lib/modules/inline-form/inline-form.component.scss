@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-inline-form {
   background: $sky-background-color-neutral-light;
@@ -17,7 +16,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-inline-form {
     background-color: #fff;
     border: none;
@@ -33,7 +32,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-inline-form {
     background-color: $sky-theme-modern-mode-dark-background-color-elevation-3;
   }

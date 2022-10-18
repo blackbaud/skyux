@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .sky-key-info {
   display: inline-block;
@@ -17,7 +16,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-key-info {
     &.sky-key-info-horizontal {
       .sky-key-info-label {

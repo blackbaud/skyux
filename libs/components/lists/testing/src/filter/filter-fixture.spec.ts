@@ -35,10 +35,10 @@ const DATA_SKY_ID_BUTTON = 'test-filter-button';
 })
 class FilterTestComponent {
   public appliedFilters: string[] = [];
-  public buttonClicked: boolean = false;
-  public buttonIsDisabled: boolean = false;
-  public ariaExpanded: boolean = false;
-  public ariaControls: string;
+  public buttonClicked = false;
+  public buttonIsDisabled = false;
+  public ariaExpanded = false;
+  public ariaControls: string | undefined;
 
   public applyFilter(filter: string): void {
     this.appliedFilters.push(filter);

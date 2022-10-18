@@ -21,7 +21,7 @@
       [enableShowMore]="enableShowMore"
       [messageStream]="autocompleteController"
       [propertiesToSearch]="propertiesToSearch"
-      [search]="search"
+      [search]="searchOrDefault"
       [searchAsyncDisabled]="searchAsync.observers.length === 0"
       [searchFilters]="searchFilters"
       [searchResultsLimit]="searchResultsLimit"
@@ -69,6 +69,11 @@
               (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
             ></textarea>
+            <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
+              <ng-container
+                *ngTemplateOutlet="searchIconTemplateRef"
+              ></ng-container>
+            </ng-container>
           </sky-tokens>
           <div
             *ngIf="selectMode === 'single'"
@@ -86,16 +91,16 @@
               [disabled]="disabled"
               (blur)="onAutocompleteBlur()"
             ></textarea>
+            <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
+              <ng-container
+                *ngTemplateOutlet="searchIconTemplateRef"
+              ></ng-container>
+            </ng-container>
           </div>
         </div>
         <ng-container *ngIf="!inputBoxHostSvc && enableShowMore">
           <ng-container
             *ngTemplateOutlet="showMoreButtonTemplateRef"
-          ></ng-container>
-        </ng-container>
-        <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
-          <ng-container
-            *ngTemplateOutlet="searchIconTemplateRef"
           ></ng-container>
         </ng-container>
       </div>
@@ -130,16 +135,7 @@
     class="sky-input-group-icon sky-input-box-icon-inset"
     [ngClass]="{ 'sky-lookup-disabled': disabled }"
   >
-    <sky-icon
-      *skyThemeIf="'default'"
-      icon="search"
-      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
-    ></sky-icon>
-    <sky-icon
-      *skyThemeIf="'modern'"
-      iconType="skyux"
-      icon="search"
-      [attr.aria-label]="'skyux_lookup_search_icon' | skyLibResources"
-    ></sky-icon>
+    <sky-icon *skyThemeIf="'default'" icon="search"></sky-icon>
+    <sky-icon *skyThemeIf="'modern'" iconType="skyux" icon="search"></sky-icon>
   </div>
 </ng-template>

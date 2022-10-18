@@ -1,4 +1,4 @@
-@import 'node_modules/@skyux/theme/scss/variables';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .picker-btn {
   cursor: pointer;

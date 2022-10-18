@@ -1,4 +1,6 @@
-@import 'scss/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'scss/variables' as *;
 
 .sky-row {
   display: flex;
@@ -51,19 +53,19 @@
 @include create_row_gutters_modern(medium);
 @include create_row_gutters_modern(large);
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-row.sky-row-reverse {
     flex-direction: row;
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-row.sky-row-reverse {
     flex-direction: row-reverse;
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-row {
     // Default to large gutters for backwards compatibility.
     // (Prior versions of fluid-grid did not require the wrapping `sky-fluid-grid` component.)

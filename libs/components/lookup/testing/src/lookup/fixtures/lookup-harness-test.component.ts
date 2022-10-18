@@ -135,8 +135,11 @@ export class LookupHarnessTestComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.showMoreConfig.nativePickerConfig!.itemTemplate =
-      this.showMoreSearchResultTemplate;
+    /* istanbul ignore else */
+    if (this.showMoreConfig.nativePickerConfig) {
+      this.showMoreConfig.nativePickerConfig.itemTemplate =
+        this.showMoreSearchResultTemplate;
+    }
   }
 
   // Only show people in the search results that have not been chosen already.

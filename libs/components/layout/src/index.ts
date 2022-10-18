@@ -27,6 +27,7 @@ export * from './lib/modules/format/format.module';
 export * from './lib/modules/inline-delete/inline-delete-type';
 export * from './lib/modules/inline-delete/inline-delete.module';
 
+export * from './lib/modules/page/page-layout-type';
 export * from './lib/modules/page/page.module';
 
 export * from './lib/modules/page-summary/page-summary.module';

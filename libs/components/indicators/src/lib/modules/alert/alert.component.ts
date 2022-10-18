@@ -23,17 +23,15 @@ const ALERT_TYPE_DEFAULT = 'warning';
   templateUrl: './alert.component.html',
 })
 export class SkyAlertComponent implements OnInit, OnDestroy {
-  // TODO: Change alertType to SkyIndicatorIconType in a breaking change.
   /**
    * Specifies a style for the alert to determine the icon and background color.
    * The valid options are `danger`, `info`, `success`, and `warning`.
    * @default "warning"
    */
   @Input()
-  public set alertType(value: string | undefined) {
+  public set alertType(value: SkyIndicatorIconType | undefined) {
     if (value !== this.alertTypeOrDefault) {
-      this.alertTypeOrDefault =
-        (value as SkyIndicatorIconType) || ALERT_TYPE_DEFAULT;
+      this.alertTypeOrDefault = value || ALERT_TYPE_DEFAULT;
       this.#updateAlertIcon();
     }
   }

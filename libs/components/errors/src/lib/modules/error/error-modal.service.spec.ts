@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SkyLogService } from '@skyux/core';
+import { SkyDynamicComponentService, SkyLogService } from '@skyux/core';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
 import { ErrorModalConfig } from './error-modal-config';
@@ -9,7 +9,8 @@ import { MockModalService } from './fixtures/mocks';
 
 describe('Error modal service', () => {
   function createMockModalService() {
-    return new MockModalService();
+    const dynamicComponentService = TestBed.inject(SkyDynamicComponentService);
+    return new MockModalService(dynamicComponentService);
   }
 
   it('should open with correct parameters (log service undefined)', () => {

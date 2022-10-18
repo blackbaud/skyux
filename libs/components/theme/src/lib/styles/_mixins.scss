@@ -1,6 +1,10 @@
-@import 'mixins-public';
-@import 'variables';
-@import '_compat/mixins';
+// This file is the entry point for commonly used internal-only SCSS mixins.
+// (Our components should @use this file in their SCSS file.)
+
+@forward '_compat/mixins';
+@forward 'mixins-public';
+
+@use 'variables' as *;
 
 @mixin sky-deemphasized {
   font-family: $sky-font-family;

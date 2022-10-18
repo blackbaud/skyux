@@ -40,31 +40,14 @@ export abstract class SkyA11yAnalyzer {
       throw new Error('No element was specified for accessibility checking.');
     }
 
+    SkyA11yAnalyzer.analyzer.reset();
+
     const defaults: SkyA11yAnalyzerConfig = {
-      skyTheme: 'default',
       rules: {},
     };
 
     // Reset config.
     SkyA11yAnalyzer.analyzer.reset();
-
-    // Disable all rules.
-    SkyA11yAnalyzer.analyzer.configure({
-      disableOtherRules: true,
-    });
-
-    const skyTheme = config?.skyTheme ?? defaults.skyTheme;
-
-    // Enable certain rules based on theme.
-    axe
-      .getRules(
-        skyTheme === 'default'
-          ? ['wcag2a', 'wcag2aa', 'best-practice']
-          : ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'best-practice']
-      )
-      .forEach((rule) => {
-        defaults.rules[rule.ruleId] = { enabled: true };
-      });
 
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values

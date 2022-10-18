@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   templateUrl: './vertical-tabset-no-group.component.fixture.html',
 })
 export class VerticalTabsetNoGroupTestComponent {
-  public currentIndex: number = undefined;
+  public currentIndex: number | undefined;
   public maintainTabContent = false;
 
   public indexChanged(index: number) {

@@ -1,4 +1,4 @@
-import * as axe from 'axe-core';
+import axe from 'axe-core';
 
 import { SkyA11yAnalyzer } from './a11y-analyzer';
 

@@ -4,7 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyHelpInlineModule } from '@skyux/indicators';
+import {
+  SkyHelpInlineModule,
+  SkyStatusIndicatorModule,
+} from '@skyux/indicators';
 import { SkyBoxModule, SkyFluidGridModule } from '@skyux/layout';
 import { SkyPopoverModule } from '@skyux/popovers';
 import { SkyEmailValidationModule } from '@skyux/validation';
@@ -23,6 +26,7 @@ import { InputBoxDemoComponent } from './input-box-demo.component';
     SkyIdModule,
     SkyInputBoxModule,
     SkyPopoverModule,
+    SkyStatusIndicatorModule,
   ],
   declarations: [InputBoxDemoComponent],
   exports: [InputBoxDemoComponent],

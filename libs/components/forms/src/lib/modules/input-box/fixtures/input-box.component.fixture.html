@@ -98,6 +98,26 @@
   </sky-input-box>
 </div>
 
+<div class="input-box-form-control-error-status-indicator">
+  <sky-input-box class="sky-margin-stacked-lg">
+    <label class="sky-control-label" [for]="formControlErrorStatusIndicator.id">
+      Form control error with status indicator
+    </label>
+    <input
+      class="sky-form-control"
+      skyId
+      type="text"
+      [formControl]="errorField"
+      #formControlErrorStatusIndicator="skyId"
+    />
+    <span class="sky-error-indicator">
+      <sky-status-indicator indicatorType="danger" descriptionType="error">
+        Field is required.
+      </sky-status-indicator>
+    </span>
+  </sky-input-box>
+</div>
+
 <div class="input-box-form-control-name-error">
   <form [formGroup]="errorForm">
     <sky-input-box class="sky-margin-stacked-lg">
