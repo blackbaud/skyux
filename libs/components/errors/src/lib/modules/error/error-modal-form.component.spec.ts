@@ -65,6 +65,9 @@ describe('Error modal form component', () => {
 
   it('should pass accessibility', async () => {
     await fixture.whenStable();
-    await expectAsync(fixture.nativeElement).toBeAccessible();
+    await expectAsync(fixture.nativeElement).toBeAccessible({
+      // Error modals are deprecated, so we can ignore a11y violations.
+      rules: { 'aria-dialog-name': { enabled: false } },
+    });
   });
 });
