@@ -1,23 +1,33 @@
-@import 'mixins-public';
-@import 'variables';
-@import '_compat/mixins';
+// This file is the entry point for commonly used internal-only SCSS mixins.
+// (Our components should @use this file in their SCSS file.)
+
+@forward '_compat/mixins';
+@forward 'mixins-public';
+
+// Export variables for backward compatibility.
+// (Some stylesheets only import the mixins.scss file and expected the variables to be available.)
+@forward 'variables';
+
+// We need to scope the variables used in this file in case the consumer also imports the mixins file.
+// (See reasoning for forwarding the variables, above.)
+@use 'variables' as vars;
 
 @mixin sky-deemphasized {
-  font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
+  font-family: vars.$sky-font-family;
+  color: vars.$sky-text-color-deemphasized;
   font-weight: 400;
-  font-size: $sky-font-size-base;
+  font-size: vars.$sky-font-size-base;
   font-style: italic;
 }
 
 @mixin sky-experimental(
   $property,
   $value,
-  $moz: $sky-experimental-support-for-mozilla,
-  $webkit: $sky-experimental-support-for-webkit,
-  $o: $sky-experimental-support-for-opera,
-  $ms: $sky-experimental-support-for-microsoft,
-  $khtml: $sky-experimental-support-for-khtml,
+  $moz: vars.$sky-experimental-support-for-mozilla,
+  $webkit: vars.$sky-experimental-support-for-webkit,
+  $o: vars.$sky-experimental-support-for-opera,
+  $ms: vars.$sky-experimental-support-for-microsoft,
+  $khtml: vars.$sky-experimental-support-for-khtml,
   $official: true
 ) {
   @if $webkit and $sky-experimental-support-for-webkit {
