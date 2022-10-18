@@ -46,9 +46,6 @@ export abstract class SkyA11yAnalyzer {
       rules: {},
     };
 
-    // Reset config.
-    SkyA11yAnalyzer.analyzer.reset();
-
     // Disable autocomplete-valid
     // Chrome browsers ignore autocomplete="off", which forces us to use non-standard values
     // to disable the browser's native autofill.
