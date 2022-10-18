@@ -1,9 +1,8 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-vertical-tabset-group {
-  @include sky-border(light, bottom);
+  @include mixins.sky-border(light, bottom);
   margin: $sky-margin-half 0 $sky-margin-half $sky-margin-half;
 }
 
@@ -21,7 +20,7 @@
 
 .sky-vertical-tabset-group-content {
   overflow: hidden;
-  @include sky-border(light, top);
+  @include mixins.sky-border(light, top);
 }
 
 :host ::ng-deep .sky-vertical-tabset-group-expansion-indicator > button {
@@ -33,7 +32,7 @@
   pointer-events: none;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-vertical-tabset-group {
     border: none;
     margin: $sky-theme-modern-space-sm 0;

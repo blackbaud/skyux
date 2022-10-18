@@ -6,18 +6,26 @@
         class="sky-form-control"
         name="url"
         [skyUrlValidation]="skyUrlValidationOptions"
+        [attr.aria-describedby]="urlError.id"
         skyId
         [(ngModel)]="demoModel.url"
         #urlInput="skyId"
         #urlControl="ngModel"
       />
+      <span class="sky-error-indicator" skyId #urlError="skyId">
+        <sky-status-indicator
+          *ngIf="
+            urlControl.errors &&
+            urlControl.touched &&
+            urlControl.errors.skyUrl &&
+            urlControl.dirty
+          "
+          indicatorType="danger"
+          descriptionType="error"
+        >
+          Enter a valid URL in the "http(s)://site.domain" format.
+        </sky-status-indicator>
+      </span>
     </sky-input-box>
-  </div>
-
-  <div
-    *ngIf="urlControl.errors?.skyUrl && urlControl.dirty && urlControl.touched"
-    class="sky-error-label"
-  >
-    Enter a valid URL in the "http(s)://site.domain" format.
   </div>
 </form>

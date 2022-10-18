@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-progress-indicator-title {
   line-height: 1.1;
@@ -8,7 +7,7 @@
   text-align: center;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-progress-indicator-title {
     line-height: inherit;
     margin: 0 0 $sky-theme-modern-margin-stacked-xxl;

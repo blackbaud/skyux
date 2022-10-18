@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 // Host element must be a block to allow FF to make proper getBoundingClientRect() calculations.
 :host {
@@ -19,7 +19,7 @@
   }
 }
 
-@include sky-host-responsive-container-xs-min(false) {
+@include mixins.sky-host-responsive-container-xs-min(false) {
   .sky-action-button-flex {
     display: block;
     padding: 0;
@@ -30,7 +30,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min(false) {
+@include mixins.sky-host-responsive-container-sm-min(false) {
   .sky-action-button-flex {
     display: flex;
     flex-flow: row wrap;
@@ -76,7 +76,7 @@
     }
   }
 
-  @include sky-host-responsive-container-xs-min(false) {
+  @include mixins.sky-host-responsive-container-xs-min(false) {
     .sky-action-button-flex {
       display: flex;
       flex-flow: row wrap;

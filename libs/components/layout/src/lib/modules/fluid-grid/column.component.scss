@@ -1,4 +1,6 @@
-@import 'scss/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'scss/variables' as *;
 
 @mixin create_columns($screen-size: sm) {
   @for $i from 1 through $sky-fluid-grid-columns {
@@ -44,7 +46,7 @@ sky-column.sky-column {
 @include create_column_gutters_modern(small);
 @include create_column_gutters_modern(medium);
 
-@include sky-host-responsive-container-xs-min(false) {
+@include mixins.sky-host-responsive-container-xs-min(false) {
   @include create_columns(xs);
 
   // This is needed for operation inside a reactive container. Without it the media breakpoint
@@ -56,14 +58,14 @@ sky-column.sky-column {
   }
 }
 
-@include sky-host-responsive-container-sm-min(false) {
+@include mixins.sky-host-responsive-container-sm-min(false) {
   @include create_columns(sm);
 }
 
-@include sky-host-responsive-container-md-min(false) {
+@include mixins.sky-host-responsive-container-md-min(false) {
   @include create_columns(md);
 }
 
-@include sky-host-responsive-container-lg-min(false) {
+@include mixins.sky-host-responsive-container-lg-min(false) {
   @include create_columns(lg);
 }

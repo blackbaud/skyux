@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
 import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormModule } from '@skyux/tabs';
 
@@ -28,6 +29,7 @@ import { SectionedFormModalDemoComponent } from './sectioned-form-modal-demo.com
     SkyInputBoxModule,
     SkyModalModule,
     SkySectionedFormModule,
+    SkyStatusIndicatorModule,
   ],
 })
 export class SectionedFormDemoModule {}

@@ -87,7 +87,7 @@
     "@angular/platform-browser-dynamic": "14.2.0",
     "@angular/router": "14.2.0",
     "@blackbaud/auth-client": "2.50.0",
-    "@blackbaud/skyux-design-tokens": "0.0.24",
+    "@blackbaud/skyux-design-tokens": "0.0.25",
     "@circlon/angular-tree-component": "11.0.3",
     "@nrwl/angular": "14.7.6",
     "@skyux/auth-client-factory": "1.2.0",

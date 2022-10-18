@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-btn-tab-wrapper {
   display: inline-block;
@@ -34,7 +33,7 @@
   padding-right: 43px;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-btn-tab-wrapper {
     margin-right: $sky-theme-modern-margin-inline-sm;
 
@@ -55,7 +54,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-btn-tab-wrapper {
     .sky-btn-tab-close {
       color: $sky-background-color-neutral-light;

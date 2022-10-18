@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .sky-select-field-multiple-select-mode {
   > .sky-btn {
@@ -42,5 +41,5 @@
 }
 
 :host(.ng-invalid.ng-touched) .sky-select-field-btn {
-  @include sky-field-status(invalid);
+  @include mixins.sky-field-status(invalid);
 }

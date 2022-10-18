@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 :host {
   display: flex;
@@ -11,11 +10,11 @@
   overflow: hidden;
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   padding: 0;
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   padding: 0 $sky-padding;
 }
 
@@ -26,8 +25,8 @@
   width: 100%;
 }
 
-@include sky-theme-modern {
-  @include sky-host-responsive-container-sm-min() {
+@include mixins.sky-theme-modern {
+  @include mixins.sky-host-responsive-container-sm-min() {
     padding: $sky-theme-modern-padding-h-md;
   }
 }

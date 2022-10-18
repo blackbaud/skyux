@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 $sky-grid-resize-handle-width: 5px;
 
@@ -31,7 +31,7 @@ $sky-grid-resize-handle-width: 5px;
 }
 
 .sky-grid-row {
-  @include sky-border(row, bottom);
+  @include mixins.sky-border(row, bottom);
 
   &:nth-child(odd) {
     background-color: $sky-color-gray-01;
@@ -50,7 +50,7 @@ $sky-grid-resize-handle-width: 5px;
 
 .sky-grid-heading {
   position: relative;
-  @include sky-border(dark, top, bottom, left, right);
+  @include mixins.sky-border(dark, top, bottom, left, right);
   border-right-width: 0px;
   padding: 0;
 
@@ -195,7 +195,7 @@ th.sky-grid-multiselect-cell {
   cursor: default;
 
   .screen-reader-only {
-    @include sky-screen-reader-only();
+    @include mixins.sky-screen-reader-only();
   }
 }
 

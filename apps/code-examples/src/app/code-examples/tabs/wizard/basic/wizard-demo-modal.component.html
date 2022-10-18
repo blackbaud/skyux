@@ -24,17 +24,26 @@
                     type="text"
                     class="sky-form-control"
                     formControlName="firstName"
+                    [attr.aria-describedby]="firstNameError.id"
                     skyId
                     #firstNameInput="skyId"
                   />
-                  <div
-                    *ngIf="
-                      (firstName.touched || firstName.dirty) && !firstName.valid
-                    "
-                    class="sky-error-label"
+                  <span
+                    class="sky-error-indicator"
+                    skyId
+                    #firstNameError="skyId"
                   >
-                    Enter your first name.
-                  </div>
+                    <sky-status-indicator
+                      *ngIf="
+                        (firstName.touched || firstName.dirty) &&
+                        !firstName.valid
+                      "
+                      indicatorType="danger"
+                      descriptionType="error"
+                    >
+                      First name is required.
+                    </sky-status-indicator>
+                  </span>
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="4">
@@ -62,17 +71,25 @@
                     type="text"
                     class="sky-form-control"
                     formControlName="lastName"
+                    [attr.aria-describedby]="lastNameError.id"
                     skyId
                     #lastNameInput="skyId"
                   />
-                  <div
-                    *ngIf="
-                      (lastName.touched || lastName.dirty) && !lastName.valid
-                    "
-                    class="sky-error-label"
+                  <span
+                    class="sky-error-indicator"
+                    skyId
+                    #lastNameError="skyId"
                   >
-                    Enter your last name.
-                  </div>
+                    <sky-status-indicator
+                      *ngIf="
+                        (lastName.touched || lastName.dirty) && !lastName.valid
+                      "
+                      indicatorType="danger"
+                      descriptionType="error"
+                    >
+                      Last name is required.
+                    </sky-status-indicator>
+                  </span>
                 </sky-input-box>
               </sky-column>
             </sky-row>
@@ -91,20 +108,28 @@
                   <sky-phone-field defaultCountry="us">
                     <input
                       formControlName="phoneNumber"
+                      [attr.aria-describedby]="phoneNumberError.id"
                       skyId
                       #phoneNumberInput="skyId"
                       skyPhoneFieldInput
                     />
                   </sky-phone-field>
-                  <div
-                    *ngIf="
-                      (phoneNumber.touched || phoneNumber.dirty) &&
-                      !phoneNumber.valid
-                    "
-                    class="sky-error-label"
+                  <span
+                    class="sky-error-indicator"
+                    skyId
+                    #phoneNumberError="skyId"
                   >
-                    Enter a valid phone number.
-                  </div>
+                    <sky-status-indicator
+                      *ngIf="
+                        (phoneNumber.touched || phoneNumber.dirty) &&
+                        !phoneNumber.valid
+                      "
+                      indicatorType="danger"
+                      descriptionType="error"
+                    >
+                      A valid phone number is required.
+                    </sky-status-indicator>
+                  </span>
                 </sky-input-box>
               </sky-column>
               <sky-column [screenSmall]="12" [screenMedium]="6">
@@ -118,15 +143,19 @@
                     type="email"
                     class="sky-form-control"
                     formControlName="email"
+                    [attr.aria-describedby]="emailError.id"
                     skyId
                     #emailInput="skyId"
                   />
-                  <div
-                    *ngIf="(email.touched || email.dirty) && !email.valid"
-                    class="sky-error-label"
-                  >
-                    Enter a valid email address.
-                  </div>
+                  <span class="sky-error-indicator" skyId #emailError="skyId">
+                    <sky-status-indicator
+                      *ngIf="(email.touched || email.dirty) && !email.valid"
+                      indicatorType="danger"
+                      descriptionType="error"
+                    >
+                      A valid email address is required.
+                    </sky-status-indicator>
+                  </span>
                 </sky-input-box>
               </sky-column>
             </sky-row>

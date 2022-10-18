@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 $sky-nav-background-color: #2f4050 !default;
 $sky-nav-color: #a7b1c2 !default;

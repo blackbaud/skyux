@@ -18,16 +18,20 @@
           skyId
           [skyCharacterCounterIndicator]="descriptionIndicator"
           [skyCharacterCounterLimit]="maxDescriptionCharacterCount"
+          [attr.aria-describedby]="characterCountError.id"
           #descriptionInput="skyId"
         />
 
-        <div
-          *ngIf="description.errors?.skyCharacterCounter"
-          class="sky-error-label"
-        >
-          Limit Transaction description to
-          {{ maxDescriptionCharacterCount }} characters.
-        </div>
+        <span class="sky-error-indicator" skyId #characterCountError="skyId">
+          <sky-status-indicator
+            *ngIf="description.errors?.skyCharacterCounter"
+            indicatorType="danger"
+            descriptionType="error"
+          >
+            Limit Transaction description to
+            {{ maxDescriptionCharacterCount }} characters.
+          </sky-status-indicator>
+        </span>
       </sky-input-box>
     </div>
   </form>

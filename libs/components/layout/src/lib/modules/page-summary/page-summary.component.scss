@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-page-summary {
   background-color: #fff;
@@ -11,7 +11,7 @@
   display: flex;
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-page-summary-left {
     flex-basis: 100%;
     display: initial;
@@ -26,7 +26,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-page-summary-with-key-info {
     .sky-page-summary-left {
       flex-basis: 75%;
