@@ -36,13 +36,13 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
    * Fires when a sort item is selected.
    */
   @Output()
-  public itemSelect: EventEmitter<any> = new EventEmitter(); // TODO: EventEmitter is of type <void>
+  public itemSelect: EventEmitter<any> = new EventEmitter(); // TODO: Change to `EventEmitter<void>` in a breaking change.
 
   public isSelected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
 
-  #subscription!: Subscription;
+  #subscription: Subscription | undefined;
 
   #sortItemId!: string;
 
@@ -54,7 +54,7 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
     this.#detector = detector;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     sortItemIdNumber++;
     this.#sortItemId = SORT_ITEM_ID_PREFIX + sortItemIdNumber.toString();
     this.#subscription = this.#sortService.selectedItem.subscribe(
