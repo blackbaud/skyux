@@ -1,6 +1,5 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
 
 .sky-page-header {
   &-page-title,

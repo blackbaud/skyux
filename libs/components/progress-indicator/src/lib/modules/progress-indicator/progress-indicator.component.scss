@@ -1,8 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
-@import './scss/progress-indicator-variables';
+@use './scss/progress-indicator-variables' as *;
 
 .sky-progress-indicator {
   ::ng-deep {

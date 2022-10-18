@@ -1,8 +1,7 @@
-@use 'libs/components/theme/src/lib/styles/variables' as *;
-@import '../../styles/mixins';
+@use '../../styles/mixins' as popoverMixins;
 
 .sky-dropdown-menu {
-  @include popoverMaxHeight();
+  @include popoverMixins.popoverMaxHeight();
 
   display: flex;
   flex-direction: column;

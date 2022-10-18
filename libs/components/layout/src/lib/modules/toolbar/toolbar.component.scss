@@ -1,6 +1,6 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@import 'scss/variables';
+@use 'scss/variables' as *;
 
 .sky-toolbar-container {
   min-height: $sky-toolbar-min-height;
