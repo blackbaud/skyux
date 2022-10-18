@@ -44,7 +44,7 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
 
   #subscription: Subscription | undefined;
 
-  #sortItemId!: string;
+  #sortItemId: string | undefined;
 
   #sortService: SkySortService;
   #detector: ChangeDetectorRef;
@@ -71,6 +71,7 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (
+      this.#sortItemId &&
       changes &&
       changes['active'] &&
       changes['active'].currentValue &&
@@ -81,8 +82,10 @@ export class SkySortItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public itemClicked(): void {
-    this.#sortService.selectItem(this.#sortItemId);
-    this.itemSelect.emit();
+    if (this.#sortItemId) {
+      this.#sortService.selectItem(this.#sortItemId);
+      this.itemSelect.emit();
+    }
   }
 
   public ngOnDestroy(): void {
