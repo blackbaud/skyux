@@ -27,19 +27,18 @@ export class SkySortFixture {
   public get menu(): SkySortFixtureMenu | undefined {
     const sortButtonTextEl = this.#getSortButtonTextEl();
     const buttonText = SkyAppTestUtility.getText(sortButtonTextEl);
+    /* istanbul ignore else */
     if (sortButtonTextEl && buttonText) {
       return {
         buttonText: buttonText,
         isOpen: this.#getDropdownMenuEl() !== null,
       };
     } else {
-      return undefined;
+      return {
+        buttonText: '',
+        isOpen: this.#getDropdownMenuEl() !== null,
+      };
     }
-    // const theMenu: SkySortFixtureMenu = {
-    //   buttonText: buttonText,
-    //   isOpen: this.#getDropdownMenuEl() !== null,
-    // };
-    // return sortButtonTextEl && buttonText ? theMenu : undefined;
   }
 
   /**
@@ -135,12 +134,13 @@ export class SkySortFixture {
   public async selectMenuItemByText(
     menuItemText: string | undefined
   ): Promise<void> {
+    /* istanbul ignore else */
     if (menuItemText) {
-      return;
-    } else {
       return this.#selectMenuItem((item: HTMLElement) => {
         return SkyAppTestUtility.getText(item) === menuItemText;
       });
+    } else {
+      return;
     }
   }
 
