@@ -26,11 +26,20 @@ export class SkySortFixture {
    */
   public get menu(): SkySortFixtureMenu | undefined {
     const sortButtonTextEl = this.#getSortButtonTextEl();
-    const theMenu: SkySortFixtureMenu = {
-      buttonText: SkyAppTestUtility.getText(sortButtonTextEl),
-      isOpen: this.#getDropdownMenuEl() !== null,
-    };
-    return sortButtonTextEl ? theMenu : undefined;
+    const buttonText = SkyAppTestUtility.getText(sortButtonTextEl);
+    if (sortButtonTextEl && buttonText) {
+      return {
+        buttonText: buttonText,
+        isOpen: this.#getDropdownMenuEl() !== null,
+      };
+    } else {
+      return undefined;
+    }
+    // const theMenu: SkySortFixtureMenu = {
+    //   buttonText: buttonText,
+    //   isOpen: this.#getDropdownMenuEl() !== null,
+    // };
+    // return sortButtonTextEl && buttonText ? theMenu : undefined;
   }
 
   /**
@@ -123,10 +132,16 @@ export class SkySortFixture {
    * if a matching item is available.
    * @param menuItemText The text of the menu item to select.
    */
-  public async selectMenuItemByText(menuItemText: string): Promise<void> {
-    return this.#selectMenuItem((item: HTMLElement) => {
-      return SkyAppTestUtility.getText(item) === menuItemText;
-    });
+  public async selectMenuItemByText(
+    menuItemText: string | undefined
+  ): Promise<void> {
+    if (menuItemText) {
+      return;
+    } else {
+      return this.#selectMenuItem((item: HTMLElement) => {
+        return SkyAppTestUtility.getText(item) === menuItemText;
+      });
+    }
   }
 
   //#region helpers
