@@ -91,7 +91,9 @@ describe('Selection box component', () => {
 
   it('should enable and disable AfterViewInit', async () => {
     const outermostDiv = debugElement.query(
-      By.css('div#checkboxSelectionBoxes > form > sky-selection-box > div')
+      By.css(
+        'div#checkboxSelectionBoxes > form > sky-selection-box > .sky-selection-box'
+      )
     ).nativeElement;
     fixture.detectChanges();
 
@@ -218,10 +220,9 @@ describe('Selection box component', () => {
     expect(selectionBoxes[2]).not.toHaveCssClass('sky-selection-box-selected');
   });
 
-  it('should have a role of button', () => {
-    const role: string | null =
-      getRadioSelectionBoxes()[0]?.getAttribute('role');
-    expect(role).toBe('button');
+  it('should be wrapped in a label element', () => {
+    const tagName: string | null = getRadioSelectionBoxes()[0]?.tagName;
+    expect(tagName).toBe('LABEL');
   });
 
   it('should have a tabindex of 0', () => {

@@ -590,6 +590,10 @@ describe('Vertical tabset component', () => {
 
   it('should be accessible', async () => {
     const fixture = createTestComponent();
+
+    // Show the tab's panel for the test.
+    fixture.componentInstance.showScrollable = true;
+
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();

@@ -16,6 +16,14 @@
   }
 }
 
+.sky-split-view-dock-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
 // Drawer should be full-width when in mobile view.
 @include sky-host-responsive-container-xs-min() {
   .sky-split-view-drawer-flex-container {

@@ -1,7 +1,7 @@
 <form [formGroup]="myForm">
   <sky-selection-box-grid>
     <sky-selection-box
-      *ngFor="let control of checkboxArray?.controls; let i = index"
+      *ngFor="let control of checkboxControls; let i = index"
       [control]="checkbox"
     >
       <sky-icon iconType="skyux" [icon]="selectionBoxes[i].icon"></sky-icon>

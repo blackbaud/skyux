@@ -1,7 +1,7 @@
 .page-flex {
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -9,10 +9,12 @@
 }
 
 .page-flex-header {
-  flex: 0 0 auto;
+  flex-grow: 0;
 }
 
 .page-flex-main {
   flex-grow: 1;
   overflow: auto;
+  /* Required for the split view to fill this element instead of the document */
+  position: relative;
 }

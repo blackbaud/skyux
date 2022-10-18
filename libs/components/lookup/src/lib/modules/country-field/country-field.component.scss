@@ -1,7 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'node_modules/intl-tel-input/build/css/intlTelInput';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'node_modules/intl-tel-input/build/css/intlTelInput';
 
 @mixin sky-country-field-textarea {
   overflow: hidden;
@@ -69,11 +68,11 @@
 
 .sky-country-field-country-selected,
 .sky-country-field-country-default {
-  @include sky-border(light, bottom);
+  @include defaultMixins.sky-border(light, bottom);
 }
 
 :host(.ng-invalid.ng-touched) .sky-country-field-input textarea {
-  @include sky-field-status(invalid);
+  @include defaultMixins.sky-field-status(invalid);
 }
 
 ::ng-deep {

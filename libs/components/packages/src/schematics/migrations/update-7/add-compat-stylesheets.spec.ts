@@ -5,7 +5,7 @@ import { join } from 'path';
 import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 
 describe('Migrations > Add compat stylesheets', () => {
-  const compatStylesheetPath = '/src/app/skyux7-compat.css';
+  const compatStylesheetPath = 'src/app/skyux7-compat.css';
   const alertContents = `/*******************************************************************************
  * TODO: The following component libraries introduced visual breaking changes
  * in SKY UX 7. Each block of CSS reintroduces the styles that were changed or

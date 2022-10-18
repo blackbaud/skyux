@@ -1,12 +1,11 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-btn {
   margin-right: $sky-margin;
 }
 
-@include sky-theme-modern {
+@include defaultMixins.sky-theme-modern {
   .sky-btn {
     margin-right: $sky-theme-modern-margin-inline-sm;
   }
