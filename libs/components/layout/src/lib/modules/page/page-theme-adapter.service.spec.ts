@@ -3,27 +3,37 @@ import { expect } from '@skyux-sdk/testing';
 import { SkyPageThemeAdapterService } from './page-theme-adapter.service';
 
 describe('Page theme service', () => {
+  let pageThemeSvc!: SkyPageThemeAdapterService;
+
+  function getHeadStyleCount(): number {
+    return document.head.querySelectorAll('style').length;
+  }
+
+  beforeEach(() => {
+    pageThemeSvc = new SkyPageThemeAdapterService(document);
+  });
+
+  afterEach(() => {
+    pageThemeSvc.removeTheme();
+  });
+
   it('should not add the theme stylesheet twice', () => {
-    const appendChildSpy = spyOn(document.head, 'appendChild');
-
-    const pageThemeSvc = new SkyPageThemeAdapterService();
+    const styleCount = getHeadStyleCount();
 
     pageThemeSvc.addTheme();
     pageThemeSvc.addTheme();
 
-    expect(appendChildSpy).toHaveBeenCalledTimes(1);
+    expect(getHeadStyleCount()).toBe(styleCount + 1);
   });
 
   it('should not remove the theme stylesheet twice', () => {
-    const removeChildSpy = spyOn(document.head, 'removeChild');
-
-    const pageThemeSvc = new SkyPageThemeAdapterService();
-
     pageThemeSvc.addTheme();
 
+    const styleCount = getHeadStyleCount();
+
     pageThemeSvc.removeTheme();
     pageThemeSvc.removeTheme();
 
-    expect(removeChildSpy).toHaveBeenCalledTimes(1);
+    expect(getHeadStyleCount()).toBe(styleCount - 1);
   });
 });

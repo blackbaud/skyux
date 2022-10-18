@@ -22,7 +22,6 @@ const RESOURCES: { [locale: string]: SkyLibResources } = {
     skyux_autocomplete_show_all_count: { message: 'Show all {0}' },
     skyux_autocomplete_show_matches_count: { message: 'Show matches ({0})' },
     skyux_country_field_search_placeholder: { message: 'Search for a country' },
-    skyux_lookup_search_icon: { message: 'Search' },
     skyux_lookup_search_button_show_more: {
       message: 'Show all search results',
     },

@@ -1,9 +1,8 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/variables';
-@import 'node_modules/ag-grid-community/src/styles/ag-grid';
-@import 'node_modules/ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'node_modules/ag-grid-community/src/styles/ag-grid';
+@use 'node_modules/ag-grid-community/src/styles/ag-theme-base/sass/ag-theme-base-mixin'
+  as agGridBaseMixin;
 
 $sky-standard-border: 1px solid $sky-border-color-neutral-medium;
 $sky-standard-border-theme-modern: 1px solid
@@ -46,7 +45,7 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 }
 
 ag-grid-angular:not(.sky-ag-grid-editable) {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       background-color: $sky-color-gray-01,
       border-color: $sky-border-color-neutral-medium,
@@ -107,7 +106,7 @@ ag-grid-angular:not(.sky-ag-grid-editable) {
 }
 
 ag-grid-angular.sky-ag-grid-editable {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       border-color: $sky-border-color-neutral-medium,
       borders: true,
@@ -230,7 +229,7 @@ ag-grid-angular.sky-ag-grid-editable {
     .ag-cell-focus.ag-cell-inline-editing,
     .ag-cell-focus.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
       height: ag-param(row-height) - 1;
-      @include sky-field-status(active);
+      @include mixins.sky-field-status(active);
     }
   }
 }
@@ -238,7 +237,7 @@ ag-grid-angular.sky-ag-grid-editable {
 // ag-grid only allows one theme include per root selector; adding this
 .sky-theme-modern:not(.the-editing-theme)
   ag-grid-angular:not(.sky-ag-grid-editable) {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       border-color: $sky-theme-modern-border-color-neutral-medium,
       borders: true,
@@ -301,7 +300,7 @@ ag-grid-angular.sky-ag-grid-editable {
 }
 
 .sky-theme-modern ag-grid-angular.sky-ag-grid-editable {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       border-color: $sky-theme-modern-border-color-neutral-medium,
       borders: true,
@@ -425,7 +424,7 @@ ag-grid-angular.sky-ag-grid-editable {
 // ag-grid only allows one theme include per root selector; adding this
 .sky-theme-modern.sky-theme-mode-dark:not(.the-editing-theme)
   ag-grid-angular:not(.sky-ag-grid-editable) {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       background-color:
         $sky-theme-modern-mode-dark-background-color-page-default,
@@ -498,7 +497,7 @@ ag-grid-angular.sky-ag-grid-editable {
 }
 
 .sky-theme-modern.sky-theme-mode-dark ag-grid-angular.sky-ag-grid-editable {
-  @include ag-theme-base(
+  @include agGridBaseMixin.ag-theme-base(
     (
       background-color:
         $sky-theme-modern-mode-dark-background-color-page-default,

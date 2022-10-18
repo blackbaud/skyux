@@ -18,6 +18,11 @@ const routes: Routes = [
     path: 'wait',
     loadChildren: () => import('./wait/wait.module').then((m) => m.WaitModule),
   },
+  {
+    path: 'alert',
+    loadChildren: () =>
+      import('./alert/alert.module').then((m) => m.AlertModule),
+  },
 ];
 
 @NgModule({

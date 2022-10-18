@@ -9,6 +9,8 @@ import { DescriptionListDemoComponent } from '../code-examples/layout/descriptio
 import { DescriptionListDemoModule } from '../code-examples/layout/description-list/horizontal/description-list-demo.module';
 import { FormatDemoComponent } from '../code-examples/layout/format/format-demo.component';
 import { FormatDemoModule } from '../code-examples/layout/format/format-demo.module';
+import { PageDemoComponent } from '../code-examples/layout/page/layout-fit/page-demo.component';
+import { PageDemoModule } from '../code-examples/layout/page/layout-fit/page-demo.module';
 import { TextExpandRepeaterDemoComponent } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.component';
 import { TextExpandRepeaterDemoModule } from '../code-examples/layout/text-expand-repeater/text-expand-repeater-demo.module';
 import { TextExpandDemoComponent } from '../code-examples/layout/text-expand/inline/text-expand-demo.component';
@@ -30,6 +32,10 @@ const routes: Routes = [
   {
     path: 'format',
     component: FormatDemoComponent,
+  },
+  {
+    path: 'page',
+    component: PageDemoComponent,
   },
   {
     path: 'text-expand-repeater',
@@ -54,6 +60,7 @@ export class LayoutRoutingModule {}
     DescriptionListDemoModule,
     FormatDemoModule,
     LayoutRoutingModule,
+    PageDemoModule,
     TextExpandRepeaterDemoModule,
     TextExpandDemoModule,
   ],

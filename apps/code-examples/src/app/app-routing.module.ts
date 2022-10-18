@@ -86,6 +86,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'split-view',
+    loadChildren: () =>
+      import('./features/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./features/datetime.module').then((m) => m.DatetimeFeatureModule),

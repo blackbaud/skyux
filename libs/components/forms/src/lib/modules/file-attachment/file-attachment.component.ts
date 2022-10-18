@@ -28,6 +28,7 @@ import { SkyFileAttachmentLabelComponent } from './file-attachment-label.compone
 import { SkyFileAttachmentService } from './file-attachment.service';
 import { SkyFileItem } from './file-item';
 import { SkyFileItemService } from './file-item.service';
+import { SkyFileValidateFn } from './file-validate-function';
 import { SkyFileAttachmentChange } from './types/file-attachment-change';
 import { SkyFileAttachmentClick } from './types/file-attachment-click';
 
@@ -104,8 +105,7 @@ export class SkyFileAttachmentComponent
    * file validation. This function takes a `SkyFileItem` object as a parameter.
    */
   @Input()
-  // TODO: Change `Function` to a more specific type in a breaking change.
-  public validateFn: Function | undefined;
+  public validateFn: SkyFileValidateFn | undefined;
 
   /**
    * Fires when users add or remove files.

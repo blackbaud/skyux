@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-token {
   background-color: $sky-background-color-info-light;
@@ -18,7 +17,7 @@
   }
 
   &:focus {
-    @include sky-field-status('active');
+    @include mixins.sky-field-status('active');
   }
 }
 
@@ -44,7 +43,7 @@
   display: none;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-token {
     align-items: center;
     display: inline-flex;
@@ -56,7 +55,7 @@
     }
 
     &:not(.sky-btn-disabled) {
-      @include sky-theme-modern-border($sky-background-color-info);
+      @include mixins.sky-theme-modern-border($sky-background-color-info);
     }
 
     &.sky-token-dismissable {
@@ -64,15 +63,15 @@
     }
 
     &:hover:not(:active) {
-      @include sky-theme-modern-border-hover;
+      @include mixins.sky-theme-modern-border-hover;
     }
 
     &.sky-token-active {
-      @include sky-theme-modern-border-active;
+      @include mixins.sky-theme-modern-border-active;
     }
 
     &:focus:not(:active) {
-      @include sky-theme-modern-border-focus;
+      @include mixins.sky-theme-modern-border-focus;
     }
 
     &:focus,
@@ -90,18 +89,18 @@
     width: 20px;
 
     &:hover {
-      @include sky-theme-modern-border-hover(transparent);
+      @include mixins.sky-theme-modern-border-hover(transparent);
     }
 
     &.sky-token-btn-close-active {
-      @include sky-theme-modern-border-active;
+      @include mixins.sky-theme-modern-border-active;
     }
 
     &:focus {
       outline: none;
 
       &:not(:active) {
-        @include sky-theme-modern-border-focus;
+        @include mixins.sky-theme-modern-border-focus;
       }
     }
   }
@@ -116,7 +115,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-token {
     background-color: $sky-background-color-info-light;
   }

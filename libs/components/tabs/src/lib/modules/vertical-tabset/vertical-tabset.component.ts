@@ -52,7 +52,7 @@ export class SkyVerticalTabsetComponent
    * Specifies the text to display on the show tabs button on mobile devices.
    */
   @Input()
-  public showTabsText: string;
+  public showTabsText: string | undefined;
 
   /**
    * Specifies an ARIA label for the tabset. This sets the tabset's `aria-label` attribute
@@ -60,7 +60,7 @@ export class SkyVerticalTabsetComponent
    * If the tabset includes a visible label, use `ariaLabelledBy` instead.
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Specifies the HTML element ID (without the leading `#`) of the element that labels
@@ -69,7 +69,7 @@ export class SkyVerticalTabsetComponent
    * If the tabset does not include a visible label, use `ariaLabel` instead.
    */
   @Input()
-  public ariaLabelledBy: string;
+  public ariaLabelledBy: string | undefined;
 
   /**
    * Specifies an ARIA role for the vertical tabset
@@ -83,13 +83,11 @@ export class SkyVerticalTabsetComponent
    */
   @Input()
   public get ariaRole(): string {
-    if (this.isMobile) {
-      return undefined;
-    }
-    return this._ariaRole || 'tablist';
+    return this.#_ariaRole;
   }
-  public set ariaRole(value: string) {
-    this._ariaRole = value;
+
+  public set ariaRole(value: string | undefined) {
+    this.#_ariaRole = value ?? 'tablist';
   }
 
   /**
@@ -98,7 +96,7 @@ export class SkyVerticalTabsetComponent
    * @default false
    */
   @Input()
-  public maintainTabContent = false;
+  public maintainTabContent: boolean | undefined = false;
 
   /**
    * Fires when the active tab changes. Emits the index of the active tab. The
@@ -108,52 +106,58 @@ export class SkyVerticalTabsetComponent
   public activeChange = new EventEmitter<number>();
 
   @ViewChild('groupContainerWrapper')
-  public tabGroups: ElementRef;
+  public tabGroups: ElementRef | undefined;
 
   @ViewChild('skySideContent')
-  public content: ElementRef;
+  public content: ElementRef | undefined;
 
   @ViewChild('contentContainerWrapper')
-  private contentWrapper: ElementRef;
+  public contentWrapper: ElementRef | undefined;
 
-  private isMobile = false;
-  private _ngUnsubscribe = new Subject<void>();
-  private _ariaRole: string;
+  public isMobile = false;
+  #ngUnsubscribe = new Subject<void>();
+  #_ariaRole = 'tablist';
+
+  #resources: SkyLibResourcesService;
+  #changeRef: ChangeDetectorRef;
 
   constructor(
     public adapterService: SkyVerticalTabsetAdapterService,
     public tabService: SkyVerticalTabsetService,
-    private resources: SkyLibResourcesService,
-    private changeRef: ChangeDetectorRef
-  ) {}
+    resources: SkyLibResourcesService,
+    changeRef: ChangeDetectorRef
+  ) {
+    this.#resources = resources;
+    this.#changeRef = changeRef;
+  }
 
   public ngOnInit() {
     this.tabService.maintainTabContent = this.maintainTabContent;
 
     this.tabService.indexChanged
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((index: any) => {
         this.activeChange.emit(index);
         if (this.contentWrapper) {
           this.adapterService.scrollToContentTop(this.contentWrapper);
         }
-        this.changeRef.markForCheck();
+        this.#changeRef.markForCheck();
       });
 
     this.tabService.switchingMobile
-      .pipe(takeUntil(this._ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeRef.markForCheck();
+        this.#changeRef.markForCheck();
       });
 
     if (this.tabService.isMobile()) {
       this.isMobile = true;
       this.tabService.animationContentVisibleState = VISIBLE_STATE;
-      this.changeRef.markForCheck();
+      this.#changeRef.markForCheck();
     }
     if (!this.showTabsText) {
-      this.resources
+      this.#resources
         .getString('skyux_vertical_tabs_show_tabs_text')
         .pipe(take(1))
         .subscribe((resource) => {
@@ -172,7 +176,7 @@ export class SkyVerticalTabsetComponent
   }
 
   public ngOnDestroy() {
-    this._ngUnsubscribe.next();
-    this._ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

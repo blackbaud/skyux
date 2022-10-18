@@ -1,4 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/_mixins.scss';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .flyout-reponsive-wrapper {
   width: 100%;
@@ -70,7 +70,7 @@
   }
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .box-1 {
     flex-basis: 25%;
   }
@@ -80,7 +80,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .box-1 {
     flex-basis: 40%;
   }
@@ -90,7 +90,7 @@
   }
 }
 
-@include sky-host-responsive-container-md-min() {
+@include mixins.sky-host-responsive-container-md-min() {
   .box-1 {
     flex-basis: 50%;
   }
@@ -100,7 +100,7 @@
   }
 }
 
-@include sky-host-responsive-container-lg-min() {
+@include mixins.sky-host-responsive-container-lg-min() {
   .box-1 {
     flex-basis: 75%;
   }

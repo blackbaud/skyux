@@ -1,4 +1,5 @@
-@import 'mixins';
+@use 'mixins' as mixins;
+@use 'variables' as *;
 
 .sky-page-heading {
   font-family: $sky-font-family-condensed;
@@ -15,7 +16,7 @@
 }
 
 .sky-subsection-heading {
-  @include sky-subsection-heading();
+  @include mixins.sky-subsection-heading();
 }
 
 .sky-headline {
@@ -33,7 +34,7 @@
 }
 
 .sky-deemphasized {
-  @include sky-deemphasized();
+  @include mixins.sky-deemphasized();
 }
 
 .sky-field-label {
@@ -81,7 +82,7 @@
   color: $sky-text-color-default;
 
   &:before {
-    @include sky-danger;
+    @include mixins.sky-danger;
   }
 }
 
@@ -192,7 +193,7 @@
 }
 
 .sky-screen-reader-only {
-  @include sky-screen-reader-only;
+  @include mixins.sky-screen-reader-only;
 }
 
 .sky-font-data-label {

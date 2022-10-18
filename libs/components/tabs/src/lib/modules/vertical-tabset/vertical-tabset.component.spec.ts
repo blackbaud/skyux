@@ -62,7 +62,7 @@ function getOpenTabGroups(fixture: ComponentFixture<any>): HTMLElement[] {
 }
 
 function clickGroupButton(fixture: ComponentFixture<any>, index: number): void {
-  getTabGroups(fixture)[index].querySelector('button').click();
+  getTabGroups(fixture)[index].querySelector('button')?.click();
   fixture.detectChanges();
   tick();
 }
@@ -119,7 +119,7 @@ function expectVisibleTabContentPane(
 ): void {
   const visibleTabContent = getVisibleTabContentPane(fixture);
   expect(visibleTabContent.length).toBe(1);
-  expect(visibleTabContent[0].textContent.trim()).toBe(innerText);
+  expect(visibleTabContent[0]).toHaveText(innerText);
 }
 // #endregion
 
@@ -160,7 +160,7 @@ describe('Vertical tabset component', () => {
 
     // check open group tab content
     const content = getVisibleTabContentPane(fixture)[0];
-    expect(content.textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(content).toHaveText('Group 1 Tab 1 content');
   });
 
   it('open second tab in second group', fakeAsync(() => {
@@ -245,9 +245,32 @@ describe('Vertical tabset component', () => {
 
     // check open tab content
     const tab = el.querySelector('sky-vertical-tab a');
-    expect(tab.id).toBe('some-tab');
-    expect(tab.getAttribute('aria-controls')).toBe('some-div');
-    expect(tab.getAttribute('role')).toBe('tab');
+    const tabset = el.querySelector(
+      'sky-vertical-tabset .sky-vertical-tabset-group-container'
+    );
+    expect(tab?.id).toBe('some-tab');
+    expect(tab?.getAttribute('aria-controls')).toBe('some-div');
+    expect(tab?.getAttribute('id')).toBe('some-tab');
+    expect(tab?.getAttribute('role')).toBe('tab');
+    expect(tabset?.getAttribute('role')).toBe('tablist');
+
+    fixture.componentInstance.tab1Id = undefined;
+    fixture.componentInstance.tab1AriaRole = undefined;
+    fixture.componentInstance.tabsetAriaRole = undefined;
+    fixture.detectChanges();
+    expect(tab?.getAttribute('id')).toEqual(
+      jasmine.stringMatching(/sky-vertical-tab-[0-9]/)
+    );
+    expect(tab?.getAttribute('role')).toBe('tab');
+    expect(tabset?.getAttribute('role')).toBe('tablist');
+
+    fixture.componentInstance.tab1Id = 'tab-changed';
+    fixture.componentInstance.tab1AriaRole = 'custom';
+    fixture.componentInstance.tabsetAriaRole = 'custom';
+    fixture.detectChanges();
+    expect(tab?.getAttribute('id')).toBe('tab-changed');
+    expect(tab?.getAttribute('role')).toBe('custom');
+    expect(tabset?.getAttribute('role')).toBe('custom');
   });
 
   it('check closing of group', fakeAsync(() => {
@@ -310,7 +333,7 @@ describe('Vertical tabset component', () => {
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 1 content');
 
     // check tabs are not visible
     const tabs = getTabsContainer(fixture);
@@ -331,7 +354,7 @@ describe('Vertical tabset component', () => {
     // check content is visible
     let visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 1 content');
 
     // click show tabs
     const showTabsButton = el.querySelector(
@@ -378,7 +401,7 @@ describe('Vertical tabset component', () => {
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 2 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 2 content');
   });
 
   it('tabs should not have tab aria associations and roles in mobile view', () => {
@@ -410,7 +433,7 @@ describe('Vertical tabset component', () => {
 
     // simulate screensize change switching to mobile
     mockQueryService.fire(SkyMediaBreakpoints.xs);
-    fixture.componentInstance.tabset.tabService.updateContent();
+    fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
 
     // check tabs are not visible
@@ -420,7 +443,7 @@ describe('Vertical tabset component', () => {
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 1 content');
 
     // check show tabs button is visible
     const showTabsButton = el.querySelector(
@@ -438,7 +461,7 @@ describe('Vertical tabset component', () => {
 
     // simulate screensize change switching to widescreen
     mockQueryService.fire(SkyMediaBreakpoints.lg);
-    fixture.componentInstance.tabset.tabService.updateContent();
+    fixture.componentInstance.tabset?.tabService.updateContent();
     fixture.detectChanges();
 
     // check tabs are visible
@@ -448,7 +471,7 @@ describe('Vertical tabset component', () => {
     // check content is visible
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 1 content');
 
     // check show tabs button is not visible
     const showTabsButton = el.querySelectorAll(
@@ -472,7 +495,7 @@ describe('Vertical tabset component', () => {
     // check open tab
     let visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 1 content');
 
     // check open group
     expectOpenGroup(fixture, 'Group 1');
@@ -486,7 +509,7 @@ describe('Vertical tabset component', () => {
     // check open tab
     visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 1 Tab 2 content');
+    expect(visibleTabs[0]).toHaveText('Group 1 Tab 2 content');
 
     // check open group
     expectOpenGroup(fixture, 'Group 1');
@@ -503,7 +526,7 @@ describe('Vertical tabset component', () => {
     const activeTab = el.querySelectorAll('.sky-vertical-tab-active');
     expect(activeTab.length).toBe(1);
     const headerCount = activeTab[0].querySelector('.sky-vertical-tab-count');
-    expect(headerCount.textContent.trim()).toBe('(5)');
+    expect(headerCount).toHaveText('(5)');
   });
 
   it('should not display tab header count when not defined', fakeAsync(() => {
@@ -550,7 +573,7 @@ describe('Vertical tabset component', () => {
     // check content is displayed
     let visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 2 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 2 Tab 1 content');
 
     // try clicking disabled third tab in second group
     tabs[4].click();
@@ -560,13 +583,17 @@ describe('Vertical tabset component', () => {
     // check content of second tab still displayed
     visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 2 Tab 1 content');
+    expect(visibleTabs[0]).toHaveText('Group 2 Tab 1 content');
 
     flush();
   }));
 
   it('should be accessible', async () => {
     const fixture = createTestComponent();
+
+    // Show the tab's panel for the test.
+    fixture.componentInstance.showScrollable = true;
+
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
@@ -582,27 +609,13 @@ describe('Vertical tabset component', () => {
     // check order of vertical tab content
     const allTabContentElements = getTabContentPanes(fixture);
     expect(allTabContentElements.length).toBe(7);
-    expect(allTabContentElements[0].textContent.trim()).toBe(
-      'Group 1 Tab 1 content'
-    );
-    expect(allTabContentElements[1].textContent.trim()).toBe(
-      'Group 1 Tab 2 content'
-    );
-    expect(allTabContentElements[2].textContent.trim()).toBe(
-      'Group 2 Tab 1 content'
-    );
-    expect(allTabContentElements[3].textContent.trim()).toBe(
-      'Group 2 Tab 2 content'
-    );
-    expect(allTabContentElements[4].textContent.trim()).toBe(
-      'Group 2 Tab 3 content'
-    );
-    expect(allTabContentElements[5].textContent.trim()).toBe(
-      'Group 3 Tab 1 content'
-    );
-    expect(allTabContentElements[6].textContent.trim()).toBe(
-      'Group 3 Tab 2 content'
-    );
+    expect(allTabContentElements[0]).toHaveText('Group 1 Tab 1 content');
+    expect(allTabContentElements[1]).toHaveText('Group 1 Tab 2 content');
+    expect(allTabContentElements[2]).toHaveText('Group 2 Tab 1 content');
+    expect(allTabContentElements[3]).toHaveText('Group 2 Tab 2 content');
+    expect(allTabContentElements[4]).toHaveText('Group 2 Tab 3 content');
+    expect(allTabContentElements[5]).toHaveText('Group 3 Tab 1 content');
+    expect(allTabContentElements[6]).toHaveText('Group 3 Tab 2 content');
 
     // open second group
     clickGroupButton(fixture, 1);
@@ -619,7 +632,7 @@ describe('Vertical tabset component', () => {
     // check open tab
     const visibleTabs = getVisibleTabContentPane(fixture);
     expect(visibleTabs.length).toBe(1);
-    expect(visibleTabs[0].textContent.trim()).toBe('Group 2 Tab 2 content');
+    expect(visibleTabs[0]).toHaveText('Group 2 Tab 2 content');
 
     // check open group
     expectOpenGroup(fixture, 'Group 2');
@@ -629,27 +642,13 @@ describe('Vertical tabset component', () => {
     // check order of vertical tab content - order should not change
     const allTabContentElements2 = getTabContentPanes(fixture);
     expect(allTabContentElements2.length).toBe(7);
-    expect(allTabContentElements2[0].textContent.trim()).toBe(
-      'Group 1 Tab 1 content'
-    );
-    expect(allTabContentElements2[1].textContent.trim()).toBe(
-      'Group 1 Tab 2 content'
-    );
-    expect(allTabContentElements2[2].textContent.trim()).toBe(
-      'Group 2 Tab 1 content'
-    );
-    expect(allTabContentElements2[3].textContent.trim()).toBe(
-      'Group 2 Tab 2 content'
-    );
-    expect(allTabContentElements2[4].textContent.trim()).toBe(
-      'Group 2 Tab 3 content'
-    );
-    expect(allTabContentElements2[5].textContent.trim()).toBe(
-      'Group 3 Tab 1 content'
-    );
-    expect(allTabContentElements2[6].textContent.trim()).toBe(
-      'Group 3 Tab 2 content'
-    );
+    expect(allTabContentElements2[0]).toHaveText('Group 1 Tab 1 content');
+    expect(allTabContentElements2[1]).toHaveText('Group 1 Tab 2 content');
+    expect(allTabContentElements2[2]).toHaveText('Group 2 Tab 1 content');
+    expect(allTabContentElements2[3]).toHaveText('Group 2 Tab 2 content');
+    expect(allTabContentElements2[4]).toHaveText('Group 2 Tab 3 content');
+    expect(allTabContentElements2[5]).toHaveText('Group 3 Tab 1 content');
+    expect(allTabContentElements2[6]).toHaveText('Group 3 Tab 2 content');
   }));
 
   it('should add the appropriate responsive container upon initialization', async () => {
@@ -662,13 +661,13 @@ describe('Vertical tabset component', () => {
     const fixture = createTestComponent();
     fixture.detectChanges();
 
-    const activeTab = fixture.componentInstance.verticalTabs.find(
-      (tab) => tab.active
+    const activeTab = fixture.componentInstance.verticalTabs?.find(
+      (tab) => !!tab.active
     );
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(640);
     expect(
       tabContentPane.classList.contains('sky-responsive-container-xs')
@@ -684,13 +683,13 @@ describe('Vertical tabset component', () => {
     ).and.returnValue(1500);
     fixture.detectChanges();
 
-    const activeTab = fixture.componentInstance.verticalTabs.find(
-      (tab) => tab.active
+    const activeTab = fixture.componentInstance.verticalTabs?.find(
+      (tab) => !!tab.active
     );
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+    let tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
 
     expect(
       tabContentPane.classList.contains('sky-responsive-container-lg')
@@ -704,7 +703,7 @@ describe('Vertical tabset component', () => {
     SkyAppTestUtility.fireDomEvent(window, 'resize');
     fixture.detectChanges();
 
-    tabContentPane = activeTab.tabContent.nativeElement;
+    tabContentPane = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(1100);
     expect(
       tabContentPane.classList.contains('sky-responsive-container-md')
@@ -729,10 +728,10 @@ describe('Vertical tabset component', () => {
     tick();
     fixture.detectChanges();
 
-    const activeTab = fixture.componentInstance.verticalTabs.find(
-      (tab) => tab.active
+    const activeTab = fixture.componentInstance.verticalTabs?.find(
+      (tab) => !!tab.active
     );
-    const tabContentPane: HTMLElement = activeTab.tabContent.nativeElement;
+    const tabContentPane: HTMLElement = activeTab?.tabContent?.nativeElement;
     expect(mediaQuerySpy).toHaveBeenCalledWith(800);
     expect(
       tabContentPane.classList.contains('sky-responsive-container-sm')
@@ -752,7 +751,9 @@ describe('Vertical tabset component', () => {
 
     const contentPane = document.querySelector('.sky-vertical-tabset-content');
 
-    contentPane.scrollTop = 200;
+    if (contentPane) {
+      contentPane.scrollTop = 200;
+    }
 
     fixture.detectChanges();
 
@@ -762,7 +763,7 @@ describe('Vertical tabset component', () => {
 
     fixture.detectChanges();
 
-    expect(contentPane.scrollTop).toBe(0);
+    expect(contentPane?.scrollTop).toBe(0);
   });
 
   it('should be accessible when content pane is scrollable', async () => {
@@ -846,7 +847,7 @@ describe('Vertical tabset component - with ngFor', () => {
     let tabContent = visibleTabContent[0];
     expect(tabContent).not.toBeUndefined();
     expect(fixture.componentInstance.activeIndex).toEqual(0);
-    expect(tabContent.textContent.trim()).toBe('Tab 2 content');
+    expect(tabContent).toHaveText('Tab 2 content');
 
     // Now, remove last (second) tab from array.
     component.tabs.splice(1, 1);
@@ -858,7 +859,7 @@ describe('Vertical tabset component - with ngFor', () => {
     tabContent = visibleTabContent[0];
     expect(tabContent).not.toBeUndefined();
     expect(fixture.componentInstance.activeIndex).toEqual(0);
-    expect(tabContent.textContent.trim()).toBe('Tab 2 content');
+    expect(tabContent).toHaveText('Tab 2 content');
   });
 });
 
@@ -929,7 +930,7 @@ describe('Vertical tabset no active tabs', () => {
 
   it('should not fail when trying to move active content when no tabs are active', () => {
     // move content should not fail
-    fixture.componentInstance.tabset.tabService.updateContent();
+    fixture.componentInstance.tabset?.tabService.updateContent();
   });
 
   it('should be accessible', async () => {

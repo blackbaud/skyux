@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 ::ng-deep .sky-alert {
   margin-top: 0;
