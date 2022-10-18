@@ -69,6 +69,11 @@
               (keydown)="inputKeydown($event)"
               (keyup)="inputKeyup($event)"
             ></textarea>
+            <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
+              <ng-container
+                *ngTemplateOutlet="searchIconTemplateRef"
+              ></ng-container>
+            </ng-container>
           </sky-tokens>
           <div
             *ngIf="selectMode === 'single'"
@@ -86,16 +91,16 @@
               [disabled]="disabled"
               (blur)="onAutocompleteBlur()"
             ></textarea>
+            <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
+              <ng-container
+                *ngTemplateOutlet="searchIconTemplateRef"
+              ></ng-container>
+            </ng-container>
           </div>
         </div>
         <ng-container *ngIf="!inputBoxHostSvc && enableShowMore">
           <ng-container
             *ngTemplateOutlet="showMoreButtonTemplateRef"
-          ></ng-container>
-        </ng-container>
-        <ng-container *ngIf="!inputBoxHostSvc && !enableShowMore">
-          <ng-container
-            *ngTemplateOutlet="searchIconTemplateRef"
           ></ng-container>
         </ng-container>
       </div>
