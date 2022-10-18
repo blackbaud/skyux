@@ -1,10 +1,15 @@
+// The entry point for commonly used internal-only SCSS mixins.
+// (Our components should @use this file in their SCSS file.)
+
 @forward '_compat/mixins';
 @forward 'mixins-public';
 
-// Forward the variables for backward compatibility.
-// (Some style sheets only imported the mixins.scss file and expected the variables to be available.)
+// Export variables for backward compatibility.
+// (Some stylesheets only import the mixins.scss file and expected the variables to be available.)
 @forward 'variables';
 
+// We need to scope the variables used in this file in case the consumer also imports the mixins file.
+// (See reasoning for forwarding the variables, above.)
 @use 'variables' as vars;
 
 @mixin sky-deemphasized {
@@ -49,7 +54,7 @@
   $color,
   $background,
   $border,
-  $hoverBackground: darken($background, 10%)
+  $hoverbackground: darken($background, 10%)
 ) {
   color: $color;
   background-color: $background;
@@ -59,7 +64,7 @@
   &:active,
   &.sky-btn-active {
     color: $color;
-    background-color: $hoverBackground;
+    background-color: $hoverbackground;
     border-color: darken($border, 10%);
   }
   &:active,

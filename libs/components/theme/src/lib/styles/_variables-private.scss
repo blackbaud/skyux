@@ -1,3 +1,10 @@
+// This file defines variables only used by our components internally.
+// ---
+// It was separated from the _variables.scss entry point because _variables.scss exports
+// the _mixins/_variables.scss file, but _mixins/_variables.scss imports _variables.scss,
+// creating a circular reference. The circular reference is resolved by
+// _mixins/_variables.scss importing this file instead.
+
 @use 'variables-public' as *;
 
 $sky-border-radius: 3px;
