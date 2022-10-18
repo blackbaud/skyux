@@ -8,16 +8,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
  */
 @Injectable()
 export class SkyRadioGroupIdService {
-  public radioIds$: Observable<string[]>;
+  public get radioIds(): Observable<string[]> {
+    return this.#radioIdsObs;
+  }
 
   #radioIds: string[] = [];
   #radioIds$: BehaviorSubject<string[]>;
+  #radioIdsObs: Observable<string[]>;
 
   constructor() {
     this.#radioIds$ = new BehaviorSubject<string[]>([]);
-    this.radioIds$ = this.#radioIds$.asObservable();
+    this.#radioIdsObs = this.#radioIds$.asObservable();
   }
 
+  /**
+   * Associates a radio input's ID with its parent radio group.
+   */
   public registerId(id: string): void {
     if (this.#radioIds.indexOf(id) === -1) {
       this.#radioIds.push(id);
@@ -25,11 +31,20 @@ export class SkyRadioGroupIdService {
     }
   }
 
+  /**
+   * Updates a radio input's ID with its parent radio group.
+   */
   public updateId(oldId: string, newId: string): void {
-    this.unregisterId(oldId);
-    this.registerId(newId);
+    const index = this.#radioIds.indexOf(oldId);
+    if (index > -1) {
+      this.#radioIds[index] = newId;
+      this.#emitRadioIds();
+    }
   }
 
+  /**
+   * Disassociates a radio input's ID with its parent radio group.
+   */
   public unregisterId(id: string): void {
     const index = this.#radioIds.indexOf(id);
     if (index > -1) {

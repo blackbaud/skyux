@@ -562,11 +562,29 @@ describe('Radio group component (reactive)', function () {
 
   it('should set aria-owns as a space-separated list of radio ids', () => {
     fixture.detectChanges();
+
     const radioGroupEl: HTMLDivElement =
       fixture.nativeElement.querySelector('.sky-radio-group');
+
     expect(radioGroupEl.getAttribute('aria-owns')).toMatch(
       /sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input/
     );
+  });
+
+  it('should update aria-owns if radio IDs change', () => {
+    fixture.detectChanges();
+
+    const radioGroupEl: HTMLDivElement =
+      fixture.nativeElement.querySelector('.sky-radio-group');
+
+    const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
+
+    fixture.componentInstance.options[0].id = 'foobar';
+    fixture.detectChanges();
+
+    const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
+
+    expect(originalAriaOwns).not.toEqual(newAriaOwns);
   });
 });
 
