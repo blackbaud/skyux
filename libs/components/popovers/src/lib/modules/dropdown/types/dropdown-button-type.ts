@@ -1,1 +1,1 @@
-export type SkyDropdownButtonType = 'icon' | 'select' | 'context-menu' | 'tab';
+export type SkyDropdownButtonType = 'select' | 'context-menu' | 'tab';

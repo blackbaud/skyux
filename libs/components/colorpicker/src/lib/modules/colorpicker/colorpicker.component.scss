@@ -1,6 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-colorpicker-container {
   position: fixed;
@@ -42,7 +42,7 @@
 .sky-colorpicker-reset-button {
   background-color: $sky-color-white;
   margin-left: $sky-margin-half;
-  @include sky-border(light, top, right, bottom, left);
+  @include mixins.sky-border(light, top, right, bottom, left);
   box-shadow: inset 0 0 0 2px $sky-color-white,
     inset 0 0 0 3px $sky-border-color-neutral-medium;
   width: 30px;
@@ -60,7 +60,7 @@
 
 .sky-colorpicker-footer {
   background-color: $sky-color-white;
-  @include sky-border(light, top);
+  @include mixins.sky-border(light, top);
 }
 
 .sky-colorpicker * {
@@ -126,7 +126,7 @@
       width: 32px;
       height: 32px;
       margin: 5px;
-      @include sky-border(light, top, right, bottom, left);
+      @include mixins.sky-border(light, top, right, bottom, left);
     }
     .sky-preset-color:hover {
       cursor: pointer;
@@ -150,7 +150,7 @@
     position: relative;
     width: 14px;
     height: 14px;
-    @include sky-border(dark, top, right, bottom, left);
+    @include mixins.sky-border(dark, top, right, bottom, left);
   }
   div.cursor {
     cursor: default;
@@ -242,7 +242,7 @@
       padding: 0 24px 8px 8px;
       input {
         flex: 1 1 auto;
-        @include sky-border(light, top, right, bottom, left);
+        @include mixins.sky-border(light, top, right, bottom, left);
         padding: 1px;
       }
       div {

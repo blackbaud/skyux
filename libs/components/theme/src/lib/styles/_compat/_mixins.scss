@@ -1,4 +1,8 @@
-@import 'variables';
+// Export variables for backward compatibility.
+// (Some stylesheets only import the mixins.scss file and expected the variables to be available.)
+@forward 'variables';
+
+@use '../variables' as *;
 
 @mixin sky-btn-tab {
   background-color: transparent;

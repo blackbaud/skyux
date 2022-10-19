@@ -1,4 +1,4 @@
-@import '../../mixins';
+@use '../../variables' as *;
 
 .sky-theme-modern {
   .sky-control-help-container:not(:empty) {

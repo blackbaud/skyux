@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-timepicker-container {
   position: fixed;
@@ -17,7 +16,7 @@
 }
 
 .sky-timepicker-container :last-child ol li {
-  @include sky-border(light, bottom);
+  @include mixins.sky-border(light, bottom);
   flex: 1;
 }
 
@@ -26,7 +25,7 @@
 }
 
 .sky-timepicker-column ol {
-  @include sky-border(light, top, right, bottom, left);
+  @include mixins.sky-border(light, top, right, bottom, left);
   column-gap: 1px;
   columns: 2;
   list-style-type: none;

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sort.component.fixture.html',
 })
 export class SortTestComponent implements OnInit {
-  public initialState: number;
+  public initialState: number | undefined;
   public showButtonText = false;
   public sortOptions = [
     {
@@ -46,13 +46,13 @@ export class SortTestComponent implements OnInit {
     },
   ];
 
-  public sortedItem: any;
+  public sortedItem: unknown;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.initialState = 3;
   }
 
-  public sortItems(item: any) {
+  public sortItems(item: unknown): void {
     this.sortedItem = item;
   }
 }

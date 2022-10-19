@@ -22,18 +22,12 @@ import { SkySortModule } from './sort.module';
 describe('Sort component', () => {
   let fixture: ComponentFixture<SortTestComponent>;
   let component: SortTestComponent;
-  let mockThemeSvc: Partial<SkyThemeService>;
+  let mockThemeSvc: {
+    settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
+  };
 
   beforeEach(() => {
     mockThemeSvc = {
-      setTheme(settings) {
-        this.settingsChange.next({
-          currentSettings: settings,
-          previousSettings: this.currentSettings,
-        });
-
-        this.currentSettings = settings;
-      },
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
           SkyTheme.presets.default,
@@ -58,24 +52,28 @@ describe('Sort component', () => {
     component = fixture.componentInstance;
   });
 
-  function getDropdownButtonEl(): HTMLElement {
+  function getDropdownButtonEl(): HTMLElement | null {
     return document.querySelector('.sky-dropdown-button');
   }
 
-  function getDropdownMenuEl(): HTMLElement {
+  function getDropdownMenuEl(): HTMLElement | null {
     return document.querySelector('.sky-dropdown-menu');
+  }
+
+  function getDropdownMenuHeadingEl(): HTMLElement | null {
+    return document.querySelector('sky-sort-menu-heading');
   }
 
   function getSortItems(): NodeListOf<HTMLElement> {
     return document.querySelectorAll('.sky-sort-item');
   }
 
-  function verifyTextPresent() {
-    expect(getDropdownButtonEl().innerText.trim()).toBe('Sort');
+  function verifyTextPresent(): void {
+    expect(getDropdownButtonEl()?.innerText.trim()).toBe('Sort');
   }
 
-  function verifyTextNotPresent() {
-    expect(getDropdownButtonEl().innerText.trim()).not.toBe('Sort');
+  function verifyTextNotPresent(): void {
+    expect(getDropdownButtonEl()?.innerText.trim()).not.toBe('Sort');
   }
 
   it('creates a sort dropdown that respects active input', fakeAsync(() => {
@@ -84,12 +82,11 @@ describe('Sort component', () => {
     const dropdownButtonEl = getDropdownButtonEl();
     expect(dropdownButtonEl).not.toBeNull();
 
-    dropdownButtonEl.click();
+    dropdownButtonEl?.click();
     fixture.detectChanges();
     tick();
 
-    const menuHeaderQuery = '.sky-sort-menu-heading';
-    expect(document.querySelector(menuHeaderQuery)).toHaveText('Sort by');
+    expect(getDropdownMenuHeadingEl()).toHaveText('Sort by');
 
     const itemsEl = getSortItems();
     expect(itemsEl.length).toBe(6);
@@ -101,15 +98,15 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
     const dropdownButtonEl = getDropdownButtonEl();
-    expect(dropdownButtonEl.getAttribute('aria-label')).toBe('Sort');
-    expect(dropdownButtonEl.getAttribute('title')).toBe('Sort');
+    expect(dropdownButtonEl?.getAttribute('aria-label')).toBe('Sort');
+    expect(dropdownButtonEl?.getAttribute('title')).toBe('Sort');
 
-    dropdownButtonEl.click();
+    dropdownButtonEl?.click();
     fixture.detectChanges();
     tick();
 
-    expect(getDropdownMenuEl().getAttribute('aria-labelledby')).toBe(
-      document.querySelector('sky-sort-menu-heading').getAttribute('id')
+    expect(getDropdownMenuEl()?.getAttribute('aria-labelledby')).toBe(
+      getDropdownMenuHeadingEl()?.getAttribute('id')
     );
   }));
 
@@ -117,7 +114,7 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
     const dropdownButtonEl = getDropdownButtonEl();
-    dropdownButtonEl.click();
+    dropdownButtonEl?.click();
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -132,6 +129,8 @@ describe('Sort component', () => {
     fixture.detectChanges();
     tick();
 
+    console.log(component.sortedItem);
+
     expect(component.sortedItem).toEqual({
       id: 2,
       label: 'Assigned to (Z - A)',
@@ -139,7 +138,7 @@ describe('Sort component', () => {
       descending: true,
     });
 
-    dropdownButtonEl.click();
+    dropdownButtonEl?.click();
 
     fixture.detectChanges();
     tick();
@@ -159,7 +158,7 @@ describe('Sort component', () => {
     tick();
 
     const button = getDropdownButtonEl();
-    button.click();
+    button?.click();
     fixture.detectChanges();
     tick();
 
@@ -189,9 +188,13 @@ describe('Sort component', () => {
     );
     expect(defaultIcon).toHaveCssClass('fa-sort');
 
-    mockThemeSvc.setTheme(
-      new SkyThemeSettings(SkyTheme.presets.modern, SkyThemeMode.presets.light)
-    );
+    mockThemeSvc.settingsChange.next({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light
+      ),
+      previousSettings: mockThemeSvc.settingsChange.getValue().currentSettings,
+    });
 
     fixture.detectChanges();
     const modernIcon = fixture.nativeElement.querySelector(

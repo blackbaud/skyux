@@ -1,5 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-split-view-workspace {
   background: #ffffff;
@@ -8,13 +8,13 @@
   flex-direction: column;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-split-view-workspace {
     border: 1px solid $sky-theme-modern-border-color-neutral-medium;
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-split-view-workspace {
     background-color: $sky-theme-modern-mode-dark-background-color-page-default;
     border-color: $sky-theme-modern-mode-dark-elevation-0-bordered-border;

@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 .sky-list-secondary-actions {
   ::ng-deep .sky-dropdown-button-type-select {
@@ -18,7 +17,7 @@
   display: none;
 }
 
-@include sky-host-responsive-container-xs-min() {
+@include mixins.sky-host-responsive-container-xs-min() {
   .sky-list-secondary-actions-btn-text {
     display: none;
   }
@@ -28,7 +27,7 @@
   }
 }
 
-@include sky-host-responsive-container-sm-min() {
+@include mixins.sky-host-responsive-container-sm-min() {
   .sky-list-secondary-actions-btn-text {
     display: inline;
   }

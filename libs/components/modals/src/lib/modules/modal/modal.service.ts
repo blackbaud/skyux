@@ -21,10 +21,8 @@ export class SkyModalService {
 
   #dynamicComponentService: SkyDynamicComponentService;
 
-  // TODO: Make `dynamicComponentService` required. It is optional today to maintain binary compatibility for consumers when they construct
-  // the service for unit testing.
-  constructor(dynamicComponentService?: SkyDynamicComponentService) {
-    this.#dynamicComponentService = dynamicComponentService!;
+  constructor(dynamicComponentService: SkyDynamicComponentService) {
+    this.#dynamicComponentService = dynamicComponentService;
   }
 
   /**

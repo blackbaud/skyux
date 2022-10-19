@@ -31,16 +31,18 @@ import { SkyAngularTreeWrapperComponent } from './angular-tree-wrapper.component
 export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   /**
    * Specifies the `index` property from the parent `ng-template`.
+   * @required
    */
   @Input()
-  public index: number;
+  public index: number | undefined;
 
   /**
    * Specifies the `node` property from the parent `ng-template`. For information about the `TreeNode` object, see the
    * [Angular tree component documentation](https://angular2-tree.readme.io/docs/api).
+   * @required
    */
   @Input()
-  public node: TreeNode;
+  public node: TreeNode | undefined;
 
   /**
    * Specifies the `templates` property from the parent `ng-template`.
@@ -48,100 +50,112 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   @Input()
   public templates: any;
 
-  public set childFocusIndex(value: number) {
-    if (value !== this._childFocusIndex) {
-      this._childFocusIndex = value;
-      if (this.focusableChildren.length > 0 && value !== undefined) {
-        this.focusableChildren[value].focus();
+  public set childFocusIndex(value: number | undefined) {
+    if (value !== this.#_childFocusIndex) {
+      this.#_childFocusIndex = value;
+      if (this.#focusableChildren.length > 0 && value !== undefined) {
+        this.#focusableChildren[value].focus();
       } else {
-        this.nodeContentWrapperRef.nativeElement.focus();
+        this.nodeContentWrapperRef?.nativeElement.focus();
       }
     }
   }
 
-  public get childFocusIndex(): number {
-    return this._childFocusIndex;
+  public get childFocusIndex(): number | undefined {
+    return this.#_childFocusIndex;
   }
 
   public set focused(value: boolean) {
     this.tabIndex = value ? 0 : -1;
     if (value) {
-      this.nodeContentWrapperRef.nativeElement.focus();
+      this.nodeContentWrapperRef?.nativeElement.focus();
     }
   }
 
   public set isPartiallySelected(value: boolean) {
-    if (value !== this._isPartiallySelected) {
-      this._isPartiallySelected = value;
-      this.changeDetectorRef.markForCheck();
+    if (value !== this.#_isPartiallySelected) {
+      this.#_isPartiallySelected = value;
+      this.#changeDetectorRef.markForCheck();
     }
   }
 
   public get isPartiallySelected(): boolean {
-    return this._isPartiallySelected;
+    return this.#_isPartiallySelected;
   }
 
   public set isSelected(value: boolean) {
-    if (value !== this._isSelected) {
-      this._isSelected = value;
-      this.changeDetectorRef.markForCheck();
+    if (value !== this.#_isSelected) {
+      this.#_isSelected = value;
+      this.#changeDetectorRef.markForCheck();
     }
   }
 
   public get isSelected(): boolean {
-    return this._isSelected;
+    return this.#_isSelected;
   }
 
   public set tabIndex(value: number) {
-    this._tabIndex = value;
+    this.#_tabIndex = value;
   }
 
   public get tabIndex(): number {
-    return this._tabIndex;
+    return this.#_tabIndex;
   }
 
   @ViewChild('nodeContentWrapper', { read: ElementRef })
-  private nodeContentWrapperRef: ElementRef;
+  public nodeContentWrapperRef: ElementRef | undefined;
 
-  private focusableChildren: HTMLElement[] = [];
+  #focusableChildren: HTMLElement[] = [];
 
-  private mouseDown = false;
+  #mouseDown = false;
 
-  private _childFocusIndex: number;
+  #_childFocusIndex: number | undefined;
 
-  private _isPartiallySelected: boolean;
+  #_isPartiallySelected = false;
 
-  private _isSelected: boolean;
+  #_isSelected = false;
 
-  private _tabIndex = -1;
+  #_tabIndex = -1;
+
+  #changeDetectorRef: ChangeDetectorRef;
+  #adapterService: SkyAngularTreeAdapterService;
+  #skyAngularTreeWrapper: SkyAngularTreeWrapperComponent | undefined;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private adapterService: SkyAngularTreeAdapterService,
-    @Optional() private skyAngularTreeWrapper: SkyAngularTreeWrapperComponent
-  ) {}
+    changeDetectorRef: ChangeDetectorRef,
+    adapterService: SkyAngularTreeAdapterService,
+    @Optional() skyAngularTreeWrapper?: SkyAngularTreeWrapperComponent
+  ) {
+    this.#changeDetectorRef = changeDetectorRef;
+    this.#adapterService = adapterService;
+    this.#skyAngularTreeWrapper = skyAngularTreeWrapper;
+  }
 
   public ngOnInit(): void {
-    if (!this.skyAngularTreeWrapper) {
+    if (!this.#skyAngularTreeWrapper) {
       console.error(
         `<sky-angular-tree-node-wrapper> must be wrapped inside a <sky-angular-tree-wrapper> component.`
       );
     }
 
-    // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
-    // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
-    this.node.treeModel.subscribeToState((state: ITreeState) => {
-      this.isSelected = this.node.isSelected;
-      this.isPartiallySelected = this.node.isPartiallySelected;
+    if (this.node) {
+      // Because we're binding the checkbox to node's children properties, we need to manually control change detection.
+      // Here, we listen to the tree's state and force change detection in the setters if the value has changed.
+      this.node.treeModel.subscribeToState((state: ITreeState) => {
+        if (this.node) {
+          this.isSelected = this.node.isSelected;
+          this.isPartiallySelected = this.node.isPartiallySelected;
 
-      if (state.focusedNodeId) {
-        this.focused = state.focusedNodeId === this.node.id;
+          if (state.focusedNodeId) {
+            this.focused = state.focusedNodeId === this.node.id;
+          }
+        }
+      });
+
+      // Make the first root node tabbable.
+      if (this.node.isRoot && this.node.index === 0) {
+        this.tabIndex = 0;
       }
-    });
-
-    // Make the first root node tabbable.
-    if (this.node.isRoot && this.node.index === 0) {
-      this.tabIndex = 0;
     }
   }
 
@@ -149,13 +163,15 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     // Wait 1s for the node to render, then reset all child tabIndexes to -1.
     // Units smaller than 1s may consistently fail if there are many nodes, or multiple trees are on the same screen.
     setTimeout(() => {
-      this.focusableChildren = this.adapterService.getFocusableChildren(
-        this.nodeContentWrapperRef.nativeElement
-      );
-      this.adapterService.setTabIndexOfFocusableElems(
-        this.nodeContentWrapperRef.nativeElement,
-        -1
-      );
+      if (this.nodeContentWrapperRef) {
+        this.#focusableChildren = this.#adapterService.getFocusableChildren(
+          this.nodeContentWrapperRef.nativeElement
+        );
+        this.#adapterService.setTabIndexOfFocusableElems(
+          this.nodeContentWrapperRef.nativeElement,
+          -1
+        );
+      }
     }, 1000);
   }
 
@@ -165,16 +181,16 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
    * If node cannot be selected, aria-selected should be undefined (e.g. parent nodes in leaf-select-only mode).
    * @internal
    */
-  public ariaSelected(): boolean {
-    if (!this.skyAngularTreeWrapper) {
+  public ariaSelected(): boolean | undefined {
+    if (!this.#skyAngularTreeWrapper) {
       return;
     }
 
-    if (this.skyAngularTreeWrapper.selectSingle) {
+    if (this.#skyAngularTreeWrapper.selectSingle) {
       return this.isSelected ? true : undefined;
     }
 
-    if (!this.isSelectable()) {
+    if (!this.#isSelectable()) {
       return;
     }
 
@@ -184,42 +200,49 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
   public showCheckbox(): boolean {
     // Check for checkbox mode enabled, but also respect leaf-node and single-select settings.
     return (
+      !!this.node &&
       this.node.options.useCheckbox &&
-      this.isSelectable() &&
-      !this.skyAngularTreeWrapper.selectSingle
+      this.#isSelectable() &&
+      (!this.#skyAngularTreeWrapper ||
+        !this.#skyAngularTreeWrapper.selectSingle)
     );
   }
 
   public showSelectedClass(): boolean {
-    return this.isSelectable() && this.isSelected && !this.isPartiallySelected;
+    return this.#isSelectable() && this.isSelected && !this.isPartiallySelected;
   }
 
   public showActiveClass(): boolean {
-    return this.node.isActive && !this.node.treeModel.options.useCheckbox;
+    return (
+      !!this.node &&
+      this.node.isActive &&
+      !this.node.treeModel.options.useCheckbox
+    );
   }
 
   public showTogglePlaceholder(): boolean {
     return (
-      !this.node.hasChildren && !this.skyAngularTreeWrapper?.selectLeafNodesOnly
+      !this.node?.hasChildren &&
+      !this.#skyAngularTreeWrapper?.selectLeafNodesOnly
     );
   }
 
   public onFocus(): void {
     // <tree-node-content> has its own click handler, so we need to check if this focus event
     // is coming from the mouse click or the keyboard to prevent the logic from running twice.
-    if (!this.mouseDown) {
-      this.node.treeModel.setFocus(true);
-      this.node.focus();
+    if (!this.#mouseDown) {
+      this.node?.treeModel.setFocus(true);
+      this.node?.focus();
       this.childFocusIndex = undefined;
     }
   }
 
   public onMouseDown(): void {
-    this.mouseDown = true;
+    this.#mouseDown = true;
   }
 
   public onMouseUp(): void {
-    this.mouseDown = false;
+    this.#mouseDown = false;
   }
 
   public onKeyDown(event: KeyboardEvent): void {
@@ -230,13 +253,13 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
         case 'up':
         case 'arrowup':
           // Focus on previous node.
-          this.node.treeModel.focusPreviousNode();
+          this.node?.treeModel.focusPreviousNode();
           break;
 
         case 'down':
         case 'arrowdown':
           // Focus on next node.
-          this.node.treeModel.focusNextNode();
+          this.node?.treeModel.focusNextNode();
           break;
 
         case 'left':
@@ -251,7 +274,7 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
               this.childFocusIndex--;
             }
           } else {
-            this.node.setIsExpanded(false);
+            this.node?.setIsExpanded(false);
           }
           event.stopPropagation();
           event.preventDefault();
@@ -263,10 +286,10 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
           // If user reaches the end, activate drill down.
           /* istanbul ignore else */
           if (
-            this.focusableChildren.length <= 0 ||
-            this.childFocusIndex === this.focusableChildren.length - 1
+            this.#focusableChildren.length <= 0 ||
+            this.childFocusIndex === this.#focusableChildren.length - 1
           ) {
-            this.node.setIsExpanded(true);
+            this.node?.setIsExpanded(true);
           } else {
             if (this.childFocusIndex === undefined) {
               this.childFocusIndex = 0;
@@ -284,13 +307,16 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
     }
   }
 
-  private isSelectable(): boolean {
-    if (this.skyAngularTreeWrapper) {
+  #isSelectable(): boolean {
+    if (this.#skyAngularTreeWrapper) {
       return (
-        this.node.isLeaf ||
-        !this.node.hasChildren ||
-        !this.skyAngularTreeWrapper.selectLeafNodesOnly
+        !!this.node &&
+        (this.node.isLeaf ||
+          !this.node.hasChildren ||
+          !this.#skyAngularTreeWrapper.selectLeafNodesOnly)
       );
+    } else {
+      return false;
     }
   }
 }

@@ -1,7 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   :host:focus {
     outline: none;
   }

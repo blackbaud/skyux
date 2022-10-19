@@ -185,10 +185,10 @@ export default async function (tree: Tree, options: ComponentGeneratorSchema) {
   const expectedPaths = [
     `${normalizedOptions.projectDirectory}/app/${normalizedOptions.name}/`,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    `${normalizedOptions.e2eSourceRoot}/integration/${componentFilePath
+    `${normalizedOptions.e2eSourceRoot}/e2e/${componentFilePath
       .split('/')
       .pop()!
-      .replace(/\.ts$/, '.spec.ts')}`,
+      .replace(/\.ts$/, '.cy.ts')}`,
   ];
 
   // nx g @skyux-sdk/e2e-schematics:stories

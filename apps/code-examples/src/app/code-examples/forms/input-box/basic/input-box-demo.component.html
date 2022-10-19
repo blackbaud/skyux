@@ -9,9 +9,9 @@
       <sky-row>
         <sky-column [screenSmall]="12" [screenMedium]="6">
           <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="firstNameInput.id"
-              >First name</label
-            >
+            <label class="sky-control-label" [for]="firstNameInput.id">
+              First name
+            </label>
             <input
               formControlName="firstName"
               type="text"
@@ -24,27 +24,31 @@
         </sky-column>
         <sky-column [screenSmall]="12" [screenMedium]="6">
           <sky-input-box class="sky-margin-stacked-lg">
-            <label class="sky-control-label" [for]="lastNameInput.id"
-              >Last name</label
-            >
+            <label class="sky-control-label" [for]="lastNameInput.id">
+              Last name
+            </label>
             <input
               formControlName="lastName"
               type="text"
               spellcheck="false"
               class="sky-form-control"
+              [attr.aria-describedby]="lastNameError.id"
               skyId
               #lastNameInput="skyId"
             />
-            <div
-              *ngIf="
-                (lastName.dirty || lastName.touched) &&
-                lastName.errors &&
-                lastName.errors.required
-              "
-              class="sky-error-label"
-            >
-              Last name is required.
-            </div>
+            <span class="sky-error-indicator" skyId #lastNameError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (lastName.dirty || lastName.touched) &&
+                  lastName.errors &&
+                  lastName.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Last name is required.
+              </sky-status-indicator>
+            </span>
           </sky-input-box>
         </sky-column>
       </sky-row>
@@ -75,29 +79,34 @@
             <input
               class="sky-form-control"
               formControlName="email"
+              [attr.aria-describedby]="emailError.id"
               skyId
               #emailInput="skyId"
             />
-            <div
-              *ngIf="
-                (email.dirty || email.touched) &&
-                email.errors &&
-                email.errors.required
-              "
-              class="sky-error-label"
-            >
-              Email address is required.
-            </div>
-            <div
-              *ngIf="
-                (email.dirty || email.touched) &&
-                email.errors &&
-                email.errors.skyEmail
-              "
-              class="sky-error-label"
-            >
-              Enter a valid email in the "joe@abc.com" format.
-            </div>
+            <span class="sky-error-indicator" skyId #emailError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (email.dirty || email.touched) &&
+                  email.errors &&
+                  email.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Email is required.
+              </sky-status-indicator>
+              <sky-status-indicator
+                *ngIf="
+                  (email.dirty || email.touched) &&
+                  email.errors &&
+                  email.errors.skyEmail
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Enter a valid email in the "joe@abc.com" format.
+              </sky-status-indicator>
+            </span>
           </sky-input-box>
         </sky-column>
         <sky-column [screenSmall]="12" [screenMedium]="6">
@@ -108,19 +117,25 @@
             <sky-datepicker>
               <input
                 formControlName="dob"
+                [attr.aria-describedby]="dobError.id"
                 skyId
                 #dobInput="skyId"
                 skyDatepickerInput
               />
             </sky-datepicker>
-            <div
-              *ngIf="
-                (dob.dirty || dob.touched) && dob.errors && dob.errors.required
-              "
-              class="sky-error-label"
-            >
-              Date of birth is required.
-            </div>
+            <span class="sky-error-indicator" skyId #dobError="skyId">
+              <sky-status-indicator
+                *ngIf="
+                  (dob.dirty || dob.touched) &&
+                  dob.errors &&
+                  dob.errors.required
+                "
+                indicatorType="danger"
+                descriptionType="error"
+              >
+                Date of birth is required.
+              </sky-status-indicator>
+            </span>
           </sky-input-box>
         </sky-column>
       </sky-row>

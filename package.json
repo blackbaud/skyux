@@ -1,6 +1,6 @@
 {
   "name": "skyux",
-  "version": "7.0.0-beta.2",
+  "version": "7.0.0-beta.4",
   "license": "MIT",
   "scripts": {
     "ng": "nx",
@@ -87,7 +87,7 @@
     "@angular/platform-browser-dynamic": "14.2.0",
     "@angular/router": "14.2.0",
     "@blackbaud/auth-client": "2.50.0",
-    "@blackbaud/skyux-design-tokens": "0.0.24",
+    "@blackbaud/skyux-design-tokens": "0.0.25",
     "@circlon/angular-tree-component": "11.0.3",
     "@nrwl/angular": "14.7.6",
     "@skyux/auth-client-factory": "1.2.0",
@@ -158,7 +158,7 @@
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
     "cross-spawn": "7.0.3",
-    "cypress": "9.7.0",
+    "cypress": "10.7.0",
     "eslint": "8.15.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-cypress": "2.12.1",
