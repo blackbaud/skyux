@@ -19,7 +19,7 @@ export class SkyWizardTestFormComponent {
 
   public passTabset = true;
 
-  public onSave: () => void = () => {
+  public onSave = (): void => {
     return;
   };
 

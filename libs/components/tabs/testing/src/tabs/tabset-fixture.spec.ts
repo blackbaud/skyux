@@ -164,20 +164,9 @@ describe('Tabset fixture', () => {
         .nativeElement
     ).toHaveCssClass('sky-btn-tab-selected');
 
-    let errorMessage: string | undefined;
-
-    try {
-      await tabset.clickTab(100);
-    } catch (err) {
-      if (!(err instanceof Error)) {
-        fail('should have thrown an error');
-        return;
-      }
-
-      errorMessage = err.message;
-    }
-
-    expect(errorMessage).toBe('There is no tab at index 100.');
+    await expectAsync(tabset.clickTab(100)).toBeRejectedWith(
+      'There is no tab at index 100.'
+    );
   }
 
   async function validateTabClose(): Promise<void> {
@@ -192,20 +181,7 @@ describe('Tabset fixture', () => {
 
     expect(onTab1CloseSpy).toHaveBeenCalled();
 
-    let errorMessage: string | undefined;
-
-    try {
-      await tabset.clickTabClose(1);
-    } catch (err) {
-      if (!(err instanceof Error)) {
-        fail('should have thrown an error');
-        return;
-      }
-
-      errorMessage = err.message;
-    }
-
-    expect(errorMessage).toBe(
+    await expectAsync(tabset.clickTabClose(1)).toBeRejectedWith(
       'The specified tab does not have a close button.'
     );
   }

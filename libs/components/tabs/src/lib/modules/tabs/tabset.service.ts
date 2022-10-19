@@ -12,29 +12,26 @@ import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregist
 @Injectable()
 export class SkyTabsetService implements OnDestroy {
   public get activeTabUnregistered(): Observable<SkyTabsetActiveTabUnregisteredArgs> {
-    return this.#_activeTabUnregisteredObs;
+    return this.#activeTabUnregistered;
   }
 
   public get activeTabIndex(): Observable<SkyTabIndex> {
-    return this.#_activeTabIndexObs;
+    return this.#activeTabIndex;
   }
 
   public get focusedTabBtnIndex(): Observable<SkyTabIndex> {
-    return this.#_focusedTabBtnIndexObs;
+    return this.#focusedTabBtnIndex;
   }
 
   public currentActiveTabIndex: SkyTabIndex | undefined = 0;
 
   public currentFocusedTabBtnIndex: SkyTabIndex = 0;
 
-  #_activeTabIndex: BehaviorSubject<SkyTabIndex>;
-  #_activeTabIndexObs: Observable<SkyTabIndex>;
+  #activeTabIndex: BehaviorSubject<SkyTabIndex>;
 
-  #_focusedTabBtnIndex: Subject<SkyTabIndex>;
-  #_focusedTabBtnIndexObs: Observable<SkyTabIndex>;
+  #focusedTabBtnIndex: Subject<SkyTabIndex>;
 
-  #_activeTabUnregistered: Subject<SkyTabsetActiveTabUnregisteredArgs>;
-  #_activeTabUnregisteredObs: Observable<SkyTabsetActiveTabUnregisteredArgs>;
+  #activeTabUnregistered: Subject<SkyTabsetActiveTabUnregisteredArgs>;
 
   #tabs: {
     tabIndex: SkyTabIndex | undefined;
@@ -43,22 +40,18 @@ export class SkyTabsetService implements OnDestroy {
   #tabCounter = 0;
 
   constructor() {
-    this.#_activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
-    this.#_activeTabIndexObs = this.#_activeTabIndex.asObservable();
+    this.#activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
 
-    this.#_activeTabUnregistered =
+    this.#activeTabUnregistered =
       new Subject<SkyTabsetActiveTabUnregisteredArgs>();
-    this.#_activeTabUnregisteredObs =
-      this.#_activeTabUnregistered.asObservable();
 
-    this.#_focusedTabBtnIndex = new Subject<SkyTabIndex>();
-    this.#_focusedTabBtnIndexObs = this.#_focusedTabBtnIndex.asObservable();
+    this.#focusedTabBtnIndex = new Subject<SkyTabIndex>();
   }
 
   public ngOnDestroy(): void {
-    this.#_activeTabIndex.complete();
-    this.#_activeTabUnregistered.complete();
-    this.#_focusedTabBtnIndex.complete();
+    this.#activeTabIndex.complete();
+    this.#activeTabUnregistered.complete();
+    this.#focusedTabBtnIndex.complete();
   }
 
   /**
@@ -78,7 +71,7 @@ export class SkyTabsetService implements OnDestroy {
 
       /* istanbul ignore else */
       if (config.emitChange) {
-        this.#_activeTabIndex.next(value);
+        this.#activeTabIndex.next(value);
       }
 
       this.setFocusedTabBtnIndex(value);
@@ -145,7 +138,7 @@ export class SkyTabsetService implements OnDestroy {
 
   public setFocusedTabBtnIndex(tabIndex: SkyTabIndex): void {
     this.currentFocusedTabBtnIndex = tabIndex;
-    this.#_focusedTabBtnIndex.next(tabIndex);
+    this.#focusedTabBtnIndex.next(tabIndex);
   }
 
   /**
@@ -184,7 +177,7 @@ export class SkyTabsetService implements OnDestroy {
 
     // Notify the tabset component when an active tab is unregistered.
     if (this.#isTabIndexActive(this.#tabs[index]?.tabIndex)) {
-      this.#_activeTabUnregistered.next({
+      this.#activeTabUnregistered.next({
         arrayIndex: index,
       });
     }

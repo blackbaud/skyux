@@ -17,11 +17,10 @@ interface PermalinkParams {
 @Injectable()
 export class SkyTabsetPermalinkService implements OnDestroy {
   public get popStateChange(): Observable<void> {
-    return this.#_popStateChangeObs;
+    return this.#popStateChange;
   }
 
-  #_popStateChange: Subject<void>;
-  #_popStateChangeObs: Observable<void>;
+  #popStateChange: Subject<void>;
 
   #subscription: SubscriptionLike | undefined;
 
@@ -38,20 +37,19 @@ export class SkyTabsetPermalinkService implements OnDestroy {
     this.#location = location;
     this.#router = router;
 
-    this.#_popStateChange = new Subject<void>();
-    this.#_popStateChangeObs = this.#_popStateChange.asObservable();
+    this.#popStateChange = new Subject<void>();
   }
 
   public ngOnDestroy(): void {
     if (this.#subscription) {
       this.#subscription.unsubscribe();
     }
-    this.#_popStateChange.complete();
+    this.#popStateChange.complete();
   }
 
   public init(): void {
     this.#subscription = this.#location.subscribe(() => {
-      this.#_popStateChange.next();
+      this.#popStateChange.next();
     });
   }
 

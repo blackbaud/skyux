@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable()
 export class SkyTabsetAdapterService implements OnDestroy {
   public get overflowChange(): Observable<boolean> {
-    return this.#_overflowChangeObs;
+    return this.#overflowChange;
   }
 
   #currentOverflow = false;
@@ -17,16 +17,14 @@ export class SkyTabsetAdapterService implements OnDestroy {
 
   #tabsOffsetLeft: number | undefined;
 
-  #_overflowChange: BehaviorSubject<boolean>;
-  #_overflowChangeObs: Observable<boolean>;
+  #overflowChange: BehaviorSubject<boolean>;
 
   constructor() {
-    this.#_overflowChange = new BehaviorSubject<boolean>(false);
-    this.#_overflowChangeObs = this.#_overflowChange.asObservable();
+    this.#overflowChange = new BehaviorSubject<boolean>(false);
   }
 
   public ngOnDestroy(): void {
-    this.#_overflowChange.complete();
+    this.#overflowChange.complete();
   }
 
   public registerTabset(tabsetRef: ElementRef): void {
@@ -58,7 +56,7 @@ export class SkyTabsetAdapterService implements OnDestroy {
     const newOverflow = tabButtonsWidth > tabsetRect.width;
     if (this.#currentOverflow !== newOverflow) {
       this.#currentOverflow = newOverflow;
-      this.#_overflowChange.next(this.#currentOverflow);
+      this.#overflowChange.next(this.#currentOverflow);
     }
   }
 

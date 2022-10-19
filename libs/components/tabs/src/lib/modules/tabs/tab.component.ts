@@ -33,7 +33,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   public set active(value: boolean | undefined) {
     if (value !== undefined && !!value !== this.#_active) {
       this.#_active = value;
-      this.#_activeChange.next();
+      this.#activeChange.next();
     }
   }
 
@@ -42,7 +42,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   }
 
   public get activeChange(): Observable<void> {
-    return this.#_activeChangeObs;
+    return this.#activeChange;
   }
 
   /**
@@ -108,7 +108,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
       this.#_tabIndex !== undefined
     ) {
       this.#tabsetService.updateTabIndex(this.#_tabIndex, value);
-      this.#_tabIndexChange.next(value);
+      this.#tabIndexChange.next(value);
     }
 
     this.#_tabIndex = value;
@@ -130,11 +130,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
    * Alerts the tabset component when this component has changes that need to be reflected in the UI.
    */
   public get stateChange(): Observable<void> {
-    return this.#_stateChangeObs;
+    return this.#stateChange;
   }
 
   public get tabIndexChange(): Observable<SkyTabIndex | undefined> {
-    return this.#_tabIndexChangeObs;
+    return this.#tabIndexChange;
   }
 
   public permalinkValueOrDefault = '';
@@ -147,20 +147,17 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
 
   #_active = false;
 
-  #_activeChange: BehaviorSubject<void | undefined>;
-  #_activeChangeObs: Observable<void | undefined>;
+  #activeChange: BehaviorSubject<void | undefined>;
 
   #_permalinkValue: string | undefined;
 
-  #_stateChange: BehaviorSubject<void>;
-  #_stateChangeObs: Observable<void>;
+  #stateChange: BehaviorSubject<void>;
 
   #_tabHeading: string | undefined;
 
   #_tabIndex: SkyTabIndex | undefined;
 
-  #_tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
-  #_tabIndexChangeObs: Observable<SkyTabIndex | undefined>;
+  #tabIndexChange: BehaviorSubject<SkyTabIndex | undefined>;
 
   #changeDetector: ChangeDetectorRef;
   #permalinkService: SkyTabsetPermalinkService;
@@ -178,16 +175,11 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
     this.tabPanelId = `sky-tab-${id}`;
     this.tabButtonId = `${this.tabPanelId}-nav-btn`;
 
-    this.#_activeChange = new BehaviorSubject<void | undefined>(undefined);
-    this.#_activeChangeObs = this.#_activeChange.asObservable();
-
-    this.#_stateChange = new BehaviorSubject<void>(undefined);
-    this.#_stateChangeObs = this.#_stateChange.asObservable();
-
-    this.#_tabIndexChange = new BehaviorSubject<SkyTabIndex | undefined>(
+    this.#activeChange = new BehaviorSubject<void | undefined>(undefined);
+    this.#stateChange = new BehaviorSubject<void>(undefined);
+    this.#tabIndexChange = new BehaviorSubject<SkyTabIndex | undefined>(
       undefined
     );
-    this.#_tabIndexChangeObs = this.#_tabIndexChange.asObservable();
 
     this.#setPermalinkValueOrDefault();
   }
@@ -199,14 +191,14 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
       (changes.tabHeaderCount && !changes.tabHeaderCount.firstChange) ||
       (changes.permalinkValue && !changes.permalinkValue.firstChange)
     ) {
-      this.#_stateChange.next();
+      this.#stateChange.next();
     }
   }
 
   public ngOnDestroy(): void {
-    this.#_activeChange.complete();
-    this.#_stateChange.complete();
-    this.#_tabIndexChange.complete();
+    this.#activeChange.complete();
+    this.#stateChange.complete();
+    this.#tabIndexChange.complete();
     if (this.tabIndex !== undefined) {
       this.#tabsetService.unregisterTab(this.tabIndex);
     }
