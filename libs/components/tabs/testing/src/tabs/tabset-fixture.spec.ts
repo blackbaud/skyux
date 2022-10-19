@@ -84,6 +84,7 @@ describe('Tabset fixture', () => {
 
     fixture.detectChanges();
 
+    expect(tabset.ariaLabel).toBeUndefined();
     expect(tabset.ariaLabelledBy).toBe('Labelled by');
   }
 
@@ -164,7 +165,7 @@ describe('Tabset fixture', () => {
         .nativeElement
     ).toHaveCssClass('sky-btn-tab-selected');
 
-    await expectAsync(tabset.clickTab(100)).toBeRejectedWith(
+    await expectAsync(tabset.clickTab(100)).toBeRejectedWithError(
       'There is no tab at index 100.'
     );
   }
@@ -181,7 +182,7 @@ describe('Tabset fixture', () => {
 
     expect(onTab1CloseSpy).toHaveBeenCalled();
 
-    await expectAsync(tabset.clickTabClose(1)).toBeRejectedWith(
+    await expectAsync(tabset.clickTabClose(1)).toBeRejectedWithError(
       'The specified tab does not have a close button.'
     );
   }

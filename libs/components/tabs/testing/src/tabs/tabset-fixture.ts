@@ -38,6 +38,8 @@ export class SkyTabsetFixture {
       }
     }
 
+    /* safety check */
+    /* istanbul ignore next */
     return -1;
   }
 
@@ -110,10 +112,6 @@ export class SkyTabsetFixture {
   public async clickTab(tabIndex: number): Promise<any> {
     const tabLinkEl = this.#getTabLinkEl(tabIndex);
 
-    if (!tabLinkEl) {
-      throw new Error(`There is no tab at index ${tabIndex}.`);
-    }
-
     tabLinkEl.click();
 
     this.#fixture.detectChanges();
@@ -128,10 +126,6 @@ export class SkyTabsetFixture {
     const tabWrapperEl = this.#getTabsetEl().querySelectorAll(
       `.sky-tabset-tabs .sky-btn-tab-wrapper`
     )[tabIndex];
-
-    if (!tabWrapperEl) {
-      throw new Error(`There is no tab at index ${tabIndex}.`);
-    }
 
     const closeBtnEl = tabWrapperEl.querySelector(
       '.sky-btn-tab-close'

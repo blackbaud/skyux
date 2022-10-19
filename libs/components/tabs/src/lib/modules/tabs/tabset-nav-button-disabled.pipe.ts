@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { SkyTabComponent } from './tab.component';
 import { SkyTabsetNavButtonType } from './tabset-nav-button-type';
 
 @Pipe({
@@ -10,7 +9,8 @@ export class SkyTabsetNavButtonDisabledPipe implements PipeTransform {
   public transform(
     disabled: boolean | undefined,
     buttonType?: SkyTabsetNavButtonType | string,
-    tabToSelect?: SkyTabComponent
+    tabToSelectExists?: boolean,
+    tabToSelectIsDisabled?: boolean
   ): boolean {
     if (disabled !== undefined) {
       return disabled;
@@ -18,6 +18,6 @@ export class SkyTabsetNavButtonDisabledPipe implements PipeTransform {
       return false;
     }
 
-    return tabToSelect === undefined || !!tabToSelect.disabled;
+    return !tabToSelectExists || !!tabToSelectIsDisabled;
   }
 }
