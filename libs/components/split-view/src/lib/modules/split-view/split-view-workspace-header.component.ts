@@ -1,12 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -27,22 +24,9 @@ export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
 
   #ngUnsubscribe = new Subject<void>();
   #splitViewSvc: SkySplitViewService;
-  #changeRef: ChangeDetectorRef;
 
-  constructor(
-    splitViewSvc: SkySplitViewService,
-    changeRef: ChangeDetectorRef,
-    @Optional() skyThemeSvc?: SkyThemeService
-  ) {
+  constructor(splitViewSvc: SkySplitViewService) {
     this.#splitViewSvc = splitViewSvc;
-    this.#changeRef = changeRef;
-
-    /*istanbul ignore else*/
-    if (skyThemeSvc) {
-      skyThemeSvc.settingsChange.subscribe(() => {
-        this.#changeRef.markForCheck();
-      });
-    }
   }
 
   public ngOnInit(): void {

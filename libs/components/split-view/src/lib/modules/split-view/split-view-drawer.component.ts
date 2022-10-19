@@ -150,7 +150,7 @@ export class SkySplitViewDrawerComponent
     event.stopPropagation();
 
     if (
-      this.#splitViewMediaQuerySvc.isWidthWithinBreakpiont(
+      this.#splitViewMediaQuerySvc.isWidthWithinBreakpoint(
         window.innerWidth,
         SkyMediaBreakpoints.xs
       )
@@ -164,18 +164,20 @@ export class SkySplitViewDrawerComponent
 
     this.#coreAdapterService.toggleIframePointerEvents(false);
 
-    fromEvent(document, 'mousemove')
+    fromEvent<MouseEvent>(document, 'mousemove')
       .pipe(
+        takeUntil(this.#ngUnsubscribe),
         takeWhile(() => {
           return this.#isDragging;
         })
       )
       .subscribe((moveEvent) => {
-        this.onMouseMove(moveEvent as MouseEvent);
+        this.onMouseMove(moveEvent);
       });
 
     fromEvent(document, 'mouseup')
       .pipe(
+        takeUntil(this.#ngUnsubscribe),
         takeWhile(() => {
           return this.#isDragging;
         })
