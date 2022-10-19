@@ -28,7 +28,7 @@ export class SkyFlyoutInstance<T> {
   /**
    * Specifies the instance of the component to display in the flyout.
    */
-  public componentInstance: T;
+  public componentInstance!: T;
 
   /**
    * Used to communicate with the host component.
@@ -112,8 +112,17 @@ export class SkyFlyoutInstance<T> {
 
   #_hostController = new Subject<SkyFlyoutMessage>();
 
-  constructor(componentInstance: T) {
-    this.componentInstance = componentInstance;
+  // TODO: Remove this being optional in a future breaking change.
+  constructor(componentInstance?: T) {
+    if (!componentInstance) {
+      console.warn(
+        `The SkyFlyoutInstance was created without a reference to the flyout's child component instance.
+        The instance will not have a reference ot this child component.
+        Support for creating an instance without this reference will be removed in a future breaking change.`
+      );
+    }
+
+    this.componentInstance = componentInstance!;
     this.closed.subscribe(() => {
       this.isOpen = false;
     });
