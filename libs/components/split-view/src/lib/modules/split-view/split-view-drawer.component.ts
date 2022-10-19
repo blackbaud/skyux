@@ -10,6 +10,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  SkyAppWindowRef,
   SkyCoreAdapterService,
   SkyMediaBreakpoints,
   SkyMediaQueryService,
@@ -46,38 +47,43 @@ export class SkySplitViewDrawerComponent
    * [to support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Sets the list panel's width in pixels.
    * @default 320
    */
   @Input()
-  public set width(value: number) {
+  public set width(value: number | undefined) {
     if (value) {
-      this._width = Number(value);
-      this.updateBreakpoint();
-      this.splitViewService.updateDrawerWidth(this._width);
-      this.changeDetectorRef.markForCheck();
+      this.#_width = Number(value);
+      this.#updateBreakpoint();
+      this.#splitViewSvc.updateDrawerWidth(this.#_width);
+      this.#changeDetectorRef.markForCheck();
     }
   }
 
-  public get width(): number {
+  public get width(): number | undefined {
+    // TODO: Logic in a getter is a SKY UX anti-pattern, but fixing this would
+    // require a significant amount of refactoring.
     if (this.isMobile) {
       return undefined;
     }
-    if (this._width > this.widthMax) {
-      return this.widthMax;
-    } else if (this._width < this.widthMin) {
-      return this.widthMin;
-    } else {
-      return this._width || this.widthDefault;
+
+    if (this.#_width !== undefined) {
+      if (this.#_width > this.widthMax) {
+        return this.widthMax;
+      } else if (this.#_width < this.widthMin) {
+        return this.widthMin;
+      }
     }
+
+    return this.#_width || this.widthDefault;
   }
 
   public isMobile = false;
 
-  public splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
+  public splitViewDrawerId: string;
 
   public widthDefault = 320;
 
@@ -89,40 +95,54 @@ export class SkySplitViewDrawerComponent
 
   public widthTolerance = 100;
 
-  private isDragging = false;
+  #isDragging = false;
+  #ngUnsubscribe = new Subject<void>();
+  #xCoord = 0;
+  #changeDetectorRef: ChangeDetectorRef;
+  #coreAdapterService: SkyCoreAdapterService;
+  #elementRef: ElementRef;
+  #splitViewMediaQuerySvc: SkySplitViewMediaQueryService;
+  #splitViewSvc: SkySplitViewService;
+  #windowRef: SkyAppWindowRef;
 
-  private ngUnsubscribe = new Subject<void>();
-
-  private xCoord = 0;
-
-  private _width: number;
+  #_width: number | undefined;
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private coreAdapterService: SkyCoreAdapterService,
-    private elementRef: ElementRef,
-    private splitViewMediaQueryService: SkySplitViewMediaQueryService,
-    private splitViewService: SkySplitViewService
-  ) {}
+    changeDetectorRef: ChangeDetectorRef,
+    coreAdapterService: SkyCoreAdapterService,
+    elementRef: ElementRef,
+    splitViewMediaQuerySvc: SkySplitViewMediaQueryService,
+    splitViewSvc: SkySplitViewService,
+    windowRef: SkyAppWindowRef
+  ) {
+    this.#changeDetectorRef = changeDetectorRef;
+    this.#coreAdapterService = coreAdapterService;
+    this.#elementRef = elementRef;
+    this.#splitViewMediaQuerySvc = splitViewMediaQuerySvc;
+    this.#splitViewSvc = splitViewSvc;
+    this.#windowRef = windowRef;
+
+    this.splitViewDrawerId = `sky-split-view-drawer-${++skySplitViewNextId}`;
+  }
 
   public ngOnInit(): void {
-    this.setMaxWidth();
+    this.#setMaxWidth();
 
-    this.splitViewService.isMobileStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#splitViewSvc.isMobileStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeDetectorRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
       });
   }
 
   public ngAfterViewInit(): void {
-    this.updateBreakpoint();
+    this.#updateBreakpoint();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onResizeHandleMouseDown(event: MouseEvent): void {
@@ -130,7 +150,7 @@ export class SkySplitViewDrawerComponent
     event.stopPropagation();
 
     if (
-      this.splitViewMediaQueryService.isWidthWithinBreakpiont(
+      this.#splitViewMediaQuerySvc.isWidthWithinBreakpiont(
         window.innerWidth,
         SkyMediaBreakpoints.xs
       )
@@ -138,41 +158,41 @@ export class SkySplitViewDrawerComponent
       return;
     }
 
-    this.setMaxWidth();
-    this.isDragging = true;
-    this.xCoord = event.clientX;
+    this.#setMaxWidth();
+    this.#isDragging = true;
+    this.#xCoord = event.clientX;
 
-    this.coreAdapterService.toggleIframePointerEvents(false);
+    this.#coreAdapterService.toggleIframePointerEvents(false);
 
     fromEvent(document, 'mousemove')
       .pipe(
         takeWhile(() => {
-          return this.isDragging;
+          return this.#isDragging;
         })
       )
-      .subscribe((moveEvent: any) => {
-        this.onMouseMove(moveEvent);
+      .subscribe((moveEvent) => {
+        this.onMouseMove(moveEvent as MouseEvent);
       });
 
     fromEvent(document, 'mouseup')
       .pipe(
         takeWhile(() => {
-          return this.isDragging;
+          return this.#isDragging;
         })
       )
-      .subscribe((mouseUpEvent: any) => {
-        this.onHandleRelease(mouseUpEvent);
+      .subscribe(() => {
+        this.onHandleRelease();
       });
   }
 
   public onMouseMove(event: MouseEvent): void {
     /* Sanity check */
     /* istanbul ignore if */
-    if (!this.isDragging) {
+    if (!this.#isDragging || this.width === undefined) {
       return;
     }
 
-    const offsetX = event.clientX - this.xCoord;
+    const offsetX = event.clientX - this.#xCoord;
     let width = this.width;
 
     width += offsetX;
@@ -183,44 +203,47 @@ export class SkySplitViewDrawerComponent
 
     this.width = width;
 
-    this.xCoord = event.clientX;
-    this.changeDetectorRef.markForCheck();
+    this.#xCoord = event.clientX;
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public onHandleRelease(event: MouseEvent): void {
-    this.isDragging = false;
-    this.coreAdapterService.toggleIframePointerEvents(true);
-    this.changeDetectorRef.markForCheck();
+  public onHandleRelease(): void {
+    this.#isDragging = false;
+    this.#coreAdapterService.toggleIframePointerEvents(true);
+    this.#changeDetectorRef.markForCheck();
   }
 
-  public onResizeHandleChange(event: any): void {
-    this.width = event.target.value;
-    this.setMaxWidth();
+  public onResizeHandleChange(event: Event): void {
+    this.width = +(event.target as HTMLInputElement).value;
+    this.#setMaxWidth();
   }
 
   @HostListener('window:resize', ['$event'])
-  public onWindowResize(event: any): void {
+  public onWindowResize(): void {
+    const window = this.#windowRef.nativeWindow;
+
     // If window size is smaller than width + tolerance, shrink width.
     if (
       !this.isMobile &&
-      event.target.innerWidth < this.width + this.widthTolerance
+      this.width !== undefined &&
+      window.innerWidth < this.width + this.widthTolerance
     ) {
-      this.width = event.target.innerWidth - this.widthTolerance;
+      this.width = window.innerWidth - this.widthTolerance;
     }
   }
 
-  private updateBreakpoint(): void {
-    this.splitViewMediaQueryService.setBreakpointForWidth(this.width);
-    const newDrawerBreakpoint = this.splitViewMediaQueryService.current;
-    this.coreAdapterService.setResponsiveContainerClass(
-      this.elementRef,
+  #updateBreakpoint(): void {
+    this.#splitViewMediaQuerySvc.setBreakpointForWidth(this.width);
+    const newDrawerBreakpoint = this.#splitViewMediaQuerySvc.current;
+    this.#coreAdapterService.setResponsiveContainerClass(
+      this.#elementRef,
       newDrawerBreakpoint
     );
   }
 
-  private setMaxWidth(): void {
+  #setMaxWidth(): void {
     const splitView =
-      this.splitViewService.splitViewElementRef.nativeElement.querySelector(
+      this.#splitViewSvc.splitViewElementRef?.nativeElement.querySelector(
         '.sky-split-view'
       );
     this.widthMax = splitView.clientWidth - this.widthTolerance;

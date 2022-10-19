@@ -15,7 +15,7 @@ import { take, takeUntil } from 'rxjs/operators';
  */
 @Injectable()
 export class SkySplitViewAdapterService {
-  private observer: MutationObserver;
+  private observer: MutationObserver | undefined;
 
   private renderer: Renderer2;
 
@@ -24,7 +24,7 @@ export class SkySplitViewAdapterService {
     private rendererFactory: RendererFactory2,
     private windowRef: SkyAppWindowRef
   ) {
-    this.renderer = this.rendererFactory.createRenderer(undefined, undefined);
+    this.renderer = this.rendererFactory.createRenderer(undefined, null);
   }
 
   public bindHeightToWindow(
@@ -33,11 +33,9 @@ export class SkySplitViewAdapterService {
   ): void {
     /*istanbul ignore else*/
     if (elementRef.nativeElement.offsetParent === document.body) {
-      this.observer = this.observerService.create(
-        (mutations: MutationRecord[]) => {
-          this.setSplitViewBoundHeights(elementRef);
-        }
-      );
+      this.observer = this.observerService.create(() => {
+        this.setSplitViewBoundHeights(elementRef);
+      });
 
       fromEvent(this.windowRef.nativeWindow, 'resize')
         .pipe(takeUntil(unsubscribeSubject))
@@ -58,7 +56,7 @@ export class SkySplitViewAdapterService {
       this.setSplitViewBoundHeights(elementRef);
 
       unsubscribeSubject.pipe(take(1)).subscribe(() => {
-        this.observer.disconnect();
+        this.observer?.disconnect();
         const splitViewElement =
           elementRef.nativeElement.querySelector('.sky-split-view');
         this.renderer.removeStyle(splitViewElement, 'max-height');
