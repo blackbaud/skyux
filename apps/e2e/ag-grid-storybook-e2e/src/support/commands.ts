@@ -18,6 +18,8 @@ declare namespace Cypress {
      * Wait for Font Awesome and BLKB Sans to be loaded.
      */
     waitForFaAndBbFonts(): Chainable<void>;
+
+    percySnapshot(name: string, options?: any): void;
   }
 }
 
@@ -46,3 +48,7 @@ Cypress.Commands.add('waitForBlackbaudSans', () =>
 Cypress.Commands.add('waitForFaAndBbFonts', () =>
   cy.waitForFonts('BLKB Sans', 'FontAwesome')
 );
+
+Cypress.Commands.add('percySnapshot', (name, options) => {
+  // console.log('percySnapshot', name, options);
+});

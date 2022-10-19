@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyInfiniteScrollModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -19,6 +20,7 @@ import { ReadonlyGridComponent } from './readonly-grid.component';
     SkyAgGridModule,
     SkyInfiniteScrollModule,
     SkyDropdownModule,
+    SkyBackToTopModule,
   ],
 })
 export class ReadonlyGridModule {

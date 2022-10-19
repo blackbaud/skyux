@@ -37,14 +37,16 @@ describe(`ag-grid-storybook data manager`, () => {
               .screenshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
-                  clip: { x: 0, y: 0, width: 1300, height: 600 },
+                  clip: { x: 0, y: 0, width: 1280, height: 600 },
+                  overwrite: true,
+                  disableTimersAndAnimations: true,
                 }
               )
               .get('#root')
               .percySnapshot(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
-                  widths: [1280],
+                  widths: E2eVariations.DISPLAY_WIDTHS,
                   scope: '#root',
                   percyCSS: `
                     /* Avoid "virtual rows" in the screenshot. */
