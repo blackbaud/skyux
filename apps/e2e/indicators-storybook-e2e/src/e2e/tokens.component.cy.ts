@@ -14,11 +14,11 @@ describe('indicators-storybook', () => {
           .should('be.visible')
           // Capture the focus style of the first token.
           .get('sky-tokens:first-child sky-token:first-child > .sky-token')
-          .click({ multiple: true })
+          .click()
           .get('app-tokens')
           .screenshot(`tokenscomponent-tokens--tokens-${theme}`)
           .percySnapshot(`tokenscomponent-tokens--tokens-${theme}`, {
-            widths: E2eVariations.DISPLAY_WIDTHS,
+            widths: E2eVariations.MOBILE_WIDTHS,
           });
       });
     });
