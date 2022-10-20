@@ -571,7 +571,7 @@ describe('Radio group component (reactive)', function () {
     );
   });
 
-  it('should update aria-owns if radio IDs change', () => {
+  it('should update aria-owns if a child radio modifies its ID', () => {
     fixture.detectChanges();
 
     const radioGroupEl: HTMLDivElement =
@@ -579,6 +579,7 @@ describe('Radio group component (reactive)', function () {
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
 
+    // Change an existing ID to something else.
     fixture.componentInstance.options[0].id = 'foobar';
     fixture.detectChanges();
 
