@@ -53,14 +53,6 @@ describe('ag-grid-storybook', () => {
               overwrite: true,
               disableTimersAndAnimations: true,
             }
-          )
-          .window()
-          .percySnapshot(
-            `dataentrygridcomponent-dataentrygrid--date-and-lookup-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              devicePixelRatio: 1,
-            }
           );
       });
 
@@ -81,7 +73,7 @@ describe('ag-grid-storybook', () => {
           .click()
           .end()
 
-          // Scroll to the right.
+          // Focus on a cell in the middle of the grid.
           .get('#sideScroll .ag-cell-value[col-id="triplecrown"]')
           .should('be.visible')
           .should('not.be.empty')
@@ -166,14 +158,6 @@ describe('ag-grid-storybook', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
-            }
-          )
-          .window()
-          .percySnapshot(
-            `dataentrygridcomponent-dataentrygrid--edit-lookup-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-              devicePixelRatio: 1,
             }
           );
       });

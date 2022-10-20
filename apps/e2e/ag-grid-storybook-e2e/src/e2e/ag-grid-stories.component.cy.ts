@@ -37,12 +37,6 @@ describe(`ag-grid-storybook`, () => {
               overwrite: true,
               disableTimersAndAnimations: true,
             }
-          )
-          .percySnapshot(
-            `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            }
           );
       });
     });

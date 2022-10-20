@@ -41,20 +41,6 @@ describe(`ag-grid-storybook data manager`, () => {
                   overwrite: true,
                   disableTimersAndAnimations: true,
                 }
-              )
-              .get('#root')
-              .percySnapshot(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
-                {
-                  widths: E2eVariations.DISPLAY_WIDTHS,
-                  scope: '#root',
-                  percyCSS: `
-                    /* Avoid "virtual rows" in the screenshot. */
-                    #root {
-                      height: 600px;
-                    }
-                  `,
-                }
               );
           });
         });

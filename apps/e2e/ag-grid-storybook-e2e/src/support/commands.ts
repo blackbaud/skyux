@@ -19,8 +19,6 @@ declare namespace Cypress {
      */
     waitForFaAndBbFonts(): Chainable<void>;
 
-    percySnapshot(name: string, options?: any): void;
-
     /**
      * Capture a screenshot of the current page for visual regression testing.
      */
@@ -57,10 +55,10 @@ Cypress.Commands.add('waitForFaAndBbFonts', () =>
   cy.waitForFonts('BLKB Sans', 'FontAwesome')
 );
 
-Cypress.Commands.add('percySnapshot', (name, options) => {
-  // console.log('percySnapshot', name, options);
-});
-
+/**
+ * Capture a screenshot of the current page for visual regression testing. Include the URL in `blackout` because that is
+ * the only arbitrary value field that becomes available in the after-screenshot hook, and it is required by Percy.
+ */
 Cypress.Commands.add(
   'skyVisualTest',
   (name: string, options?: Record<string, unknown>) => {

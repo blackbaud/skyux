@@ -134,7 +134,7 @@
     "@nrwl/storybook": "14.7.6",
     "@nrwl/workspace": "14.7.6",
     "@percy/cli": "1.11.0",
-    "@percy/core": "^1.11.0",
+    "@percy/core": "1.11.0",
     "@percy/cypress": "3.1.2",
     "@ryansonshine/commitizen": "4.2.8",
     "@ryansonshine/cz-conventional-changelog": "3.3.4",
