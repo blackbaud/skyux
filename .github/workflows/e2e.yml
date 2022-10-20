@@ -50,7 +50,7 @@ jobs:
         with:
           script: |
             const parameters = [];
-            await exec(
+            await exec.exec(
               'npx',
               [
                 'skyux-dev',
