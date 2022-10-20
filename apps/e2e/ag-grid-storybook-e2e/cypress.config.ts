@@ -9,7 +9,8 @@ export default defineConfig({
     ...nxE2EPreset(__dirname),
     video: false,
     setupNodeEvents: (on, config) => {
-      // Use a large window size so screenshots fit within the viewport.
+      // Use a large window size so screenshots fit within the viewport. If the browser isn't resized, Cypress scrolls
+      // and stitches screenshots together.
       on('before:browser:launch', (browser, launchOptions) => {
         const width = 1920;
         const height = 1600;
@@ -34,6 +35,7 @@ export default defineConfig({
         return launchOptions;
       });
 
+      // Hook into Cypress's screenshot and hand that image off to Percy.
       on(
         'after:screenshot',
         async (
@@ -47,6 +49,8 @@ export default defineConfig({
               .readFileSync(details.path)
               .toString('base64');
             const { width, height } = details.dimensions;
+            // This HTML wrapper for the image works like `npx percy upload`, but having our own copy allows control
+            // over the snapshot names. Inlining the image source is easier than managing multiple resources.
             const domSnapshot = `<!doctype html>
             <html lang="en">
               <head>

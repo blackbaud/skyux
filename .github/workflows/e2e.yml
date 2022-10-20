@@ -17,47 +17,9 @@ concurrency:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
       parameters: ${{ steps.parameters.outputs.parameters }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - name: Rebase current branch
-        run: node ./scripts/rebase-pr.js
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-      - name: npm install
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
-        uses: nrwl/nx-set-shas@v3
-      - name: Set workflow parameters
-        id: parameters
-        run: |
-          echo -n '::set-output name=parameters::'
-          npx skyux-dev e2e-workflow
-      - name: Show workflow parameters
-        run: |
-          echo 'Using workflow parameters:'
-          echo ''
-          echo '${{ steps.parameters.outputs.parameters }}' | jq
-
-  install-deps-windows:
-    name: Install and cache dependencies on Windows
-    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
         with:
@@ -79,10 +41,23 @@ jobs:
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+      - name: Derive appropriate SHAs for base and head for `nx affected` commands
+        id: setSHAs
+        uses: nrwl/nx-set-shas@v3
+      - name: Set workflow parameters
+        id: parameters
+        run: |
+          echo -n '::set-output name=parameters::'
+          npx skyux-dev e2e-workflow
+      - name: Show workflow parameters
+        run: |
+          echo 'Using workflow parameters:'
+          echo ''
+          echo '${{ steps.parameters.outputs.parameters }}' | jq
 
   build-storybook:
     name: Build Project Storybook
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: install-deps
     strategy:
       matrix:
@@ -104,8 +79,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
@@ -128,7 +103,7 @@ jobs:
 
   build-apps:
     name: Build Apps
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: install-deps
     strategy:
       matrix:
@@ -154,8 +129,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
@@ -180,7 +155,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs:
       - install-deps
       - build-storybook
@@ -199,8 +174,8 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
           key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
@@ -233,9 +208,7 @@ jobs:
   e2e:
     name: End to end tests
     runs-on: windows-latest
-    needs:
-      - install-deps
-      - install-deps-windows
+    needs: install-deps
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
       fail-fast: false
