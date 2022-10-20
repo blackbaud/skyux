@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -46,8 +46,10 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
+        # Setting the shell so this step can run as-is on Windows or Linux.
+        shell: pwsh
         run: |
-          echo -n '::set-output name=parameters::'
+          Write-Host -NoNewLine "::set-output name=parameters::"
           npx skyux-dev e2e-workflow
       - name: Show workflow parameters
         run: |
@@ -69,7 +71,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
         if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -119,7 +121,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
         if: ${{ github.event_name == 'pull_request' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -135,8 +137,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} \
-            --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
+          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
         if: ${{ github.event_name == 'pull_request' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
@@ -166,7 +167,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -184,9 +185,13 @@ jobs:
       - name: Move apps
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ github.event_name == 'pull_request' }}
+        # Setting the shell so this step can run as-is on Windows or Linux.
+        shell: pwsh
         run: |
-          mkdir -p ./dist/apps
-          mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/{code-examples,integration,playground,dep-graph} ./dist/apps/
+          md ./dist/apps -ea 0
+          ForEach($app in "code-examples", "integration", "playground", "dep-graph") {
+            mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
+          }
       - name: Generate Storybook Composition
         run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Build Storybook Composition
@@ -220,7 +225,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
