@@ -208,7 +208,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            await exec('npx', [
+            await exec.exec('npx', [
               'nx',
               'g',
               '@skyux-sdk/e2e-schematics:storybook-composition',
