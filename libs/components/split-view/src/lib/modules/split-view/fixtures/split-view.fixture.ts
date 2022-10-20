@@ -14,11 +14,11 @@ import { SkySplitViewMessage } from '../types/split-view-message';
 export class SplitViewFixtureComponent {
   public additionalItems: string[] = [];
 
-  public ariaLabelForDrawer: string;
+  public ariaLabelForDrawer: string | undefined;
 
-  public ariaLabelForWorkspace: string;
+  public ariaLabelForWorkspace: string | undefined;
 
-  public backButtonText: string;
+  public backButtonText: string | undefined;
 
   public bindHeightToWindow = false;
 
@@ -40,12 +40,12 @@ export class SplitViewFixtureComponent {
 
   public splitViewMessageStream = new Subject<SkySplitViewMessage>();
 
-  public width: number;
+  public width: number | undefined;
 
   public dock: SkySplitViewDockType | undefined;
 
   @ViewChild(SkySplitViewComponent)
-  public splitViewComponent: SkySplitViewComponent;
+  public splitViewComponent!: SkySplitViewComponent;
 
   constructor(public confirmService: SkyConfirmService) {}
 }

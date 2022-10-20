@@ -5,10 +5,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './sort-fixture.component.fixture.html',
 })
 export class SortFixtureTestComponent implements OnInit {
-  public static dataSkyId: string = 'test-sort-fixture';
+  public static dataSkyId = 'test-sort-fixture';
 
-  public initialState: number;
-  public showButtonText: boolean = true;
+  public initialState: number | undefined;
+  public showButtonText = true;
 
   public sortedItems: any[] = [
     {

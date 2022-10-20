@@ -34,11 +34,11 @@ export class SkySplitViewMediaQueryService {
   public setBreakpointForWidth(width: number): void {
     let breakpoint: SkyMediaBreakpoints;
 
-    if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.xs)) {
+    if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.xs)) {
       breakpoint = SkyMediaBreakpoints.xs;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.sm)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.sm)) {
       breakpoint = SkyMediaBreakpoints.sm;
-    } else if (this.isWidthWithinBreakpiont(width, SkyMediaBreakpoints.md)) {
+    } else if (this.isWidthWithinBreakpoint(width, SkyMediaBreakpoints.md)) {
       breakpoint = SkyMediaBreakpoints.md;
     } else {
       breakpoint = SkyMediaBreakpoints.lg;
@@ -48,10 +48,14 @@ export class SkySplitViewMediaQueryService {
     this.currentSubject.next(this._current);
   }
 
-  public isWidthWithinBreakpiont(
-    width: number,
+  public isWidthWithinBreakpoint(
+    width: number | undefined,
     breakpoint: SkyMediaBreakpoints
   ): boolean {
+    if (width === undefined) {
+      return false;
+    }
+
     const xsBreakpointMaxPixels = 767;
     const smBreakpointMinPixels = 768;
     const smBreakpointMaxPixels = 991;

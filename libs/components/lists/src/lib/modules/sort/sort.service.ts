@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export class SkySortService {
   public selectedItem: BehaviorSubject<string> = new BehaviorSubject('');
 
-  public selectItem(sortItem: string) {
+  public selectItem(sortItem: string): void {
     this.selectedItem.next(sortItem);
   }
 }

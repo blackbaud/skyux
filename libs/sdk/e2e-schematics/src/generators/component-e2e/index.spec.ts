@@ -50,11 +50,11 @@ describe('component-e2e', () => {
       )
     ).toBeFalsy();
     expect(
-      tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/index.ts`)
+      tree.exists(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`)
     ).toBeTruthy();
     expect(
       tree
-        .read(`${config['test-storybook-e2e'].sourceRoot}/support/index.ts`)
+        .read(`${config['test-storybook-e2e'].sourceRoot}/support/e2e.ts`)
         ?.toString()
     ).toContain('percy');
   });
