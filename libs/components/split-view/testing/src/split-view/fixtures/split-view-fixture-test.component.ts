@@ -17,21 +17,21 @@ import { Subject } from 'rxjs';
   templateUrl: './split-view-fixture-test.component.html',
 })
 export class SplitViewTestComponent {
-  public static dataSkyId: string = 'test-split-view';
+  public static dataSkyId = 'test-split-view';
 
   public set activeIndex(value: number) {
-    this._activeIndex = value;
-    this.activeRecord = this.items[this._activeIndex];
-    this.loadFormGroup(this.activeRecord);
+    this.#_activeIndex = value;
+    this.activeRecord = this.items[this.#_activeIndex];
+    this.#loadFormGroup(this.activeRecord);
   }
 
   public get activeIndex(): number {
-    return this._activeIndex;
+    return this.#_activeIndex;
   }
 
   public activeRecord: any;
 
-  public backButtonText: string = 'Back to list';
+  public backButtonText = 'Back to list';
 
   public items = [
     {
@@ -72,17 +72,17 @@ export class SplitViewTestComponent {
     },
   ];
 
-  public listAriaLabel: string = 'Transaction list';
+  public listAriaLabel = 'Transaction list';
 
-  public listWidth: number;
+  public listWidth: number | undefined;
 
-  public splitViewDemoForm: UntypedFormGroup;
+  public splitViewDemoForm: UntypedFormGroup | undefined;
 
   public splitViewStream = new Subject<SkySplitViewMessage>();
 
-  public workspaceAriaLabel: string = 'Transaction form';
+  public workspaceAriaLabel = 'Transaction form';
 
-  private _activeIndex = 0;
+  #_activeIndex = 0;
 
   constructor(public confirmService: SkyConfirmService) {
     // Start with the first item selected.
@@ -91,16 +91,16 @@ export class SplitViewTestComponent {
 
   public onItemClick(index: number): void {
     // Prevent workspace from loading new data if the current workspace form is dirty.
-    if (this.splitViewDemoForm.dirty && index !== this.activeIndex) {
-      this.openConfirmModal(index);
+    if (this.splitViewDemoForm?.dirty && index !== this.activeIndex) {
+      this.#openConfirmModal(index);
     } else {
-      this.loadWorkspace(index);
+      this.#loadWorkspace(index);
     }
   }
 
   public onApprove(): void {
     console.log('Approved clicked!');
-    this.saveForm();
+    this.#saveForm();
   }
 
   public onDeny(): void {
@@ -109,19 +109,19 @@ export class SplitViewTestComponent {
 
   //#region helpers
 
-  private loadFormGroup(record: any): void {
+  #loadFormGroup(record: any): void {
     this.splitViewDemoForm = new UntypedFormGroup({
       approvedAmount: new UntypedFormControl(record.approvedAmount),
       comments: new UntypedFormControl(record.comments),
     });
   }
 
-  private loadWorkspace(index: number): void {
+  #loadWorkspace(index: number): void {
     this.activeIndex = index;
-    this.setFocusInWorkspace();
+    this.#setFocusInWorkspace();
   }
 
-  private openConfirmModal(index: number): void {
+  #openConfirmModal(index: number): void {
     this.confirmService
       .open({
         message:
@@ -142,20 +142,22 @@ export class SplitViewTestComponent {
       })
       .closed.subscribe((closeArgs: SkyConfirmCloseEventArgs) => {
         if (closeArgs.action.toLowerCase() === 'yes') {
-          this.saveForm();
+          this.#saveForm();
         }
-        this.loadWorkspace(index);
+        this.#loadWorkspace(index);
       });
   }
 
-  private saveForm(): void {
-    this.activeRecord.approvedAmount =
-      this.splitViewDemoForm.value.approvedAmount;
-    this.activeRecord.comments = this.splitViewDemoForm.value.comments;
-    this.splitViewDemoForm.reset(this.splitViewDemoForm.value);
+  #saveForm(): void {
+    if (this.splitViewDemoForm) {
+      this.activeRecord.approvedAmount =
+        this.splitViewDemoForm.value.approvedAmount;
+      this.activeRecord.comments = this.splitViewDemoForm.value.comments;
+      this.splitViewDemoForm.reset(this.splitViewDemoForm.value);
+    }
   }
 
-  private setFocusInWorkspace(): void {
+  #setFocusInWorkspace(): void {
     const message: SkySplitViewMessage = {
       type: SkySplitViewMessageType.FocusWorkspace,
     };
