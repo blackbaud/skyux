@@ -4,7 +4,6 @@ import {
   Component,
   Input,
   OnDestroy,
-  OnInit,
   Optional,
   Output,
   Provider,
@@ -46,9 +45,7 @@ const SKY_RADIO_CONTROL_VALUE_ACCESSOR: Provider = {
   providers: [SKY_RADIO_CONTROL_VALUE_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyRadioComponent
-  implements OnInit, OnDestroy, ControlValueAccessor
-{
+export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   /**
    * Fires when users focus off a radio button.
    */
@@ -102,15 +99,16 @@ export class SkyRadioComponent
    */
   @Input()
   public set id(value: string | undefined) {
-    const oldId = this.inputId;
-    const newId = value
-      ? `sky-radio-${value}-input`
-      : `sky-radio-${this.#defaultId}-input`;
-
-    if (oldId !== newId) {
-      this.inputId = newId;
-      this.#radioGroupIdSvc?.updateId(oldId, newId);
+    if (value) {
+      this.inputId = `sky-radio-${value}-input`;
+    } else {
+      this.inputId = `sky-radio-${this.#defaultId}-input`;
     }
+
+    this.#radioGroupIdSvc?.register({
+      id: this.#defaultId,
+      inputElementId: this.inputId,
+    });
   }
 
   /**
@@ -311,12 +309,8 @@ export class SkyRadioComponent
     this.id = this.#defaultId;
   }
 
-  public ngOnInit(): void {
-    this.#radioGroupIdSvc?.registerId(this.inputId);
-  }
-
   public ngOnDestroy(): void {
-    this.#radioGroupIdSvc?.unregisterId(this.inputId);
+    this.#radioGroupIdSvc?.unregister(this.#defaultId);
     this.#removeUniqueSelectionListener();
     this.#change.complete();
     this.#checkedChange.complete();

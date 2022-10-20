@@ -2,6 +2,17 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
+interface RegisterArgs {
+  /**
+   * A unique ID for the radio component.
+   */
+  id: string;
+  /**
+   * The ID applied to the radio input element.
+   */
+  inputElementId: string;
+}
+
 /**
  * Tracks the element IDs for all radios within a radio group.
  * @internal
@@ -12,11 +23,12 @@ export class SkyRadioGroupIdService {
     return this.#radioIdsObs;
   }
 
-  #radioIds: string[] = [];
+  #radioIds: Map<string, string>;
   #radioIds$: BehaviorSubject<string[]>;
   #radioIdsObs: Observable<string[]>;
 
   constructor() {
+    this.#radioIds = new Map();
     this.#radioIds$ = new BehaviorSubject<string[]>([]);
     this.#radioIdsObs = this.#radioIds$.asObservable();
   }
@@ -24,20 +36,12 @@ export class SkyRadioGroupIdService {
   /**
    * Associates a radio input's ID with its parent radio group.
    */
-  public registerId(id: string): void {
-    if (this.#radioIds.indexOf(id) === -1) {
-      this.#radioIds.push(id);
-      this.#emitRadioIds();
-    }
-  }
-
-  /**
-   * Updates a radio input's ID with its parent radio group.
-   */
-  public updateId(oldId: string, newId: string): void {
-    const index = this.#radioIds.indexOf(oldId);
-    if (index > -1) {
-      this.#radioIds[index] = newId;
+  public register(args: RegisterArgs): void {
+    if (
+      !this.#radioIds.has(args.id) ||
+      this.#radioIds.get(args.id) !== args.inputElementId
+    ) {
+      this.#radioIds.set(args.id, args.inputElementId);
       this.#emitRadioIds();
     }
   }
@@ -45,15 +49,14 @@ export class SkyRadioGroupIdService {
   /**
    * Disassociates a radio input's ID with its parent radio group.
    */
-  public unregisterId(id: string): void {
-    const index = this.#radioIds.indexOf(id);
-    if (index > -1) {
-      this.#radioIds.splice(index);
+  public unregister(id: string): void {
+    if (this.#radioIds.has(id)) {
+      this.#radioIds.delete(id);
       this.#emitRadioIds();
     }
   }
 
   #emitRadioIds(): void {
-    this.#radioIds$.next(this.#radioIds);
+    this.#radioIds$.next(Array.from(this.#radioIds.values()));
   }
 }
