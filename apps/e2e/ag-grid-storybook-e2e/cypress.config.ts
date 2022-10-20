@@ -1,13 +1,8 @@
 import { nxE2EPreset } from '@nrwl/cypress/plugins/cypress-preset';
-import { isPercyEnabled } from '@percy/sdk-utils';
+import * as utils from '@percy/sdk-utils';
 
-import { spawn } from 'child_process';
 import { defineConfig } from 'cypress';
 import * as fs from 'fs';
-import { createServer } from 'http';
-import { AddressInfo } from 'net';
-import * as os from 'os';
-import * as path from 'path';
 
 export default defineConfig({
   e2e: {
@@ -39,100 +34,52 @@ export default defineConfig({
         return launchOptions;
       });
 
-      const snapshotDotYml = config.screenshotsFolder + '/percy-snapshots.yml';
-      on('before:run', async () => {
-        if (!config.screenshotsFolder) {
-          return;
-        }
-        fs.mkdirSync(config.screenshotsFolder, { recursive: true });
-        fs.writeFileSync(snapshotDotYml, `snapshots:${os.EOL}`);
-      });
-      on('after:screenshot', (details: Cypress.ScreenshotDetails) => {
-        if (!config.screenshotsFolder) {
-          return;
-        }
-        const htmlFile = details.path.replace('.png', '.html');
-        const relativePath = path.relative(config.screenshotsFolder, htmlFile);
-        const imageUrl = path.basename(details.path);
-        const html = `
-        <!doctype html>
-        <html lang="en">
-          <head>
-            <meta charset="utf-8">
-            <title>${details.name}</title>
-            <style>
-              *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
-              html, body { width: 100%; }
-              img { max-width: 100%; }
-            </style>
-          </head>
-          <body>
-            <img
-              alt="${details.name}"
-              src="${imageUrl}"
-              width="${details.dimensions.width}px"
-              style="aspect-ratio: ${details.dimensions.width}/${details.dimensions.height};"
-            />
-          </body>
-        </html>`;
-        fs.writeFileSync(htmlFile, html);
-        fs.appendFileSync(
-          snapshotDotYml,
-          `  - name: ${details.name}${os.EOL}    url: ${relativePath}${os.EOL}`
-        );
-      });
-      on('after:run', async () => {
-        if (isPercyEnabled()) {
-          if (!config.screenshotsFolder) {
-            console.warn(`Screenshots folder not set.`);
-            return;
-          }
-          const localhost = createServer((req, res) => {
-            const filePath = path.join(`${config.screenshotsFolder}`, req.url);
-            fs.readFile(filePath, (err, data) => {
-              if (err) {
-                res.statusCode = 404;
-                res.end(`File ${filePath} not found!`);
-                return;
-              }
-              res.end(data);
+      on(
+        'after:screenshot',
+        async (
+          details: Cypress.ScreenshotDetails
+        ): Promise<Cypress.AfterScreenshotReturnObject> => {
+          const url = (
+            details.blackout.find((item) => item.startsWith('url:')) || ''
+          ).substring(4);
+          if (process.env.PERCY_SERVER_ADDRESS && url) {
+            const imageDataBase64 = fs
+              .readFileSync(details.path)
+              .toString('base64');
+            const { width, height } = details.dimensions;
+            const domSnapshot = `<!doctype html>
+            <html lang="en">
+              <head>
+                <meta charset="utf-8">
+                <title>${details.name}</title>
+                <style>
+                  *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
+                  html, body { width: 100%; }
+                  img { max-width: 100%; }
+                </style>
+              </head>
+              <body>
+                <img
+                  alt="${details.name}"
+                  src="data:image/png;base64,${imageDataBase64}"
+                  width="${width / 2}"
+                  style="aspect-ratio: ${width}/${height};"
+                />
+              </body>
+            </html>`;
+            await utils.postSnapshot({
+              name: details.name,
+              url,
+              domSnapshot,
             });
-          });
-          try {
-            localhost
-              .listen()
-              .on('error', (err) => {
-                console.error(`[http error] ${err}`);
-              })
-              .on('listening', () => {
-                const port = (localhost.address() as AddressInfo).port;
-                console.log(
-                  `Loading Percy snapshots from http://localhost:${port}`
-                );
-                const percy = spawn(
-                  'npx',
-                  [
-                    'percy',
-                    'snapshot',
-                    '--base-url',
-                    `http://localhost:${port}/`,
-                    snapshotDotYml,
-                  ],
-                  {
-                    stdio: 'inherit',
-                    shell: true,
-                  }
-                );
-                percy.on('close', () => localhost.close());
-                percy.on('disconnect', () => localhost.close());
-                percy.on('exit', () => localhost.close());
-              });
-            await new Promise((resolve) => localhost.on('close', resolve));
-          } catch (err) {
-            console.error(err);
           }
+          return {
+            path: details.path,
+            size: details.size,
+            dimensions: details.dimensions,
+          };
         }
-      });
+      );
     },
   },
 });

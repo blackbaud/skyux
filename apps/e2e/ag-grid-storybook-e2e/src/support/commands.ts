@@ -20,6 +20,14 @@ declare namespace Cypress {
     waitForFaAndBbFonts(): Chainable<void>;
 
     percySnapshot(name: string, options?: any): void;
+
+    /**
+     * Capture a screenshot of the current page for visual regression testing.
+     */
+    skyVisualTest(
+      name: string,
+      options?: Record<string, unknown>
+    ): Chainable<void>;
   }
 }
 
@@ -52,3 +60,15 @@ Cypress.Commands.add('waitForFaAndBbFonts', () =>
 Cypress.Commands.add('percySnapshot', (name, options) => {
   // console.log('percySnapshot', name, options);
 });
+
+Cypress.Commands.add(
+  'skyVisualTest',
+  (name: string, options?: Record<string, unknown>) => {
+    cy.url().then((url) => {
+      cy.screenshot(name, {
+        ...options,
+        blackout: [`url:${url}`],
+      });
+    });
+  }
+);

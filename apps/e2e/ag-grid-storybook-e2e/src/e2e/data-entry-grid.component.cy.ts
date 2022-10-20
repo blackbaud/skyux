@@ -47,7 +47,7 @@ describe('ag-grid-storybook', () => {
 
           // Screenshot the three grids with active editors.
           .get('#root')
-          .screenshot(
+          .skyVisualTest(
             `dataentrygridcomponent-dataentrygrid--date-and-lookup-${theme}`,
             {
               overwrite: true,
@@ -161,7 +161,7 @@ describe('ag-grid-storybook', () => {
 
           // Screenshot the grids with active editors.
           .get('#root')
-          .screenshot(
+          .skyVisualTest(
             `dataentrygridcomponent-dataentrygrid--edit-lookup-${theme}`,
             {
               overwrite: true,

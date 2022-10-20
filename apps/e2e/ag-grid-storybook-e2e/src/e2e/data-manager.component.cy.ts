@@ -34,7 +34,7 @@ describe(`ag-grid-storybook data manager`, () => {
               // Necessary to wait for the grid to render.
               .wait(1000)
               .get('#root')
-              .screenshot(
+              .skyVisualTest(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
                   clip: { x: 0, y: 0, width: 1280, height: 600 },

@@ -31,7 +31,7 @@ describe(`ag-grid-storybook`, () => {
           .get('#root')
           .should('exist')
           .should('be.visible')
-          .screenshot(
+          .skyVisualTest(
             `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
             {
               overwrite: true,
