@@ -74,6 +74,7 @@ export class SkyTabComponent implements OnChanges, OnDestroy {
   /**
    * Displays a counter beside the tab header.
    * This input only applies when the tabset's `tabStyle` is `"tabs"`.
+   * @deprecated SKY UX no longer recommends adding counts to tabs.
    */
   @Input()
   public tabHeaderCount: string | undefined;
