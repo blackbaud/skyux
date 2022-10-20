@@ -15,7 +15,7 @@ describe('indicators-storybook', () => {
           // Capture the focus style of the first token.
           .get('sky-tokens:first-child sky-token:first-child > .sky-token')
           .click({ multiple: true })
-          .get('app-tokens')
+          .get('#tokens-e2e-screenshot')
           .screenshot(`tokenscomponent-tokens--tokens-${theme}`)
           .percySnapshot(`tokenscomponent-tokens--tokens-${theme}`, {
             widths: E2eVariations.DISPLAY_WIDTHS,
