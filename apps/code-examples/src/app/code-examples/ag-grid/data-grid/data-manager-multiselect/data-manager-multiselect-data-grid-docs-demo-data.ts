@@ -97,7 +97,7 @@ export interface SkyAgGridDemoRow {
 
 export const SKY_AG_GRID_DEMO_DATA = [
   {
-    selected: true,
+    selected: false,
     name: 'Billy Bob',
     age: 55,
     startDate: new Date('12/1/1994'),

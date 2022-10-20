@@ -7,9 +7,11 @@ import {
 } from '@angular/core';
 import { SkyAgGridService, SkyCellType } from '@skyux/ag-grid';
 import {
+  SkyDataManagerColumnPickerOption,
   SkyDataManagerService,
   SkyDataManagerState,
   SkyDataViewConfig,
+  SkyDataViewState,
 } from '@skyux/data-manager';
 
 import {
@@ -27,17 +29,13 @@ import {
   templateUrl: './data-manager-data-grid-docs-demo-view-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
+export class DataManagerDataGridDocsDemoViewGridComponent implements OnInit {
   @Input()
   public items: any[] = [];
 
   public viewId = 'dataGridWithDataManagerView';
 
-  public columnDefs: ColDef[] = [
-    {
-      field: 'selected',
-      type: SkyCellType.RowSelector,
-    },
+  public columnDefinitions: ColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
@@ -72,15 +70,48 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
     },
   ];
 
+  private columnPickerOptions: SkyDataManagerColumnPickerOption[] = [
+    {
+      id: 'name',
+      label: 'Name',
+      description: 'The name of the employee.',
+    },
+    {
+      id: 'age',
+      label: 'Age',
+      description: 'The age of the employee.',
+    },
+    {
+      id: 'startDate',
+      label: 'Start date',
+      description: 'The start date of the employee.',
+    },
+    {
+      id: 'endDate',
+      label: 'End date',
+      description: 'The end date of the employee.',
+    },
+    {
+      id: 'department',
+      label: 'Department',
+      description: 'The department of the employee',
+    },
+    {
+      id: 'jobTitle',
+      label: 'Title',
+      description: 'The job title of the employee.',
+    },
+  ];
+
   public dataState = new SkyDataManagerState({});
 
   public columnApi?: ColumnApi;
   public displayedItems: any[] = [];
   public gridApi?: GridApi;
-  public gridInitialized = false;
+  public isGridReadyForInitialization = false;
   public gridOptions!: GridOptions;
-  public noRowsTemplate: string;
-  public isActive = false;
+  public noRowsTemplate = `<div class="sky-deemphasized">No results found.</div>`;
+  public isViewActive = false;
 
   public viewConfig: SkyDataViewConfig = {
     id: this.viewId,
@@ -88,64 +119,26 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
     icon: 'table',
     searchEnabled: true,
     sortEnabled: true,
-    multiselectToolbarEnabled: true,
     columnPickerEnabled: true,
     filterButtonEnabled: true,
-    columnOptions: [
-      {
-        id: 'selected',
-        label: 'selected',
-        alwaysDisplayed: true,
-      },
-      {
-        id: 'name',
-        label: 'Name',
-        description: 'The name of the employee.',
-      },
-      {
-        id: 'age',
-        label: 'Age',
-        description: 'The age of the employee.',
-      },
-      {
-        id: 'startDate',
-        label: 'Start date',
-        description: 'The start date of the employee.',
-      },
-      {
-        id: 'endDate',
-        label: 'End date',
-        description: 'The end date of the employee.',
-      },
-      {
-        id: 'department',
-        label: 'Department',
-        description: 'The department of the employee',
-      },
-      {
-        id: 'jobTitle',
-        label: 'Title',
-        description: 'The job title of the employee.',
-      },
-    ],
+    columnOptions: this.columnPickerOptions,
   };
 
   constructor(
-    private agGridService: SkyAgGridService,
+    private skyAgGridService: SkyAgGridService,
     private changeDetector: ChangeDetectorRef,
     private dataManagerService: SkyDataManagerService
-  ) {
-    this.noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.displayedItems = this.items;
 
     this.dataManagerService.initDataView(this.viewConfig);
 
-    this.gridOptions = this.agGridService.getGridOptions({
+    this.gridOptions = this.skyAgGridService.getGridOptions({
       gridOptions: {
-        columnDefs: this.columnDefs,
+        columnDefs: this.columnDefinitions,
+        rowSelection: 'single',
         onGridReady: this.onGridReady.bind(this),
       },
     });
@@ -154,90 +147,32 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
       .getDataStateUpdates(this.viewId)
       .subscribe((state) => {
         this.dataState = state;
-        this.setInitialColumnOrder();
-        this.updateData();
+        this.updateColumnOrder();
+        this.isGridReadyForInitialization = true;
+        this.updateDisplayedItems();
         this.changeDetector.detectChanges();
       });
 
     this.dataManagerService.getActiveViewIdUpdates().subscribe((id) => {
-      this.isActive = id === this.viewId;
+      this.isViewActive = id === this.viewId;
       this.changeDetector.detectChanges();
     });
-  }
-
-  public updateData(): void {
-    this.sortItems();
-    this.displayedItems = this.filterItems(this.searchItems(this.items));
-
-    if (this.dataState.onlyShowSelected) {
-      this.displayedItems = this.displayedItems.filter((item) => item.selected);
-    }
-
-    if (this.displayedItems.length > 0) {
-      this.gridApi?.hideOverlay();
-    } else {
-      this.gridApi?.showNoRowsOverlay();
-    }
-
-    this.changeDetector.markForCheck();
-  }
-
-  public setInitialColumnOrder(): void {
-    const viewState = this.dataState.getViewStateById(this.viewId);
-    const visibleColumns = viewState.displayedColumnIds;
-
-    this.columnDefs.sort((col1, col2) => {
-      const col1Index = visibleColumns.findIndex(
-        (colId: string) => colId === col1.colId
-      );
-      const col2Index = visibleColumns.findIndex(
-        (colId: string) => colId === col2.colId
-      );
-
-      if (col1Index === -1) {
-        col1.hide = true;
-        return 0;
-      } else if (col2Index === -1) {
-        col2.hide = true;
-        return 0;
-      } else {
-        return col1Index - col2Index;
-      }
-    });
-
-    this.gridInitialized = true;
-    this.changeDetector.markForCheck();
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
     this.columnApi = gridReadyEvent.columnApi;
-    this.updateData();
-    this.changeDetector.markForCheck();
+    this.updateDisplayedItems();
   }
 
   public onRowSelected(rowSelectedEvent: RowSelectedEvent): void {
     if (!rowSelectedEvent.data.selected) {
-      this.updateData();
+      this.updateDisplayedItems();
     }
   }
 
-  public sortItems(): void {
-    const sortOption = this.dataState.activeSortOption;
-    if (this.columnApi && sortOption) {
-      this.columnApi.applyColumnState({
-        state: [
-          {
-            colId: sortOption.propertyName,
-            sort: sortOption.descending ? 'desc' : 'asc',
-          },
-        ],
-      });
-    }
-  }
-
-  public searchItems(items: any[]): any[] {
+  private searchItems(items: any[]): any[] {
     let searchedItems = items;
     const searchText = this.dataState && this.dataState.searchText;
 
@@ -262,7 +197,7 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
     return searchedItems;
   }
 
-  public filterItems(items: any[]): any[] {
+  private filterItems(items: any[]): any[] {
     let filteredItems = items;
     const filterData = this.dataState && this.dataState.filterData;
 
@@ -288,5 +223,59 @@ export class DataManagerDataGridsDocsDemoViewGridComponent implements OnInit {
     return params.value
       ? params.value.toLocaleDateString('en-us', dateConfig)
       : 'N/A';
+  }
+
+  private updateColumnOrder(): void {
+    const viewState: SkyDataViewState = this.dataState.getViewStateById(
+      this.viewId
+    );
+
+    this.columnDefinitions.sort((columnDefinition1, columnDefinition2) => {
+      const displayedColumnIdIndex1: number =
+        viewState.displayedColumnIds.findIndex(
+          (aDisplayedColumnId: string) =>
+            aDisplayedColumnId === columnDefinition1.field
+        );
+      const displayedColumnIdIndex2: number =
+        viewState.displayedColumnIds.findIndex(
+          (aDisplayedColumnId: string) =>
+            aDisplayedColumnId === columnDefinition2.field
+        );
+
+      if (displayedColumnIdIndex1 === -1) {
+        return 0;
+      } else if (displayedColumnIdIndex2 === -1) {
+        return 0;
+      } else {
+        return displayedColumnIdIndex1 - displayedColumnIdIndex2;
+      }
+    });
+    this.changeDetector.markForCheck();
+  }
+
+  private updateDisplayedItems(): void {
+    const sortOption = this.dataState.activeSortOption;
+    if (this.columnApi && sortOption) {
+      this.columnApi.applyColumnState({
+        state: [
+          {
+            colId: sortOption.propertyName,
+            sort: sortOption.descending ? 'desc' : 'asc',
+          },
+        ],
+      });
+    }
+
+    this.displayedItems = this.filterItems(this.searchItems(this.items));
+
+    if (this.dataState.onlyShowSelected) {
+      this.displayedItems = this.displayedItems.filter((item) => item.selected);
+    }
+
+    if (this.displayedItems.length > 0) {
+      this.gridApi?.hideOverlay();
+    } else {
+      this.gridApi?.showNoRowsOverlay();
+    }
   }
 }

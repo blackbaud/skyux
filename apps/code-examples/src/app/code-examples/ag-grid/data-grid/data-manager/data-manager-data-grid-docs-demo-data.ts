@@ -116,6 +116,7 @@ export const SKY_AG_GRID_DEMO_DATA = [
     startDate: new Date('9/1/2017'),
     endDate: new Date('9/30/2017'),
     department: SKY_DEPARTMENTS[1],
+    jobTitle: SKY_JOB_TITLES['Sales'][1],
   },
   {
     name: 'David Smith',

@@ -9,15 +9,15 @@ import {
   ValueFormatterParams,
 } from 'ag-grid-community';
 
-import { SKY_AG_GRID_DEMO_DATA } from './top-scroll-data-grid-demo-data';
+import { SKY_AG_GRID_DEMO_DATA } from './basic-multiselect-data-grid-docs-demo-data';
 
 @Component({
-  selector: 'app-basic-data-grid-docs-demo',
-  templateUrl: './top-scroll-data-grid-demo.component.html',
+  selector: 'app-basic-multiselect-data-grid-docs-demo',
+  templateUrl: './basic-multiselect-data-grid-docs-demo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyTopScrollDataGridDemoComponent {
-  public columnDefs: ColDef[] = [
+export class SkyBasicMultiselectDataGridDemoComponent {
+  public multiselectColumnDefs: ColDef[] = [
     {
       field: 'selected',
       type: SkyCellType.RowSelector,
@@ -60,40 +60,21 @@ export class SkyTopScrollDataGridDemoComponent {
   public gridData = SKY_AG_GRID_DEMO_DATA;
   public gridOptions: GridOptions;
   public searchText = '';
-  public noRowsTemplate = `<div class="sky-font-deemphasized">No results found.</div>`;
 
   constructor(private agGridService: SkyAgGridService) {
+    this.gridOptions = {
+      columnDefs: this.multiselectColumnDefs,
+      onGridReady: (gridReadyEvent) => this.onGridReady(gridReadyEvent),
+      rowSelection: 'multiple',
+    };
     this.gridOptions = this.agGridService.getGridOptions({
-      gridOptions: {
-        columnDefs: this.columnDefs,
-        onGridReady: this.onGridReady.bind(this),
-        context: {
-          enableTopScroll: true,
-        },
-      },
+      gridOptions: this.gridOptions,
     });
   }
 
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
-  }
-
-  public searchApplied(searchText: string | void): void {
-    if (searchText) {
-      this.searchText = searchText;
-    } else {
-      this.searchText = '';
-    }
-    if (this.gridApi) {
-      this.gridApi.setQuickFilter(this.searchText);
-      const displayedRowCount = this.gridApi.getDisplayedRowCount();
-      if (displayedRowCount > 0) {
-        this.gridApi.hideOverlay();
-      } else {
-        this.gridApi.showNoRowsOverlay();
-      }
-    }
   }
 
   private endDateFormatter(params: ValueFormatterParams): string {
