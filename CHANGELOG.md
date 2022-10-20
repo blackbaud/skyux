@@ -1,5 +1,23 @@
 # Changelog
 
+## [7.0.0-beta.5](https://github.com/blackbaud/skyux/compare/7.0.0-beta.4...7.0.0-beta.5) (2022-10-20)
+
+
+### Features
+
+* **components/forms:** support status indicator errors for input box ([#633](https://github.com/blackbaud/skyux/issues/633)) ([#695](https://github.com/blackbaud/skyux/issues/695)) ([7d15414](https://github.com/blackbaud/skyux/commit/7d15414f4d5bdae50b5352d6d73354642376bdc2))
+* update page and split view components to support docking content to the available viewport ([#688](https://github.com/blackbaud/skyux/issues/688)) ([158b262](https://github.com/blackbaud/skyux/commit/158b2627db4ab6a14a1d4e049a29b50280d36ec3))
+
+
+### Bug Fixes
+
+* **components/angular-tree-component:** set 'aria-owns' to address a11y violation ([#666](https://github.com/blackbaud/skyux/issues/666)) ([cab7dae](https://github.com/blackbaud/skyux/commit/cab7dae2fcbb3eb9ce4a0efe9793995aedd52ddd))
+* **components/indicators:** set wait component role to 'progressbar' ([#655](https://github.com/blackbaud/skyux/issues/655)) ([7612e6b](https://github.com/blackbaud/skyux/commit/7612e6ba917746539dac4aff039ca29940630fb3))
+* **components/inline-form:** remove inline form race condition ([#670](https://github.com/blackbaud/skyux/issues/670)) ([bfcb7fd](https://github.com/blackbaud/skyux/commit/bfcb7fd7fbec01d8eb93ccad0001732b227fb775))
+* **components/lookup:** remove ARIA label from non-functional search icon ([#654](https://github.com/blackbaud/skyux/issues/654)) ([0225d2c](https://github.com/blackbaud/skyux/commit/0225d2cf24135eca63b4e22c9cc07f14b93fcfe0))
+* **components/lookup:** search icon is placed within input when not using an input box or the show more functionality ([#701](https://github.com/blackbaud/skyux/issues/701)) ([#704](https://github.com/blackbaud/skyux/issues/704)) ([ef2862a](https://github.com/blackbaud/skyux/commit/ef2862afc2a85bb682da3ba5b6edf0ae233fad3e))
+* **components/tabs:** fix a11y violations for wizard and vertical tabs ([#651](https://github.com/blackbaud/skyux/issues/651)) ([9b53409](https://github.com/blackbaud/skyux/commit/9b53409271b78e1091462578ee02c7b470a75832))
+
 ## [7.0.0-beta.4](https://github.com/blackbaud/skyux/compare/7.0.0-beta.3...7.0.0-beta.4) (2022-10-17)
 
 
