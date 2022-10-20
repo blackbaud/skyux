@@ -292,15 +292,24 @@ export class SkyRepeaterItemComponent
       ),
       this.#resourceService.getString('skyux_repeater_item_reorder_operation'),
       this.#resourceService.getString('skyux_repeater_item_reorder_moved'),
-    ]).subscribe((translatedStrings: string[]) => {
-      // ]).subscribe(([thing1, thing2, thing3, thing4, thing5]) => {
-      this.#reorderCancelText = translatedStrings[0];
-      this.#reorderFinishText = translatedStrings[1];
-      this.#reorderStateDescription = translatedStrings[2];
-      this.#reorderInstructions = translatedStrings[3];
-      this.#reorderMovedText = translatedStrings[4];
-      this.reorderButtonLabel = this.#reorderInstructions;
-    });
+    ])
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(
+        ([
+          reorderCancelText,
+          reorderFinishText,
+          reorderInstructionsText,
+          reorderOperationText,
+          reorderMovedText,
+        ]) => {
+          this.#reorderCancelText = reorderCancelText;
+          this.#reorderFinishText = reorderFinishText;
+          this.#reorderStateDescription = reorderInstructionsText;
+          this.#reorderInstructions = reorderOperationText;
+          this.#reorderMovedText = reorderMovedText;
+          this.reorderButtonLabel = this.#reorderInstructions;
+        }
+      );
 
     this.contentId = `sky-repeater-item-content-${++nextContentId}`;
     this.itemRole$ = this.#repeaterService.itemRole.asObservable();

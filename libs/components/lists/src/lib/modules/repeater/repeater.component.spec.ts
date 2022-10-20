@@ -101,7 +101,6 @@ describe('Repeater item component', () => {
   });
 
   it('should default expand mode to "none" when no expand mode is specified', fakeAsync(() => {
-    // revisit
     const fixture = TestBed.createComponent(RepeaterTestComponent);
     const cmp: RepeaterTestComponent = fixture.componentInstance;
     cmp.expandMode = undefined;
