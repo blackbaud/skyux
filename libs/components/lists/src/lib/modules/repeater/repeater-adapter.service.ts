@@ -7,31 +7,40 @@ import { SkyRepeaterService } from './repeater.service';
  */
 @Injectable()
 export class SkyRepeaterAdapterService {
-  private get repeaterItemGroupSelector(): string {
-    return '.sky-repeater-item-group-' + this.repeaterService.repeaterGroupId;
+  get #repeaterItemGroupSelector(): string {
+    return '.sky-repeater-item-group-' + this.#repeaterService.repeaterGroupId;
   }
 
-  private host: ElementRef;
+  #host!: ElementRef;
+  #repeaterService: SkyRepeaterService;
 
-  constructor(private repeaterService: SkyRepeaterService) {}
+  constructor(repeaterService: SkyRepeaterService) {
+    this.#repeaterService = repeaterService;
+  }
 
-  public focusElement(element: ElementRef | HTMLElement): void {
-    if (element instanceof ElementRef) {
-      element.nativeElement.focus();
-    } else {
-      element.focus();
+  public focusElement(element: ElementRef | HTMLElement | undefined): void {
+    if (element) {
+      if (element instanceof ElementRef) {
+        element.nativeElement.focus();
+      } else {
+        element.focus();
+      }
     }
   }
 
   public setRepeaterHost(hostRef: ElementRef): void {
-    this.host = hostRef;
+    this.#host = hostRef;
   }
 
   public getRepeaterItemIndex(element: HTMLElement): number {
-    return this.getRepeaterItemArray().indexOf(element);
+    return this.#getRepeaterItemArray().indexOf(element);
   }
 
-  public moveItemUp(element: HTMLElement, top = false, steps = 1): number {
+  public moveItemUp(
+    element: HTMLElement,
+    top = false,
+    steps = 1
+  ): number | undefined {
     const index = this.getRepeaterItemIndex(element);
 
     if (index === 0) {
@@ -44,11 +53,11 @@ export class SkyRepeaterAdapterService {
       newIndex = 0;
     }
 
-    return this.moveItem(element, index, newIndex);
+    return this.#moveItem(element, index, newIndex);
   }
 
-  public moveItemDown(element: HTMLElement, steps = 1): number {
-    const itemArray = this.getRepeaterItemArray();
+  public moveItemDown(element: HTMLElement, steps = 1): number | undefined {
+    const itemArray = this.#getRepeaterItemArray();
     const index = this.getRepeaterItemIndex(element);
 
     if (index === itemArray.length - steps) {
@@ -57,24 +66,20 @@ export class SkyRepeaterAdapterService {
 
     const newIndex = index + steps;
 
-    return this.moveItem(element, index, newIndex);
+    return this.#moveItem(element, index, newIndex);
   }
 
-  private moveItem(
-    element: HTMLElement,
-    oldIndex: number,
-    newIndex: number
-  ): number {
+  #moveItem(element: HTMLElement, oldIndex: number, newIndex: number): number {
     const repeaterDiv: HTMLElement =
-      this.host.nativeElement.querySelector('.sky-repeater');
+      this.#host.nativeElement.querySelector('.sky-repeater');
 
     repeaterDiv.removeChild(element);
     const nextSibling = repeaterDiv.querySelectorAll(
-      this.repeaterItemGroupSelector
+      this.#repeaterItemGroupSelector
     )[newIndex];
 
     repeaterDiv.insertBefore(element, nextSibling);
-    this.repeaterService.reorderItem(oldIndex, newIndex);
+    this.#repeaterService.reorderItem(oldIndex, newIndex);
 
     return newIndex;
   }
@@ -82,9 +87,9 @@ export class SkyRepeaterAdapterService {
   /**
    * Returns an array of the immediate repeater item descendants. Excludes nested repeater items.
    */
-  private getRepeaterItemArray() {
+  #getRepeaterItemArray(): any[] {
     return Array.from(
-      this.host.nativeElement.querySelectorAll(this.repeaterItemGroupSelector)
+      this.#host.nativeElement.querySelectorAll(this.#repeaterItemGroupSelector)
     );
   }
 }

@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
   `,
 })
 export class RepeaterAsyncItemsTestComponent implements OnInit {
-  public activeIndex: number;
+  public activeIndex: number | undefined;
 
   public asyncData = new BehaviorSubject<any[]>([]);
 

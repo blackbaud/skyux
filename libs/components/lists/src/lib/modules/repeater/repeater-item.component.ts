@@ -56,7 +56,7 @@ export class SkyRepeaterItemComponent
    */
   @HostBinding()
   public get tabindex(): 0 | -1 {
-    return this.repeaterService.items.filter((item) => !item.disabled)[0] ===
+    return this.#repeaterService.items.filter((item) => !item.disabled)[0] ===
       this
       ? 0
       : -1;
@@ -66,25 +66,25 @@ export class SkyRepeaterItemComponent
    * Whether to exclude an item when cycling through.
    */
   @Input()
-  public set disabled(value: boolean) {
-    if (this._isDisabled !== value) {
+  public set disabled(value: boolean | undefined) {
+    if (this.#_isDisabled !== value) {
       if (value) {
         this.isSelected = false;
-        this._isDisabled = true;
+        this.#_isDisabled = true;
       } else {
-        this._isDisabled = false;
+        this.#_isDisabled = false;
       }
       if (this.isActive) {
-        this.repeaterService.activateItemByIndex(undefined);
+        this.#repeaterService.activateItemByIndex(undefined);
       }
-      if (this.elementRef.nativeElement.matches(':focus-within')) {
-        this.elementRef.nativeElement.ownerDocument.activeElement.blur();
+      if (this.#elementRef.nativeElement.matches(':focus-within')) {
+        this.#elementRef.nativeElement.ownerDocument.activeElement.blur();
       }
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
-  public get disabled(): boolean {
-    return this._isDisabled;
+  public get disabled(): boolean | undefined {
+    return this.#_isDisabled;
   }
 
   /**
@@ -94,7 +94,7 @@ export class SkyRepeaterItemComponent
    * to [support accessibility](https://developer.blackbaud.com/skyux/learn/accessibility).
    */
   @Input()
-  public itemName: string;
+  public itemName: string | undefined;
 
   /**
    * Specifies configuration options for the buttons to display on an inline form
@@ -102,26 +102,26 @@ export class SkyRepeaterItemComponent
    * [a `SkyInlineFormConfig` object](https://developer.blackbaud.com/skyux/components/inline-form#skyinlineformconfig-properties).
    */
   @Input()
-  public inlineFormConfig: SkyInlineFormConfig;
+  public inlineFormConfig: SkyInlineFormConfig | undefined;
 
   /**
    * Specifies [an Angular `TemplateRef`](https://angular.io/api/core/TemplateRef) to use
    * as a template to instantiate an inline form within the repeater.
    */
   @Input()
-  public inlineFormTemplate: TemplateRef<unknown>;
+  public inlineFormTemplate: TemplateRef<unknown> | undefined;
 
   /**
    * Indicates whether the repeater item is expanded.
    * @default true
    */
   @Input()
-  public set isExpanded(value: boolean) {
-    this.updateForExpanded(value, true);
+  public set isExpanded(value: boolean | undefined) {
+    this.updateForExpanded(value !== false);
   }
 
   public get isExpanded(): boolean {
-    return this._isExpanded;
+    return this.#isExpanded;
   }
 
   /**
@@ -130,15 +130,15 @@ export class SkyRepeaterItemComponent
    * @default false
    */
   @Input()
-  public set isSelected(value: boolean) {
-    if (!this.disabled && value !== this._isSelected) {
-      this._isSelected = value;
-      this.isSelectedChange.emit(this._isSelected);
+  public set isSelected(value: boolean | undefined) {
+    if (!this.disabled && value !== this.#_isSelected) {
+      this.#_isSelected = value;
+      this.isSelectedChange.emit(this.#_isSelected);
     }
   }
 
-  public get isSelected(): boolean {
-    return this._isSelected;
+  public get isSelected(): boolean | undefined {
+    return this.#_isSelected;
   }
 
   /**
@@ -146,20 +146,20 @@ export class SkyRepeaterItemComponent
    * The repeater component's `reorderable` property must also be set to `true`.
    */
   @Input()
-  public reorderable = false;
+  public reorderable: boolean | undefined = false;
 
   /**
    * Indicates whether to display a checkbox in the left of the repeater item.
    */
   @Input()
-  public selectable = false;
+  public selectable: boolean | undefined = false;
 
   /**
    * Indicates whether to display an inline form within the repeater.
    * Users can toggle between displaying and hiding the inline form.
    */
   @Input()
-  public showInlineForm = false;
+  public showInlineForm: boolean | undefined = false;
 
   /**
    * Specifies an object that the repeater component returns for this repeater item
@@ -195,130 +195,133 @@ export class SkyRepeaterItemComponent
   public isSelectedChange = new EventEmitter<boolean>();
 
   @ContentChild(SkyRepeaterItemContextMenuComponent, { read: ElementRef })
-  public contextMenu: ElementRef;
+  public contextMenu: ElementRef | undefined;
 
-  public contentId = `sky-repeater-item-content-${++nextContentId}`;
+  public contentId: string;
 
   public hasItemContent = false;
 
   public isActive = false;
 
-  public set isCollapsible(value: boolean) {
+  public set isCollapsible(value: boolean | undefined) {
     if (this.isCollapsible !== value) {
-      this._isCollapsible = value;
+      this.#_isCollapsible = value !== false;
 
       /*istanbul ignore else */
-      if (!value) {
-        this.updateForExpanded(true, false);
+      if (!this.#_isCollapsible) {
+        this.updateForExpanded(true);
       }
     }
 
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
   public get isCollapsible(): boolean {
-    return this._isCollapsible;
+    return this.#_isCollapsible;
   }
 
   public itemRole$: Observable<SkyRepeaterItemRolesType>;
 
-  public keyboardReorderingEnabled = false;
+  public reorderButtonLabel = '';
 
-  public reorderButtonLabel: string;
+  public reorderState: string | undefined;
 
-  public reorderState: string;
-
-  public slideDirection: string;
+  public slideDirection: string | undefined;
 
   @HostBinding('class')
   get repeaterGroupClass(): string {
-    return 'sky-repeater-item-group-' + this.repeaterService.repeaterGroupId;
+    return 'sky-repeater-item-group-' + this.#repeaterService.repeaterGroupId;
   }
 
   @ViewChild('grabHandle', { read: ElementRef })
-  private grabHandle: ElementRef;
+  public grabHandle: ElementRef | undefined;
 
   @ViewChild('itemContentRef', { read: ElementRef })
-  private itemContentRef: ElementRef;
+  public itemContentRef: ElementRef | undefined;
 
   @ViewChild('itemHeaderRef', { read: ElementRef })
-  private itemHeaderRef: ElementRef;
+  public itemHeaderRef: ElementRef | undefined;
 
   @ViewChild('itemRef', { read: ElementRef })
-  private itemRef: ElementRef;
+  public itemRef: ElementRef | undefined;
 
   @ContentChildren(SkyRepeaterItemContentComponent)
-  private repeaterItemContentComponents: QueryList<SkyRepeaterItemContentComponent>;
+  public repeaterItemContentComponents:
+    | QueryList<SkyRepeaterItemContentComponent>
+    | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
-
-  private reorderCancelText: string;
-
-  private reorderCurrentIndex: number;
-
-  private reorderFinishText: string;
-
-  private reorderInstructions: string;
-
-  private reorderMovedText: string;
-
-  private reorderStateDescription: string;
-
-  private reorderSteps: number;
-
-  private _isCollapsible = true;
-
-  private _isDisabled = false;
-
-  private _isExpanded = true;
-
-  private _isSelected = false;
+  #adapterService: SkyRepeaterAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #elementRef: ElementRef;
+  #isExpanded = true;
+  #keyboardReorderingEnabled = false;
+  #ngUnsubscribe = new Subject<void>();
+  #reorderCancelText = '';
+  #reorderCurrentIndex = -1;
+  #reorderFinishText = '';
+  #reorderInstructions = '';
+  #reorderMovedText = '';
+  #reorderStateDescription = '';
+  #reorderSteps = 0;
+  #repeaterService: SkyRepeaterService;
+  #resourceService: SkyLibResourcesService;
+  #_isCollapsible = true;
+  #_isDisabled: boolean | undefined = false;
+  #_isSelected: boolean | undefined;
 
   constructor(
-    private repeaterService: SkyRepeaterService,
-    private changeDetector: ChangeDetectorRef,
-    private adapterService: SkyRepeaterAdapterService,
-    private elementRef: ElementRef,
-    private resourceService: SkyLibResourcesService
+    repeaterService: SkyRepeaterService,
+    changeDetector: ChangeDetectorRef,
+    adapterService: SkyRepeaterAdapterService,
+    elementRef: ElementRef,
+    resourceService: SkyLibResourcesService
   ) {
-    this.slideForExpanded(false);
+    this.#repeaterService = repeaterService;
+    this.#changeDetector = changeDetector;
+    this.#adapterService = adapterService;
+    this.#elementRef = elementRef;
+    this.#resourceService = resourceService;
+
+    this.#slideForExpanded();
 
     observableForkJoin([
-      this.resourceService.getString('skyux_repeater_item_reorder_cancel'),
-      this.resourceService.getString('skyux_repeater_item_reorder_finish'),
-      this.resourceService.getString(
+      this.#resourceService.getString('skyux_repeater_item_reorder_cancel'),
+      this.#resourceService.getString('skyux_repeater_item_reorder_finish'),
+      this.#resourceService.getString(
         'skyux_repeater_item_reorder_instructions'
       ),
-      this.resourceService.getString('skyux_repeater_item_reorder_operation'),
-      this.resourceService.getString('skyux_repeater_item_reorder_moved'),
+      this.#resourceService.getString('skyux_repeater_item_reorder_operation'),
+      this.#resourceService.getString('skyux_repeater_item_reorder_moved'),
     ]).subscribe((translatedStrings: string[]) => {
-      this.reorderCancelText = translatedStrings[0];
-      this.reorderFinishText = translatedStrings[1];
-      this.reorderStateDescription = translatedStrings[2];
-      this.reorderInstructions = translatedStrings[3];
-      this.reorderMovedText = translatedStrings[4];
-      this.reorderButtonLabel = this.reorderInstructions;
+      // ]).subscribe(([thing1, thing2, thing3, thing4, thing5]) => {
+      this.#reorderCancelText = translatedStrings[0];
+      this.#reorderFinishText = translatedStrings[1];
+      this.#reorderStateDescription = translatedStrings[2];
+      this.#reorderInstructions = translatedStrings[3];
+      this.#reorderMovedText = translatedStrings[4];
+      this.reorderButtonLabel = this.#reorderInstructions;
     });
 
-    this.itemRole$ = this.repeaterService.itemRole.asObservable();
+    this.contentId = `sky-repeater-item-content-${++nextContentId}`;
+    this.itemRole$ = this.#repeaterService.itemRole.asObservable();
   }
 
   public ngOnInit(): void {
-    this.repeaterService.registerItem(this);
-    this.repeaterService.activeItemChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((item: SkyRepeaterItemComponent) => {
+    this.#repeaterService.registerItem(this);
+    this.#repeaterService.activeItemChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((item) => {
         const newIsActiveValue = this === item;
         if (newIsActiveValue !== this.isActive) {
           this.isActive = newIsActiveValue;
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         }
       });
   }
 
   public ngAfterViewInit(): void {
-    this.hasItemContent = this.repeaterItemContentComponents.length > 0;
-    this.updateExpandOnContentChange();
+    this.hasItemContent = !!this.repeaterItemContentComponents?.length;
+    this.#updateExpandOnContentChange();
   }
 
   public ngOnDestroy(): void {
@@ -327,14 +330,14 @@ export class SkyRepeaterItemComponent
     this.inlineFormClose.complete();
     this.isSelectedChange.complete();
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
 
-    this.repeaterService.unregisterItem(this);
+    this.#repeaterService.unregisterItem(this);
   }
 
   @HostListener('keydown', ['$event'])
-  public onKeydown($event: KeyboardEvent) {
+  public onKeydown($event: KeyboardEvent): void {
     if (
       [' ', 'Enter', 'Home', 'End', 'ArrowUp', 'ArrowDown'].includes($event.key)
     ) {
@@ -358,7 +361,7 @@ export class SkyRepeaterItemComponent
       }
       /* istanbul ignore else */
       if (['Home', 'End'].includes($event.key)) {
-        const items = this.repeaterService.items.filter(
+        const items = this.#repeaterService.items.filter(
           (item) => !item.disabled
         );
         if ($event.key === 'Home') {
@@ -369,11 +372,11 @@ export class SkyRepeaterItemComponent
       }
       /* istanbul ignore else */
       if (['ArrowUp', 'ArrowDown'].includes($event.key)) {
-        const currentIndex = this.repeaterService.items.findIndex(
+        const currentIndex = this.#repeaterService.items.findIndex(
           (item) => item === this
         );
         let sliceFrom: number;
-        let sliceTo: number;
+        let sliceTo: number | undefined;
         if ($event.key === 'ArrowUp') {
           sliceFrom = 0;
           sliceTo = currentIndex;
@@ -381,7 +384,7 @@ export class SkyRepeaterItemComponent
           sliceFrom = currentIndex + 1;
           sliceTo = undefined;
         }
-        const items = this.repeaterService.items
+        const items = this.#repeaterService.items
           .slice(sliceFrom, sliceTo)
           .filter((item) => !item.disabled);
         activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
@@ -394,7 +397,7 @@ export class SkyRepeaterItemComponent
             sliceFrom = currentIndex + 1;
             sliceTo = undefined;
           }
-          const items = this.repeaterService.items
+          const items = this.#repeaterService.items
             .slice(sliceFrom, sliceTo)
             .filter((item) => !item.disabled);
           activateItem = $event.key === 'ArrowUp' ? items.pop() : items.shift();
@@ -402,13 +405,13 @@ export class SkyRepeaterItemComponent
       }
       /* istanbul ignore else */
       if (activateItem && !activateItem.isActive) {
-        this.repeaterService.activateItem(activateItem);
+        this.#repeaterService.activateItem(activateItem);
         if (
-          !(activateItem.elementRef.nativeElement as Element).matches(
+          !(activateItem.#elementRef.nativeElement as Element).matches(
             ':focus-within'
           )
         ) {
-          activateItem.elementRef.nativeElement.focus();
+          activateItem.#elementRef.nativeElement.focus();
         }
       }
     }
@@ -416,12 +419,12 @@ export class SkyRepeaterItemComponent
 
   public headerClick(): void {
     if (this.isCollapsible) {
-      this.updateForExpanded(!this.isExpanded, true);
+      this.updateForExpanded(!this.isExpanded);
     }
   }
 
   public chevronDirectionChange(direction: string): void {
-    this.updateForExpanded(direction === 'up', true);
+    this.updateForExpanded(direction === 'up');
   }
 
   public onRepeaterItemClick(event: MouseEvent): void {
@@ -429,32 +432,32 @@ export class SkyRepeaterItemComponent
     // This will avoid accidental activations when clicking inside interactive elements like
     // the expand/collapse chevron, dropdown, inline-delete, etc...
     if (
-      event.target === this.itemRef.nativeElement ||
-      this.itemContentRef.nativeElement.contains(event.target) ||
-      this.itemHeaderRef.nativeElement.contains(event.target)
+      event.target === this.itemRef?.nativeElement ||
+      this.itemContentRef?.nativeElement.contains(event.target) ||
+      this.itemHeaderRef?.nativeElement.contains(event.target)
     ) {
-      this.repeaterService.activateItem(this);
+      this.#repeaterService.activateItem(this);
     }
   }
 
-  public updateForExpanded(value: boolean, animate: boolean): void {
+  public updateForExpanded(value: boolean): void {
     if (this.isCollapsible === false && value === false) {
       console.warn(
         `Setting isExpanded to false when the repeater item is not collapsible
         will have no effect.`
       );
-    } else if (this._isExpanded !== value) {
-      this._isExpanded = value;
+    } else if (this.#isExpanded !== value) {
+      this.#isExpanded = value;
 
-      if (this._isExpanded) {
+      if (this.#isExpanded) {
         this.expand.emit();
       } else {
         this.collapse.emit();
       }
 
-      this.repeaterService.onItemCollapseStateChange(this);
-      this.slideForExpanded(animate);
-      this.changeDetector.markForCheck();
+      this.#repeaterService.onItemCollapseStateChange(this);
+      this.#slideForExpanded();
+      this.#changeDetector.markForCheck();
     }
   }
 
@@ -468,9 +471,9 @@ export class SkyRepeaterItemComponent
 
   public moveToTop(event: Event): void {
     event.stopPropagation();
-    this.adapterService.moveItemUp(this.elementRef.nativeElement, true);
-    this.adapterService.focusElement(event.target as HTMLElement);
-    this.repeaterService.registerOrderChange();
+    this.#adapterService.moveItemUp(this.#elementRef.nativeElement, true);
+    this.#adapterService.focusElement(event.target as HTMLElement);
+    this.#repeaterService.registerOrderChange();
   }
 
   public onReorderHandleKeyDown(event: KeyboardEvent): void {
@@ -479,47 +482,47 @@ export class SkyRepeaterItemComponent
       switch (event.key.toLowerCase()) {
         case ' ':
         case 'enter':
-          this.keyboardToggleReorder();
+          this.#keyboardToggleReorder();
           event.preventDefault();
           event.stopPropagation();
           break;
 
         case 'escape':
           /* istanbul ignore else */
-          if (this.keyboardReorderingEnabled) {
-            this.keyboardReorderingEnabled = false;
-            this.revertReorderSteps();
+          if (this.#keyboardReorderingEnabled) {
+            this.#keyboardReorderingEnabled = false;
+            this.#revertReorderSteps();
             this.reorderButtonLabel =
-              this.reorderCancelText + ' ' + this.reorderInstructions;
-            this.adapterService.focusElement(event.target as HTMLElement);
+              this.#reorderCancelText + ' ' + this.#reorderInstructions;
+            this.#adapterService.focusElement(event.target as HTMLElement);
             event.preventDefault();
             event.stopPropagation();
           }
           break;
 
         case 'arrowup':
-          if (this.keyboardReorderingEnabled) {
-            this.keyboardReorderUp();
+          if (this.#keyboardReorderingEnabled) {
+            this.#keyboardReorderUp();
             event.preventDefault();
             event.stopPropagation();
-            this.repeaterService.registerOrderChange();
+            this.#repeaterService.registerOrderChange();
           }
           break;
 
         case 'arrowdown':
           /* istanbul ignore else */
-          if (this.keyboardReorderingEnabled) {
-            this.keyboardReorderDown();
+          if (this.#keyboardReorderingEnabled) {
+            this.#keyboardReorderDown();
             event.preventDefault();
             event.stopPropagation();
-            this.repeaterService.registerOrderChange();
+            this.#repeaterService.registerOrderChange();
           }
           break;
 
         case 'arrowleft':
         case 'arrowright':
           /* istanbul ignore else */
-          if (this.keyboardReorderingEnabled) {
+          if (this.#keyboardReorderingEnabled) {
             event.preventDefault();
             event.stopPropagation();
           }
@@ -533,80 +536,88 @@ export class SkyRepeaterItemComponent
   }
 
   public onReorderHandleBlur(event: any): void {
-    this.keyboardReorderingEnabled = false;
-    this.revertReorderSteps();
-    this.reorderButtonLabel = this.reorderInstructions;
+    this.#keyboardReorderingEnabled = false;
+    this.#revertReorderSteps();
+    this.reorderButtonLabel = this.#reorderInstructions;
     this.reorderState = undefined;
   }
 
-  private slideForExpanded(animate: boolean): void {
+  #slideForExpanded(): void {
     this.slideDirection = this.isExpanded ? 'down' : 'up';
   }
 
-  private keyboardReorderUp(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemUp(
-      this.elementRef.nativeElement
+  #keyboardReorderUp(): void {
+    const newIndex = this.#adapterService.moveItemUp(
+      this.#elementRef.nativeElement
     );
-    this.reorderSteps--;
-    this.adapterService.focusElement(this.grabHandle);
-    this.keyboardReorderingEnabled = true;
-    this.reorderButtonLabel = `${this.reorderMovedText} ${
-      this.reorderCurrentIndex + 1
-    }`;
+    if (newIndex !== undefined) {
+      this.#reorderCurrentIndex = newIndex;
+      this.#reorderSteps--;
+      this.#adapterService.focusElement(this.grabHandle);
+      this.#keyboardReorderingEnabled = true;
+      this.reorderButtonLabel = `${this.#reorderMovedText} ${
+        this.#reorderCurrentIndex + 1
+      }`;
+    }
   }
 
-  private keyboardReorderDown(): void {
-    this.reorderCurrentIndex = this.adapterService.moveItemDown(
-      this.elementRef.nativeElement
+  #keyboardReorderDown(): void {
+    const newIndex = this.#adapterService.moveItemDown(
+      this.#elementRef.nativeElement
     );
-    this.reorderSteps++;
-    this.adapterService.focusElement(this.grabHandle);
-    this.keyboardReorderingEnabled = true;
-    this.reorderButtonLabel = `${this.reorderMovedText} ${
-      this.reorderCurrentIndex + 1
-    }`;
+    if (newIndex) {
+      this.#reorderCurrentIndex = newIndex;
+      this.#reorderSteps++;
+      this.#adapterService.focusElement(this.grabHandle);
+      this.#keyboardReorderingEnabled = true;
+      this.reorderButtonLabel = `${this.#reorderMovedText} ${
+        this.#reorderCurrentIndex + 1
+      }`;
+    }
   }
 
-  private keyboardToggleReorder(): void {
-    this.keyboardReorderingEnabled = !this.keyboardReorderingEnabled;
-    this.reorderSteps = 0;
+  #keyboardToggleReorder(): void {
+    this.#keyboardReorderingEnabled = !this.#keyboardReorderingEnabled;
+    this.#reorderSteps = 0;
 
-    if (this.keyboardReorderingEnabled) {
-      this.reorderState = this.reorderStateDescription;
+    if (this.#keyboardReorderingEnabled) {
+      this.reorderState = this.#reorderStateDescription;
     } else {
-      this.reorderState = `${this.reorderFinishText} ${
-        this.reorderCurrentIndex + 1
-      } ${this.reorderInstructions}`;
+      // TODO: Needs improvement to be localizable
+      this.reorderState = `${this.#reorderFinishText} ${
+        this.#reorderCurrentIndex + 1
+      } ${this.#reorderInstructions}`;
+      this.#reorderCurrentIndex = -1;
     }
   }
 
-  private revertReorderSteps(): void {
-    if (this.reorderSteps < 0) {
-      this.adapterService.moveItemDown(
-        this.elementRef.nativeElement,
-        Math.abs(this.reorderSteps)
+  #revertReorderSteps(): void {
+    if (this.#reorderSteps < 0) {
+      this.#adapterService.moveItemDown(
+        this.#elementRef.nativeElement,
+        Math.abs(this.#reorderSteps)
       );
-    } else if (this.reorderSteps > 0) {
-      this.adapterService.moveItemUp(
-        this.elementRef.nativeElement,
+    } else if (this.#reorderSteps > 0) {
+      this.#adapterService.moveItemUp(
+        this.#elementRef.nativeElement,
         false,
-        this.reorderSteps
+        this.#reorderSteps
       );
     }
-    this.repeaterService.registerOrderChange();
+    this.#repeaterService.registerOrderChange();
   }
 
-  private updateExpandOnContentChange(): void {
-    this.repeaterItemContentComponents.changes
-      .pipe(takeUntil(this.ngUnsubscribe))
+  #updateExpandOnContentChange(): void {
+    this.repeaterItemContentComponents?.changes
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.hasItemContent = this.repeaterItemContentComponents.length > 0;
+        this.hasItemContent = !!this.repeaterItemContentComponents?.length;
         /* istanbul ignore next */
         this.isCollapsible =
-          this.hasItemContent && this.repeaterService.expandMode !== 'none';
+          this.hasItemContent && this.#repeaterService.expandMode !== 'none';
         /* istanbul ignore else */
-        if (this.repeaterService.expandMode === 'single') {
-          this.repeaterService.onItemCollapseStateChange(this);
+        if (this.#repeaterService.expandMode === 'single') {
+          this.#repeaterService.onItemCollapseStateChange(this);
         }
       });
   }
