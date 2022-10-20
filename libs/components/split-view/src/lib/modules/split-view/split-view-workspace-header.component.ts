@@ -1,12 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
-  Optional,
 } from '@angular/core';
-import { SkyThemeService } from '@skyux/theme';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -23,37 +20,29 @@ import { SkySplitViewService } from './split-view.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkySplitViewWorkspaceHeaderComponent implements OnDestroy, OnInit {
-  public backButtonText: string;
+  public backButtonText: string | undefined;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
+  #splitViewSvc: SkySplitViewService;
 
-  constructor(
-    private splitViewService: SkySplitViewService,
-    private changeRef: ChangeDetectorRef,
-    @Optional() skyThemeSvc?: SkyThemeService
-  ) {
-    /*istanbul ignore else*/
-    if (skyThemeSvc) {
-      skyThemeSvc.settingsChange.subscribe(() => {
-        this.changeRef.markForCheck();
-      });
-    }
+  constructor(splitViewSvc: SkySplitViewService) {
+    this.#splitViewSvc = splitViewSvc;
   }
 
   public ngOnInit(): void {
-    this.splitViewService.backButtonTextStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#splitViewSvc.backButtonTextStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((text: string) => {
         this.backButtonText = text;
       });
   }
 
   public onShowDrawerButtonClick(): void {
-    this.splitViewService.backButtonClick();
+    this.#splitViewSvc.backButtonClick();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

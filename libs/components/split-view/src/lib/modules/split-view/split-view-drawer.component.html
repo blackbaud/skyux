@@ -8,7 +8,7 @@
 >
   <ng-content></ng-content>
   <input
-    *ngIf="!isMobile"
+    *ngIf="!isMobile && width !== undefined"
     aria-orientation="vertical"
     class="sky-split-view-resize-handle"
     step="10"
