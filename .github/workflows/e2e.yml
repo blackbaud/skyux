@@ -49,22 +49,20 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            let parameters = '';
-            const options = {};
-            options.listeners = {
-              stdout: (data: Buffer) => {
-                parameters += data.toString();
-              }
-            };
+            const parameters = [];
             await exec(
               'npx',
               [
                 'skyux-dev',
                 'e2e-workflow'
               ],
-              options
+              {
+                listeners: {
+                  stdout: (data) => parameters.push(data.toString())
+                }
+              }
             );
-            core.setOutput('parameters', parameters);
+            core.setOutput('parameters', parameters.join(''));
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
