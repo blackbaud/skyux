@@ -17,7 +17,7 @@ export class SkySortComponent {
    * Indicates whether to display a "Sort" label beside the icon on the sort button.
    */
   @Input()
-  public showButtonText = false;
+  public showButtonText: boolean | undefined = false;
 
   public dropdownController = new Subject<SkyDropdownMessage>();
 

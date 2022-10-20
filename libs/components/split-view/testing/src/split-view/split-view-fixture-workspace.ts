@@ -2,8 +2,8 @@
  * @internal
  */
 export interface SkySplitViewFixtureWorkspace {
-  ariaLabel: string;
+  ariaLabel: string | null | undefined;
   backButtonIsVisible: boolean;
-  backButtonText: string;
+  backButtonText: string | undefined;
   isVisible: boolean;
 }

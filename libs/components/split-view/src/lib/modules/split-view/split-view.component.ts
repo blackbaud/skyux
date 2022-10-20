@@ -63,7 +63,7 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   @Input()
   public set backButtonText(value: string) {
     if (value) {
-      this.splitViewService.updateBackButtonText(value);
+      this.#splitViewService.updateBackButtonText(value);
     }
   }
 
@@ -75,22 +75,24 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set bindHeightToWindow(bindToHeight: boolean) {
-    this._bindHeightToWindow = bindToHeight;
+    this.#_bindHeightToWindow = bindToHeight;
+
+    if (this.#bindHeightToWindowUnsubscribe) {
+      this.#bindHeightToWindowUnsubscribe.next();
+      this.#bindHeightToWindowUnsubscribe.complete();
+    }
 
     if (bindToHeight) {
-      this.bindHeightToWindowUnsubscribe = new Subject();
-      this.adapter.bindHeightToWindow(
-        this.elementRef,
-        this.bindHeightToWindowUnsubscribe
+      this.#bindHeightToWindowUnsubscribe = new Subject();
+      this.#adapter.bindHeightToWindow(
+        this.#elementRef,
+        this.#bindHeightToWindowUnsubscribe
       );
-    } else if (this.bindHeightToWindowUnsubscribe) {
-      this.bindHeightToWindowUnsubscribe.next();
-      this.bindHeightToWindowUnsubscribe.complete();
     }
   }
 
   public get bindHeightToWindow(): boolean {
-    return this._bindHeightToWindow;
+    return this.#_bindHeightToWindow;
   }
 
   /**
@@ -117,92 +119,97 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
   public messageStream = new Subject<SkySplitViewMessage>();
 
   @ContentChild(SkySplitViewDrawerComponent)
-  public drawerComponent: SkySplitViewDrawerComponent;
+  public drawerComponent: SkySplitViewDrawerComponent | undefined;
 
   public set drawerVisible(value: boolean) {
-    this._drawerVisible = value;
-    this.changeDetectorRef.markForCheck();
+    this.#_drawerVisible = value;
+    this.#changeDetectorRef.markForCheck();
   }
 
   public get drawerVisible(): boolean {
-    return !this.isMobile || this._drawerVisible;
+    return !this.isMobile || this.#_drawerVisible;
   }
 
   public isMobile = false;
-
   public nextButtonDisabled = false;
-
   public previousButtonDisabled = false;
 
   public get workspaceVisible(): boolean {
-    return !this.isMobile || !this._drawerVisible;
+    return !this.isMobile || !this.#_drawerVisible;
   }
 
-  private animationComplete = new Subject<void>();
+  #animationComplete = new Subject<void>();
+  #bindHeightToWindowUnsubscribe: Subject<void> | undefined;
+  #ngUnsubscribe = new Subject<void>();
+  #adapter: SkySplitViewAdapterService;
+  #changeDetectorRef: ChangeDetectorRef;
+  #coreAdapterService: SkyCoreAdapterService;
+  #elementRef: ElementRef;
+  #splitViewService: SkySplitViewService;
 
-  private bindHeightToWindowUnsubscribe: Subject<void>;
-
-  private ngUnsubscribe = new Subject<void>();
-
-  private _bindHeightToWindow = false;
-
-  private _drawerVisible = true;
-
+  #_bindHeightToWindow = false;
+  #_drawerVisible = true;
   #_dock: SkySplitViewDockType = 'none';
 
   constructor(
-    private adapter: SkySplitViewAdapterService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private coreAdapterService: SkyCoreAdapterService,
-    private elementRef: ElementRef,
-    private splitViewService: SkySplitViewService
+    adapter: SkySplitViewAdapterService,
+    changeDetectorRef: ChangeDetectorRef,
+    coreAdapterService: SkyCoreAdapterService,
+    elementRef: ElementRef,
+    splitViewService: SkySplitViewService
   ) {
-    splitViewService.splitViewElementRef = this.elementRef;
+    this.#adapter = adapter;
+    this.#changeDetectorRef = changeDetectorRef;
+    this.#coreAdapterService = coreAdapterService;
+    this.#elementRef = elementRef;
+    this.#splitViewService = splitViewService;
+
+    splitViewService.splitViewElementRef = elementRef;
   }
 
   public ngOnInit(): void {
-    this.splitViewService.isMobileStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#splitViewService.isMobileStream
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile = mobile;
-        this.changeDetectorRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
       });
 
-    this.splitViewService.drawerVisible
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#splitViewService.drawerVisible
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((visible: boolean) => {
         this.drawerVisible = visible;
       });
 
     this.messageStream
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((message: SkySplitViewMessage) => {
         this.handleIncomingMessages(message);
       });
   }
 
   public ngOnDestroy(): void {
-    if (this.bindHeightToWindowUnsubscribe) {
-      this.bindHeightToWindowUnsubscribe.next();
-      this.bindHeightToWindowUnsubscribe.complete();
+    if (this.#bindHeightToWindowUnsubscribe) {
+      this.#bindHeightToWindowUnsubscribe.next();
+      this.#bindHeightToWindowUnsubscribe.complete();
     }
 
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public onWorkspaceEnterComplete(): void {
-    this.animationComplete.next();
+    this.#animationComplete.next();
   }
 
   private applyAutofocus(): void {
-    const applyAutoFocus = this.coreAdapterService.applyAutoFocus(
-      this.elementRef
+    const applyAutoFocus = this.#coreAdapterService.applyAutoFocus(
+      this.#elementRef
     );
     /*istanbul ignore else*/
     if (!applyAutoFocus) {
-      this.coreAdapterService.getFocusableChildrenAndApplyFocus(
-        this.elementRef,
+      this.#coreAdapterService.getFocusableChildrenAndApplyFocus(
+        this.#elementRef,
         '.sky-split-view-workspace-content'
       );
     }
@@ -215,13 +222,13 @@ export class SkySplitViewComponent implements OnInit, OnDestroy {
         // Otherwise, just set focus right away.
         if (!this.workspaceVisible) {
           this.drawerVisible = false;
-          this.animationComplete.pipe(take(1)).subscribe(() => {
+          this.#animationComplete.pipe(take(1)).subscribe(() => {
             this.applyAutofocus();
           });
         } else {
           this.applyAutofocus();
         }
-        this.changeDetectorRef.markForCheck();
+        this.#changeDetectorRef.markForCheck();
         break;
     }
   }

@@ -13,14 +13,14 @@ export class SkyAlertFixture {
    * The alert's current text.
    */
   public get text(): string | undefined {
-    return SkyAppTestUtility.getText(this.debugEl);
+    return SkyAppTestUtility.getText(this.#debugEl);
   }
 
   /**
    * A flag indicating whether the alert can be closed.
    */
   public get closeable(): boolean | undefined {
-    const closeBtnEl = this.getCloseBtnEl();
+    const closeBtnEl = this.#getCloseBtnEl();
 
     return SkyAppTestUtility.isVisible(closeBtnEl);
   }
@@ -29,14 +29,14 @@ export class SkyAlertFixture {
    * Returns a flag indicating whether the alert is closed.
    */
   public get closed(): boolean {
-    return !SkyAppTestUtility.isVisible(this.getAlertEl());
+    return !SkyAppTestUtility.isVisible(this.#getAlertEl());
   }
 
   /**
    * The alert's current type.
    */
   public get alertType(): string | undefined {
-    const clsList = this.getAlertEl().nativeElement.classList;
+    const clsList = this.#getAlertEl().nativeElement.classList;
 
     if (clsList.contains('sky-alert-danger')) {
       return 'danger';
@@ -57,10 +57,10 @@ export class SkyAlertFixture {
     return undefined;
   }
 
-  private debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(fixture: ComponentFixture<unknown>, skyTestId: string) {
-    this.debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-alert'
@@ -72,7 +72,7 @@ export class SkyAlertFixture {
    */
   public close(): void {
     if (this.closeable) {
-      const closeBtnEl = this.getCloseBtnEl();
+      const closeBtnEl = this.#getCloseBtnEl();
 
       closeBtnEl.triggerEventHandler('click', {});
     } else {
@@ -80,11 +80,11 @@ export class SkyAlertFixture {
     }
   }
 
-  private getAlertEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-alert'));
+  #getAlertEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-alert'));
   }
 
-  private getCloseBtnEl(): DebugElement {
-    return this.debugEl.query(By.css('.sky-alert-close'));
+  #getCloseBtnEl(): DebugElement {
+    return this.#debugEl.query(By.css('.sky-alert-close'));
   }
 }

@@ -89,7 +89,7 @@ describe('stories generator', () => {
     ).toMatchSnapshot();
     expect(
       appTree.read(
-        'apps/test-e2e/src/integration/path/to/nested/nested.component.spec.ts',
+        'apps/test-e2e/src/e2e/path/to/nested/nested.component.cy.ts',
         'utf-8'
       )
     ).toMatchSnapshot();
@@ -120,7 +120,7 @@ describe('stories generator', () => {
     ).toMatchSnapshot();
     expect(
       appTree.read(
-        'apps/test-storybook-e2e/src/integration/nx-welcome.component.spec.ts',
+        'apps/test-storybook-e2e/src/e2e/nx-welcome.component.cy.ts',
         'utf-8'
       )
     ).toMatchSnapshot();

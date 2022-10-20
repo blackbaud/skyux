@@ -1,3 +1,4 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -38,7 +39,7 @@ class TestComponent {
 
   public descriptionType: SkyIndicatorDescriptionType | undefined;
 
-  public closedChange() {
+  public closedChange(): void {
     // Only exists for the spy.
   }
 }
@@ -59,7 +60,7 @@ async function validateDescriptionType(
   fixture: ComponentFixture<TestComponent>,
   descriptionType: SkyIndicatorDescriptionType,
   customDescription?: string
-) {
+): Promise<void> {
   fixture.componentInstance.descriptionType = descriptionType;
   fixture.componentInstance.customDescription = customDescription;
   fixture.detectChanges();
@@ -70,7 +71,11 @@ async function validateDescriptionType(
 }
 
 describe('Alert harness', () => {
-  async function setupTest(options: { dataSkyId?: string } = {}) {
+  async function setupTest(options: { dataSkyId?: string } = {}): Promise<{
+    alertHarness: SkyAlertHarness;
+    fixture: ComponentFixture<TestComponent>;
+    loader: HarnessLoader;
+  }> {
     await TestBed.configureTestingModule({
       declarations: [TestComponent],
       imports: [SkyAlertModule],
