@@ -46,11 +46,25 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
-        # Setting the shell so this step can run as-is on Windows or Linux.
-        shell: pwsh
-        run: |
-          Write-Host -NoNewLine "::set-output name=parameters::"
-          npx skyux-dev e2e-workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            let parameters = '';
+            const options = {};
+            options.listeners = {
+              stdout: (data: Buffer) => {
+                parameters += data.toString();
+              }
+            };
+            await exec(
+              'npx',
+              [
+                'skyux-dev',
+                'e2e-workflow'
+              ],
+              options
+            );
+            core.setOutput('parameters', parameters);
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
@@ -193,7 +207,18 @@ jobs:
             mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
           }
       - name: Generate Storybook Composition
-        run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await exec('npx', [
+              'nx',
+              'g',
+              '@skyux-sdk/e2e-schematics:storybook-composition',
+              '--projectsJson',
+              ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }},
+              '--baseUrl',
+              '../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
+            ]);
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
