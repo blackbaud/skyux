@@ -129,12 +129,12 @@ function copyCompatScssFiles() {
   );
 
   copyScss(
-    path.join(STYLES_ROOT, 'themes/modern/_compat/_variables.scss'),
+    path.join(STYLES_ROOT, '_public-api/themes/modern/_compat/_variables.scss'),
     path.join(DEST_ROOT, 'scss/themes/modern/_compat/_variables.scss')
   );
 
   copyScss(
-    path.join(STYLES_ROOT, 'themes/modern/_compat/_mixins.scss'),
+    path.join(STYLES_ROOT, '_public-api/themes/modern/_compat/_mixins.scss'),
     path.join(DEST_ROOT, 'scss/themes/modern/_compat/_mixins.scss')
   );
 

@@ -1,3 +1,5 @@
+@use '../../../_compat/mixins' as compatMixins;
+@use '../../../_compat/variables' as *;
 @use '../../../mixins' as mixins;
 @use '../../../variables' as *;
 @use 'variables' as modernCompatVars;
@@ -108,7 +110,7 @@
 
   &.sky-btn-tab-disabled {
     background-color: transparent;
-    @include mixins.sky-deemphasized;
+    @include compatMixins.sky-deemphasized;
   }
 }
 

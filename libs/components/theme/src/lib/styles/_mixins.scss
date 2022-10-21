@@ -6,14 +6,6 @@
 
 @use 'variables' as *;
 
-@mixin sky-deemphasized {
-  font-family: $sky-font-family;
-  color: $sky-text-color-deemphasized;
-  font-weight: 400;
-  font-size: $sky-font-size-base;
-  font-style: italic;
-}
-
 @mixin sky-experimental(
   $property,
   $value,
