@@ -21,7 +21,7 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
 
   public initialValue: unknown = null;
 
-  public options = [
+  public options: { name: string; disabled: boolean; id?: string }[] = [
     { name: 'Lillith Corharvest', disabled: false },
     { name: 'Harima Kenji', disabled: false },
     { name: 'Harry Mckenzie', disabled: false },
