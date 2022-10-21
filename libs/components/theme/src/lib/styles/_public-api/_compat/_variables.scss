@@ -1,5 +1,4 @@
-@use '../variables-private' as *;
-@use '../variables-public' as *;
+@use '../variables' as *;
 
 // PADDING
 $sky-padding: $sky-space-md !default;
