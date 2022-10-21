@@ -46,8 +46,10 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
+        # https://github.com/actions/github-script
         uses: actions/github-script@v6
         with:
+          # Uses https://github.com/actions/toolkit
           script: |
             const parameters = [];
             await exec.exec(
@@ -74,6 +76,8 @@ jobs:
     runs-on: windows-latest
     needs: install-deps
     strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -98,9 +102,13 @@ jobs:
           key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci
-          npx sb extract ./dist/storybook/${{ matrix.project }}
+        # https://github.com/actions/github-script
+        uses: actions/github-script@v6
+        with:
+          # Uses https://github.com/actions/toolkit
+          script: |
+            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
+            await exec.exec('npx sb extract', ['./dist/storybook/${{ matrix.project }}']);
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -120,6 +128,8 @@ jobs:
     runs-on: windows-latest
     needs: install-deps
     strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
       matrix:
         app:
           - code-examples
@@ -205,8 +215,10 @@ jobs:
             mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
           }
       - name: Generate Storybook Composition
+        # https://github.com/actions/github-script
         uses: actions/github-script@v6
         with:
+          # Uses https://github.com/actions/toolkit
           script: |
             await exec.exec('npx', [
               'nx',
