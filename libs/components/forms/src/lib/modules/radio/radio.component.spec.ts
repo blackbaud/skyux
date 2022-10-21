@@ -8,6 +8,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyIdService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
@@ -24,6 +25,11 @@ describe('Radio component', function () {
     TestBed.configureTestingModule({
       imports: [SkyRadioFixturesModule],
     });
+
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
   });
 
   afterEach(function () {
@@ -51,6 +57,19 @@ describe('Radio component', function () {
       testComponent.disabled1 = true;
       fixture.detectChanges();
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should emit when radio is checked', async () => {
+      const onCheckedChangeSpy = spyOn(testComponent, 'onCheckedChange');
+      const radios: NodeListOf<HTMLInputElement> =
+        fixture.nativeElement.querySelectorAll('input');
+
+      // Select the second radio.
+      radios.item(1).click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(onCheckedChangeSpy).toHaveBeenCalledOnceWith(false);
     });
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
@@ -173,15 +192,9 @@ describe('Radio component', function () {
       componentInstance.provideIds = false;
       fixture.detectChanges();
 
-      expect(radios.item(0).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
-      expect(radios.item(1).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
-      expect(radios.item(2).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
+      expect(radios.item(0).id).toEqual('sky-radio-MOCK_ID_1-input');
+      expect(radios.item(1).id).toEqual('sky-radio-MOCK_ID_2-input');
+      expect(radios.item(2).id).toEqual('sky-radio-MOCK_ID_3-input');
     }));
 
     it('should pass a label when specified', fakeAsync(function () {
