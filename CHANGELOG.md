@@ -13,6 +13,14 @@
 
 * **components/tabs:** deprecate `tabHeaderCount` and remove from code examples ([#714](https://github.com/blackbaud/skyux/issues/714)) ([f40696f](https://github.com/blackbaud/skyux/commit/f40696f078819c8d2e59337b238dd11569482236))
 
+## [6.25.1](https://github.com/blackbaud/skyux/compare/6.25.0...6.25.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* **components/lookup:** search icon is placed within input when not using an input box or the show more functionality ([#701](https://github.com/blackbaud/skyux/issues/701)) ([98e62f8](https://github.com/blackbaud/skyux/commit/98e62f869552e8acc281b400bceeca907b27bf32))
+* **components/lookup:** set `aria-expanded` to true on the autocomplete component when the dropdown is open ([#544](https://github.com/blackbaud/skyux/issues/544)) ([#702](https://github.com/blackbaud/skyux/issues/702)) ([b1219ad](https://github.com/blackbaud/skyux/commit/b1219adeb1fd4208213e7fd93748f32098ab6245))
+
 ## [7.0.0-beta.5](https://github.com/blackbaud/skyux/compare/7.0.0-beta.4...7.0.0-beta.5) (2022-10-20)
 
 
