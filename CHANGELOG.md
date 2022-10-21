@@ -1,5 +1,18 @@
 # Changelog
 
+## [7.0.0-beta.6](https://github.com/blackbaud/skyux/compare/7.0.0-beta.5...7.0.0-beta.6) (2022-10-21)
+
+
+### Bug Fixes
+
+* **components/forms:** set radio group 'aria-owns' to satisfy accessibility rules ([#671](https://github.com/blackbaud/skyux/issues/671)) ([32f1e1e](https://github.com/blackbaud/skyux/commit/32f1e1e2731e1ba5260d3ebe159a37370f950aa2))
+* **components/theme:** address missing files in the SCSS exports API ([#721](https://github.com/blackbaud/skyux/issues/721)) ([923fac0](https://github.com/blackbaud/skyux/commit/923fac043f474548971ba0b93d887a6c91de26cc))
+
+
+### Deprecations
+
+* **components/tabs:** deprecate `tabHeaderCount` and remove from code examples ([#714](https://github.com/blackbaud/skyux/issues/714)) ([f40696f](https://github.com/blackbaud/skyux/commit/f40696f078819c8d2e59337b238dd11569482236))
+
 ## [6.25.1](https://github.com/blackbaud/skyux/compare/6.25.0...6.25.1) (2022-10-20)
 
 
