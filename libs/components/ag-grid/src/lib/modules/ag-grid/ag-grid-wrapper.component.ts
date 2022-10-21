@@ -4,18 +4,26 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   ContentChild,
   ElementRef,
   Inject,
   OnDestroy,
+  Type,
 } from '@angular/core';
+import {
+  SkyDynamicComponentLocation,
+  SkyDynamicComponentService,
+} from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
-import { DetailGridInfo } from 'ag-grid-community';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Column, DetailGridInfo, Events } from 'ag-grid-community';
+import { Subject, fromEvent } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
+import { SkyAgGridHeader } from './header/header-token';
+import { SkyAgGridHeaderInfo } from './types/header-info';
 
 let idIndex = 0;
 
@@ -46,17 +54,21 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   private _viewkeeperClasses: string[] = [];
 
   #ngUnsubscribe = new Subject<void>();
+  #columnInlineHelpComponents = new Map<string, ComponentRef<unknown>>();
+  #dynamicComponentService: SkyDynamicComponentService;
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
     private changeDetector: ChangeDetectorRef,
     private elementRef: ElementRef,
-    @Inject(DOCUMENT) private document: Document
+    @Inject(DOCUMENT) private document: Document,
+    dynamicComponentService: SkyDynamicComponentService
   ) {
     idIndex++;
     this.afterAnchorId = 'sky-ag-grid-nav-anchor-after-' + idIndex;
     this.beforeAnchorId = 'sky-ag-grid-nav-anchor-before-' + idIndex;
     this.gridId = 'sky-ag-grid-' + idIndex;
+    this.#dynamicComponentService = dynamicComponentService;
   }
 
   public ngAfterContentInit(): void {
@@ -72,6 +84,28 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
     }
     this.agGrid.gridReady.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
       this.#moveHorizontalScroll();
+      this.agGrid.columnApi.getAllDisplayedColumns().forEach((column) => {
+        this.#updateInlineHelp(column);
+      });
+
+      [
+        Events.EVENT_COLUMN_MOVED,
+        Events.EVENT_COLUMN_RESIZED,
+        Events.EVENT_COLUMN_VISIBLE,
+        Events.EVENT_DISPLAYED_COLUMNS_CHANGED,
+        Events.EVENT_GRID_COLUMNS_CHANGED,
+        Events.EVENT_NEW_COLUMNS_LOADED,
+        Events.EVENT_VIEWPORT_CHANGED,
+        Events.EVENT_VIRTUAL_COLUMNS_CHANGED,
+      ].forEach((event) => {
+        fromEvent(this.agGrid.api, event)
+          .pipe(takeUntil(this.#ngUnsubscribe), debounceTime(10))
+          .subscribe(() => {
+            this.agGrid.columnApi.getAllDisplayedColumns().forEach((column) => {
+              this.#updateInlineHelp(column);
+            });
+          });
+      });
     });
     this.agGrid.firstDataRendered
       .pipe(takeUntil(this.#ngUnsubscribe))
@@ -93,7 +127,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   /**
    * Prevent closing a modal when focused in AG Grid.
    */
-  public onKeyUpEscape($event: Event) {
+  public onKeyUpEscape($event: Event): void {
     $event.stopPropagation();
     this.agGrid.api.stopEditing(true);
   }
@@ -154,7 +188,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  #moveHorizontalScroll() {
+  #moveHorizontalScroll(): void {
     if (this.agGrid && this.agGrid.api) {
       const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
       const root: HTMLElement =
@@ -189,6 +223,61 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
           floatingBottom.after(fragment);
         }
       }
+    }
+  }
+
+  #updateInlineHelp(column: Column, context?: unknown): void {
+    const colId = column.getId();
+    const columnHeader = this.elementRef.nativeElement.querySelector(
+      `div.ag-header-cell[col-id="${colId}"] div.ag-cell-label-container`
+    ) as HTMLElement;
+    const inlineHelpComponent: Type<unknown> | undefined =
+      column.getColDef().headerComponentParams?.inlineHelpComponent;
+    const currentComponent: ComponentRef<unknown> | undefined =
+      this.#columnInlineHelpComponents.get(colId);
+
+    const getHostElement = (): HTMLElement => {
+      if (!columnHeader.querySelector(`span.sky-control-help-container`)) {
+        const inlineHelpContainer = this.document.createElement('span');
+        inlineHelpContainer.classList.add('sky-control-help-container');
+        columnHeader.appendChild(inlineHelpContainer);
+      }
+      return columnHeader.querySelector(`span.sky-control-help-container`);
+    };
+
+    if (inlineHelpComponent) {
+      const referenceEl = getHostElement();
+      if (currentComponent) {
+        if (
+          currentComponent.componentType !== inlineHelpComponent ||
+          referenceEl.firstElementChild !==
+            currentComponent.location.nativeElement
+        ) {
+          currentComponent.destroy();
+        } else {
+          return;
+        }
+      }
+      const componentRef = this.#dynamicComponentService.createComponent(
+        inlineHelpComponent,
+        {
+          location: SkyDynamicComponentLocation.ElementBottom,
+          referenceEl,
+          providers: [
+            {
+              provide: SkyAgGridHeader,
+              useValue: {
+                column,
+                context,
+                displayName: column.getColDef().headerName,
+              } as SkyAgGridHeaderInfo,
+            },
+          ],
+        }
+      );
+      this.#columnInlineHelpComponents.set(colId, componentRef);
+    } else if (currentComponent) {
+      currentComponent.destroy();
     }
   }
 }

@@ -15,11 +15,12 @@ import { Subject } from 'rxjs';
 
 import { SkyAgGridAdapterService } from './ag-grid-adapter.service';
 import { SkyAgGridWrapperComponent } from './ag-grid-wrapper.component';
-import { SkyAgGridModule } from './ag-grid.module';
 import {
   EnableTopScroll,
   SkyAgGridFixtureComponent,
 } from './fixtures/ag-grid.component.fixture';
+import { SkyAgGridFixtureModule } from './fixtures/ag-grid.module.fixture';
+import { SecondInlineHelpComponent } from './fixtures/inline-help.component';
 
 describe('SkyAgGridWrapperComponent', () => {
   let gridAdapterService: SkyAgGridAdapterService;
@@ -37,7 +38,7 @@ describe('SkyAgGridWrapperComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridModule],
+      imports: [SkyAgGridFixtureModule],
     });
 
     gridWrapperFixture = TestBed.createComponent(SkyAgGridWrapperComponent);
@@ -275,14 +276,14 @@ describe('SkyAgGridWrapperComponent', () => {
 describe('SkyAgGridWrapperComponent via fixture', () => {
   let gridWrapperFixture: ComponentFixture<SkyAgGridFixtureComponent>;
   let gridWrapperNativeElement: HTMLElement;
-  const getChildrenClassNames = () =>
+  const getChildrenClassNames = (): string[] =>
     Array.from(
       gridWrapperNativeElement.querySelector('.ag-root')?.children || []
     ).map((el: HTMLElement) => el.classList[0]);
 
   it('should move the horizontal scroll based on enableTopScroll check, static data', async () => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridModule],
+      imports: [SkyAgGridFixtureModule],
       providers: [
         {
           provide: EnableTopScroll,
@@ -309,7 +310,7 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
 
   it('should move the horizontal scroll based on enableTopScroll check, async loading', async () => {
     TestBed.configureTestingModule({
-      imports: [SkyAgGridModule],
+      imports: [SkyAgGridFixtureModule],
     });
     gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
     gridWrapperNativeElement = gridWrapperFixture.nativeElement;
@@ -356,5 +357,81 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
       'ag-body-horizontal-scroll',
       'ag-overlay',
     ]);
+  });
+
+  it('should show inline help', async () => {
+    TestBed.configureTestingModule({
+      imports: [SkyAgGridFixtureModule],
+    });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+
+    expect(
+      gridWrapperNativeElement.querySelector(
+        `[col-id="name"] .sky-control-help`
+      )
+    ).toBeTruthy();
+    expect(
+      gridWrapperNativeElement.querySelector(
+        `[col-id="value"] .sky-control-help`
+      )
+    ).toBeTruthy();
+    expect(
+      gridWrapperNativeElement
+        .querySelector(`[col-id="value"] .sky-control-help`)
+        .getAttribute('title')
+    ).toEqual('Current Value help');
+
+    gridWrapperFixture.componentInstance.agGrid.api.setColumnDefs([
+      ...gridWrapperFixture.componentInstance.columnDefs.map((col) => {
+        switch (col.field) {
+          case 'name':
+            return {
+              ...col,
+              headerComponentParams: {
+                ...col.headerComponentParams,
+                inlineHelpComponent: undefined,
+              },
+            };
+          case 'value':
+            return {
+              ...col,
+              headerComponentParams: {
+                ...col.headerComponentParams,
+                inlineHelpComponent: SecondInlineHelpComponent,
+              },
+            };
+          case 'target':
+            return {
+              ...col,
+              hide: true,
+            };
+          default:
+            return col;
+        }
+      }),
+    ]);
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    await gridWrapperFixture.componentInstance.asyncWait(1000);
+
+    expect(
+      gridWrapperNativeElement.querySelector(
+        `[col-id="name"] .sky-control-help`
+      )
+    ).toBeFalsy();
+    expect(
+      gridWrapperNativeElement.querySelector(
+        `[col-id="value"] .sky-control-help`
+      )
+    ).toBeTruthy();
+    expect(
+      gridWrapperNativeElement
+        .querySelector(`[col-id="value"] .sky-control-help`)
+        .getAttribute('title')
+    ).toEqual('Current Value help replaced');
   });
 });

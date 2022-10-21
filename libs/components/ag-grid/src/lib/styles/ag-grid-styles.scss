@@ -44,6 +44,15 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   }
 }
 
+sky-ag-grid-wrapper .ag-root .ag-header .ag-cell-label-container {
+  flex-direction: row;
+  justify-content: flex-start;
+
+  > .ag-header-cell-label {
+    flex-grow: 0;
+  }
+}
+
 ag-grid-angular:not(.sky-ag-grid-editable) {
   @include agGridBaseMixin.ag-theme-base(
     (

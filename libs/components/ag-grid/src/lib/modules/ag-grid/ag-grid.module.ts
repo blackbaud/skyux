@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SkyViewkeeperModule } from '@skyux/core';
+import { SkyDynamicComponentService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyDataManagerModule } from '@skyux/data-manager';
 import { SkyInlineDeleteModule } from '@skyux/layout';
 
@@ -53,5 +53,6 @@ import { SkyAgGridCellValidatorModule } from './cell-validator/ag-grid-cell-vali
     SkyAgGridRowDeleteDirective,
     SkyAgGridWrapperComponent,
   ],
+  providers: [SkyDynamicComponentService],
 })
 export class SkyAgGridModule {}
