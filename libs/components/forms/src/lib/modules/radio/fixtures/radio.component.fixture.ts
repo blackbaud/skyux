@@ -23,8 +23,7 @@ export class SkyRadioTestComponent {
   @ViewChild(SkyRadioComponent)
   public checkboxComponent!: SkyRadioComponent;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onCheckedChange(checked: boolean): void {
+  public onCheckedChange(): void {
     /* */
   }
 
@@ -32,8 +31,7 @@ export class SkyRadioTestComponent {
     /* */
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public onDisabledChange(disabled: boolean): void {
+  public onDisabledChange(): void {
     /* */
   }
 }

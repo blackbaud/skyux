@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   ContentChildren,
-  Host,
   Input,
   OnDestroy,
   Optional,
@@ -168,7 +167,7 @@ export class SkyRadioGroupComponent
 
   constructor(
     changeDetector: ChangeDetectorRef,
-    @Host() radioGroupIdSvc: SkyRadioGroupIdService,
+    radioGroupIdSvc: SkyRadioGroupIdService,
     @Self() @Optional() ngControl: NgControl
   ) {
     if (ngControl) {

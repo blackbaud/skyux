@@ -2,17 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-interface RegisterArgs {
-  /**
-   * A unique ID for the radio component.
-   */
-  id: string;
-  /**
-   * The ID applied to the radio input element.
-   */
-  inputElementId: string;
-}
-
 /**
  * Tracks the element IDs for all radios within a radio group.
  * @internal
@@ -35,19 +24,19 @@ export class SkyRadioGroupIdService {
 
   /**
    * Associates a radio input's ID with its parent radio group.
+   * @param {string} id A unique ID for the radio component.
+   * @param {string} inputElementId The ID applied to the radio input element.
    */
-  public register(args: RegisterArgs): void {
-    if (
-      !this.#radioIds.has(args.id) ||
-      this.#radioIds.get(args.id) !== args.inputElementId
-    ) {
-      this.#radioIds.set(args.id, args.inputElementId);
+  public register(id: string, inputElementId: string): void {
+    if (!this.#radioIds.has(id) || this.#radioIds.get(id) !== inputElementId) {
+      this.#radioIds.set(id, inputElementId);
       this.#emitRadioIds();
     }
   }
 
   /**
    * Disassociates a radio input's ID with its parent radio group.
+   * @param {string} id The ID used to register the radio component.
    */
   public unregister(id: string): void {
     if (this.#radioIds.has(id)) {

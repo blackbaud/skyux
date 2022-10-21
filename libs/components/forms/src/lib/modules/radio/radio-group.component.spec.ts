@@ -6,6 +6,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyIdService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioGroupBooleanTestComponent } from './fixtures/radio-group-boolean.component.fixture';
@@ -45,6 +46,11 @@ describe('Radio group component (reactive)', function () {
     TestBed.configureTestingModule({
       imports: [SkyRadioFixturesModule],
     });
+
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
 
     fixture = TestBed.createComponent(SkyRadioGroupReactiveFixtureComponent);
     componentInstance = fixture.componentInstance;
@@ -566,8 +572,8 @@ describe('Radio group component (reactive)', function () {
     const radioGroupEl: HTMLDivElement =
       fixture.nativeElement.querySelector('.sky-radio-group');
 
-    expect(radioGroupEl.getAttribute('aria-owns')).toMatch(
-      /sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input sky-radio-sky-radio-[0-9]+-input/
+    expect(radioGroupEl.getAttribute('aria-owns')).toEqual(
+      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
     );
   });
 
@@ -578,14 +584,18 @@ describe('Radio group component (reactive)', function () {
       fixture.nativeElement.querySelector('.sky-radio-group');
 
     const originalAriaOwns = radioGroupEl.getAttribute('aria-owns');
+    expect(originalAriaOwns).toEqual(
+      'sky-radio-MOCK_ID_1-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
+    );
 
     // Change an existing ID to something else.
     fixture.componentInstance.options[0].id = 'foobar';
     fixture.detectChanges();
 
     const newAriaOwns = radioGroupEl.getAttribute('aria-owns');
-
-    expect(originalAriaOwns).not.toEqual(newAriaOwns);
+    expect(newAriaOwns).toEqual(
+      'sky-radio-foobar-input sky-radio-MOCK_ID_2-input sky-radio-MOCK_ID_3-input'
+    );
   });
 });
 
