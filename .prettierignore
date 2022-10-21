@@ -5,10 +5,11 @@
 /dist
 /node_modules
 /temp
+/tmp
 package-lock.json
 
 # Don't format the following since the order of its import statements is deliberate.
 test.ts
 
-# The 'release-please' GitHub action is resposible for the changelog's content.
+# The 'release-please' GitHub action is responsible for the changelog's content.
 CHANGELOG.md

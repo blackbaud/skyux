@@ -1,4 +1,9 @@
-import { DebugElement, Renderer2, RendererFactory2 } from '@angular/core';
+import {
+  DebugElement,
+  ElementRef,
+  Renderer2,
+  RendererFactory2,
+} from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -31,6 +36,10 @@ import { SkySplitViewMessageType } from './types/split-view-message-type';
 let mockQueryService: MockSkyMediaQueryService;
 
 // #region helpers
+function noop(): void {
+  return;
+}
+
 function getListPanel(): HTMLElement {
   return document.querySelector('.sky-split-view-drawer') as HTMLElement;
 }
@@ -46,7 +55,7 @@ function getWorkspacePanel(): HTMLElement {
   return document.querySelector('.sky-split-view-workspace') as HTMLElement;
 }
 
-function getResizeHandle(fixture: ComponentFixture<any>): DebugElement {
+function getResizeHandle(fixture: ComponentFixture<unknown>): DebugElement {
   return fixture.debugElement.query(By.css('.sky-split-view-resize-handle'));
 }
 
@@ -57,7 +66,7 @@ function getMaxWidth(): number {
 function dispatchMouseEvent(
   eventType: string,
   clientXArg: number,
-  fixture: ComponentFixture<any>
+  fixture: ComponentFixture<unknown>
 ): void {
   const evt = document.createEvent('MouseEvents');
   evt.initMouseEvent(
@@ -75,13 +84,13 @@ function dispatchMouseEvent(
     false,
     false,
     0,
-    undefined
+    null
   );
   document.dispatchEvent(evt);
   fixture.detectChanges();
 }
 
-function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
+function resizeList(deltaX: number, fixture: ComponentFixture<unknown>): void {
   // Mousedown.
   const resizeHandle = getResizeHandle(fixture);
   const axis = getElementCords(resizeHandle);
@@ -89,8 +98,8 @@ function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
     target: resizeHandle.nativeElement,
     clientX: axis.x,
     clientY: axis.y,
-    preventDefault: function () {},
-    stopPropagation: function () {},
+    preventDefault: noop,
+    stopPropagation: noop,
   };
   resizeHandle.triggerEventHandler('mousedown', event);
   fixture.detectChanges();
@@ -105,7 +114,7 @@ function resizeList(deltaX: number, fixture: ComponentFixture<any>): void {
   tick();
 }
 
-function getElementCords(elementRef: any): any {
+function getElementCords(elementRef: ElementRef): { x: number; y: number } {
   const rect = (
     elementRef.nativeElement as HTMLElement
   ).getBoundingClientRect();
@@ -125,7 +134,7 @@ function getFocusedElement(): HTMLElement {
   return document.activeElement as HTMLElement;
 }
 
-function initiateResponsiveMode(fixture: ComponentFixture<any>): void {
+function initiateResponsiveMode(fixture: ComponentFixture<unknown>): void {
   mockQueryService.fire(SkyMediaBreakpoints.xs);
   fixture.detectChanges();
 }
@@ -196,15 +205,13 @@ describe('Split view component', () => {
     });
 
     rendererFactory = TestBed.inject(RendererFactory2);
-    renderer = rendererFactory.createRenderer(undefined, undefined);
+    renderer = rendererFactory.createRenderer(undefined, null);
     fixture = TestBed.createComponent(SplitViewFixtureComponent);
     component = fixture.componentInstance;
     maxWidth = getMaxWidth();
   });
 
   describe('before properties initialize', () => {
-    beforeEach(() => {});
-
     it('should resize list panel when listPanelWidth input property has a numeric value', fakeAsync(() => {
       component.width = 500;
       fixture.detectChanges();
@@ -249,8 +256,8 @@ describe('Split view component', () => {
         target: resizeHandle.nativeElement,
         clientX: axis.x,
         clientY: axis.y,
-        preventDefault: function () {},
-        stopPropagation: function () {},
+        preventDefault: noop,
+        stopPropagation: noop,
       };
       resizeHandle.triggerEventHandler('mousedown', event);
       fixture.detectChanges();
@@ -275,8 +282,9 @@ describe('Split view component', () => {
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      const splitViewElement: HTMLElement =
-        document.querySelector('.sky-split-view');
+      const splitViewElement = document.querySelector(
+        '.sky-split-view'
+      ) as HTMLElement;
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
@@ -301,8 +309,9 @@ describe('Split view component', () => {
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-      let splitViewElement: HTMLElement =
-        document.querySelector('.sky-split-view');
+      let splitViewElement = document.querySelector(
+        '.sky-split-view'
+      ) as HTMLElement;
       expect(rendererSpySetStyle).toHaveBeenCalledWith(
         splitViewElement,
         'min-height',
@@ -318,7 +327,9 @@ describe('Split view component', () => {
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeFalsy();
-      splitViewElement = document.querySelector('.sky-split-view');
+      splitViewElement = document.querySelector(
+        '.sky-split-view'
+      ) as HTMLElement;
       expect(rendererSpyRemoveStyle).toHaveBeenCalledWith(
         splitViewElement,
         'min-height'
@@ -337,8 +348,9 @@ describe('Split view component', () => {
       tick();
       fixture.detectChanges();
       expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-      const splitViewElement: HTMLElement =
-        document.querySelector('.sky-split-view');
+      const splitViewElement = document.querySelector(
+        '.sky-split-view'
+      ) as HTMLElement;
       expect(rendererSpy).toHaveBeenCalledWith(
         splitViewElement,
         'min-height',
@@ -369,11 +381,12 @@ describe('Split view component', () => {
       setTimeout(() => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-        const splitViewElement: HTMLElement =
-          document.querySelector('.sky-split-view');
-        const actionBar: HTMLElement = document.querySelector(
+        const splitViewElement = document.querySelector(
+          '.sky-split-view'
+        ) as HTMLElement;
+        const actionBar = document.querySelector(
           '.sky-summary-action-bar'
-        );
+        ) as HTMLElement;
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'min-height',
@@ -462,7 +475,9 @@ describe('Split view component', () => {
     }));
 
     it('should not run any resizing logic when in responsive mode', fakeAsync(() => {
-      const drawerComponent = component.splitViewComponent.drawerComponent;
+      const drawerComponent = component.splitViewComponent
+        .drawerComponent as SkySplitViewDrawerComponent;
+
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
       const mouseUpSpy = spyOn(
         drawerComponent,
@@ -489,7 +504,7 @@ describe('Split view component', () => {
         false,
         false,
         0,
-        undefined
+        null
       );
       drawerComponent.onResizeHandleMouseDown(mouseEvent);
       fixture.detectChanges();
@@ -501,7 +516,8 @@ describe('Split view component', () => {
     }));
 
     it('should not resize on mousemove unless the resize handle was clicked', fakeAsync(() => {
-      const drawerComponent = component.splitViewComponent.drawerComponent;
+      const drawerComponent = component.splitViewComponent
+        .drawerComponent as SkySplitViewDrawerComponent;
       const moveSpy = spyOn(drawerComponent, 'onMouseMove').and.callThrough();
       const mouseUpSpy = spyOn(
         drawerComponent,
@@ -614,9 +630,9 @@ describe('Split view component', () => {
       tick();
 
       // Expect first element in workspace to have focus.
-      const firstInputElement: HTMLElement = document.querySelector(
+      const firstInputElement = document.querySelector(
         '#sky-test-first-input'
-      );
+      ) as HTMLElement;
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
 
@@ -637,9 +653,9 @@ describe('Split view component', () => {
       tick();
 
       // Expect first element in workspace to have focus.
-      const firstInputElement: HTMLElement = document.querySelector(
+      const firstInputElement = document.querySelector(
         '#sky-test-first-input'
-      );
+      ) as HTMLElement;
       expect(getFocusedElement()).toEqual(firstInputElement);
     }));
 
@@ -717,8 +733,9 @@ describe('Split view component', () => {
       fixture.whenStable().then(() => {
         fixture.detectChanges();
         expect(component.splitViewComponent.bindHeightToWindow).toBeTruthy();
-        let splitViewElement: HTMLElement =
-          document.querySelector('.sky-split-view');
+        let splitViewElement = document.querySelector(
+          '.sky-split-view'
+        ) as HTMLElement;
         expect(rendererSpy).toHaveBeenCalledWith(
           splitViewElement,
           'min-height',
@@ -737,10 +754,12 @@ describe('Split view component', () => {
           // Without the `setTimeout` the mutation observer isn't hit
           setTimeout(() => {
             fixture.detectChanges();
-            splitViewElement = document.querySelector('.sky-split-view');
-            let actionBar: HTMLElement = document.querySelector(
+            splitViewElement = document.querySelector(
+              '.sky-split-view'
+            ) as HTMLElement;
+            let actionBar = document.querySelector(
               '.sky-summary-action-bar'
-            );
+            ) as HTMLElement;
 
             expect(
               component.splitViewComponent.bindHeightToWindow
@@ -766,8 +785,12 @@ describe('Split view component', () => {
             expect(
               component.splitViewComponent.bindHeightToWindow
             ).toBeTruthy();
-            splitViewElement = document.querySelector('.sky-split-view');
-            actionBar = document.querySelector('.sky-summary-action-bar');
+            splitViewElement = document.querySelector(
+              '.sky-split-view'
+            ) as HTMLElement;
+            actionBar = document.querySelector(
+              '.sky-summary-action-bar'
+            ) as HTMLElement;
             expect(rendererSpy).toHaveBeenCalledWith(
               splitViewElement,
               'min-height',
