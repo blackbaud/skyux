@@ -2,8 +2,8 @@ import { SkyTabIndex } from './tab-index';
 
 export interface SkyTabsetTabIndexesChange {
   tabs?: {
-    tabHeading: string;
+    tabHeading?: string;
 
-    tabIndex: SkyTabIndex;
+    tabIndex?: SkyTabIndex;
   }[];
 }

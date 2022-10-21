@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 export class SkyTabsetPermalinksFixtureComponent {
   public activeIndex = 0;
 
-  public permalinkId: string;
+  public permalinkId: string | undefined;
 
-  public permalinkValue: string;
+  public permalinkValue: string | undefined;
 
   public secondTabDisabled = false;
 

@@ -20,14 +20,14 @@ export class TabsDemoComponent {
     },
   ];
 
-  private tabCounter = 3;
+  #tabCounter = 3;
 
   public onNewTabClick(): void {
-    this.tabCounter++;
+    this.#tabCounter++;
 
     this.tabArray.push({
-      tabHeading: 'Tab ' + this.tabCounter,
-      tabContent: 'Content for Tab' + this.tabCounter,
+      tabHeading: 'Tab ' + this.#tabCounter,
+      tabContent: 'Content for Tab' + this.#tabCounter,
     });
   }
 

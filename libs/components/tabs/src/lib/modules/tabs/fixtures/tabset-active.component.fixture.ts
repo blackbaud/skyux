@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 export class TabsetActiveTestComponent {
   public tab1Heading = 'Tab 1';
 
-  public tab1Content: string;
+  public tab1Content: string | undefined;
 
   public tab2Heading = 'Tab 2';
 
-  public tab2Content: string;
+  public tab2Content: string | undefined;
 
   public tab2Available = true;
 
@@ -19,17 +19,17 @@ export class TabsetActiveTestComponent {
 
   public tab3Heading = 'Tab 3';
 
-  public tab3Content: string;
+  public tab3Content: string | undefined;
 
   public tab3Available = true;
 
-  public activeIndex: string | number = 0;
+  public activeIndex: string | number | undefined = 0;
 
   public tabMaxWidth = 2000;
 
   public tab4Available = true;
   public tab4Heading = 'Tab 4';
-  public tab4Content: string;
+  public tab4Content: string | undefined;
 
   public newTab() {}
 
