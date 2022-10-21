@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SectionedFormDemoComponent as SectionedFormModalDemoComponent } from '../code-examples/tabs/sectioned-form/modal/sectioned-form-demo.component';
 import { SectionedFormDemoModule as SectionedFormModalSectionedFormDemoModule } from '../code-examples/tabs/sectioned-form/modal/sectioned-form-demo.module';
-import { TabsDemoComponent as TabsCountsTabsDemoComponent } from '../code-examples/tabs/tabs/counts/tabs-demo.component';
-import { TabsDemoModule as TabsCountsTabsDemoModule } from '../code-examples/tabs/tabs/counts/tabs-demo.module';
 import { TabsDemoComponent as TabsDynamicAddCloseTabsDemoComponent } from '../code-examples/tabs/tabs/dynamic-add-close/tabs-demo.component';
 import { TabsDemoModule as TabsDynamicAddCloseTabsDemoModule } from '../code-examples/tabs/tabs/dynamic-add-close/tabs-demo.module';
 import { TabsDemoComponent as TabsDynamicTabsDemoComponent } from '../code-examples/tabs/tabs/dynamic/tabs-demo.component';
@@ -22,7 +20,6 @@ import { WizardDemoModule } from '../code-examples/tabs/wizard/basic/wizard-demo
 
 const routes: Routes = [
   { path: 'sectioned-form/modal', component: SectionedFormModalDemoComponent },
-  { path: 'tabs/counts', component: TabsCountsTabsDemoComponent },
   { path: 'tabs/dynamic', component: TabsDynamicTabsDemoComponent },
   {
     path: 'tabs/dynamic-add-close',
@@ -56,7 +53,6 @@ export class TabsFeatureRoutingModule {}
 @NgModule({
   imports: [
     SectionedFormModalSectionedFormDemoModule,
-    TabsCountsTabsDemoModule,
     TabsDynamicTabsDemoModule,
     TabsDynamicAddCloseTabsDemoModule,
     TabsStaticTabsDemoModule,
