@@ -5,7 +5,7 @@
 // creating a circular reference. The circular reference is resolved by
 // _mixins/_variables.scss importing this file instead.
 
-@use 'variables-public' as *;
+@use '_public-api/variables' as *;
 
 $sky-border-radius: 3px;
 

@@ -1,8 +1,8 @@
 // This file is the entry point for commonly used internal-only SCSS mixins.
 // (Our components should @use this file in their SCSS file.)
 
-@forward '_compat/mixins';
-@forward 'mixins-public';
+@forward '_public-api/_compat/mixins';
+@forward '_public-api/mixins';
 
 @use 'variables' as *;
 

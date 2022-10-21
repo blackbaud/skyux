@@ -2,7 +2,12 @@
 
 @forward 'node_modules/@blackbaud/skyux-design-tokens/scss/mixins';
 
-@use 'variables-public' as *;
+// Export variables for backward compatibility.
+// (Some stylesheets only import the mixins.scss file and expected the variables to be available.)
+// TODO: Remove this forward in a breaking change.
+@forward 'variables';
+
+@use 'variables' as *;
 
 @mixin sky-host-responsive-container-xs-min($encapsulate: true) {
   @if $encapsulate {

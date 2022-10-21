@@ -103,12 +103,12 @@ function copyPublicScssFiles() {
   console.log('Copying public SCSS files...');
 
   copyScss(
-    path.join(STYLES_ROOT, '_mixins-public.scss'),
+    path.join(STYLES_ROOT, '_public-api/_mixins.scss'),
     path.join(DEST_ROOT, 'scss/mixins.scss')
   );
 
   copyScss(
-    path.join(STYLES_ROOT, '_variables-public.scss'),
+    path.join(STYLES_ROOT, '_public-api/_variables.scss'),
     path.join(DEST_ROOT, 'scss/variables.scss')
   );
 
@@ -119,12 +119,12 @@ function copyCompatScssFiles() {
   console.log('Copying compatibility SCSS files...');
 
   copyScss(
-    path.join(STYLES_ROOT, '_compat/_variables.scss'),
+    path.join(STYLES_ROOT, '_public-api/_compat/_variables.scss'),
     path.join(DEST_ROOT, 'scss/_compat/_variables.scss')
   );
 
   copyScss(
-    path.join(STYLES_ROOT, '_compat/_mixins.scss'),
+    path.join(STYLES_ROOT, '_public-api/_compat/_mixins.scss'),
     path.join(DEST_ROOT, 'scss/_compat/_mixins.scss')
   );
 
