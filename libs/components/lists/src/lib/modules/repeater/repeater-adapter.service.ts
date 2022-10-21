@@ -11,7 +11,7 @@ export class SkyRepeaterAdapterService {
     return '.sky-repeater-item-group-' + this.#repeaterService.repeaterGroupId;
   }
 
-  #host!: ElementRef;
+  #host: ElementRef | undefined;
   #repeaterService: SkyRepeaterService;
 
   constructor(repeaterService: SkyRepeaterService) {
@@ -70,16 +70,19 @@ export class SkyRepeaterAdapterService {
   }
 
   #moveItem(element: HTMLElement, oldIndex: number, newIndex: number): number {
-    const repeaterDiv: HTMLElement =
-      this.#host.nativeElement.querySelector('.sky-repeater');
+    /* istanbul ignore else */
+    if (this.#host) {
+      const repeaterDiv: HTMLElement =
+        this.#host.nativeElement.querySelector('.sky-repeater');
 
-    repeaterDiv.removeChild(element);
-    const nextSibling = repeaterDiv.querySelectorAll(
-      this.#repeaterItemGroupSelector
-    )[newIndex];
+      repeaterDiv.removeChild(element);
+      const nextSibling = repeaterDiv.querySelectorAll(
+        this.#repeaterItemGroupSelector
+      )[newIndex];
 
-    repeaterDiv.insertBefore(element, nextSibling);
-    this.#repeaterService.reorderItem(oldIndex, newIndex);
+      repeaterDiv.insertBefore(element, nextSibling);
+      this.#repeaterService.reorderItem(oldIndex, newIndex);
+    }
 
     return newIndex;
   }
@@ -89,7 +92,9 @@ export class SkyRepeaterAdapterService {
    */
   #getRepeaterItemArray(): any[] {
     return Array.from(
-      this.#host.nativeElement.querySelectorAll(this.#repeaterItemGroupSelector)
+      this.#host?.nativeElement.querySelectorAll(
+        this.#repeaterItemGroupSelector
+      )
     );
   }
 }
