@@ -4,6 +4,9 @@ import * as utils from '@percy/sdk-utils';
 import { defineConfig } from 'cypress';
 import * as fs from 'fs';
 
+const sdkPkg = JSON.parse(fs.readFileSync('../../../node_modules/@percy/sdk-utils/package.json').toString());
+const cypressPkg = JSON.parse(fs.readFileSync('../../../node_modules/cypress/package.json').toString());
+
 export default defineConfig({
   e2e: {
     ...nxE2EPreset(__dirname),
@@ -75,6 +78,8 @@ export default defineConfig({
               name: details.name,
               url,
               domSnapshot,
+              clientInfo: `${sdkPkg.name}/${sdkPkg.version}`,
+              environmentInfo: `cypress/${cypressPkg.version}`,
             });
           }
           return {
