@@ -213,7 +213,7 @@ jobs:
               'g',
               '@skyux-sdk/e2e-schematics:storybook-composition',
               '--projectsJson',
-              ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }},
+              '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}',
               '--baseUrl',
               '../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
             ]);
