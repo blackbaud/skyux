@@ -16,15 +16,15 @@ export interface SkyTabsetFixtureTab {
   /**
    * The permalink value specified for the tab.
    */
-  permalinkValue: string;
+  permalinkValue: string | undefined;
 
   /**
    * The count displayed in the tab header.
    */
-  tabHeaderCount: string;
+  tabHeaderCount: string | undefined;
 
   /**
    * The text displayed in the tab header.
    */
-  tabHeading: string;
+  tabHeading: string | undefined;
 }
