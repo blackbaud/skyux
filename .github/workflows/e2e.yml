@@ -7,8 +7,11 @@ on:
   pull_request:
 
 env:
-  PERCY_POSTINSTALL_BROWSER: true
   GH_PAGES_OWNER: blackbaud
+  PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+  SB_CHROMIUM_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,6 +30,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
+          cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
