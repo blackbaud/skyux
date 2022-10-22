@@ -16,18 +16,18 @@ describe('Migrations > Add compat stylesheets', () => {
  * - Delete this file after all blocks have been addressed.
  * - Remove each occurrence of this file in your project's
  *   angular.json file.
-*******************************************************************************/
+ *******************************************************************************/
 
 /*******************************************************************************
  * COMPONENT: ALERT
-*******************************************************************************/
+ *******************************************************************************/
 
 /*******************************************************************************
  * The preset bottom margin has been removed from alert components. To
  * implement the newly-recommended spacing, add the \`sky-margin-stacked-lg\`
  * CSS class to each \`sky-alert\` component in your application, then remove
  * this block.
-*******************************************************************************/
+ *******************************************************************************/
 
 .sky-alert {
   margin-bottom: 20px;
@@ -80,7 +80,9 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const updatedTree = await runSchematic();
 
-    const compatStyles = updatedTree.readText(compatStylesheetPath);
+    const compatStyles = updatedTree.exists(compatStylesheetPath)
+      ? updatedTree.readText(compatStylesheetPath)
+      : '';
 
     expect(compatStyles).toBe(expectedContents);
 
@@ -175,6 +177,9 @@ describe('Migrations > Add compat stylesheets', () => {
       .runSchematicAsync('add-compat-stylesheets', {}, tree)
       .toPromise();
 
+    const libShowcaseCompatStylesheetPath =
+      'projects/my-lib-showcase/src/app/skyux7-compat.css';
+
     angularJson = JSON.parse(updatedTree.readContent('/angular.json'));
 
     expect(
@@ -183,14 +188,16 @@ describe('Migrations > Add compat stylesheets', () => {
 
     expect(
       angularJson.projects['my-lib'].architect.test.options.styles
-    ).toContain(compatStylesheetPath);
+    ).not.toContain(compatStylesheetPath);
+
+    expect(updatedTree.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
 
     expect(
       angularJson.projects['my-lib-showcase'].architect.build.options.styles
-    ).toContain(compatStylesheetPath);
+    ).toContain(libShowcaseCompatStylesheetPath);
 
     expect(
       angularJson.projects['my-lib-showcase'].architect.test.options.styles
-    ).toContain(compatStylesheetPath);
+    ).toContain(libShowcaseCompatStylesheetPath);
   });
 });
