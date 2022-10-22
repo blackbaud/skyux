@@ -36,8 +36,8 @@ function replaceDesignTokensImports(contents: string): string {
 
 /**
  * If a mixins import exists, add the variables import as well.
- * In prior versions of SKY UX, the variables were exported from the mixins file, but
- * this creates a circular reference.
+ * (In prior versions of SKY UX, the variables were exported from the mixins file, but
+ * this created a circular reference, hence the fix.)
  */
 function addVariablesScssImports(contents: string): string {
   const matches = contents.matchAll(
@@ -58,9 +58,6 @@ function addVariablesScssImports(contents: string): string {
   return contents;
 }
 
-/**
- * Fixes SKY UX SCSS imports.
- */
 function fixScssImports(): Rule {
   return async (tree) => {
     const { workspace } = await getWorkspace(tree);
