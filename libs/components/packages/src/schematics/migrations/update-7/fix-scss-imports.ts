@@ -13,13 +13,14 @@ function replaceDesignTokensImports(contents: string): string {
 
   for (const match of matches) {
     const importPath = match[0];
-    const importType = match[1];
+    const importType = match[1]; // mixins or variables
 
     const replacementTemplate = new RegExp(
       `@import\\s+['"]?node_modules\\/@skyux\\/theme\\/scss\\/_?${importType}(?:\\.scss)?['"]?;?`
     );
-    const m = contents.match(replacementTemplate);
-    if (m) {
+
+    // If the equivalent default import is already found, just remove the design tokens import.
+    if (replacementTemplate.test(contents)) {
       contents = contents.replace(importPath, '');
       continue;
     }
