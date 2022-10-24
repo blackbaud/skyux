@@ -14,9 +14,8 @@
   <div class="sky-error-title sky-font-heading-1 sky-margin-stacked-lg">
     <ng-container
       *ngIf="defaultTitle && (errorSvc.replaceDefaultTitle | async) === false"
+      >{{ defaultTitle }}</ng-container
     >
-      {{ defaultTitle }}
-    </ng-container>
     <ng-content select="sky-error-title"></ng-content>
   </div>
 
@@ -28,9 +27,8 @@
         defaultDescription &&
         (errorSvc.replaceDefaultDescription | async) === false
       "
+      >{{ defaultDescription }}</span
     >
-      {{ defaultDescription }}
-    </span>
     <ng-content select="sky-error-description"></ng-content>
   </div>
 
