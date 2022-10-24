@@ -56,8 +56,8 @@ describe('Migrations > Add compat stylesheets', () => {
   async function validateCompatStylesheet(
     packageJson: string,
     expectedContents: string,
-    existingCompatStylesheet?: string,
-    existingWorkspaceStylehseets: string[] = []
+    existingWorkspaceStylesheets: string[] | undefined,
+    existingCompatStylesheet?: string
   ): Promise<void> {
     const projectTargets = ['build', 'test'];
 
@@ -73,7 +73,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     for (const target of projectTargets) {
       angularJson.projects['my-app'].architect[target].options.styles =
-        existingWorkspaceStylehseets;
+        existingWorkspaceStylesheets;
     }
 
     tree.overwrite('/angular.json', JSON.stringify(angularJson));
@@ -89,7 +89,7 @@ describe('Migrations > Add compat stylesheets', () => {
     angularJson = updatedTree.readJson('/angular.json');
 
     const expectedStyles = [
-      ...(existingWorkspaceStylehseets || []),
+      ...(existingWorkspaceStylesheets || []),
       compatStylesheetPath,
     ];
 
@@ -103,9 +103,14 @@ describe('Migrations > Add compat stylesheets', () => {
   it('should not add a compat stylesheet if a corresponding library is not installed', async () => {
     const { runSchematic, tree } = await setupTest();
 
+    const originalAngularJson = tree.readContent('angular.json');
     await runSchematic();
+    const newAngularJson = tree.readContent('angular.json');
 
     expect(tree.exists(compatStylesheetPath)).toBe(false);
+
+    // Workspace config should remain untouched.
+    expect(originalAngularJson).toEqual(newAngularJson);
   });
 
   it('should add a compat stylesheet for libraries in dependencies', async () => {
@@ -115,7 +120,8 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/indicators': '6.0.0',
         },
       }),
-      alertContents
+      alertContents,
+      []
     );
   });
 
@@ -126,7 +132,8 @@ describe('Migrations > Add compat stylesheets', () => {
           '@skyux/indicators': '6.0.0',
         },
       }),
-      alertContents
+      alertContents,
+      []
     );
   });
 
@@ -138,6 +145,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       alertContents,
+      [],
       '/* */'
     );
   });
@@ -150,8 +158,8 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       alertContents,
-      '/* */',
-      undefined
+      undefined, // <-- empty array
+      '/* */'
     );
   });
 
@@ -188,7 +196,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     expect(
       angularJson.projects['my-lib'].architect.test.options.styles
-    ).not.toContain(compatStylesheetPath);
+    ).toBeUndefined();
 
     expect(updatedTree.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
 

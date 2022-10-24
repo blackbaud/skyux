@@ -81,13 +81,7 @@ function addStylesheetToWorkspace(): Rule {
     updateWorkspace((workspace) => {
       for (const project of workspace.projects.values()) {
         for (const targetName of ['build', 'test']) {
-          // Ignore build target for libraries.
-          if (
-            !(
-              targetName === 'build' &&
-              project.extensions.projectType === 'library'
-            )
-          ) {
+          if (project.extensions.projectType === 'application') {
             const target = project.targets.get(targetName);
             const sourceRoot = getProjectSourcePath(project);
             const filePath = `${sourceRoot}/${SKYUX7_COMPAT_CSS_FILE_NAME}`;
@@ -155,7 +149,9 @@ export default function (): Rule {
       }
     }
 
-    rules.push(addStylesheetToWorkspace());
+    if (styles) {
+      rules.push(addStylesheetToWorkspace());
+    }
 
     return chain(rules);
   };
