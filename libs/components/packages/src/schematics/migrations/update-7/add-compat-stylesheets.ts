@@ -155,7 +155,9 @@ export default function (): Rule {
       }
     }
 
-    rules.push(addStylesheetToWorkspace());
+    if (styles) {
+      rules.push(addStylesheetToWorkspace());
+    }
 
     return chain(rules);
   };

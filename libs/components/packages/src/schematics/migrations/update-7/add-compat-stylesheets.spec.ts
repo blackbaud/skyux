@@ -103,9 +103,14 @@ describe('Migrations > Add compat stylesheets', () => {
   it('should not add a compat stylesheet if a corresponding library is not installed', async () => {
     const { runSchematic, tree } = await setupTest();
 
+    const originalAngularJson = tree.readContent('angular.json');
     await runSchematic();
+    const newAngularJson = tree.readContent('angular.json');
 
     expect(tree.exists(compatStylesheetPath)).toBe(false);
+
+    // Workspace config should remain untouched.
+    expect(originalAngularJson).toEqual(newAngularJson);
   });
 
   it('should add a compat stylesheet for libraries in dependencies', async () => {
