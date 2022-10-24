@@ -111,8 +111,8 @@ function getCompatStyles(tree: Tree): string | undefined {
   let contents = '';
 
   const packageJson: {
-    dependencies?: { [_: string]: string };
-    devDependencies?: { [_: string]: string };
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
   } = JSON.parse(readRequiredFile(tree, '/package.json'));
 
   for (const library of compatStyles.libraries) {
