@@ -193,7 +193,7 @@ describe('Migrations > Add compat stylesheets', () => {
 
     expect(
       angularJson.projects['my-lib'].architect.test.options.styles
-    ).not.toContain(compatStylesheetPath);
+    ).toBeUndefined();
 
     expect(updatedTree.exists(libShowcaseCompatStylesheetPath)).toEqual(true);
 
