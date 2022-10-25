@@ -1,5 +1,20 @@
 # Changelog
 
+## [7.0.0-beta.9](https://github.com/blackbaud/skyux/compare/7.0.0-beta.8...7.0.0-beta.9) (2022-10-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **components/forms:** use `EventEmitter` for radio component outputs (#732)
+* **components/errors:** Unit tests that expect this extra whitespace will need to be updated.
+
+### Bug Fixes
+
+* **components/errors:** remove extra whitespace around error description ([#733](https://github.com/blackbaud/skyux/issues/733)) ([3644555](https://github.com/blackbaud/skyux/commit/364455589141d5233d57939bfac1204058a16ce7))
+* **components/forms:** use `EventEmitter` for radio component outputs ([#732](https://github.com/blackbaud/skyux/issues/732)) ([0b717db](https://github.com/blackbaud/skyux/commit/0b717dba0441c3c94c31aaa3cb46e8af286fea86))
+* **components/layout:** allow strict templates to use `backToTop` directive without square brackets ([#737](https://github.com/blackbaud/skyux/issues/737)) ([9f3e890](https://github.com/blackbaud/skyux/commit/9f3e890fc7a2950cc332345bc2cc04a85243dbaa))
+* **components/packages:** recognize leading tilde and relative paths when fixing SCSS imports ([#735](https://github.com/blackbaud/skyux/issues/735)) ([30e9817](https://github.com/blackbaud/skyux/commit/30e9817e8a7fe0344f26f1c2206df158e8c72cfa))
+
 ## [7.0.0-beta.8](https://github.com/blackbaud/skyux/compare/7.0.0-beta.7...7.0.0-beta.8) (2022-10-24)
 
 
