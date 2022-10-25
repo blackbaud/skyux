@@ -8,7 +8,7 @@ import { getWorkspace } from '../../utility/workspace';
  */
 function replaceDesignTokensImports(contents: string): string {
   const matches = contents.matchAll(
-    /@import\s+['"]?node_modules\/@blackbaud\/skyux-design-tokens\/scss\/_?(mixins|variables)(?:\.scss)?['"]?;?\s+/g
+    /@import\s+['"]?[~]?(?:(?:\.|\/)+)?(?:node_modules\/)?@blackbaud\/skyux-design-tokens\/scss\/_?(mixins|variables)(?:\.scss)?['"]?;?\s+/g
   );
 
   for (const match of matches) {
@@ -16,7 +16,7 @@ function replaceDesignTokensImports(contents: string): string {
     const importType = match[1]; // mixins or variables
 
     const replacementTemplate = new RegExp(
-      `@import\\s+['"]?node_modules\\/@skyux\\/theme\\/scss\\/_?${importType}(?:\\.scss)?['"]?;?`
+      `@import\\s+['"]?[~]?(?:(?:\\.|\\/)+)?(?:node_modules\\/)?@skyux\\/theme\\/scss\\/_?${importType}(?:\\.scss)?['"]?;?`
     );
 
     // If the equivalent default import is already found, just remove the design tokens import.
@@ -41,7 +41,7 @@ function replaceDesignTokensImports(contents: string): string {
  */
 function addVariablesScssImports(contents: string): string {
   const matches = contents.matchAll(
-    /@import\s+['"]?node_modules\/@skyux\/theme\/scss\/(_compat\/|themes\/modern\/_compat\/)?_?mixins(?:\.scss)?['"]?;?/g
+    /@import\s+['"]?[~]?(?:(?:\.|\/)+)?(?:node_modules\/)?@skyux\/theme\/scss\/(_compat\/|themes\/modern\/_compat\/)?_?mixins(?:\.scss)?['"]?;?/g
   );
 
   for (const match of matches) {

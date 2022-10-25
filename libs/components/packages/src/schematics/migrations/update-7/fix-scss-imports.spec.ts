@@ -164,6 +164,28 @@ describe('Migrations > Fix SKY UX SCSS imports', () => {
 `);
   });
 
+  it('should handle relative and tilde imports', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      'src/styles.scss',
+      `
+@import './node_modules/@blackbaud/skyux-design-tokens/scss/mixins';
+@import '../../../../../node_modules/@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/mixins';
+`
+    );
+
+    await runSchematic();
+
+    expect(tree.readContent('src/styles.scss')).toEqual(`
+@import '../../../../../node_modules/@skyux/theme/scss/mixins';
+@import '../../../../../node_modules/@skyux/theme/scss/variables';
+@import '~@skyux/theme/scss/mixins';
+@import '~@skyux/theme/scss/variables';
+`);
+  });
+
   it('should remove @blackbaud/skyux-design-tokens from package.json dependencies', async () => {
     const { runSchematic, tree } = await setupTest();
 
