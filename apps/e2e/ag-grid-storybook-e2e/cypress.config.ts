@@ -73,6 +73,7 @@ export default defineConfig({
               </head>
               <body>
                 <img
+                  id="root"
                   alt="${details.name}"
                   src="data:image/png;base64,${imageDataBase64}"
                   width="${width / 2}"
@@ -86,6 +87,7 @@ export default defineConfig({
               domSnapshot,
               clientInfo: `${sdkPkg.name}/${sdkPkg.version}`,
               environmentInfo: `cypress/${cypressPkg.version}`,
+              scope: '#root',
             });
           }
           return {
