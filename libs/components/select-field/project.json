@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/select-field"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/select-field"],
       "options": {
         "project": "libs/components/select-field/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

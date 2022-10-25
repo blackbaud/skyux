@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/tiles"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/tiles"],
       "options": {
         "project": "libs/components/tiles/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

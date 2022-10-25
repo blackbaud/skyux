@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/list-builder-view-checklist"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/list-builder-view-checklist"
+      ],
       "options": {
         "project": "libs/components/list-builder-view-checklist/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

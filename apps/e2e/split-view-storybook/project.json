@@ -83,7 +83,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/split-view-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/split-view-storybook"],
       "options": {
         "jestConfig": "apps/e2e/split-view-storybook/jest.config.ts",
         "passWithNoTests": true

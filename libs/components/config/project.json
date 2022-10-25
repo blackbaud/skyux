@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/config"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/config"],
       "options": {
         "project": "libs/components/config/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

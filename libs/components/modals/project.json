@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/modals"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/modals"],
       "options": {
         "project": "libs/components/modals/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

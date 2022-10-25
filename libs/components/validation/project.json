@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/validation"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/validation"],
       "options": {
         "project": "libs/components/validation/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

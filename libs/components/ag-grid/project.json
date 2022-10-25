@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/ag-grid"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/ag-grid"],
       "options": {
         "project": "libs/components/ag-grid/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
@@ -46,7 +46,7 @@
       }
     },
     "postbuild": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-ag-grid.ts"
       }

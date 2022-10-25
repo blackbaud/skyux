@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/datetime"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/datetime"],
       "options": {
         "project": "libs/components/datetime/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

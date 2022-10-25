@@ -83,7 +83,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/tabs-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/tabs-storybook"],
       "options": {
         "jestConfig": "apps/e2e/tabs-storybook/jest.config.ts",
         "passWithNoTests": true

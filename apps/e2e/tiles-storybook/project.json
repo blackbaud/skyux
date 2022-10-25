@@ -83,7 +83,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/tiles-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/tiles-storybook"],
       "options": {
         "jestConfig": "apps/e2e/tiles-storybook/jest.config.ts",
         "passWithNoTests": true

@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/inline-form"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/inline-form"],
       "options": {
         "project": "libs/components/inline-form/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

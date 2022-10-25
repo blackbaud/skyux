@@ -6,7 +6,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/list-builder-view-grids"],
+      "outputs": [
+        "{workspaceRoot}/dist/libs/components/list-builder-view-grids"
+      ],
       "options": {
         "project": "libs/components/list-builder-view-grids/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

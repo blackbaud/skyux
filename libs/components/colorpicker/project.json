@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/colorpicker"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/colorpicker"],
       "options": {
         "project": "libs/components/colorpicker/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

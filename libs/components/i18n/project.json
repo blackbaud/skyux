@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/i18n"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/i18n"],
       "options": {
         "project": "libs/components/i18n/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
@@ -45,13 +45,13 @@
       }
     },
     "postbuild": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-i18n.ts"
       }
     },
     "posttest": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/posttest-i18n.ts"
       }

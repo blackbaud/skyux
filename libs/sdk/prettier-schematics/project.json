@@ -12,7 +12,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/sdk/prettier-schematics"],
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/prettier-schematics"],
       "options": {
         "jestConfig": "libs/sdk/prettier-schematics/jest.config.ts",
         "passWithNoTests": true
@@ -31,7 +31,7 @@
       }
     },
     "postbuild": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-prettier-schematics.ts"
       }

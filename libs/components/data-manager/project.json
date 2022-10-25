@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/data-manager"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/data-manager"],
       "options": {
         "project": "libs/components/data-manager/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

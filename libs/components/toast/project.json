@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/toast"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/toast"],
       "options": {
         "project": "libs/components/toast/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

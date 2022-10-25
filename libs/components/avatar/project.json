@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/avatar"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/avatar"],
       "options": {
         "project": "libs/components/avatar/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/split-view"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/split-view"],
       "options": {
         "project": "libs/components/split-view/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/action-bars"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/action-bars"],
       "options": {
         "project": "libs/components/action-bars/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

@@ -83,7 +83,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/modals-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/modals-storybook"],
       "options": {
         "jestConfig": "apps/e2e/modals-storybook/jest.config.ts",
         "passWithNoTests": true

@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/progress-indicator"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/progress-indicator"],
       "options": {
         "project": "libs/components/progress-indicator/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

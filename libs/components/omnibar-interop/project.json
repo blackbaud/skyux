@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/omnibar-interop"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/omnibar-interop"],
       "options": {
         "project": "libs/components/omnibar-interop/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

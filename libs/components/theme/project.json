@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/theme"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/theme"],
       "options": {
         "project": "libs/components/theme/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
@@ -45,7 +45,7 @@
       }
     },
     "postbuild": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-theme.ts"
       }

@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/text-editor"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/text-editor"],
       "options": {
         "project": "libs/components/text-editor/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

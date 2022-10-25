@@ -12,7 +12,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/components/packages"],
+      "outputs": ["{workspaceRoot}/coverage/libs/components/packages"],
       "options": {
         "jestConfig": "libs/components/packages/jest.config.ts",
         "passWithNoTests": true,
@@ -33,7 +33,7 @@
       }
     },
     "postbuild": {
-      "executor": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "command": "ts-node --project ./scripts/tsconfig.json ./scripts/postbuild-packages.ts"
       }

@@ -49,7 +49,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/sdk/e2e-schematics"],
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/e2e-schematics"],
       "options": {
         "jestConfig": "libs/sdk/e2e-schematics/jest.config.ts",
         "passWithNoTests": true

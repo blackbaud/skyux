@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/autonumeric"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/autonumeric"],
       "options": {
         "project": "libs/components/autonumeric/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

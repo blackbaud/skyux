@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/flyout"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/flyout"],
       "options": {
         "project": "libs/components/flyout/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

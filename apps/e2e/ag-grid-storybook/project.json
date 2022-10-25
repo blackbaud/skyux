@@ -84,7 +84,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/e2e/ag-grid-storybook"],
+      "outputs": ["{workspaceRoot}/coverage/apps/e2e/ag-grid-storybook"],
       "options": {
         "jestConfig": "apps/e2e/ag-grid-storybook/jest.config.ts",
         "passWithNoTests": true

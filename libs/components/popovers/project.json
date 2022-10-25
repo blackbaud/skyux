@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/popovers"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/popovers"],
       "options": {
         "project": "libs/components/popovers/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false

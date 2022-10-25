@@ -6,7 +6,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/components/animations"],
+      "outputs": ["{workspaceRoot}/dist/libs/components/animations"],
       "options": {
         "project": "libs/components/animations/ng-package.json",
         "updateBuildableProjectDepsInPackageJson": false
