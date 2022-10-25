@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
@@ -10,7 +10,7 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   selector: 'sky-test-cmp',
   templateUrl: './phone-field-reactive.component.fixture.html',
 })
-export class PhoneFieldReactiveTestComponent {
+export class PhoneFieldReactiveTestComponent implements OnInit {
   public allowExtensions = true;
 
   public defaultCountry: string | undefined;
@@ -23,7 +23,7 @@ export class PhoneFieldReactiveTestComponent {
 
   public noValidate = false;
 
-  public phoneControl: UntypedFormControl;
+  public phoneControl: UntypedFormControl | undefined;
 
   public phoneForm: UntypedFormGroup;
 
@@ -48,13 +48,17 @@ export class PhoneFieldReactiveTestComponent {
   public phoneFieldComponent: SkyPhoneFieldComponent | undefined;
 
   constructor() {
-    this.phoneControl = new UntypedFormControl(this.initialValue);
+    this.phoneControl = new UntypedFormControl();
     this.phoneForm = new UntypedFormGroup({
       phone: this.phoneControl,
     });
   }
 
-  public setValue(value: string): void {
+  public ngOnInit(): void {
+    this.setValue(this.initialValue);
+  }
+
+  public setValue(value: string | Date | undefined): void {
     this.phoneControl?.setValue(value);
   }
 }

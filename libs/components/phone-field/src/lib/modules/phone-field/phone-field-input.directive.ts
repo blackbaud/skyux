@@ -65,8 +65,10 @@ export class SkyPhoneFieldInputDirective
    */
   @Input()
   public set disabled(value: boolean) {
-    this.phoneFieldComponent.countrySelectDisabled = value;
-    this.adapterService.setElementDisabledState(this.elRef, value);
+    if (this.#phoneFieldComponent) {
+      this.#phoneFieldComponent.countrySelectDisabled = value;
+    }
+    this.#adapterService?.setElementDisabledState(this.#elRef, value);
     this.#_disabled = value;
   }
 
@@ -88,7 +90,7 @@ export class SkyPhoneFieldInputDirective
     this.#_modelValue = value;
 
     if (value) {
-      this.adapterService.setElementValue(this.elRef, value);
+      this.#adapterService?.setElementValue(this.#elRef, value);
       const formattedValue = this.formatNumber(value.toString());
 
       this.onChange(formattedValue);
@@ -114,45 +116,56 @@ export class SkyPhoneFieldInputDirective
 
   #_modelValue: string | undefined;
 
+  #changeDetector: ChangeDetectorRef;
+  #elRef: ElementRef;
+
+  #adapterService: SkyPhoneFieldAdapterService | undefined;
+  #phoneFieldComponent: SkyPhoneFieldComponent | undefined;
+
   public constructor(
-    private changeDetector: ChangeDetectorRef,
-    private elRef: ElementRef,
-    @Optional() private adapterService: SkyPhoneFieldAdapterService,
-    @Optional() private phoneFieldComponent: SkyPhoneFieldComponent
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    elRef: ElementRef,
+    @Optional() adapterService?: SkyPhoneFieldAdapterService,
+    @Optional() phoneFieldComponent?: SkyPhoneFieldComponent
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#elRef = elRef;
+    this.#adapterService = adapterService;
+    this.#phoneFieldComponent = phoneFieldComponent;
+  }
 
   public ngOnInit(): void {
-    if (!this.phoneFieldComponent) {
+    if (!this.#phoneFieldComponent) {
       throw new Error(
         'You must wrap the `skyPhoneFieldInput` directive within a ' +
           '`<sky-phone-field>` component!'
       );
     }
 
-    this.adapterService.setElementType(this.elRef);
-    this.adapterService.addElementClass(this.elRef, 'sky-form-control');
+    this.#adapterService?.setElementType(this.#elRef);
+    this.#adapterService?.addElementClass(this.#elRef, 'sky-form-control');
     if (
-      this.phoneFieldComponent &&
-      this.phoneFieldComponent.selectedCountry &&
-      this.phoneFieldComponent.selectedCountry.exampleNumber
+      this.#phoneFieldComponent &&
+      this.#phoneFieldComponent.selectedCountry &&
+      this.#phoneFieldComponent.selectedCountry.exampleNumber
     ) {
-      this.adapterService.setElementPlaceholder(
-        this.elRef,
-        this.phoneFieldComponent.selectedCountry.exampleNumber
+      this.#adapterService?.setElementPlaceholder(
+        this.#elRef,
+        this.#phoneFieldComponent.selectedCountry.exampleNumber
       );
     }
 
-    this.adapterService.setAriaLabel(this.elRef);
+    this.#adapterService?.setAriaLabel(this.#elRef);
   }
 
   public ngAfterViewInit(): void {
-    this.phoneFieldComponent.selectedCountryChange
+    this.#phoneFieldComponent?.selectedCountryChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((country: SkyPhoneFieldCountry) => {
-        this.#modelValue = this.elRef.nativeElement.value;
+        this.#modelValue = this.#elRef.nativeElement.value;
         if (country && country.exampleNumber) {
-          this.adapterService.setElementPlaceholder(
-            this.elRef,
+          this.#adapterService?.setElementPlaceholder(
+            this.#elRef,
             country.exampleNumber
           );
         }
@@ -163,7 +176,7 @@ export class SkyPhoneFieldInputDirective
     /* istanbul ignore else */
     if (this.#control && this.#modelValue) {
       this.#control.setValue(this.#modelValue, { emitEvent: false });
-      this.changeDetector.detectChanges();
+      this.#changeDetector.detectChanges();
     }
   }
 
@@ -179,7 +192,7 @@ export class SkyPhoneFieldInputDirective
   @HostListener('change', ['$event'])
   public onInputChange(event: any): void {
     if (!this.#textChanges) {
-      this.setupTextChangeSubscription(event.target.value);
+      this.#setupTextChangeSubscription(event.target.value);
     } else {
       this.#textChanges.next(event.target.value);
     }
@@ -196,7 +209,7 @@ export class SkyPhoneFieldInputDirective
   @HostListener('input', ['$event'])
   public onInputTyping(event: any): void {
     if (!this.#textChanges) {
-      this.setupTextChangeSubscription(event.target.value);
+      this.#setupTextChangeSubscription(event.target.value);
     } else {
       this.#textChanges.next(event.target.value);
     }
@@ -207,7 +220,7 @@ export class SkyPhoneFieldInputDirective
    * @param value The new value for the input
    */
   public writeValue(value: string): void {
-    this.phoneFieldComponent.setCountryByDialCode(value);
+    this.#phoneFieldComponent?.setCountryByDialCode(value);
 
     this.#modelValue = value;
   }
@@ -252,8 +265,9 @@ export class SkyPhoneFieldInputDirective
     }
 
     if (
-      this.phoneFieldComponent.selectedCountry &&
-      !this.validateNumber(value)
+      this.#phoneFieldComponent &&
+      this.#phoneFieldComponent.selectedCountry &&
+      !this.#validateNumber(value)
     ) {
       if (!this.#textChanges) {
         // Mark the invalid control as touched so that the input's invalid CSS styles appear.
@@ -272,7 +286,7 @@ export class SkyPhoneFieldInputDirective
     return null;
   }
 
-  private setupTextChangeSubscription(text: string): void {
+  #setupTextChangeSubscription(text: string): void {
     this.#textChanges = new BehaviorSubject(text);
 
     this.#textChanges
@@ -282,15 +296,15 @@ export class SkyPhoneFieldInputDirective
       });
   }
 
-  private validateNumber(phoneNumber: string): boolean {
+  #validateNumber(phoneNumber: string): boolean {
     try {
       const numberObj = this.#phoneUtils.parseAndKeepRawInput(
         phoneNumber,
-        this.phoneFieldComponent.selectedCountry?.iso2
+        this.#phoneFieldComponent?.selectedCountry?.iso2
       );
 
       if (
-        !this.phoneFieldComponent.allowExtensions &&
+        !this.#phoneFieldComponent?.allowExtensions &&
         numberObj.getExtension()
       ) {
         return false;
@@ -310,10 +324,10 @@ export class SkyPhoneFieldInputDirective
     try {
       const numberObj = this.#phoneUtils.parseAndKeepRawInput(
         phoneNumber,
-        this.phoneFieldComponent.selectedCountry?.iso2
+        this.#phoneFieldComponent?.selectedCountry?.iso2
       );
       if (this.#phoneUtils.isPossibleNumber(numberObj)) {
-        switch (this.phoneFieldComponent.returnFormat) {
+        switch (this.#phoneFieldComponent?.returnFormat) {
           case 'international':
             return this.#phoneUtils.format(
               numberObj,
@@ -327,8 +341,8 @@ export class SkyPhoneFieldInputDirective
           case 'default':
           default:
             if (
-              this.phoneFieldComponent.selectedCountry?.iso2 !==
-              this.phoneFieldComponent.defaultCountry
+              this.#phoneFieldComponent?.selectedCountry?.iso2 !==
+              this.#phoneFieldComponent?.defaultCountry
             ) {
               return this.#phoneUtils.format(
                 numberObj,
@@ -351,12 +365,14 @@ export class SkyPhoneFieldInputDirective
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
   private onChange = (_: string | undefined) => {};
 
+  // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched = () => {};
 
+  // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private validatorChange = () => {};
 }
