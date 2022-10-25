@@ -21,12 +21,12 @@ export class SkyPhoneFieldFixture {
   /**
    * This property is lazy loaded and should be accessed via the private countryFixture property.
    */
-  private _countryFixture: SkyCountryFieldFixture;
+  private _countryFixture: SkyCountryFieldFixture | undefined;
 
   private _debugEl: DebugElement;
 
   constructor(
-    private fixture: ComponentFixture<any>,
+    private fixture: ComponentFixture<unknown>,
     private skyTestId: string
   ) {
     this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
@@ -52,7 +52,7 @@ export class SkyPhoneFieldFixture {
   /**
    * Returns the selected country iso2 code.
    */
-  public async getSelectedCountryIso2(): Promise<string> {
+  public async getSelectedCountryIso2(): Promise<string | null> {
     // Wait for the country field to initialize.
     await this.fixture.whenStable();
     return this.countryFlagButtonContainer.getAttribute('data-sky-test-iso2');
@@ -61,7 +61,7 @@ export class SkyPhoneFieldFixture {
   /**
    * Returns the selected country name.
    */
-  public async getSelectedCountryName(): Promise<string> {
+  public async getSelectedCountryName(): Promise<string | null> {
     // Wait for the country field to initialize.
     await this.fixture.whenStable();
     return this.countryFlagButtonContainer.getAttribute('data-sky-test-name');
@@ -202,7 +202,7 @@ export class SkyPhoneFieldFixture {
     return isTouched || isUntouched;
   }
 
-  private coerceBooleanProperty(value: any): boolean {
+  private coerceBooleanProperty(value: string | null): boolean {
     return value != null && `${value}` !== 'false';
   }
 }

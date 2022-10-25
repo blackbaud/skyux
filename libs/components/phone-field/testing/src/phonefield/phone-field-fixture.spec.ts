@@ -72,18 +72,19 @@ const VALID_US_NUMBER = '8675555309';
   `,
 })
 class PhoneFieldTestComponent implements OnInit {
-  public allowExtensions: boolean = true;
-  public defaultCountry: string;
-  public disabled: boolean;
-  public noValidate: boolean = false;
-  public returnFormat: SkyPhoneFieldNumberReturnFormat;
-  public selectedCountry: SkyPhoneFieldCountry;
-  public showInvalidDirective: boolean = false;
-  public supportedCountryISOs: string[];
+  public allowExtensions = true;
+  public defaultCountry: string | undefined;
+  public disabled: boolean | undefined;
+  public noValidate = false;
+  public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined;
+  public selectedCountry: SkyPhoneFieldCountry | undefined;
+  public showInvalidDirective = false;
+  public supportedCountryISOs: string[] | undefined;
 
-  public phoneControl: UntypedFormControl;
-  public phoneForm: UntypedFormGroup;
+  public phoneControl: UntypedFormControl | undefined;
+  public phoneForm: UntypedFormGroup | undefined;
 
+  // TODO: replace this with a fake spy
   public selectedCountryChange(query: string): void {}
 
   public ngOnInit(): void {
@@ -147,7 +148,7 @@ describe('PhoneField fixture', () => {
 
   it('should be able to check if phone field is invalid', async () => {
     expect(await phonefieldFixture.isValid()).toBe(true);
-    testComponent.phoneControl.setValidators(Validators.required);
+    testComponent.phoneControl?.setValidators(Validators.required);
 
     await phonefieldFixture.setInputText('');
     await phonefieldFixture.blur();
@@ -161,7 +162,7 @@ describe('PhoneField fixture', () => {
 
     // expect the model to use the proper dial code and format
     expect(phonefieldFixture.inputText).toBe(VALID_US_NUMBER);
-    expect(testComponent.phoneControl.value).toEqual('(867) 555-5309');
+    expect(testComponent.phoneControl?.value).toEqual('(867) 555-5309');
   });
 
   it('should use newly selected country', async () => {
@@ -170,13 +171,15 @@ describe('PhoneField fixture', () => {
       'selectedCountryChange'
     );
 
-    // change the country
-    await phonefieldFixture.selectCountry(COUNTRY_AU.name);
+    if (COUNTRY_AU.name) {
+      // change the country
+      await phonefieldFixture.selectCountry(COUNTRY_AU.name);
+    }
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(testComponent.selectedCountry.name).toBe(COUNTRY_AU.name);
+    expect(testComponent.selectedCountry?.name).toBe(COUNTRY_AU.name);
     expect(selectedCountryChangeSpy).toHaveBeenCalledWith(
       jasmine.objectContaining(COUNTRY_AU)
     );
@@ -186,7 +189,7 @@ describe('PhoneField fixture', () => {
 
     // expect the model to use the proper dial code and format
     expect(phonefieldFixture.inputText).toBe(VALID_AU_NUMBER);
-    expect(testComponent.phoneControl.value).toEqual('+61 2 1234 5678');
+    expect(testComponent.phoneControl?.value).toEqual('+61 2 1234 5678');
   });
 
   it('should return expected country search results', async () => {
@@ -198,29 +201,34 @@ describe('PhoneField fixture', () => {
       'selectedCountryChange'
     );
 
-    // search for a country by name
-    const results = await phonefieldFixture.searchCountry(COUNTRY_AU.name);
+    if (COUNTRY_AU.name) {
+      // search for a country by name
+      const results = await phonefieldFixture.searchCountry(COUNTRY_AU.name);
 
-    fixture.detectChanges();
-    await fixture.whenStable();
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    // ensure no country selection has taken place yet
-    expect(selectedCountryChangeSpy).toHaveBeenCalledTimes(0);
+      // ensure no country selection has taken place yet
+      expect(selectedCountryChangeSpy).toHaveBeenCalledTimes(0);
 
-    // verify the country search results match the country
-    expect(results.length).toBe(1);
-    expect(results[0]).toBe(COUNTRY_AU.name);
+      // verify the country search results match the country
+      expect(results.length).toBe(1);
+      expect(results[0]).toEqual(COUNTRY_AU.name);
+    }
   });
 
   it('should not have constructor race condition', async () => {
     // There is some concern that the delayed instantiation of the country field in the fixture's
     // constructor will cause a race condition. We attempt to access the country field as early as
     // possible here to try and trigger any race condition.
-    await phonefieldFixture.selectCountry(COUNTRY_US.name);
+
+    if (COUNTRY_US.name) {
+      await phonefieldFixture.selectCountry(COUNTRY_US.name);
+    }
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(testComponent.selectedCountry.name).toBe(COUNTRY_US.name);
+    expect(testComponent.selectedCountry?.name).toBe(COUNTRY_US.name);
   });
 });

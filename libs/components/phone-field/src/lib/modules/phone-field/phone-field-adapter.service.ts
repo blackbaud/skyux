@@ -50,6 +50,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
 
   public setElementValue(elementRef: ElementRef, value: string): void {
     if (value) {
+      // TODO: check to see if this is necessary after running tests
       this.renderer.setProperty(elementRef.nativeElement, 'value', value);
     }
   }
@@ -72,14 +73,14 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   }
 
   public focusCountrySearchElement(el: Element): void {
-    const input: HTMLElement = el.querySelector('textarea');
-    input.focus();
+    const input: HTMLElement | null = el.querySelector('textarea');
+    input?.focus();
   }
 
   public focusPhoneInput(el: Element): void {
-    const input: HTMLElement = el.querySelector(
+    const input: HTMLElement | null = el.querySelector(
       '.sky-phone-field-container input'
     );
-    input.focus();
+    input?.focus();
   }
 }

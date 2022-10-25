@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { SkyPhoneFieldInputDirective } from '../phone-field-input.directive';
@@ -10,16 +10,16 @@ import { SkyPhoneFieldNumberReturnFormat } from '../types/number-return-format';
   selector: 'sky-test-cmp',
   templateUrl: './phone-field-reactive.component.fixture.html',
 })
-export class PhoneFieldReactiveTestComponent implements OnInit {
+export class PhoneFieldReactiveTestComponent {
   public allowExtensions = true;
 
-  public defaultCountry: string;
+  public defaultCountry: string | undefined;
 
-  public selectedCountry: SkyPhoneFieldCountry;
+  public selectedCountry: SkyPhoneFieldCountry | undefined;
 
-  public supportedCountryISOs: string[];
+  public supportedCountryISOs: string[] | undefined;
 
-  public initialValue: Date | string;
+  public initialValue: Date | string | undefined;
 
   public noValidate = false;
 
@@ -27,7 +27,7 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
 
   public phoneForm: UntypedFormGroup;
 
-  public returnFormat: SkyPhoneFieldNumberReturnFormat;
+  public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined;
 
   public showInvalidDirective = false;
 
@@ -39,22 +39,22 @@ export class PhoneFieldReactiveTestComponent implements OnInit {
     read: SkyPhoneFieldInputDirective,
     static: false,
   })
-  public inputDirective: SkyPhoneFieldInputDirective;
+  public inputDirective: SkyPhoneFieldInputDirective | undefined;
 
   @ViewChild(SkyPhoneFieldComponent, {
     read: SkyPhoneFieldComponent,
     static: false,
   })
-  public phoneFieldComponent: SkyPhoneFieldComponent;
+  public phoneFieldComponent: SkyPhoneFieldComponent | undefined;
 
-  public ngOnInit(): void {
+  constructor() {
     this.phoneControl = new UntypedFormControl(this.initialValue);
     this.phoneForm = new UntypedFormGroup({
       phone: this.phoneControl,
     });
   }
 
-  public setValue(value: string) {
-    this.phoneControl.setValue(value);
+  public setValue(value: string): void {
+    this.phoneControl?.setValue(value);
   }
 }
