@@ -15,6 +15,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'autonumeric',
+    loadChildren: () =>
+      import('./features/autonumeric.module').then(
+        (m) => m.AutonumericFeatureModule
+      ),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
@@ -114,13 +121,6 @@ const routes: Routes = [
     path: 'validation',
     loadChildren: () =>
       import('./features/validation.module').then((m) => m.ValidationModule),
-  },
-  {
-    path: 'autonumeric',
-    loadChildren: () =>
-      import('./features/autonumeric.module').then(
-        (m) => m.AutonumericFeatureModule
-      ),
   },
   {
     path: 'pages',
