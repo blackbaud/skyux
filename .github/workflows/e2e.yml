@@ -7,7 +7,6 @@ on:
   pull_request:
 
 env:
-  CYPRESS_INSTALL_BINARY: 'true'
   GH_PAGES_OWNER: blackbaud
   PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
   PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
