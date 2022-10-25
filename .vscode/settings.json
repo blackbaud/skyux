@@ -4,7 +4,9 @@
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.words": [
+    "Autonumeric",
     "blackbaud",
+    "colorpicker",
     "compat",
     "skyux",
     "stylesheet",
