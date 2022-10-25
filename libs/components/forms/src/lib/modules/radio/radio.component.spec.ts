@@ -18,9 +18,6 @@ import { SkyRadioLabelComponent } from './radio-label.component';
 import { SkyRadioComponent } from './radio.component';
 
 describe('Radio component', function () {
-  let fixture: ComponentFixture<any>;
-  let componentInstance: any;
-
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [SkyRadioFixturesModule],
@@ -32,35 +29,35 @@ describe('Radio component', function () {
     spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
   });
 
-  afterEach(function () {
-    if (fixture) {
-      fixture.destroy();
-    }
-  });
-
   describe('Standard radio component', () => {
-    let testComponent: SkyRadioTestComponent;
+    let fixture: ComponentFixture<SkyRadioTestComponent>;
+    let componentInstance: SkyRadioTestComponent;
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(SkyRadioTestComponent);
 
       componentInstance = fixture.componentInstance;
-      testComponent = fixture.debugElement.componentInstance;
 
       fixture.detectChanges();
       tick();
     }));
 
+    afterEach(function () {
+      if (fixture) {
+        fixture.destroy();
+      }
+    });
+
     it('should emit the new disabled value when it is modified', () => {
-      const onDisabledChangeSpy = spyOn(testComponent, 'onDisabledChange');
+      const onDisabledChangeSpy = spyOn(componentInstance, 'onDisabledChange');
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
-      testComponent.disabled1 = true;
+      componentInstance.disabled1 = true;
       fixture.detectChanges();
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
     });
 
     it('should emit when radio is checked', async () => {
-      const onCheckedChangeSpy = spyOn(testComponent, 'onCheckedChange');
+      const onCheckedChangeSpy = spyOn(componentInstance, 'onCheckedChange');
       const radios: NodeListOf<HTMLInputElement> =
         fixture.nativeElement.querySelectorAll('input');
 
@@ -224,7 +221,7 @@ describe('Radio component', function () {
     }));
 
     it('should pass a tabindex when specified', fakeAsync(function () {
-      componentInstance.tabindex2 = '3';
+      componentInstance.tabindex2 = 3;
       fixture.detectChanges();
       tick();
 
@@ -286,10 +283,17 @@ describe('Radio component', function () {
 
   describe('Radio icon component', () => {
     let debugElement: DebugElement;
+    let fixture: ComponentFixture<SkySingleRadioComponent>;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkySingleRadioComponent);
       debugElement = fixture.debugElement;
+    });
+
+    afterEach(function () {
+      if (fixture) {
+        fixture.destroy();
+      }
     });
 
     it('should set icon based on input', () => {
@@ -344,11 +348,20 @@ describe('Radio component', function () {
   });
 
   describe('Radio component with a consumer using OnPush change detection', () => {
+    let fixture: ComponentFixture<SkyRadioOnPushTestComponent>;
+    let componentInstance: SkyRadioOnPushTestComponent;
+
     beforeEach(function () {
       fixture = TestBed.createComponent(SkyRadioOnPushTestComponent);
 
       fixture.detectChanges();
       componentInstance = fixture.componentInstance;
+    });
+
+    afterEach(function () {
+      if (fixture) {
+        fixture.destroy();
+      }
     });
 
     it('should update the ngModel properly when radio button is changed', async () => {
