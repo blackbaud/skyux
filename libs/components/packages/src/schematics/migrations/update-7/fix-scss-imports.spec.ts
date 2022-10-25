@@ -173,6 +173,7 @@ describe('Migrations > Fix SKY UX SCSS imports', () => {
 @import './node_modules/@blackbaud/skyux-design-tokens/scss/mixins';
 @import '../../../../../node_modules/@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/mixins';
+@import '@skyux/theme/scss/_compat/mixins';
 `
     );
 
@@ -183,6 +184,8 @@ describe('Migrations > Fix SKY UX SCSS imports', () => {
 @import '../../../../../node_modules/@skyux/theme/scss/variables';
 @import '~@skyux/theme/scss/mixins';
 @import '~@skyux/theme/scss/variables';
+@import '@skyux/theme/scss/_compat/mixins';
+@import '@skyux/theme/scss/_compat/variables';
 `);
   });
 
