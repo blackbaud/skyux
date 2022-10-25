@@ -42,12 +42,6 @@ describe('Radio component', function () {
       tick();
     }));
 
-    afterEach(function () {
-      if (fixture) {
-        fixture.destroy();
-      }
-    });
-
     it('should emit the new disabled value when it is modified', () => {
       const onDisabledChangeSpy = spyOn(componentInstance, 'onDisabledChange');
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
@@ -290,12 +284,6 @@ describe('Radio component', function () {
       debugElement = fixture.debugElement;
     });
 
-    afterEach(function () {
-      if (fixture) {
-        fixture.destroy();
-      }
-    });
-
     it('should set icon based on input', () => {
       fixture.detectChanges();
 
@@ -356,12 +344,6 @@ describe('Radio component', function () {
 
       fixture.detectChanges();
       componentInstance = fixture.componentInstance;
-    });
-
-    afterEach(function () {
-      if (fixture) {
-        fixture.destroy();
-      }
     });
 
     it('should update the ngModel properly when radio button is changed', async () => {
