@@ -149,6 +149,7 @@
     "@types/cross-spawn": "6.0.2",
     "@types/fontfaceobserver": "2.1.0",
     "@types/fs-extra": "9.0.13",
+    "@types/google-libphonenumber": "^7.4.23",
     "@types/jasmine": "4.0.3",
     "@types/jest": "28.1.8",
     "@types/node": "18.7.1",
