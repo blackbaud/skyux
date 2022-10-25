@@ -4,6 +4,7 @@ export * from './lib/modules/infinite-scroll/infinite-scroll.module';
 
 export * from './lib/modules/paging/paging.module';
 
+export * from './lib/modules/repeater/repeater-expand-mode-type';
 export * from './lib/modules/repeater/repeater.module';
 
 export * from './lib/modules/sort/sort.module';

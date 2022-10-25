@@ -2,7 +2,13 @@
   *ngIf="isVisible"
   class="sky-btn sky-margin-inline-sm"
   [attr.aria-controls]="ariaControls"
-  [disabled]="disabled"
+  [disabled]="
+    disabled
+      | skyTabsetNavButtonDisabled
+        : buttonType
+        : !!tabToSelect
+        : tabToSelect?.disabled
+  "
   [ngClass]="buttonClassName"
   [type]="type"
   (click)="buttonType === 'finish' ? null : buttonClick()"

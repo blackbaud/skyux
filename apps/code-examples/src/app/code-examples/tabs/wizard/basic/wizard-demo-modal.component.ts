@@ -13,10 +13,14 @@ import { SkyTabIndex } from '@skyux/tabs';
   templateUrl: './wizard-demo-modal.component.html',
 })
 export class WizardDemoModalComponent implements OnInit {
+  #formBuilder: UntypedFormBuilder;
+
   constructor(
     public instance: SkyModalInstance,
-    private formBuilder: UntypedFormBuilder
-  ) {}
+    formBuilder: UntypedFormBuilder
+  ) {
+    this.#formBuilder = formBuilder;
+  }
 
   public newMemberForm: UntypedFormGroup;
   public title = 'New Member Sign-up';
@@ -42,7 +46,7 @@ export class WizardDemoModalComponent implements OnInit {
     this.termsAccepted = new UntypedFormControl(false);
     this.mailingList = new UntypedFormControl(false);
 
-    this.newMemberForm = this.formBuilder.group({
+    this.newMemberForm = this.#formBuilder.group({
       firstName: this.firstName,
       middleName: this.middleName,
       lastName: this.lastName,

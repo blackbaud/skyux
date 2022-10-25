@@ -19,17 +19,16 @@ import { SkyRepeaterFixturesModule } from './fixtures/repeater-fixtures.module';
 import { RepeaterInlineFormFixtureComponent } from './fixtures/repeater-inline-form.component.fixture';
 import { RepeaterWithMissingTagsFixtureComponent } from './fixtures/repeater-missing-tag.fixture';
 import { RepeaterTestComponent } from './fixtures/repeater.component.fixture';
-import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterComponent } from './repeater.component';
 import { SkyRepeaterService } from './repeater.service';
 
 describe('Repeater item component', () => {
   // #region helpers
-  function flushDropdownTimer() {
+  function flushDropdownTimer(): void {
     flush();
   }
 
-  function detectChangesAndTick(fixture: ComponentFixture<any>) {
+  function detectChangesAndTick(fixture: ComponentFixture<any>): void {
     fixture.detectChanges();
     tick();
     fixture.detectChanges();
@@ -68,7 +67,7 @@ describe('Repeater item component', () => {
     direction: 'up' | 'down',
     activationKey: string = ' '
   ): void {
-    let key: string;
+    let key: string | undefined;
     if (direction === 'up') {
       key = 'arrowUp';
     } else if (direction === 'down') {
@@ -110,7 +109,7 @@ describe('Repeater item component', () => {
 
     tick();
 
-    expect(cmp.repeater.expandMode).toBe('none');
+    expect(cmp.repeater?.expandMode).toBe('none');
 
     flushDropdownTimer();
   }));
@@ -300,37 +299,6 @@ describe('Repeater item component', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 
-  it("should properly get an item's index from the service", fakeAsync(() => {
-    const repeaterService = new SkyRepeaterService();
-    const fixture = TestBed.overrideComponent(SkyRepeaterComponent, {
-      add: {
-        viewProviders: [
-          { provide: SkyRepeaterService, useValue: repeaterService },
-        ],
-      },
-    })
-      .overrideComponent(SkyRepeaterItemComponent, {
-        add: {
-          viewProviders: [
-            { provide: SkyRepeaterService, useValue: repeaterService },
-          ],
-        },
-      })
-      .createComponent(RepeaterTestComponent);
-
-    fixture.detectChanges();
-    tick();
-    fixture.detectChanges();
-
-    expect(
-      repeaterService.getItemIndex(
-        fixture.componentInstance.repeater.items.toArray()[2]
-      )
-    ).toBe(2);
-
-    flushDropdownTimer();
-  }));
-
   it('should not error when a non-reorderable repeater is interacted with', fakeAsync(() => {
     const fixture = TestBed.createComponent(RepeaterTestComponent);
 
@@ -366,23 +334,25 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
-      expect(repeaterItems[1].isExpanded).toBeFalsy();
-      expect(repeaterItems[2].isExpanded).toBeFalsy();
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[1].isExpanded).toBeFalsy();
+      expect(repeaterItems?.[2].isExpanded).toBeFalsy();
 
-      repeaterItems[1].isExpanded = true;
+      if (repeaterItems) {
+        repeaterItems[1].isExpanded = true;
+      }
 
       fixture.detectChanges();
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBeFalsy();
-      expect(repeaterItems[1].isExpanded).toBe(true);
-      expect(repeaterItems[2].isExpanded).toBeFalsy();
+      expect(repeaterItems?.[0].isExpanded).toBeFalsy();
+      expect(repeaterItems?.[1].isExpanded).toBe(true);
+      expect(repeaterItems?.[2].isExpanded).toBeFalsy();
 
       flushDropdownTimer();
     }));
@@ -398,10 +368,10 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
-      expect(repeaterItems[1].isExpanded).toBe(false);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[1].isExpanded).toBe(false);
 
       cmp.removeLastItem = false;
       cmp.lastItemExpanded = true;
@@ -410,11 +380,11 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(false);
-      expect(repeaterItems[1].isExpanded).toBe(false);
-      expect(repeaterItems[2].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(false);
+      expect(repeaterItems?.[1].isExpanded).toBe(false);
+      expect(repeaterItems?.[2].isExpanded).toBe(true);
 
       flushDropdownTimer();
     }));
@@ -428,17 +398,17 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
       const chevronButton = getChrevronButtons(el)[0];
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
       expect(chevronButton.getAttribute('aria-expanded')).toBe('true');
 
       el.querySelectorAll('.sky-repeater-item-title').item(0).click();
       fixture.detectChanges();
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
-      expect(repeaterItems[0].isExpanded).toBe(false);
+      repeaterItems = cmp.repeater?.items?.toArray();
+      expect(repeaterItems?.[0].isExpanded).toBe(false);
       expect(chevronButton.getAttribute('aria-expanded')).toBe('false');
 
       flushDropdownTimer();
@@ -455,9 +425,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       getChrevronButtons(el)[0].click();
 
@@ -465,9 +435,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(false);
+      expect(repeaterItems?.[0].isExpanded).toBe(false);
 
       flushDropdownTimer();
     }));
@@ -482,11 +452,11 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      const repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isSelected).toBe(false);
-      expect(repeaterItems[1].isSelected).toBe(false);
-      expect(repeaterItems[2].isSelected).toBe(true);
+      expect(repeaterItems?.[0].isSelected).toBeFalsy();
+      expect(repeaterItems?.[1].isSelected).toBeFalsy();
+      expect(repeaterItems?.[2].isSelected).toBeTrue();
 
       flushDropdownTimer();
     }));
@@ -515,8 +485,8 @@ describe('Repeater item component', () => {
       collapseSpy.calls.reset();
       expandSpy.calls.reset();
 
-      const repeaterItems = cmp.repeater.items.toArray();
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      const repeaterItems = cmp.repeater?.items?.toArray();
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       getChrevronButtons(el).item(0).click();
       fixture.detectChanges();
@@ -547,23 +517,27 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      repeaterItems[0].isExpanded = true;
-      repeaterItems[1].isExpanded = false;
-      repeaterItems[2].isExpanded = false;
+      if (repeaterItems) {
+        repeaterItems[0].isExpanded = true;
+        repeaterItems[1].isExpanded = false;
+        repeaterItems[2].isExpanded = false;
+      }
 
       fixture.detectChanges();
 
-      repeaterItems[1].isExpanded = true;
+      if (repeaterItems) {
+        repeaterItems[1].isExpanded = true;
+      }
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
-      expect(repeaterItems[1].isExpanded).toBe(true);
-      expect(repeaterItems[2].isExpanded).toBe(false);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[1].isExpanded).toBe(true);
+      expect(repeaterItems?.[2].isExpanded).toBe(false);
 
       flushDropdownTimer();
     }));
@@ -579,9 +553,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       el.querySelectorAll('.sky-repeater-item-title').item(0).click();
 
@@ -589,9 +563,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(false);
+      expect(repeaterItems?.[0].isExpanded).toBe(false);
 
       flushDropdownTimer();
     }));
@@ -607,9 +581,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       getChrevronButtons(el).item(0).click();
 
@@ -617,9 +591,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(false);
+      expect(repeaterItems?.[0].isExpanded).toBe(false);
 
       flushDropdownTimer();
     }));
@@ -634,11 +608,11 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      const repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isSelected).toBe(false);
-      expect(repeaterItems[1].isSelected).toBe(false);
-      expect(repeaterItems[2].isSelected).toBe(true);
+      expect(repeaterItems?.[0].isSelected).toBeFalsy();
+      expect(repeaterItems?.[1].isSelected).toBeFalsy();
+      expect(repeaterItems?.[2].isSelected).toBeTrue();
 
       flushDropdownTimer();
     }));
@@ -663,22 +637,24 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      let item = cmp.repeater.items.first;
+      let item = cmp.repeater?.items?.first;
 
-      expect(item.isExpanded).toBe(true);
+      expect(item?.isExpanded).toBe(true);
 
       const warnSpy = spyOn(console, 'warn');
 
-      item.isExpanded = false;
+      if (item) {
+        item.isExpanded = false;
+      }
 
       fixture.detectChanges();
       tick();
 
-      item = cmp.repeater.items.first;
+      item = cmp.repeater?.items?.first;
 
       expect(warnSpy).toHaveBeenCalled();
 
-      expect(item.isExpanded).toBe(true);
+      expect(item?.isExpanded).toBe(true);
 
       flushDropdownTimer();
     }));
@@ -714,11 +690,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
-
-      for (const repeaterItem of repeaterItems) {
-        repeaterItem.isExpanded = false;
-      }
+      cmp.repeater?.items?.forEach((item) => (item.isExpanded = false));
 
       fixture.detectChanges();
       tick();
@@ -728,10 +700,14 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
 
-      for (const repeaterItem of repeaterItems) {
-        expect(repeaterItem.isExpanded).toBe(true);
+      if (repeaterItems) {
+        for (const repeaterItem of repeaterItems) {
+          expect(repeaterItem.isExpanded).toBe(true);
+        }
+      } else {
+        fail('Repeater items did not exist.');
       }
 
       flushDropdownTimer();
@@ -748,9 +724,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       el.querySelectorAll('.sky-repeater-item-title').item(0).click();
 
@@ -758,9 +734,9 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isExpanded).toBe(true);
+      expect(repeaterItems?.[0].isExpanded).toBe(true);
 
       flushDropdownTimer();
     }));
@@ -775,11 +751,11 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      const repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems[0].isSelected).toBe(false);
-      expect(repeaterItems[1].isSelected).toBe(false);
-      expect(repeaterItems[2].isSelected).toBe(true);
+      expect(repeaterItems?.[0].isSelected).toBeFalsy();
+      expect(repeaterItems?.[1].isSelected).toBeFalsy();
+      expect(repeaterItems?.[2].isSelected).toBeTrue();
 
       flushDropdownTimer();
     }));
@@ -802,7 +778,7 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
 
-      cmp.repeater.items.forEach((item) => (item.selectable = true));
+      cmp.repeater?.items?.forEach((item) => (item.selectable = true));
 
       fixture.detectChanges();
       tick();
@@ -812,18 +788,18 @@ describe('Repeater item component', () => {
       ) as NodeList;
       expect(selectedItemsEl.length).toBe(0);
 
-      const repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
 
       // Click to select first item.
       const items = getRepeaterItems(el);
-      items[0].querySelector('input').click();
+      items[0].querySelector('input')?.click();
 
       fixture.detectChanges();
       tick();
 
-      expect(repeaterItems[0].isSelected).toBe(true);
-      expect(repeaterItems[1].isSelected).toBe(false);
-      expect(repeaterItems[2].isSelected).toBe(false);
+      expect(repeaterItems?.[0].isSelected).toBeTrue();
+      expect(repeaterItems?.[1].isSelected).toBeFalsy();
+      expect(repeaterItems?.[2].isSelected).toBeFalsy();
 
       selectedItemsEl = el.querySelectorAll('.sky-repeater-item-selected');
       expect(selectedItemsEl.length).toBe(1);
@@ -853,9 +829,11 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       tick();
       // Make each repeater item selectable.
-      cmp.repeater.items.toArray().forEach((item) => (item.selectable = true));
+      cmp.repeater?.items
+        ?.toArray()
+        .forEach((item) => (item.selectable = true));
       fixture.detectChanges();
-      const repeaterItems = cmp.repeater.items.toArray();
+      const repeaterItems = cmp.repeater?.items?.toArray();
       const repeaterCheckboxes = el.querySelectorAll('sky-checkbox');
 
       // Click on last repeater item.
@@ -864,9 +842,9 @@ describe('Repeater item component', () => {
       tick();
 
       // Expect only last item to be selected, and input property (isSelected) to recieve new value.
-      expect(repeaterItems[0].isSelected).toBe(false);
-      expect(repeaterItems[1].isSelected).toBe(false);
-      expect(repeaterItems[2].isSelected).toBe(true);
+      expect(repeaterItems?.[0].isSelected).toBeFalsy();
+      expect(repeaterItems?.[1].isSelected).toBeFalsy();
+      expect(repeaterItems?.[2].isSelected).toBeTrue();
       expect(cmp.lastItemSelected).toBe(true);
 
       flushDropdownTimer();
@@ -1235,7 +1213,7 @@ describe('Repeater item component', () => {
       button.click();
 
       expect(component.inlineFormCloseArgs).not.toBeUndefined();
-      expect(component.inlineFormCloseArgs.reason).toBe('done');
+      expect(component.inlineFormCloseArgs?.reason).toBe('done');
     });
 
     it('should be accessible', async () => {
@@ -1262,24 +1240,23 @@ describe('Repeater item component', () => {
   describe('dragula integration', () => {
     let fixture: ComponentFixture<RepeaterTestComponent>;
 
-    beforeEach(() => {
-      fixture = TestBed.createComponent(RepeaterTestComponent);
-    });
-
     it("should set the repeater item's grab handle as the drag handle", fakeAsync(
       inject([DragulaService], (dragulaService: DragulaService) => {
-        let movesCallback: (
-          el: HTMLElement,
-          _: any,
-          handle: HTMLElement
-        ) => boolean;
+        let movesCallback:
+          | ((
+              el?: Element,
+              container?: Element,
+              handle?: Element,
+              sibling?: Element
+            ) => boolean)
+          | undefined;
 
         let counter = 0;
         spyOn(dragulaService, 'find').and.callFake(() => {
           // Ignore the first call to 'find' (called in the repeater component),
           // we only want to mock out ng2-dragula's internal call.
           if (++counter === 1) {
-            return;
+            return undefined as unknown as Group;
           }
 
           return {
@@ -1287,15 +1264,17 @@ describe('Repeater item component', () => {
               destroy() {},
               containers: [],
             },
-          } as Group;
+          } as unknown as Group;
         });
 
         const setOptionsSpy = spyOn(dragulaService, 'createGroup').and.callFake(
           (name, options) => {
             movesCallback = options.moves;
-            return undefined;
+            return undefined as unknown as Group;
           }
         );
+
+        fixture = TestBed.createComponent(RepeaterTestComponent);
 
         fixture.componentInstance.reorderable = true;
         fixture.detectChanges();
@@ -1309,8 +1288,7 @@ describe('Repeater item component', () => {
           nativeElement.querySelectorAll('sky-repeater-item')[1];
         const handle = getReorderHandles(nativeElement)[1];
 
-        const result = movesCallback(repeaterItem, undefined, handle);
-
+        const result = movesCallback!(repeaterItem, undefined, handle);
         expect(result).toBe(true);
 
         expect(setOptionsSpy).toHaveBeenCalled();
@@ -1359,10 +1337,10 @@ describe('Repeater item component', () => {
 
       tick();
 
-      let repeaterItems = cmp.repeater.items.toArray();
+      let repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems.length).toBe(2);
-      repeaterItems.forEach((item) => {
+      expect(repeaterItems?.length).toBe(2);
+      repeaterItems?.forEach((item) => {
         expect(item.reorderable).toBe(true);
       });
 
@@ -1372,10 +1350,10 @@ describe('Repeater item component', () => {
 
       tick();
 
-      repeaterItems = cmp.repeater.items.toArray();
+      repeaterItems = cmp.repeater?.items?.toArray();
 
-      expect(repeaterItems.length).toBe(3);
-      repeaterItems.forEach((item) => {
+      expect(repeaterItems?.length).toBe(3);
+      repeaterItems?.forEach((item) => {
         expect(item.reorderable).toBe(true);
       });
     }));
@@ -1403,7 +1381,7 @@ describe('Repeater item component', () => {
     }));
 
     it('should update css classes correctly while dragging', fakeAsync(() => {
-      const groupName = fixture.componentInstance.repeater.dragulaGroupName;
+      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
       let repeaterItem = el.querySelectorAll('sky-repeater-item')[1];
       mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
       fixture.detectChanges();
@@ -1594,7 +1572,7 @@ describe('Repeater item component', () => {
 
       expect(cmp.sortedItemTags).toBeUndefined();
 
-      const groupName = fixture.componentInstance.repeater.dragulaGroupName;
+      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
       mockDragulaService.drag().next({ name: groupName, el: repeaterItem });
@@ -1623,7 +1601,7 @@ describe('Repeater item component', () => {
 
       expect(cmp.sortedItemTags).toBeUndefined();
 
-      const groupName = fixture.componentInstance.repeater.dragulaGroupName;
+      const groupName = fixture.componentInstance.repeater?.dragulaGroupName;
       const repeaterItem: HTMLElement =
         el.querySelectorAll('sky-repeater-item')[0];
       mockDragulaService.drag().next({ name: groupName, el: repeaterItem });

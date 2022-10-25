@@ -51,13 +51,14 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
    * Whether the repeater item is selected.
    */
   public async isSelected(): Promise<boolean> {
-    if (!(await this.isSelectable())) {
+    const checkbox = await this.#getCheckbox();
+    if (!checkbox) {
       throw new Error(
         'Could not determine if repeater item is selected because it is not selectable.'
       );
     }
 
-    return (await this.#getCheckbox()).isChecked();
+    return checkbox.isChecked();
   }
 
   /**
@@ -72,27 +73,29 @@ export class SkyRepeaterItemHarness extends SkyComponentHarness {
   /**
    * Selects the repeater item.
    */
-  public async select() {
-    if (!(await this.isSelectable())) {
+  public async select(): Promise<void> {
+    const checkbox = await this.#getCheckbox();
+    if (!checkbox) {
       throw new Error(
         'Could not select the repeater item because it is not selectable.'
       );
     }
 
-    await (await this.#getCheckbox()).check();
+    await checkbox.check();
   }
 
   /**
    * Deselects the repeater item.
    */
   public async deselect(): Promise<void> {
-    if (!(await this.isSelectable())) {
+    const checkbox = await this.#getCheckbox();
+    if (!checkbox) {
       throw new Error(
         'Could not deselect the repeater item because it is not selectable.'
       );
     }
 
-    await (await this.#getCheckbox()).uncheck();
+    await checkbox.uncheck();
   }
 
   /**

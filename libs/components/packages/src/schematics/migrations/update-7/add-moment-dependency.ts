@@ -10,8 +10,8 @@ import { readRequiredFile } from '../../utility/tree';
 export default function (): Rule {
   return async (tree, context) => {
     const packageJson: {
-      dependencies?: { [_: string]: string };
-      devDependencies?: { [_: string]: string };
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
     } = JSON.parse(readRequiredFile(tree, '/package.json'));
 
     if (

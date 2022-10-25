@@ -28,8 +28,8 @@ describe('ng-add.schematic', () => {
   }
 
   function readPackageJson(tree: UnitTestTree): {
-    scripts?: { [_: string]: string };
-    dependencies?: { [_: string]: string };
+    scripts?: Record<string, string>;
+    dependencies?: Record<string, string>;
   } {
     return JSON.parse(tree.readContent('package.json'));
   }

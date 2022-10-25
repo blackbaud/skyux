@@ -21,12 +21,11 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkyRepeaterAdapterService } from './repeater-adapter.service';
+import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
 import { SkyRepeaterRoleType } from './repeater-role.type';
 import { SkyRepeaterService } from './repeater.service';
-
-let uniqueId = 0;
 
 /**
  * Creates a container to display repeater items.
@@ -48,7 +47,7 @@ export class SkyRepeaterComponent
    * to highlight a repeater item while users edit it. Only one item can be active at a time.
    */
   @Input()
-  public activeIndex: number;
+  public activeIndex: number | undefined;
 
   /**
    * Specifies an ARIA label for the repeater list.
@@ -57,7 +56,7 @@ export class SkyRepeaterComponent
    * @default "List of items"
    */
   @Input()
-  public ariaLabel: string;
+  public ariaLabel: string | undefined;
 
   /**
    * Indicates whether users can change the order of items in the repeater list.
@@ -65,7 +64,7 @@ export class SkyRepeaterComponent
    * users can change its order.
    */
   @Input()
-  public reorderable = false;
+  public reorderable: boolean | undefined = false;
 
   /**
    * Specifies a layout to determine which repeater items are expanded by default and whether
@@ -86,15 +85,15 @@ export class SkyRepeaterComponent
    * and users only occasionally need to view the body content.
    * @default "none"
    */
+  // TODO: Remove 'string' as a valid type in a breaking change.
   @Input()
-  public set expandMode(value: string) {
-    this.repeaterService.expandMode = value;
-    this._expandMode = value;
-    this.updateForExpandMode();
+  public set expandMode(value: SkyRepeaterExpandModeType | string | undefined) {
+    this.#repeaterService.expandMode = value;
+    this.#updateForExpandMode();
   }
 
-  public get expandMode(): string {
-    return this._expandMode || 'none';
+  public get expandMode(): SkyRepeaterExpandModeType | string {
+    return this.#repeaterService.expandMode;
   }
 
   /**
@@ -111,33 +110,44 @@ export class SkyRepeaterComponent
   public orderChange = new EventEmitter<any[]>();
 
   @ContentChildren(SkyRepeaterItemComponent)
-  public items: QueryList<SkyRepeaterItemComponent>;
+  public items: QueryList<SkyRepeaterItemComponent> | undefined;
 
   public dragulaGroupName: string;
 
   public role: SkyRepeaterRoleType | undefined;
 
-  private dragulaUnsubscribe = new Subject<void>();
-
-  private ngUnsubscribe = new Subject<void>();
-
-  private _expandMode = 'none';
+  #adapterService: SkyRepeaterAdapterService;
+  #changeDetector: ChangeDetectorRef;
+  #dragulaService: DragulaService;
+  #elementRef: ElementRef;
+  #renderer: Renderer2;
+  #repeaterService: SkyRepeaterService;
+  #ngUnsubscribe = new Subject<void>();
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    private repeaterService: SkyRepeaterService,
-    private adapterService: SkyRepeaterAdapterService,
-    private dragulaService: DragulaService,
-    private elementRef: ElementRef,
-    private renderer: Renderer2
+    changeDetector: ChangeDetectorRef,
+    repeaterService: SkyRepeaterService,
+    adapterService: SkyRepeaterAdapterService,
+    dragulaService: DragulaService,
+    elementRef: ElementRef,
+    renderer: Renderer2
   ) {
-    this.dragulaGroupName = `sky-repeater-dragula-${++uniqueId}`;
+    this.#changeDetector = changeDetector;
+    this.#repeaterService = repeaterService;
+    this.#adapterService = adapterService;
+    this.#dragulaService = dragulaService;
+    this.#elementRef = elementRef;
+    this.#renderer = renderer;
 
-    this.repeaterService.itemCollapseStateChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.dragulaGroupName = `sky-repeater-dragula-${
+      this.#repeaterService.repeaterGroupId
+    }`;
+
+    this.#repeaterService.itemCollapseStateChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((item: SkyRepeaterItemComponent) => {
         if (this.expandMode === 'single' && item.isExpanded) {
-          this.items.forEach((otherItem) => {
+          this.items?.forEach((otherItem) => {
             if (
               otherItem !== item &&
               otherItem.isExpanded &&
@@ -149,38 +159,36 @@ export class SkyRepeaterComponent
         }
       });
 
-    this.repeaterService.activeItemIndexChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((index: number) => {
+    this.#repeaterService.activeItemIndexChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((index) => {
         if (index !== this.activeIndex) {
           this.activeIndex = index;
           this.activeIndexChange.emit(index);
         }
       });
 
-    this.repeaterService.orderChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+    this.#repeaterService.orderChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.emitTags();
+        this.#emitTags();
       });
 
-    this.repeaterService.repeaterGroupId = uniqueId;
+    this.#updateForExpandMode();
 
-    this.updateForExpandMode();
+    this.#adapterService.setRepeaterHost(this.#elementRef);
 
-    this.adapterService.setRepeaterHost(this.elementRef);
-
-    this.initializeDragAndDrop();
+    this.#initializeDragAndDrop();
   }
 
   public ngAfterContentInit(): void {
     // If activeIndex has been set on init, call service to activate the appropriate item.
     setTimeout(() => {
       if (this.activeIndex || this.activeIndex === 0) {
-        this.repeaterService.activateItemByIndex(this.activeIndex);
+        this.#repeaterService.activateItemByIndex(this.activeIndex);
       }
 
-      if (this.reorderable && !this.everyItemHasTag()) {
+      if (this.reorderable && !this.#everyItemHasTag()) {
         console.warn(
           'Please supply tag properties for each repeater item when reordering functionality is enabled.'
         );
@@ -189,40 +197,40 @@ export class SkyRepeaterComponent
 
     // HACK: Not updating for expand mode in a timeout causes an error.
     // https://github.com/angular/angular/issues/6005
-    this.items.changes.pipe(takeUntil(this.ngUnsubscribe)).subscribe(() => {
+    this.items?.changes.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {
       setTimeout(() => {
-        if (this.items.last) {
-          this.updateForExpandMode(this.items.last);
+        if (this.items?.last) {
+          this.#updateForExpandMode(this.items.last);
           this.items.last.reorderable = this.reorderable;
         }
 
         if (this.activeIndex !== undefined) {
-          this.repeaterService.activateItemByIndex(this.activeIndex);
+          this.#repeaterService.activateItemByIndex(this.activeIndex);
         }
 
-        this.updateRole();
+        this.#updateRole();
       });
     });
 
     setTimeout(() => {
-      this.updateForExpandMode();
+      this.#updateForExpandMode();
 
-      this.items.forEach((item) => {
+      this.items?.forEach((item) => {
         item.reorderable = this.reorderable;
       });
 
-      this.updateRole();
+      this.#updateRole();
     }, 0);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['activeIndex']) {
-      this.repeaterService.enableActiveState = true;
+      this.#repeaterService.enableActiveState = true;
       if (
         changes['activeIndex'].currentValue !==
         changes['activeIndex'].previousValue
       ) {
-        this.repeaterService.activateItemByIndex(this.activeIndex);
+        this.#repeaterService.activateItemByIndex(this.activeIndex);
       }
     }
 
@@ -230,27 +238,27 @@ export class SkyRepeaterComponent
       if (this.items) {
         this.items.forEach((item) => (item.reorderable = this.reorderable));
       }
-      this.updateRole();
+      this.#updateRole();
 
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this.destroyDragAndDrop();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+    this.#destroyDragAndDrop();
   }
 
   public ngOnInit(): void {
-    this.updateRole();
+    this.#updateRole();
   }
 
   public onCdkObserveContent(): void {
-    this.updateRole();
+    this.#updateRole();
   }
 
-  private updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
+  #updateForExpandMode(itemAdded?: SkyRepeaterItemComponent): void {
     if (this.items) {
       let foundExpanded = false;
       const isCollapsible = this.expandMode !== 'none';
@@ -266,89 +274,81 @@ export class SkyRepeaterComponent
 
         if (item !== itemAdded && isSingle && item.isExpanded) {
           if (foundExpanded) {
-            item.updateForExpanded(false, false);
+            item.updateForExpanded(false);
           }
 
           foundExpanded = true;
         }
       });
 
-      this.updateRole();
+      this.#updateRole();
     }
   }
 
-  private initializeDragAndDrop(): void {
+  #initializeDragAndDrop(): void {
     /* Sanity check that we haven't already set up dragging abilities */
     /* istanbul ignore else */
-    if (!this.dragulaService.find(this.dragulaGroupName)) {
-      this.dragulaService.createGroup(this.dragulaGroupName, {
-        moves: (
-          el: HTMLElement,
-          container: HTMLElement,
-          handle: HTMLElement
-        ) => {
-          const target = el.querySelector('.sky-repeater-item-grab-handle');
-          return this.reorderable && target && target.contains(handle);
+    if (!this.#dragulaService.find(this.dragulaGroupName)) {
+      this.#dragulaService.createGroup(this.dragulaGroupName, {
+        moves: (el, container, handle) => {
+          const target = el?.querySelector('.sky-repeater-item-grab-handle');
+          return !!this.reorderable && !!target && target.contains(handle!);
         },
       });
     }
 
-    let draggedItemIndex: number;
+    let draggedItemIndex = -1;
 
-    this.dragulaService
+    this.#dragulaService
       .drag(this.dragulaGroupName)
-      .pipe(takeUntil(this.dragulaUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((args) => {
         /* istanbul ignore else */
         if (args.name === this.dragulaGroupName) {
-          this.renderer.addClass(args.el, 'sky-repeater-item-dragging');
-          draggedItemIndex = this.adapterService.getRepeaterItemIndex(
+          this.#renderer.addClass(args.el, 'sky-repeater-item-dragging');
+          draggedItemIndex = this.#adapterService.getRepeaterItemIndex(
             args.el as HTMLElement
           );
         }
       });
 
-    this.dragulaService
+    this.#dragulaService
       .dragend(this.dragulaGroupName)
-      .pipe(takeUntil(this.dragulaUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((args) => {
         /* istanbul ignore else */
         if (args.name === this.dragulaGroupName) {
-          this.renderer.removeClass(args.el, 'sky-repeater-item-dragging');
-          const newItemIndex = this.adapterService.getRepeaterItemIndex(
+          this.#renderer.removeClass(args.el, 'sky-repeater-item-dragging');
+          const newItemIndex = this.#adapterService.getRepeaterItemIndex(
             args.el as HTMLElement
           );
 
           /* sanity check */
           /* istanbul ignore else */
           if (draggedItemIndex >= 0) {
-            this.repeaterService.reorderItem(draggedItemIndex, newItemIndex);
-            draggedItemIndex = undefined;
+            this.#repeaterService.reorderItem(draggedItemIndex, newItemIndex);
+            draggedItemIndex = -1;
           }
 
-          this.emitTags();
+          this.#emitTags();
         }
       });
   }
 
-  private destroyDragAndDrop(): void {
-    this.dragulaUnsubscribe.next();
-    this.dragulaUnsubscribe.complete();
-    this.dragulaUnsubscribe = undefined;
-
+  #destroyDragAndDrop(): void {
     /* Sanity check that we have set up dragging abilities */
     /* istanbul ignore else */
-    if (this.dragulaService.find(this.dragulaGroupName)) {
-      this.dragulaService.destroy(this.dragulaGroupName);
+    if (this.#dragulaService.find(this.dragulaGroupName)) {
+      this.#dragulaService.destroy(this.dragulaGroupName);
     }
   }
 
-  private emitTags(): void {
-    const tags = this.repeaterService.items.map((item) => item.tag);
+  #emitTags(): void {
+    const tags = this.#repeaterService.items.map((item) => item.tag);
     this.orderChange.emit(tags);
   }
 
-  private everyItemHasTag(): boolean {
+  #everyItemHasTag(): boolean {
     /* sanity check */
     /* istanbul ignore if */
     if (!this.items || this.items.length === 0) {
@@ -359,7 +359,7 @@ export class SkyRepeaterComponent
     });
   }
 
-  private updateRole() {
+  #updateRole(): void {
     // Determine a role using a hierarchy based on https://www.w3.org/TR/wai-aria-practices-1.1/
     //   1. If there are one or more interactions in the repeater item projected content, use grid.
     //   2. If there are selectable repeater items and no other interactions, use listbox.
@@ -401,24 +401,24 @@ export class SkyRepeaterComponent
     const hasInteraction =
       this.reorderable ||
       this.items?.some((item) => item.isCollapsible) ||
-      !!(this.elementRef.nativeElement as HTMLElement).querySelector(
+      !!(this.#elementRef.nativeElement as HTMLElement).querySelector(
         interactionSelector
       );
 
     if (hasInteraction) {
       // If the repeater matches interaction selector https://www.w3.org/TR/wai-aria-practices-1.1/#grid
       autoRole = 'grid';
-    } else if (this.items?.some((item) => item.selectable)) {
+    } else if (this.items?.some((item) => !!item.selectable)) {
       // If the only interaction is select https://www.w3.org/TR/wai-aria-practices-1.1/#Listbox
       autoRole = 'listbox';
     }
 
     if (this.role !== autoRole) {
-      this.repeaterService.itemRole.next({
+      this.#repeaterService.itemRole.next({
         ...roleMap[autoRole],
       });
       this.role = `${autoRole}`;
-      this.changeDetector.markForCheck();
+      this.#changeDetector.markForCheck();
     }
   }
 }

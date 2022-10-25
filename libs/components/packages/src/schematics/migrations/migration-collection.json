@@ -19,6 +19,11 @@
       "version": "7.0.0-beta.0",
       "factory": "./update-7/add-compat-stylesheets",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 7."
+    },
+    "fix-scss-imports": {
+      "version": "7.0.0-beta.0",
+      "factory": "./update-7/fix-scss-imports",
+      "description": "Fix SCSS imports"
     }
   }
 }
