@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { BackToTopDemoComponent as BackToTopGridDemoComponent } from '../code-examples/layout/back-to-top/grid/back-to-top-demo.component';
+import { BackToTopDemoModule as BackToTopGridDemoModule } from '../code-examples/layout/back-to-top/grid/back-to-top-demo.module';
+import { BackToTopDemoComponent as BackToTopInfiniteScrollDemoComponent } from '../code-examples/layout/back-to-top/infinite-scroll/back-to-top-demo.component';
+import { BackToTopDemoModule as BackToTopInfiniteScrollDemoModule } from '../code-examples/layout/back-to-top/infinite-scroll/back-to-top-demo.module';
+import { BackToTopDemoComponent as BackToTopRepeaterDemoComponent } from '../code-examples/layout/back-to-top/repeater/back-to-top-demo.component';
+import { BackToTopDemoModule as BackToTopRepeaterDemoModule } from '../code-examples/layout/back-to-top/repeater/back-to-top-demo.module';
 import { BoxDemoComponent } from '../code-examples/layout/box/basic/box-demo.component';
 import { BoxDemoModule } from '../code-examples/layout/box/basic/box-demo.module';
 import { BoxDemoComponent as InlineHelpBoxDemoComponent } from '../code-examples/layout/box/inline-help/box-demo.component';
@@ -17,6 +23,12 @@ import { TextExpandDemoComponent } from '../code-examples/layout/text-expand/inl
 import { TextExpandDemoModule } from '../code-examples/layout/text-expand/inline/text-expand-demo.module';
 
 const routes: Routes = [
+  { path: 'back-to-top/grid', component: BackToTopGridDemoComponent },
+  {
+    path: 'back-to-top/infinite-scroll',
+    component: BackToTopInfiniteScrollDemoComponent,
+  },
+  { path: 'back-to-top/repeater', component: BackToTopRepeaterDemoComponent },
   {
     path: 'box/basic',
     component: BoxDemoComponent,
@@ -55,6 +67,9 @@ export class LayoutRoutingModule {}
 
 @NgModule({
   imports: [
+    BackToTopGridDemoModule,
+    BackToTopInfiniteScrollDemoModule,
+    BackToTopRepeaterDemoModule,
     BoxDemoModule,
     InlineHelpBoxDemoModule,
     DescriptionListDemoModule,
