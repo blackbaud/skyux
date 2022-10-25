@@ -1,6 +1,6 @@
 // This file is the entry point for commonly used internal-only SCSS variables.
 // (Our components should @use this file in their SCSS file.)
 
-@forward '_compat/variables';
+@forward '_public-api/_compat/variables';
+@forward '_public-api/variables';
 @forward 'variables-private';
-@forward 'variables-public';

@@ -1,8 +1,7 @@
-@use '../variables-private' as *;
-@use '../variables-public' as *;
+@use '../variables' as vars;
 
 // PADDING
-$sky-padding: $sky-space-md !default;
+$sky-padding: vars.$sky-space-md !default;
 $sky-padding-half: $sky-padding * 0.5 !default;
 $sky-padding-3_4: floor(($sky-padding * 0.75)) !default;
 $sky-padding-plus-half: $sky-padding + $sky-padding-half !default;
@@ -10,7 +9,7 @@ $sky-padding-double: $sky-padding * 2 !default;
 $sky-padding-triple: $sky-padding * 3 !default;
 
 // MARGIN
-$sky-margin: $sky-space-md !default;
+$sky-margin: vars.$sky-space-md !default;
 $sky-margin-half: $sky-margin * 0.5 !default;
 $sky-margin-3_4: floor(($sky-margin * 0.75)) !default;
 $sky-margin-plus-half: $sky-margin + $sky-margin-half !default;

@@ -203,6 +203,15 @@ describe('Error component', () => {
     );
   });
 
+  it('should not add extraneous whitespace around description', () => {
+    component.errorType = 'broken';
+    fixture.detectChanges();
+
+    expect(getErrorDescription('#test-error').innerText).toBe(
+      resourceStrings.brokenDescription
+    );
+  });
+
   it('should replace title and description', () => {
     component.errorType = 'broken';
     component.replaceDefaultDescription = true;
@@ -246,12 +255,12 @@ describe('Error component', () => {
     ).not.toExist();
 
     expect(getErrorTitle('#test-error-custom-replace-default')).toHaveText(
-      `${resourceStrings.brokenTitle}  ${component.customTitle}`
+      `${resourceStrings.brokenTitle} ${component.customTitle}`
     );
     expect(
       getErrorDescription('#test-error-custom-replace-default')
     ).toHaveText(
-      `${resourceStrings.brokenDescription}  ${component.customDescription}`
+      `${resourceStrings.brokenDescription} ${component.customDescription}`
     );
   });
 

@@ -1,5 +1,42 @@
 # Changelog
 
+## [7.0.0-beta.8](https://github.com/blackbaud/skyux/compare/7.0.0-beta.7...7.0.0-beta.8) (2022-10-24)
+
+
+### Bug Fixes
+
+* **components/packages:** add compat stylesheet to angular.json only if needed ([#728](https://github.com/blackbaud/skyux/issues/728)) ([c7ac8d1](https://github.com/blackbaud/skyux/commit/c7ac8d1880536702d00ca7283c57979595306310))
+* **components/theme:** add module names for SCSS variables ([#730](https://github.com/blackbaud/skyux/issues/730)) ([8a8ceb0](https://github.com/blackbaud/skyux/commit/8a8ceb0275dc5189a5c00b21412d8eb68174ed0b))
+
+## [7.0.0-beta.7](https://github.com/blackbaud/skyux/compare/7.0.0-beta.6...7.0.0-beta.7) (2022-10-24)
+
+
+### Bug Fixes
+
+* **components/packages:** add compat stylesheet to project source roots ([#726](https://github.com/blackbaud/skyux/issues/726)) ([68393f4](https://github.com/blackbaud/skyux/commit/68393f43dca19fa91376149707f26032d9b74cac))
+* **components/theme:** remove variables exports from SCSS mixins ([#725](https://github.com/blackbaud/skyux/issues/725)) ([7153e95](https://github.com/blackbaud/skyux/commit/7153e9551144b7c1c258140c90f710c934daf8c5))
+
+## [7.0.0-beta.6](https://github.com/blackbaud/skyux/compare/7.0.0-beta.5...7.0.0-beta.6) (2022-10-21)
+
+
+### Bug Fixes
+
+* **components/forms:** set radio group 'aria-owns' to satisfy accessibility rules ([#671](https://github.com/blackbaud/skyux/issues/671)) ([32f1e1e](https://github.com/blackbaud/skyux/commit/32f1e1e2731e1ba5260d3ebe159a37370f950aa2))
+* **components/theme:** address missing files in the SCSS exports API ([#721](https://github.com/blackbaud/skyux/issues/721)) ([923fac0](https://github.com/blackbaud/skyux/commit/923fac043f474548971ba0b93d887a6c91de26cc))
+
+
+### Deprecations
+
+* **components/tabs:** deprecate `tabHeaderCount` and remove from code examples ([#714](https://github.com/blackbaud/skyux/issues/714)) ([f40696f](https://github.com/blackbaud/skyux/commit/f40696f078819c8d2e59337b238dd11569482236))
+
+## [6.25.1](https://github.com/blackbaud/skyux/compare/6.25.0...6.25.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* **components/lookup:** search icon is placed within input when not using an input box or the show more functionality ([#701](https://github.com/blackbaud/skyux/issues/701)) ([98e62f8](https://github.com/blackbaud/skyux/commit/98e62f869552e8acc281b400bceeca907b27bf32))
+* **components/lookup:** set `aria-expanded` to true on the autocomplete component when the dropdown is open ([#544](https://github.com/blackbaud/skyux/issues/544)) ([#702](https://github.com/blackbaud/skyux/issues/702)) ([b1219ad](https://github.com/blackbaud/skyux/commit/b1219adeb1fd4208213e7fd93748f32098ab6245))
+
 ## [7.0.0-beta.5](https://github.com/blackbaud/skyux/compare/7.0.0-beta.4...7.0.0-beta.5) (2022-10-20)
 
 

@@ -135,7 +135,8 @@ describe('Repeater harness', () => {
       RepeaterHarnessTestItemHarness
     );
 
-    await expectAsync((await noteHarness.host()).text()).toBeResolvedTo(
+    expect(noteHarness).not.toBeNull();
+    await expectAsync((await noteHarness!.host()).text()).toBeResolvedTo(
       'Robert recently gave a very generous gift. We should call him to thank him.'
     );
   });
