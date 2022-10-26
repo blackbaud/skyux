@@ -114,7 +114,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * @default true
    */
   @Input()
-  public allowExtensions = true;
+  public allowExtensions: boolean | undefined = true;
 
   /**
    * Specifies the
@@ -208,19 +208,19 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<unknown> | undefined;
+  public inputTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('countryBtnTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private countryBtnTemplateRef: TemplateRef<unknown> | undefined;
+  public countryBtnTemplateRef: TemplateRef<unknown> | undefined;
 
   @ViewChild('buttonsInsetTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private buttonsInsetTemplateRef: TemplateRef<unknown> | undefined;
+  public buttonsInsetTemplateRef: TemplateRef<unknown> | undefined;
 
   #defaultCountryData: SkyPhoneFieldCountry | undefined;
 

@@ -64,11 +64,11 @@ export class SkyPhoneFieldInputDirective
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
-    if (this.#phoneFieldComponent) {
+  public set disabled(value: boolean | undefined) {
+    if (this.#phoneFieldComponent && value) {
       this.#phoneFieldComponent.countrySelectDisabled = value;
+      this.#adapterService?.setElementDisabledState(this.#elRef, value);
     }
-    this.#adapterService?.setElementDisabledState(this.#elRef, value);
     this.#_disabled = value;
   }
 
@@ -84,20 +84,20 @@ export class SkyPhoneFieldInputDirective
    * @default false
    */
   @Input()
-  public skyPhoneFieldNoValidate = false;
+  public skyPhoneFieldNoValidate: boolean | undefined = false;
 
   set #modelValue(value: string | undefined) {
     this.#_modelValue = value;
 
     if (value) {
       this.#adapterService?.setElementValue(this.#elRef, value);
-      const formattedValue = this.formatNumber(value.toString());
+      const formattedValue = this.#formatNumber(value.toString());
 
-      this.onChange(formattedValue);
+      this.#onChange(formattedValue);
     } else {
-      this.onChange(value);
+      this.#onChange(value);
     }
-    this.validatorChange();
+    this.#validatorChange();
   }
 
   get #modelValue(): string | undefined {
@@ -203,7 +203,7 @@ export class SkyPhoneFieldInputDirective
    */
   @HostListener('blur')
   public onInputBlur(): void {
-    this.onTouched();
+    this.#onTouched();
   }
 
   @HostListener('input', ['$event'])
@@ -226,15 +226,15 @@ export class SkyPhoneFieldInputDirective
   }
 
   public registerOnChange(fn: (value: string | undefined) => void): void {
-    this.onChange = fn;
+    this.#onChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.#onTouched = fn;
   }
 
   public registerOnValidatorChange(fn: () => void): void {
-    this.validatorChange = fn;
+    this.#validatorChange = fn;
   }
 
   /**
@@ -320,7 +320,7 @@ export class SkyPhoneFieldInputDirective
    * Format's the given phone number based on the currently selected country.
    * @param phoneNumber The number to format
    */
-  private formatNumber(phoneNumber: string): string {
+  #formatNumber(phoneNumber: string): string {
     try {
       const numberObj = this.#phoneUtils.parseAndKeepRawInput(
         phoneNumber,
@@ -366,13 +366,13 @@ export class SkyPhoneFieldInputDirective
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function , @typescript-eslint/no-unused-vars
-  private onChange = (_: string | undefined) => {};
+  #onChange = (_: string | undefined) => {};
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private onTouched = () => {};
+  #onTouched = () => {};
 
   // istanbul ignore next
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private validatorChange = () => {};
+  #validatorChange = () => {};
 }
