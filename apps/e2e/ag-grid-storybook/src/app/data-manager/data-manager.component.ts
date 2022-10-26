@@ -76,7 +76,7 @@ export class DataManagerComponent implements OnInit {
   public viewId = 'gridView';
 
   public dataState: SkyDataManagerState;
-  public items = data;
+  public items = data.slice(0, 50);
   public settingsKey = 'ag-grid-storybook-data-manager';
   public gridOptions: GridOptions;
   public isActive$ = new BehaviorSubject(true);
@@ -152,6 +152,8 @@ export class DataManagerComponent implements OnInit {
           enableTopScroll: this.enableTopScroll,
         },
         domLayout: this.domLayout,
+        suppressColumnVirtualisation: true,
+        suppressRowVirtualisation: true,
         onGridReady: () => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(800)
