@@ -1,39 +1,69 @@
 <div
   class="sky-token sky-btn sky-btn-default"
-  role="button"
-  [attr.aria-disabled]="disabled"
-  [attr.tabindex]="tabIndex"
+  [attr.role]="role"
   [ngClass]="{
     'sky-btn-disabled': disabled,
-    'sky-token-dismissable': dismissible,
-    'sky-token-active': tokenActive && !closeActive
+    'sky-token-disabled': disabled,
+    'sky-token-dismissible': dismissible,
+    'sky-token-active': tokenActive && !closeActive,
+    'sky-token-focused': isFocused
   }"
   (document:mouseup)="setTokenActive(false)"
-  (focus)="tokenFocus.emit()"
+  (focusin)="onFocusIn()"
+  (focusout)="onFocusOut($event)"
   (mousedown)="setTokenActive(true)"
 >
-  <ng-content></ng-content>
-  <button
-    *ngIf="dismissible"
-    class="sky-btn sky-token-btn-close"
-    type="button"
-    [attr.aria-label]="ariaLabel"
-    [attr.tabindex]="tabIndex"
-    [attr.title]="ariaLabel"
-    [disabled]="disabled"
-    [ngClass]="{
-      'sky-token-btn-close-active': closeActive
-    }"
-    (click)="dismissToken($event)"
-    (document:mouseup)="setCloseActive(false)"
-    (mousedown)="setCloseActive(true)"
+  <span
+    [attr.role]="role === 'row' ? 'gridcell' : undefined"
+    class="sky-token-cell"
   >
-    <sky-icon class="sky-token-btn-close-icon-default" icon="times"></sky-icon>
-    <sky-icon
-      class="sky-token-btn-close-icon-modern"
-      icon="close"
-      iconType="skyux"
+    <button
+      class="sky-btn sky-btn-default sky-token-btn sky-token-btn-action"
+      type="button"
+      [attr.tabindex]="tabIndex"
+      [disabled]="disabled"
+      [ngClass]="{
+        'sky-btn-disabled': disabled
+      }"
+      #actionButton
     >
-    </sky-icon>
-  </button>
+      <ng-content></ng-content>
+    </button>
+  </span>
+  <span
+    *ngIf="dismissible"
+    class="sky-token-cell"
+    [attr.role]="role === 'row' ? 'gridcell' : undefined"
+  >
+    <button
+      class="sky-btn sky-token-btn sky-token-btn-close"
+      type="button"
+      [attr.aria-label]="
+        ariaLabel || ('skyux_tokens_dismiss_button_title' | skyLibResources)
+      "
+      [attr.tabindex]="tabIndex"
+      [attr.title]="
+        ariaLabel || ('skyux_tokens_dismiss_button_title' | skyLibResources)
+      "
+      [disabled]="disabled"
+      [ngClass]="{
+        'sky-btn-disabled': disabled,
+        'sky-token-btn-close-active': closeActive
+      }"
+      (click)="dismissToken($event)"
+      (document:mouseup)="setCloseActive(false)"
+      (mousedown)="setCloseActive(true)"
+    >
+      <sky-icon
+        class="sky-token-btn-close-icon-default"
+        icon="times"
+      ></sky-icon>
+      <sky-icon
+        class="sky-token-btn-close-icon-modern"
+        icon="close"
+        iconType="skyux"
+      >
+      </sky-icon>
+    </button>
+  </span>
 </div>
