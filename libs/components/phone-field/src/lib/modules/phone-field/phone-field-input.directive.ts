@@ -144,11 +144,7 @@ export class SkyPhoneFieldInputDirective
 
     this.#adapterService?.setElementType(this.#elRef);
     this.#adapterService?.addElementClass(this.#elRef, 'sky-form-control');
-    if (
-      this.#phoneFieldComponent &&
-      this.#phoneFieldComponent.selectedCountry &&
-      this.#phoneFieldComponent.selectedCountry.exampleNumber
-    ) {
+    if (this.#phoneFieldComponent?.selectedCountry?.exampleNumber) {
       this.#adapterService?.setElementPlaceholder(
         this.#elRef,
         this.#phoneFieldComponent.selectedCountry.exampleNumber
