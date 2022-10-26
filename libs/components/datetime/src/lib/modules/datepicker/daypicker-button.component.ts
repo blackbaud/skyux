@@ -16,7 +16,7 @@ export class SkyDayPickerButtonComponent {
    * Specifies the date this picker button will represent on the calendar.
    */
   @Input()
-  public date: SkyDatepickerDate;
+  public date: SkyDatepickerDate | undefined;
 
   constructor(public datepicker: SkyDatepickerCalendarInnerComponent) {}
 }

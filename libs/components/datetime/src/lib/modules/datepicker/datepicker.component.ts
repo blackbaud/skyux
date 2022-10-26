@@ -48,7 +48,7 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
    * @default ""
    */
   @Input()
-  public pickerClass = '';
+  public pickerClass: string | undefined = '';
 
   /**
    * @internal
@@ -89,19 +89,23 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   }
 
   public get disabled(): boolean {
-    return this._disabled;
+    return this.#_disabled;
   }
 
   public set disabled(value: boolean) {
-    this._disabled = value;
-    this.changeDetector.markForCheck();
+    this.#_disabled = value;
+    this.#changeDetector.markForCheck();
   }
 
   public set selectedDate(value: Date) {
-    this._selectedDate = value;
+    this.#_selectedDate = value;
     if (this.calendar) {
-      this.calendar.writeValue(this._selectedDate);
+      this.calendar.writeValue(value);
     }
+  }
+
+  public get selectedDate(): Date {
+    return this.#_selectedDate;
   }
 
   /**
@@ -133,97 +137,106 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
   public triggerButtonId: string;
 
   @ViewChild(SkyDatepickerCalendarComponent)
-  private calendar: SkyDatepickerCalendarComponent;
+  public calendar: SkyDatepickerCalendarComponent;
 
   @ViewChild('calendarRef', {
     read: ElementRef,
   })
-  private set calendarRef(value: ElementRef) {
+  public set calendarRef(value: ElementRef) {
     if (value) {
-      this._calendarRef = value;
+      this.#_calendarRef = value;
 
       // Wait for the calendar component to render before gauging dimensions.
       setTimeout(() => {
-        this.calendar.writeValue(this._selectedDate);
+        this.calendar.writeValue(this.selectedDate);
 
-        this.destroyAffixer();
-        this.createAffixer();
+        this.#destroyAffixer();
+        this.#createAffixer();
 
         setTimeout(() => {
-          this.coreAdapter.getFocusableChildrenAndApplyFocus(
+          this.#coreAdapter.getFocusableChildrenAndApplyFocus(
             this.calendarRef,
             '.sky-datepicker-calendar-inner',
             false
           );
 
           this.isVisible = true;
-          this.changeDetector.markForCheck();
+          this.#changeDetector.markForCheck();
         });
       });
     }
   }
 
-  private get calendarRef(): ElementRef {
-    return this._calendarRef;
+  public get calendarRef(): ElementRef {
+    return this.#_calendarRef;
   }
 
   @ViewChild('calendarTemplateRef', {
     read: TemplateRef,
   })
-  private calendarTemplateRef: TemplateRef<unknown>;
+  public calendarTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonRef', {
     read: ElementRef,
   })
-  private triggerButtonRef: ElementRef;
+  public triggerButtonRef: ElementRef;
 
   @ViewChild('inputTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private inputTemplateRef: TemplateRef<unknown>;
+  public inputTemplateRef: TemplateRef<unknown>;
 
   @ViewChild('triggerButtonTemplateRef', {
     read: TemplateRef,
     static: true,
   })
-  private triggerButtonTemplateRef: TemplateRef<unknown>;
+  public triggerButtonTemplateRef: TemplateRef<unknown>;
 
-  private affixer: SkyAffixer;
+  #affixer: SkyAffixer;
 
-  private calendarUnsubscribe: Subject<void>;
+  #calendarUnsubscribe: Subject<void>;
 
-  private customDatesSubscription: Subscription;
+  #customDatesSubscription: Subscription;
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private overlay: SkyOverlayInstance;
+  #overlay: SkyOverlayInstance;
 
-  private overlayKeydownListner: Subscription;
+  #overlayKeydownListner: Subscription;
 
-  private _calendarRef: ElementRef;
+  #_calendarRef: ElementRef;
 
-  private _disabled = false;
+  #_disabled = false;
 
-  private _selectedDate: Date;
+  #_selectedDate: Date;
+
+  #affixService: SkyAffixService;
+  #changeDetector: ChangeDetectorRef;
+  #coreAdapter: SkyCoreAdapterService;
+  #overlayService: SkyOverlayService;
 
   constructor(
-    private affixService: SkyAffixService,
-    private changeDetector: ChangeDetectorRef,
-    private coreAdapter: SkyCoreAdapterService,
-    private overlayService: SkyOverlayService,
+    affixService: SkyAffixService,
+    changeDetector: ChangeDetectorRef,
+    coreAdapter: SkyCoreAdapterService,
+    overlayService: SkyOverlayService,
     @Optional() public inputBoxHostService?: SkyInputBoxHostService,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#affixService = affixService;
+    this.#changeDetector = changeDetector;
+    this.#coreAdapter = coreAdapter;
+    this.#overlayService = overlayService;
     const uniqueId = nextId++;
     this.calendarId = `sky-datepicker-calendar-${uniqueId}`;
     this.triggerButtonId = `sky-datepicker-button-${uniqueId}`;
 
     // Update icons when theme changes.
     themeSvc?.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
@@ -238,37 +251,39 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
 
   public ngOnDestroy(): void {
     this.dateChange.complete();
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
-    this.removePickerEventListeners();
-    this.destroyAffixer();
-    this.destroyOverlay();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
+    this.#removePickerEventListeners();
+    this.#destroyAffixer();
+    this.#destroyOverlay();
   }
 
   public onCalendarModeChange(): void {
     // Let the calendar populate in the DOM before recalculating placement.
     setTimeout(() => {
-      this.affixer.reaffix();
+      this.#affixer.reaffix();
     });
   }
 
   public onSelectedDateChange(value: Date): void {
     this.dateChange.emit(value);
-    this.closePicker();
+    this.#closePicker();
   }
 
   public onTriggerButtonClick(): void {
     if (this.isOpen) {
-      this.closePicker();
+      this.#closePicker();
     } else {
-      this.openPicker();
+      this.#openPicker();
     }
   }
 
-  public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
+  public onCalendarDateRangeChange(
+    event: SkyDatepickerCalendarChange | undefined
+  ): void {
     /* istanbul ignore else */
     if (event) {
-      this.cancelCustomDatesSubscription();
+      this.#cancelCustomDatesSubscription();
 
       const args: SkyDatepickerCalendarChange = {
         startDate: event.startDate,
@@ -281,16 +296,16 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       if (args.customDates) {
         this.isDaypickerWaiting = true;
         // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-        this.changeDetector.detectChanges();
+        this.#changeDetector.detectChanges();
 
-        this.customDatesSubscription = args.customDates
+        this.#customDatesSubscription = args.customDates
           .pipe(debounceTime(250))
           .subscribe((result) => {
             this.customDates = result;
             this.isDaypickerWaiting = false;
 
             // Trigger change detection in child components to show changes in the calendar.
-            this.changeDetector.markForCheck();
+            this.#changeDetector.markForCheck();
           });
       } else {
         // If consumer returns an undefined value after custom dates have
@@ -298,42 +313,42 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
         if (this.customDates) {
           this.customDates = undefined;
           // Avoid an ExpressionChangedAfterItHasBeenCheckedError.
-          this.changeDetector.detectChanges();
+          this.#changeDetector.detectChanges();
         }
       }
     }
   }
 
-  private closePicker() {
-    this.destroyAffixer();
-    this.destroyOverlay();
-    this.removePickerEventListeners();
+  #closePicker() {
+    this.#destroyAffixer();
+    this.#destroyOverlay();
+    this.#removePickerEventListeners();
     this.triggerButtonRef.nativeElement.focus();
     this.isOpen = false;
   }
 
-  private openPicker(): void {
+  #openPicker(): void {
     this.isVisible = false;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
 
-    this.removePickerEventListeners();
-    this.calendarUnsubscribe = new Subject<void>();
-    this.destroyOverlay();
-    this.createOverlay();
+    this.#removePickerEventListeners();
+    this.#calendarUnsubscribe = new Subject<void>();
+    this.#destroyOverlay();
+    this.#createOverlay();
 
     this.isOpen = true;
-    this.changeDetector.markForCheck();
+    this.#changeDetector.markForCheck();
   }
 
-  private createAffixer(): void {
-    const affixer = this.affixService.createAffixer(this.calendarRef);
+  #createAffixer(): void {
+    const affixer = this.#affixService.createAffixer(this.calendarRef);
 
     // Hide calendar when trigger button is scrolled off screen.
     affixer.placementChange
-      .pipe(takeUntil(this.calendarUnsubscribe))
+      .pipe(takeUntil(this.#calendarUnsubscribe))
       .subscribe((change) => {
         this.isVisible = change.placement !== null;
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
 
     affixer.affixTo(this.triggerButtonRef.nativeElement, {
@@ -344,73 +359,73 @@ export class SkyDatepickerComponent implements OnDestroy, OnInit {
       placement: 'below',
     });
 
-    this.affixer = affixer;
+    this.#affixer = affixer;
   }
 
-  private destroyAffixer(): void {
+  #destroyAffixer(): void {
     /*istanbul ignore else*/
-    if (this.affixer) {
-      this.affixer.destroy();
-      this.affixer = undefined;
+    if (this.#affixer) {
+      this.#affixer.destroy();
+      this.#affixer = undefined;
     }
   }
 
-  private createOverlay(): void {
-    const overlay = this.overlayService.create({
+  #createOverlay(): void {
+    const overlay = this.#overlayService.create({
       wrapperClass: this.pickerClass,
       enableClose: false,
       enablePointerEvents: false,
     });
 
     overlay.backdropClick
-      .pipe(takeUntil(this.calendarUnsubscribe))
+      .pipe(takeUntil(this.#calendarUnsubscribe))
       .subscribe(() => {
         /* istanbul ignore else */
         if (this.isOpen) {
-          this.closePicker();
+          this.#closePicker();
         }
       });
 
-    this.addKeydownListner();
+    this.#addKeydownListner();
 
     overlay.attachTemplate(this.calendarTemplateRef);
 
-    this.overlay = overlay;
+    this.#overlay = overlay;
   }
 
-  private destroyOverlay(): void {
+  #destroyOverlay(): void {
     /*istanbul ignore else*/
-    if (this.overlay) {
-      this.overlayService.close(this.overlay);
-      this.overlay = undefined;
+    if (this.#overlay) {
+      this.#overlayService.close(this.#overlay);
+      this.#overlay = undefined;
     }
   }
 
-  private addKeydownListner(): void {
-    this.overlayKeydownListner = fromEvent(window.document, 'keydown')
-      .pipe(takeUntil(this.ngUnsubscribe))
+  #addKeydownListner(): void {
+    this.#overlayKeydownListner = fromEvent(window.document, 'keydown')
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((event: KeyboardEvent) => {
         const key = event.key?.toLowerCase();
         if (key === 'escape' && this.isOpen) {
-          this.closePicker();
+          this.#closePicker();
         }
       });
   }
 
-  private removePickerEventListeners(): void {
+  #removePickerEventListeners(): void {
     /* istanbul ignore else */
-    if (this.calendarUnsubscribe) {
-      this.calendarUnsubscribe.next();
-      this.calendarUnsubscribe.complete();
-      this.calendarUnsubscribe = undefined;
+    if (this.#calendarUnsubscribe) {
+      this.#calendarUnsubscribe.next();
+      this.#calendarUnsubscribe.complete();
+      this.#calendarUnsubscribe = undefined;
     }
-    this.overlayKeydownListner?.unsubscribe();
+    this.#overlayKeydownListner?.unsubscribe();
   }
 
-  private cancelCustomDatesSubscription(): void {
-    if (this.customDatesSubscription) {
-      this.customDatesSubscription.unsubscribe();
-      this.customDatesSubscription = undefined;
+  #cancelCustomDatesSubscription(): void {
+    if (this.#customDatesSubscription) {
+      this.#customDatesSubscription.unsubscribe();
+      this.#customDatesSubscription = undefined;
     }
   }
 }

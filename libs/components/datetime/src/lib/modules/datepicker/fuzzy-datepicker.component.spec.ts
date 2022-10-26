@@ -888,6 +888,20 @@ describe('fuzzy datepicker input', () => {
         expect(ngModel.touched).toBe(true);
         expect(ngModel.errors).toBeNull();
 
+        setInputElementValue(nativeElement, '2015', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('2015');
+        expect(ngModel.valid).toBe(true);
+        expect(ngModel.touched).toBe(true);
+        expect(ngModel.errors).toBeNull();
+
+        setInputElementValue(nativeElement, '2020', fixture);
+
+        expect(getInputElementValue(fixture)).toBe('2020');
+        expect(ngModel.valid).toBe(true);
+        expect(ngModel.touched).toBe(true);
+        expect(ngModel.errors).toBeNull();
+
         flush();
       }));
     });

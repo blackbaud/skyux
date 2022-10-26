@@ -5,22 +5,26 @@ import { ElementRef, Injectable, Renderer2 } from '@angular/core';
  */
 @Injectable()
 export class SkyDatepickerAdapterService {
-  private el: HTMLElement;
+  #el: HTMLElement;
 
-  constructor(private renderer: Renderer2) {}
+  #renderer: Renderer2;
+
+  constructor(renderer: Renderer2) {
+    this.#renderer = renderer;
+  }
 
   public init(elRef: ElementRef) {
-    this.el = elRef.nativeElement;
+    this.#el = elRef.nativeElement;
   }
 
   public elementIsFocused(): boolean {
     const focusedEl = document.activeElement;
 
-    return this.el.contains(focusedEl);
+    return this.#el.contains(focusedEl);
   }
 
   public elementIsVisible(): boolean {
-    const styles = this.el && getComputedStyle(this.el);
+    const styles = this.#el && getComputedStyle(this.#el);
 
     return styles && styles.visibility === 'visible';
   }
@@ -30,6 +34,6 @@ export class SkyDatepickerAdapterService {
   }
 
   public setPlaceholder(elementRef: ElementRef, value: string): void {
-    this.renderer.setAttribute(elementRef.nativeElement, 'placeholder', value);
+    this.#renderer.setAttribute(elementRef.nativeElement, 'placeholder', value);
   }
 }

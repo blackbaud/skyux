@@ -34,27 +34,33 @@ export class SkyDatepickerCalendarInnerComponent
   implements OnDestroy, OnInit, OnChanges
 {
   @Input()
-  public customDates: SkyDatepickerCustomDate[];
+  public customDates: SkyDatepickerCustomDate[] | undefined;
 
   @Input()
-  public startingDay: number;
+  public set startingDay(value: number | undefined) {
+    this.#_startingDay = value || 0;
+  }
+
+  public get startingDay(): number {
+    return this.#_startingDay;
+  }
 
   @Input()
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   @Input()
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
   @Input()
-  public set selectedDate(value: Date) {
+  public set selectedDate(value: Date | undefined) {
     if (this.dateFormatter.dateIsValid(value)) {
-      this._selectedDate = value;
+      this.#_selectedDate = value;
       this.activeDate = value;
     }
   }
 
-  public get selectedDate(): Date {
-    return this._selectedDate;
+  public get selectedDate(): Date | undefined {
+    return this.#_selectedDate;
   }
 
   @Output()
@@ -115,9 +121,10 @@ export class SkyDatepickerCalendarInnerComponent
     40: 'down',
   };
 
-  private ngUnsubscribe = new Subject<void>();
+  #ngUnsubscribe = new Subject<void>();
 
-  private _selectedDate: Date;
+  #_selectedDate: Date | undefined;
+  #_startingDay = 0;
 
   public ngOnInit(): void {
     if (this.selectedDate) {
@@ -132,8 +139,8 @@ export class SkyDatepickerCalendarInnerComponent
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 
   public setCompareHandler(handler: DateComparator, type: string): void {
@@ -268,7 +275,7 @@ export class SkyDatepickerCalendarInnerComponent
     isSecondary: boolean,
     id: string
   ): SkyDatepickerDate {
-    const customDateMatch = this.getCustomDate(date);
+    const customDateMatch = this.#getCustomDate(date);
 
     const dateObject: SkyDatepickerDate = {
       date: new Date(date.getFullYear(), date.getMonth(), date.getDate()),
@@ -406,14 +413,14 @@ export class SkyDatepickerCalendarInnerComponent
    * 2. Date is marked as disabled in the customDates array.
    */
   protected isDisabled(date: Date): boolean {
-    const customDate = this.getCustomDate(date);
+    const customDate = this.#getCustomDate(date);
     return (
       (this.minDate && this.compare(date, this.minDate) < 0) ||
       (this.maxDate && this.compare(date, this.maxDate) > 0) ||
       (customDate && customDate.disabled)
     );
   }
-  private getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
+  #getCustomDate(date: Date): SkyDatepickerCustomDate | undefined {
     if (this.customDates) {
       return this.customDates.find((customDate: SkyDatepickerCustomDate) => {
         return customDate.date.getTime() === date.getTime();

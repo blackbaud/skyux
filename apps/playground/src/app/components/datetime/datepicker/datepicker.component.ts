@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormBuilder,
@@ -18,33 +18,33 @@ import { delay, distinctUntilChanged } from 'rxjs/operators';
   selector: 'app-datepicker',
   templateUrl: './datepicker.component.html',
 })
-export class DatepickerComponent implements OnInit {
+export class DatepickerComponent {
   public dateFormat: string | undefined = undefined;
   public disabled = false;
   public minDate: Date | undefined;
   public maxDate: Date | undefined;
   public noValidate = false;
-  public reactiveForm: UntypedFormGroup | undefined;
+  public reactiveForm: UntypedFormGroup;
   public showCustomDates = false;
   public selectedDate: Date | undefined;
   public startingDay: number | undefined;
   public strict = false;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public get reactiveDate(): AbstractControl {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.reactiveForm!.get('selectedDate')!;
-  }
-
-  public ngOnInit(): void {
-    this.reactiveForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.reactiveForm = formBuilder.group({
       selectedDate: new UntypedFormControl(
         new Date(1955, 10, 5),
         Validators.required
       ),
     });
+  }
 
+  public get reactiveDate(): AbstractControl {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.reactiveForm.get('selectedDate')!;
+  }
+
+  public ngOnInit(): void {
     this.reactiveDate.statusChanges
       .pipe(distinctUntilChanged())
       .subscribe((status: any) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormControl,
@@ -9,13 +9,11 @@ import {
   selector: 'app-datepicker-demo',
   templateUrl: './datepicker-demo.component.html',
 })
-export class DatepickerDemoComponent implements OnInit {
+export class DatepickerDemoComponent {
   public myForm: UntypedFormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
-
-  public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+  constructor(formBuilder: UntypedFormBuilder) {
+    formBuilder.group({
       myDate: new UntypedFormControl(new Date(1999, 10, 5)),
     });
   }

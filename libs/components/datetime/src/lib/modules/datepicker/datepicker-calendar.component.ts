@@ -26,16 +26,16 @@ import { SkyDatepickerCustomDate } from './datepicker-custom-date';
 })
 export class SkyDatepickerCalendarComponent implements AfterViewInit {
   @Input()
-  public customDates: SkyDatepickerCustomDate[];
+  public customDates: SkyDatepickerCustomDate[] | undefined;
 
   @Input()
-  public isDaypickerWaiting: boolean;
+  public isDaypickerWaiting: boolean | undefined;
 
   @Input()
-  public minDate: Date;
+  public minDate: Date | undefined;
 
   @Input()
-  public maxDate: Date;
+  public maxDate: Date | undefined;
 
   /** currently selected date */
   @Input()
@@ -43,16 +43,18 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   /** starting day of the week from 0-6 (0=Sunday, ..., 6=Saturday) */
   @Input()
-  public set startingDay(start: number) {
-    this._startingDay = start;
+  public set startingDay(start: number | undefined) {
+    this.#_startingDay = start || 0;
   }
 
-  public get startingDay() {
-    return this._startingDay || 0;
+  public get startingDay(): number {
+    return this.#_startingDay;
   }
 
   @Output()
-  public calendarDateRangeChange: EventEmitter<SkyDatepickerCalendarChange> = new EventEmitter<SkyDatepickerCalendarChange>();
+  public calendarDateRangeChange: EventEmitter<
+    SkyDatepickerCalendarChange | undefined
+  > = new EventEmitter<SkyDatepickerCalendarChange | undefined>();
 
   @Output()
   public calendarModeChange: EventEmitter<string> = new EventEmitter<string>();
@@ -67,7 +69,7 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
    * Indicates if the calendar element's visibility property is 'visible'.
    */
   public get isVisible(): boolean {
-    return this.adapter.elementIsVisible();
+    return this.#adapter.elementIsVisible();
   }
 
   @ViewChild(SkyDatepickerCalendarInnerComponent, {
@@ -78,27 +80,36 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
 
   protected _now: Date = new Date();
 
-  private formatter = new SkyDateFormatter();
+  #formatter = new SkyDateFormatter();
 
-  private _startingDay: number;
+  #_startingDay = 0;
+
+  #adapter: SkyDatepickerAdapterService;
+  #config: SkyDatepickerConfigService;
+  #elementRef: ElementRef;
 
   public constructor(
-    private adapter: SkyDatepickerAdapterService,
-    private config: SkyDatepickerConfigService,
-    private elementRef: ElementRef
+    adapter: SkyDatepickerAdapterService,
+    config: SkyDatepickerConfigService,
+    elementRef: ElementRef
   ) {
+    this.#adapter = adapter;
+    this.#config = config;
+    this.#elementRef = elementRef;
     this.configureOptions();
   }
 
   public ngAfterViewInit(): void {
-    this.adapter.init(this.elementRef);
+    this.#adapter.init(this.#elementRef);
   }
 
   public configureOptions(): void {
-    Object.assign(this, this.config);
+    Object.assign(this, this.#config);
   }
 
-  public onCalendarDateRangeChange(event: SkyDatepickerCalendarChange): void {
+  public onCalendarDateRangeChange(
+    event: SkyDatepickerCalendarChange | undefined
+  ): void {
     this.calendarDateRangeChange.next(event);
   }
 
@@ -113,14 +124,14 @@ export class SkyDatepickerCalendarComponent implements AfterViewInit {
   public writeValue(value: Date): void {
     if (
       value !== undefined &&
-      this.formatter.dateIsValid(value) &&
+      this.#formatter.dateIsValid(value) &&
       this.selectedDate !== undefined &&
       this._datepicker.compareHandlerDay(value, this.selectedDate) === 0
     ) {
       return;
     }
 
-    if (this.formatter.dateIsValid(value)) {
+    if (this.#formatter.dateIsValid(value)) {
       this.selectedDate = value;
       this._datepicker.select(value, false);
     } else {

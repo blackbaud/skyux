@@ -37,12 +37,16 @@ export class FuzzyDatepickerReactiveTestComponent implements OnInit {
   @ViewChild(SkyFuzzyDatepickerInputDirective)
   public inputDirective: SkyFuzzyDatepickerInputDirective;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
     this.dateControl = new UntypedFormControl(this.initialValue);
 
-    this.datepickerForm = this.formBuilder.group({
+    this.datepickerForm = this.#formBuilder.group({
       date: this.dateControl,
     });
   }

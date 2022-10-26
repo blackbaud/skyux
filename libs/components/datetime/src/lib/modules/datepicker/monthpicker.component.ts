@@ -14,11 +14,9 @@ import { SkyDatepickerDate } from './datepicker-date';
 export class SkyMonthPickerComponent implements OnInit {
   public datepicker: SkyDatepickerCalendarInnerComponent;
 
-  public maxMode: string;
-
   public rows: Array<Array<SkyDatepickerDate>> = [];
 
-  public title: string;
+  public title = '';
 
   public constructor(datepicker: SkyDatepickerCalendarInnerComponent) {
     this.datepicker = datepicker;
@@ -30,25 +28,25 @@ export class SkyMonthPickerComponent implements OnInit {
     };
 
     this.datepicker.setRefreshViewHandler(() => {
-      this.refreshMonthView();
+      this.#refreshMonthView();
     }, 'month');
 
-    this.datepicker.setCompareHandler(this.compareMonth, 'month');
+    this.datepicker.setCompareHandler(this.#compareMonth, 'month');
 
     this.datepicker.refreshView();
 
     this.datepicker.setKeydownHandler((key: string, event: KeyboardEvent) => {
-      this.keydownMonths(key, event);
+      this.#keydownMonths(key, event);
     }, 'month');
   }
 
-  private compareMonth(date1: Date, date2: Date): number {
+  #compareMonth(date1: Date, date2: Date): number {
     const d1 = new Date(date1.getFullYear(), date1.getMonth());
     const d2 = new Date(date2.getFullYear(), date2.getMonth());
     return d1.getTime() - d2.getTime();
   }
 
-  private refreshMonthView(): void {
+  #refreshMonthView(): void {
     const months: Array<SkyDatepickerDate> = new Array(12);
     const year: number = this.datepicker.activeDate.getFullYear();
     let date: Date;
@@ -74,7 +72,7 @@ export class SkyMonthPickerComponent implements OnInit {
     );
   }
 
-  private keydownMonths(key: string, event: KeyboardEvent) {
+  #keydownMonths(key: string, event: KeyboardEvent) {
     let date = this.datepicker.activeDate.getMonth();
 
     /* istanbul ignore else */

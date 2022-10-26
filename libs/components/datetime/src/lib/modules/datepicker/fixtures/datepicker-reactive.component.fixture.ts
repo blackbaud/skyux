@@ -41,12 +41,16 @@ export class DatepickerReactiveTestComponent implements OnInit {
   @ViewChild(SkyDatepickerComponent)
   public datepicker: SkyDatepickerComponent;
 
-  constructor(private formBuilder: UntypedFormBuilder) {}
+  #formBuilder: UntypedFormBuilder;
+
+  constructor(formBuilder: UntypedFormBuilder) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit() {
     this.dateControl = new UntypedFormControl(this.initialValue);
 
-    this.datepickerForm = this.formBuilder.group({
+    this.datepickerForm = this.#formBuilder.group({
       date: this.dateControl,
     });
     if (this.disableFormOnCreation) {
