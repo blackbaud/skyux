@@ -127,7 +127,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
   /**
    * Prevent closing a modal when focused in AG Grid.
    */
-  public onKeyUpEscape($event: Event): void {
+  public onKeyUpEscape($event: Event) {
     $event.stopPropagation();
     this.agGrid.api.stopEditing(true);
   }
@@ -188,7 +188,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
     }
   }
 
-  #moveHorizontalScroll(): void {
+  #moveHorizontalScroll() {
     if (this.agGrid && this.agGrid.api) {
       const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
       const root: HTMLElement =
@@ -253,8 +253,10 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
           referenceEl.firstElementChild !==
             currentComponent.location.nativeElement
         ) {
+          // Inline help is no longer valid or detached.
           currentComponent.destroy();
         } else {
+          // No change. Inline help is valid and up to date.
           return;
         }
       }

@@ -5,9 +5,7 @@ import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 import {
   CellClassParams,
   EditableCallbackParams,
-  GridApi,
   GridOptions,
-  GridReadyEvent,
   ICellRendererParams,
   RowClassParams,
   SuppressKeyboardEventParams,
@@ -121,36 +119,32 @@ let rowNodeId = -1;
   providedIn: 'any',
 })
 export class SkyAgGridService implements OnDestroy {
+  /**
+   * @internal
+   */
+  public currentTheme: SkyThemeSettings;
+
   private ngUnsubscribe = new Subject<void>();
 
   private keyMap = new WeakMap<any, string>();
 
-  #currentTheme: SkyThemeSettings | undefined = undefined;
-  #gridApi: GridApi | undefined = undefined;
-
   constructor(
     private agGridAdapterService: SkyAgGridAdapterService,
-    @Optional() themeSvc?: SkyThemeService,
+    @Optional() private themeSvc?: SkyThemeService,
     @Optional() private resources?: SkyLibResourcesService
   ) {
     /*istanbul ignore else*/
-    if (themeSvc) {
-      themeSvc.settingsChange
+    if (this.themeSvc) {
+      this.themeSvc.settingsChange
         .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe((settingsChange) => {
-          if (this.#currentTheme && this.#gridApi) {
-            this.#currentTheme = settingsChange.currentSettings;
-            this.#gridApi.setHeaderHeight(this.#getHeaderHeight());
-            this.#gridApi.resetRowHeights();
-            this.#gridApi.refreshCells();
-          } else {
-            this.#currentTheme = settingsChange.currentSettings;
-          }
-        });
+        .subscribe(
+          (settingsChange) =>
+            (this.currentTheme = settingsChange.currentSettings)
+        );
     }
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -212,12 +206,6 @@ export class SkyAgGridService implements OnDestroy {
         ...defaultGridOptions.icons,
         ...providedGridOptions.icons,
       },
-      onGridReady: (params: GridReadyEvent): void => {
-        if (providedGridOptions.onGridReady) {
-          providedGridOptions.onGridReady(params);
-        }
-        defaultGridOptions.onGridReady(params);
-      },
     };
 
     // Prefer `getRowNodeId` over `getNodeId` if set by the consumer, for backward compatibility.
@@ -230,7 +218,7 @@ export class SkyAgGridService implements OnDestroy {
 
   private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
-    const cellClassRuleTrueExpression = (): boolean => true;
+    const cellClassRuleTrueExpression = () => true;
 
     function getEditableFn(
       isUneditable?: boolean
@@ -309,7 +297,7 @@ export class SkyAgGridService implements OnDestroy {
           },
           cellEditor: SkyAgGridCellEditorDatepickerComponent,
           comparator: dateComparator,
-          minWidth: this.#currentTheme?.theme?.name === 'modern' ? 180 : 160,
+          minWidth: this.currentTheme?.theme?.name === 'modern' ? 180 : 160,
           valueFormatter: (params: ValueFormatterParams) =>
             this.dateFormatter(params, args.locale),
         },
@@ -411,7 +399,7 @@ export class SkyAgGridService implements OnDestroy {
           return undefined;
         }
       },
-      headerHeight: this.#getHeaderHeight(),
+      headerHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 37,
       icons: {
         sortDescending: this.getIconTemplate('caret-down'),
         sortAscending: this.getIconTemplate('caret-up'),
@@ -422,11 +410,7 @@ export class SkyAgGridService implements OnDestroy {
         columnMovePin: this.getIconTemplate('arrows'),
       },
       onCellFocused: () => this.onCellFocused(),
-      onGridReady: (params: GridReadyEvent) => {
-        this.#gridApi = params.api;
-      },
-      rowHeight: this.#getRowHeight(),
-      getRowHeight: () => this.#getRowHeight(),
+      rowHeight: this.currentTheme?.theme?.name === 'modern' ? 60 : 38,
       rowMultiSelectWithClick: true,
       rowSelection: 'multiple',
       singleClickEdit: true,
@@ -556,13 +540,5 @@ export class SkyAgGridService implements OnDestroy {
       return true;
     }
     return false;
-  }
-
-  #getHeaderHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 37;
-  }
-
-  #getRowHeight(): number {
-    return this.#currentTheme?.theme?.name === 'modern' ? 60 : 38;
   }
 }
