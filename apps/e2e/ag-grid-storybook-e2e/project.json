@@ -9,6 +9,7 @@
         "cypressConfig": "apps/e2e/ag-grid-storybook-e2e/cypress.config.ts",
         "devServerTarget": "ag-grid-storybook:storybook",
         "baseUrl": "http://localhost:4400",
+        "browser": "chrome",
         "testingType": "e2e"
       },
       "configurations": {

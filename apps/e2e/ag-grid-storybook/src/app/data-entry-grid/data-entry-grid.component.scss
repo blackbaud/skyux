@@ -1,0 +1,40 @@
+#root {
+  --viewport-height: 1200px;
+}
+
+app-data-entry-grid {
+  display: block;
+  width: var(--viewport-width);
+
+  #date-and-lookup {
+    display: grid;
+    grid-template-areas:
+      'editLookup editDate'
+      'editDateWithCalendar .';
+    grid-template-columns: 600px 580px;
+    grid-template-rows: 200px 200px 200px;
+    grid-gap: 20px;
+  }
+
+  #edit-lookup {
+    display: grid;
+    grid-template-areas:
+      'editLookupMultiple editText'
+      'editLookup sideScroll';
+    grid-template-columns: 590px 590px;
+    grid-template-rows: 275px 275px;
+    grid-gap: 20px;
+  }
+}
+
+.sky-theme-modern {
+  app-data-entry-grid {
+    #date-and-lookup {
+      grid-template-rows: 265px 1fr;
+    }
+
+    #edit-lookup {
+      grid-template-rows: 365px 365px;
+    }
+  }
+}

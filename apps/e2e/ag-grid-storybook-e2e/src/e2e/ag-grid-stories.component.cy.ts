@@ -14,26 +14,31 @@ describe(`ag-grid-storybook`, () => {
         cy.get('#ready')
           .should('exist')
           .end()
+
+          // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a
+          // validation popover. These assertions verify those have happened.
+
+          // Expect back to top button to be visible.
+          .get('.sky-back-to-top')
+          .should('exist')
+          .should('be.visible')
+          .end()
+
+          // Expect the validation message to be visible.
+          .get('.sky-overlay sky-popover-content .sky-popover-body')
+          .should('exist')
+          .should('be.visible')
+          .should('contain.text', 'Expected a number between 1 and 18.')
+          .end()
+
           .get('#root')
           .should('exist')
           .should('be.visible')
-          .screenshot(
+          .skyVisualTest(
             `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
             {
-              clip: { x: 0, y: 0, width: 1300, height: 600 },
-            }
-          )
-          .percySnapshot(
-            `aggridstoriescomponent-aggridstories--ag-grid-stories-${theme}`,
-            {
-              widths: [1280],
-              scope: '#root',
-              percyCSS: `
-                /* Avoid "virtual rows" in the screenshot. */
-                #root {
-                  height: 600px;
-                }
-              `,
+              overwrite: true,
+              disableTimersAndAnimations: true,
             }
           );
       });
