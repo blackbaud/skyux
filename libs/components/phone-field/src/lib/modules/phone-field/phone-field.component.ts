@@ -298,7 +298,7 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
 
     this.#countrySearchFormControl.valueChanges.subscribe(
       (newValue: SkyCountryFieldCountry) => {
-        if (newValue && newValue.iso2 !== this.selectedCountry?.iso2) {
+        if (newValue?.iso2 !== this.selectedCountry?.iso2) {
           this.selectedCountry = newValue;
         }
       }

@@ -185,10 +185,10 @@ describe('PhoneField fixture', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    if (COUNTRY_AU && COUNTRY_AU.name && countryName) {
+    if (COUNTRY_AU?.name && countryName) {
       expect(countryName).toBe(COUNTRY_AU.name);
     }
-    if (COUNTRY_AU && COUNTRY_AU.iso2 && countryIos2) {
+    if (COUNTRY_AU?.iso2 && countryIos2) {
       expect(countryIos2).toBe(COUNTRY_AU.iso2);
     }
     expect(selectedCountryChangeSpy).toHaveBeenCalledWith(

@@ -159,7 +159,7 @@ export class SkyPhoneFieldInputDirective
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((country: SkyPhoneFieldCountry) => {
         this.#modelValue = this.#elRef.nativeElement.value;
-        if (country && country.exampleNumber) {
+        if (country?.exampleNumber) {
           this.#adapterService?.setElementPlaceholder(
             this.#elRef,
             country.exampleNumber
@@ -261,8 +261,7 @@ export class SkyPhoneFieldInputDirective
     }
 
     if (
-      this.#phoneFieldComponent &&
-      this.#phoneFieldComponent.selectedCountry &&
+      this.#phoneFieldComponent?.selectedCountry &&
       !this.#validateNumber(value)
     ) {
       if (!this.#textChanges) {
@@ -300,7 +299,8 @@ export class SkyPhoneFieldInputDirective
       );
 
       if (
-        !this.#phoneFieldComponent?.allowExtensions &&
+        this.#phoneFieldComponent &&
+        !this.#phoneFieldComponent.allowExtensions &&
         numberObj.getExtension()
       ) {
         return false;
