@@ -48,15 +48,12 @@ export class SkyAgGridWrapperComponent
     this.changeDetector.markForCheck();
   }
 
-  public enableTopScroll = false;
-  public isDefaultTheme = true;
-  public isModernLightTheme = false;
-  public isModernDarkTheme = false;
+  public agThemeClass = 'ag-theme-sky-default';
 
   private _viewkeeperClasses: string[] = [];
 
   #ngUnsubscribe = new Subject<void>();
-  #themeSvc: SkyThemeService;
+  #themeSvc: SkyThemeService | undefined;
 
   constructor(
     private adapterService: SkyAgGridAdapterService,
@@ -78,10 +75,8 @@ export class SkyAgGridWrapperComponent
       this.agGrid.gridOptions.domLayout === 'autoHeight'
     ) {
       if (this.agGrid.gridOptions.context?.enableTopScroll) {
-        this.enableTopScroll = true;
         this.viewkeeperClasses.push('.ag-header', '.ag-body-horizontal-scroll');
       } else {
-        this.enableTopScroll = false;
         this.viewkeeperClasses.push('.ag-header');
       }
     }
@@ -109,12 +104,11 @@ export class SkyAgGridWrapperComponent
     this.#themeSvc?.settingsChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((settings) => {
-        const themeName = settings.currentSettings.theme.name;
-        const themeMode = settings.currentSettings.mode.name;
-        this.isDefaultTheme = themeName === 'default';
-        this.isModernLightTheme =
-          themeName === 'modern' && themeMode === 'light';
-        this.isModernDarkTheme = themeName === 'modern' && themeMode === 'dark';
+        if (settings.currentSettings.theme.name === 'modern') {
+          this.agThemeClass = `ag-theme-sky-modern-${settings.currentSettings.mode.name}`;
+        } else {
+          this.agThemeClass = `ag-theme-sky-default`;
+        }
         this.changeDetector.markForCheck();
       });
   }
@@ -122,7 +116,7 @@ export class SkyAgGridWrapperComponent
   /**
    * Prevent closing a modal when focused in AG Grid.
    */
-  public onKeyUpEscape($event: Event) {
+  public onKeyUpEscape($event: Event): void {
     $event.stopPropagation();
     this.agGrid.api.stopEditing(true);
   }
@@ -183,7 +177,7 @@ export class SkyAgGridWrapperComponent
     }
   }
 
-  #moveHorizontalScroll() {
+  #moveHorizontalScroll(): void {
     if (this.agGrid && this.agGrid.api) {
       const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
       const root: HTMLElement =

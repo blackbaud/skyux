@@ -19,8 +19,8 @@ exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 1`] =
 exports[`ag-grid-28.schematic should remove @ag-grid-community/all-modules 2`] = `
 "
 
-        AG Grid recommends not mixing module and package imports.
-        https://ag-grid.com/angular-data-grid/modules/
+          AG Grid recommends not mixing module and package imports.
+          https://ag-grid.com/angular-data-grid/modules/
 
 "
 `;

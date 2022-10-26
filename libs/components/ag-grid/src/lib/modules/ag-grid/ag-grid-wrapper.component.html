@@ -7,12 +7,11 @@
 </span>
 <div
   class="sky-ag-grid"
-  [ngClass]="{
-    'sky-ag-grid-top-scrollbar': enableTopScroll,
-    'ag-theme-sky-default': isDefaultTheme,
-    'ag-theme-sky-modern-light': isModernLightTheme,
-    'ag-theme-sky-modern-dark': isModernDarkTheme
-  }"
+  [class.sky-ag-grid-top-scrollbar]="
+    agGrid?.gridOptions?.context &&
+    agGrid?.gridOptions?.context['enableTopScroll']
+  "
+  [ngClass]="agThemeClass"
   tabindex="0"
   [id]="gridId"
   [skyViewkeeper]="viewkeeperClasses"

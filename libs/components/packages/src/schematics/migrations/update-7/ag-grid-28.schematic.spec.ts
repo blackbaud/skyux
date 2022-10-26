@@ -1,23 +1,36 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
+import { map } from 'rxjs/operators';
+
 import { UPDATE_TO_VERSION } from './ag-grid-28.schematic';
 
 describe('ag-grid-28.schematic', () => {
   let tree: Tree;
+  const angularJson = {
+    version: 1,
+    projects: {
+      test: {
+        projectType: 'application',
+        root: '',
+        architect: {},
+      },
+    },
+  };
 
   function setupTest(packageJson: { [key: string]: any } = {}) {
     tree = Tree.empty();
+    tree.create('/angular.json', JSON.stringify(angularJson));
     tree.create('/package.json', JSON.stringify(packageJson));
   }
 
-  it('should work', function () {
+  it('should work', async () => {
     expect.assertions(1);
     setupTest({
       dependencies: {
-        'ag-grid-community': '27.1.1',
-        'ag-grid-angular': '27.1.1',
-        'ag-grid-enterprise': '27.1.1',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
+        'ag-grid-enterprise': UPDATE_TO_VERSION,
       },
     });
     const runner = new SchematicTestRunner(
@@ -35,7 +48,7 @@ describe('ag-grid-28.schematic', () => {
     );
   });
 
-  it('should noop', function () {
+  it('should noop', async () => {
     expect.assertions(1);
     setupTest({
       dependencies: {
@@ -55,7 +68,7 @@ describe('ag-grid-28.schematic', () => {
     );
   });
 
-  it('should swap @ag-grid-community/all-modules', function () {
+  it('should swap @ag-grid-community/all-modules', async () => {
     expect.assertions(1);
     setupTest({
       devDependencies: {
@@ -63,6 +76,18 @@ describe('ag-grid-28.schematic', () => {
         '@ag-grid-enterprise/all-modules': '27.1.1',
       },
     });
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        ...angularJson,
+        projects: {
+          test: {
+            ...angularJson.projects.test,
+            sourceRoot: 'src',
+          },
+        },
+      })
+    );
     const runner = new SchematicTestRunner(
       'schematics',
       require.resolve('../migration-collection.json')
@@ -78,15 +103,14 @@ describe('ag-grid-28.schematic', () => {
     );
   });
 
-  it('should remove @ag-grid-community/all-modules', function () {
+  it('should remove @ag-grid-community/all-modules', async () => {
     expect.assertions(4);
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(console.log);
     setupTest({
       dependencies: {
         '@ag-grid-community/all-modules': '27.1.1',
         '@ag-grid-enterprise/all-modules': '27.1.1',
-        'ag-grid-community': '27.1.1',
-        'ag-grid-angular': '27.1.1',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
     tree.create('.gitignore', 'node_modules');
@@ -121,23 +145,34 @@ describe('ag-grid-28.schematic', () => {
       'schematics',
       require.resolve('../migration-collection.json')
     );
-    runner
+    const warnSpy = jest.fn();
+    runner.logger.subscribe((log) => {
+      if (log.level === 'warn') {
+        warnSpy(log.message);
+      }
+    });
+    await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
-      .subscribe((updatedTree) => {
-        expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-          dependencies: {
-            'ag-grid-community': UPDATE_TO_VERSION,
-            'ag-grid-angular': UPDATE_TO_VERSION,
-            'ag-grid-enterprise': UPDATE_TO_VERSION,
-          },
-        });
-        expect(updatedTree.readText('src/app/app.module.ts')).toMatchSnapshot();
-        expect(warnSpy).toHaveBeenCalled();
-        expect(warnSpy.mock.calls[0][0]).toMatchSnapshot();
-      });
+      .pipe(
+        map((updatedTree) => {
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            dependencies: {
+              'ag-grid-community': UPDATE_TO_VERSION,
+              'ag-grid-angular': UPDATE_TO_VERSION,
+              'ag-grid-enterprise': UPDATE_TO_VERSION,
+            },
+          });
+          expect(
+            updatedTree.readText('src/app/app.module.ts')
+          ).toMatchSnapshot();
+          expect(warnSpy).toHaveBeenCalled();
+          expect(warnSpy.mock.calls[0][0]).toMatchSnapshot();
+        })
+      )
+      .toPromise();
   });
 
-  it('should remove @ag-grid-community/all-modules when already on v28', function () {
+  it('should remove @ag-grid-community/all-modules when already on v28', async () => {
     expect.assertions(2);
     setupTest({
       dependencies: {
@@ -165,20 +200,25 @@ describe('ag-grid-28.schematic', () => {
       'schematics',
       require.resolve('../migration-collection.json')
     );
-    runner
+    await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
-      .subscribe((updatedTree) => {
-        expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-          dependencies: {
-            'ag-grid-community': UPDATE_TO_VERSION,
-            'ag-grid-angular': UPDATE_TO_VERSION,
-          },
-        });
-        expect(updatedTree.readText('src/app/app.module.ts')).toMatchSnapshot();
-      });
+      .pipe(
+        map((updatedTree) => {
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            dependencies: {
+              'ag-grid-community': UPDATE_TO_VERSION,
+              'ag-grid-angular': UPDATE_TO_VERSION,
+            },
+          });
+          expect(
+            updatedTree.readText('src/app/app.module.ts')
+          ).toMatchSnapshot();
+        })
+      )
+      .toPromise();
   });
 
-  it('should remove @ag-grid-enterprise/all-modules when already on v28', function () {
+  it('should remove @ag-grid-enterprise/all-modules when already on v28', async () => {
     expect.assertions(2);
     setupTest({
       dependencies: {
@@ -205,26 +245,31 @@ describe('ag-grid-28.schematic', () => {
       'schematics',
       require.resolve('../migration-collection.json')
     );
-    runner
+    await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
-      .subscribe((updatedTree) => {
-        expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
-          dependencies: {
-            'ag-grid-community': UPDATE_TO_VERSION,
-            'ag-grid-angular': UPDATE_TO_VERSION,
-            'ag-grid-enterprise': UPDATE_TO_VERSION,
-          },
-        });
-        expect(updatedTree.readText('src/app/app.module.ts')).toMatchSnapshot();
-      });
+      .pipe(
+        map((updatedTree) => {
+          expect(JSON.parse(updatedTree.readText('/package.json'))).toEqual({
+            dependencies: {
+              'ag-grid-community': UPDATE_TO_VERSION,
+              'ag-grid-angular': UPDATE_TO_VERSION,
+              'ag-grid-enterprise': UPDATE_TO_VERSION,
+            },
+          });
+          expect(
+            updatedTree.readText('src/app/app.module.ts')
+          ).toMatchSnapshot();
+        })
+      )
+      .toPromise();
   });
 
-  it('should update getSecondaryColumns and setSecondaryColumns', () => {
+  it('should update getSecondaryColumns and setSecondaryColumns', async () => {
     expect.assertions(2);
     setupTest({
       dependencies: {
-        'ag-grid-community': '27.1.1',
-        'ag-grid-angular': '27.1.1',
+        'ag-grid-community': UPDATE_TO_VERSION,
+        'ag-grid-angular': UPDATE_TO_VERSION,
       },
     });
     tree.create(
@@ -261,15 +306,18 @@ describe('ag-grid-28.schematic', () => {
       'schematics',
       require.resolve('../migration-collection.json')
     );
-    runner
+    await runner
       .runSchematicAsync('ag-grid-28', {}, tree)
-      .subscribe((updatedTree) => {
-        expect(
-          updatedTree.readText('src/app/app.component.ts')
-        ).toMatchSnapshot();
-        expect(
-          updatedTree.readText('src/app/grid.component.ts')
-        ).toMatchSnapshot();
-      });
+      .pipe(
+        map((updatedTree) => {
+          expect(
+            updatedTree.readText('src/app/app.component.ts')
+          ).toMatchSnapshot();
+          expect(
+            updatedTree.readText('src/app/grid.component.ts')
+          ).toMatchSnapshot();
+        })
+      )
+      .toPromise();
   });
 });

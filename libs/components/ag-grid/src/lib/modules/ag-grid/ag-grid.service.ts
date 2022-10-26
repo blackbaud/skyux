@@ -92,7 +92,7 @@ function dateComparator(date1: Date | string, date2: Date | string): number {
 
 function getValidatorCellRendererSelector(
   component: string,
-  fallback?: CellRendererSelectorResult | undefined
+  fallback?: CellRendererSelectorResult
 ): CellRendererSelectorFunc {
   return (params: ICellRendererParams) => {
     if (

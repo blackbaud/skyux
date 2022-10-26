@@ -95,9 +95,7 @@ describe('SkyAgGridWrapperComponent', () => {
   });
 
   it('should apply ag-theme', async () => {
-    expect(gridWrapperComponent.isDefaultTheme).toBe(true);
-    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
-    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
+    expect(gridWrapperComponent.agThemeClass).toEqual('ag-theme-sky-default');
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -107,9 +105,9 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.isDefaultTheme).toBe(false);
-    expect(gridWrapperComponent.isModernLightTheme).toBe(true);
-    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
+    expect(gridWrapperComponent.agThemeClass).toEqual(
+      'ag-theme-sky-modern-light'
+    );
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -119,9 +117,9 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.isDefaultTheme).toBe(false);
-    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
-    expect(gridWrapperComponent.isModernDarkTheme).toBe(true);
+    expect(gridWrapperComponent.agThemeClass).toEqual(
+      'ag-theme-sky-modern-dark'
+    );
 
     mockThemeSvc.settingsChange.next({
       currentSettings: {
@@ -131,9 +129,7 @@ describe('SkyAgGridWrapperComponent', () => {
       previousSettings: undefined,
     });
     gridWrapperFixture.detectChanges();
-    expect(gridWrapperComponent.isDefaultTheme).toBe(true);
-    expect(gridWrapperComponent.isModernLightTheme).toBe(false);
-    expect(gridWrapperComponent.isModernDarkTheme).toBe(false);
+    expect(gridWrapperComponent.agThemeClass).toEqual('ag-theme-sky-default');
   });
 
   describe('onGridKeydown', () => {
