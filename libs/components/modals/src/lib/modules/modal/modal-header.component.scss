@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 h1 {
   margin: 0;
@@ -8,7 +7,7 @@ h1 {
   display: inline;
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   h1 {
     color: $sky-theme-modern-mode-dark-font-body-default-color;
   }

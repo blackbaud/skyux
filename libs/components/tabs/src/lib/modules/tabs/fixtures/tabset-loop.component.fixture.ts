@@ -7,7 +7,7 @@ import { SkyTabsetTabIndexesChange } from '../tabset-tab-indexes-change';
   templateUrl: './tabset-loop.component.fixture.html',
 })
 export class TabsetLoopTestComponent {
-  public activeIndex = 0;
+  public activeIndex: number | undefined = 0;
 
   public tabArray: any[] = [];
 

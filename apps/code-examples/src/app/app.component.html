@@ -1,4 +1,10 @@
-<div id="controls" *ngIf="router.url !== '/'">
+<div
+  *ngIf="router.url !== '/'"
+  id="controls"
+  [ngStyle]="{
+    'height.px': height
+  }"
+>
   <div>
     <button class="sky-btn sky-btn-primary" id="home-btn" routerLink="/">
       Go home
@@ -143,6 +149,14 @@
       <li>
         <a routerLink="forms/input-box/basic">Input box</a>
       </li>
+      <li>
+        <a routerLink="forms/selection-box/checkbox"
+          >Selection box (checkbox)</a
+        >
+      </li>
+      <li>
+        <a routerLink="forms/selection-box/radio">Selection box (radio)</a>
+      </li>
     </ul>
   </li>
 
@@ -205,6 +219,18 @@
     Layout
     <ul>
       <li>
+        Back to top
+        <ul>
+          <li><a routerLink="layout/back-to-top/grid">Grid</a></li>
+          <li>
+            <a routerLink="layout/back-to-top/infinite-scroll"
+              >Infinite scroll</a
+            >
+          </li>
+          <li><a routerLink="layout/back-to-top/repeater">Repeater</a></li>
+        </ul>
+      </li>
+      <li>
         Box
         <ul>
           <li><a routerLink="layout/box/basic">Box (basic)</a></li>
@@ -221,6 +247,12 @@
         Format
         <ul>
           <li><a routerLink="layout/format">Format</a></li>
+        </ul>
+      </li>
+      <li>
+        Page
+        <ul>
+          <li><a routerLink="layout/page">Fit layout</a></li>
         </ul>
       </li>
       <li>
@@ -346,7 +378,7 @@
   </li>
 
   <li>
-    Progress Indicators
+    Progress indicators
     <ul>
       <li>
         <a routerLink="progress-indicator/waterfall">Waterfall</a>
@@ -366,6 +398,18 @@
       </li>
       <li>
         <a routerLink="progress-indicator/wizard">Wizard</a>
+      </li>
+    </ul>
+  </li>
+
+  <li>
+    Split view
+    <ul>
+      <li>
+        <a routerLink="split-view/basic">Basic</a>
+      </li>
+      <li>
+        <a routerLink="split-view/page-bound">Page-bound</a>
       </li>
     </ul>
   </li>

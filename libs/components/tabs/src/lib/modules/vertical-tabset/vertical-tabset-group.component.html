@@ -16,24 +16,23 @@
       type="button"
       skyId
       [attr.aria-controls]="groupContent.id"
-      [attr.aria-expanded]="open"
+      [attr.aria-expanded]="!disabled && open"
       (click)="toggleMenuOpen()"
       #groupHeadingButton
     >
       {{ groupHeading }}
       <sky-expansion-indicator
         class="sky-vertical-tabset-group-expansion-indicator"
-        [direction]="open ? 'up' : 'down'"
+        [direction]="!disabled && open ? 'up' : 'down'"
       >
       </sky-expansion-indicator>
     </button>
   </div>
   <div
     class="sky-vertical-tabset-group-content"
-    role="region"
     skyId
     [attr.labelledby]="groupHeadingButton.id"
-    [@skyAnimationSlide]="open ? 'down' : 'up'"
+    [@skyAnimationSlide]="!disabled && open ? 'down' : 'up'"
     #groupContent
   >
     <ng-content></ng-content>

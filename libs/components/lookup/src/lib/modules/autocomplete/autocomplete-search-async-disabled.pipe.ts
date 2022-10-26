@@ -11,7 +11,7 @@ import { SkyAutocompleteSearchAsyncArgs } from './types/autocomplete-search-asyn
 export class SkyAutcompleteSearchAsyncDisabledPipe implements PipeTransform {
   public transform(
     searchAsync: EventEmitter<SkyAutocompleteSearchAsyncArgs>,
-    searchAsyncDisabled: boolean
+    searchAsyncDisabled: boolean | undefined
   ): boolean {
     return searchAsyncDisabled || searchAsync.observers.length === 0;
   }

@@ -76,6 +76,8 @@
     "router": "libs/components/router",
     "select-field": "libs/components/select-field",
     "split-view": "libs/components/split-view",
+    "split-view-storybook": "apps/e2e/split-view-storybook",
+    "split-view-storybook-e2e": "apps/e2e/split-view-storybook-e2e",
     "split-view-testing": "libs/components/split-view/testing",
     "storybook": "libs/components/storybook",
     "tabs": "libs/components/tabs",

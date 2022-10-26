@@ -1,19 +1,14 @@
 @use 'node_modules/ag-grid-community/styles' as ag;
-@use 'sass:map';
+@use 'libs/components/theme/src/lib/styles/variables' as variables;
 
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/variables';
-
-$sky-standard-border: 1px solid $sky-border-color-neutral-medium;
+$sky-standard-border: 1px solid variables.$sky-border-color-neutral-medium;
 $sky-standard-border-theme-modern: 1px solid
   var(--sky-border-color-neutral-medium);
 
 $sky-cell-wrap-text-padding-default: 7px;
-$sky-cell-wrap-text-line-height-default: $sky-line-height-base;
+$sky-cell-wrap-text-line-height-default: variables.$sky-line-height-base;
 $sky-cell-wrap-text-padding-modern: 16px;
-$sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-height;
+$sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragraph-line-height;
 
 @mixin skyux-cell-wrap-text($padding, $line-height) {
   .ag-cell.ag-cell-wrap-text span.ag-cell-value {
@@ -28,41 +23,41 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   (
     themes: (
       sky-default: (
-        background-color: $sky-color-gray-01,
+        background-color: variables.$sky-color-gray-01,
         row-hover-color: darken($sky-background-color-selected, 10%),
-        border-color: $sky-border-color-neutral-medium,
+        border-color: variables.$sky-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
-        font-family: $sky-font-family,
+        font-family: variables.$sky-font-family,
         font-size: 15px,
-        foreground-color: $sky-text-color-default,
-        header-background-color: $sky-background-color-page-default,
+        foreground-color: variables.$sky-text-color-default,
+        header-background-color: variables.$sky-background-color-page-default,
         header-height: 37px,
-        input-focus-border-color: $sky-highlight-color-info,
-        row-border-color: $sky-border-color-neutral-medium,
+        input-focus-border-color: variables.$sky-highlight-color-info,
+        row-border-color: variables.$sky-border-color-neutral-medium,
         row-height: 38px,
-        odd-row-background-color: $sky-background-color-page-default,
-        range-selection-border-color: $sky-highlight-color-info,
-        secondary-foreground-color: $sky-text-color-deemphasized,
+        odd-row-background-color: variables.$sky-background-color-page-default,
+        range-selection-border-color: variables.$sky-highlight-color-info,
+        secondary-foreground-color: variables.$sky-text-color-deemphasized,
       ),
       sky-modern-light: (
-        border-color: $sky-theme-modern-border-color-neutral-medium,
+        border-color: variables.$sky-theme-modern-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
-        font-family: $sky-font-family,
+        font-family: variables.$sky-font-family,
         font-size: 16px,
-        foreground-color: $sky-text-color-default,
-        header-background-color: $sky-theme-modern-background-color-page-default,
+        foreground-color: variables.$sky-text-color-default,
+        header-background-color: variables.$sky-theme-modern-background-color-page-default,
         header-height: 60px,
-        input-focus-border-color: $sky-theme-modern-border-color-primary-dark,
-        row-border-color: $sky-theme-modern-border-color-neutral-medium,
+        input-focus-border-color: variables.$sky-theme-modern-border-color-primary-dark,
+        row-border-color: variables.$sky-theme-modern-border-color-neutral-medium,
         row-height: 60px,
         range-selection-border-color:
-          $sky-theme-modern-border-color-primary-dark,
-        secondary-foreground-color: $sky-theme-modern-font-deemphasized-color,
+          variables.$sky-theme-modern-border-color-primary-dark,
+        secondary-foreground-color: variables.$sky-theme-modern-font-deemphasized-color,
       ),
       sky-modern-dark: (
         extend-theme: 'alpine-dark',
         cell-horizontal-padding: 12px,
-        font-family: $sky-font-family,
+        font-family: variables.$sky-font-family,
         font-size: 16px,
         header-height: 60px,
         row-height: 60px,
@@ -95,7 +90,7 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   --ag-grid-size: 4px;
   --ag-icon-size: 12px;
 
-  --ag-font-family: $sky-font-family;
+  --ag-font-family: variables.$sky-font-family;
 
   --ag-card-shadow: none;
 
@@ -179,19 +174,19 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
       padding-top: 37px;
     }
 
-    border-top: $sky-standard-border;
+    border-top: variables.$sky-standard-border;
 
     .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
       align-items: flex-start;
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-default,
-      $sky-cell-wrap-text-line-height-default
+      variables.$sky-cell-wrap-text-padding-default,
+      variables.$sky-cell-wrap-text-line-height-default
     );
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     .ag-root-wrapper {
@@ -220,8 +215,8 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
       padding-top: 37px;
     }
 
-    border-top: $sky-standard-border;
-    border-left: $sky-standard-border;
+    border-top: variables.$sky-standard-border;
+    border-left: variables.$sky-standard-border;
 
     .ag-root-wrapper {
       border: none;
@@ -248,8 +243,8 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-default,
-      $sky-cell-wrap-text-line-height-default
+      variables.$sky-cell-wrap-text-padding-default,
+      variables.$sky-cell-wrap-text-line-height-default
     );
 
     .ag-cell {
@@ -258,11 +253,11 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     .sky-ag-grid-cell-editable {
-      background-color: $sky-background-color-page-default;
+      background-color: variables.$sky-background-color-page-default;
 
       .ag-select {
         .ag-picker-field-display {
@@ -273,12 +268,12 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     .sky-ag-grid-cell-uneditable {
-      background-color: $sky-background-color-neutral-light;
+      background-color: variables.$sky-background-color-neutral-light;
     }
 
     .ag-popup {
       .ag-popup-editor {
-        background-color: $sky-background-color-page-default;
+        background-color: variables.$sky-background-color-page-default;
       }
 
       .ag-select-list {
@@ -296,7 +291,7 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
           }
 
           &:hover {
-            background-color: $sky-background-color-selected;
+            background-color: variables.$sky-background-color-selected;
           }
         }
       }
@@ -337,16 +332,16 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+      variables.$sky-cell-wrap-text-padding-modern,
+      variables.$sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:hover {
-      border: 1px solid $sky-theme-modern-border-color-primary-dark;
+      border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     .ag-row:not(.ag-row-first) {
@@ -357,12 +352,12 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   ag-grid-angular.sky-ag-grid-editable {
     .ag-popup {
       .ag-popup-editor {
-        background-color: $sky-theme-modern-background-color-page-default;
+        background-color: variables.$sky-theme-modern-background-color-page-default;
       }
 
       .ag-select-list {
-        box-shadow: $sky-theme-modern-elevation-4-shadow-size
-          $sky-theme-modern-elevation-4-shadow-color;
+        box-shadow: variables.$sky-theme-modern-elevation-4-shadow-size
+          variables.$sky-theme-modern-elevation-4-shadow-color;
 
         .ag-select-list-item {
           cursor: pointer;
@@ -370,13 +365,13 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 
           &:hover {
             background-color: transparent;
-            border-color: $sky-theme-modern-border-color-primary-dark;
+            border-color: variables.$sky-theme-modern-border-color-primary-dark;
           }
         }
       }
     }
 
-    border-top: $sky-standard-border;
+    border-top: variables.$sky-standard-border;
 
     .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
       padding-top: 60px;
@@ -387,20 +382,20 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+      variables.$sky-cell-wrap-text-padding-modern,
+      variables.$sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:hover {
-      border: 1px solid $sky-theme-modern-border-color-primary-dark;
+      border: 1px solid variables.$sky-theme-modern-border-color-primary-dark;
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     .sky-ag-grid-cell-editable {
-      background-color: $sky-background-color-page-default;
+      background-color: variables.$sky-background-color-page-default;
 
       .ag-select {
         .ag-picker-field-display {
@@ -411,7 +406,7 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     .sky-ag-grid-cell-uneditable {
-      background-color: $sky-background-color-neutral-light;
+      background-color: variables.$sky-background-color-neutral-light;
     }
 
     .ag-row:not(.ag-row-first) {
@@ -447,8 +442,8 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+      variables.$sky-cell-wrap-text-padding-modern,
+      variables.$sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
@@ -457,16 +452,16 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 
     .ag-cell:hover {
       border: 1px solid
-        $sky-theme-modern-mode-dark-background-color-primary-dark;
+        variables.$sky-theme-modern-mode-dark-background-color-primary-dark;
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+      variables.$sky-cell-wrap-text-padding-modern,
+      variables.$sky-cell-wrap-text-line-height-modern
     );
 
     .ag-row:not(.ag-row-first) {
@@ -484,37 +479,37 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
     }
 
     @include skyux-cell-wrap-text(
-      $sky-cell-wrap-text-padding-modern,
-      $sky-cell-wrap-text-line-height-modern
+      variables.$sky-cell-wrap-text-padding-modern,
+      variables.$sky-cell-wrap-text-line-height-modern
     );
 
     // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift
     .ag-cell {
       padding-top: 1px;
       padding-bottom: 1px;
-      border-right-color: $sky-theme-modern-mode-dark-border-color-neutral-medium;
+      border-right-color: variables.$sky-theme-modern-mode-dark-border-color-neutral-medium;
     }
 
     .ag-cell:hover {
       border: 1px solid
-        $sky-theme-modern-mode-dark-background-color-primary-dark;
+        variables.$sky-theme-modern-mode-dark-background-color-primary-dark;
     }
 
     .ag-cell.sky-ag-grid-cell-invalid {
-      border: 1px solid $sky-highlight-color-danger;
+      border: 1px solid variables.$sky-highlight-color-danger;
     }
 
     .sky-ag-grid-cell-editable {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+      background-color: variables.$sky-theme-modern-mode-dark-background-color-page-default;
     }
 
     .sky-ag-grid-cell-uneditable {
-      background-color: $sky-theme-modern-mode-dark-background-color-elevation-24;
+      background-color: variables.$sky-theme-modern-mode-dark-background-color-elevation-24;
     }
 
     input {
-      background-color: $sky-theme-modern-mode-dark-background-color-page-default;
-      color: $sky-theme-modern-mode-dark-font-body-default-color;
+      background-color: variables.$sky-theme-modern-mode-dark-background-color-page-default;
+      color: variables.$sky-theme-modern-mode-dark-font-body-default-color;
     }
 
     .ag-row:not(.ag-row-first) {
@@ -537,7 +532,7 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
 
     .ag-popup {
       .ag-popup-editor {
-        background-color: $sky-theme-modern-mode-dark-background-color-page-default;
+        background-color: variables.$sky-theme-modern-mode-dark-background-color-page-default;
       }
 
       .ag-select-list {

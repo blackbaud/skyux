@@ -3,5 +3,16 @@
   "editor.formatOnSave": true,
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
-  "cSpell.words": ["skyux", "blackbaud", "tabset", "tablist"]
+  "cSpell.words": [
+    "Autonumeric",
+    "blackbaud",
+    "colorpicker",
+    "compat",
+    "datetime",
+    "skyux",
+    "stylesheet",
+    "tabindex",
+    "tablist",
+    "tabset"
+  ]
 }

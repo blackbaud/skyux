@@ -1,10 +1,11 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
+  as modernMixins;
 
 .sky-dropdown-button-type-tab {
-  @include sky-btn-tab();
-  @include sky-btn-tab-selected();
+  @include mixins.sky-btn-tab();
+  @include mixins.sky-btn-tab-selected();
   max-width: 100%;
   text-align: left;
 }
@@ -43,10 +44,10 @@
   visibility: hidden;
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-dropdown-button-type-tab {
-    @include sky-theme-modern-btn-tab();
-    @include sky-theme-modern-btn-tab-selected();
+    @include modernMixins.sky-theme-modern-btn-tab();
+    @include modernMixins.sky-theme-modern-btn-tab-selected();
   }
 
   .sky-dropdown-caret {
@@ -54,8 +55,8 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-dropdown-button-type-tab {
-    @include sky-theme-modern-dark-btn-tab-selected();
+    @include modernMixins.sky-theme-modern-dark-btn-tab-selected();
   }
 }

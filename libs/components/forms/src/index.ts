@@ -17,6 +17,7 @@ export * from './lib/modules/input-box/input-box-host.service';
 export * from './lib/modules/input-box/input-box-populate-args';
 
 export * from './lib/modules/radio/types/radio-change';
+export * from './lib/modules/radio/types/radio-type';
 export * from './lib/modules/radio/radio.module';
 
 export * from './lib/modules/selection-box/types/selection-box-grid-align-items';

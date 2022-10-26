@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-flyout {
   position: fixed;
@@ -96,7 +95,7 @@
 }
 
 .sky-flyout-header {
-  @include sky-border(dark, bottom);
+  @include mixins.sky-border(dark, bottom);
   width: 100%;
   background: $sky-background-color-neutral-light;
   height: 50px;
@@ -127,7 +126,7 @@
   height: calc(100% - 50px);
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-flyout {
     border-left: 0;
   }
@@ -145,7 +144,7 @@
   }
 }
 
-@include sky-theme-modern-dark {
+@include mixins.sky-theme-modern-dark {
   .sky-flyout {
     background: #000;
   }

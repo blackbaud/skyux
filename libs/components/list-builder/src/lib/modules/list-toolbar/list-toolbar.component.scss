@@ -1,4 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-list-toolbar-search-wrapper {
   display: flex;

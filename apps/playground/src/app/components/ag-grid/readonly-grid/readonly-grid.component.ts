@@ -7,10 +7,12 @@ import {
 import { SkyThemeService } from '@skyux/theme';
 
 import {
+  Events,
   GridApi,
   GridOptions,
   GridReadyEvent,
   ICellRendererParams,
+  RowSelectedEvent,
 } from 'ag-grid-community';
 import { Observable, Subject } from 'rxjs';
 
@@ -29,7 +31,6 @@ export class ReadonlyGridComponent implements OnInit {
   public gridData = READONLY_GRID_DATA;
   public gridOptions: GridOptions;
   public hasMore = true;
-  public rowDeleteIds: string[];
 
   public columnDefs = [
     {
@@ -133,6 +134,22 @@ export class ReadonlyGridComponent implements OnInit {
   public onGridReady(gridReadyEvent: GridReadyEvent): void {
     this.gridApi = gridReadyEvent.api;
     this.gridApi.sizeColumnsToFit();
+    this.gridApi.resetRowHeights();
+    this.gridApi.addEventListener(
+      Events.EVENT_ROW_SELECTED,
+      (event: RowSelectedEvent) => {
+        const row = event.node;
+        if (row.isSelected()) {
+          this.gridOptions.context.rowDeleteIds = [
+            ...this.gridOptions.context.rowDeleteIds,
+            row.id,
+          ];
+        } else {
+          this.gridOptions.context.rowDeleteIds =
+            this.gridOptions.context.rowDeleteIds.filter((id) => id !== row.id);
+        }
+      }
+    );
   }
 
   public onScrollEnd(): void {

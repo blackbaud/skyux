@@ -10,6 +10,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
+import { SkyDropdownButtonType } from 'libs/components/popovers/src/lib/modules/dropdown/types/dropdown-button-type';
 import { BehaviorSubject } from 'rxjs';
 
 import { SkyDropdownFixture } from './dropdown-fixture';
@@ -59,7 +60,7 @@ class DropdownTestComponent {
 
   public buttonStyle: string | undefined;
 
-  public buttonType: string | undefined;
+  public buttonType: SkyDropdownButtonType | undefined;
 
   public disabled = false;
 

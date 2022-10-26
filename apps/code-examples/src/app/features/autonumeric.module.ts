@@ -12,19 +12,19 @@ import { AutonumericDemoModule as AutonumericPresetAutonumericDemoModule } from 
 
 const routes: Routes = [
   {
-    path: 'autonumeric/currency',
+    path: 'currency',
     component: AutonumericCurrencyAutonumericDemoComponent,
   },
   {
-    path: 'autonumeric/international-formatting',
+    path: 'international-formatting',
     component: AutonumericInternationalFormattingAutonumericDemoComponent,
   },
   {
-    path: 'autonumeric/options-provider',
+    path: 'options-provider',
     component: AutonumericOptionsProviderAutonumericDemoComponent,
   },
   {
-    path: 'autonumeric/preset',
+    path: 'preset',
     component: AutonumericPresetAutonumericDemoComponent,
   },
 ];

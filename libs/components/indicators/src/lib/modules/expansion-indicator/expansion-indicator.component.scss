@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-expansion-indicator {
   display: inline-block;
@@ -53,7 +52,7 @@
   }
 }
 
-@include sky-theme-modern {
+@include mixins.sky-theme-modern {
   .sky-expansion-indicator {
     height: 26px;
     width: 26px;

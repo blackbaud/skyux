@@ -14,10 +14,10 @@ type Tab = {
 })
 export class TabsComponent {
   @Input()
-  public active = 0;
+  public active: number | undefined = 0;
 
   @Input()
-  public tabs: Tab[] = [];
+  public tabs: Tab[] | undefined = [];
 
   public onNewTabClick() {
     console.log('Add new tab click');

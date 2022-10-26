@@ -1,5 +1,7 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'scss/variables';
+@use 'libs/components/theme/src/lib/styles/mixins' as defaultMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@use 'scss/variables' as lookupVars;
 
 sky-search {
   .sky-search-container .sky-form-group {
@@ -37,13 +39,13 @@ sky-search {
 
   .sky-search-btn-apply {
     padding-left: 6px;
-    @include sky-border(dark, top, bottom, right);
+    @include defaultMixins.sky-border(dark, top, bottom, right);
   }
 
   .sky-search-btn-clear {
     border-right: 0 none;
     padding-right: 6px;
-    @include sky-border(dark, top, bottom);
+    @include defaultMixins.sky-border(dark, top, bottom);
   }
 
   .sky-search-input-focused {
@@ -69,15 +71,15 @@ sky-search {
   /**
    * Mobile styles
    */
-  @include sky-host-responsive-container-xs-min(false) {
+  @include defaultMixins.sky-host-responsive-container-xs-min(false) {
     .sky-search-input-container {
       min-width: auto;
     }
   }
 
-  @include sky-host-responsive-container-sm-min(false) {
+  @include defaultMixins.sky-host-responsive-container-sm-min(false) {
     .sky-search-input-container {
-      min-width: $sky-search-width;
+      min-width: lookupVars.$sky-search-width;
     }
   }
 
@@ -125,7 +127,7 @@ sky-search {
   .sky-search-dismiss-absolute {
     align-items: center;
     position: absolute;
-    background-color: $sky-search-background-color;
+    background-color: lookupVars.$sky-search-background-color;
     top: 0;
     left: 0;
     bottom: 0;
@@ -182,7 +184,6 @@ sky-search {
 
         .sky-input-box-form-group-inner {
           input {
-            flex-basis: auto;
             width: auto;
             padding: $sky-theme-modern-space-sm $sky-theme-modern-space-sm
               $sky-theme-modern-space-sm 0;

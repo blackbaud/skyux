@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { SkyRadioComponent } from '../radio.component';
 
 @Component({
   templateUrl: './radio.component.fixture.html',
 })
-export class SkyRadioTestComponent implements AfterViewInit {
+export class SkyRadioTestComponent {
   public selectedValue = '1';
   public disabled1 = false;
 
@@ -23,13 +23,15 @@ export class SkyRadioTestComponent implements AfterViewInit {
   @ViewChild(SkyRadioComponent)
   public checkboxComponent!: SkyRadioComponent;
 
-  public ngAfterViewInit() {
-    this.checkboxComponent.disabledChange.subscribe((value) => {
-      this.onDisabledChange(value);
-    });
+  public onCheckedChange(): void {
+    /* */
   }
 
-  public onDisabledChange(value: boolean): void {}
+  public onClick(): void {
+    /* */
+  }
 
-  public onClick() {}
+  public onDisabledChange(): void {
+    /* */
+  }
 }

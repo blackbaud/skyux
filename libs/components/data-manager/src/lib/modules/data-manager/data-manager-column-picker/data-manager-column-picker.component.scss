@@ -1,4 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/variables';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-data-manager-column-picker-content sky-repeater-item-content {
   margin-top: $sky-margin-inline-compact;

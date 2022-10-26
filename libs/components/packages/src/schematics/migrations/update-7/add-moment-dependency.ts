@@ -10,14 +10,16 @@ import { readRequiredFile } from '../../utility/tree';
 export default function (): Rule {
   return async (tree, context) => {
     const packageJson: {
-      dependencies?: { [_: string]: string };
-      devDependencies?: { [_: string]: string };
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
     } = JSON.parse(readRequiredFile(tree, '/package.json'));
 
-    if (
-      !packageJson.dependencies?.moment &&
-      !packageJson.devDependencies?.moment
-    ) {
+    const dependencies: Record<string, string> = {
+      ...(packageJson.dependencies || {}),
+      ...(packageJson.devDependencies || {}),
+    };
+
+    if (dependencies['@skyux/datetime']) {
       context.addTask(new NodePackageInstallTask());
 
       addPackageJsonDependency(tree, {

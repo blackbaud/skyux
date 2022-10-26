@@ -1,5 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/variables';
-@import 'libs/components/theme/src/lib/styles/themes/modern/_compat/variables';
+@use 'libs/components/theme/src/lib/styles/variables' as *;
 
 .sky-box {
   background-color: #fff;

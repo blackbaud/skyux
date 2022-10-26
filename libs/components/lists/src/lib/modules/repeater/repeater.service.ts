@@ -2,23 +2,35 @@ import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { SkyRepeaterExpandModeType } from './repeater-expand-mode-type';
 import { SkyRepeaterItemRolesType } from './repeater-item-roles.type';
 import { SkyRepeaterItemComponent } from './repeater-item.component';
+
+let uniqueId = 0;
+const DEFAULT_EXPAND_MODE: SkyRepeaterExpandModeType = 'none';
 
 /**
  * @internal
  */
 @Injectable()
 export class SkyRepeaterService implements OnDestroy {
-  public activeItemChange = new BehaviorSubject<SkyRepeaterItemComponent>(
+  public activeItemChange = new BehaviorSubject<
+    SkyRepeaterItemComponent | undefined
+  >(undefined);
+
+  public activeItemIndexChange = new BehaviorSubject<number | undefined>(
     undefined
   );
 
-  public activeItemIndexChange = new BehaviorSubject<number>(undefined);
-
   public enableActiveState = false;
 
-  public expandMode: string;
+  // TODO: Remove 'string' as a valid type in a breaking change.
+  public get expandMode(): SkyRepeaterExpandModeType | string {
+    return this.#_expandMode;
+  }
+  public set expandMode(value: SkyRepeaterExpandModeType | string | undefined) {
+    this.#_expandMode = value ?? DEFAULT_EXPAND_MODE;
+  }
 
   public itemCollapseStateChange = new EventEmitter<SkyRepeaterItemComponent>();
 
@@ -32,7 +44,9 @@ export class SkyRepeaterService implements OnDestroy {
 
   public orderChange = new BehaviorSubject<void>(undefined);
 
-  public repeaterGroupId: number;
+  public repeaterGroupId = ++uniqueId;
+
+  #_expandMode: SkyRepeaterExpandModeType | string = DEFAULT_EXPAND_MODE;
 
   public ngOnDestroy(): void {
     this.activeItemChange.complete();
@@ -51,7 +65,7 @@ export class SkyRepeaterService implements OnDestroy {
     }
   }
 
-  public activateItemByIndex(index: number): void {
+  public activateItemByIndex(index: number | undefined): void {
     /* istanbul ignore else */
     if (this.enableActiveState) {
       if (index === undefined) {
@@ -78,10 +92,6 @@ export class SkyRepeaterService implements OnDestroy {
 
   public onItemCollapseStateChange(item: SkyRepeaterItemComponent): void {
     this.itemCollapseStateChange.emit(item);
-  }
-
-  public getItemIndex(item: SkyRepeaterItemComponent): number {
-    return this.items.indexOf(item);
   }
 
   public registerOrderChange(): void {

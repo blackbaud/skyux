@@ -18,6 +18,14 @@ declare namespace Cypress {
      * Wait for Font Awesome and BLKB Sans to be loaded.
      */
     waitForFaAndBbFonts(): Chainable<void>;
+
+    /**
+     * Capture a screenshot of the current page for visual regression testing.
+     */
+    skyVisualTest(
+      name: string,
+      options?: Record<string, unknown>
+    ): Chainable<void>;
   }
 }
 
@@ -45,4 +53,20 @@ Cypress.Commands.add('waitForBlackbaudSans', () =>
 );
 Cypress.Commands.add('waitForFaAndBbFonts', () =>
   cy.waitForFonts('BLKB Sans', 'FontAwesome')
+);
+
+/**
+ * Capture a screenshot of the current page for visual regression testing. Include the URL in `blackout` because that is
+ * the only arbitrary value field that becomes available in the after-screenshot hook, and it is required by Percy.
+ */
+Cypress.Commands.add(
+  'skyVisualTest',
+  (name: string, options?: Record<string, unknown>) => {
+    cy.url().then((url) => {
+      cy.screenshot(name, {
+        ...options,
+        blackout: [`url:${url}`],
+      });
+    });
+  }
 );

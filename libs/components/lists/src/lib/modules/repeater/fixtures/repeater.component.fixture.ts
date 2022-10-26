@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
+import { SkyRepeaterExpandModeType } from '../repeater-expand-mode-type';
 import { SkyRepeaterComponent } from '../repeater.component';
 
 let nextItemId = 0;
@@ -9,17 +10,17 @@ let nextItemId = 0;
   templateUrl: './repeater.component.fixture.html',
 })
 export class RepeaterTestComponent {
-  public set activeIndex(value: number) {
-    this._activeIndex = value;
+  public set activeIndex(value: number | undefined) {
+    this.#_activeIndex = value;
   }
 
-  public get activeIndex(): number {
-    return this._activeIndex;
+  public get activeIndex(): number | undefined {
+    return this.#_activeIndex;
   }
 
   public disableFirstItem = false;
 
-  public expandMode = 'single';
+  public expandMode: SkyRepeaterExpandModeType | undefined = 'single';
 
   public items = [
     {
@@ -36,37 +37,37 @@ export class RepeaterTestComponent {
     },
   ];
 
-  public lastItemExpanded: boolean;
+  public lastItemExpanded: boolean | undefined;
 
   public lastItemSelected = false;
 
-  public removeLastItem: boolean;
+  public removeLastItem: boolean | undefined;
 
   public reorderable = false;
 
-  public selectable = false;
+  public selectable: boolean | undefined = false;
 
-  public showContextMenu: boolean;
+  public showContextMenu: boolean | undefined;
 
   public showItemName = false;
 
-  public showDynamicContent: boolean;
+  public showDynamicContent: boolean | undefined;
 
-  public showItemWithNoContent: boolean;
+  public showItemWithNoContent: boolean | undefined;
 
   public showRepeaterWithActiveIndex = false;
 
   public showRepeaterWithNgFor = false;
 
-  public sortedItemTags: any[];
+  public sortedItemTags: any[] | undefined;
 
   @ViewChild(SkyRepeaterComponent, {
     read: SkyRepeaterComponent,
     static: false,
   })
-  public repeater: SkyRepeaterComponent;
+  public repeater: SkyRepeaterComponent | undefined;
 
-  private _activeIndex: number;
+  #_activeIndex: number | undefined;
 
   public onCollapse(): void {}
 

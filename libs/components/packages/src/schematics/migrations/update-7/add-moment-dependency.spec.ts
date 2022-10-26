@@ -22,27 +22,31 @@ describe('Migrations > Add moment.js as a dependency', () => {
     };
   }
 
-  it('should add moment as a dependency', async () => {
+  it('should add moment as a dependency if @skyux/datetime installed', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      '{"dependencies": {"@skyux/datetime": "7.0.0"}}'
+    );
+
+    await runSchematic();
+
+    expect(tree.readJson('/package.json')).toEqual({
+      dependencies: {
+        '@skyux/datetime': '7.0.0',
+        moment: '2.29.4',
+      },
+    });
+  });
+
+  it('should not add moment if @skyux/datetime not installed', async () => {
     const { runSchematic, tree } = await setupTest();
 
     tree.overwrite('/package.json', '{}');
 
     await runSchematic();
 
-    expect(tree.readJson('/package.json')).toEqual({
-      dependencies: { moment: '2.29.4' },
-    });
-  });
-
-  it('should not add moment if already installed', async () => {
-    const { runSchematic, tree } = await setupTest();
-
-    tree.overwrite('/package.json', '{ "devDependencies": { "moment": "1" } }');
-
-    await runSchematic();
-
-    expect(tree.readJson('/package.json')).toEqual({
-      devDependencies: { moment: '1' },
-    });
+    expect(tree.readJson('/package.json')).toEqual({});
   });
 });

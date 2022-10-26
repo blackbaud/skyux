@@ -6,13 +6,13 @@ import { SkyTabIndex } from './tab-index';
 export type TabButtonViewModel = {
   active: boolean;
   ariaControls: string;
-  buttonHref: string;
+  buttonHref: string | null;
   buttonId: string;
-  buttonText: string;
-  buttonTextCount: string;
+  buttonText: string | undefined;
+  buttonTextCount: string | undefined;
   closeable: boolean;
-  disabled: boolean;
-  tabIndex: SkyTabIndex;
+  disabled: boolean | undefined;
+  tabIndex: SkyTabIndex | undefined;
   tabNumber: number;
   totalTabsCount: number;
 };

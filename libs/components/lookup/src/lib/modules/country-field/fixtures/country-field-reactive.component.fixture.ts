@@ -20,7 +20,7 @@ export class CountryFieldReactiveTestComponent implements OnInit {
 
   public countryForm: UntypedFormGroup | undefined;
 
-  public countryControl!: UntypedFormControl;
+  public countryControl: UntypedFormControl | undefined;
 
   public initialValue: SkyCountryFieldCountry | undefined;
 
@@ -29,38 +29,38 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   public supportedCountryISOs: string[] | undefined;
 
   public set isDisabled(value: boolean) {
-    this._isDisabled = value;
+    this.#_isDisabled = value;
 
-    if (this._isDisabled) {
-      this.countryControl.disable();
+    if (this.#_isDisabled) {
+      this.countryControl?.disable();
     } else {
-      this.countryControl.enable();
+      this.countryControl?.enable();
     }
   }
 
   public get isDisabled(): boolean {
-    return this._isDisabled;
+    return this.#_isDisabled;
   }
 
   public set isRequired(value: boolean) {
-    this._isRequired = value;
+    this.#_isRequired = value;
 
-    if (this._isRequired) {
-      this.countryControl.setValidators([Validators.required]);
+    if (this.#_isRequired) {
+      this.countryControl?.setValidators([Validators.required]);
     } else {
-      this.countryControl.setValidators([]);
+      this.countryControl?.setValidators([]);
     }
   }
 
   public get isRequired(): boolean {
-    return this._isRequired;
+    return this.#_isRequired;
   }
 
   public defaultCountry: string | undefined;
 
-  private _isDisabled = false;
+  #_isDisabled = false;
 
-  private _isRequired = false;
+  #_isRequired = false;
 
   public ngOnInit(): void {
     this.countryControl = new UntypedFormControl();
@@ -87,6 +87,6 @@ export class CountryFieldReactiveTestComponent implements OnInit {
   }
 
   public setValue(country: SkyCountryFieldCountry): void {
-    this.countryControl.setValue(country);
+    this.countryControl?.setValue(country);
   }
 }

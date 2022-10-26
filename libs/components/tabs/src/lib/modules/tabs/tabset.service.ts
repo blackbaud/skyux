@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -10,41 +10,55 @@ import { SkyTabsetActiveTabUnregisteredArgs } from './tabset-active-tab-unregist
  * @internal
  */
 @Injectable()
-export class SkyTabsetService {
+export class SkyTabsetService implements OnDestroy {
   public get activeTabUnregistered(): Observable<SkyTabsetActiveTabUnregisteredArgs> {
-    return this._activeTabUnregistered.asObservable();
+    return this.#activeTabUnregistered;
   }
 
   public get activeTabIndex(): Observable<SkyTabIndex> {
-    return this._activeTabIndex.asObservable();
+    return this.#activeTabIndex;
   }
 
   public get focusedTabBtnIndex(): Observable<SkyTabIndex> {
-    return this._focusedTabBtnIndex.asObservable();
+    return this.#focusedTabBtnIndex;
   }
 
-  public currentActiveTabIndex: SkyTabIndex = 0;
+  public currentActiveTabIndex: SkyTabIndex | undefined = 0;
 
   public currentFocusedTabBtnIndex: SkyTabIndex = 0;
 
-  private _activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
+  #activeTabIndex: BehaviorSubject<SkyTabIndex>;
 
-  private _focusedTabBtnIndex = new Subject<SkyTabIndex>();
+  #focusedTabBtnIndex: Subject<SkyTabIndex>;
 
-  private _activeTabUnregistered =
-    new Subject<SkyTabsetActiveTabUnregisteredArgs>();
+  #activeTabUnregistered: Subject<SkyTabsetActiveTabUnregisteredArgs>;
 
-  private tabs: {
-    tabIndex: SkyTabIndex;
+  #tabs: {
+    tabIndex: SkyTabIndex | undefined;
   }[] = [];
 
-  private tabCounter = 0;
+  #tabCounter = 0;
+
+  constructor() {
+    this.#activeTabIndex = new BehaviorSubject<SkyTabIndex>(0);
+
+    this.#activeTabUnregistered =
+      new Subject<SkyTabsetActiveTabUnregisteredArgs>();
+
+    this.#focusedTabBtnIndex = new Subject<SkyTabIndex>();
+  }
+
+  public ngOnDestroy(): void {
+    this.#activeTabIndex.complete();
+    this.#activeTabUnregistered.complete();
+    this.#focusedTabBtnIndex.complete();
+  }
 
   /**
    * Sets the active tab by its unique `tabIndex` property.
    */
   public setActiveTabIndex(
-    value: SkyTabIndex,
+    value: SkyTabIndex | undefined,
     config = {
       emitChange: true,
     }
@@ -57,7 +71,7 @@ export class SkyTabsetService {
 
       /* istanbul ignore else */
       if (config.emitChange) {
-        this._activeTabIndex.next(value);
+        this.#activeTabIndex.next(value);
       }
 
       this.setFocusedTabBtnIndex(value);
@@ -65,17 +79,17 @@ export class SkyTabsetService {
   }
 
   public focusNextTabBtn(tabButtons: TabButtonViewModel[]): void {
-    const currentTabArrayIndex = this.tabs.findIndex((tab) =>
+    const currentTabArrayIndex = this.#tabs.findIndex((tab) =>
       this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex)
     );
 
     for (
-      let i = this.getNextTabArrayIndex(currentTabArrayIndex);
+      let i = this.#getNextTabArrayIndex(currentTabArrayIndex);
       i !== currentTabArrayIndex;
-      i = this.getNextTabArrayIndex(i)
+      i = this.#getNextTabArrayIndex(i)
     ) {
       const tabBtn = tabButtons[i];
-      if (!tabBtn.disabled) {
+      if (!tabBtn.disabled && tabBtn.tabIndex !== undefined) {
         this.setFocusedTabBtnIndex(tabBtn.tabIndex);
         return;
       }
@@ -83,17 +97,17 @@ export class SkyTabsetService {
   }
 
   public focusPrevTabBtn(tabButtons: TabButtonViewModel[]): void {
-    const currentTabArrayIndex = this.tabs.findIndex((tab) =>
+    const currentTabArrayIndex = this.#tabs.findIndex((tab) =>
       this.tabIndexesEqual(tab.tabIndex, this.currentFocusedTabBtnIndex)
     );
 
     for (
-      let i = this.getPrevTabArrayIndex(currentTabArrayIndex);
+      let i = this.#getPrevTabArrayIndex(currentTabArrayIndex);
       i !== currentTabArrayIndex;
-      i = this.getPrevTabArrayIndex(i)
+      i = this.#getPrevTabArrayIndex(i)
     ) {
       const tabBtn = tabButtons[i];
-      if (!tabBtn.disabled) {
+      if (!tabBtn.disabled && tabBtn.tabIndex !== undefined) {
         this.setFocusedTabBtnIndex(tabBtn.tabIndex);
         return;
       }
@@ -104,7 +118,7 @@ export class SkyTabsetService {
     for (let i = 0; i < tabButtons.length; i++) {
       const tabBtn = tabButtons[i];
 
-      if (!tabBtn.disabled) {
+      if (!tabBtn.disabled && tabBtn.tabIndex !== undefined) {
         this.setFocusedTabBtnIndex(tabBtn.tabIndex);
         return;
       }
@@ -115,7 +129,7 @@ export class SkyTabsetService {
     for (let i = tabButtons.length - 1; i >= 0; i--) {
       const tabBtn = tabButtons[i];
 
-      if (!tabBtn.disabled) {
+      if (!tabBtn.disabled && tabBtn.tabIndex !== undefined) {
         this.setFocusedTabBtnIndex(tabBtn.tabIndex);
         return;
       }
@@ -124,7 +138,7 @@ export class SkyTabsetService {
 
   public setFocusedTabBtnIndex(tabIndex: SkyTabIndex): void {
     this.currentFocusedTabBtnIndex = tabIndex;
-    this._focusedTabBtnIndex.next(tabIndex);
+    this.#focusedTabBtnIndex.next(tabIndex);
   }
 
   /**
@@ -132,11 +146,11 @@ export class SkyTabsetService {
    */
   public registerTab(tabIndex?: SkyTabIndex): SkyTabIndex {
     if (tabIndex === undefined) {
-      tabIndex = this.tabCounter;
-      this.tabCounter++;
+      tabIndex = this.#tabCounter;
+      this.#tabCounter++;
     }
 
-    this.tabs.push({ tabIndex });
+    this.#tabs.push({ tabIndex });
 
     return tabIndex;
   }
@@ -145,52 +159,59 @@ export class SkyTabsetService {
     currentTabIndex: SkyTabIndex,
     newTabIndex: SkyTabIndex
   ): void {
-    const found = this.tabs.find((tab) =>
+    const found = this.#tabs.find((tab) =>
       this.tabIndexesEqual(tab.tabIndex, currentTabIndex)
     );
-    found.tabIndex = newTabIndex;
+    if (found) {
+      found.tabIndex = newTabIndex;
+    }
   }
 
   /**
    * Unregisters a tab component.
    */
   public unregisterTab(tabIndex: SkyTabIndex): void {
-    const index = this.tabs.findIndex((tab) =>
+    const index = this.#tabs.findIndex((tab) =>
       this.tabIndexesEqual(tab.tabIndex, tabIndex)
     );
 
     // Notify the tabset component when an active tab is unregistered.
-    if (this.isTabIndexActive(this.tabs[index]?.tabIndex)) {
-      this._activeTabUnregistered.next({
+    if (this.#isTabIndexActive(this.#tabs[index]?.tabIndex)) {
+      this.#activeTabUnregistered.next({
         arrayIndex: index,
       });
     }
 
-    this.tabs.splice(index, 1);
+    this.#tabs.splice(index, 1);
   }
 
   /**
    * Unregisters all tab components at once.
    */
   public unregisterAll(): void {
-    this.tabs = [];
+    this.#tabs = [];
   }
 
   /**
    * Compares two tab indexes and returns `true` if they are equal.
    */
   public tabIndexesEqual(
-    tabIndex1: SkyTabIndex,
-    tabIndex2: SkyTabIndex
+    tabIndex1: SkyTabIndex | undefined,
+    tabIndex2: SkyTabIndex | undefined
   ): boolean {
-    return tabIndex1 === tabIndex2 || +tabIndex1 === +tabIndex2;
+    return (
+      tabIndex1 === tabIndex2 ||
+      (tabIndex1 !== undefined &&
+        tabIndex2 !== undefined &&
+        +tabIndex1 === +tabIndex2)
+    );
   }
 
   /**
    * Verifies if a provided tab index is registered.
    */
   public isValidTabIndex(tabIndex: SkyTabIndex): boolean {
-    return this.tabs.some((tab) =>
+    return this.#tabs.some((tab) =>
       this.tabIndexesEqual(tab.tabIndex, tabIndex)
     );
   }
@@ -199,42 +220,43 @@ export class SkyTabsetService {
    * Activates the first registered tab.
    */
   public activateFirstTab(): SkyTabIndex | undefined {
-    const firstTabIndex = this.tabs[0] && this.tabs[0].tabIndex;
+    const firstTabIndex = this.#tabs[0] && this.#tabs[0].tabIndex;
     if (firstTabIndex !== undefined) {
       this.setActiveTabIndex(firstTabIndex);
       return firstTabIndex;
     }
+    return undefined;
   }
 
   /**
    * Activates the next registered tab, or the previous one based on a provided array index.
    */
   public activateNearestTab(arrayIndex: number): void {
-    const newActiveTab = this.tabs[arrayIndex] || this.tabs[arrayIndex - 1];
+    const newActiveTab = this.#tabs[arrayIndex] || this.#tabs[arrayIndex - 1];
     if (newActiveTab) {
       this.currentActiveTabIndex = newActiveTab.tabIndex;
     }
   }
 
-  private isTabIndexActive(tabIndex: SkyTabIndex): boolean {
+  #isTabIndexActive(tabIndex: SkyTabIndex | undefined): boolean {
     return this.tabIndexesEqual(tabIndex, this.currentActiveTabIndex);
   }
 
-  private getNextTabArrayIndex(currentIndex: number): number {
+  #getNextTabArrayIndex(currentIndex: number): number {
     let nextIndex = currentIndex + 1;
 
-    if (nextIndex === this.tabs.length) {
+    if (nextIndex === this.#tabs.length) {
       nextIndex = 0;
     }
 
     return nextIndex;
   }
 
-  private getPrevTabArrayIndex(currentIndex: number): number {
+  #getPrevTabArrayIndex(currentIndex: number): number {
     let prevIndex = currentIndex - 1;
 
     if (prevIndex < 0) {
-      prevIndex = this.tabs.length - 1;
+      prevIndex = this.#tabs.length - 1;
     }
 
     return prevIndex;

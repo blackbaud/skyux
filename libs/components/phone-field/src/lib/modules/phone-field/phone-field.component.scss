@@ -1,6 +1,6 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
-@import 'node_modules/intl-tel-input/build/css/intlTelInput';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+@use 'node_modules/intl-tel-input/build/css/intlTelInput';
 
 .sky-phone-field-country-btn + .sky-form-control {
   border-left: none;
@@ -27,7 +27,7 @@
 
 .sky-phone-field-country-selected,
 .sky-phone-field-country-default {
-  @include sky-border(light, bottom);
+  @include mixins.sky-border(light, bottom);
 }
 
 .sky-phone-field-search-result {

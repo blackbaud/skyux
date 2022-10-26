@@ -1,4 +1,4 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 $sky-tokens-gutter-size: 2px;
 

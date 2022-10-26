@@ -1,6 +1,5 @@
-@import 'libs/components/theme/src/lib/styles/mixins';
-@import 'libs/components/theme/src/lib/styles/_compat/mixins';
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 
 :host .sky-tab-field-required ::ng-deep .sky-vertical-tab-heading:after {
-  @include sky-required-field();
+  @include mixins.sky-required-field();
 }

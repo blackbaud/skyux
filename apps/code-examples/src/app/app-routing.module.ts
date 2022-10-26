@@ -15,6 +15,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'autonumeric',
+    loadChildren: () =>
+      import('./features/autonumeric.module').then(
+        (m) => m.AutonumericFeatureModule
+      ),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./features/colorpicker.module').then(
@@ -86,6 +93,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'split-view',
+    loadChildren: () =>
+      import('./features/split-view.module').then((m) => m.SplitViewModule),
+  },
+  {
     path: 'datetime',
     loadChildren: () =>
       import('./features/datetime.module').then((m) => m.DatetimeFeatureModule),
@@ -109,13 +121,6 @@ const routes: Routes = [
     path: 'validation',
     loadChildren: () =>
       import('./features/validation.module').then((m) => m.ValidationModule),
-  },
-  {
-    path: 'autonumeric',
-    loadChildren: () =>
-      import('./features/autonumeric.module').then(
-        (m) => m.AutonumericFeatureModule
-      ),
   },
   {
     path: 'pages',
