@@ -52,10 +52,7 @@ export class SkyPhoneFieldAdapterService implements OnDestroy {
   }
 
   public setElementValue(elementRef: ElementRef, value: string): void {
-    if (value) {
-      // TODO: check to see if this is necessary after running tests
-      this.#renderer.setProperty(elementRef.nativeElement, 'value', value);
-    }
+    this.#renderer.setProperty(elementRef.nativeElement, 'value', value);
   }
 
   public setAriaLabel(element: ElementRef): void {
