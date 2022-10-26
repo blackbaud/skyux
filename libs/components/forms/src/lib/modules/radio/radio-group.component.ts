@@ -220,7 +220,7 @@ export class SkyRadioGroupComponent
     }
   }
 
-  public watchForSelections() {
+  public watchForSelections(): void {
     /* istanbul ignore else */
     if (this.radios) {
       this.radios.forEach((radio) => {
@@ -238,7 +238,7 @@ export class SkyRadioGroupComponent
     }
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
   }
@@ -257,7 +257,7 @@ export class SkyRadioGroupComponent
    * @internal
    * Indicates whether to disable the control. Implemented as a part of ControlValueAccessor.
    */
-  public setDisabledState(isDisabled: boolean) {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 

@@ -19,6 +19,7 @@ import { SkyFormsUtility } from '../shared/forms-utility';
 
 import { SkyRadioGroupIdService } from './radio-group-id.service';
 import { SkyRadioChange } from './types/radio-change';
+import { SkyRadioType } from './types/radio-type';
 
 /**
  * Provider Expression that allows sky-radio to register as a ControlValueAccessor.
@@ -53,7 +54,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @default false
    */
   @Input()
-  public set checked(value: boolean) {
+  public set checked(value: boolean | undefined) {
     const newCheckedState = !!value;
 
     if (this.#_checked !== newCheckedState) {
@@ -214,15 +215,11 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    * @default "info"
    */
   @Input()
-  public get radioType(): string {
+  public get radioType(): SkyRadioType {
     return this.#_radioType;
   }
-  public set radioType(value: string | undefined) {
-    if (value) {
-      this.#_radioType = value.toLocaleLowerCase();
-    } else {
-      this.#_radioType = 'info';
-    }
+  public set radioType(value: SkyRadioType | undefined) {
+    this.#_radioType = value ?? 'info';
   }
 
   /**
@@ -262,7 +259,7 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
   #_checked = false;
   #_disabled = false;
   #_name: string | undefined;
-  #_radioType = 'info';
+  #_radioType: SkyRadioType = 'info';
   #_selectedValue: unknown;
   #_tabindex = 0;
   #_value: any;
