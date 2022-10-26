@@ -44,12 +44,28 @@ $sky-cell-wrap-text-line-height-modern: $sky-theme-modern-font-paragraph-line-he
   }
 }
 
-sky-ag-grid-wrapper .ag-root .ag-header .ag-cell-label-container {
-  flex-direction: row;
-  justify-content: flex-start;
+sky-ag-grid-wrapper .ag-root .ag-header .ag-header-cell {
+  .ag-cell-label-container {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 
-  > .ag-header-cell-label {
-    flex-grow: 0;
+    .sky-control-help-container {
+      padding-right: 12px;
+    }
+
+    .sky-control-help-container + .ag-header-cell-label {
+      padding-right: 0;
+    }
+
+    > .ag-header-cell-label {
+      flex-grow: 0;
+    }
+  }
+
+  &.sky-ag-grid-header-right-aligned {
+    .ag-cell-label-container {
+      justify-content: flex-start;
+    }
   }
 }
 

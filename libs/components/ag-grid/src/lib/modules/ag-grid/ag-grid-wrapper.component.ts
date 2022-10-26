@@ -240,7 +240,7 @@ export class SkyAgGridWrapperComponent implements AfterContentInit, OnDestroy {
       if (!columnHeader.querySelector(`span.sky-control-help-container`)) {
         const inlineHelpContainer = this.document.createElement('span');
         inlineHelpContainer.classList.add('sky-control-help-container');
-        columnHeader.appendChild(inlineHelpContainer);
+        columnHeader.insertBefore(inlineHelpContainer, columnHeader.firstChild);
       }
       return columnHeader.querySelector(`span.sky-control-help-container`);
     };

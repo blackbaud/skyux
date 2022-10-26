@@ -210,7 +210,7 @@ export class AgGridStoriesComponent
           // Scroll down to show the back-to-top button.
           this.#doc
             .querySelector(
-              '#back-to-top .sky-ag-grid-row-hunteca01 [col-id="name"]'
+              '#back-to-top .sky-ag-grid-row-johnsra05 [col-id="name"]'
             )
             .scrollIntoView();
 
@@ -226,7 +226,7 @@ export class AgGridStoriesComponent
               // Trigger validation popover to show up.
               this.#doc
                 .querySelector(
-                  '#validation [row-index="0"] [col-id="seasons_played"]'
+                  '#validation .sky-ag-grid-row-martipe02 [col-id="seasons_played"]'
                 )
                 .dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
 
