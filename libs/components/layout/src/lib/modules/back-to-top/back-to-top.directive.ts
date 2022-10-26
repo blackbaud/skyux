@@ -29,8 +29,8 @@ export class SkyBackToTopDirective implements AfterViewInit, OnDestroy {
    * Specifies configuration options for the back to top component.
    */
   @Input()
-  public set skyBackToTop(value: SkyBackToTopOptions | undefined) {
-    this.#buttonHidden = !!value?.buttonHidden;
+  public set skyBackToTop(value: SkyBackToTopOptions | '' | undefined) {
+    this.#buttonHidden = !!(value && value?.buttonHidden);
 
     this.#handleBackToTopButton(this.#elementInView);
   }

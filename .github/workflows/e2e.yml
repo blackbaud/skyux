@@ -7,8 +7,11 @@ on:
   pull_request:
 
 env:
-  PERCY_POSTINSTALL_BROWSER: true
   GH_PAGES_OWNER: blackbaud
+  PERCY_BROWSER_EXECUTABLE: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PUPPETEER_EXECUTABLE_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
+  SB_CHROMIUM_PATH: C:\Program Files\Google\Chrome\Application\chrome.exe
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,7 +20,7 @@ concurrency:
 jobs:
   install-deps:
     name: Install and cache dependencies
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     outputs:
       parameters: ${{ steps.parameters.outputs.parameters }}
     steps:
@@ -27,6 +30,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '14'
+          cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Cache dependencies
@@ -35,9 +39,9 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: npm install
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -46,20 +50,38 @@ jobs:
         uses: nrwl/nx-set-shas@v3
       - name: Set workflow parameters
         id: parameters
-        run: |
-          echo -n '::set-output name=parameters::'
-          npx skyux-dev e2e-workflow
+        # https://github.com/actions/github-script
+        uses: actions/github-script@v6
+        with:
+          # Uses https://github.com/actions/toolkit
+          script: |
+            const parameters = [];
+            await exec.exec(
+              'npx',
+              [
+                'skyux-dev',
+                'e2e-workflow'
+              ],
+              {
+                listeners: {
+                  stdout: (data) => parameters.push(data.toString())
+                }
+              }
+            );
+            core.setOutput('parameters', parameters.join(''));
       - name: Show workflow parameters
         run: |
           echo 'Using workflow parameters:'
-          echo
+          echo ''
           echo '${{ steps.parameters.outputs.parameters }}' | jq
 
   build-storybook:
     name: Build Project Storybook
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: install-deps
     strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
@@ -79,14 +101,18 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ matrix.project != 'skip' }}
       - name: Build ${{ matrix.project }}
-        run: |
-          npx nx run ${{ matrix.project }}:build-storybook:ci
-          npx sb extract ./dist/storybook/${{ matrix.project }}
+        # https://github.com/actions/github-script
+        uses: actions/github-script@v6
+        with:
+          # Uses https://github.com/actions/toolkit
+          script: |
+            await exec.exec('npx nx run', ['${{ matrix.project }}:build-storybook:ci']);
+            await exec.exec('npx sb extract', ['./dist/storybook/${{ matrix.project }}']);
         if: ${{ matrix.project != 'skip' }}
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v3
@@ -103,9 +129,11 @@ jobs:
 
   build-apps:
     name: Build Apps
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: install-deps
     strategy:
+      # If one build fails, do not cancel other builds.
+      fail-fast: false
       matrix:
         app:
           - code-examples
@@ -129,14 +157,13 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
         if: ${{ github.event_name == 'pull_request' }}
       - name: Build ${{ matrix.app }}
         run: |
-          npx nx build ${{ matrix.app }} \
-            --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
+          npx nx build ${{ matrix.app }} --baseHref="https://blackbaud.github.io/skyux-pr-preview/${{ github.event.number }}/${{ matrix.app }}/"
         if: ${{ github.event_name == 'pull_request' && matrix.app != 'dep-graph' }}
       - name: Build ${{ matrix.app }}
         run: npx nx dep-graph --file=dist/apps/dep-graph/index.html
@@ -155,7 +182,7 @@ jobs:
 
   publish:
     name: Publish
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs:
       - install-deps
       - build-storybook
@@ -174,9 +201,9 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -184,11 +211,28 @@ jobs:
       - name: Move apps
         # All the artifacts are downloaded into one folder, so we need to move them into the correct folders.
         if: ${{ github.event_name == 'pull_request' }}
+        # Setting the shell so this step can run as-is on Windows or Linux.
+        shell: pwsh
         run: |
-          mkdir -p ./dist/apps
-          mv ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/{code-examples,integration,playground,dep-graph} ./dist/apps/
+          md ./dist/apps -ea 0
+          ForEach($app in "code-examples", "integration", "playground", "dep-graph") {
+            mv "./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}/$app" "./dist/apps/$app"
+          }
       - name: Generate Storybook Composition
-        run: npx nx g @skyux-sdk/e2e-schematics:storybook-composition --projectsJson '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}' --baseUrl ../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
+        # https://github.com/actions/github-script
+        uses: actions/github-script@v6
+        with:
+          # Uses https://github.com/actions/toolkit
+          script: |
+            await exec.exec('npx', [
+              'nx',
+              'g',
+              '@skyux-sdk/e2e-schematics:storybook-composition',
+              '--projectsJson',
+              '${{ fromJson(needs.install-deps.outputs.parameters).projectsJson }}',
+              '--baseUrl',
+              '../${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}'
+            ]);
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
@@ -207,7 +251,7 @@ jobs:
 
   e2e:
     name: End to end tests
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: install-deps
     if: ${{ fromJson(needs.install-deps.outputs.parameters).projectsJson != '[]' }}
     strategy:
@@ -228,9 +272,9 @@ jobs:
         with:
           path: |
             node_modules
-            !node_modules/.cache/nx
-            /home/runner/.cache/Cypress
-          key: cache-pr-preview-${{ hashFiles('package-lock.json') }}
+            !node_modules\.cache\nx
+            C:\Users\runneradmin\AppData\Local\Cypress\Cache
+          key: cache-pr-preview-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Percy ${{ matrix.project }}
         # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
         run: npx percy exec -t 350 -- nx e2e ${{ matrix.project }}-e2e --skip-nx-cache
