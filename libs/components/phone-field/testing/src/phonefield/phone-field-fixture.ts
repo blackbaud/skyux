@@ -126,9 +126,6 @@ export class SkyPhoneFieldFixture {
    * Gets a boolean promise indicating if the phone field is valid.
    */
   public async isValid(): Promise<boolean> {
-    if (!(await this.#hasFormControl())) {
-      throw new Error(`Form control not found.`);
-    }
     return this.#phoneFieldInput.classList.contains('ng-valid');
   }
 
@@ -191,19 +188,6 @@ export class SkyPhoneFieldFixture {
 
     this.#fixture.detectChanges();
     return this.#fixture.whenStable();
-  }
-
-  /**
-   * Checks whether the form-field control has set up a form control.
-   */
-  async #hasFormControl(): Promise<boolean> {
-    // If no form "NgControl" is bound to the form-field control, the form-field
-    // is not able to forward any control status classes. Therefore if either the
-    // "ng-touched" or "ng-untouched" class is set, we know that it has a form control.
-    const isTouched = this.#phoneFieldInput.classList.contains('ng-touched');
-    const isUntouched =
-      this.#phoneFieldInput.classList.contains('ng-untouched');
-    return isTouched || isUntouched;
   }
 
   #coerceBooleanProperty(value: string | null): boolean {

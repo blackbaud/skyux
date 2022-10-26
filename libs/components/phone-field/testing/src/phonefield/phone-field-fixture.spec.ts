@@ -176,10 +176,21 @@ describe('PhoneField fixture', () => {
       await phonefieldFixture.selectCountry(COUNTRY_AU.name);
     }
 
+    const countryName: string | null =
+      await phonefieldFixture.getSelectedCountryName();
+
+    const countryIos2: string | null =
+      await phonefieldFixture.getSelectedCountryIso2();
+
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(testComponent.selectedCountry?.name).toBe(COUNTRY_AU.name);
+    if (COUNTRY_AU && COUNTRY_AU.name && countryName) {
+      expect(countryName).toBe(COUNTRY_AU.name);
+    }
+    if (COUNTRY_AU && COUNTRY_AU.iso2 && countryIos2) {
+      expect(countryIos2).toBe(COUNTRY_AU.iso2);
+    }
     expect(selectedCountryChangeSpy).toHaveBeenCalledWith(
       jasmine.objectContaining(COUNTRY_AU)
     );
