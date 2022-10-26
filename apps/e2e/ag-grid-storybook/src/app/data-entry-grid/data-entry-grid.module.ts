@@ -2,30 +2,25 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
-import { SkyBackToTopModule } from '@skyux/layout';
-import { SkyDropdownModule } from '@skyux/popovers';
 import { PreviewWrapperModule } from '@skyux/storybook';
 import { SkyThemeModule, SkyThemeService } from '@skyux/theme';
 
 import { AgGridModule } from 'ag-grid-angular';
 
-import { AgGridStoriesComponent } from './ag-grid-stories.component';
-import { ContextMenuComponent } from './context-menu.component';
+import { DataEntryGridComponent } from './data-entry-grid.component';
 
-const routes: Routes = [{ path: '', component: AgGridStoriesComponent }];
+const routes: Routes = [{ path: '', component: DataEntryGridComponent }];
 @NgModule({
-  declarations: [AgGridStoriesComponent, ContextMenuComponent],
+  declarations: [DataEntryGridComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
     SkyAgGridModule,
     AgGridModule,
-    SkyDropdownModule,
-    SkyBackToTopModule,
     SkyThemeModule,
     PreviewWrapperModule,
   ],
   providers: [SkyThemeService],
-  exports: [AgGridStoriesComponent, ContextMenuComponent],
+  exports: [DataEntryGridComponent],
 })
-export class AgGridStoriesModule {}
+export class DataEntryGridModule {}

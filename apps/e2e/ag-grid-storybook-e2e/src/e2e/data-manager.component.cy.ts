@@ -34,24 +34,12 @@ describe(`ag-grid-storybook data manager`, () => {
               // Necessary to wait for the grid to render.
               .wait(1000)
               .get('#root')
-              .screenshot(
+              .skyVisualTest(
                 `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
                 {
-                  clip: { x: 0, y: 0, width: 1300, height: 600 },
-                }
-              )
-              .get('#root')
-              .percySnapshot(
-                `datamanagercomponent-datamanager--data-manager-${domLayout}-${theme}`,
-                {
-                  widths: [1280],
-                  scope: '#root',
-                  percyCSS: `
-                    /* Avoid "virtual rows" in the screenshot. */
-                    #root {
-                      height: 600px;
-                    }
-                  `,
+                  clip: { x: 0, y: 0, width: 1280, height: 600 },
+                  overwrite: true,
+                  disableTimersAndAnimations: true,
                 }
               );
           });

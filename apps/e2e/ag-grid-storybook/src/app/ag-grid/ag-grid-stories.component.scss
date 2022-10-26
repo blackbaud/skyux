@@ -1,36 +1,43 @@
-app-ag-grid-stories.use-auto-height-dom-layout {
-  display: block;
-  height: var(--viewport-height);
-  width: var(--viewport-width);
+#root {
+  --viewport-height: auto;
 }
 
-app-ag-grid-stories.use-normal-dom-layout {
-  position: relative;
-  top: 0;
-  left: 0;
-  height: var(--viewport-height);
-  width: var(--viewport-width);
+app-ag-grid-stories {
   display: block;
+  width: var(--viewport-width);
 
-  sky-data-manager,
-  sky-data-view,
-  sky-ag-grid-wrapper,
-  .sky-ag-grid,
-  ag-grid-angular {
-    display: block;
-    height: 100%;
-    width: 100%;
+  .scrollable {
+    overflow: auto;
+    position: relative;
   }
 
-  sky-data-manager > .sky-data-manager {
-    display: flex;
-    flex-direction: column;
-    flex-basis: fit-content;
-    height: 100%;
-    width: 100%;
+  .grid {
+    display: grid;
+    grid-template-areas:
+      'row-delete validation'
+      'back-to-top validation';
+    grid-template-columns: 600px 580px;
+    grid-template-rows: 160px 160px;
+    grid-gap: 20px;
+
+    #back-to-top {
+      grid-area: back-to-top;
+    }
+
+    #row-delete {
+      grid-area: row-delete;
+    }
+
+    #validation {
+      grid-area: validation;
+    }
   }
 }
 
-form > * {
-  display: inline-block;
+.sky-theme-modern {
+  app-ag-grid-stories {
+    .grid {
+      grid-template-rows: 220px 300px;
+    }
+  }
 }

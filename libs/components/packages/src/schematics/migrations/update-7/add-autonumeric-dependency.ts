@@ -19,13 +19,13 @@ export default function (): Rule {
       ...(packageJson.devDependencies || {}),
     };
 
-    if (dependencies['@skyux/datetime']) {
+    if (dependencies['@skyux/autonumeric']) {
       context.addTask(new NodePackageInstallTask());
 
       addPackageJsonDependency(tree, {
         type: NodeDependencyType.Default,
-        name: 'moment',
-        version: '2.29.4',
+        name: 'autonumeric',
+        version: '4.6.0',
         overwrite: false,
       });
     }

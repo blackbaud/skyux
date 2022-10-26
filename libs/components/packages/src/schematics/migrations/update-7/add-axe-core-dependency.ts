@@ -19,13 +19,13 @@ export default function (): Rule {
       ...(packageJson.devDependencies || {}),
     };
 
-    if (dependencies['@skyux/datetime']) {
+    if (dependencies['@skyux-sdk/testing']) {
       context.addTask(new NodePackageInstallTask());
 
       addPackageJsonDependency(tree, {
-        type: NodeDependencyType.Default,
-        name: 'moment',
-        version: '2.29.4',
+        type: NodeDependencyType.Dev,
+        name: 'axe-core',
+        version: '3.5.6',
         overwrite: false,
       });
     }
