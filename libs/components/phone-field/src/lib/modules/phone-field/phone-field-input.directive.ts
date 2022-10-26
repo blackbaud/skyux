@@ -69,11 +69,11 @@ export class SkyPhoneFieldInputDirective
       this.#phoneFieldComponent.countrySelectDisabled = value;
       this.#adapterService?.setElementDisabledState(this.#elRef, value);
     }
-    this.#_disabled = value;
+    this.#_disabled = value || false;
   }
 
   public get disabled(): boolean {
-    return this.#_disabled || false;
+    return this.#_disabled;
   }
 
   /**
@@ -112,7 +112,7 @@ export class SkyPhoneFieldInputDirective
 
   #phoneUtils = PhoneNumberUtil.getInstance();
 
-  #_disabled: boolean | undefined;
+  #_disabled!: boolean;
 
   #_modelValue: string | undefined;
 
