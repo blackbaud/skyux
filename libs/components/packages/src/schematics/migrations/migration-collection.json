@@ -5,6 +5,11 @@
       "factory": "./noop/noop.schematic",
       "description": "Update all SKY UX component packages"
     },
+    "add-autonumeric-dependency": {
+      "version": "7.0.0-beta.0",
+      "factory": "./update-7/add-autonumeric-dependency",
+      "description": "Add autonumeric as a dependency since @skyux/autonumeric@7 references autonumeric as a peer."
+    },
     "add-moment-dependency": {
       "version": "7.0.0-beta.0",
       "factory": "./update-7/add-moment-dependency",
