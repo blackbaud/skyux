@@ -31,6 +31,12 @@
 }
 
 @include mixins.sky-theme-modern {
+  ::ng-deep .sky-status-indicator-icon {
+    &:not(.sky-status-indicator-icon-danger) .sky-icon-inverse {
+      color: $sky-text-color-default;
+    }
+  }
+
   .sky-status-indicator-icon-default {
     display: none;
   }

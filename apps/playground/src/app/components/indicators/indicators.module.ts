@@ -23,6 +23,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./alert/alert.module').then((m) => m.AlertModule),
   },
+  {
+    path: 'label',
+    loadChildren: () =>
+      import('./label/label.module').then((m) => m.LabelModule),
+  },
 ];
 
 @NgModule({
