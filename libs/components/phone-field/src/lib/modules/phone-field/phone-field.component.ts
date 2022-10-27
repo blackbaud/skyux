@@ -114,7 +114,15 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * @default true
    */
   @Input()
-  public allowExtensions: boolean | undefined = true;
+  public set allowExtensions(value: boolean | undefined) {
+    this.#_allowExtensions = value !== false;
+  }
+
+  public get allowExtensions(): boolean {
+    return this.#_allowExtensions;
+  }
+
+  #_allowExtensions = true;
 
   /**
    * Specifies the
@@ -144,7 +152,15 @@ export class SkyPhoneFieldComponent implements OnDestroy, OnInit {
    * @default "default"
    */
   @Input()
-  public returnFormat: SkyPhoneFieldNumberReturnFormat | undefined = 'default';
+  public get returnFormat(): SkyPhoneFieldNumberReturnFormat {
+    return this.#_returnFormat;
+  }
+
+  public set returnFormat(value: SkyPhoneFieldNumberReturnFormat | undefined) {
+    this.#_returnFormat = value || 'default';
+  }
+
+  #_returnFormat: SkyPhoneFieldNumberReturnFormat = 'default';
 
   /**
    * Specifies the [International Organization for Standardization Alpha 2](https://www.nationsonline.org/oneworld/country_code_list.htm)
