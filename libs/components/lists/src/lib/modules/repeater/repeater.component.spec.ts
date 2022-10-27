@@ -1648,7 +1648,7 @@ describe('Repeater item component', () => {
       cmp.showItemWithNoContent = true;
       detectChangesAndTick(fixture);
       const items: Element[] = Array.from(
-        el.querySelectorAll('sky-repeater-item')
+        el.querySelectorAll('.sky-repeater-item')
       );
       expect(items.length).toEqual(4);
       const sequence = [
@@ -1742,7 +1742,7 @@ describe('Repeater item component', () => {
         el.querySelector('.sky-repeater-item').getAttribute('role')
       ).toEqual('row');
       expect(
-        el.querySelector('.sky-repeater-item-title').getAttribute('role')
+        el.querySelector('.sky-repeater-item-header').getAttribute('role')
       ).toEqual('rowheader');
       expect(
         el.querySelector('.sky-repeater-item-content').getAttribute('role')
