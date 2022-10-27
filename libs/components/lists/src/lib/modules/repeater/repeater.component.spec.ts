@@ -820,6 +820,15 @@ describe('Repeater item component', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      // Confirm elements are using appropriate roles.
+      const repeaterEl = fixture.nativeElement.querySelector('.sky-repeater');
+      expect(repeaterEl.getAttribute('role')).toEqual('grid');
+      expect(
+        repeaterEl
+          .querySelector('sky-repeater-item:first-child > .sky-repeater-item')
+          .getAttribute('role')
+      ).toEqual('row');
     });
 
     it('should update the isSelected property when the user clicks the checkbox', fakeAsync(() => {
