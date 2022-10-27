@@ -4,9 +4,13 @@
   "prettier.requireConfig": true,
   "coverage-gutters.showLineCoverage": true,
   "cSpell.words": [
+    "Autonumeric",
     "blackbaud",
+    "colorpicker",
     "compat",
+    "datetime",
     "skyux",
+    "stylesheet",
     "tabindex",
     "tablist",
     "tabset"

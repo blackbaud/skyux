@@ -245,10 +245,10 @@ export default async function (tree: Tree, options: StoriesGeneratorSchema) {
       const changeIndex = changes.findIndex(
         (change) => change.path === filepath && change.type === 'CREATE'
       );
-      if (filepath.endsWith('.spec.ts') && changeIndex > -1) {
+      if (filepath.endsWith('.cy.ts') && changeIndex > -1) {
         if (
           filepath ===
-          `${normalizedOptions.e2eSourceRoot}/integration/app.component.spec.ts`
+          `${normalizedOptions.e2eSourceRoot}/e2e/app.component.cy.ts`
         ) {
           tree.delete(filepath);
           return;

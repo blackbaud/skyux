@@ -17,32 +17,42 @@ export class SkySortFixture {
    * The active sort menu item, if one exists. Menu items are only available when the menu dropdown
    * is open. If the menu dropdown is closed, this property will be undefined.
    */
-  public get activeMenuItem(): SkySortFixtureMenuItem {
+  public get activeMenuItem(): SkySortFixtureMenuItem | undefined {
     return this.menuItems?.find((x) => x.isActive);
   }
 
   /**
    * The sort menu's properties.
    */
-  public get menu(): SkySortFixtureMenu {
-    return {
-      buttonText: SkyAppTestUtility.getText(this.getSortButtonTextEl()),
-      isOpen: this.getDropdownMenuEl() !== null,
-    };
+  public get menu(): SkySortFixtureMenu | undefined {
+    const sortButtonTextEl = this.#getSortButtonTextEl();
+    const buttonText = SkyAppTestUtility.getText(sortButtonTextEl);
+    /* istanbul ignore else */
+    if (sortButtonTextEl && buttonText) {
+      return {
+        buttonText: buttonText,
+        isOpen: this.#getDropdownMenuEl() !== null,
+      };
+    } else {
+      return {
+        buttonText: '',
+        isOpen: this.#getDropdownMenuEl() !== null,
+      };
+    }
   }
 
   /**
    * The properties of each sort menu item. Menu items are only available when the menu dropdown
    * is open. If the menu dropdown is closed, this property will be undefined.
    */
-  public get menuItems(): SkySortFixtureMenuItem[] {
+  public get menuItems(): SkySortFixtureMenuItem[] | undefined {
     // Return undefined when we can't determine what the options are.
     // We do this to avoid any confusion with an empty set of options.
-    if (!this.menu.isOpen) {
+    if (!this.menu?.isOpen) {
       return;
     }
 
-    return this.getSortItems().map((item: HTMLElement, i: number) => {
+    return this.#getSortItems().map((item: HTMLElement, i: number) => {
       const itemButton = item.querySelector('button');
 
       return {
@@ -53,10 +63,10 @@ export class SkySortFixture {
     });
   }
 
-  private _debugEl: DebugElement;
+  #debugEl: DebugElement;
 
   constructor(private fixture: ComponentFixture<any>, skyTestId: string) {
-    this._debugEl = SkyAppTestUtility.getDebugElementByTestId(
+    this.#debugEl = SkyAppTestUtility.getDebugElementByTestId(
       fixture,
       skyTestId,
       'sky-sort'
@@ -68,11 +78,11 @@ export class SkySortFixture {
    */
   public async closeMenu(): Promise<void> {
     // if the menu is already closed, do nothing
-    if (!this.menu.isOpen) {
+    if (!this.menu?.isOpen) {
       return;
     }
 
-    const menu = this.getDropdownButtonEl();
+    const menu = this.#getDropdownButtonEl();
     if (menu !== undefined && !menu.disabled) {
       menu.click();
 
@@ -89,11 +99,11 @@ export class SkySortFixture {
    */
   public async openMenu(): Promise<void> {
     // if the menu is already open, do nothing
-    if (this.menu.isOpen) {
+    if (this.menu?.isOpen) {
       return;
     }
 
-    const menu = this.getDropdownButtonEl();
+    const menu = this.#getDropdownButtonEl();
 
     if (menu !== undefined && !menu.disabled) {
       menu.click();
@@ -111,7 +121,7 @@ export class SkySortFixture {
    * @param menuItemIndex The index of the menu item to select.
    */
   public async selectMenuItemByIndex(menuItemIndex: number): Promise<void> {
-    return this.selectMenuItem((_item: HTMLElement, index: number) => {
+    return this.#selectMenuItem((_item: HTMLElement, index: number) => {
       return index === menuItemIndex;
     });
   }
@@ -121,29 +131,34 @@ export class SkySortFixture {
    * if a matching item is available.
    * @param menuItemText The text of the menu item to select.
    */
-  public async selectMenuItemByText(menuItemText: string): Promise<void> {
-    return this.selectMenuItem((item: HTMLElement) => {
-      return SkyAppTestUtility.getText(item) === menuItemText;
-    });
+  public async selectMenuItemByText(
+    menuItemText: string | undefined
+  ): Promise<void> {
+    /* istanbul ignore else */
+    if (menuItemText) {
+      return this.#selectMenuItem((item: HTMLElement) => {
+        return SkyAppTestUtility.getText(item) === menuItemText;
+      });
+    } else {
+      return;
+    }
   }
 
   //#region helpers
 
-  private getDropdownButtonEl(): HTMLButtonElement {
-    return this._debugEl.query(By.css('.sky-dropdown-button'))
-      ?.nativeElement as HTMLButtonElement;
+  #getDropdownButtonEl(): HTMLButtonElement | undefined {
+    return this.#debugEl.query(By.css('.sky-dropdown-button')).nativeElement;
   }
 
-  private getDropdownMenuEl(): HTMLElement {
+  #getDropdownMenuEl(): HTMLElement | null {
     return document.querySelector('sky-overlay .sky-dropdown-menu');
   }
 
-  private getSortButtonTextEl(): HTMLElement {
-    return this._debugEl.query(By.css('.sky-sort-btn-text'))
-      ?.nativeElement as HTMLElement;
+  #getSortButtonTextEl(): HTMLElement | undefined {
+    return this.#debugEl.query(By.css('.sky-sort-btn-text')).nativeElement;
   }
 
-  private getSortItems(): HTMLElement[] {
+  #getSortItems(): HTMLElement[] {
     const resultNodes = document.querySelectorAll('sky-overlay .sky-sort-item');
     return Array.prototype.slice.call(resultNodes);
   }
@@ -153,16 +168,16 @@ export class SkySortFixture {
    * if a matching item is available.
    * @param selectionPredicate The menu item selector method to use.
    */
-  private async selectMenuItem(
+  async #selectMenuItem(
     selectionPredicate: (item: HTMLElement, index: number) => boolean
   ): Promise<void> {
     // make sure the sort menu is open
-    if (!this.menu.isOpen) {
+    if (!this.menu?.isOpen) {
       await this.openMenu();
     }
 
     // find the requested menu item using the selectionPredicate parameter
-    const items = this.getSortItems();
+    const items = this.#getSortItems();
     const targetItem = items.find((item: HTMLElement, index: number) =>
       selectionPredicate(item, index)
     );
@@ -171,7 +186,7 @@ export class SkySortFixture {
     if (targetItem) {
       // we've got the '.sky-sort-item' div, but we want to click it's child button element
       const targetButton = targetItem.querySelector('button');
-      targetButton.click();
+      targetButton?.click();
 
       this.fixture.detectChanges();
       return this.fixture.whenStable();

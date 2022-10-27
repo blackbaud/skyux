@@ -36,31 +36,31 @@ type SkyWizardStepState = 'completed' | 'current' | 'unavailable';
 })
 export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   @Input()
-  public get active(): boolean {
+  public get active(): boolean | undefined {
     return this.#_isActive;
   }
-  public set active(value: boolean) {
+  public set active(value: boolean | undefined) {
     this.#_isActive = value;
     this.#updateWizardStepState();
   }
 
   @Input()
-  public ariaControls: string;
+  public ariaControls: string | undefined;
 
   @Input()
-  public buttonHref: string;
+  public buttonHref: string | undefined;
 
   @Input()
-  public buttonId: string;
+  public buttonId: string | undefined;
 
   @Input()
-  public buttonText: string;
+  public buttonText: string | undefined;
 
   @Input()
   public buttonTextCount: string | undefined;
 
   @Input()
-  public closeable: boolean;
+  public closeable: boolean | undefined;
 
   @Input()
   public get disabled(): boolean {
@@ -73,7 +73,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   }
 
   @Input()
-  public tabIndex: SkyTabIndex;
+  public tabIndex: SkyTabIndex | undefined;
 
   @Input()
   public tabNumber: number | undefined;
@@ -82,7 +82,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   public totalTabsCount: number | undefined;
 
   @Input()
-  public get tabStyle(): SkyTabsetStyle {
+  public get tabStyle(): SkyTabsetStyle | undefined {
     return this.#_tabStyle;
   }
 
@@ -111,9 +111,9 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
 
   public closeBtnTabIndex = '-1';
   public wizardStepState: SkyWizardStepState | undefined;
-  #_isActive = false;
+  #_isActive: boolean | undefined = false;
   #_isDisabled = DEFAULT_DISABLED;
-  #_tabStyle: SkyTabsetStyle;
+  #_tabStyle: SkyTabsetStyle | undefined;
   #adapterService: SkyTabButtonAdapterService;
   #changeDetectorRef: ChangeDetectorRef;
   #elementRef: ElementRef;
@@ -124,7 +124,7 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
     this.#tabsetService.focusedTabBtnIndex
       .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
       .subscribe((focusedIndex) => {
-        if (focusedIndex === this.tabIndex) {
+        if (this.tabIndex !== undefined && focusedIndex === this.tabIndex) {
           this.closeBtnTabIndex = '0';
           this.focusBtn();
         } else {
@@ -175,7 +175,9 @@ export class SkyTabButtonComponent implements AfterViewInit, OnDestroy {
   }
 
   public onFocus(): void {
-    this.#tabsetService.setFocusedTabBtnIndex(this.tabIndex);
+    if (this.tabIndex !== undefined) {
+      this.#tabsetService.setFocusedTabBtnIndex(this.tabIndex);
+    }
   }
 
   #updateWizardStepState(): void {

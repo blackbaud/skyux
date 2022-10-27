@@ -9,6 +9,8 @@
       [label]="label1"
       [value]="value1"
       [(ngModel)]="selectedValue"
+      (checkedChange)="onCheckedChange($event)"
+      (disabledChange)="onDisabledChange($event)"
     >
       <sky-radio-label> My label </sky-radio-label>
     </sky-radio>

@@ -8,6 +8,7 @@ import {
 import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyIdService } from '@skyux/core';
 
 import { SkyRadioFixturesModule } from './fixtures/radio-fixtures.module';
 import { SkyRadioOnPushTestComponent } from './fixtures/radio-on-push.component.fixture';
@@ -17,40 +18,49 @@ import { SkyRadioLabelComponent } from './radio-label.component';
 import { SkyRadioComponent } from './radio.component';
 
 describe('Radio component', function () {
-  let fixture: ComponentFixture<any>;
-  let componentInstance: any;
-
   beforeEach(function () {
     TestBed.configureTestingModule({
       imports: [SkyRadioFixturesModule],
     });
-  });
 
-  afterEach(function () {
-    if (fixture) {
-      fixture.destroy();
-    }
+    // Mock the ID service.
+    let uniqueId = 0;
+    const idSvc = TestBed.inject(SkyIdService);
+    spyOn(idSvc, 'generateId').and.callFake(() => `MOCK_ID_${++uniqueId}`);
   });
 
   describe('Standard radio component', () => {
-    let testComponent: SkyRadioTestComponent;
+    let fixture: ComponentFixture<SkyRadioTestComponent>;
+    let componentInstance: SkyRadioTestComponent;
 
     beforeEach(fakeAsync(() => {
       fixture = TestBed.createComponent(SkyRadioTestComponent);
 
       componentInstance = fixture.componentInstance;
-      testComponent = fixture.debugElement.componentInstance;
 
       fixture.detectChanges();
       tick();
     }));
 
     it('should emit the new disabled value when it is modified', () => {
-      const onDisabledChangeSpy = spyOn(testComponent, 'onDisabledChange');
+      const onDisabledChangeSpy = spyOn(componentInstance, 'onDisabledChange');
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(0);
-      testComponent.disabled1 = true;
+      componentInstance.disabled1 = true;
       fixture.detectChanges();
       expect(onDisabledChangeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should emit when radio is checked', async () => {
+      const onCheckedChangeSpy = spyOn(componentInstance, 'onCheckedChange');
+      const radios: NodeListOf<HTMLInputElement> =
+        fixture.nativeElement.querySelectorAll('input');
+
+      // Select the second radio.
+      radios.item(1).click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(onCheckedChangeSpy).toHaveBeenCalledOnceWith(false);
     });
 
     it('should update the ngModel properly when radio button is changed', fakeAsync(function () {
@@ -173,15 +183,9 @@ describe('Radio component', function () {
       componentInstance.provideIds = false;
       fixture.detectChanges();
 
-      expect(radios.item(0).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
-      expect(radios.item(1).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
-      expect(radios.item(2).id).toEqual(
-        jasmine.stringMatching(/sky-radio-sky-radio-[0-9]+-input/)
-      );
+      expect(radios.item(0).id).toEqual('sky-radio-MOCK_ID_1-input');
+      expect(radios.item(1).id).toEqual('sky-radio-MOCK_ID_2-input');
+      expect(radios.item(2).id).toEqual('sky-radio-MOCK_ID_3-input');
     }));
 
     it('should pass a label when specified', fakeAsync(function () {
@@ -211,7 +215,7 @@ describe('Radio component', function () {
     }));
 
     it('should pass a tabindex when specified', fakeAsync(function () {
-      componentInstance.tabindex2 = '3';
+      componentInstance.tabindex2 = 3;
       fixture.detectChanges();
       tick();
 
@@ -273,6 +277,7 @@ describe('Radio component', function () {
 
   describe('Radio icon component', () => {
     let debugElement: DebugElement;
+    let fixture: ComponentFixture<SkySingleRadioComponent>;
 
     beforeEach(() => {
       fixture = TestBed.createComponent(SkySingleRadioComponent);
@@ -331,6 +336,9 @@ describe('Radio component', function () {
   });
 
   describe('Radio component with a consumer using OnPush change detection', () => {
+    let fixture: ComponentFixture<SkyRadioOnPushTestComponent>;
+    let componentInstance: SkyRadioOnPushTestComponent;
+
     beforeEach(function () {
       fixture = TestBed.createComponent(SkyRadioOnPushTestComponent);
 

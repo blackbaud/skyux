@@ -1,7 +1,7 @@
 @use 'libs/components/theme/src/lib/styles/mixins' as mixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
-@use 'libs/components/theme/src/lib/styles/themes/modern/_compat/mixins' as
-  modernMixins;
+@use 'libs/components/theme/src/lib/styles/_public-api/themes/modern/_compat/mixins'
+  as modernMixins;
 
 .sky-filter-btn-active,
 .sky-filter-btn-active:hover,

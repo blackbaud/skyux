@@ -5,6 +5,7 @@ import {
   getProjects,
   joinPathFragments,
   logger,
+  normalizePath,
 } from '@nrwl/devkit';
 
 import { relative } from 'path';
@@ -21,9 +22,30 @@ export default async function (tree: Tree, schema: Schema) {
     return;
   }
   const storybookProjectRoot = storybookProject.root;
-  const relativeToRoot = relative(`/${storybookProjectRoot}/.storybook`, `/`);
+  const relativeToRoot = normalizePath(
+    relative(`/${storybookProjectRoot}/.storybook`, `/`)
+  );
 
-  const projectsArg: string[] = JSON.parse(schema.projectsJson);
+  let projectsArg: string[] = [];
+  try {
+    const projectsJson = schema.projectsJson.trim();
+    if (projectsJson.includes('"')) {
+      projectsArg = JSON.parse(projectsJson);
+    } else if (projectsJson.startsWith('[')) {
+      // Powershell does not pass quotes in parameters.
+      projectsArg = projectsJson
+        .substring(1, projectsJson.length - 1)
+        .split(',')
+        .map((s) => s.trim());
+    } else {
+      projectsArg = projectsJson.split(',').map((s) => s.trim());
+    }
+  } catch (e) {
+    (schema.ansiColor === false ? console.error : logger.error)(
+      `Unable to parse projectsJson: ${schema.projectsJson}`
+    );
+    return;
+  }
   const projects = projectsArg
     .filter((project) => project && project !== 'storybook')
     .filter((project) => {

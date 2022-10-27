@@ -14,13 +14,17 @@ export class WizardDemoModalComponent implements OnInit {
   public step3Disabled = true;
   public saveDisabled = true;
 
+  #formBuilder: UntypedFormBuilder;
+
   constructor(
     public instance: SkyModalInstance,
-    private formBuilder: UntypedFormBuilder
-  ) {}
+    formBuilder: UntypedFormBuilder
+  ) {
+    this.#formBuilder = formBuilder;
+  }
 
   public ngOnInit(): void {
-    this.myForm = this.formBuilder.group({
+    this.myForm = this.#formBuilder.group({
       requiredValue1: undefined,
       requiredValue2: false,
       requiredValue3: undefined,
