@@ -304,10 +304,10 @@ describe('Action button component modern theme', () => {
   }));
 
   it(`should update CSS responsive classes on window resize`, () => {
-    // called during ngOnInit -> themeSvc subscribe -> set themeName
+    // called during constructor, ngOnInit -> themeSvc subscribe -> set themeName
     expect(
       mockActionButtonAdapterService.setResponsiveClass
-    ).toHaveBeenCalledTimes(1);
+    ).toHaveBeenCalledTimes(2);
 
     SkyAppTestUtility.fireDomEvent(window, 'resize');
 
