@@ -52,6 +52,12 @@ describe('ag-grid-storybook', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
+              onBeforeScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'transparent');
+              },
+              onAfterScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'initial');
+              },
             }
           );
       });
@@ -158,6 +164,12 @@ describe('ag-grid-storybook', () => {
             {
               overwrite: true,
               disableTimersAndAnimations: true,
+              onBeforeScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'transparent');
+              },
+              onAfterScreenshot: ($el: JQuery) => {
+                $el.css('caret-color', 'initial');
+              },
             }
           );
       });
