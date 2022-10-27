@@ -55,7 +55,7 @@ describe('Action button component', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -88,12 +88,12 @@ describe('Action button component', () => {
       },
     }).createComponent(ActionButtonTestComponent);
 
-    fixture = TestBed.createComponent(ActionButtonTestComponent);
     cmp = fixture.componentInstance as ActionButtonTestComponent;
     el = fixture.nativeElement as HTMLElement;
     debugElement = fixture.debugElement;
 
     fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should see if there is a permalink url included as an input to the element', fakeAsync(() => {
@@ -215,7 +215,7 @@ describe('Action button component modern theme', () => {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -263,8 +263,8 @@ describe('Action button component modern theme', () => {
       })
       .createComponent(ActionButtonTestComponent);
 
-    fixture = TestBed.createComponent(ActionButtonTestComponent);
     fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   it('should have center justified class by default', () => {
