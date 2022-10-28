@@ -1,4 +1,4 @@
-import { SkyProgressIndicatorItemStatus } from './progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatusType } from './progress-indicator-item-status-type';
 
 export interface SkyProgressIndicatorChange {
   /**
@@ -14,5 +14,5 @@ export interface SkyProgressIndicatorChange {
   /**
    * Specifies an array with the status of each item.
    */
-  itemStatuses?: SkyProgressIndicatorItemStatus[];
+  itemStatuses?: SkyProgressIndicatorItemStatusType[];
 }

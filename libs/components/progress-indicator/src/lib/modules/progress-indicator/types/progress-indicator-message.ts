@@ -14,6 +14,7 @@ export interface SkyProgressIndicatorMessage {
     activeIndex?: number;
 
     // Allow any other data to be passed.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any;
   };
 }

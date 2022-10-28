@@ -11,7 +11,7 @@ import { SkyThemeService } from '@skyux/theme';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
+import { SkyProgressIndicatorItemStatusType } from '../types/progress-indicator-item-status-type';
 
 /**
  * Specifies the content to display in the status marker.
@@ -26,75 +26,44 @@ import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item
 export class SkyProgressIndicatorStatusMarkerComponent implements OnDestroy {
   @Input()
   public set displayMode(value: 'vertical' | 'horizontal') {
-    this._displayMode = value;
+    this.#_displayMode = value;
   }
 
   public get displayMode(): 'vertical' | 'horizontal' {
-    if (this._displayMode === undefined) {
-      return 'vertical';
-    }
-
-    return this._displayMode;
+    return this.#_displayMode;
   }
 
   @Input()
-  public set status(value: SkyProgressIndicatorItemStatus) {
-    this._status = value;
-    this.changeDetector.markForCheck();
+  public set status(value: SkyProgressIndicatorItemStatusType) {
+    this.#_status = value;
   }
 
-  public get cssClassNames(): string {
-    const classNames = [
-      `sky-progress-indicator-status-marker-mode-${this.displayMode}`,
-      `sky-progress-indicator-status-marker-status-${this.statusName}`,
-    ];
-
-    return classNames.join(' ');
+  public get status(): SkyProgressIndicatorItemStatusType {
+    return this.#_status;
   }
 
-  public get statusName(): string {
-    let name: string;
+  #ngUnsubscribe = new Subject<void>();
+  #changeDetector: ChangeDetectorRef;
 
-    switch (this._status) {
-      case SkyProgressIndicatorItemStatus.Active:
-        name = 'active';
-        break;
-
-      case SkyProgressIndicatorItemStatus.Complete:
-        name = 'complete';
-        break;
-
-      case SkyProgressIndicatorItemStatus.Incomplete:
-        name = 'incomplete';
-        break;
-
-      case SkyProgressIndicatorItemStatus.Pending:
-        name = 'pending';
-        break;
-    }
-
-    return name;
-  }
-
-  private ngUnsubscribe = new Subject<void>();
-
-  private _displayMode: 'vertical' | 'horizontal';
-  private _status: SkyProgressIndicatorItemStatus;
+  #_status: SkyProgressIndicatorItemStatusType = 'active';
+  #_displayMode: 'vertical' | 'horizontal' = 'vertical';
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
+    changeDetector: ChangeDetectorRef,
     @Optional() themeSvc?: SkyThemeService
   ) {
+    this.#changeDetector = changeDetector;
+
     // Update icons when theme changes.
     themeSvc?.settingsChange
-      .pipe(takeUntil(this.ngUnsubscribe))
+      .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
-        this.changeDetector.markForCheck();
+        this.#changeDetector.markForCheck();
       });
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
   }
 }

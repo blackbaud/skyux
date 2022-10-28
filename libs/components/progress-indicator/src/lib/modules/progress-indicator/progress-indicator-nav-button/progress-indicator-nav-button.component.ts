@@ -20,6 +20,8 @@ import { SkyProgressIndicatorChange } from '../types/progress-indicator-change';
 import { SkyProgressIndicatorMessageType } from '../types/progress-indicator-message-type';
 import { SkyProgressIndicatorNavButtonType } from '../types/progress-indicator-nav-button-type';
 
+const BUTTON_TYPE_DEFAULT: SkyProgressIndicatorNavButtonType = 'next';
+
 /**
  * Displays a button to navigate the steps in modal wizards. We recommend against using it in
  * passive progress indicators and waterfall progress indicators.
@@ -37,7 +39,7 @@ export class SkyProgressIndicatorNavButtonComponent
    * @default "Next"
    */
   @Input()
-  public buttonText: string;
+  public buttonText: string | undefined;
 
   /**
    * Specifies the type of nav button to include.
@@ -45,16 +47,12 @@ export class SkyProgressIndicatorNavButtonComponent
    * @default "next"
    */
   @Input()
-  public set buttonType(value: SkyProgressIndicatorNavButtonType) {
-    this._buttonType = value;
+  public set buttonType(value: SkyProgressIndicatorNavButtonType | undefined) {
+    this.#_buttonType = value || BUTTON_TYPE_DEFAULT;
   }
 
   public get buttonType(): SkyProgressIndicatorNavButtonType {
-    if (this._buttonType === undefined) {
-      return 'next';
-    }
-
-    return this._buttonType;
+    return this.#_buttonType;
   }
 
   /**
@@ -62,26 +60,13 @@ export class SkyProgressIndicatorNavButtonComponent
    * @default false
    */
   @Input()
-  public set disabled(value: boolean) {
-    this._disabled = value;
-    this.changeDetector.markForCheck();
+  public set disabled(value: boolean | undefined) {
+    this.#_disabled = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public get disabled(): boolean {
-    const buttonType = this.buttonType;
-    const activeIndex = this.lastProgressChange.activeIndex;
-    const isLastStep =
-      activeIndex === this.lastProgressChange.itemStatuses.length - 1;
-
-    if (buttonType === 'previous' && activeIndex === 0) {
-      return true;
-    }
-
-    if (buttonType === 'next' && isLastStep) {
-      return true;
-    }
-
-    return this._disabled || false;
+  public get disabled(): boolean | undefined {
+    return this.#_disabled;
   }
 
   /**
@@ -89,26 +74,28 @@ export class SkyProgressIndicatorNavButtonComponent
    * @required
    */
   @Input()
-  public set progressIndicator(value: SkyProgressIndicatorComponent) {
-    this._progressIndicator = value;
+  public set progressIndicator(
+    value: SkyProgressIndicatorComponent | undefined
+  ) {
+    this.#_progressIndicator = value;
 
-    if (value) {
+    if (this.#_progressIndicator) {
       if (this.buttonType === 'finish') {
         // The `hasFinishButton` field was added to support legacy API.
         // Some implementations only include a next button; we cannot
         // assume that every implementation includes both a finish button and a next button.
-        this._progressIndicator.hasFinishButton = true;
+        this.#_progressIndicator.hasFinishButton = true;
       }
 
-      this._progressIndicator.progressChanges
-        .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe))
+      this.#_progressIndicator.progressChanges
+        .pipe(distinctUntilChanged(), takeUntil(this.#ngUnsubscribe))
         .subscribe((change: SkyProgressIndicatorChange) => {
           this.lastProgressChange = change;
-          this.updateButtonVisibility(change);
+          this.#updateButtonVisibility(change);
         });
     } else {
-      if (!this.parentTimeout) {
-        this.parentTimeout = window.setTimeout(() => {
+      if (!this.#parentTimeout) {
+        this.#parentTimeout = window.setTimeout(() => {
           /* istanbul ignore else */
           if (!this.progressIndicator) {
             throw new Error(
@@ -129,8 +116,8 @@ export class SkyProgressIndicatorNavButtonComponent
     }
   }
 
-  public get progressIndicator(): SkyProgressIndicatorComponent {
-    return this._progressIndicator;
+  public get progressIndicator(): SkyProgressIndicatorComponent | undefined {
+    return this.#_progressIndicator;
   }
 
   /**
@@ -141,93 +128,67 @@ export class SkyProgressIndicatorNavButtonComponent
   @Output()
   public actionClick = new EventEmitter<SkyProgressIndicatorActionClickArgs>();
 
-  public get cssClassNames(): string {
-    const buttonType = this.buttonType;
-
-    const classNames = [`sky-progress-indicator-nav-button-${this.buttonType}`];
-
-    switch (buttonType) {
-      case 'next':
-      case 'finish':
-        classNames.push('sky-btn-primary');
-        break;
-
-      case 'reset':
-        classNames.push('sky-btn-link');
-        break;
-
-      default:
-        classNames.push('sky-btn-default');
-        break;
-    }
-
-    return classNames.join(' ');
+  public set isVisible(value: boolean | undefined) {
+    this.#_isVisible = value;
+    this.#changeDetector.markForCheck();
   }
 
-  public get buttonLabelResourceString(): string {
-    return `skyux_progress_indicator_navigator_${this.buttonType}`;
+  public get isVisible(): boolean | undefined {
+    return this.#_isVisible;
   }
 
-  public set isVisible(value: boolean) {
-    this._isVisible = value;
-    this.changeDetector.markForCheck();
-  }
+  public lastProgressChange: SkyProgressIndicatorChange | undefined;
 
-  public get isVisible(): boolean {
-    return this._isVisible || false;
-  }
+  #ngUnsubscribe = new Subject<void>();
+  #parentTimeout: number | undefined;
 
-  private lastProgressChange: SkyProgressIndicatorChange;
-  private ngUnsubscribe = new Subject<void>();
-  private parentTimeout: number;
+  #_buttonType = BUTTON_TYPE_DEFAULT;
+  #_disabled: boolean | undefined;
+  #_isVisible: boolean | undefined;
+  #_progressIndicator: SkyProgressIndicatorComponent | undefined;
 
-  private _buttonType: SkyProgressIndicatorNavButtonType;
-  private _disabled: boolean;
-  private _isVisible: boolean;
-  private _progressIndicator: SkyProgressIndicatorComponent;
+  #changeDetector: ChangeDetectorRef;
+  #parentComponent: SkyProgressIndicatorComponent;
 
   constructor(
-    private changeDetector: ChangeDetectorRef,
-    @Optional() private parentComponent: SkyProgressIndicatorComponent
-  ) {}
+    changeDetector: ChangeDetectorRef,
+    @Optional() parentComponent: SkyProgressIndicatorComponent
+  ) {
+    this.#changeDetector = changeDetector;
+    this.#parentComponent = parentComponent;
+  }
 
   public ngAfterViewInit(): void {
-    if (!this.progressIndicator && this.parentComponent) {
-      this.progressIndicator = this.parentComponent;
+    if (!this.progressIndicator && this.#parentComponent) {
+      this.progressIndicator = this.#parentComponent;
     } else if (!this.progressIndicator) {
       this.progressIndicator = undefined;
     }
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe.next();
-    this.ngUnsubscribe.complete();
+    this.#ngUnsubscribe.next();
+    this.#ngUnsubscribe.complete();
     this.actionClick.complete();
   }
 
   public onClick(event: MouseEvent): void {
     event.preventDefault();
 
-    let type: SkyProgressIndicatorMessageType;
+    let type: SkyProgressIndicatorMessageType | undefined;
 
     switch (this.buttonType) {
       case 'finish':
         type = SkyProgressIndicatorMessageType.Finish;
         break;
-
       case 'next':
         type = SkyProgressIndicatorMessageType.Progress;
         break;
-
       case 'previous':
         type = SkyProgressIndicatorMessageType.Regress;
         break;
-
       case 'reset':
         type = SkyProgressIndicatorMessageType.Reset;
-        break;
-
-      default:
         break;
     }
 
@@ -238,17 +199,25 @@ export class SkyProgressIndicatorNavButtonComponent
         event,
         progressHandler: new SkyProgressIndicatorActionClickProgressHandler(
           () => {
-            this.progressIndicator.sendMessage({ type });
+            this.#sendMessage(type);
           }
         ),
       });
     } else {
-      this.progressIndicator.sendMessage({ type });
+      this.#sendMessage(type);
     }
   }
 
-  private updateButtonVisibility(change: SkyProgressIndicatorChange): void {
-    const isLastStep = change.activeIndex === change.itemStatuses.length - 1;
+  #sendMessage(type: SkyProgressIndicatorMessageType | undefined): void {
+    if (type !== undefined) {
+      this.progressIndicator?.sendMessage({ type });
+    }
+  }
+
+  #updateButtonVisibility(change: SkyProgressIndicatorChange): void {
+    const isLastStep =
+      change.itemStatuses &&
+      change.activeIndex === change.itemStatuses.length - 1;
     const buttonType = this.buttonType;
 
     // Hide the button if all steps are complete
@@ -267,7 +236,7 @@ export class SkyProgressIndicatorNavButtonComponent
     if (
       buttonType === 'next' &&
       isLastStep &&
-      this.progressIndicator.hasFinishButton
+      this.progressIndicator?.hasFinishButton
     ) {
       this.isVisible = false;
       return;
