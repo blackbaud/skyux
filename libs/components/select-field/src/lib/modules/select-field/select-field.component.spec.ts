@@ -97,7 +97,7 @@ describe('Select field component', () => {
 
   function closeToken(index: number) {
     const tokens = getTokens();
-    tokens.item(index).querySelector('button').click();
+    tokens.item(index).querySelector('button.sky-token-btn-close').click();
     tick();
     fixture.detectChanges();
   }

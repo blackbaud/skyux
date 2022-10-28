@@ -26,6 +26,9 @@
   *ngIf="isActive$ | async; then gridTemplate; else themeWrap"
 ></ng-container>
 
+<br />
+<sky-icon icon="check" iconType="fa"></sky-icon>
+
 <span id="ready" *ngIf="ready | async"></span>
 
 <sky-preview-wrapper *ngIf="addPreviewWrapper$ | async"></sky-preview-wrapper>

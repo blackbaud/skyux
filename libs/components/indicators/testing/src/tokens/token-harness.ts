@@ -11,6 +11,8 @@ export class SkyTokenHarness extends ComponentHarness {
    */
   public static hostSelector = 'sky-token';
 
+  #getActionButton = this.locatorFor('button.sky-token-btn-action');
+
   #getDismissButton = this.locatorFor('button.sky-token-btn-close');
 
   #getWrapper = this.locatorFor('.sky-token');
@@ -50,7 +52,7 @@ export class SkyTokenHarness extends ComponentHarness {
   public async dismiss(): Promise<void> {
     if (!(await this.isDismissible())) {
       throw new Error(
-        'Could not dismiss the token because it is not dismissable.'
+        'Could not dismiss the token because it is not dismissible.'
       );
     }
 
@@ -68,20 +70,20 @@ export class SkyTokenHarness extends ComponentHarness {
    * Whether the token is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    return (await this.#getWrapper()).hasClass('sky-btn-disabled');
+    return (await this.#getWrapper()).hasClass('sky-token-disabled');
   }
 
   /**
    * Whether the token is dismissible.
    */
   public async isDismissible(): Promise<boolean> {
-    return (await this.#getWrapper()).hasClass('sky-token-dismissable');
+    return (await this.#getWrapper()).hasClass('sky-token-dismissible');
   }
 
   /**
    * Whether the token is focused.
    */
   public async isFocused(): Promise<boolean> {
-    return (await this.#getWrapper()).isFocused();
+    return (await this.#getActionButton()).isFocused();
   }
 }

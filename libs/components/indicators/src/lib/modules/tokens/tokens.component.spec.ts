@@ -8,6 +8,7 @@ import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 
 import { Subject } from 'rxjs';
 
+import { SkyTokenA11yTestComponent } from './fixtures/token-a11y.component.fixture';
 import { SkyTokensFixturesModule } from './fixtures/tokens-fixtures.module';
 import { SkyTokensTestComponent } from './fixtures/tokens.component.fixture';
 import { SkyTokensMessageType } from './types/tokens-message-type';
@@ -37,7 +38,7 @@ describe('Tokens component', () => {
     fixture.detectChanges();
     expect(component.tokensComponent?.activeIndex).toEqual(1);
     expect(document.activeElement).toEqual(
-      tokenElements.item(1).querySelector('.sky-token')
+      tokenElements.item(1).querySelector('.sky-token-btn-action')
     );
 
     SkyAppTestUtility.fireDomEvent(tokenElements.item(1), 'keydown', {
@@ -47,7 +48,7 @@ describe('Tokens component', () => {
 
     expect(component.tokensComponent?.activeIndex).toEqual(0);
     expect(document.activeElement).toEqual(
-      tokenElements.item(0).querySelector('.sky-token')
+      tokenElements.item(0).querySelector('.sky-token-btn-action')
     );
   }
 
@@ -58,7 +59,9 @@ describe('Tokens component', () => {
     component.messageStream?.next({ type });
     fixture.detectChanges();
 
-    const tokenElements = fixture.nativeElement.querySelectorAll('.sky-token');
+    const tokenElements = fixture.nativeElement.querySelectorAll(
+      '.sky-token-btn-action'
+    );
     const focusedToken = tokenElements[index] as HTMLElement;
 
     expect(component.tokensComponent?.activeIndex).toEqual(index);
@@ -318,8 +321,9 @@ describe('Tokens component', () => {
 
       fixture.detectChanges();
 
-      const tokenElements =
-        fixture.nativeElement.querySelectorAll('.sky-token');
+      const tokenElements = fixture.nativeElement.querySelectorAll(
+        '.sky-token-btn-action'
+      );
       const lastToken = tokenElements[tokenElements.length - 1] as HTMLElement;
 
       expect(component.tokensComponent?.activeIndex).toEqual(
@@ -464,22 +468,40 @@ describe('Tokens component', () => {
       component.publishTokens();
       fixture.detectChanges();
 
-      let tokenDivs: NodeListOf<HTMLDivElement> =
+      let tokenButtons: NodeListOf<HTMLDivElement> =
         component.tokensElementRef?.nativeElement.querySelectorAll(
-          '.sky-token'
+          '.sky-token-btn-action'
         );
 
-      expect(tokenDivs.item(0).tabIndex).toEqual(0);
+      expect(tokenButtons.item(0).tabIndex).toEqual(0);
 
       component.focusable = false;
       fixture.detectChanges();
-      tokenDivs =
+      tokenButtons =
         component.tokensElementRef?.nativeElement.querySelectorAll(
           '.sky-token'
         );
-      expect(tokenDivs.item(0).tabIndex).toEqual(-1);
+      expect(tokenButtons.item(0).tabIndex).toEqual(-1);
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+  });
+
+  it('should be accessible', async () => {
+    const a11yFixture = TestBed.createComponent(SkyTokenA11yTestComponent);
+
+    a11yFixture.detectChanges();
+
+    await expectAsync(
+      a11yFixture.nativeElement.querySelector(
+        '[data-sky-id="non-dismissible-tokens"]'
+      )
+    ).toBeAccessible();
+
+    await expectAsync(
+      a11yFixture.nativeElement.querySelector(
+        '[data-sky-id="dismissible-tokens"]'
+      )
+    ).toBeAccessible();
   });
 });

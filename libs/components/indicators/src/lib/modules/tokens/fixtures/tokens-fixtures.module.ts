@@ -4,12 +4,21 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SkyTokensModule } from '../tokens.module';
 
+import { SkyTokenA11yTestComponent } from './token-a11y.component.fixture';
 import { SkyTokenTestComponent } from './token.component.fixture';
 import { SkyTokensTestComponent } from './tokens.component.fixture';
 
 @NgModule({
-  declarations: [SkyTokenTestComponent, SkyTokensTestComponent],
+  declarations: [
+    SkyTokenA11yTestComponent,
+    SkyTokenTestComponent,
+    SkyTokensTestComponent,
+  ],
   imports: [CommonModule, NoopAnimationsModule, SkyTokensModule],
-  exports: [SkyTokenTestComponent, SkyTokensTestComponent],
+  exports: [
+    SkyTokenA11yTestComponent,
+    SkyTokenTestComponent,
+    SkyTokensTestComponent,
+  ],
 })
 export class SkyTokensFixturesModule {}
