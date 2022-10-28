@@ -6,7 +6,6 @@ import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyLookupModule, SkyLookupSelectModeType } from '@skyux/lookup';
 
 import { Column, KeyCode } from 'ag-grid-community';
-import { EventCallback } from 'typedoc/dist/lib/utils/events';
 
 import { SkyCellEditorLookupParams } from '../../types/cell-editor-lookup-params';
 
@@ -22,7 +21,7 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
   ];
   let fixture: ComponentFixture<SkyAgGridCellEditorLookupComponent>;
   let nativeElement: HTMLElement;
-  let callback: EventCallback | undefined;
+  let callback: (args: Record<string, unknown>) => void | undefined;
   const selection = [data[0]];
   let cellEditorParams: SkyCellEditorLookupParams;
 
@@ -48,7 +47,10 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       },
       column: {
         getActualWidth: () => 123,
-        addEventListener: (event: string, listener: EventCallback) => {
+        addEventListener: (
+          event: string,
+          listener: (args: Record<string, unknown>) => void
+        ) => {
           callback = listener;
           [event].pop();
         },
