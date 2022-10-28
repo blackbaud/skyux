@@ -5,8 +5,8 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
 } from '@angular/core';
-import { SkyLibResourcesService } from '@skyux/i18n';
 
 @Component({
   selector: 'sky-token',
@@ -36,13 +36,7 @@ export class SkyTokenComponent {
    * @default "Remove item"
    */
   @Input()
-  public set ariaLabel(value: string | undefined) {
-    this.#ariaLabelOrDefault = value || this.#getDefaultAriaLabel();
-  }
-
-  public get ariaLabel(): string {
-    return this.#ariaLabelOrDefault;
-  }
+  public ariaLabel: string | undefined;
 
   /**
    * Indicates whether users can remove the token from the list by selecting the close button.
@@ -68,6 +62,13 @@ export class SkyTokenComponent {
   }
 
   /**
+   * Used by the tokens component to set the appropriate role for each token.
+   * @internal
+   */
+  @Input()
+  public role: string | undefined;
+
+  /**
    * Fires when users click the close button.
    */
   @Output()
@@ -79,22 +80,34 @@ export class SkyTokenComponent {
   @Output()
   public tokenFocus = new EventEmitter<void>();
 
+  @ViewChild('actionButton', { read: ElementRef, static: true })
+  private actionButtonRef: ElementRef | undefined;
+
+  public isFocused = false;
   public tokenActive = false;
   public closeActive = false;
   public tabIndex = 0;
 
-  #ariaLabelOrDefault: string;
   #elementRef: ElementRef;
-  #resourcesSvc: SkyLibResourcesService;
 
   #_disabled = false;
   #_dismissible = true;
 
-  constructor(elementRef: ElementRef, resourcesSvc: SkyLibResourcesService) {
+  constructor(elementRef: ElementRef) {
     this.#elementRef = elementRef;
-    this.#resourcesSvc = resourcesSvc;
+  }
 
-    this.#ariaLabelOrDefault = this.#getDefaultAriaLabel();
+  protected onFocusIn(): void {
+    if (!this.isFocused) {
+      this.tokenFocus.emit();
+      this.isFocused = true;
+    }
+  }
+
+  protected onFocusOut(event: FocusEvent): void {
+    this.isFocused = this.#elementRef.nativeElement.contains(
+      event.relatedTarget
+    );
   }
 
   public dismissToken(event: Event): void {
@@ -103,7 +116,7 @@ export class SkyTokenComponent {
   }
 
   public focusElement(): void {
-    this.#elementRef.nativeElement.querySelector('.sky-token').focus();
+    this.actionButtonRef?.nativeElement.focus();
   }
 
   public setTokenActive(tokenActive: boolean): void {
@@ -112,13 +125,5 @@ export class SkyTokenComponent {
 
   public setCloseActive(closeActive: boolean): void {
     this.closeActive = closeActive;
-  }
-
-  #getDefaultAriaLabel(): string {
-    // TODO: Need to implement the async `getString` method in a breaking change.
-    return this.#resourcesSvc.getStringForLocale(
-      { locale: 'en-US' },
-      'skyux_tokens_dismiss_button_title'
-    );
   }
 }

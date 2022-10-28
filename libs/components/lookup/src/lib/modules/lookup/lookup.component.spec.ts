@@ -106,14 +106,14 @@ describe('Lookup component', function () {
     if (async) {
       (
         document.querySelectorAll(
-          '#my-async-lookup .sky-lookup-tokens .sky-token'
+          '#my-async-lookup .sky-lookup-tokens .sky-token-btn-action'
         )[index] as HTMLElement
       ).click();
     } else {
       (
-        document.querySelectorAll('#my-lookup .sky-lookup-tokens .sky-token')[
-          index
-        ] as HTMLElement
+        document.querySelectorAll(
+          '#my-lookup .sky-lookup-tokens .sky-token-btn-action'
+        )[index] as HTMLElement
       ).click();
     }
     fixture.detectChanges();
@@ -301,9 +301,11 @@ describe('Lookup component', function () {
 
   function getTokenElements(async: boolean = false): NodeListOf<Element> {
     if (async) {
-      return document.querySelectorAll('#my-async-lookup .sky-token');
+      return document.querySelectorAll(
+        '#my-async-lookup .sky-token-btn-action'
+      );
     } else {
-      return document.querySelectorAll('#my-lookup .sky-token');
+      return document.querySelectorAll('#my-lookup .sky-token-btn-action');
     }
   }
 
@@ -3486,10 +3488,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        const tokenElements = getTokenElements();
         const input = getInputElement(lookupComponent);
 
-        triggerClick(tokenElements.item(0), fixture, true);
+        clickToken(0, fixture, false);
 
         expect(document.activeElement).not.toEqual(input);
       }));
@@ -6446,10 +6447,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        const tokenElements = getTokenElements();
         const input = getInputElement(lookupComponent);
 
-        triggerClick(tokenElements.item(0), fixture, true);
+        clickToken(0, fixture, false);
 
         expect(document.activeElement).not.toEqual(input);
       }));
@@ -6537,10 +6537,9 @@ describe('Lookup component', function () {
         performSearch('s', fixture);
         selectSearchResult(0, fixture);
 
-        const tokenElements = getTokenElements();
         const input = getInputElement(lookupComponent);
 
-        triggerClick(tokenElements.item(0), fixture, true);
+        clickToken(0, fixture, false);
 
         expect(document.activeElement).not.toEqual(input);
       }));
