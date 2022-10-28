@@ -1,12 +1,7 @@
 <button *ngIf="showExtraButtons" id="noop-button-1" type="button">
   Noop Button 1
 </button>
-<div
-  id="inline-delete-fixture"
-  role="button"
-  [@.disabled]="true"
-  [tabIndex]="parentTabIndex"
->
+<div id="inline-delete-fixture" [@.disabled]="true" [tabIndex]="parentTabIndex">
   <button *ngIf="showCoveredButtons" id="covered-button" type="button">
     Covered Button
   </button>

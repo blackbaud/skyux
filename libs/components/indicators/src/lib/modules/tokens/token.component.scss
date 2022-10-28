@@ -4,20 +4,24 @@
 .sky-token {
   background-color: $sky-background-color-info-light;
   border: 1px solid $sky-highlight-color-info;
-  overflow: hidden;
-  padding: 2px 8px;
+  padding: 0;
   display: inline-block;
-  user-select: none;
 
   &:hover,
-  &:focus {
+  &.sky-token-focused {
     background-color: darken($sky-background-color-info-light, 10%);
     border-color: darken($sky-highlight-color-info, 10%);
     cursor: pointer;
   }
 
-  &:focus {
+  &.sky-token-focused {
     @include mixins.sky-field-status('active');
+  }
+
+  &.sky-btn-disabled {
+    .sky-btn-disabled {
+      opacity: 1;
+    }
   }
 }
 
@@ -26,16 +30,31 @@
   user-select: none;
 }
 
-.sky-token-btn-close {
-  background: transparent;
-  padding: 0;
+.sky-token-btn {
+  background-color: transparent;
   border: 0;
-  margin-left: 2px;
+  padding: 2px 8px;
+}
+
+.sky-token-btn-action {
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.sky-token-btn-close {
+  margin-left: -2px;
   opacity: 0.9;
 
   &:hover,
-  &:focus {
+  &:focus-visible {
     opacity: 1;
+  }
+}
+
+.sky-token-dismissible {
+  .sky-token-btn-action {
+    padding-right: 0;
   }
 }
 
@@ -47,19 +66,18 @@
   .sky-token {
     align-items: center;
     display: inline-flex;
-    padding: 1px 5px;
     font-size: 14px;
-
-    &.sky-btn-disabled {
-      color: $sky-text-color-default;
-    }
 
     &:not(.sky-btn-disabled) {
       @include mixins.sky-theme-modern-border($sky-background-color-info);
     }
 
-    &.sky-token-dismissable {
+    &.sky-token-dismissible {
       padding-right: 1px;
+
+      .sky-token-btn-action {
+        padding-right: 0;
+      }
     }
 
     &:hover:not(:active) {
@@ -70,14 +88,29 @@
       @include mixins.sky-theme-modern-border-active;
     }
 
-    &:focus:not(:active) {
+    &.sky-token-focused:not(:active) {
       @include mixins.sky-theme-modern-border-focus;
     }
 
-    &:focus,
+    &.sky-token-focused,
     &:hover {
       background-color: $sky-background-color-info-light;
     }
+  }
+
+  .sky-token-btn {
+    padding: 1px 5px;
+    border: 0;
+    box-shadow: none;
+    background-color: transparent;
+
+    &.sky-btn-disabled {
+      color: $sky-text-color-default;
+    }
+  }
+
+  .sky-token-btn-action {
+    font-size: 14px;
   }
 
   .sky-token-btn-close {
@@ -87,6 +120,7 @@
     height: 20px;
     margin-left: $sky-theme-modern-margin-inline-xs;
     width: 20px;
+    padding: 0;
 
     &:hover {
       @include mixins.sky-theme-modern-border-hover(transparent);
@@ -96,7 +130,7 @@
       @include mixins.sky-theme-modern-border-active;
     }
 
-    &:focus {
+    &:focus-visible {
       outline: none;
 
       &:not(:active) {
