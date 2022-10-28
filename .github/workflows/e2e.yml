@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
           cache: 'npm'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -91,7 +91,7 @@ jobs:
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
         if: ${{ matrix.project != 'skip' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -147,7 +147,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
         if: ${{ github.event_name == 'pull_request' }}
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
@@ -193,7 +193,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
@@ -264,7 +264,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
       - name: Rebase current branch
         run: node ./scripts/rebase-pr.js
       - name: Retrieve dependencies cache
