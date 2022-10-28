@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyIconModule } from '@skyux/indicators';
 import { SkyBackToTopModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 import { PreviewWrapperModule } from '@skyux/storybook';
@@ -24,6 +25,7 @@ const routes: Routes = [{ path: '', component: AgGridStoriesComponent }];
     SkyBackToTopModule,
     SkyThemeModule,
     PreviewWrapperModule,
+    SkyIconModule,
   ],
   providers: [SkyThemeService],
   exports: [AgGridStoriesComponent, ContextMenuComponent],
