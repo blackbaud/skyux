@@ -154,7 +154,7 @@ export class DataManagerComponent implements OnInit {
         domLayout: this.domLayout,
         suppressColumnVirtualisation: true,
         suppressRowVirtualisation: true,
-        onGridReady: () => {
+        onFirstDataRendered: () => {
           // Delay to allow the grid to render before capturing the screenshot.
           timer(800)
             .pipe(first())

@@ -15,7 +15,7 @@ import {
   SkyThemeSettings,
 } from '@skyux/theme';
 
-import { ColDef, Events, GridOptions } from 'ag-grid-community';
+import { ColDef, GridOptions } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -69,7 +69,7 @@ export class DataEntryGridComponent
   public ready = new BehaviorSubject(false);
   public skyTheme: SkyThemeSettings;
 
-  readonly #gridsReady = new Map<string, Observable<boolean>>();
+  #gridsReady: { [_: string]: Observable<boolean> } = {};
   #nameLookupData: { name: string; id: string }[];
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
@@ -97,12 +97,11 @@ export class DataEntryGridComponent
         name: player.name,
       };
     });
-    this.dataSets.forEach((dataSet) =>
-      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
-    );
-    this.#gridsReady.set(
-      'theme',
-      this.#themeSvc.settingsChange.pipe(map(() => true))
+    this.dataSets.forEach((dataSet) => {
+      this.#gridsReady[dataSet.id] = new BehaviorSubject(false);
+    });
+    this.#gridsReady['theme'] = this.#themeSvc.settingsChange.pipe(
+      map(() => true)
     );
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
@@ -178,14 +177,9 @@ export class DataEntryGridComponent
           suppressColumnVirtualisation: true,
           suppressHorizontalScroll: true,
           suppressRowVirtualisation: true,
-          onGridReady: (params) => {
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          onFirstDataRendered: () => {
+            (this.#gridsReady[dataSet.id] as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: (() => {
@@ -211,7 +205,7 @@ export class DataEntryGridComponent
 
   public ngAfterViewInit(): void {
     this.#ngUnsubscribe.add(
-      combineLatest(Array.from(this.#gridsReady.values()))
+      combineLatest(Array.from(Object.values(this.#gridsReady)))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
           delay(1000)

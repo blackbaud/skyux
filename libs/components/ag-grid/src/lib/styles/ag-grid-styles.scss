@@ -24,7 +24,7 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     themes: (
       sky-default: (
         background-color: variables.$sky-color-gray-01,
-        row-hover-color: darken($sky-background-color-selected, 10%),
+        row-hover-color: darken(variables.$sky-background-color-selected, 10%),
         border-color: variables.$sky-border-color-neutral-medium,
         cell-horizontal-padding: 12px,
         font-family: variables.$sky-font-family,
@@ -174,15 +174,15 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
       padding-top: 37px;
     }
 
-    border-top: variables.$sky-standard-border;
+    border-top: $sky-standard-border;
 
     .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
       align-items: flex-start;
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-default,
-      variables.$sky-cell-wrap-text-line-height-default
+      $sky-cell-wrap-text-padding-default,
+      $sky-cell-wrap-text-line-height-default
     );
 
     .ag-cell.sky-ag-grid-cell-invalid {
@@ -215,8 +215,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
       padding-top: 37px;
     }
 
-    border-top: variables.$sky-standard-border;
-    border-left: variables.$sky-standard-border;
+    border-top: $sky-standard-border;
+    border-left: $sky-standard-border;
 
     .ag-root-wrapper {
       border: none;
@@ -243,8 +243,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-default,
-      variables.$sky-cell-wrap-text-line-height-default
+      $sky-cell-wrap-text-padding-default,
+      $sky-cell-wrap-text-line-height-default
     );
 
     .ag-cell {
@@ -332,8 +332,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-modern,
-      variables.$sky-cell-wrap-text-line-height-modern
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:hover {
@@ -371,7 +371,7 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
       }
     }
 
-    border-top: variables.$sky-standard-border;
+    border-top: $sky-standard-border;
 
     .ag-overlay-no-rows-wrapper.ag-layout-auto-height {
       padding-top: 60px;
@@ -382,8 +382,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-modern,
-      variables.$sky-cell-wrap-text-line-height-modern
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:hover {
@@ -442,8 +442,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-modern,
-      variables.$sky-cell-wrap-text-line-height-modern
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
     );
 
     .ag-cell:not(.ag-cell-wrap-text) .ag-cell-wrapper {
@@ -460,8 +460,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-modern,
-      variables.$sky-cell-wrap-text-line-height-modern
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
     );
 
     .ag-row:not(.ag-row-first) {
@@ -479,8 +479,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     @include skyux-cell-wrap-text(
-      variables.$sky-cell-wrap-text-padding-modern,
-      variables.$sky-cell-wrap-text-line-height-modern
+      $sky-cell-wrap-text-padding-modern,
+      $sky-cell-wrap-text-line-height-modern
     );
 
     // set 1px of top and bottom padding when a cell is not focused and remove it when it is focused to prevent the 2px border causing contents to shift

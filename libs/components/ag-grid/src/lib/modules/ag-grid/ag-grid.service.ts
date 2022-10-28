@@ -13,10 +13,6 @@ import {
   SuppressKeyboardEventParams,
   ValueFormatterParams,
 } from 'ag-grid-community';
-import {
-  CellRendererSelectorFunc,
-  CellRendererSelectorResult,
-} from 'ag-grid-community/dist/lib/entities/colDef';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -63,7 +59,7 @@ function autocompleteFormatter(
   return params.value && params.value.name;
 }
 
-function dateComparator(date1: Date | string, date2: Date | string): number {
+function dateComparator(date1: any, date2: any): number {
   let date1value = date1;
   let date2value = date2;
 
@@ -90,10 +86,7 @@ function dateComparator(date1: Date | string, date2: Date | string): number {
   return date1value ? 1 : -1;
 }
 
-function getValidatorCellRendererSelector(
-  component: string,
-  fallback?: CellRendererSelectorResult
-): CellRendererSelectorFunc {
+function getValidatorCellRendererSelector(component: string, fallback?: any) {
   return (params: ICellRendererParams) => {
     if (
       params.colDef &&
@@ -157,7 +150,7 @@ export class SkyAgGridService implements OnDestroy {
     }
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
     this.ngUnsubscribe.next();
     this.ngUnsubscribe.complete();
   }
@@ -169,7 +162,12 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultGridOptions(args);
-    return this.mergeGridOptions(defaultGridOptions, args.gridOptions);
+    const mergedGridOptions = this.mergeGridOptions(
+      defaultGridOptions,
+      args.gridOptions
+    );
+
+    return mergedGridOptions;
   }
 
   /**
@@ -179,7 +177,12 @@ export class SkyAgGridService implements OnDestroy {
    */
   public getEditableGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     const defaultGridOptions = this.getDefaultEditableGridOptions(args);
-    return this.mergeGridOptions(defaultGridOptions, args.gridOptions);
+    const mergedGridOptions = this.mergeGridOptions(
+      defaultGridOptions,
+      args.gridOptions
+    );
+
+    return mergedGridOptions;
   }
 
   private mergeGridOptions(
@@ -227,7 +230,7 @@ export class SkyAgGridService implements OnDestroy {
 
   private getDefaultGridOptions(args: SkyGetGridOptionsArgs): GridOptions {
     // cellClassRules can be functions or string expressions
-    const cellClassRuleTrueExpression = (): boolean => true;
+    const cellClassRuleTrueExpression = () => true;
 
     function getEditableFn(
       isUneditable?: boolean
@@ -436,7 +439,7 @@ export class SkyAgGridService implements OnDestroy {
       ...defaultSkyGridOptions.columnTypes[SkyCellType.Currency],
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number): boolean => {
+          validator: (value: any, data: any, rowIndex: number) => {
             return !!`${value || ''}`.match(/^[^0-9]*(\d+[,.]?)+\d*[^0-9]*$/);
           },
           validatorMessage: 'Please enter a valid currency',
@@ -464,8 +467,8 @@ export class SkyAgGridService implements OnDestroy {
       },
       cellRendererParams: {
         skyComponentProperties: {
-          validator: (value: any, data: any, rowIndex: number): boolean => {
-            return !!value && !isNaN(parseFloat(String(value)));
+          validator: (value: any, data: any, rowIndex: number) => {
+            return !!value && !isNaN(parseFloat(value));
           },
           validatorMessage: 'Please enter a valid number',
         },

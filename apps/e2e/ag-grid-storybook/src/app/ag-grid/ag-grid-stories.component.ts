@@ -16,12 +16,7 @@ import {
 import { SkyDockLocation, SkyDockService } from '@skyux/core';
 import { SkyThemeService, SkyThemeSettings } from '@skyux/theme';
 
-import {
-  Events,
-  GridOptions,
-  RowNode,
-  RowSelectedEvent,
-} from 'ag-grid-community';
+import { GridOptions, RowNode, RowSelectedEvent } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { delay, filter, map } from 'rxjs/operators';
 
@@ -38,7 +33,7 @@ type DataSet = { id: string; data: any[] };
   encapsulation: ViewEncapsulation.None,
 })
 export class AgGridStoriesComponent
-  implements OnInit, AfterViewInit, OnDestroy
+  implements AfterViewInit, OnInit, OnDestroy
 {
   public dataSets: DataSet[] = [
     {
@@ -61,7 +56,7 @@ export class AgGridStoriesComponent
   public rowDeleteIds: string[] = [];
   public skyTheme: SkyThemeSettings;
 
-  readonly #gridsReady = new Map<string, Observable<boolean>>();
+  #gridsReady: { [_: string]: Observable<boolean> } = {};
   readonly #agGridService: SkyAgGridService;
   readonly #themeSvc: SkyThemeService;
   readonly #changeDetectorRef: ChangeDetectorRef;
@@ -89,12 +84,11 @@ export class AgGridStoriesComponent
       location: SkyDockLocation.ElementBottom,
       referenceEl: this.#doc.querySelector('#back-to-top'),
     });
-    this.dataSets.forEach((dataSet) =>
-      this.#gridsReady.set(dataSet.id, new BehaviorSubject(false))
-    );
-    this.#gridsReady.set(
-      'theme',
-      this.#themeSvc.settingsChange.pipe(map(() => true))
+    this.dataSets.forEach((dataSet) => {
+      this.#gridsReady[dataSet.id] = new BehaviorSubject(false);
+    });
+    this.#gridsReady['theme'] = this.#themeSvc.settingsChange.pipe(
+      map(() => true)
     );
     this.#ngUnsubscribe.add(
       this.#themeSvc.settingsChange.subscribe((settings) => {
@@ -183,14 +177,10 @@ export class AgGridStoriesComponent
                 }
               );
             }
-
-            params.api.addEventListener(
-              Events.EVENT_FIRST_DATA_RENDERED,
-              () => {
-                (
-                  this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>
-                ).next(true);
-              }
+          },
+          onFirstDataRendered: () => {
+            (this.#gridsReady[dataSet.id] as BehaviorSubject<boolean>).next(
+              true
             );
           },
           rowData: dataSet.data,
@@ -201,7 +191,7 @@ export class AgGridStoriesComponent
 
   public ngAfterViewInit(): void {
     this.#ngUnsubscribe.add(
-      combineLatest(Array.from(this.#gridsReady.values()))
+      combineLatest(Array.from(Object.values(this.#gridsReady)))
         .pipe(
           filter((gridsReady) => gridsReady.every((ready) => ready)),
           delay(1000)

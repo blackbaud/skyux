@@ -116,7 +116,7 @@ export class SkyAgGridWrapperComponent
   /**
    * Prevent closing a modal when focused in AG Grid.
    */
-  public onKeyUpEscape($event: Event): void {
+  public onKeyUpEscape($event: Event) {
     $event.stopPropagation();
     this.agGrid.api.stopEditing(true);
   }
@@ -177,7 +177,7 @@ export class SkyAgGridWrapperComponent
     }
   }
 
-  #moveHorizontalScroll(): void {
+  #moveHorizontalScroll() {
     if (this.agGrid && this.agGrid.api) {
       const toTop = !!this.agGrid.gridOptions.context?.enableTopScroll;
       const root: HTMLElement =
