@@ -45,14 +45,18 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
         font-family: variables.$sky-font-family,
         font-size: 16px,
         foreground-color: variables.$sky-text-color-default,
-        header-background-color: variables.$sky-theme-modern-background-color-page-default,
+        header-background-color:
+          variables.$sky-theme-modern-background-color-page-default,
         header-height: 60px,
-        input-focus-border-color: variables.$sky-theme-modern-border-color-primary-dark,
-        row-border-color: variables.$sky-theme-modern-border-color-neutral-medium,
+        input-focus-border-color:
+          variables.$sky-theme-modern-border-color-primary-dark,
+        row-border-color:
+          variables.$sky-theme-modern-border-color-neutral-medium,
         row-height: 60px,
         range-selection-border-color:
           variables.$sky-theme-modern-border-color-primary-dark,
-        secondary-foreground-color: variables.$sky-theme-modern-font-deemphasized-color,
+        secondary-foreground-color:
+          variables.$sky-theme-modern-font-deemphasized-color,
       ),
       sky-modern-dark: (
         extend-theme: 'alpine-dark',
@@ -106,8 +110,8 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     --ag-popup-shadow: none;
 
     .ag-cell.ag-cell-focus {
-      &.ag-cell-inline-editing,
-      &.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
+      &.ag-cell-inline-editing {
+        //&.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
         outline-offset: -2px;
         outline: var(--ag-range-selection-border-color) solid 2px;
       }
@@ -130,17 +134,18 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
         box-shadow: none;
       }
 
-      &.ag-cell-popup-editing {
-        border: none;
-      }
+      //&.ag-cell-popup-editing {
+      //  border: none;
+      //}
     }
 
     .ag-popup {
       .ag-popup-editor {
         border: none;
         box-shadow: none;
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
+        //outline-offset: -2px;
+        //outline: var(--ag-range-selection-border-color) solid 2px;
+        background: transparent;
         min-height: var(--ag-row-height);
       }
     }
@@ -273,7 +278,7 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
 
     .ag-popup {
       .ag-popup-editor {
-        background-color: variables.$sky-background-color-page-default;
+        background-color: transparent;
       }
 
       .ag-select-list {
@@ -302,18 +307,18 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
     }
 
     /* fine tune focus cell borders */
-    .ag-row {
-      .ag-cell-focus {
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-      }
-
-      .ag-cell-focus.ag-cell-inline-editing,
-      .ag-cell-focus.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
-        outline-offset: -2px;
-        outline: var(--ag-range-selection-border-color) solid 2px;
-      }
-    }
+    //.ag-row {
+    //  .ag-cell-focus {
+    //    outline-offset: -2px;
+    //    outline: var(--ag-range-selection-border-color) solid 2px;
+    //  }
+    //
+    //  .ag-cell-focus.ag-cell-inline-editing,
+    //  .ag-cell-focus.ag-cell-popup-editing:not(.sky-ag-grid-cell-lookup) {
+    //    outline-offset: -2px;
+    //    outline: var(--ag-range-selection-border-color) solid 2px;
+    //  }
+    //}
   }
 }
 
@@ -352,7 +357,7 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
   ag-grid-angular.sky-ag-grid-editable {
     .ag-popup {
       .ag-popup-editor {
-        background-color: variables.$sky-theme-modern-background-color-page-default;
+        background-color: transparent;
       }
 
       .ag-select-list {
@@ -532,7 +537,7 @@ $sky-cell-wrap-text-line-height-modern: variables.$sky-theme-modern-font-paragra
 
     .ag-popup {
       .ag-popup-editor {
-        background-color: variables.$sky-theme-modern-mode-dark-background-color-page-default;
+        background-color: transparent;
       }
 
       .ag-select-list {
@@ -566,7 +571,6 @@ ag-grid-angular {
   .sky-ag-grid-cell-currency {
     text-align: right;
     padding-right: 12px;
-    font-variant-numeric: tabular-nums;
   }
 
   .sky-ag-grid-cell-row-selector {
