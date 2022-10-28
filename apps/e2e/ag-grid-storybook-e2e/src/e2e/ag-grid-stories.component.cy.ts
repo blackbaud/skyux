@@ -15,6 +15,9 @@ describe(`ag-grid-storybook`, () => {
           .should('exist')
           .end()
 
+          // Verify that fonts are loaded.
+          .waitForFaAndBbFonts()
+
           // The component has actions in ngAfterViewInit that scroll a grid to show back-to-top as well as activate a
           // validation popover. These assertions verify those have happened.
 
